@@ -3,7 +3,7 @@ init -11 python:
         i = randint(1, 6)
         return i
         
-    def dice_poker_calculate(dice_list): # check combinations and calculate scores based on dice list
+    def dice_poker_calculate(dice_list): # check combinations for dice poker and calculate relative scores based on them
         counter = collections.Counter(dice_list)
         if len(counter) == 1:
             return ["Five-of-a-Kind", 8] # all dices are the same
@@ -12,19 +12,24 @@ init -11 python:
                 return ["Four-of-a-Kind", 7] # 4 of 5 are equal
             elif 2 in counter.values() and 3 in counter.values():
                 return ["Full House", 6] # pair of one value and Three-of-a-Kind of another
-        elif len(counter) == 3: # three dice showing the same value
-            return ["Three-of-a-Kind ", 3]
+        elif len(counter) == 3:
+            if 3 in counter.values(): # three dice showing the same value
+                return ["Three-of-a-Kind", 3]
+            else: 
+                return ["Two Pairs", 2] # two pairs of dice showing the same value
+        elif len(counter) == 4: # one pair
+            return ["Pair", 1]
         else:
             checking_list = [2, 3, 4, 5, 6]
-            result = i for i in dice_list if i in checking_list
+            result = list(i for i in dice_list if i in checking_list)
             if len(result) == 5:
                 return ["Six High Straight", 5] # dice showing values from 2 through 6, inclusive
-            checking_list = [1, 2, 3, 4, 5]
-            result = i for i in dice_list if i in checking_list
-            if len(result) == 5:
-                return ["Five High Straight", 4] # dice showing values from 1 through 5, inclusive
-                
-        return
+            else:
+                checking_list = [1, 2, 3, 4, 5]
+                result = list(i for i in dice_list if i in checking_list)
+                if len(result) == 5:
+                    return ["Five High Straight", 4] # dice showing values from 1 through 5, inclusive
+        return ["Nothing", 0] # all checks failed, no combinations
 
         
     def check_if_should_throw_dice(own_dice, other_dice, other_passed): # check how close an enemy to the victory, and based on it either throw (true) or don't (false) dice

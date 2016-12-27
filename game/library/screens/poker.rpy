@@ -27,10 +27,10 @@ label city_tavern_show_poker_dices_loop:
 
         
 screen city_tavern_show_poker_dices(dice_1, dice_2): # main poker screen, shows dices themselves as imagebuttons
-    # on "show":
-        # action Show("city_tavern_show_status", dissolve)
-    # on "hide":
-        # action Hide("city_tavern_show_status")
+    on "show":
+        action Show("city_tavern_show_poker_status", dissolve)
+    on "hide":
+        action Hide("city_tavern_show_poker_status")
 
     hbox:
         align .5, .4
@@ -83,50 +83,34 @@ label city_tavern_show_poker_shuffle:
     jump city_tavern_show_poker_dices_loop
     
     
-screen city_tavern_show_status(dice_1, dice_2): # additional screen, shows all info related to the dice game
+screen city_tavern_show_poker_status(): # additional screen, shows all info related to the dice game
     frame:
         xalign 0.05
         yalign 0.05
-        xysize (90, 90)
+        xysize (120, 120)
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
             xalign 0.5
             yalign 0.5
-            hbox:
-                text str(sum(dice_1)) xalign 0.98 style "stats_value_text" color gold
-                xalign 0.5
-            hbox:
-                if ai_passed and sum(dice_1) < 21:
-                    text ("Pass") xalign 0.98 style "stats_value_text" color gold
-                elif sum(dice_1) > 21:
-                    text ("Lost") xalign 0.98 style "stats_value_text" color gold
-                elif sum(dice_1) == 21:
-                    text ("Score!") xalign 0.98 style "stats_value_text" color gold
-                else:
-                    text (" ") xalign 0.98 style "stats_value_text" color gold
-                xalign 0.5
+            if dice_poker_calculate(dice_1)[1] > dice_poker_calculate(dice_2)[1]:
+                add "content/gfx/interface/images/poker_winner.png" xalign 0.5
+                spacing 5
+            $ result = dice_poker_calculate(dice_1)[0]
+            text result xalign 0.98 style "stats_value_text" color gold size 12
     frame:
         xalign 0.05
         yalign 0.95
-        xysize (90, 90)
+        xysize (120, 120)
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
             xalign 0.5
             yalign 0.5
-            hbox:
-                text str(sum(dice_2)) xalign 0.98 style "stats_value_text" color gold
-                xalign 0.5
-            hbox:
-                if player_passed and sum(dice_2) < 21:
-                    text ("Pass") xalign 0.98 style "stats_value_text" color gold
-                elif sum(dice_2) > 21:
-                    text ("Lost") xalign 0.98 style "stats_value_text" color gold
-                elif sum(dice_2) == 21:
-                    text ("Score!") xalign 0.98 style "stats_value_text" color gold
-                else:
-                    text (" ") xalign 0.98 style "stats_value_text" color gold
-                xalign 0.5
+            if dice_poker_calculate(dice_2)[1] > dice_poker_calculate(dice_1)[1]:
+                add "content/gfx/interface/images/poker_winner.png" xalign 0.5
+                spacing 5
+            $ result = dice_poker_calculate(dice_2)[0]
+            text result xalign 0.98 style "stats_value_text" color gold size 12

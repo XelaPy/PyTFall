@@ -136,7 +136,7 @@ screen city_tavern_inside():
                 button:
                     xysize (120, 40)
                     yalign 0.5
-                    action [Hide("city_tavern_inside"), Jump("city_tavern_play_poker")]
+                    action [Hide("city_tavern_inside"), Jump("city_tavern_play_poker_another_round")]
                     text "Play poker" size 15
             if global_flags.flag("tavern_status")[1] == "cozy":
                 button:
