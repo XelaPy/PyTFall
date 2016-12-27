@@ -3,6 +3,30 @@ init -11 python:
         i = randint(1, 6)
         return i
         
+    def dice_poker_calculate(dice_list): # check combinations and calculate scores based on dice list
+        counter = collections.Counter(dice_list)
+        if len(counter) == 1:
+            return ["Five-of-a-Kind", 8] # all dices are the same
+        elif len(counter) == 2: # two groups of the same number
+            if 4 in counter.values():
+                return ["Four-of-a-Kind", 7] # 4 of 5 are equal
+            elif 2 in counter.values() and 3 in counter.values():
+                return ["Full House", 6] # pair of one value and Three-of-a-Kind of another
+        elif len(counter) == 3: # three dice showing the same value
+            return ["Three-of-a-Kind ", 3]
+        else:
+            checking_list = [2, 3, 4, 5, 6]
+            result = i for i in dice_list if i in checking_list
+            if len(result) == 5:
+                return ["Six High Straight", 5] # dice showing values from 2 through 6, inclusive
+            checking_list = [1, 2, 3, 4, 5]
+            result = i for i in dice_list if i in checking_list
+            if len(result) == 5:
+                return ["Five High Straight", 4] # dice showing values from 1 through 5, inclusive
+                
+        return
+
+        
     def check_if_should_throw_dice(own_dice, other_dice, other_passed): # check how close an enemy to the victory, and based on it either throw (true) or don't (false) dice
         if own_dice >= 21 or other_dice > 21:
             return False

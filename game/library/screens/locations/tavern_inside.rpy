@@ -131,7 +131,13 @@ screen city_tavern_inside():
                     xysize (120, 40)
                     yalign 0.5
                     action [Hide("city_tavern_inside"), Jump("city_tavern_play_dice")]
-                    text "Play dices" size 15
+                    text "Play blackjack" size 15
+            if hero.AP > 0 and global_flags.flag("tavern_status")[1] == "cozy":
+                button:
+                    xysize (120, 40)
+                    yalign 0.5
+                    action [Hide("city_tavern_inside"), Jump("city_tavern_play_poker")]
+                    text "Play poker" size 15
             if global_flags.flag("tavern_status")[1] == "cozy":
                 button:
                     xysize (120, 40)
@@ -431,6 +437,7 @@ label city_tavern_play_dice: # starting the dice game
     hide drunkards with dissolve
     $ city_tavern_current_dice_bet = city_tavern_dice_bet # current bet may increase after every victory
     
+    
 label city_tavern_play_dice_another_round: # additional rounds continue from here
     $ player_passed = False # becomes true once player passed, after that he cannot throw dices any longer
     $ ai_passed = False # same for the opponent
@@ -443,6 +450,7 @@ label city_tavern_play_dice_another_round: # additional rounds continue from her
             dice_1.append(throw_a_normal_dice())
         while len(dice_2) < 2:
             dice_2.append(throw_a_normal_dice())
+
 
 label city_tavern_play_show_dice:
     show screen city_tavern_show_dices(dice_1, dice_2)
