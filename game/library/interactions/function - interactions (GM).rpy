@@ -3,6 +3,48 @@ init -11 python:
         i = randint(1, 6)
         return i
         
+    def dice_poker_calculate(dice_list): # check combinations for dice poker and calculate relative scores based on them
+        counter = collections.Counter(dice_list)
+        if len(counter) == 1:
+            return ["Five-of-a-Kind", 8] # all dices are the same
+        elif len(counter) == 2: # two groups of the same number
+            if 4 in counter.values():
+                return ["Four-of-a-Kind", 7] # 4 of 5 are equal
+            elif 2 in counter.values() and 3 in counter.values():
+                return ["Full House", 6] # pair of one value and Three-of-a-Kind of another
+        elif len(counter) == 3:
+            if 3 in counter.values(): # three dice showing the same value
+                return ["Three-of-a-Kind", 3]
+            else: 
+                return ["Two Pairs", 2] # two pairs of dice showing the same value
+        elif len(counter) == 4: # one pair
+            return ["One Pair", 1]
+        else:
+            checking_list = [2, 3, 4, 5, 6]
+            result = list(i for i in dice_list if i in checking_list)
+            if len(result) == 5:
+                return ["Six High Straight", 5] # dice showing values from 2 through 6, inclusive
+            else:
+                checking_list = [1, 2, 3, 4, 5]
+                result = list(i for i in dice_list if i in checking_list)
+                if len(result) == 5:
+                    return ["Five High Straight", 4] # dice showing values from 1 through 5, inclusive
+        return ["Nothing", 0] # all checks failed, no combinations
+        
+    def dice_poker_decide_winner(dice_1, dice_2): # returns 1 if dice_1 is winner, 2 if dice_2 is winner, 0 if it's a draw
+        score_1 = dice_poker_calculate(dice_1)[1]
+        score_2 = dice_poker_calculate(dice_2)[1]
+        if score_1 > score_2:
+            return 1
+        elif score_2 > score_1:
+            return 2
+        else: # if dice combinations give the same scores, we look at dices numbers themselves; the highest one wins
+            if sum(dice_1) > sum(dice_2):
+                return 1
+            elif sum(dice_2) > sum(dice_1):
+                return 2
+            else: return 0
+        
     def check_if_should_throw_dice(own_dice, other_dice, other_passed): # check how close an enemy to the victory, and based on it either throw (true) or don't (false) dice
         if own_dice >= 21 or other_dice > 21:
             return False
