@@ -18,7 +18,7 @@ init -11 python:
             else: 
                 return ["Two Pairs", 2] # two pairs of dice showing the same value
         elif len(counter) == 4: # one pair
-            return ["Pair", 1]
+            return ["One Pair", 1]
         else:
             checking_list = [2, 3, 4, 5, 6]
             result = list(i for i in dice_list if i in checking_list)
@@ -30,7 +30,20 @@ init -11 python:
                 if len(result) == 5:
                     return ["Five High Straight", 4] # dice showing values from 1 through 5, inclusive
         return ["Nothing", 0] # all checks failed, no combinations
-
+        
+    def dice_poker_decide_winner(dice_1, dice_2): # returns 1 if dice_1 is winner, 2 if dice_2 is winner, 0 if it's a draw
+        score_1 = dice_poker_calculate(dice_1)[1]
+        score_2 = dice_poker_calculate(dice_2)[1]
+        if score_1 > score_2:
+            return 1
+        elif score_2 > score_1:
+            return 2
+        else: # if dice combinations give the same scores, we look at dices numbers themselves; the highest one wins
+            if sum(dice_1) > sum(dice_2):
+                return 1
+            elif sum(dice_2) > sum(dice_1):
+                return 2
+            else: return 0
         
     def check_if_should_throw_dice(own_dice, other_dice, other_passed): # check how close an enemy to the victory, and based on it either throw (true) or don't (false) dice
         if own_dice >= 21 or other_dice > 21:
