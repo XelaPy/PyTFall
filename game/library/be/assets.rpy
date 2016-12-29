@@ -1104,7 +1104,7 @@ label load_battle_skills:
                                      target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
                                      target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5})
     # Buffs:
-        DefenceBuffSpell("Fragile Magic Shield", attributes=["status", "darkness"], defence_multiplier={"magic": .2}, mp_cost=0.1, range=4, type="sa",
+        DefenceBuffSpell("Fragile Magic Shield", attributes=["status", "darkness"], defence_multiplier={"magic": .2}, icon=ProportionalScale("content/gfx/be/buffs/mag_def.png", 30, 30), mp_cost=0.1, range=4, type="sa",
                                      desc="Sets up a frail force field around the target, partly shielding from magical damage.",
                                      attacker_effects={"gfx": "dark_1", "sfx": "default"},
                                      main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
