@@ -277,7 +277,7 @@ init python:
                 
                 
     class DefenceBuff(BE_Event):
-        def __init__(self, source, target, bonus={}, multi=0):
+        def __init__(self, source, target, bonus={}, multi=0, icon=None):
             # bonus and multi both expect dicts if mods are desirable.
             self.target = target
             self.source = source
@@ -286,7 +286,7 @@ init python:
             
             self.counter = randint(3, 5) # Active for 3-5 turns
             
-            self.icon = ProportionalScale("content/gfx/be/fists.png", 30, 30)
+            self.icon = icon or ProportionalScale("content/gfx/be/fists.png", 30, 30)
             # We also add the icon to targets status overlay:
             target.status_overlay.append(self.icon)
             
@@ -858,6 +858,7 @@ init python:
             
             self.defence_bonus = kwargs.get("defence_bonus", {}) # This is the direct def bonus. 
             self.defence_multiplier = kwargs.get("defence_multiplier", {}) # This is the def multiplier.
+            self.buff_icon = kwargs.get("buff_icon", None)
             
         def effects_resolver(self, targets):
             if not isinstance(targets, (list, tuple, set)):
@@ -880,7 +881,7 @@ init python:
                 if effect:
                     # Check if event is in play already:
                     # Check for resistance first:
-                    temp = self.event_class(source, t, self.defence_bonus, self.defence_multiplier)
+                    temp = self.event_class(source, t, self.defence_bonus, self.defence_multiplier, icon=self.buff_icon)
                     # if temp.type in t.resist or self.check_absorbtion(t, temp.type):
                         # pass
                     # else:
