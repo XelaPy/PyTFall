@@ -1182,7 +1182,7 @@ init -9 python:
                                     stat_remaining = new_max - stats['current_stat'][stat]
                                     # if training doesn't shift max, at least give a weight up to 1 for the increased max.
                                     # if max decreases, give a penalty, more severe if there is little stat remaining.
-                                    weights.append(max(50 + value / (stat_remaining + max(value, 1)), 0)) # stat_remaining is >= 0
+                                    weights.append(max(50 + value / max(stat_remaining + value, 1), 0))
                         else:
                             for skill, effect in item.mod_skills.iteritems():
 
