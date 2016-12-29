@@ -237,12 +237,18 @@ label char_equip_loop:
                         #renpy.show_screen("diff_item_effects", eqtarget, dummy)
         elif result[0] == "unequip_all":
             python:
-                for c in eqtarget.lst if isinstance(eqtarget, PytGroup) else [eqtarget]:
-                    # Check if we are allowed to access inventory and act:
-                    if equipment_access(c, silent=True):
-                        for slot in c.eqslots.values():
-                            if slot:
-                                c.unequip(slot)
+                if isinstance(eqtarget, PytGroup):
+                    for c in eqtarget.lst:
+                        # Check if we are allowed to access inventory and act:
+                        if equipment_access(c, silent=True):
+                            for slot in c.eqslots.values():
+                                if slot:
+                                    c.unequip(slot)
+
+                elif equipment_access(eqtarget, silent=False):
+                    for slot in eqtarget.eqslots.values():
+                        if slot:
+                            eqtarget.unequip(slot)
 
                 focusitem = None
                 selectedslot = None
