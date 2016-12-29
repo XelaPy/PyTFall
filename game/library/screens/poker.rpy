@@ -7,7 +7,8 @@ label wot:
     python:
         dice_1 = []
         dice_2 = []
-        selected_dice = [] # numbers of selected by player dices - go from 1 to 5
+        selected_dice = [] # number of selected by player dice - goes from 1 to 5
+        selected_ai_dice = []
         while len(dice_1) < 5: # both sides throw 5 dices in the beginning
             dice_1.append(throw_a_normal_dice())
         while len(dice_2) < 5:
@@ -18,10 +19,10 @@ label city_tavern_show_poker_dices_loop:
     show screen city_tavern_show_poker_dices(dice_1, dice_2)
     while 1:
         $ result = ui.interact()
-        if result not in selected_dice:
-            $ selected_dice.append(result)
+        if result != selected_dice:
+            $ selected_dice = result
         else:
-            $ selected_dice.remove(result)
+            $ selected_dice = 0
         show screen city_tavern_show_poker_dices(dice_1, dice_2)
         
 
@@ -35,13 +36,19 @@ screen city_tavern_show_poker_dices(dice_1, dice_2): # main poker screen, shows 
     hbox:
         align .5, .4
         spacing 5
-        box_reverse True
+        $ number = 0
         for i in dice_1:
+            $ number += 1
             $ img = "content/events/tavern_dice/"+str(i)+".png"
             # add "content/events/tavern_dice/"+str(i)+".png" at dice_roll_from_left()
-            imagebutton:
-                idle img
-                action None 
+            if number != selected_ai_dice:
+                imagebutton:
+                    idle img
+                    action None 
+            else:
+                imagebutton:
+                    idle im.Recolor(img, 0, 255, 0, 255)
+                    action None 
     hbox:
         align .5, .6
         spacing 5
@@ -50,7 +57,7 @@ screen city_tavern_show_poker_dices(dice_1, dice_2): # main poker screen, shows 
             $ number += 1
             $ img = "content/events/tavern_dice/"+str(i)+".png"
             # add "content/events/tavern_dice/"+str(i)+".png" at dice_roll_from_right()
-            if number not in selected_dice:
+            if number != selected_dice:
                 imagebutton:
                     idle img
                     hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
@@ -71,17 +78,23 @@ screen city_tavern_show_poker_dices(dice_1, dice_2): # main poker screen, shows 
         button:
             xysize (120, 40)
             yalign 0.5
+            action [Jump("city_tavern_test_poker_ai")]
+            text "Test AI" size 15
+        button:
+            xysize (120, 40)
+            yalign 0.5
             action [Hide("city_tavern_show_poker_dices")]
             text "Exit" size 15
             
 label city_tavern_show_poker_shuffle:
-    if selected_dice:
-        python:
-            for i in selected_dice:
-                dice_2[i-1] = throw_a_normal_dice()
-    $ selected_dice = []
+    if selected_dice != 0:
+        $ dice_2[selected_dice-1] = throw_a_normal_dice()
+        $ selected_dice = 0
     jump city_tavern_show_poker_dices_loop
     
+label city_tavern_test_poker_ai:
+    $ selected_ai_dice = dice_poker_ai_decision(dice_1, dice_2)
+    jump city_tavern_show_poker_dices_loop
     
 screen city_tavern_show_poker_status(): # additional screen, shows all info related to the dice game
     frame:
