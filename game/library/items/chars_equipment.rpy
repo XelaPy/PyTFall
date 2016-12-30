@@ -254,6 +254,22 @@ label char_equip_loop:
                 selectedslot = None
                 unequip_slot = None
                 item_direction = None
+        elif result[0] == "auto_discard": # TODO: remove
+            python:
+                if isinstance(eqtarget, PytGroup):
+                    for c in eqtarget.lst:
+                        # Check if we are allowed to access inventory and act:
+                        if equipment_access(c, silent=True):
+                            c.auto_discard()
+
+                elif equipment_access(eqtarget, silent=False) and eqtarget != hero:
+                    eqtarget.auto_discard()
+
+                focusitem = None
+                selectedslot = None
+                unequip_slot = None
+                item_direction = None
+
         elif result[0] == 'con':
             if result[1] == 'return':
                 python:
@@ -433,7 +449,6 @@ screen char_equip_left_frame(tt, stats_display):
                     action Return(['control', 'right'])
                     foreground "content/gfx/interface/buttons/small_button_wood_right_idle.png" pos (45, 14)
                     hover_foreground "content/gfx/interface/buttons/small_button_wood_right_hover.png"
-
             
         # LVL ============================>
         hbox:
@@ -760,11 +775,11 @@ screen char_equip_right_frame(tt):
                 action SelectedIf(inv_source != hero), SensitiveIf(eqtarget != hero), If(eqtarget != hero, true=[SetVariable("inv_source", eqtarget), Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter), Return(['con', 'return']), With(dissolve)])
                 hovered tt.Action("Equip from [eqtarget.nickname]'s Inventory")
                 text "Girl" style "pb_button_text"
-        button:
-            xalign 0.5
-            xysize (110, 30)
-            action If(eqtarget != hero, true=Show("chars_list1"))
-            text "Girls List" style "pb_button_text"
+            button: # TODO: remove
+                xalign 0.5
+                xysize (110, 30)
+                action If(eqtarget != hero, true=Return(["auto_discard"]))
+                text "Auto discard" style "pb_button_text"
             
     # Auto-Equip/Item Transfer Buttons and Paging: ================>
     frame:
@@ -830,43 +845,7 @@ screen char_equip_right_frame(tt):
         hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
         action Return(['control', 'return'])
         hovered tt.Action("Return to previous screen!")
-    
-screen chars_list1(source=None, page=0, total_pages=1):
-    modal True
-    zorder 1
-    
-    key "mousedown_3" action Hide("chars_list1")
-    
-    frame:
-        at fade_in_out()
-        background Transform(Frame(im.MatrixColor("content/gfx/frame/Mc_bg3.png", im.matrix.brightness(-0.2)), 5, 5), alpha=0.3)
-        xysize (710, 295)
-        align (0.39, 0.998)
-        vbox:
-            align (0.5, 0.0)
-            hbox:
-                style_group "pb"
-                align (0.5, 0.0)
-                xfill True
-                button:
-                    align (0.5, 0.0)
-                    xysize (100, 30)
-                    action Return(["equip_for"])
-                    text "Team" style "pb_button_text"
-                button:
-                    align (0.5, 0.0)
-                    xysize (100, 30)
-                    action Return(["equip_for"])
-                    text "Status" style "pb_button_text"
-                imagebutton:
-                    #xoffset 9
-                    yoffset -3
-                    align (1.0, 0.0)
-                    idle ("content/gfx/interface/buttons/close3.png")
-                    hover ("content/gfx/interface/buttons/close3_h.png")
-                    action Hide("chars_list1")
-                
-                    
+
 screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="content", mc_mode=False, tt=None):
     
     key "mousedown_3" action Return(['con', 'return'])
