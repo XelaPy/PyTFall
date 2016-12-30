@@ -4841,7 +4841,6 @@ init -9 python:
                     selected.append(r)
                     slotcount[slot] += self.inventory[r[1]]
 
-                devlog.warn(str((slot, slotcount[slot])))
 
                 for weight, item in sorted(selected, key=lambda x: x[0], reverse=False):
 
