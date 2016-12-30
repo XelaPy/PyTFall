@@ -775,11 +775,11 @@ screen char_equip_right_frame(tt):
                 action SelectedIf(inv_source != hero), SensitiveIf(eqtarget != hero), If(eqtarget != hero, true=[SetVariable("inv_source", eqtarget), Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter), Return(['con', 'return']), With(dissolve)])
                 hovered tt.Action("Equip from [eqtarget.nickname]'s Inventory")
                 text "Girl" style "pb_button_text"
-            button: # TODO: remove
-                xalign 0.5
-                xysize (110, 30)
-                action If(eqtarget != hero, true=Return(["auto_discard"]))
-                text "Auto discard" style "pb_button_text"
+        button: # TODO: remove
+            xalign 0.5
+            xysize (110, 30)
+            action If(eqtarget != hero, true=Return(["auto_discard"]))
+            text "Auto discard" style "pb_button_text"
             
     # Auto-Equip/Item Transfer Buttons and Paging: ================>
     frame:
