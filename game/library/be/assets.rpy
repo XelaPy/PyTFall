@@ -1134,14 +1134,14 @@ label load_battle_skills:
                                      target_damage_effect={"gfx": None},
                                      target_death_effect={"gfx": None})
         DefenceBuffSpell("Solid Field", attributes=["status", "earth"], defence_multiplier={"melee": 1.5}, buff_icon=ProportionalScale("content/gfx/be/buffs/melee_def.png", 30, 30), mp_cost=0.2, vitality_cost=0.4, range=4, type="sa",
-                                     desc="Sets up a force field around the target, partly shielding from magical damage.",
+                                     desc="Sets up a force field around the target, partly shielding from melee damage.",
                                      attacker_effects={"gfx": "earth_1", "sfx": "default"},
                                      main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
                                      target_sprite_damage_effect={"gfx": None},
                                      target_damage_effect={"gfx": None},
                                      target_death_effect={"gfx": None})
         DefenceBuffSpell("Solid Shield", attributes=["status", "earth"], defence_multiplier={"melee": 3.0}, vitality_cost=0.7, mp_cost=0.2, buff_icon=ProportionalScale("content/gfx/be/buffs/big_melee_def.png", 30, 30), range=4, type="sa",
-                                     desc="Sets up a powerful force field around the target, shielding from magical damage.",
+                                     desc="Sets up a powerful force field around the target, shielding from melee damage.",
                                      attacker_effects={"gfx": "earth_1", "sfx": "default"},
                                      main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
                                      target_sprite_damage_effect={"gfx": None},
