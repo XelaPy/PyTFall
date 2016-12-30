@@ -1106,7 +1106,7 @@ init -9 python:
             self.skills[key][at] += value
 
         def eval_inventory(self, inventory, weighted, target_stats, target_skills, exclude_on_skills, exclude_on_stats,
-                           equip_chance=None, min_value=-5, upto_skill_limit=False):
+                           chance_func=None, min_value=-5, upto_skill_limit=False):
             """
             weigh items in inventory based on stats. weights per item will be added to weighted.
 
@@ -1115,7 +1115,7 @@ init -9 python:
             target_skills: similarly, a list of skills
             exclude_on_stats: items will be excluded if stats in this list are negatively affected
             exclude_on_skills: similarly, a list of skills
-            equip_chance(): function that takes the item and returns a chance, between 0 and 100
+            chance_func(): function that takes the item and returns a chance, between 0 and 100
             min_value: at what (negative) value the weight will become zero
             upto_skill_limit: whether or not to calculate bonus beyond training exactly
             """
@@ -1139,7 +1139,7 @@ init -9 python:
                     continue
 
                 # weights is a list of 0 to 100 values that will be averaged for the final weight, unless we break
-                weights = equip_chance(item) if equip_chance else [item.eqchance]
+                weights = chance_func(item) if chance_func else [item.eqchance]
 
                 if weights is not None:
                     for stat, value in item.mod.iteritems():
@@ -2244,7 +2244,7 @@ init -9 python:
 
             most_weights = self.stats.eval_inventory(inv, weighted, target_stats, target_skills,
                                                      exclude_on_skills, exclude_on_stats,
-                                                     equip_chance=self.equip_chance, min_value=min_value,
+                                                     chance_func=self.equip_chance, min_value=min_value,
                                                      upto_skill_limit=upto_skill_limit)
 
             returns = list() # We return this list with all items used during the method.
