@@ -2185,8 +2185,8 @@ init -9 python:
             for k in slots:
                 if self.eqslots[k]:
                     item = self.eqslots[k]
-                    #if not equipment_access(self, item=item, silent=True, allowed_to_equip=False):
-                    #    continue
+                    if not equipment_access(self, item=item, silent=True, allowed_to_equip=False):
+                        continue
                     self.unequip(item)
 
                 weighted[k] = []
