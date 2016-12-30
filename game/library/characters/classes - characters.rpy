@@ -4712,6 +4712,166 @@ init -9 python:
             else:
                 super(Char, self).next_day()
 
+        def keep_chance(self, item):
+            """
+            return a list of chances, up to 100 indicating how much the person wants to hold on to a particular
+            item. Only includes personal preferences, use inv.eval_inventory() to determine stats/skills.
+            """
+
+            if not item.eqchance or not can_equip(item, self):
+                return [-1000000]
+
+            chance = []
+            when_drunk = 30
+            appetite = 50
+
+            for trait in self.traits:
+
+                if trait in trait_selections["badtraits"] and item in trait_selections["badtraits"][trait]:
+                    return [-1000000]
+
+                if trait in trait_selections["goodtraits"] and item in trait_selections["goodtraits"][trait]:
+                    chance.append(100)
+
+                if trait == "Kamidere": # Vanity: wants pricy uncommon items
+                    chance.append((100 - item.chance + min(item.price/10, 100))/2)
+
+                elif trait == "Tsundere": # stubborn: what s|he won't buy, s|he won't wear.
+                    chance.append(100 - item.badness)
+
+                elif trait == "Bokukko": # what the farmer don't know, s|he won't eat.
+                    chance.append(item.chance)
+
+                elif trait == "Heavy Drinker":
+                    when_drunk = 45
+
+                elif trait == "Always Hungry":
+                    appetite += 20
+
+                elif trait == "Slim":
+                    appetite -= 10
+
+            if item.type == "permanent": # only allowed if also in goodtraits. but then we already returned 100
+                return [-1000000]
+
+            if item.slot == "consumable":
+
+                if item.ceffect or item.id in self.consblock or item.id in self.constemp:
+                    return [-10]
+
+                if item.type == "alcohol":
+
+                    if self.effects['Drunk']['activation_count'] >= when_drunk:
+                        return [-1]
+
+                    if self.effects['Depression']['active']:
+                        chance.append(30 + when_drunk)
+
+                elif item.type == "food":
+
+                    food_poisoning = self.effects['Food Poisoning']['activation_count']
+
+                    if not food_poisoning:
+                        chance.append(appetite)
+
+                    else:
+                        if food_poisoning >= 6:
+                            return [-1]
+
+                        chance.append((6-food_poisoning) * 9)
+
+            elif item.slot == "misc":
+                # If the item self-destructs or will be blocked after one use,
+                # it's now up to the caller to stop after the first item of this kind that is picked.
+
+                # no blocked misc items:
+                if item.id in self.miscblock:
+                    return [-1000000]
+
+            chance.append(item.eqchance)
+            return chance
+
+        def auto_discard(self, slots=None):
+            """
+            This function is to prevent that chars acumulate too many items in inventory. In particular
+            multiple copies. Given items will not be discarded.
+            """
+
+            weighted = {}
+            slotmax = {}
+            slotcount = {}
+
+            for k in slots if slots else self.eqslots:
+                if k == "ring1" or k == "ring2":
+                    continue
+                weighted[k] = []
+                slotmax[k] = 10
+                slotcount[k] = 0
+
+            # maybe these could be a consequence of a selected class?
+            target_stats = set()
+            target_skills = set()
+            exclude_on_skills = set()
+            exclude_on_stats = set()
+
+            most_weights = self.stats.eval_inventory(self.inventory, weighted, target_stats, target_skills,
+                                                     exclude_on_skills, exclude_on_stats,
+                                                     chance_func=self.keep_chance, min_value=-1000000000,
+                                                     upto_skill_limit=True)
+            returns = []
+            for slot, picks in weighted.iteritems():
+
+                if not picks:
+                    continue
+
+                # prefilter items
+                selected = []
+                last_resort = []
+
+                # create averages for items, and count items per slot.
+                for r in picks:
+                    # devlog.warn("[%s/%s]: %s" % (r[1].slot, r[1].id, str(r[0])))
+
+                    som = sum(r[0])
+
+                    # impute with weights of 50 for items that have less weights
+                    som += 50 * (len(r[0]) - most_weights[slot])
+
+                    r[0] = som/most_weights[slot]
+                    selected.append(r)
+                    slotcount[slot] += self.inventory[r[1]]
+
+                devlog.warn(str((slot, slotcount[slot])))
+
+                for weight, item in sorted(selected, key=lambda x: x[0], reverse=False):
+
+                    while slotcount[slot] > slotmax[slot] and item in self.inventory.items:
+
+                        if item.id in self.given_items and self.inventory[item] <= self.given_items[item.id]:
+                            break
+
+                        if self.inventory[item] == 1: # first only remove dups
+                            last_resort.append(item)
+                            break
+
+                        self.inventory.remove(item)
+                        returns.append(item.id)
+                        slotcount[slot] -= 1
+
+                    if slotcount[slot] <= slotmax[slot]:
+                        break
+                else:
+                    # if we still have items above treshold also remove some of the last items (non dups)
+                    for item in last_resort:
+                        self.inventory.remove(item)
+                        returns.append(item.id)
+                        slotcount[slot] -= 1
+
+                        if slotcount[slot] <= slotmax[slot]:
+                            break
+
+            return returns
+
 
     class rChar(Char):
         '''Randomised girls (WM Style)
