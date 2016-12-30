@@ -290,6 +290,7 @@ label char_equip_loop:
                     selectedslot = None
                     unequip_slot = None
                     item_direction = None
+                    dummy = None
 
                     index = equip_girls.index(char)
                     if result[1] == 'left':
