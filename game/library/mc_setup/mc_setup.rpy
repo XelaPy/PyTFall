@@ -280,24 +280,34 @@ init: # MC Setup Screens:
             action Show("char_rename", char=hero)
             
         # Base Traits (Classes):
-        if sub_story:
-            python:
-                try:
-                    bc = mc_stories[main_story][sub_story].get("class", None) or mc_stories[main_story].get("class", None)
-                except:
-                    bc = "Error: No Class Specified!"
-            textbutton "[bc]":
-                align (0.32, 0.06)
+        python:
+            try:
+                temp = mc_stories[main_story][sub_story].get("class", None)
+            except:
+                temp = None
+            try:
+                if temp is None:
+                    temp = mc_stories[main_story].get("class", None)
+            except:
+                temp = None
+        if temp:
+            textbutton "[temp]":
+                align .32, .06
                 action NullAction()
                 
-        if mc_substory:
-            python:
-                try:
-                    bc = mc_stories[main_story]["MC"][sub_story][mc_story][mc_substory].get("class", None) or mc_stories[main_story]["MC"][sub_story][mc_story].get("class", None)
-                except:
-                    bc = "Error: No Class Specified!"
-            textbutton "[bc]":
-                align (0.42, 0.17)
+        python:
+            try:
+                temp = mc_stories[main_story]["MC"][sub_story][mc_story][mc_substory].get("class", None)
+            except:
+                temp = None
+            try:
+                if temp is None:
+                    temp = mc_stories[main_story]["MC"][sub_story][mc_story].get("class", None)
+            except:
+                temp = None
+        if temp:
+            textbutton "[temp]":
+                align .42, .17
                 action NullAction()
         
         # Text:
