@@ -50,23 +50,26 @@ init -11 python:
                     return result
         elif len(counter) == 3:  # either Three-of-a-Kind or Two Pairs, it doesn't matter for ai, it just throws a single dice
             result_1 = list(k for k, v in counter.iteritems() if v == 1)
+            random.shuffle(result_1)
             result = dice_1.index(result_1[0]) + 1
             return result
         elif len(counter) == 4: # one pair; here we'll need to check for High Straight combinations first
-            checking_list = [2, 3, 4, 5, 6]
-            result = list(i for i in dice_1 if i in checking_list)
-            if len(result) == 4: # ai needs just one dice for Six High Straight
-                result_1 = list(set(dice_1) - set(checking_list))
-                result = dice_1.index(result_1[0]) + 1
-                return result
-            checking_list = [1, 2, 3, 4, 5] # same for Five High Straight
-            result = list(i for i in dice_1 if i in checking_list)
-            if len(result) == 4: # ai needs just one dice for Six High Straight
-                result_1 = list(set(dice_1) - set(checking_list))
-                result = dice_1.index(result_1[0]) + 1
-                return result
+            if dice_poker_calculate(dice_2)[1] > 2: # one pair is still good if player has 0-2 scores, but if ai loses, it should go for High Straight
+                checking_list = [2, 3, 4, 5, 6]
+                result = list(i for i in dice_1 if i in checking_list)
+                if len(result) == 4: # ai needs just one dice for Six High Straight
+                    result_1 = list(k for k, v in counter.iteritems() if v == 2) # we already know that there is one pair, and only one dice is wrong for High Straight, so we should throw one of those dices from the pair
+                    result = dice_1.index(result_1[0]) + 1
+                    return result
+                checking_list = [1, 2, 3, 4, 5] # same for Five High Straight
+                result = list(i for i in dice_1 if i in checking_list)
+                if len(result) == 4: # ai needs just one dice for Six High Straight
+                    result_1 = list(k for k, v in counter.iteritems() if v == 2) # we already know that there is one pair, and only one dice is wrong for High Straight, so we should throw one of those dices from the pair
+                    result = dice_1.index(result_1[0]) + 1
+                    return result
             # if we are here, it's just One Pair; so we'll try to make it Three-of-a-Kind
             result_1 = list(k for k, v in counter.iteritems() if v == 1)
+            random.shuffle(result_1)
             result = dice_1.index(result_1[0]) + 1
             return result
         else:   # no same dices; the only hope is High Straight of some kind
@@ -74,12 +77,23 @@ init -11 python:
             result = list(i for i in dice_1 if i in checking_list)
             if len(result) == 5: # Six High Straight
                 return
+            elif len(result) == 4: # no pairs and one wrong dice for High Straight, like [1, 3, 4, 5, 6]; we should throw the wrong one ie 1
+                result_1 = list(i for i in dice_1 if i not in result)
+                result = dice_1.index(result_1[0]) + 1
+                return result
+                
             checking_list = [1, 2, 3, 4, 5]
             result = list(i for i in dice_1 if i in checking_list)
             if len(result) == 5: # Five High Straight
                 return
-            # if we are here, there is no combinations at all; so ai just throws a random dice
-            result = randint(1, 5)
+            elif len(result) == 4:
+                result_1 = list(i for i in dice_1 if i not in result)
+                result = dice_1.index(result_1[0]) + 1
+                return result
+                
+            # if we are here, there is no combinations at all; so ai just throws a dice with min value
+            result_1 = min(dice_1)
+            result = dice_1.index(result_1[0]) + 1
             return result
             
     def dice_poker_decide_winner(dice_1, dice_2): # returns 1 if dice_1 is winner, 2 if dice_2 is winner, 0 if it's a draw
