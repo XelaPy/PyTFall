@@ -229,6 +229,22 @@
     "locations": ["Fishing", "Exploration"]
     },
     {
+    "id": "Antidote",
+    "desc": "The contents of this tube emits a putrid smell, but ingestion in case of toxication may save your life.",
+    "icon": "content/items/cons/antidot.png",
+    "price": 800,
+    "sex": "unisex",
+    "chance": 40,
+    "badness": 70,
+    "eqchance": 40,
+    "hidden": false,
+    "infinite": false,
+    "slot": "consumable",
+    "type": "restore",
+    "removeeffects": ["Poison"],
+    "locations": ["Witches Hut", "Exploration"]
+    },
+    {
     "id": "Mana Powder",
     "desc": "This ancient vial contains ground Mana Crystal. It has power to quickly restore a small amount of mana for several people at once, but a magic seal on the vial prevents it from being used on slaves.",
     "icon": "content/items/cons/mpow.png",
