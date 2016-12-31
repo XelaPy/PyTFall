@@ -10,7 +10,7 @@ init -1 python:
             self.map=map
             self.enemy=enemy
             self.mapped=[]
-            for n,i in  enumerate(map):
+            for n,i in enumerate(map):
                 self.mapped.append([])
                 for j in i:
                     self.mapped[n].append(0)
@@ -103,19 +103,14 @@ label enter_dungeon:
 
         # Create battle actors (name, max_hp, skills)
         party = Actor("Hero",100, [attack,escape])
-        goblin = Actor("Goblin",40, [attack])
+        #goblin = Actor("Goblin",40, [attack])
 
         # Create a dungeon stage (map,enemy)
         # "1" means wall, "0" means path.
-        stage1=Stage([
-            "1111111111",
-            "1111011001",
-            "1000000001",
-            "1110111101",
-            "1000000001",
-            "1111111111",
-            ],
-            enemy=goblin)
+        file = open(content_path("db/dungeon/mausoleum1.txt"))
+        stage1 = file.read().splitlines()
+        file.close()
+        stage1=Stage(stage1)#,enemy=goblin)
 
     # Place a player position on a dungeon stage (stage,y,x,dy,dx).
     # dx,dy means direction. If dy=1, it's down. If dx=-1, it's left.
