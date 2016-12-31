@@ -126,12 +126,18 @@ screen graveyard_town():
     use location_actions("graveyard_town")
     
     $ img_cemetery = ProportionalScale("content/gfx/interface/icons/cemetery.png", 80, 80)
+    $ img_mausoleum = ProportionalScale("content/gfx/interface/icons/mausoleum.png", 80, 80)
     imagebutton:
         pos(580, 220)
         idle (img_cemetery)
         hover (im.MatrixColor(img_cemetery, im.matrix.brightness(0.15)))
         action [Hide("graveyard_town"), Jump("show_dead_list")]
-    
+    imagebutton:
+        pos(1090, 180)
+        idle (img_mausoleum)
+        hover (im.MatrixColor(img_mausoleum, im.matrix.brightness(0.15)))
+        action [Hide("graveyard_town"), Jump("enter_dungeon")]
+
     if gm.show_girls:
     
         add "content/gfx/images/bg_gradient.png" yalign 0.2
