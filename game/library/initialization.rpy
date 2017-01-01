@@ -503,6 +503,14 @@ init -999 python:
             renpy.image(tag, ProportionalScale(image, 600,
                         700))
             
+    for fname in os.listdir(gamedir + '/content/dungeon'):
+        if fname.endswith('.png'):
+            tag = fname[:-4]
+            image = 'content/dungeon/' + fname
+            renpy.image(tag, image)
+            if fname[:12] == "dungeon_left":
+                renpy.image("dungeon_right"+tag[12:], Transform(image, xzoom=-1))
+
     # Auto-Animations are last
     def load_frame_by_frame_animations_from_dir(folder):
         path = content_path(folder)
