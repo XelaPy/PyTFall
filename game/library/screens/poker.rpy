@@ -1,8 +1,14 @@
 ##### dice poker logic:            
-label city_tavern_play_poker_another_round: # additional rounds continue from here
-label wot:
-    $ player_passed = False # becomes true once player passed, after that he cannot throw dices any longer
-    $ ai_passed = False # same for the opponent
+label city_tavern_play_poker: # additional rounds continue from here
+    if not global_flags.flag('played_poker_in_tavern'):
+        $ global_flags.set_flag('played_poker_in_tavern')
+        "The goal of the game is to get a better hand than opponent. The best hand is all five dice showing the same value, and the worst scoring one is one pair. In case of draw wins the one with higher overall dice value. After initial throw you and your opponent can choose one dice to throw again in hopes to get a better hand."
+    if hero.effects['Drunk']['active']: # dizzy screen does not look good with dices animation...
+        "You are too drunk for games at the moment."
+        jump city_tavern_menu
+    elif hero.gold < city_tavern_dice_bet:
+        "Sadly, you don't have enough money to make a bet."
+        jump city_tavern_menu
 
     python:
         dice_1 = []
@@ -13,6 +19,7 @@ label wot:
             dice_1.append(throw_a_normal_dice())
         while len(dice_2) < 5:
             dice_2.append(throw_a_normal_dice())
+        city_tavern_current_dice_bet = city_tavern_dice_bet
             
 label city_tavern_show_poker_dices_loop:
     hide drunkards with dissolve
@@ -25,8 +32,6 @@ label city_tavern_show_poker_dices_loop:
         else:
             $ selected_dice = 0
         show screen city_tavern_show_poker_dices(dice_1, dice_2)
-        
-
         
 screen city_tavern_show_poker_dices(dice_1, dice_2): # main poker screen, shows dices themselves as imagebuttons
     on "show":
@@ -79,8 +84,14 @@ screen city_tavern_show_poker_dices(dice_1, dice_2): # main poker screen, shows 
         button:
             xysize (120, 40)
             yalign 0.5
-            action [Hide("city_tavern_show_poker_dices"), Jump("tavern_town")]
+            action [Hide("city_tavern_show_poker_dices"), Jump("city_tavern_poker_give_up")]
             text "Give Up" size 15
+            
+label city_tavern_poker_give_up:
+    $ hero.take_money(city_tavern_current_dice_bet)
+    hide screen city_tavern_show_poker_dices
+    with dissolve
+    jump city_tavern_menu
             
 label city_tavern_show_poker_shuffle:
     $ selected_ai_dice = dice_poker_ai_decision(dice_1, dice_2)
@@ -100,10 +111,22 @@ label city_tavern_show_poker_shuffle:
 
     if dice_poker_decide_winner(dice_1, dice_2) == 1:
         $ narrator("You lost!")
+        $ hero.take_money(city_tavern_current_dice_bet)
     elif dice_poker_decide_winner(dice_1, dice_2) == 2:
-        $ narrator("You won!")
+        if hero.gold >= city_tavern_current_dice_bet*2:
+            menu:
+                "You won! You can take your money right now or double your bet if you feeling lucky."
+                "Take the money":
+                    $ hero.add_money(city_tavern_current_dice_bet)
+                "Double the bet":
+                    $ city_tavern_current_dice_bet *= 2
+                    hide screen city_tavern_show_dices
+                    jump city_tavern_show_poker_dices_loop
+        else:
+            $ narrator("You won!")
+            $ hero.add_money(city_tavern_current_dice_bet)
     else:
-        $ narrator("It's a draw!")
+        $ narrator("It's a draw! You break even.")
     hide screen city_tavern_show_poker_dices
     jump city_tavern_menu
     
@@ -134,3 +157,14 @@ screen city_tavern_show_poker_status(): # additional screen, shows all info rela
                 spacing 5
             $ result = dice_poker_calculate(dice_2)[0]
             text result xalign 0.98 style "stats_value_text" color gold size 12
+    frame:
+        xalign 0.5
+        yalign 0.05
+        xysize (120, 120)
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        xpadding 1
+        ypadding 1
+        vbox:
+            xalign 0.5
+            add "content/gfx/interface/images/tavern_gold.png"
+            text str(city_tavern_current_dice_bet) xalign 0.5 style "stats_value_text" color gold

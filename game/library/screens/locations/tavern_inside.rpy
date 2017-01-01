@@ -26,7 +26,7 @@ label tavern_town:
 
     if not global_flags.flag('visited_tavern'):
         $ global_flags.set_flag('visited_tavern')
-        $ city_tavern_dice_bet = 50 # default dice bet
+        $ city_tavern_dice_bet = 5 # default dice bet
         show npc tavern_rita_novel
         with dissolve
         tavern_rita "Oh, hello! Welcome to our tavern! We will always have a seat for you! *wink*"
@@ -83,17 +83,21 @@ label city_tavern_menu: # "lively" status is limited by drunk effect; every acti
         $ result = ui.interact()
 
 label city_tavern_choose_label:
-    "Here you can set how much to bet to avoid doing it before every game in the tavern."
+    "Here you can set how much to bet to avoid doing it before every game in the tavern. The more your level, the higher bets are available."
     "The current bet is [city_tavern_dice_bet] G."
     menu:
         "How much do you wish to bet?"
-        "50 G":
+        "5 G":
+            $ city_tavern_dice_bet = 5
+        "10 G":
+            $ city_tavern_dice_bet = 10
+        "50 G" if hero.level >= 20:
             $ city_tavern_dice_bet = 50
-        "100 G":
-            $ city_tavern_dice_bet = 100
-        "200 G":
+        "100 G" if hero.level >= 50:
+            $ city_tavern_dice_bet = 50
+        "200 G" if hero.level >= 100:
             $ city_tavern_dice_bet = 200
-        "500 G":
+        "500 G" if hero.level >= 200:
             $ city_tavern_dice_bet = 500
     jump city_tavern_menu
         
@@ -131,13 +135,13 @@ screen city_tavern_inside():
                     xysize (120, 40)
                     yalign 0.5
                     action [Hide("city_tavern_inside"), Jump("city_tavern_play_dice")]
-                    text "Play blackjack" size 15
+                    text "Blackjack" size 15
             if hero.AP > 0 and global_flags.flag("tavern_status")[1] == "cozy":
                 button:
                     xysize (120, 40)
                     yalign 0.5
-                    action [Hide("city_tavern_inside"), Jump("city_tavern_play_poker_another_round")]
-                    text "Play poker" size 15
+                    action [Hide("city_tavern_inside"), Jump("city_tavern_play_poker")]
+                    text "Poker" size 15
             if global_flags.flag("tavern_status")[1] == "cozy":
                 button:
                     xysize (120, 40)
