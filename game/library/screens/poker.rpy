@@ -2,7 +2,7 @@
 label city_tavern_play_poker: # additional rounds continue from here
     if not global_flags.flag('played_poker_in_tavern'):
         $ global_flags.set_flag('played_poker_in_tavern')
-        "The goal of the game is to get a better hand than opponent. The best hand is all five dice showing the same value, and the worst scoring one is one pair. In case of draw wins the one with higher overall dice value. After initial throw you and your opponent can choose one dice to throw again in hopes to get a better hand."
+        "The goal of the game is to get a better hand than opponent. The best hand is all five dice showing the same value, and the worst scoring one is one pair. In case of draw wins the one with higher overall dice value. Optionally, after initial throw you and your opponent can choose one dice to throw again in hopes to get a better hand."
     if hero.effects['Drunk']['active']: # dizzy screen does not look good with dices animation...
         "You are too drunk for games at the moment."
         jump city_tavern_menu
@@ -38,7 +38,7 @@ screen city_tavern_show_poker_dices(dice_1, dice_2): # main poker screen, shows 
         action Show("city_tavern_show_poker_status", dissolve)
     on "hide":
         action Hide("city_tavern_show_poker_status")
-
+    
     hbox:
         align .5, .4
         spacing 5
@@ -46,9 +46,9 @@ screen city_tavern_show_poker_dices(dice_1, dice_2): # main poker screen, shows 
         for i in dice_1:
             $ number += 1
             $ img = "content/events/tavern_dice/"+str(i)+".png"
-            # add "content/events/tavern_dice/"+str(i)+".png" at dice_roll_from_left()
             if number != selected_ai_dice:
                 imagebutton:
+                    at dice_roll_zooming()
                     idle img
                     action None 
             else:
@@ -62,9 +62,9 @@ screen city_tavern_show_poker_dices(dice_1, dice_2): # main poker screen, shows 
         for i in dice_2:
             $ number += 1
             $ img = "content/events/tavern_dice/"+str(i)+".png"
-            # add "content/events/tavern_dice/"+str(i)+".png" at dice_roll_from_right()
             if number != selected_dice:
                 imagebutton:
+                    at dice_roll_zooming()
                     idle img
                     hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
                     action Return(number)
@@ -87,6 +87,10 @@ screen city_tavern_show_poker_dices(dice_1, dice_2): # main poker screen, shows 
             action [Hide("city_tavern_show_poker_dices"), Jump("city_tavern_poker_give_up")]
             text "Give Up" size 15
             
+transform dice_roll_zooming():
+    zoom 0
+    easein_back 0.75 zoom 1
+            
 label city_tavern_poker_give_up:
     $ hero.take_money(city_tavern_current_dice_bet)
     hide screen city_tavern_show_poker_dices
@@ -95,8 +99,6 @@ label city_tavern_poker_give_up:
             
 label city_tavern_show_poker_shuffle:
     $ selected_ai_dice = dice_poker_ai_decision(dice_1, dice_2)
-    if selected_ai_dice not in [1, 2, 3, 4, 5]:
-        $ selected_ai_dice = 0
     show screen city_tavern_show_poker_dices(dice_1, dice_2)
     pause 1.0
     if selected_dice != 0 or selected_ai_dice != 0:
