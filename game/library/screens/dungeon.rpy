@@ -9,11 +9,7 @@ init -1 python:
         def __init__(self, map, enemy=None):
             self.map=map
             self.enemy=enemy
-            self.mapped=[]
-            for n,i in enumerate(map):
-                self.mapped.append([])
-                for j in i:
-                    self.mapped[n].append(0)
+            self.mapped=[[0] * len(i) for i in map]
 
     class Dungeon_Coordinate(object):
 
@@ -40,44 +36,62 @@ init -1 python:
                 for m, j in enumerate(i):
                     if child.stage.mapped[n][m]==1:
                         if j in ["1"]:
-                            d = Solid("#666", xysize=(12,12))
+                            d = Solid("#4444", xysize=(6,6))
                         else:
-                            d = Solid("#fff9", xysize=(12,12))
+                            d = Solid("#fff4", xysize=(6,6))
                     else:
-                        d = Solid("#0000", xysize=(12,12))
+                        d = Solid("#0000", xysize=(6,6))
                     self.add(d,n,m)
             if child.dy==-1:
-                self.add(Text("↑",size=12),child.y,child.x)
+                self.add(Text("↑",size=10),child.y-.3,child.x-.2)
             elif child.dx==1:
-                self.add(Text("→",size=12),child.y,child.x)
+                self.add(Text("→",size=10),child.y-.5,child.x-.3)
             elif child.dy==1:
-                self.add(Text("↓",size=12),child.y,child.x)
+                self.add(Text("↓",size=10),child.y-.3,child.x-.2)
             else:
-                self.add(Text("←",size=12),child.y,child.x)
+                self.add(Text("←",size=10),child.y-.5,child.x-.3)
 
         def add(self, d,n,m):
             s = self.sm.create(d)
-            s.x = m*12+12
-            s.y = n*12+12
+            s.x = m*6+6
+            s.y = n*6+6
 
 screen dungeon_move:
     # Screen which shows move buttons and a minimap
 
     fixed style_group "move":
-        if front1.stage.map[front1.y][front1.x] in ("0",):
-            textbutton "↑" action Return(value=front1)  xcenter .2 ycenter .7
-            key "K_UP" action Return(value=front1)
-        elif front1.stage.map[front1.y][front1.x] == "2":
-            textbutton "↑" action Return(value="exit")  xcenter .2 ycenter .7
-            key "K_UP" action Return(value="exit")
-
         textbutton "→" action Return(value=turnright) xcenter .3 ycenter .8
         textbutton "↓" action Return(value=turnback) xcenter .2 ycenter .9
         textbutton "←" action Return(value=turnleft) xcenter .1 ycenter .8
+        textbutton "↑" action Return(value=front1.stage.map[front1.y][front1.x])  xcenter .2 ycenter .7
+        #strafe
+        textbutton ">" action Return(value=right0.stage.map[front1.y][front1.x]) xcenter .3 ycenter .9
+        textbutton "<" action Return(value=left0.stage.map[front1.y][front1.x]) xcenter .1 ycenter .9
+        key "K_KP7" action Return(value=right0.stage.map[front1.y][front1.x])
+        key "K_KP9" action Return(value=left0.stage.map[front1.y][front1.x])
+
+        key "K_UP" action Return(value=front1.stage.map[front1.y][front1.x])
+        key "K_KP8" action Return(value=front1.stage.map[front1.y][front1.x])
+
+        key "K_DOWN" action Return(value=turnback)
+        key "K_KP2" action Return(value=turnback)
 
         key "K_RIGHT" action Return(value=turnright)
-        key "K_DOWN" action Return(value=turnback)
+        key "K_KP6" action Return(value=turnright)
         key "K_LEFT" action Return(value=turnleft)
+        key "K_KP4" action Return(value=turnleft)
+        key "repeat_K_RIGHT" action Return(value=turnright)
+        key "repeat_K_KP6" action Return(value=turnright)
+        key "repeat_K_LEFT" action Return(value=turnleft)
+        key "repeat_K_KP4" action Return(value=turnleft)
+
+        if not bumped:
+            key "repeat_K_UP" action Return(value=front1.stage.map[front1.y][front1.x])
+            key "repeat_K_KP8" action Return(value=front1.stage.map[front1.y][front1.x])
+            key "repeat_K_KP7" action Return(value=right0.stage.map[front1.y][front1.x])
+            key "repeat_K_KP9" action Return(value=left0.stage.map[front1.y][front1.x])
+            key "repeat_K_DOWN" action Return(value=turnback)
+            key "repeat_K_KP2" action Return(value=turnback)
 
     add Dungeon_Minimap(here).sm
 
@@ -110,9 +124,9 @@ label enter_dungeon:
         # Create a dungeon stage (map,enemy)
         # "1" means wall, "0" means path.
         file = open(content_path("db/dungeon/mausoleum1.txt"))
-        stage1 = file.read().splitlines()
+        stage1=Stage(file.read().splitlines())#,enemy=goblin)
         file.close()
-        stage1=Stage(stage1)#,enemy=goblin)
+        bumped = False
 
     # Place a player position on a dungeon stage (stage,y,x,dy,dx).
     # dx,dy means direction. If dy=1, it's down. If dx=-1, it's left.
@@ -129,37 +143,37 @@ label enter_dungeon:
             left0=Dungeon_Coordinate(here.stage, here.y-here.dx, here.x+here.dy, here.dy, here.dx)
 
             front1=Dungeon_Coordinate(here.stage, here.y+here.dy, here.x+here.dx, here.dy, here.dx)
-            right1=Dungeon_Coordinate(here.stage, front1.y+front1.dx, front1.x-front1.dy, here.dy, here.dx)
-            left1=Dungeon_Coordinate(here.stage, front1.y-front1.dx, front1.x+front1.dy, here.dy, here.dx)
+            right1=Dungeon_Coordinate(here.stage, front1.y+here.dx, front1.x-here.dy, here.dy, here.dx)
+            left1=Dungeon_Coordinate(here.stage, front1.y-here.dx, front1.x+here.dy, here.dy, here.dx)
 
-            front2=Dungeon_Coordinate(here.stage, front1.y+front1.dy, front1.x+front1.dx, here.dy, here.dx)
-            right2=Dungeon_Coordinate(here.stage, front2.y+front2.dx, front2.x-front2.dy, here.dy, here.dx)
-            left2=Dungeon_Coordinate(here.stage, front2.y-front2.dx, front2.x+front2.dy, here.dy, here.dx)
-            right2b=Dungeon_Coordinate(here.stage, right2.y+right2.dx, right2.x-right2.dy, here.dy, here.dx)
-            left2b=Dungeon_Coordinate(here.stage, left2.y-left2.dx, left2.x+left2.dy, here.dy, here.dx)
+            front2=Dungeon_Coordinate(here.stage, front1.y+here.dy, front1.x+here.dx, here.dy, here.dx)
+            right2=Dungeon_Coordinate(here.stage, front2.y+here.dx, front2.x-here.dy, here.dy, here.dx)
+            left2=Dungeon_Coordinate(here.stage, front2.y-here.dx, front2.x+here.dy, here.dy, here.dx)
+            right2b=Dungeon_Coordinate(here.stage, right2.y+here.dx, right2.x-here.dy, here.dy, here.dx)
+            left2b=Dungeon_Coordinate(here.stage, left2.y-here.dx, left2.x+here.dy, here.dy, here.dx)
 
-            front3=Dungeon_Coordinate(here.stage, front2.y+front2.dy, front2.x+front2.dx, here.dy, here.dx)
-            right3=Dungeon_Coordinate(here.stage, front3.y+front3.dx, front3.x-front3.dy, here.dy, here.dx)
-            left3=Dungeon_Coordinate(here.stage, front3.y-front3.dx, front3.x+front3.dy, here.dy, here.dx)
-            right3b=Dungeon_Coordinate(here.stage, right3.y+right3.dx, right3.x-right3.dy, here.dy, here.dx)
-            left3b=Dungeon_Coordinate(here.stage, left3.y-left3.dx, left3.x+left3.dy, here.dy, here.dx)
+            front3=Dungeon_Coordinate(here.stage, front2.y+here.dy, front2.x+here.dx, here.dy, here.dx)
+            right3=Dungeon_Coordinate(here.stage, front3.y+here.dx, front3.x-here.dy, here.dy, here.dx)
+            left3=Dungeon_Coordinate(here.stage, front3.y-here.dx, front3.x+here.dy, here.dy, here.dx)
+            right3b=Dungeon_Coordinate(here.stage, right3.y+here.dx, right3.x-here.dy, here.dy, here.dx)
+            left3b=Dungeon_Coordinate(here.stage, left3.y-here.dx, left3.x+here.dy, here.dy, here.dx)
 
-            front4=Dungeon_Coordinate(here.stage, front3.y+front3.dy, front3.x+front3.dx, here.dy, here.dx)
-            right4=Dungeon_Coordinate(here.stage, front4.y+front4.dx, front4.x-front4.dy, here.dy, here.dx)
-            left4=Dungeon_Coordinate(here.stage, front4.y-front4.dx, front4.x+front4.dy, here.dy, here.dx)
-            right4b=Dungeon_Coordinate(here.stage, right4.y+right4.dx, right4.x-right4.dy, here.dy, here.dx)
-            left4b=Dungeon_Coordinate(here.stage, left4.y-left4.dx, left4.x+left4.dy, here.dy, here.dx)
-            right4c=Dungeon_Coordinate(here.stage, right4b.y+right4b.dx, right4b.x-right4b.dy, here.dy, here.dx)
-            left4c=Dungeon_Coordinate(here.stage, left4b.y-left4b.dx, left4b.x+left4b.dy, here.dy, here.dx)
+            front4=Dungeon_Coordinate(here.stage, front3.y+here.dy, front3.x+here.dx, here.dy, here.dx)
+            right4=Dungeon_Coordinate(here.stage, front4.y+here.dx, front4.x-here.dy, here.dy, here.dx)
+            left4=Dungeon_Coordinate(here.stage, front4.y-here.dx, front4.x+here.dy, here.dy, here.dx)
+            right4b=Dungeon_Coordinate(here.stage, right4.y+here.dx, right4.x-here.dy, here.dy, here.dx)
+            left4b=Dungeon_Coordinate(here.stage, left4.y-here.dx, left4.x+here.dy, here.dy, here.dx)
+            right4c=Dungeon_Coordinate(here.stage, right4b.y+here.dx, right4b.x-here.dy, here.dy, here.dx)
+            left4c=Dungeon_Coordinate(here.stage, left4b.y-here.dx, left4b.x+here.dy, here.dy, here.dx)
 
-            front5=Dungeon_Coordinate(here.stage, front4.y+front1.dy, front4.x+front4.dx, here.dy, here.dx)
-            right5=Dungeon_Coordinate(here.stage, front5.y+front5.dx, front5.x-front5.dy, here.dy, here.dx)
-            left5=Dungeon_Coordinate(here.stage, front5.y-front5.dx, front5.x+front5.dy, here.dy, here.dx)
-            right5b=Dungeon_Coordinate(here.stage, right5.y+right5.dx, right5.x-right5.dy, here.dy, here.dx)
-            left5b=Dungeon_Coordinate(here.stage, left5.y-left5.dx, left5.x+left5.dy, here.dy, here.dx)
-            right5c=Dungeon_Coordinate(here.stage, right5b.y+right5.dx, right5b.x-right5b.dy, here.dy, here.dx)
-            left5c=Dungeon_Coordinate(here.stage, left5b.y-left5b.dx, left5b.x+left5b.dy, here.dy, here.dx)
-        # Composite background images. Try-except clauses are used to prevent the List Out of Index Error
+            front5=Dungeon_Coordinate(here.stage, front4.y+here.dy, front4.x+here.dx, here.dy, here.dx)
+            right5=Dungeon_Coordinate(here.stage, front5.y+here.dx, front5.x-here.dy, here.dy, here.dx)
+            left5=Dungeon_Coordinate(here.stage, front5.y-here.dx, front5.x+here.dy, here.dy, here.dx)
+            right5b=Dungeon_Coordinate(here.stage, right5.y+here.dx, right5.x-here.dy, here.dy, here.dx)
+            left5b=Dungeon_Coordinate(here.stage, left5.y-here.dx, left5.x+here.dy, here.dy, here.dx)
+            right5c=Dungeon_Coordinate(here.stage, right5b.y+here.dx, right5b.x-here.dy, here.dy, here.dx)
+            left5c=Dungeon_Coordinate(here.stage, left5b.y-here.dx, left5b.x+here.dy, here.dy, here.dx)
+        # Composite background images.
         scene
         show dungeon_floor
         python:
@@ -169,7 +183,7 @@ label enter_dungeon:
                 "left2b", "right2b", "left2", "right2", "front2",
                 "left1", "right1", "front1", "left0", "right0"]:
                 j=globals()[i]
-                if j.y < len(j.stage.map) and j.x < len(j.stage.map[j.y]) and j.stage.map[j.y][j.x]=="1":
+                if j.y < len(j.stage.map) and j.x < len(j.stage.map[j.y]) and j.stage.map[j.y][j.x] in ("1",):
                     renpy.show("dungeon_"+i)
 
         # Record maps
@@ -193,8 +207,17 @@ label enter_dungeon:
         python:
             if isinstance(_return, Dungeon_Coordinate):
                 here=_return
-            elif _return == "exit":
+                bumped = False
+            elif _return == "0":
+                here=front1
+                bumped = False
+            elif _return == "1":
+                if not bumped:
+                    renpy.play("content/sfx/sound/dungeon/bump.ogg")
+                bumped = True
+            elif _return == "2":
                 renpy.say("", "Finally, there's a hatch here, you climb out of the catacombs.")
                 renpy.jump("graveyard_town")
+                bumped = False
 
 
