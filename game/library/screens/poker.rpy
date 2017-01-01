@@ -7,16 +7,17 @@ label wot:
     python:
         dice_1 = []
         dice_2 = []
-        selected_dice = [] # number of selected by player dice - goes from 1 to 5
-        selected_ai_dice = []
+        selected_dice = 0 # number of selected by player dice - goes from 1 to 5; 0 means no selected
+        selected_ai_dice = 0 # same for ai
         while len(dice_1) < 5: # both sides throw 5 dices in the beginning
             dice_1.append(throw_a_normal_dice())
         while len(dice_2) < 5:
             dice_2.append(throw_a_normal_dice())
             
 label city_tavern_show_poker_dices_loop:
-            
+    hide drunkards with dissolve
     show screen city_tavern_show_poker_dices(dice_1, dice_2)
+    play events "events/dice_" + str(randint(1, 3)) +".mp3"
     while 1:
         $ result = ui.interact()
         if result != selected_dice:
@@ -74,27 +75,37 @@ screen city_tavern_show_poker_dices(dice_1, dice_2): # main poker screen, shows 
             xysize (120, 40)
             yalign 0.5
             action [Jump("city_tavern_show_poker_shuffle")]
-            text "Shuffle" size 15
+            text "Next" size 15
         button:
             xysize (120, 40)
             yalign 0.5
-            action [Jump("city_tavern_test_poker_ai")]
-            text "Test AI" size 15
-        button:
-            xysize (120, 40)
-            yalign 0.5
-            action [Hide("city_tavern_show_poker_dices")]
-            text "Exit" size 15
+            action [Hide("city_tavern_show_poker_dices"), Jump("tavern_town")]
+            text "Give Up" size 15
             
 label city_tavern_show_poker_shuffle:
-    if selected_dice != 0:
-        $ dice_2[selected_dice-1] = throw_a_normal_dice()
-        $ selected_dice = 0
-    jump city_tavern_show_poker_dices_loop
-    
-label city_tavern_test_poker_ai:
     $ selected_ai_dice = dice_poker_ai_decision(dice_1, dice_2)
-    jump city_tavern_show_poker_dices_loop
+    if selected_ai_dice not in [1, 2, 3, 4, 5]:
+        $ selected_ai_dice = 0
+    show screen city_tavern_show_poker_dices(dice_1, dice_2)
+    pause 1.0
+    if selected_dice != 0 or selected_ai_dice != 0:
+        play events "events/dice_" + str(randint(1, 3)) +".mp3"
+        if selected_dice != 0:
+            $ dice_2[selected_dice-1] = throw_a_normal_dice()
+            $ selected_dice = 0
+        if selected_ai_dice != 0:
+            $ dice_1[selected_ai_dice-1] = throw_a_normal_dice()
+            $ selected_ai_dice = 0
+    show screen city_tavern_show_poker_dices(dice_1, dice_2)
+
+    if dice_poker_decide_winner(dice_1, dice_2) == 1:
+        $ narrator("You lost!")
+    elif dice_poker_decide_winner(dice_1, dice_2) == 2:
+        $ narrator("You won!")
+    else:
+        $ narrator("It's a draw!")
+    hide screen city_tavern_show_poker_dices
+    jump city_tavern_menu
     
 screen city_tavern_show_poker_status(): # additional screen, shows all info related to the dice game
     frame:
