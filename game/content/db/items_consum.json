@@ -241,7 +241,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "restore",
-    "removeeffects": ["Poison"],
+    "removeeffects": ["Poisoned"],
     "locations": ["Witches Hut", "Exploration"]
     },
     {
