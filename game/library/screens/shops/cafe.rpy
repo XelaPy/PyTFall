@@ -110,12 +110,6 @@ screen cafe_eating:
                 yalign 0.5
                 action [Hide("cafe_eating"), Jump("main_street")]
                 text "Leave" size 15
-            if pytfall.world_quests.check_quest_not_finished("A Fugitive") and pytfall.world_quests.check_stage("A Fugitive") >= 1 and hero.gold >= 200 and chars["Naruko_Uzumaki"].flag("quest_ate_in_cafe") != day and hero.AP >=0:
-                button:
-                    xysize (150, 40)
-                    yalign 0.5
-                    action [Hide("cafe_eating"), Jump("naruko_first_feeding")]
-                    text "Find Naruko" size 15
 label cafe_eat_alone:
 
     menu:
