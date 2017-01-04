@@ -29,7 +29,10 @@ init -9 python:
             self.trackers = set()
 
             # Flags for exploration tasks on "area" scope.
+            self.camp = None
             self.building_camp = False
+            self.camp_build_points_current = 0
+            self.camp_build_points_required = 1000
 
         @property
         def teams(self):

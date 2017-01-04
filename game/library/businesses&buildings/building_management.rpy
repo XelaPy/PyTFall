@@ -673,7 +673,7 @@ init: # Screens:
                                 # text (u"%s" % advert['name']) size 16 xalign (0.02)
 
     screen building_management_leftframe_businesses_mode:
-        $ show_slots = not any([(isinstance(bm_mid_frame_mode, ExplorationGuild) and bm_exploration_view_mode == "log")])
+        $ show_slots = not any([(isinstance(bm_mid_frame_mode, ExplorationGuild) and bm_exploration_view_mode in ("log", "team", "explore"))])
         if show_slots:
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
@@ -766,17 +766,15 @@ init: # Screens:
 
                     text "No Data Yet!" xalign .5
 
-
             if bm_exploration_view_mode == "team":
+                # Filters:
                 frame:
                     background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                     style_group "proper_stats"
                     xsize 300
                     xalign .5
-                    xpadding 12
-                    ypadding 12
-                    xmargin 0
-                    ymargin 0
+                    padding 12, 12
+                    margin 0, 0
                     has vbox spacing 1
                     label "Filters:" xalign .5
 
@@ -792,15 +790,14 @@ init: # Screens:
                         textbutton "Slaves":
                             action ModFilterSet(fg_filters, "status_filters", "slave")
 
+                # Sorting:
                 frame:
                     background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                     style_group "proper_stats"
                     xsize 300
                     xalign .5
-                    xpadding 12
-                    ypadding 12
-                    xmargin 0
-                    ymargin 0
+                    padding 12, 12
+                    margin 0, 0
                     has vbox spacing 1
                     label "Sort:" xalign .5
 
@@ -813,46 +810,47 @@ init: # Screens:
                             action SetFilter(fg_filters, "level")
 
             if bm_exploration_view_mode == "explore":
-                frame:
-                    style_group "content"
-                    xalign 0.5
-                    xysize (200, 50)
-                    background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                    label (u"Maps") text_size 23 text_color ivory align (.5, .8)
+                fixed: # making sure we can align stuff...
+                    xysize(320, 665)
+                    frame:
+                        style_group "content"
+                        xalign .5 ypos 5
+                        xysize (200, 50)
+                        background Frame("content/gfx/frame/namebox5.png", 10, 10)
+                        label (u"Maps") text_size 23 text_color ivory align (.5, .8)
 
-                null height 10
-                viewport:
-                    xysize 220, 500
-                    xalign .5
-                    has vbox spacing 4
-                    $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked])
-                    if temp and not bm_mid_frame_focus:
-                        $ mid_frame_focus = temp[0]
+                    viewport:
+                        xysize 220, 500
+                        xalign .5 ypos 60
+                        has vbox spacing 4
+                        $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked])
+                        if temp and not bm_mid_frame_focus:
+                            $ mid_frame_focus = temp[0]
 
-                    for area in temp:
-                        $ img = im.Scale(area.img, 200, 130)
-                        frame:
-                            background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
-                            padding 5, 6
-                            margin 0, 0
-                            xysize 200, 130
-                            button:
-                                align .5, .5
-                                xysize 200, 130
-                                background Frame(img)
-                                hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.10)))
-                                action SetVariable("bm_mid_frame_focus", area)
-                                frame:
-                                    align .5, .0
-                                    xysize 180, 30
-                                    background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 5, 5)
-                                    text area.name color gold style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] align .5, .5
+                        for area in temp:
+                            $ img = im.Scale(area.img, 220, 130)
+                            frame:
+                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
+                                padding 6, 7
+                                margin 0, 0
+                                xysize 220, 130
+                                button:
+                                    align .5, .5
+                                    xysize 220, 130
+                                    background Frame(img)
+                                    hover_background Frame(im.MatrixColor(img, im.matrix.brightness(.10)))
+                                    action SetVariable("bm_mid_frame_focus", area)
+                                    frame:
+                                        align .5, .0
+                                        xysize 180, 30
+                                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 5, 5)
+                                        text area.name color gold style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] align .5, .5
 
-                # hbox:
-                    # xalign 0.5
-                    # spacing 20
-                    # add ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_up.png", 50, 50)
-                    # add ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_down.png", 50, 50)
+                    # hbox:
+                        # xalign 0.5
+                        # spacing 20
+                        # add ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_up.png", 50, 50)
+                        # add ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_down.png", 50, 50)
 
     screen building_management_midframe_building_mode:
         frame:
@@ -1222,7 +1220,6 @@ init: # Screens:
 
                 textbutton "Back" align .5, .95 action SetVariable("bm_mid_frame_mode", "building")
 
-
     screen building_maintenance():
         modal True
         zorder 1
@@ -1554,7 +1551,6 @@ init: # Screens:
                     align (0.5, 0.96)
                     text "OK"
 
-
     # Customized screens for specific businesses:
     screen fg_log(area, tt):
         on "hide":
@@ -1659,20 +1655,37 @@ init: # Screens:
                                 add ProportionalScale(item.icon, 100, 100) xalign .5
                                 text item.desc xalign .5 color white
 
-
     screen fg_area(area):
         modal True
         zorder 1
 
         key "mousedown_3" action Hide("fg_area")
 
-        # frame:
-            # background Frame("content/gfx/frame/p_frame6.png", 10, 10)
-            # style_prefix "content"
-            # xysize (630, 720)
-            # xalign .5
-            # ypos 40
+        # Left frame with Area controls
+        frame:
+            background Frame("content/gfx/frame/p_frame6.png", 10, 10)
+            style_prefix "basic"
+            xysize (325, 674)
+            xalign .0 ypos 41
+            has vbox spacing 4
 
+            # The idea is to add special icons for as many features as possible in the future to make Areas cool:
+            # Simple buttons are temp for dev versions/beta.
+            button:
+                xalign .5
+                xysize 300, 25
+                action ToggleField(area, "building_camp")
+                python:
+                    if area.camp:
+                        status = "Complete"
+                    elif area.building_camp:
+                        status = "%d%% Complete" % (100.0*area.camp_build_points_current/area.camp_build_points_required)
+                    else:
+                        status = "Unknown"
+                text "Camp status: [status]" align 0.01, .5
+
+
+        # Mid-Frame:
         frame:
             ypos 40
             xalign .5
@@ -1721,6 +1734,7 @@ init: # Screens:
                         # add "content/gfx/bg/example/1.png" align (0.5, 0.5)
                         # add "content/gfx/bg/example/2.png" align (0.5, 0.5)
                         # add "content/gfx/bg/example/3.png" align (0.5, 0.5)
+
             hbox:
                 align .5, .5
                 frame:
