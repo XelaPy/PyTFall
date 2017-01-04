@@ -786,7 +786,7 @@ init: # Screens:
                         textbutton "Reset":
                             action Function(fg_filters.clear)
                         textbutton "Warriors":
-                            action ModFilterSet(fg_filters, "occ_filters", "Warrior")
+                            action ModFilterSet(fg_filters, "class_filters", "Warrior")
                         textbutton "Free":
                             action ModFilterSet(fg_filters, "status_filters", "free")
                         textbutton "Slaves":
