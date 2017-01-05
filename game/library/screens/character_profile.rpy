@@ -653,7 +653,7 @@ screen char_profile():
                                         button:
                                             background Null()
                                             xsize 147
-                                            action NullAction()
+                                            action Show("show_trait_info", trait=trait.id)
                                             text trait.id idle_color ivory size 15 align .5, .5 hover_color crimson text_align .5
                                             hovered tt.Action(u"%s"%trait.desc)
                                             hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
@@ -744,6 +744,90 @@ screen char_profile():
             
     use top_stripe(True)
     
+screen show_trait_info(trait=None): # TO DO: upkeep made via mod field is not visible here; since upkeep is disabled atm, I dunno if it even should be made via mod or mod_stat
+    $ trait_info = traits[trait]
+    frame:
+        align .7, .6
+        background Frame("content/gfx/frame/p_frame52.png")
+        xsize 160
+        has vbox
+        imagebutton:
+            align (0.95, 0.05)
+            xysize 22, 22
+            idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
+            hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
+            action Hide("show_trait_info")
+        vbox:
+            xalign 0.48
+            style_group "proper_stats"
+            spacing 1
+            if trait_info.max:
+                label (u"Max:") text_size 20 text_color ivory text_bold True xalign .45
+                for i in trait_info.max:
+                    frame:
+                        xsize 150
+                        button:
+                            background Null()
+                            xsize 150
+                            action NullAction()
+                            if trait_info.max[i] < 0:
+                                text (str(i).title() + ": " + str(trait_info.max[i])) size 15 color red align .5, .5 text_align .5
+                            else:
+                                text (str(i).title() + ": +" + str(trait_info.max[i])) size 15 color green align .5, .5 text_align .5
+            if trait_info.min:
+                label (u"Min:") text_size 20 text_color ivory text_bold True xalign .45
+                for i in trait_info.min:
+                    frame:
+                        xsize 150
+                        button:
+                            background Null()
+                            xsize 150
+                            action NullAction()
+                            if trait_info.min[i] < 0:
+                                text (str(i).title() + ": " + str(trait_info.min[i])) size 15 color red align .5, .5 text_align .5
+                            else:
+                                text (str(i).title() + ": +" + str(trait_info.min[i])) size 15 color green align .5, .5 text_align .5
+            if trait_info.mod_stats:
+                label (u"Bonus:") text_size 20 text_color ivory text_bold True xalign .45
+                for i in trait_info.mod_stats:
+                    frame:
+                        xsize 150
+                        button:
+                            background Null()
+                            xsize 150
+                            action NullAction()
+                            if str(i) != "disposition":
+                                if (trait_info.mod_stats[i])[0] < 0:
+                                    text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0]) + " / " + str((trait_info.mod_stats[i])[1]) + " lvl") align .5, .5 size 15 color red text_align .5
+                                else:
+                                    text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0]) + " / " + str((trait_info.mod_stats[i])[1]) + " lvl") align .5, .5 size 15 color green text_align .5
+                            else:
+                                if (trait_info.mod_stats[i])[0] < 0:
+                                    text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color red text_align .5
+                                else:
+                                    text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color green text_align .5
+            if trait_info.effects:
+                label (u"Effects:") text_size 20 text_color ivory text_bold True xalign .45
+                for i in trait_info.effects:
+                    frame:
+                        xsize 150
+                        button:
+                            background Null()
+                            xsize 150
+                            action NullAction()
+                            text (str(i).title()) size 15 color yellow align .5, .5 text_align .5
+                            
+            if trait_info.mod_skills:
+                label (u"Skills:") text_size 20 text_color ivory text_bold True xalign .45
+                for i in trait_info.mod_skills:
+                    frame:
+                        xsize 150
+                        button:
+                            background Null()
+                            xsize 150
+                            action NullAction()
+                            text (str(i).title() + ": " + str((trait_info.mod_skills[i])[0]) + "/" + str((trait_info.mod_skills[i])[1]) + "/" + str((trait_info.mod_skills[i])[2])) align .5, .5 size 15 color yellowgreen text_align .5
+        
 screen girl_control():
     default char = PytGroup(the_chosen) if the_chosen else char
     modal True

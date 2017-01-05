@@ -357,7 +357,7 @@ init:
                                 button:
                                     background Null()
                                     xsize 147
-                                    action NullAction()
+                                    action Show("show_trait_info", trait=trait.id)
                                     text trait.id idle_color ivory size 15 align .5, .5 hover_color crimson text_align .5
                                     hovered tt.Action(u"%s"%trait.desc)
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
