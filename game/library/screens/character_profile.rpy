@@ -145,6 +145,9 @@ screen char_profile():
     key "mousedown_4" action Return(["control", "right"])
     key "mousedown_5" action Return(["control", "left"])
     
+    on "hide":
+        action Hide("show_trait_info")
+    
     if girls:
         # text ("{color=[ivory]}[char.desc]") style "content_text" layout "greedy" justify True minwidth 304 xalign 0.5
         default tt = Tooltip("[char.desc]")
