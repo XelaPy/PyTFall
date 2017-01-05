@@ -829,7 +829,20 @@ screen show_trait_info(trait=None): # TO DO: upkeep made via mod field is not vi
                             background Null()
                             xsize 150
                             action NullAction()
-                            text (str(i).title() + ": " + str((trait_info.mod_skills[i])[0]) + "/" + str((trait_info.mod_skills[i])[1]) + "/" + str((trait_info.mod_skills[i])[2])) align .5, .5 size 15 color yellowgreen text_align .5
+                            $ output = str(i).title() + ": "
+                            if (trait_info.mod_skills[i])[0] > 0:
+                                $ output += "{image=skills_knowledge_plus}" + " "
+                            elif (trait_info.mod_skills[i])[0] < 0:
+                                $ output += "{image=skills_knowledge_minus}" + " "
+                            if (trait_info.mod_skills[i])[1] > 0:
+                                $ output += "{image=skills_book_plus}" + " "
+                            elif (trait_info.mod_skills[i])[1] < 0:
+                                $ output += "{image=skills_book_minus}" + " "
+                            if (trait_info.mod_skills[i])[2] > 0:
+                                $ output += "{image=skills_perf_plus}"
+                            elif (trait_info.mod_skills[i])[2] < 0:
+                                $ output += "{image=skills_perf_minus}"
+                            text (output) align .5, .5 size 15 color yellowgreen text_align .5
         
 screen girl_control():
     default char = PytGroup(the_chosen) if the_chosen else char
