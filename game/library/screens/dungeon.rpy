@@ -60,38 +60,31 @@ screen dungeon_move:
     # Screen which shows move buttons and a minimap
 
     fixed style_group "move":
-        textbutton "→" action Return(value=turnright) xcenter .3 ycenter .8
-        textbutton "↓" action Return(value=turnback) xcenter .2 ycenter .9
-        textbutton "←" action Return(value=turnleft) xcenter .1 ycenter .8
-        textbutton "↑" action Return(value=front1.stage.map[front1.y][front1.x])  xcenter .2 ycenter .7
-        #strafe
-        textbutton ">" action Return(value=right0.stage.map[front1.y][front1.x]) xcenter .3 ycenter .9
-        textbutton "<" action Return(value=left0.stage.map[front1.y][front1.x]) xcenter .1 ycenter .9
-        key "K_KP7" action Return(value=right0.stage.map[front1.y][front1.x])
-        key "K_KP9" action Return(value=left0.stage.map[front1.y][front1.x])
+        textbutton "↓" action Return(value=2) xcenter .2 ycenter .9
+        textbutton "←" action Return(value=4) xcenter .1 ycenter .8
+        textbutton "→" action Return(value=6) xcenter .3 ycenter .8
+        textbutton "<" action Return(value=7) xcenter .1 ycenter .9
+        textbutton "↑" action Return(value=8)  xcenter .2 ycenter .7
+        textbutton ">" action Return(value=9) xcenter .3 ycenter .9
 
-        key "K_UP" action Return(value=front1.stage.map[front1.y][front1.x])
-        key "K_KP8" action Return(value=front1.stage.map[front1.y][front1.x])
-
-        key "K_DOWN" action Return(value=turnback)
-        key "K_KP2" action Return(value=turnback)
-
-        key "K_RIGHT" action Return(value=turnright)
-        key "K_KP6" action Return(value=turnright)
-        key "K_LEFT" action Return(value=turnleft)
-        key "K_KP4" action Return(value=turnleft)
-        key "repeat_K_RIGHT" action Return(value=turnright)
-        key "repeat_K_KP6" action Return(value=turnright)
-        key "repeat_K_LEFT" action Return(value=turnleft)
-        key "repeat_K_KP4" action Return(value=turnleft)
+        key "K_KP2" action Return(value=2)
+        key "K_KP4" action Return(value=4)
+        key "K_KP6" action Return(value=6)
+        key "K_KP7" action Return(value=7)
+        key "K_KP8" action Return(value=8)
+        key "K_KP9" action Return(value=9)
+        key "K_LEFT" action Return(value=4)
+        key "K_UP" action Return(value=8)
+        key "K_RIGHT" action Return(value=6)
+        key "K_DOWN" action Return(value=2)
 
         if not bumped:
-            key "repeat_K_UP" action Return(value=front1.stage.map[front1.y][front1.x])
-            key "repeat_K_KP8" action Return(value=front1.stage.map[front1.y][front1.x])
-            key "repeat_K_KP7" action Return(value=right0.stage.map[front1.y][front1.x])
-            key "repeat_K_KP9" action Return(value=left0.stage.map[front1.y][front1.x])
-            key "repeat_K_DOWN" action Return(value=turnback)
-            key "repeat_K_KP2" action Return(value=turnback)
+            key "repeat_K_KP2" action Return(value=2)
+            key "repeat_K_KP7" action Return(value=7)
+            key "repeat_K_KP8" action Return(value=8)
+            key "repeat_K_KP9" action Return(value=9)
+            key "repeat_K_UP" action Return(value=8)
+            key "repeat_K_DOWN" action Return(value=2)
 
     add Dungeon_Minimap(here).sm
 
@@ -99,11 +92,14 @@ style move_button_text:
     size 60
 
 # Assign background images.
-# "left0" means a wall on the lefthand, "front2" means a further wall on the front, and so on.
-
-# left2, front2, right2
-# left1, front1, right1
-# left0,  here , right0
+# "left0" means a wall on the lefthand, "front2" means a further wall on the front, and so on. field of view:
+#
+# left5c, left5b, left5, front5, right5, right5b, right5c
+# left4c, left4b, left4, front4, right4, right4b, right4c
+#         left3b, left3, front3, right3, right3b
+#         left2b, left2, front2, right2, right2b
+#                 left1, front1, right1
+#                 left0,  here , right0
 
 
 
@@ -127,75 +123,63 @@ label enter_dungeon:
         stage1=Stage(file.read().splitlines())#,enemy=goblin)
         file.close()
         bumped = False
+        accesible_area = ["0","2"]
+        visible_area = ["1"]
+        transparent_area = ["0","2"]
+
 
     # Place a player position on a dungeon stage (stage,y,x,dy,dx).
     # dx,dy means direction. If dy=1, it's down. If dx=-1, it's left.
     $ here=Dungeon_Coordinate(stage1,2,2,0,1)
 
     while True:
-        # Calculate relative coordinates
-        python:
-            turnright=Dungeon_Coordinate(here.stage, here.y, here.x, here.dx,-here.dy)
-            turnleft=Dungeon_Coordinate(here.stage, here.y, here.x, -here.dx, here.dy)
-            turnback=Dungeon_Coordinate(here.stage, here.y, here.x, -here.dy,-here.dx)
-
-            right0=Dungeon_Coordinate(here.stage, here.y+here.dx, here.x-here.dy, here.dy, here.dx)
-            left0=Dungeon_Coordinate(here.stage, here.y-here.dx, here.x+here.dy, here.dy, here.dx)
-
-            front1=Dungeon_Coordinate(here.stage, here.y+here.dy, here.x+here.dx, here.dy, here.dx)
-            right1=Dungeon_Coordinate(here.stage, front1.y+here.dx, front1.x-here.dy, here.dy, here.dx)
-            left1=Dungeon_Coordinate(here.stage, front1.y-here.dx, front1.x+here.dy, here.dy, here.dx)
-
-            front2=Dungeon_Coordinate(here.stage, front1.y+here.dy, front1.x+here.dx, here.dy, here.dx)
-            right2=Dungeon_Coordinate(here.stage, front2.y+here.dx, front2.x-here.dy, here.dy, here.dx)
-            left2=Dungeon_Coordinate(here.stage, front2.y-here.dx, front2.x+here.dy, here.dy, here.dx)
-            right2b=Dungeon_Coordinate(here.stage, right2.y+here.dx, right2.x-here.dy, here.dy, here.dx)
-            left2b=Dungeon_Coordinate(here.stage, left2.y-here.dx, left2.x+here.dy, here.dy, here.dx)
-
-            front3=Dungeon_Coordinate(here.stage, front2.y+here.dy, front2.x+here.dx, here.dy, here.dx)
-            right3=Dungeon_Coordinate(here.stage, front3.y+here.dx, front3.x-here.dy, here.dy, here.dx)
-            left3=Dungeon_Coordinate(here.stage, front3.y-here.dx, front3.x+here.dy, here.dy, here.dx)
-            right3b=Dungeon_Coordinate(here.stage, right3.y+here.dx, right3.x-here.dy, here.dy, here.dx)
-            left3b=Dungeon_Coordinate(here.stage, left3.y-here.dx, left3.x+here.dy, here.dy, here.dx)
-
-            front4=Dungeon_Coordinate(here.stage, front3.y+here.dy, front3.x+here.dx, here.dy, here.dx)
-            right4=Dungeon_Coordinate(here.stage, front4.y+here.dx, front4.x-here.dy, here.dy, here.dx)
-            left4=Dungeon_Coordinate(here.stage, front4.y-here.dx, front4.x+here.dy, here.dy, here.dx)
-            right4b=Dungeon_Coordinate(here.stage, right4.y+here.dx, right4.x-here.dy, here.dy, here.dx)
-            left4b=Dungeon_Coordinate(here.stage, left4.y-here.dx, left4.x+here.dy, here.dy, here.dx)
-            right4c=Dungeon_Coordinate(here.stage, right4b.y+here.dx, right4b.x-here.dy, here.dy, here.dx)
-            left4c=Dungeon_Coordinate(here.stage, left4b.y-here.dx, left4b.x+here.dy, here.dy, here.dx)
-
-            front5=Dungeon_Coordinate(here.stage, front4.y+here.dy, front4.x+here.dx, here.dy, here.dx)
-            right5=Dungeon_Coordinate(here.stage, front5.y+here.dx, front5.x-here.dy, here.dy, here.dx)
-            left5=Dungeon_Coordinate(here.stage, front5.y-here.dx, front5.x+here.dy, here.dy, here.dx)
-            right5b=Dungeon_Coordinate(here.stage, right5.y+here.dx, right5.x-here.dy, here.dy, here.dx)
-            left5b=Dungeon_Coordinate(here.stage, left5.y-here.dx, left5.x+here.dy, here.dy, here.dx)
-            right5c=Dungeon_Coordinate(here.stage, right5b.y+here.dx, right5b.x-here.dy, here.dy, here.dx)
-            left5c=Dungeon_Coordinate(here.stage, left5b.y-here.dx, left5b.x+here.dy, here.dy, here.dx)
         # Composite background images.
         scene
         show dungeon_floor
         python:
-            for i in ["left5c", "right5c", "left5b", "right5b", "left5", "right5", "front5",
-                "left4c", "right4c", "left4b", "right4b", "left4", "right4", "front4",
-                "left3b", "right3b", "left3", "right3", "front3",
-                "left2b", "right2b", "left2", "right2", "front2",
-                "left1", "right1", "front1", "left0", "right0"]:
-                j=globals()[i]
-                if j.y < len(j.stage.map) and j.x < len(j.stage.map[j.y]) and j.stage.map[j.y][j.x] in ("1",):
-                    renpy.show("dungeon_"+i)
+            # compile front to back, a list of what area are walls to be shown.
+            # dependent on the walls in front, some may not have to be shown.
+            # finally draw walls back to front, lateral to central.
+            sided = ["left%dc", "left%db", "left%d", "front%d", "right%d", "right%db", "right%dc"]
+            areas = [[0, -1], [0, 1], [1, 0]]
+            show = []
 
-        # Record maps
-        python:
-            if front1.stage.map[front1.y][front1.x] in ("0",):
-                for i in [left1, right1, front2]:
-                    if i.y < len(here.stage.mapped) and i.x < len(here.stage.mapped[i.y]) and i.y >= 0 and i.x >= 0:
-                        here.stage.mapped[i.y][i.x]=1
+            while areas:
+                (distance, lateral) = areas.pop(0)
 
-            for i in [front1, left0, right0, here]:
-                if i.y < len(here.stage.mapped) and i.x < len(here.stage.mapped[i.y]) and i.y >= 0 and i.x >= 0:
-                    here.stage.mapped[i.y][i.x]=1
+                y = here.y + lateral*here.dx + distance*here.dy
+                if y >= len(here.stage.map):
+                    continue
+
+                x = here.x + distance*here.dx - lateral*here.dy
+                if x >= len(here.stage.map[y]):
+                    continue
+
+                # record maps
+                here.stage.mapped[y][x]=1
+
+                if here.stage.map[y][x] in visible_area:
+
+                    show.append(sided[lateral+3] % distance) # a wall, need to draw.
+
+                if here.stage.map[y][x] in transparent_area: # need to draw what's behind it.
+
+                    # after `or' is to prevent adding areas twice.
+                    if lateral >= 0 and (distance == lateral*2 or (distance > lateral*2 and here.stage.map[y+here.dx-here.dy][x-here.dy-here.dx] not in transparent_area)):
+
+                        areas.append([distance, lateral + 1])
+
+                    if lateral <= 0 and (distance == -lateral*2 or (distance > -lateral*2 and here.stage.map[y-here.dx-here.dy][x+here.dy-here.dx] not in transparent_area)):
+
+                        areas.append([distance, lateral - 1])
+
+                    if distance < 5:
+                        areas.append([distance + 1, lateral])
+
+
+
+            for s in reversed(show):
+                renpy.show("dungeon_%s"%s)
 
         # Check events. If it happens, call a label or jump out to a label.
         if here.stage.enemy is not None and renpy.random.random()< .2:
@@ -204,18 +188,51 @@ label enter_dungeon:
         # Otherwise, call the move screen
         $ renpy.block_rollback()
         call screen dungeon_move
+
         python:
-            if isinstance(_return, Dungeon_Coordinate):
-                here=_return
-                bumped = False
-            elif _return == "0":
-                here=front1
-                bumped = False
-            elif _return == "1":
-                if not bumped:
+            if _return == 2:
+                if here.stage.map[here.y-here.dy][here.x-here.dx] in accesible_area:
+                    here.y -= here.dy
+                    here.x -= here.dx
+
+                elif not bumped:
                     renpy.play("content/sfx/sound/dungeon/bump.ogg")
-                bumped = True
-            elif _return == "2":
+                    bumped = True
+
+            elif _return == 4:
+                (here.dy, here.dx) = (-here.dx, here.dy)
+
+            elif _return == 6:
+                (here.dy, here.dx) = (here.dx, -here.dy)
+
+            elif _return == 7:
+                if here.stage.map[here.y-here.dx][here.x+here.dy] in accesible_area:
+                    here.y -= here.dx
+                    here.x += here.dy
+
+                elif not bumped:
+                    renpy.play("content/sfx/sound/dungeon/bump.ogg")
+                    bumped = True
+
+            elif _return == 8:
+                if here.stage.map[here.y+here.dy][here.x+here.dx] in accesible_area:
+                    here.y += here.dy
+                    here.x += here.dx
+
+                elif not bumped:
+                    renpy.play("content/sfx/sound/dungeon/bump.ogg")
+                    bumped = True
+
+            elif _return == 9:
+                if here.stage.map[here.y+here.dx][here.x-here.dy] in accesible_area:
+                    here.y += here.dx
+                    here.x -= here.dy
+
+                elif not bumped:
+                    renpy.play("content/sfx/sound/dungeon/bump.ogg")
+                    bumped = True
+
+            if here.stage.map[here.y][here.x] == "2":
                 renpy.say("", "Finally, there's a hatch here, you climb out of the catacombs.")
                 renpy.jump("graveyard_town")
                 bumped = False
