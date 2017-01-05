@@ -5,7 +5,7 @@ init -1 python:
         Also responsible for sorting.
         Occupation = condition on which to sort.
         """
-        def __init__(self, name, curious_priority=True, **kwargs):
+        def __init__(self, name, curious_priority=True, limited_location=False, **kwargs):
             goodoccupations = kwargs.get("goodoccupations", set())
             badoccupations = kwargs.get("badoccupations", set())
             has_tags = kwargs.get("has_tags", set())
@@ -20,12 +20,16 @@ init -1 python:
 
             self.name = name
             self.curious_priority = curious_priority
+            self.limited_location = limited_location
             self.girls = list()
             # Get available girls and check occupation
-            if not(has_tags):
-                choices = list(i for i in chars.values() if i not in hero.chars and not i.arena_active and i.location in ["city", "girl_meets_quest"] and i not in gm.get_all_girls())
+            if limited_location:
+                choices = list(i for i in chars.values() if i.location == name and i not in hero.chars and not i.arena_active and i not in gm.get_all_girls())
             else:
-                choices = list(i for i in chars.values() if i not in hero.chars and not i.arena_active and i.location in ["city", "girl_meets_quest"] and i not in gm.get_all_girls() and i.has_image(*has_tags, exclude=has_no_tags))
+                if not(has_tags):
+                    choices = list(i for i in chars.values() if i not in hero.chars and not i.arena_active and i.location in ["city", "girl_meets_quest"] and i not in gm.get_all_girls())
+                else:
+                    choices = list(i for i in chars.values() if i not in hero.chars and not i.arena_active and i.location in ["city", "girl_meets_quest"] and i not in gm.get_all_girls() and i.has_image(*has_tags, exclude=has_no_tags))
             # We remove all chars with badtraits:
             if badtraits:
                 choices = list(i for i in choices if not any(trait in badtraits for trait in i.traits))

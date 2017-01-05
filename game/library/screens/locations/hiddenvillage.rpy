@@ -1,5 +1,5 @@
 label hiddenvillage_entrance:
-    $ gm.enter_location()
+    $ gm.enter_location(limited_location=True)
     if not "village" in ilists.world_music:
         $ ilists.world_music["village"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("village")]
     if not global_flags.has_flag("keep_playing_music"):
@@ -60,7 +60,7 @@ screen hiddenvillage_entrance:
             spacing 70
             
             for entry in gm.display_girls():
-                use rg_lightbutton(img=entry.show("girlmeets", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
+                use rg_lightbutton(img=entry.show("girlmeets", exclude=["beach", "winter", "night", "formal", "indoors", "swimsuit"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
     
 label hidden_village_shop: # ninja shop logic
     if not "shops" in ilists.world_music:
