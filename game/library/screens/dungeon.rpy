@@ -137,9 +137,7 @@ label enter_dungeon:
         scene
         show dungeon_floor
         python:
-            # compile front to back, a list of what area are walls to be shown.
-            # dependent on the walls in front, some may not have to be shown.
-            # finally draw walls back to front, lateral to central.
+            # compile front to back, a list of what area are walls to be shown, behind wall we don't show.
             sided = ["left%dc", "left%db", "left%d", "front%d", "right%d", "right%db", "right%dc"]
             areas = [[0, -1], [0, 1], [1, 0]]
             show = []
@@ -155,7 +153,7 @@ label enter_dungeon:
                 if x >= len(here.stage.map[y]):
                     continue
 
-                # record maps
+                # also record for minimap
                 here.stage.mapped[y][x]=1
 
                 if here.stage.map[y][x] in visible_area:
@@ -164,20 +162,22 @@ label enter_dungeon:
 
                 if here.stage.map[y][x] in transparent_area: # need to draw what's behind it.
 
-                    # after `or' is to prevent adding areas twice.
-                    if lateral >= 0 and (distance == lateral*2 or (distance > lateral*2 and here.stage.map[y+here.dx-here.dy][x-here.dy-here.dx] not in transparent_area)):
-
+                    # after `or' prevents adding areas twice. If the area diagonally nearer to hero is
+                    # a wall, the area is not yet drawn, draw it, unless we cannot see it.
+                    if lateral >= 0 and (distance == lateral*2 or distance > lateral*2
+                                         and here.stage.map[y+here.dx-here.dy][x-here.dy-here.dx] not in transparent_area
+                                         and here.stage.map[y-here.dy][x-here.dx] in transparent_area):
                         areas.append([distance, lateral + 1])
 
-                    if lateral <= 0 and (distance == -lateral*2 or (distance > -lateral*2 and here.stage.map[y-here.dx-here.dy][x+here.dy-here.dx] not in transparent_area)):
-
+                    if lateral <= 0 and (distance == -lateral*2 or distance > -lateral*2
+                                         and here.stage.map[y-here.dx-here.dy][x+here.dy-here.dx] not in transparent_area
+                                         and here.stage.map[y-here.dy][x-here.dx] in transparent_area):
                         areas.append([distance, lateral - 1])
 
                     if distance < 5:
                         areas.append([distance + 1, lateral])
 
-
-
+            # finally draw walls, back to front, lateral to central.
             for s in reversed(show):
                 renpy.show("dungeon_%s"%s)
 
