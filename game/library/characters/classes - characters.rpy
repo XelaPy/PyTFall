@@ -5031,6 +5031,7 @@ init -9 python:
             self.blocks = list()
             self.effects = list()
 
+
             # Occupations related:
             self.occupations = list() # So far I came up with SIW (Sex Industry worker), Server, Warrior...
             self.higher_tiers = list() # Required higher tier basetraits to enable this trait.
@@ -5062,7 +5063,7 @@ init -9 python:
             self.el_defence = dict()
             self.el_special = dict()
 
-            # Weaponfocus:
+            # Weaponfocus:                not used, as far as I know, so should be deleted?
             self.we_damage = dict()
             self.we_defence = dict()
             self.we_special = dict()
