@@ -35,7 +35,7 @@ init -11 python:
         counter = collections.Counter(dice_1)
         if len(counter) == 1: # Five-of-a-Kind
         # if ai wins, no throws are needed; if ai loses, nothing can be done anyway
-            return
+            return 0
         elif len(counter) == 2: # two groups of the same number
             if 4 in counter.values(): # Four-of-a-Kind; at this point it won't hurt to try getting Five-of-a-Kind
                 result_1 = list(k for k, v in counter.iteritems() if v == 1) # we find the single left dice value
@@ -43,7 +43,7 @@ init -11 python:
                 return result
             else: # Full House
                 if dice_poker_decide_winner(dice_1, dice_2) in [1, 0]: # ai already has good hand
-                    return
+                    return 0
                 else: # if not then it throws the lesser dice in hopes to get a good Four-of-a-Kind
                     i = min(counter.keys())
                     result = dice_1.index(i) + 1
@@ -76,7 +76,7 @@ init -11 python:
             checking_list = [2, 3, 4, 5, 6]
             result = list(i for i in dice_1 if i in checking_list)
             if len(result) == 5: # Six High Straight
-                return
+                return 0
             elif len(result) == 4: # no pairs and one wrong dice for High Straight, like [1, 3, 4, 5, 6]; we should throw the wrong one ie 1
                 result_1 = list(i for i in dice_1 if i not in result)
                 result = dice_1.index(result_1[0]) + 1
@@ -85,7 +85,7 @@ init -11 python:
             checking_list = [1, 2, 3, 4, 5]
             result = list(i for i in dice_1 if i in checking_list)
             if len(result) == 5: # Five High Straight
-                return
+                return 0
             elif len(result) == 4:
                 result_1 = list(i for i in dice_1 if i not in result)
                 result = dice_1.index(result_1[0]) + 1

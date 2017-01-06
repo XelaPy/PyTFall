@@ -254,3 +254,10 @@ init:
     image healing_be_size20 = ProportionalScale("content/gfx/interface/images/elements/healing.png", 18, 18)
     image poison_be_size20 = ProportionalScale("content/gfx/interface/images/elements/poison.png", 20, 20)
     image physical_be_size20 = ProportionalScale("content/gfx/interface/images/elements/physical.png", 20, 20)
+    
+    image skills_book_plus = ProportionalScale("content/gfx/be/buffs/skills_book_plus.png", 18, 18)
+    image skills_book_minus = ProportionalScale("content/gfx/be/buffs/skills_book_minus.png", 18, 18)
+    image skills_knowledge_plus = ProportionalScale("content/gfx/be/buffs/skills_knowledge_plus.png", 18, 18)
+    image skills_knowledge_minus = ProportionalScale("content/gfx/be/buffs/skills_knowledge_minus.png", 18, 18)
+    image skills_perf_plus = ProportionalScale("content/gfx/be/buffs/skills_perf_plus.png", 17, 17)
+    image skills_perf_minus = ProportionalScale("content/gfx/be/buffs/skills_perf_minus.png", 17, 17)

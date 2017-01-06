@@ -29,7 +29,10 @@ init -9 python:
             self.trackers = set()
 
             # Flags for exploration tasks on "area" scope.
+            self.camp = None
             self.building_camp = False
+            self.camp_build_points_current = 0
+            self.camp_build_points_required = 1000
 
         @property
         def teams(self):
@@ -165,7 +168,7 @@ init -6 python:
             # jump("fg_management")
 
         def log(self, txt, name="", nd_log=True, ui_log=False, **kwargs):
-            obj = ExLog(name, txt, nd_log, ui_log, **kwargs)
+            obj = ExplorationLog(name, txt, nd_log, ui_log, **kwargs)
             self.logs.append(obj)
             return obj
 
@@ -214,7 +217,7 @@ init -6 python:
             NextDayEvents.append(evt)
 
 
-    class ExLog(Action):
+    class ExplorationLog(Action):
         """Stores resulting text and data for SE.
 
         Also functions as a screen action for future buttons. Maybe...
@@ -663,7 +666,7 @@ init -6 python:
                             # tracker.log(temp)
 
         def combat_mobs(self, tracker, mob, opfor_team_size, log):
-            # log is the exlog object we add be reports to!
+            # log is the ExplorationLog object we add be reports to!
             # Do we really need to pass team size to this method instead of figuring everything out here?
 
             team = tracker.team
