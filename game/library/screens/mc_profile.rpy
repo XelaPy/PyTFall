@@ -260,7 +260,7 @@ init:
             spacing 1
             pos (1142, 156)
             button:
-                action SetScreenVariable("rframe_display", "skills"), With(dissolve)
+                action Hide("show_trait_info"), SetScreenVariable("rframe_display", "skills"), With(dissolve)
                 text "Skills" style "pb_button_text"
             button:
                 action SetScreenVariable("rframe_display", "traits"), With(dissolve)
@@ -414,18 +414,18 @@ init:
                 text "Status" style "pb_button_text"
                 hovered tt.Action("Show Hero Stats")
             button:
-                action Show("hero_team", transition=dissolve)#, With(dissolve)
+                action Hide("show_trait_info"), Show("hero_team", transition=dissolve)#, With(dissolve)
                 text "Team" style "pb_button_text"
                 hovered tt.Action("Show [hero.team.name]!")#, With(dissolve)
             button:
-                action Return(['hero', 'equip'])#, With(dissolve)
+                action Hide("show_trait_info"), Return(['hero', 'equip'])#, With(dissolve)
                 text "Equipment" style "pb_button_text"
                 hovered tt.Action("Take a look at your inventory.")
             button:
-                action Show("hero_finances")#, With(dissolve)
+                action Hide("show_trait_info"), Show("hero_finances")#, With(dissolve)
                 text "Finance" style "pb_button_text"
             button:
-                action If(hero.friends | hero.lovers, true=[SetScreenVariable("lframe_display", "friends"), With(dissolve)])
+                action Hide("show_trait_info"), If(hero.friends | hero.lovers, true=[SetScreenVariable("lframe_display", "friends"), With(dissolve)])
                 text "Friends" style "pb_button_text"
                 
         # AP ====================================>
@@ -443,7 +443,7 @@ init:
             pos (900, 7) # (178, 70)
             idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
             hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
-            action Return(['control', 'return'])
+            action Hide("show_trait_info"), Return(['control', 'return'])
             hovered tt.Action("Return to previous screen!")
         
         # EXP BAR ====================================>

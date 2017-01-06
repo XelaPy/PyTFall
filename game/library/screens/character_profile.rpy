@@ -120,12 +120,13 @@ label char_profile:
             if result[0] == 'control':
                 $ index = girls.index(char)
                 if result[1] == 'left':
-                   $ index = (index - 1) % len(girls)
-                   $ char = girls[index]
+                    $ index = (index - 1) % len(girls)
+                    $ char = girls[index]
+                    hide screen show_trait_info
                 elif result[1] == 'right':
                     $ index = (index + 1) % len(girls)
                     $ char = girls[index]
-                    
+                    hide screen show_trait_info
                 elif result[1] == 'return':
                     jump char_profile_end
 
@@ -207,7 +208,7 @@ screen char_profile():
                     button:
                         xysize (140, 40)
                         style "left_wood_button"
-                        action Return(['control', 'left'])
+                        action Hide("show_trait_info"), Return(['control', 'left'])
                         hovered tt.action("<== Previous Girl")
                         text "Previous Girl" style "wood_text" xalign(0.69)
                     
@@ -216,7 +217,7 @@ screen char_profile():
                     button:
                         xysize (140, 40)
                         style "right_wood_button"
-                        action Return(['control', 'right'])
+                        action Hide("show_trait_info"), Return(['control', 'right'])
                         hovered tt.action("Next Girl ==>")
                         text "Next Girl" style "wood_text" xalign(0.19)  
         
@@ -583,7 +584,7 @@ screen char_profile():
                     spacing 5
                     button:
                         xysize (150, 40)
-                        action If(not_escaped, true=Show("girl_control"))
+                        action Hide("show_trait_info"), If(not_escaped, true=Show("girl_control"))
                         hovered tt.action('Set desired behaviour for [char.nickname].')
                         text "Girl Control"
                     button:
@@ -606,7 +607,7 @@ screen char_profile():
                         text "Training"
                     button:
                         xysize (150, 40)
-                        action If(not_escaped, true=Show("girl_finances"))
+                        action Hide("show_trait_info"), If(not_escaped, true=Show("girl_finances"))
                         hovered tt.action("Review Finances!")
                         text "Finances"
                     button:
