@@ -106,7 +106,8 @@ init -1 python: # Core classes:
                         t = None
 
                         # making known whos turn it is:
-                        renpy.show("its_my_turn", at_list=[Transform(additive=.8, alpha=.7, xzoom=1.7, yzoom=1.2, pos=battle.get_cp(ev, type="bc", yo=20), anchor=(.5, 1.0))], zorder=ev.besk["zorder"]+1)
+                        w, h = ev.besprite_size
+                        renpy.show("its_my_turn", at_list=[Transform(additive=.6, alpha=.7, size=(int(w*1.5), h/3), pos=battle.get_cp(ev, type="bc", yo=20), anchor=(.5, 1.0))], zorder=ev.besk["zorder"]+1)
 
                         while not (s and t):
                             s = renpy.call_screen("pick_skill", ev)
@@ -1492,9 +1493,10 @@ init -1 python: # Core classes:
             """Target damage graphical effects.
             """
             type = self.target_sprite_damage_effect.get("gfx", "shake")
-            # We want to overwrite any damage to sprite in case of a miss!
 
-            for target in targets:
+            for target in [t for t in targets if not "missed_hit" in t.beeffects]:
+                at_list = []
+
                 if type == "shake":
                     what = target.besprite
                     at_list = [damage_shake(0.05, (-10, 10))]
@@ -1505,17 +1507,14 @@ init -1 python: # Core classes:
                     child = Transform("content/gfx/be/frozen.jpg", size=target.besprite_size)
                     mask = target.besprite
                     what = AlphaMask(child, mask)
-                    at_list=[]
                 elif type == "darken":
                     child = Transform("content/gfx/be/darken.jpg", size=target.besprite_size)
                     mask = target.besprite
                     what = AlphaMask(child, mask)
-                    at_list=[]
                 elif type == "poisoned":
                     child = Transform("content/gfx/be/poisoned.jpg", size=target.besprite_size)
                     mask = target.besprite
                     what = AlphaMask(child, mask)
-                    at_list=[]
                 elif type == "frozen":
                     size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
                     what = Fixed(target.besprite, Transform("content/gfx/be/frozen_2.png", size=size, offset=(-30, -50)))
@@ -1525,25 +1524,27 @@ init -1 python: # Core classes:
                     child = Transform("fire_mask", size=target.besprite_size)
                     mask = target.besprite
                     what = AlphaMask(child, mask)
-                    at_list=[]
                 elif type == "on_fire":
                     size = (int(target.besprite_size[0]*1.1), int(target.besprite_size[1]*1.0))
                     child = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
                     mask = Transform("flame_bm", size=size)
                     what = AlphaMask(child, mask)
-                    at_list=[]
-                elif type == "on_water":
-                    # child = Transform("water_bm", size=target.besprite_size)
-                    # mask = target.besprite
-                    # what = AlphaMask(child, mask)
-                    # at_list=[]
-                    pass
+                elif type.startswith("on_water"):
+                    sprite = target.besprite
+                    sprite_size = target.besprite_size
+                    mask = Transform("be_water_mask", size=sprite_size)
+                    what = Fixed(xysize=sprite_size)
+                    what.add(sprite)
+                    what.add(AlphaMask(mask, sprite))
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
                 elif isinstance(type, basestring) and type.startswith("fire"):
-                    what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
-                    if type == "fire":
-                        at_list = []
-                    elif type == "fire_shake":
-                        at_list=[damage_shake(0.05, (-10, 10))]
+                        what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
+                        if type == "fire":
+                            at_list = []
+                        elif type == "fire_shake":
+                            at_list = [damage_shake(0.05, (-10, 10))]
+
 
                 if "what" in locals() and not "missed_hit" in target.beeffects:
                     renpy.show(target.betag, what=what, at_list=at_list, zorder=target.besk["zorder"])

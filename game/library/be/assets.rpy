@@ -826,7 +826,7 @@ label load_battle_skills:
                                                 desc="Hits the taget with a massive water blast!",
                                                 attacker_effects={"gfx": "orb", "sfx": "default"},
                                                 main_effect={"atl": water_combined, "predict": ["water_attack", "water_wave"], "left_args": [1.8, -300], "right_args": [-1.8, 300], "sfx": "content/sfx/sound/be/water7.mp3", "duration": 1.6},
-                                                target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.6, "duration": 0.9},
+                                                target_sprite_damage_effect={"gfx": "on_water_shake", "initial_pause": .6, "duration": .9},
                                                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.6},
                                                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
         # Ice:
