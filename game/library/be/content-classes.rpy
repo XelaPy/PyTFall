@@ -333,32 +333,14 @@ init python:
                            sfx=None, gfx=None, zoom=None, aim=None, xo=0, yo=0, pause=None, anchor=None, casting_effects=None, target_damage_gfx=None, # <=== These should die off in time!
                            **kwargs):
             super(SimpleSkill, self).__init__(name,
-                                                                               attacker_action=attacker_action,
-                                                                               attacker_effects=attacker_effects,
-                                                                               main_effect=main_effect,
-                                                                               target_sprite_damage_effect=target_sprite_damage_effect,
-                                                                               target_damage_effect=target_damage_effect,
-                                                                               target_death_effect=target_death_effect, dodge_effect=dodge_effect,
-                                                                               sfx=sfx, gfx=gfx, pause=pause, zoom=zoom,
-                                                                               **kwargs)
-
-            # Old GFX properties:
-            if not self.sorting_index:
-                if aim:
-                    self.main_effect["aim"]["point"] = aim
-                if xo:
-                    self.main_effect["aim"]["xo"] = xo
-                if yo:
-                    self.main_effect["aim"]["yo"] = yo
-                if anchor:
-                    self.main_effect["aim"]["anchor"] = anchor
-                if casting_effects:
-                    self.attacker_effects["gfx"] = casting_effects[0]
-                    self.attacker_effects["sfx"] = casting_effects[1]
-                if target_damage_gfx:
-                    self.target_sprite_damage_effect["initial_pause"] = target_damage_gfx[0]
-                    self.target_sprite_damage_effect["gfx"] = target_damage_gfx[1]
-                    self.target_sprite_damage_effect["duration"] = target_damage_gfx[2]
+                                               attacker_action=attacker_action,
+                                               attacker_effects=attacker_effects,
+                                               main_effect=main_effect,
+                                               target_sprite_damage_effect=target_sprite_damage_effect,
+                                               target_damage_effect=target_damage_effect,
+                                               target_death_effect=target_death_effect, dodge_effect=dodge_effect,
+                                               sfx=sfx, gfx=gfx, pause=pause, zoom=zoom,
+                                               **kwargs)
 
             # New GFX properties:
             self.attacker_action["gfx"] = self.attacker_action.get("gfx", "step_forward")
