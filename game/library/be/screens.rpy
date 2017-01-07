@@ -13,7 +13,11 @@ init: # screens:
         # add Solid("F00", xysize=(30, 30)) pos BDP["perfect_middle_right"] anchor .5, .5
         # add Solid("F00", xysize=(30, 30)) pos BDP["perfect_middle_left"] anchor .5, .5
 
-        add Transform("its_my_turn", xzoom=1.7, yzoom=1.2) pos battle.get_cp(source, type="bc", yo=20) anchor .5, 1.0
+        # add Transform("its_my_turn", xzoom=1.7, yzoom=1.2) pos battle.get_cp(source, type="bc", yo=20) anchor .5, 1.0
+        python:
+            img = im.Flip("content/gfx/interface/buttons/blue_arrow_up.png", vertical=True)
+            idle_image = im.MatrixColor(img, im.matrix.opacity(.7))
+            selected_img = im.MatrixColor(img, im.matrix.tint(1.0, .6, 1.0)*im.matrix.brightness(0.15))
 
         for t in targets:
             $ pos = battle.get_cp(t, type="tc", yo=-40)
@@ -21,10 +25,10 @@ init: # screens:
                 pos pos
                 xanchor 0.5
                 if highlight_idle:
-                    idle im.Flip(im.MatrixColor("content/gfx/interface/buttons/blue_arrow_up.png", im.matrix.brightness(0.15)), vertical=True)
+                    idle selected_img
                 else:
-                    idle im.Flip("content/gfx/interface/buttons/blue_arrow_up.png", vertical=True)
-                hover im.Flip(im.MatrixColor("content/gfx/interface/buttons/blue_arrow_up.png", im.matrix.brightness(0.15)), vertical=True)
+                    idle idle_image
+                hover selected_img
                 if return_all:
                     action Return(targets)
                 else:
@@ -185,8 +189,6 @@ init: # screens:
 
                 if len(attacks) == 1:
                     timer .01 action Return(attacks[0])
-
-
 
         elif menu_mode == "magic":
             python:
