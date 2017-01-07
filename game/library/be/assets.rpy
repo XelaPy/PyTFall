@@ -893,7 +893,7 @@ label load_battle_skills:
                                            desc="Brings a small flow of magma to the surface.",
                                            attacker_effects={"gfx": "earth_2", "sfx": "default"},
                                            main_effect={"gfx": Transform("magma", zoom=2.0), "sfx": "content/sfx/sound/be/rift_line.mp3", "duration": 3.2, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 75}},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.7, "duration": 2.2},
+                                           target_sprite_damage_effect={"gfx": "shake", "master_shake": True, "initial_pause": 0.7, "duration": 2.2},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.8},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
         ArealSkill("Fist of Bethel", menu_pos=13, menuname="FoB", attributes=["magic", "earth", "inevitable"], effect=200, multiplier=10.0, mp_cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
