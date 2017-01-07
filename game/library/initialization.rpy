@@ -508,8 +508,13 @@ init -999 python:
             tag = fname[:-4]
             image = 'content/dungeon/' + fname
             renpy.image(tag, image)
-            if fname[:12] == "dungeon_left":
-                renpy.image("dungeon_right"+tag[12:], Transform(image, xzoom=-1))
+
+    for blend in ('door', 'torch', 'door_torch'):
+        for fname in os.listdir(gamedir + '/content/dungeon/' + blend):
+            if fname.endswith('.png'):
+                tag = fname[:-4]
+                image = 'content/dungeon/'+ blend +'/' + fname
+                renpy.image(tag, image)
 
     # Auto-Animations are last
     def load_frame_by_frame_animations_from_dir(folder):

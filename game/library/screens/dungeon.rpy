@@ -73,6 +73,7 @@ screen dungeon_move:
         key "K_KP7" action Return(value=7)
         key "K_KP8" action Return(value=8)
         key "K_KP9" action Return(value=9)
+        key "K_l" action Return(value=100) # light
         key "K_LEFT" action Return(value=4)
         key "K_UP" action Return(value=8)
         key "K_RIGHT" action Return(value=6)
@@ -123,9 +124,10 @@ label enter_dungeon:
         stage1=Stage(file.read().splitlines())#,enemy=goblin)
         file.close()
         bumped = False
-        accesible_area = ["0","2"]
-        visible_area = ["1"]
-        transparent_area = ["0","2"]
+        accesible_area = set(["0","2","3"])
+        visible_area = set(["1","3"])
+        transparent_area = set(["0","2"])
+        light=""
 
 
     # Place a player position on a dungeon stage (stage,y,x,dy,dx).
@@ -135,10 +137,11 @@ label enter_dungeon:
     while True:
         # Composite background images.
         scene
-        show dungeon_floor
         python:
+            renpy.show("dungeon_%sbackground"%light)
             # compile front to back, a list of what area are walls to be shown, behind wall we don't show.
-            sided = ["left%dc", "left%db", "left%d", "front%d", "right%d", "right%db", "right%dc"]
+            sided = ["%s%sleft%dc", "%s%sleft%db", "%s%sleft%d", "%s%sfront%d", "%s%sright%d", "%s%sright%db", "%s%sright%dc"]
+            blend = {"1": "dungeon_", "3": "dungeon_door_"}
             areas = [[0, -1], [0, 1], [1, 0]]
             show = []
 
@@ -158,7 +161,7 @@ label enter_dungeon:
 
                 if here.stage.map[y][x] in visible_area:
 
-                    show.append(sided[lateral+3] % distance) # a wall, need to draw.
+                    show.append(sided[lateral+3] % (blend[here.stage.map[y][x]], light, distance)) # a wall or so, need to draw.
 
                 if here.stage.map[y][x] in transparent_area: # need to draw what's behind it.
 
@@ -166,12 +169,12 @@ label enter_dungeon:
                     # a wall, the area is not yet drawn, draw it, unless we cannot see it.
                     if lateral >= 0 and (distance == lateral*2 or distance > lateral*2
                                          and here.stage.map[y+here.dx-here.dy][x-here.dy-here.dx] not in transparent_area
-                                         and here.stage.map[y-here.dy][x-here.dx] in transparent_area):
+                                         and ((distance == 1 and lateral == 0) or here.stage.map[y-here.dy][x-here.dx] in transparent_area)):
                         areas.append([distance, lateral + 1])
 
                     if lateral <= 0 and (distance == -lateral*2 or distance > -lateral*2
                                          and here.stage.map[y-here.dx-here.dy][x+here.dy-here.dx] not in transparent_area
-                                         and here.stage.map[y-here.dy][x-here.dx] in transparent_area):
+                                         and ((distance == 1 and lateral == 0) or here.stage.map[y-here.dy][x-here.dx] in transparent_area)):
                         areas.append([distance, lateral - 1])
 
                     if distance < 5:
@@ -179,9 +182,10 @@ label enter_dungeon:
 
             # finally draw walls, back to front, lateral to central.
             for s in reversed(show):
-                renpy.show("dungeon_%s"%s)
+                renpy.show(s)
 
         # Check events. If it happens, call a label or jump out to a label.
+        # XXX: this probably should change
         if here.stage.enemy is not None and renpy.random.random()< .2:
             call dungeon_battle(player=party, enemy=here.stage.enemy)
 
@@ -231,6 +235,9 @@ label enter_dungeon:
                 elif not bumped:
                     renpy.play("content/sfx/sound/dungeon/bump.ogg")
                     bumped = True
+
+            elif _return == 100:
+                light = "" if light != "" else "torch_"
 
             if here.stage.map[here.y][here.x] == "2":
                 renpy.say("", "Finally, there's a hatch here, you climb out of the catacombs.")
