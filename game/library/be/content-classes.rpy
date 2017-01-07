@@ -137,16 +137,10 @@ init python:
 
     # Plain Events:
     class RunQuotes(BE_Event):
-        """
-        Anything that happens in the BE.
-        Can be executed in RT or added to queues where it will be called.
-        This is just to show off the structure...
-        """
         def __init__(self, team):
             self.team = team
 
         def check_conditions(self):
-            # We want to run this no matter the f*ck what or we'll have fighting corpses on our hands :)
             return True
 
         def kill(self):
@@ -325,7 +319,6 @@ init python:
 
 
     # Actions:
-    # Simple Attack:
     class SimpleSkill(BE_Action):
         """Simplest attack, usually simple magic.
         """
@@ -735,6 +728,7 @@ init python:
     class BasicHealingSpell(SimpleSkill):
         def __init__(self, name, **kwargs):
             super(BasicHealingSpell, self).__init__(name, **kwargs)
+            self.kind = "healing"
 
         def effects_resolver(self, targets):
             if not isinstance(targets, (list, tuple, set)):
@@ -774,11 +768,13 @@ init python:
         def __init__(self, *args, **kwargs):
             super(BasicPoisonSpell, self).__init__(*args, **kwargs)
             self.event_class = PoisonEvent
+            self.kind = "damage_over_time"
 
 
     class ReviveSpell(SimpleSkill):
         def __init__(self, name, **kwargs):
             super(ReviveSpell, self).__init__(name, **kwargs)
+            self.kind = "revival"
 
 
         def check_conditions(self, source=None):
@@ -865,6 +861,8 @@ init python:
             self.defence_multiplier = kwargs.get("defence_multiplier", {}) # This is the def multiplier.
             self.buff_icon = kwargs.get("buff_icon", None)
             self.buff_group = kwargs.get("buff_group", self.__class__)
+
+            self.kind = "buff"
 
         def effects_resolver(self, targets):
             if not isinstance(targets, (list, tuple, set)):

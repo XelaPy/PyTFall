@@ -486,6 +486,8 @@ init -1 python: # Core classes:
                 self.mn = menuname
             self.manucat = menucat
 
+            self.kind = kwargs.get("kind", "assault") # Kind reffers to type of the attack, like assault, healing, damage_over_time, revival and etc.
+
             # Logic:
             self.range = range
             self.source = source
@@ -1765,7 +1767,7 @@ init -1 python: # Core classes:
             self.source = source
 
         def __call__(self):
-            skills = self.get_skills()
+            skills = self.get_availible_skills()
             if skills:
                 skill = choice(skills)
                 # So we have a skill... now lets pick a target(s):
@@ -1776,28 +1778,50 @@ init -1 python: # Core classes:
                 skill(ai=True, t=targets)
 
             else:
-                skill = BE_Skip(source=self.source)
-                skill()
+                BE_Skip(source=self.source)()
 
-        def get_skills(self):
+        def get_availible_skills(self):
             allskills = list(self.source.attack_skills) + list(self.source.magic_skills)
-            skills = [s for s in allskills if s.check_conditions(self.source)]
-
-            # for skill in allskills:
-                # t = skill.get_targets(source=self.source)
-                # if t:
-                    # skills.append(skill)
-
-            # for skill in skills[:]:
-                # skill.source = self.source
-                # if not skill.check_conditions():
-                    # skills.remove(skill)
-            return skills
+            return [s for s in allskills if s.check_conditions(self.source)]
 
 
-    class Slave_BE_AI(object): # for slaves involved in combat, skips every turn since they are not allowed to fight.
+    class Complex_BE_AI(BE_AI):
+        """This one does a lot more "thinking".
+
+        Possible options (Copied from GitHub Issue):
+            Elemental affinities.
+            Personalities (of AI).
+            Intelligence (How smart it actually should be).
+            Healing/Reviving.
+            Favorite attacks/spells?
+            Test multiple scenarios to see if we get infinite loops anywhere.
+        """
         def __init__(self, source):
-            self.source = source
+            super(Complex_BE_AI, self).__init__(source=source)
+
         def __call__(self):
-            skill = Slave_BE_Skip(source=self.source)
-            skill()
+            skills = self.get_availible_skills()
+            if not skills:
+                BE_Skip(source=self.source)()
+                return
+
+            # Split skills in containers:
+            attack_skills = [s for s in skills if s.kind == "assault"]
+            healing_skills = [s for s in skills if s.kind == "healing"]
+            buffs = [s for s in skills if s.kind == "buffs"]
+            revive_skills = [s for s in skills if s.kind == "ravival"]
+
+            skill = choice(skills)
+            # So we have a skill... now lets pick a target(s):
+            skill.source = self.source
+            targets = skill.get_targets() # Get all targets in range.
+            targets = targets if "all" in skill.type else choice(targets) # We get a correct amount of targets here.
+
+            skill(ai=True, t=targets)
+
+
+    class Slave_BE_AI(BE_AI): # for slaves involved in combat, skips every turn since they are not allowed to fight.
+        def __init__(self, source):
+            super(Slave_BE_AI, self).__init__(source=source)
+        def __call__(self):
+            Slave_BE_Skip(source=self.source)()
