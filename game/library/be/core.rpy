@@ -104,6 +104,10 @@ init -1 python: # Core classes:
                         # Call the skill choice screen:
                         s = None
                         t = None
+
+                        # making known whos turn it is:
+                        renpy.show("its_my_turn", at_list=[Transform(additive=.8, alpha=.7, xzoom=1.7, yzoom=1.2, pos=battle.get_cp(ev, type="bc", yo=20), anchor=(.5, 1.0))], zorder=ev.besk["zorder"]+1)
+
                         while not (s and t):
                             s = renpy.call_screen("pick_skill", ev)
                             s.source = ev
@@ -115,11 +119,12 @@ init -1 python: # Core classes:
                             # Call the targeting screen:
                             targets = s.get_targets()
 
-                            t = renpy.call_screen("target_practice", s, targets)
+                            t = renpy.call_screen("target_practice", s, ev, targets)
 
                         # We don't need to see status icons during skill executions!
                         if not self.logical:
                             renpy.hide_screen("be_status_overlay")
+                            renpy.hide("its_my_turn")
                         s(t=t) # This actually executes the skill!
                         if not self.logical:
                             renpy.show_screen("be_status_overlay")
