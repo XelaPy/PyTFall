@@ -498,7 +498,6 @@ init -1 python: # Core classes:
             self.attributes = attributes
             self.effect = effect
             self.multiplier = multiplier
-            self.death_effect = death_effect
             self.desc = desc
             self.target_state = target_state
             self.menu_pos = menu_pos # Skill level might be a better name.
@@ -510,10 +509,7 @@ init -1 python: # Core classes:
             except:
                 self.delivery = ""
 
-            # try:
             self.damage = [d for d in self.attributes if d in self.DAMAGE]
-            # except:
-                # self.damage = []
 
             self.tags_to_hide = list() # BE effects tags of all kinds, will be hidden when the show gfx method runs it's cource and cleared for the next use.
 
@@ -555,16 +551,6 @@ init -1 python: # Core classes:
             if self.bg_main_effect["gfx"]:
                 self.bg_main_effect["initial_pause"] = self.bg_main_effect.get("initial_pause", self.main_effect["start_at"])
                 self.bg_main_effect["duration"] = self.bg_main_effect.get("duration", main_effect.get("duration", 0.4))
-
-            if sfx:
-                self.main_effect["sfx"] = sfx # This is for really simple attacks. ==> Now declared differently for ALL NORMAL ATTACK TYPES!
-            if gfx:
-                # Zoom:
-                # Zoom factors the size of the main displayable of the attack (if there is one). Use floats, 1.0 represents original size, -1 will invert (flip) the image.
-                # I am reluctant of supporting this in the future as it can be plainly added to declaration with a Transform...
-                self.main_effect["gfx"] = Transform(gfx, zoom=zoom) if zoom else gfx # This is for really simple attacks. ==> Now declared differently for ALL NORMAL ATTACK TYPES!
-            if pause:
-                self.main_effect["duration"] = pause
 
         def __call__(self, ai=False, t=None):
             self.effects_resolver(t)
