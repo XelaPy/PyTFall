@@ -790,18 +790,24 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "shake", "sfx": None, "initial_pause": 0.1, "duration": 1.4},
                                            target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
-        SimpleSkill(u"Waterga", menu_pos=2, attributes=["magic", "water"], effect=20, multiplier=1.3, mp_cost=6, range=4, attacker_effects={"gfx": "water_1", "sfx": "default"}, gfx="water_3", zoom=1.5, pause=2.5, target_sprite_damage_effect={"gfx": "shake", "sfx": None, "initial_pause": 0.1, "duration": 2.0}, sfx="content/sfx/sound/be/water2.mp3", piercing=True,
-                                           aim="bc", anchor=(0.5, 1.0), yo=40,
-                                           desc="A cloud of water droplets at high speed crashes into the target.")
+        SimpleSkill(u"Waterga", menu_pos=2, attributes=["magic", "water"], effect=20, multiplier=1.3, mp_cost=6, range=4, desc="A cloud of water droplets at high speed crashes into the target.",
+                                           attacker_effects={"gfx": "water_1", "sfx": "default"},
+                                           main_effect={"gfx": Transform("water_3", zoom=1.5), "sfx": "content/sfx/sound/be/water2.mp3", "duration": 2.5, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}, "start_at": 0},
+                                           target_sprite_damage_effect={"gfx": "shake", "sfx": None, "initial_pause": 0.1, "duration": 1.9},
+                                           target_damage_effect={"gfx": "battle_bounce", "sfx": None},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
         SimpleSkill(u"Waterja", menu_pos=3, attributes=["magic", "water"], effect=20, multiplier=1.0, mp_cost=8, range=4, type="all_enemies", piercing=True, desc="Strongest common Water attack in use. Creates a powerful burst of water and steam from the ground.",
                                            attacker_effects={"gfx": "water_1", "sfx": "default"},
                                            main_effect={"gfx": Transform("water_4", zoom=1.5), "sfx": "content/sfx/sound/be/water3.mp3", "duration": 2.25, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}, "start_at": 0},
                                            target_sprite_damage_effect={"gfx": "shake", "sfx": None, "initial_pause": 0.3, "duration": 1.9},
                                            target_damage_effect={"gfx": "battle_bounce", "sfx": None, "initial_pause": 2.2},
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 1.2, "duration": .5})
-        SimpleSkill(u"Geyser", menu_pos=10, attributes=["magic", "water"], effect=50, multiplier=3.0, mp_cost=12, range=6, attacker_effects={"gfx": "water_2", "sfx": "default"}, gfx="water_5", zoom=1.9, pause=3.0, target_sprite_damage_effect={"gfx": "shake", "sfx": None, "initial_pause": 0.5, "duration": 2.5}, sfx="content/sfx/sound/be/water6.mp3",
-                                           aim="bc", anchor=(0.5, 1.0), yo=60,
-                                           desc="A powerful stream of water shoots out of the ground directly beneath the target.")
+        SimpleSkill(u"Geyser", menu_pos=10, attributes=["magic", "water"], effect=50, multiplier=3.0, mp_cost=12, range=6, desc="A powerful stream of water shoots out of the ground directly beneath the target.",
+                                           attacker_effects={"gfx": "water_2", "sfx": "default"},
+                                           main_effect={"gfx": Transform("water_5", zoom=1.9), "sfx": "content/sfx/sound/be/water6.mp3", "duration": 3.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 60}, "start_at": 0},
+                                           target_sprite_damage_effect={"gfx": "shake", "sfx": None, "initial_pause": 0.5, "duration": 2.5},
+                                           target_damage_effect={"gfx": "battle_bounce", "sfx": None, "initial_pause": 2.2},
+                                           target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 1.2, "duration": .5})
         SimpleSkill(u"Last Drop", menu_pos=11, attributes=["magic", "water"], effect=40, multiplier=1.8, mp_cost=10, piercing=True, range=6,
                                            desc="Hits the taget with a massive water blast from above.",
                                            attacker_effects={"gfx": "water_2", "sfx": "default"},
@@ -809,9 +815,13 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.0, "duration": 3.5},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.1},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.1, "duration": 0.5})
-        SimpleSkill(u"Heavy Rain", menu_pos=12, attributes=["magic", "water"], effect=80, multiplier=4.0, mp_cost=15, range=6, attacker_effects={"gfx": "water_2", "sfx": "default"}, gfx="rain", zoom=2.0, pause=5.0, target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.25, "duration": 4.75}, sfx="content/sfx/sound/be/heavy_rain.mp3", type="all_enemies",
-                                           aim="bc", anchor=(0.5, 1.0), yo=80,
-                                           desc="Summons a rain of extra heavy water from another dimension.")
+        SimpleSkill(u"Heavy Rain", menu_pos=12, attributes=["magic", "water"], effect=80, multiplier=4.0, mp_cost=15, type="all_enemies", range=6,
+                                           desc="Summons a rain of extra heavy water from another dimension.",
+                                           attacker_effects={"gfx": "water_2", "sfx": "default"},
+                                           main_effect={"gfx": Transform("rain", zoom=2.0), "sfx": "content/sfx/sound/be/heavy_rain.mp3", "duration": 5.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 80}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.0, "duration": 3.8},
+                                           target_damage_effect={"gfx": "battle_bounce", "initial_pause": 4.5},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.1, "duration": 0.5})
         ATL_ArealSkill(u"Water Blast", menu_pos=13, attributes=["magic", "water", "inevitable"], effect=200, multiplier=10.0, mp_cost=30, piercing=True, range=6, type="all_enemies",
                                                 desc="Hits the taget with a massive water blast!",
                                                 attacker_effects={"gfx": "orb", "sfx": "default"},
@@ -820,19 +830,30 @@ label load_battle_skills:
                                                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.6},
                                                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
         # Ice:
-        SimpleSkill(u"Blizzard", menu_pos=0, attributes=["magic", "ice"], effect=20, multiplier=1.2, mp_cost=5, range=4, gfx="ice_1", attacker_effects={"gfx": "ice_1", "sfx": "default"}, zoom=1.9, pause=2.5, target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.2, "duration": 1.8}, sfx="content/sfx/sound/be/ice3.mp3", type="all_enemies",
-                                           aim="bc", anchor=(0.5, 1.0), yo=60,
-                                           desc="Creates a cloud of sharp ice splinters.")
-        SimpleSkill(u"Blizzara", menu_pos=1, attributes=["magic", "ice"], effect=20, multiplier=1.6, mp_cost=7, range=4, gfx="ice_2", attacker_effects={"gfx": "ice_1", "sfx": "default"}, zoom=1.3, pause=1.5, target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.55}, sfx="content/sfx/sound/be/ice1.mp3",
-                                           aim="bc", anchor=(0.5, 1.0), yo=80,
-                                           desc="Ice blades grow out of the ground.")
-        SimpleSkill(u"Blizzarga", menu_pos=2, attributes=["magic", "ice"], effect=20, multiplier=1.3, mp_cost=6, range=4, attacker_effects={"gfx": "ice_1", "sfx": "default"}, gfx="ice_4", zoom=1.5, pause=0.8, target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.75}, sfx="content/sfx/sound/be/ice2.mp3", piercing=True,
-                                           aim="bc", anchor=(0.5, 1.0), yo=40,
-                                           desc="Freezes the air itself around the target, creating deadly ice blades.")
-        SimpleSkill(u"Blizzarja", menu_pos=3, attributes=["magic", "ice"], effect=10, multiplier=1.0, mp_cost=4, range=4, gfx="ice_3", attacker_effects={"gfx": "ice_1", "sfx": "default"}, zoom=1.7, pause=1.25, sfx="content/sfx/sound/be/ice2.mp3", type="all_enemies", piercing=True,
-                                           aim="bc", anchor=(0.5, 1.0), yo=60,
-                                           target_sprite_damage_effect={"gfx": "frozen", "initial_pause": 0.1, "duration": 1.1},
-                                           desc="Quickly draws heat from a small area.")
+        SimpleSkill(u"Blizzard", menu_pos=0, attributes=["magic", "ice"], effect=20, multiplier=1.3, mp_cost=5, range=4, type="all_enemies", desc="Creates a cloud of sharp ice splinters.",
+                                           attacker_effects={"gfx": "ice_1", "sfx": "default"},
+                                           main_effect={"gfx": Transform("ice_1", zoom=1.9), "sfx": "content/sfx/sound/be/ice3.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 60}, "start_at": 0},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.2, "duration": 1.8},
+                                           target_damage_effect={"gfx": "battle_bounce", "sfx": None},
+                                           target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 1.5, "duration": 0.4})
+        SimpleSkill(u"Blizzara", menu_pos=1, attributes=["magic", "ice"], effect=20, multiplier=1.6, mp_cost=7, range=4, desc="Ice blades grow out of the ground.",
+                                           attacker_effects={"gfx": "ice_1", "sfx": "default"},
+                                           main_effect={"gfx": Transform("ice_2", zoom=1.3), "sfx": "content/sfx/sound/be/ice1.mp3", "duration": 1.5, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 80}, "start_at": 0},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.35},
+                                           target_damage_effect={"gfx": "battle_bounce", "sfx": None},
+                                           target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 1.0, "duration": 0.4})
+        SimpleSkill(u"Blizzarga", menu_pos=2, attributes=["magic", "ice"], effect=20, multiplier=1.3, mp_cost=6, range=4, desc="Freezes the air itself around the target, creating deadly ice blades.",
+                                           attacker_effects={"gfx": "ice_1", "sfx": "default"}, piercing=True,
+                                           main_effect={"gfx": Transform("ice_4", zoom=1.5), "sfx": "content/sfx/sound/be/ice2.mp3", "duration": 0.8, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}, "start_at": 0},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.7},
+                                           target_damage_effect={"gfx": "battle_bounce", "sfx": None},
+                                           target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 0.6, "duration": 0.3})
+        SimpleSkill(u"Blizzarja", menu_pos=3, attributes=["magic", "ice"], effect=10, multiplier=1.0, mp_cost=4, range=4, desc="Quickly draws heat from a small area.",
+                                           attacker_effects={"gfx": "ice_1", "sfx": "default"}, piercing=True, type="all_enemies",
+                                           main_effect={"gfx": Transform("ice_3", zoom=1.7), "sfx": "content/sfx/sound/be/ice2.mp3", "duration": 1.25, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 60}, "start_at": 0},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.1},
+                                           target_damage_effect={"gfx": "battle_bounce", "sfx": None},
+                                           target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 0.6, "duration": 0.3})
         SimpleSkill(u"Zero Prism", menu_pos=10, attributes=["magic", "ice"], effect=50, multiplier=3.0, mp_cost=12, range=4,
                                            desc="Freezes the target into a solid ice block.",
                                            attacker_effects={"gfx": "ice_2", "sfx": "default"},
@@ -847,10 +868,13 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.7},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
                                            target_death_effect={"gfx": "shatter", "initial_pause": 0.2, "duration": 0.5})
-        SimpleSkill("Hailstorm", menu_pos=12, attributes=["magic", "ice"], effect=40, multiplier=1.8, mp_cost=20, range=4, attacker_effects={"gfx": "orb", "sfx": "default"}, gfx="ice_7", zoom=1.7, pause=2.0, sfx="content/sfx/sound/be/Hailstorm.mp3", piercing=True, true_pierce=True,
-                                           aim="bc", anchor=(0.5, 1.0), yo=50,
+        SimpleSkill(u"Hailstorm", menu_pos=12, attributes=["magic", "ice"], effect=40, multiplier=1.8, mp_cost=20, range=4, piercing=True, true_pierce=True,
+                                           desc="Puts the target in a middle of a small, but violent snow storm.",
+                                           attacker_effects={"gfx": "ice_2", "sfx": "default"},
+                                           main_effect={"gfx": Transform("ice_7", zoom=1.7), "sfx": "content/sfx/sound/be/Hailstorm.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 50}},
                                            target_sprite_damage_effect={"gfx": "iced", "initial_pause": 0.2, "duration": 1.8},
-                                           desc="Puts the target in a middle of a small, but violent snow storm.")
+                                           target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
+                                           target_death_effect={"gfx": "shatter", "initial_pause": 1.9, "duration": 0.5})
         SimpleSkill("Ice Blast", menu_pos=12.5, attributes=["magic", "ice"], effect=100, multiplier=4.5, mp_cost=15, range=4, true_pierce=True, type="se", desc="Summons frozen fragments of meteor.",
                                            attacker_effects={"gfx": "orb", "sfx": "default"},
                                            main_effect={"gfx": Transform("ice_blast", xzoom=-1), "sfx": "content/sfx/sound/be/ice5.mp3", "duration": 2.3, "aim": {"point": "bc", "anchor": (0.5, 0.1), "xo": 120, "yo": -370}, "hflip": True},
@@ -866,29 +890,44 @@ label load_battle_skills:
                                                 target_sprite_damage_effect={"gfx": "iced", "initial_pause": 0.6, "duration": 1.0},
                                                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
         # Earth:
-        SimpleSkill(u"Stone", menu_pos=0, attributes=["magic", "earth"], effect=20, attacker_effects={"gfx": "earth_1", "sfx": "default"}, multiplier=1.2, mp_cost=5, range=4, gfx="earth_1", zoom=1.4, pause=2.0, target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.7}, sfx="content/sfx/sound/be/earth.mp3", type="all_enemies",
-                                           aim="bc", anchor=(0.5, 1.0), yo=40,
-                                           desc="Creates cloud of fragments of hardened clay.")
-        SimpleSkill(u"Stonera", menu_pos=1, attributes=["magic", "earth"], effect=20, multiplier=1.6, attacker_effects={"gfx": "earth_1", "sfx": "default"}, mp_cost=7, range=4, gfx="earth_2", zoom=1.0, pause=1.5, target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.8}, sfx="content/sfx/sound/be/earth.mp3",
-                                           aim="bc", anchor=(0.5, 1.0), yo=10,
-                                           desc="Creates a sharp spike.")
-        SimpleSkill(u"Stonega", menu_pos=2, attributes=["magic", "earth"], effect=20, multiplier=1.3, attacker_effects={"gfx": "earth_1", "sfx": "default"}, mp_cost=6, range=4, gfx="earth_3", zoom=1.2, pause=1.5, target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.2}, sfx="content/sfx/sound/be/earth3.mp3", piercing=True,
-                                           aim="bc", anchor=(0.5, 0.5), yo=0,
-                                           desc="A small amount of magma moves to the surface, spilling on the target.")
-        SimpleSkill(u"Stoneja", menu_pos=3, attributes=["magic", "earth"], effect=20, multiplier=1.0, mp_cost=7, range=4, attacker_effects={"gfx": "earth_1", "sfx": "default"}, gfx="earth_4", pause=1.2, target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.9}, sfx="content/sfx/sound/be/earth2.mp3", piercing=True, type="all_enemies",
-                                           aim="bc", anchor=(0.5, 1.0), yo=40,
-                                           desc="Small part of the target becomes stone and shatters into a thousand pieces.")
+        SimpleSkill(u"Stone", menu_pos=0, attributes=["magic", "earth"], effect=20, multiplier=1.2, mp_cost=5, range=4, type="all_enemies", desc="Creates cloud of fragments of hardened clay.",
+                                           attacker_effects={"gfx": "earth_1", "sfx": "default"},
+                                           main_effect={"gfx": Transform("earth_1", zoom=1.4), "sfx": "content/sfx/sound/be/earth.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}, "start_at": 0},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.7},
+                                           target_damage_effect={"gfx": "battle_bounce", "sfx": None},
+                                           target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 1.5, "duration": 0.5})
+        SimpleSkill(u"Stonera", menu_pos=1, attributes=["magic", "earth"], effect=20, multiplier=1.6, mp_cost=7, range=4, desc="Creates a sharp stone spike.",
+                                           attacker_effects={"gfx": "earth_1", "sfx": "default"},
+                                           main_effect={"gfx": "earth_2", "sfx": "content/sfx/sound/be/earth.mp3", "duration": 1.5, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 10}, "start_at": 0},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.8},
+                                           target_damage_effect={"gfx": "battle_bounce", "sfx": None},
+                                           target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 0.6, "duration": 0.5})
+        SimpleSkill(u"Stonega", menu_pos=2, attributes=["magic", "earth"], effect=20, multiplier=1.3, mp_cost=6, range=4, piercing=True, desc="A small amount of magma moves to the surface, spilling on the target.",
+                                           attacker_effects={"gfx": "earth_1", "sfx": "default"},
+                                           main_effect={"gfx": Transform("earth_3", zoom=1.2), "sfx": "content/sfx/sound/be/earth3.mp3", "duration": 1.5, "aim": {"point": "bc", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.2},
+                                           target_damage_effect={"gfx": "battle_bounce"},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": 0.3})
+        SimpleSkill(u"Stoneja", menu_pos=3, attributes=["magic", "earth"], effect=20, multiplier=1.0, mp_cost=7, range=4, piercing=True, type="all_enemies", desc="Small part of the target becomes stone and shatters into a thousand pieces.",
+                                           attacker_effects={"gfx": "earth_1", "sfx": "default"},
+                                           main_effect={"gfx": Transform("earth_4", zoom=1.2), "sfx": "content/sfx/sound/be/earth2.mp3", "duration": 1.2, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}, "start_at": 0},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.9},
+                                           target_damage_effect={"gfx": "battle_bounce"},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 0.9, "duration": 0.3})
         SimpleSkill(u"Breach", menu_pos=10, attributes=["magic", "earth"], effect=50, multiplier=3.0, mp_cost=12, range=4,
                                            desc="Hot dust and poisonous gases are pulled out of the ground under high pressure.",
                                            attacker_effects={"gfx": "earth_2", "sfx": "default"},
                                            main_effect={"gfx": Transform("earth_5_webm", zoom=1.5), "sfx": "content/sfx/sound/be/earth4.mp3", "duration": 0.86, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 0}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.8},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.7},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": 0.7, "duration": 0.3})
-        SimpleSkill(u"Transmutation", menu_pos=11, menuname="Transmute", attributes=["magic", "earth", "fire"], effect=40, multiplier=1.8, mp_cost=10, range=4, attacker_effects={"gfx": "earth_2", "sfx": "default"}, gfx="earth_6", zoom=1.5, pause=2.0, target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.2, "duration": 1.8}, sfx="content/sfx/sound/be/earth6.mp3", piercing=True,
-                                           aim="bc", anchor=(0.5, 1.0), yo=50,
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 0.7, "duration": 0.15})
+        SimpleSkill(u"Transmutation", menu_pos=11, attributes=["magic", "earth", "fire"], effect=40, multiplier=1.8, mp_cost=10, range=4, dodge_effect={"initial_pause": .2},
                                            desc="The land itself under the target becomes explosive and detonates.",
-                                            dodge_effect={"initial_pause": .2})
+                                           attacker_effects={"gfx": "earth_2", "sfx": "default"},
+                                           main_effect={"gfx": Transform("earth_6", zoom=1.5), "sfx": "content/sfx/sound/be/earth4.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 50}},
+                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.2, "duration": 1.8},
+                                           target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.7},
+                                           target_death_effect={"gfx": "dissolve", "initial_pause": 1.7, "duration": 0.3})
         SimpleSkill(u"Rift Line", menu_pos=12, attributes=["magic", "earth"], effect=80, multiplier=3.0, mp_cost=15, range=4, type="all_enemies", piercing=True, true_pierce=True,
                                            desc="Brings a small flow of magma to the surface.",
                                            attacker_effects={"gfx": "earth_2", "sfx": "default"},
