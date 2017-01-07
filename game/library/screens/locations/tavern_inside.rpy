@@ -32,7 +32,7 @@ label tavern_town:
         tavern_rita "Oh, hello! Welcome to our tavern! We will always have a seat for you! *wink*"
         hide npc
         with dissolve
-        $ global_flags.set_flag("tavern_status", value=[day, "cozy"])
+        $ global_flags.set_flag("tavern_status", value=[day, "brawl"])
     else:
         if global_flags.flag("tavern_status")[0] != day: # every day tavern can randomly have one of three statuses, depending on the status it has very different activities available
             $ tavern_status = weighted_choice([["cozy", 40], ["lively", 40], ["brawl", 20]])
@@ -262,7 +262,7 @@ label city_tavern_thugs_fight: # fight with random thugs in the brawl mode
             mob.controller = BE_AI(mob)
             enemy_team.add(mob)
         back = interactions_pick_background_for_fight("tavern")
-        result = run_default_be(enemy_team, background=back)
+        result = run_default_be(enemy_team, background=back, skill_lvl=3)
 
     scene bg tavern_inside
     with dissolve
