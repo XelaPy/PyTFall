@@ -1543,8 +1543,14 @@ init -1 python: # Core classes:
                 if "what" in locals() and not "missed_hit" in target.beeffects:
                     renpy.show(target.betag, what=what, at_list=at_list, zorder=target.besk["zorder"])
 
+            if self.target_sprite_damage_effect.get("master_shake", False):
+                renpy.layer_at_list([damage_shake(0.05, (-5, 5))], layer='master')
+
         def hide_target_sprite_damage_effect(self, targets, died):
             # Hides damage effects applied to targets:
+            if self.target_sprite_damage_effect.get("master_shake", False):
+                renpy.layer_at_list([], layer='master')
+
             type = self.target_sprite_damage_effect.get("gfx", "shake")
             if type == "frozen":
                 for target in targets:
