@@ -1296,29 +1296,29 @@ label load_battle_skills:
                                                                         target_death_effect={"gfx": "dissolve", "initial_pause": 2, "duration": 0.5},
                                                                         bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 2.6})
         # Healing:
-        BasicHealingSpell(u"Curer", menu_pos=-3, attributes=["magic", "healing", "air"], kind="healing", effect=0, mp_cost=5, range=5, type="all_allies",
-                                      desc="Healing wind restores health for the whole party.",
+        BasicHealingSpell(u"Life Wind", menu_pos=-3, attributes=["magic", "healing", "air"], kind="healing", effect=0.1, mp_cost=10, range=5, type="all_allies",
+                                      desc="Healing wind restores health for the whole party (+10%).",
                                       attacker_action={"gfx": None},
                                       attacker_effects={"gfx": "runes_1", "sfx": "default"},
                                       main_effect={"gfx": Transform("heal_3", zoom=1.4), "sfx": "content/sfx/sound/be/heal3.mp3", "duration": 2.1, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}},
                                       target_sprite_damage_effect={"gfx": None},
                                       target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.0},
                                       target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
-        BasicHealingSpell(u"Cure", menu_pos=-2, attributes=["magic", "healing", "water"], kind="healing", effect=25, mp_cost=8, range=5, type="sa",
-                                      desc="Heals superficial wounds and accelerates the healing of internal ones.",
+        BasicHealingSpell(u"Curer", menu_pos=-2, attributes=["magic", "healing", "water"], kind="healing", effect=0.25, mp_cost=20, range=5, type="sa",
+                                      desc="Heals superficial wounds and accelerates the healing of internal ones (+25%).",
                                       attacker_action={"gfx": None},
                                       attacker_effects={"gfx": "runes_1", "sfx": "default"},
-                                      main_effect={"gfx": Transform("heal_1", zoom=1.4), "sfx": "content/sfx/sound/be/heal1.mp3", "duration": 3.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}},
-                                      target_sprite_damage_effect={"gfx": None},
-                                      target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.0},
-                                      target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
-        BasicHealingSpell(u"Curaga", menu_pos=-1, attributes=["magic", "healing", "water"], kind="healing", effect=10, mp_cost=10, range=5, type="sa", piercing=True, true_pierce=True,
-                                      desc="Heals the whole party at once.",
-                                      attacker_action={"gfx": None},
-                                      attacker_effects={"gfx": "runes_1", "sfx": "default"},
-                                      main_effect={"gfx": Transform("heal_2", zoom=1.4), "sfx": "content/sfx/sound/be/heal2.mp3", "duration": 2.5, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}},
+                                      main_effect={"gfx": Transform("heal_2", zoom=2.4), "sfx": "content/sfx/sound/be/heal2.mp3", "duration": 2.5, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}},
                                       target_sprite_damage_effect={"gfx": None},
                                       target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.7},
+                                      target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
+        BasicHealingSpell(u"Restoration", menu_pos=-1, attributes=["magic", "healing", "light"], kind="healing", effect=0.5, mp_cost=40, range=5, type="sa", piercing=True, true_pierce=True,
+                                      desc="Concentrated flow of positive energy quickly regenerates even severe wounds (+50%).",
+                                      attacker_action={"gfx": None},
+                                      attacker_effects={"gfx": "runes_1", "sfx": "default"},
+                                      main_effect={"gfx": Transform("heal_1", zoom=2.0), "sfx": "content/sfx/sound/be/heal1.mp3", "duration": 3.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}},
+                                      target_sprite_damage_effect={"gfx": None},
+                                      target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.0},
                                       target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
         if config.debug:
             BE_Action(u"DarkTouch", menu_pos=-99, attributes=["magic", "darkness"], effect=999999999, mp_cost=10, range=5,
