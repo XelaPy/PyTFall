@@ -267,6 +267,7 @@ init -1: # Images and Animations
     ########### Healing:
     image heal_1 = FilmStrip("content/gfx/be/filmstrips/heal_1.png", (192, 192), (5, 6), 0.1, loop=False)
     image heal_2 = FilmStrip("content/gfx/be/filmstrips/heal_2.png", (192, 192), (5, 5), 0.1, loop=False)
+    image heal_3 = FilmStrip("content/gfx/be/filmstrips/heal_3.png", (360, 360), (1, 42), 0.05, loop=False)
     image resurrection = FilmStrip("content/gfx/be/filmstrips/resurrection2x.png", (288, 247), (5, 4), 0.1, loop=False)
     ########### Magic Shields:
     image shield_1 = FilmStrip("content/gfx/be/filmstrips/shield_1.png", (192, 192), (5, 4), 0.1, loop=False) # unused, for future effects
@@ -1295,6 +1296,14 @@ label load_battle_skills:
                                                                         target_death_effect={"gfx": "dissolve", "initial_pause": 2, "duration": 0.5},
                                                                         bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 2.6})
         # Healing:
+        BasicHealingSpell(u"Curer", menu_pos=-3, attributes=["magic", "healing", "air"], kind="healing", effect=0, mp_cost=5, range=5, type="all_allies",
+                                      desc="Healing wind restores health for the whole party.",
+                                      attacker_action={"gfx": None},
+                                      attacker_effects={"gfx": "runes_1", "sfx": "default"},
+                                      main_effect={"gfx": Transform("heal_3", zoom=1.4), "sfx": "content/sfx/sound/be/heal3.mp3", "duration": 2.1, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}},
+                                      target_sprite_damage_effect={"gfx": None},
+                                      target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.0},
+                                      target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
         BasicHealingSpell(u"Cure", menu_pos=-2, attributes=["magic", "healing", "water"], kind="healing", effect=25, mp_cost=8, range=5, type="sa",
                                       desc="Heals superficial wounds and accelerates the healing of internal ones.",
                                       attacker_action={"gfx": None},
@@ -1303,7 +1312,7 @@ label load_battle_skills:
                                       target_sprite_damage_effect={"gfx": None},
                                       target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.0},
                                       target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
-        BasicHealingSpell(u"Curaga", menu_pos=-1, attributes=["magic", "healing", "water"], kind="healing", effect=10, mp_cost=10, range=5, type="all_allies", piercing=True, true_pierce=True,
+        BasicHealingSpell(u"Curaga", menu_pos=-1, attributes=["magic", "healing", "water"], kind="healing", effect=10, mp_cost=10, range=5, type="sa", piercing=True, true_pierce=True,
                                       desc="Heals the whole party at once.",
                                       attacker_action={"gfx": None},
                                       attacker_effects={"gfx": "runes_1", "sfx": "default"},
