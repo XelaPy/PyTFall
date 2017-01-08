@@ -395,7 +395,7 @@ label load_battle_skills:
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.95},
                               target_death_effect={"gfx": "dissolve", "initial_pause": 2.0, "duration": .5})
         BE_Action(u"Moon Slash", range=1, attributes=["melee", "ice", "light", "physical"], critpower=.2, effect=15, vitality_cost=2, menu_pos=0, desc="Attacking with the moon sword.",
-                                           main_effect={"gfx": "moon_hit_webm", "sfx": "content/sfx/sound/be/moon_attack.ogg", "duration": 0.37, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           main_effect={"gfx": "moon_hit_webm", "sfx": "content/sfx/sound/be/moon_attack.ogg", "duration": 0.37, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.3},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .4})
         P2P_Skill(u"Moon Projective Slash", menu_pos=1, range=3, attributes=["ranged", "light", "ice"], critpower=.3, effect=40, menuname="MP Slash", multiplier=1.1, vitality_cost=10, mp_cost=5, desc="The inner powers of the weapon allow to perform attacks even at great distance.",
@@ -439,7 +439,7 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.0},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.1, "duration": .4})
         BE_Action(u"Ice Slash", menu_pos=0, range=1, attributes=["melee", "ice", "physical"], effect=10, multiplier=1.1, vitality_cost=2, desc="Attacking with an ice blade.",
-                                           main_effect={"gfx": Transform("ice_dagger", zoom=1.6), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.75, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           main_effect={"gfx": Transform("ice_dagger", zoom=1.6), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.75, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
         MultiAttack("Ice Slash 4X", attributes=["melee", "physical", "ice"], menu_pos=1, critpower=0.05, multiplier=1.2, desc="Four quick strikes with an ice sword.", effect=45, vitality_cost=10, range=1,
@@ -596,7 +596,7 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .4},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .2})
         BE_Action(u"Ice Strike", menu_pos=0, range=1, attributes=["melee", "ice", "physical"], effect=4, critpower=.05, multiplier=1.1, vitality_cost=2, desc="Stabbing with an ice dagger.",
-                                           main_effect={"gfx": Transform("ice_dagger", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.75, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           main_effect={"gfx": Transform("ice_dagger", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.75, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
 
@@ -765,7 +765,7 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "burning", "initial_pause": 0.1, "duration": 1.3},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 0.7, "duration": 1.2})
         BE_Action(u"Firaga", menu_pos=2, attributes=["magic", "fire"], effect=20, multiplier=1.3, mp_cost=6, range=4, piercing=True, desc="Creates liquid fire that envelopes the target, causing massive burns.",
-                                           attacker_effects={"gfx": "fire_2", "sfx": "default"},
+                                           attacker_effects={"gfx": "fire_1", "sfx": "default"},
                                            main_effect={"gfx": Transform("fire_4", zoom=1.5), "sfx": "content/sfx/sound/be/fire6.mp3", "duration": 5.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}},
                                            target_sprite_damage_effect={"gfx": "fire", "initial_pause": 1.3, "duration": 3.6},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.3},
@@ -848,7 +848,7 @@ label load_battle_skills:
         BE_Action(u"Heavy Rain", menu_pos=12, attributes=["magic", "water"], effect=80, multiplier=4.0, mp_cost=15, type="all_enemies", range=6,
                                            desc="Summons a rain of extra heavy water from another dimension.",
                                            attacker_effects={"gfx": "water_2", "sfx": "default"},
-                                           main_effect={"gfx": Transform("rain", zoom=2.0), "sfx": "content/sfx/sound/be/heavy_rain.mp3", "duration": 5.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 80}},
+                                           main_effect={"gfx": Transform("rain", zoom=2.0), "sfx": "content/sfx/sound/be/heavy_rain.mp3", "duration": 5.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 80}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.0, "duration": 3.8, "master_shake": True},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 4.5},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 4.5, "duration": 0.5})
@@ -901,7 +901,7 @@ label load_battle_skills:
         BE_Action(u"Hailstorm", menu_pos=12, attributes=["magic", "ice"], effect=40, multiplier=1.8, mp_cost=20, range=4, piercing=True, true_pierce=True,
                                            desc="Puts the target in a middle of a small, but violent snow storm.",
                                            attacker_effects={"gfx": "ice_2", "sfx": "default"},
-                                           main_effect={"gfx": Transform("ice_7", zoom=1.7), "sfx": "content/sfx/sound/be/Hailstorm.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 50}},
+                                           main_effect={"gfx": Transform("ice_7", zoom=1.7), "sfx": "content/sfx/sound/be/Hailstorm.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 50}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "iced", "initial_pause": 0.2, "duration": 1.8},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
                                            target_death_effect={"gfx": "shatter", "initial_pause": 1.9, "duration": 0.5})
@@ -1019,7 +1019,7 @@ label load_battle_skills:
         ArealSkill("Northern Flow", menu_pos=13, attributes=["magic", "air", "ice", "inevitable"], effect=130, multiplier=5.0, mp_cost=15, range=4, type="all_enemies", piercing=True,
                                         desc="Summons a flow of frozen air from the upper atmosphere.",
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
-                                        main_effect={"gfx": "north_webm", "sfx": "content/sfx/sound/be/air5.mp3", "duration": 3.8, "aim": {"anchor": (.5, .5)}},
+                                        main_effect={"gfx": "north_webm", "sfx": "content/sfx/sound/be/air5.mp3", "duration": 3.8, "aim": {"anchor": (.5, .5)}, "hflip": True},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.1, "duration": 0.1},
                                         target_sprite_damage_effect={"gfx": "iced", "initial_pause": 0.1, "duration": 3.7},
                                         target_death_effect={"gfx": "dissolve",  "initial_pause": 3.7, "duration": 0.2})
@@ -1033,7 +1033,7 @@ label load_battle_skills:
         # Electricity:
         BE_Action(u"Thunder", menu_pos=0, attributes=["magic", "electricity"], effect=20, multiplier=1.2, mp_cost=5, range=4, type="all_enemies", desc="Shocks targets with static electricity caused by friction of airborne particles.",
                                            attacker_effects={"gfx": "electricity_1", "sfx": "default"},
-                                           main_effect={"gfx": Transform("electricity_1", zoom=1.5), "sfx": "content/sfx/sound/be/thunder2.mp3", "duration": 1.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
+                                           main_effect={"gfx": Transform("electricity_1", zoom=1.5), "sfx": "content/sfx/sound/be/thunder2.mp3", "duration": 1.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.2, "duration": 0.6},
                                            target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 0.3, "duration": 0.6})
@@ -1051,7 +1051,7 @@ label load_battle_skills:
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 0.4, "duration": 0.3})
         BE_Action(u"Thundaja", menu_pos=3, attributes=["magic", "electricity"], effect=20, multiplier=1.0, mp_cost=4, range=4, desc="Covers a small area by lightning discharges.",
                                            attacker_effects={"gfx": "electricity_1", "sfx": "default"}, piercing=True, type="all_enemies",
-                                           main_effect={"gfx": Transform("electricity_3", zoom=2.2), "sfx": "content/sfx/sound/be/thunder.mp3", "duration": 1.35, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 50}, "start_at": 0},
+                                           main_effect={"gfx": Transform("electricity_3", zoom=2.2), "sfx": "content/sfx/sound/be/thunder.mp3", "duration": 1.35, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 50}, "start_at": 0, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.2, "duration": 1.0},
                                            target_damage_effect={"gfx": "battle_bounce"},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.2})
@@ -1063,7 +1063,7 @@ label load_battle_skills:
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.2})
         BE_Action(u"Electromagnetism", menu_pos=10, attributes=["magic", "electricity"], menuname="EM", effect=40, multiplier=1.5, mp_cost=9, range=4, desc="Takes control over charged particles inside the target, causing severe internal injuries.",
                                            attacker_effects={"gfx": "electricity_2", "sfx": "default"}, type="all_enemies", dodge_effect={"initial_pause": .2},
-                                           main_effect={"gfx": Transform("electricity_6", zoom=1.8), "sfx": "content/sfx/sound/be/thunder6.mp3", "duration": 3.2, "aim": {"point": "tc", "anchor": (0.5, 0.5), "yo": 15}, "start_at": 0},
+                                           main_effect={"gfx": Transform("electricity_6", zoom=1.8), "sfx": "content/sfx/sound/be/thunder6.mp3", "duration": 3.2, "aim": {"point": "tc", "anchor": (0.5, 0.5), "yo": 15}, "start_at": 0, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.3, "duration": 2.9},
                                            target_damage_effect={"gfx": "battle_bounce"},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 3.0, "duration": 0.2})
@@ -1127,7 +1127,7 @@ label load_battle_skills:
                                            target_death_effect={"gfx": "hide", "initial_pause": 1.5, "duration": 0.0001})
         BE_Action(u"Photon Blade", menu_pos=10, attributes=["magic", "light"], effect=50, multiplier=3.5, mp_cost=8, range=4, desc="Infinitely thin blades of pure light slices target.",
                                            attacker_effects={"gfx": "light_2", "sfx": "default"},
-                                           main_effect={"gfx": Transform("light_5", zoom=1.9), "sfx": "content/sfx/sound/be/dawn.mp3", "duration": 2.5, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
+                                           main_effect={"gfx": Transform("light_5", zoom=1.9), "sfx": "content/sfx/sound/be/dawn.mp3", "duration": 2.5, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.5, "duration": 1.4},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.6},
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":2.0, "duration": 0.4})
