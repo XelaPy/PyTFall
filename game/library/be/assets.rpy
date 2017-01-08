@@ -666,9 +666,9 @@ label load_battle_skills:
                               main_effect={"gfx": ProportionalScale("content/gfx/be/rods.png", 150, 150), "sfx": "content/sfx/sound/be/rod_attack.mp3"},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
         BE_Action(u"Ground Shockwave", menu_pos=1, range=1, attributes=["melee", "earth", "physical"], effect=50, critpower=0.25, multiplier=1.5, vitality_cost=25, desc="Sends a shock wave powerful enough to cause a local earthquake.",
-                                           main_effect={"gfx": Transform("earth_hammer_webm"), "sfx": "content/sfx/sound/be/earth_hammer.mp3", "duration": 0.9, "aim": {"point": "center", "anchor": (.0, .5), "xo": 500}, "hflip": True},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.4, "duration": 0.7},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
+               main_effect={"gfx": "earth_hammer_webm", "sfx": "content/sfx/sound/be/earth_hammer.mp3", "duration": 0.9, "aim": {"point": "bc", "anchor": (.5, 1.0), "xo": 160}, "hflip": True},
+               target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.4, "duration": 0.7},
+               target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
         # Axes Attack:
         BE_Action("Axe Strike", attributes=["melee", "physical"], critpower=.1, desc="Cutting through with an axe.", effect=8, range=1, vitality_cost=1, menu_pos=0,
                               main_effect={"gfx": ProportionalScale("content/gfx/be/axes.png", 150, 150), "sfx": "content/sfx/sound/be/axe_attack.mp3"},
@@ -744,15 +744,13 @@ label load_battle_skills:
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
                               target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .3})
         BE_Action(u"Shocker Whip", menu_pos=2, range=1, attributes=["melee", "electricity", "physical"], effect=20, critpower=.25, multiplier=1.4, vitality_cost=10,mp_cost=1, desc="A whip attack charged with electricity. Double pleasure, double pain.",
-                                           main_effect={"gfx": "shock_whip_webm", "sfx": "content/sfx/sound/be/shock_whip.ogg", "duration": 1.36, "aim": {"point": "center", "anchor": (.0, .5), "xo": 500}, "hflip": True},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.5, "duration": 0.5},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5})
+           main_effect={"gfx": "shock_whip_webm", "sfx": "content/sfx/sound/be/shock_whip.ogg", "duration": 1.36, "aim": {"point": "center", "anchor": (.5, .5), "xo": 180}, "hflip": True},
+           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.5, "duration": 0.5},
+           target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5})
 
 
 
     ##### Magic:
-        # GFX/SFX Dicts:
-
         # Fire:
         BE_Action(u"Fire", menu_pos=0, attributes=["magic", "fire"], effect=20, multiplier=1.2, type="all_enemies", mp_cost=5, range=4, desc="Ignites a small plot of land.",
                                            attacker_effects={"gfx": "fire_1", "sfx": "default"},
