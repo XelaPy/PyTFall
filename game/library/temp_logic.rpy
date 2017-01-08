@@ -6,56 +6,56 @@ init python:
             if "content" in fn:
                 c = c + 1
         return time.time() - t, c
-    
+
     def set_font_color(s, color):
         """
         @param: color: should be supplied as a string! Not as a variable!
         Sets font color duting interpolation.
         """
         return "".join(["{color=[%s]}" % color, "{}".format(s), "{/color}"])
-        
+
     class BuildingRelay(object):
         """An upgrade has a limited number of rooms to
         run jobs in parallel.
-        
+
         Single Customer handling...
-        
+
         @ TODO: I thinks this bit should be assigned to Building Upgrades!
-    
+
         Clients have to have to request one of the rooms. When they got one, they
         can start the job processes and wait for it to finish (which
         takes jobtime descrete units).
         """
         def __init__(self, env):
             self.env = env
-            
+
             # Bad way of handing Brothel Upgrade:
             self.building = object()
             self.building.res = simpy.Resource(env, 2)
             self.building.time = 5
             self.building.cap = 2
-            
+
             self.sc = object()
             self.sc.res = simpy.Resource(env, 10)
             self.sc.time = 10 # Time it takes to clear one client.
             self.sc.cap = 10 # Capacity
             self.sc.cash = 0
-            
+
         def building_client_dispatcher(self, evn, client):
             """The client_dispatcher process arrives at the building
             and requests a a room.
-        
+
             It then starts the washing process, waits for it to finish and
             leaves to never come back...
             """
             with self.building.res.request() as request:
                 yield request
-                
+
                 while store.nd_chars:
-                    
+
                     # Here we should attempt to find the best match for the client!
                     store.char = store.nd_chars.pop()
-                    
+
                     # First check is the char is still well and ready:
                     if not check_char(store.char):
                         if store.char in store.nd_chars:
@@ -63,7 +63,7 @@ init python:
                         temp = set_font_color('{} is done with this job for the day.'.format(store.char.name), "aliceblue")
                         store.building.nd_events_report.append(temp)
                         continue
-                    
+
                     # We to make sure that the girl is willing to do the job:
                     temp = store.char.action.id
                     if not store.char.action.check_occupation(store.char):
@@ -72,48 +72,48 @@ init python:
                         temp = set_font_color('{} is not willing to do {}.'.format(store.char.name, temp), "red")
                         store.building.nd_events_report.append(temp)
                         continue
-                        
+
                         # All is well and we create the event
                     temp = "{} and {} enter the room at {}".format(client.name, char.name, env.now)
                     store.building.nd_events_report.append(temp)
-                    
+
                     yield env.process(self.run_building_job(client, char))
-                    
+
                     temp = "{} leaves at {}".format(client.name, env.now)
                     store.building.nd_events_report.append(temp)
                     return
-                    
-                # devlog.info("Clients: {}, Girls: {}".format(len(store.nd_clients), len(store.nd_girls)))    
+
+                # devlog.info("Clients: {}, Girls: {}".format(len(store.nd_clients), len(store.nd_girls)))
                 temp = "No girls were availible for {}".format(client.name)
                 store.building.nd_events_report.append(temp)
-                
+
                 env.process(self.kick_client(client))
-                
+
         def sc_client_dispatcher(self, evn, client):
             """The client_dispatcher process arrives at the building
             and requests a a room.
-        
+
             It then starts the washing process, waits for it to finish and
             leaves to never come back...
             """
             with self.sc.res.request() as request:
                 yield request
-                
+
                 # All is well and we create the event
                 temp = "{} enters the Strip Club at {}".format(client.name, env.now)
                 store.building.nd_events_report.append(temp)
-                
+
                 yield env.process(self.run_sc_job(client, char))
-                
+
                 temp = "{} leaves the Club at {}".format(client.name, env.now)
                 store.building.nd_events_report.append(temp)
                 # return
-                    
-                # devlog.info("Clients: {}, Girls: {}".format(len(store.nd_clients), len(store.nd_girls)))    
+
+                # devlog.info("Clients: {}, Girls: {}".format(len(store.nd_clients), len(store.nd_girls)))
                 # temp = "No girls were availible for {}".format(client.name)
                 # store.building.nd_events_report.append(temp)
                 # env.process(self.kick_client(client))
-            
+
         def run_building_job(self, client, char):
             """
             This should be a job...
@@ -122,16 +122,16 @@ init python:
             if config.debug:
                 temp = "Debug: {} Brothel Resource in use!".format(set_font_color(self.building.res.count, "red"))
                 store.building.nd_events_report.append(temp)
-            
+
             temp = "{} and {} did their thing!".format(set_font_color(char.name, "pink"), client.name)
             store.building.nd_events_report.append(temp)
             store.client = client
             store.char = char
             char.action()
             # We return the char to the nd list
-            
+
             store.nd_chars.insert(0, char)
-            
+
         def run_sc_job(self, client, char):
             """
             This should be a job...
@@ -141,7 +141,7 @@ init python:
             if config.debug:
                 temp = "Debug: {} Strip Club Resource currently in use/ Cash earned: {}!".format(set_font_color(self.sc.res.count, "red"), self.sc.cash)
                 store.building.nd_events_report.append(temp)
-            
+
             # temp = "{} and {} did their thing!".format(set_font_color(char.name, "pink"), client.name)
             # store.building.nd_events_report.append(temp)
             # store.client = client
@@ -150,7 +150,7 @@ init python:
             # store.nd_clients.remove(store.client)
             # We return the char to the nd list
             # store.nd_chars.insert(0, char)
-            
+
         def kick_client(self, client):
             """
             Gets rid of this client...
@@ -161,7 +161,7 @@ init python:
             temp = "So {} leaves the hotel cursing...".format(client.name)
             store.building.nd_events_report.append(temp)
             # store.nd_clients.remove(store.client)
-    
+
     def setup(env, end=40):
         """
         First attempt at making a jobs loop with SimPy!
@@ -169,14 +169,14 @@ init python:
         """
         # Create the building
         upgrade = BuildingRelay(env)
-    
+
         # for i in xrange(2):
             # store.client = store.nd_clients.pop()
             # store.client.name = "Client {}".format(i)
             # # if self.room.
             # env.process(upgrade.building_client_dispatcher(env, store.client))
         # Create more clients while the simulation is running if such are availible...
-        
+
         i = 0
         while store.nd_clients:
             if env.now + 5 <= end: # This is a bit off... should we decide which action should be taken first?
@@ -185,13 +185,13 @@ init python:
                 i += 1
                 store.client = store.nd_clients.pop()
                 store.client.name = "Client {}".format(i)
-                
+
                 # Register the fact that client arrived at the building:
                 temp = '{} arrives at the {} at {}.'.format(client.name, store.building.name, env.now)
                 store.building.nd_events_report.append(temp)
-                
+
                 # Take an action!
-                # Must be moved to 
+                # Must be moved to
                 whores = list(i for i in store.nd_chars if "SIW" in i.occupations)
                 strippers = list(i for i in store.nd_chars if traits["Stripper"] in i.occupations)
                 servers = list(i for i in store.nd_chars if "Server" in i.occupations)
@@ -204,7 +204,6 @@ init python:
             else:
                 break
 
-
 label temp_jobs_loop:
     $ tl.timer("Temp Jobs Loop")
     # Setup and start the simulation
@@ -213,7 +212,7 @@ label temp_jobs_loop:
     $ store.building.nd_events_report.append("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
     $ store.building.nd_events_report.append("{}".format(set_font_color("Testing a Building with two rooms:", "lawngreen")))
     # $ random.seed(RANDOM_SEED)  # This helps reproducing the results
-    
+
     # Create an environment and start the setup process
     $ env = simpy.Environment()
     $ env.process(setup(env, end=100))
@@ -224,19 +223,19 @@ label temp_jobs_loop:
     $ store.building.nd_events_report.append("{}".format(set_font_color("===================", "red")))
     $ store.building.nd_events_report.append("\n\n")
     $ tl.timer("Temp Jobs Loop")
-    
+
     return
-    
+
 label reg_H_event:
     $ chars["Hinata"].set_flag("event_to_interactions_10012adacx2134s", value={"label": "some_Hinata_label", "button_name": "Hinata Q", "condition": "True"})
     return
-    
+
 label some_Hinata_label:
     "Event Goes here..."
     "Don't forget to delete/change the flag one you're done!"
     $ chars["Hinata"].del_flag("event_to_interactions_10012adacx2134s")
     jump girl_interactions
-    
+
 screen testing_new_filmstrip():
     hbox:
         pos (10, 200)
@@ -247,7 +246,7 @@ screen testing_new_filmstrip():
         add FilmStrip('content/gfx/be/filmstrips/SyrusSpriteSheet.png', (95, 65), (7, 8), 0.06, include_frames=range(14, 20), loop=True)
         add FilmStrip('content/gfx/be/filmstrips/SyrusSpriteSheet.png', (95, 65), (7, 8), 0.06, include_frames=range(21, 25), loop=True)
         add FilmStrip('content/gfx/be/filmstrips/SyrusSpriteSheet.png', (95, 65), (7, 8), 0.06, include_frames=range(28, 35), loop=True)
-        
+
 image exl_01:
     anchor (0.5, 0.5)
     "content/gfx/be/animations/explosion_0/00.png"
@@ -269,7 +268,7 @@ image exl_01:
     "content/gfx/be/animations/explosion_0/08.png"
     pause 0.1
     repeat
-    
+
 image cst_01:
     anchor (0.5, 1.0)
     "content/gfx/be/animations/cast_effect_0/00.png"
@@ -297,7 +296,7 @@ image cst_01:
     "content/gfx/be/animations/cast_effect_0/11.png"
     pause 0.1
     repeat
-    
+
 image exl_02:
     Fixed(Image("content/gfx/be/animations/explosion_0/00.png", anchor=(0.5, 1.0)), xysize=(259, 218))
     pause 0.1
@@ -318,7 +317,7 @@ image exl_02:
     Fixed(Image("content/gfx/be/animations/explosion_0/08.png", anchor=(0.5, 1.0)), xysize=(259, 218))
     pause 0.1
     repeat
-        
+
 screen testing_image_quality():
     add "black"
     textbutton "Done":
@@ -327,7 +326,7 @@ screen testing_image_quality():
     # add FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways.png', (481, 453), (5, 4), 0.1, include_frames=range(17), loop=True) align (0.3, 0.2)
     # add Transform(FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways2x.png', (240, 226), (5, 4), 0.1, include_frames=range(17), loop=True), zoom=2) align (0.5, 0.2)
     # add Transform(FilmStrip('content/gfx/be/filmstrips/cataclysm_sideways4x.png', (120, 113), (5, 4), 0.1, include_frames=range(17), loop=True), zoom=4) align (0.7, 0.2)
-    
+
     # add "explosion_0" align (0.5, 0.5)
     # add "exl_01" pos (150, 400)
     # add "exl_02" pos (1100, 400)
@@ -335,7 +334,7 @@ screen testing_image_quality():
     add Transform("water_combined", zoom=-1) pos (400, 400)
     # Adding for testing and tweaking:
     # add "thunder_storm_3" align (0.5, 0.5)
-    
+
 init: # Robert's test:
     transform battle_bounce_normal(pos):
         alpha 1
@@ -347,7 +346,7 @@ init: # Robert's test:
         easeout 0.3 yoffset 0
         linear 0.5 alpha 0
         repeat
-            
+
     transform battle_bounce_quad(pos):
         alpha 1
         pos pos # Initial position.
@@ -358,7 +357,7 @@ init: # Robert's test:
         easeout_quad 0.3 yoffset 0
         linear 0.5 alpha 0
         repeat
-            
+
     transform battle_bounce_cubic(pos):
         alpha 1
         pos pos # Initial position.
@@ -369,7 +368,7 @@ init: # Robert's test:
         easeout_cubic 0.3 yoffset 0
         linear 0.5 alpha 0
         repeat
-            
+
     transform battle_bounce_quart(pos):
         alpha 1
         pos pos # Initial position.
@@ -380,7 +379,7 @@ init: # Robert's test:
         easeout_quart 0.3 yoffset 0
         linear 0.5 alpha 0
         repeat
-            
+
     transform battle_bounce_quint(pos):
         alpha 1
         pos pos # Initial position.
@@ -391,7 +390,7 @@ init: # Robert's test:
         easeout_quint 0.3 yoffset 0
         linear 0.5 alpha 0
         repeat
-            
+
     transform battle_bounce_expo(pos):
         alpha 1
         pos pos # Initial position.
@@ -402,7 +401,7 @@ init: # Robert's test:
         easeout_expo 0.3 yoffset 0
         linear 0.5 alpha 0
         repeat
-            
+
     transform battle_bounce_circ(pos):
         alpha 1
         pos pos # Initial position.
@@ -413,7 +412,7 @@ init: # Robert's test:
         easeout_circ 0.3 yoffset 0
         linear 0.5 alpha 0
         repeat
-            
+
     transform battle_bounce_back(pos):
         alpha 1
         pos pos # Initial position.
@@ -424,7 +423,7 @@ init: # Robert's test:
         easeout_back 0.3 yoffset 0
         linear 0.5 alpha 0
         repeat
-            
+
     transform battle_bounce_elasctic(pos):
         alpha 1
         pos pos # Initial position.
@@ -435,7 +434,7 @@ init: # Robert's test:
         easeout_elastic 0.3 yoffset 0
         linear 0.5 alpha 0
         repeat
-            
+
     transform battle_bounce_bounce(pos):
         alpha 1
         pos pos # Initial position.
@@ -446,17 +445,17 @@ init: # Robert's test:
         easeout_bounce 0.3 yoffset 0
         linear 0.5 alpha 0
         repeat
-            
+
     screen test_penners_easing():
         $ x = 60
-        for i in [battle_bounce_normal, battle_bounce_quad, battle_bounce_cubic, battle_bounce_quart, battle_bounce_quint, 
+        for i in [battle_bounce_normal, battle_bounce_quad, battle_bounce_cubic, battle_bounce_quart, battle_bounce_quint,
                     battle_bounce_expo, battle_bounce_circ, battle_bounce_back, battle_bounce_elasctic, battle_bounce_bounce]:
             text "100" color "F00" size 50 at i((x, 400))
             $ x = x + 110
         textbutton "All Done":
             align (0.5, 0.9)
             action Return()
-        
+
 label testing_chain_udd:
     # Testing under simpler conditions than the BE:
     while 1:
@@ -464,32 +463,43 @@ label testing_chain_udd:
         $ renpy.show("_tag", what=gfx, at_list=[Transform(align=(.5, .5))])
         pause 2.5
         $ renpy.hide("_tag")
-        
+
         menu:
             "Try Again?"
-            
+
             "Yes":
                 $ pass
             "No":
                 return
-                
 
-                
+label gfx_water_effect_test:
+    $ img = Image("content/gfx/sprites/mc/Dito/battle_sprite 0.png")
+    $ mask = Transform("be_water_mask", size=(353, 671))
+    
+    python:
+       fixed_ = Fixed(xysize=(353, 671))
+       fixed_.add(img)
+       fixed_.add(AlphaMask(mask, img))
+    show expression fixed_ as meow
+    pause
+    hide meow
+    return
+
 image wemb_test:
     "moz"
     pause 3.4
     yoffset 100
     pause 3.4
-    
+
 label test_webm:
     while 1:
         show wemb_test
         pause 10
         hide wemb_test
-        
+
         menu:
             "Try Again?"
-            
+
             "Yes":
                 $ pass
             "No":

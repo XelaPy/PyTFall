@@ -576,7 +576,7 @@ init -11 python:
             back = "content/gfx/bg/be/b_city_" + str(n) + ".jpg" # city streets are default backgrounds; always used for hired chars from the characters menu atm.
         return back
 
-    def run_default_be(enemy_team, slaves=False, background="content/gfx/bg/be/battle_arena_1.jpg", track="random", prebattle=True, death=False):
+    def run_default_be(enemy_team, slaves=False, background="content/gfx/bg/be/battle_arena_1.jpg", track="random", prebattle=True, death=False, skill_lvl=float("inf")):
         """
         Launches BE with MC team vs provided enemy team, returns True if MC won and vice versa
         - if slaves == True, slaves in MC team will be inside BE with passive AI, otherwise they won't be there
@@ -602,7 +602,7 @@ init -11 python:
                     your_team.add(member)
             your_team.reset_controller()
 
-        battle = BE_Core(Image(background), start_sfx=get_random_image_dissolve(1.5), music=track, end_sfx=dissolve, quotes=prebattle)
+        battle = BE_Core(Image(background), start_sfx=get_random_image_dissolve(1.5), music=track, end_sfx=dissolve, quotes=prebattle, max_skill_lvl=skill_lvl)
         store.battle = battle
         battle.teams.append(your_team)
         battle.teams.append(enemy_team)

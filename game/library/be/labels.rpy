@@ -4,13 +4,13 @@ label test_be:
         initial_levelup(h, 50, True)
         h.front_row = False
         h.status = "free"
-        
+
         n = chars["Nami"]
         initial_levelup(n, 50, True)
         n.front_row = False
         n.status = "free"
         n.apply_trait("Air")
-        
+
         for skill in battle_skills.values():
             if "melee" in skill.attributes or "ranged" in skill.attributes:
                 if skill not in h.attack_skills:
@@ -22,24 +22,27 @@ label test_be:
                     h.magic_skills.append(skill)
                 if skill not in n.magic_skills:
                     n.magic_skills.append(skill)
-                    
+
     python:
         # Prepare the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        mob = build_mob(id="Electrificator", level=1520)
+        mob = build_mob(id="Electrificator", level=100)
+        mob.health = 100000
         mob.apply_trait("Fire")
         mob.front_row = True
 
         if len(enemy_team) != 3:
             enemy_team.add(mob)
-            
-        mob = build_mob(id="Electrificator", level=1500)
+
+        mob = build_mob(id="Electrificator", level=100)
+        mob.health = 1
         mob.front_row = False
         # mob.attack_skills.append("Sword Slash")
         if len(enemy_team) != 3:
             enemy_team.add(mob)
-            
-        mob = build_mob(id="Electrificator", level=1500)
+
+        mob = build_mob(id="Electrificator", level=100)
+        mob.health = 1
         mob.front_row = True
         # mob.attack_skills.append("Bow Shot")
         mob.apply_trait("Air")
@@ -49,12 +52,11 @@ label test_be:
         # for m in enemy_team:
             # m.attack_skills.append(battle_skills["Projective Slash"])
         for m in enemy_team:
-            m.magic_skills.append(battle_skills["Northern Flow"])
-            m.magic_skills.append(battle_skills["Ion Storm"])
-            
+            m.magic_skills.append(battle_skills["Transmutation"])
+
         for i in hero.team:
             i.besk = None
-        
+
         if len(hero.team) != 3 and h not in hero.team:
             hero.team.add(h)
         h.AP = 6
@@ -66,9 +68,9 @@ label test_be:
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)
         battle.start_battle()
- 
+
     jump mainscreen
-    
+
 label test_be_logical:
     $ tl.timer("Logical BE Scenario with Setup!")
     python:
@@ -91,7 +93,7 @@ label test_be_logical:
         mob.apply_trait("Air")
         if len(enemy_team) != 3:
             enemy_team.add(mob)
-        
+
         hero.controller = BE_AI(hero)
         h = chars["Hinata"]
         h.status = "free"
@@ -104,10 +106,10 @@ label test_be_logical:
         n.apply_trait("Air")
         n.front_row = True
         initial_levelup(n, 50, True)
-        
+
         for i in hero.team:
             i.besk = None
-        
+
         if len(hero.team) != 3 and h not in hero.team:
             hero.team.add(h)
         h.AP = 6
@@ -118,23 +120,23 @@ label test_be_logical:
         battle = BE_Core(logical=1)
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)
-        
+
         tl.timer("Logical BE Scenario without Setup!")
         battle.start_battle()
         tl.timer("Logical BE Scenario without Setup!")
-        
+
         # Reset Controller:
         hero.controller = "player"
         n.controller = "player"
         h.controller = "player"
-        
+
     $ tl.timer("Logical BE Scenario with Setup!")
-    
+
     scene black
     call screen battle_report
- 
+
     jump mainscreen
-    
+
 screen battle_report():
     vbox:
         align (0.5, 0.3)
@@ -148,9 +150,7 @@ screen battle_report():
                 has vbox
                 for entry in reversed(battle.combat_log):
                     label "%s"%entry style_group "stats_value_text" text_size 14 text_color ivory
-                    
+
         textbutton "Exit":
             xalign 0.5
             action Return()
-                
-    
