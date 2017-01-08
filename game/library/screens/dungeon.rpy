@@ -125,7 +125,7 @@ label enter_dungeon:
         file.close()
         bumped = False
         accesible_area = set(["0","2","3"])
-        visible_area = set(["1","3","4"])
+        visible_area = set(["1","3","4","5"])
         transparent_area = set(["0","2","4"])
         light=""
 
@@ -138,12 +138,12 @@ label enter_dungeon:
         # Composite background images.
         scene
         python:
-            renpy.show("dungeon_%sbackground"%light)
             # compile front to back, a list of what area are walls to be shown, behind wall we don't show.
             sided = ["%s%sleft%dc", "%s%sleft%db", "%s%sleft%d", "%s%sfront%d", "%s%sright%d", "%s%sright%db", "%s%sright%dc"]
-            blend = {"1": "dungeon_", "3": "dungeon_door_", "4": "dungeon_barrel_"}
+            blend = {"1": "dungeon_mossy_", "3": "dungeon_door_", "4": "dungeon_barrel_", "5": "dungeon_"}
             areas = [[0, -1], [0, 1], [1, 0]]
             show = []
+            renpy.show("%s%sbackground"%(blend["1"], light))
 
             while areas:
                 (distance, lateral) = areas.pop(0)
