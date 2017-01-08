@@ -426,7 +426,7 @@ label load_battle_skills:
                                            main_effect={"gfx": Transform("angel_sword_webm", zoom=1.1), "sfx": "content/sfx/sound/be/light3.mp3", "duration": 0.35, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .25},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .4})
-        ArealSkill(u"Light Field", range=3, attributes=["ranged", "light", "unavoidable"], critpower=.2, menu_pos=3, effect=50, multiplier=1.3, vitality_cost=25, mp_cost=8, type="all_enemies", piercing=True, desc="Countless cascading blades of pure light leave no place for escape.",
+        ArealSkill(u"Light Field", range=3, attributes=["ranged", "light", "inevitable"], critpower=.2, menu_pos=3, effect=50, multiplier=1.3, vitality_cost=25, mp_cost=8, type="all_enemies", piercing=True, desc="Countless cascading blades of pure light leave no place for escape.",
                                        main_effect={"gfx": Transform("holy_sword_webm", zoom=1.2), "sfx": "content/sfx/sound/be/light_field.mp3", "duration": 2.7, "aim": {"anchor": (0.6, 0.8), "xo": 0, "yo":0}, "hflip": True},
                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.3, "duration": 1.3},
                                        target_death_effect={"gfx": "dissolve", "initial_pause": 2.3, "duration": .5})
@@ -458,7 +458,7 @@ label load_battle_skills:
                                            main_effect={"gfx": Transform("planet_slash_webm", zoom=1.1), "sfx": "content/sfx/sound/be/exc_bl.ogg", "duration": 1.2, "aim": {"point": "tc", "anchor": (.5, .5), "xo": 80}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .5, "duration": .6},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .5})
-        ArealSkill(u"Consecutive Slashes", range=3, attributes=["melee", "physical", "light", "darkness", "ice", "electricity", "unavoidable"], critpower=1.0, menu_pos=3, effect=200, multiplier=2.5, vitality_cost=50, mp_cost=15, health_cost=5, type="all_enemies", piercing=True, desc="Multiple rapid attacks cause local space collapsing.",
+        ArealSkill(u"Consecutive Slashes", range=3, attributes=["melee", "physical", "light", "darkness", "ice", "electricity", "inevitable"], critpower=1.0, menu_pos=3, effect=200, multiplier=2.5, vitality_cost=50, mp_cost=15, health_cost=5, type="all_enemies", piercing=True, desc="Multiple rapid attacks cause local space collapsing.",
                                        main_effect={"gfx": Transform("universe_slash_webm", zoom=0.9), "sfx": "content/sfx/sound/be/exc_full.ogg", "duration": 1.7, "aim": {"anchor": (0.5, 0.5), "xo": 100, "yo":-100}, "hflip": True, "webm_size": (1000,800)},
                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.5},
                                        target_death_effect={"gfx": "shatter", "initial_pause": 1.75, "duration": 0.7},
@@ -540,7 +540,7 @@ label load_battle_skills:
                               dodge_effect={"initial_pause": .1})
         P2P_Skill(u"Midnight Arrow", menu_pos=3, range=3, attributes=["ranged", "physical", "darkness"], effect=65, multiplier=1.8, vitality_cost=15, health_cost=10, desc="Releases explosive arrow made of dark energy.",
                                            projectile_effects={"gfx": "demon_bow_arrow_webm", "sfx": "content/sfx/sound/be/elf_bow.ogg", "duration": 0.56, "aim": {"point": "center", "anchor": (.5, .5)}},
-                                           main_effect={"gfx": "demon_bow_hit_webm", "sfx":"content/sfx/sound/be/demon_core.ogg", "duration": 0.36, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}, "hflip": True},
+                                           main_effect={"gfx": "demon_bow_hit_webm", "sfx":"content/sfx/sound/be/demon_core.ogg", "duration": 0.36, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.2},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .15},
                                            dodge_effect={"initial_pause": 0.005})
