@@ -539,11 +539,11 @@ label load_battle_skills:
                               target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5},
                               dodge_effect={"initial_pause": .1})
         P2P_Skill(u"Midnight Arrow", menu_pos=3, range=3, attributes=["ranged", "physical", "darkness"], effect=65, multiplier=1.8, vitality_cost=15, health_cost=10, desc="Releases explosive arrow made of dark energy.",
-                                           projectile_effects={"gfx": "demon_bow_arrow_webm", "sfx": "content/sfx/sound/be/elf_bow.ogg", "duration": 0.56, "aim": {"point": "center", "anchor": (.5, .5)}},
-                                           main_effect={"gfx": "demon_bow_hit_webm", "sfx":"content/sfx/sound/be/demon_core.ogg", "duration": 0.36, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}, "hflip": True},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.2},
-                                           target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .15},
-                                           dodge_effect={"initial_pause": 0.005})
+           projectile_effects={"gfx": "demon_bow_arrow_webm", "sfx": "content/sfx/sound/be/elf_bow.ogg", "duration": 0.56, "aim": {"point": "center", "anchor": (.5, .5)}},
+           main_effect={"gfx": "demon_bow_hit_webm", "sfx":"content/sfx/sound/be/demon_core.ogg", "duration": 0.36, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}, "hflip": True},
+           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.2},
+           target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .15},
+           dodge_effect={"initial_pause": 0.005})
         BE_Action("Fire Shot", attributes=["melee", "physical", "fire"], critpower=0, multiplier=1.1, desc="Shooting a fire arrow.", effect=8, range=3, vitality_cost=1, menu_pos=0,
                               main_effect={"gfx": Transform("simple_bow_fire_attack", zoom=0.8), "sfx": "content/sfx/sound/be/bow_attack.mp3"},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})

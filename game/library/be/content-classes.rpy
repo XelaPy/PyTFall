@@ -448,12 +448,14 @@ init python:
 
             # GFX:
             if gfx:
-                # pause = self.main_effect["duration"]
                 aim = self.main_effect["aim"]
                 point = aim.get("point", "center")
                 anchor = aim.get("anchor", (0.5, 0.5))
                 xo = aim.get("xo", 0)
                 yo = aim.get("yo", 0)
+
+                if self.main_effect.get("hflip", False) and battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]:
+                    gfx = Transform(gfx, xzoom=-1)
 
                 for index, target in enumerate(targets):
                     gfxtag = "attack" + str(index)
