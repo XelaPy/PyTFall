@@ -319,63 +319,7 @@ init python:
 
 
     # Actions:
-    class SimpleSkill(BE_Action):
-        """Simplest attack, usually simple magic.
-        """
-        def __init__(self, name, mp_cost=0, health_cost=0, vitality_cost=0,
-                           attacker_action={},
-                           attacker_effects={},
-                           main_effect={},
-                           target_sprite_damage_effect={},
-                           target_damage_effect={},
-                           target_death_effect={},
-                           dodge_effect={},
-                           sfx=None, gfx=None, zoom=None, aim=None, xo=0, yo=0, pause=None, anchor=None, casting_effects=None, target_damage_gfx=None, # <=== These should die off in time!
-                           **kwargs):
-            super(SimpleSkill, self).__init__(name,
-                                               attacker_action=attacker_action,
-                                               attacker_effects=attacker_effects,
-                                               main_effect=main_effect,
-                                               target_sprite_damage_effect=target_sprite_damage_effect,
-                                               target_damage_effect=target_damage_effect,
-                                               target_death_effect=target_death_effect, dodge_effect=dodge_effect,
-                                               sfx=sfx, gfx=gfx, pause=pause, zoom=zoom,
-                                               **kwargs)
-
-            # New GFX properties:
-            self.attacker_action["gfx"] = self.attacker_action.get("gfx", "step_forward")
-            self.attacker_action["sfx"] = self.attacker_action.get("sfx", None)
-
-            if not self.sorting_index:
-                self.main_effect["duration"] = self.main_effect.get("duration", .1)
-                self.target_sprite_damage_effect["initial_pause"] = self.target_sprite_damage_effect.get("initial_pause", 0.1)
-                self.target_death_effect["initial_pause"] = self.target_death_effect.get("initial_pause", 0.2)
-                self.dodge_effect["gfx"] = "dodge"
-            else:
-                self.main_effect["duration"] = self.main_effect.get("duration", .5)
-                self.target_sprite_damage_effect["initial_pause"] = self.target_sprite_damage_effect.get("initial_pause", 0.2)
-                self.target_damage_effect["initial_pause"] = self.target_damage_effect.get("initial_pause", 0.21)
-                self.target_death_effect["initial_pause"] = self.target_death_effect.get("initial_pause", self.target_sprite_damage_effect["initial_pause"] + 0.1)
-                self.dodge_effect["gfx"] = "magic_shield"
-
-            self.target_sprite_damage_effect["shake"] = self.target_sprite_damage_effect.get("gfx", "shake")
-            self.target_sprite_damage_effect["duration"] = self.target_sprite_damage_effect.get("duration", self.main_effect["duration"])
-
-            self.target_damage_effect["gfx"] = self.target_damage_effect.get("gfx", "battle_bounce")
-
-            self.target_death_effect["gfx"] = self.target_death_effect.get("gfx", "dissolve")
-            self.target_death_effect["duration"] = self.target_death_effect.get("duration", 0.5)
-
-            # Cost of the attack:
-            self.mp_cost = mp_cost
-            if not(isinstance(health_cost, int)) and health_cost > 0.9:
-                self.health_cost = 0.9
-            else:
-                self.health_cost = health_cost
-            self.vitality_cost = vitality_cost
-
-
-    class MultiAttack(SimpleSkill):
+    class MultiAttack(BE_Action):
         """
         Base class for multi attack skills, which basically show the same displayable and play sounds (conditioned),
         """
@@ -414,7 +358,7 @@ init python:
                     renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+1)
 
 
-    class ArealSkill(SimpleSkill):
+    class ArealSkill(BE_Action):
         """
         Simplest attack, usually simple magic.
         """
@@ -460,7 +404,7 @@ init python:
             renpy.hide("areal")
 
 
-    class P2P_Skill(SimpleSkill):
+    class P2P_Skill(BE_Action):
         """ ==> @Review: There may not be a good reason for this to be a magical attack instead of any attack at all!
         Point to Point magical strikes without any added effects. This is one step simpler than the ArrowsSkill attack.
         Used to attacks like FireBall.
@@ -707,10 +651,9 @@ init python:
                 renpy.show(gfxtag, what=gfx, at_list=[Transform(align=(0.5, 0.5))], zorder=1000)
 
 
-    class BasicHealingSpell(SimpleSkill):
+    class BasicHealingSpell(BE_Action):
         def __init__(self, name, **kwargs):
             super(BasicHealingSpell, self).__init__(name, **kwargs)
-            self.kind = "healing"
 
         def effects_resolver(self, targets):
             if not isinstance(targets, (list, tuple, set)):
@@ -746,17 +689,15 @@ init python:
             self.settle_cost()
 
 
-    class BasicPoisonSpell(SimpleSkill):
+    class BasicPoisonSpell(BE_Action):
         def __init__(self, *args, **kwargs):
             super(BasicPoisonSpell, self).__init__(*args, **kwargs)
             self.event_class = PoisonEvent
-            self.kind = "damage_over_time"
 
 
-    class ReviveSpell(SimpleSkill):
+    class ReviveSpell(BE_Action):
         def __init__(self, name, **kwargs):
             super(ReviveSpell, self).__init__(name, **kwargs)
-            self.kind = "revival"
 
 
         def check_conditions(self, source=None):
@@ -834,7 +775,7 @@ init python:
             super(ReviveSpell, self).show_main_gfx(battle, attacker, targets)
 
 
-    class DefenceBuffSpell(SimpleSkill):
+    class DefenceBuffSpell(BE_Action):
         def __init__(self, *args, **kwargs):
             super(DefenceBuffSpell, self).__init__(*args, **kwargs)
             self.event_class = DefenceBuff
@@ -843,8 +784,6 @@ init python:
             self.defence_multiplier = kwargs.get("defence_multiplier", {}) # This is the def multiplier.
             self.buff_icon = kwargs.get("buff_icon", None)
             self.buff_group = kwargs.get("buff_group", self.__class__)
-
-            self.kind = "buff"
 
         def effects_resolver(self, targets):
             if not isinstance(targets, (list, tuple, set)):

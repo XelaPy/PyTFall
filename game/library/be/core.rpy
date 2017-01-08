@@ -453,10 +453,18 @@ init -1 python: # Core classes:
         """Basic action class that assumes that there will be targeting of some kind and followup logical and graphical effects.
         """
         DELIVERY = set(["magic", "ranged", "melee", "status"]) # Damage/Effects Delivery Methods!
-        DAMAGE = {"physical": "{image=physical_be_viewport}", "fire": "{image=fire_element_be_viewport}", "water": "{image=water_element_be_viewport}", "ice": "{image=ice_element_be_viewport}", "earth": "{image=earth_element_be_viewport}", "air": "{image=air_element_be_viewport}", "electricity": "{image=ele_element_be_viewport}", "light": "{image=light_element_be_viewport}", "darkness": "{image=darkness_element_be_viewport}", "healing": "{image=healing_be_viewport}", "poison": "{image=poison_be_viewport}"} # Damage (Effect) types...
-        DAMAGE_20 = {"physical": "{image=physical_be_size20}", "fire": "{image=fire_element_be_size20}", "water": "{image=water_element_be_size20}", "ice": "{image=ice_element_be_size20}", "earth": "{image=earth_element_be_size20}", "air": "{image=air_element_be_size20}", "electricity": "{image=ele_element_be_size20}", "light": "{image=light_element_be_size20}", "darkness": "{image=darkness_element_be_size20}", "healing": "{image=healing_be_size20}", "poison": "{image=poison_be_size20}"}
-        def __init__(self, name, range=1, source=None, type="se", piercing=False, multiplier=1, true_pierce=False,
-                           menuname=None, critpower=0, menucat="Attacks", sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
+        DAMAGE = {"physical": "{image=physical_be_viewport}", "fire": "{image=fire_element_be_viewport}", "water": "{image=water_element_be_viewport}",
+                  "ice": "{image=ice_element_be_viewport}", "earth": "{image=earth_element_be_viewport}", "air": "{image=air_element_be_viewport}",
+                  "electricity": "{image=ele_element_be_viewport}", "light": "{image=light_element_be_viewport}", "darkness": "{image=darkness_element_be_viewport}",
+                  "healing": "{image=healing_be_viewport}", "poison": "{image=poison_be_viewport}"} # Damage (Effect) types...
+        DAMAGE_20 = {"physical": "{image=physical_be_size20}", "fire": "{image=fire_element_be_size20}", "water": "{image=water_element_be_size20}",
+                     "ice": "{image=ice_element_be_size20}", "earth": "{image=earth_element_be_size20}", "air": "{image=air_element_be_size20}",
+                     "electricity": "{image=ele_element_be_size20}", "light": "{image=light_element_be_size20}", "darkness": "{image=darkness_element_be_size20}",
+                     "healing": "{image=healing_be_size20}", "poison": "{image=poison_be_size20}"}
+
+        def __init__(self, name, mp_cost=0, health_cost=0, vitality_cost=0, kind="assault",
+                           range=1, source=None, type="se", piercing=False, multiplier=1, true_pierce=False,
+                           menuname=None, critpower=0, sfx=None, gfx=None, attributes=[], effect=0, zoom=None,
                            add2skills=True, desc="", pause=0, target_state="alive", menu_pos=0,
                            attacker_action={},
                            attacker_effects={},
@@ -480,13 +488,12 @@ init -1 python: # Core classes:
             """
             # Naming/Sorting:
             self.name = name
+            self.kind = kind
+            self.menu_pos = menu_pos # Skill level might be a better name.
             if not menuname:
                 self.mn = self.name
             else:
                 self.mn = menuname
-            self.manucat = menucat
-
-            self.kind = kwargs.get("kind", "assault") # Kind reffers to type of the attack, like assault, healing, damage_over_time, revival and etc.
 
             # Logic:
             self.range = range
@@ -500,7 +507,6 @@ init -1 python: # Core classes:
             self.multiplier = multiplier
             self.desc = desc
             self.target_state = target_state
-            self.menu_pos = menu_pos # Skill level might be a better name.
 
             self.event_class = event_class
 
@@ -519,7 +525,11 @@ init -1 python: # Core classes:
             # GFX/SFX + Dicts:
             self.timestamps = {} # We keep all gfx effects here!
 
+            # Normalize:
             self.attacker_action = attacker_action.copy()
+            self.attacker_action["gfx"] = self.attacker_action.get("gfx", "step_forward")
+            self.attacker_action["sfx"] = self.attacker_action.get("sfx", None)
+
             self.attacker_effects = attacker_effects.copy()
             self.attacker_effects["gfx"] = attacker_effects.get("gfx", None)
             self.attacker_effects["sfx"] = attacker_effects.get("sfx", None)
@@ -530,27 +540,51 @@ init -1 python: # Core classes:
             self.main_effect["sfx"] = main_effect.get("sfx", None)
             self.main_effect["start_at"] = main_effect.get("start_at", 0)
             self.main_effect["aim"] = dp.get("aim", {})
+            if self.delivery in ["melee", "ranged"]:
+                self.main_effect["duration"] = main_effect.get("duration", .1)
+            else:
+                self.main_effect["duration"] = main_effect.get("duration", .5)
 
             self.dodge_effect = dodge_effect.copy()
-            self.dodge_effect["gfx"] = dodge_effect.get("gfx", True)
+            self.dodge_effect["gfx"] = dodge_effect.get("gfx", "dodge")
 
             self.target_sprite_damage_effect = target_sprite_damage_effect.copy()
-            self.target_sprite_damage_effect["gfx"] = target_sprite_damage_effect.get("gfx", None)
+            self.target_sprite_damage_effect["gfx"] = target_sprite_damage_effect.get("gfx", "shake")
+            self.target_sprite_damage_effect["duration"] = target_sprite_damage_effect.get("duration", self.main_effect["duration"])
             self.target_sprite_damage_effect["sfx"] = target_sprite_damage_effect.get("sfx", None)
+            if self.delivery in ["melee", "ranged"]:
+                self.target_sprite_damage_effect["initial_pause"] = target_sprite_damage_effect.get("initial_pause", 0.1)
+            else:
+                self.target_sprite_damage_effect["initial_pause"] = target_sprite_damage_effect.get("initial_pause", 0.2)
 
             self.target_damage_effect = target_damage_effect.copy()
             self.target_damage_effect["gfx"] = target_damage_effect.get("gfx", "battle_bounce")
             self.target_damage_effect["sfx"] = target_damage_effect.get("sfx", None)
+            if not self.delivery in ["melee", "ranged"]:
+                self.target_damage_effect["initial_pause"] = self.target_damage_effect.get("initial_pause", .21)
 
             self.target_death_effect = target_death_effect.copy()
             self.target_death_effect["gfx"] = target_death_effect.get("gfx", "dissolve")
+            self.target_death_effect["duration"] = self.target_death_effect.get("duration", 0.5)
             self.target_death_effect["sfx"] = target_death_effect.get("sfx", None)
+            if self.delivery in ["melee", "ranged"]:
+                self.target_death_effect["initial_pause"] = target_death_effect.get("initial_pause", .2)
+            else:
+                self.target_death_effect["initial_pause"] = target_death_effect.get("initial_pause", self.target_sprite_damage_effect["initial_pause"] + 0.1)
 
             self.bg_main_effect = bg_main_effect.copy()
             self.bg_main_effect["gfx"] = bg_main_effect.get("gfx", None)
             if self.bg_main_effect["gfx"]:
                 self.bg_main_effect["initial_pause"] = self.bg_main_effect.get("initial_pause", self.main_effect["start_at"])
-                self.bg_main_effect["duration"] = self.bg_main_effect.get("duration", main_effect.get("duration", 0.4))
+                self.bg_main_effect["duration"] = self.bg_main_effect.get("duration", main_effect.get("duration", .4))
+
+            # Cost of the attack:
+            self.mp_cost = mp_cost
+            if not(isinstance(health_cost, int)) and health_cost > 0.9:
+                self.health_cost = 0.9
+            else:
+                self.health_cost = health_cost
+            self.vitality_cost = vitality_cost
 
         def __call__(self, ai=False, t=None):
             self.effects_resolver(t)
@@ -1187,20 +1221,6 @@ init -1 python: # Core classes:
             self.source.vitality -= vitality_cost
 
         # Game/Gui Assists:
-        @property
-        def sorting_index(self):
-            """Returns 0, 1, 2 depending on DELIVERY  type if this attack.
-            0 => Weapons (Ranged or Melee)
-            1 => Magic (All kinds)
-            2 => Everythign else...
-            """
-            if self.delivery in ["melee", "ranged"]:
-                return 0
-            elif self.delivery == "magic":
-                return 1
-            else:
-                return 2
-
         def get_element(self):
             # This may have to be expanded if we permit multi-elemental attacks in the future.
             # Returns first (if any) an element bound to spell or attack:
