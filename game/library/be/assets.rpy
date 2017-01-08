@@ -447,7 +447,7 @@ label load_battle_skills:
                       target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.5},
                       target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": .5})
         BE_Action(u"Big Ice Break", range=2, attributes=["ranged", "ice"], menu_pos=2, effect=50, multiplier=1.3, critpower=0.3, vitality_cost=12, mp_cost=8, desc="Released inner powers of the dagger send a sharp ice formation towards the target.",
-                                           main_effect={"gfx": Transform("ice_dagger_webm", zoom=1.4), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.88, "aim": {"point": "center", "anchor": (.5, .5), "xo":140}},
+                                           main_effect={"gfx": Transform("ice_dagger_webm", zoom=1.4), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 0.88, "aim": {"point": "center", "anchor": (.5, .5), "xo":140}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "iced", "initial_pause": .3, "duration": .4},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
         BE_Action(u"Excalibur Slash", range=1, attributes=["melee", "light", "darkness", "physical"], critpower=.5, effect=60, multiplier=1.4, vitality_cost=5, menu_pos=0, desc="Even a normal attack draws in the power of elements as a result of microcracks in the space itself.",
@@ -516,7 +516,7 @@ label load_battle_skills:
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .25},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .4})
         BE_Action("Poison Arrow", attributes=["ranged", "physical", "poison"], critpower=0, multiplier=1.3, desc="Shooting a poisonous arrow.", effect=15, range=4, vitality_cost=8, menu_pos=2,
-                              main_effect={"gfx": Transform("green_hit_webm", zoom=1.1), "sfx": "content/sfx/sound/be/elf_arrow.ogg", "duration": 0.56},
+                              main_effect={"gfx": Transform("green_hit_webm", zoom=1.1), "sfx": "content/sfx/sound/be/elf_arrow.ogg", "duration": 0.56, "hflip": True},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .4})
         ArrowsSkill(u"Emerald Arrow", menu_pos=3, attributes=["ranged", "air", "earth"], critpower=.5, effect=55, multiplier=1.7, vitality_cost=20, mp_cost=5, range=4, piercing=True,
                               desc="Shooting an arrow empowered with the nature itself.",
@@ -540,7 +540,7 @@ label load_battle_skills:
                               dodge_effect={"initial_pause": .1})
         P2P_Skill(u"Midnight Arrow", menu_pos=3, range=3, attributes=["ranged", "physical", "darkness"], effect=65, multiplier=1.8, vitality_cost=15, health_cost=10, desc="Releases explosive arrow made of dark energy.",
                                            projectile_effects={"gfx": "demon_bow_arrow_webm", "sfx": "content/sfx/sound/be/elf_bow.ogg", "duration": 0.56, "aim": {"point": "center", "anchor": (.5, .5)}},
-                                           main_effect={"gfx": "demon_bow_hit_webm", "sfx":"content/sfx/sound/be/demon_core.ogg", "duration": 0.36, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
+                                           main_effect={"gfx": "demon_bow_hit_webm", "sfx":"content/sfx/sound/be/demon_core.ogg", "duration": 0.36, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 0.2},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .15},
                                            dodge_effect={"initial_pause": 0.005})
@@ -706,7 +706,7 @@ label load_battle_skills:
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .85},
                               target_death_effect={"gfx": "dissolve", "initial_pause": .8, "duration": .5})
         BE_Action(u"Steel Assault", type="all_enemies", range=1, attributes=["melee", "physical"], critpower=1.5, multiplier=1.5, effect=50, vitality_cost=10, menu_pos=3, desc="Quick consecutive slashes capable to attack multiple enemies.",
-                                           main_effect={"gfx": Transform("chain_scythe_webm", zoom=1.1), "sfx": "content/sfx/sound/be/chop.ogg", "duration": 0.76, "aim": {"point": "center", "anchor": (.5, .5)}},
+                                           main_effect={"gfx": Transform("chain_scythe_webm", zoom=1.1), "sfx": "content/sfx/sound/be/chop.ogg", "duration": 0.76, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .15, "duration": .7},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .4})
         ArealSkill(u"Harvesting Time", range=2, attributes=["melee", "darkness", "physical", "poison"], menu_pos=2, critpower=2.5, effect=100, multiplier=2.5, vitality_cost=25, mp_cost=2, health_cost= 0.1, type="all_enemies", desc="By sacrificing some life energy a small piece of the Death powers can be summoned to join the battle.",
