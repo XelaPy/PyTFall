@@ -699,7 +699,6 @@ init python:
         def __init__(self, name, **kwargs):
             super(ReviveSpell, self).__init__(name, **kwargs)
 
-
         def check_conditions(self, source=None):
             if source:
                 char = source

@@ -1226,16 +1226,16 @@ label load_battle_skills:
                                       target_sprite_damage_effect={"gfx": None},
                                       target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.7},
                                       target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
-        if config.developer:                          
-        BE_Action(u"DarkTouch", menu_pos=-99, attributes=["magic", "darkness"], effect=999999999, mp_cost=10, range=5,
-                                      type="sa", piercing=True, true_pierce=True,
-                                      desc="Sacrifices a party member in the name of an ancient dark creature from another dimension.",
-                                      attacker_action={"gfx": None},
-                                      attacker_effects={"gfx": "runes_1", "sfx": "default"},
-                                      main_effect={"gfx": Transform("heal_2", zoom=1.4), "sfx": "content/sfx/sound/be/heal2.mp3", "duration": 2.5, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}},
-                                      target_sprite_damage_effect={"gfx": None},
-                                      target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.7},
-                                      target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
+        if config.debug:
+            BE_Action(u"DarkTouch", menu_pos=-99, attributes=["magic", "darkness"], effect=999999999, mp_cost=10, range=5,
+                                          type="sa", piercing=True, true_pierce=True,
+                                          desc="Sacrifices a party member in the name of an ancient dark creature from another dimension.",
+                                          attacker_action={"gfx": None},
+                                          attacker_effects={"gfx": "runes_1", "sfx": "default"},
+                                          main_effect={"gfx": Transform("heal_2", zoom=1.4), "sfx": "content/sfx/sound/be/heal2.mp3", "duration": 2.5, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}},
+                                          target_sprite_damage_effect={"gfx": None},
+                                          target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.7},
+                                          target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
         # Reviving:
         ReviveSpell(u"Revive", attributes=["magic", "light"], kind="revival", menu_pos=-1, effect=10, mp_cost=35, health_cost=0.3, range=5, type="sa", piercing=True, true_pierce=True, target_state="dead",
                              desc="Brings an unconscious ally back to the battlefield by sharing some life energy.",

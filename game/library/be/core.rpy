@@ -23,6 +23,7 @@ init -1 python: # Core classes:
     del perfect_middle_xr
     del perfect_middle_yr
 
+
     class BE_Core(object):
         """Main BE attrs, data and the loop!
         """
