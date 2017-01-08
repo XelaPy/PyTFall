@@ -1226,7 +1226,7 @@ label load_battle_skills:
                                       target_sprite_damage_effect={"gfx": None},
                                       target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.7},
                                       target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
-        # special testing spell for killing the player party. should never be available outside testing mode!
+        if config.developer:                          
         BE_Action(u"DarkTouch", menu_pos=-99, attributes=["magic", "darkness"], effect=999999999, mp_cost=10, range=5,
                                       type="sa", piercing=True, true_pierce=True,
                                       desc="Sacrifices a party member in the name of an ancient dark creature from another dimension.",
