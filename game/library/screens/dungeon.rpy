@@ -125,8 +125,8 @@ label enter_dungeon:
         file.close()
         bumped = False
         accesible_area = set(["0","2","3"])
-        visible_area = set(["1","3"])
-        transparent_area = set(["0","2"])
+        visible_area = set(["1","3","4"])
+        transparent_area = set(["0","2","4"])
         light=""
 
 
@@ -141,7 +141,7 @@ label enter_dungeon:
             renpy.show("dungeon_%sbackground"%light)
             # compile front to back, a list of what area are walls to be shown, behind wall we don't show.
             sided = ["%s%sleft%dc", "%s%sleft%db", "%s%sleft%d", "%s%sfront%d", "%s%sright%d", "%s%sright%db", "%s%sright%dc"]
-            blend = {"1": "dungeon_", "3": "dungeon_door_"}
+            blend = {"1": "dungeon_", "3": "dungeon_door_", "4": "dungeon_barrel_"}
             areas = [[0, -1], [0, 1], [1, 0]]
             show = []
 
