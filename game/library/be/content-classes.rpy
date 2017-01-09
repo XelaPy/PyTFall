@@ -662,10 +662,10 @@ init python:
                 targets = [targets]
             source = self.source
             attributes = self.attributes
-
             base_restore = self.get_attack()
 
             for t in targets:
+                base_restore = t.get_max("health") * self.effect
                 effects = []
 
                 # We get the multi and any effects that those may bring:
