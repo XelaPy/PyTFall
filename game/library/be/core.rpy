@@ -1547,6 +1547,15 @@ init -1 python: # Core classes:
                     what.add(AlphaMask(mask, sprite))
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
+                elif type.startswith("on_ele"):
+                    sprite = target.besprite
+                    sprite_size = target.besprite_size
+                    mask = Transform("on_ele", size=sprite_size)
+                    what = Fixed(xysize=sprite_size)
+                    what.add(sprite)
+                    what.add(AlphaMask(mask, sprite))
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
                 elif isinstance(type, basestring) and type.startswith("fire"):
                         what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
                         if type == "fire":

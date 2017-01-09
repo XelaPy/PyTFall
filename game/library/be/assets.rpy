@@ -1120,37 +1120,37 @@ label load_battle_skills:
         BE_Action(u"Thunder", menu_pos=0, attributes=["magic", "electricity"], effect=20, multiplier=1.2, mp_cost=5, range=4, type="all_enemies", desc="Shocks targets with static electricity caused by friction of airborne particles.",
                                            attacker_effects={"gfx": "electricity_1", "sfx": "default"},
                                            main_effect={"gfx": Transform("electricity_1", zoom=1.5), "sfx": "content/sfx/sound/be/thunder2.mp3", "duration": 1.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0, "hflip": True},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.2, "duration": 0.6},
+                                           target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": 0.2, "duration": 0.6},
                                            target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 0.3, "duration": 0.6})
         BE_Action(u"Thundara", menu_pos=1, attributes=["magic", "electricity"], effect=20, multiplier=1.6, mp_cost=7, range=4, desc="Surrounds the target by brief electricity field.",
                                            attacker_effects={"gfx": "electricity_1", "sfx": "default"},
                                            main_effect={"gfx": Transform("electricity_2", zoom=1.7), "sfx": "content/sfx/sound/be/thunder4.mp3", "duration": 1.2, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 50}, "start_at": 0},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.1},
+                                           target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": 0.1, "duration": 1.1},
                                            target_damage_effect={"gfx": "battle_bounce"},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 0.9, "duration": 0.3})
         BE_Action(u"Thundaga", menu_pos=2, attributes=["magic", "electricity"], effect=20, multiplier=1.3, mp_cost=6, range=4, desc="Creates a plasma ball of ionized hot air near the target.",
                                            attacker_effects={"gfx": "electricity_1", "sfx": "default"}, piercing=True,
                                            main_effect={"gfx": Transform("electricity_4", zoom=1.8), "sfx": "content/sfx/sound/be/thunder3.mp3", "duration": 0.6, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.05, "duration": 0.7},
+                                           target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": 0.05, "duration": 0.7},
                                            target_damage_effect={"gfx": "battle_bounce"},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 0.4, "duration": 0.3})
         BE_Action(u"Thundaja", menu_pos=3, attributes=["magic", "electricity"], effect=20, multiplier=1.0, mp_cost=4, range=4, desc="Covers a small area by lightning discharges.",
                                            attacker_effects={"gfx": "electricity_1", "sfx": "default"}, piercing=True, type="all_enemies",
                                            main_effect={"gfx": Transform("electricity_3", zoom=2.2), "sfx": "content/sfx/sound/be/thunder.mp3", "duration": 1.35, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 50}, "start_at": 0, "hflip": True},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.2, "duration": 1.0},
+                                           target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": 0.2, "duration": 1.0},
                                            target_damage_effect={"gfx": "battle_bounce"},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.2})
         BE_Action(u"Thunderstorm", menu_pos=6, attributes=["magic", "electricity"], menuname="TStorm", effect=50, multiplier=1.5, mp_cost=8, range=4, desc="Сovers a small area by numerous high-voltage discharges.",
                                            attacker_effects={"gfx": "electricity_2", "sfx": "default"}, piercing=True, type="all_enemies", dodge_effect={"initial_pause": .2},
                                            main_effect={"gfx": Transform("electricity_5", zoom=1.6), "sfx": "content/sfx/sound/be/thunder5.mp3", "duration": 1.6, "aim": {"point": "tc", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.15, "duration": 1.45},
+                                           target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": 0.15, "duration": 1.45},
                                            target_damage_effect={"gfx": "battle_bounce"},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.2})
         BE_Action(u"Electromagnetism", menu_pos=10, attributes=["magic", "electricity"], menuname="EM", effect=40, multiplier=1.5, mp_cost=9, range=4, desc="Takes control over charged particles inside the target, causing severe internal injuries.",
                                            attacker_effects={"gfx": "electricity_2", "sfx": "default"}, type="all_enemies", dodge_effect={"initial_pause": .2},
                                            main_effect={"gfx": Transform("electricity_6", zoom=1.8), "sfx": "content/sfx/sound/be/thunder6.mp3", "duration": 3.2, "aim": {"point": "tc", "anchor": (0.5, 0.5), "yo": 15}, "start_at": 0, "hflip": True},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.3, "duration": 2.9},
+                                           target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": 0.3, "duration": 2.9},
                                            target_damage_effect={"gfx": "battle_bounce"},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 3.0, "duration": 0.2})
         P2P_Skill(u"Ion Blast", menu_pos=11, attributes=["magic", "electricity"], effect=60, multiplier=3.0, mp_cost=20, range=4,
@@ -1158,7 +1158,7 @@ label load_battle_skills:
                                       projectile_effects={"gfx": "ion_1", "sfx": "content/sfx/sound/be/ion_storm.mp3", "duration": 1.0},
                                       main_effect={"gfx": "ion", "sfx": None, "duration": 2.25},
                                       attacker_effects={"gfx": "orb", "sfx": "default"},
-                                      target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.3, "duration": 1.4},
+                                      target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": 0.3, "duration": 1.4},
                                       target_death_effect={"gfx": "hide", "initial_pause": 0.7, "duration": 0.01},
                                       dodge_effect={"initial_pause": .1})
         P2P_ArealSkill(u"Ion Storm", menu_pos=7, attributes=["magic", "electricity"], effect=40, multiplier=1.8, mp_cost=20, range=4, piercing=True, true_pierce=True,
@@ -1166,7 +1166,7 @@ label load_battle_skills:
                                                 projectile_effects={"gfx": "ion_1", "sfx": "content/sfx/sound/be/ion_storm.mp3", "duration": 1.0},
                                                 main_effect={"gfx": Transform("ion", zoom=2.0), "sfx": None, "duration": 2.25, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
                                                 attacker_effects={"gfx": "orb", "sfx": "default"},
-                                                target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.3, "duration": 1.4},
+                                                target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": 0.3, "duration": 1.4},
                                                 target_death_effect={"gfx": "hide", "initial_pause": 0.7, "duration": 0.01},
                                                 dodge_effect={"initial_pause": .1})
         BE_Action("Full Discharge", menuname="F Discharge", menu_pos=12, attributes=["magic", "electricity"], effect=90, multiplier=4.0, mp_cost=15, range=4, true_pierce=True, type="se", piercing=True,
@@ -1174,7 +1174,7 @@ label load_battle_skills:
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
                                         main_effect={"gfx": Transform("thunder_storm_2", xzoom=1.2, yzoom=1.3), "start_at": 0, "sfx": "content/sfx/sound/be/thunder5.mp3", "duration": 1.6, "aim": {"point": "bc", "anchor": (0.5, 1.0), "xo": 0 ,"yo": 30}},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.5},
-                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.4, "duration": 1.2, "master_shake": True},
+                                        target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": 0.4, "duration": 1.2, "master_shake": True},
                                         target_death_effect={"gfx": "dissolve", "initial_pause": 0.8, "duration": 0.4},
                                         bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 2.3},
                                         dodge_effect={"initial_pause": .3})
@@ -1183,7 +1183,7 @@ label load_battle_skills:
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
                                         main_effect={"gfx": Transform("moz_stretch", zoom=.7), "sfx": "content/sfx/sound/be/thunder7.mp3", "duration": 3.4, "aim": {"anchor": (0.5, 1.0), "yo": 150}},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 3.4},
-                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.5, "duration": 2.5, "master_shake": True},
+                                        target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": 0.5, "duration": 2.5, "master_shake": True},
                                         target_death_effect={"gfx": "dissolve", "initial_pause": 2.4, "duration": 0.5})
         # Light:
         BE_Action(u"Holy", menu_pos=0, attributes=["magic", "light"], effect=20, multiplier=1.2, mp_cost=5, range=4, type="all_enemies", desc="A flash of light energy burns targets from inside.",
