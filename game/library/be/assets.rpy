@@ -1009,19 +1009,19 @@ label load_battle_skills:
         BE_Action(u"Stone", menu_pos=0, attributes=["magic", "earth"], effect=20, multiplier=1.2, mp_cost=5, range=4, type="all_enemies", desc="Creates cloud of fragments of hardened clay.",
                                            attacker_effects={"gfx": "earth_1", "sfx": "default"},
                                            main_effect={"gfx": Transform("earth_1", zoom=1.4), "sfx": "content/sfx/sound/be/earth.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}, "start_at": 0},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.7},
+                                           target_sprite_damage_effect={"gfx": "vertical_shake", "initial_pause": 0.1, "duration": 1.7},
                                            target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 1.5, "duration": 0.5})
         BE_Action(u"Stonera", menu_pos=1, attributes=["magic", "earth"], effect=20, multiplier=1.6, mp_cost=7, range=4, desc="Creates a sharp stone spike.",
                                            attacker_effects={"gfx": "earth_1", "sfx": "default"},
                                            main_effect={"gfx": "earth_2", "sfx": "content/sfx/sound/be/earth.mp3", "duration": 1.5, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 10}, "start_at": 0},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.8},
+                                           target_sprite_damage_effect={"gfx": "vertical_shake", "initial_pause": 0.1, "duration": 0.8},
                                            target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 0.6, "duration": 0.5})
         BE_Action(u"Stonega", menu_pos=2, attributes=["magic", "earth"], effect=20, multiplier=1.3, mp_cost=6, range=4, piercing=True, desc="A small amount of magma moves to the surface, spilling on the target.",
                                            attacker_effects={"gfx": "earth_1", "sfx": "default"},
                                            main_effect={"gfx": Transform("earth_3", zoom=1.2), "sfx": "content/sfx/sound/be/earth3.mp3", "duration": 1.5, "aim": {"point": "bc", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.2},
+                                           target_sprite_damage_effect={"gfx": "vertical_shake", "initial_pause": 0.1, "duration": 1.2},
                                            target_damage_effect={"gfx": "battle_bounce"},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": 0.3})
         BE_Action(u"Stoneja", menu_pos=3, attributes=["magic", "earth"], effect=20, multiplier=1.0, mp_cost=7, range=4, piercing=True, type="all_enemies", desc="Small part of the target becomes stone and shatters into a thousand pieces.",
@@ -1034,7 +1034,7 @@ label load_battle_skills:
                                            desc="Hot dust and poisonous gases are pulled out of the ground under high pressure.",
                                            attacker_effects={"gfx": "earth_2", "sfx": "default"},
                                            main_effect={"gfx": Transform("earth_5_webm", zoom=1.5), "sfx": "content/sfx/sound/be/earth4.mp3", "duration": 0.86, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 0}},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.8},
+                                           target_sprite_damage_effect={"gfx": "vertical_shake", "initial_pause": 0.1, "duration": 0.8},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.7},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 0.7, "duration": 0.15})
         BE_Action(u"Transmutation", menu_pos=11, attributes=["magic", "earth", "fire"], effect=40, multiplier=1.8, mp_cost=10, range=4, dodge_effect={"initial_pause": .2},
@@ -1048,7 +1048,7 @@ label load_battle_skills:
                                            desc="Brings a small flow of magma to the surface.",
                                            attacker_effects={"gfx": "earth_2", "sfx": "default"},
                                            main_effect={"gfx": Transform("magma", zoom=2.0), "sfx": "content/sfx/sound/be/rift_line.mp3", "duration": 3.2, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 75}},
-                                           target_sprite_damage_effect={"gfx": "shake", "master_shake": True, "initial_pause": 0.7, "duration": 2.2},
+                                           target_sprite_damage_effect={"gfx": "vertical_shake", "master_shake": True, "initial_pause": 0.7, "duration": 2.2},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.8},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
         ArealSkill("Fist of Bethel", menu_pos=13, menuname="FoB", attributes=["magic", "earth", "inevitable"], effect=200, multiplier=10.0, mp_cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
