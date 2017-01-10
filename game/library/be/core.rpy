@@ -1522,8 +1522,6 @@ init -1 python: # Core classes:
                     what = target.besprite
                     t = self.target_sprite_damage_effect.get("duration", 1)
                     at_list = [light_ray(target.besprite, t)]
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(0.05, (-10, 10))]
                 elif type == "iced":
                     child = Transform("content/gfx/be/frozen.jpg", size=target.besprite_size)
                     mask = target.besprite

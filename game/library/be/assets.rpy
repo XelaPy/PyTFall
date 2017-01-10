@@ -1236,7 +1236,7 @@ label load_battle_skills:
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
                                         main_effect={"gfx": Transform("holy_blast", zoom=2.2), "sfx": "content/sfx/sound/be/light6.mp3", "duration": 3.7, "aim": {"anchor": (0.5, 1.0), "yo": 320}},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 3.7},
-                                        target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 1.5, "duration": 2.2},
+                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.5, "duration": 2.2},
                                         target_death_effect={"gfx": "dissolve", "initial_pause": 2.7, "duration": 0.5})
         # Darkness:
         BE_Action(u"Dark", menu_pos=0, attributes=["magic", "darkness"], effect=40, multiplier=1.5, mp_cost=5, range=4, type="all_enemies", desc="The mere presence of dark energy is dangerous for most creatures.",
