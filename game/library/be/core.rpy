@@ -1130,9 +1130,10 @@ init -1 python: # Core classes:
             return "{color=[%s]} %s {/color}" % (color, s)
 
         def effects_to_string(self, t, default_color="red"):
-            """Writes to viewport reports log.
+            """Adds information about target to the list and returns it to be written to the log later.
 
             - We assume that all tuples in effects are damages by type!
+            - At times also calls set_dmg_font_color.
             """
             # String for the log:
             effects = t.beeffects

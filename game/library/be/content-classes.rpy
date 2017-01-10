@@ -729,20 +729,18 @@ init python:
             attributes = self.attributes
 
             for t in targets:
-                minh, maxh = int(t.get_max("health")*0.1), int(t.get_max("health")*0.3)
+                minh, maxh = int(t.get_max("health")*.1), int(t.get_max("health")*.3)
                 revive = randint(minh, maxh)
 
                 effects = list()
-                effects.insert(0, revive)
+                effects.append(revive)
                 t.beeffects = effects
-
+                
                 # String for the log:
-                s = list()
-                s.append("%s brings %s back!" % (char.nickname, t.name))
+                s = ("{color=[green]}%s brings %s back!{/color}" % (char.nickname, t.name))
+                t.dmg_font = "lawngreen" # Color the battle bounce green!
 
-                s = s + self.effects_to_string(t, default_color="green")
-
-                battle.log("".join(s))
+                battle.log(s)
 
         def apply_effects(self, targets):
             if not isinstance(targets, (list, tuple, set)):
@@ -750,23 +748,9 @@ init python:
 
             for t in targets:
                 battle.corpses.remove(t)
-                minh, maxh = int(t.get_max("health")*0.1), int(t.get_max("health")*0.3)
                 t.health = t.beeffects[0]
-            if not(isinstance(self.mp_cost, int)):
-                mp_cost = int(self.source.get_max("mp")*self.mp_cost)
-            else:
-                mp_cost = self.mp_cost
-            if not(isinstance(self.health_cost, int)):
-                health_cost = int(self.source.get_max("health")*self.health_cost)
-            else:
-                health_cost = self.health_cost
-            if not(isinstance(self.vitality_cost, int)):
-                vitality_cost = int(self.source.get_max("vitality")*self.vitality_cost)
-            else:
-                vitality_cost = self.vitality_cost
-            self.source.mp -= mp_cost
-            self.source.health -= health_cost
-            self.source.vitality -= vitality_cost
+                
+            self.settle_cost()
 
             return []
 
