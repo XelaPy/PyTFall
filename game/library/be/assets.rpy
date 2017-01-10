@@ -1207,8 +1207,8 @@ label load_battle_skills:
         BE_Action(u"Holyja", menu_pos=3, attributes=["magic", "light"], effect=40, multiplier=1.3, mp_cost=4, range=4, piercing=True, type="all_enemies",
                                            desc="Gathers holy energy around targets and releases it upwards like a pillar of light.",
                                            attacker_effects={"gfx": "light_1", "sfx": "default"},
-                                           main_effect={"gfx": Transform("light_4", zoom=1.5), "sfx": "content/sfx/sound/be/light5.mp3", "duration": 2.04, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 70}},
-                                           target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.04},
+                                           main_effect={"gfx": Transform("light_4_webm", zoom=1.5), "sfx": "content/sfx/sound/be/light5.mp3", "duration": 2.23, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 70}},
+                                           target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.1},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.5, "duration": 1.4},
                                            target_death_effect={"gfx": "hide", "initial_pause": 1.5, "duration": 0.0001})
         BE_Action(u"Photon Blade", menu_pos=10, attributes=["magic", "light"], effect=50, multiplier=3.5, mp_cost=8, range=4, desc="Infinitely thin blades of pure light slices target.",
