@@ -509,7 +509,8 @@ init -999 python:
             image = 'content/dungeon/' + fname
             renpy.image(tag, image)
 
-    for blend in ('door', 'torch', 'door_torch', 'barrel', 'barrel_torch'):
+    for blend in ('door', 'torch', 'door_torch', 'barrel', 'barrel_torch', 'mossy', 'mossy_torch',
+                 'more_barrels', 'more_barrels_torch', 'barrel_crate', 'barrel_crate_torch'):
         for fname in os.listdir(gamedir + '/content/dungeon/' + blend):
             if fname.endswith('.png'):
                 tag = fname[:-4]

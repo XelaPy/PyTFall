@@ -1509,6 +1509,9 @@ init -1 python: # Core classes:
                 if type == "shake":
                     what = target.besprite
                     at_list = [damage_shake(0.05, (-10, 10))]
+                elif type == "vertical_shake":
+                    what = target.besprite
+                    at_list = [vertical_damage_shake(0.1, (-5, 5))]
                 elif type == "fly_away":
                     what = target.besprite
                     at_list = [fly_away]
@@ -1542,6 +1545,15 @@ init -1 python: # Core classes:
                     sprite = target.besprite
                     sprite_size = target.besprite_size
                     mask = Transform("be_water_mask", size=sprite_size)
+                    what = Fixed(xysize=sprite_size)
+                    what.add(sprite)
+                    what.add(AlphaMask(mask, sprite))
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
+                elif type.startswith("on_ele"):
+                    sprite = target.besprite
+                    sprite_size = target.besprite_size
+                    mask = Transform("on_ele", size=sprite_size)
                     what = Fixed(xysize=sprite_size)
                     what.add(sprite)
                     what.add(AlphaMask(mask, sprite))
