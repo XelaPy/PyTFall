@@ -76,7 +76,7 @@ init -1 python: # Core classes:
             # Since factions are simply teams:
             for team in self.teams:
                 if char in team:
-                    return team.name # Maybe this should be an instance of the team? Concider this for the future when this might really matter.
+                    return team
 
         def main_loop(self):
             """
@@ -1816,7 +1816,14 @@ init -1 python: # Core classes:
             attack_skills = [s for s in skills if s.kind == "assault"]
             healing_skills = [s for s in skills if s.kind == "healing"]
             buffs = [s for s in skills if s.kind == "buffs"]
-            revive_skills = [s for s in skills if s.kind == "ravival"]
+            revival_skills = [s for s in skills if s.kind == "revival"]
+
+            if healing_skills:
+                for hs in healing_skills:
+                    allies = hs.get_targets()
+                    for a in allies:
+                        if a.health < a.get_max("health")*.5:
+                            hs(ai=True, t=targets)
 
             skill = choice(skills)
             # So we have a skill... now lets pick a target(s):
