@@ -1099,7 +1099,7 @@ label load_battle_skills:
         BE_Action(u"Vortex", menu_pos=12, attributes=["magic", "air"], effect=80, multiplier=3.8, mp_cost=18, range=4, desc="Creates a small, but very powerful sphere of hurricane winds around the target.", type="all_enemies",
                                            attacker_effects={"gfx": "orb", "sfx": "default"},
                                            main_effect={"gfx": Transform("vortex", zoom=2.2), "sfx": "content/sfx/sound/be/vortex.mp3", "duration": 1.5, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.4, "master_shake": True},
+                                           target_sprite_damage_effect={"gfx": "on_air", "initial_pause": 0.1, "duration": 1.4, "master_shake": True},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.0},
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 1.0, "duration": 0.3})
         ArealSkill("Northern Flow", menu_pos=13, attributes=["magic", "air", "ice", "inevitable"], effect=130, multiplier=5.0, mp_cost=15, range=4, type="all_enemies", piercing=True,
