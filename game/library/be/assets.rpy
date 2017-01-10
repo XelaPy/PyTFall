@@ -1069,7 +1069,7 @@ label load_battle_skills:
         BE_Action(u"Aerora", menu_pos=1, attributes=["magic", "air"], effect=20, multiplier=1.6, mp_cost=7, range=4, desc="Causes damage by sand and branches picked up by the wind rather than air itself.",
                                            attacker_effects={"gfx": "air_1", "sfx": "default"},
                                            main_effect={"gfx": Transform("air_5", zoom=1.3), "sfx": "content/sfx/sound/be/air1.mp3", "duration": 0.9, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.8},
+                                           target_sprite_damage_effect={"gfx": "on_air", "initial_pause": 0.1, "duration": 0.8},
                                            target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 0.7, "duration": 0.2})
         BE_Action(u"Aeroga", menu_pos=2, attributes=["magic", "air"], effect=20, multiplier=1.3, mp_cost=6, range=4, desc="Even for those who don't need to breathe instantaneous air pressure drop is dangerous.", piercing=True,
@@ -1087,7 +1087,7 @@ label load_battle_skills:
         BE_Action(u"Pressure", menu_pos=10, attributes=["magic", "air"], effect=40, multiplier=1.8, mp_cost=10, range=4, desc="Pumps air from the target, crushing it by external atmospheric pressure.", piercing=True,
                                            attacker_effects={"gfx": "air_2", "sfx": "default"},
                                            main_effect={"gfx": Transform("air_4", zoom=1.2), "sfx": "content/sfx/sound/be/air3.mp3", "duration": 1.5, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.3},
+                                           target_sprite_damage_effect={"gfx": "on_air", "initial_pause": 0.1, "duration": 1.3},
                                            target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 1.0, "duration": 0.3})
         BE_Action(u"Air Blast", menu_pos=11, attributes=["magic", "air"], effect=40, multiplier=2.5, mp_cost=20, range=4, desc="Pumps air into the target, tearing it from the inside.", piercing=True,
@@ -1201,7 +1201,7 @@ label load_battle_skills:
         BE_Action(u"Holyda", menu_pos=2, attributes=["magic", "light"], effect=40, multiplier=1.6, mp_cost=6, range=4, desc="A smallest particle of stellar energy burns the target.",
                                            attacker_effects={"gfx": "light_1", "sfx": "default"}, piercing=True,
                                            main_effect={"gfx": Transform("light_3", zoom=2.5), "sfx": "content/sfx/sound/be/light4.mp3", "duration": 1.6, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.5},
+                                           target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 1.5},
                                            target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":1.3, "duration": 0.2})
         BE_Action(u"Holyja", menu_pos=3, attributes=["magic", "light"], effect=40, multiplier=1.3, mp_cost=4, range=4, piercing=True, type="all_enemies",
@@ -1236,7 +1236,7 @@ label load_battle_skills:
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
                                         main_effect={"gfx": Transform("holy_blast", zoom=2.2), "sfx": "content/sfx/sound/be/light6.mp3", "duration": 3.7, "aim": {"anchor": (0.5, 1.0), "yo": 320}},
                                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 3.7},
-                                        target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.5, "duration": 2.2},
+                                        target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 1.5, "duration": 2.2},
                                         target_death_effect={"gfx": "dissolve", "initial_pause": 2.7, "duration": 0.5})
         # Darkness:
         BE_Action(u"Dark", menu_pos=0, attributes=["magic", "darkness"], effect=40, multiplier=1.5, mp_cost=5, range=4, type="all_enemies", desc="The mere presence of dark energy is dangerous for most creatures.",
@@ -1296,7 +1296,7 @@ label load_battle_skills:
                                                                         target_death_effect={"gfx": "dissolve", "initial_pause": 2, "duration": 0.5},
                                                                         bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 2.6})
         # Healing:
-        BasicHealingSpell(u"Life Wind", menu_pos=-3, attributes=["magic", "healing", "air"], kind="healing", effect=0.1, mp_cost=10, range=5, type="all_allies",
+        BasicHealingSpell(u"Life Wind", menu_pos=-3, attributes=["magic", "healing", "air"], kind="healing", effect=0.1, mp_cost=50, range=5, type="all_allies",
                                       desc="Healing wind restores health for the whole party (+10%).",
                                       attacker_action={"gfx": None},
                                       attacker_effects={"gfx": "runes_1", "sfx": "default"},
