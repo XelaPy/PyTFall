@@ -510,9 +510,9 @@ init -997: # Transforms:
         repeat
         
     transform light_ray(sprite):
-        im.MatrixColor(sprite,im.matrix.brightness(1)) with Dissolve(1.0, alpha =True)
-        pause 1.01
-        im.MatrixColor(sprite,im.matrix.brightness(0)) with Dissolve(1.0, alpha =True)
+        im.MatrixColor(sprite,im.matrix.brightness(0.5)) with Dissolve(0.5, alpha =True)
+        pause .01
+        im.MatrixColor(sprite,im.matrix.brightness(0)) with Dissolve(0.5, alpha =True)
         
     transform shake(dt=.4, dist=128):
         function renpy.curry(_shake_function)(dt=dt,dist=dist)

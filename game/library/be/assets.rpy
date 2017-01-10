@@ -1189,7 +1189,7 @@ label load_battle_skills:
         BE_Action(u"Holy", menu_pos=0, attributes=["magic", "light"], effect=20, multiplier=1.2, mp_cost=5, range=4, type="all_enemies", desc="A flash of light energy burns targets from inside.",
                                            attacker_effects={"gfx": "light_1", "sfx": "default"},
                                            main_effect={"gfx": Transform("light_1", zoom=1.5), "sfx": "content/sfx/sound/be/light1.mp3", "duration": 1.25, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.1},
+                                           target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 1.1},
                                            target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":0.9, "duration": 0.2})
         BE_Action(u"Holyra", menu_pos=1, attributes=["magic", "light"], effect=20, multiplier=1.9, mp_cost=7, range=4, desc="A sphere of light energy burns the target from all sides.",
