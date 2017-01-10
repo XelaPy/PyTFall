@@ -1404,7 +1404,7 @@ init -1 python: # Core classes:
             elif gfx == "circle_2":
                 renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-100), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
             elif gfx == "circle_3":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-100), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center", yo=-50), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
             elif gfx == "runes_1":
                 renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-50), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]-1)
 
@@ -1426,7 +1426,7 @@ init -1 python: # Core classes:
             elif gfx == "circle_2":
                 pause = 1.1
             elif gfx == "circle_3":
-                pause = 1.03
+                pause = 0.96
             elif gfx == "runes_1":
                 pause = 0.75
             else:
@@ -1515,6 +1515,15 @@ init -1 python: # Core classes:
                 elif type == "fly_away":
                     what = target.besprite
                     at_list = [fly_away]
+                elif type == "on_air":
+                    what = target.besprite
+                    at_list = [blowing_wind()]
+                elif type.startswith("on_light"):
+                    what = target.besprite
+                    t = self.target_sprite_damage_effect.get("duration", 1)
+                    at_list = [light_ray(target.besprite, t)]
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
                 elif type == "iced":
                     child = Transform("content/gfx/be/frozen.jpg", size=target.besprite_size)
                     mask = target.besprite
@@ -1553,7 +1562,7 @@ init -1 python: # Core classes:
                 elif type.startswith("on_ele"):
                     sprite = target.besprite
                     sprite_size = target.besprite_size
-                    mask = Transform("on_ele", size=sprite_size)
+                    mask = Transform("be_electro_mask", size=sprite_size)
                     what = Fixed(xysize=sprite_size)
                     what.add(sprite)
                     what.add(AlphaMask(mask, sprite))

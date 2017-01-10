@@ -236,7 +236,7 @@ init -999 python:
             
         def true_size(self):
             """
-            I use this for the BE. Will do the callulations but not render anything.
+            I use this for the BE. Will do the calculations but not render anything.
             """
             surf = im.cache.get(self.image)
             width, height = surf.get_size()
