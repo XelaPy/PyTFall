@@ -1518,9 +1518,12 @@ init -1 python: # Core classes:
                 elif type == "on_air":
                     what = target.besprite
                     at_list = [blowing_wind()]
-                elif type == "on_light":
+                elif type.startswith("on_light"):
                     what = target.besprite
-                    at_list = [light_ray(target.besprite)]
+                    t = self.target_sprite_damage_effect.get("duration", 1)
+                    at_list = [light_ray(target.besprite, t)]
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
                 elif type == "iced":
                     child = Transform("content/gfx/be/frozen.jpg", size=target.besprite_size)
                     mask = target.besprite

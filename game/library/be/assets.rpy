@@ -1195,7 +1195,7 @@ label load_battle_skills:
         BE_Action(u"Holyra", menu_pos=1, attributes=["magic", "light"], effect=20, multiplier=1.9, mp_cost=7, range=4, desc="A sphere of light energy burns the target from all sides.",
                                            attacker_effects={"gfx": "light_1", "sfx": "default"},
                                            main_effect={"gfx": Transform("light_2", zoom=1.5), "sfx": "content/sfx/sound/be/light3.mp3", "duration": 1.25, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.1},
+                                           target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 1.1},
                                            target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":0.9, "duration": 0.2})
         BE_Action(u"Holyda", menu_pos=2, attributes=["magic", "light"], effect=40, multiplier=1.6, mp_cost=6, range=4, desc="A smallest particle of stellar energy burns the target.",
@@ -1209,7 +1209,7 @@ label load_battle_skills:
                                            attacker_effects={"gfx": "light_1", "sfx": "default"},
                                            main_effect={"gfx": Transform("light_4_webm", zoom=1.5), "sfx": "content/sfx/sound/be/light5.mp3", "duration": 2.23, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 70}},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.1},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.5, "duration": 1.4},
+                                           target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.5, "duration": 1.4},
                                            target_death_effect={"gfx": "hide", "initial_pause": 1.5, "duration": 0.0001})
         BE_Action(u"Photon Blade", menu_pos=10, attributes=["magic", "light"], effect=50, multiplier=3.5, mp_cost=8, range=4, desc="Infinitely thin blades of pure light slices target.",
                                            attacker_effects={"gfx": "light_2", "sfx": "default"},
@@ -1220,7 +1220,7 @@ label load_battle_skills:
         BE_Action(u"Star Light", menu_pos=11, attributes=["magic", "light"], effect=40, multiplier=2.5, mp_cost=10, range=4, desc="A powerful and painful flash of star light.",
                                            attacker_effects={"gfx": "light_2", "sfx": "default"}, piercing=True,
                                            main_effect={"gfx": Transform("light_6", zoom=1.4), "sfx": "content/sfx/sound/be/light2.mp3", "duration": 0.96, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.8},
+                                           target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 0.8},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3},
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":1.0, "duration": 0.4})
         BE_Action("Forced Dawn", menu_pos=12, menuname="Dawn", attributes=["magic", "light"], effect=100, multiplier=4.8, mp_cost=15, range=4, type="all_enemies",
@@ -1228,7 +1228,7 @@ label load_battle_skills:
                                            attacker_effects={"gfx": "orb", "sfx": "default"},
                                            main_effect={"gfx": Transform("dawn", zoom=2.5), "sfx": "content/sfx/sound/be/dawn.mp3", "duration": 3.3, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 50, "xo": -50}},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.7},
-                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.5, "duration": 0.5},
+                                           target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 1.5, "duration": 0.5},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.6, "duration": 1.0},
                                             dodge_effect={"initial_pause": 1.2})
         ArealSkill("Holy Blast", menu_pos=13, attributes=["magic", "light", "inevitable"], effect=200, multiplier=11.0, mp_cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
