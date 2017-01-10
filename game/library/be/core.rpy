@@ -1559,7 +1559,7 @@ init -1 python: # Core classes:
                 elif type.startswith("on_ele"):
                     sprite = target.besprite
                     sprite_size = target.besprite_size
-                    mask = Transform("on_ele", size=sprite_size)
+                    mask = Transform("be_electro_mask", size=sprite_size)
                     what = Fixed(xysize=sprite_size)
                     what.add(sprite)
                     what.add(AlphaMask(mask, sprite))
