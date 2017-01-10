@@ -1404,7 +1404,7 @@ init -1 python: # Core classes:
             elif gfx == "circle_2":
                 renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-100), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
             elif gfx == "circle_3":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-100), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center", yo=-50), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
             elif gfx == "runes_1":
                 renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-50), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]-1)
 
@@ -1426,7 +1426,7 @@ init -1 python: # Core classes:
             elif gfx == "circle_2":
                 pause = 1.1
             elif gfx == "circle_3":
-                pause = 1.03
+                pause = 0.96
             elif gfx == "runes_1":
                 pause = 0.75
             else:

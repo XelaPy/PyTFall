@@ -1225,7 +1225,7 @@ label load_battle_skills:
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":1.0, "duration": 0.4})
         BE_Action("Forced Dawn", menu_pos=12, menuname="Dawn", attributes=["magic", "light"], effect=100, multiplier=4.8, mp_cost=15, range=4, type="all_enemies",
                                            desc="The energy of a whole sunrise quickly covers a small area.",
-                                           attacker_effects={"gfx": "circle_3", "sfx": "default"},
+                                           attacker_effects={"gfx": "orb", "sfx": "default"},
                                            main_effect={"gfx": Transform("dawn", zoom=2.5), "sfx": "content/sfx/sound/be/dawn.mp3", "duration": 3.3, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 50, "xo": -50}},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.7},
                                            target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.5, "duration": 0.5},
@@ -1334,7 +1334,7 @@ label load_battle_skills:
         ReviveSpell(u"Revive", attributes=["magic", "light"], kind="revival", menu_pos=-1, effect=10, mp_cost=35, health_cost=0.3, range=5, type="sa", piercing=True, true_pierce=True, target_state="dead",
                              desc="Brings an unconscious ally back to the battlefield by sharing some life energy.",
                              attacker_action={"gfx": None},
-                             attacker_effects={"gfx": "runes_1", "sfx": "default"},
+                             attacker_effects={"gfx": "circle_3", "sfx": "default"},
                              main_effect={"gfx": Transform("resurrection", zoom=1.75), "sfx": "content/sfx/sound/be/heal2.mp3", "duration": 2.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": -150}},
                              target_sprite_damage_effect={"gfx": None},
                              target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.0},
