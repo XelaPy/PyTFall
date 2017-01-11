@@ -166,7 +166,6 @@ init -1: # Images and Animations
     image light_2 = FilmStrip("content/gfx/be/filmstrips/light_2.png", (192, 192), (5, 5), 0.05, loop=False)
     image light_3 = FilmStrip("content/gfx/be/filmstrips/light_3.png", (100, 100), (5, 16), 0.02, loop=False)
     image light_5 = FilmStrip("content/gfx/be/filmstrips/light_5.png", (192, 192), (5, 5), 0.1, loop=False)
-    image light_6 = FilmStrip("content/gfx/be/filmstrips/light_6.png", (153, 160), (4, 3), 0.08, loop=False)
     image dawn = FilmStrip("content/gfx/be/filmstrips/dawn.png", (192, 192), (5, 7), 0.1, loop=False)
     image holy_blast = FilmStrip("content/gfx/be/filmstrips/holy_blast_2x_bm.png", (382, 336), (8, 5), 0.1, include_frames=range(36), loop=False)
 
@@ -1220,7 +1219,7 @@ label load_battle_skills:
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":2.0, "duration": 0.4})
         BE_Action(u"Star Light", menu_pos=11, attributes=["magic", "light"], effect=40, multiplier=2.5, mp_cost=10, range=4, desc="A powerful and painful flash of star light.",
                                            attacker_effects={"gfx": "light_2", "sfx": "default"}, piercing=True,
-                                           main_effect={"gfx": Transform("light_6", zoom=1.4), "sfx": "content/sfx/sound/be/light2.mp3", "duration": 0.96, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
+                                           main_effect={"gfx": Transform("light_6_webm", zoom=1.4), "sfx": "content/sfx/sound/be/light2.mp3", "duration": 0.96, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
                                            target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 0.8},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3},
                                            target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":1.0, "duration": 0.4})
