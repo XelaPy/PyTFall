@@ -1522,32 +1522,46 @@ init -1 python: # Core classes:
                     what = target.besprite
                     t = self.target_sprite_damage_effect.get("duration", 1)
                     at_list = [light_ray(target.besprite, t)]
-                elif type == "iced":
+                elif type.startswith("iced"):
                     child = Transform("content/gfx/be/frozen.jpg", size=target.besprite_size)
                     mask = target.besprite
                     what = AlphaMask(child, mask)
-                elif type == "darken":
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
+                elif type == "on_darkness":
+                    what = target.besprite
+                    t = self.target_sprite_damage_effect.get("duration", 1)
+                    at_list = [dark_ray(target.besprite, t)]
+                elif type == "on_darkness_death":
+                    what = target.besprite
+                    t = self.target_sprite_damage_effect.get("duration", 1)
+                    at_list = [dark_ray_death(target.besprite, t)]
+                elif type.startswith("on_dark"):
                     child = Transform("content/gfx/be/darken.jpg", size=target.besprite_size)
                     mask = target.besprite
                     what = AlphaMask(child, mask)
-                elif type == "poisoned":
-                    child = Transform("content/gfx/be/poisoned.jpg", size=target.besprite_size)
-                    mask = target.besprite
-                    what = AlphaMask(child, mask)
-                elif type == "frozen":
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
+                elif type.startswith("frozen"): # shows a big block of ice around the target sprite
                     size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
                     what = Fixed(target.besprite, Transform("content/gfx/be/frozen_2.png", size=size, offset=(-30, -50)))
                     t = self.target_sprite_damage_effect.get("duration", 1)
                     at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=0.2, t=t)]
-                elif type == "burning":
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
+                elif type.startswith("burning"): # looks like more dangerous flame, should be used for high level spells
                     child = Transform("fire_mask", size=target.besprite_size)
                     mask = target.besprite
                     what = AlphaMask(child, mask)
-                elif type == "on_fire":
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
+                elif type.startswith("on_fire"):
                     size = (int(target.besprite_size[0]*1.1), int(target.besprite_size[1]*1.0))
                     child = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
                     mask = Transform("flame_bm", size=size)
                     what = AlphaMask(child, mask)
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
                 elif type.startswith("on_water"):
                     sprite = target.besprite
                     sprite_size = target.besprite_size
@@ -1566,13 +1580,12 @@ init -1 python: # Core classes:
                     what.add(AlphaMask(mask, sprite))
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
-                elif isinstance(type, basestring) and type.startswith("fire"):
-                        what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
-                        if type == "fire":
-                            at_list = []
-                        elif type == "fire_shake":
+                elif type.startswith("poisoned"): # ideally we could use animated texture of green liquid, but it's hard to find for free...
+                        what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.2, 0.9, 0.2)))
+                        if type.endswith("shake"):
                             at_list = [damage_shake(0.05, (-10, 10))]
-
+                elif isinstance(type, basestring) and type.startswith("being_healed"):
+                        what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.0, 0.6, 0.6)))
 
                 if "what" in locals() and not "missed_hit" in target.beeffects:
                     renpy.show(target.betag, what=what, at_list=at_list, zorder=target.besk["zorder"])
