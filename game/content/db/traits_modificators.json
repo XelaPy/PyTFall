@@ -50,7 +50,7 @@
     },
     {
     "id": "Aggressive",
-    "desc": "She never hesitates to pick a fight (+ damage).",
+    "desc": "She never hesitates to pick a fight (+all damage).",
     "blocks": ["Peaceful"],
     "max": {"character": 5},
     "mod_skills": {"service": [0.02, 0, -0.03], "management": [-0.01, 0, -0.04]},
@@ -61,7 +61,7 @@
     },
     {
     "id": "Peaceful",
-    "desc": "She prefers to avoid fights if possible (- damage).",
+    "desc": "She prefers to avoid fights if possible (-all damage).",
     "blocks": ["Aggressive"],
     "max": {"character": 5},
     "mod_skills": {"service": [-0.02, 0, 0.03], "management": [0.01, 0, 0.04]},

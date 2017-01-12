@@ -119,7 +119,7 @@
    {
     "id": "Manly",
     "blocks": ["Lolita", "Slim", "Chubby", "Athletic"],
-    "desc": "This girl is very muscular. Perhaps even too muscular (+additional melee damage).",
+    "desc": "This girl is very muscular. Perhaps even too muscular (+melee damage).",
     "min": {"constitution": 15},
     "mod_stats": {"constitution": [1, 2], "charisma": [-3, 1], "agility": [-3, 2]},
     "max": {"health": 25, "vitality": 100, "charisma": -50, "attack": 10, "defence": 10, "agility": -25},
@@ -158,7 +158,7 @@
     },
    {
     "id": "Alien",
-    "desc": "This girl has come from a distant dimension with very different laws of physics, magic and society (+ defence from magic and status effects).",
+    "desc": "This girl has come from a distant dimension with very different laws of physics, magic and society (+magic and status defence).",
     "mod": {"upkeep": 50},
     "mod_stats": {"magic": [-3, 1], "constitution": [-2, 2]},
     "max": {"magic": 20, "attack": 10, "defence": 10, "constitution": 15},
@@ -168,10 +168,11 @@
     },
    {
     "id": "Bad Eyesight",
-    "desc": "This girl needs glasses to see properly.",
+    "desc": "This girl needs glasses to see properly (-ranged damage).",
     "mod": {"upkeep": 5},
     "mod_stats": {"attack": [-4, 1], "intelligence": [1, 3]},
     "max": {"agility": -5, "intelligence": 5, "attack": -30},
+    "delivery_multiplier": {"ranged": -0.25},
     "mod_skills": {"refinement": [0, 0, 0.01]}
     },
    {
