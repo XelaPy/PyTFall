@@ -771,7 +771,7 @@ screen show_trait_info(trait=None, place="girl_trait"): # TO DO: upkeep made via
             xalign 0.48
             style_group "proper_stats"
             spacing 1
-            if trait_info.min or trait_info.max or trait_info.mod_stats or trait_info.effects or trait_info.mod_skills or trait_info.mod_ap:
+            if trait_info.min or trait_info.max or trait_info.mod_stats or trait_info.effects or trait_info.mod_skills or trait_info.mod_ap or hasattr(trait_info, "evasion_bonus"):
                 if trait_info.max:
                     label (u"Max:") text_size 20 text_color goldenrod text_bold True xalign .45
                     for i in trait_info.max:
@@ -851,7 +851,7 @@ screen show_trait_info(trait=None, place="girl_trait"): # TO DO: upkeep made via
                                 elif (trait_info.mod_skills[i])[2] < 0:
                                     $ output += "{image=skills_perf_minus}"
                                 text (output) align .5, .5 size 15 color yellowgreen text_align .5
-                if trait_info.mod_ap:
+                if trait_info.mod_ap or hasattr(trait_info, "evasion_bonus"):
                     label (u"Other:") text_size 20 text_color goldenrod text_bold True xalign .45
                     if trait_info.mod_ap:
                         frame:
@@ -866,6 +866,18 @@ screen show_trait_info(trait=None, place="girl_trait"): # TO DO: upkeep made via
                                 else:
                                     $ output += str(trait_info.mod_ap)
                                 text (output) align .5, .5 size 15 color yellowgreen text_align .5
+                                
+                    if hasattr(trait_info, "evasion_bonus"):
+                        frame:
+                            xsize 150
+                            button:
+                                background Null()
+                                xsize 150
+                                action NullAction()
+                                if trait_info.evasion_bonus[1] < 0:
+                                    text ("Reduced Evasion") size 15 color yellowgreen align .5, .5 text_align .5
+                                elif trait_info.evasion_bonus[1] > 0:
+                                    text ("Increased Evasion") size 15 color yellowgreen align .5, .5 text_align .5
             else:
                 label ("-no direct effects-") text_size 15 text_color goldenrod text_bold True xalign .45
 screen girl_control():
