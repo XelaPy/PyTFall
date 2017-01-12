@@ -1851,12 +1851,25 @@ init -1 python: # Core classes:
             buffs = [s for s in skills if s.kind == "buffs"]
             revival_skills = [s for s in skills if s.kind == "revival"]
 
+            # Reviving first:
+            if revival_skills and dice(60):
+                for rs in revival_skills:
+                    allies = rs.get_targets()
+                    if allies:
+                        allies = allies if "all" in skill.type else choice(allies)
+                        rs(ai=True, t=allies)
+                        return
+
             if healing_skills:
                 for hs in healing_skills:
                     allies = hs.get_targets()
                     for a in allies:
                         if a.health < a.get_max("health")*.5:
-                            hs(ai=True, t=targets)
+                            allies = allies if "all" in skill.type else a
+                            hs(ai=True, t=allies)
+                            return
+
+
 
             skill = choice(skills)
             # So we have a skill... now lets pick a target(s):
