@@ -751,7 +751,7 @@ init -1 python: # Core classes:
                 # Critical Strike and Evasion checks:
                 if self.delivery in ["melee", "ranged"]:
                     # Critical Hit Chance:
-                    ch = max(35, (a.luck - t.luck + 10) * .75) # No more than 35% chance? Dark: we can add items/traits field capable to increase the max chance of crit hit
+                    ch = max(35, (a.luck - t.luck + 10) * .75) # No more than 35% chance?
 
                     # Items bonuses:
                     m = .0
@@ -878,13 +878,13 @@ init -1 python: # Core classes:
             a = self.source
 
             if "melee" in self.attributes:
-                attack = (a.attack*0.75 + a.agility*.5 + self.effect) * self.multiplier
+                attack = (a.attack*1.75 + a.agility*.5 + self.effect) * self.multiplier
             elif "ranged" in self.attributes:
-                attack = (a.agility*0.7 + a.attack*.5 + (a.luck+50)*.5 + self.effect) * self.multiplier
+                attack = (a.agility*1.7 + a.attack*.5 + (a.luck+50)*.5 + self.effect) * self.multiplier
             elif "magic" in self.attributes:
-                attack = (a.magic*0.75 + a.intelligence*.5 + self.effect) * self.multiplier
+                attack = (a.magic*1.75 + a.intelligence*.5 + self.effect) * self.multiplier
             elif "status" in self.attributes:
-                attack = (a.intelligence*0.75 + a.attack*.25 + a.agility*.25 + self.effect) * self.multiplier
+                attack = (a.intelligence*1.5 + a.attack*.75 + self.effect) * self.multiplier
 
             delivery = self.delivery
 
@@ -916,10 +916,10 @@ init -1 python: # Core classes:
             attack *= m
 
             # Simple randomization factor?:
-            attack *= random.uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this? Dark: we make damage calculations unpredictable (within reasonable limits); many games use much more harsh ways to add randomness to BE.
+            attack *= random.uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this?
 
             # Decreasing based of current health:
-            healthlevel=(a.health/a.get_max("health"))*0.5 # low health decreases attack power, down to 50% at close to 0 health.
+            healthlevel=(a.health/a.get_max("health"))*0.5 # low health decrease attack power, down to 50% at close to 0 health.
             attack *= (1-healthlevel)
 
             return attack if attack > 0 else 1
@@ -933,9 +933,9 @@ init -1 python: # Core classes:
             elif "ranged" in self.attributes:
                 defense = round(target.defence*.8 + target.constitution*.2 + target.agility*.2)
             elif "magic" in self.attributes:
-                defense = round(target.defence*.6 + target.magic*.4 + target.intelligence*.2)
+                defense = round(target.defence*.8 + target.magic*.3 + target.intelligence*.1)
             elif "status" in self.attributes:
-                defense = round(target.defence*.6 + target.magic*.2 + target.intelligence*.4)
+                defense = round(target.defence*.6 + target.magic*.1 + target.intelligence*.5)
 
             # Items bonuses:
             items = target.eq_items()
@@ -980,7 +980,7 @@ init -1 python: # Core classes:
                 defense *= m
 
             defense *= random.uniform(.90, 1.10)
- 
+
             return defense if defense > 0 else 1
 
         def damage_calculator(self, t, attack, defense, multiplier, attacker_items=[]):
@@ -1852,32 +1852,57 @@ init -1 python: # Core classes:
             revival_skills = [s for s in skills if s.kind == "revival"]
 
             # Reviving first:
-            if revival_skills and dice(60):
-                for rs in revival_skills:
-                    allies = rs.get_targets()
-                    if allies:
-                        allies = allies if "all" in skill.type else choice(allies)
-                        rs(ai=True, t=allies)
+            if revival_skills and dice(50):
+                for skill in revival_skills:
+                    targets = skill.get_targets(source=self.source)
+                    if targets:
+                        skill.source = self.source
+                        targets = targets if "all" in skill.type else choice(targets)
+                        skill(ai=True, t=targets)
                         return
 
-            if healing_skills:
-                for hs in healing_skills:
-                    allies = hs.get_targets()
-                    for a in allies:
+            if healing_skills and dice(70):
+                for skill in healing_skills:
+                    targets = skill.get_targets(source=self.source)
+                    for a in targets:
                         if a.health < a.get_max("health")*.5:
-                            allies = allies if "all" in skill.type else a
-                            hs(ai=True, t=allies)
+                            skill.source = self.source
+                            targets = targets if "all" in skill.type else a
+                            skill(ai=True, t=targets)
                             return
 
+            if buffs and dice(10):
+                for skill in buffs:
+                    targets = skill.get_targets(source=self.source)
+                    if targets:
+                        skill.source = self.source
+                        targets = targets if "all" in skill.type else a
+                        skill(ai=True, t=targets)
+                        return
 
+            if attack_skills:
+                # Sort skills by menu_pos:
+                attack_skills.sort(key=attrgetter("menu_pos"))
+                total_skills = len(attack_skills)
+                while attack_skills:
+                    # Most powerful skill has 70% chance to trigger.
+                    # If not tirggered, next skill have slightly lower chance.
+                    # Last skill in the list will execute!
+                    chance = 70.0*len(attack_skills)/total_skills
+                    skill = attack_skills.pop()
+                    if not attack_skills or dice(chance):
+                        skill.source = self.source
+                        targets = skill.get_targets()
+                        targets = targets if "all" in skill.type else a
+                        skill(ai=True, t=targets)
+                        return
 
-            skill = choice(skills)
-            # So we have a skill... now lets pick a target(s):
-            skill.source = self.source
-            targets = skill.get_targets() # Get all targets in range.
-            targets = targets if "all" in skill.type else choice(targets) # We get a correct amount of targets here.
+            # In case we did not pick any specific skill:
+            BE_Skip(source=self.source)()
 
-            skill(ai=True, t=targets)
+    def get_char_with_lowest_attr(chars, attr="hp"):
+        chars.sort(key=attrgetter(attr))
+        return chars[0]
 
 
     class Slave_BE_AI(BE_AI): # for slaves involved in combat, skips every turn since they are not allowed to fight.

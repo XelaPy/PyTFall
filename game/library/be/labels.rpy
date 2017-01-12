@@ -22,7 +22,7 @@ label test_be:
                     h.magic_skills.append(skill)
                 if skill not in n.magic_skills:
                     n.magic_skills.append(skill)
-        
+
 
 
     python:
@@ -39,7 +39,6 @@ label test_be:
         mob = build_mob(id="Electrificator", level=100)
         mob.health = 1
         mob.front_row = True
-        # mob.attack_skills.append("Sword Slash")
         if len(enemy_team) != 3:
             enemy_team.add(mob)
 
@@ -50,14 +49,6 @@ label test_be:
         mob.apply_trait("Air")
         if len(enemy_team) != 3:
             enemy_team.add(mob)
-        # Add new attack types to see how they look on the other side:
-        # for m in enemy_team:
-            # m.attack_skills.append(battle_skills["Projective Slash"])
-        for m in enemy_team:
-            m.magic_skills.append(battle_skills["Transmutation"])
-        enemy_team.reset_controller()
-        for i in hero.team:
-            i.besk = None
 
         if len(hero.team) != 3 and h not in hero.team:
             hero.team.add(h)
@@ -65,7 +56,9 @@ label test_be:
         if len(hero.team) != 3 and n not in hero.team:
             hero.team.add(n)
         n.AP = 6
+
         for i in enemy_team:
+            i.controller = Complex_BE_AI(i)
             for skill in battle_skills.values():
                 if "melee" in skill.attributes or "ranged" in skill.attributes:
                     if skill not in i.attack_skills:
