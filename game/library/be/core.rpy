@@ -751,7 +751,7 @@ init -1 python: # Core classes:
                 # Critical Strike and Evasion checks:
                 if self.delivery in ["melee", "ranged"]:
                     # Critical Hit Chance:
-                    ch = max(35, (a.luck - t.luck + 10) * .75) # No more than 35% chance?
+                    ch = max(35, (a.luck - t.luck + 10) * .75) # No more than 35% chance? Dark: we can add items/traits field capable to increase the max chance of crit hit
 
                     # Items bonuses:
                     m = .0
@@ -878,13 +878,13 @@ init -1 python: # Core classes:
             a = self.source
 
             if "melee" in self.attributes:
-                attack = (a.attack*1.75 + a.agility*.5 + self.effect) * self.multiplier
+                attack = (a.attack*0.75 + a.agility*.5 + self.effect) * self.multiplier
             elif "ranged" in self.attributes:
-                attack = (a.agility*1.7 + a.attack*.5 + (a.luck+50)*.5 + self.effect) * self.multiplier
+                attack = (a.agility*0.7 + a.attack*.5 + (a.luck+50)*.5 + self.effect) * self.multiplier
             elif "magic" in self.attributes:
-                attack = (a.magic*1.75 + a.intelligence*.5 + self.effect) * self.multiplier
+                attack = (a.magic*0.75 + a.intelligence*.5 + self.effect) * self.multiplier
             elif "status" in self.attributes:
-                attack = (a.intelligence*1.5 + a.attack*.75 + self.effect) * self.multiplier
+                attack = (a.intelligence*0.75 + a.attack*.25 + a.agility*.25 + self.effect) * self.multiplier
 
             delivery = self.delivery
 
@@ -916,10 +916,10 @@ init -1 python: # Core classes:
             attack *= m
 
             # Simple randomization factor?:
-            attack *= random.uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this?
+            attack *= random.uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this? Dark: we make damage calculations unpredictable (within reasonable limits); many games use much more harsh ways to add randomness to BE.
 
             # Decreasing based of current health:
-            healthlevel=(a.health/a.get_max("health"))*0.5 # low health decrease attack power, down to 50% at close to 0 health.
+            healthlevel=(a.health/a.get_max("health"))*0.5 # low health decreases attack power, down to 50% at close to 0 health.
             attack *= (1-healthlevel)
 
             return attack if attack > 0 else 1
@@ -933,9 +933,9 @@ init -1 python: # Core classes:
             elif "ranged" in self.attributes:
                 defense = round(target.defence*.8 + target.constitution*.2 + target.agility*.2)
             elif "magic" in self.attributes:
-                defense = round(target.defence*.8 + target.magic*.3 + target.intelligence*.1)
+                defense = round(target.defence*.6 + target.magic*.4 + target.intelligence*.2)
             elif "status" in self.attributes:
-                defense = round(target.defence*.6 + target.magic*.1 + target.intelligence*.5)
+                defense = round(target.defence*.6 + target.magic*.2 + target.intelligence*.4)
 
             # Items bonuses:
             items = target.eq_items()
@@ -980,7 +980,7 @@ init -1 python: # Core classes:
                 defense *= m
 
             defense *= random.uniform(.90, 1.10)
-
+ 
             return defense if defense > 0 else 1
 
         def damage_calculator(self, t, attack, defense, multiplier, attacker_items=[]):
