@@ -50,7 +50,7 @@
     "id": "Long Legs",
     "desc": "The legs on this girl go all the way to heaven.",
     "max": {"charisma": 5},
-    "mod_stats": {"charisma": [1, 5], "agility": [1, 5]},
+    "mod_stats": {"charisma": [1, 3], "agility": [1, 3]},
     "mod_skills": {"strip": [0, 0, 0.02], "dancing": [0, 0, 0.01]},
     "permanent": true
     },
@@ -71,20 +71,21 @@
    {
     "id": "Strange Eyes",
     "desc": "Her eyes are unusual in some way.",
-    "mod_stats": {"charisma": [-2, 4]},
+    "mod_stats": {"charisma": [-3, 3]},
     "max": {"charisma": 10},
     "mod_skills": {"refinement": [0, 0, 0.01]},
     "permanent": true
     },
     {
     "id": "Lolita",
-    "desc": "This girl looks very young and small (+ 1AP).",
+    "desc": "This girl looks very young and small (-melee damage).",
     "blocks": ["Slim", "Chubby", "Athletic", "Manly"],
     "min": {"agility": 5},
     "max": {"vitality": -100, "health": -50},
     "mod_stats": {"constitution": [-3, 1], "agility": [2, 2]},
     "mod_ap": 1,
     "body": true,
+    "delivery_multiplier": {"melee": -0.5},
     "evasion_bonus": [2, 2, 1]
     },
     {
@@ -142,7 +143,7 @@
     "id": "Scars",
     "desc": "This poor girl has some scars.",
     "mod": {"upkeep": 5},
-    "mod_stats": {"constitution": [1, 2]},
+    "mod_stats": {"constitution": [1, 3]},
     "max": {"charisma": -5},
     "mod_skills": {"strip": [0, 0, -0.1]},
     "permanent": true
@@ -157,7 +158,7 @@
     },
    {
     "id": "Alien",
-    "desc": "This girl has come from a distant dimension with very different laws of physics, magic and society.",
+    "desc": "This girl has come from a distant dimension with very different laws of physics, magic and society (+ defence from magic and status effects).",
     "mod": {"upkeep": 50},
     "mod_stats": {"magic": [-3, 1], "constitution": [-2, 2]},
     "max": {"magic": 20, "attack": 10, "defence": 10, "constitution": 15},
@@ -169,7 +170,7 @@
     "id": "Bad Eyesight",
     "desc": "This girl needs glasses to see properly.",
     "mod": {"upkeep": 5},
-    "mod_stats": {"attack": [-5, 1], "intelligence": [1, 2]},
+    "mod_stats": {"attack": [-4, 1], "intelligence": [1, 3]},
     "max": {"agility": -5, "intelligence": 5, "attack": -30},
     "mod_skills": {"refinement": [0, 0, 0.01]}
     },
