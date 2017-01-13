@@ -76,7 +76,7 @@ init -1 python: # Core classes:
             # Since factions are simply teams:
             for team in self.teams:
                 if char in team:
-                    return team.name # Maybe this should be an instance of the team? Concider this for the future when this might really matter.
+                    return team
 
         def main_loop(self):
             """
@@ -751,7 +751,7 @@ init -1 python: # Core classes:
                 # Critical Strike and Evasion checks:
                 if self.delivery in ["melee", "ranged"]:
                     # Critical Hit Chance:
-                    ch = max(35, (a.luck - t.luck + 10) * .75) # No more than 35% chance?
+                    ch = max(35, (a.luck - t.luck + 10) * .75) # No more than 35% chance? Dark: we can add items/traits field capable to increase the max chance of crit hit
 
                     # Items bonuses:
                     m = .0
@@ -878,13 +878,13 @@ init -1 python: # Core classes:
             a = self.source
 
             if "melee" in self.attributes:
-                attack = (a.attack*1.75 + a.agility*.5 + self.effect) * self.multiplier
+                attack = (a.attack*0.75 + a.agility*.5 + self.effect) * self.multiplier
             elif "ranged" in self.attributes:
-                attack = (a.agility*1.7 + a.attack*.5 + (a.luck+50)*.5 + self.effect) * self.multiplier
+                attack = (a.agility*0.7 + a.attack*.5 + (a.luck+50)*.5 + self.effect) * self.multiplier
             elif "magic" in self.attributes:
-                attack = (a.magic*1.75 + a.intelligence*.5 + self.effect) * self.multiplier
+                attack = (a.magic*0.75 + a.intelligence*.5 + self.effect) * self.multiplier
             elif "status" in self.attributes:
-                attack = (a.intelligence*1.5 + a.attack*.75 + self.effect) * self.multiplier
+                attack = (a.intelligence*0.75 + a.attack*.25 + a.agility*.25 + self.effect) * self.multiplier
 
             delivery = self.delivery
 
@@ -916,10 +916,10 @@ init -1 python: # Core classes:
             attack *= m
 
             # Simple randomization factor?:
-            attack *= random.uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this?
+            attack *= random.uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this? Dark: we make damage calculations unpredictable (within reasonable limits); many games use much more harsh ways to add randomness to BE.
 
             # Decreasing based of current health:
-            healthlevel=(a.health/a.get_max("health"))*0.5 # low health decrease attack power, down to 50% at close to 0 health.
+            healthlevel=(a.health/a.get_max("health"))*0.5 # low health decreases attack power, down to 50% at close to 0 health.
             attack *= (1-healthlevel)
 
             return attack if attack > 0 else 1
@@ -933,9 +933,9 @@ init -1 python: # Core classes:
             elif "ranged" in self.attributes:
                 defense = round(target.defence*.8 + target.constitution*.2 + target.agility*.2)
             elif "magic" in self.attributes:
-                defense = round(target.defence*.8 + target.magic*.3 + target.intelligence*.1)
+                defense = round(target.defence*.5 + target.magic*.5 + target.intelligence*.2)
             elif "status" in self.attributes:
-                defense = round(target.defence*.6 + target.magic*.1 + target.intelligence*.5)
+                defense = round(target.defence*.6 + target.magic*.3 + target.intelligence*.3)
 
             # Items bonuses:
             items = target.eq_items()
@@ -989,12 +989,7 @@ init -1 python: # Core classes:
             """
             a = self.source
 
-            dmg = attack/defense
-            if dmg > 0:
-                resist = pow(dmg, .5) # depending on how high the difference between attack and defense, damage additionally reduces or increases. attack 10 times higher than defense gives damage*3, 10 lower gives damage*0.3
-            else:
-                resist = 1
-            damage = 1 + (dmg*resist) * multiplier
+            damage = multiplier*attack**2/(attack+2*defense)
 
             # Items Bonus:
             m = 1.0
@@ -1130,9 +1125,10 @@ init -1 python: # Core classes:
             return "{color=[%s]} %s {/color}" % (color, s)
 
         def effects_to_string(self, t, default_color="red"):
-            """Writes to viewport reports log.
+            """Adds information about target to the list and returns it to be written to the log later.
 
             - We assume that all tuples in effects are damages by type!
+            - At times also calls set_dmg_font_color.
             """
             # String for the log:
             effects = t.beeffects
@@ -1522,34 +1518,46 @@ init -1 python: # Core classes:
                     what = target.besprite
                     t = self.target_sprite_damage_effect.get("duration", 1)
                     at_list = [light_ray(target.besprite, t)]
-                    if type.endswith("shake"):
-                        at_list = [damage_shake(0.05, (-10, 10))]
-                elif type == "iced":
+                elif type.startswith("iced"):
                     child = Transform("content/gfx/be/frozen.jpg", size=target.besprite_size)
                     mask = target.besprite
                     what = AlphaMask(child, mask)
-                elif type == "darken":
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
+                elif type == "on_darkness":
+                    what = target.besprite
+                    t = self.target_sprite_damage_effect.get("duration", 1)
+                    at_list = [dark_ray(target.besprite, t)]
+                elif type == "on_darkness_death":
+                    what = target.besprite
+                    t = self.target_sprite_damage_effect.get("duration", 1)
+                    at_list = [dark_ray_death(target.besprite, t)]
+                elif type.startswith("on_dark"):
                     child = Transform("content/gfx/be/darken.jpg", size=target.besprite_size)
                     mask = target.besprite
                     what = AlphaMask(child, mask)
-                elif type == "poisoned":
-                    child = Transform("content/gfx/be/poisoned.jpg", size=target.besprite_size)
-                    mask = target.besprite
-                    what = AlphaMask(child, mask)
-                elif type == "frozen":
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
+                elif type.startswith("frozen"): # shows a big block of ice around the target sprite
                     size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
                     what = Fixed(target.besprite, Transform("content/gfx/be/frozen_2.png", size=size, offset=(-30, -50)))
                     t = self.target_sprite_damage_effect.get("duration", 1)
                     at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=0.2, t=t)]
-                elif type == "burning":
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
+                elif type.startswith("burning"): # looks like more dangerous flame, should be used for high level spells
                     child = Transform("fire_mask", size=target.besprite_size)
                     mask = target.besprite
                     what = AlphaMask(child, mask)
-                elif type == "on_fire":
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
+                elif type.startswith("on_fire"):
                     size = (int(target.besprite_size[0]*1.1), int(target.besprite_size[1]*1.0))
                     child = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
                     mask = Transform("flame_bm", size=size)
                     what = AlphaMask(child, mask)
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
                 elif type.startswith("on_water"):
                     sprite = target.besprite
                     sprite_size = target.besprite_size
@@ -1568,13 +1576,12 @@ init -1 python: # Core classes:
                     what.add(AlphaMask(mask, sprite))
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
-                elif isinstance(type, basestring) and type.startswith("fire"):
-                        what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
-                        if type == "fire":
-                            at_list = []
-                        elif type == "fire_shake":
+                elif type.startswith("poisoned"): # ideally we could use animated texture of green liquid, but it's hard to find for free...
+                        what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.2, 0.9, 0.2)))
+                        if type.endswith("shake"):
                             at_list = [damage_shake(0.05, (-10, 10))]
-
+                elif isinstance(type, basestring) and type.startswith("being_healed"):
+                        what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.0, 0.6, 0.6)))
 
                 if "what" in locals() and not "missed_hit" in target.beeffects:
                     renpy.show(target.betag, what=what, at_list=at_list, zorder=target.besk["zorder"])
@@ -1837,15 +1844,60 @@ init -1 python: # Core classes:
             attack_skills = [s for s in skills if s.kind == "assault"]
             healing_skills = [s for s in skills if s.kind == "healing"]
             buffs = [s for s in skills if s.kind == "buffs"]
-            revive_skills = [s for s in skills if s.kind == "ravival"]
+            revival_skills = [s for s in skills if s.kind == "revival"]
 
-            skill = choice(skills)
-            # So we have a skill... now lets pick a target(s):
-            skill.source = self.source
-            targets = skill.get_targets() # Get all targets in range.
-            targets = targets if "all" in skill.type else choice(targets) # We get a correct amount of targets here.
+            # Reviving first:
+            if revival_skills and dice(50):
+                for skill in revival_skills:
+                    targets = skill.get_targets(source=self.source)
+                    if targets:
+                        skill.source = self.source
+                        targets = targets if "all" in skill.type else choice(targets)
+                        skill(ai=True, t=targets)
+                        return
 
-            skill(ai=True, t=targets)
+            if healing_skills and dice(70):
+                for skill in healing_skills:
+                    targets = skill.get_targets(source=self.source)
+                    for a in targets:
+                        if a.health < a.get_max("health")*.5:
+                            skill.source = self.source
+                            targets = targets if "all" in skill.type else a
+                            skill(ai=True, t=targets)
+                            return
+
+            if buffs and dice(10):
+                for skill in buffs:
+                    targets = skill.get_targets(source=self.source)
+                    if targets:
+                        skill.source = self.source
+                        targets = targets if "all" in skill.type else a
+                        skill(ai=True, t=targets)
+                        return
+
+            if attack_skills:
+                # Sort skills by menu_pos:
+                attack_skills.sort(key=attrgetter("menu_pos"))
+                total_skills = len(attack_skills)
+                while attack_skills:
+                    # Most powerful skill has 70% chance to trigger.
+                    # If not tirggered, next skill have slightly lower chance.
+                    # Last skill in the list will execute!
+                    chance = 70.0*len(attack_skills)/total_skills
+                    skill = attack_skills.pop()
+                    if not attack_skills or dice(chance):
+                        skill.source = self.source
+                        targets = skill.get_targets()
+                        targets = targets if "all" in skill.type else a
+                        skill(ai=True, t=targets)
+                        return
+
+            # In case we did not pick any specific skill:
+            BE_Skip(source=self.source)()
+
+    def get_char_with_lowest_attr(chars, attr="hp"):
+        chars.sort(key=attrgetter(attr))
+        return chars[0]
 
 
     class Slave_BE_AI(BE_AI): # for slaves involved in combat, skips every turn since they are not allowed to fight.

@@ -169,7 +169,8 @@ label dev_testing_menu:
     if config.developer:
         menu:
             "Debug Mode":
-                $ initial_levelup(hero, 100, max_out_stats=True)
+                $ hero.traits.basetraits.add(traits["Mage"])
+                $ initial_levelup(hero, 50, max_out_stats=True)
 
             "Content":
                 menu:

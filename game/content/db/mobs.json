@@ -28,7 +28,8 @@
         ],
         "magic_skills": [
             "Watera",
-            "Waterga"
+            "Waterga",
+            "Arcane Shield"
         ]
     },
     {
@@ -602,7 +603,7 @@
         "attack_skills": [
             "Claw Slash"
         ],
-        "magic_skills": ["Aero", "Aerora"
+        "magic_skills": ["Aero", "Aerora", "Aery Field"
         ]
     },
     {
@@ -632,7 +633,7 @@
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
-        "magic_skills": ["Aero", "Aerora", "Aeroga"
+        "magic_skills": ["Aero", "Aerora", "Aeroga", "Aery Field"
         ]
     },
     {
@@ -662,7 +663,7 @@
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X", "Claw Slash 4X"
         ],
-        "magic_skills": ["Aero", "Aerora", "Aeroga", "Aeroja"
+        "magic_skills": ["Aero", "Aerora", "Aeroga", "Aeroja", "Aery Shield"
         ]
     },
     {
@@ -902,7 +903,7 @@
         "attack_skills": [
             "Spray"
         ],
-        "magic_skills": ["Water", "Watera", "Waterga", "Dark", "Darkra"
+        "magic_skills": ["Water", "Watera", "Waterga", "Dark", "Darkra", "Solid Field"
         ]
     },
     {
@@ -932,7 +933,7 @@
         "attack_skills": [
             "Spray"
         ],
-        "magic_skills": ["Water", "Watera", "Thunder", "Thundara"
+        "magic_skills": ["Water", "Watera", "Thunder", "Thundara", "Solid Field"
         ]
     },
     {
@@ -1082,7 +1083,7 @@
         "attack_skills": [
             
         ],
-        "magic_skills": ["Holy"
+        "magic_skills": ["Holy", "Solid Shield"
         ]
     },
     {
@@ -1291,7 +1292,7 @@
         "traits": ["Monster", "Earth", "Water", "Water Resistance"],
         "attack_skills": [
         ],
-        "magic_skills": ["Water", "Watera", "Stone", "Stonera"
+        "magic_skills": ["Water", "Watera", "Stone", "Stonera", "Solid Shield"
         ]
     },
     {
@@ -1981,7 +1982,7 @@
         "attack_skills": [
             "Whip Strike"
         ],
-        "magic_skills": ["Cure", "Stonera", "Stonega"
+        "magic_skills": ["Cure", "Stonera", "Stonega", "Solid Field"
         ]
     },
     {
@@ -2011,7 +2012,7 @@
         "attack_skills": [
             "Blunt Strike"
         ],
-        "magic_skills": ["Waterga", "Stonega", "Aeroga"
+        "magic_skills": ["Waterga", "Stonega", "Aeroga", "Arcane Field"
         ]
     },
     {
@@ -2041,7 +2042,7 @@
         "attack_skills": [
             "Claw Slash"
         ],
-        "magic_skills": ["Darkra", "Darkga", "Darkja"
+        "magic_skills": ["Darkra", "Darkga", "Darkja", "Arcane Field"
         ]
     },
     {
@@ -2131,7 +2132,7 @@
         "attack_skills": [
             "Claw Slash"
         ],
-        "magic_skills": ["Black Hole", "Darkja"
+        "magic_skills": ["Black Hole", "Darkja", "Arcane Shield", "Aery Shield"
         ]
     },
     {
@@ -2311,7 +2312,7 @@
         "attack_skills": [
             
         ],
-        "magic_skills": ["Blizzard", "Blizzara", "Blizzarga"
+        "magic_skills": ["Blizzard", "Blizzara", "Blizzarga", "Aery Shield", "Arcane Shield"
         ]
     },
     {
@@ -2401,7 +2402,7 @@
         "attack_skills": [
             
         ],
-        "magic_skills": ["Blizzard", "Blizzara", "Blizzarga", "Blizzarja"
+        "magic_skills": ["Blizzard", "Blizzara", "Blizzarga", "Blizzarja", "Arcane Shield", "Solid Field"
         ]
     },
     {
@@ -3931,7 +3932,7 @@
         "attack_skills": [
             
         ],
-        "magic_skills": ["Darkra", "Darkga", "Black Hole"
+        "magic_skills": ["Darkra", "Darkga", "Black Hole", "Arcane Field"
         ]
     },
     {
@@ -3961,7 +3962,7 @@
         "attack_skills": [
             "Cannon Shot", "Claw Slash"
         ],
-        "magic_skills": ["Fireball", "Firaga"
+        "magic_skills": ["Fireball", "Firaga", "Aery Shield"
         ]
     },
     {
@@ -4111,7 +4112,7 @@
         "attack_skills": [
             "Dark Shot", "Midnight Arrow"
         ],
-        "magic_skills": ["Darkga", "Dark"
+        "magic_skills": ["Darkga", "Dark", "Aery Field"
         ]
     },
     {
@@ -4141,7 +4142,7 @@
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
-        "magic_skills": ["Air Pressure", "Air Blast", "Aeroja"
+        "magic_skills": ["Air Pressure", "Air Blast", "Aeroja", "Aery Shield", "Arcane Field"
         ]
     },
     {
@@ -4320,7 +4321,7 @@
         "attack_skills": [
             "Spray"
         ],
-        "magic_skills": ["Breach", "Stoneja"
+        "magic_skills": ["Breach", "Stoneja", "Solid Field"
         ]
     },
     {
@@ -4336,21 +4337,21 @@
             "Mage"
         ],
         "stats": {
-            "attack": 20,
-            "defence":70,
-            "magic": 40,
-            "agility": 90,
+            "attack": 100,
+            "defence":100,
+            "magic": 100,
+            "agility": 100,
             "luck":-50,
-            "charisma":0,
-            "constitution": 50,
-            "intelligence": 45
+            "charisma":100,
+            "constitution": 100,
+            "intelligence": 100
         },
         "skills": {},
         "traits": ["Android", "Electricity"],
         "attack_skills": [
             
         ],
-        "magic_skills": ["Ion Storm", "Electromagnetism", "Thunderstorm"
+        "magic_skills": ["Ion Storm", "Electromagnetism", "Thunderstorm", "Arcane Field"
         ]
     },
     {
@@ -4410,7 +4411,7 @@
         "attack_skills": [
             "Cannon Shot"
         ],
-        "magic_skills": ["Electromagnetism", "Thunderstorm", "Thundaga"
+        "magic_skills": ["Electromagnetism", "Thunderstorm", "Thundaga", "Arcane Field", "Solid Field"
         ]
     },
     {

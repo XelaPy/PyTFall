@@ -504,15 +504,27 @@ init -997: # Transforms:
             easeout_bounce 0.1 yoffset 0
             
     transform blowing_wind():
-        parallel:
-            easeout_bounce 0.1 xzoom -1.0 xanchor 0.1 xoffset 20
-            easeout_bounce 0.1 xzoom 1.0 xanchor 0.0 xoffset 0
+        easeout_bounce .1 xzoom -1.0 xanchor 0.1 xoffset 20
+        easeout_bounce .1 xzoom 1.0 xanchor 0.0 xoffset 0
         repeat
         
     transform light_ray(sprite, time):
-        im.MatrixColor(sprite,im.matrix.brightness(0.5)) with Dissolve(time*0.5, alpha = True)
-        pause 0.1
-        im.MatrixColor(sprite,im.matrix.brightness(0)) with Dissolve(time*0.5, alpha = True)
+        im.MatrixColor(sprite, im.matrix.brightness(.5)) with Dissolve(time*.5, alpha=True)
+        pause time*.5+.1
+        im.MatrixColor(sprite, im.matrix.brightness(0)) with Dissolve(time*.5, alpha=True)
+        pause time*.5+.1
+        
+    transform dark_ray(sprite, time):
+        im.MatrixColor(sprite, im.matrix.brightness(-.5)) with Dissolve(time*.5, alpha=True)
+        pause time*.5+.1
+        im.MatrixColor(sprite, im.matrix.brightness(0)) with Dissolve(time*.5, alpha=True)
+        pause time*.5+.1
+        
+    transform dark_ray_death(sprite, time):
+        im.MatrixColor(sprite, im.matrix.brightness(-1.0)) with Dissolve(time*.5, alpha=True)
+        pause time*.5+.1
+        im.MatrixColor(sprite, im.matrix.brightness(0)) with Dissolve(time*.5, alpha=True)
+        pause time*.5+.1
         
     transform shake(dt=.4, dist=128):
         function renpy.curry(_shake_function)(dt=dt,dist=dist)
