@@ -840,29 +840,29 @@ label load_battle_skills:
 
     ##### Magic:
         # Fire:
-        BE_Action(u"Fire", menu_pos=0, attributes=["magic", "fire"], effect=20, multiplier=1.2, type="all_enemies", mp_cost=5, range=4, desc="Ignites a small plot of land.",
+        BE_Action(u"Fire", menu_pos=0, attributes=["magic", "fire"], effect=5, multiplier=1.0, type="all_enemies", mp_cost=5, range=4, desc="Ignites a small plot of land.",
                                            attacker_effects={"gfx": "fire_1", "sfx": "default"},
                                            main_effect={"gfx": Transform("fire_1", zoom=1.7), "sfx": "content/sfx/sound/be/fire4.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 75}},
                                            target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": 0.1, "duration": 1.7},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 1.5})
-        BE_Action(u"Fira", menu_pos=1, attributes=["magic", "fire"], effect=20, multiplier=1.6, mp_cost=7, range=4, desc="Ignites the air in a limited area.",
+        BE_Action(u"Fira", menu_pos=1, attributes=["magic", "fire"], effect=5, multiplier=1.1, mp_cost=7, range=4, desc="Ignites the air in a limited area.",
                                            attacker_effects = {"gfx": "fire_1", "sfx": "default"},
                                            main_effect={"gfx": Transform("fire_2", zoom=1.5), "sfx": "content/sfx/sound/be/fire4.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}},
                                            target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": 0.1, "duration": 1.3},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 0.7, "duration": 1.2})
-        BE_Action(u"Firaga", menu_pos=2, attributes=["magic", "fire"], effect=20, multiplier=1.3, mp_cost=6, range=4, piercing=True, desc="Creates liquid fire that envelopes the target, causing massive burns.",
+        BE_Action(u"Firaga", menu_pos=2, attributes=["magic", "fire"], effect=5, multiplier=0.9, mp_cost=6, range=4, piercing=True, desc="Creates liquid fire that envelopes the target, causing massive burns.",
                                            attacker_effects={"gfx": "fire_1", "sfx": "default"},
                                            main_effect={"gfx": Transform("fire_4", zoom=1.5), "sfx": "content/sfx/sound/be/fire6.mp3", "duration": 5.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}},
                                            target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": 1.3, "duration": 3.6},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.3},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
-        BE_Action(u"Firaja", menu_pos=3, attributes=["magic", "fire"], effect=20, multiplier=1.0, mp_cost=15, range=4, type="all_enemies", piercing=True, desc="Creates a rain of fire that hits all enemies.",
+        BE_Action(u"Firaja", menu_pos=3, attributes=["magic", "fire"], effect=6, multiplier=0.8, mp_cost=15, range=4, type="all_enemies", piercing=True, desc="Creates a rain of fire that hits all enemies.",
                                            attacker_effects={"gfx": "fire_1", "sfx": "default"},
                                            main_effect={"gfx": Transform("fire_3", zoom=1.5), "sfx": "content/sfx/sound/be/fire5.mp3", "duration": 3.5, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}},
                                            target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": 0.2, "duration": 3.0},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3},
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 1.5})
-        P2P_Skill(u"Fireball", menu_pos=10, attributes=["magic", "fire"], effect=40, multiplier=1.8, mp_cost=10, range=4, piercing=True,
+        P2P_Skill(u"Fireball", menu_pos=10, attributes=["magic", "fire"], effect=30, multiplier=1.3, mp_cost=10, range=4, piercing=True,
                                       desc="Launches an exploding fireball at one enemy.",
                                       projectile_effects={"gfx": "fire_6", "sfx": "content/sfx/sound/be/fire7.mp3", "duration": 1.0},
                                       main_effect={"gfx": Transform("fire_6_1", zoom=1), "sfx": None, "duration": 1.2, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
@@ -870,7 +870,7 @@ label load_battle_skills:
                                       target_sprite_damage_effect={"gfx": "burning_with_shake", "initial_pause": 0.1, "duration": 0.7},
                                       target_death_effect={"gfx": "dissolve", "initial_pause": 0.1, "duration": 0.5},
                                       dodge_effect={"initial_pause": .1})
-        P2P_Skill(u"Solar Flash", menu_pos=11, attributes=["magic", "fire"], effect=50, multiplier=3.0, mp_cost=12, range=4,
+        P2P_Skill(u"Solar Flash", menu_pos=11, attributes=["magic", "fire"], effect=80, multiplier=1.5, mp_cost=12, range=4,
                                       desc="Sends towards the target a small piece of solar plazma.",
                                       projectile_effects={"gfx": "fire_5", "sfx": "content/sfx/sound/be/fire7.mp3", "duration": 1.0},
                                       main_effect={"gfx": Transform("fire_5_1", zoom=1), "duration": 1.5},
@@ -878,14 +878,14 @@ label load_battle_skills:
                                       target_sprite_damage_effect={"gfx": "burning_with_shake", "initial_pause": 0.1, "duration": 0.7},
                                       target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5},
                                       dodge_effect={"initial_pause": .1})
-        BE_Action("Meteor", menu_pos=12, attributes=["magic", "fire"], effect=100, multiplier=6.0, mp_cost=15, range=4, true_pierce=True, type="se", desc="Summons flaming fragments of meteor.",
+        BE_Action("Meteor", menu_pos=12, attributes=["magic", "fire"], effect=100, multiplier=1.4, mp_cost=15, range=4, true_pierce=True, type="se", desc="Summons flaming fragments of meteor.",
                                            attacker_effects={"gfx": "orb", "sfx": "default"},
                                            main_effect={"gfx": Transform("cataclysm_sideways", xzoom=-1), "sfx": "content/sfx/sound/be/fire8.mp3", "duration": 1.8, "aim": {"point": "bc", "anchor": (0.5, 0.1), "xo": 150, "yo": -370}, "hflip": True},
                                            target_sprite_damage_effect={"gfx": "burning_with_shake", "initial_pause": 1.2, "duration": 0.6, "master_shake": True},
                                            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.3},
                                            target_death_effect={"gfx": "dissolve",  "initial_pause": 1.4, "duration": 0.5},
                                             dodge_effect={"initial_pause": .8})
-        ArealSkill("Cataclysm", menu_pos=13, attributes=["magic", "fire", "inevitable"], effect=200, multiplier=10.0, mp_cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
+        ArealSkill("Cataclysm", menu_pos=13, attributes=["magic", "fire", "inevitable"], effect=150, multiplier=1.8, mp_cost=15, range=4, true_pierce=True, type="all_enemies", piercing=True,
                                         desc="A larger version of Cataclysm capable of causing destruction on a much larger scale.",
                                         attacker_effects={"gfx": "orb", "sfx": "default"},
                                         main_effect={"gfx": Transform("cataclysm_webm", zoom=0.85), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 4.93, "aim": {"anchor": (0.5, 1.0), "yo": 330}},

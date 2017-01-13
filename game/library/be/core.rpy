@@ -933,9 +933,9 @@ init -1 python: # Core classes:
             elif "ranged" in self.attributes:
                 defense = round(target.defence*.8 + target.constitution*.2 + target.agility*.2)
             elif "magic" in self.attributes:
-                defense = round(target.defence*.6 + target.magic*.4 + target.intelligence*.2)
+                defense = round(target.defence*.5 + target.magic*.5 + target.intelligence*.2)
             elif "status" in self.attributes:
-                defense = round(target.defence*.6 + target.magic*.2 + target.intelligence*.4)
+                defense = round(target.defence*.6 + target.magic*.3 + target.intelligence*.3)
 
             # Items bonuses:
             items = target.eq_items()
@@ -989,12 +989,7 @@ init -1 python: # Core classes:
             """
             a = self.source
 
-            dmg = attack/defense
-            if dmg > 0:
-                resist = pow(dmg, .5) # depending on how high the difference between attack and defense, damage additionally reduces or increases. attack 10 times higher than defense gives damage*3, 10 lower gives damage*0.3
-            else:
-                resist = 1
-            damage = 1 + (dmg*resist) * multiplier
+            damage = multiplier*attack**2/(attack+2*defense)
 
             # Items Bonus:
             m = 1.0

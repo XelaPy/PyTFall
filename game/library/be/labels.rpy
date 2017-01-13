@@ -2,12 +2,12 @@ label test_be:
     python: # Do this just once, otherwise they get stronger and stronger when reloading.
         h = chars["Hinata"] # Changing to Kushina cause Hinata is still in old xml format that cannot add basetraits.
         initial_levelup(h, 50, True)
-        h.front_row = False
+        h.front_row = True
         h.status = "free"
 
         n = chars["Nami"]
         initial_levelup(n, 50, True)
-        n.front_row = False
+        n.front_row = True
         n.status = "free"
         n.apply_trait("Air")
 
@@ -28,25 +28,22 @@ label test_be:
     python:
         # Prepare the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        mob = build_mob(id="Electrificator", level=100)
+        mob = build_mob(id="Electrificator", level=50)
         mob.health = 100000
-        mob.apply_trait("Fire")
         mob.front_row = True
 
         if len(enemy_team) != 3:
             enemy_team.add(mob)
 
-        mob = build_mob(id="Electrificator", level=100)
-        mob.health = 1
+        mob = build_mob(id="Electrificator", level=50)
+        mob.health = 100000
         mob.front_row = True
         if len(enemy_team) != 3:
             enemy_team.add(mob)
 
-        mob = build_mob(id="Electrificator", level=100)
-        mob.health = 1
+        mob = build_mob(id="Electrificator", level=50)
+        mob.health = 100000
         mob.front_row = True
-        # mob.attack_skills.append("Bow Shot")
-        mob.apply_trait("Air")
         if len(enemy_team) != 3:
             enemy_team.add(mob)
 
@@ -58,7 +55,7 @@ label test_be:
         n.AP = 6
 
         for i in enemy_team:
-            i.controller = Complex_BE_AI(i)
+            # i.controller = Complex_BE_AI(i)
             for skill in battle_skills.values():
                 if "melee" in skill.attributes or "ranged" in skill.attributes:
                     if skill not in i.attack_skills:
@@ -71,6 +68,7 @@ label test_be:
                     if skill not in i.magic_skills:
                         i.magic_skills.append(skill)
         # ImageReference("chainfights")
+        enemy_team.reset_controller()
         battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.jpg"), music= "random", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)
