@@ -35,11 +35,11 @@ init -1 python:
             for n,i in enumerate(child.stage.map):
                 for m, j in enumerate(i):
                     if child.stage.mapped[n][m]==1:
-                        if j in "15": # walls
+                        if j in "12": # walls
                             d = Solid("#4444", xysize=(6,6))
                         elif j in "38a": # doors
                             d = Solid("#5C4425", xysize=(6,6))
-                        elif j in "bc":
+                        elif j in "bcABCD":
                             d = Solid("#6a548e", xysize=(6,6))
                         else:
                             d = Solid("#fff4", xysize=(6,6))
@@ -128,10 +128,10 @@ label enter_dungeon:
         stage1=Stage(file.read().splitlines())#,enemy=goblin)
         file.close()
         bumped = False
-        vert_acc_area = "023789ab"
-        hor_acc_area = "023789ac"
-        visible_area = "13456789abc"
-        transparent_area = "024679bc"
+        vert_acc_area = "03789abABCD"
+        hor_acc_area = "03789acABCD"
+        visible_area = "12346789abcABCD"
+        transparent_area = "04679bcABCD"
         light=""
 
 
@@ -145,11 +145,18 @@ label enter_dungeon:
         python:
             # compile front to back, a list of what area are walls to be shown, behind wall we don't show.
             sided = ["%s%s_left%dc", "%s%s_left%db", "%s%s_left%d", "%s%s_front%d", "%s%s_right%d", "%s%s_right%db", "%s%s_right%dc"]
-            blend = {"1": "mossy", "3": "door", "4": "barrel", "5": "bluegrey", "6": "more_barrels", "7": "barrel_crate",
-                     "8": "bluegrey_door2", "9": "pilar", "a": "mossy_door2", "b": ["portal", "portal_turned"], "c": ["portal_turned", "portal"]}
+            blend = {"1": "mossy", "2": "bluegrey", "3": "door", "4": "barrel", "6": "more_barrels", "7": "barrel_crate",
+                     "8": "bluegrey_door2", "9": "pilar", "a": "mossy_door2",
+                     "b": ["portal", "portal_turned"], # ^/v
+                     "c": ["portal_turned", "portal"], # <->
+                     "A": ["ladderb", "ladderl", "ladderr", "ladderf"], # ^
+                     "B": ["ladderl", "ladderf", "ladderb", "ladderr"], # >
+                     "C": ["ladderf", "ladderr", "ladderl", "ladderb"], # v
+                     "D": ["ladderr", "ladderb", "ladderf", "ladderl"]  # <
+                    }
             areas = [[0, 0]]
             show = []
-            renpy.show("dungeon_%s%s_background"%(blend["1"], light))
+            renpy.show("dungeon_%s%s_background"%(blend["2"], light))
 
             while areas:
                 (distance, lateral) = areas.pop(0)
@@ -171,8 +178,10 @@ label enter_dungeon:
                         if len(blend[here.stage.map[y][x]]) == 2: # left-right symmetry
                             show.append(sided[lateral+3] % ('dungeon_'+blend[here.stage.map[y][x]][abs(here.dx)], light, distance))
 
-                        else: # no symertry, 4 images.
-                            show.append(sided[lateral+3] % ('dungeon_'+blend[here.stage.map[y][x]][2 + here.dx + 2*here.dy], light, distance))
+                        else: # no symmetry, 4 images.
+                            devlog.warn((here.dx, here.dy, 2 + here.dx + 2*here.dy))
+                            ori = 1 - here.dx - here.dy + (1 if here.dx > here.dy else 0)
+                            show.append(sided[lateral+3] % ('dungeon_'+blend[here.stage.map[y][x]][ori], light, distance))
 
                     else: # symmetric, or simply rendered in only one symmetry
                         show.append(sided[lateral+3] % ('dungeon_'+blend[here.stage.map[y][x]], light, distance))
@@ -281,7 +290,7 @@ label enter_dungeon:
             elif _return == 100:
                 light = "" if light != "" else "_torch"
 
-            if here.stage.map[here.y][here.x] == "2":
+            if here.stage.map[here.y][here.x] == "C" and here.y == 12 and here.x ==20:
                 renpy.say("", "Finally, there's a hatch here, you climb out of the catacombs.")
                 renpy.jump("graveyard_town")
                 bumped = False
