@@ -504,7 +504,7 @@ init -999 python:
                         700))
 
     for light in ('', '_torch'):
-        for blend in ('bluegrey', 'door', 'barrel', 'mossy', 'pilar', 'more_barrels', 'barrel_crate'):
+        for blend in ('bluegrey', 'door', 'barrel', 'mossy', 'pilar', 'more_barrels', 'barrel_crate', 'portal', 'portal_turned'):
             for fname in os.listdir(gamedir + '/content/dungeon/' + blend + light):
                 if fname.endswith('.png'):
                     tag = fname[:-4]
