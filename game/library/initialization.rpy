@@ -502,20 +502,24 @@ init -999 python:
             image = 'content/gfx/sprites/npc/' + fname
             renpy.image(tag, ProportionalScale(image, 600,
                         700))
-            
-    for fname in os.listdir(gamedir + '/content/dungeon'):
-        if fname.endswith('.png'):
-            tag = fname[:-4]
-            image = 'content/dungeon/' + fname
-            renpy.image(tag, image)
 
-    for blend in ('door', 'torch', 'door_torch', 'barrel', 'barrel_torch', 'mossy', 'mossy_torch',
-                 'more_barrels', 'more_barrels_torch', 'barrel_crate', 'barrel_crate_torch'):
-        for fname in os.listdir(gamedir + '/content/dungeon/' + blend):
-            if fname.endswith('.png'):
-                tag = fname[:-4]
-                image = 'content/dungeon/'+ blend +'/' + fname
-                renpy.image(tag, image)
+    for light in ('', '_torch'):
+        for blend in ('bluegrey', 'door', 'barrel', 'mossy', 'pilar', 'more_barrels', 'barrel_crate', 'portal', 'portal_turned'):
+            for fname in os.listdir(gamedir + '/content/dungeon/' + blend + light):
+                if fname.endswith('.png'):
+                    tag = fname[:-4]
+                    image = 'content/dungeon/'+ blend + light + '/' + fname
+                    renpy.image(tag, image)
+
+        #composite images
+        for blend in ('door2',):
+            for fname in os.listdir(gamedir + '/content/dungeon/' + blend + light):
+                if fname.endswith('.png'):
+                    tag = fname[:-4]
+                    image1 = 'content/dungeon/'+ blend + light + '/' + fname
+                    for wall in ('bluegrey', 'mossy'):
+                        image2 = 'content/dungeon/'+ wall + light + '/dungeon_' + wall + fname[len('dungeon_'+blend):]
+                        renpy.image('dungeon_'+wall+tag[len('dungeon'):], im.Composite((1280,720), (0, 0), image2, (0, 0), image1))
 
     # Auto-Animations are last
     def load_frame_by_frame_animations_from_dir(folder):

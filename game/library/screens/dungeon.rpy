@@ -35,8 +35,12 @@ init -1 python:
             for n,i in enumerate(child.stage.map):
                 for m, j in enumerate(i):
                     if child.stage.mapped[n][m]==1:
-                        if j in ["1"]:
+                        if j in "15": # walls
                             d = Solid("#4444", xysize=(6,6))
+                        elif j in "38a": # doors
+                            d = Solid("#5C4425", xysize=(6,6))
+                        elif j in "bc":
+                            d = Solid("#6a548e", xysize=(6,6))
                         else:
                             d = Solid("#fff4", xysize=(6,6))
                     else:
@@ -124,9 +128,10 @@ label enter_dungeon:
         stage1=Stage(file.read().splitlines())#,enemy=goblin)
         file.close()
         bumped = False
-        accesible_area = set(["0","2","3","7"])
-        visible_area = set(["1","3","4","5","6","7"])
-        transparent_area = set(["0","2","4","6","7"])
+        vert_acc_area = "023789ab"
+        hor_acc_area = "023789ac"
+        visible_area = "13456789abc"
+        transparent_area = "024679bc"
         light=""
 
 
@@ -139,12 +144,12 @@ label enter_dungeon:
         scene
         python:
             # compile front to back, a list of what area are walls to be shown, behind wall we don't show.
-            sided = ["%s%sleft%dc", "%s%sleft%db", "%s%sleft%d", "%s%sfront%d", "%s%sright%d", "%s%sright%db", "%s%sright%dc"]
-            blend = {"1": "dungeon_mossy_", "3": "dungeon_door_", "4": "dungeon_barrel_", "5": "dungeon_",
-                     "6": "dungeon_more_barrels_", "7": "dungeon_barrel_crate_"}
-            areas = [[0, -1], [0, 1], [1, 0]]
+            sided = ["%s%s_left%dc", "%s%s_left%db", "%s%s_left%d", "%s%s_front%d", "%s%s_right%d", "%s%s_right%db", "%s%s_right%dc"]
+            blend = {"1": "mossy", "3": "door", "4": "barrel", "5": "bluegrey", "6": "more_barrels", "7": "barrel_crate",
+                     "8": "bluegrey_door2", "9": "pilar", "a": "mossy_door2", "b": ["portal", "portal_turned"], "c": ["portal_turned", "portal"]}
+            areas = [[0, 0]]
             show = []
-            renpy.show("%s%sbackground"%(blend["1"], light))
+            renpy.show("dungeon_%s%s_background"%(blend["1"], light))
 
             while areas:
                 (distance, lateral) = areas.pop(0)
@@ -160,11 +165,19 @@ label enter_dungeon:
                 # also record for minimap
                 here.stage.mapped[y][x]=1
 
-                if here.stage.map[y][x] in visible_area:
+                if here.stage.map[y][x] in visible_area: # a wall or so, need to draw.
+                    if isinstance(blend[here.stage.map[y][x]], list):
 
-                    show.append(sided[lateral+3] % (blend[here.stage.map[y][x]], light, distance)) # a wall or so, need to draw.
+                        if len(blend[here.stage.map[y][x]]) == 2: # left-right symmetry
+                            show.append(sided[lateral+3] % ('dungeon_'+blend[here.stage.map[y][x]][abs(here.dx)], light, distance))
 
-                if here.stage.map[y][x] in transparent_area: # need to draw what's behind it.
+                        else: # no symertry, 4 images.
+                            show.append(sided[lateral+3] % ('dungeon_'+blend[here.stage.map[y][x]][2 + here.dx + 2*here.dy], light, distance))
+
+                    else: # symmetric, or simply rendered in only one symmetry
+                        show.append(sided[lateral+3] % ('dungeon_'+blend[here.stage.map[y][x]], light, distance))
+
+                if here.stage.map[y][x] in transparent_area or (here.stage.map[y][x] in visible_area and not renpy.has_image(show[-1])): # need to draw what's behind it.
 
                     # after `or' prevents adding areas twice. If the area diagonally nearer to hero is
                     # a wall, the area is not yet drawn, draw it, unless we cannot see it.
@@ -183,7 +196,10 @@ label enter_dungeon:
 
             # finally draw walls, back to front, lateral to central.
             for s in reversed(show):
-                renpy.show(s)
+                if renpy.has_image(s):
+                    renpy.show(s)
+                else:
+                    devlog.warn("missing image: "+s)
 
         # Check events. If it happens, call a label or jump out to a label.
         # XXX: this probably should change
@@ -195,8 +211,15 @@ label enter_dungeon:
         call screen dungeon_move
 
         python:
+            at = here.stage.map[here.y][here.x]
             if _return == 2:
-                if here.stage.map[here.y-here.dy][here.x-here.dx] in accesible_area:
+                area = here.stage.map[here.y-here.dy][here.x-here.dx]
+                if here.dx:
+                    can_go = True if at in hor_acc_area and area in hor_acc_area else False
+                else:
+                    can_go = True if at in vert_acc_area and area in vert_acc_area else False
+
+                if can_go:
                     here.y -= here.dy
                     here.x -= here.dx
 
@@ -211,7 +234,13 @@ label enter_dungeon:
                 (here.dy, here.dx) = (here.dx, -here.dy)
 
             elif _return == 7:
-                if here.stage.map[here.y-here.dx][here.x+here.dy] in accesible_area:
+                area = here.stage.map[here.y-here.dx][here.x+here.dy]
+                if here.dx:
+                    can_go = True if at in vert_acc_area and area in vert_acc_area else False
+                else:
+                    can_go = True if at in hor_acc_area and area in hor_acc_area else False
+
+                if can_go:
                     here.y -= here.dx
                     here.x += here.dy
 
@@ -220,7 +249,13 @@ label enter_dungeon:
                     bumped = True
 
             elif _return == 8:
-                if here.stage.map[here.y+here.dy][here.x+here.dx] in accesible_area:
+                area = here.stage.map[here.y+here.dy][here.x+here.dx]
+                if here.dx:
+                    can_go = True if at in hor_acc_area and area in hor_acc_area else False
+                else:
+                    can_go = True if at in vert_acc_area and area in vert_acc_area else False
+
+                if can_go:
                     here.y += here.dy
                     here.x += here.dx
 
@@ -229,7 +264,13 @@ label enter_dungeon:
                     bumped = True
 
             elif _return == 9:
-                if here.stage.map[here.y+here.dx][here.x-here.dy] in accesible_area:
+                area = here.stage.map[here.y+here.dx][here.x-here.dy]
+                if here.dx:
+                    can_go = True if at in vert_acc_area and area in vert_acc_area else False
+                else:
+                    can_go = True if at in hor_acc_area and area in hor_acc_area else False
+
+                if can_go:
                     here.y += here.dx
                     here.x -= here.dy
 
@@ -238,7 +279,7 @@ label enter_dungeon:
                     bumped = True
 
             elif _return == 100:
-                light = "" if light != "" else "torch_"
+                light = "" if light != "" else "_torch"
 
             if here.stage.map[here.y][here.x] == "2":
                 renpy.say("", "Finally, there's a hatch here, you climb out of the catacombs.")
