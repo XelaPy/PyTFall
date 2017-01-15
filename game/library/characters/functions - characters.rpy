@@ -40,96 +40,46 @@ init -11 python:
 
     def build_mob(id=None, level=1, max_out_stats=False):
         mob = Mob()
-        Stats = mob.STATS
-        Skills = mob.stats.skills.keys()
+        stats = mob.STATS
+        skills = mob.stats.skills.keys()
 
         if not id:
             id = choice(mobs.keys())
 
-        if id in mobs:
-            data = mobs[id]
-            mob.id = id
-        else:
+        if not id in mobs:
             raise Exception("Unknown id {} when creating a mob!".format(id))
 
-        if "name" in data:
-            mob.name = data["name"]
-        else:
-            mob.name = mob.id
-
-        if "desc" in data:
-            mob.desc = data["desc"]
-        else:
-            mob.desc = "A Mob!"
+        data = mobs[id]
+        mob.id = id
+        mob.name = data.get("name", id)
+        mob.desc = data.get("desc", "Some Random Monsta!")
 
         for i in ("battle_sprite", "portrait", "origin", "locations", "base_race", "race", "front_row"):
             if i in data:
                 setattr(mob, i, data[i])
 
-        if "skills" in data:
-            d = data["skills"]
-            for key in d:
-                if key.lower() in Skills:
-                    value = d[key]
-                    setattr(mob, key.lower(), value * (2/3.0))
-                    setattr(mob, key.capitalize(), value * (1/3.0))
-                else:
-                    devlog.warning(str("Skill: {} for Mob with id: {} is invalid! ".format(key, id)))
+        for skill, value in data.get("skills", {}).iteritems():
+            if skill.lower() in skills:
+                setattr(mob, skill.lower(), value*(2/3.0))
+                setattr(mob, skill.capitalize(), value*(1/3.0))
+            else:
+                devlog.warning(str("Skill: {} for Mob with id: {} is invalid! ".format(skill, id)))
 
         # Get and normalize basetraits:
-        if "basetraits" in data:
-            basetraits = set()
-            if data["basetraits"]:
-                for trait in data["basetraits"]:
-                    if trait in traits:
-                        basetraits.add(traits[trait])
-                    else:
-                        devlog.warning("{} besetrait is unknown for Mob {}!".format(trait, id))
+        mob.traits.basetraits = set(traits[t] for t in data.get("basetraits", []))
+        for trait in mob.traits.basetraits:
+            mob.apply_trait(trait)
 
-            if len(basetraits) > 2:
-                while len(basetraits) > 2:
-                    basetraits.pop()
-
-            # In case that we have basetraits:
-            if basetraits:
-                mob.traits.basetraits = basetraits
-
-            for trait in mob.traits.basetraits:
-                mob.apply_trait(trait)
-
-
-        if "traits" in data:
-            d = data["traits"]
-            for trait in d:
-                if trait in traits:
-                    trait = traits[trait]
-                else:
-                    devlog.warning(str("Trait: {} for Mob with id: {} is invalid! ".format(trait, id)))
-                    continue
-                mob.apply_trait(trait)
+        for trait in data.get("traits", []):
+            mob.apply_trait(trait)
 
         if "default_attack_skill" in data:
             skill = data["default_attack_skill"]
-            if skill in store.battle_skills:
-                mob.default_attack_skill = store.battle_skills[skill]
-            else:
-                devlog.warning("%s Mob tried to apply unknown default attack skill: %s!" % (mob.id, skill))
-
-        if "attack_skills" in data:
-            d = data["attack_skills"]
-            for skill in d:
-                if skill in store.battle_skills:
-                    mob.attack_skills.append(store.battle_skills[skill])
-                else:
-                    devlog.warning(str("{} Mob tried to apply unknown battle skill: {}!".format(id, skill)))
-
-        if "magic_skills" in data:
-            d = data["magic_skills"]
-            for skill in d:
-                if skill in store.battle_skills:
-                    mob.magic_skills.append(store.battle_skills[skill])
-                else:
-                    devlog.warning(str("{} Mob tried to apply unknown battle skill: {}!".format(id, skill)))
+            mob.default_attack_skill = store.battle_skills[skill]
+        for skill in data.get("attack_skills", []):
+            mob.attack_skills.append(store.battle_skills[skill])
+        for skill in data.get("magic_skills", []):
+            mob.magic_skills.append(store.battle_skills[skill])
 
         mob.init()
 

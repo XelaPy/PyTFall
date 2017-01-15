@@ -276,17 +276,17 @@ init -1: # Images and Animations
         im.Recolor("content/gfx/be/knives.png", 0, 255, 0, 255) # green attack for poison dagger
         alpha 1.0
         linear 0.5 alpha 0
-        
+
     image simple_bow_fire_attack:
         im.Recolor("content/gfx/be/bows.png", 255, 45, 10, 255) # orange attack for fire bow
         alpha 1.0
         linear 0.5 alpha 0
-        
-    image simple_bow_ice_attack: 
+
+    image simple_bow_ice_attack:
         im.Recolor("content/gfx/be/bows.png", 0, 173, 233, 255) # blue attack for ice bow
         alpha 1.0
         linear 0.5 alpha 0
-        
+
     # fire bow:
     image Fire Arrow cast:
         "content/gfx/be/animations/flame_arrow/FlameArrow_1.png"
@@ -381,32 +381,32 @@ init -1: # Images and Animations
         "content/gfx/be/animations/ice_arrow/IceArrow_I8.png"
 
     image ice_dagger = FilmStrip("content/gfx/be/filmstrips/ice_dagger.png", (192, 192), (5, 3), 0.05, loop=False)
-    
+
     image simple_sword_attack:
         ProportionalScale("content/gfx/be/swords.png", 150, 150)
         alpha 1.0
         linear 0.5 alpha 0
-        
+
     image simple_bow_attack:
         ProportionalScale("content/gfx/be/bows.png", 150, 150)
         alpha 1.0
         linear 0.5 alpha 0
-        
+
     image simple_crossbow_attack:
         ProportionalScale("content/gfx/be/crossbows.png", 150, 150)
         alpha 1.0
         linear 0.5 alpha 0
-        
+
     image simple_dagger_attack:
         ProportionalScale("content/gfx/be/knives.png", 150, 150)
         alpha 1.0
         linear 0.5 alpha 0
-        
+
     image simple_claw_attack:
         ProportionalScale("content/gfx/be/claws.png", 150, 150)
         alpha 1.0
         linear 0.5 alpha 0
-        
+
     image simple_fist_attack:
         ProportionalScale("content/gfx/be/fists.png", 150, 150)
         alpha 1.0
@@ -426,17 +426,17 @@ init -1: # Images and Animations
         ProportionalScale("content/gfx/be/axes.png", 150, 150)
         alpha 1.0
         linear 0.5 alpha 0
-        
+
     image simple_bite_attack:
         ProportionalScale("content/gfx/be/bites.png", 150, 150)
         alpha 1.0
         linear 0.5 alpha 0
-        
+
     image simple_gun_attack:
         ProportionalScale("content/gfx/be/shoots.png", 150, 150)
         alpha 1.0
         linear 0.5 alpha 0
-        
+
     image simple_scythe_attack:
         ProportionalScale("content/gfx/be/scythe.png", 150, 150)
         alpha 1.0
@@ -446,12 +446,12 @@ init -1: # Images and Animations
         ProportionalScale("content/gfx/be/spray.png", 150, 150)
         alpha 1.0
         linear 1.0 alpha 0
-        
+
     image simple_throw_attack:
         ProportionalScale("content/gfx/be/throw.png", 150, 150)
         alpha 1.0
         linear 0.5 alpha 0
-        
+
     image simple_whip_attack:
         ProportionalScale("content/gfx/be/whip.png", 150, 150)
         alpha 1.0
@@ -585,7 +585,7 @@ label load_battle_skills:
                                            target_death_effect={"gfx": "dissolve", "initial_pause": 0.9, "duration": .3})
         # Bow Attacks:
         BE_Action("Bow Shot", attributes=["ranged", "physical"], critpower=0, desc="Shooting an arrow.", effect=5, range=3, vitality_cost=1, menu_pos=0,
-                              main_effect={"gfx": "simple_bow_attack", "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": .5,}, 
+                              main_effect={"gfx": "simple_bow_attack", "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": .5,},
                               target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
         MultiAttack("Bow Shot 2X", attributes=["ranged", "physical"], critpower=.05, multiplier=1.05, desc="Shooting two arrows in quick succession.", effect=12, range=3, vitality_cost=3, menu_pos=1,
                               main_effect={"gfx": ProportionalScale("content/gfx/be/bows.png", 150, 150), "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": .6},
@@ -1272,7 +1272,7 @@ label load_battle_skills:
                                           target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.5},
                                           target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.5, "duration": 0.7},
                                           target_death_effect={"gfx": "dissolve", "initial_pause": 0.9, "duration": 0.2})
-        BE_Action(u"Black Holes", menu_pos=11, attributes=["magic", "darkness"], effect=100, multiplier=4.8, mp_cost=8, range=4, piercing=True, type="all_enemies",
+        BE_Action(u"Black Hole", menu_pos=11, attributes=["magic", "darkness"], effect=100, multiplier=4.8, mp_cost=8, range=4, piercing=True, type="all_enemies",
                                           desc="Creates holes in space itself that lead to the dark dimension.",
                                           attacker_effects={"gfx": "dark_2", "sfx": "default"},
                                           main_effect={"gfx": Transform("darkness_6", zoom=1.1), "sfx": "content/sfx/sound/be/darkness3.mp3", "duration": 1.5, "aim": {"point": "center", "anchor": (0.5, 0.5)}},
