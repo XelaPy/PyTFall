@@ -28,7 +28,7 @@ label test_be:
     python:
         # Prepare the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        mob = build_mob(id="Electrificator", level=50)
+        mob = build_mob(id="Electrificator", level=50, max_out_stats=True)
         mob.health = 100000
         mob.front_row = True
 
@@ -69,6 +69,8 @@ label test_be:
                         i.magic_skills.append(skill)
         # ImageReference("chainfights")
         enemy_team.reset_controller()
+
+    python:
         battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.jpg"), music= "random", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)
