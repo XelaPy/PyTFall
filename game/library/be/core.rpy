@@ -921,7 +921,7 @@ init -1 python: # Core classes:
             healthlevel=(1.0*a.health)/(1.0*a.get_max("health"))*0.5 # low health decreases attack power, down to 50% at close to 0 health.
             attack *= (0.5+healthlevel)
 
-            return int(attack) if attack > 0 else 1
+            return int(attack) if attack >= 1 else 1
 
         def get_defense(self, target):
             """
