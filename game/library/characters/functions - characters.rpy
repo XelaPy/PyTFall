@@ -65,18 +65,6 @@ init -11 python:
         for i in ("battle_sprite", "portrait", "origin", "locations", "base_race", "race", "front_row"):
             if i in data:
                 setattr(mob, i, data[i])
-        if "stats" in data:
-            d = data["stats"]
-            for key in d:
-                if key in Stats:
-                    if key != "luck":
-                        value = d[key]
-                        value = int(round(float(value)*100 / mob.get_max(key)))
-                        mob.mod_stat(key, value)
-                    elif key == "luck":
-                        mob.mod_stat(key, d[key])
-                else:
-                    devlog.warning(str("Stat: {} for Mob with id: {} is invalid! ".format(key, id)))
 
         if "skills" in data:
             d = data["skills"]
@@ -147,6 +135,12 @@ init -11 python:
 
         if level != 1:
             initial_levelup(mob, level, max_out_stats=max_out_stats)
+
+        if not max_out_stats:
+            for stat, value in data.get("stats", {}).iteritems():
+                if stat != "luck":
+                    value = int(round(mob.get_max(stat)*value/float(100)))
+                setattr(mob, stat, value)
 
         return mob
 
