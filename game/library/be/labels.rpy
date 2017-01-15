@@ -9,7 +9,6 @@ label test_be:
         initial_levelup(n, 50, True)
         n.front_row = True
         n.status = "free"
-        n.apply_trait("Air")
 
         for skill in battle_skills.values():
             if "melee" in skill.attributes or "ranged" in skill.attributes:
@@ -28,7 +27,7 @@ label test_be:
     python:
         # Prepare the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        mob = build_mob(id="Electrificator", level=50, max_out_stats=True)
+        mob = build_mob(id="Electrificator", level=50)
         mob.health = 100000
         mob.front_row = True
 

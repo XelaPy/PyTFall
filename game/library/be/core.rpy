@@ -916,7 +916,7 @@ init -1 python: # Core classes:
             attack *= m
 
             # Simple randomization factor?:
-            attack *= random.uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this? Dark: we make damage calculations unpredictable (within reasonable limits); many games use much more harsh ways to add randomness to BE.
+            # attack *= random.uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this? Dark: we make damage calculations unpredictable (within reasonable limits); many games use much more harsh ways to add randomness to BE.
 
             # Decreasing based of current health:
             healthlevel=(a.health/a.get_max("health"))*0.5 # low health decreases attack power, down to 50% at close to 0 health.
@@ -979,7 +979,7 @@ init -1 python: # Core classes:
                 defense += d
                 defense *= m
 
-            defense *= random.uniform(.90, 1.10)
+            # defense *= random.uniform(.90, 1.10)
 
             return defense if defense > 0 else 1
 
