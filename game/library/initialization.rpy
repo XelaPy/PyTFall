@@ -504,12 +504,30 @@ init -999 python:
                         700))
 
     for light in ('', '_torch'):
+        # 4 sided symmetry (or symmetry ignored)
         for blend in ('bluegrey', 'door', 'barrel', 'mossy', 'pilar', 'more_barrels', 'barrel_crate', 'portal', 'portal_turned'):
             for fname in os.listdir(gamedir + '/content/dungeon/' + blend + light):
                 if fname.endswith('.png'):
                     tag = fname[:-4]
                     image = 'content/dungeon/'+ blend + light + '/' + fname
                     renpy.image(tag, image)
+
+        # 2 sided symmetry
+        for blend in ('portal',):
+            for ori in ('', '_turned'):
+                for fname in os.listdir(gamedir + '/content/dungeon/' + blend + ori + light):
+                    if fname.endswith('.png'):
+                        tag = fname[:-4]
+                        image = 'content/dungeon/'+ blend + ori + light + '/' + fname
+                        renpy.image(tag, image)
+        # no symmetry
+        for blend in ('ladder',): # 4 sided symmetry
+            for ori in "lrfb":
+                for fname in os.listdir(gamedir + '/content/dungeon/' + blend + ori + light):
+                    if fname.endswith('.png'):
+                        tag = fname[:-4]
+                        image = 'content/dungeon/'+ blend + ori + light + '/' + fname
+                        renpy.image(tag, image)
 
         #composite images
         for blend in ('door2',):
