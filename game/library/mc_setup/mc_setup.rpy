@@ -200,6 +200,7 @@ label build_mc:
     python:
         for t in temp:
             hero.traits.basetraits.add(traits[t])
+            hero.apply_trait(traits[t])
     # Now that we have our setup, max out all fixed max stats and set all normal stats to 35% of their maximum:
     python:
         for s in ['constitution', 'intelligence', 'charisma', 'attack', 'magic', 'defence', 'agility']:
