@@ -1,12 +1,14 @@
 label test_be:
     python: # Do this just once, otherwise they get stronger and stronger when reloading.
         h = chars["Hinata"] # Changing to Kushina cause Hinata is still in old xml format that cannot add basetraits.
-        initial_levelup(h, 50, True)
+        if h.level < 40:
+            initial_levelup(h, 50, True)
         h.front_row = True
         h.status = "free"
 
         n = chars["Nami"]
-        initial_levelup(n, 50, True)
+        if n.level < 40:
+            initial_levelup(n, 50, True)
         n.front_row = True
         n.status = "free"
 
@@ -52,6 +54,11 @@ label test_be:
         if len(hero.team) != 3 and n not in hero.team:
             hero.team.add(n)
         n.AP = 6
+        
+        for i in hero.team:
+            i.health = i.get_max("health")
+            i.mp = i.get_max("mp")
+            i.vitality = i.get_max("vitality")
 
         for i in enemy_team:
             # i.controller = Complex_BE_AI(i)
