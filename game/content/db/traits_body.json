@@ -94,8 +94,7 @@
     "blocks": ["Lolita", "Chubby", "Athletic", "Manly"],
     "mod_stats": {"constitution": [-1, 1], "charisma": [1, 1]},
     "max": {"vitality": -25, "charisma": 15},
-    "body": true,
-    "evasion_bonus": [1, 1, 1]
+    "body": true
     },
     {
     "id": "Chubby",
