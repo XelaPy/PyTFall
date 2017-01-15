@@ -1315,25 +1315,25 @@ init -9 python:
 
             # Stat support Dicts:
             stats = {
-                'charisma': [0, 0, 100, 60],          # means [stat, min, max, lvl_max]
-                'constitution': [0, 0, 60, 40],
-                'joy': [0, 0, 100, 200],
-                'character': [0, 0, 100, 60],
+                'charisma': [5, 0, 30, 40],          # means [stat, min, max, lvl_max]
+                'constitution': [5, 0, 30, 40],
+                'joy': [50, 0, 100, 200],
+                'character': [5, 0, 30, 40],
                 'reputation': [0, 0, 100, 100],
-                'health': [200, 0, 200, 400],
-                'fame': [0, 0, 100, 60],
-                'mood': [0, 0, 1000, 1000],
+                'health': [100, 0, 100, 200],
+                'fame': [0, 0, 100, 100],
+                'mood': [0, 0, 1000, 1000], # not used...
                 'disposition': [0, -1000, 1000, 1000],
-                'vitality': [200, 0, 200, 400],
-                'intelligence': [0, 0, 100, 60],
+                'vitality': [100, 0, 100, 200],
+                'intelligence': [5, 0, 30, 40],
 
                 'luck': [0, -50, 50, 50],
 
-                'attack': [0, 0, 60, 40],
-                'magic': [0, 0, 40, 30],
-                'defence': [0, 0, 50, 40],
-                'agility': [0, 0, 35, 25],
-                'mp': [0, 0, 40, 30]
+                'attack': [5, 0, 30, 40],
+                'magic': [5, 0, 30, 40],
+                'defence': [5, 0, 30, 40],
+                'agility': [5, 0, 30, 40],
+                'mp': [30, 0, 30, 50]
             }
             self.stats = Stats(self, stats=stats)
             self.STATS = set(self.stats.stats.keys())
