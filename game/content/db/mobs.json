@@ -121,7 +121,7 @@
             "Fist Attack"
         ],
         "magic_skills": [
-            "Water", "Cure"
+            "Water", "Curer"
         ]
     },
     {
@@ -633,7 +633,7 @@
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
-        "magic_skills": ["Aero", "Aerora", "Aeroga", "Aery Field"
+        "magic_skills": ["Aero", "Aerora", "Aeroga", "Aery Field", "Life Wind"
         ]
     },
     {
@@ -663,7 +663,7 @@
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X", "Claw Slash 4X"
         ],
-        "magic_skills": ["Aero", "Aerora", "Aeroga", "Aeroja", "Aery Shield"
+        "magic_skills": ["Aero", "Aerora", "Aeroga", "Aeroja", "Aery Shield", "Life Wind"
         ]
     },
     {
@@ -873,7 +873,7 @@
         "attack_skills": [
             "Spray"
         ],
-        "magic_skills": ["Water", "Cure"
+        "magic_skills": ["Water", "Curer"
         ]
     },
     {
@@ -1203,7 +1203,7 @@
         "attack_skills": [
             "Blunt Strike"
         ],
-        "magic_skills": ["Holy", "Holyra", "Holyda", "Holyja", "Cure"
+        "magic_skills": ["Holy", "Holyra", "Holyda", "Holyja", "Curer"
         ]
     },
     {
@@ -1952,7 +1952,7 @@
         "attack_skills": [
             "Claw Slash", "Bite"
         ],
-        "magic_skills": ["Cure"
+        "magic_skills": ["Curer"
         ]
     },
     {
@@ -1982,7 +1982,7 @@
         "attack_skills": [
             "Whip Strike"
         ],
-        "magic_skills": ["Cure", "Stonera", "Stonega", "Solid Field"
+        "magic_skills": ["Curer", "Stonera", "Stonega", "Solid Field"
         ]
     },
     {
@@ -2762,7 +2762,7 @@
         "attack_skills": [
 
         ],
-        "magic_skills": ["Air Pressure", "Aerora", "Aero"
+        "magic_skills": ["Pressure", "Aerora", "Aero"
         ]
     },
     {
@@ -2942,7 +2942,7 @@
         "attack_skills": [
             "Light Slash"
         ],
-        "magic_skills": ["Holyda", "Holyja", "Cure", "Curaga", "Photon Blade", "Star Light"
+        "magic_skills": ["Holyda", "Holyja", "Curer", "Restoration", "Photon Blade", "Star Light"
         ]
     },
     {
@@ -4138,11 +4138,11 @@
             "intelligence": 80
         },
         "skills": {},
-        "traits": ["Furry", "Air", "Air Resistance"],
+        "traits": ["Furry", "Air", "Air Resistance", "Life Wind"],
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
-        "magic_skills": ["Air Pressure", "Air Blast", "Aeroja", "Aery Shield", "Arcane Field"
+        "magic_skills": ["Pressure", "Air Blast", "Aeroja", "Aery Shield", "Arcane Field"
         ]
     },
     {
