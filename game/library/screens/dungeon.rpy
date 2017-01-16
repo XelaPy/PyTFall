@@ -128,10 +128,10 @@ label enter_dungeon:
         stage1=Stage(file.read().splitlines())#,enemy=goblin)
         file.close()
         bumped = False
-        vert_acc_area = "03789abABCD"
-        hor_acc_area = "03789acABCD"
-        visible_area = "12346789abcABCD"
-        transparent_area = "04679bcABCD"
+        vert_acc_area = "03789abABCDE"
+        hor_acc_area = "03789acABCDE"
+        visible_area = "12346789abcdABCDE"
+        transparent_area = "04679bcABCDE"
         light=""
 
 
@@ -149,10 +149,12 @@ label enter_dungeon:
                      "8": "bluegrey_door2", "9": "pilar", "a": "mossy_door2",
                      "b": ["portal", "portal_turned"], # ^/v
                      "c": ["portal_turned", "portal"], # <->
+                     "d": "mossy_alcove",
                      "A": ["ladderb", "ladderl", "ladderr", "ladderf"], # ^
                      "B": ["ladderl", "ladderf", "ladderb", "ladderr"], # >
                      "C": ["ladderf", "ladderr", "ladderl", "ladderb"], # v
-                     "D": ["ladderr", "ladderb", "ladderf", "ladderl"]  # <
+                     "D": ["ladderr", "ladderb", "ladderf", "ladderl"],  # <
+                     "E": "ladderdownf"
                     }
             areas = [[0, 0]]
             show = []
