@@ -121,7 +121,7 @@
             "Fist Attack"
         ],
         "magic_skills": [
-            "Water", "Cure"
+            "Water", "Curer"
         ]
     },
     {
@@ -633,7 +633,7 @@
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
-        "magic_skills": ["Aero", "Aerora", "Aeroga", "Aery Field"
+        "magic_skills": ["Aero", "Aerora", "Aeroga", "Aery Field", "Life Wind"
         ]
     },
     {
@@ -663,7 +663,7 @@
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X", "Claw Slash 4X"
         ],
-        "magic_skills": ["Aero", "Aerora", "Aeroga", "Aeroja", "Aery Shield"
+        "magic_skills": ["Aero", "Aerora", "Aeroga", "Aeroja", "Aery Shield", "Life Wind"
         ]
     },
     {
@@ -873,7 +873,7 @@
         "attack_skills": [
             "Spray"
         ],
-        "magic_skills": ["Water", "Cure"
+        "magic_skills": ["Water", "Curer"
         ]
     },
     {
@@ -1081,7 +1081,7 @@
         "skills": {},
         "traits": ["Undead", "Light", "Light Immunity", "Physical Weakness", "Darkness Resistance"],
         "attack_skills": [
-            
+
         ],
         "magic_skills": ["Holy", "Solid Shield"
         ]
@@ -1203,7 +1203,7 @@
         "attack_skills": [
             "Blunt Strike"
         ],
-        "magic_skills": ["Holy", "Holyra", "Holyda", "Holyja", "Cure"
+        "magic_skills": ["Holy", "Holyra", "Holyda", "Holyja", "Curer"
         ]
     },
     {
@@ -1590,7 +1590,7 @@
         "skills": {},
         "traits": ["Demonic Creature", "Darkness"],
         "attack_skills": [
-            
+
         ],
         "magic_skills": ["Dark", "Darkra"
         ]
@@ -1620,7 +1620,7 @@
         "skills": {},
         "traits": ["Demonic Creature", "Darkness", "Darkness Immunity"],
         "attack_skills": [
-            
+
         ],
         "magic_skills": ["Dark", "Darkra", "Darkga"
         ]
@@ -1650,7 +1650,7 @@
         "skills": {},
         "traits": ["Demonic Creature", "Darkness", "Darkness Absorption", "Minor Physical Resistance"],
         "attack_skills": [
-            
+
         ],
         "magic_skills": ["Dark", "Darkra", "Darkga", "Darkja"
         ]
@@ -1680,7 +1680,7 @@
         "skills": {},
         "traits": ["Demonic Creature", "Darkness", "Darkness Absorption", "Physical Absorption"],
         "attack_skills": [
-            
+
         ],
         "magic_skills": ["Dark", "Darkra", "Darkga", "Darkja", "Eternal Gluttony"
         ]
@@ -1952,7 +1952,7 @@
         "attack_skills": [
             "Claw Slash", "Bite"
         ],
-        "magic_skills": ["Cure"
+        "magic_skills": ["Curer"
         ]
     },
     {
@@ -1982,7 +1982,7 @@
         "attack_skills": [
             "Whip Strike"
         ],
-        "magic_skills": ["Cure", "Stonera", "Stonega", "Solid Field"
+        "magic_skills": ["Curer", "Stonera", "Stonega", "Solid Field"
         ]
     },
     {
@@ -2310,7 +2310,7 @@
         "skills": {},
         "traits": ["Human", "Ice Absorption", "Ice", "Poison Resistance", "Minor Physical Resistance"],
         "attack_skills": [
-            
+
         ],
         "magic_skills": ["Blizzard", "Blizzara", "Blizzarga", "Aery Shield", "Arcane Shield"
         ]
@@ -2340,7 +2340,7 @@
         "skills": {},
         "traits": ["Human", "Ice Absorption", "Ice", "Physical Immunity", "Poison Resistance"],
         "attack_skills": [
-            
+
         ],
         "magic_skills": ["Ice Storm", "Ice Blast", "Hailstorm", "Ice Shards",  "Zero Prism"
         ]
@@ -2400,7 +2400,7 @@
         "skills": {},
         "traits": ["Monster", "Ice Absorption", "Ice", "Physical Weakness"],
         "attack_skills": [
-            
+
         ],
         "magic_skills": ["Blizzard", "Blizzara", "Blizzarga", "Blizzarja", "Arcane Shield", "Solid Field"
         ]
@@ -2580,7 +2580,7 @@
         "skills": {},
         "traits": ["Unknown", "Electricity", "Electricity Absorption", "Physical Immunity", "Poison Resistance"],
         "attack_skills": [
-          
+
         ],
         "magic_skills": ["Thunder", "Thundara", "Thundaga", "Thundaja", "Thunderstorm"
         ]
@@ -2610,7 +2610,7 @@
         "skills": {},
         "traits": ["Unknown", "Water", "Fire", "Water Absorption", "Physical Immunity", "Poison Resistance"],
         "attack_skills": [
-         
+
         ],
         "magic_skills": ["Waterja", "Geyser", "Firaja"
         ]
@@ -2730,7 +2730,7 @@
         "skills": {},
         "traits": ["Undead", "Neutral", "Physical Vulnerability"],
         "attack_skills": [
-            
+
         ],
         "magic_skills": ["Fire", "Thunder", "Holy"
         ]
@@ -2760,9 +2760,9 @@
         "skills": {},
         "traits": ["Air", "Air Immunity", "Undead"],
         "attack_skills": [
-            
+
         ],
-        "magic_skills": ["Air Pressure", "Aerora", "Aero"
+        "magic_skills": ["Pressure", "Aerora", "Aero"
         ]
     },
     {
@@ -2790,7 +2790,7 @@
         "skills": {},
         "traits": ["Water", "Water Immunity", "Undead"],
         "attack_skills": [
-            
+
         ],
         "magic_skills": ["Geyser", "Watera", "Waterga"
         ]
@@ -2820,7 +2820,7 @@
         "skills": {},
         "traits": ["Fire", "Fire Immunity", "Undead"],
         "attack_skills": [
-            
+
         ],
         "magic_skills": ["Fira", "Firaga", "Fireball"
         ]
@@ -2850,9 +2850,9 @@
         "skills": {},
         "traits": ["Monster", "Fire", "Fire Absorption", "Physical Resistance", "Poison Resistance"],
         "attack_skills": [
-            
+
         ],
-        "magic_skills": ["Fira", "Firaga", "Firaja", "Fireball", "Solar Flash" 
+        "magic_skills": ["Fira", "Firaga", "Firaja", "Fireball", "Solar Flash"
         ]
     },
     {
@@ -2942,7 +2942,7 @@
         "attack_skills": [
             "Light Slash"
         ],
-        "magic_skills": ["Holyda", "Holyja", "Cure", "Curaga", "Photon Blade", "Star Light"
+        "magic_skills": ["Holyda", "Holyja", "Curer", "Restoration", "Photon Blade", "Star Light"
         ]
     },
     {
@@ -2970,7 +2970,7 @@
         "skills": {},
         "traits": ["Unknown", "Neutral", "Physical Resistance"],
         "attack_skills": [
-           
+
         ],
         "magic_skills": [
         ]
@@ -3510,7 +3510,7 @@
         "skills": {},
         "traits": ["Monster", "Darkness Absorption", "Darkness", "Healing Immunity", "Poison Immunity", "Physical Resistance"],
         "attack_skills": [
-            
+
         ],
         "magic_skills": ["Black Hole", "Darkra"
         ]
@@ -3930,7 +3930,7 @@
         "skills": {},
         "traits": ["Undead", "Darkness", "Poison Resistance", "Minor Physical Resistance"],
         "attack_skills": [
-            
+
         ],
         "magic_skills": ["Darkra", "Darkga", "Black Hole", "Arcane Field"
         ]
@@ -4138,11 +4138,11 @@
             "intelligence": 80
         },
         "skills": {},
-        "traits": ["Furry", "Air", "Air Resistance"],
+        "traits": ["Furry", "Air", "Air Resistance", "Life Wind"],
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
-        "magic_skills": ["Air Pressure", "Air Blast", "Aeroja", "Aery Shield", "Arcane Field"
+        "magic_skills": ["Pressure", "Air Blast", "Aeroja", "Aery Shield", "Arcane Field"
         ]
     },
     {
@@ -4349,7 +4349,7 @@
         "skills": {},
         "traits": ["Android", "Electricity"],
         "attack_skills": [
-            
+
         ],
         "magic_skills": ["Ion Storm", "Electromagnetism", "Thunderstorm", "Arcane Field"
         ]

@@ -1,15 +1,16 @@
 label test_be:
     python: # Do this just once, otherwise they get stronger and stronger when reloading.
         h = chars["Hinata"] # Changing to Kushina cause Hinata is still in old xml format that cannot add basetraits.
-        initial_levelup(h, 50, True)
+        if h.level < 40:
+            initial_levelup(h, 50, True)
         h.front_row = True
         h.status = "free"
 
         n = chars["Nami"]
-        initial_levelup(n, 50, True)
+        if n.level < 40:
+            initial_levelup(n, 50, True)
         n.front_row = True
         n.status = "free"
-        n.apply_trait("Air")
 
         for skill in battle_skills.values():
             if "melee" in skill.attributes or "ranged" in skill.attributes:
@@ -53,6 +54,11 @@ label test_be:
         if len(hero.team) != 3 and n not in hero.team:
             hero.team.add(n)
         n.AP = 6
+        
+        for i in hero.team:
+            i.health = i.get_max("health")
+            i.mp = i.get_max("mp")
+            i.vitality = i.get_max("vitality")
 
         for i in enemy_team:
             # i.controller = Complex_BE_AI(i)
@@ -69,6 +75,8 @@ label test_be:
                         i.magic_skills.append(skill)
         # ImageReference("chainfights")
         enemy_team.reset_controller()
+
+    python:
         battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.jpg"), music= "random", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)

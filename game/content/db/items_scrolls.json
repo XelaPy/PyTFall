@@ -215,7 +215,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Air Pressure"],
+    "add_be_spells": ["Pressure"],
     "goodtraits": ["Mage"],
     "locations": ["Exploration"]
     },

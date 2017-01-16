@@ -88,18 +88,17 @@ init -1 python: # Core classes:
                     if event():
                         self.start_turn_events.remove(event)
 
-                ev = self.next_turn() # This is a character (Maybe it's not a good idea to call it event? We'll figure this out in the future when I know for sure if we'll have to put events in the main queue as well.)
-                self.controller = ev
+                fighter = self.controller = self.next_turn()
 
                 for event in self.mid_turn_events[:]:
                     if event():
                         self.mid_turn_events.remove(event)
 
                 # If the controller was killed off during the mid_turn_events:
-                if ev not in self.corpses:
-                    if ev.controller != "player":
+                if fighter not in self.corpses:
+                    if fighter.controller != "player":
                         # This character is not controled by the player so we call the (AI) controller:
-                        ev.controller()
+                        fighter.controller()
                     else:
                         # Controller is the player:
                         # Call the skill choice screen:
@@ -107,12 +106,12 @@ init -1 python: # Core classes:
                         t = None
 
                         # making known whos turn it is:
-                        w, h = ev.besprite_size
-                        renpy.show("its_my_turn", at_list=[Transform(additive=.6, alpha=.7, size=(int(w*1.5), h/3), pos=battle.get_cp(ev, type="bc", yo=20), anchor=(.5, 1.0))], zorder=ev.besk["zorder"]+1)
+                        w, h = fighter.besprite_size
+                        renpy.show("its_my_turn", at_list=[Transform(additive=.6, alpha=.7, size=(int(w*1.5), h/3), pos=battle.get_cp(fighter, type="bc", yo=20), anchor=(.5, 1.0))], zorder=fighter.besk["zorder"]+1)
 
                         while not (s and t):
-                            s = renpy.call_screen("pick_skill", ev)
-                            s.source = ev
+                            s = renpy.call_screen("pick_skill", fighter)
+                            s.source = fighter
 
                             # Unique check for Skip Skill:
                             if isinstance(s, BE_Skip):
@@ -121,7 +120,7 @@ init -1 python: # Core classes:
                             # Call the targeting screen:
                             targets = s.get_targets()
 
-                            t = renpy.call_screen("target_practice", s, ev, targets)
+                            t = renpy.call_screen("target_practice", s, fighter, targets)
 
                         # We don't need to see status icons during skill executions!
                         if not self.logical:
@@ -916,13 +915,13 @@ init -1 python: # Core classes:
             attack *= m
 
             # Simple randomization factor?:
-            attack *= random.uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this? Dark: we make damage calculations unpredictable (within reasonable limits); many games use much more harsh ways to add randomness to BE.
+            # attack *= random.uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this? Dark: we make damage calculations unpredictable (within reasonable limits); many games use much more harsh ways to add randomness to BE.
 
             # Decreasing based of current health:
-            healthlevel=(a.health/a.get_max("health"))*0.5 # low health decreases attack power, down to 50% at close to 0 health.
-            attack *= (1-healthlevel)
+            # healthlevel=(1.0*a.health)/(1.0*a.get_max("health"))*0.5 # low health decreases attack power, down to 50% at close to 0 health.
+            # attack *= (0.5+healthlevel)
 
-            return attack if attack > 0 else 1
+            return int(attack) if attack >= 1 else 1
 
         def get_defense(self, target):
             """
@@ -979,7 +978,7 @@ init -1 python: # Core classes:
                 defense += d
                 defense *= m
 
-            defense *= random.uniform(.90, 1.10)
+            # defense *= random.uniform(.90, 1.10)
 
             return defense if defense > 0 else 1
 
@@ -989,7 +988,7 @@ init -1 python: # Core classes:
             """
             a = self.source
 
-            damage = multiplier*attack**2/(attack+2*defense)
+            damage = multiplier*attack**2/(attack+3*defense)
 
             # Items Bonus:
             m = 1.0

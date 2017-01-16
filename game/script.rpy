@@ -170,6 +170,7 @@ label dev_testing_menu:
         menu:
             "Debug Mode":
                 $ hero.traits.basetraits.add(traits["Mage"])
+                $ hero.apply_trait(traits["Mage"])
                 $ initial_levelup(hero, 50, max_out_stats=True)
 
             "Content":
