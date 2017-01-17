@@ -505,7 +505,8 @@ init -999 python:
 
     for light in ('', '_torch'):
         # 4 sided symmetry (or symmetry ignored)
-        for blend in ('bluegrey', 'door', 'barrel', 'mossy', 'pilar', 'more_barrels', 'barrel_crate', 'portal', 'portal_turned'):
+        for blend in ('bluegrey', 'door', 'barrel', 'mossy', 'pilar', 'more_barrels', 'barrel_crate',
+                      'portal', 'portal_turned', 'ladderdownf', 'mossy_alcove'):
             for fname in os.listdir(gamedir + '/content/dungeon/' + blend + light):
                 if fname.endswith('.png'):
                     tag = fname[:-4]
