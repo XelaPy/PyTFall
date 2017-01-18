@@ -7,35 +7,28 @@
         "desc": "Berserker attacks no matter the cost.",
         "basetrait": true,
         "mob_only": true,
-        "evasion_bonus": [-10, -10, 1],
-        "mod_stats": {"attack": [6, 1], "defence": [1, 1]
-        },
-        "max": {
-            "attack": 150,
-            "defence": 40,
-            "agility": 20
+        "evasion_bonus": [-5, -5, 1],
+        "mod_stats": {"attack": [4, 1], "defence": [1, 1]
         },
         "init_lvlmax": {
             "attack": 300,
             "defence": 40,
-            "health": 70,
-            "agility": 20
+            "agility": 40
         },
         "init_max": {
-            "attack": 200,
-            "defence": 50,
-            "health": 100,
-            "agility": 20
+            "attack": 150,
+            "defence": 40,
+            "agility": 40
         },
         "init_mod": {
-            "attack": 150,
-            "defence": 25,
+            "attack": 100,
+            "defence": 20,
             "agility": 20
         },
         "init_skills": {},
         "leveling_stats": {
             "attack": [
-                1,
+                3,
                 3
             ],
             "defence": [
@@ -48,10 +41,10 @@
             ],
             "health": [
                 1,
-                2
+                1
             ],
             "magic": [
-                -2,
+                -1,
                 -1
             ]
         }
@@ -64,27 +57,22 @@
         "desc": "Juggernauts may be slow, but very difficult to kill.",
         "basetrait": true,
         "mob_only": true,
-        "defence_multiplier": {"melee":0.5, "ranged":0.5},
-        "mod_stats": {"attack": [1, 1], "defence": [6, 1], "agility": [-3, 1]
-        },
-        "max": {
-            "attack": 90,
-            "defence": 150,
-            "constitution": 30,
-            "agility": -50
+        "defence_multiplier": {"melee":0.4, "ranged":0.4, "magic":0.15},
+        "mod_stats": {"attack": [1, 1], "defence": [4, 1]
         },
         "init_lvlmax": {
             "defence": 300,
-            "attack": 50,
-            "health": 70,
-            "constitution": 30,
-            "agility": -50
+            "attack": 40,
+            "health": 100,
+            "constitution": 100,
+            "agility": -10
         },
         "init_max": {
-            "attack": 50,
+            "attack": 40,
             "defence": 200,
             "health": 100,
-            "agility": -20
+            "constitution": 100,
+            "agility": -10
         },
         "init_mod": {
             "attack": 50,
@@ -99,7 +87,7 @@
                 1
             ],
             "defence": [
-                2,
+                3,
                 3
             ],
             "agility": [
@@ -107,12 +95,16 @@
                 -1
             ],
             "health": [
-                6,
-                6
+                5,
+                5
             ],
             "magic": [
                 -2,
                 -1
+            ],
+            "constitution": [
+                1,
+                1
             ]
         }
     },
@@ -125,41 +117,34 @@
         "basetrait": true,
         "mob_only": true,
         "defence_multiplier": {"magic":0.5},
-        "mod_stats": {"defence": [1, 1], "magic": [6, 1], "attack": [-3, 1]
-        },
-        "max": {
-            "magic": 50,
-            "intelligence": 5,
-            "attack": 25,
-            "defence": 25
+        "mod_stats": {"defence": [1, 1], "magic": [2, 1], "attack": [-1, 1]
         },
         "init_lvlmax": {
-            "magic": 100,
+            "magic": 150,
             "mp": 100,
-            "attack": 50,
+            "attack": 10,
             "defence": 25,
-            "health": 50
+            "health": 50,
+            "intelligence": 100
         },
         "init_max": {
-            "magic": 100,
+            "magic": 150,
             "mp": 100,
-            "attack": 50,
+            "attack": 10,
             "defence": 25,
-            "health": 50
+            "health": 50,
+            "intelligence": 100
         },
         "init_mod": {
-            "magic": 50,
-            "attack": 25,
-            "defence": 10
+            "magic": 100,
+            "attack": 10,
+            "defence": 25,
+            "intelligence": 100
         },
         "init_skills": {},
         "leveling_stats": {
-            "attack": [
-                0,
-                1
-            ],
             "defence": [
-                0,
+                1,
                 1
             ],
             "magic": [
@@ -169,6 +154,10 @@
             "mp": [
                 10,
                 10
+            ],
+            "intelligence": [
+                2,
+                2
             ]
         }
     },
@@ -181,38 +170,37 @@
         "basetrait": true,
         "defence_multiplier": {"status":0.5},
         "mob_only": true,
-        "mod_stats": {"defence": [1, 1], "agility": [6, 1], "attack": [-1, 1]
-        },
-        "max": {
-            "attack": 5,
-            "defence": 5,
-            "agility": 90
+        "mod_stats": {"defence": [1, 1], "agility": [3, 1]
         },
         "init_lvlmax": {
-            "attack": 20,
-            "defence": 20,
-            "agility": 90
+            "attack": 30,
+            "defence": 30,
+            "health": 25,
+            "agility": 80,
+            "intelligence": 25
         },
         "init_max": {
             "attack": 30,
             "defence": 30,
-            "health": 20,
-            "agility": 30
+            "health": 25,
+            "agility": 80,
+            "intelligence": 25
         },
         "init_mod": {
-            "attack": 10,
-            "defence": 5,
-            "agility": 90,
-            "luck": 20
+            "attack": 20,
+            "defence": 30,
+            "agility": 80,
+            "luck": 25,
+            "intelligence": 25
         },
         "init_skills": {},
         "leveling_stats": {
             "attack": [
-                0,
+                1,
                 1
             ],
             "defence": [
-                0,
+                1,
                 1
             ],
             "agility": [
@@ -220,7 +208,7 @@
                 5
             ],
             "magic": [
-                -5,
+                -1,
                 -1
             ]
         }
@@ -236,46 +224,46 @@
         "defence_multiplier": {"magic":0.5, "status":0.5, "melee":0.5, "ranged":0.5},
         "mod_stats": {"defence": [3, 1], "agility": [3, 1], "attack": [3, 1], "magic": [3, 1]
         },
-        "max": {
-            "magic": 50,
-            "intelligence": 5,
-            "attack": 50,
-            "defence": 50,
-            "agility": 40
-        },
         "init_lvlmax": {
             "magic": 100,
             "mp": 100,
             "attack": 100,
-            "defence": 50,
+            "defence": 100,
             "health": 200,
-            "agility": 40
+            "agility": 50,
+            "intelligence": 75
         },
         "init_max": {
             "magic": 100,
             "mp": 100,
             "attack": 100,
-            "defence": 50,
-            "health": 100
+            "defence": 100,
+            "health": 200,
+            "agility": 50,
+            "intelligence": 75
         },
         "init_mod": {
             "magic": 50,
+            "mp": 100,
             "attack": 50,
-            "defence": 25
+            "defence": 50,
+            "health": 200,
+            "agility": 25,
+            "intelligence": 35
         },
         "init_skills": {},
         "leveling_stats": {
             "attack": [
                 2,
-                3
+                2
             ],
             "defence": [
                 2,
-                3
+                2
             ],
             "magic": [
                 2,
-                3
+                2
             ],
             "mp": [
                 5,
@@ -287,7 +275,10 @@
             ],
             "health": [
                 5,
-                5]
+                5],
+            "intelligence": [
+                2,
+                2]
         }
     }
 ]

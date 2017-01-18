@@ -4337,14 +4337,14 @@
             "Mage"
         ],
         "stats": {
-            "attack": 100,
-            "defence":100,
-            "magic": 100,
-            "agility": 100,
-            "luck":-50,
-            "charisma":100,
-            "constitution": 100,
-            "intelligence": 100
+            "attack": 30,
+            "defence": 70,
+            "magic": 80,
+            "agility": 25,
+            "luck":-30,
+            "charisma": 60,
+            "constitution": 25,
+            "intelligence": 70
         },
         "skills": {},
         "traits": ["Android", "Electricity"],

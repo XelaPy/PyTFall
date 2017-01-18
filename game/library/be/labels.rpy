@@ -30,20 +30,17 @@ label test_be:
         # Prepare the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
         mob = build_mob(id="Electrificator", level=50)
-        mob.health = 100000
         mob.front_row = True
 
         if len(enemy_team) != 3:
             enemy_team.add(mob)
 
         mob = build_mob(id="Electrificator", level=50)
-        mob.health = 100000
         mob.front_row = True
         if len(enemy_team) != 3:
             enemy_team.add(mob)
 
         mob = build_mob(id="Electrificator", level=50)
-        mob.health = 100000
         mob.front_row = True
         if len(enemy_team) != 3:
             enemy_team.add(mob)
