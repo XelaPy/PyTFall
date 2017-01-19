@@ -57,7 +57,7 @@
         "desc": "Juggernauts may be slow, but very difficult to kill.",
         "basetrait": true,
         "mob_only": true,
-        "defence_multiplier": {"melee":0.4, "ranged":0.4, "magic":0.15},
+        "defence_multiplier": {"melee":0.35, "ranged":0.35, "magic":0.15},
         "mod_stats": {"attack": [1, 1], "defence": [4, 1]
         },
         "init_lvlmax": {
@@ -116,7 +116,7 @@
         "desc": "This creature has magic in it's blood, flesh and soul.",
         "basetrait": true,
         "mob_only": true,
-        "defence_multiplier": {"magic":0.5},
+        "defence_multiplier": {"magic":0.4},
         "mod_stats": {"defence": [1, 1], "magic": [2, 1], "attack": [-1, 1]
         },
         "init_lvlmax": {

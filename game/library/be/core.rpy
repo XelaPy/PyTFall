@@ -770,7 +770,7 @@ init -1 python: # Core classes:
                         multiplier += 1.5 + self.critpower
                         effects.append("critical_hit")
                     elif ("inevitable" not in attributes): # inevitable attribute makes skill/spell undodgeable/unresistable
-                        ev = min(t.agility*.1-a.agility*.1, 25) + max(0, min(t.luck-a.luck, 25)) # Max 25 for agility and luck each...
+                        ev = min(t.agility*.05-a.agility*.05, 15) + max(0, min(t.luck-a.luck, 15)) # Max 15 for agility and luck each...
 
                         # Items bonuses:
                         temp = 0
@@ -793,8 +793,9 @@ init -1 python: # Core classes:
                                     temp += max(minv, float(t.level)*maxv/lvl)
                         ev += temp
 
-                        healthlevel=(1-t.health/t.get_max("health"))*5 # low health provides additional evasion, up to 5% with close to 0 hp
-                        ev += healthlevel
+                        if t.health <= t.get_max("health")*0.25:
+                            ev += randint(1,5) # very low health provides additional random evasion, 1-5%
+
                         if dice(ev):
                             effects.append("missed_hit")
                             self.log_to_battle(effects, 0, a, t, message=None)
@@ -960,7 +961,10 @@ init -1 python: # Core classes:
                         else:
                             defense += max(minv, float(target.level)*maxv/lvl)
                 if hasattr(i, "defence_multiplier"):
-                    m = m + i.defence_multiplier.get(self.delivery, 0)
+                    if i in target.traits.basetraits and len(target.traits.basetraits)==1:
+                        m = m + 2*i.defence_multiplier.get(self.delivery, 0)
+                    else:
+                        m = m + i.defence_multiplier.get(self.delivery, 0)
             defense *= m
 
             # Testing status mods through be skillz:
@@ -1016,19 +1020,6 @@ init -1 python: # Core classes:
             a = self.source
             m = 1.0
 
-            # result = self.check_absorbtion(t) # they will never dodge spells that can be absorbed
-            # if result:
-                # evasion_chance = -1
-            # elif any(list(i for i in ["healing", "revive", "status", "inevitable"] if i in attributes)): # no escape from healing and status effects
-                # evasion_chance = -1
-            # else: # magic resistance
-                # evasion_chance = t.resistance # base chance is the target resistance stat
-                # healthlevel=(1-t.health/t.get_max("health"))*5 # low health provides additional evasion, up to 5% with close to 0 hp
-                # evasion_chance += healthlevel
-            # if dice(evasion_chance):
-                # multiplier = 0.65 # successful resistance decreases spell damage; for now it's always 0.65, but eventually it might be depending on something
-                # effects.append("missed_hit")
-
             if type in t.resist:
                 return "resisted"
 
@@ -1048,19 +1039,6 @@ init -1 python: # Core classes:
                      m -= trait.el_defence[type]
 
             damage *= m
-
-            # if damage:
-                # damage = float(sum(damage)) / len(damage)
-                # if i > 0.15 or i < 0.15:
-                # effects.append(("damage_mod", damage))
-                # multiplier += damage
-
-            # if defence:
-                # defence = float(sum(defence)) / len(defence)
-                # From the perspective of the attacker...
-                # if i > 0.15 or i < 0.15:
-                # effects.append(("defence_mod", defence))
-                # multiplier -= defence
 
             return damage
 
