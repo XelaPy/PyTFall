@@ -60,7 +60,7 @@ screen dungeon_move:
         key "K_RIGHT" action Return(value=6)
         key "K_DOWN" action Return(value=2)
 
-        if not bumped:
+        if not renpy.music.is_playing(channel="sound"):
             key "repeat_K_KP2" action Return(value=2)
             key "repeat_K_KP7" action Return(value=7)
             key "repeat_K_KP8" action Return(value=8)
@@ -106,7 +106,6 @@ label enter_dungeon:
         #file.close()
         dungeon = dungeons['Mausoleum1']
         dungeon.enter()
-        bumped = False
         light=""
 
 
@@ -216,9 +215,8 @@ label enter_dungeon:
                     dungeon.hero[0] -= dungeon.hero[2]
                     dungeon.hero[1] -= dungeon.hero[3]
 
-                elif not bumped:
-                    renpy.play(dungeon.sound['bump'])
-                    bumped = True
+                elif not renpy.music.is_playing(channel="sound"):
+                    renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 4:
                 (dungeon.hero[2], dungeon.hero[3]) = (-dungeon.hero[3], dungeon.hero[2])
@@ -233,9 +231,8 @@ label enter_dungeon:
                     dungeon.hero[0] -= dungeon.hero[3]
                     dungeon.hero[1] += dungeon.hero[2]
 
-                elif not bumped:
-                    renpy.play(dungeon.sound['bump'])
-                    bumped = True
+                elif not renpy.music.is_playing(channel="sound"):
+                    renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 8:
                 area = dungeon.map[dungeon.hero[0]+dungeon.hero[2]][dungeon.hero[1]+dungeon.hero[3]]
@@ -244,9 +241,8 @@ label enter_dungeon:
                     dungeon.hero[0] += dungeon.hero[2]
                     dungeon.hero[1] += dungeon.hero[3]
 
-                elif not bumped:
-                    renpy.play(dungeon.sound['bump'])
-                    bumped = True
+                elif not renpy.music.is_playing(channel="sound"):
+                    renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 9:
                 area = dungeon.map[dungeon.hero[0]+dungeon.hero[3]][dungeon.hero[1]-dungeon.hero[2]]
@@ -255,9 +251,8 @@ label enter_dungeon:
                     dungeon.hero[0] += dungeon.hero[3]
                     dungeon.hero[1] -= dungeon.hero[2]
 
-                elif not bumped:
-                    renpy.play(dungeon.sound['bump'])
-                    bumped = True
+                elif not renpy.music.is_playing(channel="sound"):
+                    renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 100:
                 light = "" if light != "" else "_torch"
@@ -266,6 +261,5 @@ label enter_dungeon:
                 devlog.warn((dungeon.hero[0],dungeon.hero[1]))
                 renpy.say("", "Finally, there's a hatch here, you climb out of the catacombs.")
                 renpy.jump("graveyard_town")
-                bumped = False
 
 
