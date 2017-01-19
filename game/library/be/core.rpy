@@ -961,7 +961,10 @@ init -1 python: # Core classes:
                         else:
                             defense += max(minv, float(target.level)*maxv/lvl)
                 if hasattr(i, "defence_multiplier"):
-                    m = m + i.defence_multiplier.get(self.delivery, 0)
+                    if i in target.traits.basetraits and len(target.traits.basetraits)==1:
+                        m = m + 2*i.defence_multiplier.get(self.delivery, 0)
+                    else:
+                        m = m + i.defence_multiplier.get(self.delivery, 0)
             defense *= m
 
             # Testing status mods through be skillz:
