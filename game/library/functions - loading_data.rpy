@@ -570,7 +570,19 @@ init -11 python:
             items[iteminst.id] = iteminst
             
         return items
-        
+
+    def load_dungeons():
+        content = []
+        for file in os.listdir(content_path('db')):
+            if file.startswith("dungeon") and file.endswith(".json"):
+
+                in_file = content_path("".join(["db/", file]))
+                with open(in_file) as f:
+                    content.extend(json.load(f))
+                jsstor.add("dungeon", content, in_file)
+
+        return { d['id']: Dungeon(**d) for d in content }
+
     def load_gifts():
         """
         Returns items dict with gift items to be used during girl_meets.
