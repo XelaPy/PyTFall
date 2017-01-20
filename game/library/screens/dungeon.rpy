@@ -25,12 +25,7 @@ init -1 python:
                 self.arrow.x = (self.hero['x'] - .3)*6 + 6
                 self.arrow.y = (self.hero['y'] - .2)*6 + 6
 
-        @property
-        def hero(self):
-            return self.point[0]
-        @hero.setter
-        def hero(self, p):
-            self.point[0] = p
+            return self.hero
 
         def _smadd(self, d, n, m):
             s = self.smallMap.create(d)
@@ -55,6 +50,7 @@ screen dungeon_move:
         key "K_KP8" action Return(value=8)
         key "K_KP9" action Return(value=9)
         key "K_l" action Return(value=100) # light
+        key "K_p" action Function(devlog.warn, str(pc))
         key "K_LEFT" action Return(value=4)
         key "K_UP" action Return(value=8)
         key "K_RIGHT" action Return(value=6)
@@ -105,7 +101,7 @@ label enter_dungeon:
         #stage1=Stage(file.read().splitlines())#,enemy=goblin)
         #file.close()
         dungeon = dungeons['Mausoleum1']
-        dungeon.enter()
+        pc = dungeon.enter()
         light=""
 
 
@@ -121,16 +117,16 @@ label enter_dungeon:
             blend = dungeon.area
             areas = [[0, 0]]
             show = []
-            renpy.show("dungeon_%s%s_background"%(blend["2"], light))
+            renpy.show(dungeon.background % light)
 
             while areas:
                 (distance, lateral) = areas.pop(0)
 
-                y = dungeon.hero['y'] + lateral*dungeon.hero['dx'] + distance*dungeon.hero['dy']
+                y = pc['y'] + lateral*pc['dx'] + distance*pc['dy']
                 if y >= len(dungeon.map):
                     continue
 
-                x = dungeon.hero['x'] + distance*dungeon.hero['dx'] - lateral*dungeon.hero['dy']
+                x = pc['x'] + distance*pc['dx'] - lateral*pc['dy']
                 if x >= len(dungeon.map[y]):
                     continue
 
@@ -147,48 +143,46 @@ label enter_dungeon:
                 else:
                     dungeon.mapped[y][x].color = renpy.easy.color(dungeon.minimap['ground']['color'])
 
-                if dungeon.hero['dy'] == -1:
+                if pc['dy'] == -1:
                     dungeon.arrowtext.set_text("↑")
-                    dungeon.arrow.y = (dungeon.hero['y'] - .2)*6
-                elif dungeon.hero['dx'] == 1:
+                    dungeon.arrow.y = (pc['y'] - .2)*6
+                elif pc['dx'] == 1:
                     dungeon.arrowtext.set_text("→")
-                    dungeon.arrow.y = (dungeon.hero['y'] - .3)*6
-                elif dungeon.hero['dy'] == 1:
+                    dungeon.arrow.y = (pc['y'] - .3)*6
+                elif pc['dy'] == 1:
                     dungeon.arrowtext.set_text("↓")
-                    dungeon.arrow.y = (dungeon.hero['y'] - .2)*6
+                    dungeon.arrow.y = (pc['y'] - .2)*6
                 else:
                     dungeon.arrowtext.set_text("←")
-                    dungeon.arrow.y = (dungeon.hero['y'] - .3)*6
-                dungeon.arrow.x = (dungeon.hero['x'])*6
+                    dungeon.arrow.y = (pc['y'] - .3)*6
+                dungeon.arrow.x = (pc['x'])*6
 
                 if dungeon.map[y][x] in dungeon.visible: # a wall or so, need to draw.
                     if isinstance(blend[dungeon.map[y][x]], list):
 
                         if len(blend[dungeon.map[y][x]]) == 2: # left-right symmetry
-                            show.append(sided[lateral+3] % ('dungeon_'+blend[dungeon.map[y][x]][abs(dungeon.hero['dx'])], light, distance))
+                            show.append(sided[lateral+3] % ('dungeon_'+blend[dungeon.map[y][x]][abs(pc['dx'])], light, distance))
 
                         else: # no symmetry, 4 images.
-                            devlog.warn((dungeon.hero['dx'], dungeon.hero['dy'], 2 + dungeon.hero['dx'] + 2*dungeon.hero['dy']))
-                            ori = 1 - dungeon.hero['dx'] - dungeon.hero['dy'] + (1 if dungeon.hero['dx'] > dungeon.hero['dy'] else 0)
+                            ori = 1 - pc['dx'] - pc['dy'] + (1 if pc['dx'] > pc['dy'] else 0)
                             show.append(sided[lateral+3] % ('dungeon_'+blend[dungeon.map[y][x]][ori], light, distance))
 
                     else: # symmetric, or simply rendered in only one symmetry
                         show.append(sided[lateral+3] % ('dungeon_'+blend[dungeon.map[y][x]], light, distance))
 
-
-                transparent_area = dungeon.transparent[abs(dungeon.hero['dx'])]
+                transparent_area = dungeon.transparent[abs(pc['dx'])]
                 if dungeon.map[y][x] in transparent_area or (dungeon.map[y][x] in dungeon.visible and not renpy.has_image(show[-1])): # need to draw what's behind it.
 
                     # after `or' prevents adding areas twice. If the area diagonally nearer to hero is
                     # a wall, the area is not yet drawn, draw it, unless we cannot see it.
                     if lateral >= 0 and (distance == lateral*2 or distance > lateral*2
-                                         and dungeon.map[y+dungeon.hero['dx']-dungeon.hero['dy']][x-dungeon.hero['dy']-dungeon.hero['dx']] not in transparent_area
-                                         and ((distance == 1 and lateral == 0) or dungeon.map[y-dungeon.hero['dy']][x-dungeon.hero['dx']] in transparent_area)):
+                                         and dungeon.map[y+pc['dx']-pc['dy']][x-pc['dy']-pc['dx']] not in transparent_area
+                                         and ((distance == 1 and lateral == 0) or dungeon.map[y-pc['dy']][x-pc['dx']] in transparent_area)):
                         areas.append([distance, lateral + 1])
 
                     if lateral <= 0 and (distance == -lateral*2 or distance > -lateral*2
-                                         and dungeon.map[y-dungeon.hero['dx']-dungeon.hero['dy']][x+dungeon.hero['dy']-dungeon.hero['dx']] not in transparent_area
-                                         and ((distance == 1 and lateral == 0) or dungeon.map[y-dungeon.hero['dy']][x-dungeon.hero['dx']] in transparent_area)):
+                                         and dungeon.map[y-pc['dx']-pc['dy']][x+pc['dy']-pc['dx']] not in transparent_area
+                                         and ((distance == 1 and lateral == 0) or dungeon.map[y-pc['dy']][x-pc['dx']] in transparent_area)):
                         areas.append([distance, lateral - 1])
 
                     if distance < 5:
@@ -211,50 +205,51 @@ label enter_dungeon:
         call screen dungeon_move
 
         python:
-            at = dungeon.map[dungeon.hero['y']][dungeon.hero['x']]
-            ori = 1 - dungeon.hero['dx'] - dungeon.hero['dy'] + (1 if dungeon.hero['dx'] > dungeon.hero['dy'] else 0)
+            at = dungeon.map[pc['y']][pc['x']]
+            ori = 1 - pc['dx'] - pc['dy'] + (1 if pc['dx'] > pc['dy'] else 0)
+            area = ""
             if _return == 2:
-                area = dungeon.map[dungeon.hero['y']-dungeon.hero['dy']][dungeon.hero['x']-dungeon.hero['dx']]
+                area = dungeon.map[pc['y']-pc['dy']][pc['x']-pc['dx']]
 
                 if at in dungeon.access[ori] and area in dungeon.access[ori]:
-                    dungeon.hero['y'] -= dungeon.hero['dy']
-                    dungeon.hero['x'] -= dungeon.hero['dx']
+                    pc['y'] -= pc['dy']
+                    pc['x'] -= pc['dx']
 
                 elif not renpy.music.is_playing(channel="sound"):
                     renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 4:
-                (dungeon.hero['dy'], dungeon.hero['dx']) = (-dungeon.hero['dx'], dungeon.hero['dy'])
+                (pc['dy'], pc['dx']) = (-pc['dx'], pc['dy'])
 
             elif _return == 6:
-                (dungeon.hero['dy'], dungeon.hero['dx']) = (dungeon.hero['dx'], -dungeon.hero['dy'])
+                (pc['dy'], pc['dx']) = (pc['dx'], -pc['dy'])
 
             elif _return == 7:
-                area = dungeon.map[dungeon.hero['y']-dungeon.hero['dx']][dungeon.hero['x']+dungeon.hero['dy']]
+                area = dungeon.map[pc['y']-pc['dx']][pc['x']+pc['dy']]
 
                 if at in dungeon.access[ori ^ 2] and area in dungeon.access[ori ^ 2]:
-                    dungeon.hero['y'] -= dungeon.hero['dx']
-                    dungeon.hero['x'] += dungeon.hero['dy']
+                    pc['y'] -= pc['dx']
+                    pc['x'] += pc['dy']
 
                 elif not renpy.music.is_playing(channel="sound"):
                     renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 8:
-                area = dungeon.map[dungeon.hero['y']+dungeon.hero['dy']][dungeon.hero['x']+dungeon.hero['dx']]
+                area = dungeon.map[pc['y']+pc['dy']][pc['x']+pc['dx']]
 
                 if at in dungeon.access[ori] and area in dungeon.access[ori]:
-                    dungeon.hero['y'] += dungeon.hero['dy']
-                    dungeon.hero['x'] += dungeon.hero['dx']
+                    pc['y'] += pc['dy']
+                    pc['x'] += pc['dx']
 
                 elif not renpy.music.is_playing(channel="sound"):
                     renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 9:
-                area = dungeon.map[dungeon.hero['y']+dungeon.hero['dx']][dungeon.hero['x']-dungeon.hero['dy']]
+                area = dungeon.map[pc['y']+pc['dx']][pc['x']-pc['dy']]
 
                 if at in dungeon.access[ori ^ 2] and area in dungeon.access[ori ^ 2]:
-                    dungeon.hero['y'] += dungeon.hero['dx']
-                    dungeon.hero['x'] -= dungeon.hero['dy']
+                    pc['y'] += pc['dx']
+                    pc['x'] -= pc['dy']
 
                 elif not renpy.music.is_playing(channel="sound"):
                     renpy.play(dungeon.sound['bump'], channel="sound")
@@ -262,9 +257,13 @@ label enter_dungeon:
             elif _return == 100:
                 light = "" if light != "" else "_torch"
 
-            if dungeon.map[dungeon.hero['y']][dungeon.hero['x']] == "C" and dungeon.hero['y'] == 12 and dungeon.hero['x'] ==20:
-                devlog.warn((dungeon.hero['y'],dungeon.hero['x']))
-                renpy.say("", "Finally, there's a hatch here, you climb out of the catacombs.")
-                renpy.jump("graveyard_town")
+            if area in dungeon.event and str((pc['x'], pc['y'])) in dungeon.event[area]:
+                for event in dungeon.event[area][str((pc['x'], pc['y']))]:
+                    if "function" in event and event["function"][:6] == "renpy.":
+                        eval("%s%s"%(event["function"], str(tuple(event["arguments"]))))
+
+                    elif "load" in event:
+                        dungeon = dungeons[event["load"]]
+                        pc = dungeon.enter(at=event["at"] if "at" in event else None)
 
 
