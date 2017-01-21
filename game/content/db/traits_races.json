@@ -1,8 +1,9 @@
 [
     {
     "id": "Elf",
-    "max": {"charisma": 10, "constitution": -10, "agility": 5},
+    "max": {"charisma": 5, "constitution": -10, "agility": 5},
     "type": "race",
+    "mod_stats": {"charisma": [1, 1], "constitution": [-1, 1]},
     "icon": "content/races/elf.png",
     "el_damage": {"earth": 0.1, "wind": 0.1, "water": 0.1},
     "el_defence": {"healing": -0.1},
@@ -12,6 +13,7 @@
     "id": "Undead",
     "max": {"charisma": -10, "constitution": 10},
     "type": "race",
+    "mod_stats": {"charisma": [-1, 1], "constitution": [1, 1]},
     "icon": "content/races/undead.png",
     "el_damage": {"darkness": 0.1},
     "el_defence": {"healing": 0.5, "darkness": 0.1, "poison": 0.5, "light": -0.1, "physical": 0.2},
@@ -19,7 +21,8 @@
     },
     {
     "id": "Furry",
-    "max": {"agility": 10, "intelligence": -15},
+    "max": {"agility": 10, "intelligence": -10},
+    "mod_stats": {"intelligence": [-1, 1], "agility": [1, 1]},
     "type": "race",
     "icon": "content/races/furry.png",
     "el_defence": {"healing": -0.3},
@@ -28,6 +31,7 @@
     {
     "id": "Android",
     "max": {"charisma": -10, "constitution": 5, "agility": 5},
+    "mod_stats": {"charisma": [-1, 1], "constitution": [1, 1]},
     "type": "race",
     "icon": "content/races/android.png",
     "el_damage": {"electricity": 0.1},
@@ -36,7 +40,8 @@
     },
    {
     "id": "Divine Creature",
-    "max": {"charisma": 10, "magic": 5, "constitution": -10},
+    "max": {"charisma": 10, "magic": 5, "constitution": -5},
+    "mod_stats": {"charisma": [1, 1], "constitution": [-1, 1]},
     "type": "race",
     "icon": "content/races/angel.png",
     "el_damage": {"light": 0.15},
@@ -46,6 +51,7 @@
    {
     "id": "Demonic Creature",
     "max": {"magic": 5, "constitution": 5, "charisma": -10},
+    "mod_stats": {"charisma": [-1, 1], "magic": [1, 1]},
     "type": "race",
     "icon": "content/races/demon.png",
     "el_damage": {"fire": 0.15},
@@ -61,7 +67,8 @@
     },
    {
     "id": "Monster",
-    "max": {"attack": 5, "charisma": -35, "defence": 5},
+    "max": {"attack": 5, "charisma": -10, "defence": 5},
+    "mod_stats": {"charisma": [-1, 1], "attack": [1, 1]},
     "type": "race",
     "icon": "content/races/monster.png",
     "el_damage": {"physical": 0.05},
@@ -69,7 +76,8 @@
     },
    {
     "id": "Slime",
-    "max": {"defence": 15, "character": -5, "charisma": -25},
+    "max": {"defence": 15, "character": -5, "charisma": -10},
+    "mod_stats": {"character": [-1, 1], "defence": [1, 1]},
     "type": "race",
     "icon": "content/races/slime.png",
     "el_damage": {"water": 0.15, "poison": 0.25, "fire": -0.25, "ice": -0.25, "physical": 0.2},
@@ -78,6 +86,7 @@
    {
     "id": "Unknown",
     "max": {"constitution": 5, "character": -5},
+    "mod_stats": {"character": [-1, 2], "constitution": [1, 2]},
     "type": "race",
     "icon": "content/races/unknown.png",
     "race": true

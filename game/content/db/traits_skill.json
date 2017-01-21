@@ -78,7 +78,7 @@
     "mod": {"upkeep": 10},
     "effects": ["Fast Metabolism"],
     "mod_skills": {"refinement": [0, 0, -0.04]},
-    "mod_stats": {"constitution": [1, 15]},
+    "mod_stats": {"constitution": [1, 3]},
     "character_trait": true,
     "client": true
     },
