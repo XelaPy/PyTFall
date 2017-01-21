@@ -65,6 +65,9 @@
     "point": [
         {"id": "item", "item": "Replica Sword", "x": 3, "y": 2 },
         {"id": "item", "item": "Shuriken", "x": 24, "y": 4 },
+        {"id": "spawn", "name": "Goblin", "x": 37, "y": 2, "level": 1 },
+        {"id": "spawn", "name": "Bats", "x": 25, "y": 6, "level": 1, "yoffs": -0.4 },
+        {"id": "spawn", "name": "Bear", "x": 4, "y": 10, "level": 3, "size": 8 },
         {"id": "renderitem", "item": "dagger", "x": 23, "y": 1 },
         {"id": "renderitem", "item": "dagger", "x": 21, "y": 6 }
     ],
@@ -89,9 +92,6 @@
         }
     }
   },
-
-
-
 
 
 

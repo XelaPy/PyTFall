@@ -25,6 +25,10 @@ init -1 python:
                 self.arrow.x = (self.hero['x'] - .3)*6 + 6
                 self.arrow.y = (self.hero['y'] - .2)*6 + 6
 
+            for p in self.point:
+                if p['id'] == "spawn":
+                    p['mob'] = build_mob(id=p['name'], level=p['level'])
+
             return self.hero
 
         def _smadd(self, d, n, m):
@@ -32,20 +36,29 @@ init -1 python:
             s.x = m + 1
             s.y = n + 1
 
-transform sprite_default(xx, yy, zz):
+transform sprite_default(xx, yy, xz, yz):
     xpos xx
     ypos yy
-    zoom zz
+    xzoom xz
+    yzoom yz
 
 screen dungeon_move:
     # Screen which shows move buttons and a minimap
     for s in reversed(show):
         if isinstance(s, list):
-            if s[1]:
-                $ xx=int(renpy.config.screen_width * (0.5 + 0.66 * float(s[2]) / float(s[1])))
-                $ yy=int(renpy.config.screen_height * (0.88 - math.log(s[1], 2) / 9.0))
-                $ zz=1.0/(1.5+float(s[1]))
-                add im.MatrixColor(im.FactorScale(s[0], width=1.0, height=0.5, bilinear=False), im.matrix.brightness(-float(s[1])/(5.0 if light else 4.0))) at [sprite_default(xx, yy, zz)]
+            if s[2]:
+                $ xx=int(renpy.config.screen_width * (0.5 + 0.667 * float(s[3]) / (1 + math.log(s[2], 2))))
+                if isinstance(s[0], Item):
+                    python:
+                        yy=int(renpy.config.screen_height * (0.889 - math.log(s[2], 2) / 9.0))
+                        zz=1.0/(1.5+float(s[2]))
+                    add im.MatrixColor(s[0].icon, im.matrix.brightness(-float(s[2])/(5.0 if light else 4.0))) at [sprite_default(xx, yy, zz, zz/2.0)]
+                elif isinstance(s[0], Mob):
+                    python:
+                        yy=int(renpy.config.screen_height * (0.556 - math.log(s[2], 2) / 20.0))
+
+                        zz=4.0/(1.5+float(s[2]))
+                    add im.MatrixColor(s[0].battle_sprite, im.matrix.brightness(-float(s[2])/(5.0 if light else 4.0))) at [sprite_default(xx, yy, zz, zz)]
         elif renpy.has_image(s):
             add s
         else:
@@ -147,12 +160,15 @@ label enter_dungeon:
                     continue
 
                 if dungeon.map[y][x] in dungeon.container:
+                    #FIXME use position lookup, for some container may first have to add front (cover) image
                     for p in dungeon.point:
                         if p['y'] == y and p['x'] == x:
                             if p['id'] == "renderitem":
                                 show.append(sided[lateral+3] % ('dungeon_'+p['item'], light, distance))
                             elif p['id'] == "item":
-                                show.append([items[p['item']].icon, distance, lateral])
+                                show.append([items[p['item']], p, distance, lateral])
+                            elif p['id'] == "spawn":
+                                show.append([p['mob'], p, distance, lateral])
 
                 # also record for minimap
                 for k in dungeon.minimap:
