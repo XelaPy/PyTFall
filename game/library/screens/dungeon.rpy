@@ -32,8 +32,24 @@ init -1 python:
             s.x = m + 1
             s.y = n + 1
 
+transform sprite_default(xx, yy, zz):
+    xpos xx
+    ypos yy
+    zoom zz
+
 screen dungeon_move:
     # Screen which shows move buttons and a minimap
+    for s in reversed(show):
+        if isinstance(s, list):
+            if s[1]:
+                $ xx=int(renpy.config.screen_width * (0.5 + 0.66 * float(s[2]) / float(s[1])))
+                $ yy=int(renpy.config.screen_height * (0.88 - math.log(s[1], 2) / 9.0))
+                $ zz=1.0/(1.5+float(s[1]))
+                add im.MatrixColor(im.FactorScale(s[0], width=1.0, height=0.5, bilinear=False), im.matrix.brightness(-float(s[1])/(5.0 if light else 4.0))) at [sprite_default(xx, yy, zz)]
+        elif renpy.has_image(s):
+            add s
+        else:
+            $ devlog.warn("missing image: "+s)
 
     fixed style_group "move":
         textbutton "↓" action Return(value=2) xcenter .2 ycenter .9
@@ -135,6 +151,9 @@ label enter_dungeon:
                         if p['y'] == y and p['x'] == x:
                             if p['id'] == "renderitem":
                                 show.append(sided[lateral+3] % ('dungeon_'+p['item'], light, distance))
+                            elif p['id'] == "item":
+                                show.append([items[p['item']].icon, distance, lateral])
+
                 # also record for minimap
                 for k in dungeon.minimap:
                     if k != "ground" and dungeon.map[y][x] in dungeon.minimap[k]['area']:
@@ -187,13 +206,6 @@ label enter_dungeon:
 
                     if distance < 5:
                         areas.append([distance + 1, lateral])
-
-            # finally draw walls, back to front, lateral to central.
-            for s in reversed(show):
-                if renpy.has_image(s):
-                    renpy.show(s)
-                else:
-                    devlog.warn("missing image: "+s)
 
         # Check events. If it happens, call a label or jump out to a label.
         # XXX: this probably should change
