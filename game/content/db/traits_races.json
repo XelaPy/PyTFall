@@ -86,6 +86,7 @@
    {
     "id": "Unknown",
     "max": {"constitution": 5, "character": -5},
+    "mod_stats": {"character": [-1, 2], "constitution": [1, 2]},
     "type": "race",
     "icon": "content/races/unknown.png",
     "race": true
