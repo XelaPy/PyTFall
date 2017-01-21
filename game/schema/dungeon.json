@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "additionalProperties": false,
+  "definitions": {
+     "miniMapArea": {
+        "properties": {
+           "area": { "type": "string", "default": "." },
+           "color": { "type": "string", "pattern": "^#([0-9]{3}|[0-9]{4}|[0-9]{6}|[0-9]{8})$"}
+        }
+     },
+     "pointObject": {
+     }
+  },
+  "properties": {
+    "access": {
+        "properties": {
+            "back": { "type": "string", "default": "." },
+            "left": { "type": "string", "default": "." },
+            "right": { "type": "string", "default": "." },
+            "front": { "type": "string", "default": "." }
+        },
+        "additionalProperties": false
+    },
+    "r": {},
+    "map": {
+        "type": "array",
+        "items": "string",
+        "minItems": 3
+    },
+    "area": {
+      "properties": {
+        "builtin": { "type": "string" }
+      },
+      "patternProperties": {
+        "^.$": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "initialEntryPoint": {
+        "type": "array",
+        "items": {
+            "type": "number",
+            "minItems": 4,
+            "maxItems": 4
+        }
+    },
+    "transparent": {
+      "horizontal": { "type": "string", "default": "." },
+      "vertical": { "type": "string", "default": "." }
+    },
+    "visible": { "type": "string", "default": "1" },
+    "minimap": {
+        "properties": {
+            "ground": { "$ref": "#/definitions/miniMapArea" },
+            "wall": { "$ref": "#/definitions/miniMapArea" }
+        },
+        "additionalProperties": { "$ref": "#/definitions/miniMapArea" }
+    },
+    "sound": {
+      "additionalProperties": true,
+      "default": { "bump": "content/sfx/sound/dungeon/bump.ogg" }
+    },
+    "music": {
+      "additionalProperties": true
+    },
+    "point": {
+        "type": "array",
+        "items": [{ "type": "number" }, { "type": "number" }, { "type": "number" }, { "type": "number" }, { "$ref": "#/definitions/pointObject" }]
+    }
+  },
+  "required": ["map", "area",  "access", "transparent", "visible", "minimap"]
+}
+

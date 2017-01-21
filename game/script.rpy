@@ -64,6 +64,9 @@
         items = load_items()
         items.update(load_gifts())
 
+        tl.timer("Loading: Dungeons", nested=False)
+        dungeons = load_dungeons()
+
     $ tl.timer("Loading: Battle Skills", nested=False)
     $ battle_skills = dict()
     call load_battle_skills
