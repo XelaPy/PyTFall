@@ -941,7 +941,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                     style_group "pb"
                     align (0.0, 0.5)
                     xysize (80, 45)
-                    action SensitiveIf(eqtarget != hero), Return(['item', 'transfer'])
+                    action SensitiveIf(eqtarget != hero and ((eqtarget.inventory[item] > 0 and inv_source != hero) or (hero.inventory[item] > 0 and inv_source == hero))), Return(['item', 'transfer'])
                     if eqtarget == hero:
                         hovered tt.Action("Disabled")
                         text "Disabled" style "pb_button_text" align (0.5, 0.5)
@@ -951,7 +951,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                     else:
                         text "Give to\n {color=#FFA54F}[hero.nickname]{/color}" style "pb_button_text" align (0.5, 0.5) line_leading 3
                         hovered tt.Action("Transfer {} from {} to {}".format(item.id, eqtarget.nickname, hero.nickname))
-                        
+
                 frame:
                     align (0.5, 0.5)
                     background Frame("content/gfx/frame/frame_it2.png", 5, 5)
