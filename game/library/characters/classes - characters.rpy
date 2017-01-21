@@ -1315,24 +1315,24 @@ init -9 python:
 
             # Stat support Dicts:
             stats = {
-                'charisma': [5, 0, 30, 40],          # means [stat, min, max, lvl_max]
-                'constitution': [5, 0, 30, 40],
+                'charisma': [5, 0, 50, 60],          # means [stat, min, max, lvl_max]
+                'constitution': [5, 0, 50, 60],
                 'joy': [50, 0, 100, 200],
-                'character': [5, 0, 30, 40],
+                'character': [5, 0, 50, 60],
                 'reputation': [0, 0, 100, 100],
                 'health': [100, 0, 100, 200],
                 'fame': [0, 0, 100, 100],
                 'mood': [0, 0, 1000, 1000], # not used...
                 'disposition': [0, -1000, 1000, 1000],
                 'vitality': [100, 0, 100, 200],
-                'intelligence': [5, 0, 30, 40],
+                'intelligence': [5, 0, 50, 60],
 
                 'luck': [0, -50, 50, 50],
 
-                'attack': [5, 0, 30, 40],
-                'magic': [5, 0, 30, 40],
-                'defence': [5, 0, 30, 40],
-                'agility': [5, 0, 30, 40],
+                'attack': [5, 0, 50, 60],
+                'magic': [5, 0, 50, 60],
+                'defence': [5, 0, 50, 60],
+                'agility': [5, 0, 50, 60],
                 'mp': [30, 0, 30, 50]
             }
             self.stats = Stats(self, stats=stats)

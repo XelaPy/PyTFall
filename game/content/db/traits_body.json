@@ -198,7 +198,7 @@
     "id": "Stupid",
     "blocks": ["Smart"],
     "desc": "The difference between stupidity and genius is that genius has its limits.",
-    "max": {"vitality": 25, "mp": -25},
+    "max": {"vitality": 20, "mp": -20},
     "effects": ["Silly"]
     },
    {
