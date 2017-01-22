@@ -249,7 +249,7 @@ init -5 python hide:
     ## - A file name relative to the base directory, which is opened in a
     ##   web browser.
     ## - None, to disable help.
-    config.help = "README.html"
+    config.help = None
 
     # Adjust framerate:
     config.framerate = 90
