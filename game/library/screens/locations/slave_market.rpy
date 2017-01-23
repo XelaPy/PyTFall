@@ -180,7 +180,7 @@ label blue_menu:
             g "Slave Training is an Art!"
             "Tell me about Slave Training.":
                 "PlaceHolder until we figure out how ST works :)"
-            "Ask about Captured Girls." if fg in hero.buildings:
+            "Ask about Captured Girls." if False: # fg in hero.buildings:
                 if not global_flags.flag("blue_cg"):
                     g "So, you now own an Exploration Guild?"
                     g "Well done, it's a well known source of slaves of all kinds."
