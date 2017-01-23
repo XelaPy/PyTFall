@@ -6,7 +6,7 @@ init:
     python:
         def sorting_for_chars_list():
             return [c for c in hero.chars if c.is_available]
-        
+
 label chars_list:
     scene bg gallery
     # Check if we're the screen was loaded or not:
@@ -21,10 +21,10 @@ label chars_list:
             class_filters = set([bt for c in hero.chars for bt in c.traits.basetraits])
             selected_filters = set()
             the_chosen = set()
-        
+
         show screen chars_list(source=char_lists_filters, page=chars_list_last_page_viewed, total_pages=1)
     with dissolve
-    
+
     python:
         while 1:
 
@@ -32,7 +32,7 @@ label chars_list:
 
             if result[0] == 'control':
                 if result[1] == 'return':
-                    break    
+                    break
             elif result[0] == "dropdown":
                 if result[1] == "loc":
                     renpy.show_screen("set_location_dropdown", result[2], pos=renpy.get_mouse_pos())
@@ -60,6 +60,7 @@ screen chars_list(source=None, page=0, total_pages=1):
         background Frame("content/gfx/frame/framegp2.png", 10, 10)
         pos (5, 46)
         xysize (1010, 670)
+
         if source.sorted:
             python:
                 chars_list = list()
@@ -69,7 +70,7 @@ screen chars_list(source=None, page=0, total_pages=1):
                 total_pages = len(source.sorted) / (page_lenght * 2) + (len(source.sorted) % (page_lenght * 2) != 0)
                 gs = renpy.get_screen("chars_list").scope["_kwargs"]
                 gs["total_pages"] = total_pages
-                
+
                 # Per Dark's request, we remember the page:
 
                 page = max(0, min(gs["page"], total_pages - 1))
@@ -77,11 +78,11 @@ screen chars_list(source=None, page=0, total_pages=1):
 
                 chars_list[0] = chars_list[0][page*page_lenght:page*page_lenght+page_lenght]
                 chars_list[1] = chars_list[1][page*page_lenght:page*page_lenght+page_lenght]
-                
+
             # Keybinds:
             key "mousedown_4" action If(gs["page"] + 1 < gs["total_pages"], true=Show("chars_list", source=gs["source"], page=gs["page"] + 1, total_pages=gs["total_pages"]), false=NullAction())
             key "mousedown_5" action If(gs["page"] > 0, true=Show("chars_list", source=gs["source"], page=gs["page"] - 1, total_pages=gs["total_pages"]), false=NullAction())
-                
+
             hbox:
                 style_group "content"
                 spacing 14
@@ -97,7 +98,7 @@ screen chars_list(source=None, page=0, total_pages=1):
                                 hover_background Frame(Transform(img, alpha=0.9), 10 ,10)
                                 xysize (470, 115)
                                 action Return(['choice', c])
-                                
+
                                 # Girl Image:
                                 frame:
                                     background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
@@ -105,7 +106,7 @@ screen chars_list(source=None, page=0, total_pages=1):
                                     align 0, .5
                                     xysize(100, 100)
                                     add char_profile_img align .5, .5 alpha 0.96
-                                   
+
                                 # Texts/Status:
                                 frame:
                                     xpos 120
@@ -119,7 +120,7 @@ screen chars_list(source=None, page=0, total_pages=1):
                                             text_color pink
                                         else:
                                             text_color ivory
-                                        
+
                                     vbox:
                                         align (0.96, 0.035)
                                         spacing 5
@@ -139,7 +140,7 @@ screen chars_list(source=None, page=0, total_pages=1):
                                                 add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (0.5, 0.5)
                                             else:
                                                 add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (0.5, 0.5)
-                                    
+
                                     vbox:
                                         yalign 0.98
                                         xpos 10
@@ -154,7 +155,7 @@ screen chars_list(source=None, page=0, total_pages=1):
                                             else:
                                                 raise Exception("Character without prof basetraits detected! line: 211, chars_lists screen")
                                         text "Classes: [classes]" color ivory size 18
-                                        
+
                                         null height 2
                                         if c not in pytfall.ra:
                                             button:
@@ -170,7 +171,7 @@ screen chars_list(source=None, page=0, total_pages=1):
                                         else:
                                             text "{size=15}Location: Unknown"
                                             text "{size=15}Action: Hiding"
-                                        
+
     frame:
         background Frame(Transform("content/gfx/frame/p_frame2.png", alpha=0.55), 10 ,10)
         style_prefix "content"
@@ -265,7 +266,7 @@ screen chars_list(source=None, page=0, total_pages=1):
                 has hbox style_group "basic" align .5, .5 spacing 5
                 hbox:
                     spacing 3
-                    $ chars_on_page = set(chars_list[0] + chars_list[1])
+                    $ chars_on_page = set(chars_list[0] + chars_list[1]) if hero.chars else set()
                     button: # select all on current listing, deselects them if all are selected
                         xysize (66, 40)
                         if the_chosen.issuperset(chars_on_page):
@@ -302,6 +303,5 @@ screen chars_list(source=None, page=0, total_pages=1):
                         xysize (150, 40)
                         action If(len(the_chosen), [Hide("chars_list"), With(dissolve), Jump('girl_training')])
                         text "Training"
-            
+
     use top_stripe(True)
-    
