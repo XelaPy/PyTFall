@@ -20,7 +20,6 @@ init -1 python:
 
         return inside
 
-
     class GuiGirlsList(_object):
         """
         Used for sorting girls in the list and maybe in profile screen in the future.
@@ -116,6 +115,7 @@ init -1 python:
         def get_focus(self, filter_group, filter_key):
             return filter_key in self.active_filters[filter_group]
 
+
     class SlaveMarket(Location):
         """
         Class for populating and running of the slave market.
@@ -170,32 +170,6 @@ init -1 python:
             for i in range(randint(6, 8)):
                 if chars_list:
                     self.chars_list.append(chars_list.pop())
-
-        def buy_girl(self):
-            """
-            Buys the focused girl from the market.
-            """
-            if hero.take_ap(1):
-                if hero.take_money(self.girl.fin.get_price(), reason="Slave Purchase"):
-                    renpy.play("content/sfx/sound/world/purchase_1.ogg")
-                    hero.add_char(self.girl)
-                    self.chars_list.remove(self.girl)
-
-                    if self.chars_list:
-                        self.girl = choice(self.chars_list)
-                        self.index = self.chars_list.index(self.girl)
-
-                    else:
-                        self.girl = None
-
-                else:
-                    renpy.call_screen('message_screen', "You don't have enough money for this purchase!")
-
-            else:
-                renpy.call_screen('message_screen', "You don't have enough AP left for this action!!")
-
-            if not self.chars_list:
-                renpy.hide_screen("slave_shopping")
 
         def next_day(self):
             """

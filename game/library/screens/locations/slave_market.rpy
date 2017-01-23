@@ -1,39 +1,39 @@
 label slave_market:
-    
+
     # Music related:
     if not "slavemarket" in ilists.world_music:
         $ ilists.world_music["slavemarket"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("slavemarket")]
     if not global_flags.has_flag("came_from_sc"):
         play world choice(ilists.world_music["slavemarket"]) fadein 1.5
     $ global_flags.del_flag("came_from_sc")
-    
+
     if not global_flags.has_flag("visited_sm"):
         scene bg slave_podium
         with dissolve
-        
+
         "What's this?"
         extend " WHAT THE HELL IS THIS???"
-        
+
         play sound "content/sfx/sound/be/whip_attack_2.mp3"
-        
+
         "What's that look on your faces? Unhappiness? Doubt? Defiance?!?!"
-        
+
         play sound "content/sfx/sound/be/whip_attack_2.mp3"
-        
+
         "This lot requires more training, get them out of here!"
-        
+
         play sound "content/sfx/sound/be/whip_attack_2.mp3"
         pause 0.1
         play sound "content/sfx/sound/be/whip_attack_2.mp3"
-        
+
         "{color=[red]} Yes, Ma'am! Yes, Ma'am! Yes, Ma'am!"
         "And bring out some decent slaves to shop!"
-        
+
         show bg slave_market_empty with fade
         show npc blue with dissolve
-        
+
         $ g = Character("?????", color=blue, show_two_window=True)
-        
+
         menu:
             g "Hah? And who might you be?!"
             "[hero.name]'s the name! I just want to check out the slave market.":
@@ -41,20 +41,20 @@ label slave_market:
             "You should not be so hard on those girls!":
                 g "DON'T TELL ME HOW TO DO MY JOB YOU @$$#^*!!!"
                 extend " ... but I guess that since you had to witness that, I'll let this slide."
-                
+
         g "My name is Delphine but apperently that's too hard to remember... so everyone calls me Blue. Original isn't it?"
-        
+
         $ g = Character("Blue", color=blue, show_two_window=True)
-        
+
         g "We usually try to prevent customers from seeing anything they might find unpleasant."
         g "But that weasel Stan is always trying to push 'unfinished' products."
         g "I mean what's the point? Reputation is much more important!"
-        
+
         $ s = Character("Stan", show_two_window=True)
-        
+
         show npc blue at right with move
         show npc2 stan at left with dissolve
-        
+
         s "Hey, hey there!"
         s "Is there anyone here talking about me?"
         s "Just the cool things I assume!?"
@@ -63,30 +63,30 @@ label slave_market:
         s "Keeping the cash flowing, gold rolling so Mr. Big is satisfied, is mine!"
         s "I am going to get some measure of todays lots and what we can get for them!"
         s "Don't bother our prospective clients and go play with your slaves while {color=[red]}I{/color} take care of real work! <Smirks>"
-        
+
         hide npc2 stan with dissolve
         show npc blue at center with move
-        
+
         g "That damn baboon only thinks about money! No sence of duty or love for the craft!"
         g "You see it too, don't you?"
         g "In any case, if you're looking to whip some slave into shape or get a fair deal on one. Come find me, I'll set you up!"
         g "Ah, visit our club as well, we do presentations and you can do 'some sampling' if you have the Gold."
         g "You won't be disappointed!"
         g "Goodbye!"
-        
+
         g "Oh... don't know if you need to hear this but there might be a clone of mine lurking around the town, don't get confused or let her rip you off in my name!"
         g "Also, if you're interested, there are usually some chores you can do around the market."
         g "Pay is crap but if you're in dear need of some cash..."
         extend " and you might learn a thing or two in the process!"
-        
+
         g "See you around :)"
-        
+
         hide npc blue
         with dissolve
         show bg slave_market
-        
+
         $ global_flags.set_flag("visited_sm")
-    
+
     python:
         # Build the actions
         if pytfall.world_actions.location("slave_market"):
@@ -95,39 +95,60 @@ label slave_market:
             pytfall.world_actions.slave_market(pytfall.sm, "Get these girls while they're still Young and Hot!")
             pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
-    
+
     scene bg slave_market
-    
+
     $ pytfall.sm.set_index()
-    
+
     show screen slavemarket
     with fade
-    
+
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
-    
+
     $ loop = True
     while loop:
         $ result = ui.interact()
-        
+
+        if result[0] == "buy":
+            $ char = pytfall.sm.girl
+            if hero.take_ap(1):
+                if hero.take_money(char.fin.get_price(), reason="Slave Purchase"):
+                    play sound "content/sfx/sound/world/purchase_1.ogg"
+                    $ hero.add_char(char)
+                    $ pytfall.sm.chars_list.remove(char)
+
+                    if pytfall.sm.chars_list:
+                        $ pytfall.sm.girl = choice(pytfall.sm.chars_list)
+                        $ pytfall.sm.index = pytfall.sm.chars_list.index(pytfall.sm.girl)
+                    else:
+                        $ pytfall.sm.girl = None
+                else:
+                    call screen message_screen("You don't have enough money for this purchase!")
+
+            else:
+                call screen message_screen("You don't have enough AP left for this action!!")
+
+            if not pytfall.sm.chars_list:
+                hide screen slave_shopping
+
         if result[0] == "control":
             if result[1] == "work":
                 call work_in_slavemarket from _call_work_in_slavemarket
-            
+
             elif result[1] == "jumpclub":
                 hide screen slavemarket
                 jump slave_market_club
-            
+
             elif result[1] == "return":
                 if not renpy.get_screen("slave_shopping"):
                     $ loop = False
-        
+
         $ renpy.hide("_tag")
-    
-    $ renpy.music.stop(channel="world")                
+
+    $ renpy.music.stop(channel="world")
     hide screen slavemarket
     jump city
-    
 
 label work_in_slavemarket:
     python:
@@ -146,7 +167,7 @@ label work_in_slavemarket:
             hero.say(choice(["What a shitty job...", "There's gotta be better way to make money..."]))
         global_flags.set_flag("came_from_sc")
     return
-    
+
 label blue_menu:
     $ g = Character("Blue", color=blue, show_two_window=True)
     scene bg slave_market_empty with fade
@@ -177,33 +198,31 @@ label blue_menu:
             "That will be all":
                 g "Goodbye!"
                 $ loop = False
-          
-    jump slave_market            
-    
+
+    jump slave_market
 
 screen slavemarket():
-    
+
     use top_stripe(True)
-    
+
     use r_lightbutton(img=im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True), return_value =['control', 'jumpclub'], align=(0.01, 0.5))
-    
+
     use location_actions("slave_market")
-    
 
 screen slave_shopping(store, tt_text, buy_button, buy_tt):
     modal True
     zorder 1
-    
+
     # Tooltip
     default tt = Tooltip("%s"%tt_text)
-    
+
     frame:
         background Frame("content/gfx/frame/black_frame.png", 10, 10)
         align(0.977, 1.0)
         xysize (1003, 92)
         vbox:
             label (u"{=stats_text}%s"%tt.value) text_outlines [(1, "#3a3a3a", 0, 0)]
-    
+
     if store.chars_list:
         # Stats and Info (Left Frame):
         frame:
@@ -224,9 +243,9 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                         align (0.5, 0.5)
                         if len(store.girl.fullname) < 20:
                             text_size 21
-                        
+
                 null height 5
-                        
+
                 if False and traits['Prostitute'] in store.girl.occupations:
                     frame:
                         xanchor -0.01
@@ -236,13 +255,13 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                         text ('%s'%store.girl.wranks['r%s'%store.girl.rank]['name'][1]) align (0.5, 0.96) color ivory size 16
                 else:
                     null height -5
-                
+
                 null height 0
-                
+
                 label (u"{size=20}{color=[ivory]}{b}Info:") xalign(0.5) text_outlines [(2, "#424242", 0, 0)]
-                
+
                 null height -10
-                
+
                 vbox:
                     style_group "stats"
                     spacing 5
@@ -278,13 +297,13 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                                 xysize 244, 20
                                 text "{color=#79CDCD}{size=-1}Upkeep:" pos (1, -4)
                                 label (u"{size=-5}%s"%store.girlfin.get_upkeep()) align (1.0, 0.5) ypos 10
-                        
+
                 null height 8
-                
+
                 label (u"{size=20}{color=[ivory]}{b}Stats:") xalign(0.5) text_outlines [(2, "#424242", 0, 0)]
-                
+
                 null height -12
-                
+
                 vbox:
                     style_group "stats"
                     pos(0.015, 10)
@@ -357,14 +376,14 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                                 xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Disposition:" pos (1, -4)
                                 label (u"{size=-5}%s"%store.girl.disposition) align (1.0, 0.5) ypos 10
-                        
-                     
+
+
                 null height 8
-                
+
                 label (u"{size=20}{color=[ivory]}{b}Prof Stats:") xalign(0.5) text_outlines [(2, "#424242", 0, 0)]
-                
+
                 null height -12
-                
+
                 vbox:
                     style_group "stats"
                     pos(0.015, 10)
@@ -384,7 +403,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                             xmaximum 246
                             frame:
                                 xsize 245
-        
+
         # Picture:
         frame:
             pos(265, 41)
@@ -394,7 +413,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                 align (0.5, 0.5)
                 background Frame("content/gfx/frame/MC_bg.png", 10, 10)
                 add (store.girl.show("nude","no clothes", resize=(560, 400), exclude=["rest", "outdoors", "onsen", "beach", "pool", "living"], type="first_default", label_cache=True)) align(0.5, 0.5)
-        
+
         # Traits:
         frame:
             pos (928, 41)
@@ -426,7 +445,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                                     text trait.id idle_color bisque size 19 align .5, .5 hover_color crimson
                                     hovered tt.Action(u"%s"%trait.desc)
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
-        
+
         # Buttons:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=0.98), 10, 10)
@@ -442,32 +461,32 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
                     action (Function(store.previous_index))
                     hovered tt.Action("<== Previous Girl")
-            
+
                 null width 10
-            
+
                 frame:
                     align(0.5, 0.5)
                     style_group "dropdown_gm"
                     has vbox
-                
+
                     # Decided to handle it on screen level since code required for this can get a bit messy when going through actions:
                     if store == jail and store.girl.flag("sentence_type") == "SE_capture":
                         textbutton "Retrieve":
                             xsize 150
                             action Show("se_captured_retrieval")
                             hovered tt.Action("Retrieve %s for % gold." % (store.girl.name, store.get_fees4captured()))
-                    else: 
+                    else:
                         textbutton "[buy_button]":
                             xsize 150
-                            action (Function(store.buy_girl))
+                            action Return(["buy"])
                             hovered tt.Action("" + buy_tt % store.girlfin.get_price())
                     textbutton "Back":
                         xsize 150
                         action Hide("slave_shopping", transition=Dissolve(1.0))
                         hovered tt.Action("All Done!")
-            
+
                 null width 10
-            
+
                 $ img=im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_right.png", 50, 50)
                 imagebutton:
                     align(0.5, 0.5)
@@ -475,7 +494,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
                     action (Function(store.next_index))
                     hovered tt.Action("Next Girl ==>")
-        
+
         # Girl choice:
         frame:
             pos(265, 459)
@@ -498,16 +517,16 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                                     action Function(store.set_girl, girl)
                                     hovered tt.Action(u"{=stats_label_text}%s{=stats_value_text}{size=+2}\nDescription:\n{=stats_value_text}%s"%(girl.name, girl.desc))
                 bar value XScrollValue("sm_vp_glist")
-    
+
     use top_stripe(True)
-    
+
 screen se_captured_retrieval(pos=(900, 300)):
     zorder 3
     modal True
-    
+
     key "mousedown_4" action NullAction()
     key "mousedown_5" action NullAction()
-    
+
     python:
         x, y = pos
         xval, yval = 1.0, 0
