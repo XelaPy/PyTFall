@@ -4,26 +4,26 @@ init python:
         events = dict()
         rest = dict()
         actions = dict()
-        
+
         base = {"IDLE": 0, "Service": 0, "Warriors": 0, "Managers": 0}
-        
+
         for setup in ["ALL"] + [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]:
             actions[setup] = base.copy()
             rest[setup] = base.copy()
             events[setup] = base.copy()
             for i in events[setup]:
                 events[setup][i] = {"count": 0, "red_flag": 0, "green_flag": 0}
-                
+
             # Actions/Rest first:
             a = actions[setup]
             r = rest[setup]
             e = events[setup]
-            
+
             if setup == "ALL":
                 container = hero.chars
             else:
                 container = [g for g in hero.chars if g.location == setup] # TODO: Should prolly be flipped to .workplace?
-            
+
             for char in container:
                 cat = 0
                 if char.action == None:
@@ -56,7 +56,7 @@ init python:
                                 elif char.previousaction.type == "Management":
                                     cat = "Managers"
                                     r["Managers"] += 1
-                                    
+
                 # Events:
                 if cat:
                     for event in NextDayEvents:
@@ -66,9 +66,9 @@ init python:
                                 e[cat]["red_flag"] += 1
                             if event.green_flag:
                                 e[cat]["green_flag"] += 1
-                                
+
         return actions, rest, events
-        
+
 label next_day_effects_check:  # all traits and effects which require some unusual checks every turn do it here
     if "Life Beacon" in hero.traits:
         $ hero.health += randint(10, 20)
@@ -94,12 +94,11 @@ label next_day_effects_check:  # all traits and effects which require some unusu
                     elif not ("Frigid" in i.traits) and dice(30) and i.joy > 50:
                         i.enable_effect("Horny")
     return
-        
-        
+
 label next_day:
     call next_day_effects_check
     scene bg profile_2
-    
+
     if just_view_next_day: # Review old reports:
         $ just_view_next_day = False
     else: # Do the calculations:
@@ -107,7 +106,7 @@ label next_day:
         while counter:
             call next_day_calculations
             $ counter -= 1
-        
+
     # Prepearing to display ND.
     ####### - - - - - #######
     # Sort data for summary reports:
@@ -117,37 +116,37 @@ label next_day:
     if FilteredList:
         $ event = FilteredList[0]
         $ gimg = event.load_image()
-    
+
     call next_day_controls
-        
+
     # Lets free some memory...
     if not day%50:
         $ renpy.free_memory()
-    
+
     $ girls = None
     hide screen next_day
     jump mainscreen
 
 label next_day_calculations:
     $ FilteredList=list()
-    
+
     if global_flags.flag("nd_music_play"):
         $ global_flags.del_flag("nd_music_play")
         if not "pytfall" in ilists.world_music:
             $ ilists.world_music["pytfall"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("pytfall")]
         play world choice(ilists.world_music["pytfall"])
-    
+
     python:
         global_flags.set_flag("keep_playing_music")
         tl.timer("Next Day")
         devlog.info("Day: %s, Girls (Player): %s, Girls (Game): %s" % (day, len(hero.chars), len(chars)))
         NextDayEvents = list()
-        
+
         ################## Restore before the jobs ##################
         tl.timer("Char.restore for all MC girls")
         list(girl.restore() for girl in list(g for g in hero.chars if g.action != "Exploring"))
         tl.timer("Char.restore for all MC girls")
-        
+
         ################## Building events Start ##################
         """
         Complete Rewrite! This should become a manager for jobs! Preferably partly in Ren'Py script!
@@ -155,7 +154,7 @@ label next_day_calculations:
     $ tl.timer("Buildings")
     # Ren'Py script:
     $ nd_buildings = list(b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding))
-    
+
     $ tl.timer("Rest (1)")
     $ ndr_chars = list(c for c in hero.chars if c.location != "Exploring" and (isinstance(c.action, Rest) or isinstance(c.action, AutoRest))) # Next Day Resting Chars
     # $ ndr_chars2 = list(c for c in hero.chars if not check_char(c)) # Revice this for characters who are set to work till the drop???
@@ -163,81 +162,15 @@ label next_day_calculations:
         $ resting_char = ndr_chars.pop()
         $ resting_char.action(resting_char) # <--- Looks odd and off?
     $ tl.timer("Rest (1)")
-    
+
     while nd_buildings:
         $ building = nd_buildings.pop()
         $ building.run_nd()
-        
-        # Old jobs:
-        python:
-            if False:
-                ###### Let Strippers do their thing #######
-                tl.timer("StripJob")
-                girls = strippers
-                if strippers:
-                    building.servicer['strippers'] = len(strippers)
-                
-                while strippers:
-                    girl = choice(strippers)
-                    StripJob(girl, building, strippers, clients)
-                
-                ##### First round of Service Girls is next #####
-                tl.timer("ServiceJob(1)", nested=False)
-                girls = service_girls
-                while service_girls:
-                    girl = choice(service_girls)
-                    ServiceJob(girl, building, service_girls, clients)
-                
-                ###### Whores do their thing! #######
-                tl.timer("WhoreJob", nested=False)
-                girls = whores
-                while whores and clients and not stop_whore_job:
-                    client = clients.pop()
-                    whore = None
-                    for girl in whores:
-                        if client.favtraits and client.favtraits & set(girl.traits):
-                            whore = girl
-                            client.traitmatched = True
-                            break
-                    
-                    else:
-                        whore = choice(whores)
-                    
-                    WhoreJob(whore, client, building, whores, clients)
-                
-                ##### Second round for Service Girls (Just cleaning this time) #####
-                tl.timer("ServiceJob(2)", nested=False)
-                service_girls = list(girl for girl in hero.chars if girl.location == building and girl.action == 'ServiceGirl')
-                girls = service_girls
-                building.servicer['second_round'] = True
-                while service_girls:
-                    girl = choice(service_girls)
-                    ServiceJob(girl, building, service_girls, clients)
-                
-                ##### Guard Job events and reports #####
-                tl.timer("GuardJob", nested=False)
-                guards = list(girl for girl in hero.chars if girl.location == building and girl.action == 'Guard')
-                girls = guards
-                while guards:
-                    girl = choice(guards)
-                    GuardJob(girl, building, guards)
-                
-                ###### Rest job in buildings #######
-                tl.timer("RestJob", nested=False)
-                resting = list(girl for girl in hero.chars if girl.location == building and girl.action in ['Rest', 'AutoRest'])
-                girls = resting
-                for girl in resting:
-                    Rest(girl, building, resting)
-                
-    python:
-        # Append building report to the list
-        tl.timer("Building.next_day", nested=False)
-        if len(nd_buildings):
-            building.next_day()
-            
+        $ building.next_day()
+
     $ tl.timer("Buildings", nested=False)
         ################## Building events END ##################
-        #   
+        #
         #
         ################## Training events Start ##################
     python:
@@ -245,34 +178,34 @@ label next_day_calculations:
         for school in schools:
             school = schools[school]
             if not school.available: continue
-            
+
             girls = school.get_girls("Course")
             guards = school.get_girls("Guard")
             trainers = school.get_girls("Training")
-            
+
             # Girls first so disobey/runaway/obey events and trainer ap can be calculated
             tl.timer("TrainingJob")
             while girls:
                 TrainingJob(choice(girls), school, girls)
-            
+
             # Guards go next for runaway events
             tl.timer("SchoolGuardJob", nested=False)
             while guards:
                 SchoolGuardJob(choice(guards), school, guards)
-            
+
             # Trainers last for disobey events
             tl.timer("TrainerJob", nested=False)
             while trainers:
                 TrainerJob(choice(trainers), school, trainers)
-            
+
             if school.is_school:
                 tl.timer("School.next_day", nested=False)
                 school.next_day()
-            
+
             else:
                 tl.timer("TrainingDungeon.next_day", nested=False)
                 school.next_day()
-        
+
         tl.timer("Training")
         ################## Training events End ##################
         #
@@ -283,7 +216,7 @@ label next_day_calculations:
             girls = building.get_girls("Search")
             while girls:
                 EscapeeSearchJob(choice(girls), building, girls)
-        
+
         ################## Searching events End ####################
         #
         #
@@ -373,7 +306,7 @@ screen next_day():
     default show_summary = True
     default summary_filter = "buildings" # Not applicable atm
     default report_stats = False
-    
+
     # Right frame (Building/Businesses reports):
     if show_summary:
         frame:
@@ -384,7 +317,7 @@ screen next_day():
             # ALL Buildings/Workers SUMMARY:
             vbox:
                 xalign 0.38
-                
+
                 frame:
                     style_group "content"
                     xalign 0.5
@@ -393,7 +326,7 @@ screen next_day():
                     background Frame("content/gfx/frame/namebox5.png", 10, 10)
                     label (u"Buildings") text_size 23 text_color ivory align .5, .6
                     add ProportionalScale("content/gfx/images/birds1.png", 548, 115) pos (-100, 5)
-                
+
                 null height 80
                 # ALL Buildings/Workers SUMMARY:
                 frame:
@@ -413,9 +346,9 @@ screen next_day():
                             text "All" align .5, .5 style "proper_stats_label_text" size 32
                             action [Return(['filter', 'all']), SetScreenVariable("show_summary", None)]
                             hovered tt.action(u"Show full report tree!")
-                        
+
                         null width 5
-                        
+
                         # DATA:
                         frame:
                             align .5, .5
@@ -424,7 +357,7 @@ screen next_day():
                             style_group "proper_stats"
                             padding 8, 10
                             has vbox spacing 1
-                                
+
                             # Active (Numeric Info):
                             frame:
                                 xysize (285, 25)
@@ -433,7 +366,7 @@ screen next_day():
                                 text str(ndactive["ALL"]["Warriors"]) style_suffix "value_text" xpos 175
                                 text str(ndactive["ALL"]["Managers"]) style_suffix "value_text" xpos 215
                                 text str(ndactive["ALL"]["IDLE"]) style_suffix "value_text" xpos 255
-                            
+
                             # Resting:
                             frame:
                                 xysize (285, 25)
@@ -442,13 +375,13 @@ screen next_day():
                                 text str(ndresting["ALL"]["Warriors"]) style_suffix "value_text" xpos 175
                                 text str(ndresting["ALL"]["Managers"]) style_suffix "value_text" xpos 215
                                 text str(ndresting["ALL"]["IDLE"]) style_suffix "value_text" xpos 255
-                             
+
                             # Events:
                             frame:
                                 xpos 2
                                 xysize (285, 25)
                                 text "Events" yalign 0.5 xpos 3
-                                                
+
                                 hbox:
                                     xpos 120
                                     xmaximum 40
@@ -474,7 +407,7 @@ screen next_day():
                                     xpos 164
                                     xmaximum 40
                                     text str(ndevents["ALL"]["Warriors"]["count"]) style_suffix "value_text"
-                                    
+
                                     if ndevents["ALL"]["Warriors"]["red_flag"]:
                                         button:
                                             yoffset 4
@@ -490,7 +423,7 @@ screen next_day():
                                             background Null()
                                             text "!" style "next_day_summary_text" color green
                                             action NullAction()
-                                            
+
                                 hbox:
                                     xpos 205
                                     xmaximum 40
@@ -542,9 +475,9 @@ screen next_day():
                                     for b in [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]:
                                         clients = clients + b.total_clients
                                 text "[clients]" style_suffix "value_text"  xpos 135
-                                
+
                         null width 4
-                        
+
                         # RED FLAG Button:
                         # View all red flagged events:
                         python:
@@ -553,7 +486,7 @@ screen next_day():
                                 if i.red_flag:
                                     red_flags = True
                                     break
-                                
+
                         if red_flags:
                             button:
                                 yalign 0.5
@@ -570,7 +503,7 @@ screen next_day():
                                 idle_background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
                                 hover_background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
                                 action NullAction()
-                                
+
             # Separate Buildings data ------------------------------------------------->>>
             side "c l":
                 style_prefix "proper_stats"
@@ -582,7 +515,7 @@ screen next_day():
                     draggable True
                     mousewheel True
                     has vbox
-                    
+
                     # Buildings:
                     for building in [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]:
                         # Image/Name:
@@ -607,7 +540,7 @@ screen next_day():
                                         hover im.MatrixColor(img ,im.matrix.brightness(.15))
                                         action [Return(['filter', 'building', building]), SetScreenVariable("show_summary", None)]
                                         hovered tt.action(u"View Events in %s building." % building.name)
-                                        
+
                                     if building.flag_red:
                                         button:
                                             align .95, .95
@@ -615,9 +548,9 @@ screen next_day():
                                             text "!" color red size 40 italic True
                                             action NullAction()
                                             hovered tt.action(u"There are building related events flagged Red!")
-                                
+
                                 null width 6
-                                
+
                                 # DATA:
                                 frame:
                                     align .5, .5
@@ -626,7 +559,7 @@ screen next_day():
                                     style_prefix "proper_stats"
                                     padding 8, 10
                                     has vbox spacing 1
-                                        
+
                                     # Active:
                                     frame:
                                         xysize 410, 25
@@ -637,7 +570,7 @@ screen next_day():
                                         text str(ndactive[building]["IDLE"]) style_suffix "value_text" xpos 255
                                         text "Dirt" yalign .5 xpos 285
                                         text ("%d%%" % building.get_dirt_percentage()[0]) style_suffix "value_text" xalign .99
-                              
+
                                     # Resting:
                                     frame:
                                         xysize (410, 25)
@@ -648,13 +581,13 @@ screen next_day():
                                         text str(ndresting[building]["IDLE"]) style_suffix "value_text" xpos 255
                                         text "Fame" yalign .5 xpos 285
                                         text ("%d/%d" % (building.fame, building.maxfame)) style_suffix "value_text" xalign .99
-                                 
+
                                     # Events:
                                     frame:
                                         xpos 2
                                         xysize (410, 25)
                                         text "Events" yalign 0.5 xpos 3
-                                        
+
                                         hbox:
                                             xpos 120
                                             xmaximum 40
@@ -680,7 +613,7 @@ screen next_day():
                                             xpos 164
                                             xmaximum 40
                                             text str(ndevents[building]["Warriors"]["count"]) style_suffix "value_text"
-                                            
+
                                             if ndevents[building]["Warriors"]["red_flag"]:
                                                 button:
                                                     yoffset 4
@@ -688,7 +621,7 @@ screen next_day():
                                                     background Null()
                                                     text "{color=[red]}!" style "next_day_summary_text"
                                                     action NullAction()
-                                                
+
                                             if ndevents[building]["Warriors"]["green_flag"]:
                                                 button:
                                                     yoffset 4
@@ -697,7 +630,7 @@ screen next_day():
                                                     text "{color=[green]}!" style "next_day_summary_text"
                                                     action NullAction()
 
-                                        
+
                                         hbox:
                                             xpos 205
                                             xmaximum 40
@@ -719,7 +652,7 @@ screen next_day():
                                                     text "{color=[green]}!" style "next_day_summary_text"
                                                     action NullAction()
 
-                                        
+
                                         hbox:
                                             xpos 245
                                             xmaximum 40
@@ -732,7 +665,7 @@ screen next_day():
                                                     background Null()
                                                     text "{color=[red]}!" style "next_day_summary_text"
                                                     action NullAction()
-                                            
+
                                             if ndevents[building]["IDLE"]["green_flag"]:
                                                 button:
                                                     yoffset 4
@@ -741,7 +674,7 @@ screen next_day():
                                                     text "{color=[green]}!" style "next_day_summary_text"
                                                     action NullAction()
 
-                                            
+
                                         hbox:
                                             xpos 284
                                             xmaximum 48
@@ -750,7 +683,7 @@ screen next_day():
                                             xalign .99
                                             xmaximum 100
                                             text ("%d/%d" % (building.rep, building.maxrep)) style_suffix "value_text"
-                                
+
                                     hbox:
                                         frame:
                                             xpos 2
@@ -758,9 +691,9 @@ screen next_day():
                                             if hasattr(building, "total_clients"):
                                                 text "Customers:" xpos 3
                                                 text "[building.total_clients]" style_suffix "value_text" xpos 135
-                                    
+
                 vbar value YScrollValue("Reports")
-        
+
         # Buttons will be drawn over the frame +==============================>>>
         if summary_filter == "buildings":
             $ start_pos = 844
@@ -772,7 +705,7 @@ screen next_day():
                     xysize (90, 30)
                     background Frame("content/gfx/interface/buttons/button_wood_right_hover.png", 3, 3)
                     text "[i]" size 12 bold True xalign .4
-                
+
         # Mid frame: ------------------------------------->>>
         # Hero Filter/Portrait:
         frame:
@@ -823,7 +756,7 @@ screen next_day():
                                     text "[hero.health]" size 14 color red bold True style_suffix "value_text" yoffset -3 xpos 102
                                 else:
                                     text "[hero.health]" size 14 color ivory bold True style_suffix "value_text" yoffset -3 xpos 102
-                    
+
                             fixed: # MP
                                 xysize (150, 25)
                                 xanchor -5
@@ -840,7 +773,7 @@ screen next_day():
                                     text "[hero.mp]" size 14 color red bold True style_suffix "value_text" yoffset 2 xpos 99
                                 else:
                                     text "[hero.mp]" size 14 color ivory bold True style_suffix "value_text" yoffset 2 xpos 99
-                    
+
                             fixed: # VIT
                                 xysize (150, 25)
                                 xanchor -2
@@ -858,14 +791,14 @@ screen next_day():
                                 else:
                                     text "[hero.vitality]" size 14 color ivory bold True style_suffix "value_text" yoffset 2 xpos 99
                                 add ProportionalScale("content/gfx/images/c1.png", 123, 111) pos (-42, 55)
-            
+
         # MC (extra info) -------------------------------------------->>>
                 # Prepearing info:
                 python:
                     for i in NextDayEvents:
                         if i.type == "mcndreport":
                             report = i
-            
+
                 if  i.red_flag:
                     button:
                         anchor (-196, 50)
@@ -874,7 +807,7 @@ screen next_day():
                         text "!" color red size 40 style "stats_text"
                         action NullAction()
                         hovered tt.action(u"Red flag in MC's Report!")
-            
+
             # School:
             frame:
                 align 0.02, 0.98
@@ -888,7 +821,7 @@ screen next_day():
                     hover (im.MatrixColor(img ,im.matrix.brightness(0.15)))
                     action [Return(['filter', 'school']), SetScreenVariable("show_summary", None)]
                     hovered tt.action(u"View School and School Events!")
-                    
+
             # Girlz/Other Data like flags/char types/unassigned and filters (bid-bottom frame):
             frame:
                 align 0.98, 0.98
@@ -901,7 +834,7 @@ screen next_day():
                     hover (im.MatrixColor(img ,im.matrix.brightness(0.15)))
                     action [Return(['filter', 'gndreports']), SetScreenVariable("show_summary", None)]
                     hovered tt.action(u"Show personal girl reports!")
-            
+
             vbox:
                 align .5, .85
                 spacing 3
@@ -914,7 +847,7 @@ screen next_day():
                             slaves = slaves + 1
                         else:
                             free = free + 1
-                            
+
                 hbox:
                     spacing 5
                     add ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50)
@@ -922,9 +855,9 @@ screen next_day():
                     null width 240
                     text "[free]" style "agrevue"
                     add ProportionalScale("content/gfx/interface/icons/free.png", 50, 50)
-                    
+
                 null height 90
-                
+
                 # Data:
                 python:
                     unas = list()
@@ -935,14 +868,14 @@ screen next_day():
                     text ("{color=[red]}Unassigned: %d" % len(unas)) style "agrevue"
                 else:
                     text ("{color=[green]}Unassigned: -") style "agrevue"
-        
+
         # School (extra info) ---------------------------------------->>>
             # Prepearing info:
             python:
                 for school in NextDayEvents:
                     if school.type == "schoolndreport":
                         break
-            
+
             if  "We inform you about fresh courses starting today." in school.txt:
                 button:
                     align 0.4, 0.5
@@ -966,8 +899,8 @@ screen next_day():
                         text "!" color yellow size 40 style "stats_text"
                         action NullAction()
                         hovered tt.action(u"A course one of your girls attended has ended!")
-        
-                        
+
+
         # Girlz (extra info) ------------------------------------------->>>
             # Prepearing info:
             python:
@@ -975,7 +908,7 @@ screen next_day():
                 for i in NextDayEvents:
                     if i.type == "girlndreport" and i.red_flag:
                         red_flags = True
-            
+
             if  red_flags:
                 button:
                     yalign 0.7
@@ -984,26 +917,26 @@ screen next_day():
                     text "!" color red size 40 style "stats_text"
                     action NullAction()
                     hovered tt.action(u"Red flag in Girlz personal Reports!")
-                        
-                        
-        # Left Frame ==========================================================================>>>>            
+
+
+        # Left Frame ==========================================================================>>>>
         # Finances:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
             xysize 277, 560
             ypos 37
-            
+
             # Day Total ===========================================>>>
             $ fin_inc = hero.fin.game_fin_log[str(day-1)][0]["private"]
             $ fin_exp = hero.fin.game_fin_log[str(day-1)][1]["private"]
-            
+
             frame:
                 style_prefix "proper_stats"
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                 xysize 270, 550
                 has vbox spacing 1
                 # xoffset -3
-                
+
                 null height 10
                 frame:
                     style "content_frame"
@@ -1012,7 +945,7 @@ screen next_day():
                     background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
                     label (u"Daily Balance") text_size 23 text_color ivory xalign .5 yoffset -4
                 null height 4
-                
+
                 $ counter = 0
                 for k, v in fin_inc.iteritems():
                     if v:
@@ -1022,7 +955,7 @@ screen next_day():
                             xoffset 10
                             text "[k]" color green xoffset 3
                             text "[v]" color green style_suffix "value_text" xoffset -3
-                           
+
                 for k, v in fin_exp.iteritems():
                     if v:
                         $ counter += 1
@@ -1031,13 +964,13 @@ screen next_day():
                             xoffset 10
                             text "[k]" color red xoffset 3
                             text "[v]" color red style_suffix "value_text" xoffset -3
-                                    
+
                 if counter < 16:
                     for i in xrange(16 - counter):
                         frame:
                             xysize 250, 25
                             xoffset 10
-                          
+
                 python:
                     total_income = 0
                     total_expenses = 0
@@ -1046,23 +979,23 @@ screen next_day():
                     for key in fin_exp:
                         total_expenses += fin_exp[key]
                     total = total_income - total_expenses
-                    
+
                 add ProportionalScale("content/gfx/images/magic2.png", 120, 120) offset 140, -140
-                
+
         # Game Total (Top-Mid Frame)  =============================================>>>
         frame:
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
             xysize (429, 220)
             pos (276, 37)
             style_group "content"
-            
-            frame: 
+
+            frame:
                 ypos 6
                 xalign 0.5
                 xysize (380, 50)
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
                 label (u"Game Total") text_size 23 text_color ivory align .5, .6
-                
+
             null height 1
             frame:
                 align .5, .95
@@ -1071,7 +1004,7 @@ screen next_day():
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 5, 5)
                 add ProportionalScale("content/gfx/images/jp1.png", 68, 101) pos (330, 20)
                 add ProportionalScale("content/gfx/images/jp2.png", 73, 103) pos (12, 20)
-                
+
                 vbox:
                     align .5, .3
                     frame:
@@ -1084,7 +1017,7 @@ screen next_day():
                         xalign .5
                         text ("Expences") color red xoffset 2
                         text ("[total_expenses]") color red style_suffix "value_text" xoffset -2
-                        
+
                 null height 2
                 $ cl = green if total > 0 else red
                 frame:
@@ -1093,8 +1026,8 @@ screen next_day():
                     frame:
                         text "Total" color cl size 24 xpos 2
                         text "[total]" color cl style_suffix "value_text" xoffset -3 size 19
-                    
-                            
+
+
         # Tooltip Frame:
         frame:
             background Frame("content/gfx/frame/mes12.jpg", 5, 5)
@@ -1102,15 +1035,15 @@ screen next_day():
             padding 10, 5
             pos (3, 594)
             text (u"{size=20}{color=[ivory]}%s" % tt.value) style "TisaOTM"
-                   
+
         use top_stripe(True)
-            
+
     #  Reports  =============================================================================>>>>
     else:
-        
+
         key "mousedown_4" action Return(['control', 'right'])
         key "mousedown_5" action Return(['control', 'left'])
-        
+
         # Image frame:
         frame:
             pos (0, 0)
@@ -1128,7 +1061,7 @@ screen next_day():
                 ymargin 0
                 background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
                 add gimg align (0.5, 0.5)
-        
+
         # Stat Frames:
         showif report_stats:
             # Chars/Teams Stats Frame:
@@ -1137,7 +1070,7 @@ screen next_day():
                              so2=(0, 0), eo2=(136, 0), t2=0.3)
                 pos (690, -2)
                 has fixed xysize 136, 400
-                
+
                 if event.charmod or event.team_charmod:
                     frame:
                         style_group "content"
@@ -1146,7 +1079,7 @@ screen next_day():
                         xysize (136, 40)
                         background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.7), 10, 10)
                         label (u"Char Stats:") text_size 18 text_color ivory align (0.5, 0.5)
-                        
+
                     if event.team_charmod:
                         viewport:
                             xalign .5
@@ -1207,7 +1140,7 @@ screen next_day():
                                             label (u"{color=[lawngreen]}%d"%event.charmod[key]) align .98, .5
                                         else:
                                             label (u"{color=[red]}%d"%event.charmod[key]) align .98, 05
-                                                    
+
             # Buildings Stats Frame:
             frame background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10):
                 at slide(so1=(136, 0), eo1=(0, 0), t1=0.4,
@@ -1240,7 +1173,7 @@ screen next_day():
                                                 $ hkey = key
                                             text (u"{size=-1} %s:"%hkey.capitalize()) align .02, .5
                                             label (u"{size=-5}%d"%event.locmod[key]) align .98, .5
-                
+
         # Text Frame + Stats Reports Mousearea:
         frame background Frame("content/gfx/frame/p_frame5.png", 15, 15):
             xysize (449, 609)
@@ -1273,7 +1206,7 @@ screen next_day():
                                 for i in event.txt:
                                     text i style "TisaOTMolxm" xalign .0
                         vbar value YScrollValue("nextdaytxt_vp")
-                 
+
         mousearea:
             area (834, -2, 449, 609)
             hovered SetScreenVariable("report_stats", True)
@@ -1315,7 +1248,7 @@ screen next_day():
                         action [Hide("mainscreen"), Jump("next_day")]
                         text_size 16
                         xysize (150, 20)
-                    
+
                     $ img = im.Scale("content/gfx/interface/buttons/close.png", 40, 40)
                     imagebutton:
                         align (.5, .5)
@@ -1323,7 +1256,7 @@ screen next_day():
                         hover im.MatrixColor(img, im.matrix.brightness(0.25))
                         action Return(['control', 'return'])
                         hovered tt.Action("Return to previous screen!")
-                
+
                     textbutton "-Summary-":
                         style "main_screen_4_button"
                         hovered tt.action("Back to ND Summary!")
