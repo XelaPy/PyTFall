@@ -1228,7 +1228,7 @@ init -9 python:
     class PytCharacter(Flags):
         STATS = set()
         SKILLS = set(["vaginal", "anal", "oral", "sex", "strip", "service", "refinement", "group", "bdsm", "dancing",
-                               "bartending", "cleaning", "waiting", "management", "exploration", "teaching", "swimming", "fishing"])
+                      "bartending", "cleaning", "waiting", "management", "exploration", "teaching", "swimming", "fishing"])
         FULLSKILLS = set(skill + "skill" for skill in SKILLS) # Used to access true, final, adjusted skill values through direct access to class, like: char.swimmingskill
         PERSONALITY_TRAITS = set(["Tsundere", "Yandere", "Kuudere", "Dandere", "Ane", "Imouto", "Kamidere", "Bokukko", "Impersonal", "Deredere"]) # Do we still need this? Traits themselves are now flagged!
         CLASSES = set(["Stripper", "Prostitute", "Warrior", "ServiceGirl"]) # This is prolly now also too old...
@@ -1421,7 +1421,7 @@ init -9 python:
             elif key.lower() in self.SKILLS:
                 return stats._raw_skill(key)
             elif key in self.FULLSKILLS:
-                return self.stats.get_skill(key)
+                return self.stats.get_skill(key[:-5])
             raise AttributeError("%r object has no attribute %r" %
                                           (self.__class__, key))
 
