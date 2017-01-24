@@ -409,7 +409,11 @@ screen char_profile():
                                 xysize (100, 100)
                                 $ trait = char.race
                                 $ img = ProportionalScale(trait.icon, 100, 100)
-                                add img
+                                button:
+                                    xysize (100, 100)
+                                    background img
+                                    action Show("show_trait_info", trait=trait.id, place="race_trait")
+                                    hover_background im.MatrixColor(img, im.matrix.brightness(0.10))
 
                     # Basetraits:
                     vbox:
@@ -759,6 +763,8 @@ screen show_trait_info(trait=None, place="girl_trait"): # TO DO: upkeep made via
         $ al = (.86, .45)
     elif place == "main_trait":
         $ al = (.1, .2)
+    elif place == "race_trait":
+        $ al = (.15, .73)
 
     fixed:
         align al
