@@ -477,5 +477,22 @@
     "max": {"defence": 25},
     "locations": ["Exploration"],
     "addtraits": ["Ice Focus"]
+    },
+    {
+    "id": "Chastity Charm",
+    "desc": "These charms were developed for sex slaves in training to preserve virginity intact by creating a dimensional paradox in the way of the inserted objects, keeping the price on slave market high. Good luck convincing a free girl to wear such thing.",
+    "icon": "content/items/amulet/chas.png",
+    "price": 1500,
+    "sex": "female",
+    "chance": 35,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": false,
+    "infinite": false,
+    "slot": "amulet",
+    "locations": ["Witches Hut", "General Store"],
+    "mod_skills": {"vaginal": [-0.5, -0.5, -0.5, 0, 0], "sex": [-0.05, -0.05, -0.05, 0, 0]},
+    "addeffects": ["Chastity"],
+    "goodtraits": ["Frigid"]
     }
   ]

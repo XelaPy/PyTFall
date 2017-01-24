@@ -53,10 +53,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         $ del n
         jump girl_interactions
 
-    if char.effects['Icy']['active']:
-        call interactions_frigid_sex_refuse
-        jump girl_interactions
-        
+       
     if char.flag("quest_cannot_be_fucked") == True or (ct("Half-Sister") and not "Sister Lover" in hero.traits): # cannot hire h-s for that stuff, only seduce, seems reasonable
         call interactions_sex_disagreement
         jump girl_interactions
@@ -162,16 +159,11 @@ label interactions_sex: # we go to this label from GM menu propose sex
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_sex")
-    if char.effects['Icy']['active']:
-        call interactions_frigid_sex_refuse
-        jump girl_interactions
     $ n = randint(2,3)
     if check_lovers(char, hero):
         $ n += randint(1,2)
     elif check_friends(char, hero):
         $ n += randint(0,1)
-    if (ct("Half-Sister") and char.disposition < 700 and not "Sister Lover" in hero.traits) or ct("Frigid"):
-        $ n = -1
     elif ct("Nymphomaniac"):
         $ n += 2
 
@@ -1392,7 +1384,7 @@ label interactions_sex_disagreement: # the character disagrees to do it
 
 label interaction_check_for_virginity: # here we do all checks and actions with virgin trait when needed
     if ct("Virgin"):
-        if "Illusive" in hero.traits:
+        if "Illusive" in hero.traits or char.effects['Chastity']['active']:
             $ current_action = "vag"
             jump interactions_sex_scene_logic_part
         else:

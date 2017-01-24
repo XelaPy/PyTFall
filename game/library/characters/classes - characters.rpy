@@ -1376,7 +1376,8 @@ init -9 python:
                 "MP Regeneration": {"active": False, "desc": "Restores some mp every day."},
                 "Small Regeneration": {"active": False, "desc": "Restores 10 health every day for 20 days."},
                 "Blood Connection": {"active": False, "desc": "Disposition increases and character decreases every day."},
-                "Horny": {"active": False, "desc": "She's in the mood for sex."}
+                "Horny": {"active": False, "desc": "She's in the mood for sex."},
+                "Chastity": {"active": False, "desc": "Special enchantment preserves her virginity intact, at the cost of being extremely bad in vaginal sex."}
                 }
 
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
@@ -2801,7 +2802,10 @@ init -9 python:
             self.traits.apply(trait, truetrait=truetrait)
 
         def remove_trait(self, trait, truetrait=True):  # Removes trait effects
-            self.traits.remove(trait, truetrait=truetrait)
+            if self.effects['Chastity']['active'] and trait.id == "Virgin":
+                pass
+            else:
+                self.traits.remove(trait, truetrait=truetrait)
 
         # Effects:
         ### Effects Methods
@@ -2827,6 +2831,9 @@ init -9 python:
 
             elif effect == "Horny":
                 self.effects['Horny']['active'] = True
+                
+            elif effect == "Chastity":
+                self.effects['Chastity']['active'] = True
 
             elif effect == "Regeneration":
                 self.effects['Regeneration']['active'] = True
@@ -2951,6 +2958,9 @@ init -9 python:
 
             elif effect == "Horny":
                 self.effects['Horny']['active'] = False
+                
+            elif effect == "Chastity":
+                self.effects['Chastity']['active'] = False
 
             elif effect == "Regeneration":
                 self.effects['Regeneration']['active'] = False
