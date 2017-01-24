@@ -78,7 +78,7 @@
     },
     {
     "id": "Lolita",
-    "desc": "This girl looks very young and small (-melee damage).",
+    "desc": "This girl looks very young and small.",
     "blocks": ["Slim", "Chubby", "Athletic", "Manly"],
     "min": {"agility": 5},
     "max": {"vitality": -50, "health": -50},
@@ -118,7 +118,7 @@
    {
     "id": "Manly",
     "blocks": ["Lolita", "Slim", "Chubby", "Athletic"],
-    "desc": "This girl is very muscular. Perhaps even too muscular (+melee damage).",
+    "desc": "This girl is very muscular. Perhaps even too muscular.",
     "min": {"constitution": 15},
     "mod_stats": {"constitution": [1, 1], "charisma": [-5, 1], "agility": [-5, 1]},
     "max": {"health": 50, "vitality": 100, "charisma": -20, "attack": 15, "defence": 15, "agility": -20},
@@ -136,7 +136,7 @@
     "permanent": true,
     "client": true,
     "el_defence": {"healing": 0.3, "poison": 0.35},
-    "defence_bonus": {"melee":[20, 80, 50], "ranged":[15, 60, 50]}
+    "defence_bonus": {"melee":[20, 100, 20], "ranged":[20, 100, 20]}
     },
     {
     "id": "Scars",
@@ -163,11 +163,11 @@
     "max": {"magic": 20, "attack": 10, "defence": 10, "constitution": 15},
     "mod_skills": {"refinement": [-0.01, -0.06, 0.02], "service": [0, -0.03, -0.01]},
     "permanent": true,
-    "defence_bonus": {"magic":[0, 50, 50], "status":[5, 50, 50]}
+    "defence_bonus": {"magic":[100, 500, 50], "status":[100, 500, 50]}
     },
    {
     "id": "Bad Eyesight",
-    "desc": "This girl needs glasses to see properly (-ranged damage).",
+    "desc": "This girl needs glasses to see properly.",
     "mod": {"upkeep": 5},
     "mod_stats": {"attack": [-4, 1], "intelligence": [1, 2]},
     "max": {"agility": -5, "intelligence": 10, "attack": -15, "defence": -15},

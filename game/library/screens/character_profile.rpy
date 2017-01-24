@@ -751,7 +751,10 @@ screen char_profile():
 screen show_trait_info(trait=None, place="girl_trait"): # TO DO: upkeep made via mod field is not visible here; since upkeep is disabled atm, I dunno if it even should be made via mod or mod_stat
     $ trait_info = traits[trait]
     if place == "girl_trait":
-        $ al = (.7, .6)
+        if trait != "Manly":
+            $ al = (.69, .6)
+        else:
+            $ al = (.69, .2)
     elif place == "mc_trait":
         $ al = (.86, .45)
     elif place == "main_trait":
@@ -845,7 +848,7 @@ screen show_trait_info(trait=None, place="girl_trait"): # TO DO: upkeep made via
                                 elif (trait_info.mod_skills[i])[2] < 0:
                                     $ output += "{image=skills_perf_minus}"
                                 text (output) align .5, .5 size 15 color yellowgreen text_align .5
-                if trait_info.mod_ap or hasattr(trait_info, "evasion_bonus"):
+                if trait_info.mod_ap or hasattr(trait_info, "evasion_bonus") or hasattr(trait_info, "delivery_multiplier"):
                     label (u"Other:") text_size 20 text_color goldenrod text_bold True xalign .45
                     if trait_info.mod_ap:
                         frame:
@@ -869,9 +872,23 @@ screen show_trait_info(trait=None, place="girl_trait"): # TO DO: upkeep made via
                                 xsize 150
                                 action NullAction()
                                 if trait_info.evasion_bonus[1] < 0:
-                                    text ("Reduced Evasion") size 15 color yellowgreen align .5, .5 text_align .5
+                                    text ("Evasion -") size 15 color yellowgreen align .5, .5 text_align .5
                                 elif trait_info.evasion_bonus[1] > 0:
-                                    text ("Increased Evasion") size 15 color yellowgreen align .5, .5 text_align .5
+                                    text ("Evasion +") size 15 color yellowgreen align .5, .5 text_align .5
+                    if hasattr(trait_info, "delivery_multiplier"):
+                        for i in trait_info.delivery_multiplier:
+                            frame:
+                                xsize 150
+                                button:
+                                    background Null()
+                                    xsize 150
+                                    action NullAction()
+                                    $ output = str(i).title() + " damage "
+                                    if trait_info.delivery_multiplier.get(str(i)) > 0:
+                                        $ output += "+"
+                                    else:
+                                        $ output += "-"
+                                    text (output) align .5, .5 size 15 color yellowgreen text_align .5
             else:
                 label ("-no direct effects-") text_size 15 text_color goldenrod text_bold True xalign .45
 
