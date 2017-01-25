@@ -46,7 +46,6 @@ label interactions_kiss:
         $ hero.exp += randint(10, 20)
         $ char.exp += randint(10, 20)
         $ char.disposition += result
-        $ del result
         $ del temp
         $ del m
         $ del sub
