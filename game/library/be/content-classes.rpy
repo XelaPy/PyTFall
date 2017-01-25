@@ -222,10 +222,10 @@ init python:
             self.target = target
             self.source = source
             self.counter = randint(3, 5) # Poisoned for 3-5 turns
-            self.effect = effect / 1000.0
+            self.effect = effect # effect should be from 0 to 1, ie part of max health the poison takes every turn
             self.type = "poison"
             self.icon = ProportionalScale("content/gfx/be/poison1.png", 30, 30)
-
+            
             # We also add the icon to targets status overlay:
             target.status_overlay.append(self.icon)
 
