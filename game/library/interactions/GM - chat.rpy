@@ -268,7 +268,6 @@ label interactions_abouther:
         if result <= 0:
             $ result = randint(1,2)
         $ char.disposition += result
-        $ del result
         $ del m
         $ hero.exp += randint(4, 8)
         $ char.exp += randint(4, 8)
@@ -631,7 +630,6 @@ label interactions_interests:
         $ hero.exp += randint(4, 8)
         $ char.exp += randint(4, 8)
         $ del m
-        $ del result
         if char.joy >= 65:
             if dice(char.joy-20):
                 "It was a very lively and enjoyable conversation."
@@ -697,7 +695,6 @@ label interactions_flirt:
             $ result = rendint(1,2)
         $ char.disposition += result
         $ del m
-        $ del result
         if ct("Impersonal"):
             $ rc("To express it in words is very difficult...", "Infatuation and love are different. Infatuation will fade, but love's memory continues forever.", "I think it is a good thing to be loved by someone.")
         elif ct("Shy") and dice(40):

@@ -30,7 +30,6 @@ label interactions_hug:
         if result <= 0:
             $ result = rendint(1,2)
         $ char.disposition += result
-        $ del result
         $ del temp
         $ del m
         $ del n
@@ -146,7 +145,6 @@ label interactions_grabbutt:
         $ hero.exp += randint(8, 15)
         $ char.exp += randint(8, 15)
         $ char.disposition += result
-        $ del result
         $ del temp
         $ del m
         $ del n
@@ -258,7 +256,6 @@ label interactions_grabbreasts:
         $ hero.exp += randint(8, 15)
         $ char.exp += randint(8, 15)
         $ char.disposition += result
-        $ del result
         $ del temp
         $ del m
         $ del n
