@@ -480,19 +480,19 @@
     },
     {
     "id": "Chastity Charm",
-    "desc": "These charms were developed for sex slaves in training to preserve virginity intact by creating a dimensional paradox in the way of the inserted objects, keeping the price on slave market high. Good luck convincing a free girl to wear such thing.",
+    "desc": "A widely known charm developed for sex slaves in training to preserve virginity intact by creating a topological paradox in the way of the inserted objects, thus keeping the price on slave market high. Good luck convincing a free girl to wear such thing though.",
     "icon": "content/items/amulet/chas.png",
-    "price": 1500,
+    "price": 250,
     "sex": "female",
-    "chance": 35,
+    "chance": 75,
     "badness": 100,
     "eqchance": 0,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "amulet",
     "locations": ["Witches Hut", "General Store"],
-    "mod_skills": {"vaginal": [-0.5, -0.5, -0.5, 0, 0], "sex": [-0.05, -0.05, -0.05, 0, 0]},
-    "addeffects": ["Chastity"],
-    "goodtraits": ["Frigid"]
+    "mod_skills": {"vaginal": [-0.5, -0.5, -0.5, 0, 0], "sex": [-0.1, -0.1, -0.1, 0, 0]},
+    "max": {"vitality": -10},
+    "addeffects": ["Chastity"]
     }
   ]
