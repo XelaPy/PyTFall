@@ -223,3 +223,11 @@ label mc_setup_mage_researcher_android_loop:
 label mc_setup_mage_researcher_android_recharge:
     $ hero.apply_trait("Recharging")
     return
+    
+label mc_setup_mage_researcher_slime:
+    $ hero.apply_trait("Liquid Body Structure")
+    return
+    
+label mc_setup_mage_researcher_slime_water:
+    $ hero.apply_trait("Master of Water")
+    return

@@ -418,7 +418,15 @@ label build_mc_stories:
                                                                       l1="Looped Physiology",
                                                                       l1_img="content/gfx/interface/images/mc/loop.png",
                                                                       l2="Recharge",
-                                                                      l2_img="content/gfx/interface/images/mc/recharge.png"
+                                                                      l2_img="content/gfx/interface/images/mc/recharge.png",
+                                                                      r="Slime",
+                                                                      r_img="content/gfx/interface/images/mc/slime.jpg",
+                                                                      r0="Creature of Water",
+                                                                      r0_img="content/gfx/interface/images/mc/water.png"
+                                                                      # r1="Blood Master",
+                                                                      # r1_img="content/gfx/interface/images/mc/blood.png",
+                                                                      # r2="Perfect Reflexes",
+                                                                      # r2_img="content/gfx/interface/images/mc/reflexes.png"
                                                                       )
                                                                       
         mc_stories["Mage"]["MC"]["Researcher"]["Android"] = {} 
@@ -438,6 +446,24 @@ label build_mc_stories:
         mc_stories["Mage"]["MC"]["Researcher"]["Android"]["Recharge"] = {}
         mc_stories["Mage"]["MC"]["Researcher"]["Android"]["Recharge"]["text"] = "Most consumables that usually don't restore mp do it for you when you consume them."
         mc_stories["Mage"]["MC"]["Researcher"]["Android"]["Recharge"]["label"] = "mc_setup_mage_researcher_android_recharge"
+        
+        mc_stories["Mage"]["MC"]["Researcher"]["Slime"] = {} 
+        mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["header"] = "Slime"
+        mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["text"] = "Pure blood slimes cannot feel pleasure in the same way as non liquid creatures, they are still interested in mating, especially with people with strong magic gifts, like your father."
+        mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["label"] = "mc_setup_mage_researcher_slime"
+        mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["class"] = "Shooter"
+        
+        mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Creature of Water"] = {}
+        mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Creature of Water"]["text"] = "Water spells heal you instead of hurting, but your Electricity spells are almost ineffective."
+        mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Creature of Water"]["label"] = "mc_setup_mage_researcher_slime_water"
+        
+        # mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Looped Physiology"] = {}
+        # mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Looped Physiology"]["text"] = "Healing spells don't affect you, but your vitality cannot become zero no matter what."
+        # mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Looped Physiology"]["label"] = "mc_setup_mage_researcher_android_loop"
+        
+        # mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Recharge"] = {}
+        # mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Recharge"]["text"] = "Most consumables that usually don't restore mp do it for you when you consume them."
+        # mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Recharge"]["label"] = "mc_setup_mage_researcher_android_recharge"
                                                                       
         mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"] = {} 
         mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["header"] = "Winter Fay"
