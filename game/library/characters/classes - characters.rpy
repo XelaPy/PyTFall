@@ -2440,6 +2440,9 @@ init -9 python:
             elif "Armor Expert" in self.traits and item.slot in ["smallweapon", "weapon", "body", "cape", "feet", "wrist", "head"]:
                 self.stats.max["defence"] += int(item.price*0.01)
                 self.mod_stat("defence", int(item.price*0.01))
+            elif "Arcane Archer" in self.traits and item.type in ["bow", "crossbow", "throwing"]:
+                self.stats.max["magic"] += int(item.max["attack"]*0.5)
+                self.stats.imod["magic"] += int(item.mod["attack"]*0.5)
             for key in item.min:
                 self.stats.min[key] += item.min[key]
                 if "Left-Handed" in self.traits and item.slot == "smallweapon":
@@ -2651,6 +2654,9 @@ init -9 python:
             elif "Armor Expert" in self.traits and item.slot in ["smallweapon", "weapon", "body", "cape", "feet", "wrist", "head"]:
                 self.stats.max["defence"] -= int(item.price*0.01)
                 self.mod_stat("defence", -int(item.price*0.01))
+            elif "Arcane Archer" in self.traits and item.type in ["bow", "crossbow", "throwing"]:
+                self.stats.max["magic"] -= int(item.max["attack"]*0.5)
+                self.stats.imod["magic"] -= int(item.mod["attack"]*0.5)
             for key in item.min:
                 if key in self.STATS:
                     # if (self.stats.min[key] - item.min[key]) >= 0: @Review, prolly no longer required.

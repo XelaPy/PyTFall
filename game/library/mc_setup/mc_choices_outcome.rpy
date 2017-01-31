@@ -231,3 +231,11 @@ label mc_setup_mage_researcher_slime:
 label mc_setup_mage_researcher_slime_water:
     $ hero.apply_trait("Master of Water")
     return
+    
+label mc_setup_mage_researcher_slime_aarcher:
+    $ hero.apply_trait("Arcane Archer")
+    return
+    
+label mc_setup_mage_researcher_slime_res:
+    $ hero.apply_trait("Resilience")
+    return

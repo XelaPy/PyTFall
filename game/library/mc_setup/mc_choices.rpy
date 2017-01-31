@@ -422,11 +422,11 @@ label build_mc_stories:
                                                                       r="Slime",
                                                                       r_img="content/gfx/interface/images/mc/slime.jpg",
                                                                       r0="Creature of Water",
-                                                                      r0_img="content/gfx/interface/images/mc/water.png"
-                                                                      # r1="Blood Master",
-                                                                      # r1_img="content/gfx/interface/images/mc/blood.png",
-                                                                      # r2="Perfect Reflexes",
-                                                                      # r2_img="content/gfx/interface/images/mc/reflexes.png"
+                                                                      r0_img="content/gfx/interface/images/mc/water.png",
+                                                                      r1="Arcane Archer",
+                                                                      r1_img="content/gfx/interface/images/mc/bow.png",
+                                                                      r2="Point Resilience",
+                                                                      r2_img="content/gfx/interface/images/mc/slime.png"
                                                                       )
                                                                       
         mc_stories["Mage"]["MC"]["Researcher"]["Android"] = {} 
@@ -457,13 +457,13 @@ label build_mc_stories:
         mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Creature of Water"]["text"] = "Water spells heal you instead of hurting, but your Electricity spells are almost ineffective."
         mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Creature of Water"]["label"] = "mc_setup_mage_researcher_slime_water"
         
-        # mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Looped Physiology"] = {}
-        # mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Looped Physiology"]["text"] = "Healing spells don't affect you, but your vitality cannot become zero no matter what."
-        # mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Looped Physiology"]["label"] = "mc_setup_mage_researcher_android_loop"
+        mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Point Resilience"] = {}
+        mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Point Resilience"]["text"] = "Ranged attacks are not effective against you, but on the other hand melee weapons are very dangerous."
+        mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Point Resilience"]["label"] = "mc_setup_mage_researcher_slime_res"
         
-        # mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Recharge"] = {}
-        # mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Recharge"]["text"] = "Most consumables that usually don't restore mp do it for you when you consume them."
-        # mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Recharge"]["label"] = "mc_setup_mage_researcher_android_recharge"
+        mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Arcane Archer"] = {}
+        mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Arcane Archer"]["text"] = "Most ranged weapons give bonus to magic equal to their bonus to attack."
+        mc_stories["Mage"]["MC"]["Researcher"]["Slime"]["Arcane Archer"]["label"] = "mc_setup_mage_researcher_slime_aarcher"
                                                                       
         mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"] = {} 
         mc_stories["Mage"]["MC"]["Sorcerer"]["Winter Fay"]["header"] = "Winter Fay"
