@@ -1,6 +1,3 @@
-init:
-    image scroll = ProportionalScale("content/gfx/frame/library_page.jpg", 700, 600)
-    image blueprint = ProportionalScale("content/events/StoryI/blueprint.png", 660, 540)
 label test_matrix:
     stop music
     stop world
