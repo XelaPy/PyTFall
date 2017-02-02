@@ -544,7 +544,6 @@ init: # Screens:
                 align .5, .99
                 text (u"{=stats_text}{color=[bisque]}{size=-1}%s" % tt.value) outlines [(1, "#3a3a3a", 0, 0)]
 
-
     screen building_management_leftframe_building_mode:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
@@ -1674,12 +1673,15 @@ init: # Screens:
             button:
                 xalign .5
                 xysize 300, 25
-                action ToggleField(area, "building_camp")
+                if not area.camp:
+                    action ToggleField(area, "building_camp")
+                else:
+                    action NullAction()
                 python:
                     if area.camp:
                         status = "Complete"
                     elif area.building_camp:
-                        status = "%d%% Complete" % (100.0*area.camp_build_points_current/area.camp_build_points_required)
+                        status = area.camp_build_status + " Complete"
                     else:
                         status = "Unknown"
                 text "Camp status: [status]" align 0.01, .5

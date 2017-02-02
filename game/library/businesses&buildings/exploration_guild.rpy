@@ -12,7 +12,7 @@ init -9 python:
             self.risk = 50
             self._explored = 0
             self.items = dict()
-            self.girls = dict()
+            self.chars = dict()
             self.main = False
             self.area = ""
             self.mobs = {}
@@ -33,6 +33,10 @@ init -9 python:
             self.building_camp = False
             self.camp_build_points_current = 0
             self.camp_build_points_required = 1000
+
+        @property
+        def camp_build_status(self):
+            return "%d%%" % (100.0*self.camp_build_points_current/self.camp_build_points_required)
 
         @property
         def teams(self):
@@ -168,6 +172,10 @@ init -6 python:
             # jump("fg_management")
 
         def log(self, txt, name="", nd_log=True, ui_log=False, **kwargs):
+            if config.debug:
+                devlog.info("Logging SE: {}: {} at {}\n    {}".format(self.area.name, self.team.name, self.guild.env.now, txt))
+
+
             obj = ExplorationLog(name, txt, nd_log, ui_log, **kwargs)
             self.logs.append(obj)
             return obj
@@ -351,6 +359,9 @@ init -6 python:
 
         def exploration_controller(self, tracker):
             # Controls the exploration by setting up proper simpy processes.
+            # Prep aliases:
+            process = self.env.process
+            area = tracker.obj_area
 
             # Convert AP to exploration points:
             self.convert_AP(tracker)
@@ -364,21 +375,23 @@ init -6 python:
             # Set the state to traveling back if we're done:
             if tracker.day > tracker.days:
                 tracker.state = "traveling back"
+            elif area.building_camp:
+                tracker.state = "setting_up_basecamp"
 
             while self.env.now < 99:
                 if tracker.state == "traveling to":
-                    yield self.env.process(self.travel_to(tracker))
+                    yield process(self.travel_to(tracker))
                 elif tracker.state == "exploring":
-                    yield self.env.process(self.explore(tracker))
+                    yield process(self.explore(tracker))
                 elif tracker.state == "camping":
-                    yield self.env.process(self.camping(tracker))
+                    yield process(self.camping(tracker))
                 elif tracker.state == "traveling back":
-                    result = yield self.env.process(self.travel_back(tracker))
+                    result = yield process(self.travel_back(tracker))
                     if result == "back2guild":
                         tracker.finish_exploring() # Build the ND report!
                         self.env.exit() # We're done...
                 elif tracker.state == "setting_up_basecamp":
-                    pass
+                    yield process(self.setup_basecamp(tracker))
 
             # if config.debug:
                 # tracker.log("Debug: The day has come to an end for {}.".format(tracker.team.name))
@@ -730,20 +743,20 @@ init -6 python:
                 return "defeat"
 
         def setup_basecamp(self, tracker):
+            # New type of shit, trying to get teams to coop here...
+            area = tracker.obj_area
             team = tracker.team
+            teams = [t.team for t in area.trackers if t.state == "setting_up_basecamp"]
 
             # Since we only have one basecamp, we want all teams sent to this location to cooperate setting it up.
             # Code presently is a bit clumsy but it should get the job done.
-            if self.obj_area.building_camp: # Process has started and this team just waits for it's process to idlely pass by:
-                while 1:
-                    yield self.env.timeout(5)
-            self.obj_area.building_camp = True
+            # if area.building_camp: # Process has started and this team just waits for it's process to idlely pass by:
+            #     while 1:
+            #         yield self.env.timeout(5)
+            # area.building_camp = True
 
-            # From here in out we work with all teams in the area that are setting up the camp:
-            teams = [t.team for t in self.obj_area.trackers if t.state == "setting_up_basecamp"]
-
-            # TODO: Make sure this is adapted to building skills once we have it!
-            build_power = max(.5, sum(i.get_skill("exploration")/100.0 for i in chain.from_iterable(teams))) # We should have building skill in the future which could be used here instead.
+            # TODO: Make sure this is adapted to building skill(s) once we have it!
+            build_power = max(.5, sum(i.get_skill("exploration")/100.0 for i in team)) # We should have building skill in the future which could be used here instead.
 
             if len(teams) > 1:
                 temp = "Teams: {} are setting up basecamp!".format(", ".join([t.name for t in teams]))
@@ -752,11 +765,22 @@ init -6 python:
             tracker.log(temp)
 
             while 1:
+                if area.camp_build_points_current >= area.camp_build_points_required:
+                    # Team done setting up the encampment:
+                    temp = "Encampment is finished! Team is moving onto exploration!"
+                    area.camp = True
+                    tracker.log(temp)
+                    self.env.exit()
+
+                area.camp_build_points_current += build_power
                 yield self.env.timeout(5) # We build...
 
                 if not self.env.now % 25:
-                    temp = "Basecamp is ".format(tracker.team.name)
+                    temp = "Basecamp is {} complete!".format(area.camp_build_status)
                     tracker.log(temp)
+
+                if self.env.now >= 99:
+                    self.env.exit()
 
         # AP:
         def convert_AP(self, tracker):
@@ -767,3 +791,33 @@ init -6 python:
             for m in team:
                 AP + m.AP
             tracker.points = AP * 100
+
+screen se_debugger():
+    zorder 200
+    # Useful SE info cause we're not getting anywhere otherwise :(
+    viewport:
+        xysize (1280, 720)
+        scrollbars "vertical"
+        mousewheel True
+        has vbox
+
+        for area in fg_areas.values():
+            if area.trackers:
+                text area.name
+                for t in area.trackers:
+                    hbox:
+                        xsize 500
+                        spacing 5
+                        text t.team.name xalign .0
+                        text t.state xalign 1.0
+                    hbox:
+                        xsize 500
+                        spacing 5
+                        text str(t.day) xalign .0
+                        text str(t.days) xalign 1.0
+                    null height 3
+                add Solid("F00", xysize=(1280, 5))
+
+    textbutton "Exit":
+        align .5, .1
+        action Hide("se_debugger")
