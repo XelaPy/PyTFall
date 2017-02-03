@@ -1686,6 +1686,12 @@ init: # Screens:
                         status = "Unknown"
                 text "Camp status: [status]" align 0.01, .5
 
+            button:
+                xalign .5
+                xysize 300, 25
+                action ToggleField(area, "capture_chars")
+                text "Capture Chars: [area.capture_chars]" align 0.01, .5
+
 
         # Mid-Frame:
         frame:
