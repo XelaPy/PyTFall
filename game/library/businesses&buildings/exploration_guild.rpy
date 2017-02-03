@@ -12,7 +12,6 @@ init -9 python:
             self.risk = 50
             self._explored = 0
             self.items = dict()
-            self.chars = dict()
             self.main = False
             self.area = ""
             self.mobs = {}
@@ -33,6 +32,11 @@ init -9 python:
             self.building_camp = False
             self.camp_build_points_current = 0
             self.camp_build_points_required = 1000
+
+            # Chars and char capture:
+            self.capture_chars = False
+            self.chars = dict()
+
 
         @property
         def camp_build_status(self):
@@ -155,10 +159,10 @@ init -6 python:
             self.flag_red = False
             self.flag_green = False
             self.stats = dict(attack=0,
-                                     defence=0,
-                                     agility=0,
-                                     magic=0,
-                                     exp=0)
+                              defence=0,
+                              agility=0,
+                              magic=0,
+                              exp=0)
 
             self.logs = list() # List of all log object we create for this exploration run.
 
@@ -276,12 +280,11 @@ init -6 python:
             self.teams.append(Team("Avengers", free=1))
             if config.debug:
                 for i in range(5):
-                    self.teams.append(Team(str(i), free=1))
+                    self.teams.append(Team("Team " + str(i), free=1))
 
             self.workable = True
             self.focus_team = None
             self.team_to_launch_index = 0
-            self.capture_chars = False # Do we capture chars during exploration in this building. # Move to Areas?
 
         # Teams control/sorting/grouping methods:
         def teams_to_launch(self):
@@ -362,6 +365,7 @@ init -6 python:
             # Prep aliases:
             process = self.env.process
             area = tracker.obj_area
+            team = tracker.team
 
             # Convert AP to exploration points:
             self.convert_AP(tracker)
@@ -382,7 +386,11 @@ init -6 python:
                 if tracker.state == "traveling to":
                     yield process(self.travel_to(tracker))
                 elif tracker.state == "exploring":
-                    yield process(self.explore(tracker))
+                    result = yield process(self.explore(tracker))
+                    if result == "captured char":
+                        char = tracker.captured_char
+                        temp = "{} captured!".format()
+
                 elif tracker.state == "camping":
                     yield process(self.camping(tracker))
                 elif tracker.state == "traveling back":
@@ -552,7 +560,8 @@ init -6 python:
             Idea is to keep as much of this logic as possible and adapt it to work with SimPy...
             """
             items = list()
-            area = tracker.area
+            area = tracker.obj_area
+            carea = tracker.area
             team = tracker.team
             fought_mobs = 0
             encountered_opfor = 0
@@ -601,18 +610,18 @@ init -6 python:
                     cash += 100 # randint(int(tracker.cash_limit/50*tracker.day*.05), int(tracker.cash_limit/15*tracker.day*.05))
 
                 #  =================================================>>>
-                # Girls capture (We break off exploration run in case of success):
-                # if tracker.capture_chars:
-                    # for g in area.girls:
-                        # if g in chars and dice(area.girls[g] + tracker.day*0.1) and g.location == "se":
-                            # tracker.captured_girl = None # chars[g] # TODO: Properly create the rchar...
-                            # self.env.exit("captured char")
-
-                        # TODO: g in rchars looks like broken code! This also need to be updated and reviewed.
-                        # elif g in rchars and dice(area.girls[g] + self.day*0.1):
-                            # # new_random_girl = build_rc()
-                            # self.captured_girl = build_rc()
-                            # self.env.exit("captured rchar")
+                # Copied area must be used for checks here as it preserves state.
+                if carea.capture_chars:
+                    for c in area.chars:
+                        # Uniques (Or prebuilt Randoms)!
+                        # 0 Chance atm.
+                        if c in chars and dice(area.girls[c] + tracker.day*0.1 - 1000) and g.location == "se":
+                            tracker.captured_char = None # chars[g] # TODO: Properly create the rchar...
+                            self.env.exit("captured char")
+                        # Randoms!
+                        elif c in rchars and dice(area.girls[c] + tracker.day*0.1 + 100): # We ensure capture for testing purposes.
+                            tracker.captured_char = build_rc()
+                            self.env.exit("captured rchar")
 
                 if not fought_mobs:
 

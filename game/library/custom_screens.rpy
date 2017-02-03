@@ -766,7 +766,7 @@ init: # PyTFall:
             anchor (xval, yval)
             has vbox
             
-            if isinstance(char.location, NewStyleUpgradableBuilding):
+            if isinstance(char.location, UpgradableBuilding):
                 # Jobs:
                 $ jobs = char.location.get_valid_jobs(char)
                 for i in jobs:
@@ -863,7 +863,7 @@ init: # PyTFall:
             has vbox
             # Updating to new code: *Ugly code atm, TODO: Fix IT!
             for building in hero.buildings:
-                if isinstance(building, NewStyleUpgradableBuilding):
+                if isinstance(building, UpgradableBuilding):
                     if char.action in building.jobs:
                         $ can_keep_action = True
                     else:
@@ -919,7 +919,7 @@ init: # PyTFall:
             has vbox
             
             for building in hero.buildings:
-                if isinstance(building, NewStyleUpgradableBuilding) and building.habitable:
+                if isinstance(building, UpgradableBuilding) and building.habitable:
                     textbutton "[building.name]":
                         action SelectedIf(char.home==building), SetField(char, "home", building), Hide("set_home_dropdown")
             textbutton "Streets":

@@ -1,23 +1,23 @@
 label realtor_agency:
-    
+
     # Music related:
     if not "shops" in ilists.world_music:
         $ ilists.world_music["shops"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("shops")]
     if not global_flags.has_flag("keep_playing_music"):
         play world choice(ilists.world_music["shops"]) fadein 1.5
-    
+
     hide screen main_street
-    
+
     scene bg realtor_agency
     with dissolve
-    
+
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
 
     $ g = Character("{color=[rosybrown]}Rose", color=rosybrown, show_two_window=True)
 
     if not global_flags.has_flag("visited_ra"):
-        
+
         $ nvl_ra = Character(None, kind=nvl)
         nvl_ra "After entering the real-estate office the first thing that hit you was the brightness."
         nvl_ra "It was far brighter then the outside world. Your eyes quickly adapted and you noticed the source of the light."
@@ -29,28 +29,28 @@ label realtor_agency:
         nvl_ra "She was a mature type woman with glasses, that surely wasn't ashamed of her female attributes."
         nvl_ra "Blouse and skirt that she wore was well fitted, and stick really tightly to her body emphasizing her breasts and hips."
         nvl_ra "The black stockings that she was wearing also matched her perfectly, underlining her beautiful legs. The finishing touch was her shoes with little, cute roses on the toes, that you almost didn't notice."
-        
+
         show npc rose at right with dissolve
-        
+
         g "Welcome to Rose Real Estates."
         extend " My name is Rose. I'm the owner and the realtor."
         g "Please have a seat and take a look at some of our offers."
-        
+
         $ global_flags.set_flag("visited_ra")
-        
+
     else:
         "Room is still bright and filled with the same sweet scent."
         show npc rose
-        
-        
+
+
     # Added the next three lines to disable this feature without crashing the game   --fenec250
-    
+
     $ market_buildings = sorted(set(chain(businesses.values(), buildings.values())) - set(hero.buildings), key = lambda x: x.id)
     $ focus = None
-    
+
     show screen realtor_agency
     with fade
-    
+
     while 1:
 
         $ result = ui.interact()
@@ -70,18 +70,18 @@ label realtor_agency:
         if result[0] == 'control':
             if result[1] == 'return':
                 jump realtor_exit
-               
+
 label realtor_exit:
     $ renpy.music.stop(channel="world")
     hide screen realtor_agency
     jump city
-    
-    
+
+
 screen realtor_agency():
     modal True
     zorder 1
-    
-    
+
+
     default tt = Tooltip("Please take a look at some of our offers!")
 
     if market_buildings:
@@ -166,12 +166,6 @@ screen realtor_agency():
                                         xysize 380, 24
                                         text "Rooms:" yalign 0.5
                                         label (u"{color=[ivory]}%s/%s" % (focus.rooms, focus.maxrooms)) align (1.0, 0.5)
-                                    if isinstance(focus, UpgradableBuilding):
-                                        frame:
-                                            xysize 380, 24
-                                            text "Slots:" yalign 0.5
-                                            label (u"{color=[ivory]}%s/%s" % (focus.used_upgrade_slots, focus.upgrade_slots)) align (1.0, 0.5)
-                                
                                     if isinstance(focus, FamousBuilding):
                                         frame:
                                             xysize 380, 24
@@ -181,15 +175,15 @@ screen realtor_agency():
                                             xysize 380, 24
                                             text "Reputation:" yalign 0.5
                                             label (u"%s/%s" % (focus.rep, focus.maxrep)) align (1.0, 0.5)
-                                
+
                                     if isinstance(focus, Building):
                                         frame:
                                             xysize 380, 24
                                             text "Max Rank:" yalign 0.5
                                             label (u"%s" % (focus.maxrank)) align (1.0, 0.5)
-                                    
-                        null height 50            
-                        
+
+                        null height 50
+
                         frame:
                             background Frame("content/gfx/frame/ink_box.png", 10, 10)
                             xalign 0.5
@@ -197,9 +191,9 @@ screen realtor_agency():
                             xpadding 10
                             ypadding 10
                             text ("{=content_text}{color=[ivory]}[focus.desc]")
-                            
-                        null height 100    
-                                    
+
+                        null height 100
+
                         button:
                             xalign 0.5
                             style "blue1"

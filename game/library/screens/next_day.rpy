@@ -7,7 +7,7 @@ init python:
 
         base = {"IDLE": 0, "Service": 0, "Warriors": 0, "Managers": 0}
 
-        for setup in ["ALL"] + [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]:
+        for setup in ["ALL"] + [b for b in hero.buildings if isinstance(b, UpgradableBuilding)]:
             actions[setup] = base.copy()
             rest[setup] = base.copy()
             events[setup] = base.copy()
@@ -153,7 +153,7 @@ label next_day_calculations:
         """
     $ tl.timer("Buildings")
     # Ren'Py script:
-    $ nd_buildings = list(b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding))
+    $ nd_buildings = list(b for b in hero.buildings if isinstance(b, UpgradableBuilding))
 
     $ tl.timer("Rest (1)")
     $ ndr_chars = list(c for c in hero.chars if c.location != "Exploring" and (isinstance(c.action, Rest) or isinstance(c.action, AutoRest))) # Next Day Resting Chars
@@ -201,7 +201,6 @@ label next_day_calculations:
             if school.is_school:
                 tl.timer("School.next_day", nested=False)
                 school.next_day()
-
             else:
                 tl.timer("TrainingDungeon.next_day", nested=False)
                 school.next_day()
@@ -472,7 +471,7 @@ screen next_day():
                                 text "Customers:" xpos 3
                                 python:
                                     clients = 0
-                                    for b in [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]:
+                                    for b in [b for b in hero.buildings if isinstance(b, UpgradableBuilding)]:
                                         clients = clients + b.total_clients
                                 text "[clients]" style_suffix "value_text"  xpos 135
 
@@ -517,7 +516,7 @@ screen next_day():
                     has vbox
 
                     # Buildings:
-                    for building in [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]:
+                    for building in [b for b in hero.buildings if isinstance(b, UpgradableBuilding)]:
                         # Image/Name:
                         null height 4
                         label "[building.name]" xpos 10

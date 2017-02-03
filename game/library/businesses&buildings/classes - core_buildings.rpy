@@ -4,11 +4,10 @@ init -10 python:
     # BaseBuilding = Base class, needed if no other.
     # FamousBuilding = Adds fame and reputation mechanics to the building.
     # DirtyBuilding = Adds dirt and cleaning to the building.
-    # UpgradableBuilding = Adds upgrades and adverts to the building.
+    # UpgradableBuilding = Adds upgrades  to the building.
     #
     # Examples:
-    # class CityJail(Building): <-- Just a building
-    # class TraningDungeon(UpgradableBuilding): <-- A Building that can be upgraded.
+    # class CityJail(Building): <-- Just a building6
     # class Brothel(UpgradableBuilding, DirtyBuilding, FamousBuilding): <-- A building will upgrade, dirt and fame mechanics.
     #
     """Core order for SimPy jobs loop:2
@@ -377,137 +376,7 @@ init -10 python:
                 self.dirt = 0
 
 
-    class UpgradableBuilding(BaseBuilding):
-        """
-        An extension to Buildings that allows them to be upgradable.
-        """
-        # The flag for an upgrade that increases the room price
-        ROOM_UPGRADE = "room_upgrade"
-
-        # The flag for an upgrade that increases the security rating
-        SECURITY_UPGRADE = "security_bonus"
-
-        # The flag for an upgrade that increases the whore cost.
-        WHORE_MULTIPLIER = "whore_mult"
-
-        def __init__(self, *args, **kwargs):
-            """
-            Creates the necessary data for building information.
-            """
-            super(UpgradableBuilding, self).__init__(*args, **kwargs)
-
-            self.upgrade_slots = kwargs.pop("upgrade_slots", 0)
-            self.upgrades = OrderedDict()
-            self.used_upgrade_slots = 0
-
-            self.adverts = OrderedDict()
-
-            # Runaway Manager modifier for runaway chances.
-            self.security_upgrade_tree = kwargs.pop("sutree", "Security")
-
-        def get_room_price(self):
-            """
-            Get the price of a new room.
-            """
-            return self.roomprice * self.mod + self.get_upgrade_flag("room_upgrade")
-
-        def get_upgrade_flag(self, name):
-            """
-            Gets the total of a specific flag for those upgrades that are active.
-            name = The name of the flag.
-            """
-            f = 0
-            for i in self.upgrades:
-                i = self.upgrades[i]
-                for j in i:
-                    if name in i[j] and i[j]["active"]: f += i[j][name]
-
-            return f
-
-        def get_upgrade_mod(self, name):
-            """
-            Gets the modifier for the upgrades.
-            name = The name of the group.
-            """
-            if name not in self.upgrades: return 0
-
-            f = 0
-            for i in xrange(1, len(self.upgrades[name])+1):
-                if self.has_upgrade(name, i): f += 1
-
-            return f
-
-        def get_upgrade_price(self, dict):
-            """
-            Get the price to upgrade the location.
-            dict = The upgrade to price.
-            """
-            if "room_dependant" in dict:
-                return dict["price"] + dict["price"]/10*self.rooms
-
-            else:
-                return dict["price"] * self.mod
-
-        def gui_security_bar(self):
-            """
-            Returns a tuple of (Show security bar, Max value).
-            """
-            return [len(self.get_girls("Guard")) > 0, 20 + self.get_upgrade_flag("security_bonus")]
-
-        def has_upgrade(self, name, index):
-            """
-            Gets whether an upgrade is installed or not.
-            name = The name of the group.
-            index = The index or name of upgrade.
-            """
-            if name in self.upgrades:
-                up = self.upgrades[name]
-                if isinstance(index, int):
-                    for i in up:
-                        if up[i]["id"] == index:
-                            return up[i]["active"]
-                    else:
-                        return False
-
-                else:
-                    if index in up:
-                        return up[index]["active"]
-                    else:
-                        for i in up:
-                            if up[i]["name"] == index:
-                                return up[i]["active"]
-                        else:
-                            return False
-            else:
-                return False
-
-        def init(self):
-            """Activate any upgrades from plain properties in the instance, then remove them.
-
-            Meant for json completion.
-            """
-            for key in self.upgrades:
-                if hasattr(self, key):
-                    amount = getattr(self, key)
-
-                    for ukey in self.upgrades[key]:
-                        if self.upgrades[key][ukey]["id"] <= amount: self.upgrades[key][ukey]['available'] = True
-
-                    delattr(self, key)
-
-        def use_adverts(self):
-            """Whether this building has any adverts.
-            """
-            return len(self.adverts) > 0
-
-        @property
-        def use_upgrades(self):
-            """Whether this building has any upgrades.
-            """
-            return len(self.upgrades) > 0
-
-
-    class NewStyleAdvertableBuilding(BaseBuilding):
+    class AdvertableBuilding(BaseBuilding):
         def add_adverts(self, adverts):
             self._adverts = adverts
 
@@ -552,13 +421,13 @@ init -10 python:
             return len(self._adverts) > 0
 
 
-    class NewStyleUpgradableBuilding(BaseBuilding):
+    class UpgradableBuilding(BaseBuilding):
         def __init__(self, *args, **kwargs):
             """
             @ Last review:
             Alex: I've moved everything except adverts and methods from Building class here.
             """
-            super(NewStyleUpgradableBuilding, self).__init__(*args, **kwargs)
+            super(UpgradableBuilding, self).__init__(*args, **kwargs)
             self._upgrades = list() #  New style Upgrades!
             self.allowed_upgrades = [Bar, StripClub, BrothelBlock]
 

@@ -121,7 +121,7 @@ init -9 python:
             for char in chars.values():
                 char.next_day()
             
-            businesses = [b for b in hero.buildings if isinstance(b, NewStyleUpgradableBuilding)]
+            businesses = [b for b in hero.buildings if isinstance(b, UpgradableBuilding)]
             for b in businesses:
                 b.nd_log_income()
             
