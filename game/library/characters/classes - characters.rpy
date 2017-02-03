@@ -1699,9 +1699,6 @@ init -9 python:
             if isinstance(self.location, Apartment):
                 ap = ap + 1
 
-            if isinstance(self.location, TrainingDungeon):
-                ap = ap + (self.location.mod_housing() * 3)
-
             return self.baseAP + ap
 
         def get_free_ap(self):
@@ -2837,7 +2834,7 @@ init -9 python:
 
             elif effect == "Horny":
                 self.effects['Horny']['active'] = True
-                
+
             elif effect == "Chastity":
                 self.effects['Chastity']['active'] = True
 
@@ -2964,7 +2961,7 @@ init -9 python:
 
             elif effect == "Horny":
                 self.effects['Horny']['active'] = False
-                
+
             elif effect == "Chastity":
                 self.effects['Chastity']['active'] = False
 
@@ -3457,7 +3454,7 @@ init -9 python:
             """
             The buildings that can be upgraded.
             """
-            return [building for building in self.buildings if isinstance(building, NewStyleUpgradableBuilding) or isinstance(building, UpgradableBuilding)]
+            return [building for building in self.buildings if isinstance(building, UpgradableBuilding) or isinstance(building, UpgradableBuilding)]
 
         def add_building(self, building):
             if building not in self._buildings:

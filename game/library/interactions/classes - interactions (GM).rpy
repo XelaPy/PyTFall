@@ -329,7 +329,7 @@ init -1 python:
 
             self.start("girl_interactions", girl, img, exit, bg)
 
-        def start_tr(self, girl, img=None, exit="char_profile", bg="bg sex_dungeon_1"):
+        def start_tr(self, girl, img=None, exit="char_profile", bg="sex_dungeon_1"):
             """
             Starts the training scenario.
             girl = The girl to use.

@@ -8,6 +8,8 @@ init -9 python:
         The jail where escaped slaves can turn up. May do other things later.
         """
 
+        # TODO: Needs recoding!
+
         def __init__(self):
             super(CityJail, self).__init__()
             self.worker = None
@@ -167,7 +169,6 @@ init -9 python:
                         # Auto-Selloff in case of 20+ days:
                         self.sell_captured(auto=True)
                         pytfall.temp_text.append("Jail keepers sold off: {color=[red]}%s{/color}!" % i.name)
-
 
         def get_fees4captured(self, girl=None):
             # 200 for registration with city hall + 30 per day for "rent"
@@ -430,9 +431,10 @@ init -9 python:
             NextDayEvents.append(evt)
 
 
-    class TrainingDungeon(UpgradableBuilding):
+    class TrainingDungeon(UpgradableBuilding, DirtyBuilding):
         """
         Building that represents the hero's dungeon to train girls in.
+        Presently unused...
         """
 
         NAME = "Training Dungeon"
@@ -467,64 +469,68 @@ init -9 python:
             self.one_off_events = list()
 
             # Give the girls bonus' to obedience
-            self.upgrades["Rewards"] = {
-                "1": {"id": 1, "active": False, "available": True, "price": 10, "name": "Comfortable Beds", "desc": "Give the girls a comfortable place to rest during training.",
-                      "img": "content/buildings/dungeon/girlhouse.jpg"},
-                "2": {"id": 2, "active": False, "available": True, "price": 10, "name": "Garden", "desc": "Create a secured garden to allow the girls outside while training.",
-                      "img": "content/buildings/dungeon/garden.jpg"},
-                "3": {"id": 3, "active": False, "available": True, "price": 10, "name": "Baths", "desc": "Allow the girls to wash off after training.",
-                      "img": "content/buildings/dungeon/bath.jpg"}
-            }
+            # self.upgrades["Rewards"] = {
+            #     "1": {"id": 1, "active": False, "available": True, "price": 10, "name": "Comfortable Beds", "desc": "Give the girls a comfortable place to rest during training.",
+            #           "img": "content/buildings/dungeon/girlhouse.jpg"},
+            #     "2": {"id": 2, "active": False, "available": True, "price": 10, "name": "Garden", "desc": "Create a secured garden to allow the girls outside while training.",
+            #           "img": "content/buildings/dungeon/garden.jpg"},
+            #     "3": {"id": 3, "active": False, "available": True, "price": 10, "name": "Baths", "desc": "Allow the girls to wash off after training.",
+            #           "img": "content/buildings/dungeon/bath.jpg"}
+            # }
 
             # Give the girls penalties to disobedience
-            self.upgrades["Punishments"] = {
-                "1": {"id": 1, "active": False, "available": True, "price": 10, "name": "Cells", "desc": "Give the trouble makers barren cells to lower their activity.",
-                      "img": "content/buildings/dungeon/cells.jpg"},
-                "2": {"id": 2, "active": False, "available": True, "price": 10, "name": "Stocks", "desc": "Ensure that those thinking of disobeying know the consequences.",
-                      "img": "content/buildings/dungeon/stocks.jpg"},
-                "3": {"id": 3, "active": False, "available": True, "price": 10, "name": "Whips and Chains", "desc": "Allow those working in the dungeon some respite from their hard work.",
-                      "img": "content/buildings/dungeon/chains.png"}
-            }
+            # self.upgrades["Punishments"] = {
+            #     "1": {"id": 1, "active": False, "available": True, "price": 10, "name": "Cells", "desc": "Give the trouble makers barren cells to lower their activity.",
+            #           "img": "content/buildings/dungeon/cells.jpg"},
+            #     "2": {"id": 2, "active": False, "available": True, "price": 10, "name": "Stocks", "desc": "Ensure that those thinking of disobeying know the consequences.",
+            #           "img": "content/buildings/dungeon/stocks.jpg"},
+            #     "3": {"id": 3, "active": False, "available": True, "price": 10, "name": "Whips and Chains", "desc": "Allow those working in the dungeon some respite from their hard work.",
+            #           "img": "content/buildings/dungeon/chains.png"}
+            # }
 
             # Give the girls penalties to running away
-            self.upgrades["Security"] = {
-                "1": {"id": 1, "active": False, "available": True, "price": 10, "name": "Manacles", "desc": "Helps prevent the escape of slaves by restricting their movement.",
-                      "img": "content/buildings/dungeon/manacles.jpg", "security_bonus": 30},
-                "2": {"id": 2, "active": False, "available": True, "price": 10, "name": "Better Locks", "desc": "Ensure that the locks on all the doors are sturdy and harder to break.",
-                      "img": "content/buildings/dungeon/key.png", "security_bonus": 25},
-                "3": {"id": 3, "active": False, "available": True, "price": 10, "name": "Guard House", "desc": "Allow the guards a place to rest during their off-hours.",
-                      "img": "content/buildings/dungeon/guardhouse.jpg", "security_bonus": 25}
-            }
+            # self.upgrades["Security"] = {
+            #     "1": {"id": 1, "active": False, "available": True, "price": 10, "name": "Manacles", "desc": "Helps prevent the escape of slaves by restricting their movement.",
+            #           "img": "content/buildings/dungeon/manacles.jpg", "security_bonus": 30},
+            #     "2": {"id": 2, "active": False, "available": True, "price": 10, "name": "Better Locks", "desc": "Ensure that the locks on all the doors are sturdy and harder to break.",
+            #           "img": "content/buildings/dungeon/key.png", "security_bonus": 25},
+            #     "3": {"id": 3, "active": False, "available": True, "price": 10, "name": "Guard House", "desc": "Allow the guards a place to rest during their off-hours.",
+            #           "img": "content/buildings/dungeon/guardhouse.jpg", "security_bonus": 25}
+            # }
 
             # Give the trainers bonus' to their ability to train (+Skill, +Knowledge)
-            self.upgrades["Trainers"] = {
-                "1": {"id": 1, "active": False, "available": True, "price": 10, "name": "Personal Rooms", "desc": "Give the trainers personal rooms to allow them to rest better.",
-                      "img": "content/buildings/dungeon/trainerhouse.jpg"},
-                "2": {"id": 2, "active": False, "available": True, "price": 10, "name": "Training Rooms", "desc": "Allow the trainers to use dedicated training rooms.",
-                      "img": "content/buildings/dungeon/classroom.png"},
-                "3": {"id": 3, "active": False, "available": True, "price": 10, "name": "Equipment", "desc": "Furnish the rooms with specialised equipment.",
-                      "img": "content/buildings/dungeon/equipment.jpg"},
-            }
+            # self.upgrades["Trainers"] = {
+            #     "1": {"id": 1, "active": False, "available": True, "price": 10, "name": "Personal Rooms", "desc": "Give the trainers personal rooms to allow them to rest better.",
+            #           "img": "content/buildings/dungeon/trainerhouse.jpg"},
+            #     "2": {"id": 2, "active": False, "available": True, "price": 10, "name": "Training Rooms", "desc": "Allow the trainers to use dedicated training rooms.",
+            #           "img": "content/buildings/dungeon/classroom.png"},
+            #     "3": {"id": 3, "active": False, "available": True, "price": 10, "name": "Equipment", "desc": "Furnish the rooms with specialised equipment.",
+            #           "img": "content/buildings/dungeon/equipment.jpg"},
+            # }
 
             # Give bonus' to exp
-            self.upgrades["Equipment"] = {
-                "1": {"id": 1, "active": False, "available": True, "price": 10, "name": "Motivational Aids", "desc": "Equipment to help motivate the girls when training.",
-                      "img": "content/buildings/dungeon/motivation.png"},
-                "2": {"id": 2, "active": False, "available": True, "price": 10, "name": "Relaxation Aids", "desc": "Equipment to help motivate the girls after training.",
-                      "img": "content/buildings/dungeon/relaxation.jpg"},
-                "3": {"id": 3, "active": False, "available": True, "price": 10, "name": "Punishment Aids", "desc": "Equipment to help prevent girls from disobeying.",
-                      "img": "content/buildings/dungeon/punishment.jpg"},
-            }
+            # self.upgrades["Equipment"] = {
+            #     "1": {"id": 1, "active": False, "available": True, "price": 10, "name": "Motivational Aids", "desc": "Equipment to help motivate the girls when training.",
+            #           "img": "content/buildings/dungeon/motivation.png"},
+            #     "2": {"id": 2, "active": False, "available": True, "price": 10, "name": "Relaxation Aids", "desc": "Equipment to help motivate the girls after training.",
+            #           "img": "content/buildings/dungeon/relaxation.jpg"},
+            #     "3": {"id": 3, "active": False, "available": True, "price": 10, "name": "Punishment Aids", "desc": "Equipment to help prevent girls from disobeying.",
+            #           "img": "content/buildings/dungeon/punishment.jpg"},
+            # }
 
             # Give the player benefits (+AP)
-            self.upgrades["Housing"] = {
-                "1": {"id": 1, "active": False, "available": True, "price": 10, "name": "Bedroom Refurbishment", "desc": "Refurbish your bedroom to better rest yourself during the night.",
-                      "img": "content/buildings/dungeon/bedroom.jpg"},
-                "2": {"id": 2, "active": False, "available": True, "price": 10, "name": "Facilities Refurbishment", "desc": "Refurbish your facilities to better improve your quality of living.",
-                      "img": "content/buildings/dungeon/facilities.jpg"},
-                "3": {"id": 3, "active": False, "available": True, "price": 10, "name": "Decoration", "desc": "Decorate your house to make your home more pleasent to live in.",
-                      "img": "content/buildings/dungeon/decoration.jpg"},
-            }
+            # self.upgrades["Housing"] = {
+            #     "1": {"id": 1, "active": False, "available": True, "price": 10, "name": "Bedroom Refurbishment", "desc": "Refurbish your bedroom to better rest yourself during the night.",
+            #           "img": "content/buildings/dungeon/bedroom.jpg"},
+            #     "2": {"id": 2, "active": False, "available": True, "price": 10, "name": "Facilities Refurbishment", "desc": "Refurbish your facilities to better improve your quality of living.",
+            #           "img": "content/buildings/dungeon/facilities.jpg"},
+            #     "3": {"id": 3, "active": False, "available": True, "price": 10, "name": "Decoration", "desc": "Decorate your house to make your home more pleasent to live in.",
+            #           "img": "content/buildings/dungeon/decoration.jpg"},
+            # }
+
+        @property
+        def can_advert(self):
+            return False
 
         @property
         def available(self):
@@ -539,7 +545,6 @@ init -9 python:
             """
             if type == "Training":
                 return [girl_training_with(girl) for girl in super(TrainingDungeon, self).get_girls("Course")]
-
             else:
                 return super(TrainingDungeon, self).get_girls(type)
 
@@ -570,37 +575,37 @@ init -9 python:
             """
             The modifier for disobeying.
             """
-            return self.get_upgrade_mod("Punishments") / len(self.upgrades["Punishments"])
+            return self.get_upgrade_mod("Punishments") # / len(self.upgrades["Punishments"])
 
         def mod_exp(self):
             """
             The modifier for experience.
             """
-            return self.get_upgrade_mod("Equipment") / len(self.upgrades["Equipment"])
+            return self.get_upgrade_mod("Equipment") # / len(self.upgrades["Equipment"])
 
         def mod_housing(self):
             """
             The modifier for the hero's AP.
             """
-            return self.get_upgrade_mod("Housing") / len(self.upgrades["Housing"])
+            return self.get_upgrade_mod("Housing") # / len(self.upgrades["Housing"])
 
         def mod_obey(self):
             """
             The modifier for obeying.
             """
-            return self.get_upgrade_mod("Rewards") / len(self.upgrades["Rewards"])
+            return self.get_upgrade_mod("Rewards") # / len(self.upgrades["Rewards"])
 
         def mod_runaway(self):
             """
             The modifier for running away.
             """
-            return self.get_upgrade_mod("Security") / len(self.upgrades["Security"])
+            return self.get_upgrade_mod("Security") # / len(self.upgrades["Security"])
 
         def mod_skill(self):
             """
             The modifier for trainer ability.
             """
-            return self.get_upgrade_mod("Trainers") / len(self.upgrades["Trainers"])
+            return self.get_upgrade_mod("Trainers") # / len(self.upgrades["Trainers"])
 
         def next_day(self):
             """
@@ -694,7 +699,7 @@ init -9 python:
             NextDayEvents.append(evt)
 
 
-    class Building(NewStyleUpgradableBuilding, NewStyleAdvertableBuilding, DirtyBuilding, FamousBuilding):
+    class Building(UpgradableBuilding, AdvertableBuilding, DirtyBuilding, FamousBuilding):
         """
         The building that represents Business Buildings.
         """

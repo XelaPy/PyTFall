@@ -11,7 +11,7 @@ label load_resources:
         ap.maxrooms = 1
         ap.price = 10000
         buildings[ap.id] = ap
-        
+
         # fg = FighterGuild()
         # fg.img = "content/gfx/bg/buildings/Chorrol_Fighters_Guild.png"
         # fg.desc = "Send out parties to explore and loot the unstable areas around PyTFall!"
@@ -35,31 +35,31 @@ label load_resources:
         # fg.rooms = 5
         # fg.maxrooms = fg.max_teams * 3
         # buildings[fg.id] = fg
-        
+
         jail = CityJail()
         jail.id = "City Jail"
-        
+
         # Add the dungeon to the buildings list
+        # Load the hero's dungeon
+        # school = TrainingDungeon(load_training("training", PytTraining))
+        # schools[school.name] = school
         # buildings[TrainingDungeon.NAME] = schools[TrainingDungeon.NAME]
-        
-        # Add the guild for testing in dev mode:
         # if config.developer:
-            # hero.add_building(fg)
-            # hero.add_building(buildings[TrainingDungeon.NAME])
-        
+        #     hero.add_building(buildings[TrainingDungeon.NAME])
+
         # Variables:
         char = None # Character global
         came_to_equip_from = None # Girl equipment screen came from label holder
         eqtarget = None # Equipment screen
         char_profile = None # Girl profile screen came from label holder
         gallery = None
-        
+
         # Descriptions for: *Elements
         pytfall.desc = object()
         pytfall.desc.elements = {
         "fire": str("The wildest of all elements bringing a change that can never be undone. In a blink of an eye, it can turn any obstacle to dust leaving nothing but scorched earth in its path. In unskilled hands, it can be more dangerous to its wielders than to their enemies… Fire Element regardless to its power, is weak against Water but have the advantage versus Air."),
         "air": str("The most agile of the elements. Utilizing its transparency and omnipresence to maximum. Wielders of this element are also capable of performing lighting based spells. Being able to strike swiftly and undetected, in capable hands this element does not give opponents much time to defend themselves. The Air Element excels against Earth but struggles greatly when dealing with Fire."),
-        "earth": str("The slowest and sturdiest among the elements. Known for sacrificing speed in exchange for overwhelming destructive power. Unlike other elements that leaves evidence of their devastating acts, Earth is capable of literally burying the truth. The Earth Element have the upper hand against Water, but have a hard time against the swift Air."),            
+        "earth": str("The slowest and sturdiest among the elements. Known for sacrificing speed in exchange for overwhelming destructive power. Unlike other elements that leaves evidence of their devastating acts, Earth is capable of literally burying the truth. The Earth Element have the upper hand against Water, but have a hard time against the swift Air."),
         "water": str("The most mysterious among the elements. Hiding it twisted and destructive nature under the calm surface. Leaving behind only rumble and bodies as proof of it fatal capabilities. Dominating Fire with ease, the Water Element is relatively weak against Earth."),
         "darkness": str("One of the two elements born from men desires, thoughts and deeds. Fuelling itself from anger, impure thoughts and evil acts. Dwelling deep in everyone’s soul, patiently expanding, slowly consuming ones soul. Evenly matched and locked in the ethereal struggle Light and Darkness, these opposites can cause chaotic damage against each other."),
         "neutral": str("Neutral alignment is the most popular option among warriors that do not rely on use of magic. It will ensure good degree of resistance from anything some silly mage may throw at its wielder. On other hand, this is possibly the worst choice for any magic user."),
@@ -67,13 +67,10 @@ label load_resources:
         }
     call load_building_upgrades
     return
-    
+
 label load_building_upgrades:
-    python:
-        pass
-    
     return
-    
+
 label load_json_tags:
     python:
         # -----------------------------------------------
@@ -86,12 +83,12 @@ label load_json_tags:
 
         jsontagdb = TagDatabase.from_json([jsonfiles, rg_jsonfiles])
         tagslog.info("loaded %d images from tags.json files" % jsontagdb.count_images())
-        
+
         del charsdir
         del rcharsdir
         del jsonfiles
         del rg_jsonfiles
-         
+
         # raise Exception, tagdb.__dict__["tagmap"].keys()[1:10]
         for tag in jsontagdb.tagmap.keys():
             if tag.startswith("("):
@@ -103,12 +100,12 @@ label load_json_tags:
                 pass
         tl.timer("Loading: JSON Tags (OldStyle)")
     return
-        
+
 label convert_json_to_filenames:
     if not jsontagdb.tagmap:
         $ renpy.show_screen("message_screen", "No JSON tags were found!")
         return
-    else:    
+    else:
         python:
             alltags = set(tags_dict.values())
             nums = "".join(list(str(i) for i in range(10)))
@@ -138,7 +135,7 @@ label convert_json_to_filenames:
                 oldfilename = f.split(os.sep)[-1]
                 if oldfilename == fn:
                     continue
-                else:    
+                else:
                     newdir = f.replace(oldfilename, fn)
                     try:
                         os.rename(f, newdir)

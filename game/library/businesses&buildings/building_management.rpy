@@ -71,7 +71,7 @@ init python:
         # This may be an overkill cause we should really remove workers from teams when we change their locations!
         idle_explorers = set()
         for building in hero.buildings:
-            if isinstance(building, NewStyleUpgradableBuilding):
+            if isinstance(building, UpgradableBuilding):
                 fg = building.get_business("fg")
                 if fg:
                     idle_explorers = idle_explorers.union(fg.idle_explorers())
@@ -129,7 +129,6 @@ init python:
                 filtered.sort(key=attrgetter("level"))
 
             self.update(filtered)
-
 
 label building_management:
     python:
@@ -372,12 +371,6 @@ init: # Screens:
             null height 16
             vbox:
                 spacing 5
-                # if isinstance(building, UpgradableBuilding):
-                    # button:
-                        # xysize (135, 40)
-                        # action Return(['building', "buyroom"])
-                        # hovered tt.action('Add rooms to this Building. Price = %d.' % building.get_room_price())
-                        # text "Add Room"
                 if building.can_advert:
                     button:
                         xysize (135, 40)
@@ -396,7 +389,7 @@ init: # Screens:
                         action NullAction()
                         hovered tt.action('Transfer items between characters in this building!')
                         text "Transfer Items"
-                if isinstance(building, DirtyBuilding) or building.name == TrainingDungeon.NAME:
+                if isinstance(building, DirtyBuilding):
                     button:
                         xysize (135, 40)
                         action Show("building_maintenance")
@@ -410,12 +403,6 @@ init: # Screens:
                         text "Maintenance"
             vbox:
                 spacing 5
-                # if isinstance(building, UpgradableBuilding) and building.use_upgrades:
-                    # button:
-                        # xysize (135, 40)
-                        # action Jump("building_upgrade")
-                        # hovered tt.action('Upgrade this building.')
-                        # text "Upgrade"
                 button:
                     xysize (135, 40)
                     action SetField(hero, "location", building)
@@ -433,7 +420,7 @@ init: # Screens:
                     text "Sell"
 
         # Slots for New Style Upgradable Buildings:
-        if isinstance(building, NewStyleUpgradableBuilding):
+        if isinstance(building, UpgradableBuilding):
             frame:
                 xalign .5
                 style_group "wood"
@@ -469,7 +456,7 @@ init: # Screens:
             text (u"{=content_text}{size=20}{color=[ivory]}%s" % tt.value) yalign 0.02 size 14
 
         # Manager?
-        if isinstance(building, NewStyleUpgradableBuilding):
+        if isinstance(building, UpgradableBuilding):
             frame:
                 xalign .5
                 background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
@@ -552,39 +539,11 @@ init: # Screens:
             padding 10, 10
             has vbox spacing 1
 
-            # Old Style Rooms:
-            # if isinstance(building, UpgradableBuilding):
-                # frame:
-                    # xysize (290, 27)
-                    # xalign 0.5
-                    # text "Rooms:" xalign 0.02 color ivory
-                    # text "%d/%d" % (building.rooms, building.maxrooms) xalign .98 style_suffix "value_text" xoffset 12 yoffset 4
-                # frame:
-                    # xysize (290, 27)
-                    # xalign 0.5
-                    # text "Free Rooms:" xalign 0.02 color ivory
-                    # text "%d/%d" % (building.free_rooms(), building.rooms) xalign .98 style_suffix "value_text" xoffset 12 yoffset 4
-
             # Security Rating:
             frame:
                 xysize (296, 27)
                 text "Security Rating:" xalign 0.02 color ivory
                 text "%s/1000" % building.security_rating xalign .98 style_suffix "value_text" yoffset 4
-
-            # Old Style Slots and Quarters:
-            # if isinstance(building, UpgradableBuilding):
-                # if building.use_upgrades:
-                    # frame:
-                        # xysize (290, 27)
-                        # xalign 0.5
-                        # text "Slots:" xalign 0.02 color ivory
-                        # text "%s/%s" % (building.used_upgrade_slots, building.upgrade_slots) xalign .98 style_suffix "value_text" xoffset 12 yoffset 4
-                # if building.get_upgrade_mod("guards") > 0:
-                    # frame:
-                        # xysize (290, 27)
-                        # xalign 0.5
-                        # text "Guard Quarters:" xalign 0.02 color ivory
-                        # text "%d/5  " % min(len([girl for girl in hero.chars if girl.location == building and "Warrior" in girl.occupations]), 5) xalign .98 style_suffix "value_text" xoffset 12 yoffset 4
 
             # Dirt:
             if isinstance(building, DirtyBuilding):
@@ -608,26 +567,7 @@ init: # Screens:
         frame:
             background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
             xysize (317, 430)
-            # if isinstance(building, UpgradableBuilding):
-                # label 'Upgrades:' text_color ivory xalign 0.5
-                # if building.use_upgrades:
-                    # null height 5
-                    # hbox:
-                        # spacing -5
-                        # for key in building.upgrades:
-                            # vbox:
-                                # null height 30
-                                # xpos 5
-                                # for ukey in sorted(building.upgrades[key].keys()):
-                                    # frame:
-                                        # xysize (10, 10)
-                                        # xanchor 5
-                                        # background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-                                        # if building.upgrades[key][ukey]['active']:
-                                            # use rtt_lightbutton(img=im.Scale(building.upgrades[key][ukey]['img'], 43, 43),
-                                                                          # return_value=['do_nothing'],
-                                                                          # tooltip=building.upgrades[key][ukey]['desc'])
-            if isinstance(building, NewStyleUpgradableBuilding):
+            if isinstance(building, UpgradableBuilding):
                 frame:
                     align .5, 0.02
                     background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
@@ -897,7 +837,7 @@ init: # Screens:
                     hovered tt.action("Next ==>")
                     text "Next" style "wood_text" xalign 0.39
 
-            if isinstance(building, NewStyleUpgradableBuilding):
+            if isinstance(building, UpgradableBuilding):
                 frame:
                     align .5, .95
                     style_group "wood"
@@ -1279,15 +1219,14 @@ init: # Screens:
                                     add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
 
                 null height 30
-                if building.name != TrainingDungeon.NAME:
-                    button:
-                        xysize (120, 100)
-                        xalign 0.5
-                        action Return(['maintenance', "rename_building"])
-                        hovered tt.Action("Give new name to your Building!")
-                        text "Rename Building"
+                button:
+                    xysize (120, 100)
+                    xalign 0.5
+                    action Return(['maintenance', "rename_building"])
+                    hovered tt.Action("Give new name to your Building!")
+                    text "Rename Building"
 
-            if building.name == TrainingDungeon.NAME:
+            if isinstance(building, TrainingDungeon):
                 button:
                     style_group "basic"
                     xysize (200, 32)
