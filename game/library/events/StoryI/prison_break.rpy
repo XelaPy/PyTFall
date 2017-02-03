@@ -4,8 +4,8 @@ init:
     
     transform blueprint_position:
         align (0.5, 0.6)
-
 init python:
+    q_dissolve = Dissolve(.2)
     def eyewarp(x):
         return x**1.33
     eye_open = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=False, time_warp=eyewarp)
@@ -107,10 +107,16 @@ label storyi_map:
     show map_scroll at truecenter 
     show blueprint at blueprint_position
     call storyi_move_map_point
-    call screen poly_matrix("library/events/StoryI/coordinates_1.json", show_exit_button=(1.0, 1.0))
+    call screen poly_matrix("library/events/StoryI/coordinates_1.json", cursor="content/gfx/interface/icons/zoom_pen.png", show_exit_button=(1.0, 1.0))
     if _return == "Cell":
-        "..."
-        jump storyi_map
+        if storyi_prison_location == 1:
+            "A highly guarded prison cell."
+            jump storyi_map
+        elif storyi_prison_location != 2:
+            "You are too far to go there."
+            jump storyi_map
+        else:
+            jump prison_storyi_event_cell
     elif _return == "Prison":
         if storyi_prison_location == 2:
             "A prison block with many empty cells."
@@ -228,11 +234,18 @@ label storyi_map:
         while 1:
             $ result = ui.interact()
             
+label prison_storyi_event_cell:
+    $ storyi_prison_location = 1
+    play events2 "events/prison_cell_door.mp3"
+    call storyi_move_map_point
+    show bg dungeoncell with q_dissolve
+    jump storyi_map
+            
 label prison_storyi_event_prisonblock:
     $ storyi_prison_location = 2
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
-    show bg story prison
+    show bg story prison with q_dissolve
     jump storyi_map
     
 label prison_storyi_event_infirmary:
