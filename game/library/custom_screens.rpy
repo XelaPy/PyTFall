@@ -950,7 +950,7 @@ init: # PyTFall:
             textbutton "Back":
                 action Hide("char_rename")
                 
-    screen poly_matrix(in_file, show_exit_button=False, cursor="content/gfx/interface/icons/zoom_glass.png", hidden=[]):
+    screen poly_matrix(in_file, show_exit_button=False, cursor="content/gfx/interface/icons/zoom_glass.png", xoff=20, yoff=20, hidden=[]):
         # If a tuple with coordinates is provided instead of False for show_exit_button, exit button will be placed there.
         
         default tooltip = False
@@ -1007,7 +1007,7 @@ init: # PyTFall:
                         background Null()
                         focus_mask func(i["xy"])
                         action Return(i["id"])
-                        hovered [SetField(config, "mouse", {"default": [(cursor, 0, 0)]}),
+                        hovered [SetField(config, "mouse", {"default": [(cursor, xoff, yoff)]}),
                                        Show("show_poly_matrix_tt", pos=pos, anchor=anchor, align=align, text=i["tooltip"]), With(dissolve)]
                         unhovered [SetField(config, "mouse", None),
                                            Hide("show_poly_matrix_tt"), With(dissolve)]
@@ -1016,7 +1016,7 @@ init: # PyTFall:
                         background Null()
                         focus_mask func(i["xy"])
                         action Return(i["id"])
-                        hovered SetField(config, "mouse", {"default": [(cursor, 0, 0)]})
+                        hovered SetField(config, "mouse", {"default": [(cursor, xoff, yoff)]})
                         unhovered SetField(config, "mouse", None)
                 
         if show_exit_button:

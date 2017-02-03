@@ -107,7 +107,7 @@ label storyi_map:
     show map_scroll at truecenter 
     show blueprint at blueprint_position
     call storyi_move_map_point
-    call screen poly_matrix("library/events/StoryI/coordinates_1.json", cursor="content/gfx/interface/icons/zoom_pen.png", show_exit_button=(1.0, 1.0))
+    call screen poly_matrix("library/events/StoryI/coordinates_1.json", cursor="content/gfx/interface/icons/zoom_pen.png", xoff=0, yoff=0, show_exit_button=(1.0, 1.0))
     if _return == "Cell":
         if storyi_prison_location == 1:
             "A highly guarded prison cell."
