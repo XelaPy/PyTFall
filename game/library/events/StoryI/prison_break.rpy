@@ -53,7 +53,7 @@ screen prison_break_controls():
             spacing 10
             button:
                 xysize (120, 40)
-                yalign 0.5
+                yalign 0.5 #    play events2 "events/letter.mp3"
                 action [Hide("prison_break_controls"), Jump("storyi_map")]
                 text "Show map" size 15
     
@@ -67,9 +67,9 @@ label storyi_start:
     # pause 2.5
     # hide txt1
     play world "Theme2.ogg" fadein 2.0 loop
-    show bg dungeoncell with eye_open
-    $ storyi_prison_location = 1
+    show bg story d_entrance with eye_open
     $ storyi_prison_stage = 1
+    $ storyi_prison_location = 6
     show screen prison_break_controls
     while 1:
         $ result = ui.interact()
@@ -88,7 +88,7 @@ label storyi_move_map_point: # via calls only!
     elif storyi_prison_location == 7:
         show expression point at Transform(pos=(779, 527)) with move
     elif storyi_prison_location == 5:
-        show expression point at Transform(pos=(661, 356)) with move
+        show expression point at Transform(pos=(659, 356)) with move
     elif storyi_prison_location == 8:
         show expression point at Transform(pos=(656, 517)) with move
     elif storyi_prison_location == 9:
@@ -96,15 +96,25 @@ label storyi_move_map_point: # via calls only!
     elif storyi_prison_location == 10:
         show expression point at Transform(pos=(564, 139)) with move
     elif storyi_prison_location == 11:
-        show expression point at Transform(pos=(530, 453)) with move
+        show expression point at Transform(pos=(530, 456)) with move
     elif storyi_prison_location == 12:
         show expression point at Transform(pos=(442, 358)) with move
     elif storyi_prison_location == 13:
         show expression point at Transform(pos=(427, 277)) with move
+    elif storyi_prison_location == 14:
+        show expression point at Transform(pos=(794, 421)) with move
+    elif storyi_prison_location == 15:
+        show expression point at Transform(pos=(593, 238)) with move
+    elif storyi_prison_location == 16:
+        show expression point at Transform(pos=(547, 194)) with move
+    elif storyi_prison_location == 17:
+        show expression point at Transform(pos=(444, 417)) with move
+    elif storyi_prison_location == 18:
+        show expression point at Transform(pos=(523, 296)) with move
     return
     
 label storyi_map:
-    show map_scroll at truecenter 
+    show map_scroll at truecenter
     show blueprint at blueprint_position
     call storyi_move_map_point
     call screen poly_matrix("library/events/StoryI/coordinates_1.json", cursor="content/gfx/interface/icons/zoom_pen.png", xoff=0, yoff=0, show_exit_button=(1.0, 1.0))
@@ -139,25 +149,34 @@ label storyi_map:
         if storyi_prison_location == 4:
             "A small guard post."
             jump storyi_map
-        elif not(storyi_prison_location in [2, 5, 6]):
+        elif not(storyi_prison_location in [2, 14]):
             "You are too far to go there."
             jump storyi_map
         else:
             jump prison_storyi_event_groom2
+    elif _return == "GRoom_3":
+        if storyi_prison_location == 17:
+            "A small guard post."
+            jump storyi_map
+        elif not(storyi_prison_location in [11, 16, 12]):
+            "You are too far to go there."
+            jump storyi_map
+        else:
+            jump prison_storyi_event_groom3
     elif _return == "MHall":
         if storyi_prison_location == 5:
             "A huge half-light central hall."
             jump storyi_map
-        elif not(storyi_prison_location in [4, 6, 7, 8, 9, 13]):
+        elif not(storyi_prison_location in [7, 8, 14, 15, 18]):
             "You are too far to go there."
             jump storyi_map
         else:
             jump prison_storyi_event_barracks
     elif _return == "Dung":
         if storyi_prison_location == 6:
-            "The entrance to the dungeon."
+            "The entrance to the dungeon. Tightly shut."
             jump storyi_map
-        elif not(storyi_prison_location in [4, 5, 7]):
+        elif not(storyi_prison_location in [14, 7]):
             "You are too far to go there."
             jump storyi_map
         else:
@@ -184,7 +203,7 @@ label storyi_map:
         if storyi_prison_location == 9:
             "The interrogation room for preliminary inquests."
             jump storyi_map
-        elif not(storyi_prison_location in [10, 5, 11, 12]):
+        elif not(storyi_prison_location in [10, 15, 16]):
             "You are too far to go there."
             jump storyi_map
         else:
@@ -202,7 +221,7 @@ label storyi_map:
         if storyi_prison_location == 11:
             "The weaponry. It has a good selection of weapons, including the weapons confiscated from the prisoners."
             jump storyi_map
-        elif not(storyi_prison_location in [9, 5, 12]):
+        elif not(storyi_prison_location in [16, 17]):
             "You are too far to go there."
             jump storyi_map
         else:
@@ -211,21 +230,58 @@ label storyi_map:
         if storyi_prison_location == 12:
             "The dinning hall. Here slaves prepare food for guards and prisoners."
             jump storyi_map
-        elif not(storyi_prison_location in [10, 5, 11, 13]):
+        elif not(storyi_prison_location in [17, 13]):
             "You are too far to go there."
             jump storyi_map
         else:
             jump prison_storyi_event_croom
     elif _return == "GRoom_1":
         if storyi_prison_location == 13:
-            "Another small guard post."
+            "Another small storage filled with food supplies."
             jump storyi_map
-        elif not(storyi_prison_location in [12, 5]):
+        elif not(storyi_prison_location in [12, 18]):
             "You are too far to go there."
             jump storyi_map
         else:
             jump prison_storyi_event_groom_1
+    elif _return == "Passage_1":
+        if storyi_prison_location == 14:
+            "A narrow corridor between the two rooms"
+            jump storyi_map
+        elif not(storyi_prison_location in [4, 6, 5]):
+            "You are too far to go there."
+            jump storyi_map
+        else:
+            jump prison_storyi_passage_1
+    elif _return == "Passage_2":
+        if storyi_prison_location == 15:
+            "A narrow corridor between the two rooms"
+            jump storyi_map
+        elif not(storyi_prison_location in [5, 9, 16]):
+            "You are too far to go there."
+            jump storyi_map
+        else:
+            jump prison_storyi_passage_2
+    elif _return == "Passage_3":
+        if storyi_prison_location == 16:
+            "A narrow corridor between the two rooms"
+            jump storyi_map
+        elif not(storyi_prison_location in [15, 9, 11, 17]):
+            "You are too far to go there."
+            jump storyi_map
+        else:
+            jump prison_storyi_passage_3
+    elif _return == "Passage_4":
+        if storyi_prison_location == 18:
+            "A narrow corridor between the two rooms"
+            jump storyi_map
+        elif not(storyi_prison_location in [5, 13]):
+            "You are too far to go there."
+            jump storyi_map
+        else:
+            jump prison_storyi_passage_4
     else:
+        play events2 "events/letter.mp3"
         hide map_scroll
         hide blueprint
         hide expression point
@@ -233,6 +289,30 @@ label storyi_map:
         show screen prison_break_controls
         while 1:
             $ result = ui.interact()
+            
+label prison_storyi_passage_1:
+    $ storyi_prison_location = 14
+    call storyi_move_map_point
+    show bg story prison_1 with q_dissolve
+    jump storyi_map
+    
+label prison_storyi_passage_2:
+    $ storyi_prison_location = 15
+    call storyi_move_map_point
+    show bg story prison_1 with q_dissolve
+    jump storyi_map
+    
+label prison_storyi_passage_3:
+    $ storyi_prison_location = 16
+    call storyi_move_map_point
+    show bg story prison_1 with q_dissolve
+    jump storyi_map
+    
+label prison_storyi_passage_4:
+    $ storyi_prison_location = 18
+    call storyi_move_map_point
+    show bg story prison_1 with q_dissolve
+    jump storyi_map
             
 label prison_storyi_event_cell:
     $ storyi_prison_location = 1
@@ -252,73 +332,81 @@ label prison_storyi_event_infirmary:
     $ storyi_prison_location = 3
     play events2 "events/door_open.mp3"
     call storyi_move_map_point
-    show bg infirmary
+    show bg infirmary with q_dissolve
     jump storyi_map
     
 label prison_storyi_event_groom2:
     $ storyi_prison_location = 4
+    play events2 "events/door_open.mp3"
     call storyi_move_map_point
-    show bg story prison_1
+    show bg story barracks with q_dissolve
+    jump storyi_map
+    
+label prison_storyi_event_groom3:
+    $ storyi_prison_location = 17
+    play events2 "events/door_open.mp3"
+    call storyi_move_map_point
+    show bg story barracks with q_dissolve
     jump storyi_map
     
 label prison_storyi_event_dungentr:
     $ storyi_prison_location = 6
     call storyi_move_map_point
-    show bg story d_entrance
+    show bg story d_entrance with q_dissolve
     jump storyi_map
     
 label prison_storyi_event_storage:
     $ storyi_prison_location = 7
     call storyi_move_map_point
-    show bg story storage
+    show bg story storage with q_dissolve
     play events2 "events/door_open.mp3"
     jump storyi_map
             
 label prison_storyi_event_barracks:
     $ storyi_prison_location = 5
     call storyi_move_map_point
-    show bg story barracks
+    show bg story main_hall with q_dissolve
     play events2 "events/prison_cell_door.mp3"
     jump storyi_map
     
 label prison_storyi_event_iroom:
     $ storyi_prison_location = 9
     call storyi_move_map_point
-    show bg dungeoncell
+    show bg dungeoncell with q_dissolve
     play events2 "events/prison_cell_door.mp3"
     jump storyi_map
 
 label prison_storyi_event_mentrance:
     $ storyi_prison_location = 8
     call storyi_move_map_point
-    show bg story prison_1
+    show bg story barracks with q_dissolve
     play events2 "events/prison_cell_door.mp3"
     jump storyi_map
     
 label prison_storyi_event_troom:
     $ storyi_prison_location = 10
     call storyi_move_map_point
-    show bg dung_2
+    show bg dung_2 with q_dissolve
     play events2 "events/prison_cell_door.mp3"
     jump storyi_map
 
 label prison_storyi_event_wroom:
     $ storyi_prison_location = 11
     call storyi_move_map_point
-    show bg story weaponry
+    show bg story weaponry with q_dissolve
     play events2 "events/prison_cell_door.mp3"
     jump storyi_map
     
 label prison_storyi_event_groom_1:
     $ storyi_prison_location = 13
     call storyi_move_map_point
-    show bg story prison_1
+    show bg story storage with q_dissolve
     play events2 "events/prison_cell_door.mp3"
     jump storyi_map
     
 label prison_storyi_event_croom:
     $ storyi_prison_location = 12
     call storyi_move_map_point
-    show bg story dinning_hall
+    show bg story dinning_hall with q_dissolve
     play events2 "events/prison_cell_door.mp3"
     jump storyi_map
