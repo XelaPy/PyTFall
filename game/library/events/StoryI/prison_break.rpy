@@ -11,26 +11,7 @@ init python:
     eye_open = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=False, time_warp=eyewarp)
     eye_shut = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=True, time_warp=eyewarp)
     
-    def storyi_randomfight():  # initiates fight with random enemy team; TODO: replace with default battle function
-        enemy_team = Team(name="Enemy Team", max_size=3)
-        your_team = Team(name="Your Team", max_size=3)
-        rand_mobs = ["Infantryman", "Archer", "Soldier"]
-        for i in range(randint(1, 3)):
-            mob = build_mob(id=choice(rand_mobs), level=max(hero.level, 10))
-            mob.controller = BE_AI(mob)
-            enemy_team.add(mob)
-        your_team.add(k)
-        for member in your_team:
-            member.controller = BE_AI(member)
-        # your_team.add(hero)
-        store.battle = BE_Core(Image("content/gfx/bg/be/b_dungeon_1.jpg"), music="content/sfx/music/be/battle (14).mp3", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
-        battle = store.battle
-        battle.teams.append(your_team)
-        battle.teams.append(enemy_team)
-        battle.start_battle()
-        your_team.reset_controller()
-        if battle.winner != your_team:
-            renpy.jump("game_over")
+
 init:
     $ point = "content/gfx/interface/icons/move15.png"
     $ enemy_soldier = Character("Guard", color=white, what_color=white, show_two_window=True, show_side_image=ProportionalScale("content/npc/mobs/ct1.png", 120, 120))
@@ -54,6 +35,34 @@ screen prison_break_controls():
                 yalign 0.5 #    play events2 "events/letter.mp3"
                 action [Hide("prison_break_controls"), Jump("storyi_map")]
                 text "Show map" size 15
+            button:
+                xysize (120, 40)
+                yalign 0.5
+                action [Hide("prison_break_controls"), Jump("storyi_randomfight")]
+                text "Test BE" size 15
+    
+label storyi_randomfight:  # initiates fight with random enemy team
+    python:
+        enemy_team = Team(name="Enemy Team", max_size=3)
+        your_team = Team(name="Your Team", max_size=3)
+        enemies = ["Infantryman", "Archer", "Soldier"]
+        for j in range(randint(2, 3)):
+            mob = build_mob(id=random.choice(enemies), level=5)
+            mob.controller = BE_AI(mob)
+            enemy_team.add(mob)
+        result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.jpg", skill_lvl=3)
+
+    if result is True:
+        python:
+            for member in hero.team:
+                member.exp += adjust_exp(member, 150)
+        call storyi_show_bg
+        play world "Theme2.ogg" fadein 2.0 loop
+        show screen prison_break_controls
+        while 1:
+            $ result = ui.interact()
+    else:
+        jump game_over
     
 label storyi_start:
     stop music
@@ -71,6 +80,46 @@ label storyi_start:
     show screen prison_break_controls
     while 1:
         $ result = ui.interact()
+        
+label storyi_show_bg:
+    if storyi_prison_location == 1:
+        show bg dungeoncell with q_dissolve
+    elif storyi_prison_location == 2:
+        show bg story prison with q_dissolve
+    elif storyi_prison_location == 3:
+        show bg infirmary with q_dissolve
+    elif storyi_prison_location == 4:
+        show bg story barracks with q_dissolve
+    elif storyi_prison_location == 6:
+        show bg story d_entrance with q_dissolve
+    elif storyi_prison_location == 7:
+        show bg story storage with q_dissolve
+    elif storyi_prison_location == 5:
+        show bg story main_hall with q_dissolve
+    elif storyi_prison_location == 8:
+        show bg story barracks with q_dissolve
+    elif storyi_prison_location == 9:
+        show bg dungeoncell with q_dissolve
+    elif storyi_prison_location == 10:
+        show bg dung_2 with q_dissolve
+    elif storyi_prison_location == 11:
+        show bg story weaponry with q_dissolve
+    elif storyi_prison_location == 12:
+        show bg story dinning_hall with q_dissolve
+    elif storyi_prison_location == 13:
+        show bg story storage with q_dissolve
+    elif storyi_prison_location == 14:
+        show bg story prison_1 with q_dissolve
+    elif storyi_prison_location == 15:
+        show bg story prison_1 with q_dissolve
+    elif storyi_prison_location == 16:
+        show bg story prison_1 with q_dissolve
+    elif storyi_prison_location == 17:
+        show bg story barracks with q_dissolve
+    elif storyi_prison_location == 18:
+        show bg story prison_1 with q_dissolve
+    return
+
         
 label storyi_move_map_point: # via calls only!
     if storyi_prison_location == 1:
@@ -291,120 +340,120 @@ label storyi_map:
 label prison_storyi_passage_1:
     $ storyi_prison_location = 14
     call storyi_move_map_point
-    show bg story prison_1 with q_dissolve
+    call storyi_show_bg
     jump storyi_map
     
 label prison_storyi_passage_2:
     $ storyi_prison_location = 15
     call storyi_move_map_point
-    show bg story prison_1 with q_dissolve
+    call storyi_show_bg
     jump storyi_map
     
 label prison_storyi_passage_3:
     $ storyi_prison_location = 16
     call storyi_move_map_point
-    show bg story prison_1 with q_dissolve
+    call storyi_show_bg
     jump storyi_map
     
 label prison_storyi_passage_4:
     $ storyi_prison_location = 18
     call storyi_move_map_point
-    show bg story prison_1 with q_dissolve
+    call storyi_show_bg
     jump storyi_map
             
 label prison_storyi_event_cell:
     $ storyi_prison_location = 1
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
-    show bg dungeoncell with q_dissolve
+    call storyi_show_bg
     jump storyi_map
             
 label prison_storyi_event_prisonblock:
     $ storyi_prison_location = 2
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
-    show bg story prison with q_dissolve
+    call storyi_show_bg
     jump storyi_map
     
 label prison_storyi_event_infirmary:
     $ storyi_prison_location = 3
     play events2 "events/door_open.mp3"
     call storyi_move_map_point
-    show bg infirmary with q_dissolve
+    call storyi_show_bg
     jump storyi_map
     
 label prison_storyi_event_groom2:
     $ storyi_prison_location = 4
     play events2 "events/door_open.mp3"
     call storyi_move_map_point
-    show bg story barracks with q_dissolve
+    call storyi_show_bg
     jump storyi_map
     
 label prison_storyi_event_groom3:
     $ storyi_prison_location = 17
     play events2 "events/door_open.mp3"
     call storyi_move_map_point
-    show bg story barracks with q_dissolve
+    call storyi_show_bg
     jump storyi_map
     
 label prison_storyi_event_dungentr:
     $ storyi_prison_location = 6
     call storyi_move_map_point
-    show bg story d_entrance with q_dissolve
+    call storyi_show_bg
     jump storyi_map
     
 label prison_storyi_event_storage:
     $ storyi_prison_location = 7
-    call storyi_move_map_point
-    show bg story storage with q_dissolve
     play events2 "events/door_open.mp3"
+    call storyi_move_map_point
+    call storyi_show_bg
     jump storyi_map
             
 label prison_storyi_event_barracks:
     $ storyi_prison_location = 5
-    call storyi_move_map_point
-    show bg story main_hall with q_dissolve
     play events2 "events/prison_cell_door.mp3"
+    call storyi_move_map_point
+    call storyi_show_bg
     jump storyi_map
     
 label prison_storyi_event_iroom:
     $ storyi_prison_location = 9
-    call storyi_move_map_point
-    show bg dungeoncell with q_dissolve
     play events2 "events/prison_cell_door.mp3"
+    call storyi_move_map_point
+    call storyi_show_bg
     jump storyi_map
 
 label prison_storyi_event_mentrance:
     $ storyi_prison_location = 8
-    call storyi_move_map_point
-    show bg story barracks with q_dissolve
     play events2 "events/prison_cell_door.mp3"
+    call storyi_move_map_point
+    call storyi_show_bg
     jump storyi_map
     
 label prison_storyi_event_troom:
     $ storyi_prison_location = 10
-    call storyi_move_map_point
-    show bg dung_2 with q_dissolve
     play events2 "events/prison_cell_door.mp3"
+    call storyi_move_map_point
+    call storyi_show_bg
     jump storyi_map
 
 label prison_storyi_event_wroom:
     $ storyi_prison_location = 11
-    call storyi_move_map_point
-    show bg story weaponry with q_dissolve
     play events2 "events/prison_cell_door.mp3"
+    call storyi_move_map_point
+    call storyi_show_bg
     jump storyi_map
     
 label prison_storyi_event_groom_1:
     $ storyi_prison_location = 13
-    call storyi_move_map_point
-    show bg story storage with q_dissolve
     play events2 "events/prison_cell_door.mp3"
+    call storyi_move_map_point
+    call storyi_show_bg
     jump storyi_map
     
 label prison_storyi_event_croom:
     $ storyi_prison_location = 12
-    call storyi_move_map_point
-    show bg story dinning_hall with q_dissolve
     play events2 "events/prison_cell_door.mp3"
+    call storyi_move_map_point
+    call storyi_show_bg
     jump storyi_map

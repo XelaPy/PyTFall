@@ -270,7 +270,7 @@ label city_tavern_thugs_fight: # fight with random thugs in the brawl mode
     if result is True:
         python:
             for member in hero.team:
-                member.exp += adjust_exp(member, 250)
+                member.exp += adjust_exp(member, 150)
 
     else:
         $ hero.set_flag("fought_in_tavern", value = day)
