@@ -35,12 +35,10 @@ init:
     $ point = "content/gfx/interface/icons/move15.png"
     $ enemy_soldier = Character("Guard", color=white, what_color=white, show_two_window=True, show_side_image=ProportionalScale("content/npc/mobs/ct1.png", 120, 120))
     $ enemy_soldier2 = Character("Guard", color=white, what_color=white, show_two_window=True, show_side_image=ProportionalScale("content/npc/mobs/h1.png", 120, 120))
-    # $ scroll = "content/events/Story/scroll.png"
-    # $ blueprint = "content/events/Story/blueprint.png"
 
     
 screen prison_break_controls():
-    use top_stripe(True) # <- probably shouldn't be here? unlikely it's safe enough inside closed events
+    use top_stripe(True)
     frame:
         xalign 0.95
         ypos 50

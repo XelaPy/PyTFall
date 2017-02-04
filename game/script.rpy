@@ -186,8 +186,6 @@ label dev_testing_menu:
                         $ neow = True
                     "Skip MC Setup":
                         $ pass
-                    "Test Matrix Dungeon":
-                        jump storyi_start
                     "Back":
                         jump dev_testing_menu
             "GFX":
