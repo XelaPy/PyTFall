@@ -58,7 +58,7 @@ screen show_mc_team_status(characters):
                     background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
                     idle (char_profile_img)
                     hover (im.MatrixColor(char_profile_img, im.matrix.brightness(0.15)))
-                    action Return(l)
+                    action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Return(l)]
                     align 0, .5
                     xysize (102, 102)
                 bar:
@@ -114,8 +114,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
         play world "Theme2.ogg" fadein 2.0 loop
         show screen prison_break_controls
         show screen show_mc_team_status(hero.team)
-        while 1:
-            $ result = ui.interact()
+        jump storyi_gui_loop
     else:
         jump game_over
     
@@ -134,8 +133,20 @@ label storyi_start:
     $ storyi_prison_location = 6
     show screen show_mc_team_status(hero.team)
     show screen prison_break_controls
+    
+label storyi_gui_loop:
     while 1:
         $ result = ui.interact()
+        if result in hero.team:
+            $ came_to_equip_from = "storyi_continue"
+            $ eqtarget = result
+            jump char_equip
+            
+label storyi_continue:
+    call storyi_show_bg
+    show screen show_mc_team_status(hero.team)
+    show screen prison_break_controls
+    jump storyi_gui_loop
         
 label storyi_show_bg:
     if storyi_prison_location == 1:
@@ -391,8 +402,7 @@ label storyi_map:
         with dissolve
         show screen show_mc_team_status(hero.team)
         show screen prison_break_controls
-        while 1:
-            $ result = ui.interact()
+        jump storyi_gui_loop
             
 label prison_storyi_passage_1:
     $ storyi_prison_location = 14
