@@ -5,19 +5,20 @@ init:
     transform blueprint_position:
         align (0.5, 0.6)
 init python:
-    q_dissolve = Dissolve(.2)
+    q_dissolve = Dissolve(.2) # fast dissolve to quickly show backgrounds
+    
     def eyewarp(x):
         return x**1.33
-    eye_open = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=False, time_warp=eyewarp)
-    eye_shut = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=True, time_warp=eyewarp)
+    eye_open = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=False, time_warp=eyewarp) # transitions for backgrounds, try to emulate effect of opening or closing eyes
+    eye_shut = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=True, time_warp=eyewarp)  # ➚
 
 init:
-    $ point = "content/gfx/interface/icons/move15.png"
+    $ point = "content/gfx/interface/icons/move15.png" # the point which shows location on the map; it's actually a part of the main gui
     $ enemy_soldier = Character("Guard", color=white, what_color=white, show_two_window=True, show_side_image=ProportionalScale("content/npc/mobs/ct1.png", 120, 120))
     $ enemy_soldier2 = Character("Guard", color=white, what_color=white, show_two_window=True, show_side_image=ProportionalScale("content/npc/mobs/h1.png", 120, 120))
 
     
-screen prison_break_controls():
+screen prison_break_controls(): # control buttons screen
     frame:
         xalign 0.95
         ypos 50
@@ -30,7 +31,7 @@ screen prison_break_controls():
             spacing 10
             button:
                 xysize (120, 40)
-                yalign 0.5 #    play events2 "events/letter.mp3"
+                yalign 0.5
                 action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("storyi_map")]
                 text "Show map" size 15
             button:
@@ -44,7 +45,7 @@ screen prison_break_controls():
                 action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("mainscreen")]
                 text "Exit" size 15
                 
-screen show_mc_team_status(characters):
+screen show_mc_team_status(characters): # shows characters status, and allows to enter their equipment assuming that proper gui loop exists
     hbox:
         spacing 25
         pos (17, 50)
@@ -88,12 +89,6 @@ screen show_mc_team_status(characters):
                     left_gutter 0
                     right_gutter 0
                     xysize (102, 14)
-                        
-label show_mc_team_status_char:
-    if char != hero:
-        jump char_profile
-    else:
-        jump hero_profile
     
 label storyi_randomfight:  # initiates fight with random enemy team
     python:
@@ -118,7 +113,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
     else:
         jump game_over
     
-label storyi_start:
+label storyi_start: # beginning point of the dungeon; TODO: change expression below to suit quest
     stop music
     stop world fadeout 2.0
     scene black with dissolve
@@ -134,7 +129,7 @@ label storyi_start:
     show screen show_mc_team_status(hero.team)
     show screen prison_break_controls
     
-label storyi_gui_loop:
+label storyi_gui_loop: # the gui loop; we jump here every time we need to show controlling gui
     while 1:
         $ result = ui.interact()
         if result in hero.team:
@@ -142,13 +137,13 @@ label storyi_gui_loop:
             $ eqtarget = result
             jump char_equip
             
-label storyi_continue:
+label storyi_continue: # the label where we return after visiting characters equipment screens
     call storyi_show_bg
     show screen show_mc_team_status(hero.team)
     show screen prison_break_controls
     jump storyi_gui_loop
         
-label storyi_show_bg:
+label storyi_show_bg: # shows bg depending on matrix location; due to use of BE it must be a call, and not a part of matrix logic itself
     if storyi_prison_location == 1:
         show bg dungeoncell with q_dissolve
     elif storyi_prison_location == 2:
@@ -188,7 +183,7 @@ label storyi_show_bg:
     return
 
         
-label storyi_move_map_point:
+label storyi_move_map_point: # moves green point to show team location on the map
     if storyi_prison_location == 1:
         show expression point at Transform(pos=(709, 203)) with move
     elif storyi_prison_location == 2:
@@ -227,7 +222,7 @@ label storyi_move_map_point:
         show expression point at Transform(pos=(523, 296)) with move
     return
     
-label storyi_map:
+label storyi_map: # shows dungeon map and calls matrix to control it
     show map_scroll at truecenter
     show blueprint at blueprint_position
     call storyi_move_map_point
@@ -403,6 +398,8 @@ label storyi_map:
         show screen show_mc_team_status(hero.team)
         show screen prison_break_controls
         jump storyi_gui_loop
+            
+# further go personal labels for each location to ensure full control over events
             
 label prison_storyi_passage_1:
     $ storyi_prison_location = 14
