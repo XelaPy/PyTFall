@@ -1048,7 +1048,7 @@ init: # PyTFall:
                 xysize size
                 focus_mask True
                 action Return(item)
-                hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/zoom_32x32.png", 0, 0)]})
+                hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/net.png", 0, 0)]})
                 unhovered SetField(config, "mouse", None)
                 
                 # $ raise Exception(args[1])

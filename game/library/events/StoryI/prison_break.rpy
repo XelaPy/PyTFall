@@ -10,7 +10,6 @@ init python:
         return x**1.33
     eye_open = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=False, time_warp=eyewarp)
     eye_shut = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=True, time_warp=eyewarp)
-    
 
 init:
     $ point = "content/gfx/interface/icons/move15.png"
@@ -20,6 +19,7 @@ init:
     
 screen prison_break_controls():
     use top_stripe(True)
+
     frame:
         xalign 0.95
         ypos 50
@@ -33,13 +33,66 @@ screen prison_break_controls():
             button:
                 xysize (120, 40)
                 yalign 0.5 #    play events2 "events/letter.mp3"
-                action [Hide("prison_break_controls"), Jump("storyi_map")]
+                action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("storyi_map")]
                 text "Show map" size 15
             button:
                 xysize (120, 40)
                 yalign 0.5
-                action [Hide("prison_break_controls"), Jump("storyi_randomfight")]
+                action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("storyi_randomfight")]
                 text "Test BE" size 15
+            button:
+                xysize (120, 40)
+                yalign 0.5
+                action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("mainscreen")]
+                text "Exit" size 15
+                
+screen show_mc_team_status(characters):
+    hbox:
+        spacing 25
+        pos (17, 50)
+        for l in characters:
+            $ char_profile_img = l.show('portrait', resize=(101, 101), cache=True)
+            $ img = "content/gfx/frame/ink_box.png"
+            vbox:
+                xsize 102
+                imagebutton:
+                    background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+                    idle (char_profile_img)
+                    hover (im.MatrixColor(char_profile_img, im.matrix.brightness(0.15)))
+                    action Return(l)
+                    align 0, .5
+                    xysize (102, 102)
+                bar:
+                    yalign 0.5
+                    right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
+                    left_bar im.Scale("content/gfx/interface/bars/hp2.png", 102, 14)
+                    value l.health
+                    range l.get_max("health")
+                    thumb None
+                    thumb_shadow None
+                    xysize (102, 14)
+                bar:
+                    yalign 0.5
+                    right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
+                    left_bar im.Scale("content/gfx/interface/bars/mp2.png", 102, 14)
+                    value l.mp
+                    range l.get_max("mp")
+                    thumb None
+                    xysize (102, 14)
+                bar:
+                    yalign 0.5
+                    right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
+                    left_bar im.Scale("content/gfx/interface/bars/vitality2.png", 102, 14)
+                    value l.vitality
+                    range l.get_max("vitality")
+                    thumb None
+                    xysize (102, 14)
+                        
+label show_mc_team_status_char:
+    if char != hero:
+        jump char_profile
+    else:
+        jump hero_profile
     
 label storyi_randomfight:  # initiates fight with random enemy team
     python:
@@ -50,7 +103,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
             mob = build_mob(id=random.choice(enemies), level=5)
             mob.controller = BE_AI(mob)
             enemy_team.add(mob)
-        result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.jpg", skill_lvl=3)
+        result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.jpg", prebattle=False, skill_lvl=3)
 
     if result is True:
         python:
@@ -59,6 +112,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
         call storyi_show_bg
         play world "Theme2.ogg" fadein 2.0 loop
         show screen prison_break_controls
+        show screen show_mc_team_status(hero.team)
         while 1:
             $ result = ui.interact()
     else:
@@ -77,6 +131,7 @@ label storyi_start:
     show bg story d_entrance with eye_open
     $ storyi_prison_stage = 1
     $ storyi_prison_location = 6
+    show screen show_mc_team_status(hero.team)
     show screen prison_break_controls
     while 1:
         $ result = ui.interact()
@@ -121,7 +176,7 @@ label storyi_show_bg:
     return
 
         
-label storyi_move_map_point: # via calls only!
+label storyi_move_map_point:
     if storyi_prison_location == 1:
         show expression point at Transform(pos=(709, 203)) with move
     elif storyi_prison_location == 2:
@@ -333,6 +388,7 @@ label storyi_map:
         hide blueprint
         hide expression point
         with dissolve
+        show screen show_mc_team_status(hero.team)
         show screen prison_break_controls
         while 1:
             $ result = ui.interact()
