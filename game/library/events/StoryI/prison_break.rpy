@@ -18,8 +18,6 @@ init:
 
     
 screen prison_break_controls():
-    use top_stripe(True)
-
     frame:
         xalign 0.95
         ypos 50
@@ -54,6 +52,7 @@ screen show_mc_team_status(characters):
             $ char_profile_img = l.show('portrait', resize=(101, 101), cache=True)
             $ img = "content/gfx/frame/ink_box.png"
             vbox:
+                spacing 1
                 xsize 102
                 imagebutton:
                     background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
@@ -63,29 +62,31 @@ screen show_mc_team_status(characters):
                     align 0, .5
                     xysize (102, 102)
                 bar:
-                    yalign 0.5
                     right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
                     left_bar im.Scale("content/gfx/interface/bars/hp2.png", 102, 14)
                     value l.health
                     range l.get_max("health")
                     thumb None
-                    thumb_shadow None
+                    left_gutter 0
+                    right_gutter 0
                     xysize (102, 14)
                 bar:
-                    yalign 0.5
                     right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
                     left_bar im.Scale("content/gfx/interface/bars/mp2.png", 102, 14)
                     value l.mp
                     range l.get_max("mp")
                     thumb None
+                    left_gutter 0
+                    right_gutter 0
                     xysize (102, 14)
                 bar:
-                    yalign 0.5
                     right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
                     left_bar im.Scale("content/gfx/interface/bars/vitality2.png", 102, 14)
                     value l.vitality
                     range l.get_max("vitality")
                     thumb None
+                    left_gutter 0
+                    right_gutter 0
                     xysize (102, 14)
                         
 label show_mc_team_status_char:
