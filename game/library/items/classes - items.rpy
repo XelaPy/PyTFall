@@ -199,12 +199,16 @@ init -9 python:
 
         def next(self):
             """Next page"""
-            self.page = (self.page + 1) % self.max_page
-
+            if self.max_page>0:
+                self.page = (self.page + 1) % self.max_page
+            else:
+                self.page = 0
         def prev(self):
             """Previous page"""
-            self.page = (self.page - 1) % self.max_page
-
+            if self.max_page>0:
+                self.page = (self.page - 1) % self.max_page
+            else:
+                self.page = 0
         def first(self):
             """First page"""
             self.page = 0

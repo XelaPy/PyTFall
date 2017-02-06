@@ -443,10 +443,16 @@ init -1 python:
 
         # Paging:
         def next_page(self):
-            self.page = (self.page + 1) % self.max_page
+            if self.max_page>0:
+                self.page = (self.page + 1) % self.max_page
+            else:
+                self.page = 0
 
         def prev_page(self):
-            self.page = (self.page - 1) % self.max_page
+            if self.max_page>0:
+                self.page = (self.page - 1) % self.max_page
+            else:
+                self.page = 0
 
         def last_page(self):
             self.page = self.max_page - 1 if self.paged_items else 0
