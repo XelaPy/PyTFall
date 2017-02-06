@@ -32,8 +32,14 @@ screen prison_break_controls(): # control buttons screen
             button:
                 xysize (120, 40)
                 yalign 0.5
-                action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("storyi_map")]
+                action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Play("events2", "events/letter.mp3"), Jump("storyi_map")]
                 text "Show map" size 15
+            if storyi_prison_location == 3:
+                button:
+                    xysize (120, 40)
+                    yalign 0.5
+                    action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("storyi_treat_wounds")]
+                    text "Heal" size 15
             button:
                 xysize (120, 40)
                 yalign 0.5
@@ -112,6 +118,28 @@ label storyi_randomfight:  # initiates fight with random enemy team
         jump storyi_gui_loop
     else:
         jump game_over
+        
+label storyi_treat_wounds:
+    $ j = False
+    python:
+        for i in hero.team:
+            if i.health < i.get_max("health"):
+                j = True
+    if j:
+        if storyi_treat_wounds_count > 0:
+            "You use stored medicaments to treat your wounds."
+            python:
+                for i in hero.team:
+                    i.health = i.get_max("health")
+                storyi_treat_wounds_count -= 1
+        else:
+            "Unfortunately, you used all stored medicaments."
+    else:
+        "Supplies are limited, it's not wise to waste them if your health is fine."
+    show screen show_mc_team_status(hero.team)
+    show screen prison_break_controls
+    $ del j
+    jump storyi_gui_loop
     
 label storyi_start: # beginning point of the dungeon; TODO: change expression below to suit quest
     stop music
@@ -124,6 +152,7 @@ label storyi_start: # beginning point of the dungeon; TODO: change expression be
     # hide txt1
     play world "Theme2.ogg" fadein 2.0 loop
     show bg story d_entrance with eye_open
+    $ storyi_treat_wounds_count = 5
     $ storyi_prison_stage = 1
     $ storyi_prison_location = 6
     show screen show_mc_team_status(hero.team)
