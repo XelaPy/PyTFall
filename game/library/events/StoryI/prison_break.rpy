@@ -105,7 +105,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
             mob = build_mob(id=random.choice(enemies), level=5)
             mob.controller = BE_AI(mob)
             enemy_team.add(mob)
-        result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.jpg", prebattle=False, skill_lvl=3)
+        result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.jpg", prebattle=False, death=True, skill_lvl=3)
 
     if result is True:
         python:
@@ -164,10 +164,12 @@ label storyi_gui_loop: # the gui loop; we jump here every time we need to show c
         if result in hero.team:
             $ came_to_equip_from = "storyi_continue"
             $ eqtarget = result
+            $ equipment_safe_mode = True
             jump char_equip
             
 label storyi_continue: # the label where we return after visiting characters equipment screens
     call storyi_show_bg
+    $ equipment_safe_mode = False
     show screen show_mc_team_status(hero.team)
     show screen prison_break_controls
     jump storyi_gui_loop
