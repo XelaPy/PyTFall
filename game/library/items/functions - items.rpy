@@ -141,7 +141,7 @@ init -11 python:
         @param: silent: If False, game will notify the player with a reason why an item cannot be equipped.
         """
         if equipment_safe_mode and item.slot == "consumable":
-            if item.jump_to_label or item.ceffect:
+            if item.jump_to_label or item.ceffect or item.type == "permanent":
                 return
         
         if isinstance(character, PytGroup):
