@@ -5031,6 +5031,18 @@ init -9 python:
 
 
     ### ==>> Rest:
+    class Tier(_object):
+        """This deals with expectations and social status of chars.
+
+        Used to calculate expected wages, upkeep, living conditions and etc.
+        I'd love it to contain at least some of the calculations and coditioning for Jobs as well, we can split this if it gets too confusing.
+        Maybe some behavior flags and alike can be a part of this as well?
+        """
+
+        def __init__(self):
+            pass
+
+
     class Trait(_object):
         def __init__(self):
             self.desc = ''
