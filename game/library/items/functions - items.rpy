@@ -12,6 +12,8 @@ init -11 python:
                     amount += 1
                     
         return amount
+        
+    equipment_safe_mode = False # when it's true, we assume that equipment screen was called from unusual place, so all things which can break it are disabled
     
     def equip_item(item, char, silent=False, area_effect=False):
         """First level of checks, all items should be equiped through this function!
@@ -138,6 +140,10 @@ init -11 python:
         
         @param: silent: If False, game will notify the player with a reason why an item cannot be equipped.
         """
+        if equipment_safe_mode and item.slot == "consumable":
+            if item.jump_to_label or item.ceffect:
+                return
+        
         if isinstance(character, PytGroup):
             if item.jump_to_label:
                 return

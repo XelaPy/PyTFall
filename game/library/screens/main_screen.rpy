@@ -137,6 +137,8 @@ screen mainscreen():
                 action Hide("mainscreen"), Jump("frog_deathfight")
             textbutton "Examples":
                 action [Hide("mainscreen"), Jump("examples")]
+            textbutton "Test MD":
+                action [Hide("mainscreen"), Jump("storyi_start")]
 
     showif pytfall.ms_text and pytfall.todays_first_view:
         frame:

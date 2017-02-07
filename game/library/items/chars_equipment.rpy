@@ -434,7 +434,7 @@ screen char_equip_left_frame(tt, stats_display):
             button:
                 xysize (32, 32)
                 background Null()
-                if equip_girls:
+                if equip_girls and not(equipment_safe_mode):
                     action Return(['control', 'left'])
                     foreground "content/gfx/interface/buttons/small_button_wood_left_idle.png" pos (10, 14)
                     hover_foreground "content/gfx/interface/buttons/small_button_wood_left_hover.png"
@@ -446,7 +446,7 @@ screen char_equip_left_frame(tt, stats_display):
             button:
                 xysize (32, 32)
                 background Null()
-                if equip_girls:
+                if equip_girls and not(equipment_safe_mode):
                     action Return(['control', 'right'])
                     foreground "content/gfx/interface/buttons/small_button_wood_right_idle.png" pos (45, 14)
                     hover_foreground "content/gfx/interface/buttons/small_button_wood_right_hover.png"
