@@ -119,6 +119,87 @@ label storyi_randomfight:  # initiates fight with random enemy team
     else:
         jump game_over
         
+label storyi_give_restoration_item:
+    python:
+        our_items = items_list = []
+        our_items = list(i for i in items.values() if i.slot == "consumable" and i.type == "restore" and "Potion" in i.id)
+        while len(items_list) < 9:
+            items_list.append(random.choice(our_items))
+        if not(items_list):
+            renpy.jump("storyi_continue")
+        else:
+            item = random.choice(items_list)
+            hero.add_item(item)
+            our_image = ProportionalScale(item.icon, 100, 100)
+    show expression our_image at truecenter with dissolve
+    $ hero.say("I found %s..." % item.id)
+    hide expression our_image with dissolve
+    jump storyi_continue
+    
+label storyi_give_food_item:
+    python:
+        our_items = items_list = []
+        our_items = list(i for i in items.values() if i.slot == "consumable" and i.type == "food")
+        while len(items_list) < 9:
+            items_list.append(random.choice(our_items))
+        if not(items_list):
+            renpy.jump("storyi_continue")
+        else:
+            item = random.choice(items_list)
+            hero.add_item(item)
+            our_image = ProportionalScale(item.icon, 100, 100)
+    show expression our_image at truecenter with dissolve
+    $ hero.say("I found %s..." % item.id)
+    hide expression our_image with dissolve
+    jump storyi_continue
+    
+label storyi_give_armor_item:
+    python:
+        our_items = []
+        our_items = list(i for i in items.values() if i.slot in ("body", "head", "feet", "wrist") and i.price <= 400 and i.type not in ("dress", "tool"))
+        if not(our_items):
+            renpy.jump("storyi_continue")
+        else:
+            item = random.choice(our_items)
+            hero.add_item(item)
+            our_image = ProportionalScale(item.icon, 100, 100)
+    show expression our_image at truecenter with dissolve
+    $ hero.say("I found %s..." % item.id)
+    hide expression our_image with dissolve
+    jump storyi_continue
+    
+label storyi_give_loot_item:
+    python:
+        items_list = our_items = []
+        our_items = list(i for i in items.values() if i.slot == "loot" and i.price <= 300 and "Exploration" in i.locations)
+        while len(items_list) < 9:
+            items_list.append(random.choice(our_items))
+        if not(items_list):
+            renpy.jump("storyi_continue")
+        else:
+            item = random.choice(items_list)
+            hero.add_item(item)
+            our_image = ProportionalScale(item.icon, 100, 100)
+    show expression our_image at truecenter with dissolve
+    $ hero.say("I found %s..." % item.id)
+    hide expression our_image with dissolve
+    jump storyi_continue
+    
+label storyi_give_weapon_item:
+    python:
+        our_items = []
+        our_items = list(i for i in items.values() if i.slot in ("weapon", "smallweapon") and i.price <= 300 and i.type != "tool")
+        if not(our_items):
+            renpy.jump("storyi_continue")
+        else:
+            item = random.choice(our_items)
+            hero.add_item(item)
+            our_image = ProportionalScale(item.icon, 100, 100)
+    show expression our_image at truecenter with dissolve
+    $ hero.say("I found %s..." % item.id)
+    hide expression our_image with dissolve
+    jump storyi_continue
+        
 label storyi_treat_wounds:
     $ j = False
     python:
