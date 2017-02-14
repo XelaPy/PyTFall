@@ -29,7 +29,7 @@ label test_be:
     python:
         # Prepare the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        mob = build_mob(id="Electrificator", level=50)
+        mob = build_mob(id="mikadance", level=50)
         mob.front_row = True
 
         if len(enemy_team) != 3:
@@ -51,7 +51,7 @@ label test_be:
         if len(hero.team) != 3 and n not in hero.team:
             hero.team.add(n)
         n.AP = 6
-        
+
         for i in hero.team:
             i.health = i.get_max("health")
             i.mp = i.get_max("mp")

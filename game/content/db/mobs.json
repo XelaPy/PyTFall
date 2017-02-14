@@ -33,6 +33,39 @@
         ]
     },
     {
+        "name": "mikudance",
+        "desc": "Testing animated sprites in BE.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/a.png",
+        "portrait": "content/npc/mobs/a1.png",
+        "race": "Slime",
+        "locations": [],
+        "min_lvl": 35,
+        "basetraits": [
+            "Juggernaut", "Mage"
+        ],
+        "stats": {
+            "attack": 20,
+            "defence": 50,
+            "magic": 30,
+            "agility": 40,
+            "luck": 10,
+            "charisma": 40,
+            "constitution": 70,
+            "intelligence": 20
+        },
+        "skills": {},
+        "traits": ["Water", "Slime", "Minor Physical Resistance"],
+        "attack_skills": [
+            "Fist Attack"
+        ],
+        "magic_skills": [
+            "Watera",
+            "Waterga",
+            "Arcane Shield"
+        ]
+    },
+    {
         "name": "Alkaline Slime",
         "desc": "A liquid form of life based on organic alkalis.",
         "front_row": 1,

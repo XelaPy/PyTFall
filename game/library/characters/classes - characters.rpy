@@ -3358,7 +3358,7 @@ init -9 python:
                 what = self.portrait
             elif what == "battle_sprite":
                 # See if we can find idle animation for this...
-                imgtag = self.id + "besprite_idle"
+                imgtag = self.id + "_besprite_idle"
                 if renpy.has_image(imgtag):
                     what = ImageReference(imgtag)
                 else:
@@ -3369,7 +3369,7 @@ init -9 python:
                 what = self.battle_sprite
 
             if isinstance(what, ImageReference):
-                return Transform(what, size=(resize[0], resize[1]))
+                return prop_resize(what, resize[0], resize[1])
             else:
                 return ProportionalScale(what, resize[0], resize[1])
 
