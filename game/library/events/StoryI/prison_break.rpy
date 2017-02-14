@@ -1,23 +1,22 @@
 init:
     image map_scroll = ProportionalScale("content/events/StoryI/scroll.png", 900, 900)
     image blueprint = ProportionalScale("content/events/StoryI/blueprint.png", 660, 540)
-    
     transform blueprint_position:
         align (0.5, 0.6)
+        
 init python:
     q_dissolve = Dissolve(.2) # fast dissolve to quickly show backgrounds
-    
+
     def eyewarp(x):
         return x**1.33
     eye_open = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=False, time_warp=eyewarp) # transitions for backgrounds, try to emulate effect of opening or closing eyes
-    eye_shut = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=True, time_warp=eyewarp)  # ➚
+    eye_shut = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=True, time_warp=eyewarp)
 
 init:
     $ point = "content/gfx/interface/icons/move15.png" # the point which shows location on the map; it's actually a part of the main gui
     $ enemy_soldier = Character("Guard", color=white, what_color=white, show_two_window=True, show_side_image=ProportionalScale("content/npc/mobs/ct1.png", 120, 120))
     $ enemy_soldier2 = Character("Guard", color=white, what_color=white, show_two_window=True, show_side_image=ProportionalScale("content/npc/mobs/h1.png", 120, 120))
 
-    
 screen prison_break_controls(): # control buttons screen
     frame:
         xalign 0.95
@@ -50,7 +49,7 @@ screen prison_break_controls(): # control buttons screen
                 yalign 0.5
                 action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("mainscreen")]
                 text "Exit" size 15
-                
+
 screen show_mc_team_status(characters): # shows characters status, and allows to enter their equipment assuming that proper gui loop exists
     hbox:
         spacing 25
@@ -95,7 +94,7 @@ screen show_mc_team_status(characters): # shows characters status, and allows to
                     left_gutter 0
                     right_gutter 0
                     xysize (102, 14)
-    
+
 label storyi_randomfight:  # initiates fight with random enemy team
     python:
         enemy_team = Team(name="Enemy Team", max_size=3)
@@ -118,88 +117,39 @@ label storyi_randomfight:  # initiates fight with random enemy team
         jump storyi_gui_loop
     else:
         jump game_over
-        
-label storyi_give_restoration_item:
-    python:
-        our_items = items_list = []
-        our_items = list(i for i in items.values() if i.slot == "consumable" and i.type == "restore" and "Potion" in i.id)
-        while len(items_list) < 9:
-            items_list.append(random.choice(our_items))
-        if not(items_list):
-            renpy.jump("storyi_continue")
-        else:
-            item = random.choice(items_list)
-            hero.add_item(item)
-            our_image = ProportionalScale(item.icon, 100, 100)
+
+label give_to_mc_item_reward(type="consumable", price=1): # va calls gives to mc a random item based on type and max price
+    $ our_items = items_list = []
+    if type=="consumable":
+        $ our_items = list(i for i in items.values() if i.slot == "consumable" and i.price <= price and not i.jump_to_label and i.type != "food")
+    elif type=="restore":
+        $ our_items = list(i for i in items.values() if i.slot == "consumable" and i.type == "restore" and "Potion" in i.id)
+    elif type=="food":
+        $ our_items = list(i for i in items.values() if i.slot == "consumable" and i.type == "food")
+    elif type=="armor":
+        $ our_items = list(i for i in items.values() if i.slot in ("body", "head", "feet", "wrist") and i.price <= price and i.type not in ("dress", "tool"))
+    elif type=="dress":
+        $ our_items = list(i for i in items.values() if i.slot in ("body", "head", "feet", "wrist") and i.price <= price and i.type=="dress")
+    elif type=="weapon":
+        $ our_items = list(i for i in items.values() if i.slot in ("weapon", "smallweapon") and i.price <= price and i.type != "tool")
+    elif type=="loot":
+        $ our_items = list(i for i in items.values() if i.slot == "loot" and i.price <= price and "Exploration" in i.locations)
+    if not(our_items):
+        return
+    else:
+        python:
+            while len(items_list) < 10:
+                items_list.append(random.choice(our_items))
+    if not(items_list):
+        return
+    $ item = random.choice(items_list)
+    $ hero.add_item(item)
+    $ our_image = ProportionalScale(item.icon, 100, 100)
     show expression our_image at truecenter with dissolve
     $ hero.say("I found %s..." % item.id)
     hide expression our_image with dissolve
-    jump storyi_continue
-    
-label storyi_give_food_item:
-    python:
-        our_items = items_list = []
-        our_items = list(i for i in items.values() if i.slot == "consumable" and i.type == "food")
-        while len(items_list) < 9:
-            items_list.append(random.choice(our_items))
-        if not(items_list):
-            renpy.jump("storyi_continue")
-        else:
-            item = random.choice(items_list)
-            hero.add_item(item)
-            our_image = ProportionalScale(item.icon, 100, 100)
-    show expression our_image at truecenter with dissolve
-    $ hero.say("I found %s..." % item.id)
-    hide expression our_image with dissolve
-    jump storyi_continue
-    
-label storyi_give_armor_item:
-    python:
-        our_items = []
-        our_items = list(i for i in items.values() if i.slot in ("body", "head", "feet", "wrist") and i.price <= 400 and i.type not in ("dress", "tool"))
-        if not(our_items):
-            renpy.jump("storyi_continue")
-        else:
-            item = random.choice(our_items)
-            hero.add_item(item)
-            our_image = ProportionalScale(item.icon, 100, 100)
-    show expression our_image at truecenter with dissolve
-    $ hero.say("I found %s..." % item.id)
-    hide expression our_image with dissolve
-    jump storyi_continue
-    
-label storyi_give_loot_item:
-    python:
-        items_list = our_items = []
-        our_items = list(i for i in items.values() if i.slot == "loot" and i.price <= 300 and "Exploration" in i.locations)
-        while len(items_list) < 9:
-            items_list.append(random.choice(our_items))
-        if not(items_list):
-            renpy.jump("storyi_continue")
-        else:
-            item = random.choice(items_list)
-            hero.add_item(item)
-            our_image = ProportionalScale(item.icon, 100, 100)
-    show expression our_image at truecenter with dissolve
-    $ hero.say("I found %s..." % item.id)
-    hide expression our_image with dissolve
-    jump storyi_continue
-    
-label storyi_give_weapon_item:
-    python:
-        our_items = []
-        our_items = list(i for i in items.values() if i.slot in ("weapon", "smallweapon") and i.price <= 300 and i.type != "tool")
-        if not(our_items):
-            renpy.jump("storyi_continue")
-        else:
-            item = random.choice(our_items)
-            hero.add_item(item)
-            our_image = ProportionalScale(item.icon, 100, 100)
-    show expression our_image at truecenter with dissolve
-    $ hero.say("I found %s..." % item.id)
-    hide expression our_image with dissolve
-    jump storyi_continue
-        
+    return
+
 label storyi_treat_wounds:
     $ j = False
     python:
@@ -221,7 +171,7 @@ label storyi_treat_wounds:
     show screen prison_break_controls
     $ del j
     jump storyi_gui_loop
-    
+
 label storyi_start: # beginning point of the dungeon; TODO: change expression below to suit quest
     stop music
     stop world fadeout 2.0
@@ -238,7 +188,7 @@ label storyi_start: # beginning point of the dungeon; TODO: change expression be
     $ storyi_prison_location = 6
     show screen show_mc_team_status(hero.team)
     show screen prison_break_controls
-    
+
 label storyi_gui_loop: # the gui loop; we jump here every time we need to show controlling gui
     while 1:
         $ result = ui.interact()
@@ -247,14 +197,14 @@ label storyi_gui_loop: # the gui loop; we jump here every time we need to show c
             $ eqtarget = result
             $ equipment_safe_mode = True
             jump char_equip
-            
+
 label storyi_continue: # the label where we return after visiting characters equipment screens
     call storyi_show_bg
     $ equipment_safe_mode = False
     show screen show_mc_team_status(hero.team)
     show screen prison_break_controls
     jump storyi_gui_loop
-        
+
 label storyi_show_bg: # shows bg depending on matrix location; due to use of BE it must be a call, and not a part of matrix logic itself
     if storyi_prison_location == 1:
         show bg dungeoncell with q_dissolve
@@ -294,7 +244,6 @@ label storyi_show_bg: # shows bg depending on matrix location; due to use of BE 
         show bg story prison_1 with q_dissolve
     return
 
-        
 label storyi_move_map_point: # moves green point to show team location on the map
     if storyi_prison_location == 1:
         show expression point at Transform(pos=(709, 203)) with move
@@ -333,7 +282,7 @@ label storyi_move_map_point: # moves green point to show team location on the ma
     elif storyi_prison_location == 18:
         show expression point at Transform(pos=(523, 296)) with move
     return
-    
+
 label storyi_map: # shows dungeon map and calls matrix to control it
     show map_scroll at truecenter
     show blueprint at blueprint_position
@@ -510,88 +459,88 @@ label storyi_map: # shows dungeon map and calls matrix to control it
         show screen show_mc_team_status(hero.team)
         show screen prison_break_controls
         jump storyi_gui_loop
-            
+
 # further go personal labels for each location to ensure full control over events
-            
+
 label prison_storyi_passage_1:
     $ storyi_prison_location = 14
     call storyi_move_map_point
     call storyi_show_bg
     jump storyi_map
-    
+
 label prison_storyi_passage_2:
     $ storyi_prison_location = 15
     call storyi_move_map_point
     call storyi_show_bg
     jump storyi_map
-    
+
 label prison_storyi_passage_3:
     $ storyi_prison_location = 16
     call storyi_move_map_point
     call storyi_show_bg
     jump storyi_map
-    
+
 label prison_storyi_passage_4:
     $ storyi_prison_location = 18
     call storyi_move_map_point
     call storyi_show_bg
     jump storyi_map
-            
+
 label prison_storyi_event_cell:
     $ storyi_prison_location = 1
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
     call storyi_show_bg
     jump storyi_map
-            
+
 label prison_storyi_event_prisonblock:
     $ storyi_prison_location = 2
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
     call storyi_show_bg
     jump storyi_map
-    
+
 label prison_storyi_event_infirmary:
     $ storyi_prison_location = 3
     play events2 "events/door_open.mp3"
     call storyi_move_map_point
     call storyi_show_bg
     jump storyi_map
-    
+
 label prison_storyi_event_groom2:
     $ storyi_prison_location = 4
     play events2 "events/door_open.mp3"
     call storyi_move_map_point
     call storyi_show_bg
     jump storyi_map
-    
+
 label prison_storyi_event_groom3:
     $ storyi_prison_location = 17
     play events2 "events/door_open.mp3"
     call storyi_move_map_point
     call storyi_show_bg
     jump storyi_map
-    
+
 label prison_storyi_event_dungentr:
     $ storyi_prison_location = 6
     call storyi_move_map_point
     call storyi_show_bg
     jump storyi_map
-    
+
 label prison_storyi_event_storage:
     $ storyi_prison_location = 7
     play events2 "events/door_open.mp3"
     call storyi_move_map_point
     call storyi_show_bg
     jump storyi_map
-            
+
 label prison_storyi_event_barracks:
     $ storyi_prison_location = 5
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
     call storyi_show_bg
     jump storyi_map
-    
+
 label prison_storyi_event_iroom:
     $ storyi_prison_location = 9
     play events2 "events/prison_cell_door.mp3"
@@ -605,7 +554,7 @@ label prison_storyi_event_mentrance:
     call storyi_move_map_point
     call storyi_show_bg
     jump storyi_map
-    
+
 label prison_storyi_event_troom:
     $ storyi_prison_location = 10
     play events2 "events/prison_cell_door.mp3"
@@ -619,14 +568,14 @@ label prison_storyi_event_wroom:
     call storyi_move_map_point
     call storyi_show_bg
     jump storyi_map
-    
+
 label prison_storyi_event_groom_1:
     $ storyi_prison_location = 13
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
     call storyi_show_bg
     jump storyi_map
-    
+
 label prison_storyi_event_croom:
     $ storyi_prison_location = 12
     play events2 "events/prison_cell_door.mp3"
