@@ -749,7 +749,6 @@ init -9 python:
                 # devlog.warning("get_price for {} was ran even though character is free !".format(char.id))
             return 1000
 
-
         def get_upkeep(self):
             # TODO: To be revised after skills are added!
             char = self.instance
@@ -5053,6 +5052,16 @@ init -9 python:
         """
 
         def __init__(self):
+            self.instance = instance
+
+            self.tier = 0
+
+            self.expected_wage = 0
+            self.upkeep = 0
+            self.expected_accomodations = "poor"
+            # self.
+
+        def recalculate_tier(self):
             pass
 
 
