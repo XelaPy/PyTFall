@@ -1490,6 +1490,9 @@ init -1 python: # Core classes:
                 elif type == "new_fire":
                     what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, damage_color(*target.besprite_size), alpha=True)
                     # what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("fire_mask", size=target.besprite_size), alpha=True)
+                elif type == "true_dark":
+                    # what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, damage_color(*target.besprite_size), alpha=True)
+                    what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("fire_logo", size=target.besprite_size), alpha=True)
                 elif type == "vertical_shake":
                     what = target.besprite
                     at_list = [vertical_damage_shake(0.1, (-5, 5))]
