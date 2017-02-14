@@ -29,7 +29,7 @@ label test_be:
     python:
         # Prepare the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        mob = build_mob(id="mikadance", level=50)
+        mob = build_mob(id="mikudance", level=50)
         mob.front_row = True
 
         if len(enemy_team) != 3:
