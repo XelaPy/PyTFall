@@ -51,7 +51,7 @@ init -1: # Images and Animations
         ProportionalScale("content/gfx/be/swords.png", 150, 150)
         alpha 1.0
         linear 0.5 alpha 0
-
+    
     image simple_bow_attack:
         ProportionalScale("content/gfx/be/bows.png", 150, 150)
         alpha 1.0
@@ -127,6 +127,7 @@ init -1: # Images and Animations
             renpy.image("melee_%d" % i, FilmStrip("content/gfx/be/filmstrips/melee_%d.png" % i, (192, 192), (5, 2), 0.05, loop=False))
     # Casting:
     python:
+        be_dark_mask = Transform(Movie(channel="main_gfx_bow", play="content/gfx/autowebm/be_dark_mask inf main_gfx_bow/movie.webm", mask="content/gfx/autowebm/be_dark_mask inf main_gfx_bow/mask.webm"), zoom=1.2, alpha=0.8)
         for i in ["cast_dark_2", "cast_light_2", "cast_water_2", "cast_air_2", "cast_fire_2", "cast_earth_2", "cast_electricity_2", "cast_ice_2"]:
             renpy.image(i, FilmStrip("content/gfx/be/filmstrips/%s.png" % i, (192, 192), (5, 4), 0.07, loop=False))
     image cast_default_1 = FilmStrip("content/gfx/be/filmstrips/cast_default_1.png", (192, 192), (5, 3), 0.08, loop=False)

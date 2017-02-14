@@ -1507,17 +1507,21 @@ init -1 python: # Core classes:
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type == "on_darkness":
-                    what = target.besprite
+                    be_dark_mask = Transform(Movie(channel="main_gfx_bow", play="content/gfx/autowebm/be_dark_mask inf main_gfx_bow/movie.webm", mask="content/gfx/autowebm/be_dark_mask inf main_gfx_bow/mask.webm"), zoom=1.2, alpha=0.8)
+                    size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
+                    what = Fixed(target.besprite, Transform(be_dark_mask, size=size, offset=(-30, -50)))
                     t = self.target_sprite_damage_effect.get("duration", 1)
-                    at_list = [dark_ray(target.besprite, t)]
+                    at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=0.2, t=t)]
                 elif type == "on_darkness_death":
                     what = target.besprite
                     t = self.target_sprite_damage_effect.get("duration", 1)
                     at_list = [dark_ray_death(target.besprite, t)]
                 elif type.startswith("on_dark"):
-                    child = Transform("content/gfx/be/darken.jpg", size=target.besprite_size)
-                    mask = target.besprite
-                    what = AlphaMask(child, mask)
+                    be_dark_mask = Transform(Movie(channel="main_gfx_bow", play="content/gfx/autowebm/be_dark_mask inf main_gfx_bow/movie.webm", mask="content/gfx/autowebm/be_dark_mask inf main_gfx_bow/mask.webm"), zoom=1.2, alpha=0.8)
+                    size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
+                    what = Fixed(target.besprite, Transform(be_dark_mask, size=size, offset=(-30, -50)))
+                    t = self.target_sprite_damage_effect.get("duration", 1)
+                    at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=0.2, t=t)]
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type.startswith("frozen"): # shows a big block of ice around the target sprite
