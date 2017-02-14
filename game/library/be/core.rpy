@@ -260,14 +260,17 @@ init -1 python: # Core classes:
             char.betag = str(random.random())
             # First, lets get correct sprites:
             sprite = char.show("battle_sprite", resize=char.get_sprite_size("battle_sprite"))
-            char.besprite_size = sprite.true_size()
+            # char.besprite_size = sprite.true_size()
 
             # We'll assign "indexes" from 0 to 3 from left to right [0, 1, 3, 4] to help calculating attack ranges.
             team_index = team.position
             char_index = char.beinx
             if team_index:
                 if char.__class__ == Mob:
-                    char.besprite = im.Flip(sprite, horizontal=True)
+                    if isinstance(sprite, ProportionalScale):
+                        char.besprite = im.Flip(sprite, horizontal=True)
+                    else:
+                        char.besprite = Transform(sprite, xzoom=-1)
                 else:
                     char.besprite = sprite
 
@@ -278,7 +281,10 @@ init -1 python: # Core classes:
 
             if team_index == "r":
                 if char.__class__ != Mob:
-                    char.besprite = im.Flip(sprite, horizontal=True)
+                    if isinstance(sprite, ProportionalScale):
+                        char.besprite = im.Flip(sprite, horizontal=True)
+                    else:
+                        char.besprite = Transform(sprite, xzoom=-1)
                 else:
                     char.besprite = sprite
 

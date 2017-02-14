@@ -1391,7 +1391,7 @@ init -9 python:
             self.sopos = () # Status underlay position, which should be fixed.
             self.cpos = None # Current position of a sprite.
             self.besk = None # BE Show **Kwargs!
-            self.besprite_size = None # Sprite size in pixels.
+            # self.besprite_size = None # Sprite size in pixels. THIS IS NOW A PROPERTY!
             self.allegiance = None # BE will default this to the team name.
             self.controller = "player"
             self.beeffects = []
@@ -3353,16 +3353,25 @@ init -9 python:
                 what = "combat"
             if what == "fighting":
                 what = "combat"
+
             if what == "portrait":
                 what = self.portrait
             elif what == "battle_sprite":
-                what = self.battle_sprite
+                # See if we can find idle animation for this...
+                imgtag = self.id + "besprite_idle"
+                if renpy.has_image(imgtag):
+                    what = ImageReference(imgtag)
+                else:
+                    what = self.battle_sprite
             elif what == "combat" and self.combat_img:
                 what = self.combat_img
             else:
                 what = self.battle_sprite
 
-            return ProportionalScale(what, resize[0], resize[1])
+            if isinstance(what, ImageReference):
+                return Transform(what, size=(resize[0], resize[1]))
+            else:
+                return ProportionalScale(what, resize[0], resize[1])
 
         def restore_ap(self):
             self.AP = self.baseAP + int(self.constitution / 20)
