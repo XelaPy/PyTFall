@@ -1,10 +1,6 @@
 # Assets of the BE:
 init -1: # Images and Animations
     # Test of an alternative damge overlay concept:
-    python:
-        def color_blend(d, size=None, alpha=.5):
-            return AlphaBlend(Transform(d, alpha=alpha), d, damage_color(*size), alpha=True)
-
     transform damage_color(w, h):
         Solid("#732626", xysize=(w, h))
         0.05

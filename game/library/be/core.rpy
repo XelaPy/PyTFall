@@ -230,7 +230,7 @@ init -1 python: # Core classes:
                 for i in team:
                     i.betag = None
                     i.besk = None
-                    i.besprite_size = None
+                    # i.besprite_size = None
                     i.status_overlay = [] # Clear the overlay.
 
         def next_turn(self):
@@ -1488,7 +1488,8 @@ init -1 python: # Core classes:
                     what = target.besprite
                     at_list = [damage_shake(0.05, (-10, 10))]
                 elif type == "new_fire":
-                    what = color_blend(target.besprite, size=target.besprite_size, alpha=.8)
+                    what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, damage_color(*target.besprite_size), alpha=True)
+                    # what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("fire_mask", size=target.besprite_size), alpha=True)
                 elif type == "vertical_shake":
                     what = target.besprite
                     at_list = [vertical_damage_shake(0.1, (-5, 5))]
@@ -1882,6 +1883,7 @@ init -1 python: # Core classes:
 
             # In case we did not pick any specific skill:
             BE_Skip(source=self.source)()
+
 
     def get_char_with_lowest_attr(chars, attr="hp"):
         chars.sort(key=attrgetter(attr))
