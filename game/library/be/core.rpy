@@ -1511,7 +1511,7 @@ init -1 python: # Core classes:
                     size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
                     what = Fixed(target.besprite, Transform(be_dark_mask, size=size, offset=(-30, -50)))
                     t = self.target_sprite_damage_effect.get("duration", 1)
-                    at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=0.2, t=t)]
+                    # at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=0.2, t=t)]
                 elif type == "on_darkness_death":
                     what = target.besprite
                     t = self.target_sprite_damage_effect.get("duration", 1)
