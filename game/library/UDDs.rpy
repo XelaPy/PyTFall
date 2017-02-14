@@ -770,9 +770,8 @@ init -100 python:
 init python:
     def get_size(d):
         d = renpy.easy.displayable(d)
-        w, h = renpy.render(d, 0, 0, 0, 0).get_size()
-        w, h = int(round(w)), int(round(h))
-        return w, h
+        w, h = d.render(0, 0, 0, 0).get_size()
+        return int(round(w)), int(round(h))
         
     def gen_randmotion(count, dist, delay):
         args = [ ]

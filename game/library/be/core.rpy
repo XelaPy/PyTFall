@@ -1276,15 +1276,14 @@ init -1 python: # Core classes:
                 self.time_bg_main_effect(start)
 
             time_stamps = sorted(self.timestamps.keys())
+            last_time_stamp = 0
             for index, stamp in enumerate(time_stamps):
+                pause = stamp-last_time_stamp
+                if pause > 0.02:
+                    renpy.pause(pause)
                 self.timestamps[stamp]()
-                try:
-                    pause = time_stamps[index + 1] - stamp
-                    # We do not want to pause for a super small period cause it will not work properly anyway...
-                    if pause > 0.02:
-                        renpy.pause(pause)
-                except: # If we run out of indexes I guess...
-                    pass
+
+                last_time_stamp = stamp
 
             self.timestamps = {}
             # Try to predict the images:

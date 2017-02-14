@@ -1455,6 +1455,10 @@ init -9 python:
                 raise Exception("{} status is not valid for {} with an id: {}".format(s, self.__class__, self.id))
             self.status = s
 
+        @property
+        def besprite_size(self):
+            return get_size(self.besprite)
+
         # Properties:
         @property
         def mc_ref(self):
