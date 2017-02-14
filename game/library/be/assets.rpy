@@ -1,5 +1,37 @@
 # Assets of the BE:
 init -1: # Images and Animations
+    # Test of an alternative damge overlay concept:
+    python:
+        def color_blend(d, size=None, alpha=.5):
+            return AlphaBlend(Transform(d, alpha=alpha), d, damage_color(*size), alpha=True)
+
+    transform damage_color(w, h):
+        Solid("#732626", xysize=(w, h))
+        0.05
+        Solid("#7A1F1F", xysize=(w, h))
+        0.05
+        Solid("#821717", xysize=(w, h))
+        0.05
+        Solid("#8A0F0F", xysize=(w, h))
+        0.05
+        Solid("#821717", xysize=(w, h))
+        0.05
+        Solid("#910808", xysize=(w, h))
+        0.05
+        Solid("#990000", xysize=(w, h))
+        0.05
+        Solid("#910808", xysize=(w, h))
+        0.05
+        Solid("#8A0F0F", xysize=(w, h))
+        0.05
+        Solid("#821717", xysize=(w, h))
+        0.05
+        Solid("#7A1F1F", xysize=(w, h))
+        0.05
+        Solid("#732626", xysize=(w, h))
+        0.05
+        repeat
+
     # To be moved to transforms file:
     transform multi_strike(d, offset, t, duration, af):
         # A Single instance of simple attack for the BE.
@@ -51,7 +83,7 @@ init -1: # Images and Animations
         ProportionalScale("content/gfx/be/swords.png", 150, 150)
         alpha 1.0
         linear 0.5 alpha 0
-    
+
     image simple_bow_attack:
         ProportionalScale("content/gfx/be/bows.png", 150, 150)
         alpha 1.0
@@ -121,18 +153,18 @@ init -1: # Images and Animations
         ProportionalScale("content/gfx/be/whip.png", 150, 150)
         alpha 1.0
         linear 0.5 alpha 0
-    
+
     python:
         for i in xrange(1, 6):
             renpy.image("melee_%d" % i, FilmStrip("content/gfx/be/filmstrips/melee_%d.png" % i, (192, 192), (5, 2), 0.05, loop=False))
     # Casting:
     python:
-        be_dark_mask = Transform(Movie(channel="main_gfx_bow", play="content/gfx/autowebm/be_dark_mask inf main_gfx_bow/movie.webm", mask="content/gfx/autowebm/be_dark_mask inf main_gfx_bow/mask.webm"), zoom=1.2, alpha=0.8)
+        # be_dark_mask = Transform(Movie(channel="main_gfx_bow", play="content/gfx/autowebm/be_dark_mask inf main_gfx_bow/movie.webm", mask="content/gfx/autowebm/be_dark_mask inf main_gfx_bow/mask.webm"), zoom=1.2, alpha=0.8)
         for i in ["cast_dark_2", "cast_light_2", "cast_water_2", "cast_air_2", "cast_fire_2", "cast_earth_2", "cast_electricity_2", "cast_ice_2"]:
             renpy.image(i, FilmStrip("content/gfx/be/filmstrips/%s.png" % i, (192, 192), (5, 4), 0.07, loop=False))
     image cast_default_1 = FilmStrip("content/gfx/be/filmstrips/cast_default_1.png", (192, 192), (5, 3), 0.08, loop=False)
     image cast_runes_1 = FilmStrip("content/gfx/be/filmstrips/cast_runes_1.png", (192, 192), (5, 1), 0.15, loop=False)
-    
+
     ########### Magic:
     ########### Fire:
     image fire_1 = FilmStrip("content/gfx/be/filmstrips/fire_1.png", (192, 192), (5, 4), 0.1, loop=False)
@@ -594,7 +626,7 @@ label load_battle_skills:
                 target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .15},
                 dodge_effect={"initial_pause": -.01})
 
-                                           
+
         # Rapier attacks:
         BE_Action(u"Steel Flourish", range=1, attributes=["melee", "physical"], critpower=0.6, effect=70, multiplier=1.05, vitality_cost=12, mp_cost=6, menu_pos=1,
                 desc="Quick consecutive slashes form an ancient rune capable to increase critical damage.",
@@ -733,7 +765,7 @@ label load_battle_skills:
                 target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
 
         MultiAttack("Ice Strike 3X", attributes=["melee", "physical", "ice"], menu_pos=0.32, multiplier=0.9, critpower=0.25, effect=80, vitality_cost=7, mp_cost=2, range=1,
-                desc="Three quick strikes with an ice dagger.", 
+                desc="Three quick strikes with an ice dagger.",
                 main_effect={"gfx": Transform("ice_dagger", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 1.5, "times": 3, "interval": .5, "alpha_fade": 1.0, "sd_duration": .75},
                 target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .05, "duration": 1.5},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": .5})
@@ -843,7 +875,7 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
         # Gun Attacks:
         BE_Action("Gun Shot", attributes=["ranged", "physical"], critpower=.3, effect=50, range=3, vitality_cost=2, menu_pos=0, multiplier=0.5,
-                desc="Shooting a bullet.", 
+                desc="Shooting a bullet.",
                 main_effect={"gfx": "simple_gun_attack", "sfx": "content/sfx/sound/be/gun_attack.mp3", "duration": .5},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
         # Scythe Attacks:
@@ -879,7 +911,7 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": .5, "duration": .5})
         # Throw attacks:
         BE_Action("Throw", attributes=["ranged", "physical"], effect=5, range=3, vitality_cost=1, menu_pos=0, multiplier=0.5,
-                desc="Throwing a projectile.", 
+                desc="Throwing a projectile.",
                 main_effect={"gfx": "simple_throw_attack", "sfx": list("content/sfx/sound/be/throwing_attack_%d.mp3"%i for i in xrange(1, 3)), "duration": .5, "hflip": True},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
         ArrowsSkill("Shadow Shuriken", menu_pos=0.5, attributes=["ranged", "darkness"], effect=60, critpower=.5, multiplier=0.95, mp_cost=.05, vitality_cost=15, range=4, piercing=True,
@@ -939,7 +971,8 @@ label load_battle_skills:
                 desc="Creates a rain of fire that hits all enemies.",
                 attacker_effects={"gfx": "fire_1", "sfx": "default"},
                 main_effect={"gfx": Transform("fire_3", zoom=1.5), "sfx": "content/sfx/sound/be/fire5.mp3", "duration": 3.5, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}},
-                target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": 0.2, "duration": 3.0},
+                # target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": 0.2, "duration": 3.0},new_fire
+                target_sprite_damage_effect={"gfx": "new_fire", "initial_pause": 0.2, "duration": 3.0},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 1.5})
         P2P_Skill(u"Fireball", menu_pos=0.5, attributes=["magic", "fire"], effect=50, multiplier=1.3, mp_cost=30, range=4, piercing=True,
@@ -1163,7 +1196,7 @@ label load_battle_skills:
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 0.7, "duration": 0.2})
         BE_Action(u"Aeroga", menu_pos=0.2, attributes=["magic", "air"], effect=10, multiplier=0.9, mp_cost=12, range=4, piercing=True,
-                desc="Even for those who don't need to breathe instantaneous air pressure drop is dangerous.", 
+                desc="Even for those who don't need to breathe instantaneous air pressure drop is dangerous.",
                 attacker_effects={"gfx": "air_1", "sfx": "default"},
                 main_effect={"gfx": Transform("air_2", zoom=1.2), "sfx": "content/sfx/sound/be/air3.mp3", "duration": 1.5, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.3},
@@ -1247,7 +1280,7 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": 0.3, "duration": 1.4},
                 target_death_effect={"gfx": "hide", "initial_pause": 0.7, "duration": 0.01},
                 dodge_effect={"initial_pause": .1})
-        BE_Action(u"Electromagnetism", menu_pos=1, attributes=["magic", "electricity"], menuname="EM", effect=50, multiplier=1.4, mp_cost=50, range=4, 
+        BE_Action(u"Electromagnetism", menu_pos=1, attributes=["magic", "electricity"], menuname="EM", effect=50, multiplier=1.4, mp_cost=50, range=4,
                 desc="Takes control over charged particles inside the target, causing severe internal injuries.",
                 attacker_effects={"gfx": "electricity_2", "sfx": "default"}, dodge_effect={"initial_pause": .2},
                 main_effect={"gfx": Transform("electricity_6", zoom=1.8), "sfx": "content/sfx/sound/be/thunder6.mp3", "duration": 3.2, "aim": {"point": "tc", "anchor": (0.5, 0.5), "yo": 15}, "start_at": 0, "hflip": True},

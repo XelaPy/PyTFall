@@ -1487,6 +1487,8 @@ init -1 python: # Core classes:
                 if type == "shake":
                     what = target.besprite
                     at_list = [damage_shake(0.05, (-10, 10))]
+                elif type == "new_fire":
+                    what = color_blend(target.besprite, size=target.besprite_size, alpha=.8)
                 elif type == "vertical_shake":
                     what = target.besprite
                     at_list = [vertical_damage_shake(0.1, (-5, 5))]
