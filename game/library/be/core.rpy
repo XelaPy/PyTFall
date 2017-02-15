@@ -1490,6 +1490,8 @@ init -1 python: # Core classes:
                 elif type == "new_fire":
                     what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, damage_color(*target.besprite_size), alpha=True)
                     # what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("fire_mask", size=target.besprite_size), alpha=True)
+                elif type == "true_water":
+                    what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("water_overlay_test", size=target.besprite_size), alpha=True)
                 elif type == "true_dark":
                     # what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, damage_color(*target.besprite_size), alpha=True)
                     what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("fire_logo", size=target.besprite_size), alpha=True)
