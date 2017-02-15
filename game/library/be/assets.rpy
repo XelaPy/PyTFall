@@ -1,30 +1,18 @@
 # Assets of the BE:
 init -1: # Images and Animations
     # Test of an alternative damge overlay concept:
-    transform damage_color(w, h):
-        Solid("#732626", xysize=(w, h))
+    transform healing_effect_color(w, h):
+        Solid("#8CD9B3", xysize=(w, h))
         0.05
-        Solid("#7A1F1F", xysize=(w, h))
+        Solid("#85E0B3", xysize=(w, h))
         0.05
-        Solid("#821717", xysize=(w, h))
+        Solid("#7DE8B3", xysize=(w, h))
         0.05
-        Solid("#8A0F0F", xysize=(w, h))
+        Solid("#75F0B3", xysize=(w, h))
         0.05
-        Solid("#821717", xysize=(w, h))
+        Solid("#7DE8B3", xysize=(w, h))
         0.05
-        Solid("#910808", xysize=(w, h))
-        0.05
-        Solid("#990000", xysize=(w, h))
-        0.05
-        Solid("#910808", xysize=(w, h))
-        0.05
-        Solid("#8A0F0F", xysize=(w, h))
-        0.05
-        Solid("#821717", xysize=(w, h))
-        0.05
-        Solid("#7A1F1F", xysize=(w, h))
-        0.05
-        Solid("#732626", xysize=(w, h))
+        Solid("#85E0B3", xysize=(w, h))
         0.05
         repeat
 
@@ -967,8 +955,7 @@ label load_battle_skills:
                 desc="Creates a rain of fire that hits all enemies.",
                 attacker_effects={"gfx": "fire_1", "sfx": "default"},
                 main_effect={"gfx": Transform("fire_3", zoom=1.5), "sfx": "content/sfx/sound/be/fire5.mp3", "duration": 3.5, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}},
-                # target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": 0.2, "duration": 3.0},new_fire
-                target_sprite_damage_effect={"gfx": "new_fire", "initial_pause": 0.2, "duration": 3.0},
+                target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": 0.2, "duration": 3.0},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 1.5})
         P2P_Skill(u"Fireball", menu_pos=0.5, attributes=["magic", "fire"], effect=50, multiplier=1.3, mp_cost=30, range=4, piercing=True,

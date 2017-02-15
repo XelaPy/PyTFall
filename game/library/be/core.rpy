@@ -1488,7 +1488,7 @@ init -1 python: # Core classes:
                     what = target.besprite
                     at_list = [damage_shake(0.05, (-10, 10))]
                 elif type == "new_fire":
-                    what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, damage_color(*target.besprite_size), alpha=True)
+                    what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, healing_effect_color(*target.besprite_size), alpha=True)
                     # what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("fire_mask", size=target.besprite_size), alpha=True)
                 elif type == "true_dark":
                     # what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, damage_color(*target.besprite_size), alpha=True)
@@ -1571,7 +1571,7 @@ init -1 python: # Core classes:
                         if type.endswith("shake"):
                             at_list = [damage_shake(0.05, (-10, 10))]
                 elif isinstance(type, basestring) and type.startswith("being_healed"):
-                        what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.0, 0.6, 0.6)))
+                        what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, healing_effect_color(*target.besprite_size), alpha=True)
 
                 if "what" in locals() and not "missed_hit" in target.beeffects:
                     renpy.show(target.betag, what=what, at_list=at_list, zorder=target.besk["zorder"])
