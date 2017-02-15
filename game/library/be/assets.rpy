@@ -2,13 +2,13 @@
 init -1: # Images and Animations
     # Test of an alternative damge overlay concept:
     transform dark_death_color(w, h):
-        Solid("#666666", xysize=(w, h))
-        0.05
-        Solid("#4D4D4D", xysize=(w, h))
-        0.05
         Solid("#333333", xysize=(w, h))
         0.05
-        Solid("#4D4D4D", xysize=(w, h))
+        Solid("#222222", xysize=(w, h))
+        0.05
+        Solid("#111111", xysize=(w, h))
+        0.05
+        Solid("#222222", xysize=(w, h))
         0.05
         repeat
     
