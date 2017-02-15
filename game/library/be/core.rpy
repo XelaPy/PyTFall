@@ -1515,10 +1515,8 @@ init -1 python: # Core classes:
                     t = self.target_sprite_damage_effect.get("duration", 1)
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
-                elif type == "on_darkness_death":
-                    what = target.besprite
-                    t = self.target_sprite_damage_effect.get("duration", 1)
-                    at_list = [dark_ray_death(target.besprite, t)]
+                elif type == "on_death":
+                    what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, dark_death_color(*target.besprite_size), alpha=True)
                 elif type.startswith("on_dark"):
                     child = Transform("content/gfx/be/darken.jpg", size=target.besprite_size)
                     mask = target.besprite

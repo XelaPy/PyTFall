@@ -1,6 +1,17 @@
 # Assets of the BE:
 init -1: # Images and Animations
     # Test of an alternative damge overlay concept:
+    transform dark_death_color(w, h):
+        Solid("#666666", xysize=(w, h))
+        0.05
+        Solid("#4D4D4D", xysize=(w, h))
+        0.05
+        Solid("#333333", xysize=(w, h))
+        0.05
+        Solid("#4D4D4D", xysize=(w, h))
+        0.05
+        repeat
+    
     transform healing_effect_color(w, h):
         Solid("#8CD9B3", xysize=(w, h))
         0.05
@@ -917,7 +928,7 @@ label load_battle_skills:
                 main_effect={"gfx": Transform("death_scythe_webm", zoom=1.2), "sfx": "content/sfx/sound/be/death_skythe.ogg", "duration": 1.46, "aim": {"anchor": (0.5, 0.5), "xo": 180, "yo":-70}, "hflip": True},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .3},
                 bg_main_effect={"gfx": "mirrage", "initial_pause": 0.3, "duration": 1.1},
-                target_sprite_damage_effect={"gfx": "on_darkness_death", "initial_pause": .35, "duration": 1.0})
+                target_sprite_damage_effect={"gfx": "on_death", "initial_pause": .35, "duration": 1.0})
         # Spray Attacks:
         BE_Action("Spray", attributes=["ranged", "poison"], critpower=-0.3, effect=100, range=2, vitality_cost=3, menu_pos=0, multiplier=0.5,
                 desc="Spraying a dangerous substance.",
