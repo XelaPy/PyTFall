@@ -1,30 +1,59 @@
 # Assets of the BE:
 init -1: # Images and Animations
     # Test of an alternative damge overlay concept:
-    transform damage_color(w, h):
-        Solid("#732626", xysize=(w, h))
+    transform dark_death_color(w, h):
+        Solid("#333333", xysize=(w, h))
         0.05
-        Solid("#7A1F1F", xysize=(w, h))
+        Solid("#222222", xysize=(w, h))
         0.05
-        Solid("#821717", xysize=(w, h))
+        Solid("#111111", xysize=(w, h))
         0.05
-        Solid("#8A0F0F", xysize=(w, h))
+        Solid("#222222", xysize=(w, h))
         0.05
-        Solid("#821717", xysize=(w, h))
+        repeat
+    
+    transform healing_effect_color(w, h):
+        Solid("#8CD9B3", xysize=(w, h))
         0.05
-        Solid("#910808", xysize=(w, h))
+        Solid("#85E0B3", xysize=(w, h))
         0.05
-        Solid("#990000", xysize=(w, h))
+        Solid("#7DE8B3", xysize=(w, h))
         0.05
-        Solid("#910808", xysize=(w, h))
+        Solid("#75F0B3", xysize=(w, h))
         0.05
-        Solid("#8A0F0F", xysize=(w, h))
+        Solid("#7DE8B3", xysize=(w, h))
         0.05
-        Solid("#821717", xysize=(w, h))
+        Solid("#85E0B3", xysize=(w, h))
         0.05
-        Solid("#7A1F1F", xysize=(w, h))
+        repeat
+        
+    transform fire_effect_color(w, h):
+        Solid("#D98026", xysize=(w, h))
         0.05
-        Solid("#732626", xysize=(w, h))
+        Solid("#E68019", xysize=(w, h))
+        0.05
+        Solid("#F2800D", xysize=(w, h))
+        0.05
+        Solid("#FF8000", xysize=(w, h))
+        0.05
+        Solid("#F2800D", xysize=(w, h))
+        0.05
+        Solid("#E68019", xysize=(w, h))
+        0.05
+        repeat
+        
+    transform poison_effect_color(w, h):
+        Solid("#178217", xysize=(w, h))
+        0.05
+        Solid("#0F8A0F", xysize=(w, h))
+        0.05
+        Solid("#089108", xysize=(w, h))
+        0.05
+        Solid("#009900", xysize=(w, h))
+        0.05
+        Solid("#089108", xysize=(w, h))
+        0.05
+        Solid("#0F8A0F", xysize=(w, h))
         0.05
         repeat
 
@@ -899,7 +928,7 @@ label load_battle_skills:
                 main_effect={"gfx": Transform("death_scythe_webm", zoom=1.2), "sfx": "content/sfx/sound/be/death_skythe.ogg", "duration": 1.46, "aim": {"anchor": (0.5, 0.5), "xo": 180, "yo":-70}, "hflip": True},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .3},
                 bg_main_effect={"gfx": "mirrage", "initial_pause": 0.3, "duration": 1.1},
-                target_sprite_damage_effect={"gfx": "on_darkness_death", "initial_pause": .35, "duration": 1.0})
+                target_sprite_damage_effect={"gfx": "on_death", "initial_pause": .35, "duration": 1.0})
         # Spray Attacks:
         BE_Action("Spray", attributes=["ranged", "poison"], critpower=-0.3, effect=100, range=2, vitality_cost=3, menu_pos=0, multiplier=0.5,
                 desc="Spraying a dangerous substance.",
@@ -967,8 +996,7 @@ label load_battle_skills:
                 desc="Creates a rain of fire that hits all enemies.",
                 attacker_effects={"gfx": "fire_1", "sfx": "default"},
                 main_effect={"gfx": Transform("fire_3", zoom=1.5), "sfx": "content/sfx/sound/be/fire5.mp3", "duration": 3.5, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}},
-                # target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": 0.2, "duration": 3.0},new_fire
-                target_sprite_damage_effect={"gfx": "new_fire", "initial_pause": 0.2, "duration": 3.0},
+                target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": 0.2, "duration": 3.0},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 1.5})
         P2P_Skill(u"Fireball", menu_pos=0.5, attributes=["magic", "fire"], effect=50, multiplier=1.3, mp_cost=30, range=4, piercing=True,
@@ -1377,8 +1405,7 @@ label load_battle_skills:
         BE_Action(u"Darkra", menu_pos=0.1, attributes=["magic", "darkness"], effect=15, multiplier=1.1, mp_cost=10, range=4, desc="Darkness envelops the target, slowly killing it.",
                 attacker_effects={"gfx": "dark_1", "sfx": "default"},
                 main_effect={"gfx": Transform("darkness_2", zoom=1.6), "sfx": "content/sfx/sound/be/darkness2.mp3", "duration": 1.6, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                # target_sprite_damage_effect={"gfx": "on_darkness", "initial_pause": 0.3, "duration": 1.3},
-                target_sprite_damage_effect={"gfx": "true_dark", "initial_pause": 0.3, "duration": 1.3},
+                target_sprite_damage_effect={"gfx": "on_darkness", "initial_pause": 0.3, "duration": 1.3},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.4},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":0.8, "duration": 0.2})
         BE_Action(u"Darkga", menu_pos=0.2, attributes=["magic", "darkness"], effect=15, multiplier=0.9, mp_cost=14, range=4, piercing=True,
@@ -1407,7 +1434,7 @@ label load_battle_skills:
                 attacker_effects={"gfx": "dark_2", "sfx": "default"},
                 main_effect={"gfx": Transform("darkness_6", zoom=1.1), "sfx": "content/sfx/sound/be/darkness3.mp3", "duration": 1.5, "aim": {"point": "center", "anchor": (0.5, 0.5)}},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.1},
-                target_sprite_damage_effect={"gfx": "on_darkness", "initial_pause": 0.1, "duration": 1.2},
+                target_sprite_damage_effect={"gfx": "on_darknes_with_shake", "initial_pause": 0.1, "duration": 1.2},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 0.9, "duration": 0.2})
         BE_Action("Other Light", menu_pos=4, attributes=["magic", "darkness", "light"], effect=75, multiplier=1.25, mp_cost=45, range=4, piercing=True, true_pierce=True,
                 desc="Brings an alternative form of light from a dark dimension. Ignores back row damage reduction.",

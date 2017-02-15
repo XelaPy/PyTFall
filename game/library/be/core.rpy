@@ -1487,12 +1487,9 @@ init -1 python: # Core classes:
                 if type == "shake":
                     what = target.besprite
                     at_list = [damage_shake(0.05, (-10, 10))]
-                elif type == "new_fire":
-                    what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, damage_color(*target.besprite_size), alpha=True)
-                    # what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("fire_mask", size=target.besprite_size), alpha=True)
+                elif type == "true_dark": # not used atm! will need decent high level spells for this one!
                 elif type == "true_water":
                     what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("water_overlay_test", size=target.besprite_size), alpha=True)
-                elif type == "true_dark":
                     # what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, damage_color(*target.besprite_size), alpha=True)
                     what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("fire_logo", size=target.besprite_size), alpha=True)
                 elif type == "vertical_shake":
@@ -1514,22 +1511,18 @@ init -1 python: # Core classes:
                     what = AlphaMask(child, mask)
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
-                elif type == "on_darkness":
-                    be_dark_mask = Transform(Movie(channel="main_gfx_bow", play="content/gfx/autowebm/be_dark_mask inf main_gfx_bow/movie.webm", mask="content/gfx/autowebm/be_dark_mask inf main_gfx_bow/mask.webm"), zoom=1.2, alpha=0.8)
+                elif type.startswith("on_darkness"):
                     size = int(target.besprite_size[0]*1.5), 60
-                    what = Fixed(target.besprite, Transform(be_dark_mask, size=size, offset=(-30, 70)))
+                    what = Fixed(target.besprite, Transform("be_dark_mask", size=size, offset=(-30, -50)))
                     t = self.target_sprite_damage_effect.get("duration", 1)
-                    # at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=0.2, t=t)]
-                elif type == "on_darkness_death":
-                    what = target.besprite
-                    t = self.target_sprite_damage_effect.get("duration", 1)
-                    at_list = [dark_ray_death(target.besprite, t)]
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
+                elif type == "on_death":
+                    what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, dark_death_color(*target.besprite_size), alpha=True)
                 elif type.startswith("on_dark"):
-                    be_dark_mask = Transform(Movie(channel="main_gfx_bow", play="content/gfx/autowebm/be_dark_mask inf main_gfx_bow/movie.webm", mask="content/gfx/autowebm/be_dark_mask inf main_gfx_bow/mask.webm"), zoom=1.2, alpha=0.8)
-                    size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
-                    what = Fixed(target.besprite, Transform(be_dark_mask, size=size, offset=(-30, -50)))
-                    t = self.target_sprite_damage_effect.get("duration", 1)
-                    at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=0.2, t=t)]
+                    child = Transform("content/gfx/be/darken.jpg", size=target.besprite_size)
+                    mask = target.besprite
+                    what = AlphaMask(child, mask)
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type.startswith("frozen"): # shows a big block of ice around the target sprite
@@ -1546,10 +1539,7 @@ init -1 python: # Core classes:
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type.startswith("on_fire"):
-                    size = (int(target.besprite_size[0]*1.1), int(target.besprite_size[1]*1.0))
-                    child = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
-                    mask = Transform("flame_bm", size=size)
-                    what = AlphaMask(child, mask)
+                    what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, fire_effect_color(*target.besprite_size), alpha=True)
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type.startswith("on_water"):
@@ -1571,11 +1561,11 @@ init -1 python: # Core classes:
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type.startswith("poisoned"): # ideally we could use animated texture of green liquid, but it's hard to find for free...
-                        what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.2, 0.9, 0.2)))
+                        what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, poison_effect_color(*target.besprite_size), alpha=True)
                         if type.endswith("shake"):
                             at_list = [damage_shake(0.05, (-10, 10))]
                 elif isinstance(type, basestring) and type.startswith("being_healed"):
-                        what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.0, 0.6, 0.6)))
+                        what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, healing_effect_color(*target.besprite_size), alpha=True)
 
                 if "what" in locals() and not "missed_hit" in target.beeffects:
                     renpy.show(target.betag, what=what, at_list=at_list, zorder=target.besk["zorder"])
