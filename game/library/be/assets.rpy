@@ -1405,8 +1405,7 @@ label load_battle_skills:
         BE_Action(u"Darkra", menu_pos=0.1, attributes=["magic", "darkness"], effect=15, multiplier=1.1, mp_cost=10, range=4, desc="Darkness envelops the target, slowly killing it.",
                 attacker_effects={"gfx": "dark_1", "sfx": "default"},
                 main_effect={"gfx": Transform("darkness_2", zoom=1.6), "sfx": "content/sfx/sound/be/darkness2.mp3", "duration": 1.6, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                # target_sprite_damage_effect={"gfx": "on_darkness", "initial_pause": 0.3, "duration": 1.3},
-                target_sprite_damage_effect={"gfx": "true_dark", "initial_pause": 0.3, "duration": 1.3},
+                target_sprite_damage_effect={"gfx": "on_darkness", "initial_pause": 0.3, "duration": 1.3},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.4},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":0.8, "duration": 0.2})
         BE_Action(u"Darkga", menu_pos=0.2, attributes=["magic", "darkness"], effect=15, multiplier=0.9, mp_cost=14, range=4, piercing=True,

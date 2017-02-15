@@ -1487,7 +1487,7 @@ init -1 python: # Core classes:
                 if type == "shake":
                     what = target.besprite
                     at_list = [damage_shake(0.05, (-10, 10))]
-                elif type == "true_dark":
+                elif type == "true_dark": # not used atm! will need decent high level spells for this one!
                     # what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, damage_color(*target.besprite_size), alpha=True)
                     what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("fire_logo", size=target.besprite_size), alpha=True)
                 elif type == "vertical_shake":
