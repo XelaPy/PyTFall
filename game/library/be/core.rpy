@@ -1513,9 +1513,8 @@ init -1 python: # Core classes:
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type.startswith("on_darkness"):
-                    be_dark_mask = Transform(Movie(channel="main_gfx_bow", play="content/gfx/autowebm/be_dark_mask inf main_gfx_bow/movie.webm", mask="content/gfx/autowebm/be_dark_mask inf main_gfx_bow/mask.webm"), zoom=1.2, alpha=0.8)
                     size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
-                    what = Fixed(target.besprite, Transform(be_dark_mask, size=size, offset=(-30, -50)))
+                    what = Fixed(target.besprite, Transform("be_dark_mask", size=size, offset=(-30, -50)))
                     t = self.target_sprite_damage_effect.get("duration", 1)
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
