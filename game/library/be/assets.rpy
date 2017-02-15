@@ -15,6 +15,21 @@ init -1: # Images and Animations
         Solid("#85E0B3", xysize=(w, h))
         0.05
         repeat
+        
+    transform fire_effect_color(w, h):
+        Solid("#D98026", xysize=(w, h))
+        0.05
+        Solid("#E68019", xysize=(w, h))
+        0.05
+        Solid("#F2800D", xysize=(w, h))
+        0.05
+        Solid("#FF8000", xysize=(w, h))
+        0.05
+        Solid("#F2800D", xysize=(w, h))
+        0.05
+        Solid("#E68019", xysize=(w, h))
+        0.05
+        repeat
 
     # To be moved to transforms file:
     transform multi_strike(d, offset, t, duration, af):

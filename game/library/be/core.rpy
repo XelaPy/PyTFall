@@ -1487,9 +1487,6 @@ init -1 python: # Core classes:
                 if type == "shake":
                     what = target.besprite
                     at_list = [damage_shake(0.05, (-10, 10))]
-                elif type == "new_fire":
-                    what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, healing_effect_color(*target.besprite_size), alpha=True)
-                    # what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("fire_mask", size=target.besprite_size), alpha=True)
                 elif type == "true_dark":
                     # what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, damage_color(*target.besprite_size), alpha=True)
                     what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("fire_logo", size=target.besprite_size), alpha=True)
@@ -1542,10 +1539,7 @@ init -1 python: # Core classes:
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type.startswith("on_fire"):
-                    size = (int(target.besprite_size[0]*1.1), int(target.besprite_size[1]*1.0))
-                    child = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.9, 0.2, 0.2)))
-                    mask = Transform("flame_bm", size=size)
-                    what = AlphaMask(child, mask)
+                    what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, fire_effect_color(*target.besprite_size), alpha=True)
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type.startswith("on_water"):
