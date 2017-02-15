@@ -1407,7 +1407,7 @@ label load_battle_skills:
                 attacker_effects={"gfx": "dark_2", "sfx": "default"},
                 main_effect={"gfx": Transform("darkness_6", zoom=1.1), "sfx": "content/sfx/sound/be/darkness3.mp3", "duration": 1.5, "aim": {"point": "center", "anchor": (0.5, 0.5)}},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.1},
-                target_sprite_damage_effect={"gfx": "on_darkness", "initial_pause": 0.1, "duration": 1.2},
+                target_sprite_damage_effect={"gfx": "on_darknes_with_shake", "initial_pause": 0.1, "duration": 1.2},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 0.9, "duration": 0.2})
         BE_Action("Other Light", menu_pos=4, attributes=["magic", "darkness", "light"], effect=75, multiplier=1.25, mp_cost=45, range=4, piercing=True, true_pierce=True,
                 desc="Brings an alternative form of light from a dark dimension. Ignores back row damage reduction.",
