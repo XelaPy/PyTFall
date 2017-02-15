@@ -1564,7 +1564,9 @@ init -1 python: # Core classes:
                         if type.endswith("shake"):
                             at_list = [damage_shake(0.05, (-10, 10))]
                 elif isinstance(type, basestring) and type.startswith("being_healed"):
-                        what = AlphaBlend(Transform(target.besprite, alpha=1.0, additive=.4), target.besprite, healing_effect_color(*target.besprite_size), alpha=True)
+                        what = AlphaBlend(Transform(target.besprite, alpha=.9, additive=.4),
+                                          target.besprite, healing_effect_color(*target.besprite_size),
+                                          alpha=True)
 
                 if "what" in locals() and not "missed_hit" in target.beeffects:
                     renpy.show(target.betag, what=what, at_list=at_list, zorder=target.besk["zorder"])
