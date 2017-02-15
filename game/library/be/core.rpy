@@ -1561,7 +1561,7 @@ init -1 python: # Core classes:
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type.startswith("poisoned"): # ideally we could use animated texture of green liquid, but it's hard to find for free...
-                        what = damage_color(im.MatrixColor(target.besprite, im.matrix.tint(0.2, 0.9, 0.2)))
+                        what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, poison_effect_color(*target.besprite_size), alpha=True)
                         if type.endswith("shake"):
                             at_list = [damage_shake(0.05, (-10, 10))]
                 elif isinstance(type, basestring) and type.startswith("being_healed"):

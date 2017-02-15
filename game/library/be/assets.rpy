@@ -30,6 +30,21 @@ init -1: # Images and Animations
         Solid("#E68019", xysize=(w, h))
         0.05
         repeat
+        
+    transform poison_effect_color(w, h):
+        Solid("#178217", xysize=(w, h))
+        0.05
+        Solid("#0F8A0F", xysize=(w, h))
+        0.05
+        Solid("#089108", xysize=(w, h))
+        0.05
+        Solid("#009900", xysize=(w, h))
+        0.05
+        Solid("#089108", xysize=(w, h))
+        0.05
+        Solid("#0F8A0F", xysize=(w, h))
+        0.05
+        repeat
 
     # To be moved to transforms file:
     transform multi_strike(d, offset, t, duration, af):
