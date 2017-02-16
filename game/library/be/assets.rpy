@@ -1042,13 +1042,13 @@ label load_battle_skills:
         BE_Action(u"Watera", menu_pos=0.1, attributes=["magic", "water"], effect=10, multiplier=1.1, mp_cost=8, range=4,        desc="High pressure water jets pierce through the target.",
                 attacker_effects={"gfx": "water_1", "sfx": "default"},
                 main_effect={"gfx": Transform("water_2", zoom=1.4), "sfx": "content/sfx/sound/be/water.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}, "start_at": 0},
-                target_sprite_damage_effect={"gfx": "shake", "sfx": None, "initial_pause": 0.1, "duration": 1.4},
+                target_sprite_damage_effect={"gfx": "true_water", "sfx": None, "initial_pause": 0.1, "duration": 1.4},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
         BE_Action(u"Waterga", menu_pos=0.2, attributes=["magic", "water"], effect=10, multiplier=0.9, mp_cost=12, range=4,        desc="A cloud of water droplets at high speed crashes into the target.",
                 attacker_effects={"gfx": "water_1", "sfx": "default"},
                 main_effect={"gfx": Transform("water_3", zoom=1.5), "sfx": "content/sfx/sound/be/water2.mp3", "duration": 2.5, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}, "start_at": 0},
-                target_sprite_damage_effect={"gfx": "shake", "sfx": None, "initial_pause": 0.1, "duration": 1.9},
+                target_sprite_damage_effect={"gfx": "true_water", "sfx": None, "initial_pause": 0.1, "duration": 1.9},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
         BE_Action(u"Waterja", menu_pos=0.3, attributes=["magic", "water"], effect=10, multiplier=0.8, mp_cost=15, range=4, type="all_enemies", piercing=True,
@@ -1068,7 +1068,7 @@ label load_battle_skills:
         BE_Action(u"Geyser", menu_pos=1, attributes=["magic", "water"], effect=50, multiplier=1.4, mp_cost=50, range=6,        desc="A powerful stream of water shoots out of the ground directly beneath the target.",
                 attacker_effects={"gfx": "water_2", "sfx": "default"},
                 main_effect={"gfx": Transform("water_5", zoom=1.9), "sfx": "content/sfx/sound/be/water6.mp3", "duration": 3.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 60}, "start_at": 0},
-                target_sprite_damage_effect={"gfx": "shake", "sfx": None, "initial_pause": 0.5, "duration": 2.5},
+                target_sprite_damage_effect={"gfx": "true_water", "sfx": None, "initial_pause": 0.5, "duration": 2.5},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None, "initial_pause": 2.2},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 1.2, "duration": .5})
         BE_Action(u"Heavy Rain", menu_pos=5, attributes=["magic", "water"], effect=50, multiplier=1.2, mp_cost=70, type="all_enemies", range=6,
