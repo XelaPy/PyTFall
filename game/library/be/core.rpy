@@ -1488,8 +1488,9 @@ init -1 python: # Core classes:
                     what = target.besprite
                     at_list = [damage_shake(0.05, (-10, 10))]
                 elif type == "true_dark": # not used atm! will need decent high level spells for this one!
-                    # what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, damage_color(*target.besprite_size), alpha=True)
                     what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("fire_logo", size=target.besprite_size), alpha=True)
+                elif type == "true_water":
+                    what = AlphaBlend(Transform(target.besprite, alpha=.6), target.besprite, Transform("water_overlay_test", size=target.besprite_size), alpha=True)
                 elif type == "vertical_shake":
                     what = target.besprite
                     at_list = [vertical_damage_shake(0.1, (-5, 5))]
@@ -1510,7 +1511,7 @@ init -1 python: # Core classes:
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type.startswith("on_darkness"):
-                    size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
+                    size = int(target.besprite_size[0]*1.5), 60
                     what = Fixed(target.besprite, Transform("be_dark_mask", size=size, offset=(-30, -50)))
                     t = self.target_sprite_damage_effect.get("duration", 1)
                     if type.endswith("shake"):
@@ -1563,7 +1564,9 @@ init -1 python: # Core classes:
                         if type.endswith("shake"):
                             at_list = [damage_shake(0.05, (-10, 10))]
                 elif isinstance(type, basestring) and type.startswith("being_healed"):
-                        what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, healing_effect_color(*target.besprite_size), alpha=True)
+                        what = AlphaBlend(Transform(target.besprite, alpha=.9, additive=.4),
+                                          target.besprite, healing_effect_color(*target.besprite_size),
+                                          alpha=True)
 
                 if "what" in locals() and not "missed_hit" in target.beeffects:
                     renpy.show(target.betag, what=what, at_list=at_list, zorder=target.besk["zorder"])
