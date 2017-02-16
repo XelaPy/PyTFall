@@ -1454,10 +1454,6 @@ init -9 python:
                 raise Exception("{} status is not valid for {} with an id: {}".format(s, self.__class__, self.id))
             self.status = s
 
-        @property
-        def besprite_size(self):
-            return get_size(self.besprite)
-
         # Properties:
         @property
         def mc_ref(self):
@@ -1645,6 +1641,10 @@ init -9 python:
 
         # -------------------------------------------------------------------------------->
         # Show to mimic girls method behaviour:
+        @property
+        def besprite_size(self):
+            return get_size(self.besprite)
+
         def get_sprite_size(self, tag="vnsprite"):
             # First, lets get correct sprites:
             if tag == "battle_sprite":
@@ -3347,6 +3347,15 @@ init -9 python:
 
             self.controller = BE_AI(self)
 
+        @property
+        def besprite_size(self):
+            imgtag = self.id + "_besprite_idle"
+            if renpy.has_image(imgtag):
+                mob_data = mobs[self.id]
+                if "be_webm_sprite_sizes" in mob_data:
+                    return mob_data["be_webm_sprite_sizes"][imgtag]
+            return get_size(self.besprite)
+
         def show(self, what, resize=(None, None), cache=True):
             if what == "battle":
                 what = "combat"
@@ -3360,6 +3369,11 @@ init -9 python:
                 imgtag = self.id + "_besprite_idle"
                 if renpy.has_image(imgtag):
                     what = ImageReference(imgtag)
+                    # if self.id == "Electrificator":
+                    #     raise Exception(what.__dict__)
+                    mob_data = mobs[self.id]
+                    if "be_webm_sprite_sizes" in mob_data:
+                        return what
                 else:
                     what = self.battle_sprite
             elif what == "combat" and self.combat_img:

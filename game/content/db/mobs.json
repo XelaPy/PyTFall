@@ -4363,6 +4363,7 @@
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/dv.png",
         "portrait": "content/npc/mobs/dv1.png",
+        "be_webm_sprite_sizes": {"Electrificator_besprite_idle": [200, 150]},
         "race": "Droid",
         "locations": [],
         "min_lvl": 45,
