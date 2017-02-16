@@ -1512,8 +1512,7 @@ init -1 python: # Core classes:
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type.startswith("on_darkness"):
                     size = int(target.besprite_size[0]*1.5), 60
-                    what = Fixed(target.besprite, Transform("be_dark_mask", size=size, offset=(-30, -50)))
-                    t = self.target_sprite_damage_effect.get("duration", 1)
+                    what = Fixed(target.besprite, Transform("be_dark_mask", size=size, align=(.5, .5)), xysize=(target.besprite_size))
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type == "on_death":
@@ -1568,7 +1567,7 @@ init -1 python: # Core classes:
                                           target.besprite, healing_effect_color(*target.besprite_size),
                                           alpha=True)
 
-                if "what" in locals() and not "missed_hit" in target.beeffects:
+                if "what" in locals():
                     renpy.show(target.betag, what=what, at_list=at_list, zorder=target.besk["zorder"])
 
             if self.target_sprite_damage_effect.get("master_shake", False):
