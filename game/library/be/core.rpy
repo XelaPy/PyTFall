@@ -1513,7 +1513,6 @@ init -1 python: # Core classes:
                 elif type.startswith("on_darkness"):
                     size = int(target.besprite_size[0]*1.5), 60
                     what = Fixed(target.besprite, Transform("be_dark_mask", size=size, align=(.5, .5)), xysize=(target.besprite_size))
-                    t = self.target_sprite_damage_effect.get("duration", 1)
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type == "on_death":
