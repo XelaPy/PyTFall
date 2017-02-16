@@ -3349,7 +3349,7 @@ init -9 python:
 
         @property
         def besprite_size(self):
-            imgtag = self.id.replace(" ", "-") + "_besprite_idle"
+            imgtag = self.id + "_besprite_idle"
             if renpy.has_image(imgtag):
                 mob_data = mobs[self.id]
                 if "be_webm_sprite_sizes" in mob_data:
@@ -3366,7 +3366,7 @@ init -9 python:
                 what = self.portrait
             elif what == "battle_sprite":
                 # See if we can find idle animation for this...
-                imgtag = self.id.replace(" ", "-") + "_besprite_idle"
+                imgtag = self.id + "_besprite_idle"
                 if renpy.has_image(imgtag):
                     what = ImageReference(imgtag)
                     # if self.id == "Electrificator":
