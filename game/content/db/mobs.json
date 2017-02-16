@@ -4358,12 +4358,41 @@
         ]
     },
     {
+        "name": "Blazing-Star",
+        "desc": "Searing flame burns endlessly around a bright red miniature star.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/bl_star.png",
+        "portrait": "content/npc/mobs/bl_star.png",
+        "be_webm_sprite_sizes": {"Blazing-Star_besprite_idle": [200, 150]},
+        "race": "Unknown",
+        "locations": [],
+        "min_lvl": 100,
+        "basetraits": [
+            "Magical Creature"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence": 90,
+            "magic": 90,
+            "agility": 55,
+            "luck":0,
+            "constitution": 65,
+            "intelligence": 80
+        },
+        "skills": {},
+        "traits": ["Fire Absorption", "Fire", "Physical Resistance"],
+        "attack_skills": [
+
+        ],
+        "magic_skills": ["Ion Storm", "Electromagnetism", "Thunderstorm", "Arcane Field"
+        ]
+    },
+    {
         "name": "Electrificator",
         "desc": "An ancient defensive mechanism.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/dv.png",
         "portrait": "content/npc/mobs/dv1.png",
-        "be_webm_sprite_sizes": {"Electrificator_besprite_idle": [200, 150]},
         "race": "Droid",
         "locations": [],
         "min_lvl": 45,
