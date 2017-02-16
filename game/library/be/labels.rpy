@@ -35,12 +35,12 @@ label test_be:
         if len(enemy_team) != 3:
             enemy_team.add(mob)
 
-        mob = build_mob(id="Blazing-Star", level=50)
+        mob = build_mob(id="Blazing Star", level=50)
         mob.front_row = True
         if len(enemy_team) != 3:
             enemy_team.add(mob)
 
-        mob = build_mob(id="Blazing-Star", level=50)
+        mob = build_mob(id="Blazing Star", level=50)
         mob.front_row = True
         if len(enemy_team) != 3:
             enemy_team.add(mob)

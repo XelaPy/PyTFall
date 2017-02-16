@@ -4358,12 +4358,12 @@
         ]
     },
     {
-        "name": "Blazing-Star",
+        "name": "Blazing Star",
         "desc": "Searing flame burns endlessly around a bright red miniature star.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/bl_star.png",
         "portrait": "content/npc/mobs/bl_star.png",
-        "be_webm_sprite_sizes": {"Blazing-Star_besprite_idle": [200, 150]},
+        "be_webm_sprites": {"idle": ["BlStar_idle", [200, 150]]},
         "race": "Unknown",
         "locations": [],
         "min_lvl": 100,
