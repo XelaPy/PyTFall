@@ -3,6 +3,7 @@ init:
     image blueprint = ProportionalScale("content/events/StoryI/blueprint.png", 660, 540)
     transform blueprint_position:
         align (0.5, 0.6)
+    $ sflash = Fade(.25, 0, .25, color=darkred)
         
 init python:
     q_dissolve = Dissolve(.2) # fast dissolve to quickly show backgrounds
@@ -44,6 +45,11 @@ screen prison_break_controls(): # control buttons screen
                 yalign 0.5
                 action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("storyi_randomfight")]
                 text "Test BE" size 15
+            button:
+                xysize (120, 40)
+                yalign 0.5
+                action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("storyi_bossroom")]
+                text "Test Boss" size 15
             button:
                 xysize (120, 40)
                 yalign 0.5
@@ -94,6 +100,27 @@ screen show_mc_team_status(characters): # shows characters status, and allows to
                     left_gutter 0
                     right_gutter 0
                     xysize (102, 14)
+                    
+label storyi_bossroom:
+    stop music
+    stop world fadeout 2.0
+    play world "events/2.ogg" fadein 2.0 loop
+    show bg story d_entrance with eye_open
+    show bg story p4 with dissolve
+    show sinister_star at Position(xpos = 705, xanchor=0.5, ypos=92, yanchor=0.5):
+        zoom 0.1
+        alpha 0
+        linear 2.5 alpha 1.0
+    "..."
+    show bg story p4 with sflash
+    show sinister_star:
+        zoom 0.1
+        linear 10.0 zoom 4.0
+    "..."
+    show bg story p4 with sflash
+    show screen prison_break_controls
+    show screen show_mc_team_status(hero.team)
+    jump storyi_gui_loop
 
 label storyi_randomfight:  # initiates fight with random enemy team
     python:
