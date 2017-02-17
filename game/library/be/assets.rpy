@@ -1007,6 +1007,13 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "burning_with_shake", "initial_pause": 0.1, "duration": 0.7},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 0.1, "duration": 0.5},
                 dodge_effect={"initial_pause": .1})
+        P2P_Skill(u"Star Fireball", menu_pos=0.5, attributes=["magic", "fire"], effect=50, multiplier=1.2, mp_cost=1, range=4, piercing=True, # should be either unavailable for player or very limited, made specially for a boss
+                desc="Launches an exploding fireball filled with twisted energy at one enemy.",
+                projectile_effects={"gfx": "Blazing_Star_fireball_webm", "sfx": "content/sfx/sound/be/fire7.mp3", "duration": 0.667},
+                main_effect={"gfx": Transform("fire_6_1", zoom=1), "sfx": None, "duration": 1.2, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
+                target_sprite_damage_effect={"gfx": "burning_with_shake", "initial_pause": 0.1, "duration": 0.7},
+                target_death_effect={"gfx": "dissolve", "initial_pause": 0.1, "duration": 0.5},
+                dodge_effect={"initial_pause": .1})
         P2P_Skill(u"Solar Flash", menu_pos=1, attributes=["magic", "fire"], effect=50, multiplier=1.4, mp_cost=50, range=4,
                 desc="Sends towards the target a small piece of solar plazma.",
                 projectile_effects={"gfx": "fire_5", "sfx": "content/sfx/sound/be/fire7.mp3", "duration": 1.0},
@@ -1023,6 +1030,13 @@ label load_battle_skills:
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.3},
                 target_death_effect={"gfx": "dissolve",  "initial_pause": 1.4, "duration": 0.5},
                 dodge_effect={"initial_pause": .8})
+        ArealSkill("Flame Vortex", menu_pos=8, attributes=["magic", "fire", "air", "inevitable"], effect=75, multiplier=1.35, mp_cost=0.2, vitality_cost=25, range=4, type="all_enemies", 
+                desc="Sizzling hot air flow burns everything on the way.",
+                attacker_effects={"gfx": "orb", "sfx": "default"},
+                main_effect={"gfx": "flame_vortex_webm", "sfx": "content/sfx/sound/be/fire9.mp3", "duration": 1.367, "aim": {"anchor": (0.5, 1.0), "xo": 300 ,"yo": 150}, "hflip": True},
+                target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.7},
+                target_sprite_damage_effect={"gfx": "burning_with_shake", "initial_pause": 0.2, "duration": 1.0},
+                target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": 0.16})
         ArealSkill("Cataclysm", menu_pos=9, attributes=["magic", "fire", "inevitable"], effect=100, multiplier=1.5, mp_cost=100, range=4, type="all_enemies", piercing=True,
                 desc="A larger version of Cataclysm capable of causing destruction on a much larger scale.",
                 attacker_effects={"gfx": "orb", "sfx": "default"},
@@ -1085,6 +1099,7 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "on_water_with_shake", "initial_pause": .6, "duration": .9},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.6},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
+
         # Ice:
         BE_Action(u"Blizzard", menu_pos=0, attributes=["magic", "ice"], effect=10, multiplier=1.0, mp_cost=10, range=4, type="all_enemies",
                 desc="Creates a cloud of sharp ice splinters.",
