@@ -104,20 +104,80 @@ screen show_mc_team_status(characters): # shows characters status, and allows to
 label storyi_bossroom:
     stop music
     stop world fadeout 2.0
-    play world "events/2.ogg" fadein 2.0 loop
-    show bg story d_entrance with eye_open
-    show bg story p4 with dissolve
-    show sinister_star at Position(xpos = 705, xanchor=0.5, ypos=92, yanchor=0.5):
-        zoom 0.1
+    play world "events/6.ogg" fadein 2.0 loop
+    play events2 "events/wind1.mp3" fadein 2.0 loop
+    show bg story p2 with dissolve
+    show sinister_star at Position(xpos = 704, xanchor=0.5, ypos=91, yanchor=0.5):
+        anchor (0.5, 0.5)
+        zoom 0.03
         alpha 0
-        linear 2.5 alpha 1.0
-    "..."
-    show bg story p4 with sflash
+        linear 1.5 alpha 1.0
+    "Finally you reach the throne room on top of the building. Some windows are broken, and the wind blows through."
+    menu:
+        "If you continue, there won't be way back."
+        "Continue":
+            $ pass
+        "Return to the ground floor":
+            call storyi_show_bg
+            play world "Theme2.ogg" fadein 2.0 loop
+            stop events2
+            hide sinister_star
+            show screen prison_break_controls
+            show screen show_mc_team_status(hero.team)
+            jump storyi_gui_loop
     show sinister_star:
-        zoom 0.1
-        linear 10.0 zoom 4.0
-    "..."
+        anchor (0.5, 0.5)
+        linear 2.5 zoom 0.2
+    "You take a step forward, and something changes."
+    show bg story p3 with dissolve
+    show sinister_star:
+        anchor (0.5, 0.5)
+        linear 1.5 zoom 0.3
+    extend " Daylight fades, being replaced by red glow from above."
+    show sinister_star:
+        anchor (0.5, 0.5)
+        linear 2.0 zoom 0.4
+    "There is a tiny red star in the gem on the ceiling."
+    show sinister_star:
+        anchor (0.5, 0.5)
+        linear 2.0 zoom 0.5
+    extend " One of the weapons used during the war, it wakes up, disturbed by your presence."
+    show sinister_star:
+        anchor (0.5, 0.5)
+        linear 8 ypos 375 zoom 1.5
+    "The air temperature rises rapidly. At the full power it rumoured to be capable to burn down a city street in the blink of an eye."
+    show bg story p3 with sflash
+    show sinister_star:
+        anchor (0.5, 0.5)
+        linear 4 zoom 2.5
+    extend " It has to be taken down before it awakens completely."
+    python:
+        enemy_team = Team(name="Enemy Team", max_size=3)
+        your_team = Team(name="Your Team", max_size=3)
+        mob = build_mob(id="Blazing Star", level=1)
+        mob.stats.lvl_max["health"] += 500
+        mob.stats.max["health"] += 500
+        mob.mod_stat("health", 500)
+        mob.stats.lvl_max["mp"] += 100
+        mob.stats.max["mp"] += 100
+        mob.mod_stat("mp", 100)
+        mob.controller = BE_AI(mob)
+        enemy_team.add(mob)
+        result = run_default_be(enemy_team, background="content/gfx/bg/story/p_b.jpg", track="content/sfx/music/be/battle (5)b.ogg", prebattle=False, death=False)
+
     show bg story p4 with sflash
+    show sinister_star at Position(xpos = 704, xanchor=0.5, ypos=375, yanchor=0.5):
+        anchor (0.5, 0.5)
+        zoom 1.0
+        alpha 1.0
+    "The star loses its strength, and the air temperature drops."
+    hide sinister_star with dissolve
+    extend " You pick it up and put in your pocket."
+    $ hero.add_item("Red Star")
+    stop events2
+    call storyi_show_bg
+    play world "Theme2.ogg" fadein 2.0 loop
+    "You return to the ground floor. It's time to home."
     show screen prison_break_controls
     show screen show_mc_team_status(hero.team)
     jump storyi_gui_loop

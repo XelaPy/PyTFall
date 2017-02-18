@@ -1329,5 +1329,18 @@
     "type": "alcohol",
     "mod": {"mp": 15, "joy": 15},
     "locations": ["Tavern"]
+    },
+    {
+    "id": "Red Star",
+    "desc": "A barely warm tiny star. It used to be a powerful weapon, but for some reason doesn't work anymore.",
+    "icon": "content/items/cons/red_star.png",
+    "price": 5000,
+    "sex": "unisex",
+    "chance": 100,
+    "badness": 0,
+    "eqchance": 0,
+    "hidden": false,
+    "infinite": false,
+    "slot": "quest"
     }
   ]
