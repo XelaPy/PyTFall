@@ -1503,6 +1503,14 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.7},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
+            FullScreenCenteredArealSkill("Get Rekt", menu_pos=0, attributes=["magic", "darkness", "fire", "ice", "water", "inevitable"], effect=10000, multiplier=100, mp_cost=1, range=4, type="all_enemies", piercing=True, # testing spell for killing enemy team on spot
+                    desc="«Instant death! Instant death, unavoidable! I was dodging, and still got instantly killed!»",
+                    attacker_effects={"gfx": "orb", "sfx": "default"},
+                    main_effect={"gfx": "dominion", "sfx": "content/sfx/sound/be/darkness5.mp3", "duration": 2.5},
+                    arget_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.5},
+                    target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 2.4},
+                    target_death_effect={"gfx": "dissolve", "initial_pause": 2, "duration": 0.5},
+                    bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 2.6})
         # Reviving:
         ReviveSpell(u"Revive", attributes=["magic", "light"], kind="revival", menu_pos=-1, effect=10, mp_cost=35, health_cost=0.3, range=5, type="sa", piercing=True, true_pierce=True, target_state="dead",
                 desc="Brings an unconscious ally back to the battlefield by sharing some life energy.",

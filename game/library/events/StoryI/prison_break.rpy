@@ -183,10 +183,10 @@ label storyi_bossroom:
     jump storyi_gui_loop
 
 label storyi_randomfight:  # initiates fight with random enemy team
+    $ fight_chance = 30
     python:
         enemy_team = Team(name="Enemy Team", max_size=3)
         your_team = Team(name="Your Team", max_size=3)
-        enemies = ["Infantryman", "Archer", "Soldier"]
         for j in range(randint(2, 3)):
             mob = build_mob(id=random.choice(enemies), level=5)
             mob.controller = BE_AI(mob)
@@ -260,6 +260,8 @@ label storyi_treat_wounds:
     jump storyi_gui_loop
 
 label storyi_start: # beginning point of the dungeon; TODO: change expression below to suit quest
+    $ enemies = ["Skeleton", "Skeleton Warrior", "Will-o-wisp"]
+    $ fight_chance = 100
     stop music
     stop world fadeout 2.0
     scene black with dissolve
@@ -329,6 +331,14 @@ label storyi_show_bg: # shows bg depending on matrix location; due to use of BE 
         show bg story barracks with q_dissolve
     elif storyi_prison_location == 18:
         show bg story prison_1 with q_dissolve
+    if storyi_prison_location in [6, 14, 2, 8, 15, 16, 11, 18]:
+        $ enemies = ["Skeleton", "Skeleton Warrior", "Will-o-wisp"]
+    elif storyi_prison_location in [9, 10]:
+        $ enemies = ["Seductive Slime", "Devil Rat"]
+    elif storyi_prison_location == 5:
+        $ enemies = ["Fire Spirit", "Flame Spirit", "Fiery Shadow"]
+    else:
+        $ enemies = ["Slime", "Alkaline Slime", "Acid Slime"]
     return
 
 label storyi_move_map_point: # moves green point to show team location on the map
@@ -375,6 +385,7 @@ label storyi_map: # shows dungeon map and calls matrix to control it
     show blueprint at blueprint_position
     call storyi_move_map_point
     call screen poly_matrix("library/events/StoryI/coordinates_1.json", cursor="content/gfx/interface/icons/zoom_pen.png", xoff=0, yoff=0, show_exit_button=(1.0, 1.0))
+    $ fight_chance += randint(10, 20)
     if _return == "Cell":
         if storyi_prison_location == 1:
             "A highly guarded prison cell."
@@ -553,24 +564,32 @@ label prison_storyi_passage_1:
     $ storyi_prison_location = 14
     call storyi_move_map_point
     call storyi_show_bg
+    if dice(fight_chance):
+        jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_passage_2:
     $ storyi_prison_location = 15
     call storyi_move_map_point
     call storyi_show_bg
+    if dice(fight_chance):
+        jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_passage_3:
     $ storyi_prison_location = 16
     call storyi_move_map_point
     call storyi_show_bg
+    if dice(fight_chance):
+        jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_passage_4:
     $ storyi_prison_location = 18
     call storyi_move_map_point
     call storyi_show_bg
+    if dice(fight_chance):
+        jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_event_cell:
@@ -578,6 +597,8 @@ label prison_storyi_event_cell:
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
     call storyi_show_bg
+    if dice(fight_chance):
+        jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_event_prisonblock:
@@ -585,6 +606,8 @@ label prison_storyi_event_prisonblock:
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
     call storyi_show_bg
+    if dice(fight_chance):
+        jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_event_infirmary:
@@ -599,6 +622,8 @@ label prison_storyi_event_groom2:
     play events2 "events/door_open.mp3"
     call storyi_move_map_point
     call storyi_show_bg
+    if dice(fight_chance):
+        jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_event_groom3:
@@ -606,12 +631,16 @@ label prison_storyi_event_groom3:
     play events2 "events/door_open.mp3"
     call storyi_move_map_point
     call storyi_show_bg
+    if dice(fight_chance):
+        jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_event_dungentr:
     $ storyi_prison_location = 6
     call storyi_move_map_point
     call storyi_show_bg
+    if dice(fight_chance):
+        jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_event_storage:
@@ -626,6 +655,8 @@ label prison_storyi_event_barracks:
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
     call storyi_show_bg
+    if dice(fight_chance):
+        jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_event_iroom:
@@ -633,6 +664,8 @@ label prison_storyi_event_iroom:
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
     call storyi_show_bg
+    if dice(fight_chance):
+        jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_event_mentrance:
@@ -640,6 +673,8 @@ label prison_storyi_event_mentrance:
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
     call storyi_show_bg
+    if dice(fight_chance):
+        jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_event_troom:
@@ -647,6 +682,8 @@ label prison_storyi_event_troom:
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
     call storyi_show_bg
+    if dice(fight_chance):
+        jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_event_wroom:
@@ -654,6 +691,8 @@ label prison_storyi_event_wroom:
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
     call storyi_show_bg
+    if dice(fight_chance):
+        jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_event_groom_1:
@@ -661,6 +700,8 @@ label prison_storyi_event_groom_1:
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
     call storyi_show_bg
+    if dice(fight_chance):
+        jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_event_croom:
@@ -668,4 +709,6 @@ label prison_storyi_event_croom:
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
     call storyi_show_bg
+    if dice(fight_chance):
+        jump storyi_randomfight
     jump storyi_map
