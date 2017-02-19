@@ -4,10 +4,8 @@ init:
     transform blueprint_position:
         align (0.5, 0.6)
     $ sflash = Fade(.25, 0, .25, color=darkred)
-        
 init python:
     q_dissolve = Dissolve(.2) # fast dissolve to quickly show backgrounds
-
     def eyewarp(x):
         return x**1.33
     eye_open = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=False, time_warp=eyewarp) # transitions for backgrounds, try to emulate effect of opening or closing eyes
@@ -40,11 +38,6 @@ screen prison_break_controls(): # control buttons screen
                     yalign 0.5
                     action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("storyi_treat_wounds")]
                     text "Heal" size 15
-            button:
-                xysize (120, 40)
-                yalign 0.5
-                action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("storyi_randomfight")]
-                text "Test BE" size 15
             button:
                 xysize (120, 40)
                 yalign 0.5
