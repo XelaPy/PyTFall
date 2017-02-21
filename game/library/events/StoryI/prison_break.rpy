@@ -219,7 +219,7 @@ label storyi_bossroom:
     jump storyi_gui_loop
 
 label storyi_randomfight:  # initiates fight with random enemy team
-    $ fight_chance = 5
+    $ fight_chance = 10
     python:
         enemy_team = Team(name="Enemy Team", max_size=3)
         your_team = Team(name="Your Team", max_size=3)
@@ -237,6 +237,9 @@ label storyi_randomfight:  # initiates fight with random enemy team
         play world "Theme2.ogg" fadein 2.0 loop
         show screen prison_break_controls
         show screen show_mc_team_status(hero.team)
+        if storyi_prison_location in [6, 14, 2, 8, 15, 16, 11, 18] and dice(80):
+            $ result = randint(5, 15)
+            $ hero.say("After the fight I found [result] gold among the remains of the undead...")
         jump storyi_gui_loop
     else:
         jump game_over
