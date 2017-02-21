@@ -46,6 +46,11 @@ screen prison_break_controls(): # control buttons screen
             button:
                 xysize (120, 40)
                 yalign 0.5
+                action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("storyi_exp")]
+                text "Test Exp" size 15
+            button:
+                xysize (120, 40)
+                yalign 0.5
                 action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("mainscreen")]
                 text "Exit" size 15
 
@@ -94,6 +99,38 @@ screen show_mc_team_status(characters): # shows characters status, and allows to
                     right_gutter 0
                     xysize (102, 14)
                     
+
+                    
+screen give_exp_after_battle(group):
+    vbox:
+        spacing 5
+        pos (450, 250)
+        for l in group:
+            $ char_profile_img = l.show('portrait', resize=(101, 101), cache=True)
+            $ img = "content/gfx/frame/ink_box.png"
+            imagebutton:
+                background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+                idle (char_profile_img)
+                hover (im.MatrixColor(char_profile_img, im.matrix.brightness(0.15)))
+                action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Return(l)]
+                align 0, .5
+                xysize (102, 102)
+            bar:
+                value l.stats.exp + l.stats.goal_increase - l.stats.goal
+                range l.stats.goal_increase
+                left_bar ("content/gfx/interface/bars/exp_full.png")
+                right_bar ("content/gfx/interface/bars/exp_empty.png")
+                thumb None
+                maximum (324, 18)
+            hbox:
+                spacing 10
+                pos (90, -17)
+                xmaximum 160
+                xfill True
+                text "lvl [l.level]" style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
+                add "content/gfx/interface/images/exp_b.png" ypos 2 xalign 0.8
+                text "[l.exp]/[l.goal]" style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
+            
 label storyi_bossroom:
     stop music
     stop world fadeout 2.0
@@ -250,6 +287,10 @@ label storyi_treat_wounds:
     show screen show_mc_team_status(hero.team)
     show screen prison_break_controls
     $ del j
+    jump storyi_gui_loop
+    
+label storyi_exp:
+    show screen give_exp_after_battle(hero.team)
     jump storyi_gui_loop
 
 label storyi_start: # beginning point of the dungeon; TODO: change expression below to suit quest
