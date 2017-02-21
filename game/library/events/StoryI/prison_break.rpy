@@ -144,9 +144,10 @@ label storyi_bossroom:
     play world "events/6.ogg" fadein 2.0 loop
     play events2 "events/wind1.mp3" fadein 2.0 loop
     show bg story p2 with dissolve
-    show sinister_star at Position(xpos = 704, xanchor=0.5, ypos=91, yanchor=0.5):
+    show sinister_star:
+        pos (704, 91)
         anchor (0.5, 0.5)
-        zoom 0.03
+        zoom 0.3
         alpha 0
         linear 1.5 alpha 1.0
     "Finally you reach the throne room on top of the building. Some windows are broken, and the wind blows through."
@@ -385,7 +386,7 @@ label storyi_show_bg: # shows bg depending on matrix location; due to use of BE 
     else:
         $ enemies = ["Slime", "Alkaline Slime", "Acid Slime"]
     return
-     
+
 label storyi_search_items:
     "You look around the room in search of something useful."
     if storyi_prison_location == 1:
