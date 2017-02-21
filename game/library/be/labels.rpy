@@ -82,10 +82,6 @@ label test_be:
     # for m in hero.team:
     #     m.set_flag("xp_to_award", 1000000)
 
-    show screen give_exp_after_battle(hero.team)
-    pause
-    hide screen give_exp_after_battle
-
     jump mainscreen
 
 label test_be_logical:
