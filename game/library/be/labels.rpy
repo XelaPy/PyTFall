@@ -29,18 +29,18 @@ label test_be:
     python:
         # Prepare the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        mob = build_mob(id="Slime", level=50)
+        mob = build_mob(id="Slime", level=1)
         mob.front_row = True
 
         if len(enemy_team) != 3:
             enemy_team.add(mob)
 
-        mob = build_mob(id="Blazing Star", level=50)
+        mob = build_mob(id="Blazing Star", level=1)
         mob.front_row = True
         if len(enemy_team) != 3:
             enemy_team.add(mob)
 
-        mob = build_mob(id="Blazing Star", level=50)
+        mob = build_mob(id="Blazing Star", level=1)
         mob.front_row = True
         if len(enemy_team) != 3:
             enemy_team.add(mob)
@@ -74,10 +74,17 @@ label test_be:
         enemy_team.reset_controller()
 
     python:
-        battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.jpg"), music= "random", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
+        battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.jpg"), music="random", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)
         battle.start_battle()
+
+    # for m in hero.team:
+    #     m.set_flag("xp_to_award", 1000000)
+
+    show screen give_exp_after_battle(hero.team)
+    pause
+    hide screen give_exp_after_battle
 
     jump mainscreen
 

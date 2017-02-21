@@ -98,9 +98,9 @@ screen show_mc_team_status(characters): # shows characters status, and allows to
                     left_gutter 0
                     right_gutter 0
                     xysize (102, 14)
-                    
 
-                    
+
+
 screen give_exp_after_battle(group):
     vbox:
         spacing 5
@@ -116,8 +116,9 @@ screen give_exp_after_battle(group):
                 align 0, .5
                 xysize (102, 102)
             bar:
-                value l.stats.exp + l.stats.goal_increase - l.stats.goal
-                range l.stats.goal_increase
+                # value l.stats.exp + l.stats.goal_increase - l.stats.goal
+                # range l.stats.goal_increase
+                value AnimatedValue(value=l.stats.exp + l.stats.goal_increase - l.stats.goal, range=l.stats.goal_increase, delay=1.0, old_value=0)
                 left_bar ("content/gfx/interface/bars/exp_full.png")
                 right_bar ("content/gfx/interface/bars/exp_empty.png")
                 thumb None
@@ -130,7 +131,7 @@ screen give_exp_after_battle(group):
                 text "lvl [l.level]" style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
                 add "content/gfx/interface/images/exp_b.png" ypos 2 xalign 0.8
                 text "[l.exp]/[l.goal]" style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
-            
+
 label storyi_bossroom:
     stop music
     stop world fadeout 2.0
@@ -288,7 +289,7 @@ label storyi_treat_wounds:
     show screen prison_break_controls
     $ del j
     jump storyi_gui_loop
-    
+
 label storyi_exp:
     show screen give_exp_after_battle(hero.team)
     jump storyi_gui_loop
