@@ -152,7 +152,7 @@ label storyi_bossroom:
     show sinister_star:
         pos (704, 91)
         anchor (0.5, 0.5)
-        zoom 0.3
+        zoom 0.1
         alpha 0
         linear 1.5 alpha 1.0
     "Finally you reach the throne room on top of the building. Some windows are broken, and the wind blows through."
