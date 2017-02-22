@@ -1015,7 +1015,7 @@ label load_battle_skills:
                 target_death_effect={"gfx": "dissolve", "initial_pause": 0.1, "duration": 0.5},
                 dodge_effect={"initial_pause": .1})
         P2P_Skill(u"Solar Flash", menu_pos=1, attributes=["magic", "fire"], effect=50, multiplier=1.4, mp_cost=50, range=4,
-                desc="Sends towards the target a small piece of solar plazma.",
+                desc="Sends towards the target a small piece of solar plasma.",
                 projectile_effects={"gfx": "fire_5", "sfx": "content/sfx/sound/be/fire7.mp3", "duration": 1.0},
                 main_effect={"gfx": Transform("fire_5_1", zoom=1), "duration": 1.5},
                 attacker_effects={"gfx": "fire_2", "sfx": "default"},
@@ -1038,7 +1038,7 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "burning_with_shake", "initial_pause": 0.2, "duration": 1.0},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": 0.16})
         ArealSkill("Cataclysm", menu_pos=9, attributes=["magic", "fire", "inevitable"], effect=100, multiplier=1.5, mp_cost=100, range=4, type="all_enemies", piercing=True,
-                desc="A larger version of Cataclysm capable of causing destruction on a much larger scale.",
+                desc="A massive spontaneous air combustion capable of causing destruction on a large scale.",
                 attacker_effects={"gfx": "orb", "sfx": "default"},
                 main_effect={"gfx": Transform("cataclysm_webm", zoom=0.85), "sfx": "content/sfx/sound/be/fire2.mp3", "duration": 4.93, "aim": {"anchor": (0.5, 1.0), "yo": 330}},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 4.8},
@@ -1053,33 +1053,36 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "true_water", "sfx": None, "initial_pause": 0.1, "duration": 1.4},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 0.11, "duration": 0.9})
-        BE_Action(u"Watera", menu_pos=0.1, attributes=["magic", "water"], effect=10, multiplier=1.1, mp_cost=8, range=4,        desc="High pressure water jets pierce through the target.",
+        BE_Action(u"Watera", menu_pos=0.1, attributes=["magic", "water"], effect=10, multiplier=1.1, mp_cost=8, range=4,
+                desc="High pressure water jets pierce through the target.",
                 attacker_effects={"gfx": "water_1", "sfx": "default"},
                 main_effect={"gfx": Transform("water_2", zoom=1.4), "sfx": "content/sfx/sound/be/water.mp3", "duration": 2.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "true_water", "sfx": None, "initial_pause": 0.1, "duration": 1.4},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
-        BE_Action(u"Waterga", menu_pos=0.2, attributes=["magic", "water"], effect=10, multiplier=0.9, mp_cost=12, range=4,        desc="A cloud of water droplets at high speed crashes into the target.",
+        BE_Action(u"Waterga", menu_pos=0.2, attributes=["magic", "water"], effect=10, multiplier=0.9, mp_cost=12, range=4,
+                desc="A cloud of water droplets at high speed crashes into the target.",
                 attacker_effects={"gfx": "water_1", "sfx": "default"},
                 main_effect={"gfx": Transform("water_3", zoom=1.5), "sfx": "content/sfx/sound/be/water2.mp3", "duration": 2.5, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "true_water", "sfx": None, "initial_pause": 0.1, "duration": 1.9},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
         BE_Action(u"Waterja", menu_pos=0.3, attributes=["magic", "water"], effect=10, multiplier=0.8, mp_cost=15, range=4, type="all_enemies", piercing=True,
-                desc="Strongest common Water attack in use. Creates a powerful burst of water and steam from the ground.",
+                desc="Creates a powerful burst of water and steam from the ground.",
                 attacker_effects={"gfx": "water_1", "sfx": "default"},
                 main_effect={"gfx": Transform("water_4", zoom=1.5), "sfx": "content/sfx/sound/be/water3.mp3", "duration": 2.25, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "on_water", "sfx": None, "initial_pause": 0.3, "duration": 1.9},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None, "initial_pause": 2.2},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 1.2, "duration": .5})
         BE_Action(u"Last Drop", menu_pos=0.5, attributes=["magic", "water"], effect=50, multiplier=1.3, mp_cost=30, piercing=True, range=6,
-                desc="Hits the taget with a massive water blast from above.",
+                desc="Hits the target with a massive water blast from above.",
                 attacker_effects={"gfx": "water_2", "sfx": "default"},
                 main_effect={"gfx": Transform("water_6", zoom=1.9), "sfx": "content/sfx/sound/be/water5.mp3", "duration": 5.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 60}},
                 target_sprite_damage_effect={"gfx": "on_water", "initial_pause": 1.0, "duration": 3.5},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.1},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 4.5, "duration": 0.5})
-        BE_Action(u"Geyser", menu_pos=1, attributes=["magic", "water"], effect=50, multiplier=1.4, mp_cost=50, range=6,        desc="A powerful stream of water shoots out of the ground directly beneath the target.",
+        BE_Action(u"Geyser", menu_pos=1, attributes=["magic", "water"], effect=50, multiplier=1.4, mp_cost=50, range=6,
+                desc="A powerful stream of water shoots out of the ground directly beneath the target.",
                 attacker_effects={"gfx": "water_2", "sfx": "default"},
                 main_effect={"gfx": Transform("water_5", zoom=1.9), "sfx": "content/sfx/sound/be/water6.mp3", "duration": 3.0, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 60}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "true_water", "sfx": None, "initial_pause": 0.5, "duration": 2.5},
@@ -1092,8 +1095,8 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.0, "duration": 3.8, "master_shake": True},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 4.5},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 4.5, "duration": 0.5})
-        ATL_ArealSkill(u"Water Blast", menu_pos=9, attributes=["magic", "water", "inevitable"], effect=100, multiplier=1.5, mp_cost=100, piercing=True, range=6, type="all_enemies",
-                desc="Hits the taget with a massive water blast!",
+        ATL_ArealSkill(u"High Tide", menu_pos=9, attributes=["magic", "water", "inevitable"], effect=100, multiplier=1.5, mp_cost=100, piercing=True, range=6, type="all_enemies",
+                desc="A huge tidal wave instantly crashes all enemies.",
                 attacker_effects={"gfx": "orb", "sfx": "default"},
                 main_effect={"atl": water_combined, "predict": ["water_attack", "water_wave"], "left_args": [1.8, -300], "right_args": [-1.8, 300], "sfx": "content/sfx/sound/be/water7.mp3", "duration": 1.6},
                 target_sprite_damage_effect={"gfx": "on_water_with_shake", "initial_pause": .6, "duration": .9},
@@ -1108,19 +1111,22 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.2, "duration": 1.8},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 1.5, "duration": 0.4})
-        BE_Action(u"Blizzara", menu_pos=0.1, attributes=["magic", "ice"], effect=10, multiplier=1.1, mp_cost=8, range=4,        desc="Ice blades grow out of the ground.",
+        BE_Action(u"Blizzara", menu_pos=0.1, attributes=["magic", "ice"], effect=10, multiplier=1.1, mp_cost=8, range=4,
+                desc="Ice blades grow out of the ground.",
                 attacker_effects={"gfx": "ice_1", "sfx": "default"},
                 main_effect={"gfx": Transform("ice_2", zoom=1.3), "sfx": "content/sfx/sound/be/ice1.mp3", "duration": 1.5, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 80}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": 0.1, "duration": 1.35},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 1.0, "duration": 0.4})
-        BE_Action(u"Blizzarga", menu_pos=0.2, attributes=["magic", "ice"], effect=10, multiplier=0.9, mp_cost=12, range=4,        desc="Freezes the air itself around the target, creating deadly ice blades.",
+        BE_Action(u"Blizzarga", menu_pos=0.2, attributes=["magic", "ice"], effect=10, multiplier=0.9, mp_cost=12, range=4,
+                desc="Freezes the air itself around the target, creating deadly ice blades.",
                 attacker_effects={"gfx": "ice_1", "sfx": "default"}, piercing=True,
                 main_effect={"gfx": Transform("ice_4", zoom=1.5), "sfx": "content/sfx/sound/be/ice2.mp3", "duration": 0.8, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": 0.1, "duration": 0.7},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 0.6, "duration": 0.3})
-        BE_Action(u"Blizzarja", menu_pos=0.3, attributes=["magic", "ice"], effect=10, multiplier=0.9, mp_cost=15, range=4,        desc="Quickly draws heat from a small area.",
+        BE_Action(u"Blizzarja", menu_pos=0.3, attributes=["magic", "ice"], effect=10, multiplier=0.9, mp_cost=15, range=4,
+                desc="Quickly draws heat from a small area.",
                 attacker_effects={"gfx": "ice_1", "sfx": "default"}, piercing=True, type="all_enemies",
                 main_effect={"gfx": Transform("ice_3", zoom=1.7), "sfx": "content/sfx/sound/be/ice2.mp3", "duration": 1.25, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 60}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "frozen", "initial_pause": 0.1, "duration": 1.1},
@@ -1141,7 +1147,6 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "frozen", "initial_pause": 0.3, "duration": 1.5},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
                 target_death_effect={"gfx": "shatter", "initial_pause": 1.4, "duration": 0.5})
-
         BE_Action(u"Ice Shards", menu_pos=2, attributes=["magic", "ice"], effect=65, multiplier=1.25, mp_cost=70, range=4, type="all_enemies",
                 desc="Small part of the target immediately freezes and explodes.",
                 attacker_effects={"gfx": "ice_2", "sfx": "default"},
@@ -1171,7 +1176,8 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "vertical_shake", "initial_pause": 0.1, "duration": 1.7},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 1.5, "duration": 0.5})
-        BE_Action(u"Stonera", menu_pos=0.1, attributes=["magic", "earth"], effect=10, multiplier=1.1, mp_cost=8, range=4,        desc="Creates a sharp stone spike.",
+        BE_Action(u"Stonera", menu_pos=0.1, attributes=["magic", "earth"], effect=10, multiplier=1.1, mp_cost=8, range=4,
+                desc="Creates a sharp stone spike.",
                 attacker_effects={"gfx": "earth_1", "sfx": "default"},
                 main_effect={"gfx": "earth_2", "sfx": "content/sfx/sound/be/earth.mp3", "duration": 1.5, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 10}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "vertical_shake", "initial_pause": 0.1, "duration": 0.8},
@@ -1184,7 +1190,8 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "vertical_shake", "initial_pause": 0.1, "duration": 1.2},
                 target_damage_effect={"gfx": "battle_bounce"},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": 0.3})
-        BE_Action(u"Stoneja", menu_pos=0.3, attributes=["magic", "earth"], effect=10, multiplier=0.8, mp_cost=15, range=4, piercing=True, type="all_enemies", desc="Small part of the target becomes stone and shatters into a thousand pieces.",
+        BE_Action(u"Stoneja", menu_pos=0.3, attributes=["magic", "earth"], effect=10, multiplier=0.8, mp_cost=15, range=4, piercing=True, type="all_enemies",
+                desc="Small part of the target becomes stone and shatters into a thousand pieces.",
                 attacker_effects={"gfx": "earth_1", "sfx": "default"},
                 main_effect={"gfx": Transform("earth_4", zoom=1.2), "sfx": "content/sfx/sound/be/earth2.mp3", "duration": 1.2, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 40}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.9},
@@ -1228,7 +1235,8 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.3},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 1.2, "duration": 0.3})
-        BE_Action(u"Aerora", menu_pos=0.1, attributes=["magic", "air"], effect=10, multiplier=1.1, mp_cost=8, range=4,        desc="Causes damage by sand and branches picked up by the wind rather than air itself.",
+        BE_Action(u"Aerora", menu_pos=0.1, attributes=["magic", "air"], effect=10, multiplier=1.1, mp_cost=8, range=4,
+                desc="Causes damage by sand and branches picked up by the wind rather than air itself.",
                 attacker_effects={"gfx": "air_1", "sfx": "default"},
                 main_effect={"gfx": Transform("air_5", zoom=1.3), "sfx": "content/sfx/sound/be/air1.mp3", "duration": 0.9, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "on_air", "initial_pause": 0.1, "duration": 0.8},
@@ -1255,7 +1263,8 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "on_air", "initial_pause": 0.1, "duration": 1.3},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause": 1.0, "duration": 0.3})
-        BE_Action(u"Air Blast", menu_pos=1, attributes=["magic", "air"], effect=50, multiplier=1.4, mp_cost=50, range=4,        desc="Pumps air into the target, tearing it from the inside.",
+        BE_Action(u"Air Blast", menu_pos=1, attributes=["magic", "air"], effect=50, multiplier=1.4, mp_cost=50, range=4,
+                desc="Pumps air into the target, tearing it from the inside.",
                 attacker_effects={"gfx": "air_2", "sfx": "default"},
                 main_effect={"gfx": Transform("air_6", zoom=1.5), "sfx": "content/sfx/sound/be/air3.mp3", "duration": 1.5, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.3},
@@ -1326,7 +1335,8 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": 0.3, "duration": 2.9},
                 target_damage_effect={"gfx": "battle_bounce"},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 3.0, "duration": 0.2})
-        BE_Action(u"Thunderstorm", menu_pos=2, attributes=["magic", "electricity"], menuname="TStorm", effect=50, multiplier=1.2, mp_cost=70, range=4, desc="Covers a small area by numerous high-voltage discharges.",
+        BE_Action(u"Thunderstorm", menu_pos=2, attributes=["magic", "electricity"], menuname="TStorm", effect=50, multiplier=1.2, mp_cost=70, range=4,
+                desc="Covers a small area by numerous high-voltage discharges.",
                 attacker_effects={"gfx": "electricity_2", "sfx": "default"}, type="all_enemies", dodge_effect={"initial_pause": .2},
                 main_effect={"gfx": Transform("electricity_5", zoom=1.6), "sfx": "content/sfx/sound/be/thunder5.mp3", "duration": 1.6, "aim": {"point": "tc", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": 0.15, "duration": 1.45},
@@ -1357,19 +1367,22 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": 0.5, "duration": 2.5, "master_shake": True},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 2.4, "duration": 0.5})
         # Light:
-        BE_Action(u"Holy", menu_pos=0, attributes=["magic", "light"], effect=15, multiplier=1.0, mp_cost=12, range=4, type="all_enemies", desc="A flash of light energy burns targets from inside.",
+        BE_Action(u"Holy", menu_pos=0, attributes=["magic", "light"], effect=15, multiplier=1.0, mp_cost=12, range=4, type="all_enemies",
+                desc="A flash of light energy burns targets from inside.",
                 attacker_effects={"gfx": "light_1", "sfx": "default"},
                 main_effect={"gfx": Transform("light_1", zoom=1.5), "sfx": "content/sfx/sound/be/light1.mp3", "duration": 1.25, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 1.1},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":0.9, "duration": 0.2})
-        BE_Action(u"Holyra", menu_pos=0.1, attributes=["magic", "light"], effect=15, multiplier=1.1, mp_cost=10, range=4, desc="A sphere of light energy burns the target from all sides.",
+        BE_Action(u"Holyra", menu_pos=0.1, attributes=["magic", "light"], effect=15, multiplier=1.1, mp_cost=10, range=4,
+                desc="A sphere of light energy burns the target from all sides.",
                 attacker_effects={"gfx": "light_1", "sfx": "default"},
                 main_effect={"gfx": Transform("light_2", zoom=1.5), "sfx": "content/sfx/sound/be/light3.mp3", "duration": 1.25, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 1.1},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":0.9, "duration": 0.2})
-        BE_Action(u"Holyda", menu_pos=0.2, attributes=["magic", "light"], effect=15, multiplier=0.9, mp_cost=14, range=4, desc="A smallest particle of stellar energy burns the target.",
+        BE_Action(u"Holyda", menu_pos=0.2, attributes=["magic", "light"], effect=15, multiplier=0.9, mp_cost=14, range=4,
+                desc="A smallest particle of stellar energy burns the target.",
                 attacker_effects={"gfx": "light_1", "sfx": "default"}, piercing=True,
                 main_effect={"gfx": Transform("light_3", zoom=2.5), "sfx": "content/sfx/sound/be/light4.mp3", "duration": 1.6, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 1.5},
@@ -1382,19 +1395,20 @@ label load_battle_skills:
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.1},
                 target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.5, "duration": 1.4},
                 target_death_effect={"gfx": "hide", "initial_pause": 1.5, "duration": 0.0001})
-        BE_Action(u"Star Light", menu_pos=0.5, attributes=["magic", "light"], effect=60, multiplier=1.3, mp_cost=35, range=4, desc="A powerful and painful flash of star light.",
+        BE_Action(u"Star Light", menu_pos=0.5, attributes=["magic", "light"], effect=60, multiplier=1.3, mp_cost=35, range=4,
+                desc="A powerful and painful flash of star light.",
                 attacker_effects={"gfx": "light_2", "sfx": "default"}, piercing=True,
                 main_effect={"gfx": Transform("light_6_webm", zoom=1.4), "sfx": "content/sfx/sound/be/light2.mp3", "duration": 0.96, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 0.8},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":1.0, "duration": 0.4})
-        BE_Action(u"Photon Blade", menu_pos=1, attributes=["magic", "light"], effect=60, multiplier=1.4, mp_cost=55, range=4, desc="Infinitely thin blades of pure light slices target.",
+        BE_Action(u"Photon Blade", menu_pos=1, attributes=["magic", "light"], effect=60, multiplier=1.4, mp_cost=55, range=4,
+                desc="Infinitely thin blades of pure light slices target.",
                 attacker_effects={"gfx": "light_2", "sfx": "default"},
                 main_effect={"gfx": Transform("light_5", zoom=1.9), "sfx": "content/sfx/sound/be/dawn.mp3", "duration": 2.5, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0, "hflip": True},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.5, "duration": 1.4},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.6},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":2.0, "duration": 0.4})
-
         BE_Action("Forced Dawn", menu_pos=5, menuname="Dawn", attributes=["magic", "light"], effect=60, multiplier=1.2, mp_cost=75, range=4, type="all_enemies",
                 desc="The energy of a whole sunrise quickly covers a small area.",
                 attacker_effects={"gfx": "orb", "sfx": "default"},
@@ -1404,20 +1418,22 @@ label load_battle_skills:
                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.6, "duration": 1.0},
                 dodge_effect={"initial_pause": 1.2})
         ArealSkill("Holy Blast", menu_pos=9, attributes=["magic", "light", "inevitable"], effect=120, multiplier=1.5, mp_cost=110, range=4, type="all_enemies", piercing=True,
-                desc="Concentrates all holy energy in the area into one point, forcing it to explode as it reaches critical levels!",
+                desc="Concentrates all holy energy in the area into one point, forcing it to explode as it reaches critical levels.",
                 attacker_effects={"gfx": "orb", "sfx": "default"},
                 main_effect={"gfx": Transform("holy_blast", zoom=2.2), "sfx": "content/sfx/sound/be/light6.mp3", "duration": 3.7, "aim": {"anchor": (0.5, 1.0), "yo": 320}},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 3.7},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.5, "duration": 2.2},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 2.7, "duration": 0.5})
         # Darkness:
-        BE_Action(u"Dark", menu_pos=0, attributes=["magic", "darkness"], effect=15, multiplier=1.0, mp_cost=12, range=4, type="all_enemies", desc="The mere presence of dark energy is dangerous for most creatures.",
+        BE_Action(u"Dark", menu_pos=0, attributes=["magic", "darkness"], effect=15, multiplier=1.0, mp_cost=12, range=4, type="all_enemies",
+                desc="The mere presence of dark energy is dangerous for most creatures.",
                 attacker_effects={"gfx": "dark_1", "sfx": "default"},
                 main_effect={"gfx": Transform("darkness_1", zoom=1.3), "sfx": "content/sfx/sound/be/darkness1.mp3", "duration": 1.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "on_darkness", "initial_pause": 0.1, "duration": 0.9},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":0.8, "duration": 0.2})
-        BE_Action(u"Darkra", menu_pos=0.1, attributes=["magic", "darkness"], effect=15, multiplier=1.1, mp_cost=10, range=4, desc="Darkness envelops the target, slowly killing it.",
+        BE_Action(u"Darkra", menu_pos=0.1, attributes=["magic", "darkness"], effect=15, multiplier=1.1, mp_cost=10, range=4,
+                desc="Darkness envelops the target, slowly killing it.",
                 attacker_effects={"gfx": "dark_1", "sfx": "default"},
                 main_effect={"gfx": Transform("darkness_2", zoom=1.6), "sfx": "content/sfx/sound/be/darkness2.mp3", "duration": 1.6, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "on_darkness", "initial_pause": 0.3, "duration": 1.3},
@@ -1568,5 +1584,4 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": None},
                 target_death_effect={"gfx": None})
-
     return
