@@ -32,6 +32,11 @@ screen prison_break_controls(): # control buttons screen
                 yalign 0.5
                 action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Play("events2", "events/letter.mp3"), Jump("storyi_map")]
                 text "Show map" size 15
+            button:
+                xysize (120, 40)
+                yalign 0.5
+                action [Hide("prison_break_controls"), Jump("storyi_rest")]
+                text "Rest" size 15
             if storyi_prison_location == 3:
                 button:
                     xysize (120, 40)
@@ -102,13 +107,13 @@ screen show_mc_team_status(characters): # shows characters status, and allows to
 
 
 
-screen give_exp_after_battle(group, money=0):
+screen give_exp_after_battle(group, money=0): # shows post-battle results; TO DO: make it to show animation gained post battle, not just the current one
     fixed:
-        align (.5, .5)
+        pos (50, 50)
         frame:
-            background Frame("content/gfx/frame/FrameA.png", 10, 10)
-            xpadding 30
-            ypadding 50
+            background Frame("content/gfx/frame/MC_bg2.png", 10, 10)
+            xpadding 20
+            ypadding 20
             has vbox
             for l in group:
                 $ char_profile_img = l.show('portrait', resize=(101, 101), cache=True)
@@ -121,8 +126,6 @@ screen give_exp_after_battle(group, money=0):
                     align 0, .5
                     xysize (102, 102)
                 bar:
-                    # value l.stats.exp + l.stats.goal_increase - l.stats.goal
-                    # range l.stats.goal_increase
                     value AnimatedValue(value=l.stats.exp + l.stats.goal_increase - l.stats.goal, range=l.stats.goal_increase, delay=1.0, old_value=0)
                     left_bar ("content/gfx/interface/bars/exp_full.png")
                     right_bar ("content/gfx/interface/bars/exp_empty.png")
@@ -152,6 +155,7 @@ label storyi_bossroom:
     show sinister_star:
         pos (704, 91)
         anchor (0.5, 0.5)
+        subpixel True
         zoom 0.1
         alpha 0
         linear 1.5 alpha 1.0
@@ -169,35 +173,29 @@ label storyi_bossroom:
             show screen show_mc_team_status(hero.team)
             jump storyi_gui_loop
     show sinister_star:
-        anchor (0.5, 0.5)
         linear 2.5 zoom 0.2
     "You take a step forward, and something changes."
     show bg story p3 with dissolve
     show sinister_star:
-        anchor (0.5, 0.5)
         linear 1.5 zoom 0.3
     extend " Daylight fades, being replaced by red glow from above."
     show sinister_star:
-        anchor (0.5, 0.5)
         linear 2.0 zoom 0.4
     "There is a tiny red star in the gem on the ceiling."
     show sinister_star:
-        anchor (0.5, 0.5)
         linear 2.0 zoom 0.5
     extend " One of the weapons used during the war, it wakes up, disturbed by your presence."
     show sinister_star:
-        anchor (0.5, 0.5)
         linear 8 ypos 375 zoom 1.5
-    "The air temperature rises rapidly. At the full power it rumoured to be capable to burn down a city street in the blink of an eye."
+    "The air temperature rises rapidly. At the full power it rumored to be capable to burn down a city street in the blink of an eye."
     show bg story p3 with sflash
     show sinister_star:
-        anchor (0.5, 0.5)
         linear 4 zoom 2.5
     extend " It has to be taken down before it awakens completely."
     python:
         enemy_team = Team(name="Enemy Team", max_size=3)
         your_team = Team(name="Your Team", max_size=3)
-        mob = build_mob(id="Blazing Star", level=1)
+        mob = build_mob(id="Blazing Star", level=25)
         mob.stats.lvl_max["health"] += 500
         mob.stats.max["health"] += 500
         mob.mod_stat("health", 500)
@@ -224,6 +222,23 @@ label storyi_bossroom:
     show screen prison_break_controls
     show screen show_mc_team_status(hero.team)
     jump storyi_gui_loop
+    
+label storyi_rest: # resting inside the dungeon; team may be attacked during the rest
+    show bg tent with q_dissolve
+    python:
+        for i in hero.team:
+            i.vitality += int(i.get_max("vitality")*0.3)
+            i.mp +=  int(i.get_max("mp")*0.1)
+    "You set up a small camp and rest for a bit."
+    $ fight_chance += 10
+    call storyi_show_bg
+    if dice(fight_chance):
+        "You have been ambushed by enemies!"
+        hide screen show_mc_team_status
+        jump storyi_randomfight
+    show screen prison_break_controls
+    show screen show_mc_team_status(hero.team)
+    jump storyi_gui_loop
 
 label storyi_randomfight:  # initiates fight with random enemy team
     $ fight_chance = 10
@@ -231,7 +246,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
         enemy_team = Team(name="Enemy Team", max_size=3)
         your_team = Team(name="Your Team", max_size=3)
         for j in range(randint(1, 3)):
-            mob = build_mob(id=random.choice(enemies), level=5)
+            mob = build_mob(id=random.choice(enemies), level=15)
             mob.controller = BE_AI(mob)
             enemy_team.add(mob)
         result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.jpg", prebattle=False, death=True, skill_lvl=3)
@@ -243,9 +258,14 @@ label storyi_randomfight:  # initiates fight with random enemy team
         call storyi_show_bg
         play world "Theme2.ogg" fadein 2.0 loop
         if storyi_prison_location in [6, 14, 2, 8, 15, 16, 11, 18] and dice(80):
-            $ result = randint(5, 15)
-        show screen give_exp_after_battle(hero.team, money=result)
-        pause
+            $ money = randint(5, 15)
+        elif storyi_prison_location in [9, 10] and dice(90):
+            $ money = randint(15, 30)
+        else:
+            $ money = 0
+        $ hero.add_money(money)
+        show screen give_exp_after_battle(hero.team, money)
+        pause 3.5
         hide screen give_exp_after_battle
         show screen show_mc_team_status(hero.team)
         show screen prison_break_controls
