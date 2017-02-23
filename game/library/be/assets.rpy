@@ -1550,7 +1550,7 @@ label load_battle_skills:
         # Buffs:
         DefenceBuffSpell("Aery Field", menu_pos=-1, attributes=["status", "air"], kind="buff", defence_multiplier={"ranged": 1.5}, buff_group="ranged shield", buff_icon=ProportionalScale("content/gfx/be/buffs/ranged_def.png", 30, 30), mp_cost=0.1, vitality_cost=0.3, range=4, type="sa",
                 desc="Creates a force field around the target, reducing damage from ranged attacks.",
-                main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/m_shield.ogg","duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
+                main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
                 target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": None},
                 target_death_effect={"gfx": None})
