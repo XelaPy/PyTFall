@@ -5137,6 +5137,11 @@ init -9 python:
 
             self.leveling_stats = dict() # {stat: [lvl_max, max **as mod values]}
 
+            # For BasetTraits, we want to have a list of skills and stats, possibly weighted for evaluation.
+            self.base_skills = dict()
+            self.base_stats = dict()
+            # Where key: value are stat/skill: weight!
+
         def __str__(self):
             return str(self.id)
 

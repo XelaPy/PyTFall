@@ -384,6 +384,11 @@
 
             self.event_type = event_type
 
+            # Each job should have two dicts of stats/skills to evaluate chars ability of performing it:
+            self.base_skills = dict()
+            self.base_stats = dict()
+            # Where key: value are stat/skill: weight!
+
         def __call__(self, worker, event_type="jobreport"):
             self.worker = worker
             self.loc = worker.location
@@ -566,6 +571,14 @@
         def logloc(self, s, value):
             # Logs a stat for the building:
             self.locmod[s] = self.workermod.get(s, 0) + value
+
+        # We should also have a number of methods or properties to evaluate new dicts:
+        def relative_ability(self, char):
+            pass
+
+        def effectiveness(self, char):
+            return 100
+
 
     ####################### Whore Job  ############################
     class WhoreJob(NewStyleJob):
@@ -2622,7 +2635,7 @@
                         self.workermod['vitality'] = self.workermod.get('vitality', 0) - randint(15, 20)
                         self.worker.AP = 0
 
-                        
+
     class ExplorationData(NewStyleJob):
         def __init__(self):
             """Creates a new GuardJob.
