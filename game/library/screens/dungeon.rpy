@@ -183,7 +183,17 @@ label enter_dungeon:
                     for p in dungeon.point:
                         if p['y'] == y and p['x'] == x:
                             if p['id'] == "renderitem":
-                                show.append(sided[lateral+3] % ('dungeon_'+p['item'], light, distance))
+
+                                img_name = sided[lateral+3] % ('dungeon_'+p['item'], light, distance)
+                                if 'function' in p and p['function'][:10] == "im.matrix.":
+
+                                    img_name = 'content/dungeon/'+p['item']+light+'/'+img_name+'.png'
+                                    if os.path.isfile(gamedir + '/'+img_name):
+                                        brightness = im.matrix.brightness(-math.sqrt(lateral*lateral + distance*distance)/(5.8 if light else 4.5))
+                                        show.append(im.MatrixColor(img_name, eval(p["function"])(*p["arguments"]) * brightness))
+                                else:
+                                    show.append(img_name)
+
                             elif p['id'] == "item":
                                 show.append([items[p['item']], p, distance, lateral])
                             elif p['id'] == "spawn":
