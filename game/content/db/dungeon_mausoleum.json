@@ -70,6 +70,7 @@
         {"id": "spawn", "name": "Bats", "x": 25, "y": 6, "level": 1, "yoffs": -400 },
         {"id": "spawn", "name": "Bear", "x": 5, "y": 9, "level": 3, "size": 2 },
         {"id": "renderitem", "item": "dagger", "x": 23, "y": 1 },
+        {"id": "renderitem", "item": "ring", "x": 21, "y": 6 },
         {"id": "renderitem", "item": "dagger", "x": 21, "y": 6 }
     ],
     "event": {
