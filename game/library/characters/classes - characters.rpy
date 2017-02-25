@@ -1227,7 +1227,7 @@ init -9 python:
     class PytCharacter(Flags):
         STATS = set()
         SKILLS = set(["vaginal", "anal", "oral", "sex", "strip", "service", "refinement", "group", "bdsm", "dancing",
-                      "bartending", "cleaning", "waiting", "management", "exploration", "teaching", "swimming", "fishing"])
+                      "bartending", "cleaning", "waiting", "management", "exploration", "teaching", "swimming", "fishing", "security"])
         FULLSKILLS = set(skill + "skill" for skill in SKILLS) # Used to access true, final, adjusted skill values through direct access to class, like: char.swimmingskill
         PERSONALITY_TRAITS = set(["Tsundere", "Yandere", "Kuudere", "Dandere", "Ane", "Imouto", "Kamidere", "Bokukko", "Impersonal", "Deredere"]) # Do we still need this? Traits themselves are now flagged!
         CLASSES = set(["Stripper", "Prostitute", "Warrior", "ServiceGirl"]) # This is prolly now also too old...

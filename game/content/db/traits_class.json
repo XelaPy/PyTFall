@@ -5,6 +5,8 @@
             "SIW"
         ],
         "desc": "She will love anyone no matter who they are or what they look like as long as they have something in return.",
+        "base_skills": {"sex": 60, "vaginal": 40, "anal": 40, "oral": 40},
+        "base_stats": {"charisma": 100},
         "basetrait": true,
         "mod": {
             "charisma": 20
@@ -32,16 +34,6 @@
                 0.1,
                 0.1,
                 0.1
-            ],
-            "group": [
-                0.04,
-                0.04,
-                0.04
-            ],
-            "bdsm": [
-                0.04,
-                0.04,
-                0.04
             ]
         },
         "init_lvlmax": {
@@ -56,19 +48,19 @@
         "init_skills": {
             "vaginal": [
                 10,
-                40
+                30
             ],
             "anal": [
                 10,
-                40
+                30
             ],
             "oral": [
                 10,
-                40
+                30
             ],
             "sex": [
                 10,
-                40
+                30
             ]
         },
         "leveling_stats": {
@@ -79,98 +71,13 @@
         }
     },
     {
-        "id": "Entertainer",
-        "occupations": [
-            "Server"
-        ],
-        "desc": "She knows how to capture the attention of the public and not to let it get bored.",
-        "basetrait": true,
-        "mod": {
-            "charisma": 30,
-            "agility": 15
-        },
-        "max": {
-            "charisma": 30,
-            "agility": 15
-        },
-        "mod_skills": {
-            "strip": [
-                0.05,
-                0.05,
-                0.05
-            ],
-            "dancing": [
-                0.05,
-                0.05,
-                0.05
-            ],
-            "refinement": [
-                0.01,
-                0.01,
-                0.01
-            ]
-        },
-        "init_lvlmax": {
-            "charisma": 5,
-            "agility": 5,
-            "character": 25
-        },
-        "init_max": {
-            "charisma": 10,
-            "agility": 10,
-            "character": 15
-        },
-        "init_mod": {
-            "charisma": 5,
-            "agility": 10,
-            "character": 10
-        },
-        "init_skills": {
-            "strip": [
-                20,
-                50
-            ],
-            "dancing": [
-                20,
-                50
-            ]
-        },
-        "leveling_stats": {
-            "character": [
-                0,
-                1
-            ]
-        }
-    },
-    {
-        "id": "Dancer",
-        "occupations": [
-            "Server"
-        ],
-        "desc": "She specializes in dancing.",
-        "higher_tiers": ["Entertainer"],
-        "basetrait": true,
-        "mod_skills": {
-            "dancing": [
-                0.1,
-                0.1,
-                0.1
-            ]
-        },
-        "init_skills": {
-            "dancing": [
-                40,
-                80
-            ]
-        }
-    },
-    {
         "id": "Stripper",
         "occupations": [
             "Server", "SIW"
         ],
         "desc": "She specializes in striptease.",
-        "higher_tiers": ["Entertainer"],
+        "base_skills": {"strip": 80, "refinement": 20},
+        "base_stats": {"charisma": 50, "agility": 50},
         "basetrait": true,
         "mod_skills": {
             "strip": [
@@ -193,6 +100,8 @@
         ],
         "desc": "She is ready to serve customers in any possible decorous way.",
         "basetrait": true,
+        "base_skills": {"waiting": 20, "service": 30, "refinement": 30, "cleaning": 20},
+        "base_stats": {"constitution": 50, "agility": 30},
         "mod": {
             "constitution": 40,
             "agility": 15
@@ -267,6 +176,8 @@
         ],
         "desc": "She specializes in cleaning.",
         "higher_tiers": ["Maid"],
+        "base_skills": {"cleaning": 100},
+        "base_stats": {"constitution": 60, "agility": 20},
         "basetrait": true,
         "mod_skills": {
             "cleaning": [
@@ -290,6 +201,8 @@
         "desc": "She specializes in waiting.",
         "higher_tiers": ["Maid"],
         "basetrait": true,
+        "base_skills": {"waiting": 80, "refinement": 20},
+        "base_stats": {"constitution": 20, "agility": 60},
         "mod_skills": {
             "waiting": [
                 0.1,
@@ -312,6 +225,8 @@
         "desc": "She specializes in bartending.",
         "higher_tiers": ["Maid"],
         "basetrait": true,
+        "base_skills": {"bartending": 80, "refinement": 20},
+        "base_stats": {"constitution": 40, "agility": 20},
         "mod_skills": {
             "bartending": [
                 0.1,
@@ -333,6 +248,8 @@
         ],
         "desc": "She knows how to manage people and resolve conflicts.",
         "basetrait": true,
+        "base_skills": {"management": 80, "refinement": 10, "teaching": 10},
+        "base_stats": {"character": 60, "intelligence": 40},
         "mod": {
             "character": 45,
             "intelligence": 30
@@ -394,6 +311,8 @@
         ],
         "desc": "A little spark of magic within one's soul gives the ability to manipulate arcane energies.",
         "basetrait": true,
+        "base_stats": {"magic": 70, "intelligence": 20, "mp": 10},
+        "base_skills": {"security": 50, "exploration": 50},
         "mod_stats": {"magic": [1, 1], "intelligence": [1, 1]
         },
         "defence_multiplier": {"magic": 0.1, "ranged": 0.05},
@@ -442,6 +361,8 @@
         "desc": "Specializes in healing.",
         "basetrait": true,
         "higher_tiers": ["Mage"],
+        "base_stats": {"magic": 40, "intelligence": 40, "mp": 20},
+        "base_skills": {"security": 50, "exploration": 50},
         "el_damage": {"healing": 0.5},
         "defence_multiplier": {"magic": 0.05, "ranged": 0.1},
         "mod_stats": {"magic": [1, 1], "intelligence": [1, 2]
@@ -487,6 +408,8 @@
         "mod_stats": {"defence": [1, 1], "attack": [1, 1], "agility": [1, 2]
         },
         "defence_multiplier": {"melee": 0.1, "ranged": 0.05},
+        "base_stats": {"attack": 40, "defence": 40, "health": 10, "agility": 10},
+        "base_skills": {"security": 50, "exploration": 50},
         "init_lvlmax": {
             "attack": 30,
             "defence": 30,
@@ -542,6 +465,8 @@
         "basetrait": true,
         "mod_stats": {"defence": [2, 1], "agility": [1, 3], "attack": [1, 1]
         },
+        "base_stats": {"attack": 20, "defence": 40, "health": 40},
+        "base_skills": {"security": 50, "exploration": 50},
         "defence_multiplier": {"melee":0.15, "ranged":0.15},
         "init_lvlmax": {
             "attack": 15,
@@ -592,6 +517,8 @@
         "mod_stats": {"attack": [2, 1], "agility": [1, 1], "defence": [1, 2]
         },
         "defence_multiplier": {"ranged":0.1},
+        "base_stats": {"attack": 30, "defence": 30, "agility": 30},
+        "base_skills": {"security": 50, "exploration": 50},
         "init_lvlmax": {
             "attack": 45,
             "defence": 20,
@@ -645,6 +572,8 @@
         },
         "evasion_bonus": [5, 10, 50],
         "ch_multiplier": 0.5,
+        "base_stats": {"attack": 50, "defence": 20, "agility": 50},
+        "base_skills": {"security": 50, "exploration": 50},
         "defence_multiplier": {"melee": 0.05, "status": 0.1},
         "init_lvlmax": {
             "attack": 30,
