@@ -36,29 +36,48 @@ init -1 python:
             s.x = m + 1
             s.y = n + 1
 
-transform sprite_default(xx, yy, xz, yz):
+transform sprite_default(xx, yy, xz, yz, rot=None):
     xpos xx
     ypos yy
     xzoom xz
     yzoom yz
+    rotate rot
+    subpixel True
 
 screen dungeon_move:
     # Screen which shows move buttons and a minimap
     for s in reversed(show):
         if isinstance(s, list):
             if s[2]:
-                $ xx=int(renpy.config.screen_width * (0.5 + 0.667 * float(s[3]) / (1 + math.log(s[2], 2))))
-                if isinstance(s[0], Item):
-                    python:
-                        yy=int(renpy.config.screen_height * (0.889 - math.log(s[2], 2) / 9.0))
-                        zz=1.0/(1.5+float(s[2]))
-                    add im.MatrixColor(s[0].icon, im.matrix.brightness(-float(s[2])/(5.0 if light else 4.0))) at [sprite_default(xx, yy, zz, zz/2.0)]
-                elif isinstance(s[0], Mob):
-                    python:
-                        yy=int(renpy.config.screen_height * (0.556 - math.log(s[2], 2) / 20.0))
+                python:
+                    light_matrix = im.matrix.brightness(-math.sqrt(s[3]*s[3] + s[2]*s[2])/(5.8 if light else 4.5))
+                    if isinstance(s[0], Item):
+                        mco = im.MatrixColor(s[0].icon, light_matrix)
+                        (width, height) = mco.image.load().get_size()
 
-                        zz=4.0/(1.5+float(s[2]))
-                    add im.MatrixColor(s[0].battle_sprite, im.matrix.brightness(-float(s[2])/(5.0 if light else 4.0))) at [sprite_default(xx, yy, zz, zz)]
+                        xz=1.0/(1.5 + math.log(s[2], 2))
+                        xx=int(float(renpy.config.screen_width - (width/2)*xz) * (0.5 + float(s[3]) / float(1 + s[2])))
+
+                        yz = xz/1.75
+                        yy=int((renpy.config.screen_height - height*xz) * (0.5 + 1.0 / float(1.0 + s[2])))
+                        rot = s[1]['rot'] if 'rot' in s[1] else None #15.0+float(abs(s[3])*distance)
+                    elif isinstance(s[0], Mob):
+                        mco = im.MatrixColor(s[0].battle_sprite, light_matrix)
+                        (width, height) = mco.image.load().get_size()
+
+                        sz = float(s[1]['size']) if 'size' in s[1] else 1.3
+                        xz=2.0/(1.5 + math.log(s[2], 2))
+                        xx=int(float(renpy.config.screen_width - width*xz) * (0.5 + float(s[3]) / float(1 + s[2])))
+
+
+                        yz = xz
+                        lowness = float(renpy.config.screen_height)
+                        if 'yoffs' in s[1]:
+                            lowness += float(s[1]['yoffs'])
+                        yy=int(float(lowness - height*xz) * (0.5 + 0.5 / float(.0001 + s[2])))
+                        rot=None
+
+                add mco at [sprite_default(xx, yy, xz, yz, rot)]
         elif renpy.has_image(s):
             add s
         else:

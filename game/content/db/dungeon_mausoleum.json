@@ -66,8 +66,9 @@
         {"id": "item", "item": "Replica Sword", "x": 3, "y": 2 },
         {"id": "item", "item": "Shuriken", "x": 24, "y": 4 },
         {"id": "spawn", "name": "Goblin", "x": 37, "y": 2, "level": 1 },
-        {"id": "spawn", "name": "Bats", "x": 25, "y": 6, "level": 1, "yoffs": -0.4 },
-        {"id": "spawn", "name": "Bear", "x": 4, "y": 10, "level": 3, "size": 8 },
+        {"id": "spawn", "name": "Devil Rat", "x": 6, "y": 12, "level": 1 },
+        {"id": "spawn", "name": "Bats", "x": 25, "y": 6, "level": 1, "yoffs": -400 },
+        {"id": "spawn", "name": "Bear", "x": 5, "y": 9, "level": 3, "size": 2 },
         {"id": "renderitem", "item": "dagger", "x": 23, "y": 1 },
         {"id": "renderitem", "item": "dagger", "x": 21, "y": 6 }
     ],
@@ -188,6 +189,11 @@
       "bump": "content/sfx/sound/dungeon/bump.ogg"
     },
     "point": [
+        {"id": "item", "item": "Replica Sword", "x": 34, "y": 25, "rot": 30},
+        {"id": "item", "item": "Small Cane", "x": 35, "y": 25, "rot": 30 },
+        {"id": "item", "item": "Mallet", "x": 36, "y": 30 },
+        {"id": "item", "item": "Elven Rapier", "x": 34, "y": 30 },
+        {"id": "item", "item": "Ornate Gladius", "x": 35, "y": 30 }
     ],
     "event": {
         "A": {
