@@ -66,7 +66,7 @@
         {"id": "spawn", "name": "Goblin", "x": 36, "y": 1, "level": 1 },
         {"id": "spawn", "name": "Devil Rat", "x": 5, "y": 11, "level": 1 },
         {"id": "spawn", "name": "Bats", "x": 24, "y": 5, "level": 1, "yoffs": -400 },
-        {"id": "spawn", "name": "Bear", "x": 4, "y": 8, "level": 3, "size": 2 },
+        {"id": "spawn", "name": "Bear", "x": 2, "y": 8, "level": 3, "size": 2 },
         {"id": "renderitem", "item": "dagger", "x": 22, "y": 0 },
         {"id": "renderitem", "item": "ring", "x": 20, "y": 5 },
         {"id": "renderitem", "item": "dagger", "x": 20, "y": 5 },

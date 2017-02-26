@@ -175,6 +175,7 @@ label enter_dungeon:
             blend = dungeon.area
             areas = [[0, 0]]
             show = []
+            access = {4, 6, 7, 8, 9, 100}
             renpy.show(dungeon.background % light)
 
             while areas:
@@ -206,6 +207,10 @@ label enter_dungeon:
                                 show.append([items[p['item']], p, distance, lateral])
 
                             elif p['id'] == "spawn":
+                                if distance == 0 and abs(lateral) == 1:
+                                    access.remove(7 if lateral == -1 else 9)
+                                if distance == 1 and lateral == 0:
+                                    access.remove(8)
                                 show.append([p['mob'], p, distance, lateral])
 
                 # also record for minimap
@@ -231,6 +236,7 @@ label enter_dungeon:
                 dungeon.arrow.x = (pc['x'])*6
 
                 if situ in dungeon.visible: # a wall or so, need to draw.
+
                     if isinstance(blend[situ], list):
 
                         if len(blend[situ]) == 2: # left-right symmetry
@@ -275,15 +281,23 @@ label enter_dungeon:
             at = dungeon.map(pc['y'],pc['x'])
             ori = 1 - pc['dx'] - pc['dy'] + (1 if pc['dx'] > pc['dy'] else 0)
             area = ""
-            if _return == 2:
+            if not _return in access:
+                # Walking into NPC. dfferent sound or action ?
+                pass
+
+            elif _return == 2:
                 area = dungeon.map(pc['y']-pc['dy'],pc['x']-pc['dx'])
+                for p in dungeon.point:
+                    if p['id'] == "spawn" and p['y'] == pc['y']-pc['dy'] and p['x'] == pc['x']-pc['dx']:
+                        # Walking into NPC. dfferent sound or action ?
+                        break
+                else:
+                    if at in dungeon.access[ori] and area in dungeon.access[ori]:
+                        pc['y'] -= pc['dy']
+                        pc['x'] -= pc['dx']
 
-                if at in dungeon.access[ori] and area in dungeon.access[ori]:
-                    pc['y'] -= pc['dy']
-                    pc['x'] -= pc['dx']
-
-                elif not renpy.music.is_playing(channel="sound"):
-                    renpy.play(dungeon.sound['bump'], channel="sound")
+                    elif not renpy.music.is_playing(channel="sound"):
+                        renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 4:
                 (pc['dy'], pc['dx']) = (-pc['dx'], pc['dy'])
