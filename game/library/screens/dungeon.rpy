@@ -49,13 +49,13 @@ init -1 python:
         def has_access(self, at, to, ori):
             (src, dest) = (dungeon.map(*at), dungeon.map(*to))
 
-            if src in dungeon.access[ori] and (dest in dungeon.access[ori] or dest in dungeon.conditional_access[ori]):
+            if (src in dungeon.access[ori] or src in dungeon.conditional_access[ori]) and dest in dungeon.access[ori]:
                 return True
-            if src in dungeon.conditional_access[ori]:
-                atstr = str(at)
-                if not atstr in dungeon.access_condition:
+            if dest in dungeon.conditional_access[ori]:
+                tostr = str(to)
+                if tostr not in dungeon.access_condition:
                     return True
-                elif 'access' in dungeon.access_condition[atstr] and dungeon.access_condition[atstr]['access']:
+                elif 'access' in dungeon.access_condition[tostr] and dungeon.access_condition[tostr]['access']:
                     return True
 
             return False

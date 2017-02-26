@@ -41,7 +41,7 @@
     "access": [".79bABCD^", ".79cABCD^", ".79cABCD^", ".79bABCD^"],
     "conditional_access": ["3a8", "3a8", "3a8", "3a8"],
     "access_condition": {
-        "(5, 2)": {"access": true}
+        "(1, 20)": {"access": false}
     },
     "minimap": {
       "wall": {
