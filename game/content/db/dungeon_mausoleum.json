@@ -9,7 +9,7 @@
     "map": [
       "###.##...c..........##d####2.222222....##......#....",
       ".....c...#222222222.3c.ccc.3......8....3..####...##b",
-      "##a####.#2...2..7...######322222222########....####b",
+      "##a####.#2...2..7...e#####322222f22########....####b",
       "........#2...2......#......#....3...........####d##b",
       ".########2828274.674#.....4#....#############.......",
       "....c...c..2...2#d##d.....6#....#.............222222",
@@ -25,7 +25,7 @@
       "8": "bluegrey_door2", "9": "pilar", "a": "mossy_door2",
       "b": ["portal", "portal_turned"],
       "c": ["portal_turned", "portal"],
-      "d": "mossy_alcove",
+      "d": "mossy_alcove", "e": "mossy_button", "f": "bluegrey_button",
       "A": ["ladderb", "ladderl", "ladderr", "ladderf"],
       "B": ["ladderl", "ladderf", "ladderb", "ladderr"],
       "C": ["ladderf", "ladderr", "ladderl", "ladderb"],
@@ -33,15 +33,52 @@
       "^": "ladderdownf"
     },
     "background": "dungeon_bluegrey%s_background",
-    "visible": "#2346789abcdABCD^",
+    "visible": "#2346789abcdefABCD^",
     "container": {
         ".": { "x": 5, "y": 5},
         "d": { "x": 5, "y": 5}
     },
+    "area_hotspots": {
+        "e": {
+            "(2, 20)": [{
+                "spot": [591, 287, 30, 30],
+                "actions": [{
+                    "function": "renpy.play",
+                    "arguments": ["content/sfx/sound/dungeon/button_click2.ogg", "voice"]
+                },{
+                    "function": "renpy.play",
+                    "arguments": ["content/sfx/sound/dungeon/open_door.ogg", "sound"]
+                },{
+                    "function": "dungeon.access_condition.__setitem__",
+                    "arguments": ["(1, 20)", {"access": true}]
+                }]
+            }]
+        },
+        "f": {
+            "(2, 32)": [{
+                "spot": [591, 287, 30, 30],
+                "actions": [{
+                    "function": "renpy.play",
+                    "arguments": ["content/sfx/sound/dungeon/button_click2.ogg", "voice"]
+                },{
+                    "function": "renpy.play",
+                    "arguments": ["content/sfx/sound/dungeon/open_door.ogg", "sound"]
+                },{
+                    "function": "dungeon.access_condition.__setitem__",
+                    "arguments": ["(3, 32)", {"access": true}]
+                },{
+                    "function": "dungeon.access_condition.__setitem__",
+                    "arguments": ["(11, 32)", {"access": true}]
+                }]
+            }]
+        }
+    },
     "access": [".79bABCD^", ".79cABCD^", ".79cABCD^", ".79bABCD^"],
     "conditional_access": ["3a8", "3a8", "3a8", "3a8"],
     "access_condition": {
-        "(1, 20)": {"access": false}
+        "(1, 20)": {"access": false},
+        "(3, 32)": {"access": false},
+        "(11, 32)": {"access": false}
     },
     "minimap": {
       "wall": {
@@ -100,6 +137,15 @@
             },{
                 "load": "Mausoleum2",
                 "at": { "x": 26, "y": 25, "dx": 0, "dy": 1 }
+            }]
+        },
+        "c": {
+            "(1, 25)": [{
+                "function": "renpy.play",
+                "arguments": ["content/sfx/sound/dungeon/open_door.ogg", "sound"]
+            },{
+                "function": "dungeon.access_condition.__setitem__",
+                "arguments": ["(1, 20)", {"access": false}]
             }]
         }
     }

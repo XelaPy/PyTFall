@@ -60,6 +60,11 @@ init -1 python:
 
             return False
 
+        def function(self, function, arguments):
+            # only allow particular functions
+            if any(function[:len(f)] == f for f in ('renpy.', 'dungeon.', 'narrator')):
+                eval(function)(*arguments)
+
 transform sprite_default(xx, yy, xz, yz, rot=None):
     xpos xx
     ypos yy
@@ -68,45 +73,51 @@ transform sprite_default(xx, yy, xz, yz, rot=None):
     rotate rot
     subpixel True
 
-screen dungeon_move:
+screen dungeon_move(hotspots):
     # Screen which shows move buttons and a minimap
-    for s in reversed(show):
-        if isinstance(s, list):
-            if s[2]:
+    for sw in reversed(show):
+        if isinstance(sw, list):
+            if sw[2]:
                 python:
-                    light_matrix = im.matrix.brightness(-math.sqrt(s[3]**2 + s[2]**2)/(5.8 if light else 4.5))
-                    if isinstance(s[0], Item):
-                        mco = im.MatrixColor(s[0].icon, light_matrix)
+                    light_matrix = im.matrix.brightness(-math.sqrt(sw[3]**2 + sw[2]**2)/(5.8 if light else 4.5))
+                    if isinstance(sw[0], Item):
+                        mco = im.MatrixColor(sw[0].icon, light_matrix)
                         (width, height) = mco.image.load().get_size()
 
-                        xz=1.0/(1.5 + math.log(s[2], 2))
-                        xx=int(float(renpy.config.screen_width - (width/2)*xz) * (0.5 + float(s[3]) / float(1 + s[2])))
+                        xz=1.0/(1.5 + math.log(sw[2], 2))
+                        xx=int(float(renpy.config.screen_width - (width/2)*xz) * (0.5 + float(sw[3]) / float(1 + sw[2])))
 
                         yz = xz/1.75
-                        yy=int((renpy.config.screen_height - height*xz) * (0.5 + 1.0 / float(1.0 + s[2])))
-                        rot = s[1]['rot'] if 'rot' in s[1] else None #15.0+float(abs(s[3])*distance)
-                    elif isinstance(s[0], Mob):
-                        mco = im.MatrixColor(s[0].battle_sprite, light_matrix)
+                        yy=int((renpy.config.screen_height - height*xz) * (0.5 + 1.0 / float(1.0 + sw[2])))
+                        rot = sw[1]['rot'] if 'rot' in sw[1] else None #15.0+float(abs(sw[3])*distance)
+                    elif isinstance(sw[0], Mob):
+                        mco = im.MatrixColor(sw[0].battle_sprite, light_matrix)
                         (width, height) = mco.image.load().get_size()
+                        devlog.warn((width, height))
 
-                        sz = float(s[1]['size']) if 'size' in s[1] else 1.3
-                        xz=2.0/(1.5 + math.log(s[2], 2))
-                        xx=int(float(renpy.config.screen_width - width*xz) * (0.5 + float(s[3]) / float(1 + s[2])))
+                        sz = float(sw[1]['size']) if 'size' in sw[1] else 1.3
+                        xz=2.0/(1.5 + math.log(sw[2], 2))
+                        xx=int(float(renpy.config.screen_width - width*xz) * (0.5 + float(sw[3]) / float(1 + sw[2])))
 
 
                         yz = xz
                         lowness = float(renpy.config.screen_height)
-                        if 'yoffs' in s[1]:
-                            lowness += float(s[1]['yoffs'])
-                        yy=int(float(lowness - height*xz) * (0.5 + 0.5 / float(.0001 + s[2])))
+                        if 'yoffs' in sw[1]:
+                            lowness += float(sw[1]['yoffs'])
                         rot=None
 
                 add mco at [sprite_default(xx, yy, xz, yz, rot)]
-        elif not isinstance(s, basestring) or renpy.has_image(s):
-            add s
-        else:
-            $ devlog.warn("missing image: "+s)
 
+        elif not isinstance(sw, basestring):
+            add sw
+        elif renpy.has_image(sw):
+            if hs and "front" in sw:
+                imagemap:
+                    ground sw
+                    for hs in hotspots:
+                        hotspot hs['spot'] action Return(value=['hotspot', hs['actions']])
+            else:
+                add sw
     fixed style_group "move":
         textbutton "↓" action Return(value=2) xcenter .2 ycenter .9
         textbutton "←" action Return(value=4) xcenter .1 ycenter .8
@@ -193,7 +204,8 @@ label enter_dungeon:
             blend = dungeon.area
             areas = [[0, 0]]
             show = []
-            access_denied = {}
+            access_denied = set()
+            hotspots = []
             renpy.show(dungeon.background % light)
 
             while areas:
@@ -202,6 +214,12 @@ label enter_dungeon:
                 y = pc['y'] + lateral*pc['dx'] + distance*pc['dy']
                 x = pc['x'] + distance*pc['dx'] - lateral*pc['dy']
                 situ = dungeon.map(y, x)
+
+                if distance == 1 and lateral == 0 and situ in dungeon.area_hotspots: # actions can be apply to front
+                    front_str = str((y, x))
+                    if front_str in dungeon.area_hotspots[situ]:
+                        for e in dungeon.area_hotspots[situ][front_str]:
+                            hotspots.append(e)
 
                 if situ in dungeon.container:
                     #FIXME use position lookup, for some container may first have to add front (cover) image
@@ -293,13 +311,19 @@ label enter_dungeon:
 
         # Otherwise, call the move screen
         $ renpy.block_rollback()
-        call screen dungeon_move
+        call screen dungeon_move(hotspots)
 
         python:
             at = (pc['y'], pc['x'])
             ori = 1 - pc['dx'] - pc['dy'] + (1 if pc['dx'] > pc['dy'] else 0)
             to = None
-            if _return in access_denied:
+            if isinstance(_return, list):
+                if _return[0] == "hotspot":
+                    for event in _return[1]:
+                        if "function" in event:
+                            dungeon.function(event["function"], event["arguments"])
+
+            elif _return in access_denied:
                 # Walking into NPC. dfferent sound or action ?
                 pass
 
@@ -357,12 +381,14 @@ label enter_dungeon:
                 dungeon = dungeons[dungeon.id]
                 dungeon.enter()
 
-            if to and dungeon.map(*to) in dungeon.event and str(at) in dungeon.event[to]:
-                for event in dungeon.event[to][str(at)]:
-                    if "function" in event and event["function"][:6] == "renpy.":
-                        eval("%s%s"%(event["function"], str(tuple(event["arguments"]))))
+            if to:
+                to_area = dungeon.map(*to)
+                if to_area in dungeon.event and str(to) in dungeon.event[to_area]:
+                    for event in dungeon.event[to_area][str(to)]:
+                        if "function" in event:
+                            dungeon.function(event["function"], event["arguments"])
 
-                    elif "load" in event:
-                        dungeon = dungeons[event["load"]]
-                        pc = dungeon.enter(at=event["at"] if "at" in event else None)
+                        elif "load" in event:
+                            dungeon = dungeons[event["load"]]
+                            pc = dungeon.enter(at=event["at"] if "at" in event else None)
 
