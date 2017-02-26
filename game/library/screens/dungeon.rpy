@@ -60,7 +60,7 @@ screen dungeon_move:
         if isinstance(s, list):
             if s[2]:
                 python:
-                    light_matrix = im.matrix.brightness(-math.sqrt(s[3]*s[3] + s[2]*s[2])/(5.8 if light else 4.5))
+                    light_matrix = im.matrix.brightness(-math.sqrt(s[3]**2 + s[2]**2)/(5.8 if light else 4.5))
                     if isinstance(s[0], Item):
                         mco = im.MatrixColor(s[0].icon, light_matrix)
                         (width, height) = mco.image.load().get_size()
@@ -202,7 +202,7 @@ label enter_dungeon:
                                     img_name = 'content/dungeon/'+p['item']+light+'/'+img_name+'.png'
                                     if os.path.isfile(gamedir + '/'+img_name):
                                         # distance darkening
-                                        brightness = im.matrix.brightness(-math.sqrt(lateral*lateral + distance*distance)/(5.8 if light else 4.5))
+                                        brightness = im.matrix.brightness(-math.sqrt(lateral**2 + distance**2)/(5.8 if light else 4.5))
                                         show.append(im.MatrixColor(img_name, eval(p["function"])(*p["arguments"]) * brightness))
                                 else:
                                     show.append(img_name)
