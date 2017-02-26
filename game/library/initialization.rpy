@@ -507,38 +507,31 @@ init -999 python:
         # 4 sided symmetry (or symmetry ignored)
         for blend in ('bluegrey', 'door', 'barrel', 'mossy', 'pilar', 'more_barrels', 'barrel_crate',
                       'portal', 'portal_turned', 'ladderdownf', 'mossy_alcove', 'dagger', 'ring'):
-            for fname in os.listdir(gamedir + '/content/dungeon/' + blend + light):
+            for fname in os.listdir('%s/content/dungeon/%s%s' % (gamedir, blend, light)):
                 if fname.endswith('.png'):
-                    tag = fname[:-4]
-                    image = 'content/dungeon/'+ blend + light + '/' + fname
-                    renpy.image(tag, image)
+                    renpy.image(fname[:-4], 'content/dungeon/%s%s/%s' % (blend, light, fname))
 
-        # 2 sided symmetry
-        for blend in ('portal',):
-            for ori in ('', '_turned'):
-                for fname in os.listdir(gamedir + '/content/dungeon/' + blend + ori + light):
+        # 2 sided symmetry and no symmetry
+        for blend, orientations in [('portal', ['', '_turned']), ('ladder', "lrfb")]:
+            for ori in orientations:
+                for fname in os.listdir('%s/content/dungeon/%s%s%s' % (gamedir, blend, ori, light)):
                     if fname.endswith('.png'):
-                        tag = fname[:-4]
-                        image = 'content/dungeon/'+ blend + ori + light + '/' + fname
-                        renpy.image(tag, image)
-        # no symmetry
-        for blend in ('ladder',): # 4 sided symmetry
-            for ori in "lrfb":
-                for fname in os.listdir(gamedir + '/content/dungeon/' + blend + ori + light):
-                    if fname.endswith('.png'):
-                        tag = fname[:-4]
-                        image = 'content/dungeon/'+ blend + ori + light + '/' + fname
-                        renpy.image(tag, image)
+                        renpy.image(fname[:-4], 'content/dungeon/%s%s%s/%s' % (blend, ori, light, fname))
 
         #composite images
-        for blend in ('door2',):
-            for fname in os.listdir(gamedir + '/content/dungeon/' + blend + light):
-                if fname.endswith('.png'):
-                    tag = fname[:-4]
-                    image1 = 'content/dungeon/'+ blend + light + '/' + fname
-                    for wall in ('bluegrey', 'mossy'):
-                        image2 = 'content/dungeon/'+ wall + light + '/dungeon_' + wall + fname[len('dungeon_'+blend):]
-                        renpy.image('dungeon_'+wall+tag[len('dungeon'):], im.Composite((1280,720), (0, 0), image2, (0, 0), image1))
+        for wall in ('bluegrey', 'mossy'):
+            for bgfname in os.listdir('%s/content/dungeon/%s%s' % (gamedir, wall, light)):
+                if bgfname.endswith('.png'):
+                    bg_img = 'content/dungeon/%s%s/%s' % (wall, light, bgfname)
+                    for blend in ('door2','button'):
+                        fn_end = bgfname[len('dungeon_'+wall):-4]
+                        tag = 'dungeon_%s_%s%s' % (wall, blend, fn_end)
+                        fg_img = 'content/dungeon/%s%s/dungeon_%s%s.png' % (blend, light, blend, fn_end)
+
+                        if os.path.isfile('%s/%s' % (gamedir, fg_img)):
+                            renpy.image(tag, im.Composite((1280,720), (0, 0), bg_img, (0, 0), fg_img))
+                        else:
+                            renpy.image(tag, bgfname[:-4])
 
     # Auto-Animations are last
     def load_frame_by_frame_animations_from_dir(folder):
