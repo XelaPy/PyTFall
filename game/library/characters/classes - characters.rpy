@@ -598,62 +598,10 @@ init -9 python:
             return tax
         # ================================>
         # Rest
-        def expects_wage(self):
-            """
-            Amount of money each character expects to get paid for her skillset.
-            """
-            # TODO: To be revised after SKILLS!
-            char = self.instance
-
-            wage = 100
-            if "Dedicated" in char.traits: # the trait decreases wage, this check should remain after revising! - DarkTl
-                wage = int(wage*0.65)
-
-            # if traits['Prostitute'] in char.occupations:
-                # bw = 5 # Base wage
-                # sm = bw*((1+char.charisma/5 + char.refinement/5 + char.reputation/4 + char.fame/4)/100) # Stats Mod
-                # osm = (char.anal + char.normalsex + char.blowjob + char.lesbian) / 4 * (char.rank / 10 + 1) # Occupational Stats M
-
-                # wage =  (sm*osm)/5 + bw
-
-            # elif traits['Stripper'] in char.occupations:
-                # bw = 2
-                # sm = bw*(char.charisma/4 + char.refinement/5 + char.reputation/4 + char.fame/4)
-                # osm = char.strip*char.agility/100
-
-                # wage = (sm+osm)/5 + bw
-
-            # elif 'Server' in char.occupations:
-                # bw = 10
-                # sm = char.charisma/5 + char.agility/2 + char.refinement/4
-                # osm = char.service*bw
-
-                # wage = sm/2+osm/100
-
-            # elif 'Warrior' in char.occupations or isinstance(self.instance, Player):
-                # # Here we include MC for the attack event as well.
-                # bw = 15
-                # sm = char.agility/100+char.fame/4 + char.reputation/3
-                # osm = (char.attack + char.defence + char.magic/2)/100 + bw
-
-                # wage = bw+sm*osm
-
-            # else:
-                # for stat in char.stats:
-                    # if stat not in ["disposition", "joy", "health", "vitality"]: #, "mood"
-                        # wage += getattr(char, stat)
-                # wage = wage/2
-
-            # # Normalize:
-            # wage = int(wage)
-            # if wage < 20:
-                # wage = 20
-
-            return wage
 
         def settle_wage(self):
             """
-            Settle wages between girls and player.
+            Settle wages between chars and player.
             Called during next day method per each individual girl.
             Right now being used for Businesses only, all FG profit goes directly into MC's pockets.
             """
@@ -665,7 +613,7 @@ init -9 python:
 
                 if char.status != "slave":
                     if char.wagemod >= 100:
-                        amount = int(self.expects_wage() + int(round(self.expects_wage()*0.01*(char.wagemod-100))))
+                        amount = int(char.expected_wage + int(round(char.expected_wage*0.01*(char.wagemod-100))))
                         if hero.take_money(amount, reason="Wages"):
                             self.add_money(amount, reason="Wages")
                             self.log_cost(amount, "Wages")
@@ -676,7 +624,7 @@ init -9 python:
                             char.joy += int(round((char.wagemod-100)*0.1))
 
                     elif char.wagemod< 100:
-                        amount = int(self.expects_wage() - int(round(self.expects_wage()*0.01*(100-char.wagemod))))
+                        amount = int(char.expected_wage - int(round(char.expected_wage*0.01*(100-char.wagemod))))
                         if hero.take_money(amount, reason="Wages"):
                             self.log_cost(amount, "Wages")
                             self.add_money(amount, reason="Wages")
@@ -684,7 +632,7 @@ init -9 python:
                                 char.location.fin.log_work_expense(amount, "Wages")
 
                 else:
-                    amount = int(self.expects_wage()*0.01*(char.wagemod))
+                    amount = int(char.expected_wage*0.01*(char.wagemod))
                     if hero.take_money(amount, reason="Wages"):
                         self.add_money(amount, reason="Wages")
                         self.log_cost(amount, "Wages")
@@ -1224,7 +1172,7 @@ init -9 python:
 
 
     ###### Character Classes ######
-    class PytCharacter(Flags):
+    class PytCharacter(Flags, Tier):
         STATS = set()
         SKILLS = set(["vaginal", "anal", "oral", "sex", "strip", "service", "refinement", "group", "bdsm", "dancing",
                       "bartending", "cleaning", "waiting", "management", "exploration", "teaching", "swimming", "fishing", "security"])
@@ -1238,7 +1186,7 @@ init -9 python:
         """
         Decided to create a base class for characters (finally)...
         """
-        def __init__(self, arena=False, inventory=False, effects=False):
+        def __init__(self, arena=False, inventory=False, effects=False, is_worker=True):
             super(PytCharacter, self).__init__()
             self.img = ""
             self.portrait = ""
@@ -1311,6 +1259,10 @@ init -9 python:
                 # List to keep track of temporary effect
                 # consumables that failed to activate on cmax **We are not using this or at least I can't find this in code!
                 # self.maxouts = list()
+
+            # For workers (like we may not want to run this for mobs :) )
+            if is_worker:
+                Tier.__init__(self)
 
             # Stat support Dicts:
             stats = {
@@ -4468,7 +4420,7 @@ init -9 python:
 
                     # Wages and tips:
                     if self.status != 'slave':
-                        wage = self.fin.expects_wage()
+                        wage = self.expected_wage
                         got_paid = self.fin.daily_income_log["private"].get("Wages", 0) + self.fin.daily_income_log["private"].get("Arena", 0)
                         income = sum(val for val in self.fin.daily_income_log["work"].values())
                         tips = sum(val for val in self.fin.daily_income_log["tips"].values())
@@ -4518,7 +4470,7 @@ init -9 python:
                                     hero.add_money(tips, reason="Girls Tips")
 
                     else:
-                        wage = self.fin.expects_wage()
+                        wage = self.expected_wage
                         got_paid = self.fin.daily_income_log["private"].get("Wages", 0)
                         income = sum(val for val in self.fin.daily_income_log["work"].values())
                         tips = sum(val for val in self.fin.daily_income_log["tips"].values())
@@ -5047,6 +4999,7 @@ init -9 python:
 
 
     ### ==>> Rest:
+init -10 python:
     class Tier(_object):
         """This deals with expectations and social status of chars.
 
@@ -5056,17 +5009,71 @@ init -9 python:
         """
 
         def __init__(self):
-            self.instance = instance
+            # self.instance = instance
 
             self.tier = 0
 
             self.expected_wage = 0
+            self.paid_wage = 0
             self.upkeep = 0
             self.expected_accomodations = "poor"
             # self.
 
         def recalculate_tier(self):
             pass
+
+        def calc_expected_wage(self):
+            """
+            Amount of money each character expects to get paid for her skillset.
+            """
+            # TODO: To be revised after SKILLS!
+            char = self.instance
+
+            wage = 100
+            if "Dedicated" in char.traits: # the trait decreases wage, this check should remain after revising! - DarkTl
+                wage = int(wage*0.65)
+
+            # if traits['Prostitute'] in char.occupations:
+                # bw = 5 # Base wage
+                # sm = bw*((1+char.charisma/5 + char.refinement/5 + char.reputation/4 + char.fame/4)/100) # Stats Mod
+                # osm = (char.anal + char.normalsex + char.blowjob + char.lesbian) / 4 * (char.rank / 10 + 1) # Occupational Stats M
+
+                # wage =  (sm*osm)/5 + bw
+
+            # elif traits['Stripper'] in char.occupations:
+                # bw = 2
+                # sm = bw*(char.charisma/4 + char.refinement/5 + char.reputation/4 + char.fame/4)
+                # osm = char.strip*char.agility/100
+
+                # wage = (sm+osm)/5 + bw
+
+            # elif 'Server' in char.occupations:
+                # bw = 10
+                # sm = char.charisma/5 + char.agility/2 + char.refinement/4
+                # osm = char.service*bw
+
+                # wage = sm/2+osm/100
+
+            # elif 'Warrior' in char.occupations or isinstance(self.instance, Player):
+                # # Here we include MC for the attack event as well.
+                # bw = 15
+                # sm = char.agility/100+char.fame/4 + char.reputation/3
+                # osm = (char.attack + char.defence + char.magic/2)/100 + bw
+
+                # wage = bw+sm*osm
+
+            # else:
+                # for stat in char.stats:
+                    # if stat not in ["disposition", "joy", "health", "vitality"]: #, "mood"
+                        # wage += getattr(char, stat)
+                # wage = wage/2
+
+            # # Normalize:
+            # wage = int(wage)
+            # if wage < 20:
+                # wage = 20
+
+            return wage
 
 
     class Trait(_object):
