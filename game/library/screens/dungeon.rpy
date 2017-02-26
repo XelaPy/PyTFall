@@ -2,8 +2,9 @@ init -1 python:
     class Dungeon(object):
         def __init__(self, **kwargs):
             for k in kwargs:
-                if k != "r" and k != "id":
+                if k != "r" and k != "id" and k != "map":
                     super(Dungeon, self).__setattr__(k, kwargs[k])
+            self._map = kwargs['map']
 
         def enter(self, at=None):
             if at:
@@ -11,14 +12,14 @@ init -1 python:
 
             if not hasattr(self, "smallMap"):
                 self.smallMap = SpriteManager(ignore_time=True)
-                self.mapped = []
-                for n,i in enumerate(self.map):
+                self._mapped = []
+                for n,i in enumerate(self._map):
                     solids = []
                     for m in range(len(i)):
                         solid = Solid("#0000", xysize=(6,6))
                         solids.append(solid)
                         self._smadd(solid, 6*n, 6*m)
-                    self.mapped.append(solids)
+                    self._mapped.append(solids)
 
                 self.arrowtext = Text(" ", size=10)
                 self.arrow = self.smallMap.create(self.arrowtext)
@@ -36,30 +37,58 @@ init -1 python:
             s.x = m + 1
             s.y = n + 1
 
-transform sprite_default(xx, yy, xz, yz):
+        def map(self, i, j, color=None):
+            if i < 0 or i >= len (self._map) or j < 0 or j >= len(self._map[i]):
+                return "#"
+
+            if color:
+                self._mapped[i][j].color = color
+
+            return self._map[i][j]
+
+transform sprite_default(xx, yy, xz, yz, rot=None):
     xpos xx
     ypos yy
     xzoom xz
     yzoom yz
+    rotate rot
+    subpixel True
 
 screen dungeon_move:
     # Screen which shows move buttons and a minimap
     for s in reversed(show):
         if isinstance(s, list):
             if s[2]:
-                $ xx=int(renpy.config.screen_width * (0.5 + 0.667 * float(s[3]) / (1 + math.log(s[2], 2))))
-                if isinstance(s[0], Item):
-                    python:
-                        yy=int(renpy.config.screen_height * (0.889 - math.log(s[2], 2) / 9.0))
-                        zz=1.0/(1.5+float(s[2]))
-                    add im.MatrixColor(s[0].icon, im.matrix.brightness(-float(s[2])/(5.0 if light else 4.0))) at [sprite_default(xx, yy, zz, zz/2.0)]
-                elif isinstance(s[0], Mob):
-                    python:
-                        yy=int(renpy.config.screen_height * (0.556 - math.log(s[2], 2) / 20.0))
+                python:
+                    light_matrix = im.matrix.brightness(-math.sqrt(s[3]*s[3] + s[2]*s[2])/(5.8 if light else 4.5))
+                    if isinstance(s[0], Item):
+                        mco = im.MatrixColor(s[0].icon, light_matrix)
+                        (width, height) = mco.image.load().get_size()
 
-                        zz=4.0/(1.5+float(s[2]))
-                    add im.MatrixColor(s[0].battle_sprite, im.matrix.brightness(-float(s[2])/(5.0 if light else 4.0))) at [sprite_default(xx, yy, zz, zz)]
-        elif renpy.has_image(s):
+                        xz=1.0/(1.5 + math.log(s[2], 2))
+                        xx=int(float(renpy.config.screen_width - (width/2)*xz) * (0.5 + float(s[3]) / float(1 + s[2])))
+
+                        yz = xz/1.75
+                        yy=int((renpy.config.screen_height - height*xz) * (0.5 + 1.0 / float(1.0 + s[2])))
+                        rot = s[1]['rot'] if 'rot' in s[1] else None #15.0+float(abs(s[3])*distance)
+                    elif isinstance(s[0], Mob):
+                        mco = im.MatrixColor(s[0].battle_sprite, light_matrix)
+                        (width, height) = mco.image.load().get_size()
+
+                        sz = float(s[1]['size']) if 'size' in s[1] else 1.3
+                        xz=2.0/(1.5 + math.log(s[2], 2))
+                        xx=int(float(renpy.config.screen_width - width*xz) * (0.5 + float(s[3]) / float(1 + s[2])))
+
+
+                        yz = xz
+                        lowness = float(renpy.config.screen_height)
+                        if 'yoffs' in s[1]:
+                            lowness += float(s[1]['yoffs'])
+                        yy=int(float(lowness - height*xz) * (0.5 + 0.5 / float(.0001 + s[2])))
+                        rot=None
+
+                add mco at [sprite_default(xx, yy, xz, yz, rot)]
+        elif not isinstance(s, basestring) or renpy.has_image(s):
             add s
         else:
             $ devlog.warn("missing image: "+s)
@@ -106,7 +135,7 @@ style move_button_text:
 #         left3b, left3, front3, right3, right3b
 #         left2b, left2, front2, right2, right2b
 #                 left1, front1, right1
-#                 left0,  here , right0
+#                 left0, <hero>, right0
 
 
 
@@ -146,37 +175,51 @@ label enter_dungeon:
             blend = dungeon.area
             areas = [[0, 0]]
             show = []
+            access = {4, 6, 7, 8, 9, 100}
             renpy.show(dungeon.background % light)
 
             while areas:
                 (distance, lateral) = areas.pop(0)
 
                 y = pc['y'] + lateral*pc['dx'] + distance*pc['dy']
-                if y >= len(dungeon.map):
-                    continue
-
                 x = pc['x'] + distance*pc['dx'] - lateral*pc['dy']
-                if x >= len(dungeon.map[y]):
-                    continue
+                situ = dungeon.map(y, x)
 
-                if dungeon.map[y][x] in dungeon.container:
+                if situ in dungeon.container:
                     #FIXME use position lookup, for some container may first have to add front (cover) image
+
                     for p in dungeon.point:
                         if p['y'] == y and p['x'] == x:
                             if p['id'] == "renderitem":
-                                show.append(sided[lateral+3] % ('dungeon_'+p['item'], light, distance))
+
+                                img_name = sided[lateral+3] % ('dungeon_'+p['item'], light, distance)
+                                if 'function' in p and p['function'][:10] == "im.matrix.":
+
+                                    img_name = 'content/dungeon/'+p['item']+light+'/'+img_name+'.png'
+                                    if os.path.isfile(gamedir + '/'+img_name):
+                                        # distance darkening
+                                        brightness = im.matrix.brightness(-math.sqrt(lateral*lateral + distance*distance)/(5.8 if light else 4.5))
+                                        show.append(im.MatrixColor(img_name, eval(p["function"])(*p["arguments"]) * brightness))
+                                else:
+                                    show.append(img_name)
+
                             elif p['id'] == "item":
                                 show.append([items[p['item']], p, distance, lateral])
+
                             elif p['id'] == "spawn":
+                                if distance == 0 and abs(lateral) == 1:
+                                    access.remove(7 if lateral == -1 else 9)
+                                if distance == 1 and lateral == 0:
+                                    access.remove(8)
                                 show.append([p['mob'], p, distance, lateral])
 
                 # also record for minimap
                 for k in dungeon.minimap:
-                    if k != "ground" and dungeon.map[y][x] in dungeon.minimap[k]['area']:
-                        dungeon.mapped[y][x].color = renpy.easy.color(dungeon.minimap[k]['color'])
+                    if k != "ground" and situ in dungeon.minimap[k]['area']:
+                        dungeon.map(y, x, renpy.easy.color(dungeon.minimap[k]['color']))
                         break
                 else:
-                    dungeon.mapped[y][x].color = renpy.easy.color(dungeon.minimap['ground']['color'])
+                    dungeon.map(y, x,renpy.easy.color(dungeon.minimap['ground']['color']))
 
                 if pc['dy'] == -1:
                     dungeon.arrowtext.set_text("↑")
@@ -192,32 +235,34 @@ label enter_dungeon:
                     dungeon.arrow.y = (pc['y'] - .3)*6
                 dungeon.arrow.x = (pc['x'])*6
 
-                if dungeon.map[y][x] in dungeon.visible: # a wall or so, need to draw.
-                    if isinstance(blend[dungeon.map[y][x]], list):
+                if situ in dungeon.visible: # a wall or so, need to draw.
 
-                        if len(blend[dungeon.map[y][x]]) == 2: # left-right symmetry
-                            show.append(sided[lateral+3] % ('dungeon_'+blend[dungeon.map[y][x]][abs(pc['dx'])], light, distance))
+                    if isinstance(blend[situ], list):
+
+                        if len(blend[situ]) == 2: # left-right symmetry
+                            show.append(sided[lateral+3] % ('dungeon_'+blend[situ][abs(pc['dx'])], light, distance))
 
                         else: # no symmetry, 4 images.
                             ori = 1 - pc['dx'] - pc['dy'] + (1 if pc['dx'] > pc['dy'] else 0)
-                            show.append(sided[lateral+3] % ('dungeon_'+blend[dungeon.map[y][x]][ori], light, distance))
+                            show.append(sided[lateral+3] % ('dungeon_'+blend[situ][ori], light, distance))
 
                     else: # symmetric, or simply rendered in only one symmetry
-                        show.append(sided[lateral+3] % ('dungeon_'+blend[dungeon.map[y][x]], light, distance))
+                        show.append(sided[lateral+3] % ('dungeon_'+blend[situ], light, distance))
 
                 transparent_area = dungeon.transparent[abs(pc['dx'])]
-                if dungeon.map[y][x] in transparent_area or (dungeon.map[y][x] in dungeon.visible and not renpy.has_image(show[-1])): # need to draw what's behind it.
+                if situ in transparent_area or (situ in dungeon.visible and not renpy.has_image(show[-1])): # need to draw what's behind it.
 
                     # after `or' prevents adding areas twice. If the area diagonally nearer to hero is
                     # a wall, the area is not yet drawn, draw it, unless we cannot see it.
+                    (by, bx) = (y-pc['dy'], x-pc['dx'])
                     if lateral >= 0 and (distance == lateral*2 or distance > lateral*2
-                                         and dungeon.map[y+pc['dx']-pc['dy']][x-pc['dy']-pc['dx']] not in transparent_area
-                                         and ((distance == 1 and lateral == 0) or dungeon.map[y-pc['dy']][x-pc['dx']] in transparent_area)):
+                                         and dungeon.map(by+pc['dx'],bx-pc['dy']) not in transparent_area
+                                         and ((distance == 1 and lateral == 0) or dungeon.map(by,bx) in transparent_area)):
                         areas.append([distance, lateral + 1])
 
                     if lateral <= 0 and (distance == -lateral*2 or distance > -lateral*2
-                                         and dungeon.map[y-pc['dx']-pc['dy']][x+pc['dy']-pc['dx']] not in transparent_area
-                                         and ((distance == 1 and lateral == 0) or dungeon.map[y-pc['dy']][x-pc['dx']] in transparent_area)):
+                                         and dungeon.map(by-pc['dx'],bx+pc['dy']) not in transparent_area
+                                         and ((distance == 1 and lateral == 0) or dungeon.map(by,bx) in transparent_area)):
                         areas.append([distance, lateral - 1])
 
                     if distance < 5:
@@ -233,18 +278,26 @@ label enter_dungeon:
         call screen dungeon_move
 
         python:
-            at = dungeon.map[pc['y']][pc['x']]
+            at = dungeon.map(pc['y'],pc['x'])
             ori = 1 - pc['dx'] - pc['dy'] + (1 if pc['dx'] > pc['dy'] else 0)
             area = ""
-            if _return == 2:
-                area = dungeon.map[pc['y']-pc['dy']][pc['x']-pc['dx']]
+            if not _return in access:
+                # Walking into NPC. dfferent sound or action ?
+                pass
 
-                if at in dungeon.access[ori] and area in dungeon.access[ori]:
-                    pc['y'] -= pc['dy']
-                    pc['x'] -= pc['dx']
+            elif _return == 2:
+                area = dungeon.map(pc['y']-pc['dy'],pc['x']-pc['dx'])
+                for p in dungeon.point:
+                    if p['id'] == "spawn" and p['y'] == pc['y']-pc['dy'] and p['x'] == pc['x']-pc['dx']:
+                        # Walking into NPC. dfferent sound or action ?
+                        break
+                else:
+                    if at in dungeon.access[ori] and area in dungeon.access[ori]:
+                        pc['y'] -= pc['dy']
+                        pc['x'] -= pc['dx']
 
-                elif not renpy.music.is_playing(channel="sound"):
-                    renpy.play(dungeon.sound['bump'], channel="sound")
+                    elif not renpy.music.is_playing(channel="sound"):
+                        renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 4:
                 (pc['dy'], pc['dx']) = (-pc['dx'], pc['dy'])
@@ -253,7 +306,7 @@ label enter_dungeon:
                 (pc['dy'], pc['dx']) = (pc['dx'], -pc['dy'])
 
             elif _return == 7:
-                area = dungeon.map[pc['y']-pc['dx']][pc['x']+pc['dy']]
+                area = dungeon.map(pc['y']-pc['dx'],pc['x']+pc['dy'])
 
                 if at in dungeon.access[ori ^ 2] and area in dungeon.access[ori ^ 2]:
                     pc['y'] -= pc['dx']
@@ -263,7 +316,7 @@ label enter_dungeon:
                     renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 8:
-                area = dungeon.map[pc['y']+pc['dy']][pc['x']+pc['dx']]
+                area = dungeon.map(pc['y']+pc['dy'],pc['x']+pc['dx'])
 
                 if at in dungeon.access[ori] and area in dungeon.access[ori]:
                     pc['y'] += pc['dy']
@@ -273,7 +326,7 @@ label enter_dungeon:
                     renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 9:
-                area = dungeon.map[pc['y']+pc['dx']][pc['x']-pc['dy']]
+                area = dungeon.map(pc['y']+pc['dx'],pc['x']-pc['dy'])
 
                 if at in dungeon.access[ori ^ 2] and area in dungeon.access[ori ^ 2]:
                     pc['y'] += pc['dx']
