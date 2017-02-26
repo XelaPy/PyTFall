@@ -193,7 +193,7 @@ label enter_dungeon:
             blend = dungeon.area
             areas = [[0, 0]]
             show = []
-            access = {4, 6, 7, 8, 9, 100}
+            access_denied = {}
             renpy.show(dungeon.background % light)
 
             while areas:
@@ -226,9 +226,9 @@ label enter_dungeon:
 
                             elif p['id'] == "spawn":
                                 if distance == 0 and abs(lateral) == 1:
-                                    access.remove(7 if lateral == -1 else 9)
+                                    access_denied.add(7 if lateral == -1 else 9)
                                 if distance == 1 and lateral == 0:
-                                    access.remove(8)
+                                    access_denied.add(8)
                                 show.append([p['mob'], p, distance, lateral])
 
                 # also record for minimap
@@ -299,7 +299,7 @@ label enter_dungeon:
             at = (pc['y'], pc['x'])
             ori = 1 - pc['dx'] - pc['dy'] + (1 if pc['dx'] > pc['dy'] else 0)
             to = None
-            if not _return in access:
+            if _return in access_denied:
                 # Walking into NPC. dfferent sound or action ?
                 pass
 
@@ -352,6 +352,11 @@ label enter_dungeon:
             elif _return == 100:
                 light = "" if light != "" else "_torch"
 
+            elif _return == 1000:
+                dungeons = load_dungeons()
+                dungeon = dungeons[dungeon.id]
+                dungeon.enter()
+
             if to and dungeon.map(*to) in dungeon.event and str(at) in dungeon.event[to]:
                 for event in dungeon.event[to][str(at)]:
                     if "function" in event and event["function"][:6] == "renpy.":
@@ -360,9 +365,4 @@ label enter_dungeon:
                     elif "load" in event:
                         dungeon = dungeons[event["load"]]
                         pc = dungeon.enter(at=event["at"] if "at" in event else None)
-
-            elif _return == 1000:
-                dungeons = load_dungeons()
-                dungeon = dungeons[dungeon.id]
-                dungeon.enter()
 
