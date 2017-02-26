@@ -46,6 +46,20 @@ init -1 python:
 
             return self._map[i][j]
 
+        def has_access(self, at, to, ori):
+            (src, dest) = (dungeon.map(*at), dungeon.map(*to))
+
+            if src in dungeon.access[ori] and (dest in dungeon.access[ori] or dest in dungeon.conditional_access[ori]):
+                return True
+            if src in dungeon.conditional_access[ori]:
+                atstr = str(at)
+                if not atstr in dungeon.access_condition:
+                    return True
+                elif 'access' in dungeon.access_condition[atstr] and dungeon.access_condition[atstr]['access']:
+                    return True
+
+            return False
+
 transform sprite_default(xx, yy, xz, yz, rot=None):
     xpos xx
     ypos yy
@@ -282,23 +296,22 @@ label enter_dungeon:
         call screen dungeon_move
 
         python:
-            at = dungeon.map(pc['y'],pc['x'])
+            at = (pc['y'], pc['x'])
             ori = 1 - pc['dx'] - pc['dy'] + (1 if pc['dx'] > pc['dy'] else 0)
-            area = ""
+            to = None
             if not _return in access:
                 # Walking into NPC. dfferent sound or action ?
                 pass
 
             elif _return == 2:
-                area = dungeon.map(pc['y']-pc['dy'],pc['x']-pc['dx'])
-                for p in dungeon.point:
-                    if p['id'] == "spawn" and p['y'] == pc['y']-pc['dy'] and p['x'] == pc['x']-pc['dx']:
+                to = (pc['y']-pc['dy'], pc['x']-pc['dx'])
+                for npc in dungeon.point:
+                    if npc['id'] == "spawn" and npc['y'] == to[0] and npc['x'] == to[1]:
                         # Walking into NPC. dfferent sound or action ?
                         break
                 else:
-                    if at in dungeon.access[ori] and area in dungeon.access[ori]:
-                        pc['y'] -= pc['dy']
-                        pc['x'] -= pc['dx']
+                    if dungeon.has_access(at, to, ori):
+                        (pc['y'], pc['x']) = to
 
                     elif not renpy.music.is_playing(channel="sound"):
                         renpy.play(dungeon.sound['bump'], channel="sound")
@@ -310,31 +323,28 @@ label enter_dungeon:
                 (pc['dy'], pc['dx']) = (pc['dx'], -pc['dy'])
 
             elif _return == 7:
-                area = dungeon.map(pc['y']-pc['dx'],pc['x']+pc['dy'])
+                to = (pc['y']-pc['dx'], pc['x']+pc['dy'])
 
-                if at in dungeon.access[ori ^ 2] and area in dungeon.access[ori ^ 2]:
-                    pc['y'] -= pc['dx']
-                    pc['x'] += pc['dy']
+                if dungeon.has_access(at, to, ori ^ 2):
+                    (pc['y'], pc['x']) = to
 
                 elif not renpy.music.is_playing(channel="sound"):
                     renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 8:
-                area = dungeon.map(pc['y']+pc['dy'],pc['x']+pc['dx'])
+                to = (pc['y']+pc['dy'], pc['x']+pc['dx'])
 
-                if at in dungeon.access[ori] and area in dungeon.access[ori]:
-                    pc['y'] += pc['dy']
-                    pc['x'] += pc['dx']
+                if dungeon.has_access(at, to, ori):
+                    (pc['y'], pc['x']) = to
 
                 elif not renpy.music.is_playing(channel="sound"):
                     renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 9:
-                area = dungeon.map(pc['y']+pc['dx'],pc['x']-pc['dy'])
+                to = (pc['y']+pc['dx'], pc['x']-pc['dy'])
 
-                if at in dungeon.access[ori ^ 2] and area in dungeon.access[ori ^ 2]:
-                    pc['y'] += pc['dx']
-                    pc['x'] -= pc['dy']
+                if dungeon.has_access(at, to, ori ^ 2):
+                    (pc['y'], pc['x']) = to
 
                 elif not renpy.music.is_playing(channel="sound"):
                     renpy.play(dungeon.sound['bump'], channel="sound")
@@ -342,8 +352,8 @@ label enter_dungeon:
             elif _return == 100:
                 light = "" if light != "" else "_torch"
 
-            if area in dungeon.event and str((pc['x'], pc['y'])) in dungeon.event[area]:
-                for event in dungeon.event[area][str((pc['x'], pc['y']))]:
+            if to and dungeon.map(*to) in dungeon.event and str(at) in dungeon.event[to]:
+                for event in dungeon.event[to][str(at)]:
                     if "function" in event and event["function"][:6] == "renpy.":
                         eval("%s%s"%(event["function"], str(tuple(event["arguments"]))))
 

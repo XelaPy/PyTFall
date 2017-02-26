@@ -38,7 +38,11 @@
         ".": { "x": 5, "y": 5},
         "d": { "x": 5, "y": 5}
     },
-    "access": [".3789abABCD^", ".3789acABCD^", ".3789acABCD^", ".3789abABCD^"],
+    "access": [".79bABCD^", ".79cABCD^", ".79cABCD^", ".79bABCD^"],
+    "conditional_access": ["3a8", "3a8", "3a8", "3a8"],
+    "access_condition": {
+        "(5, 2)": {"access": true}
+    },
     "minimap": {
       "wall": {
         "area": "#2d",
@@ -163,7 +167,9 @@
       "<": "ladderdownf"
     },
     "background": "dungeon_mossy%s_background",
-    "access": [".3789abABCD<", ".3789acABCD<", ".3789acABCD<", ".3789abABCD<"],
+    "access": [".79bABCD<", ".79cABCD<", ".79cABCD<", ".79bABCD<"],
+    "conditional_access": ["3a8", "3a8", "3a8", "3a8"],
+    "access_denied": {},
     "container": {
         ".": { "x": 5, "y": 5},
         "d": { "x": 5, "y": 5}
