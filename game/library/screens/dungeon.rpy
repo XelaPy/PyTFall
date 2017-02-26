@@ -2,7 +2,7 @@ init -1 python:
     class Dungeon(object):
         def __init__(self, **kwargs):
             for k in kwargs:
-                if k != "r" and k != "id" and k != "map":
+                if k != "r" and k != "map":
                     super(Dungeon, self).__setattr__(k, kwargs[k])
             self._map = kwargs['map']
 
@@ -100,6 +100,10 @@ screen dungeon_move:
         textbutton "<" action Return(value=7) xcenter .1 ycenter .9
         textbutton "↑" action Return(value=8)  xcenter .2 ycenter .7
         textbutton ">" action Return(value=9) xcenter .3 ycenter .9
+
+        if config.developer:
+            textbutton "U" action Return(value=1000) xcenter .2 ycenter .8
+            key "K_u" action Return(value=1000)
 
         key "K_KP2" action Return(value=2)
         key "K_KP4" action Return(value=4)
@@ -347,4 +351,8 @@ label enter_dungeon:
                         dungeon = dungeons[event["load"]]
                         pc = dungeon.enter(at=event["at"] if "at" in event else None)
 
+            elif _return == 1000:
+                dungeons = load_dungeons()
+                dungeon = dungeons[dungeon.id]
+                dungeon.enter()
 
