@@ -27,6 +27,11 @@ init -1: # Images and Animations
         0.05
         repeat
         
+    transform gray_shield(w, h):
+        Solid("#999999", xysize=(w, h))
+        0.5
+        repeat
+        
     transform fire_effect_color(w, h):
         Solid("#D98026", xysize=(w, h))
         0.05
@@ -1584,4 +1589,11 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": None},
                 target_death_effect={"gfx": None})
+        DefenceBuffSpell("Gray Shield", menu_pos=-1, attributes=["status", "darkness", "light"], kind="buff", defence_multiplier={"melee": 4.0, "magic": 4.0, "ranged": 4.0, "status": 4.0}, buff_group="melee shield", vitality_cost=1.0, mp_cost=0.5, buff_icon=ProportionalScale("content/gfx/be/buffs/gray.png", 30, 30), range=4, type="sa",
+                desc="The apathy of the Gray Ring denies the existence of attacks because it's such a bother to deal with them...",
+                main_effect={"gfx": AlphaBlend("magic_shield_webm", "magic_shield_webm", gray_shield(340, 330), alpha=True), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
+                target_sprite_damage_effect={"gfx": None},
+                target_damage_effect={"gfx": None},
+                target_death_effect={"gfx": None},
+                dodge_effect={"gfx": AlphaBlend("magic_shield_webm", "magic_shield_webm", gray_shield(340, 330), alpha=True)})
     return
