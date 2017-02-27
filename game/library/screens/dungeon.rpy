@@ -377,10 +377,10 @@ label enter_dungeon:
                 light = "" if light != "" else "_torch"
 
             elif _return == 1000:
-                hero = dungeon.hero
+                dungeon_location = dungeon.hero
                 dungeons = load_dungeons()
                 dungeon = dungeons[dungeon.id]
-                dungeon.hero = hero
+                dungeon.hero = dungeon_location
                 dungeon.enter()
 
             if to:
