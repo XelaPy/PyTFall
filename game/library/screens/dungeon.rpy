@@ -37,14 +37,14 @@ init -1 python:
             s.x = m + 1
             s.y = n + 1
 
-        def map(self, i, j, color=None):
-            if i < 0 or i >= len (self._map) or j < 0 or j >= len(self._map[i]):
+        def map(self, x, y, color=None):
+            if y < 0 or y >= len (self._map) or x < 0 or x >= len(self._map[y]):
                 return "#"
 
             if color:
-                self._mapped[i][j].color = color
+                self._mapped[y][x].color = color
 
-            return self._map[i][j]
+            return self._map[y][x]
 
         def has_access(self, at, to, ori):
             (src, dest) = (dungeon.map(*at), dungeon.map(*to))
@@ -211,12 +211,12 @@ label enter_dungeon:
             while areas:
                 (distance, lateral) = areas.pop(0)
 
-                y = pc['y'] + lateral*pc['dx'] + distance*pc['dy']
                 x = pc['x'] + distance*pc['dx'] - lateral*pc['dy']
-                situ = dungeon.map(y, x)
+                y = pc['y'] + lateral*pc['dx'] + distance*pc['dy']
+                situ = dungeon.map(x, y)
 
                 if distance == 1 and lateral == 0 and situ in dungeon.area_hotspots: # actions can be apply to front
-                    front_str = str((y, x))
+                    front_str = str((x, y))
                     if front_str in dungeon.area_hotspots[situ]:
                         for e in dungeon.area_hotspots[situ][front_str]:
                             hotspots.append(e)
@@ -225,7 +225,7 @@ label enter_dungeon:
                     #FIXME use position lookup, for some container may first have to add front (cover) image
 
                     for p in dungeon.point:
-                        if p['y'] == y and p['x'] == x:
+                        if p['x'] == x and p['y'] == y:
                             if p['id'] == "renderitem":
 
                                 img_name = sided[lateral+3] % ('dungeon_'+p['item'], light, distance)
@@ -252,10 +252,10 @@ label enter_dungeon:
                 # also record for minimap
                 for k in dungeon.minimap:
                     if k != "ground" and situ in dungeon.minimap[k]['area']:
-                        dungeon.map(y, x, renpy.easy.color(dungeon.minimap[k]['color']))
+                        dungeon.map(x, y, renpy.easy.color(dungeon.minimap[k]['color']))
                         break
                 else:
-                    dungeon.map(y, x,renpy.easy.color(dungeon.minimap['ground']['color']))
+                    dungeon.map(x, y,renpy.easy.color(dungeon.minimap['ground']['color']))
 
                 if pc['dy'] == -1:
                     dungeon.arrowtext.set_text("↑")
@@ -290,15 +290,15 @@ label enter_dungeon:
 
                     # after `or' prevents adding areas twice. If the area diagonally nearer to hero is
                     # a wall, the area is not yet drawn, draw it, unless we cannot see it.
-                    (by, bx) = (y-pc['dy'], x-pc['dx'])
+                    (bx, by) = (x-pc['dx'], y-pc['dy'])
                     if lateral >= 0 and (distance == lateral*2 or distance > lateral*2
-                                         and dungeon.map(by+pc['dx'],bx-pc['dy']) not in transparent_area
-                                         and ((distance == 1 and lateral == 0) or dungeon.map(by,bx) in transparent_area)):
+                                         and dungeon.map(bx-pc['dy'], by+pc['dx']) not in transparent_area
+                                         and ((distance == 1 and lateral == 0) or dungeon.map(bx, by) in transparent_area)):
                         areas.append([distance, lateral + 1])
 
                     if lateral <= 0 and (distance == -lateral*2 or distance > -lateral*2
-                                         and dungeon.map(by-pc['dx'],bx+pc['dy']) not in transparent_area
-                                         and ((distance == 1 and lateral == 0) or dungeon.map(by,bx) in transparent_area)):
+                                         and dungeon.map(bx+pc['dy'], by-pc['dx']) not in transparent_area
+                                         and ((distance == 1 and lateral == 0) or dungeon.map(bx, by) in transparent_area)):
                         areas.append([distance, lateral - 1])
 
                     if distance < 5:
@@ -314,7 +314,7 @@ label enter_dungeon:
         call screen dungeon_move(hotspots)
 
         python:
-            at = (pc['y'], pc['x'])
+            at = (pc['x'], pc['y'])
             ori = 1 - pc['dx'] - pc['dy'] + (1 if pc['dx'] > pc['dy'] else 0)
             to = None
             if isinstance(_return, list):
@@ -328,47 +328,47 @@ label enter_dungeon:
                 pass
 
             elif _return == 2:
-                to = (pc['y']-pc['dy'], pc['x']-pc['dx'])
+                to = (pc['x']-pc['dx'], pc['y']-pc['dy'])
                 for npc in dungeon.point:
-                    if npc['id'] == "spawn" and npc['y'] == to[0] and npc['x'] == to[1]:
+                    if npc['id'] == "spawn" and npc['x'] == to[0] and npc['y'] == to[1]:
                         # Walking into NPC. dfferent sound or action ?
                         break
                 else:
                     if dungeon.has_access(at, to, ori):
-                        (pc['y'], pc['x']) = to
+                        (pc['x'], pc['y']) = to
 
                     elif not renpy.music.is_playing(channel="sound"):
                         renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 4:
-                (pc['dy'], pc['dx']) = (-pc['dx'], pc['dy'])
+                (pc['dx'], pc['dy']) = (pc['dy'], -pc['dx'])
 
             elif _return == 6:
-                (pc['dy'], pc['dx']) = (pc['dx'], -pc['dy'])
+                (pc['dx'], pc['dy']) = (-pc['dy'], pc['dx'])
 
             elif _return == 7:
-                to = (pc['y']-pc['dx'], pc['x']+pc['dy'])
+                to = (pc['x']+pc['dy'], pc['y']-pc['dx'])
 
                 if dungeon.has_access(at, to, ori ^ 2):
-                    (pc['y'], pc['x']) = to
+                    (pc['x'], pc['y']) = to
 
                 elif not renpy.music.is_playing(channel="sound"):
                     renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 8:
-                to = (pc['y']+pc['dy'], pc['x']+pc['dx'])
+                to = (pc['x']+pc['dx'], pc['y']+pc['dy'])
 
                 if dungeon.has_access(at, to, ori):
-                    (pc['y'], pc['x']) = to
+                    (pc['x'], pc['y']) = to
 
                 elif not renpy.music.is_playing(channel="sound"):
                     renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 9:
-                to = (pc['y']+pc['dx'], pc['x']-pc['dy'])
+                to = (pc['x']-pc['dy'], pc['y']+pc['dx'])
 
                 if dungeon.has_access(at, to, ori ^ 2):
-                    (pc['y'], pc['x']) = to
+                    (pc['x'], pc['y']) = to
 
                 elif not renpy.music.is_playing(channel="sound"):
                     renpy.play(dungeon.sound['bump'], channel="sound")

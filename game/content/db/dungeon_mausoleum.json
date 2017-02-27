@@ -40,7 +40,7 @@
     },
     "area_hotspots": {
         "e": {
-            "(2, 20)": [{
+            "(20, 2)": [{
                 "spot": [591, 287, 30, 30],
                 "actions": [{
                     "function": "renpy.play",
@@ -50,12 +50,12 @@
                     "arguments": ["content/sfx/sound/dungeon/open_door.ogg", "sound"]
                 },{
                     "function": "dungeon.access_condition.__setitem__",
-                    "arguments": ["(1, 20)", {"access": true}]
+                    "arguments": ["(20, 1)", {"access": true}]
                 }]
             }]
         },
         "f": {
-            "(2, 32)": [{
+            "(32, 2)": [{
                 "spot": [591, 287, 30, 30],
                 "actions": [{
                     "function": "renpy.play",
@@ -65,10 +65,10 @@
                     "arguments": ["content/sfx/sound/dungeon/open_door.ogg", "sound"]
                 },{
                     "function": "dungeon.access_condition.__setitem__",
-                    "arguments": ["(3, 32)", {"access": true}]
+                    "arguments": ["(32, 3)", {"access": true}]
                 },{
                     "function": "dungeon.access_condition.__setitem__",
-                    "arguments": ["(11, 32)", {"access": true}]
+                    "arguments": ["(32, 11)", {"access": true}]
                 }]
             }]
         }
@@ -76,9 +76,9 @@
     "access": [".79bABCD^", ".79cABCD^", ".79cABCD^", ".79bABCD^"],
     "conditional_access": ["3a8", "3a8", "3a8", "3a8"],
     "access_condition": {
-        "(1, 20)": {"access": false},
-        "(3, 32)": {"access": false},
-        "(11, 32)": {"access": false}
+        "(20, 1)": {"access": false},
+        "(32, 3)": {"access": false},
+        "(32, 11)": {"access": false}
     },
     "minimap": {
       "wall": {
@@ -140,12 +140,12 @@
             }]
         },
         "c": {
-            "(1, 25)": [{
+            "(25, 1)": [{
                 "function": "renpy.play",
                 "arguments": ["content/sfx/sound/dungeon/open_door.ogg", "sound"]
             },{
                 "function": "dungeon.access_condition.__setitem__",
-                "arguments": ["(1, 20)", {"access": false}]
+                "arguments": ["(20, 1)", {"access": false}]
             }]
         }
     }
@@ -216,6 +216,7 @@
     "access": [".79bABCD<", ".79cABCD<", ".79cABCD<", ".79bABCD<"],
     "conditional_access": ["3a8", "3a8", "3a8", "3a8"],
     "access_denied": {},
+    "area_hotspots": {},
     "container": {
         ".": { "x": 5, "y": 5},
         "d": { "x": 5, "y": 5}
