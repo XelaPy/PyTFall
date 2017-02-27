@@ -1768,9 +1768,11 @@ init -1 python: # Core classes:
                         renpy.show(target.betag, what=target.besprite, at_list=[be_dodge(xoffset, pause)], zorder=target.besk["zorder"])
 
                 elif "magic_shield" in target.beeffects:
-                    if self.target_sprite_damage_effect.get("gfx", None) not in ["fly_away"]: # This should ensure that we do not show the shield for major damage effects, it will not look proper.
-                        tag = "dodge" + str(index)
-                        renpy.show(tag, what=ImageReference("resist"), at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
+                    gfx = self.target_sprite_damage_effect.get("shield_gfx", ImageReference("resist")) # We use "resist" as default...
+                    if gfx not in ["fly_away"]:
+                        if gfx == ImageReference("resist"): # This should ensure that we do not show the shield for major damage effects, it will not look proper.
+                            tag = "dodge" + str(index)
+                            renpy.show(tag, what=gfx, at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
 
         def hide_dodge_effect(self, targets):
             # gfx = self.dodge_effect.get("gfx", "dodge")

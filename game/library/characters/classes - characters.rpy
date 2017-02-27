@@ -4397,7 +4397,7 @@ init -9 python:
                             txt += "She actually managed to save you some money ({color=[gold]}%d Gold{/color}) instead of requiring upkeep! Very convenient! \n" % (-amount)
                             hero.add_money(-amount, reason="Girls Upkeep")
 
-                        elif hero.take_money(amount, reason="Girls Upkeep"):
+                        elif hero.take_money(amount, reason="Slave Upkeep"):
                             self.fin.log_cost(amount, "Upkeep")
 
                             if hasattr(self.location, "fin"):
