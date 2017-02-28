@@ -33,9 +33,9 @@ init -1 python:
                 self.arrow.x = (self.hero['x'] - .3)*6 + 6
                 self.arrow.y = (self.hero['y'] - .2)*6 + 6
 
-            for p in self.point:
-                if p['id'] == "spawn":
-                    p['mob'] = build_mob(id=p['name'], level=p['level'])
+            for p in self.spawn.values():
+                for m in p:
+                    m['mob'] = build_mob(id=m['name'], level=m['level'])
 
             return self.hero.copy()
 
@@ -243,30 +243,32 @@ label enter_dungeon:
                 if situ in dungeon.container:
                     #FIXME use position lookup, for some container may first have to add front (cover) image
 
-                    for p in dungeon.point:
-                        if p['x'] == x and p['y'] == y:
-                            if p['id'] == "renderitem":
+                    pt = str((x, y))
+                    if pt in dungeon.renderitem:
+                        for ri in dungeon.renderitem[pt]:
+                            img_name = sided[lateral+3] % ('dungeon_'+ri['name'], light, distance)
+                            if 'function' in ri and ri['function'][:10] == "im.matrix.":
 
-                                img_name = sided[lateral+3] % ('dungeon_'+p['item'], light, distance)
-                                if 'function' in p and p['function'][:10] == "im.matrix.":
+                                img_name = 'content/dungeon/'+ri['name']+light+'/'+img_name+'.png'
+                                if os.path.isfile(gamedir + '/'+img_name):
+                                    # distance darkening
+                                    brightness = im.matrix.brightness(-math.sqrt(lateral**2 + distance**2)/(5.8 if light else 4.5))
+                                    show.append(im.MatrixColor(img_name, eval(ri["function"])(*ri["arguments"]) * brightness))
+                            else:
+                                show.append(img_name)
 
-                                    img_name = 'content/dungeon/'+p['item']+light+'/'+img_name+'.png'
-                                    if os.path.isfile(gamedir + '/'+img_name):
-                                        # distance darkening
-                                        brightness = im.matrix.brightness(-math.sqrt(lateral**2 + distance**2)/(5.8 if light else 4.5))
-                                        show.append(im.MatrixColor(img_name, eval(p["function"])(*p["arguments"]) * brightness))
-                                else:
-                                    show.append(img_name)
+                    if pt in dungeon.item:
+                        for it in dungeon.item[pt]:
+                            show.append([items[it['name']], it, distance, lateral])
 
-                            elif p['id'] == "item":
-                                show.append([items[p['item']], p, distance, lateral])
+                    if pt in dungeon.spawn:
+                        for spawn in dungeon.spawn[pt]:
 
-                            elif p['id'] == "spawn":
-                                if distance == 0 and abs(lateral) == 1:
-                                    access_denied.add(7 if lateral == -1 else 9)
-                                if distance == 1 and lateral == 0:
-                                    access_denied.add(8)
-                                show.append([p['mob'], p, distance, lateral])
+                            if distance == 0 and abs(lateral) == 1:
+                                access_denied.add(7 if lateral == -1 else 9)
+                            if distance == 1 and lateral == 0:
+                                access_denied.add(8)
+                            show.append([spawn['mob'], spawn, distance, lateral])
 
                 # also record for minimap
                 for k in dungeon.minimap:
@@ -361,18 +363,15 @@ label enter_dungeon:
                 # Walking into NPC. dfferent sound or action ?
                 pass
 
-            elif _return == 2:
+            elif _return == 2: # rest is already covered
                 to = (pc['x']-pc['dx'], pc['y']-pc['dy'])
-                for npc in dungeon.point:
-                    if npc['id'] == "spawn" and npc['x'] == to[0] and npc['y'] == to[1]:
-                        # Walking into NPC. dfferent sound or action ?
-                        break
-                else:
+                if not to in dungeon.spawn:
                     if dungeon.has_access(at, to, ori):
                         (pc['x'], pc['y']) = to
 
                     elif not renpy.music.is_playing(channel="sound"):
                         renpy.play(dungeon.sound['bump'], channel="sound")
+                # else: Walking into NPC. dfferent sound or action ?
 
             elif _return == 4:
                 (pc['dx'], pc['dy']) = (pc['dy'], -pc['dx'])
