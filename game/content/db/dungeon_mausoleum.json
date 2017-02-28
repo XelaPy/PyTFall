@@ -123,7 +123,7 @@
     "event": {
         "C": {
             "(19, 11)": [{
-                "function": "renpy.say",
+                "function": "dungeon.say",
                 "arguments": ["", "Finally, there's a hatch here, you climb out of the catacombs."]
             }, {
                 "function": "renpy.jump",
@@ -132,11 +132,11 @@
         },
         "^": {
             "(0, 11)": [{
-                "function": "renpy.say",
+                "function": "dungeon.say",
                 "arguments": ["", "You descend the stairs."]
             },{
                 "load": "Mausoleum2",
-                "at": { "x": 26, "y": 25, "dx": 0, "dy": 1 }
+                "at": { "x": 27, "y": 26, "dx": 0, "dy": 1 }
             }]
         },
         "c": {
@@ -146,6 +146,12 @@
             },{
                 "function": "dungeon.access_condition.__setitem__",
                 "arguments": ["(20, 1)", {"access": false}]
+            }]
+        },
+        ".": {
+            "(13, 0)": [{
+                "function": "dungeon.say",
+                "arguments": ["", "Something in here smells really bad."]
             }]
         }
     }
@@ -251,7 +257,7 @@
     "event": {
         "A": {
             "(27, 25)": [{
-                "function": "renpy.say",
+                "function": "dungeon.say",
                 "arguments": ["", "You ascend the stairs."]
             }, {
                 "load": "Mausoleum1",
