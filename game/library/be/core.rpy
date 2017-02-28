@@ -1785,9 +1785,12 @@ init -1 python: # Core classes:
                     else:
                         raise devlog.warning("No Effect GFX detected for magic_shield dodge_effect!")
 
-                    tsde = self.target_sprite_damage_effect.get("gfx", None) # We use "resist" as default...
+                    # We need to find out if it's reasonable to show shields at all based on damage effects!
+                    tsde = self.target_sprite_damage_effect.get("gfx", None)
+                    # This should ensure that we do not show the shield for major damage effects, it will not look proper.
                     if tsde not in ["fly_away"]:
-                        if gfx == "default": # This should ensure that we do not show the shield for major damage effects, it will not look proper.
+                        # Else we just show the shield:
+                        if gfx == "default":
                             tag = "dodge" + str(index)
                             renpy.show(tag, what=ImageReference("resist"), at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
                         elif gfx == "gray_shield":
