@@ -1773,6 +1773,9 @@ init -1 python: # Core classes:
                         if gfx == ImageReference("resist"): # This should ensure that we do not show the shield for major damage effects, it will not look proper.
                             tag = "dodge" + str(index)
                             renpy.show(tag, what=gfx, at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
+                        elif gfx == "gray_shield":
+                            tag = "dodge" + str(index)
+                            renpy.show(tag, what=AlphaBlend("magic_shield_webm", "magic_shield_webm", gray_shield(340, 330), alpha=True), at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
 
         def hide_dodge_effect(self, targets):
             # gfx = self.dodge_effect.get("gfx", "dodge")
