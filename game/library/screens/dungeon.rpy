@@ -104,7 +104,6 @@ screen dungeon_move(hotspots):
                     elif isinstance(sw[0], Mob):
                         mco = im.MatrixColor(sw[0].battle_sprite, light_matrix)
                         (width, height) = mco.image.load().get_size()
-                        devlog.warn((width, height))
 
                         sz = float(sw[1]['size']) if 'size' in sw[1] else 1.3
                         xz=2.0/(1.5 + math.log(sw[2], 2))
@@ -348,6 +347,8 @@ label enter_dungeon:
                         event = _return[1][i]
                         if "function" in event:
                             if event["function"] == "dungeon.say":
+                                if "timer" in event:
+                                    dungeon.timer = event["timer"]
                                 dungeon.say(*event["arguments"], next_events=_return[1][i+1:])
                                 break
                             dungeon.function(event["function"], event["arguments"], event["return"] if "return" in event else None)

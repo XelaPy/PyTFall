@@ -124,6 +124,7 @@
         "C": {
             "(19, 11)": [{
                 "function": "dungeon.say",
+                "timer": 2.0,
                 "arguments": ["", "Finally, there's a hatch here, you climb out of the catacombs."]
             }, {
                 "function": "renpy.jump",
@@ -133,6 +134,7 @@
         "^": {
             "(0, 11)": [{
                 "function": "dungeon.say",
+                "timer": 0.5,
                 "arguments": ["", "You descend the stairs."]
             },{
                 "load": "Mausoleum2",
@@ -151,6 +153,7 @@
         ".": {
             "(13, 0)": [{
                 "function": "dungeon.say",
+                "timer": 0.3,
                 "arguments": ["", "Something in here smells really bad."]
             }]
         }
@@ -258,6 +261,7 @@
         "A": {
             "(27, 25)": [{
                 "function": "dungeon.say",
+                "timer": 0.5,
                 "arguments": ["", "You ascend the stairs."]
             }, {
                 "load": "Mausoleum1",
