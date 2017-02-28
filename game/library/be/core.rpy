@@ -145,6 +145,11 @@ init -1 python: # Core classes:
                     temp = "Debug: Loop: %d, TLeft: %d, TRight: %d"%(self.logical_counter, len(self.get_fighters(state="dead", rows=(0, 1))),  len(self.get_fighters(state="dead", rows=(2, 3))))
                     temp += ", ".join([str(i.health) for i in self.teams[0]])
                     self.log(temp)
+
+                for event in self.get_all_events():
+                    if hasattr(event, "activated_this_turn"):
+                        event.activated_this_turn = False
+
                 # We check the conditions for terminating the BE scenario, this should prolly be end turn event as well, but I've added this before I've added events :)
                 if self.check_break_conditions():
                     break
@@ -980,8 +985,10 @@ init -1 python: # Core classes:
                 if event.target == target:
                     if hasattr(event, "defence_bonus"):
                         d += event.defence_bonus.get(self.delivery, 0)
+                        event.activated_this_turn = True
                     if hasattr(event, "defence_multiplier"):
                         m = m + event.defence_multiplier.get(self.delivery, 0)
+                        event.activated_this_turn = True
 
             if d or m != 1.0:
                 target.beeffects.append("magic_shield")
@@ -1768,12 +1775,23 @@ init -1 python: # Core classes:
                         renpy.show(target.betag, what=target.besprite, at_list=[be_dodge(xoffset, pause)], zorder=target.besk["zorder"])
 
                 elif "magic_shield" in target.beeffects:
-                    gfx = self.target_sprite_damage_effect.get("shield_gfx", ImageReference("resist")) # We use "resist" as default...
-                    if gfx not in ["fly_away"]:
-                        if gfx == ImageReference("resist"): # This should ensure that we do not show the shield for major damage effects, it will not look proper.
+                    # Get GFX:
+                    for event in battle.get_all_events():
+                        if isinstance(event, DefenceBuff):
+                            if event.target == target:
+                                if event.activated_this_turn:
+                                    gfx = event.gfx_effect
+                                    break
+                    else:
+                        raise devlog.warning("No Effect GFX detected for magic_shield dodge_effect!")
+
+                    tsde = self.target_sprite_damage_effect.get("gfx", None) # We use "resist" as default...
+                    if tsde not in ["fly_away"]:
+                        if gfx == "default": # This should ensure that we do not show the shield for major damage effects, it will not look proper.
                             tag = "dodge" + str(index)
-                            renpy.show(tag, what=gfx, at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
+                            renpy.show(tag, what=ImageReference("resist"), at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
                         elif gfx == "gray_shield":
+                            # raise Exception("M")
                             tag = "dodge" + str(index)
                             renpy.show(tag, what=AlphaBlend("magic_shield_webm", "magic_shield_webm", gray_shield(340, 330), alpha=True), at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
 

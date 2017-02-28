@@ -225,7 +225,7 @@ init python:
             self.effect = effect # effect should be from 0 to 1, ie part of max health the poison takes every turn
             self.type = "poison"
             self.icon = ProportionalScale("content/gfx/be/poison1.png", 30, 30)
-            
+
             # We also add the icon to targets status overlay:
             target.status_overlay.append(self.icon)
 
@@ -273,7 +273,7 @@ init python:
 
 
     class DefenceBuff(BE_Event):
-        def __init__(self, source, target, bonus={}, multi=0, icon=None, group=None):
+        def __init__(self, source, target, bonus={}, multi=0, icon=None, group=None, gfx_effect="default"):
             # bonus and multi both expect dicts if mods are desirable.
             self.target = target
             self.source = source
@@ -283,6 +283,8 @@ init python:
             self.counter = randint(3, 5) # Active for 3-5 turns
 
             self.icon = icon or ProportionalScale("content/gfx/be/fists.png", 30, 30)
+            self.gfx_effect = gfx_effect
+            self.activated_this_turn = False # Flag used to pass to gfx methods that this buff was triggered.
             self.group = group # No two buffs from the same group can be applied twice.
             # We also add the icon to targets status overlay:
             target.status_overlay.append(self.icon)
@@ -735,7 +737,7 @@ init python:
                 effects = list()
                 effects.append(revive)
                 t.beeffects = effects
-                
+
                 # String for the log:
                 s = ("{color=[green]}%s brings %s back!{/color}" % (char.nickname, t.name))
                 t.dmg_font = "lawngreen" # Color the battle bounce green!
@@ -749,7 +751,7 @@ init python:
             for t in targets:
                 battle.corpses.remove(t)
                 t.health = t.beeffects[0]
-                
+
             self.settle_cost()
 
             return []
@@ -769,6 +771,7 @@ init python:
             self.defence_multiplier = kwargs.get("defence_multiplier", {}) # This is the def multiplier.
             self.buff_icon = kwargs.get("buff_icon", None)
             self.buff_group = kwargs.get("buff_group", self.__class__)
+            self.defence_gfx = kwargs.get("defence_gfx", "default")
 
         def effects_resolver(self, targets):
             if not isinstance(targets, (list, tuple, set)):
@@ -795,7 +798,9 @@ init python:
                             battle.log("%s is already buffed by %ss spell!" % (t.nickname, event.source.name))
                             break
                     else:
-                        temp = self.event_class(source, t, self.defence_bonus, self.defence_multiplier, icon=self.buff_icon, group=self.buff_group)
+                        temp = self.event_class(source, t, self.defence_bonus, self.defence_multiplier,
+                                                icon=self.buff_icon, group=self.buff_group,
+                                                gfx_effect=self.defence_gfx)
                         battle.mid_turn_events.append(temp)
                         temp = "%s buffs %ss defence!" % (source.nickname, t.name)
                         self.log_to_battle(effects, effect, source, t, message=temp)

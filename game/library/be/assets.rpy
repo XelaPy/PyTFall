@@ -11,7 +11,7 @@ init -1: # Images and Animations
         Solid("#222222", xysize=(w, h))
         0.05
         repeat
-    
+
     transform healing_effect_color(w, h):
         Solid("#8CD9B3", xysize=(w, h))
         0.05
@@ -26,12 +26,12 @@ init -1: # Images and Animations
         Solid("#85E0B3", xysize=(w, h))
         0.05
         repeat
-        
+
     transform gray_shield(w, h):
         Solid("#999999", xysize=(w, h))
         0.5
         repeat
-        
+
     transform fire_effect_color(w, h):
         Solid("#D98026", xysize=(w, h))
         0.05
@@ -46,7 +46,7 @@ init -1: # Images and Animations
         Solid("#E68019", xysize=(w, h))
         0.05
         repeat
-        
+
     transform poison_effect_color(w, h):
         Solid("#178217", xysize=(w, h))
         0.05
@@ -1035,7 +1035,7 @@ label load_battle_skills:
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.3},
                 target_death_effect={"gfx": "dissolve",  "initial_pause": 1.4, "duration": 0.5},
                 dodge_effect={"initial_pause": .8})
-        ArealSkill("Flame Vortex", menu_pos=8, attributes=["magic", "fire", "air", "inevitable"], effect=75, multiplier=1.35, mp_cost=0.2, vitality_cost=25, range=4, type="all_enemies", 
+        ArealSkill("Flame Vortex", menu_pos=8, attributes=["magic", "fire", "air", "inevitable"], effect=75, multiplier=1.35, mp_cost=0.2, vitality_cost=25, range=4, type="all_enemies",
                 desc="Sizzling hot air flow burns everything on the way.",
                 attacker_effects={"gfx": "orb", "sfx": "default"},
                 main_effect={"gfx": "flame_vortex_webm", "sfx": "content/sfx/sound/be/fire9.mp3", "duration": 1.367, "aim": {"anchor": (0.5, 1.0), "xo": 300 ,"yo": 150}, "hflip": True},
@@ -1589,10 +1589,13 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": None},
                 target_death_effect={"gfx": None})
-        DefenceBuffSpell("Gray Shield", menu_pos=-1, attributes=["status", "darkness", "light"], kind="buff", defence_multiplier={"melee": 4.0, "magic": 4.0, "ranged": 4.0, "status": 4.0}, buff_group="melee shield", vitality_cost=1.0, mp_cost=0.5, buff_icon=ProportionalScale("content/gfx/be/buffs/gray.png", 30, 30), range=4, type="sa",
+        DefenceBuffSpell("Gray Shield", menu_pos=-1, attributes=["status", "darkness", "light"], kind="buff",
+                defence_multiplier={"melee": 4.0, "magic": 4.0, "ranged": 4.0, "status": 4.0}, buff_group="melee shield",
+                vitality_cost=1.0, mp_cost=0.5, buff_icon=ProportionalScale("content/gfx/be/buffs/gray.png", 30, 30),
+                range=4, type="sa", defence_gfx="gray_shield",
                 desc="The apathy of the Gray Ring denies the existence of attacks because it's such a bother to deal with them...",
                 main_effect={"gfx": AlphaBlend("magic_shield_webm", "magic_shield_webm", gray_shield(340, 330), alpha=True), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
-                target_sprite_damage_effect={"gfx": None, "shield_gfx": "gray_shield"},
+                target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": None},
                 target_death_effect={"gfx": None})
     return
