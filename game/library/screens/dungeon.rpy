@@ -234,11 +234,20 @@ label enter_dungeon:
                 y = pc['y'] + lateral*pc['dx'] + distance*pc['dy']
                 situ = dungeon.map(x, y)
 
-                if distance == 1 and lateral == 0 and situ in dungeon.area_hotspots: # actions can be apply to front
+                if distance == 1 and lateral == 0: # actions can be apply to front
                     front_str = str((x, y))
-                    if front_str in dungeon.area_hotspots[situ]:
+                    if situ in dungeon.area_hotspots and front_str in dungeon.area_hotspots[situ]:
                         for e in dungeon.area_hotspots[situ][front_str]:
                             hotspots.append(e)
+
+                    if front_str in dungeon.renderitem:
+                        for ri in dungeon.renderitem[front_str]:
+                            n = ri['name']
+                            if n in dungeon.renderitem_hotspots:
+                                e = dungeon.renderitem_hotspots[n].copy()
+                                remaining_items = [i for i in dungeon.renderitem[front_str] if i['name'] is not n]
+                                e['actions'].append({"function": "dungeon.renderitem.__setitem__", "arguments": [front_str, remaining_items]})
+                                hotspots.append(e)
 
                 if situ in dungeon.container:
                     #FIXME use position lookup, for some container may first have to add front (cover) image

@@ -73,6 +73,21 @@
             }]
         }
     },
+    "item_hotspots": {
+    },
+    "renderitem_hotspots": {
+        "dagger": {
+            "spot": [628, 420, 186, 20],
+            "actions": [{
+                "function": "renpy.play",
+                "arguments": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+            },{
+                "function": "dungeon.say",
+                "timer": 0.5,
+                "arguments": ["", "You found a dagger."]
+            }]
+        }
+    },
     "access": [".79bABCD^", ".79cABCD^", ".79cABCD^", ".79bABCD^"],
     "conditional_access": ["3a8", "3a8", "3a8", "3a8"],
     "access_condition": {
@@ -223,6 +238,10 @@
     "conditional_access": ["3a8", "3a8", "3a8", "3a8"],
     "access_denied": {},
     "area_hotspots": {},
+    "item_hotspots": {
+    },
+    "renderitem_hotspots": {
+    },
     "container": {
         ".": { "x": 5, "y": 5},
         "d": { "x": 5, "y": 5}
