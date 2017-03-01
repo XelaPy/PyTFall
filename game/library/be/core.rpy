@@ -1802,7 +1802,7 @@ init -1 python: # Core classes:
                             renpy.show(tag, what=AlphaBlend(ImageReference("ranged_shield_webm"), ImageReference("ranged_shield_webm"), green_shield(350, 300), alpha=True), at_list=[Transform(size=(350, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
                         elif gfx == "solid_shield":
                             tag = "dodge" + str(index)
-                            renpy.show(tag, what=AlphaBlend(ImageReference("resist"), ImageReference("resist"), green_shield(300, 300), alpha=True), at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
+                            renpy.show(tag, what=ImageReference("shield_2"), at_list=[Transform(size=(400, 400), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
 
         def hide_dodge_effect(self, targets):
             # gfx = self.dodge_effect.get("gfx", "dodge")

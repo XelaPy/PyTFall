@@ -407,6 +407,14 @@ init -1: # Images and Animations
     image resurrection = FilmStrip("content/gfx/be/filmstrips/resurrection2x.png", (288, 247), (5, 4), 0.1, loop=False)
     ########### Magic Shields:
     image shield_1 = FilmStrip("content/gfx/be/filmstrips/shield_1.png", (192, 192), (5, 4), 0.05, loop=False)
+    image shield_2:
+        "content/gfx/be/solid_shield.png"
+        alpha 0
+        linear 0.4 alpha 0.7
+        block:
+            linear 0.5 alpha 0.9
+            linear 0.5 alpha 0.7
+            repeat
     ########### Weapons-only attacks
     image simple_poison_dagger_attack:
         im.Recolor("content/gfx/be/knives.png", 0, 255, 0, 255) # green attack for poison dagger
@@ -1579,13 +1587,13 @@ label load_battle_skills:
                 target_death_effect={"gfx": None})
         DefenceBuffSpell("Solid Field", menu_pos=-1, attributes=["status", "earth"], kind="buff", defence_multiplier={"melee": 1.5}, buff_group="melee shield", buff_icon=ProportionalScale("content/gfx/be/buffs/melee_def.png", 30, 30), mp_cost=0.2, vitality_cost=0.4, range=4, type="sa", defence_gfx="solid_shield",
                 desc="Sets up a force field around the target, partly shielding from melee damage.",
-                main_effect={"gfx": Transform("ranged_shield1_webm", zoom=2.0), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 2.0, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
+                main_effect={"gfx": Transform("shield_1", size=(400, 400)), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.0, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
                 target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": None},
                 target_death_effect={"gfx": None})
         DefenceBuffSpell("Solid Shield", menu_pos=-1, attributes=["status", "earth"], kind="buff", defence_multiplier={"melee": 3.0}, buff_group="melee shield", vitality_cost=0.7, mp_cost=0.2, buff_icon=ProportionalScale("content/gfx/be/buffs/big_melee_def.png", 30, 30), range=4, type="sa", defence_gfx="solid_shield",
                 desc="Sets up a powerful force field around the target, shielding from melee damage.",
-                main_effect={"gfx": Transform("ranged_shield1_webm", zoom=2.0), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 2.0, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
+                main_effect={"gfx": Transform("shield_1", size=(400, 400)), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.0, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
                 target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": None},
                 target_death_effect={"gfx": None})
