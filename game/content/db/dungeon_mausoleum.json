@@ -138,7 +138,10 @@
                 "function": "dungeon.say",
                 "timer": 2.0,
                 "arguments": ["", "Finally, there's a hatch here, you climb out of the catacombs."]
-            }, {
+            },{
+                "function": "dungeon.__setattr__",
+                "arguments": ["hero", { "x": 1, "y": 1, "dx": 1, "dy": 0 }]
+            },{
                 "function": "renpy.jump",
                 "arguments": ["graveyard_town"]
             }]

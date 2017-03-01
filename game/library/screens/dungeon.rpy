@@ -208,6 +208,7 @@ label enter_dungeon:
         dungeon = dungeons['Mausoleum1']
         pc = dungeon.enter()
         dungeon.say("", "You enter the mausoleum. The door shuts behind you; you cannot get out this way!")
+        dungeon.timer = 1.0
         light=""
 
 
@@ -372,7 +373,7 @@ label enter_dungeon:
                 # Walking into NPC. dfferent sound or action ?
                 pass
 
-            elif _return == 2: # rest is already covered
+            elif _return == 2: # walking into spawn except backward is handled during environment preparation
                 to = (pc['x']-pc['dx'], pc['y']-pc['dy'])
                 if not to in dungeon.spawn:
                     if dungeon.has_access(at, to, ori):
