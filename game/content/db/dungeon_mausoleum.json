@@ -73,6 +73,21 @@
             }]
         }
     },
+    "item_hotspots": {
+    },
+    "renderitem_hotspots": {
+        "dagger": {
+            "spot": [628, 420, 186, 20],
+            "actions": [{
+                "function": "renpy.play",
+                "arguments": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+            },{
+                "function": "dungeon.say",
+                "timer": 0.5,
+                "arguments": ["", "You found a dagger."]
+            }]
+        }
+    },
     "access": [".79bABCD^", ".79cABCD^", ".79cABCD^", ".79bABCD^"],
     "conditional_access": ["3a8", "3a8", "3a8", "3a8"],
     "access_condition": {
@@ -101,29 +116,27 @@
       "bump": "content/sfx/sound/dungeon/bump.ogg"
     },
     "hero": { "x": 1, "y": 1, "dx": 1, "dy": 0 },
-    "point": [
-        {"id": "item", "item": "Replica Sword", "x": 2, "y": 1 },
-        {"id": "item", "item": "Shuriken", "x": 23, "y": 3 },
-        {"id": "spawn", "name": "Goblin", "x": 36, "y": 1, "level": 1 },
-        {"id": "spawn", "name": "Devil Rat", "x": 5, "y": 11, "level": 1 },
-        {"id": "spawn", "name": "Bats", "x": 24, "y": 5, "level": 1, "yoffs": -400 },
-        {"id": "spawn", "name": "Bear", "x": 2, "y": 8, "level": 3, "size": 2 },
-        {"id": "renderitem", "item": "dagger", "x": 22, "y": 0 },
-        {"id": "renderitem", "item": "ring", "x": 20, "y": 5 },
-        {"id": "renderitem", "item": "dagger", "x": 20, "y": 5 },
-        {"id": "renderitem", "item": "bottle", "x": 9, "y": 11,
-            "function": "im.matrix.tint",
-            "arguments": [0.1, 0.5, 0.1]
-        },
-        {"id": "renderitem", "item": "bottle", "x": 48, "y": 3,
-            "function": "im.matrix.tint",
-            "arguments": [0.5, 0.1, 0.1]
-        }
-    ],
+    "item": {
+        "(2, 1)": [{"name": "Replica Sword"}],
+        "(23, 3)": [{"name": "Shuriken"}]
+    },
+    "spawn": {
+        "(36, 1)": [{"name": "Goblin", "level": 1 }],
+        "(5, 11)": [{"name": "Devil Rat", "level": 1 }],
+        "(24, 5)": [{"name": "Bats", "level": 1, "yoffs": -400 }],
+        "(2, 8)": [{"name": "Bear", "level": 3, "size": 2 }]
+    },
+    "renderitem": {
+        "(20, 5)": [{"name": "ring" }, {"name": "dagger" }],
+        "(22, 0)": [{"name": "dagger"}],
+        "(9, 11)": [{"name": "bottle", "function": "im.matrix.tint", "arguments": [0.1, 0.5, 0.1] }],
+        "(48, 3)": [{"name": "bottle", "function": "im.matrix.tint", "arguments": [0.5, 0.1, 0.1] }]
+    },
     "event": {
         "C": {
             "(19, 11)": [{
-                "function": "renpy.say",
+                "function": "dungeon.say",
+                "timer": 2.0,
                 "arguments": ["", "Finally, there's a hatch here, you climb out of the catacombs."]
             }, {
                 "function": "renpy.jump",
@@ -132,11 +145,12 @@
         },
         "^": {
             "(0, 11)": [{
-                "function": "renpy.say",
+                "function": "dungeon.say",
+                "timer": 0.5,
                 "arguments": ["", "You descend the stairs."]
             },{
                 "load": "Mausoleum2",
-                "at": { "x": 26, "y": 25, "dx": 0, "dy": 1 }
+                "at": { "x": 27, "y": 26, "dx": 0, "dy": 1 }
             }]
         },
         "c": {
@@ -146,6 +160,13 @@
             },{
                 "function": "dungeon.access_condition.__setitem__",
                 "arguments": ["(20, 1)", {"access": false}]
+            }]
+        },
+        ".": {
+            "(13, 0)": [{
+                "function": "dungeon.say",
+                "timer": 0.3,
+                "arguments": ["", "Something in here smells really bad."]
             }]
         }
     }
@@ -217,6 +238,10 @@
     "conditional_access": ["3a8", "3a8", "3a8", "3a8"],
     "access_denied": {},
     "area_hotspots": {},
+    "item_hotspots": {
+    },
+    "renderitem_hotspots": {
+    },
     "container": {
         ".": { "x": 5, "y": 5},
         "d": { "x": 5, "y": 5}
@@ -241,17 +266,20 @@
     "sound": {
       "bump": "content/sfx/sound/dungeon/bump.ogg"
     },
-    "point": [
-        {"id": "item", "item": "Replica Sword", "x": 34, "y": 25, "rot": 30},
-        {"id": "item", "item": "Small Cane", "x": 35, "y": 25, "rot": 30 },
-        {"id": "item", "item": "Mallet", "x": 36, "y": 30 },
-        {"id": "item", "item": "Elven Rapier", "x": 34, "y": 30 },
-        {"id": "item", "item": "Ornate Gladius", "x": 35, "y": 30 }
-    ],
+    "item": {
+        "(34, 25)": [{"name": "Replica Sword", "rot": 30}],
+        "(35, 25)": [{"name": "Small Cane", "rot": 30 }],
+        "(36, 30)": [{"name": "Mallet" }],
+        "(34, 30)": [{"name": "Elven Rapier" }],
+        "(35, 30)": [{"name": "Ornate Gladius" }]
+    },
+    "spawn": {},
+    "renderitem": {},
     "event": {
         "A": {
             "(27, 25)": [{
-                "function": "renpy.say",
+                "function": "dungeon.say",
+                "timer": 0.5,
                 "arguments": ["", "You ascend the stairs."]
             }, {
                 "load": "Mausoleum1",

@@ -5,10 +5,17 @@ init -1 python:
                 if k != "r" and k != "map":
                     super(Dungeon, self).__setattr__(k, kwargs[k])
             self._map = kwargs['map']
+            self._said = None
+            self.next_events = None
+            self.timer = None
+
+        def say(self, who, what, side_image=None, two_window=False, next_events=None):
+            self.next_events = ["event_list", next_events if next_events else []]
+            self._said = [who, what, side_image, two_window]
 
         def enter(self, at=None):
             if at:
-                self.hero = at
+                self.hero = at.copy()
 
             if not hasattr(self, "smallMap"):
                 self.smallMap = SpriteManager(ignore_time=True)
@@ -26,11 +33,11 @@ init -1 python:
                 self.arrow.x = (self.hero['x'] - .3)*6 + 6
                 self.arrow.y = (self.hero['y'] - .2)*6 + 6
 
-            for p in self.point:
-                if p['id'] == "spawn":
-                    p['mob'] = build_mob(id=p['name'], level=p['level'])
+            for p in self.spawn.values():
+                for m in p:
+                    m['mob'] = build_mob(id=m['name'], level=m['level'])
 
-            return self.hero
+            return self.hero.copy()
 
         def _smadd(self, d, n, m):
             s = self.smallMap.create(d)
@@ -60,10 +67,14 @@ init -1 python:
 
             return False
 
-        def function(self, function, arguments):
-            # only allow particular functions
-            if any(function[:len(f)] == f for f in ('renpy.', 'dungeon.', 'narrator')):
-                eval(function)(*arguments)
+        def function(self, function, arguments, set_var):
+            if 'function' in event:
+                (function, arguments) = (event['function'], event['arguments'])
+                # only allow particular functions
+                if any(function[:len(f)] == f for f in ('renpy.', 'dungeon.')):
+                    ret = eval(function)(*arguments)
+                    if set_var:
+                        self.__setattr__(set_var, ret)
 
 transform sprite_default(xx, yy, xz, yz, rot=None):
     xpos xx
@@ -93,7 +104,6 @@ screen dungeon_move(hotspots):
                     elif isinstance(sw[0], Mob):
                         mco = im.MatrixColor(sw[0].battle_sprite, light_matrix)
                         (width, height) = mco.image.load().get_size()
-                        devlog.warn((width, height))
 
                         sz = float(sw[1]['size']) if 'size' in sw[1] else 1.3
                         xz=2.0/(1.5 + math.log(sw[2], 2))
@@ -115,43 +125,52 @@ screen dungeon_move(hotspots):
                 imagemap:
                     ground sw
                     for hs in hotspots:
-                        hotspot hs['spot'] action Return(value=['hotspot', hs['actions']])
+                        hotspot hs['spot'] action Return(value=['event_list', hs['actions']])
             else:
                 add sw
-    fixed style_group "move":
-        textbutton "↓" action Return(value=2) xcenter .2 ycenter .9
-        textbutton "←" action Return(value=4) xcenter .1 ycenter .8
-        textbutton "→" action Return(value=6) xcenter .3 ycenter .8
-        textbutton "<" action Return(value=7) xcenter .1 ycenter .9
-        textbutton "↑" action Return(value=8)  xcenter .2 ycenter .7
-        textbutton ">" action Return(value=9) xcenter .3 ycenter .9
-
-        if config.developer:
-            textbutton "U" action Return(value=1000) xcenter .2 ycenter .8
-            key "K_u" action Return(value=1000)
-
-        key "K_KP2" action Return(value=2)
-        key "K_KP4" action Return(value=4)
-        key "K_KP6" action Return(value=6)
-        key "K_KP7" action Return(value=7)
-        key "K_KP8" action Return(value=8)
-        key "K_KP9" action Return(value=9)
-        key "K_l" action Return(value=100) # light
-        key "K_p" action Function(devlog.warn, str(pc))
-        key "K_LEFT" action Return(value=4)
-        key "K_UP" action Return(value=8)
-        key "K_RIGHT" action Return(value=6)
-        key "K_DOWN" action Return(value=2)
-
-        if not renpy.music.is_playing(channel="sound"):
-            key "repeat_K_KP2" action Return(value=2)
-            key "repeat_K_KP7" action Return(value=7)
-            key "repeat_K_KP8" action Return(value=8)
-            key "repeat_K_KP9" action Return(value=9)
-            key "repeat_K_UP" action Return(value=8)
-            key "repeat_K_DOWN" action Return(value=2)
 
     add dungeon.smallMap
+
+    if dungeon._said:
+        use say(dungeon._said[0], dungeon._said[1], dungeon._said[2], dungeon._said[3])
+        key "K_RETURN" action Return(value=dungeon.next_events)
+        key "mousedown_1" action Return(value=dungeon.next_events)
+    else:
+        fixed style_group "move":
+            textbutton "↓" action Return(value=2) xcenter .2 ycenter .9
+            textbutton "←" action Return(value=4) xcenter .1 ycenter .8
+            textbutton "→" action Return(value=6) xcenter .3 ycenter .8
+            textbutton "<" action Return(value=7) xcenter .1 ycenter .9
+            textbutton "↑" action Return(value=8)  xcenter .2 ycenter .7
+            textbutton ">" action Return(value=9) xcenter .3 ycenter .9
+
+            if config.developer:
+                textbutton "U" action Return(value=1000) xcenter .2 ycenter .8
+                key "K_u" action Return(value=1000)
+
+    key "K_KP2" action Return(value=2)
+    key "K_KP4" action Return(value=4)
+    key "K_KP6" action Return(value=6)
+    key "K_KP7" action Return(value=7)
+    key "K_KP8" action Return(value=8)
+    key "K_KP9" action Return(value=9)
+    key "K_l" action Return(value=100) # light
+    key "K_p" action Function(devlog.warn, str(pc))
+    key "K_LEFT" action Return(value=4)
+    key "K_UP" action Return(value=8)
+    key "K_RIGHT" action Return(value=6)
+    key "K_DOWN" action Return(value=2)
+
+    if not renpy.music.is_playing(channel="sound"):
+        key "repeat_K_KP2" action Return(value=2)
+        key "repeat_K_KP7" action Return(value=7)
+        key "repeat_K_KP8" action Return(value=8)
+        key "repeat_K_KP9" action Return(value=9)
+        key "repeat_K_UP" action Return(value=8)
+        key "repeat_K_DOWN" action Return(value=2)
+
+    if dungeon.timer is not None:
+        timer dungeon.timer action Return(value=dungeon.next_events)
 
 style move_button_text:
     size 60
@@ -171,7 +190,6 @@ style move_button_text:
 label enter_dungeon:
     # To start exploring, call or jump to this label
     # To exit, create an event which has return or jump statement.
-    "You enter the mausoleum. The door shuts behind you; you cannot get out this way!"
     python:
 
         # Create skills (name, type, hit, power)
@@ -189,6 +207,7 @@ label enter_dungeon:
         #file.close()
         dungeon = dungeons['Mausoleum1']
         pc = dungeon.enter()
+        dungeon.say("", "You enter the mausoleum. The door shuts behind you; you cannot get out this way!")
         light=""
 
 
@@ -215,39 +234,50 @@ label enter_dungeon:
                 y = pc['y'] + lateral*pc['dx'] + distance*pc['dy']
                 situ = dungeon.map(x, y)
 
-                if distance == 1 and lateral == 0 and situ in dungeon.area_hotspots: # actions can be apply to front
+                if distance == 1 and lateral == 0: # actions can be apply to front
                     front_str = str((x, y))
-                    if front_str in dungeon.area_hotspots[situ]:
+                    if situ in dungeon.area_hotspots and front_str in dungeon.area_hotspots[situ]:
                         for e in dungeon.area_hotspots[situ][front_str]:
                             hotspots.append(e)
+
+                    if front_str in dungeon.renderitem:
+                        for ri in dungeon.renderitem[front_str]:
+                            n = ri['name']
+                            if n in dungeon.renderitem_hotspots:
+                                e = dungeon.renderitem_hotspots[n].copy()
+                                remaining_items = [i for i in dungeon.renderitem[front_str] if i['name'] is not n]
+                                e['actions'].append({"function": "dungeon.renderitem.__setitem__", "arguments": [front_str, remaining_items]})
+                                hotspots.append(e)
 
                 if situ in dungeon.container:
                     #FIXME use position lookup, for some container may first have to add front (cover) image
 
-                    for p in dungeon.point:
-                        if p['x'] == x and p['y'] == y:
-                            if p['id'] == "renderitem":
+                    pt = str((x, y))
+                    if pt in dungeon.renderitem:
+                        for ri in dungeon.renderitem[pt]:
+                            img_name = sided[lateral+3] % ('dungeon_'+ri['name'], light, distance)
+                            if 'function' in ri and ri['function'][:10] == "im.matrix.":
 
-                                img_name = sided[lateral+3] % ('dungeon_'+p['item'], light, distance)
-                                if 'function' in p and p['function'][:10] == "im.matrix.":
+                                img_name = 'content/dungeon/'+ri['name']+light+'/'+img_name+'.png'
+                                if os.path.isfile(gamedir + '/'+img_name):
+                                    # distance darkening
+                                    brightness = im.matrix.brightness(-math.sqrt(lateral**2 + distance**2)/(5.8 if light else 4.5))
+                                    show.append(im.MatrixColor(img_name, eval(ri["function"])(*ri["arguments"]) * brightness))
+                            else:
+                                show.append(img_name)
 
-                                    img_name = 'content/dungeon/'+p['item']+light+'/'+img_name+'.png'
-                                    if os.path.isfile(gamedir + '/'+img_name):
-                                        # distance darkening
-                                        brightness = im.matrix.brightness(-math.sqrt(lateral**2 + distance**2)/(5.8 if light else 4.5))
-                                        show.append(im.MatrixColor(img_name, eval(p["function"])(*p["arguments"]) * brightness))
-                                else:
-                                    show.append(img_name)
+                    if pt in dungeon.item:
+                        for it in dungeon.item[pt]:
+                            show.append([items[it['name']], it, distance, lateral])
 
-                            elif p['id'] == "item":
-                                show.append([items[p['item']], p, distance, lateral])
+                    if pt in dungeon.spawn:
+                        for spawn in dungeon.spawn[pt]:
 
-                            elif p['id'] == "spawn":
-                                if distance == 0 and abs(lateral) == 1:
-                                    access_denied.add(7 if lateral == -1 else 9)
-                                if distance == 1 and lateral == 0:
-                                    access_denied.add(8)
-                                show.append([p['mob'], p, distance, lateral])
+                            if distance == 0 and abs(lateral) == 1:
+                                access_denied.add(7 if lateral == -1 else 9)
+                            if distance == 1 and lateral == 0:
+                                access_denied.add(8)
+                            show.append([spawn['mob'], spawn, distance, lateral])
 
                 # also record for minimap
                 for k in dungeon.minimap:
@@ -317,28 +347,40 @@ label enter_dungeon:
             at = (pc['x'], pc['y'])
             ori = 1 - pc['dx'] - pc['dy'] + (1 if pc['dx'] > pc['dy'] else 0)
             to = None
+
             if isinstance(_return, list):
-                if _return[0] == "hotspot":
-                    for event in _return[1]:
+                if _return[0] == "event_list":
+                    dungeon._said=None
+                    dungeon.timer=None
+                    dungeon.next_events=None
+
+                    for i in range(len(_return[1])):
+                        event = _return[1][i]
                         if "function" in event:
-                            dungeon.function(event["function"], event["arguments"])
+                            if event["function"] == "dungeon.say":
+                                if "timer" in event:
+                                    dungeon.timer = event["timer"]
+                                dungeon.say(*event["arguments"], next_events=_return[1][i+1:])
+                                break
+                            dungeon.function(event["function"], event["arguments"], event["return"] if "return" in event else None)
+                        elif "load" in event:
+                            dungeon = dungeons[event["load"]]
+                            pc = dungeon.enter(at=event["at"] if "at" in event else None)
+
 
             elif _return in access_denied:
                 # Walking into NPC. dfferent sound or action ?
                 pass
 
-            elif _return == 2:
+            elif _return == 2: # rest is already covered
                 to = (pc['x']-pc['dx'], pc['y']-pc['dy'])
-                for npc in dungeon.point:
-                    if npc['id'] == "spawn" and npc['x'] == to[0] and npc['y'] == to[1]:
-                        # Walking into NPC. dfferent sound or action ?
-                        break
-                else:
+                if not to in dungeon.spawn:
                     if dungeon.has_access(at, to, ori):
                         (pc['x'], pc['y']) = to
 
                     elif not renpy.music.is_playing(channel="sound"):
                         renpy.play(dungeon.sound['bump'], channel="sound")
+                # else: Walking into NPC. dfferent sound or action ?
 
             elif _return == 4:
                 (pc['dx'], pc['dy']) = (pc['dy'], -pc['dx'])
@@ -386,11 +428,6 @@ label enter_dungeon:
             if to:
                 to_area = dungeon.map(*to)
                 if to_area in dungeon.event and str(to) in dungeon.event[to_area]:
-                    for event in dungeon.event[to_area][str(to)]:
-                        if "function" in event:
-                            dungeon.function(event["function"], event["arguments"])
-
-                        elif "load" in event:
-                            dungeon = dungeons[event["load"]]
-                            pc = dungeon.enter(at=event["at"] if "at" in event else None)
+                    dungeon.timer = 0.001
+                    dungeon.next_events = ["event_list", dungeon.event[to_area][str(to)]]
 
