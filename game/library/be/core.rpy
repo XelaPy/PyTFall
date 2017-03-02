@@ -34,7 +34,8 @@ init -1 python: # Core classes:
             """
             self.teams = list() # Each team represents a faction on the battlefield. 0 index for left team and 1 index for right team.
             self.queue = list() # List of events in BE..
-            self.bg = ConsitionSwitcher("default", {"default": bg, "black": Solid("#000000"), "mirrage": Mirage(bg, amplitude=0.04, wavelength=10, ycrop=10)}) # Background we'll use.
+
+            self.bg = ConsitionSwitcher("default", {"default": bg, "black": Solid("#000000"), "mirage": Mirage(bg, resize=get_size(bg), amplitude=0.04, wavelength=10, ycrop=10)}) # Background we'll use.
 
             if music == "random":
                 self.music = choice(ilists.battle_tracks)
@@ -1708,7 +1709,7 @@ init -1 python: # Core classes:
             if sfx:
                 renpy.sound.play(sfx)
 
-            if gfx in ["mirrage"]:
+            if gfx in ["mirage"]:
                 battle.bg.change(gfx)
             if gfx in ["black"]:
                 renpy.with_statement(None)
@@ -1718,7 +1719,7 @@ init -1 python: # Core classes:
 
         def hide_bg_main_effect(self):
             gfx = self.bg_main_effect["gfx"]
-            if gfx in ["mirrage"]:
+            if gfx in ["mirage"]:
                 battle.bg.change("default")
             if gfx in ["black"]:
                 renpy.with_statement(None)
