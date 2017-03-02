@@ -29,7 +29,7 @@ init -1: # Images and Animations
 
     transform gray_shield(w, h):
         Solid("#B2B2B2", xysize=(w, h))
-        
+
     transform green_shield(w, h):
         Solid("#5CD699", xysize=(w, h))
 
@@ -640,7 +640,7 @@ label load_battle_skills:
                 main_effect={"gfx": Transform("universe_slash_webm", zoom=0.9), "sfx": "content/sfx/sound/be/exc_full.ogg", "duration": 1.7, "aim": {"anchor": (0.5, 0.5), "xo": 100, "yo":-100}, "hflip": True, "webm_size": (1000,800)},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.5, "master_shake": True},
                 target_death_effect={"gfx": "shatter", "initial_pause": 1.75, "duration": 0.7},
-                bg_main_effect={"gfx": "mirrage", "initial_pause": 0.1, "duration": 1.3})
+                bg_main_effect={"gfx": "mirage", "initial_pause": 0.1, "duration": 1.3})
         BE_Action(u"Soul Blade", menu_pos=1.4, range=1, attributes=["melee", "physical"], effect=30, multiplier=0.8, critpower=.3, vitality_cost=8, mp_cost=0.05, piercing=True,
                 desc="Projects a huge blade made from the user's soul energy towards the target.",
                 main_effect={"gfx": Transform("soul_sword_webm", zoom=1.1), "sfx": "content/sfx/sound/be/soul_sword.mp3", "duration": 0.5, "aim": {"point": "center", "anchor": (.5, .5), "xo": 80}, "hflip": True},
@@ -834,7 +834,7 @@ label load_battle_skills:
                 main_effect={"gfx": Transform("kunai_bomb_webm", zoom=1.2), "sfx": "content/sfx/sound/be/shadow_contract.ogg", "duration": 1.46, "aim": {"anchor": (0.5, 0.5), "xo": 180, "yo":-70}, "hflip": True},
                 target_sprite_damage_effect={"gfx": "on_dark_with_shake", "initial_pause": .2, "duration": 1.2},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5},
-                bg_main_effect={"gfx": "mirrage", "initial_pause": 0.7, "duration": 0.3},
+                bg_main_effect={"gfx": "mirage", "initial_pause": 0.7, "duration": 0.3},
                 dodge_effect={"initial_pause": 0.7})
         # Claw Attacks:
         BE_Action("Claw Slash", attributes=["melee", "physical"], critpower=0.1, effect=15, range=1, vitality_cost=1, menu_pos=0, multiplier=0.5,
@@ -940,7 +940,7 @@ label load_battle_skills:
                 desc="By sacrificing some life energy a small piece of the Death powers can be summoned to join the battle.",
                 main_effect={"gfx": Transform("death_scythe_webm", zoom=1.2), "sfx": "content/sfx/sound/be/death_skythe.ogg", "duration": 1.46, "aim": {"anchor": (0.5, 0.5), "xo": 180, "yo":-70}, "hflip": True},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .3},
-                bg_main_effect={"gfx": "mirrage", "initial_pause": 0.3, "duration": 1.1},
+                bg_main_effect={"gfx": "mirage", "initial_pause": 0.3, "duration": 1.1},
                 target_sprite_damage_effect={"gfx": "on_death", "initial_pause": .35, "duration": 1.0})
         # Spray Attacks:
         BE_Action("Spray", attributes=["ranged", "poison"], critpower=-0.3, effect=100, range=2, vitality_cost=3, menu_pos=0, multiplier=0.5,
@@ -1057,7 +1057,7 @@ label load_battle_skills:
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 4.8},
                 target_sprite_damage_effect={"gfx": "burning_with_shake", "initial_pause": 2, "duration": 2.5, "master_shake": True},
                 target_death_effect={"gfx": "hide", "initial_pause": 3.0, "duration": 0.0001},
-                bg_main_effect={"gfx": "mirrage", "initial_pause": 2.6, "duration": 2})
+                bg_main_effect={"gfx": "mirage", "initial_pause": 2.6, "duration": 2})
         # Water:
         BE_Action(u"Water", menu_pos=0, attributes=["magic", "water"], effect=10, multiplier=1.0, mp_cost=10, range=4, type="all_enemies",
                 desc="Crushes targets by bubbles of water.",
