@@ -2,14 +2,10 @@
 init -1: # Images and Animations
     # Test of an alternative damge overlay concept:
     transform dark_death_color(w, h):
-        Solid("#333333", xysize=(w, h))
-        0.05
         Solid("#222222", xysize=(w, h))
-        0.05
+        0.1
         Solid("#111111", xysize=(w, h))
-        0.05
-        Solid("#222222", xysize=(w, h))
-        0.05
+        0.1
         repeat
 
     transform healing_effect_color(w, h):
@@ -1384,21 +1380,21 @@ label load_battle_skills:
                 desc="A flash of light energy burns targets from inside.",
                 attacker_effects={"gfx": "light_1", "sfx": "default"},
                 main_effect={"gfx": Transform("light_1", zoom=1.5), "sfx": "content/sfx/sound/be/light1.mp3", "duration": 1.25, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 1.1},
+                target_sprite_damage_effect={"gfx": "on_light_with_shake", "initial_pause": 0.1, "duration": 1.1},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":0.9, "duration": 0.2})
         BE_Action(u"Holyra", menu_pos=0.1, attributes=["magic", "light"], effect=15, multiplier=1.1, mp_cost=10, range=4,
                 desc="A sphere of light energy burns the target from all sides.",
                 attacker_effects={"gfx": "light_1", "sfx": "default"},
                 main_effect={"gfx": Transform("light_2", zoom=1.5), "sfx": "content/sfx/sound/be/light3.mp3", "duration": 1.25, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 1.1},
+                target_sprite_damage_effect={"gfx": "on_light_with_shake", "initial_pause": 0.1, "duration": 1.1},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":0.9, "duration": 0.2})
         BE_Action(u"Holyda", menu_pos=0.2, attributes=["magic", "light"], effect=15, multiplier=0.9, mp_cost=14, range=4,
                 desc="A smallest particle of stellar energy burns the target.",
                 attacker_effects={"gfx": "light_1", "sfx": "default"}, piercing=True,
                 main_effect={"gfx": Transform("light_3", zoom=2.5), "sfx": "content/sfx/sound/be/light4.mp3", "duration": 1.6, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 1.5},
+                target_sprite_damage_effect={"gfx": "on_light_with_shake", "initial_pause": 0.1, "duration": 1.5},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":1.3, "duration": 0.2})
         BE_Action(u"Holyja", menu_pos=0.3, attributes=["magic", "light"], effect=15, multiplier=0.8, mp_cost=17, range=4, piercing=True, type="all_enemies",
@@ -1406,13 +1402,13 @@ label load_battle_skills:
                 attacker_effects={"gfx": "light_1", "sfx": "default"},
                 main_effect={"gfx": Transform("light_4_webm", zoom=1.5), "sfx": "content/sfx/sound/be/light5.mp3", "duration": 2.23, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 70}},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.1},
-                target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.5, "duration": 1.4},
+                target_sprite_damage_effect={"gfx": "on_light_with_shake", "initial_pause": 0.5, "duration": 1.4},
                 target_death_effect={"gfx": "hide", "initial_pause": 1.5, "duration": 0.0001})
         BE_Action(u"Star Light", menu_pos=0.5, attributes=["magic", "light"], effect=60, multiplier=1.3, mp_cost=35, range=4,
                 desc="A powerful and painful flash of star light.",
                 attacker_effects={"gfx": "light_2", "sfx": "default"}, piercing=True,
                 main_effect={"gfx": Transform("light_6_webm", zoom=1.4), "sfx": "content/sfx/sound/be/light2.mp3", "duration": 0.96, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 0.8},
+                target_sprite_damage_effect={"gfx": "on_light_with_shake", "initial_pause": 0.1, "duration": 0.8},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":1.0, "duration": 0.4})
         BE_Action(u"Photon Blade", menu_pos=1, attributes=["magic", "light"], effect=60, multiplier=1.4, mp_cost=55, range=4,
