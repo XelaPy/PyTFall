@@ -5008,6 +5008,7 @@ init -10 python:
         Maybe some behavior flags and alike can be a part of this as well?
         """
 
+
         def __init__(self):
             # self.instance = instance
 
@@ -5020,7 +5021,53 @@ init -10 python:
             # self.
 
         def recalculate_tier(self):
-            pass
+            """
+            I think we should attemt to figure out the tier based on
+            level and stats/skills of basetraits.
+
+            level always counts as half of the whole requirement.
+            stats and skills make up the other half.
+
+            We will aim at specific values and interpolate.
+            In case of one basetrait, we multiply result by 2!
+            """
+            target_tier = self.tier+1.0 # To get a float for Py2.7
+            target_level = (target_tier)*20
+
+            if self.level >= target_level:
+                total_points = 50
+            else:
+                total_points = 0 # We need 100 to tier up...
+
+            default_points = 12.5
+            for trait in self.traits.basetraits:
+                # Skills first (We calc this as 12.5% of the total)
+                len_skills = len(trait.base_skills)
+                if not len_skills: # Some weird ass base trait, we just award 33% of total possible points.
+                    total_points += default_points*.33
+                else:
+                    # Otherwise we get the weighted mean...
+                    # Formula from SO:
+                    # sum(x * y for x, y in zip(rate, amount)) / sum(amount)
+                    skillz = self.traits.basetraits.base_skills.iteritems()
+                    total_sp = sum(self.get_skill(x) * y for x, y in skillz) / sum(len_skills)
+                    total_sp_required = sum(MAX_SKILLS[x] * y for x, y in skillz) / sum(len_skills)
+                    skill_bonus = 12.5*default_points/total_sp_required
+                    total_points += skill_bonus
+
+                len_stats = len(trait.base_stats)
+                if not len_stats: # Some weird ass base trait, we just award 33% of total possible points.
+                    total_points += default_points*.33
+                else:
+                    # Otherwise we get the weighted mean...
+                    # Formula from SO:
+                    # sum(x * y for x, y in zip(rate, amount)) / sum(amount)
+                    skillz = self.traits.basetraits.base_skills.iteritems()
+                    total_sp = sum(self.get_skill(x) * y for x, y in skillz) / sum(len_skills)
+                    total_sp_required = sum(MAX_SKILLS[x] * y for x, y in skillz) / sum(len_skills)
+                    skill_bonus = 12.5*default_points/total_sp_required
+                    total_points += skill_bonus
+
 
         def calc_expected_wage(self):
             """
