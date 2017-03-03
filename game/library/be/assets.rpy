@@ -2,14 +2,10 @@
 init -1: # Images and Animations
     # Test of an alternative damge overlay concept:
     transform dark_death_color(w, h):
-        Solid("#333333", xysize=(w, h))
-        0.05
         Solid("#222222", xysize=(w, h))
-        0.05
+        0.1
         Solid("#111111", xysize=(w, h))
-        0.05
-        Solid("#222222", xysize=(w, h))
-        0.05
+        0.1
         repeat
 
     transform healing_effect_color(w, h):
@@ -28,9 +24,10 @@ init -1: # Images and Animations
         repeat
 
     transform gray_shield(w, h):
-        Solid("#999999", xysize=(w, h))
-        0.5
-        repeat
+        Solid("#B2B2B2", xysize=(w, h))
+
+    transform green_shield(w, h):
+        Solid("#5CD699", xysize=(w, h))
 
     transform fire_effect_color(w, h):
         Solid("#D98026", xysize=(w, h))
@@ -405,8 +402,15 @@ init -1: # Images and Animations
     image heal_3 = FilmStrip("content/gfx/be/filmstrips/heal_3.png", (360, 360), (1, 42), 0.05, loop=False)
     image resurrection = FilmStrip("content/gfx/be/filmstrips/resurrection2x.png", (288, 247), (5, 4), 0.1, loop=False)
     ########### Magic Shields:
-    image shield_1 = FilmStrip("content/gfx/be/filmstrips/shield_1.png", (192, 192), (5, 4), 0.1, loop=False) # unused, for future effects
-
+    image shield_1 = FilmStrip("content/gfx/be/filmstrips/shield_1.png", (192, 192), (5, 4), 0.05, loop=False)
+    image shield_2:
+        "content/gfx/be/solid_shield.png"
+        alpha 0
+        linear 0.4 alpha 0.7
+        block:
+            linear 0.5 alpha 0.9
+            linear 0.5 alpha 0.7
+            repeat
     ########### Weapons-only attacks
     image simple_poison_dagger_attack:
         im.Recolor("content/gfx/be/knives.png", 0, 255, 0, 255) # green attack for poison dagger
@@ -632,7 +636,7 @@ label load_battle_skills:
                 main_effect={"gfx": Transform("universe_slash_webm", zoom=0.9), "sfx": "content/sfx/sound/be/exc_full.ogg", "duration": 1.7, "aim": {"anchor": (0.5, 0.5), "xo": 100, "yo":-100}, "hflip": True, "webm_size": (1000,800)},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.5, "master_shake": True},
                 target_death_effect={"gfx": "shatter", "initial_pause": 1.75, "duration": 0.7},
-                bg_main_effect={"gfx": "mirrage", "initial_pause": 0.1, "duration": 1.3})
+                bg_main_effect={"gfx": "mirage", "initial_pause": 0.1, "duration": 1.3})
         BE_Action(u"Soul Blade", menu_pos=1.4, range=1, attributes=["melee", "physical"], effect=30, multiplier=0.8, critpower=.3, vitality_cost=8, mp_cost=0.05, piercing=True,
                 desc="Projects a huge blade made from the user's soul energy towards the target.",
                 main_effect={"gfx": Transform("soul_sword_webm", zoom=1.1), "sfx": "content/sfx/sound/be/soul_sword.mp3", "duration": 0.5, "aim": {"point": "center", "anchor": (.5, .5), "xo": 80}, "hflip": True},
@@ -826,7 +830,7 @@ label load_battle_skills:
                 main_effect={"gfx": Transform("kunai_bomb_webm", zoom=1.2), "sfx": "content/sfx/sound/be/shadow_contract.ogg", "duration": 1.46, "aim": {"anchor": (0.5, 0.5), "xo": 180, "yo":-70}, "hflip": True},
                 target_sprite_damage_effect={"gfx": "on_dark_with_shake", "initial_pause": .2, "duration": 1.2},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5},
-                bg_main_effect={"gfx": "mirrage", "initial_pause": 0.7, "duration": 0.3},
+                bg_main_effect={"gfx": "mirage", "initial_pause": 0.7, "duration": 0.3},
                 dodge_effect={"initial_pause": 0.7})
         # Claw Attacks:
         BE_Action("Claw Slash", attributes=["melee", "physical"], critpower=0.1, effect=15, range=1, vitality_cost=1, menu_pos=0, multiplier=0.5,
@@ -932,7 +936,7 @@ label load_battle_skills:
                 desc="By sacrificing some life energy a small piece of the Death powers can be summoned to join the battle.",
                 main_effect={"gfx": Transform("death_scythe_webm", zoom=1.2), "sfx": "content/sfx/sound/be/death_skythe.ogg", "duration": 1.46, "aim": {"anchor": (0.5, 0.5), "xo": 180, "yo":-70}, "hflip": True},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .3},
-                bg_main_effect={"gfx": "mirrage", "initial_pause": 0.3, "duration": 1.1},
+                bg_main_effect={"gfx": "mirage", "initial_pause": 0.3, "duration": 1.1},
                 target_sprite_damage_effect={"gfx": "on_death", "initial_pause": .35, "duration": 1.0})
         # Spray Attacks:
         BE_Action("Spray", attributes=["ranged", "poison"], critpower=-0.3, effect=100, range=2, vitality_cost=3, menu_pos=0, multiplier=0.5,
@@ -952,7 +956,7 @@ label load_battle_skills:
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.021},
                 target_sprite_damage_effect={"gfx": "on_dark_with_shake", "initial_pause": .01, "duration": .3},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5},
-                dodge_effect={"initial_pause": .1})
+                dodge_effect={"initial_pause": .05, "duration": 1.5})
         BE_Action(u"Cloud of Knives", range=3, attributes=["ranged", "physical"], critpower=.4, effect=100, multiplier=1.05, vitality_cost=15, menu_pos=0.5,
                 desc="Throwing multiple knives in quick succession.",
                 main_effect={"gfx": Transform("throwing_knives_webm", zoom=1.3), "sfx": "content/sfx/sound/be/knives_cloud.mp3", "duration": 1.96, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
@@ -1049,7 +1053,7 @@ label load_battle_skills:
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 4.8},
                 target_sprite_damage_effect={"gfx": "burning_with_shake", "initial_pause": 2, "duration": 2.5, "master_shake": True},
                 target_death_effect={"gfx": "hide", "initial_pause": 3.0, "duration": 0.0001},
-                bg_main_effect={"gfx": "mirrage", "initial_pause": 2.6, "duration": 2})
+                bg_main_effect={"gfx": "mirage", "initial_pause": 2.6, "duration": 2})
         # Water:
         BE_Action(u"Water", menu_pos=0, attributes=["magic", "water"], effect=10, multiplier=1.0, mp_cost=10, range=4, type="all_enemies",
                 desc="Crushes targets by bubbles of water.",
@@ -1376,21 +1380,21 @@ label load_battle_skills:
                 desc="A flash of light energy burns targets from inside.",
                 attacker_effects={"gfx": "light_1", "sfx": "default"},
                 main_effect={"gfx": Transform("light_1", zoom=1.5), "sfx": "content/sfx/sound/be/light1.mp3", "duration": 1.25, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 1.1},
+                target_sprite_damage_effect={"gfx": "on_light_with_shake", "initial_pause": 0.1, "duration": 1.1},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":0.9, "duration": 0.2})
         BE_Action(u"Holyra", menu_pos=0.1, attributes=["magic", "light"], effect=15, multiplier=1.1, mp_cost=10, range=4,
                 desc="A sphere of light energy burns the target from all sides.",
                 attacker_effects={"gfx": "light_1", "sfx": "default"},
                 main_effect={"gfx": Transform("light_2", zoom=1.5), "sfx": "content/sfx/sound/be/light3.mp3", "duration": 1.25, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 1.1},
+                target_sprite_damage_effect={"gfx": "on_light_with_shake", "initial_pause": 0.1, "duration": 1.1},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":0.9, "duration": 0.2})
         BE_Action(u"Holyda", menu_pos=0.2, attributes=["magic", "light"], effect=15, multiplier=0.9, mp_cost=14, range=4,
                 desc="A smallest particle of stellar energy burns the target.",
                 attacker_effects={"gfx": "light_1", "sfx": "default"}, piercing=True,
                 main_effect={"gfx": Transform("light_3", zoom=2.5), "sfx": "content/sfx/sound/be/light4.mp3", "duration": 1.6, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 1.5},
+                target_sprite_damage_effect={"gfx": "on_light_with_shake", "initial_pause": 0.1, "duration": 1.5},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":1.3, "duration": 0.2})
         BE_Action(u"Holyja", menu_pos=0.3, attributes=["magic", "light"], effect=15, multiplier=0.8, mp_cost=17, range=4, piercing=True, type="all_enemies",
@@ -1398,13 +1402,13 @@ label load_battle_skills:
                 attacker_effects={"gfx": "light_1", "sfx": "default"},
                 main_effect={"gfx": Transform("light_4_webm", zoom=1.5), "sfx": "content/sfx/sound/be/light5.mp3", "duration": 2.23, "aim": {"point": "bc", "anchor": (0.5, 1.0), "yo": 70}},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.1},
-                target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.5, "duration": 1.4},
+                target_sprite_damage_effect={"gfx": "on_light_with_shake", "initial_pause": 0.5, "duration": 1.4},
                 target_death_effect={"gfx": "hide", "initial_pause": 1.5, "duration": 0.0001})
         BE_Action(u"Star Light", menu_pos=0.5, attributes=["magic", "light"], effect=60, multiplier=1.3, mp_cost=35, range=4,
                 desc="A powerful and painful flash of star light.",
                 attacker_effects={"gfx": "light_2", "sfx": "default"}, piercing=True,
                 main_effect={"gfx": Transform("light_6_webm", zoom=1.4), "sfx": "content/sfx/sound/be/light2.mp3", "duration": 0.96, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
-                target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 0.1, "duration": 0.8},
+                target_sprite_damage_effect={"gfx": "on_light_with_shake", "initial_pause": 0.1, "duration": 0.8},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":1.0, "duration": 0.4})
         BE_Action(u"Photon Blade", menu_pos=1, attributes=["magic", "light"], effect=60, multiplier=1.4, mp_cost=55, range=4,
@@ -1553,15 +1557,15 @@ label load_battle_skills:
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5})
         # Buffs:
-        DefenceBuffSpell("Aery Field", menu_pos=-1, attributes=["status", "air"], kind="buff", defence_multiplier={"ranged": 1.5}, buff_group="ranged shield", buff_icon=ProportionalScale("content/gfx/be/buffs/ranged_def.png", 30, 30), mp_cost=0.1, vitality_cost=0.3, range=4, type="sa",
+        DefenceBuffSpell("Aery Field", menu_pos=-1, attributes=["status", "air"], kind="buff", defence_multiplier={"ranged": 1.5}, buff_group="ranged shield", buff_icon=ProportionalScale("content/gfx/be/buffs/ranged_def.png", 30, 30), mp_cost=0.1, vitality_cost=0.3, range=4, type="sa", defence_gfx="air_shield",
                 desc="Creates a force field around the target, reducing damage from ranged attacks.",
-                main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
+                main_effect={"gfx": Transform(AlphaBlend(ImageReference("ranged_shield1_webm"), ImageReference("ranged_shield1_webm"), green_shield(350, 300), alpha=True), size=(350, 300)), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 0.967, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
                 target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": None},
                 target_death_effect={"gfx": None})
-        DefenceBuffSpell("Aery Shield", menu_pos=-1, attributes=["status", "air"], kind="buff", defence_multiplier={"ranged": 3.0}, buff_group="ranged shield", buff_icon=ProportionalScale("content/gfx/be/buffs/big_ranged_def.png", 30, 30), mp_cost=0.2, vitality_cost=0.5, range=4, type="sa",
+        DefenceBuffSpell("Aery Shield", menu_pos=-1, attributes=["status", "air"], kind="buff", defence_multiplier={"ranged": 3.0}, buff_group="ranged shield", buff_icon=ProportionalScale("content/gfx/be/buffs/big_ranged_def.png", 30, 30), mp_cost=0.2, vitality_cost=0.5, range=4, type="sa", defence_gfx="air_shield",
                 desc="Creates a powerful force field around the target, reducing damage from ranged attacks.",
-                main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
+                main_effect={"gfx": Transform(AlphaBlend(ImageReference("ranged_shield1_webm"), ImageReference("ranged_shield1_webm"), green_shield(350, 300), alpha=True), size=(350, 300)), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 0.967, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
                 target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": None},
                 target_death_effect={"gfx": None})
@@ -1577,23 +1581,23 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": None},
                 target_death_effect={"gfx": None})
-        DefenceBuffSpell("Solid Field", menu_pos=-1, attributes=["status", "earth"], kind="buff", defence_multiplier={"melee": 1.5}, buff_group="melee shield", buff_icon=ProportionalScale("content/gfx/be/buffs/melee_def.png", 30, 30), mp_cost=0.2, vitality_cost=0.4, range=4, type="sa",
+        DefenceBuffSpell("Solid Field", menu_pos=-1, attributes=["status", "earth"], kind="buff", defence_multiplier={"melee": 1.5}, buff_group="melee shield", buff_icon=ProportionalScale("content/gfx/be/buffs/melee_def.png", 30, 30), mp_cost=0.2, vitality_cost=0.4, range=4, type="sa", defence_gfx="solid_shield",
                 desc="Sets up a force field around the target, partly shielding from melee damage.",
-                main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
+                main_effect={"gfx": Transform("shield_1", size=(400, 400)), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.0, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
                 target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": None},
                 target_death_effect={"gfx": None})
-        DefenceBuffSpell("Solid Shield", menu_pos=-1, attributes=["status", "earth"], kind="buff", defence_multiplier={"melee": 3.0}, buff_group="melee shield", vitality_cost=0.7, mp_cost=0.2, buff_icon=ProportionalScale("content/gfx/be/buffs/big_melee_def.png", 30, 30), range=4, type="sa",
+        DefenceBuffSpell("Solid Shield", menu_pos=-1, attributes=["status", "earth"], kind="buff", defence_multiplier={"melee": 3.0}, buff_group="melee shield", vitality_cost=0.7, mp_cost=0.2, buff_icon=ProportionalScale("content/gfx/be/buffs/big_melee_def.png", 30, 30), range=4, type="sa", defence_gfx="solid_shield",
                 desc="Sets up a powerful force field around the target, shielding from melee damage.",
-                main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
+                main_effect={"gfx": Transform("shield_1", size=(400, 400)), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.0, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
                 target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": None},
                 target_death_effect={"gfx": None})
         DefenceBuffSpell("Gray Shield", menu_pos=-1, attributes=["status", "darkness", "light"], kind="buff",
-                defence_multiplier={"melee": 4.0, "magic": 4.0, "ranged": 4.0, "status": 4.0}, buff_group="melee shield",
+                defence_multiplier={"melee": 3.0, "magic": 3.0, "ranged": 3.0}, buff_group="melee shield",
                 vitality_cost=1.0, mp_cost=0.5, buff_icon=ProportionalScale("content/gfx/be/buffs/gray.png", 30, 30),
                 range=4, type="sa", defence_gfx="gray_shield",
-                desc="The apathy of the Gray Ring denies the existence of attacks because it's such a bother to deal with them...",
+                desc="The apathy of the Gray Ring denies the existence of most incoming attacks, decreasing their power, because it's such a bother to deal with them...",
                 main_effect={"gfx": AlphaBlend("magic_shield_webm", "magic_shield_webm", gray_shield(340, 330), alpha=True), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
                 target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": None},

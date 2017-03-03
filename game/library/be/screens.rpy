@@ -41,11 +41,10 @@ init: # screens:
                 add Transform(t.besprite, pos=t.cpos, alpha=0.4)
 
             frame:
-                style_group "dropdown_gm"
+                style "dropdown_gm_frame"
                 align (0.5, 0.88)
                 textbutton "Cancel":
-                    # style "dropdown_gm_button"
-
+                    style "basic_button"
                     action Return(False)
 
     screen pick_skill(char):

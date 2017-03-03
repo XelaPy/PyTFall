@@ -34,7 +34,8 @@ init -1 python: # Core classes:
             """
             self.teams = list() # Each team represents a faction on the battlefield. 0 index for left team and 1 index for right team.
             self.queue = list() # List of events in BE..
-            self.bg = ConsitionSwitcher("default", {"default": bg, "black": Solid("#000000"), "mirrage": Mirage(bg, amplitude=0.04, wavelength=10, ycrop=10)}) # Background we'll use.
+
+            self.bg = ConsitionSwitcher("default", {"default": bg, "black": Solid("#000000"), "mirage": Mirage(bg, resize=get_size(bg), amplitude=0.04, wavelength=10, ycrop=10)}) # Background we'll use.
 
             if music == "random":
                 self.music = choice(ilists.battle_tracks)
@@ -1507,10 +1508,6 @@ init -1 python: # Core classes:
                 elif type == "on_air":
                     what = target.besprite
                     at_list = [blowing_wind()]
-                elif type.startswith("on_light"):
-                    what = target.besprite
-                    t = self.target_sprite_damage_effect.get("duration", 1)
-                    at_list = [light_ray(target.besprite, t)]
                 elif type.startswith("iced"):
                     child = Transform("content/gfx/be/frozen.jpg", size=target.besprite_size)
                     mask = target.besprite
@@ -1519,7 +1516,13 @@ init -1 python: # Core classes:
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type.startswith("on_darkness"):
                     size = int(target.besprite_size[0]*1.5), 60
-                    what = Fixed(target.besprite, Transform("be_dark_mask", size=size, align=(.5, .5)), xysize=(target.besprite_size))
+                    what = Fixed(target.besprite, Transform("be_dark_mask", size=size, align=(.5, 1.0), alpha=0.8), xysize=(target.besprite_size))
+                    if type.endswith("shake"):
+                        at_list = [damage_shake(0.05, (-10, 10))]
+                elif type.startswith("on_light"):
+                    # size = int(target.besprite_size[0]*1.5), 60
+                    size = int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5)
+                    what = Fixed(target.besprite, Transform("be_light_mask", size=size, align=(.5, 1.0), alpha=0.3), xysize=(target.besprite_size))
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type == "on_death":
@@ -1708,7 +1711,7 @@ init -1 python: # Core classes:
             if sfx:
                 renpy.sound.play(sfx)
 
-            if gfx in ["mirrage"]:
+            if gfx in ["mirage"]:
                 battle.bg.change(gfx)
             if gfx in ["black"]:
                 renpy.with_statement(None)
@@ -1718,7 +1721,7 @@ init -1 python: # Core classes:
 
         def hide_bg_main_effect(self):
             gfx = self.bg_main_effect["gfx"]
-            if gfx in ["mirrage"]:
+            if gfx in ["mirage"]:
                 battle.bg.change("default")
             if gfx in ["black"]:
                 renpy.with_statement(None)
@@ -1796,7 +1799,13 @@ init -1 python: # Core classes:
                         elif gfx == "gray_shield":
                             # raise Exception("M")
                             tag = "dodge" + str(index)
-                            renpy.show(tag, what=AlphaBlend("magic_shield_webm", "magic_shield_webm", gray_shield(340, 330), alpha=True), at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
+                            renpy.show(tag, what=AlphaBlend(ImageReference("resist"), ImageReference("resist"), gray_shield(300, 300), alpha=True), at_list=[Transform(size=(300, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
+                        elif gfx == "air_shield":
+                            tag = "dodge" + str(index)
+                            renpy.show(tag, what=AlphaBlend(ImageReference("ranged_shield_webm"), ImageReference("ranged_shield_webm"), green_shield(350, 300), alpha=True), at_list=[Transform(size=(350, 300), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
+                        elif gfx == "solid_shield":
+                            tag = "dodge" + str(index)
+                            renpy.show(tag, what=ImageReference("shield_2"), at_list=[Transform(size=(400, 400), pos=battle.get_cp(target, type="center"), anchor=(.5, .5))], zorder=target.besk["zorder"]+1)
 
         def hide_dodge_effect(self, targets):
             # gfx = self.dodge_effect.get("gfx", "dodge")

@@ -241,7 +241,7 @@ screen char_profile():
                     idle img
                     hover img
                     hovered tt.Action("{=library_book_header_main}{color=[blue]}{size=17}%s{/=}{/color}{/size}"%trait.id + "\n" + trait.desc)
-                    action Show("show_trait_info", trait=trait.id, place="main_trait")
+                    action Show("show_trait_info", trait=trait.id, place="main_trait", tt=tt)
                 align (.0, .0)
                 xysize (330, 126)
                 add Transform("content/gfx/frame/base_frame.png", alpha=0.9, size=(330, 126))
@@ -412,7 +412,7 @@ screen char_profile():
                                 button:
                                     xysize (100, 100)
                                     background img
-                                    action Show("show_trait_info", trait=trait.id, place="race_trait")
+                                    action Show("show_trait_info", trait=trait.id, place="race_trait", tt=tt)
                                     hover_background im.MatrixColor(img, im.matrix.brightness(0.10))
 
                     # Basetraits:
@@ -661,7 +661,7 @@ screen char_profile():
                                         button:
                                             background Null()
                                             xsize 147
-                                            action Show("show_trait_info", trait=trait.id)
+                                            action Show("show_trait_info", trait=trait.id, tt=tt)
                                             text trait.id idle_color ivory size 15 align .5, .5 hover_color crimson text_align .5
                                             hovered tt.Action(u"%s"%trait.desc)
                                             hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
@@ -752,11 +752,11 @@ screen char_profile():
 
     use top_stripe(True)
 
-screen show_trait_info(trait=None, place="girl_trait"): # TO DO: upkeep made via mod field is not visible here; since upkeep is disabled atm, I dunno if it even should be made via mod or mod_stat
+screen show_trait_info(trait=None, place="girl_trait", tt=None): # TODO: upkeep made via mod field is not visible here; since upkeep is disabled atm, I dunno if it even should be made via mod or mod_stat
     $ trait_info = traits[trait]
     if place == "girl_trait":
         if trait != "Manly":
-            $ al = (.69, .6)
+            $ al = (.69, .4)
         else:
             $ al = (.69, .2)
     elif place == "mc_trait":
@@ -768,138 +768,128 @@ screen show_trait_info(trait=None, place="girl_trait"): # TO DO: upkeep made via
 
     fixed:
         align al
-        xysize 170, 200
+        xysize 190, 450
         frame:
             background Frame("content/gfx/frame/p_frame52.png", 10, 10)
-            xsize 170 # yminimum 100
             padding 10, 5
             has vbox style_prefix "proper_stats" spacing 1
-            if trait_info.min or trait_info.max or trait_info.mod_stats or trait_info.effects or trait_info.mod_skills or trait_info.mod_ap or hasattr(trait_info, "evasion_bonus"):
+            if any([trait_info.min, trait_info.max, trait_info.mod_stats, trait_info.effects,
+                    trait_info.mod_skills, trait_info.mod_ap, hasattr(trait_info, "evasion_bonus")]):
                 if trait_info.max:
                     label (u"Max:") text_size 20 text_color goldenrod text_bold True xalign .45
-                    for i in trait_info.max:
+                    for stat, value in trait_info.max.iteritems():
                         frame:
-                            xsize 150
-                            button:
-                                background Null()
-                                xsize 150
-                                action NullAction()
-                                if trait_info.max[i] < 0:
-                                    text (str(i).title() + ": " + str(trait_info.max[i])) size 15 color red align .5, .5 text_align .5
-                                else:
-                                    text (str(i).title() + ": +" + str(trait_info.max[i])) size 15 color green align .5, .5 text_align .5
+                            xysize 170, 20
+                            if value < 0:
+                                text stat.title() size 15 color red align .0, .5
+                                label str(value) text_size 15 text_color red align 1.0, .5
+                            else:
+                                text stat.title() size 15 color green align .0, .5
+                                label "+" + str(value) text_size 15 text_color green align 1.0, .5
                 if trait_info.min:
                     label (u"Min:") text_size 20 text_color goldenrod text_bold True xalign .45
-                    for i in trait_info.min:
+                    for stat, value in trait_info.min.iteritems():
                         frame:
-                            xsize 150
-                            button:
-                                background Null()
-                                xsize 150
-                                action NullAction()
-                                if trait_info.min[i] < 0:
-                                    text (str(i).title() + ": " + str(trait_info.min[i])) size 15 color red align .5, .5 text_align .5
-                                else:
-                                    text (str(i).title() + ": +" + str(trait_info.min[i])) size 15 color green align .5, .5 text_align .5
+                            xysize 170, 20
+                            if value < 0:
+                                text stat.title() size 15 color red align .0, .5
+                                label str(value) text_size 15 text_color red align 1.0, .5
+                            else:
+                                text stat.title() size 15 color green align .0, .5
+                                label "+" + str(value) text_size 15 text_color green align 1.0, .5
                 if trait_info.mod_stats:
                     label (u"Bonus:") text_size 20 text_color goldenrod text_bold True xalign .45
                     for i in trait_info.mod_stats:
                         frame:
-                            xsize 150
-                            button:
-                                background Null()
-                                xsize 150
-                                action NullAction()
-                                if str(i) != "disposition":
-                                    if (trait_info.mod_stats[i])[0] < 0:
-                                        text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0]) + " every " + str((trait_info.mod_stats[i])[1]) + " lvl") align .5, .5 size 15 color red text_align .5
-                                    else:
-                                        text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0]) + " every " + str((trait_info.mod_stats[i])[1]) + " lvl") align .5, .5 size 15 color green text_align .5
+                            xysize 170, 20
+                            if str(i) != "disposition":
+                                if (trait_info.mod_stats[i])[0] < 0:
+                                    text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0]) + " every " + str((trait_info.mod_stats[i])[1]) + " lvl") align .5, .5 size 15 color red text_align .5
                                 else:
-                                    if (trait_info.mod_stats[i])[0] < 0:
-                                        text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color red text_align .5
-                                    else:
-                                        text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color green text_align .5
+                                    text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0]) + " every " + str((trait_info.mod_stats[i])[1]) + " lvl") align .5, .5 size 15 color green text_align .5
+                            else:
+                                if (trait_info.mod_stats[i])[0] < 0:
+                                    text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color red text_align .5
+                                else:
+                                    text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color green text_align .5
                 if trait_info.effects:
                     label (u"Effects:") text_size 20 text_color goldenrod text_bold True xalign .45
                     for i in trait_info.effects:
                         frame:
-                            xsize 150
-                            button:
-                                background Null()
-                                xsize 150
-                                action NullAction()
-                                text (str(i).title()) size 15 color yellow align .5, .5 text_align .5
+                            xysize 170, 20
+                            text (str(i).title()) size 15 color yellow align .5, .5 text_align .5
 
                 if trait_info.mod_skills:
                     label (u"Skills:") text_size 20 text_color goldenrod text_bold True xalign .45
-                    for i in trait_info.mod_skills:
+                    for skill, data in trait_info.mod_skills.iteritems():
                         frame:
-                            xsize 150
+                            xysize 170, 20
+                            # has hbox xsize 170
+                            text str(skill).title() size 15 color yellowgreen align .0, .5
+
+                            $ img_path = "content/gfx/be/buffs/"
+                            default PS = ProportionalScale
                             button:
-                                background Null()
-                                xsize 150
+                                style "default"
+                                xysize 20, 18
                                 action NullAction()
-                                $ output = str(i).title() + ": "
-                                if (trait_info.mod_skills[i])[0] > 0:
-                                    $ output += "{image=skills_knowledge_plus}" + " "
-                                elif (trait_info.mod_skills[i])[0] < 0:
-                                    $ output += "{image=skills_knowledge_minus}" + " "
-                                if (trait_info.mod_skills[i])[1] > 0:
-                                    $ output += "{image=skills_book_plus}" + " "
-                                elif (trait_info.mod_skills[i])[1] < 0:
-                                    $ output += "{image=skills_book_minus}" + " "
-                                if (trait_info.mod_skills[i])[2] > 0:
-                                    $ output += "{image=skills_perf_plus}"
-                                elif (trait_info.mod_skills[i])[2] < 0:
-                                    $ output += "{image=skills_perf_minus}"
-                                text (output) align .5, .5 size 15 color yellowgreen text_align .5
+                                align .99, .5
+                                if tt:
+                                    hovered tt.action("ADD SKILLS TRAIT INFO HERE!")
+                                if data[0] > 0:
+                                    add PS(img_path + "left_green.png", 20, 20)
+                                elif data[0] < 0:
+                                    add PS(img_path + "left_red.png", 20, 20)
+                                if data[1] > 0:
+                                    add PS(img_path + "right_green.png", 20, 20)
+                                elif data[1] < 0:
+                                    add PS(img_path + "right_red.png", 20, 20)
+                                if data[2] > 0:
+                                    add PS(img_path + "top_green.png", 20, 20)
+                                elif data[2] < 0:
+                                    add PS(img_path + "top_red.png", 20, 20)
                 if trait_info.mod_ap or hasattr(trait_info, "evasion_bonus") or hasattr(trait_info, "delivery_multiplier"):
                     label (u"Other:") text_size 20 text_color goldenrod text_bold True xalign .45
                     if trait_info.mod_ap:
                         frame:
-                            xsize 150
-                            button:
-                                background Null()
-                                xsize 150
-                                action NullAction()
-                                $ output = "AP"
-                                if trait_info.mod_ap > 0:
-                                    $ output += " +" + str(trait_info.mod_ap)
-                                else:
-                                    $ output += str(trait_info.mod_ap)
-                                text (output) align .5, .5 size 15 color yellowgreen text_align .5
+                            xysize 170, 20
+                            # button:
+                            #     background Null()
+                            #     xsize 150
+                            #     action NullAction()
+                            $ output = "AP"
+                            if trait_info.mod_ap > 0:
+                                $ output += " +" + str(trait_info.mod_ap)
+                            else:
+                                $ output += str(trait_info.mod_ap)
+                            text (output) align .5, .5 size 15 color yellowgreen text_align .5
 
                     if hasattr(trait_info, "evasion_bonus"):
                         frame:
-                            xsize 150
-                            button:
-                                background Null()
-                                xsize 150
-                                action NullAction()
-                                if trait_info.evasion_bonus[1] < 0:
-                                    text ("Evasion -") size 15 color yellowgreen align .5, .5 text_align .5
-                                elif trait_info.evasion_bonus[1] > 0:
-                                    text ("Evasion +") size 15 color yellowgreen align .5, .5 text_align .5
+                            xysize 170, 20
+                            # button:
+                            #     background Null()
+                            #     xsize 150
+                            #     action NullAction()
+                            if trait_info.evasion_bonus[1] < 0:
+                                text ("Evasion -") size 15 color yellowgreen align .5, .5 text_align .5
+                            elif trait_info.evasion_bonus[1] > 0:
+                                text ("Evasion +") size 15 color yellowgreen align .5, .5 text_align .5
                     if hasattr(trait_info, "delivery_multiplier"):
                         for i in trait_info.delivery_multiplier:
                             frame:
-                                xsize 150
-                                button:
-                                    background Null()
-                                    xsize 150
-                                    action NullAction()
-                                    $ output = str(i).title() + " damage "
-                                    if trait_info.delivery_multiplier.get(str(i)) > 0:
-                                        $ output += "+"
-                                    else:
-                                        $ output += "-"
-                                    text (output) align .5, .5 size 15 color yellowgreen text_align .5
+                                xysize 170, 20
+                                $ output = str(i).title() + " damage "
+                                if trait_info.delivery_multiplier.get(str(i)) > 0:
+                                    $ output += "+"
+                                else:
+                                    $ output += "-"
+                                text (output) align .5, .5 size 15 color yellowgreen text_align .5
             else:
                 label ("-no direct effects-") text_size 15 text_color goldenrod text_bold True xalign .45
 
         imagebutton:
-            align .95, .05
+            align 1.0, .0
             xysize 22, 22
             idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
             hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
@@ -1146,7 +1136,6 @@ screen confirm_girl_sale():
                     action Hide("confirm_girl_sale")
                 textbutton "Yes":
                     action Return(['control', 'fire'])
-
 
 screen girl_finances():
     modal True
