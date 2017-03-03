@@ -74,6 +74,26 @@
         }
     },
     "item_hotspots": {
+        "Replica Sword": {
+            "spot": [614, 576, 127, 95],
+            "actions": [{
+                "function": "renpy.play",
+                "arguments": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+            },{
+                "function": "dungeon.say",
+                "arguments": ["", "You found a Replica Sword."]
+            }]
+        },
+        "Shuriken": {
+            "spot": [621, 631, 91, 49],
+            "actions": [{
+                "function": "renpy.play",
+                "arguments": ["content/sfx/sound/dungeon/shuriken.ogg", "voice"]
+            },{
+                "function": "dungeon.say",
+                "arguments": ["", "You found Shuriken."]
+            }]
+        }
     },
     "renderitem_hotspots": {
         "dagger": {
@@ -83,8 +103,27 @@
                 "arguments": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
             },{
                 "function": "dungeon.say",
-                "timer": 0.5,
                 "arguments": ["", "You found a dagger."]
+            }]
+        },
+        "ring": {
+            "spot": [695, 429, 41, 11],
+            "actions": [{
+                "function": "renpy.play",
+                "arguments": ["content/sfx/sound/dungeon/ring.ogg", "voice"]
+            },{
+                "function": "dungeon.say",
+                "arguments": ["", "This ring must be valuable!"]
+            }]
+        },
+        "bottle": {
+            "spot": [670, 309, 58, 127],
+            "actions": [{
+                "function": "renpy.play",
+                "arguments": ["content/sfx/sound/dungeon/bottle.ogg", "voice"]
+            },{
+                "function": "dungeon.say",
+                "arguments": ["", "An elixer of some kind!"]
             }]
         }
     },
@@ -136,7 +175,6 @@
         "C": {
             "(19, 11)": [{
                 "function": "dungeon.say",
-                "timer": 2.0,
                 "arguments": ["", "Finally, there's a hatch here, you climb out of the catacombs."]
             },{
                 "function": "dungeon.__setattr__",
@@ -149,7 +187,6 @@
         "^": {
             "(0, 11)": [{
                 "function": "dungeon.say",
-                "timer": 0.5,
                 "arguments": ["", "You descend the stairs."]
             },{
                 "load": "Mausoleum2",
@@ -168,7 +205,6 @@
         ".": {
             "(13, 0)": [{
                 "function": "dungeon.say",
-                "timer": 0.3,
                 "arguments": ["", "Something in here smells really bad."]
             }]
         }
@@ -282,7 +318,6 @@
         "A": {
             "(27, 25)": [{
                 "function": "dungeon.say",
-                "timer": 0.5,
                 "arguments": ["", "You ascend the stairs."]
             }, {
                 "load": "Mausoleum1",
