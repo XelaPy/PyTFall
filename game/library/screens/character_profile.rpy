@@ -827,7 +827,7 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None): # TODO: upkeep 
                             # has hbox xsize 170
                             text str(skill).title() size 15 color yellowgreen align .0, .5
 
-                            $ img_path = "content/gfx/be/buffs/"
+                            $ img_path = "content/gfx/interface/icons/skills_icons/"
                             default PS = ProportionalScale
                             button:
                                 style "default"
@@ -835,7 +835,7 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None): # TODO: upkeep 
                                 action NullAction()
                                 align .99, .5
                                 if tt:
-                                    hovered tt.action("ADD SKILLS TRAIT INFO HERE!")
+                                    hovered tt.action("Icon represents skills changes. Green means bonus, red means penalty. Left one is action counter, right one is training counter, top one is resulting value.")
                                 if data[0] > 0:
                                     add PS(img_path + "left_green.png", 20, 20)
                                 elif data[0] < 0:
@@ -853,10 +853,6 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None): # TODO: upkeep 
                     if trait_info.mod_ap:
                         frame:
                             xysize 170, 20
-                            # button:
-                            #     background Null()
-                            #     xsize 150
-                            #     action NullAction()
                             $ output = "AP"
                             if trait_info.mod_ap > 0:
                                 $ output += " +" + str(trait_info.mod_ap)
@@ -867,10 +863,6 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None): # TODO: upkeep 
                     if hasattr(trait_info, "evasion_bonus"):
                         frame:
                             xysize 170, 20
-                            # button:
-                            #     background Null()
-                            #     xsize 150
-                            #     action NullAction()
                             if trait_info.evasion_bonus[1] < 0:
                                 text ("Evasion -") size 15 color yellowgreen align .5, .5 text_align .5
                             elif trait_info.evasion_bonus[1] > 0:

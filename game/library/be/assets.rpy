@@ -936,8 +936,8 @@ label load_battle_skills:
                 desc="By sacrificing some life energy a small piece of the Death powers can be summoned to join the battle.",
                 main_effect={"gfx": Transform("death_scythe_webm", zoom=1.2), "sfx": "content/sfx/sound/be/death_skythe.ogg", "duration": 1.46, "aim": {"anchor": (0.5, 0.5), "xo": 180, "yo":-70}, "hflip": True},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .3},
-                bg_main_effect={"gfx": "mirage", "initial_pause": 0.3, "duration": 1.1},
-                target_sprite_damage_effect={"gfx": "on_death", "initial_pause": .35, "duration": 1.0})
+                bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 1.5},
+                target_sprite_damage_effect={"gfx": "on_death", "initial_pause": .3, "duration": 1.25})
         # Spray Attacks:
         BE_Action("Spray", attributes=["ranged", "poison"], critpower=-0.3, effect=100, range=2, vitality_cost=3, menu_pos=0, multiplier=0.5,
                 desc="Spraying a dangerous substance.",

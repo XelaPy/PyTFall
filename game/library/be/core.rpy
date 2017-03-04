@@ -1516,17 +1516,16 @@ init -1 python: # Core classes:
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type.startswith("on_darkness"):
                     size = int(target.besprite_size[0]*1.5), 60
-                    what = Fixed(target.besprite, Transform("be_dark_mask", size=size, align=(.5, 1.0), alpha=0.8), xysize=(target.besprite_size))
+                    what = Fixed(target.besprite, Transform("be_dark_mask", size=size, anchor=(0.5, 0.3), align=(.5, 1.0), alpha=0.8), xysize=(target.besprite_size))
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type.startswith("on_light"):
-                    # size = int(target.besprite_size[0]*1.5), 60
-                    size = int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5)
-                    what = Fixed(target.besprite, Transform("be_light_mask", size=size, align=(.5, 1.0), alpha=0.3), xysize=(target.besprite_size))
+                    size = int(target.besprite_size[0]*2.5), int(target.besprite_size[1]*2.5)
+                    what = Fixed(target.besprite, Transform("be_light_mask", size=size, align=(.5, 1.0), alpha=0.6), xysize=(target.besprite_size))
                     if type.endswith("shake"):
                         at_list = [damage_shake(0.05, (-10, 10))]
                 elif type == "on_death":
-                    what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, dark_death_color(*target.besprite_size), alpha=True)
+                    what = AlphaBlend(Transform(target.besprite, alpha=.5), target.besprite, dark_death_color(*target.besprite_size), alpha=True)
                 elif type.startswith("on_dark"):
                     child = Transform("content/gfx/be/darken.jpg", size=target.besprite_size)
                     mask = target.besprite
