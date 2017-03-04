@@ -5040,33 +5040,45 @@ init -10 python:
                 total_points = 0 # We need 100 to tier up...
 
             default_points = 12.5
+            stats_skills_points = 0
             for trait in self.traits.basetraits:
                 # Skills first (We calc this as 12.5% of the total)
                 len_skills = len(trait.base_skills)
                 if not len_skills: # Some weird ass base trait, we just award 33% of total possible points.
-                    total_points += default_points*.33
+                    stats_skills_points += default_points*.33
                 else:
                     # Otherwise we get the weighted mean...
                     # Formula from SO:
                     # sum(x * y for x, y in zip(rate, amount)) / sum(amount)
                     skills = self.traits.basetraits.base_skills.iteritems()
-                    total_sp = sum(self.get_skill(x) * y for x, y in skills) / sum(len_skills)
-                    total_sp_required = sum(MAX_SKILLS[x] * y for x, y in skills) / sum(len_skills)
+                    total_sp = sum(self.get_skill(x) * y for x, y in skills) / len_skills
+                    total_sp_required = sum(MAX_SKILLS[x] * y for x, y in skills) / len_skills
                     skill_bonus = default_points*total_sp/total_sp_required
-                    total_points += skill_bonus
+                    stats_skills_points += skill_bonus
 
                 stats = len(trait.base_stats)
                 if not len_stats: # Some weird ass base trait, we just award 33% of total possible points.
-                    total_points += default_points*.33
+                    stats_skills_points += default_points*.33
                 else:
                     # Otherwise we get the weighted mean...
                     # Formula from SO:
                     # sum(x * y for x, y in zip(rate, amount)) / sum(amount)
                     stats = self.traits.basetraits.base_stats.iteritems()
-                    total_sp = sum(getattr(self, x) * y for x, y in stats) / sum(len_stats)
-                    total_sp_required = sum(self.get_max(x) * y for x, y in stats) / sum(len_stats)
+                    total_sp = sum(getattr(self, x) * y for x, y in stats) / len_stats
+                    total_sp_required = sum(self.get_max(x) * y for x, y in stats) / len_stats
                     stat_bonus = default_points*total_sp/total_sp_required
-                    total_points += stat_bonus
+                    stats_skills_points += stat_bonus
+
+            if len(self.traits.basetraits) == 1:
+                stats_skills_points *= 2
+
+            total_points += stats_skills_points
+
+            if total_points >= 100:
+                self.tier += 1 # we tier up and return True!
+                return True
+            else:
+                return False
 
         def calc_expected_wage(self):
             """
