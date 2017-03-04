@@ -5049,25 +5049,24 @@ init -10 python:
                     # Otherwise we get the weighted mean...
                     # Formula from SO:
                     # sum(x * y for x, y in zip(rate, amount)) / sum(amount)
-                    skillz = self.traits.basetraits.base_skills.iteritems()
-                    total_sp = sum(self.get_skill(x) * y for x, y in skillz) / sum(len_skills)
-                    total_sp_required = sum(MAX_SKILLS[x] * y for x, y in skillz) / sum(len_skills)
-                    skill_bonus = 12.5*default_points/total_sp_required
+                    skills = self.traits.basetraits.base_skills.iteritems()
+                    total_sp = sum(self.get_skill(x) * y for x, y in skills) / sum(len_skills)
+                    total_sp_required = sum(MAX_SKILLS[x] * y for x, y in skills) / sum(len_skills)
+                    skill_bonus = default_points*total_sp/total_sp_required
                     total_points += skill_bonus
 
-                len_stats = len(trait.base_stats)
+                stats = len(trait.base_stats)
                 if not len_stats: # Some weird ass base trait, we just award 33% of total possible points.
                     total_points += default_points*.33
                 else:
                     # Otherwise we get the weighted mean...
                     # Formula from SO:
                     # sum(x * y for x, y in zip(rate, amount)) / sum(amount)
-                    skillz = self.traits.basetraits.base_skills.iteritems()
-                    total_sp = sum(self.get_skill(x) * y for x, y in skillz) / sum(len_skills)
-                    total_sp_required = sum(MAX_SKILLS[x] * y for x, y in skillz) / sum(len_skills)
-                    skill_bonus = 12.5*default_points/total_sp_required
-                    total_points += skill_bonus
-
+                    stats = self.traits.basetraits.base_stats.iteritems()
+                    total_sp = sum(getattr(self, x) * y for x, y in stats) / sum(len_stats)
+                    total_sp_required = sum(self.get_max(x) * y for x, y in stats) / sum(len_stats)
+                    stat_bonus = default_points*total_sp/total_sp_required
+                    total_points += stat_bonus
 
         def calc_expected_wage(self):
             """
