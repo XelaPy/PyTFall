@@ -3981,6 +3981,11 @@ init -9 python:
             self.say_screen_portrait = DynamicDisplayable(self._portrait)
             self.say_screen_portrait_overlay_mode = None
 
+            # We calc teir of a character... only for chars for now? Maybe for MC later?
+            for i in range(10):
+                if not self.recalculate_tier():
+                    break
+
             super(Char, self).init()
 
         def get_availible_pics(self):
@@ -5033,11 +5038,13 @@ init -10 python:
             """
             target_tier = self.tier+1.0 # To get a float for Py2.7
             target_level = (target_tier)*20
+            tier_points = 0 # We need 100 to tier up!
 
+            level_points = 0
             if self.level >= target_level:
-                total_points = 50
+                level_points = 50
             else:
-                total_points = 0 # We need 100 to tier up...
+                level_points = 0
 
             default_points = 12.5
             stats_skills_points = 0
@@ -5047,32 +5054,34 @@ init -10 python:
                 if not len_skills: # Some weird ass base trait, we just award 33% of total possible points.
                     stats_skills_points += default_points*.33
                 else:
-                    # Otherwise we get the weighted mean...
-                    # Formula from SO:
-                    # sum(x * y for x, y in zip(rate, amount)) / sum(amount)
-                    skills = self.traits.basetraits.base_skills.iteritems()
-                    total_sp = sum(self.get_skill(x) * y for x, y in skills) / len_skills
-                    total_sp_required = sum(MAX_SKILLS[x] * y for x, y in skills) / len_skills
-                    skill_bonus = default_points*total_sp/total_sp_required
+                    try:
+                        skills = trait.base_skills
+                        total_sp = sum(self.get_skill(x)*.01 * y for x, y in skills.iteritems()) / float(len_skills)
+                        total_sp_required = sum(SKILLS_MAX[x]*.01 * y for x, y in skills.iteritems()) / float(len_skills)
+                        skill_bonus = default_points*total_sp/total_sp_required
+                    except:
+                        raise Exception(self, self.id, dict(trait.base_skills), len_skills)
                     stats_skills_points += skill_bonus
 
-                stats = len(trait.base_stats)
+                len_stats = len(trait.base_stats)
                 if not len_stats: # Some weird ass base trait, we just award 33% of total possible points.
                     stats_skills_points += default_points*.33
                 else:
-                    # Otherwise we get the weighted mean...
-                    # Formula from SO:
-                    # sum(x * y for x, y in zip(rate, amount)) / sum(amount)
-                    stats = self.traits.basetraits.base_stats.iteritems()
-                    total_sp = sum(getattr(self, x) * y for x, y in stats) / len_stats
-                    total_sp_required = sum(self.get_max(x) * y for x, y in stats) / len_stats
-                    stat_bonus = default_points*total_sp/total_sp_required
+                    try:
+                        stats = trait.base_stats
+                        total_sp = sum(getattr(self, x)*.01 * y for x, y in stats.iteritems()) / float(len_stats)
+                        total_sp_required = sum(self.get_max(x)*.01 * y for x, y in stats.iteritems()) / float(len_stats)
+                        stat_bonus = default_points*total_sp/total_sp_required
+                    except:
+                        raise Exception(self, self.id, dict(stats))
                     stats_skills_points += stat_bonus
 
             if len(self.traits.basetraits) == 1:
                 stats_skills_points *= 2
 
-            total_points += stats_skills_points
+            total_points = level_points + stats_skills_points
+
+            devlog.info("Name: {}, tier points for Teir {}: {} (lvl: {}, st/sk: {})".format(self.name, target_tier, total_points, level_points, stats_skills_points))
 
             if total_points >= 100:
                 self.tier += 1 # we tier up and return True!
