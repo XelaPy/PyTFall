@@ -34,10 +34,7 @@
     },
     "background": "dungeon_bluegrey%s_background",
     "visible": "#2346789abcdefABCD^",
-    "container": {
-        ".": { "x": 5, "y": 5},
-        "d": { "x": 5, "y": 5}
-    },
+    "container": ".d",
     "area_hotspots": {
         "(20, 2)": [{
             "spot": [591, 287, 30, 30],
@@ -269,10 +266,7 @@
     },
     "renderitem_hotspots": {
     },
-    "container": {
-        ".": { "x": 5, "y": 5},
-        "d": { "x": 5, "y": 5}
-    },
+    "container": "d.",
     "minimap": {
       "wall": {
         "area": "#2d",
