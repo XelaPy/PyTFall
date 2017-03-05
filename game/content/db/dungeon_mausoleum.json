@@ -39,39 +39,35 @@
         "d": { "x": 5, "y": 5}
     },
     "area_hotspots": {
-        "e": {
-            "(20, 2)": [{
-                "spot": [591, 287, 30, 30],
-                "actions": [{
-                    "function": "renpy.play",
-                    "arguments": ["content/sfx/sound/dungeon/button_click2.ogg", "voice"]
-                },{
-                    "function": "renpy.play",
-                    "arguments": ["content/sfx/sound/dungeon/open_door.ogg", "sound"]
-                },{
-                    "function": "dungeon.access_condition.__setitem__",
-                    "arguments": ["(20, 1)", {"access": true}]
-                }]
+        "(20, 2)": [{
+            "spot": [591, 287, 30, 30],
+            "actions": [{
+                "function": "renpy.play",
+                "arguments": ["content/sfx/sound/dungeon/button_click2.ogg", "voice"]
+            },{
+                "function": "renpy.play",
+                "arguments": ["content/sfx/sound/dungeon/open_door.ogg", "sound"]
+            },{
+                "function": "dungeon.access_condition.__setitem__",
+                "arguments": ["(20, 1)", {"access": true}]
             }]
-        },
-        "f": {
-            "(32, 2)": [{
-                "spot": [591, 287, 30, 30],
-                "actions": [{
-                    "function": "renpy.play",
-                    "arguments": ["content/sfx/sound/dungeon/button_click2.ogg", "voice"]
-                },{
-                    "function": "renpy.play",
-                    "arguments": ["content/sfx/sound/dungeon/open_door.ogg", "sound"]
-                },{
-                    "function": "dungeon.access_condition.__setitem__",
-                    "arguments": ["(32, 3)", {"access": true}]
-                },{
-                    "function": "dungeon.access_condition.__setitem__",
-                    "arguments": ["(32, 11)", {"access": true}]
-                }]
+        }],
+        "(32, 2)": [{
+            "spot": [591, 287, 30, 30],
+            "actions": [{
+                "function": "renpy.play",
+                "arguments": ["content/sfx/sound/dungeon/button_click2.ogg", "voice"]
+            },{
+                "function": "renpy.play",
+                "arguments": ["content/sfx/sound/dungeon/open_door.ogg", "sound"]
+            },{
+                "function": "dungeon.access_condition.__setitem__",
+                "arguments": ["(32, 3)", {"access": true}]
+            },{
+                "function": "dungeon.access_condition.__setitem__",
+                "arguments": ["(32, 11)", {"access": true}]
             }]
-        }
+        }]
     },
     "item_hotspots": {
         "Replica Sword": {

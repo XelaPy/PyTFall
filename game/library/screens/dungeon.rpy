@@ -261,8 +261,8 @@ label enter_dungeon:
 
                 if distance == 1 and lateral == 0: # actions can be apply to front
                     front_str = str((x, y))
-                    if situ in dungeon.area_hotspots and front_str in dungeon.area_hotspots[situ]:
-                        hotspots.extend(dungeon.area_hotspots[situ][front_str])
+                    if front_str in dungeon.area_hotspots:
+                        hotspots.extend(dungeon.area_hotspots[front_str])
 
                     for k in ["item", "renderitem"]:
 
