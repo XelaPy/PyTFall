@@ -168,42 +168,34 @@
         "(48, 3)": [{"name": "bottle", "function": "im.matrix.tint", "arguments": [0.5, 0.1, 0.1] }]
     },
     "event": {
-        "C": {
-            "(19, 11)": [{
-                "function": "dungeon.say",
-                "arguments": ["", "Finally, there's a hatch here, you climb out of the catacombs."]
-            },{
-                "function": "dungeon.__setattr__",
-                "arguments": ["hero", { "x": 1, "y": 1, "dx": 1, "dy": 0 }]
-            },{
-                "function": "renpy.jump",
-                "arguments": ["graveyard_town"]
-            }]
-        },
-        "^": {
-            "(0, 11)": [{
-                "function": "dungeon.say",
-                "arguments": ["", "You descend the stairs."]
-            },{
-                "load": "Mausoleum2",
-                "at": { "x": 27, "y": 26, "dx": 0, "dy": 1 }
-            }]
-        },
-        "c": {
-            "(25, 1)": [{
-                "function": "renpy.play",
-                "arguments": ["content/sfx/sound/dungeon/open_door.ogg", "sound"]
-            },{
-                "function": "dungeon.access_condition.__setitem__",
-                "arguments": ["(20, 1)", {"access": false}]
-            }]
-        },
-        ".": {
-            "(13, 0)": [{
-                "function": "dungeon.say",
-                "arguments": ["", "Something in here smells really bad."]
-            }]
-        }
+        "(19, 11)": [{
+            "function": "dungeon.say",
+            "arguments": ["", "Finally, there's a hatch here, you climb out of the catacombs."]
+        },{
+            "function": "dungeon.__setattr__",
+            "arguments": ["hero", { "x": 1, "y": 1, "dx": 1, "dy": 0 }]
+        },{
+            "function": "renpy.jump",
+            "arguments": ["graveyard_town"]
+        }],
+        "(0, 11)": [{
+            "function": "dungeon.say",
+            "arguments": ["", "You descend the stairs."]
+        },{
+            "load": "Mausoleum2",
+            "at": { "x": 27, "y": 26, "dx": 0, "dy": 1 }
+        }],
+        "(25, 1)": [{
+            "function": "renpy.play",
+            "arguments": ["content/sfx/sound/dungeon/open_door.ogg", "sound"]
+        },{
+            "function": "dungeon.access_condition.__setitem__",
+            "arguments": ["(20, 1)", {"access": false}]
+        }],
+        "(13, 0)": [{
+            "function": "dungeon.say",
+            "arguments": ["", "Something in here smells really bad."]
+        }]
     }
   },{
     "id": "Mausoleum2",
@@ -311,15 +303,13 @@
     "spawn": {},
     "renderitem": {},
     "event": {
-        "A": {
-            "(27, 25)": [{
-                "function": "dungeon.say",
-                "arguments": ["", "You ascend the stairs."]
-            }, {
-                "load": "Mausoleum1",
-                "at": { "x": 0, "y": 10, "dx": 0, "dy": -1 }
-            }]
-        }
+        "(27, 25)": [{
+            "function": "dungeon.say",
+            "arguments": ["", "You ascend the stairs."]
+        }, {
+            "load": "Mausoleum1",
+            "at": { "x": 0, "y": 10, "dx": 0, "dy": -1 }
+        }]
     }
   }
 ]

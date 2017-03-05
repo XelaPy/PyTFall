@@ -452,9 +452,8 @@ label enter_dungeon:
                 dungeon.enter()
 
             if to:
-                to_area = dungeon.map(*to)
-                if to_area in dungeon.event and str(to) in dungeon.event[to_area]:
-                    dungeon.next_events.extend(dungeon.event[to_area][str(to)])
+                if str(to) in dungeon.event:
+                    dungeon.next_events.extend(dungeon.event[str(to)])
                     _return = "event_list"
 
             if _return == "event_list":
