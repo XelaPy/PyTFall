@@ -66,7 +66,7 @@ label girl_interactions:
 
         if renpy.has_label("%s_greeting"%gm.mode):
             call expression ("%s_greeting"%gm.mode) from _call_expression
-            
+
 label girl_interactions_after_greetings: # when character wants to say something in the start of interactions, we need to skip greetings and go here
     python:
         # Show menu
@@ -278,7 +278,7 @@ label interactions_control:
                     if item.type == "romantic" and not(check_lovers(char, hero)) and char.disposition < 800:  # cannot give romantic gifts to anyone
                             dismod = -10
                     else:
-                        for t, v in getattr(items, "traits", {}).iteritems():
+                        for t, v in getattr(item, "traits", {}).iteritems():
                             if t in char.traits:
                                 dismod += v
 

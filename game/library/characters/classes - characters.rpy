@@ -5060,7 +5060,7 @@ init -10 python:
                         total_sp_required = sum(SKILLS_MAX[x]*.01 * y for x, y in skills.iteritems()) / float(len_skills)
                         skill_bonus = default_points*total_sp/total_sp_required
                     except:
-                        raise Exception(self, self.id, dict(trait.base_skills), len_skills)
+                        raise Exception(self.id, trait.base_skills, len_skills)
                     stats_skills_points += skill_bonus
 
                 len_stats = len(trait.base_stats)
@@ -5073,7 +5073,7 @@ init -10 python:
                         total_sp_required = sum(self.get_max(x)*.01 * y for x, y in stats.iteritems()) / float(len_stats)
                         stat_bonus = default_points*total_sp/total_sp_required
                     except:
-                        raise Exception(self, self.id, dict(stats))
+                        raise Exception(self.id, stats)
                     stats_skills_points += stat_bonus
 
             if len(self.traits.basetraits) == 1:
