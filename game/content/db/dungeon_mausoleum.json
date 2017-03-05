@@ -171,7 +171,6 @@
     "sound": {
       "bump": "content/sfx/sound/dungeon/bump.ogg"
     },
-    "hero": { "x": 1, "y": 1, "dx": 1, "dy": 0 },
     "item": {
         "(2, 1)": [{"name": "Replica Sword"}],
         "(23, 3)": [{"name": "Shuriken"}]
@@ -192,9 +191,6 @@
         "(19, 11)": [{
             "function": "dungeon.say",
             "arguments": ["", "Finally, there's a hatch here, you climb out of the catacombs."]
-        },{
-            "function": "dungeon.__setattr__",
-            "arguments": ["hero", { "x": 1, "y": 1, "dx": 1, "dy": 0 }]
         },{
             "function": "renpy.jump",
             "arguments": ["graveyard_town"]

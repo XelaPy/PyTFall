@@ -21,7 +21,7 @@ init -1 python:
                 renpy.play(*sound)
 
             if not timer:
-                timer = max(float(len(arguments[1])) / 50.0, 0.5)
+                timer = max(float(len(arguments[1])) / 30.0, 0.5)
 
             self.said = arguments
             while len(self.said) != 4:
@@ -59,10 +59,10 @@ init -1 python:
                 self.arrow.x = (self.hero['x'] - .3)*6 + 6
                 self.arrow.y = (self.hero['y'] - .2)*6 + 6
 
-            for p, m in self.spawn.iteritems():
-                m['mob'] = build_mob(id=m['name'], level=m['level'])
+                for p, m in self.spawn.iteritems():
+                    m['mob'] = build_mob(id=m['name'], level=m['level'])
 
-                self.add_timer(m['timer'], [{"function": "dungeon._move_npc", "arguments": [p, m] }])
+                    self.add_timer(m['timer'], [{"function": "dungeon._move_npc", "arguments": [p, m] }])
 
             return self.hero
 
@@ -97,7 +97,6 @@ init -1 python:
                     continue
             else:
                 to = at
-                devlog.warn(str((at, to, i)))
 
             to_str = str(to)
             if to != at:
@@ -271,7 +270,7 @@ label enter_dungeon:
 
         # Create a dungeon stage
         dungeon = dungeons['Mausoleum1']
-        pc = dungeon.enter()
+        pc = dungeon.enter(at={ "x": 1, "y": 1, "dx": 1, "dy": 0 })
         dungeon.say(arguments=["", "You enter the mausoleum. The door shuts behind you; you cannot get out this way!"])
         light=""
         mpos = None
@@ -428,7 +427,10 @@ label enter_dungeon:
                 if not access_denied:
                     (pc['x'], pc['y']) = to
 
-                elif not renpy.music.is_playing(channel="sound"):
+                elif access_denied == "spawn collision":
+                    pass
+
+                elif renpy.music.is_playing(channel="sound"):
                     renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 4:
@@ -444,6 +446,9 @@ label enter_dungeon:
                 if not access_denied:
                     (pc['x'], pc['y']) = to
 
+                elif access_denied == "spawn collision":
+                    pass
+
                 elif not renpy.music.is_playing(channel="sound"):
                     renpy.play(dungeon.sound['bump'], channel="sound")
 
@@ -454,6 +459,9 @@ label enter_dungeon:
                 if not access_denied:
                     (pc['x'], pc['y']) = to
 
+                elif access_denied == "spawn collision":
+                    pass
+
                 elif not renpy.music.is_playing(channel="sound"):
                     renpy.play(dungeon.sound['bump'], channel="sound")
 
@@ -463,6 +471,9 @@ label enter_dungeon:
                 access_denied = dungeon.no_access(at, to, ori ^ 2)
                 if not access_denied:
                     (pc['x'], pc['y']) = to
+
+                elif access_denied == "spawn collision":
+                    pass
 
                 elif not renpy.music.is_playing(channel="sound"):
                     renpy.play(dungeon.sound['bump'], channel="sound")
@@ -491,6 +502,7 @@ label enter_dungeon:
                         pc = dungeon.enter(**event)
                     elif event["function"] == "dungeon.say":
                         dungeon.say(**event)
+                        # rest of next_events is postponed until after say is done.
                         break
                     else:
                         dungeon.function(**event)
