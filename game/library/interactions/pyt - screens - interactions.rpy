@@ -266,7 +266,7 @@ label interactions_control:
 
                 # Give gift:
                 else:
-                    # Prevent repeteation of this action (any gift, we do this on per gift basis already):
+                    # Prevent repetition of this action (any gift, we do this on per gift basis already):
                     flag_name = "_day_countdown_interactions_gifts"
                     flag_value = int(char.flag(flag_name))
 
@@ -275,7 +275,7 @@ label interactions_control:
                     item = result[1]
                     dismod = getattr(item, "dismod", 0)
 
-                    if item.type == "romantic" and not(check_lovers(char, hero)) and char.disposition < 800:  # cannot give romantic gifts to anyone
+                    if item.type == "romantic" and not(check_lovers(char, hero)) and char.disposition < 700:  # cannot give romantic gifts to anyone
                             dismod = -10
                     else:
                         for t, v in getattr(items, "traits", {}).iteritems():
@@ -395,6 +395,14 @@ screen girl_interactions():
 
                 for item in hero.inventory:
                     if item.slot == "gift":
+                        $ dismod = getattr(item, "dismod", 0)
+                        if item.type == "romantic" and not(check_lovers(char, hero)) and char.disposition < 700:  # cannot give romantic gifts to anyone
+                            $ dismod = -10
+                        else:
+                            python:
+                                for t, v in getattr(items, "traits", {}).iteritems():
+                                    if t in char.traits:
+                                        dismod += v
                         button:
                             style "main_screen_3_button"
                             xysize (350, 100)
@@ -406,6 +414,18 @@ screen girl_interactions():
                                     text str(hero.inventory[item]) color ivory style "library_book_header_main" align (0, 0)
                                 null width 10
                                 text "[item.id]" yalign 0.5 style "library_book_header_sub" color ivory
+                                
+                                if 0 < dismod <= 30:
+                                    fixed:
+                                        xysize (90, 90)
+                                        add im.Scale("content/gfx/interface/icons/gift.png", 30, 30)
+                                elif dismod > 30:
+                                    fixed:
+                                        xysize (90, 90)
+                                        add im.Scale("content/gfx/interface/icons/gift.png", 30, 30)
+                                    fixed:
+                                        xysize (90, 90)
+                                        add im.Scale("content/gfx/interface/icons/gift.png", 30, 30)
                             action If(hero.AP > 0, Return(["gift", item]))
 
                 null height 10
