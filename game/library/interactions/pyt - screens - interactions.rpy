@@ -273,6 +273,7 @@ label interactions_control:
                     char.set_flag(flag_name, flag_value + 1)
 
                     item = result[1]
+                    item.hidden = False # We'll use existing hidden flag to hide items effectiveness.
                     dismod = getattr(item, "dismod", 0)
 
                     if item.type == "romantic" and not(check_lovers(char, hero)) and char.disposition < 700:  # cannot give romantic gifts to anyone
@@ -405,7 +406,7 @@ screen girl_interactions():
                                         dismod += v
                             flag_name = "_day_countdown_{}".format(item.id)
                             flag_value = int(char.flag(flag_name))
-                                        
+
                         button:
                             style "main_screen_3_button"
                             xysize (350, 100)
@@ -415,21 +416,22 @@ screen girl_interactions():
                                     xysize (90, 90)
                                     add im.Scale(item.icon, 90, 90)
                                     text str(hero.inventory[item]) color ivory style "library_book_header_main" align (0, 0)
-                                    if dismod <= 0:
-                                        if flag_value != 0:
-                                            add im.Sepia(im.Scale("content/gfx/interface/icons/gifts_0.png", 65, 35)) align (.0, 0.9)
-                                        else:
-                                            add im.Scale("content/gfx/interface/icons/gifts_0.png", 65, 35) align (.0, 0.9)
-                                    elif dismod <= 30:
-                                        if flag_value != 0:
-                                            add im.Sepia(im.Scale("content/gfx/interface/icons/gifts_1.png", 65, 35)) align (.0, 0.9)
-                                        else:
-                                            add im.Scale("content/gfx/interface/icons/gifts_1.png", 65, 35) align (.0, 0.9)
-                                    elif dismod > 30:
-                                        if flag_value != 0:
-                                            add im.Scale(im.Scale("content/gfx/interface/icons/gifts_2.png", 65, 35)) align (.0, 0.9)
-                                        else:
-                                            add im.Scale("content/gfx/interface/icons/gifts_2.png", 65, 35) align (.0, 0.9)
+                                    if not item.hidden:
+                                        if dismod <= 0:
+                                            if flag_value != 0:
+                                                add im.Sepia(im.Scale("content/gfx/interface/icons/gifts_0.png", 65, 35)) align (.0, 0.9)
+                                            else:
+                                                add im.Scale("content/gfx/interface/icons/gifts_0.png", 65, 35) align (.0, 0.9)
+                                        elif dismod <= 30:
+                                            if flag_value != 0:
+                                                add im.Sepia(im.Scale("content/gfx/interface/icons/gifts_1.png", 65, 35)) align (.0, 0.9)
+                                            else:
+                                                add im.Scale("content/gfx/interface/icons/gifts_1.png", 65, 35) align (.0, 0.9)
+                                        elif dismod > 30:
+                                            if flag_value != 0:
+                                                add im.Scale(im.Scale("content/gfx/interface/icons/gifts_2.png", 65, 35)) align (.0, 0.9)
+                                            else:
+                                                add im.Scale("content/gfx/interface/icons/gifts_2.png", 65, 35) align (.0, 0.9)
                                 null width 10
                                 text "[item.id]" yalign 0.5 style "library_book_header_sub" color ivory
 
