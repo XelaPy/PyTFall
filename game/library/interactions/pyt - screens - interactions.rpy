@@ -395,14 +395,17 @@ screen girl_interactions():
 
                 for item in hero.inventory:
                     if item.slot == "gift":
-                        $ dismod = getattr(item, "dismod", 0)
-                        if item.type == "romantic" and not(check_lovers(char, hero)) and char.disposition < 700:  # cannot give romantic gifts to anyone
-                            $ dismod = -10
-                        else:
-                            python:
-                                for t, v in getattr(items, "traits", {}).iteritems():
+                        python:
+                            dismod = getattr(item, "dismod", 0)
+                            if item.type == "romantic" and not(check_lovers(char, hero)) and char.disposition < 700:  # cannot give romantic gifts to anyone
+                                dismod = -10
+                            else:
+                                for t, v in getattr(item, "traits", {}).iteritems():
                                     if t in char.traits:
                                         dismod += v
+                            flag_name = "_day_countdown_{}".format(item.id)
+                            flag_value = int(char.flag(flag_name))
+                                        
                         button:
                             style "main_screen_3_button"
                             xysize (350, 100)
@@ -412,20 +415,24 @@ screen girl_interactions():
                                     xysize (90, 90)
                                     add im.Scale(item.icon, 90, 90)
                                     text str(hero.inventory[item]) color ivory style "library_book_header_main" align (0, 0)
+                                    if dismod <= 0:
+                                        if flag_value != 0:
+                                            add im.Sepia(im.Scale("content/gfx/interface/icons/gifts_0.png", 65, 35)) align (.0, 0.9)
+                                        else:
+                                            add im.Scale("content/gfx/interface/icons/gifts_0.png", 65, 35) align (.0, 0.9)
+                                    elif dismod <= 30:
+                                        if flag_value != 0:
+                                            add im.Sepia(im.Scale("content/gfx/interface/icons/gifts_1.png", 65, 35)) align (.0, 0.9)
+                                        else:
+                                            add im.Scale("content/gfx/interface/icons/gifts_1.png", 65, 35) align (.0, 0.9)
+                                    elif dismod > 30:
+                                        if flag_value != 0:
+                                            add im.Scale(im.Scale("content/gfx/interface/icons/gifts_2.png", 65, 35)) align (.0, 0.9)
+                                        else:
+                                            add im.Scale("content/gfx/interface/icons/gifts_2.png", 65, 35) align (.0, 0.9)
                                 null width 10
                                 text "[item.id]" yalign 0.5 style "library_book_header_sub" color ivory
-                                
-                                if 0 < dismod <= 30:
-                                    fixed:
-                                        xysize (90, 90)
-                                        add im.Scale("content/gfx/interface/icons/gift.png", 30, 30)
-                                elif dismod > 30:
-                                    fixed:
-                                        xysize (90, 90)
-                                        add im.Scale("content/gfx/interface/icons/gift.png", 30, 30)
-                                    fixed:
-                                        xysize (90, 90)
-                                        add im.Scale("content/gfx/interface/icons/gift.png", 30, 30)
+
                             action If(hero.AP > 0, Return(["gift", item]))
 
                 null height 10
