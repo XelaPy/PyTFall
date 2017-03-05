@@ -5040,11 +5040,11 @@ init -10 python:
             target_level = (target_tier)*20
             tier_points = 0 # We need 100 to tier up!
 
-            level_points = 0
-            if self.level >= target_level:
-                level_points = 50
-            else:
-                level_points = 0
+            level_points = self.level*50.0/target_level
+            # if self.level >= target_level:
+            #     level_points = 50
+            # else:
+            #     level_points = 0
 
             default_points = 12.5
             stats_skills_points = 0
