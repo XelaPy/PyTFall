@@ -67,8 +67,13 @@ init -1 python:
             return self.hero
 
         def _move_npc(self, at_str, m):
-            at = eval(at_str)
+
+            if not at_str in self.spawn:
+                devlog.warn("spawn at %s already died?" % at_str)
+                return
+
             hero = (self.hero['x'], self.hero['y'])
+            at = eval(at_str)
 
             # if within 5 of hero move about.
             for i in [0, 1]:
@@ -294,15 +299,14 @@ label enter_dungeon:
                     if front_str in dungeon.area_hotspots:
                         hotspots.extend(dungeon.area_hotspots[front_str])
 
-                    for k in ["item", "renderitem"]:
+                    for k in ["item", "renderitem", "spawn"]:
 
                         d_items = getattr(dungeon, k)
                         d_hotspots = getattr(dungeon, "%s_hotspots" % k)
 
                         if front_str in d_items:
                             actions = []
-                            for i in range(len(d_items[front_str])):
-                                ri = d_items[front_str][i]
+                            for ri in [d_items[front_str]] if k == "spawn" else d_items[front_str]:
                                 n = ri['name']
                                 if n in d_hotspots:
                                     e = d_hotspots[n].copy()
@@ -310,7 +314,7 @@ label enter_dungeon:
                                     e['actions'] = actions
                                     hotspots.append(e)
                             if actions:
-                                actions.insert(0, { "function": "dungeon.%s.__setitem__" % k, "arguments": [front_str, []]})
+                                actions.insert(0, { "function": "dungeon.%s.__delitem__" % k, "arguments": [front_str]})
 
                 situ = dungeon.map(x, y)
                 if situ in dungeon.container:

@@ -110,6 +110,40 @@
             }]
         }
     },
+    "spawn_hotspots": {
+        "Goblin": {
+            "spot": [520, 442, 234, 269],
+            "actions": [{
+                "function": "dungeon.say",
+                "arguments": ["", "You killed the goblin."],
+                "sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+            }]
+        },
+        "Devil Rat": {
+            "spot": [540, 376, 212, 278],
+            "actions": [{
+                "function": "dungeon.say",
+                "arguments": ["", "You killed the rat."],
+                "sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+            }]
+        },
+        "Bats": {
+            "spot": [536, 40, 226, 249],
+            "actions": [{
+                "function": "dungeon.say",
+                "arguments": ["", "You killed the bats."],
+                "sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+            }]
+        },
+        "Bear": {
+            "spot": [562, 321, 184, 339],
+            "actions": [{
+                "function": "dungeon.say",
+                "arguments": ["", "You killed the bear."],
+                "sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+            }]
+        }
+    },
     "access": [".79bABCD^", ".79cABCD^", ".79cABCD^", ".79bABCD^"],
     "conditional_access": ["3a8", "3a8", "3a8", "3a8"],
     "access_condition": {
@@ -255,6 +289,8 @@
     "item_hotspots": {
     },
     "renderitem_hotspots": {
+    },
+    "spawn_hotspots": {
     },
     "container": "d.",
     "minimap": {
