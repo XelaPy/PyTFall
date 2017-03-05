@@ -15,8 +15,11 @@ init -1 python:
             self.timer = None
             self.timed = {}
 
-        def say(self, arguments, timer=None, function=None):
+        def say(self, arguments, timer=None, function=None, sound=None):
             # a message will be displayed for a time, dependent on length of message
+            if sound:
+                renpy.play(*sound)
+
             if not timer:
                 timer = max(float(len(arguments[1])) / 50.0, 0.5)
 

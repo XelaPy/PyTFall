@@ -70,21 +70,17 @@
         "Replica Sword": {
             "spot": [614, 576, 127, 95],
             "actions": [{
-                "function": "renpy.play",
-                "arguments": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
-            },{
                 "function": "dungeon.say",
-                "arguments": ["", "You found a Replica Sword."]
+                "arguments": ["", "You found a Replica Sword."],
+                "sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
             }]
         },
         "Shuriken": {
             "spot": [621, 631, 91, 49],
             "actions": [{
-                "function": "renpy.play",
-                "arguments": ["content/sfx/sound/dungeon/shuriken.ogg", "voice"]
-            },{
                 "function": "dungeon.say",
-                "arguments": ["", "You found Shuriken."]
+                "arguments": ["", "You found Shuriken."],
+                "sound": ["content/sfx/sound/dungeon/shuriken.ogg", "voice"]
             }]
         }
     },
@@ -92,31 +88,25 @@
         "dagger": {
             "spot": [628, 420, 186, 20],
             "actions": [{
-                "function": "renpy.play",
-                "arguments": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
-            },{
                 "function": "dungeon.say",
-                "arguments": ["", "You found a dagger."]
+                "arguments": ["", "You found a dagger."],
+                "sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
             }]
         },
         "ring": {
             "spot": [695, 429, 41, 11],
             "actions": [{
-                "function": "renpy.play",
-                "arguments": ["content/sfx/sound/dungeon/ring.ogg", "voice"]
-            },{
                 "function": "dungeon.say",
-                "arguments": ["", "This ring must be valuable!"]
+                "arguments": ["", "This ring must be valuable!"],
+                "sound": ["content/sfx/sound/dungeon/ring.ogg", "voice"]
             }]
         },
         "bottle": {
             "spot": [670, 309, 58, 127],
             "actions": [{
-                "function": "renpy.play",
-                "arguments": ["content/sfx/sound/dungeon/bottle.ogg", "voice"]
-            },{
                 "function": "dungeon.say",
-                "arguments": ["", "An elixer of some kind!"]
+                "arguments": ["", "An elixer of some kind!"],
+                "sound": ["content/sfx/sound/dungeon/bottle.ogg", "voice"]
             }]
         }
     },
