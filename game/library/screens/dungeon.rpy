@@ -82,7 +82,7 @@ init -1 python:
                         to = at
                         break
                     to = (at[0], at[1] + 1) if i else (at[0] + 1, at[1])
-                    access_denied = self.no_access(at, to, 0 if i else 1)
+                    access_denied = self.no_access(at, to, 0 if i else 1, is_spawn=True)
                     if not access_denied:
                         break
                 elif hero[i] < at[i]:
@@ -90,7 +90,7 @@ init -1 python:
                         to = at
                         break
                     to = (at[0], at[1] - 1) if i else (at[0] - 1, at[1])
-                    access_denied = self.no_access(at, to, 2 if i else 3)
+                    access_denied = self.no_access(at, to, 2 if i else 3, is_spawn=True)
                     if not access_denied:
                         break
                 else:
@@ -115,7 +115,7 @@ init -1 python:
 
             return self._map[y][x]
 
-        def no_access(self, at, to, ori):
+        def no_access(self, at, to, ori, is_spawn=False):
 
             if pc['x'] == to[0] and pc['y'] == to[1]:
                 return "hero collision" # for spawn movement
@@ -126,8 +126,12 @@ init -1 python:
 
             (src, dest) = (self.map(*at), self.map(*to))
 
-            if (src in self.access[ori] or src in self.conditional_access[ori]) and dest in self.access[ori]:
-                return
+            if dest in self.access[ori]:
+                if src in self.access[ori] or (not is_spawn and src in self.conditional_access[ori]):
+                    return
+
+            if is_spawn:
+                return "spawn moment denied"
 
             if dest in self.conditional_access[ori]:
                 if tostr not in self.access_condition:
