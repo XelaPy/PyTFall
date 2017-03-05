@@ -12,18 +12,16 @@ init -1 python:
             self.said = None
             self.next_events = deque()
             self.can_move = True
-            self.timer = []
+            self.timer = None
             self.timed = {}
 
-
         def say(self, arguments, timer=None, function=None):
+            if not timer:
+                timer = max(float(len(arguments[1])) / 50.0, 0.5)
 
             self.said = arguments
             while len(self.said) != 4:
                 self.said.append(None)
-
-            if not timer:
-                timer = float(len(self.said[1])) / 50.0
 
             self.add_timer(timer, [{"function": "dungeon.__setattr__", "arguments": ["said", None] }])
 
@@ -179,7 +177,7 @@ screen dungeon_move(hotspots):
         key "K_KP7" action Return(value=7)
         key "K_KP8" action Return(value=8)
         key "K_KP9" action Return(value=9)
-        key "K_l" action Return(value="light") # light
+        key "K_l" action Return(value="light")
         key "K_LEFT" action Return(value=4)
         key "K_UP" action Return(value=8)
         key "K_RIGHT" action Return(value=6)
@@ -212,23 +210,9 @@ style move_button_text:
 
 
 label enter_dungeon:
-    # To start exploring, call or jump to this label
-    # To exit, create an event which has return or jump statement.
     python:
 
-        # Create skills (name, type, hit, power)
-        #attack = Dungeon_Skill("Attack", "attack", 70, 20)
-        #escape = Dungeon_Skill("Escape", "escape")
-
-        # Create battle actors (name, max_hp, skills)
-        #party = Actor("Hero",100, [attack,escape])
-        #goblin = Actor("Goblin",40, [attack])
-
-        # Create a dungeon stage (map,enemy)
-        # "1" means wall, "0" means path.
-        #file = open(content_path("db/dungeon/mausoleum1.txt"))
-        #stage1=Stage(file.read().splitlines())#,enemy=goblin)
-        #file.close()
+        # Create a dungeon stage
         dungeon = dungeons['Mausoleum1']
         pc = dungeon.enter()
         dungeon.say(arguments=["", "You enter the mausoleum. The door shuts behind you; you cannot get out this way!"])
@@ -236,7 +220,7 @@ label enter_dungeon:
         mpos = None
 
 
-    # Place a player position on a dungeon stage (stage,y,x,dy,dx).
+    # Place a player position on a dungeon stage.
     # dx,dy means direction. If dy=1, it's down. If dx=-1, it's left.
 
     while True:
@@ -257,7 +241,6 @@ label enter_dungeon:
 
                 x = pc['x'] + distance*pc['dx'] - lateral*pc['dy']
                 y = pc['y'] + lateral*pc['dx'] + distance*pc['dy']
-                situ = dungeon.map(x, y)
 
                 if distance == 1 and lateral == 0: # actions can be apply to front
                     front_str = str((x, y))
@@ -282,9 +265,9 @@ label enter_dungeon:
                             if actions:
                                 actions.insert(0, { "function": "dungeon.%s.__setitem__" % k, "arguments": [front_str, []]})
 
-
+                situ = dungeon.map(x, y)
                 if situ in dungeon.container:
-                    #FIXME use position lookup, for some container may first have to add front (cover) image
+                    #FIXME use position lookup, for some container may first have to add front (cover) image (or modify image)
 
                     pt = str((x, y))
                     if pt in dungeon.renderitem:
@@ -368,12 +351,6 @@ label enter_dungeon:
                     if distance < 5:
                         areas.append([distance + 1, lateral])
 
-        # Check events. If it happens, call a label or jump out to a label.
-        # XXX: this probably should change
-        #if here.stage.enemy is not None and renpy.random.random()< .2:
-        #    call dungeon_battle(player=party, enemy=here.stage.enemy)
-
-        # Otherwise, call the move screen
         $ renpy.block_rollback()
         call screen dungeon_move(hotspots)
 
@@ -381,7 +358,7 @@ label enter_dungeon:
             at = (pc['x'], pc['y'])
             ori = 1 - pc['dx'] - pc['dy'] + (1 if pc['dx'] > pc['dy'] else 0)
             to = None
-            # do any expired timer events
+
             if isinstance(_return, list):
                 dungeon.next_events.extend(_return)
                 _return = "event_list"
@@ -469,6 +446,7 @@ label enter_dungeon:
                     else:
                         dungeon.function(**event)
 
+            # do any expired timer events
             if dungeon.timer is not None:
                 dungeon.timer = None
                 current_time = time.time()
@@ -479,5 +457,4 @@ label enter_dungeon:
                                 dungeon.function(**event)
                         else:
                             dungeon.timer = t - current_time
-
 
