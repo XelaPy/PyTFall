@@ -156,10 +156,10 @@
         "(23, 3)": [{"name": "Shuriken"}]
     },
     "spawn": {
-        "(36, 1)": [{"name": "Goblin", "level": 1, "timer": 0.5 }],
-        "(5, 11)": [{"name": "Devil Rat", "level": 1, "timer": 0.2 }],
-        "(24, 5)": [{"name": "Bats", "level": 1, "yoffs": -400, "timer": 0.3 }],
-        "(2, 8)": [{"name": "Bear", "level": 3, "size": 2, "timer": 0.8 }]
+        "(36, 1)": {"name": "Goblin", "level": 1, "timer": 0.5 },
+        "(5, 11)": {"name": "Devil Rat", "level": 1, "timer": 0.2 },
+        "(24, 5)": {"name": "Bats", "level": 1, "yoffs": -400, "timer": 0.3 },
+        "(2, 8)": {"name": "Bear", "level": 3, "size": 2, "timer": 0.8 }
     },
     "renderitem": {
         "(20, 5)": [{"name": "ring" }, {"name": "dagger" }],

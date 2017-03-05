@@ -56,17 +56,50 @@ init -1 python:
                 self.arrow.x = (self.hero['x'] - .3)*6 + 6
                 self.arrow.y = (self.hero['y'] - .2)*6 + 6
 
-            for p, mobs in self.spawn.iteritems():
-                for m in mobs:
-                    m['mob'] = build_mob(id=m['name'], level=m['level'])
-                    self.add_timer(m['timer'], [{"function": "dungeon._move_npc", "arguments": [p, m] }])
+            for p, m in self.spawn.iteritems():
+                m['mob'] = build_mob(id=m['name'], level=m['level'])
+
+                self.add_timer(m['timer'], [{"function": "dungeon._move_npc", "arguments": [p, m] }])
 
             return self.hero
 
-        def _move_npc(self, pt, mob):
-            pass
+        def _move_npc(self, at_str, m):
+            at = eval(at_str)
+            hero = (self.hero['x'], self.hero['y'])
+
+            # if within 5 of hero move about.
+            for i in [0, 1]:
+                if hero[i] > at[i]:
+                    if hero[i] - at[i] > 5:
+                        to = at
+                        break
+                    to = (at[0], at[1] + 1) if i else (at[0] + 1, at[1])
+                    access_denied = self.no_access(at, to, 0 if i else 1)
+                    if not access_denied:
+                        break
+                elif hero[i] < at[i]:
+                    if at[i] - hero[i] > 5:
+                        to = at
+                        break
+                    to = (at[0], at[1] - 1) if i else (at[0] - 1, at[1])
+                    access_denied = self.no_access(at, to, 2 if i else 3)
+                    if not access_denied:
+                        break
+                else:
+                    continue
+            else:
+                to = at
+                devlog.warn(str((at, to, i)))
+
+            to_str = str(to)
+            if to != at:
+                del(self.spawn[at_str])
+                self.spawn[to_str] = m
+
+            self.add_timer(m['timer'], [{"function": "dungeon._move_npc", "arguments": [to_str, m] }])
+
         def map(self, x, y, color=None):
-            if y < 0 or y >= len (self._map) or x < 0 or x >= len(self._map[y]):
+            if y < 0 or y >= len(self._map) or x < 0 or x >= len(self._map[y]):
                 return "#"
 
             if color:
@@ -74,19 +107,27 @@ init -1 python:
 
             return self._map[y][x]
 
-        def has_access(self, at, to, ori):
-            (src, dest) = (dungeon.map(*at), dungeon.map(*to))
+        def no_access(self, at, to, ori):
 
-            if (src in dungeon.access[ori] or src in dungeon.conditional_access[ori]) and dest in dungeon.access[ori]:
-                return True
-            if dest in dungeon.conditional_access[ori]:
-                tostr = str(to)
-                if tostr not in dungeon.access_condition:
-                    return True
-                elif 'access' in dungeon.access_condition[tostr] and dungeon.access_condition[tostr]['access']:
-                    return True
+            if pc['x'] == to[0] and pc['y'] == to[1]:
+                return "hero collision" # for spawn movement
 
-            return False
+            tostr = str(to)
+            if tostr in self.spawn:
+                return "spawn collision"
+
+            (src, dest) = (self.map(*at), self.map(*to))
+
+            if (src in self.access[ori] or src in self.conditional_access[ori]) and dest in self.access[ori]:
+                return
+
+            if dest in self.conditional_access[ori]:
+                if tostr not in self.access_condition:
+                    return
+                elif 'access' in self.access_condition[tostr] and self.access_condition[tostr]['access']:
+                    return
+
+            return "wall collision"
 
         def function(self, function, arguments, set_var=None, **kwargs):
 
@@ -236,7 +277,6 @@ label enter_dungeon:
             blend = dungeon.area
             areas = deque([[0, 0]])
             show = []
-            access_denied = set()
             hotspots = []
             renpy.show(dungeon.background % light)
 
@@ -292,13 +332,8 @@ label enter_dungeon:
                             show.append([items[it['name']], it, distance, lateral])
 
                     if pt in dungeon.spawn:
-                        for spawn in dungeon.spawn[pt]:
-
-                            if distance == 0 and abs(lateral) == 1:
-                                access_denied.add(7 if lateral == -1 else 9)
-                            if distance == 1 and lateral == 0:
-                                access_denied.add(8)
-                            show.append([spawn['mob'], spawn, distance, lateral])
+                        spawn = dungeon.spawn[pt]
+                        show.append([spawn['mob'], spawn, distance, lateral])
 
                 # also record for minimap
                 for k in dungeon.minimap:
@@ -375,19 +410,15 @@ label enter_dungeon:
                 else:
                     mpos = renpy.get_mouse_pos()
 
-            elif _return in access_denied:
-                # Walking into NPC. dfferent sound or action ?
-                pass
-
-            elif _return == 2: # walking into spawn except backward is handled during environment preparation
+            elif _return == 2:
                 to = (pc['x']-pc['dx'], pc['y']-pc['dy'])
-                if not to in dungeon.spawn:
-                    if dungeon.has_access(at, to, ori):
-                        (pc['x'], pc['y']) = to
 
-                    elif not renpy.music.is_playing(channel="sound"):
-                        renpy.play(dungeon.sound['bump'], channel="sound")
-                # else: Walking into NPC. dfferent sound or action ?
+                access_denied = dungeon.no_access(at, to, ori)
+                if not access_denied:
+                    (pc['x'], pc['y']) = to
+
+                elif not renpy.music.is_playing(channel="sound"):
+                    renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == 4:
                 (pc['dx'], pc['dy']) = (pc['dy'], -pc['dx'])
@@ -398,7 +429,8 @@ label enter_dungeon:
             elif _return == 7:
                 to = (pc['x']+pc['dy'], pc['y']-pc['dx'])
 
-                if dungeon.has_access(at, to, ori ^ 2):
+                access_denied = dungeon.no_access(at, to, ori ^ 2)
+                if not access_denied:
                     (pc['x'], pc['y']) = to
 
                 elif not renpy.music.is_playing(channel="sound"):
@@ -407,7 +439,8 @@ label enter_dungeon:
             elif _return == 8:
                 to = (pc['x']+pc['dx'], pc['y']+pc['dy'])
 
-                if dungeon.has_access(at, to, ori):
+                access_denied = dungeon.no_access(at, to, ori)
+                if not access_denied:
                     (pc['x'], pc['y']) = to
 
                 elif not renpy.music.is_playing(channel="sound"):
@@ -416,7 +449,8 @@ label enter_dungeon:
             elif _return == 9:
                 to = (pc['x']-pc['dy'], pc['y']+pc['dx'])
 
-                if dungeon.has_access(at, to, ori ^ 2):
+                access_denied = dungeon.no_access(at, to, ori ^ 2)
+                if not access_denied:
                     (pc['x'], pc['y']) = to
 
                 elif not renpy.music.is_playing(channel="sound"):
