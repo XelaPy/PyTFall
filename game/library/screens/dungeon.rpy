@@ -16,6 +16,7 @@ init -1 python:
             self.timed = {}
 
         def say(self, arguments, timer=None, function=None):
+            # a message will be displayed for a time, dependent on length of message
             if not timer:
                 timer = max(float(len(arguments[1])) / 50.0, 0.5)
 
@@ -35,7 +36,7 @@ init -1 python:
 
         def enter(self, at=None, function=None, load=None):
             if at:
-                self.hero = at.copy()
+                self.hero = at
 
             if not hasattr(self, "smallMap"):
                 self.smallMap = SpriteManager(ignore_time=True)
@@ -55,12 +56,15 @@ init -1 python:
                 self.arrow.x = (self.hero['x'] - .3)*6 + 6
                 self.arrow.y = (self.hero['y'] - .2)*6 + 6
 
-            for p in self.spawn.values():
-                for m in p:
+            for p, mobs in self.spawn.iteritems():
+                for m in mobs:
                     m['mob'] = build_mob(id=m['name'], level=m['level'])
+                    self.add_timer(m['timer'], [{"function": "dungeon._move_npc", "arguments": [p, m] }])
 
-            return self.hero.copy()
+            return self.hero
 
+        def _move_npc(self, pt, mob):
+            pass
         def map(self, x, y, color=None):
             if y < 0 or y >= len (self._map) or x < 0 or x >= len(self._map[y]):
                 return "#"
