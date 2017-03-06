@@ -931,8 +931,8 @@
     "locations": ["Tailor Store"]
     },
     {
-    "id": "Leather Kilt",
-    "desc": "Piece of skin covering your most important parts. Beware, in some cultures wearing this is an invitation for indecent acts between men!",
+    "id": "Kilt",
+    "desc": "Piece of cloth covering your most important parts. Beware, in some cultures wearing this is an invitation for indecent acts between men!",
     "icon": "content/items/body/lk.png",
     "price": 500,
     "sex": "male",
