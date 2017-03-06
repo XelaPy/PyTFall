@@ -152,21 +152,10 @@
         "(32, 11)": {"access": false}
     },
     "minimap": {
-      "wall": {
-        "area": "#2d",
-        "color": "#4444"
-      },
-      "door": {
-        "area": "38a",
-        "color": "#5C4425"
-      },
-      "misc": {
-        "area": "bcABCD",
-        "color": "#6a548e"
-      },
-      "ground": {
-        "color": "#fff4"
-      }
+      "#2d": "#4444",
+      "38a": "#5C4425",
+      "bcABCD": "#6a548e",
+      "ground": "#fff4"
     },
     "sound": {
       "bump": "content/sfx/sound/dungeon/bump.ogg"
@@ -243,7 +232,7 @@
       " 2b2..2  #...#  #.....#  #.....##.####   d...db2b#...####...#   ",
       " 2.2..2###...#  #.....#  #.....##....#   d...dbc.#...##.....#   ",
       " 2b2..8......#  #.....####.....##....#   d...db2b#......#...#   ",
-      " 2.2..2###...#  #..........##.###....#   d...dbc.#...#####.##   ",
+      " 2.2..2###...#  #..........##a###....#   d...dbc.#...#####.##   ",
       " 2b2..2  ##3##  ####.#######..# #....#   #ddd#b2b#...#   #.#    ",
       " 2.2222   #.#      #.#   #...## ####.#    #.#2.c.#####   #.#    ",
       " 2b2222## #.#    ###.#####.####  ###.###########b#####   #.##   ",
@@ -280,31 +269,37 @@
     "background": "dungeon_mossy%s_background",
     "access": [".79bABCD<", ".79cABCD<", ".79cABCD<", ".79bABCD<"],
     "conditional_access": ["3a8", "3a8", "3a8", "3a8"],
-    "access_denied": {},
+    "access_condition": {},
     "area_hotspots": {},
     "item_hotspots": {
     },
     "renderitem_hotspots": {
     },
     "spawn_hotspots": {
+        "Blast Beetle": {
+            "spot": [517, 453, 210, 192],
+            "actions": [{
+                "function": "dungeon.say",
+                "arguments": ["", "You killed the beetle."],
+                "sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+            }]
+        },
+        "Wikkawak": {
+            "spot": [585, 390, 192, 202],
+            "actions": [{
+                "function": "dungeon.say",
+                "arguments": ["", "You kill the creature."],
+                "sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+            }]
+        }
+
     },
     "container": "d.",
     "minimap": {
-      "wall": {
-        "area": "#2d",
-        "color": "#4444"
-      },
-      "door": {
-        "area": "38a",
-        "color": "#5C4425"
-      },
-      "misc": {
-        "area": "bcABCD",
-        "color": "#6a548e"
-      },
-      "ground": {
-        "color": "#fff4"
-      }
+      "#2d": "#4444",
+      "38a": "#5C4425",
+      "bcABCD": "#6a548e",
+      "ground": "#fff4"
     },
     "sound": {
       "bump": "content/sfx/sound/dungeon/bump.ogg"
@@ -312,11 +307,13 @@
     "item": {
         "(34, 25)": [{"name": "Replica Sword", "rot": 30}],
         "(35, 25)": [{"name": "Small Cane", "rot": 30 }],
-        "(36, 30)": [{"name": "Mallet" }],
         "(34, 30)": [{"name": "Elven Rapier" }],
         "(35, 30)": [{"name": "Ornate Gladius" }]
     },
-    "spawn": {},
+    "spawn": {
+        "(26, 20)": {"name": "Blast Beetle", "level": 1, "timer": 0.5 },
+        "(27, 5)": {"name": "Wikkawak", "level": 1, "timer": 0.7 }
+    },
     "renderitem": {},
     "event": {
         "(27, 25)": [{

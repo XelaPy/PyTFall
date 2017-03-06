@@ -16,7 +16,7 @@ init -1 python:
             self.timed = {}
 
         def say(self, arguments, timer=None, function=None, sound=None):
-            # a message will be displayed for a time, dependent on length of message
+            # a message will be displayed for a time, dependent on its length
             if sound:
                 renpy.play(*sound)
 
@@ -114,6 +114,18 @@ init -1 python:
 
             return self._map[y][x]
 
+        def teleport(self, pt=None):
+
+            if not pt: # using map hotspot
+                pt = renpy.get_mouse_pos()
+                pt = (pt[0] / 6, pt[1] / 6)
+
+            self.hero['x'] = pt[0]
+            self.hero['y'] = pt[1]
+            if len(pt) > 2: # to also handle rotation -1 for left/up, non-current direction is zero
+                self.her['dx'] = pt[2]
+                self.her['dy'] = pt[3]
+
         def no_access(self, at, to, ori, is_spawn=False):
 
             if pc['x'] == to[0] and pc['y'] == to[1]:
@@ -143,7 +155,7 @@ init -1 python:
         def function(self, function, arguments, set_var=None, **kwargs):
 
             # only allow particular functions
-            if all(function[:len(f)] != f for f in ('renpy.', 'dungeon.')):
+            if all(function[:len(f)] != f for f in ('renpy.', 'dungeon.', 'devlog.')):
                 # may want to add more exceptions if necessary and safe
                 raise Exception("calling function %s not allowed" % function)
 
@@ -224,8 +236,9 @@ screen dungeon_move(hotspots):
             if config.developer:
                 textbutton "U" action Return(value="update map") xcenter .2 ycenter .8
                 key "K_u" action Return(value="update map")
-                key "K_p" action Function(scrap.put, SCRAP_TEXT, str(pc))
+                key "K_p" action Function(scrap.put, SCRAP_TEXT, str((pc['x'], pc['y'])))
                 key "K_o" action Return(value="mpos")
+                key "K_g" action Return(value="teleport_map")
 
     if dungeon.can_move:
         key "K_KP2" action Return(value=2)
@@ -275,6 +288,7 @@ label enter_dungeon:
         dungeon.say(arguments=["", "You enter the mausoleum. The door shuts behind you; you cannot get out this way!"])
         light=""
         mpos = None
+        teleport_map = False
 
 
     # Place a player position on a dungeon stage.
@@ -290,6 +304,10 @@ label enter_dungeon:
             areas = deque([[0, 0]])
             show = []
             hotspots = []
+            if config.developer and teleport_map:
+                hs = [0, 0, (len(dungeon._map[0])-1)*6, (len(dungeon._map)-1)*6]
+                hotspots.append({ 'spot': hs, 'actions': [{ "function": "dungeon.teleport", "arguments": [] }] })
+
             renpy.show(dungeon.background % light)
 
             while areas:
@@ -348,11 +366,11 @@ label enter_dungeon:
 
                 # also record for minimap
                 for k in dungeon.minimap:
-                    if k != "ground" and situ in dungeon.minimap[k]['area']:
-                        dungeon.map(x, y, renpy.easy.color(dungeon.minimap[k]['color']))
+                    if situ in k:
+                        dungeon.map(x, y, renpy.easy.color(dungeon.minimap[k]))
                         break
                 else:
-                    dungeon.map(x, y,renpy.easy.color(dungeon.minimap['ground']['color']))
+                    dungeon.map(x, y, renpy.easy.color(dungeon.minimap['ground']))
 
                 if pc['dy'] == -1:
                     dungeon.arrowtext.set_text("↑")
@@ -412,14 +430,6 @@ label enter_dungeon:
             if isinstance(_return, list):
                 dungeon.next_events.extend(_return)
                 _return = "event_list"
-
-            elif _return == "mpos":
-                if mpos:
-                    mpos2 = renpy.get_mouse_pos()
-                    scrap.put(SCRAP_TEXT, str((mpos[0], mpos[1], mpos2[0] - mpos[0], mpos2[1] - mpos[1])))
-                    mpos = None
-                else:
-                    mpos = renpy.get_mouse_pos()
 
             elif _return == 2:
                 to = (pc['x']-pc['dx'], pc['y']-pc['dy'])
@@ -486,8 +496,17 @@ label enter_dungeon:
                 dungeon_location = dungeon.hero
                 dungeons = load_dungeons()
                 dungeon = dungeons[dungeon.id]
-                dungeon.hero = dungeon_location
-                dungeon.enter()
+                dungeon.enter(at=dungeon_location)
+
+            elif _return == "mpos": #XXX: dev mode
+                if mpos:
+                    mpos2 = renpy.get_mouse_pos()
+                    scrap.put(SCRAP_TEXT, str((mpos[0], mpos[1], mpos2[0] - mpos[0], mpos2[1] - mpos[1])))
+                    mpos = None
+                else:
+                    mpos = renpy.get_mouse_pos()
+            elif _return == "teleport_map":
+                teleport_map = not teleport_map
 
             if to:
                 if str(to) in dungeon.event:
