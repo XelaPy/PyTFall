@@ -152,7 +152,7 @@
         "(32, 11)": {"access": false}
     },
     "minimap": {
-      "#2d": "#4444",
+      "#2def": "#4444",
       "38a": "#5C4425",
       "bcABCD": "#6a548e",
       "ground": "#fff4"
@@ -180,6 +180,9 @@
         "(19, 11)": [{
             "function": "dungeon.say",
             "arguments": ["", "Finally, there's a hatch here, you climb out of the catacombs."]
+        },{
+            "function": "dungeon.__delattr__",
+            "arguments": ["hero"]
         },{
             "function": "renpy.jump",
             "arguments": ["graveyard_town"]
@@ -209,6 +212,12 @@
       ".4679bcABCD<",
       ".4679bcABCD<"
     ],
+
+
+
+
+
+
   "r":"0....5...10...15...2v...25...30...35...4v...45...50...55...60...65...70...75...80...85...90...95..100 -> x",
     "map": [
       "        ################  #####        #########        ########",
@@ -296,7 +305,7 @@
     },
     "container": "d.",
     "minimap": {
-      "#2d": "#4444",
+      "#2def": "#4444",
       "38a": "#5C4425",
       "bcABCD": "#6a548e",
       "ground": "#fff4"

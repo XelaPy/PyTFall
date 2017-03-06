@@ -11,8 +11,10 @@ init -1 python:
             self._map = kwargs['map']
             self.said = None
             self.next_events = deque()
+            self.show_map = False
             self.can_move = True
             self.timer = None
+            self.light = ""
             self.timed = {}
 
         def say(self, arguments, timer=None, function=None, sound=None):
@@ -50,14 +52,14 @@ init -1 python:
                         solid = Solid("#0000", xysize=(6,6))
                         solids.append(solid)
                         s = self.smallMap.create(solid)
-                        s.x = 6*m + 1
-                        s.y = 6*n + 1
+                        s.x = 6*m + 3
+                        s.y = 6*n + 43
                     self._mapped.append(solids)
 
                 self.arrowtext = Text(" ", size=10)
                 self.arrow = self.smallMap.create(self.arrowtext)
-                self.arrow.x = (self.hero['x'] - .3)*6 + 6
-                self.arrow.y = (self.hero['y'] - .2)*6 + 6
+                self.arrow.x = (self.hero['x'] - .2)*6 + 9
+                self.arrow.y = (self.hero['y'] - .4)*6 + 49
 
                 for p, m in self.spawn.iteritems():
                     m['mob'] = build_mob(id=m['name'], level=m['level'])
@@ -118,11 +120,11 @@ init -1 python:
 
             if not pt: # using map hotspot
                 pt = renpy.get_mouse_pos()
-                pt = (pt[0] / 6, pt[1] / 6)
+                pt = ((pt[0] - 3) / 6, (pt[1]-43) / 6)
 
             self.hero['x'] = pt[0]
             self.hero['y'] = pt[1]
-            if len(pt) > 2: # to also handle rotation -1 for left/up, non-current direction is zero
+            if len(pt) > 2: # to also set rotation: -1 for left/up, non-current direction is zero
                 self.her['dx'] = pt[2]
                 self.her['dy'] = pt[3]
 
@@ -172,12 +174,13 @@ transform sprite_default(xx, yy, xz, yz, rot=None):
     subpixel True
 
 screen dungeon_move(hotspots):
+    tag dungeon
     # Screen which shows move buttons and a minimap
     for sw in reversed(show):
         if isinstance(sw, list):
             if sw[2]:
                 python:
-                    light_matrix = im.matrix.brightness(-math.sqrt(sw[3]**2 + sw[2]**2)/(5.8 if light else 4.5))
+                    light_matrix = im.matrix.brightness(-math.sqrt(sw[3]**2 + sw[2]**2)/(5.8 if dungeon.light else 4.5))
                     if isinstance(sw[0], Item):
                         mco = im.MatrixColor(sw[0].icon, light_matrix)
                         (width, height) = mco.image.load().get_size()
@@ -211,7 +214,11 @@ screen dungeon_move(hotspots):
         elif renpy.has_image(sw):
             add sw
 
-    add dungeon.smallMap
+    use top_stripe(show_return_button=False)
+
+    if dungeon.show_map:
+        add dungeon.smallMap
+
     if hotspots:
         imagemap:
             alpha False
@@ -238,7 +245,8 @@ screen dungeon_move(hotspots):
                 key "K_u" action Return(value="update map")
                 key "K_p" action Function(scrap.put, SCRAP_TEXT, str((pc['x'], pc['y'])))
                 key "K_o" action Return(value="mpos")
-                key "K_g" action Return(value="teleport_map")
+                key "K_g" action SetField(dungeon, "show_map", "teleport")
+                key "K_m" action ToggleField(dungeon, "show_map")
 
     if dungeon.can_move:
         key "K_KP2" action Return(value=2)
@@ -247,7 +255,7 @@ screen dungeon_move(hotspots):
         key "K_KP7" action Return(value=7)
         key "K_KP8" action Return(value=8)
         key "K_KP9" action Return(value=9)
-        key "K_l" action Return(value="light")
+        key "K_l" action ToggleField(dungeon, "light", "_torch", "")
         key "K_LEFT" action Return(value=4)
         key "K_UP" action Return(value=8)
         key "K_RIGHT" action Return(value=6)
@@ -284,12 +292,17 @@ label enter_dungeon:
 
         # Create a dungeon stage
         dungeon = dungeons['Mausoleum1']
-        pc = dungeon.enter(at={ "x": 1, "y": 1, "dx": 1, "dy": 0 })
-        dungeon.say(arguments=["", "You enter the mausoleum. The door shuts behind you; you cannot get out this way!"])
-        light=""
+        if hasattr(dungeon, "hero"):
+            pc = dungeon.enter()
+        else:
+            pc = dungeon.enter(at={ "x": 1, "y": 1, "dx": 1, "dy": 0 })
+            dungeon.say(arguments=["", "You enter the mausoleum. The door shuts behind you; you cannot get out this way!"])
         mpos = None
-        teleport_map = False
-
+        if not "dungeon" in ilists.world_music:
+            ilists.world_music["dungeon"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("dungeon")]
+    if not global_flags.has_flag("keep_playing_music"):
+        play world choice(ilists.world_music["dungeon"]) fadein 0.5
+    $ global_flags.del_flag("keep_playing_music")
 
     # Place a player position on a dungeon stage.
     # dx,dy means direction. If dy=1, it's down. If dx=-1, it's left.
@@ -304,11 +317,11 @@ label enter_dungeon:
             areas = deque([[0, 0]])
             show = []
             hotspots = []
-            if config.developer and teleport_map:
-                hs = [0, 0, (len(dungeon._map[0])-1)*6, (len(dungeon._map)-1)*6]
+            if config.developer and dungeon.show_map == "teleport":
+                hs = [3, 43, len(dungeon._map[0])*6, len(dungeon._map)*6]
                 hotspots.append({ 'spot': hs, 'actions': [{ "function": "dungeon.teleport", "arguments": [] }] })
 
-            renpy.show(dungeon.background % light)
+            renpy.show(dungeon.background % dungeon.light)
 
             while areas:
                 (distance, lateral) = areas.popleft()
@@ -345,13 +358,13 @@ label enter_dungeon:
                     pt = str((x, y))
                     if pt in dungeon.renderitem:
                         for ri in dungeon.renderitem[pt]:
-                            img_name = sided[lateral+3] % ('dungeon_'+ri['name'], light, distance)
+                            img_name = sided[lateral+3] % ('dungeon_'+ri['name'], dungeon.light, distance)
                             if 'function' in ri and ri['function'][:10] == "im.matrix.":
 
-                                img_name = 'content/dungeon/'+ri['name']+light+'/'+img_name+'.png'
+                                img_name = 'content/dungeon/'+ri['name']+dungeon.light+'/'+img_name+'.png'
                                 if os.path.isfile(gamedir + '/'+img_name):
                                     # distance darkening
-                                    brightness = im.matrix.brightness(-math.sqrt(lateral**2 + distance**2)/(5.8 if light else 4.5))
+                                    brightness = im.matrix.brightness(-math.sqrt(lateral**2 + distance**2)/(5.8 if dungeon.light else 4.5))
                                     show.append(im.MatrixColor(img_name, eval(ri["function"])(*ri["arguments"]) * brightness))
                             else:
                                 show.append(img_name)
@@ -374,31 +387,31 @@ label enter_dungeon:
 
                 if pc['dy'] == -1:
                     dungeon.arrowtext.set_text("↑")
-                    dungeon.arrow.y = (pc['y'] - .2)*6
+                    dungeon.arrow.y = (pc['y'] - .4)*6 + 43
                 elif pc['dx'] == 1:
                     dungeon.arrowtext.set_text("→")
-                    dungeon.arrow.y = (pc['y'] - .3)*6
+                    dungeon.arrow.y = (pc['y'] - .5)*6 + 43
                 elif pc['dy'] == 1:
                     dungeon.arrowtext.set_text("↓")
-                    dungeon.arrow.y = (pc['y'] - .2)*6
+                    dungeon.arrow.y = (pc['y'] - .4)*6 + 43
                 else:
                     dungeon.arrowtext.set_text("←")
-                    dungeon.arrow.y = (pc['y'] - .3)*6
-                dungeon.arrow.x = (pc['x'])*6
+                    dungeon.arrow.y = (pc['y'] - .5)*6 + 43
+                dungeon.arrow.x = (pc['x'] - .2)*6 + 3
 
                 if situ in dungeon.visible: # a wall or so, need to draw.
 
                     if isinstance(blend[situ], list):
 
                         if len(blend[situ]) == 2: # left-right symmetry
-                            show.append(sided[lateral+3] % ('dungeon_'+blend[situ][abs(pc['dx'])], light, distance))
+                            show.append(sided[lateral+3] % ('dungeon_'+blend[situ][abs(pc['dx'])], dungeon.light, distance))
 
                         else: # no symmetry, 4 images.
                             ori = 1 - pc['dx'] - pc['dy'] + (1 if pc['dx'] > pc['dy'] else 0)
-                            show.append(sided[lateral+3] % ('dungeon_'+blend[situ][ori], light, distance))
+                            show.append(sided[lateral+3] % ('dungeon_'+blend[situ][ori], dungeon.light, distance))
 
                     else: # symmetric, or simply rendered in only one symmetry
-                        show.append(sided[lateral+3] % ('dungeon_'+blend[situ], light, distance))
+                        show.append(sided[lateral+3] % ('dungeon_'+blend[situ], dungeon.light, distance))
 
                 transparent_area = dungeon.transparent[abs(pc['dx'])]
                 if situ in transparent_area or (situ in dungeon.visible and not renpy.has_image(show[-1])): # need to draw what's behind it.
@@ -489,9 +502,6 @@ label enter_dungeon:
                 elif not renpy.music.is_playing(channel="sound"):
                     renpy.play(dungeon.sound['bump'], channel="sound")
 
-            elif _return == "light":
-                light = "" if light != "" else "_torch"
-
             elif _return == "update map":
                 dungeon_location = dungeon.hero
                 dungeons = load_dungeons()
@@ -505,8 +515,6 @@ label enter_dungeon:
                     mpos = None
                 else:
                     mpos = renpy.get_mouse_pos()
-            elif _return == "teleport_map":
-                teleport_map = not teleport_map
 
             if to:
                 if str(to) in dungeon.event:
