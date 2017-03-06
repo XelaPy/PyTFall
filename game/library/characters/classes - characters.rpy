@@ -5054,26 +5054,20 @@ init -10 python:
                 if not len_skills: # Some weird ass base trait, we just award 33% of total possible points.
                     stats_skills_points += default_points*.33
                 else:
-                    try:
-                        skills = trait.base_skills
-                        total_sp = sum(self.get_skill(x)*.01 * y for x, y in skills.iteritems()) / float(len_skills)
-                        total_sp_required = sum(SKILLS_MAX[x]*.01 * y for x, y in skills.iteritems()) / float(len_skills)
-                        skill_bonus = default_points*total_sp/total_sp_required
-                    except:
-                        raise Exception(self.id, trait.base_skills, len_skills)
+                    skills = trait.base_skills
+                    total_sp = sum(self.get_skill(x) * y for x, y in skills.iteritems()) / float(len_skills)
+                    total_sp_required = sum((SKILLS_MAX[x]*(target_tier*.1)) * y for x, y in skills.iteritems()) / float(len_skills)
+                    skill_bonus = default_points*total_sp/total_sp_required
                     stats_skills_points += skill_bonus
 
                 len_stats = len(trait.base_stats)
                 if not len_stats: # Some weird ass base trait, we just award 33% of total possible points.
                     stats_skills_points += default_points*.33
                 else:
-                    try:
-                        stats = trait.base_stats
-                        total_sp = sum(getattr(self, x)*.01 * y for x, y in stats.iteritems()) / float(len_stats)
-                        total_sp_required = sum(self.get_max(x)*.01 * y for x, y in stats.iteritems()) / float(len_stats)
-                        stat_bonus = default_points*total_sp/total_sp_required
-                    except:
-                        raise Exception(self.id, stats)
+                    stats = trait.base_stats
+                    total_sp = sum(self.stats.stats[x] * y for x, y in stats.iteritems()) / float(len_stats)
+                    total_sp_required = sum(self.get_max(x) * y for x, y in stats.iteritems()) / float(len_stats)
+                    stat_bonus = default_points*total_sp/total_sp_required
                     stats_skills_points += stat_bonus
 
             if len(self.traits.basetraits) == 1:
@@ -5081,7 +5075,13 @@ init -10 python:
 
             total_points = level_points + stats_skills_points
 
-            devlog.info("Name: {}, tier points for Teir {}: {} (lvl: {}, st/sk: {})".format(self.name, target_tier, total_points, level_points, stats_skills_points))
+            devlog.info("Name: {}, tier points for Teir {}: {} (lvl: {}, st/sk=total: {}/{}={})".format(self.name,
+                                                                                                        int(target_tier),
+                                                                                                        round(total_points),
+                                                                                                        round(level_points),
+                                                                                                        round(stat_bonus),
+                                                                                                        round(skill_bonus),
+                                                                                                        round(stats_skills_points)))
 
             if total_points >= 100:
                 self.tier += 1 # we tier up and return True!

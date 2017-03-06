@@ -185,15 +185,15 @@
     "infinite": false,
     "slot": "head",
     "type": "armor",
-    "max": {"agility": 30},
-    "mod": {"agility": 30},
+    "max": {"agility": 20, "defence": 20},
+    "mod": {"agility": 20, "defence": 20},
     "defence_bonus": {"ranged": 10},
     "mod_skills": {"refinement": [-0.04, 0, -0.03, 0, 0]},
     "locations": ["Work Shop"]
     },
     {
     "id": "Joy Hat",
-    "desc": "Who would be unhappy wearing a hat like this? Of course no one! Begin your life full of laughter and happiness!",
+    "desc": "Urban legends tell us about the Master Joker. His victims couldn't even breath, let alone fight, due to uncontrollable laughter. Presumably he died or left the city during the war, leaving these hats as a reminder about the power of joy.",
     "icon": "content/items/head/joy_hat.png",
     "price": 500,
     "sex": "female",
@@ -212,7 +212,7 @@
     "badtraits": ["Serious"]
     },
     {
-    "id": "The All-seeing Hat",
+    "id": "The All-Seeing Hat",
     "desc": "Really good hat for all those magic wielding explorers. Boosting not only the users natural magic powers but also awareness.",
     "icon": "content/items/head/magic_hat.png",
     "price": 900,
@@ -230,7 +230,7 @@
     "locations": ["Exploration"]
     },
     {
-    "id": "Seashell hat",
+    "id": "Seashell Hat",
     "desc": "Wearing it you feel safe and comfy just like at home. Don’t know who or what lived inside before, maybe a hermit crab or something else but you don’t care. Now this shell is YOURS! ALL YOURS! BUAHAHAHA!!",
     "icon": "content/items/head/seashell_hat.png",
     "price": 1000,
@@ -242,7 +242,7 @@
     "infinite": false,
     "slot": "head",
     "type": "dress",
-    "max": {"intelligence": -30},
+    "max": {"intelligence": -30, "constitution": 30, "vitality": 10},
     "addtraits": ["Extremely Jealous", "Homebody"],
     "locations": ["Exploration"]
     },
@@ -281,7 +281,7 @@
     },
     {
     "id": "Silver Barrette",
-    "desc": "If your hair live on their own or are hard to arrange. Tame them with this barrette. Good news, you will look more ladylike using this accessory.",
+    "desc": "Keeps unruly hair under control, making the owner more ladylike.",
     "icon": "content/items/head/silver_barrette.png",
     "price": 650,
     "sex": "female",
@@ -348,24 +348,6 @@
     "type": "armor",
     "max": {"defence": 5},
     "mod": {"defence": 5, "charisma": 5},
-    "locations": ["Tailor Store", "Look around"]
-    },
-    {
-    "id": "Scarf",
-    "desc": "Piece of cloth useful to filter out smoke and dust when breathing and to hide wearer's face for more outlawish look.",
-    "icon": "content/items/head/sf.png",
-    "price": 80,
-    "sex": "unisex",
-    "chance": 95,
-    "badness": 100,
-    "eqchance": 5,
-    "hidden": false,
-    "infinite": true,
-    "slot": "head",
-    "type": "dress",
-    "max": {"character": 5},
-    "mod": {"character": 5, "service": 2},
-    "mod_skills": {"service": [0, 0, 0.01, 0, 0]},
     "locations": ["Tailor Store", "Look around"]
     },
     {
