@@ -779,24 +779,6 @@
     "locations": ["Exploration"]
     },
     {
-    "id": "Tiger Leotard",
-    "desc": "This fluffy leotard holds a bound tiger spirit, and can give any girl a sleek, feline demeanor.",
-    "icon": "content/items/body/tl.png",
-    "price": 950,
-    "sex": "female",
-    "chance": 30,
-    "badness": 25,
-    "eqchance": 30,
-    "hidden": true,
-    "infinite": false,
-    "slot": "body",
-    "type": "dress",
-    "max": {"character": 60},
-    "mod": {"charisma": 20, "character": 20, "agility": 35},
-    "addtraits": ["Strange Eyes"],
-    "locations": ["Tailor Store"]
-    },
-    {
     "id": "Organic Lingerie",
     "desc": "When touched by a woman, this plant life form wraps itself around her body, tightly grasping her breasts, nipples and crotch. It's unpleasant at first, but the wearer soon enters a state of perpetual arousal as the thing expertly caresses her like a gentle lover.",
     "icon": "content/items/body/ol.png",
