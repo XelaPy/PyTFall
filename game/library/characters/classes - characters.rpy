@@ -5012,6 +5012,7 @@ init -10 python:
         I'd love it to contain at least some of the calculations and coditioning for Jobs as well, we can split this if it gets too confusing.
         Maybe some behavior flags and alike can be a part of this as well?
         """
+        BASE_WAGES = {"SIW": 20, "Warrior": 30, "Server": 15, "Manager": 25}
 
 
         def __init__(self):
@@ -5023,7 +5024,6 @@ init -10 python:
             self.paid_wage = 0
             self.upkeep = 0
             self.expected_accomodations = "poor"
-            # self.
 
         def recalculate_tier(self):
             """
@@ -5089,57 +5089,39 @@ init -10 python:
             else:
                 return False
 
-        def calc_expected_wage(self):
-            """
-            Amount of money each character expects to get paid for her skillset.
-            """
-            # TODO: To be revised after SKILLS!
-            char = self.instance
+        def calc_expected_wage(self, kind=None):
+            """Amount of money each character expects to get paid for her skillset.
 
-            wage = 100
+            Keeping it simple for now:
+            - We'll set defaults for all basic occupation types.
+            - We'll adjust by tiers.
+            - We'll adjust by other modifiers like traits.
+
+            kind: for now, any specific general occupation will do, but
+            we may use jobs in the future somehow. We provide this when hiring
+            for a specific task. If None, first occupation found when iterating
+            default list will do...
+            """
+            if kind:
+                wage = BASE_WAGES[kind]
+            else:
+                for i in ["Warrior", "Manager", "SIW", "Server"]:
+                    if i in self.occupations:
+                        wage = BASE_WAGES[i]
+                        break
+
+            # Each tier increases wage by 50% without stacking:
+            wage = wage + wage*self.tier*.5
+
             if "Dedicated" in char.traits: # the trait decreases wage, this check should remain after revising! - DarkTl
-                wage = int(wage*0.65)
+                wage = wage*0.65
 
-            # if traits['Prostitute'] in char.occupations:
-                # bw = 5 # Base wage
-                # sm = bw*((1+char.charisma/5 + char.refinement/5 + char.reputation/4 + char.fame/4)/100) # Stats Mod
-                # osm = (char.anal + char.normalsex + char.blowjob + char.lesbian) / 4 * (char.rank / 10 + 1) # Occupational Stats M
+            # Normalize:
+            wage = int(wage)
+            if wage < 10:
+                wage = 10
 
-                # wage =  (sm*osm)/5 + bw
-
-            # elif traits['Stripper'] in char.occupations:
-                # bw = 2
-                # sm = bw*(char.charisma/4 + char.refinement/5 + char.reputation/4 + char.fame/4)
-                # osm = char.strip*char.agility/100
-
-                # wage = (sm+osm)/5 + bw
-
-            # elif 'Server' in char.occupations:
-                # bw = 10
-                # sm = char.charisma/5 + char.agility/2 + char.refinement/4
-                # osm = char.service*bw
-
-                # wage = sm/2+osm/100
-
-            # elif 'Warrior' in char.occupations or isinstance(self.instance, Player):
-                # # Here we include MC for the attack event as well.
-                # bw = 15
-                # sm = char.agility/100+char.fame/4 + char.reputation/3
-                # osm = (char.attack + char.defence + char.magic/2)/100 + bw
-
-                # wage = bw+sm*osm
-
-            # else:
-                # for stat in char.stats:
-                    # if stat not in ["disposition", "joy", "health", "vitality"]: #, "mood"
-                        # wage += getattr(char, stat)
-                # wage = wage/2
-
-            # # Normalize:
-            # wage = int(wage)
-            # if wage < 20:
-                # wage = 20
-
+            self.expected_wage = wage
             return wage
 
 
