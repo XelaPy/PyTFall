@@ -72,21 +72,21 @@ init -1 python:
                 devlog.warn("spawn at %s already died?" % at_str)
                 return
 
-            hero = (self.hero['x'], self.hero['y'])
+            hero_loc = (self.hero['x'], self.hero['y'])
             at = eval(at_str)
 
             # if within 5 of hero move about.
             for i in [0, 1]:
-                if hero[i] > at[i]:
-                    if hero[i] - at[i] > 5:
+                if hero_loc[i] > at[i]:
+                    if hero_loc[i] - at[i] > 5:
                         to = at
                         break
                     to = (at[0], at[1] + 1) if i else (at[0] + 1, at[1])
                     access_denied = self.no_access(at, to, 0 if i else 1, is_spawn=True)
                     if not access_denied:
                         break
-                elif hero[i] < at[i]:
-                    if at[i] - hero[i] > 5:
+                elif hero_loc[i] < at[i]:
+                    if at[i] - hero_loc[i] > 5:
                         to = at
                         break
                     to = (at[0], at[1] - 1) if i else (at[0] - 1, at[1])
