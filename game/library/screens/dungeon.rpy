@@ -189,6 +189,7 @@ screen dungeon_move(hotspots):
                         lowness = float(renpy.config.screen_height)
                         if 'yoffs' in sw[1]:
                             lowness += float(sw[1]['yoffs'])
+                        yy=int(float(lowness - height*xz) * (0.5 + 0.5 / float(.0001 + sw[2])))
                         rot=None
 
                 add mco at [sprite_default(xx, yy, xz, yz, rot)]
