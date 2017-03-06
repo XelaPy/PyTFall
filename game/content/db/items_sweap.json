@@ -1,7 +1,7 @@
 [
     {
     "id": "Parrying Dagger",
-    "desc": "A Dagger designed for parrying and evading attacks.",
+    "desc": "A dagger designed for parrying and evading attacks.",
     "icon": "content/items/sweapon/parry dagger.png",
     "price": 300,
     "sex": "unisex",
@@ -21,7 +21,7 @@
     {
     "id": "Crystal Staff",
     "desc": "This long wooden staff is clearly the tool of a wizard. One end bears a fist-sized translucent crystal; it serve as a focus for arcane energy, but it also adds extra power to its wielder's spells.",
-    "icon": "content/items/weapon/crs.png",
+    "icon": "content/items/sweapon/crs.png",
     "price": 200,
     "sex": "unisex",
     "chance": 100,

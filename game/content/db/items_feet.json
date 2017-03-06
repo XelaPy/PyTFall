@@ -33,22 +33,6 @@
     "locations": ["Tailor Store", "Look around"]
     },
     {
-    "id": "Fur Slippers",
-    "desc": "These soft fur slippers are pretty comfortable.",
-    "icon": "content/items/feet/fs.png",
-    "price": 30,
-    "sex": "female",
-    "chance": 80,
-    "badness": 85,
-    "eqchance": 15,
-    "hidden": false,
-    "infinite": false,
-    "slot": "feet",
-    "type": "dress",
-    "max": {"joy": 5},
-    "locations": ["Tailor Store", "Look around"]
-    },
-    {
     "id": "Hot Stilettos",
     "desc": "These colorful high-heeled platform shoes are, in their own special way, kind of hot. They are also, in their own special way, the opposite of classy.",
     "icon": "content/items/feet/hs.png",
@@ -569,7 +553,7 @@
     },
     {
     "id": "Ice Shoes",
-    "desc": "Made from never melting ice.",
+    "desc": "Made from never melting high-density ice.",
     "icon": "content/items/feet/is.png",
     "price": 650,
     "sex": "female",

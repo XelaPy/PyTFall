@@ -279,23 +279,6 @@
     "goodtraits": []
     },
     {
-    "id": "Fur Coat",
-    "desc": "Made from northern dear's thick hide. Perfect for travelling in snowy regions.",
-    "icon": "content/items/cape/fr.png",
-    "price": 250,
-    "sex": "unisex",
-    "chance": 65,
-    "badness": 70,
-    "eqchance": 10,
-    "hidden": false,
-    "infinite": false,
-    "slot": "cape",
-    "type": "dress",
-    "max": {"vitality": 20},
-    "mod": {"constitution": 5, "vitality": 20, "defence": 5},
-    "locations": ["General Store"]
-    },
-    {
     "id": "Faerie Cloak",
     "desc": "This cloak radiates with otherworldly beauty and magic powers.",
     "icon": "content/items/cape/fc.png",
