@@ -3982,9 +3982,7 @@ init -9 python:
             self.say_screen_portrait_overlay_mode = None
 
             # We calc teir of a character... only for chars for now? Maybe for MC later?
-            for i in range(10):
-                if not self.recalculate_tier():
-                    break
+            self.update_tier_info()
 
             super(Char, self).init()
 
@@ -5012,8 +5010,7 @@ init -10 python:
         I'd love it to contain at least some of the calculations and coditioning for Jobs as well, we can split this if it gets too confusing.
         Maybe some behavior flags and alike can be a part of this as well?
         """
-        BASE_WAGES = {"SIW": 20, "Warrior": 30, "Server": 15, "Manager": 25}
-
+        BASE_WAGES = {"SIW": 20, "Warrior": 30, "Server": 15, "Specialist": 25}
 
         def __init__(self):
             # self.instance = instance
@@ -5041,10 +5038,6 @@ init -10 python:
             tier_points = 0 # We need 100 to tier up!
 
             level_points = self.level*50.0/target_level
-            # if self.level >= target_level:
-            #     level_points = 50
-            # else:
-            #     level_points = 0
 
             default_points = 12.5
             stats_skills_points = 0
@@ -5103,17 +5096,20 @@ init -10 python:
             default list will do...
             """
             if kind:
-                wage = BASE_WAGES[kind]
+                wage = self.BASE_WAGES[kind]
             else:
-                for i in ["Warrior", "Manager", "SIW", "Server"]:
+                for i in ["Warrior", "Specialist", "SIW", "Server"]:
                     if i in self.occupations:
-                        wage = BASE_WAGES[i]
+                        wage = self.BASE_WAGES[i]
                         break
+                else:
+                    raise Exception("Impossible character detected! ID: {} ~ BT: {} ~ Occupations: {}".format(self.id,
+                                    ", ".join([str(t) for t in self.traits.basetraits]), ", ".join([str(t) for t in self.occupations])))
 
             # Each tier increases wage by 50% without stacking:
             wage = wage + wage*self.tier*.5
 
-            if "Dedicated" in char.traits: # the trait decreases wage, this check should remain after revising! - DarkTl
+            if "Dedicated" in self.traits: # the trait decreases wage, this check should remain after revising! - DarkTl
                 wage = wage*0.65
 
             # Normalize:
@@ -5123,6 +5119,20 @@ init -10 python:
 
             self.expected_wage = wage
             return wage
+
+        def update_tier_info(self, kind=None):
+            for i in range(11):
+                if not self.recalculate_tier():
+                    break
+            self.calc_expected_wage(kind=kind)
+
+        # We need "reverse" calculation for when leveling up characters
+        # Mainly to figure out their skill levels, maybe moar in the future
+        def level_up_tier_to(self, level):
+            skills = {}
+            for bt in self.traits.basetraits:
+                for skill, value in bt.base_skills.items():
+                    skills[skill] = max(skills.get(skill, 0), value)
 
 
     class Trait(_object):

@@ -582,19 +582,22 @@
 
     ####################### Whore Job  ############################
     class WhoreJob(NewStyleJob):
-        #Temporarily restored for reference!
         def __init__(self):
             super(WhoreJob, self).__init__()
             self.id = "Whore Job"
             self.type = "SIW"
+
             # Traits/Job-types associated with this job:
-            self.occupations = list() # General Strings likes SIW, Warrior, Server...
+            self.occupations = ["SIW"] # General Strings likes SIW, Warrior, Server...
             self.occupation_traits = [traits["Prostitute"]] # Corresponding traits...
 
             self.disposition_threshold = 950 # Any worker with disposition this high will be willing to do the job even without matched traits.
 
             self.workermod = {}
             self.locmod = {}
+
+            self.base_skills = {"sex": 60, "vaginal": 40, "anal": 40, "oral": 40}
+            self.base_stats = {"charisma": 100}
 
         def __call__(self, char, client):
             self.event_type = "jobreport"
