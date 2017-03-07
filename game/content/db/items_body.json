@@ -930,8 +930,8 @@
     "mod": {"character": 25, "defence": 10, "attack": 10, "constitution": 2}
     },
     {
-    "id": "Imperial Leather Armor",
-    "desc": "This piece of fabric and skin is far from an ideal. Nevertheless it is the basic armor of Imperial soldiers. Lowest durability, but quite comfortable and does not constrain movement much. The Empire doesn't bear responsibility if you die earlier.",
+    "id": "Imperial Armor",
+    "desc": "This piece of metal and skin is far from an ideal. Nevertheless it is the basic armor of Imperial soldiers. Lowest durability, but quite comfortable and does not constrain movement much. The Empire doesn't bear responsibility if you die earlier.",
     "icon": "content/items/else/imperial/iba2.png",
     "price": 280,
     "sex": "male",

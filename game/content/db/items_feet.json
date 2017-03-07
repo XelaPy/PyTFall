@@ -574,7 +574,7 @@
     "desc": "Good boots during march, not an unimportant thing for the soldier. The Empire took care of high quality for this price category.",
     "icon": "content/items/else/imperial/ilb1.png",
     "price": 100,
-    "sex": "unisex",
+    "sex": "male",
     "chance": 80,
     "badness": 80,
     "eqchance": 10,
