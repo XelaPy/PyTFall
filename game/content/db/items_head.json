@@ -355,7 +355,7 @@
     "desc": "This helmet offers the wearer weak protection to the vital areas of the head. Everything, than it can draw your attention it is the frightening style.",
     "icon": "content/items/else/imperial/ilh1.png",
     "price": 230,
-    "sex": "unisex",
+    "sex": "male",
     "chance": 80,
     "badness": 90,
     "eqchance": 10,

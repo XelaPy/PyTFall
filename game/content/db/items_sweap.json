@@ -1,7 +1,7 @@
 [
     {
     "id": "Parrying Dagger",
-    "desc": "A Dagger designed for parrying and evading attacks.",
+    "desc": "A dagger designed for parrying and evading attacks.",
     "icon": "content/items/sweapon/parry dagger.png",
     "price": 300,
     "sex": "unisex",
@@ -21,7 +21,7 @@
     {
     "id": "Crystal Staff",
     "desc": "This long wooden staff is clearly the tool of a wizard. One end bears a fist-sized translucent crystal; it serve as a focus for arcane energy, but it also adds extra power to its wielder's spells.",
-    "icon": "content/items/weapon/crs.png",
+    "icon": "content/items/sweapon/crs.png",
     "price": 200,
     "sex": "unisex",
     "chance": 100,
@@ -40,7 +40,7 @@
     {
     "id": "Icicle Staff",
     "desc": "Like the name says, it’s an Icicle. Made more firm and lighter with magic, it is used as a staff but also successfully as a walking cane.",
-    "icon": "content/items/weapon/ic.png",
+    "icon": "content/items/sweapon/ic.png",
     "price": 550,
     "sex": "unisex",
     "chance": 70,
@@ -59,7 +59,7 @@
     {
     "id": "Archmage Staff",
     "desc": "This deceptively simple staff is woven with such powerful enchantments that a mage of any talent can instantly detect its true nature just by touching it. It is bursting at the seams with arcane energy that almost begs to be unleashed.",
-    "icon": "content/items/weapon/as.png",
+    "icon": "content/items/sweapon/as.png",
     "price": 1000,
     "sex": "unisex",
     "chance": 40,
@@ -308,6 +308,26 @@
     "max": {"defence": 55, "health": 20, "constitution": 20, "agility": -20},
     "mod": {"defence": 30, "agility": -45},
     "defence_multiplier": {"melee": 0.3, "ranged": 0.3},
+    "locations": ["Work Shop"]
+    },
+    {
+    "id": "Imperial Shield",
+    "desc": "A standard shield which is given to recruits in Imperial army.",
+    "icon": "content/items/else/imperial/ish1.png",
+    "price": 150,
+    "sex": "male",
+    "chance": 70,
+    "badness": 80,
+    "eqchance": 30,
+    "hidden": false,
+    "infinite": false,
+    "evasion_bonus": -4,
+    "damage_multiplier": -0.07,
+    "slot": "smallweapon",
+    "type": "shield",
+    "max": {"defence": 15, "agility": 15},
+    "mod": {"defence": 15},
+    "defence_multiplier": {"melee": 0.07, "ranged": 0.07},
     "locations": ["Work Shop"]
     },
     {

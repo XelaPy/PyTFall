@@ -141,7 +141,7 @@
     "desc": "This pendant is spreading around a light aphrodisiac that has an effect of both men and women.",
     "icon": "content/items/amulet/ap.png",
     "price": 400,
-    "sex": "unisex",
+    "sex": "female",
     "chance": 20,
     "badness": 30,
     "eqchance": 85,

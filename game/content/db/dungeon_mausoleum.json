@@ -152,24 +152,14 @@
         "(32, 11)": {"access": false}
     },
     "minimap": {
-      "wall": {
-        "area": "#2d",
-        "color": "#4444"
-      },
-      "door": {
-        "area": "38a",
-        "color": "#5C4425"
-      },
-      "misc": {
-        "area": "bcABCD",
-        "color": "#6a548e"
-      },
-      "ground": {
-        "color": "#fff4"
-      }
+      "#2def": "#4444",
+      "38a": "#5C4425",
+      "bcABCD": "#6a548e",
+      "ground": "#fff4"
     },
     "sound": {
-      "bump": "content/sfx/sound/dungeon/bump.ogg"
+      "bump": "content/sfx/sound/dungeon/bump.ogg",
+      "locked": "content/sfx/sound/dungeon/locked.ogg"
     },
     "item": {
         "(2, 1)": [{"name": "Replica Sword"}],
@@ -191,6 +181,9 @@
         "(19, 11)": [{
             "function": "dungeon.say",
             "arguments": ["", "Finally, there's a hatch here, you climb out of the catacombs."]
+        },{
+            "function": "dungeon.__delattr__",
+            "arguments": ["hero"]
         },{
             "function": "renpy.jump",
             "arguments": ["graveyard_town"]
@@ -220,6 +213,12 @@
       ".4679bcABCD<",
       ".4679bcABCD<"
     ],
+
+
+
+
+
+
   "r":"0....5...10...15...2v...25...30...35...4v...45...50...55...60...65...70...75...80...85...90...95..100 -> x",
     "map": [
       "        ################  #####        #########        ########",
@@ -243,7 +242,7 @@
       " 2b2..2  #...#  #.....#  #.....##.####   d...db2b#...####...#   ",
       " 2.2..2###...#  #.....#  #.....##....#   d...dbc.#...##.....#   ",
       " 2b2..8......#  #.....####.....##....#   d...db2b#......#...#   ",
-      " 2.2..2###...#  #..........##.###....#   d...dbc.#...#####.##   ",
+      " 2.2..2###...#  #..........##a###....#   d...dbc.#...#####.##   ",
       " 2b2..2  ##3##  ####.#######..# #....#   #ddd#b2b#...#   #.#    ",
       " 2.2222   #.#      #.#   #...## ####.#    #.#2.c.#####   #.#    ",
       " 2b2222## #.#    ###.#####.####  ###.###########b#####   #.##   ",
@@ -280,43 +279,52 @@
     "background": "dungeon_mossy%s_background",
     "access": [".79bABCD<", ".79cABCD<", ".79cABCD<", ".79bABCD<"],
     "conditional_access": ["3a8", "3a8", "3a8", "3a8"],
-    "access_denied": {},
+    "access_condition": {},
     "area_hotspots": {},
     "item_hotspots": {
     },
     "renderitem_hotspots": {
     },
     "spawn_hotspots": {
+        "Blast Beetle": {
+            "spot": [517, 453, 210, 192],
+            "actions": [{
+                "function": "dungeon.say",
+                "arguments": ["", "You killed the beetle."],
+                "sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+            }]
+        },
+        "Wikkawak": {
+            "spot": [585, 390, 192, 202],
+            "actions": [{
+                "function": "dungeon.say",
+                "arguments": ["", "You kill the creature."],
+                "sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+            }]
+        }
+
     },
     "container": "d.",
     "minimap": {
-      "wall": {
-        "area": "#2d",
-        "color": "#4444"
-      },
-      "door": {
-        "area": "38a",
-        "color": "#5C4425"
-      },
-      "misc": {
-        "area": "bcABCD",
-        "color": "#6a548e"
-      },
-      "ground": {
-        "color": "#fff4"
-      }
+      "#2def": "#4444",
+      "38a": "#5C4425",
+      "bcABCD": "#6a548e",
+      "ground": "#fff4"
     },
     "sound": {
-      "bump": "content/sfx/sound/dungeon/bump.ogg"
+      "bump": "content/sfx/sound/dungeon/bump.ogg",
+      "locked": "content/sfx/sound/dungeon/locked.ogg"
     },
     "item": {
         "(34, 25)": [{"name": "Replica Sword", "rot": 30}],
         "(35, 25)": [{"name": "Small Cane", "rot": 30 }],
-        "(36, 30)": [{"name": "Mallet" }],
         "(34, 30)": [{"name": "Elven Rapier" }],
         "(35, 30)": [{"name": "Ornate Gladius" }]
     },
-    "spawn": {},
+    "spawn": {
+        "(26, 20)": {"name": "Blast Beetle", "level": 1, "timer": 0.5 },
+        "(27, 5)": {"name": "Wikkawak", "level": 1, "timer": 0.7 }
+    },
     "renderitem": {},
     "event": {
         "(27, 25)": [{

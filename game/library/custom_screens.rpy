@@ -503,7 +503,7 @@ init: # PyTFall:
         # Hotkeys:
         if show_return_button and not get_screens("girl_interactions", "building_management_leftframe_businesses_mode"):
             key "mousedown_3" action Return(['control', 'return'])
-        if renpy.current_screen().tag not in ["girl_interactions", "hero_profile", "quest_log"]:
+        if renpy.current_screen().tag not in ["girl_interactions", "hero_profile", "quest_log", "dungeon"]:
             if global_flags.flag("visited_arena"):
                 key "a" action [Function(hs), Jump("arena_inside")]
             if global_flags.flag("visited_city_beach"):
@@ -621,7 +621,7 @@ init: # PyTFall:
                             action Show("s_menu", transition=dissolve)
                             hovered tt.Action("Game Preferences!")
                             
-                    if renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log"]:
+                    if renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "dungeon"]:
                         imagebutton:
                             idle im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37), im.matrix.brightness(0.25))
