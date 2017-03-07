@@ -158,7 +158,8 @@
       "ground": "#fff4"
     },
     "sound": {
-      "bump": "content/sfx/sound/dungeon/bump.ogg"
+      "bump": "content/sfx/sound/dungeon/bump.ogg",
+      "locked": "content/sfx/sound/dungeon/locked.ogg"
     },
     "item": {
         "(2, 1)": [{"name": "Replica Sword"}],
@@ -311,7 +312,8 @@
       "ground": "#fff4"
     },
     "sound": {
-      "bump": "content/sfx/sound/dungeon/bump.ogg"
+      "bump": "content/sfx/sound/dungeon/bump.ogg",
+      "locked": "content/sfx/sound/dungeon/locked.ogg"
     },
     "item": {
         "(34, 25)": [{"name": "Replica Sword", "rot": 30}],

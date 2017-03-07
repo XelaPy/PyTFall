@@ -128,6 +128,11 @@ init -1 python:
                 self.her['dx'] = pt[2]
                 self.her['dy'] = pt[3]
 
+        def play(self, sound, channel="sound", condition=True):
+            if condition and not renpy.music.is_playing(channel):
+                renpy.play(sound, channel)
+
+
         def no_access(self, at, to, ori, is_spawn=False):
 
             if pc['x'] == to[0] and pc['y'] == to[1]:
@@ -142,6 +147,8 @@ init -1 python:
             if dest in self.access[ori]:
                 if src in self.access[ori] or (not is_spawn and src in self.conditional_access[ori]):
                     return
+                self.play(self.sound['locked'], condition=not is_spawn, channel="sound")
+                return "access denied"
 
             if is_spawn:
                 return "spawn moment denied"
@@ -151,7 +158,12 @@ init -1 python:
                     return
                 elif 'access' in self.access_condition[tostr] and self.access_condition[tostr]['access']:
                     return
+                else:
+                    # TODO: check for condition(s), key..? (requires inventory)
+                    self.play(self.sound['locked'], condition=not is_spawn, channel="sound")
+                    return "access denied"
 
+            self.play(self.sound['bump'], condition=not is_spawn, channel="sound")
             return "wall collision"
 
         def function(self, function, arguments, set_var=None, **kwargs):
@@ -451,12 +463,6 @@ label enter_dungeon:
                 if not access_denied:
                     (pc['x'], pc['y']) = to
 
-                elif access_denied == "spawn collision":
-                    pass
-
-                elif renpy.music.is_playing(channel="sound"):
-                    renpy.play(dungeon.sound['bump'], channel="sound")
-
             elif _return == 4:
                 (pc['dx'], pc['dy']) = (pc['dy'], -pc['dx'])
 
@@ -470,12 +476,6 @@ label enter_dungeon:
                 if not access_denied:
                     (pc['x'], pc['y']) = to
 
-                elif access_denied == "spawn collision":
-                    pass
-
-                elif not renpy.music.is_playing(channel="sound"):
-                    renpy.play(dungeon.sound['bump'], channel="sound")
-
             elif _return == 8:
                 to = (pc['x']+pc['dx'], pc['y']+pc['dy'])
 
@@ -483,24 +483,12 @@ label enter_dungeon:
                 if not access_denied:
                     (pc['x'], pc['y']) = to
 
-                elif access_denied == "spawn collision":
-                    pass
-
-                elif not renpy.music.is_playing(channel="sound"):
-                    renpy.play(dungeon.sound['bump'], channel="sound")
-
             elif _return == 9:
                 to = (pc['x']-pc['dy'], pc['y']+pc['dx'])
 
                 access_denied = dungeon.no_access(at, to, ori ^ 2)
                 if not access_denied:
                     (pc['x'], pc['y']) = to
-
-                elif access_denied == "spawn collision":
-                    pass
-
-                elif not renpy.music.is_playing(channel="sound"):
-                    renpy.play(dungeon.sound['bump'], channel="sound")
 
             elif _return == "update map":
                 dungeon_location = dungeon.hero
