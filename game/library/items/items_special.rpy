@@ -113,7 +113,7 @@ label special_items_empty_extractor:
                     "For a moment you feel weak, but unpleasant pain somewhere inside your head."
                 $ eqtarget.exp -= 2000
                 $ eqtarget.remove_item("Empty Extractor", 1)
-                $ eqtarget.add_item("Full Extractor", 1)
+                $ hero.add_item("Full Extractor", 1)
                 "The device is full of energy."
             "No":
                 $ pass
