@@ -316,6 +316,10 @@ init -11 python:
             # Just an awesome item in general:
             if item.eqchance >= 70:
                 return allowed_to_equip
+            elif item.eqchance <= 0: # 0 eqchance will make item unavailable, unless there is good trait or slave status
+                if not silent:
+                    interactions_character_doesnt_want_bad_item()
+                return not allowed_to_equip
 
         if character.disposition < 850 and not check_lovers(character, hero):
             if not silent:
