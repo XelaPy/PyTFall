@@ -26,25 +26,25 @@ init -999 python:
     import simpy
     import cPickle as pickle
     import bisect
-                
+
     ############## Settings and other useful stuff ###############
     # absolute path to the pytfall/game directory, which is formatted according
     # to the conventions of the local OS
     gamedir = os.path.normpath(config.gamedir)
-    
+
     # Binding for easy access to major gfx folders.
     gfxpath = "content/gfx/"
     gfxframes = "content/gfx/frame/"
     gfximages = "content/gfx/images/"
     interfaceimages = "content/gfx/interface/images/"
     interfacebuttons = "content/gfx/interface/buttons/"
-    
+
     def content_path(path):
         '''Returns proper path for a file in the content directory *To be used with os module.'''
         if os.pathsep+"conent"+os.pathsep in path:
             renpy.error("conent already in path: "+path)
         return renpy.loader.transfn('content/' + path)
-    
+
     # enable logging via the 'logging' module
     logging.basicConfig(level=logging.DEBUG, format='%(levelname)-8s %(name)-15s %(message)s')
     devlog = logging.getLogger(" ".join([config.name, config.version]))
@@ -56,7 +56,7 @@ init -999 python:
     devlogfile.setFormatter(fm)
     del fm
     devlog.info("game directory: %s" % str(gamedir)) # Added str() call to avoid cp850 encoding
-    
+
     class TimeLog(_object):
         '''
         Uses Devlog log to time execustion time between the two points.
@@ -91,21 +91,21 @@ init -999 python:
 
     # Best I can tell, does nothing, but looks kinda nice :)
     sys.setdefaultencoding('utf-8')
-    
+
     # Getting rid of annoying saves before the menus
     def choice_for_skipping():
         """
         :doc: other
-    
+
         Tells Ren'Py that a choice is coming up soon. This currently has
         two effects:
-    
+
         * If Ren'Py is skipping, and the Skip After Choices preferences is set
           to stop skipping, skipping is terminated.
-    
+
         * An auto-save is triggered. (No Longer!)
         """
-    
+
         if renpy.config.skipping and not renpy.game.preferences.skip_after_choices:
             renpy.config.skipping = None
 
@@ -151,26 +151,26 @@ init -999 python:
     # Object to specify a lack of value when None can be considered valid.
     # Use as "x is undefined".
     undefined = object()
-    
+
     # Prepping a list to append all events for the registration.
     world_events = list()
-    
+
     # Prepping a list to append all quests for the registration.
     world_quests = list()
-    
+
     # Getting rid of Ren'Py's containers since we don't require rollback.
     dict = _dict
     set = _set
     list = _list
     # object = _object # We are not using Ren'Pys object anywhere but it will throw errors if initiated this early because layout cannot be built with Pythons one.
     _rollback = False
-    
+
     # Registration of extra music channels:
     renpy.music.register_channel("events", "sfx", False, file_prefix="content/sfx/sound/")
     renpy.music.register_channel("events2", "sfx", False,  file_prefix="content/sfx/sound/")
     renpy.music.register_channel("world", "music", True, file_prefix="content/sfx/music/world/")
     renpy.music.register_channel("gamemusic", "music", True, file_prefix="content/sfx/music/")
-    
+
     ######################## Classes/Functions ###################################
     # Auto Animation from a folder:
     def animate(path, delay=0.25, function=None, transition=None, loop=False):
@@ -188,110 +188,107 @@ init -999 python:
 
     class Flags(_object):
         """Simple class to log all variables into a single namespace
-        
+
         Now and count...
         """
         def __init__(self):
             self.flags = dict()
-            
+
         def __iter__(self):
             return iter(self.flags)
-        
-        def set_flag(self, flag, value=True):
-            self.flags[flag] = value
-            
-        def up_counter(self, flag, value=1, max=None, delete=False):
-            """A more advanced version of a counter than mod_flag.
-            
-            This can keep track of max and min.
-            """
-            if flag in self.flags:
-                f = self.flags[flag]
-                new_value = f + value
-                if (max is not None) and new_value >= max:
-                    self.flags[flag] = max
-                    if delete:
-                        self.del_flag(flag)
-                else:
-                    self.flags[flag] = new_value
-            else:
-                self.flags[flag] = value
-                
-        def down_counter(self, flag, value=1, min=None, delete=False):
-            """A more advanced version of a counter than mod_flag.
-            
-            This can keep track of max and min.
-            """
-            if flag in self.flags:
-                f = self.flags[flag]
-                new_value = f - value
-                if (min is not None) and new_value <= min:
-                    self.flags[flag] = min
-                    if delete:
-                        self.del_flag(flag)
-                else:
-                    self.flags[flag] = new_value
-            else:
-                self.flags[flag] = value
-            
+
+        def flag(self, flag):
+            return self.flags.get(flag, False)
+
         def mod_flag(self, flag, value):
             """Can be used as a simple counter for integer based flags.
-            
+
             Simply changes the value of the flag otherwise.
             """
-            if not flag in self.flags:
-                self.flags[flag] = value
-                if config.debug and "next" not in last_label: # Not logged during last day for clearer logs.
+            if config.debug:
+                if not self.has_flag(flag) and "next" not in last_label:
                     devlog.warning("{} flag modded before setting it's value!".format(flag))
-                return
-                
+
             if isinstance(value, int):
-                self.flags[flag] += value
+                self.flags[flag] += self.flags.get(flag, 0)
             else:
-                self.flags[flag] = value
-                
-        def set_union(self, flag, value):
-            """Can be used to create sets.
-            
-            If a flag exists, expects it to be a set() and creates a union with it.
-            """
-            if not flag in self.flags:
-                self.flags[flag] = set(value)
-                if config.debug and "next" not in last_label: # Not logged during last day for clearer logs.
-                    devlog.warning("{} flag modded before setting it's value!".format(flag))
-                return
-                
-            if isinstance(value, (set, list, tuple)):
-                self.flags[flag] = self.flags[flag].union(value)
-            else:
-                self.flags[flag] = self.flags[flag].union(set(value))
-                
-        def flag(self, flag):
-            if flag in self.flags:
-                return self.flags[flag]
-            else:
-                return False
-                
+                self.set_flag(flag, value)
+
+        def set_flag(self, flag, value=True):
+            self.flags[flag] = value
+
         def del_flag(self, flag):
             if flag in self.flags:
                 del(self.flags[flag])
-                
+
         def has_flag(self, flag):
             """Check if flag exists at all (not just set to False).
             """
             return flag in self.flags
-            
-        
+
+        def up_counter(self, flag, value=1, max=None, delete=False):
+            """A more advanced version of a counter than mod_flag.
+
+            This can keep track of max and delete a flag upon meeting it.
+            """
+            result = self.flags.get(flag, 0) + value
+            if result >= max:
+                if delete:
+                    self.del_flag(flag)
+                else:
+                    self.set_flag(flag, max)
+            else:
+                self.set_flag(result)
+
+        def down_counter(self, flag, value=1, min=None, delete=False):
+            """A more advanced version of a counter than mod_flag.
+
+            This can keep track of min and delete a flag upon meeting it.
+            """
+            result = self.flags.get(flag, 0) - value
+
+            if result <= min:
+                if delete:
+                    self.del_flag(flag)
+                else:
+                    self.set_flag(flag, min)
+            else:
+                self.set_flag(result)
+
+        def set_union(self, flag, value):
+            """Can be used to create sets.
+
+            If a flag exists, expects it to be a set() and creates a union with it.
+            """
+            if config.debug:
+                if not self.has_flag(flag) and "next" not in last_label:
+                    devlog.warning("{} flag modded before setting it's value!".format(flag))
+
+            if not isinstance(value, (set, list, tuple)):
+                value = set([value])
+
+            self.flags.setdefault(flag, set()).union(value)
+
+        def add_to_set(self, flag, value):
+            """Creates a set with flags"""
+            self.flags.setdefault(flag, set()).add(value)
+
+        def remove_from_set(self, flag, value):
+            """Removes from flag which is a set"""
+            if value in self.flags[flag]:
+                self.flags[flag].remove(value)
+
+
     def dice(percent_chance):
         """ returns randomly True with given % chance, or False """
         return random.random() * 100 <= percent_chance
-    
+
     # "wrapper" around the notify
     def notify(message, style=False):
         if config.developer:
             if style:
                 msg = "{=%s}%s"%(style, str(message))
-                renpy.notify(u"%s"%msg) 
+                renpy.notify(u"%s"%msg)
             else:
                 renpy.notify(u"{size=+10}%s"%str(message))
 
@@ -303,7 +300,7 @@ init -999 python:
         else:
             notify(u"Label '%s' does not exist." % labelname)
 
-    # Useful methods for path        
+    # Useful methods for path
     def listdir(dir):
         return os.listdir(os.path.join(gamedir, dir))
 
@@ -424,16 +421,16 @@ init -999 python:
 
     ########################## Images ##########################
     # Colors are defined in colors.rpy to global namespace, prolly was not the best way but file was ready to be used.
-    
+
     # Setting default town path to persistent:
     # if not persistent.town_path:
         # persistent.town_path = "content/gfx/bg/locations/map_buttons/dark/"
     # renpy.image("bg humans", "".join([persistent.town_path, "humans.jpg"]))
     renpy.image("bg humans", "content/gfx/bg/locations/map_buttons/gismo/humans.jpg")
-    
+
     renpy.image('bg black', Solid((0, 0, 0, 255)))
     renpy.image('bg blood', Solid((150, 6, 7, 255)))
-    
+
     ##################### Autoassociation #####################
     # Backrounds are automatically registered in the game and set to width/height of the default screen
     # displayed by "show bg <filename>" or similar commands
@@ -444,28 +441,28 @@ init -999 python:
             # image = 'content/gfx/bg/' + fname
             # renpy.image(tag, im.Scale(image, config.screen_width,
                         # config.screen_height))
-    
+
     for fname in os.listdir(gamedir + '/content/gfx/bg'):
         if fname.lower().endswith((".jpg", ".png", ".jpeg")):
             tag = 'bg ' + fname.rsplit(".", 1)[0]
             image = 'content/gfx/bg/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
-    
+
     for fname in os.listdir(gamedir + '/content/gfx/bg/locations'):
         if fname.lower().endswith((".jpg", ".png", ".jpeg")):
             tag = 'bg ' + fname.rsplit(".", 1)[0]
             image = 'content/gfx/bg/locations/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
-            
+
     for fname in os.listdir(gamedir + '/content/gfx/bg/story'):
         if fname.lower().endswith((".jpg", ".png", ".jpeg")):
             tag = 'bg ' + 'story ' + fname.rsplit(".", 1)[0]
             image = 'content/gfx/bg/story/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
-           
+
     for fname in os.listdir(gamedir + '/content/gfx/bg/be'):
         if fname.lower().endswith((".jpg", ".png", ".jpeg")):
             tag = 'bg ' + fname.rsplit(".", 1)[0]
@@ -473,13 +470,13 @@ init -999 python:
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
 
-    # Same thing for sprites and NPC        
+    # Same thing for sprites and NPC
     for fname in os.listdir(gamedir + '/content/gfx/sprites'):
         if fname.endswith('.png'):
             tag = fname[:-4]
             image = 'content/gfx/sprites/' + fname
             renpy.image(tag, image)
-            
+
     for fname in os.listdir(gamedir + '/content/gfx/sprites/npc'):
         if fname.endswith('.png'):
             tag = 'npc ' + fname[:-4]
@@ -490,8 +487,8 @@ init -999 python:
             image = 'content/gfx/sprites/npc/' + fname
             renpy.image(tag, ProportionalScale(image, 600,
                         700))
-            
-    # We'll define same images again so multiple npcs could be placed on the screen at the same time.        
+
+    # We'll define same images again so multiple npcs could be placed on the screen at the same time.
     for fname in os.listdir(gamedir + '/content/gfx/sprites/npc'):
         if fname.endswith('.png'):
             tag = 'npc2 ' + fname[:-4]
@@ -539,14 +536,14 @@ init -999 python:
         for dir in os.listdir(path):
             split_dir = dir.split(" ")
             len_split = len(split_dir)
-            
+
             folder_path = "/".join(["/content", folder, dir])
             img_name = split_dir[0]
             delay = float(split_dir[1]) if len_split > 1 else 0.25
             loop = bool(int(split_dir[2])) if len_split > 2 else False
-            
+
             renpy.image(img_name, animate(folder_path, delay, loop=loop))
-            
+
     load_frame_by_frame_animations_from_dir("gfx/animations")
     load_frame_by_frame_animations_from_dir("gfx/be/auto-animations")
 
@@ -592,7 +589,7 @@ init -1 python: # Constants:
     equipSlotsPositions['ring'] = [u'Ring', 1.18, 0.2]
     equipSlotsPositions['ring1'] = [u'Ring', 1.18, 0.4]
     equipSlotsPositions['ring2'] = [u'Ring', 1.18, 0.6]
-    
+
 init:
     default SKILLS_MAX = {k:5000 for k in PytCharacter.SKILLS}
     default SKILLS_THRESHOLD = {k:2000 for k in PytCharacter.SKILLS} # Must be exceeded before skills becomes harder to gain.
@@ -601,13 +598,13 @@ init:
     default char_equip = None
     default girls = None
     default reset_building_management = True
-    
+
 init 999 python:
     # ensure that all initialization debug messages have been written to disk
     devlogfile.flush()
-    
+
     # Build Maps:
     # tilemap = TileMap("my_map.json")
     # map_image = tilemap.build_map()
-    
+
     tl.timer("Ren'Py User Init!")
