@@ -20,6 +20,7 @@ init -11 python:
         """
         if not can_equip(item, char, silent=silent):
             return
+            
 
         # Gotta fix broken ceffect?:
         if item.slot == 'consumable' and area_effect:
@@ -287,7 +288,14 @@ init -11 python:
 
         if character == hero:
             return True # Would be weird if we could not access MCs inventory....
-
+            
+        if item.type == "alcohol":
+            if character.effects['Drunk']['active'] or character.effects['Depression']['active'] or "Heavy Drinker" in character.traits: # green light for booze in case of suitable effects
+                return True
+                
+        if item.type == "food" and "Always Hungry" in character.traits: # same for food
+            return True
+            
         # Always the same here as well...
         if character.status == "slave":
             return True
