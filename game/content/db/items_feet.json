@@ -7,7 +7,7 @@
     "sex": "unisex",
     "chance": 100,
     "badness": 95,
-    "eqchance": 5,
+    "eqchance": 1,
     "hidden": false,
     "infinite": true,
     "slot": "feet",
@@ -141,7 +141,8 @@
     "max": {"character": -20, "joy": -10},
     "mod": {"character": -20, "defence": -10, "attack": -10},
     "mod_skills": {"refinement": [0, 0, -0.1, 0, 0]},
-    "locations": ["Work Shop", "Look around"]
+    "locations": ["Work Shop", "Look around"],
+    "goodtraits": ["Masochist"]
     },
     {
     "id": "Kung Fu Shoes",

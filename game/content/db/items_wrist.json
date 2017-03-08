@@ -145,7 +145,8 @@
     "evasion_bonus": -10,
     "max": {"character": -15, "joy": -5},
     "mod": {"character": -15, "agility": -5, "defence": -5},
-    "locations": ["Work Shop", "Look around"]
+    "locations": ["Work Shop", "Look around"],
+    "goodtraits": ["Masochist"]
     },
     {
     "id": "Cleaning Gloves",
@@ -290,23 +291,6 @@
     "max": {"constitution": 35, "vitality": 10},
     "mod": {"constitution": 35, "charisma": -30},
     "locations": ["Exploration", "General Store"]
-    },
-    {
-    "id": "Pacifist's Armlet",
-    "desc": "The enchantment placed on this pretty armband slows down the wearer's movements whenever they are attempting to harm another person for any reason. It's the bane of warriors everywhere, but also an unpleasant object for anyone to wear.",
-    "icon": "content/items/wrist/pa.png",
-    "price": 600,
-    "sex": "female",
-    "chance": 20,
-    "badness": 30,
-    "eqchance": 0,
-    "hidden": false,
-    "infinite": false,
-    "slot": "wrist",
-    "type": "special",
-    "max": {"attack": -200, "defence": -200, "joy": -20},
-    "mod": {"agility": -50, "charisma": 40, "character": -40},
-    "locations": ["General Store"]
     },
     {
     "id": "Devil Arms",
@@ -566,7 +550,7 @@
     "sex": "male",
     "chance": 80,
     "badness": 90,
-    "eqchance": 10,
+    "eqchance": 0,
     "hidden": false,
     "infinite": false,
     "slot": "wrist",
