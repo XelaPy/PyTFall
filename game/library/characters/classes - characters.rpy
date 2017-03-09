@@ -5040,6 +5040,7 @@ init -10 python:
             level_points = self.level*50.0/target_level
 
             default_points = 12.5
+            max_default_points = default_points*1.1 # We do not want this to exceed default points too much
             stats_skills_points = 0
             for trait in self.traits.basetraits:
                 # Skills first (We calc this as 12.5% of the total)
@@ -5048,9 +5049,9 @@ init -10 python:
                     stats_skills_points += default_points*.33
                 else:
                     skills = trait.base_skills
-                    total_sp = sum(self.get_skill(x) * y for x, y in skills.iteritems()) / float(len_skills)
-                    total_sp_required = sum((SKILLS_MAX[x]*(target_tier*.1)) * y for x, y in skills.iteritems()) / float(len_skills)
-                    skill_bonus = default_points*total_sp/total_sp_required
+                    total_sp = sum(self.get_skill(x) for x in skills.iterkeys())
+                    total_sp_required = sum((SKILLS_MAX[x]*(target_tier*.1)) * (.01*y) for x, y in skills.iteritems())
+                    skill_bonus = min(default_points*total_sp/total_sp_required, max_default_points)
                     stats_skills_points += skill_bonus
 
                 len_stats = len(trait.base_stats)
@@ -5058,9 +5059,9 @@ init -10 python:
                     stats_skills_points += default_points*.33
                 else:
                     stats = trait.base_stats
-                    total_sp = sum(self.stats.stats[x] * y for x, y in stats.iteritems()) / float(len_stats)
-                    total_sp_required = sum(self.get_max(x) * y for x, y in stats.iteritems()) / float(len_stats)
-                    stat_bonus = default_points*total_sp/total_sp_required
+                    total_sp = sum(self.stats.stats[x] for x in stats.iterkeys())
+                    total_sp_required = sum(self.get_max(x) * (.01*y) for x, y in stats.iteritems())
+                    stat_bonus = min(default_points*total_sp/total_sp_required, max_default_points)
                     stats_skills_points += stat_bonus
 
             if len(self.traits.basetraits) == 1:
@@ -5068,7 +5069,7 @@ init -10 python:
 
             total_points = level_points + stats_skills_points
 
-            devlog.info("Name: {}, tier points for Teir {}: {} (lvl: {}, st/sk=total: {}/{}={})".format(self.name,
+            devlog.info("Name: {}, tier points for Teir {}: {} (lvl: {}, st/sk=total: {}/{}==>{})".format(self.name,
                                                                                                         int(target_tier),
                                                                                                         round(total_points),
                                                                                                         round(level_points),
