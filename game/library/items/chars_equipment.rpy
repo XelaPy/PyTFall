@@ -408,7 +408,7 @@ screen char_equip():
         spacing 1
         style_group "content"
         
-        # Item Desciption:
+        # Item Description:
         frame:
             xalign 0.6
             at fade_in_out()
