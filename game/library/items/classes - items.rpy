@@ -27,12 +27,12 @@ init -9 python:
             self.transferable = None
             self.sellable = None
 
-            self.hidden = True # Not used atm, decides if we should hide the effects.
+            self.hidden = True # mostly not used atm, decides if we should hide the item effects; does hide effects for gifts which have not been used at least once, becoming False afterwards
             self.jump_to_label = ""
             self.price = 0
             self.sex = 'unisex'
             self.unique = "" # Should be girls id in case of unique item.
-            self.bg_color = "" # only value atm is dark, otherwise brighter background will be used.
+            self.bg_color = "" # only value atm is dark, otherwise brighter background will be used; TODO: remove that stuff completely since now we have one universal background
             self.statmax = False
             self.skillmax = False
             self.infinite = False
@@ -49,6 +49,7 @@ init -9 python:
             # self.defence_multiplier = {}
             # self.delivery_bonus = {} Expects a k/v pair of type: multiplier This is direct bonus added to attack power.
             # self.delivery_multiplier = {}
+            # why is it commented out though? BE attributes are widely used by items...
 
         def init(self):
             # Rules:
@@ -98,7 +99,7 @@ init -9 python:
                 if not hasattr(self, 'mreusable'):
                     self.mreusable = False
 
-            # Ensures normal behaviour:
+            # Ensures normal behavior:
             if (self.statmax or self.skillmax) and self.slot not in self.CONS_AND_MISC:
                 self.statmax = False
                 self.skillmax = False
@@ -111,7 +112,7 @@ init -9 python:
 
             This method assumes that item can offer a bonus to the stat!
             Presently used in auto_equip method.
-            Does not take traits into concideration, just max/lvl_max and stats.
+            Does not take traits into consideration, just max/lvl_max and stats.
             """
             if stat in self.max:
                 new_max = char_stats.max[stat] + self.max[stat]
@@ -149,7 +150,7 @@ init -9 python:
 
         @property
         def filters(self):
-            """Returns a selection of availible filters for the occasion"""
+            """Returns a selection of available filters for the occasion"""
             filters = ["all"]
             availible_item_slots = set(item.slot for item in self.items.iterkeys())
 
@@ -265,7 +266,6 @@ init -9 python:
                     if item in self.filtered_items:
                         self.filtered_items.remove(item)
                 return True
-
             return False
 
         def clear(self):
@@ -301,7 +301,7 @@ init -9 python:
         def __init__(self, name, inv_length, locations=[], gold=10000, visible=True, sells=None, sell_margin=0.8, buy_margin=1.2):
             """Takes:
             locations = must be a list of item location fields ["general_shop", "cafe"] for example
-            int_length = lenght of inventory field as arguments (must be an integer)
+            int_length = length of inventory field as arguments (must be an integer)
             gold = amount of gold shop has on start-up (int)
             visible = If the shop is visible to the player (bool), false is not used at the moment
             sells = list of all the item types this shop should trade.

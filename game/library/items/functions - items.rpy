@@ -16,7 +16,7 @@ init -11 python:
     equipment_safe_mode = False # when it's true, we assume that equipment screen was called from unusual place, so all things which can break it are disabled
     
     def equip_item(item, char, silent=False, area_effect=False):
-        """First level of checks, all items should be equiped through this function!
+        """First level of checks, all items should be equipped through this function!
         """
         if not can_equip(item, char, silent=silent):
             return
@@ -40,7 +40,7 @@ init -11 python:
                     for t in targets:
                         t.equip(item)
                 else:
-                    renpy.call_screen('message_screen', "%s in not in any brothel! "% char.nickname)
+                    renpy.call_screen('message_screen', "%s in not in any building! "% char.nickname)
 
             elif item.ceffect == 'freelocal':
                 if loc in hero.buildings:
@@ -49,7 +49,7 @@ init -11 python:
                         if t.status != 'slave':
                             t.equip(item)
                 else:
-                    renpy.call_screen('message_screen', "%s in not in any brothel! "%char.nickname)
+                    renpy.call_screen('message_screen', "%s in not in any building! "%char.nickname)
 
             elif item.ceffect == 'slavelocal':
                 if loc in hero.buildings:
@@ -58,7 +58,7 @@ init -11 python:
                         if t.status == 'slave':
                             t.equip(item)
                 else:
-                    renpy.call_screen('message_screen', "%s in not in any brothel! "%char.nickname)
+                    renpy.call_screen('message_screen', "%s in not in any building! "%char.nickname)
                     
             if item.ceffect == 'allslaves':
                 char.inventory.remove(item)
@@ -258,7 +258,7 @@ init -11 python:
         """
         if item.unique:
             if not silent:
-                renpy.show_screen("message_screen", "Unique Items cannot be sold!")
+                renpy.show_screen("message_screen", "Unique items cannot be sold!")
             return
         elif not item.sellable:
             if not silent:
@@ -289,19 +289,12 @@ init -11 python:
         if character == hero:
             return True # Would be weird if we could not access MCs inventory....
             
-        if item.type == "alcohol":
-            if character.effects['Drunk']['active'] or character.effects['Depression']['active'] or "Heavy Drinker" in character.traits: # green light for booze in case of suitable effects
-                return True
-                
-        if item.type == "food" and "Always Hungry" in character.traits: # same for food
-            return True
-            
         # Always the same here as well...
         if character.status == "slave":
             return True
 
         # Always refuse if character hates the player:
-        if character.disposition < -700:
+        if character.disposition <= -500:
             if not silent:
                 interactions_girl_disp_is_too_low_to_give_money() # turns out money lines are perfect here
             return False
@@ -314,7 +307,14 @@ init -11 python:
                 return not allowed_to_equip
 
             # Always allow restorative items:
-            if item.type == "restore":
+            if item.type == "restore" and item.eqchance > 0:
+                return True
+                
+            if item.type == "alcohol" and item.eqchance > 0:
+                if character.effects['Drunk']['active'] or character.effects['Depression']['active'] or "Heavy Drinker" in character.traits: # green light for booze in case of suitable effects
+                    return True
+                    
+            if item.type == "food" and "Always Hungry" in character.traits and item.eqchance > 0: # same for food
                 return True
 
             # Good traits:
@@ -329,7 +329,7 @@ init -11 python:
                     interactions_character_doesnt_want_bad_item()
                 return not allowed_to_equip
 
-        if character.disposition < 850 and not check_lovers(character, hero):
+        if character.disposition < 950 and not check_lovers(character, hero):
             if not silent:
                 interactions_character_doesnt_want_to_equip_item()
             return False
