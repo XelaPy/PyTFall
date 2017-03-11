@@ -1054,6 +1054,8 @@ init -9 python:
 
         def mod_full_skill(self, skill, value):
             """This spreads the skill bonus over both action and training.
+
+            Only for leveling up, should not be used in game!
             """
             skill = skill.lower()
             self.skills[skill][0] += value*.75
@@ -5135,14 +5137,18 @@ init -10 python:
         # We need "reverse" calculation for when leveling up characters
         # Mainly to figure out their skill levels, maybe moar in the future
         def level_up_tier_to(self, level):
+            level_mod = level*.5 # We take level 200 as max...
+
             skills = {}
             # First, we get highest skill relevance from basetraits:
             for bt in self.traits.basetraits:
                 for skill, value in bt.base_skills.items():
                     skills[skill] = max(skills.get(skill, 0), value)
 
+            # Bit of an issue here is that we do not mind threathholds, not sure that it's a good thing.
             for skill, value in skills.items():
-                pass
+                value = (MAX_SKILLS[skill]*.01*value)*(.01*level_mod)
+                self.stats.mod_full_skill(skill, value)
 
 
     class Trait(_object):
