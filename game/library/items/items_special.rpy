@@ -1,3 +1,8 @@
+
+#-------------------------------------------------------------------------------
+# this rpy handles jumps from special consumables which have jump_to_label field
+#-------------------------------------------------------------------------------
+
 label special_items_slime_bottle:
     if not(hero.has_flag("slime_bottle")):
         $ hero.set_flag("slime_bottle", value=True)
@@ -76,7 +81,7 @@ label special_items_slime_bottle:
             "Maybe another time."
             jump char_equip
     $ new_slime.restore_portrait()
-    if dice(50): # no easy save scumming
+    if dice(50): # no easy save scumming; the first bottle will always be successful, but every next one will get flag which determines the outcome when previous bottle was opened :P
         $ hero.set_flag("slime_bottle", value=True)
     else:
         $ hero.set_flag("slime_bottle", value=False)
@@ -209,8 +214,8 @@ label special_items_one_for_all:
     show expression HitlerKaputt(spr, 50) as death
     pause 1.5
     hide death
-    "[eqtarget.name]'s body crumbles as her life energies turn into potions."
-    $ eqtarget.disposition -= 1000
+    "[eqtarget.name]'s body crumbles as her life energies turn into potions in your inventory."
+    $ eqtarget.disposition -= 1000 # in case if we'll have reviving one day
     $ eqtarget.health = 0
 jump mainscreen
 

@@ -1052,6 +1052,15 @@ init -9 python:
 
             self.skills[key][at] += value
 
+        def mod_full_skill(self, skill, value):
+            """This spreads the skill bonus over both action and training.
+
+            Only for leveling up, should not be used in game!
+            """
+            skill = skill.lower()
+            self.skills[skill][0] += value*.75
+            self.skills[skill][1] += quarter*.25
+
         def eval_inventory(self, inventory, weighted, target_stats, target_skills, exclude_on_skills, exclude_on_stats,
                            chance_func=None, min_value=-5, upto_skill_limit=False):
             """
@@ -1384,8 +1393,6 @@ init -9 python:
                 self.stats._mod_base_stat(key, int(round(value)))
             elif key.lower() in self.SKILLS:
                 self.__dict__["stats"]._mod_raw_skill(key, value)
-            # elif key == 'exp': # We handle this through properties...
-                # self.__dict__["stats"]._mod_exp(value)
             else:
                 super(PytCharacter, self).__setattr__(key, value)
 
@@ -5040,6 +5047,7 @@ init -10 python:
             level_points = self.level*50.0/target_level
 
             default_points = 12.5
+            max_default_points = default_points*1.1 # We do not want this to exceed default points too much
             stats_skills_points = 0
             for trait in self.traits.basetraits:
                 # Skills first (We calc this as 12.5% of the total)
@@ -5048,9 +5056,9 @@ init -10 python:
                     stats_skills_points += default_points*.33
                 else:
                     skills = trait.base_skills
-                    total_sp = sum(self.get_skill(x) * y for x, y in skills.iteritems()) / float(len_skills)
-                    total_sp_required = sum((SKILLS_MAX[x]*(target_tier*.1)) * y for x, y in skills.iteritems()) / float(len_skills)
-                    skill_bonus = default_points*total_sp/total_sp_required
+                    total_sp = sum(self.get_skill(x) for x in skills.iterkeys())
+                    total_sp_required = sum((SKILLS_MAX[x]*(target_tier*.1)) * (.01*y) for x, y in skills.iteritems())
+                    skill_bonus = min(default_points*total_sp/total_sp_required, max_default_points)
                     stats_skills_points += skill_bonus
 
                 len_stats = len(trait.base_stats)
@@ -5058,9 +5066,9 @@ init -10 python:
                     stats_skills_points += default_points*.33
                 else:
                     stats = trait.base_stats
-                    total_sp = sum(self.stats.stats[x] * y for x, y in stats.iteritems()) / float(len_stats)
-                    total_sp_required = sum(self.get_max(x) * y for x, y in stats.iteritems()) / float(len_stats)
-                    stat_bonus = default_points*total_sp/total_sp_required
+                    total_sp = sum(self.stats.stats[x] for x in stats.iterkeys())
+                    total_sp_required = sum(self.get_max(x) * (.01*y) for x, y in stats.iteritems())
+                    stat_bonus = min(default_points*total_sp/total_sp_required, max_default_points)
                     stats_skills_points += stat_bonus
 
             if len(self.traits.basetraits) == 1:
@@ -5068,7 +5076,7 @@ init -10 python:
 
             total_points = level_points + stats_skills_points
 
-            devlog.info("Name: {}, tier points for Teir {}: {} (lvl: {}, st/sk=total: {}/{}={})".format(self.name,
+            devlog.info("Name: {}, tier points for Teir {}: {} (lvl: {}, st/sk=total: {}/{}==>{})".format(self.name,
                                                                                                         int(target_tier),
                                                                                                         round(total_points),
                                                                                                         round(level_points),
@@ -5113,7 +5121,7 @@ init -10 python:
                 wage = wage*0.65
 
             # Normalize:
-            wage = int(wage)
+            wage = int(round(wage))
             if wage < 10:
                 wage = 10
 
@@ -5129,10 +5137,18 @@ init -10 python:
         # We need "reverse" calculation for when leveling up characters
         # Mainly to figure out their skill levels, maybe moar in the future
         def level_up_tier_to(self, level):
+            level_mod = level*.5 # We take level 200 as max...
+
             skills = {}
+            # First, we get highest skill relevance from basetraits:
             for bt in self.traits.basetraits:
                 for skill, value in bt.base_skills.items():
                     skills[skill] = max(skills.get(skill, 0), value)
+
+            # Bit of an issue here is that we do not mind threathholds, not sure that it's a good thing.
+            for skill, value in skills.items():
+                value = (MAX_SKILLS[skill]*.01*value)*(.01*level_mod)
+                self.stats.mod_full_skill(skill, value)
 
 
     class Trait(_object):
