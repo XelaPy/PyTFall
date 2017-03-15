@@ -256,20 +256,15 @@ label dev_testing_menu:
     # Call girls starting labels:
     $ all_chars = chars.values()
     while all_chars:
-        $ popped_girl = all_chars.pop()
-        $ girl_unique_label = "_".join(["start", popped_girl.id])
-        if renpy.has_label(girl_unique_label):
-            call expression girl_unique_label
-    $ del all_chars
-    if girl_unique_label in globals():
-        $ del girl_unique_label
+        $ temp = all_chars.pop()
+        $ chars_unique_label = "_".join(["start", temp.id])
+        if renpy.has_label(chars_unique_label):
+            call expression chars_unique_label
 
-    if "char" in store.__dict__:
-        $ del store.__dict__["char"]
-    if "girl" in store.__dict__:
-        $ del store.__dict__["girl"]
-    if "testBrothel" in store.__dict__:
-        $ del store.__dict__["testBrothel"]
+    # Clean up globals after loading chars:
+    python:
+        for i in ("girl_unique_label", "char", "girl", "testBrothel", "all_chars", "temp"):
+            del(i)
 
     python:
         shop_items = [item for item in items.values() if (set(pytfall.shops) & set(item.locations))]
