@@ -1052,6 +1052,15 @@ init -9 python:
 
             self.skills[key][at] += value
 
+        def mod_full_skill(self, skill, value):
+            """This spreads the skill bonus over both action and training.
+
+            Only for leveling up, should not be used in game!
+            """
+            skill = skill.lower()
+            self.skills[skill][0] += value*.75
+            self.skills[skill][1] += quarter*.25
+
         def eval_inventory(self, inventory, weighted, target_stats, target_skills, exclude_on_skills, exclude_on_stats,
                            chance_func=None, min_value=-5, upto_skill_limit=False):
             """
@@ -1384,8 +1393,6 @@ init -9 python:
                 self.stats._mod_base_stat(key, int(round(value)))
             elif key.lower() in self.SKILLS:
                 self.__dict__["stats"]._mod_raw_skill(key, value)
-            # elif key == 'exp': # We handle this through properties...
-                # self.__dict__["stats"]._mod_exp(value)
             else:
                 super(PytCharacter, self).__setattr__(key, value)
 
@@ -5114,7 +5121,7 @@ init -10 python:
                 wage = wage*0.65
 
             # Normalize:
-            wage = int(wage)
+            wage = int(round(wage))
             if wage < 10:
                 wage = 10
 
@@ -5130,10 +5137,18 @@ init -10 python:
         # We need "reverse" calculation for when leveling up characters
         # Mainly to figure out their skill levels, maybe moar in the future
         def level_up_tier_to(self, level):
+            level_mod = level*.5 # We take level 200 as max...
+
             skills = {}
+            # First, we get highest skill relevance from basetraits:
             for bt in self.traits.basetraits:
                 for skill, value in bt.base_skills.items():
                     skills[skill] = max(skills.get(skill, 0), value)
+
+            # Bit of an issue here is that we do not mind threathholds, not sure that it's a good thing.
+            for skill, value in skills.items():
+                value = (MAX_SKILLS[skill]*.01*value)*(.01*level_mod)
+                self.stats.mod_full_skill(skill, value)
 
 
     class Trait(_object):
