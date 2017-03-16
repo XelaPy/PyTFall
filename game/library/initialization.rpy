@@ -210,7 +210,7 @@ init -999 python:
                     devlog.warning("{} flag modded before setting it's value!".format(flag))
 
             if isinstance(value, int):
-                self.flags[flag] += self.flags.get(flag, 0)
+                self.flags[flag] = self.flags.get(flag, 0) + value
             else:
                 self.set_flag(flag, value)
 

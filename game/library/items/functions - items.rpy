@@ -3,37 +3,37 @@ init -11 python:
     def has_items(item, chars):
         if isinstance(item, basestring):
             item = items[item]
-        
+
         amount = 0
         for c in chars:
             amount += c.inventory[item]
             for i in c.eqslots.itervalues():
                 if i == item:
                     amount += 1
-                    
+
         return amount
-        
+
     equipment_safe_mode = False # when it's true, we assume that equipment screen was called from unusual place, so all things which can break it are disabled
-    
+
     def equip_item(item, char, silent=False, area_effect=False):
         """First level of checks, all items should be equipped through this function!
         """
         if not can_equip(item, char, silent=silent):
             return
-            
+
 
         # Gotta fix broken ceffect?:
         if item.slot == 'consumable' and area_effect:
             if not item.ceffect:
                 char.equip(item)
                 return
-                
+
             # potentially not one and the same for group.
             loc = char.location
             targets = [chars[key] for key in chars if chars[key].location == loc]
             if hero.location == loc:
                 targets.append(hero)
-            
+
             if item.ceffect == 'alllocal':
                 if loc in hero.buildings:
                     char.inventory.remove(item)
@@ -59,7 +59,7 @@ init -11 python:
                             t.equip(item)
                 else:
                     renpy.call_screen('message_screen', "%s in not in any building! "%char.nickname)
-                    
+
             if item.ceffect == 'allslaves':
                 char.inventory.remove(item)
                 for t in [c for c in hero.chars if c.status == 'slave']:
@@ -82,7 +82,7 @@ init -11 python:
                     t.equip(item)
         else:
             char.equip(item)
-            
+
     def equip_for(girl, jobtype):
         # TODO: Must be updated to work with new base-traits and jobs system.
         if girl.autoequip:
@@ -94,10 +94,10 @@ init -11 python:
                 girl.equip_for("Striptease")
             elif jobtype == "Prostitute":
                 girl.equip_for("Sex")
-                
+
     def transfer_items(source, target, item, amount=1, silent=False, force=False):
-        """Transfers items between characters. 
-        
+        """Transfers items between characters.
+
         This will also log a fact of transfer between a character and MC is appropriate.
         @param: force: Option to forcibly take an item from a character.
         """
@@ -135,16 +135,15 @@ init -11 python:
         target.inventory.append(item, received)
         return True
 
-                
     def can_equip(item, character, silent=True):
         """Checks if it is legal for a character to use/equip the item.
-        
+
         @param: silent: If False, game will notify the player with a reason why an item cannot be equipped.
         """
         if equipment_safe_mode and item.slot == "consumable":
             if item.jump_to_label or item.ceffect or item.type == "permanent":
                 return
-        
+
         if isinstance(character, PytGroup):
             if item.jump_to_label:
                 return
@@ -187,10 +186,10 @@ init -11 python:
                     renpy.show_screen('message_screen', "Slaves are forbidden to use shields by law!")
                 return
         return True
-                
+
     def can_transfer(source, target, item, amount=1, silent=True, force=False):
         """Checks if it is legal for a character to transfer the item.
-        
+
         @param: silent: If False, game will notify the player with a reason why an item cannot be equipped.
         @param: force: Option to forcibly take an item from a character.
         """
@@ -250,9 +249,9 @@ init -11 python:
                             source.say(choice(["Hey, I need this too, you know.", "Eh? Can't you just buy your own?"]))
                         source.restore_portrait()
                     return
-                
+
         return True
-                
+
     def can_sell(item, silent=True):
         """Checks in an item can be sold to a shop.
         """
@@ -288,7 +287,7 @@ init -11 python:
 
         if character == hero:
             return True # Would be weird if we could not access MCs inventory....
-            
+
         # Always the same here as well...
         if character.status == "slave":
             return True
@@ -309,11 +308,11 @@ init -11 python:
             # Always allow restorative items:
             if item.type == "restore" and item.eqchance > 0:
                 return True
-                
+
             if item.type == "alcohol" and item.eqchance > 0:
                 if character.effects['Drunk']['active'] or character.effects['Depression']['active'] or "Heavy Drinker" in character.traits: # green light for booze in case of suitable effects
                     return True
-                    
+
             if item.type == "food" and "Always Hungry" in character.traits and item.eqchance > 0: # same for food
                 return True
 
@@ -348,7 +347,7 @@ label shop_control:
             else:
                 $ purchasing_dir = 'buy'
                 $ item_price = int(focus.price*shop.buy_margin)
-            
+
         elif result[1] == 'buy/sell':
             if purchasing_dir == 'buy':
                 $ result = char.take_money(item_price*amount, "Items")
@@ -366,14 +365,14 @@ label shop_control:
                                                          "You'll need more money for this purchase"]))
                 $ amount = 1
                 $ focus = False
-                
+
             elif purchasing_dir == 'sell':
                 if not can_sell(focus, silent=False):
                     jump shop_control
                 elif shop != pytfall.general_store and (not shop.locations.intersection(focus.locations) or focus.type.lower() not in shop.sells):
                     $ focus = None
                     $ renpy.say("", "I will not buy this item from you!")
-                else:                         
+                else:
                     $ result = bool(shop.gold - (item_price*amount) >= 0)
                     if result:
                         play sound "content/sfx/sound/world/purchase_1.ogg"
@@ -388,7 +387,7 @@ label shop_control:
                         $ renpy.say("", "This is a bit more than I can pay!")
                     $ amount = 1
                     $ focus = None
-            
+
     elif result[0] == 'control':
         if isinstance(result[1], basestring):
             if result[1] == 'return':

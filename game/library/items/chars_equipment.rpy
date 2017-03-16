@@ -234,6 +234,7 @@ label char_equip_loop:
                         dummy.eqslots[unequip_slot] = focusitem
                         dummy.unequip(focusitem, unequip_slot)
                         #renpy.show_screen("diff_item_effects", eqtarget, dummy)
+
         elif result[0] == "unequip_all":
             python:
                 if isinstance(eqtarget, PytGroup):
@@ -253,6 +254,7 @@ label char_equip_loop:
                 selectedslot = None
                 unequip_slot = None
                 item_direction = None
+
         elif result[0] == "auto_discard": # TODO: remove
             python:
                 if isinstance(eqtarget, PytGroup):
