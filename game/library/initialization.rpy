@@ -232,13 +232,13 @@ init -999 python:
             This can keep track of max and delete a flag upon meeting it.
             """
             result = self.flags.get(flag, 0) + value
-            if result >= max:
+            if max and result >= max:
                 if delete:
                     self.del_flag(flag)
                 else:
                     self.set_flag(flag, max)
             else:
-                self.set_flag(result)
+                self.set_flag(flag, result)
 
         def down_counter(self, flag, value=1, min=None, delete=False):
             """A more advanced version of a counter than mod_flag.
@@ -247,13 +247,13 @@ init -999 python:
             """
             result = self.flags.get(flag, 0) - value
 
-            if result <= min:
+            if min and result <= min:
                 if delete:
                     self.del_flag(flag)
                 else:
                     self.set_flag(flag, min)
             else:
-                self.set_flag(result)
+                self.set_flag(flag, result)
 
         def set_union(self, flag, value):
             """Can be used to create sets.
