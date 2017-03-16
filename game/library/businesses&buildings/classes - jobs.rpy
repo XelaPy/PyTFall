@@ -1286,7 +1286,7 @@
             return act
 
         def take_virginity(self): # let's just assume that dildos are too small to take virginity, otherwise it becomes too complicated in terms of girls control :)
-            if traits["Virgin"] in self.worker.traits and not (self.effects['Chastity']['active']):
+            if traits["Virgin"] in self.worker.traits and not (self.worker.effects['Chastity']['active']):
                 tips = 100 + self.worker.charisma * 3
                 self.txt.append("\n{color=[pink]}%s lost her virginity!{/color} Customer thought that was super hot and left a tip of {color=[gold]}%d Gold{/color} for the girl.\n\n"%(self.worker.nickname, tips))
                 self.worker.remove_trait(traits["Virgin"])
