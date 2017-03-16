@@ -263,7 +263,7 @@ label dev_testing_menu:
 
     # Clean up globals after loading chars:
     python:
-        for i in ("girl_unique_label", "char", "girl", "testBrothel", "all_chars", "temp"):
+        for i in ("chars_unique_label", "char", "girl", "testBrothel", "all_chars", "temp"):
             del(i)
 
     python:
