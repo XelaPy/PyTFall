@@ -295,9 +295,9 @@ screen credits():
         background Transform(Frame("content/gfx/frame/frame_dec_1.png", 20, 20), alpha=0.7)
         pos(10, 120)
         xysize (900, 580)
+        style_group "mmenu"
         textbutton "Hide":
             align(0.5, 0.90)
-            style "yesno_button"
             action Hide("credits", transition=dissolve)
             
         side "c r":
@@ -307,7 +307,7 @@ screen credits():
                 mousewheel True
                 vbox:
                     style_prefix "proper_stats"
-                    text "Brought to you by:" size 20 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
+                    text "Brought to you by:" size 22 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
                     null height 20
                     hbox:
                         style_prefix "proper_stats"
@@ -341,7 +341,7 @@ screen credits():
                             text "The main coder and creator of the project"
                             text "Jack of all trades and master of none"
                             text "Code contributions, packs, writing, design and resources"
-                            text "Art, user interface, game design, backgrounds and icons"
+                            text "Art, user interface, design, backgrounds and icons"
                             null height 10
                             text "First tagger concept, code contributions, python consulting"
                             text "Code contributions, resources"
