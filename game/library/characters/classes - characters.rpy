@@ -1337,7 +1337,8 @@ init -9 python:
                 "Small Regeneration": {"active": False, "desc": "Restores 10 health every day for 20 days."},
                 "Blood Connection": {"active": False, "desc": "Disposition increases and character decreases every day."},
                 "Horny": {"active": False, "desc": "She's in the mood for sex."},
-                "Chastity": {"active": False, "desc": "Special enchantment preserves her virginity intact, at the cost of being extremely bad at vaginal sex."}
+                "Chastity": {"active": False, "desc": "Special enchantment preserves her virginity intact, at the cost of being extremely bad at vaginal sex."},
+                "Revealing Clothes": {"active": False, "desc": "Her clothes show a lot of skin, attracting views."}
                 }
 
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
@@ -2799,6 +2800,9 @@ init -9 python:
 
             elif effect == "Chastity":
                 self.effects['Chastity']['active'] = True
+                
+            elif effect == "Revealing Clothes":
+                self.effects['Revealing Clothes']['active'] = True
 
             elif effect == "Regeneration":
                 self.effects['Regeneration']['active'] = True
@@ -2926,6 +2930,9 @@ init -9 python:
 
             elif effect == "Chastity":
                 self.effects['Chastity']['active'] = False
+                
+            elif effect == "Revealing Clothes":
+                self.effects['Revealing Clothes']['active'] = False
 
             elif effect == "Regeneration":
                 self.effects['Regeneration']['active'] = False
