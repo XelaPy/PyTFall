@@ -673,15 +673,11 @@ screen char_equip_right_frame(tt):
                     python:
                         eqt = eqtarget._first if isinstance(eqtarget, PytGroup) else eqtarget
                         t_old = set(t.id for t in eqt.traits)
-                        if hasattr(eqt, "effects"):
-                            for effect in eqt.effects:
-                                if eqt.effects[effect]['active']:
-                                    t_old.add(effect)
+                        for effect, data in getattr(eqt, "effects", {}).iteritems():
+                            if data['active']: t_old.add(effect)
                         t_new = set(t.id for t in dummy.traits)
-                        if hasattr(dummy, "effects"):
-                            for effect in dummy.effects:
-                                if dummy.effects[effect]['active']:
-                                    t_new.add(effect)
+                        for effect, data in getattr(dummy, "effects", {}).iteritems():
+                            if data['active']: t_new.add(effect)
                         temp = t_new.difference(t_old)
                         temp = sorted(list(temp))
                     if temp:
@@ -692,15 +688,11 @@ screen char_equip_right_frame(tt):
 
                     python:
                         t_old = set(t.id for t in dummy.traits)
-                        if hasattr(dummy, "effects"):
-                            for effect in dummy.effects:
-                                if dummy.effects[effect]['active']:
-                                    t_old.add(effect)
+                        for effect, data in getattr(dummy, "effects", {}).iteritems():
+                            if data['active']: t_old.add(effect)
                         t_new = set(t.id for t in eqt.traits)
-                        if hasattr(eqt, "effects"):
-                            for effect in eqt.effects:
-                                if eqt.effects[effect]['active']:
-                                    t_new.add(effect)
+                        for effect, data in getattr(eqt, "effects", {}).iteritems():
+                            if data['active']: t_new.add(effect)
                         temp = t_new.difference(t_old)
                         temp = sorted(list(temp))
                     if temp:
@@ -714,7 +706,7 @@ screen char_equip_right_frame(tt):
                 hbox:
                     add "content/gfx/interface/images/add.png" yalign .5 yoffset -3
                     add "content/gfx/interface/images/remove.png" yalign .5 yoffset -5
-                    label ('Skills:') text_size 16 text_color gold style "stats_label"
+                    label ('Battle Skills:') text_size 16 text_color gold style "stats_label"
                 viewport:
                     mousewheel True
                     has vbox
