@@ -368,7 +368,7 @@
     "hidden": false,
     "infinite": false,
     "slot": "ring",
-    "max": {"mp": 70, "health": -50},
+    "max": {"mp": 50, "health": -50},
     "locations": ["Witches Hut"]
     },
     {
@@ -383,7 +383,7 @@
     "hidden": false,
     "infinite": false,
     "slot": "ring",
-    "max": {"mp": -70, "health": 50},
+    "max": {"mp": -50, "health": 50},
     "locations": ["Witches Hut"]
     },
     {
