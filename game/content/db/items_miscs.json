@@ -205,7 +205,6 @@
     "mtemp": 7,
     "mreusable": false,
     "mdestruct": true,
-    "mod": {"attack": 35, "defence": 25},
     "max": {"attack": 25, "defence": 15},
     "locations": ["Exploration"]
     },
@@ -232,7 +231,7 @@
     },
     {
     "id": "Codex of Submission",
-    "desc": "Despite looking like an innocent book of romantic poetry, this ancient tome has the power to sap its reader's mental defenses and sense of self. Most of its mind-controlling power is gone now, but it still leaves the reader noticeably more susceptible to the influence of others, and more receptive to submissive sexual acts.",
+    "desc": "Despite looking like an innocent book of romantic poetry, this ancient tome has the power to sap its reader's mental defences and sense of self. Most of its mind-controlling power is gone now, but it still leaves the reader noticeably more susceptible to the influence of others, and more receptive to submissive sexual acts.",
     "icon": "content/items/misc/csb.png",
     "price": 3500,
     "sex": "female",
@@ -268,7 +267,6 @@
     "mtemp": 5,
     "mreusable": false,
     "mdestruct": true,
-    "mod": {"magic": 65},
     "max": {"magic": 25, "mp": 30},
     "locations": ["Exploration"],
     "goodtraits": []
@@ -290,7 +288,7 @@
     "mreusable": false,
     "mdestruct": true,
     "mod_skills": {"service": [0, 0, 0, 0, 60], "strip": [0, 0, 0, 0, 50]},
-    "mod": {"charisma": 35, "intelligence": 15, "character": 25},
+    "max": {"charisma": 20, "intelligence": 15, "character": 20},
     "locations": ["Exploration"],
     "goodtraits": ["Neat", "Curious"]
     },
@@ -312,6 +310,7 @@
     "mreusable": false,
     "mdestruct": false,
     "mod": {"attack": 15, "defence": 15},
+    "max": {"attack": 5, "defence": 5},
     "locations": ["General Store"],
     "goodtraits": ["Adventurous"]
     },
@@ -319,7 +318,7 @@
     "id": "Manual of Health",
     "desc": "This in-depth book provides diet programs and exercise regimens to attain and maintain exceptionally good physical health. Following this advice is guaranteed to help the reader endure greater physical effort even in difficult or unusual circumstances.",
     "icon": "content/items/misc/mh.png",
-    "price": 700,
+    "price": 400,
     "sex": "unisex",
     "chance": 10,
     "badness": 0,
@@ -331,15 +330,15 @@
     "mtemp": 10,
     "mreusable": false,
     "mdestruct": false,
-    "mod": {"constitution": 35, "defence": 5},
-    "max": {"constitution": 15, "health": 20, "vitality": 40},
+    "mod": {"constitution": 15, "defence": 5},
+    "max": {"constitution": 15, "health": 15, "vitality": 15},
     "locations": ["General Store"]
     },
     {
     "id": "Manual of Magic",
     "desc": "This beginner's spellbook includes various tricks on concentration and meditation techniques.",
     "icon": "content/items/misc/mm.png",
-    "price": 650,
+    "price": 250,
     "sex": "unisex",
     "chance": 20,
     "badness": 75,
@@ -353,7 +352,7 @@
     "mreusable": false,
     "mdestruct": false,
     "mod": {"magic": 30},
-    "max": {"mp": 5},
+    "max": {"mp": 10},
     "locations": ["Witches Hut"],
     "goodtraits": []
     },
@@ -439,7 +438,7 @@
     "skillmax": 150,
     "mreusable": true,
     "mdestruct": false,
-    "mod": {"vitality": -4},
+    "mod": {"vitality": -5},
     "mod_skills": {"strip": [0, 0, 0, 1, 0], "dancing": [0, 0, 0, 1, 0]},
     "locations": ["General Store"],
     "goodtraits": ["Exhibitionist"]
@@ -509,7 +508,7 @@
     },
     {
     "id": "Concentration Orb",
-    "desc": "This orb collects energy from the surrounding space and transmits it to the owner, gradually restoring mana up to some point.",
+    "desc": "This orb collects energy from the surrounding space and transmits it to the owner, gradually restoring magic energy up to some point.",
     "icon": "content/items/misc/co.png",
     "price": 230,
     "sex": "unisex",
@@ -548,7 +547,7 @@
     },
     {
     "id": "Willbreaker Spice",
-    "desc": "When regularly slipped into a person's food, this magical spice will slowly wear down their willpower and mental defenses over time. Only slight amounts can be added at one time before the taste is detected, however.",
+    "desc": "When regularly slipped into a person's food, this magical spice will slowly wear down their willpower and mental defences over time. Only slight amounts can be added at one time before the taste is detected, however.",
     "icon": "content/items/misc/ws.png",
     "price": 750,
     "sex": "female",
