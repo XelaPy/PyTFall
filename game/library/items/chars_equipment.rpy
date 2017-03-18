@@ -441,8 +441,9 @@ screen char_equip_left_frame(tt, stats_display):
             # PORTRAIT ============================>
             frame:
                 xysize (100, 100)
+                pos (32, 11)
                 background Frame("content/gfx/frame/mes12.jpg", 5, 5)
-                foreground eqtarget.show("portrait", resize=(100, 100), cache=True) pos (32, 11)
+                add eqtarget.show("portrait", resize=(90, 90), cache=True) align .5, .5
             button:
                 xysize (32, 32)
                 background Null()
@@ -680,11 +681,10 @@ screen char_equip_right_frame(tt):
                             if data['active']: t_new.add(effect)
                         temp = t_new.difference(t_old)
                         temp = sorted(list(temp))
-                    if temp:
-                        for i in temp:
-                            frame:
-                                xpadding 3
-                                text u'{color=#43CD80}%s'%i size 16 yalign 0.5
+                    for i in temp:
+                        frame:
+                            xpadding 3
+                            text u'{color=#43CD80}%s'%i size 16 yalign 0.5
 
                     python:
                         t_old = set(t.id for t in dummy.traits)
@@ -695,11 +695,10 @@ screen char_equip_right_frame(tt):
                             if data['active']: t_new.add(effect)
                         temp = t_new.difference(t_old)
                         temp = sorted(list(temp))
-                    if temp:
-                        for trait in temp:
-                            frame:
-                                xpadding 3
-                                text u'{color=#CD4F39}%s'%trait size 16 yalign 0.5
+                    for i in temp:
+                        frame:
+                            xpadding 3
+                            text u'{color=#CD4F39}%s'%i size 16 yalign 0.5
 
             vbox:
                 xoffset 165
