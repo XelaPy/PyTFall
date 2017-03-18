@@ -665,7 +665,7 @@ screen char_equip_right_frame(tt):
                 hbox:
                     add "content/gfx/interface/images/add.png" yalign .5 yoffset -3
                     add "content/gfx/interface/images/remove.png" yalign .5 yoffset -5
-                    label ('Traits:') text_size 16 text_color gold style "stats_label"
+                    label ('Traits|Effects:') text_size 16 text_color gold style "stats_label"
                 viewport:
                     mousewheel True
                     has vbox
@@ -678,28 +678,36 @@ screen char_equip_right_frame(tt):
                                 if eqt.effects[effect]['active']:
                                     t_old.add(effect)
                         t_new = set(t.id for t in dummy.traits)
-                        if hasattr(eqt, "effects"):
+                        if hasattr(dummy, "effects"):
                             for effect in dummy.effects:
                                 if dummy.effects[effect]['active']:
                                     t_new.add(effect)
                         temp = t_new.difference(t_old)
                         temp = sorted(list(temp))
                     if temp:
-                        for skill in temp:
+                        for i in temp:
                             frame:
                                 xpadding 3
-                                text u'{color=#43CD80}%s'%skill size 16 yalign 0.5
+                                text u'{color=#43CD80}%s'%i size 16 yalign 0.5
 
                     python:
                         t_old = set(t.id for t in dummy.traits)
+                        if hasattr(dummy, "effects"):
+                            for effect in dummy.effects:
+                                if dummy.effects[effect]['active']:
+                                    t_old.add(effect)
                         t_new = set(t.id for t in eqt.traits)
+                        if hasattr(eqt, "effects"):
+                            for effect in eqt.effects:
+                                if eqt.effects[effect]['active']:
+                                    t_new.add(effect)
                         temp = t_new.difference(t_old)
                         temp = sorted(list(temp))
                     if temp:
-                        for skill in temp:
+                        for trait in temp:
                             frame:
                                 xpadding 3
-                                text u'{color=#CD4F39}%s'%skill size 16 yalign 0.5
+                                text u'{color=#CD4F39}%s'%trait size 16 yalign 0.5
 
             vbox:
                 xoffset 165
