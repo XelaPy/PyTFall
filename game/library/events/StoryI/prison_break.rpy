@@ -204,7 +204,7 @@ label storyi_bossroom:
         mob.mod_stat("mp", 100)
         mob.controller = BE_AI(mob)
         enemy_team.add(mob)
-        result = run_default_be(enemy_team, background="content/gfx/bg/story/p_b.jpg", track="content/sfx/music/be/battle (5)b.ogg", prebattle=False, death=False)
+        result = run_default_be(enemy_team, background="content/gfx/bg/story/p_b.jpg", slaves=True, track="content/sfx/music/be/battle (5)b.ogg", prebattle=False, death=False)
 
     show bg story p4 with sflash
     show sinister_star at Position(xpos = 704, xanchor=0.5, ypos=375, yanchor=0.5):
@@ -249,7 +249,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
             mob = build_mob(id=random.choice(enemies), level=15)
             mob.controller = BE_AI(mob)
             enemy_team.add(mob)
-        result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.jpg", prebattle=False, death=True, skill_lvl=3)
+        result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.jpg", slaves=True, prebattle=False, death=True, skill_lvl=3)
 
     if result is True:
         python:
