@@ -685,12 +685,13 @@ init: # PyTFall:
             add im.Scale("content/gfx/frame/frame_bg.png", size[0], size[1])
             
             vbox:
+                style_prefix "proper_stats"
                 spacing 30
                 align(0.5, 0.5)
                 vbox:
                     xmaximum (size[0] - 50) 
-                    text msg xalign 0.5
-                textbutton "Ok" action If(use_return, true=Return(), false=Hide("message_screen")) minimum(250, 30) xalign 0.5 style "yesno_button"
+                    text msg xalign 0.5 color lightgoldenrodyellow size 20
+                textbutton "Ok" action If(use_return, true=Return(), false=Hide("message_screen")) minimum(120, 30) xalign 0.5 style "yesno_button"
         
     screen display_disposition(tag, d, size, x, y, t):
         tag tag

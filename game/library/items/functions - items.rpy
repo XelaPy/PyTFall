@@ -142,13 +142,24 @@ init -11 python:
         """
         if equipment_safe_mode and item.slot == "consumable":
             if item.jump_to_label or item.ceffect or item.type == "permanent":
+                if not silent:
+                    renpy.show_screen("message_screen", "Special items cannot be used right now.")
                 return
                 
         if item.slot == 'consumable':
             if item.id in character.consblock:
                 if not silent:
-                    renpy.show_screen("message_screen", "This item has been used recently by {}, it cannot be used again yet.".format(character.name))
+                    if character.consblock[item.id] > 1:
+                        renpy.show_screen("message_screen", "This item has been used recently by {}, it cannot be used again for {} turns.".format(character.name, character.consblock[item.id]))
+                    else:
+                        renpy.show_screen("message_screen", "This item has been used recently by {}, it cannot be used again for one turn.".format(character.name))
                 return
+                
+        # elif item.slot == 'misc':
+            # if item.id in character.miscblock:
+                # if not silent:
+                    # renpy.show_screen("message_screen", "This item has been already used by {}, and cannot be used again.".format(character.name))
+                # return
 
         if isinstance(character, PytGroup):
             if item.jump_to_label:
@@ -164,32 +175,32 @@ init -11 python:
             return True
         if item.unique and item.unique != character.id:
             if not silent:
-                renpy.show_screen("message_screen", "This unique item cannot be equipped on {}!".format(character.name))
+                renpy.show_screen("message_screen", "This unique item cannot be equipped on {}.".format(character.name))
             return
         elif item.sex not in ["unisex", character.gender]:
             if not silent:
-                renpy.show_screen('message_screen', "{} item cannot be equipped on a character of {} gender!".format(item.id, character.gender))
+                renpy.show_screen('message_screen', "This item cannot be equipped on a character of {} gender.".format(character.gender))
             return
         elif not item.usable:
             if not silent:
-                renpy.show_screen("message_screen", "This item cannot be used or equipped!")
+                renpy.show_screen("message_screen", "This item cannot be used or equipped.")
             return
         elif item.type in ["food"] and character.effects['Food Poisoning']['active']:
             if not silent:
-                renpy.show_screen('message_screen', "She's already suffering from food poisoning. More food won't do any good.")
+                renpy.show_screen('message_screen', "{} is already suffering from food poisoning. More food won't do any good.".format(character.name))
             return
         elif character.status == "slave":
             if item.slot in ["weapon"] and not item.type.lower().startswith("tool"):
                 if not silent:
-                    renpy.show_screen('message_screen', "Slaves are forbidden to use large weapons by law!")
+                    renpy.show_screen('message_screen', "Slaves are forbidden to use large weapons by law.")
                 return
             elif item.type in ["armor"]:
                 if not silent:
-                    renpy.show_screen('message_screen', "Slaves are forbidden to wear armor by law!")
+                    renpy.show_screen('message_screen', "Slaves are forbidden to wear armor by law.")
                 return
             elif item.type in ["shield"]:
                 if not silent:
-                    renpy.show_screen('message_screen', "Slaves are forbidden to use shields by law!")
+                    renpy.show_screen('message_screen', "Slaves are forbidden to use shields by law.")
                 return
         return True
 
