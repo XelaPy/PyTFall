@@ -143,6 +143,12 @@ init -11 python:
         if equipment_safe_mode and item.slot == "consumable":
             if item.jump_to_label or item.ceffect or item.type == "permanent":
                 return
+                
+        if item.slot == 'consumable':
+            if item.id in character.consblock:
+                if not silent:
+                    renpy.show_screen("message_screen", "This item has been used recently by {}, it cannot be used again yet.".format(character.name))
+                return
 
         if isinstance(character, PytGroup):
             if item.jump_to_label:
