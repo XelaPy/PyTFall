@@ -973,8 +973,11 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                     xysize (80, 45)
                     if tt:
                        hovered tt.Action(temp_msg)
-                    action SensitiveIf(focusitem and can_equip(focusitem, eqtarget)), Return(['item', 'equip/unequip'])
-                    text "[temp]" style "pb_button_text" align (0.5, 0.5)
+                    action SensitiveIf(focusitem), Return(['item', 'equip/unequip'])
+                    if item_direction == 'equip' and not can_equip(focusitem, eqtarget):
+                        text "[temp]" style "pb_button_text" align (0.5, 0.5) color red strikethrough True
+                    else:
+                        text "[temp]" style "pb_button_text" align (0.5, 0.5)
 
                 # Right items info (Stats):
                 frame:
