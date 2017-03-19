@@ -446,8 +446,11 @@ init -11 python:
         new.traits.blocked_traits = char.traits.blocked_traits.copy()
         new.traits.basetraits = char.traits.basetraits.copy()
 
-        # Equipment slots:
+        # Equipment slots/Item mods:
         new.eqslots = char.eqslots.copy()
+        new.miscitems = char.miscitems.copy()
+        new.consblock = char.consblock.copy()
+        new.constemp = char.constemp.copy()
 
         # Skills:
         real_attack_skills = list(battle_skills[s] for s in [skill.name for skill in char.attack_skills])
