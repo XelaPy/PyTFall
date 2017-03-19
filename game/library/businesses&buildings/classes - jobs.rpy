@@ -574,9 +574,14 @@
 
         # We should also have a number of methods or properties to evaluate new dicts:
         def relative_ability(self, char, difficulty):
+
             pass
 
-        def effectiveness(self, char):
+        def effectiveness(self, char, difficulty):
+            """We check effectiveness here during jobs from SimPy land.
+
+            100 is considered a score where worker does the task with acceptible performance.
+            """
             return 100
 
 

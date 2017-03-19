@@ -1917,10 +1917,7 @@ init -9 python:
                     self.constemp[item] = item.ctemp
                 self.apply_item_effects(item)
 
-                # To prevent game trying to remove item on area effect.
-                if item.ceffect:
-                    pass
-                elif remove:
+                if remove:
                     self.inventory.remove(item)
 
             elif item.slot == 'misc':
@@ -2056,7 +2053,7 @@ init -9 python:
 
             if item.slot == "consumable":
 
-                if item.ceffect or item in self.consblock or item in self.constemp:
+                if item in self.consblock or item in self.constemp:
                     return None
 
                 if item.type == "alcohol":
@@ -4656,7 +4653,7 @@ init -9 python:
 
             if item.slot == "consumable":
 
-                if item.ceffect or item in self.consblock or item in self.constemp:
+                if item in self.consblock or item in self.constemp:
                     return [-10]
 
                 if item.type == "alcohol":

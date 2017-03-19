@@ -88,9 +88,6 @@ init -9 python:
                     self.skillmax = False
                     self.statmax = False
 
-                if not hasattr(self, 'ceffect'):
-                    self.ceffect = False
-
             if self.slot == 'misc':
                 if not hasattr(self, 'mtemp'):
                     self.mtemp = 10

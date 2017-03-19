@@ -314,11 +314,6 @@ init -999 python:
                     value = string
         return value
 
-    # Returns the position of cursor if show cursorPosition is called
-    # show cursorPosition on bottom
-    def dd_cursor_position(st, at):
-        x, y = renpy.get_mouse_pos()
-        return Text("{size=-5}%d - %d"%(x, y)), .1
 
     class JsonSchemator(object):
         def __init__(self, action=None):
@@ -530,29 +525,28 @@ init -999 python:
     load_frame_by_frame_animations_from_dir("gfx/animations")
     load_frame_by_frame_animations_from_dir("gfx/be/auto-animations")
 
-
-# Additional 'constant' definements
-
 # Adds a number of useful development tools to the left buttom corner
 # X - Instant Exit
 # R - Recompilation of the game
 # Shows mouse coordinates
+init python:
+    def dd_cursor_position(st, at):
+        x, y = renpy.get_mouse_pos()
+        return Text("{size=-5}%d-%d" % (x, y)), .1
+
 screen debug_tools():
     zorder 5
     vbox:
-        align (0.02, 0.98)
+        xsize 90
+        align 1.0, 1.0
         hbox:
-            xalign 0
-            button:
-                text "X"
+            xalign 1.0
+            textbutton "X":
                 action Quit(confirm=False)
-            button:
-                text "R"
+            textbutton "R":
                 action ui.callsinnewcontext("_save_reload_game")
-
-        add DynamicDisplayable(dd_cursor_position) xpos 10
+        add DynamicDisplayable(dd_cursor_position) xalign 1.0
         $ screen_link(last_label)
-
 
 init -1 python: # Constants:
     # for f in renpy.list_files():
