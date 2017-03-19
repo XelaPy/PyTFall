@@ -1928,8 +1928,9 @@ init -9 python:
                     return
 
                 if self.eqslots['misc']: # Unequip if equipped.
-                    self.inventory.append(self.eqslots['misc'])
-                    del(self.miscitems[self.eqslots['misc']])
+                    temp = self.eqslots['misc']
+                    self.inventory.append(temp)
+                    del(self.miscitems[temp])
                 self.eqslots['misc'] = item
                 self.miscitems[item] = item.mtemp
                 self.inventory.remove(item)
@@ -1977,7 +1978,6 @@ init -9 python:
                 self.inventory.remove(item) # Remove item from the inventory
 
         def unequip(self, item, slot=None):
-
             if item.slot == 'misc':
                 self.eqslots['misc'] = None
                 del(self.miscitems[item])
