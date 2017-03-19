@@ -438,8 +438,9 @@ init -11 python:
             # new.effects = char.effects.copy()
 
         # Traits copy:
-        real_traits = list(traits[t] for t in [trait.id for trait in char.traits])
-        new.traits[:] = real_traits
+        # real_traits = list(traits[t] for t in [trait.id for trait in char.traits])
+        # new.traits[:] = real_traits
+        new.traits[:] = list(char.traits)
         new.traits.normal = char.traits.normal.copy()
         new.traits.items = char.traits.items.copy()
         new.traits.ab_traits = char.traits.ab_traits.copy()
@@ -453,13 +454,15 @@ init -11 python:
         new.constemp = char.constemp.copy()
 
         # Skills:
-        real_attack_skills = list(battle_skills[s] for s in [skill.name for skill in char.attack_skills])
-        new.attack_skills[:] = real_attack_skills
+        # real_attack_skills = list(battle_skills[s] for s in [skill.name for skill in char.attack_skills])
+        # new.attack_skills[:] = real_attack_skills
+        new.attack_skills[:] = list(char.attack_skills)
         new.attack_skills.normal = char.attack_skills.normal.copy()
         new.attack_skills.items = char.attack_skills.items.copy()
 
-        real_magic_skills = list(battle_skills[s] for s in [skill.name for skill in char.magic_skills])
-        new.magic_skills[:] = real_magic_skills
+        # real_magic_skills = list(battle_skills[s] for s in [skill.name for skill in char.magic_skills])
+        # new.magic_skills[:] = real_magic_skills
+        new.magic_skills[:] = list(char.magic_skills)
         new.magic_skills.normal = char.magic_skills.normal.copy()
         new.magic_skills.items = char.magic_skills.items.copy()
 

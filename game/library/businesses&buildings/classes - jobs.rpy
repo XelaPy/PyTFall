@@ -573,7 +573,7 @@
             self.locmod[s] = self.workermod.get(s, 0) + value
 
         # We should also have a number of methods or properties to evaluate new dicts:
-        def relative_ability(self, char):
+        def relative_ability(self, char, difficulty):
             pass
 
         def effectiveness(self, char):

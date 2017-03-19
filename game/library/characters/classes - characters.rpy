@@ -2459,7 +2459,8 @@ init -9 python:
                     self.health = 1 # prevents death by accident...
                     continue
 
-                if not item.statmax or getattr(self, stat) < item.statmax:
+                condition = getattr(self, stat) < item.statmax if original_value < 0 else True
+                if not item.statmax or condition:
                     if stat == "gold":
                         self.gold += value
                     elif stat == "exp":
@@ -2619,7 +2620,7 @@ init -9 python:
                 if self.miscitems[item] <= 0:
                     self.apply_item_effects(item)
 
-                    # For Misc item that self-destruct
+                    # For Misc item that self-destruct:
                     if item.mdestruct:
                         del(self.miscitems[item])
                         self.eqslots['misc'] = False
