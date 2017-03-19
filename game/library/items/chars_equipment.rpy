@@ -136,7 +136,7 @@ label char_equip_loop:
                                     jump("char_equip_loop")
 
                             # If we got here, we just equip the item :D
-                            equip_item(focusitem, eqtarget, area_effect=True)
+                            equip_item(focusitem, eqtarget)
 
                     elif item_direction == 'unequip':
                         # Check if we are allowed to access inventory and act:
