@@ -2341,7 +2341,7 @@ init -9 python:
                             self.equip(desired_item)
 
         # Applies Item Effects:
-        def apply_item_effects(self, item, direction=True):
+        def apply_item_effects(self, item, direction=True, misc_mode=False):
             """Deals with applying items effects on characters.
 
             directions:
@@ -2468,7 +2468,10 @@ init -9 python:
 
                 if condition:
                     if stat == "gold":
-                        self.gold += value
+                        if misc_mode and self.status == "slave":
+                            hero.gold += value
+                        else:
+                            self.gold += value
                     elif stat == "exp":
                         self.exp += value
                     elif stat in ['health', 'mp', 'vitality', 'joy'] or (item.slot in ['consumable', 'misc'] and not (item.slot == 'consumable' and item.ctemp)):
@@ -2640,7 +2643,7 @@ init -9 python:
                                 if getattr(self, stat) + value < self.stats.min[stat]:
                                     break
                     else:
-                        self.apply_item_effects(item)
+                        self.apply_item_effects(item, misc_mode=True)
 
                         # For Misc item that self-destruct:
                         if item.mdestruct:
