@@ -2585,7 +2585,7 @@ init -9 python:
                         condition = not self.effects[effect]['active']
                         func = self.enable_effect
                     else:
-                        condition = self.effects[entry]['active']
+                        condition = self.effects[effect]['active']
                         func = self.disable_effect
                     if condition:
                         func(effect)
