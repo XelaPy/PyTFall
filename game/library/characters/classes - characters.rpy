@@ -1586,7 +1586,7 @@ init -9 python:
             return _list(e for e in self.traits if e.elemental)
 
         @property
-        def exp(self): # This is already handled in __setattr__ ????
+        def exp(self):
             return self.stats.exp
         @exp.setter
         def exp(self, value):
@@ -2369,6 +2369,7 @@ init -9 python:
                     devlog.warning("Unknown battle skill %s removed by character: %s (%s)!" % (spell, self.fullname, self.__class__))
 
             # Taking care of stats: -------------------------------------------------->
+            # Max Stats:
             for key in item.max:
                 if "Left-Handed" in self.traits and item.slot == "smallweapon":
                     self.stats.max[key] += item.max[key]*2
@@ -2394,6 +2395,7 @@ init -9 python:
                     self.stats.max[key] += int(item.max[key]*1.3)
                 else:
                     self.stats.max[key] += item.max[key]
+
             if "Royal Assassin" in self.traits and item.slot in ["smallweapon", "weapon", "body", "cape", "feet", "wrist", "head"]:
                 self.stats.max["attack"] += int(item.price*0.01)
                 self.mod_stat("attack", int(item.price*0.01))
@@ -2403,6 +2405,8 @@ init -9 python:
             elif "Arcane Archer" in self.traits and item.type in ["bow", "crossbow", "throwing"]:
                 self.stats.max["magic"] += int(item.max["attack"]*0.5)
                 self.stats.imod["magic"] += int(item.mod["attack"]*0.5)
+
+            # Min Stats:
             for key in item.min:
                 self.stats.min[key] += item.min[key]
                 if "Left-Handed" in self.traits and item.slot == "smallweapon":
@@ -2431,60 +2435,65 @@ init -9 python:
                     self.stats.min[key] += item.min[key]
             if "Recharging" in self.traits and item.slot == 'consumable' and not (item.slot == 'consumable' and item.ctemp) and not("mp" in item.mod):
                 self.mod_stat("mp", 10)
-            for key in item.mod:
-                if key == "health" and self.health + item.mod[key] <= 0:
+
+            # Item Stats:
+            for stat, value in item.mod.items():
+                # This health thing could be handled differently (note for the post-beta refactor)
+                if stat == "health" and self.health + value <= 0:
                     self.health = 1 # prevents death by accident...
                     continue
 
-                if not item.statmax or getattr(self, key) >= item.statmax:
-                    if key == 'gold':
-                        self.gold += item.mod[key]
-                    elif key == "exp":
-                        self.exp += item.mod[key]
-                    elif key in ['health', 'mp', 'vitality', 'joy'] or (item.slot in ['consumable', 'misc'] and not (item.slot == 'consumable' and item.ctemp)):
+                if not item.statmax or getattr(self, stat) < item.statmax:
+                    if stat == "gold":
+                        self.gold += value
+                    elif stat == "exp":
+                        self.exp += value
+                    elif stat in ['health', 'mp', 'vitality', 'joy'] or (item.slot in ['consumable', 'misc'] and not (item.slot == 'consumable' and item.ctemp)):
                         if self.effects['Fast Metabolism']['active'] and item.type == "food":
-                            self.mod_stat(key, (2*item.mod[key]))
-                        elif "Summer Eternality" in self.traits and key == "health" and item.mod[key]>0:
-                            self.mod_stat(key, (int(0.35*item.mod[key])))
-                        elif "Winter Eternality" in self.traits and key == "mp" and item.mod[key]>0:
-                            self.mod_stat(key, (int(0.35*item.mod[key])))
-                        elif "Effective Metabolism" in self.traits and key == "vitality" and item.mod[key]>0:
+                            self.mod_stat(stat, (2*value))
+                        elif "Summer Eternality" in self.traits and stat == "health" and value > 0:
+                            self.mod_stat(stat, (int(0.35*value)))
+                        elif "Winter Eternality" in self.traits and stat == "mp" and value > 0:
+                            self.mod_stat(stat, (int(0.35*value)))
+                        elif "Effective Metabolism" in self.traits and stat == "vitality" and value > 0:
                             if item.type == "food":
-                                self.mod_stat(key, (int(2*item.mod[key])))
+                                self.mod_stat(stat, (int(2*value)))
                             else:
-                                self.mod_stat(key, (int(1.5*item.mod[key])))
-                        elif "Magical Kin" in self.traits and key == "mp" and item.mod[key]>0:
+                                self.mod_stat(stat, (int(1.5*value)))
+                        elif "Magical Kin" in self.traits and stat == "mp" and value > 0:
                             if item.type == "alcohol":
-                                self.mod_stat(key, (int(2*item.mod[key])))
+                                self.mod_stat(stat, (int(2*value)))
                             else:
-                                self.mod_stat(key, (int(1.5*item.mod[key])))
+                                self.mod_stat(stat, (int(1.5*value)))
                         else:
-                            self.mod_stat(key, item.mod[key])
+                            self.mod_stat(stat, value)
                     else:
                         if "Left-Handed" in self.traits and item.slot == "smallweapon":
-                            self.stats.imod[key] += item.mod[key]*2
+                            self.stats.imod[stat] += value*2
                         elif "Left-Handed" in self.traits and item.slot == "weapon":
-                            self.stats.imod[key] += int(item.mod[key]*0.5)
-                        elif "Knightly Stance" in self.traits and key == "defence":
-                            self.stats.imod[key] += int(item.mod[key]*1.3)
-                        elif "Berserk" in self.traits and key == "defence":
-                            self.stats.imod[key] += int(item.mod[key]*0.5)
-                        elif "Berserk" in self.traits and key == "attack":
-                            self.stats.imod[key] += int(item.mod[key]*2)
-                        elif "Hollow Bones" in self.traits and key == "agility" and item.mod[key] <0:
+                            self.stats.imod[stat] += int(value*0.5)
+                        elif "Knightly Stance" in self.traits and stat == "defence":
+                            self.stats.imod[stat] += int(value*1.3)
+                        elif "Berserk" in self.traits and stat == "defence":
+                            self.stats.imod[stat] += int(value*0.5)
+                        elif "Berserk" in self.traits and stat == "attack":
+                            self.stats.imod[stat] += int(value*2)
+                        elif "Hollow Bones" in self.traits and stat == "agility" and value < 0:
                             pass
-                        elif "Elven Ranger" in self.traits and key == "defence" and item.mod[key] <0 and item.type in ["bow", "crossbow", "throwing"]:
+                        elif "Elven Ranger" in self.traits and stat == "defence" and value < 0 and item.type in ["bow", "crossbow", "throwing"]:
                             pass
                         elif "Sword Master" in self.traits and item.type == "sword":
-                            self.stats.imod[key] += int(item.mod[key]*1.3)
+                            self.stats.imod[stat] += int(value*1.3)
                         elif "Dagger Master" in self.traits and item.type == "dagger":
-                            self.stats.imod[key] += int(item.mod[key]*1.3)
+                            self.stats.imod[stat] += int(value*1.3)
                         elif "Shield Master" in self.traits and item.type == "shield":
-                            self.stats.imod[key] += int(item.mod[key]*1.3)
+                            self.stats.imod[stat] += int(value*1.3)
                         elif "Bow Master" in self.traits and item.type == "bow":
-                            self.stats.imod[key] += int(item.mod[key]*1.3)
+                            self.stats.imod[stat] += int(value*1.3)
                         else:
-                            self.stats.imod[key] += item.mod[key]
+                            self.stats.imod[stat] += value
+
+            # Skills:
             for key in item.mod_skills:
                 if key in self.SKILLS:
                     if not (item.skillmax and self.get_skill(key) >= item.skillmax): # Multi messes this up a bit.
@@ -2800,7 +2809,7 @@ init -9 python:
 
             elif effect == "Chastity":
                 self.effects['Chastity']['active'] = True
-                
+
             elif effect == "Revealing Clothes":
                 self.effects['Revealing Clothes']['active'] = True
 
@@ -2930,7 +2939,7 @@ init -9 python:
 
             elif effect == "Chastity":
                 self.effects['Chastity']['active'] = False
-                
+
             elif effect == "Revealing Clothes":
                 self.effects['Revealing Clothes']['active'] = False
 
