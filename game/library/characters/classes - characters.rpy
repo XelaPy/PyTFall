@@ -4914,7 +4914,7 @@ init -9 python:
             super(NPC, self).__init__()
 
 
-    ### ==>> Rest:
+### ==>> Rest:
 init -10 python:
     class Tier(_object):
         """This deals with expectations and social status of chars.
