@@ -9,20 +9,18 @@ init:
         is positive_item_eqeffects_change
         color "#ff1a1a"
 
-    screen discard_item(char, item):
+    screen discard_item(eq_sourse, item):
         zorder 10
         modal True
 
         add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
         frame:
-            background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.75), 10, 10)
+            background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.75), 10, 10)
             style_group "dropdown_gm2"
-            align (0.42, 0.61)
+            align .42, .61
             xsize 500
-            xpadding 10
-            ypadding 10
-            xmargin 0
-            ymargin 0
+            padding 10, 10
+            margin 0, 0
             has vbox spacing 5 xfill True
             text "{=TisaOTM}{size=-3}Discard {color=#ffd700}[item.id]{/color}?" xalign 0.52 color "#ecc88a"
             hbox:
@@ -30,11 +28,11 @@ init:
                 spacing 10
                 textbutton "{size=-1}Yes":
                     xalign 0.5
-                    action Function(char.inventory.remove, item), Hide("discard_item"), With(dissolve)
-                $ amount = char.inventory[item]
+                    action Function(eq_sourse.inventory.remove, item), Hide("discard_item"), With(dissolve)
+                $ amount = eq_sourse.inventory[item]
                 textbutton "{size=-1}Discard All":
                     xalign 0.5
-                    action SensitiveIf(amount > 1), Function(char.inventory.remove, item, amount), Hide("discard_item"), With(dissolve)
+                    action SensitiveIf(amount > 1), Function(eq_sourse.inventory.remove, item, amount), Hide("discard_item"), With(dissolve)
                 textbutton "{size=-1}No":
                     xalign 0.5
                     action Hide("discard_item"), With(dissolve)

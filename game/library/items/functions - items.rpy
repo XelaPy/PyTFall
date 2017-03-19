@@ -229,21 +229,20 @@ init -11 python:
         #
         # with allowed_to_equip=True (default) check whether we are allowed to equip the item,
         # with allowed_to_equip=False, check whether we are allowed to *un*equip
-        char = character
+        if character == hero:
+            return True # Would be weird if we could not access MCs inventory....
+
         if isinstance(character, PytGroup):
             if item and item.jump_to_label:
                 return False
 
             # get a response from one single individual
-            global char
-            for char in character.shuffled:
-                if not equipment_access(char, item, silent, allowed_to_equip):
+            for c in character.shuffled:
+                store.char = c
+                if not equipment_access(c, item, silent, allowed_to_equip):
                     return False
-            char = character
+            store.char = character
             return True
-
-        if character == hero:
-            return True # Would be weird if we could not access MCs inventory....
 
         # Always the same here as well...
         if character.status == "slave":
