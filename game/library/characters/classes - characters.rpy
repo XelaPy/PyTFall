@@ -2459,8 +2459,14 @@ init -9 python:
                     self.health = 1 # prevents death by accident...
                     continue
 
-                condition = getattr(self, stat) < item.statmax if original_value < 0 else True
-                if not item.statmax or condition:
+                if original_value < 0:
+                    condition = True
+                elif item.statmax and getattr(self, stat) >= item.statmax:
+                    condition = False
+                else:
+                    condition = True
+
+                if condition:
                     if stat == "gold":
                         self.gold += value
                     elif stat == "exp":
