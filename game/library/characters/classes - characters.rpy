@@ -2527,7 +2527,7 @@ init -9 python:
                 imod_val = int(item.mod["attack"]*.5) if direction else -int(item.mod["attack"]*.5)
                 self.stats.max["magic"] += max_val
                 self.stats.imod["magic"] += imod_val
-            if direction and "Recharging" in self.traits and item.slot == 'consumable' and not (item.slot == 'consumable' and item.ctemp) and not("mp" in item.mod):
+            if direction and "Recharging" in self.traits and item.slot == 'consumable' and not item.ctemp and not("mp" in item.mod):
                 self.mod_stat("mp", 10)
 
             # Skills:
@@ -2591,7 +2591,6 @@ init -9 python:
                         func(effect)
 
             # Jump away from equipment screen if appropriate:
-
             if direction and getattr(store, "dummy", None):
                 if item.jump_to_label:
                     renpy.scene(layer="screens")
