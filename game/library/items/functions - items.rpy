@@ -15,73 +15,13 @@ init -11 python:
 
     equipment_safe_mode = False # when it's true, we assume that equipment screen was called from unusual place, so all things which can break it are disabled
 
-    def equip_item(item, char, silent=False, area_effect=False):
+    def equip_item(item, char, silent=False):
         """First level of checks, all items should be equipped through this function!
         """
         if not can_equip(item, char, silent=silent):
             return
 
-
-        # Gotta fix broken ceffect?:
-        if item.slot == 'consumable' and area_effect:
-            if not item.ceffect:
-                char.equip(item)
-                return
-
-            # potentially not one and the same for group.
-            loc = char.location
-            targets = [chars[key] for key in chars if chars[key].location == loc]
-            if hero.location == loc:
-                targets.append(hero)
-
-            if item.ceffect == 'alllocal':
-                if loc in hero.buildings:
-                    char.inventory.remove(item)
-                    for t in targets:
-                        t.equip(item)
-                else:
-                    renpy.call_screen('message_screen', "%s in not in any building! "% char.nickname)
-
-            elif item.ceffect == 'freelocal':
-                if loc in hero.buildings:
-                    char.inventory.remove(item)
-                    for t in targets:
-                        if t.status != 'slave':
-                            t.equip(item)
-                else:
-                    renpy.call_screen('message_screen', "%s in not in any building! "%char.nickname)
-
-            elif item.ceffect == 'slavelocal':
-                if loc in hero.buildings:
-                    char.inventory.remove(item)
-                    for t in targets:
-                        if t.status == 'slave':
-                            t.equip(item)
-                else:
-                    renpy.call_screen('message_screen', "%s in not in any building! "%char.nickname)
-
-            if item.ceffect == 'allslaves':
-                char.inventory.remove(item)
-                for t in [c for c in hero.chars if c.status == 'slave']:
-                    t.equip(item)
-
-            elif item.ceffect == 'allfree':
-                char.inventory.remove(item)
-                targets = [girl for girl in hero.chars if girl.status != 'slave']
-                if hero.location == loc:
-                    targets.append(hero)
-                for t in targets:
-                    t.equip(item)
-
-            elif item.ceffect == 'allchars':
-                char.inventory.remove(item)
-                targets = hero.chars
-                if hero.location == loc:
-                    targets.append(hero)
-                for t in targets:
-                    t.equip(item)
-        else:
-            char.equip(item)
+        char.equip(item)
 
     def equip_for(girl, jobtype):
         # TODO: Must be updated to work with new base-traits and jobs system.
@@ -141,7 +81,7 @@ init -11 python:
         @param: silent: If False, game will notify the player with a reason why an item cannot be equipped.
         """
         if equipment_safe_mode and item.slot == "consumable":
-            if item.jump_to_label or item.ceffect or item.type == "permanent":
+            if item.jump_to_label or item.type == "permanent":
                 if not silent:
                     renpy.show_screen("message_screen", "Special items cannot be used right now.")
                 return
