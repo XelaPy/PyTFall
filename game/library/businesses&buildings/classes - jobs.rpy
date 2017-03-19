@@ -573,16 +573,26 @@
             self.locmod[s] = self.workermod.get(s, 0) + value
 
         # We should also have a number of methods or properties to evaluate new dicts:
-        def relative_ability(self, char, difficulty):
-
+        def relative_ability(self, char):
+            # Maybe just do the stats/skills interpolation here???
+            # And later add that to tier calc in the effectiveness method?
             pass
 
-        def effectiveness(self, char, difficulty):
+        def effectiveness(self, worker, difficulty):
             """We check effectiveness here during jobs from SimPy land.
 
+            difficulty is used to counter worker tier.
             100 is considered a score where worker does the task with acceptible performance.
             """
-            return 100
+            if difficulty <= worker.tier:
+                effectiveness = 50 # We give 50 points for matching or being better than required.
+                # And 25 points for every extra level:
+                bonus = difficulty - worker.tier
+                effectiveness += bonus*25
+            else:
+                effectiveness = 0
+
+            return effectiveness
 
 
     ####################### Whore Job  ############################
