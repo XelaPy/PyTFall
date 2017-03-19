@@ -145,16 +145,16 @@ init -11 python:
                 if not silent:
                     renpy.show_screen("message_screen", "Special items cannot be used right now.")
                 return
-                
+
         if item.slot == 'consumable':
-            if item.id in character.consblock:
+            if item in character.consblock:
                 if not silent:
-                    if character.consblock[item.id] > 1:
-                        renpy.show_screen("message_screen", "This item has been used recently by {}, it cannot be used again for {} turns.".format(character.name, character.consblock[item.id]))
+                    if character.consblock[item] > 1:
+                        renpy.show_screen("message_screen", "This item has been used recently by {}, it cannot be used again for {} turns.".format(character.name, character.consblock[item]))
                     else:
                         renpy.show_screen("message_screen", "This item has been used recently by {}, it cannot be used again for one turn.".format(character.name))
                 return
-                
+
         # elif item.slot == 'misc':
             # if item.id in character.miscblock:
                 # if not silent:
