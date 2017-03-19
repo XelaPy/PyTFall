@@ -2317,7 +2317,6 @@ init -9 python:
                         if currently_equipped == desired_item:
                             continue
 
-
                 if slot == "ring" or slot == "ring1":
 
                     if self.eqslots["ring2"] == desired_item or eqsave["ring2"] == currently_equipped:

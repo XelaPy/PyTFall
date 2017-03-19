@@ -18,57 +18,58 @@ python early:
     ## stored. (It needs to be set early, before any other init code
     ## is run, so the persistent information can be found by the init code.)
     config.save_directory = None
-    
+
     ## These control the width and height of the screen.
     config.screen_width = 1280
     config.screen_height = 720
-    
+
 init -1000 python hide:
     ## Should we enable the use of developer tools? This should be
     ## set to False before the game is released, so the user can't
     ## cheat using developer tools.
     config.developer = True
     config.debug = True
-    
+
 init -5 python hide:
     ## This controls the title of the window, when Ren'Py is
     ## running in a window.
     config.window_title = "%s %s" % (config.name, config.version)
     config.window_icon = "content/gfx/interface/icons/win_icon.png"
     config.windows_icon = "content/gfx/interface/icons/win_icon.png"
-    
+
     # ----------------------------- Moved from initialization.rpy -------------------------------------->>>
     config.quit_action = Quit()
     if config.debug:
         config.keymap['game_menu'] = ["K_ESCAPE"]
     else:
         config.keymap['game_menu'] = []
-    
-    # Fixing path:    
+
+    # Fixing path:
     config.reject_backslash = False
-    
+
     # disabling rollback as not being compatible with games nature
     config.rollback_enabled = False
     config.hard_rollback_limit = 0
     config.rollback_length = 1
-    
+
     # Game may bug out on saving, in such case, comment should be removed
     # config.use_cpickle = False
     config.save_dump = False
-    
+
     config.layers.append("pytfall")
-    
+
     # Imagecache:
     # config.debug_image_cache = True
     config.image_cache_size = 80
-    
-    # getting rid of auto-saves 
+
+    # getting rid of auto-saves
     config.has_autosave = False
     config.autosave_frequency = None
-    
+    renpy.config.autosave_on_choice = False
+
     # causes a really odd crash otherwise:
     config.screenshot_callback = None
-    
+
     # Lets see if we can establish json callback:
     def simple_save_dict(some_dict):
         if hasattr(store, "hero"):
@@ -82,15 +83,15 @@ init -5 python hide:
             except:
                 pass
     config.save_json_callbacks = [simple_save_dict]
-    
+
     if not config.developer:
         # Hotkeys:
         # Stop right click menu:
         config.keymap["game_menu"] = None
-            
+
     # Stop middle click hide menus
     config.keymap["hide_windows"] = None
-    
+
     # Saves last label in a variable "last_label". Might be useful to jump back to from labels with mulptiple entry points.
     def label_callback(name, abnormal):
         if "pytfall" in globals():
@@ -121,46 +122,46 @@ init -5 python hide:
     theme.crayon(
         ## Theme: Crayon
         ## Color scheme: White Chocolate
-  
+
         ## The color of an idle widget face.
         widget = "#33271C",
-  
+
         ## The color of a focused widget face.
         widget_hover = "#ECE7C4",
-  
+
         ## The color of the text in a widget.
         widget_text = "#B99D83",
-  
+
         ## The color of the text in a selected widget. (For
         ## example, the current value of a preference.)
         widget_selected = "#ffffff",
-  
+
         ## The color of a disabled widget face.
         disabled = "#614D3A",
-  
+
         ## The color of disabled widget text.
         disabled_text = "#80654D",
-  
+
         ## The color of informational labels.
         label = "#F1EBE5",
-  
+
         ## The color of a frame containing widgets.
         frame = "#926841",
-  
+
         ## The background of the main menu. This can be a color
         ## beginning with '#', or an image filename. The latter
         ## should take up the full height and width of the screen.
         mm_root = ImageReference("humans"),
-  
+
         ## The background of the game menu. This can be a color
         ## beginning with '#', or an image filename. The latter
         ## should take up the full height and width of the screen.
         gm_root = "content/gfx/bg/gallery.jpg",
-  
+
         ## If this is True, the in-game window is rounded. If False,
         ## the in-game window is square.
         rounded_window = False,
-  
+
         ## And we're done with the theme. The theme will customize
         ## various styles, so if we want to change them, we should
         ## do so below.
@@ -181,7 +182,7 @@ init -5 python hide:
     ## of pixels from the upper-left corner. If a floating point,
     ## the number is interpreted as a fraction of the size of the
     ## displayable or screen.
-    
+
     # mm_root = "content/gfx/bg/locations/humans.jpg",
 
     ## The background of the game menu. This can be a color
@@ -394,4 +395,3 @@ init python:
 
     build.documentation('*.html')
     build.documentation('*.txt')
-    

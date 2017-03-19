@@ -92,23 +92,6 @@ init -999 python:
     # Best I can tell, does nothing, but looks kinda nice :)
     sys.setdefaultencoding('utf-8')
 
-    # Getting rid of annoying saves before the menus
-    def choice_for_skipping():
-        """
-        :doc: other
-
-        Tells Ren'Py that a choice is coming up soon. This currently has
-        two effects:
-
-        * If Ren'Py is skipping, and the Skip After Choices preferences is set
-          to stop skipping, skipping is terminated.
-
-        * An auto-save is triggered. (No Longer!)
-        """
-
-        if renpy.config.skipping and not renpy.game.preferences.skip_after_choices:
-            renpy.config.skipping = None
-
     def resolve_lib_file(badf, l=1):
 
         m = re.match(r'^(?:.*[\\/])?(library[\\/].*\.rpy)c?$', badf)
