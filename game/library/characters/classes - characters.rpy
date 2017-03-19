@@ -2469,9 +2469,13 @@ init -9 python:
                 if condition:
                     if stat == "gold":
                         if misc_mode and self.status == "slave":
-                            hero.gold += value
+                            temp = hero
                         else:
-                            self.gold += value
+                            temp = self
+                        if value < 0:
+                            temp.take_money(-value, reason="Upkeep")
+                        else:
+                            temp.add_money(value, reason="Items")
                     elif stat == "exp":
                         self.exp += value
                     elif stat in ['health', 'mp', 'vitality', 'joy'] or (item.slot in ['consumable', 'misc'] and not (item.slot == 'consumable' and item.ctemp)):
