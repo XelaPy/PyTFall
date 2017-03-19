@@ -78,9 +78,9 @@ label next_day_effects_check:  # all traits and effects which require some unusu
                 i.enable_effect('Depression')
             elif not "Optimist" in i.traits and i.joy >= 95 and not i.effects['Elation']['active']:
                 i.enable_effect('Elation')
-            if i.vitality < 50 and not i.effects['Exhausted']['active']: # 5+ days with vitality < 50 lead to Exhausted effect, can be removed by one day of rest
+            if i.vitality < 50 and not i.effects['Exhausted']['active']: # 3+ days with vitality < 50 lead to Exhausted effect, can be removed by one day of rest or some items
                 i.effects['Exhausted']['activation_count'] += 1
-            if i.effects['Exhausted']['activation_count'] >= 5 and not i.effects['Exhausted']['active']:
+            if i.effects['Exhausted']['activation_count'] >= 3 and not i.effects['Exhausted']['active']:
                 i.enable_effect('Exhausted')
             if "Life Beacon" in hero.traits: # hero-only trait which heals everybody
                 i.health += randint(10, 20)
