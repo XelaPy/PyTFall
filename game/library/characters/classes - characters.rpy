@@ -2624,20 +2624,36 @@ init -9 python:
             for item in self.miscitems.keys():
                 self.miscitems[item] -= 1
                 if self.miscitems[item] <= 0:
-                    self.apply_item_effects(item)
+                    # Figure out if we can pay the piper:
+                    for stat, value in item.mod.items():
+                        if value < 0:
+                            if stat == "exp":
+                                pass
+                            elif stat == "gold":
+                                if self.status == "slave":
+                                    temp = hero
+                                else:
+                                    temp = self
+                                if temp.gold + value < 0:
+                                    break
+                            else:
+                                if getattr(self, stat) + value < self.stats.min[stat]:
+                                    break
+                    else:
+                        self.apply_item_effects(item)
 
-                    # For Misc item that self-destruct:
-                    if item.mdestruct:
-                        del(self.miscitems[item])
-                        self.eqslots['misc'] = False
+                        # For Misc item that self-destruct:
+                        if item.mdestruct:
+                            del(self.miscitems[item])
+                            self.eqslots['misc'] = False
+                            if not item.mreusable:
+                                self.miscblock.append(item)
+                            return
+
                         if not item.mreusable:
                             self.miscblock.append(item)
-                        return
-
-                    if not item.mreusable:
-                        self.miscblock.append(item)
-                        self.unequip(item)
-                        return
+                            self.unequip(item)
+                            return
 
                     self.miscitems[item] = item.mtemp
 
