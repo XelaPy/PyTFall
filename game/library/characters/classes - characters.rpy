@@ -2601,13 +2601,13 @@ init -9 python:
                         func(effect)
 
             # Jump away from equipment screen if appropriate:
-            if direction and getattr(store, "dummy", None):
+            # if direction and getattr(store, "dummy", None):
+            if getattr(store, "eqtarget", None) is self:
                 if item.jump_to_label:
                     renpy.scene(layer="screens")
                     global_flags.del_flag("hero_equip")
                     eqtarget.inventory.set_page_size(15)
                     hero.inventory.set_page_size(15)
-
                     jump(item.jump_to_label)
 
         def item_counter(self):
