@@ -1071,7 +1071,7 @@
     "id": "Empty Extractor",
     "desc": "A device from ancient times, capable to extract, store and inject personal experience. This particular exemplar is empty.",
     "icon": "content/items/cons/reg_2.png",
-    "price": 400,
+    "price": 200,
     "sex": "unisex",
     "chance": 10,
     "badness": 100,
@@ -1085,7 +1085,7 @@
     },
     {
     "id": "Full Extractor",
-    "desc": "A device from ancient times, capable to extract, store and inject personal experience. This particular exemplar is full of it, and will break after being used once.",
+    "desc": "A device from ancient times, capable to extract, store and inject personal experience. This particular exemplar is full of it.",
     "icon": "content/items/cons/reg_1.png",
     "price": 400,
     "sex": "unisex",

@@ -8,23 +8,27 @@ label special_items_slime_bottle:
     scene bg h_profile with dissolve
 
     menu:
-        "An old bottle with unknown, thick liquid inside. Do you want to open it?"
+        "It's an old bottle with unknown, thick liquid inside. Do you want to open it?"
         "Yes":
             "The seal is durable, but eventually it gives up, and pressurized fluid breaks out."
             if hero.level <= 10:
                 $ levels = randint (5,15)
             else:
                 $ levels = randint(15, 25) + hero.level/10
-            $ new_slime = build_rc(id="Slime", level=levels, pattern=choice(["Warrior", "ServiceGirl"]))
+            if dice(80):
+                $ new_slime = build_rc(id="Slime", level=levels, pattern=choice(["Warrior", "ServiceGirl"])) # TODO: maybe pattern will require updating closer to release
+                $ new_slime.set_status("free")
+            else:
+                $ new_slime = build_rc(id="Slime", level=levels, pattern=choice(["Prostitute", "ServiceGirl"]))
+                $ new_slime.set_status("slave")
+            
             $ new_slime.disposition += 300
-            $ hero.remove_item("Unusual Bottle")
             $ spr = new_slime.get_vnsprite()
             if hero.flag("slime_bottle"):
                 $ new_slime.override_portrait("portrait", "happy")
                 "The liquid quickly took the form of a girl."
                 show expression spr at center with dissolve
-                if dice(90):
-                    $ new_slime.set_status("free")
+                if new_slime.status == "free":
                     new_slime.say "Finally someone opened it! Thanks a lot!"
                     new_slime.say "They promised me to smuggle me in the city, but something went gone wrong, and I was trapped there for months!"
                     new_slime.say "All I wanted is a steady job and a roof over my head..."
@@ -38,7 +42,6 @@ label special_items_slime_bottle:
                             hide expression spr with dissolve
                             "She leaves."
                 else:
-                    $ new_slime.set_status("slave")
                     new_slime.say "Oh, hello. Are you my new owner? I was told I will be transported to a new owner inside this bottle."
                     menu:
                         "Yes":
@@ -80,6 +83,7 @@ label special_items_slime_bottle:
                             member.exp += adjust_exp(member, 200)
         "No":
             "Maybe another time."
+            $ inv_source.add_item("Unusual Bottle")
             jump char_equip
 
     $ new_slime.restore_portrait()
@@ -93,6 +97,7 @@ label special_items_slime_bottle:
 label special_items_empty_extractor:
     scene bg h_profile with dissolve
     if eqtarget.exp <= 2000:
+        $ inv_source.add_item("Empty Extractor")
         if eqtarget <> hero:
             $ spr = eqtarget.get_vnsprite()
             show expression spr at center with dissolve
@@ -120,9 +125,8 @@ label special_items_empty_extractor:
                 else:
                     "For a moment you feel weak, but unpleasant pain somewhere inside your head."
                 $ eqtarget.exp -= 2000
-                $ inv_source.remove_item("Empty Extractor", 1) # We remove item from whoever holds it...
                 $ hero.add_item("Full Extractor", 1)
-                "The device is full of energy."
+                "The device seems to be full of energy."
             "No":
                 $ pass
     jump char_equip
@@ -133,9 +137,10 @@ label special_items_full_extractor:
     if not(eqtarget.has_flag("exp_extractor")):
         $ eqtarget.set_flag("exp_extractor", value=day)
     elif eqtarget.flag("exp_extractor") == day:
-        "You already transferred experience to this person today. It's very dangerous to do too often."
+        "Experience already has been transferred to this person today. It cannot be done too often."
+        $ inv_source.add_item("Full Extractor")
         jump char_equip
-
+    $ inv_source.add_item("Empty Extractor")
     if eqtarget <> hero:
         $ spr = eqtarget.get_vnsprite()
 
@@ -151,17 +156,18 @@ label special_items_full_extractor:
         "The energy of knowledge slowly flows inside you. You became more experienced."
 
     $ eqtarget.exp += 1500
-    $ inv_source.remove_item("Full Extractor", 1)
     jump char_equip
 
 label special_items_one_for_all:
     scene bg h_profile with dissolve
     if eqtarget.status <> "slave":
         "It would be unwise to use it on a free girl, unless you'd like to spend the rest of your live in prison."
+        $ inv_source.add_item("One For All")
         jump char_equip
 
     if eqtarget.health < 50 and eqtarget.mp < 50 and eqtarget.vitality < 50:
         "[eqtarget.name]'s body is in a poor condition. It will be a waste to use this item on her."
+        $ inv_source.add_item("One For All")
         jump char_equip
 
     $ spr = eqtarget.get_vnsprite()
@@ -170,12 +176,11 @@ label special_items_one_for_all:
     menu:
         "Using this item will kill [eqtarget.name] on spot. Continue?"
         "Yes":
-            $ pass
+            $ inv_source.add_item("One For All")
         "No":
             jump char_equip
-    $ inv_source.remove_item("One For All")
     $ health = eqtarget.health
-    $ nv = health/100
+    $ n = health/100
     if n > 0:
         $ hero.add_item("Great Healing Potion", amount=n)
         $ health -= n*100
@@ -236,10 +241,12 @@ label special_items_herbal_extract:
     $ h = eqtarget.get_max("health") - eqtarget.health
     if h <= 0:
         scene bg h_profile with dissolve
+        $ inv_source.add_item("Herbal Extract")
         "There is no need to use it at the moment."
         jump char_equip
     if eqtarget.vitality <= 10:
         scene bg h_profile with dissolve
+        $ inv_source.add_item("Herbal Extract")
         "Not enough vitality to use it."
         jump char_equip
     if h <= eqtarget.vitality:
@@ -248,7 +255,6 @@ label special_items_herbal_extract:
     else:
         $ eqtarget.health += eqtarget.vitality
         $ eqtarget.vitality = 0
-    $ inv_source.remove_item("Herbal Extract")
     jump char_equip
 
 label special_items_emerald_tincture:
@@ -257,18 +263,17 @@ label special_items_emerald_tincture:
     $ h = eqtarget.get_max("vitality") - eqtarget.vitality
     $ eqtarget.vitality += int(.5*h)
     $ eqtarget.mp = 0
-    # $ inv_source.remove_item("Emerald Tincture")
     jump char_equip
 
 label special_items_flashing_extract:
     if eqtarget.flag("drunk_flashing_extract"):
         scene bg h_profile with dissolve
         "[eqtarget.name] already used it before, it can be used only once."
+        $ inv_source.add_item("Flashing Extract")
         jump char_equip
     else:
         $ eqtarget.set_flag("drunk_flashing_extract")
         scene bg h_profile with dissolve
         "[eqtarget.name] becomes a bit faster (+1 AP)."
         $ eqtarget.baseAP += 1
-        $ eqtarget.remove_item("Flashing Extract")
         jump char_equip
