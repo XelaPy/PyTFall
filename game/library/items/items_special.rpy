@@ -257,7 +257,7 @@ label special_items_emerald_tincture:
     $ h = eqtarget.get_max("vitality") - eqtarget.vitality
     $ eqtarget.vitality += int(.5*h)
     $ eqtarget.mp = 0
-    $ inv_source.remove_item("Emerald Tincture")
+    # $ inv_source.remove_item("Emerald Tincture")
     jump char_equip
 
 label special_items_flashing_extract:

@@ -1915,10 +1915,9 @@ init -9 python:
                     self.consblock[item] = item.cblock
                 if item.ctemp:
                     self.constemp[item] = item.ctemp
-                self.apply_item_effects(item)
-
-                if remove:
+                if remove: # Needs to be infront of effect application for jumping items.
                     self.inventory.remove(item)
+                self.apply_item_effects(item)
 
             elif item.slot == 'misc':
                 if item in self.miscblock:
