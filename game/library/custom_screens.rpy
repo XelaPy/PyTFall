@@ -286,7 +286,34 @@ init: # Items:
                                         frame:
                                             xysize 153, 20
                                             text(u'%s'%effect.capitalize()) color ivory size 16 align (0.5, 0.5)
-                                            
+                                if item.slot == "misc":
+                                    if item.mtemp:
+                                        label ('Frequency:') text_size 18 text_color gold xpos 10
+                                        frame:
+                                            xysize 153, 20
+                                            if item.mreusable:
+                                                if item.mtemp > 1:
+                                                    text "Every [item.mtemp] days" color ivory size 16 align (0.02, 0.5)
+                                                else:
+                                                    text "Every day" color ivory size 16 align (0.02, 0.5)
+                                            else:
+                                                if item.mtemp > 1:
+                                                    text "After [item.mtemp] days" color ivory size 16 align (0.02, 0.5)
+                                                else:
+                                                    text "After one day" color ivory size 16 align (0.02, 0.5)
+                                        if item.mdestruct:
+                                            frame:
+                                                xysize 153, 20
+                                                text "One-off" color ivory size 16 align (0.02, 0.5)
+                                if item.slot == "consumable":
+                                    if item.ctemp:
+                                        label ('Duration:') text_size 18 text_color gold xpos 10
+                                        frame:
+                                            xysize 153, 20
+                                            if item.ctemp > 1:
+                                                text "[item.ctemp] days" color ivory size 16 align (0.02, 0.5)
+                                            else:
+                                                text "One day" color ivory size 16 align (0.02, 0.5)
                     label ('{color=#ecc88a}----------------------------------------') xalign .5
                     frame:
                         xalign .5
