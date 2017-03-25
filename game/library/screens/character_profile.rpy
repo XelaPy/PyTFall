@@ -168,7 +168,7 @@ screen char_profile():
                 align (0.487, 0.184) #0.487, 0.164
                 yfill True
                 ymaximum 514 #569
-                if check_lovers(char, hero):
+                if check_lovers(char, hero) or "Exhibitionist" in char.traits:
                     python:
                         frame_image = im.Scale("content/gfx/frame/MC_bg3.png", 1, 1)
                         img = char.show('profile', resize=(600, 514), cache=True)
@@ -194,6 +194,8 @@ screen char_profile():
                         align(0.5, 0.5)
                         background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
                         add img align(0.5, 0.5)#ProportionalScale(img, 600, 514) align(0.5, 0.5)
+                    if "Exhibitionist" in char.traits:
+                        action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Function(gm.start_int, char, img=char.show("girlmeets", resize=gm.img_size))], false=NullAction())
                     if check_friends(hero, char) or check_lovers(char, hero):
                         action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Function(gm.start_int, char, img=char.show("girlmeets", exclude=["nude"], resize=gm.img_size))], false=NullAction())
                     else:
