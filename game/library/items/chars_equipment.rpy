@@ -387,13 +387,14 @@ screen char_equip():
     # BASE FRAME 2 "bottom layer" ====================================>
     add "content/gfx/frame/equipment2.png"
 
-    # Equipment slots
+    # Equipment slots:
     frame:
         pos (425, 10)
-        xminimum 298
-        xmaximum 298
-        ymaximum 410
-        yminimum 410
+        xysize 298, 410
+        # xminimum 298
+        # xmaximum 298
+        # ymaximum 410
+        # yminimum 410
         background Frame(Transform("content/gfx/frame/Mc_bg3.png", alpha=0.3), 10, 10)
         use eqdoll(active_mode=True, char=eqtarget, frame_size=[70, 70], scr_align=(0.98, 1.0), return_value=['item', "unequip"], txt_size=17, fx_size=(455, 400))
 
@@ -427,7 +428,7 @@ screen char_equip_left_frame(tt, stats_display):
         style_group "content"
 
         # NAME =====================================>
-        text (u"{color=#ecc88a}[eqtarget.name]") font "fonts/TisaOTM.otf" size 28 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.53 ypos 126
+        text (u"{color=#ecc88a}[eqtarget.name]") font "fonts/TisaOTM.otf" size 28 outlines [(1, "#3a3a3a", 0, 0)] xalign .53 ypos 126
         hbox:
             button:
                 xysize (32, 32)
@@ -453,13 +454,13 @@ screen char_equip_left_frame(tt, stats_display):
         # LVL ============================>
         hbox:
             spacing 1
-            if (inv_source.level) <10:
+            if (inv_source.level) < 10:
                 xpos 95
-            elif (inv_source.level) <100:
+            elif (inv_source.level) < 100:
                 xpos 93
-            elif (inv_source.level) <1000:
+            elif (inv_source.level) < 1000:
                 xpos 89
-            elif (inv_source.level) <10000:
+            elif (inv_source.level) < 10000:
                 xpos 83
             else:
                 xpos 79
@@ -475,11 +476,11 @@ screen char_equip_left_frame(tt, stats_display):
             button:
                 xsize 100
                 action SetScreenVariable("stats_display", "stats"), With(dissolve)
-                text "Stats" style "pb_button_text"
+                text "Stats" style "pb_button_text" yoffset 2
             button:
                 xsize 100
                 action SetScreenVariable("stats_display", "pro"), With(dissolve)
-                text "Pro Stats" style "pb_button_text"
+                text "Skills" style "pb_button_text" yoffset 2
 
         # Stats/Skills:
         vbox:
@@ -563,13 +564,57 @@ screen char_equip_left_frame(tt, stats_display):
                                     text tempstr style_suffix "value_text" xalign .98 yoffset 3
                                 else:
                                     text "{}/{}".lower().format(getattr(eqtarget, stat.lower()), eqtarget.get_max(stat.lower())) xalign .98 yoffset 3 style_suffix "value_text" color tempc
-
-
             elif stats_display == "pro":
                 frame:
-                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
+                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-.1)), 5, 5), alpha=.7)
                     pos (4, 40)
                     ymaximum 460
+                    has vbox style_prefix "proper_stats" spacing 1
+                    if getattr(focusitem, "mod_skills", {}):
+                        label (u"Pure Bonus:") text_size 20 text_color goldenrod text_bold True xalign .45
+                    for skill, data in getattr(focusitem, "mod_skills", {}).iteritems():
+                        frame:
+                            xysize 208, 22
+                            text str(skill).title() size 16 color yellowgreen align .0, .5
+
+                            $ img_path = "content/gfx/interface/icons/skills_icons/"
+
+                            default PS = ProportionalScale
+
+                            hbox:
+                                align .99, .5
+                                spacing 2
+                                yoffset 1
+                                button:
+                                    style "default"
+                                    xysize 20, 18
+                                    action NullAction()
+                                    yoffset 2
+                                    hovered tt.action("Icon represents skills modifier changes. Green means bonus, red means penalty. Left one is action counter, right one is training counter, top one is resulting value.")
+                                    if data[0] > 0:
+                                        add PS(img_path + "left_green.png", 20, 20)
+                                    elif data[0] < 0:
+                                        add PS(img_path + "left_red.png", 20, 20)
+                                    if data[1] > 0:
+                                        add PS(img_path + "right_green.png", 20, 20)
+                                    elif data[1] < 0:
+                                        add PS(img_path + "right_red.png", 20, 20)
+                                    if data[2] > 0:
+                                        add PS(img_path + "top_green.png", 20, 20)
+                                    elif data[2] < 0:
+                                        add PS(img_path + "top_red.png", 20, 20)
+                                if data[3]:
+                                    button:
+                                        style "default"
+                                        action NullAction()
+                                        hovered tt.action("Direct bonus to action skill values.")
+                                        label "A: " + str(data[3]) text_size 15
+                                if data[4]:
+                                    button:
+                                        style "default"
+                                        action NullAction()
+                                        hovered tt.action("Direct bonus to knowledge skill values.")
+                                        label "K: " + str(data[4]) text_size 15
 
     use char_equip_right_frame(tt)
 
@@ -658,7 +703,9 @@ screen char_equip_right_frame(tt):
             else:
                 t = "{vspace=17}[eqtarget.name]{/color}"
 
-        if dummy:
+        if tt.value:
+            text "{color=#ecc88a}%s"%tt.value size 14 align (0.5, 0.5) font "fonts/TisaOTM.otf" line_leading -5
+        elif dummy:
             # Traits and skills:
             vbox:
                 hbox:
@@ -730,8 +777,6 @@ screen char_equip_right_frame(tt):
                                 xalign 0.98
                                 xpadding 3
                                 text u'{color=#CD4F39}%s'%skill size 16 yalign 0.5
-
-
         elif not tt.value:
             if isinstance(eqtarget, PytGroup):
                 text (u"{color=#ecc88a}%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
@@ -740,19 +785,6 @@ screen char_equip_right_frame(tt):
             elif eqtarget.status == "free":
                 text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Free%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
 
-        #if isinstance(tt.value, BE_Action):
-            #$ element = tt.value.get_element()
-            #if element:
-                #fixed:
-                    #xysize (80, 80)
-                    #yalign 0.5
-                    #if element.icon:
-                        #$ img = ProportionalScale(element.icon, 70, 70)
-                        #add img align (0.5, 0.5)
-            #text tt.value.desc style "content_text" size 18 color "#ecc88a" yalign 0.1
-
-        elif tt.value:
-            text "{color=#ecc88a}%s"%tt.value size 14 align (0.5, 0.5) font "fonts/TisaOTM.otf" line_leading -5
 
     # Right Frame Buttons ====================================>
     vbox:
