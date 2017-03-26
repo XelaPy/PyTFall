@@ -1039,6 +1039,11 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                         frame:
                                             xysize (172, 18)
                                             text (u'{color=#F5F5DC}One-off') size 15 xalign 0.02 yoffset -2
+                                    if item.statmax:
+                                        frame:
+                                            xysize (172, 18)
+                                            text (u'{color=#F5F5DC}Stat limit') size 15 xalign 0.02 yoffset -2
+                                            label (u'{color=#F5F5DC}{size=-4}%d'%item.statmax) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
                         if item.slot == "consumable":
                             if item.ctemp:
                                 label ('Duration:') text_size 16 text_color gold xpos 30

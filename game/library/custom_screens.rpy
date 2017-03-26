@@ -305,6 +305,11 @@ init: # Items:
                                             frame:
                                                 xysize 153, 20
                                                 text "One-off" color ivory size 16 align (0.02, 0.5)
+                                        if item.statmax:
+                                            frame:
+                                                xysize 153, 20
+                                                text "Stat limit" color ivory size 16 align (0.02, 0.5)
+                                                label (u'{size=-4}%d'%item.statmax) align (0.98, 0.5)
                                 if item.slot == "consumable":
                                     if item.ctemp:
                                         label ('Duration:') text_size 18 text_color gold xpos 10
