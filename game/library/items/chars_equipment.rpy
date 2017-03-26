@@ -1019,32 +1019,35 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                         xysize (172, 18)
                                         text (u'{color=#F5F5DC}%s'%stat.capitalize()) size 15 xalign 0.02 yoffset -2
                                         label (u'{color=#F5F5DC}{size=-4}%d'%value) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
-                        if item.slot == "misc":
+                        if hasattr(item, 'mtemp'):
                             if item.mtemp:
                                 label ('Frequency:') text_size 16 text_color gold xpos 30
                                 vbox:
                                     frame:
                                         xysize (172, 18)
-                                        if item.mreusable:
-                                            if item.mtemp > 1:
-                                                text (u'{color=#F5F5DC}Every %d days'%item.mtemp) size 15 xalign 0.02 yoffset -2
+                                        if hasattr(item, 'mreusable'):
+                                            if item.mreusable:
+                                                if item.mtemp > 1:
+                                                    text (u'{color=#F5F5DC}Every %d days'%item.mtemp) size 15 xalign 0.02 yoffset -2
+                                                else:
+                                                    text (u'{color=#F5F5DC}Every day') size 15 xalign 0.02 yoffset -2
                                             else:
-                                                text (u'{color=#F5F5DC}Every day') size 15 xalign 0.02 yoffset -2
-                                        else:
-                                            if item.mtemp > 1:
-                                                text (u'{color=#F5F5DC}After %d days'%item.mtemp) size 15 xalign 0.02 yoffset -2
-                                            else:
-                                                text (u'{color=#F5F5DC}After one day') size 15 xalign 0.02 yoffset -2
-                                    if item.mdestruct:
-                                        frame:
-                                            xysize (172, 18)
-                                            text (u'{color=#F5F5DC}One-off') size 15 xalign 0.02 yoffset -2
-                                    if item.statmax:
-                                        frame:
-                                            xysize (172, 18)
-                                            text (u'{color=#F5F5DC}Stat limit') size 15 xalign 0.02 yoffset -2
-                                            label (u'{color=#F5F5DC}{size=-4}%d'%item.statmax) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
-                        if item.slot == "consumable":
+                                                if item.mtemp > 1:
+                                                    text (u'{color=#F5F5DC}After %d days'%item.mtemp) size 15 xalign 0.02 yoffset -2
+                                                else:
+                                                    text (u'{color=#F5F5DC}After one day') size 15 xalign 0.02 yoffset -2
+                                    if hasattr(item, 'mdestruct'):
+                                        if item.mdestruct:
+                                            frame:
+                                                xysize (172, 18)
+                                                text (u'{color=#F5F5DC}One-off') size 15 xalign 0.02 yoffset -2
+                                    if hasattr(item, 'statmax'):
+                                        if item.statmax:
+                                            frame:
+                                                xysize (172, 18)
+                                                text (u'{color=#F5F5DC}Stat limit') size 15 xalign 0.02 yoffset -2
+                                                label (u'{color=#F5F5DC}{size=-4}%d'%item.statmax) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                        if hasattr(item, 'ctemp'):
                             if item.ctemp:
                                 label ('Duration:') text_size 16 text_color gold xpos 30
                                 frame:
