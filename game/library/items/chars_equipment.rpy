@@ -1040,7 +1040,12 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                         if item.mdestruct:
                                             frame:
                                                 xysize (172, 18)
-                                                text (u'{color=#F5F5DC}One-off') size 15 xalign 0.02 yoffset -2
+                                                text (u'{color=#F5F5DC}Disposable') size 15 xalign 0.02 yoffset -2
+                                    if hasattr(item, 'mreusable'):
+                                        if item.mreusable:
+                                            frame:
+                                                xysize (172, 18)
+                                                text (u'{color=#F5F5DC}Reusable') size 15 xalign 0.02 yoffset -2
                                     if hasattr(item, 'statmax'):
                                         if item.statmax:
                                             frame:

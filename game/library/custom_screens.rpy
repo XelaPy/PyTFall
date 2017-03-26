@@ -305,7 +305,12 @@ init: # Items:
                                             if item.mdestruct:
                                                 frame:
                                                     xysize 153, 20
-                                                text "One-off" color ivory size 16 align (0.02, 0.5)
+                                                    text "Disposable" color ivory size 16 align (0.02, 0.5)
+                                        if hasattr(item, 'mreusable'):
+                                            if item.mreusable:
+                                                frame:
+                                                    xysize 153, 20
+                                                    text "Reusable" color ivory size 16 align (0.02, 0.5)
                                         if hasattr(item, 'statmax'):
                                             if item.statmax:
                                                 frame:
