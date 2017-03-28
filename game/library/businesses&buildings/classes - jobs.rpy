@@ -749,7 +749,7 @@
                 if self.worker.has_image("2c vaginal", **kwargs):
                     self.img = self.worker.show("2c vaginal", **kwargs)
                 else:
-                    self.img = self.worker.show("after sex", exclude=["angry", "in pain", "dungeon", "sad"])
+                    self.img = self.worker.show("after sex", exclude=["angry", "in pain", "dungeon", "sad"], **kwargs)
                 image_tags = self.img.get_image_tags()
                 if "ontop" in image_tags:
                     self.txt.append("He invited her to 'sit' on his lap as he unsheathed his cock. They've continued along the same lines in 'girl ontop' position. \n")
@@ -790,7 +790,7 @@
                 if self.worker.has_image("2c anal", **kwargs):
                     self.img = self.worker.show("2c anal", **kwargs)
                 else:
-                    self.img = self.worker.show("after sex", exclude=["angry", "in pain", "dungeon", "sad"])
+                    self.img = self.worker.show("after sex", exclude=["angry", "in pain", "dungeon", "sad"], **kwargs)
                 image_tags = self.img.get_image_tags()
                 if "ontop" in image_tags:
                     self.txt.append("He invited her to 'sit' on his lap as he unsheathed his cock. They've continued along the same lines in 'girl on top' position. \n")
