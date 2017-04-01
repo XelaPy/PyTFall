@@ -373,7 +373,7 @@
 
             # Traits/Job-types associated with this job:
             self.occupations = list() # General Strings likes SIW, Warrior, Server...
-            self.occupation_traits = list() # Corresponing traits...
+            self.occupation_traits = set() # Corresponing traits... # TODO: WE NEED TO MAKE SURE THESE ARE INSTANCES!
 
             self.disposition_threshold = 650 # Any worker with disposition this high will be willing to do the job even without matched traits.
 
@@ -573,10 +573,49 @@
             self.locmod[s] = self.workermod.get(s, 0) + value
 
         # We should also have a number of methods or properties to evaluate new dicts:
-        def relative_ability(self, char):
+        def relative_ability(self, char, tier=None):
+            """
             # Maybe just do the stats/skills interpolation here???
             # And later add that to tier calc in the effectiveness method?
-            pass
+
+            100 or above is the target for this method.
+            """
+            ability = 0
+            if tier is None:
+                tier = char.tier
+
+            rates = []
+            amount = []
+            for skill, weight in self.base_skills.items():
+                target_value = SKILLS_MAX[skill]*.1*tier
+                real_value = char.get_skill(skill)
+                rv = 50.0*real_value/target_value # resulting value, 50 base
+                rates.append(weight)
+                amount.append(rv)
+            # Formula from SO:
+            total_skills = sum(x * y for x, y in zip(rate, amount)) / sum(amount)
+
+            rates = []
+            amount = []
+            for stat, weight in self.base_stats.items():
+                target_value = char.get_max(stat)*.1*tier
+                real_value = getattr(char, stat)
+                rv = 50.0*real_value/target_value # resulting value, 50 base
+                rates.append(weight)
+                amount.append(rv)
+            # Formula from SO:
+            total_stats = sum(x * y for x, y in zip(rate, amount)) / sum(amount)
+
+            # Bonuses:
+            if char.occupations.intersection(self.occupations):
+                bonus1 = 10
+            else:
+                bonus1 = 0
+
+            bonus2 = len(self.occupation_traits.intersection(char.traits))*5
+
+            return total_skills + total_stats + bonus1 + bonus2
+
 
         def effectiveness(self, worker, difficulty):
             """We check effectiveness here during jobs from SimPy land.

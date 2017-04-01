@@ -314,7 +314,6 @@ init -999 python:
                     value = string
         return value
 
-
     class JsonSchemator(object):
         def __init__(self, action=None):
             self.action = action if action is not None else "skip" # the default: no validation.
@@ -391,6 +390,7 @@ init -999 python:
         def finish(self):
             if self.action == "strict" and len(self._err) > 0:
                 renpy.error(os.linesep.join(self._err))
+
 
     # set to False to update existing json files in schema directory, None skips validation and writing
     jsstor = JsonSchemator()
