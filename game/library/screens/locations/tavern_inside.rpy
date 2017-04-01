@@ -412,14 +412,6 @@ screen city_tavern_show_dices(dice_1, dice_2): # main dice screen, shows dices t
         for i in dice_2:
             add "content/events/tavern_dice/"+str(i)+".png" at dice_roll_zooming()
 
-transform dice_roll_from_right():
-    xoffset 1000
-    easein .5 xoffset 0
-
-transform dice_roll_from_left():
-    xoffset -1000
-    easein .5 xoffset 0
-
 label tavern_dice_pass: # player passes, and cannot throw dices anymore
     $ player_passed = True
     jump city_tavern_throw_dice
