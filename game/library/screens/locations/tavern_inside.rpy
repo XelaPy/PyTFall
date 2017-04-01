@@ -337,7 +337,7 @@ label city_tavern_dices_give_up:
     with dissolve
     jump city_tavern_menu
 
-screen city_tavern_show_status(): # additional screen, shows all info related to the dice game
+screen city_tavern_show_status(d_1, d_2): # additional screen, shows all info related to the dice game
     frame:
         xalign 0.05
         yalign 0.05
@@ -349,14 +349,14 @@ screen city_tavern_show_status(): # additional screen, shows all info related to
             xalign 0.5
             yalign 0.5
             hbox:
-                text str(sum(dice_1)) xalign 0.98 style "stats_value_text" color gold
+                text str(d_1) xalign 0.98 style "stats_value_text" color gold
                 xalign 0.5
             hbox:
-                if ai_passed and sum(dice_1) < 21:
+                if ai_passed and d_1 < 21:
                     text ("Pass") xalign 0.98 style "stats_value_text" color gold
-                elif sum(dice_1) > 21:
+                elif d_1 > 21:
                     text ("Lost") xalign 0.98 style "stats_value_text" color gold
-                elif sum(dice_1) == 21:
+                elif d_1 == 21:
                     text ("Score!") xalign 0.98 style "stats_value_text" color gold
                 else:
                     text (" ") xalign 0.98 style "stats_value_text" color gold
@@ -372,14 +372,14 @@ screen city_tavern_show_status(): # additional screen, shows all info related to
             xalign 0.5
             yalign 0.5
             hbox:
-                text str(sum(dice_2)) xalign 0.98 style "stats_value_text" color gold
+                text str(d_2) xalign 0.98 style "stats_value_text" color gold
                 xalign 0.5
             hbox:
-                if player_passed and sum(dice_2) < 21:
+                if player_passed and d_2 < 21:
                     text ("Pass") xalign 0.98 style "stats_value_text" color gold
-                elif sum(dice_2) > 21:
+                elif d_2 > 21:
                     text ("Lost") xalign 0.98 style "stats_value_text" color gold
-                elif sum(dice_2) == 21:
+                elif d_2 == 21:
                     text ("Score!") xalign 0.98 style "stats_value_text" color gold
                 else:
                     text (" ") xalign 0.98 style "stats_value_text" color gold
@@ -398,30 +398,27 @@ screen city_tavern_show_status(): # additional screen, shows all info related to
             text str(city_tavern_current_dice_bet) xalign 0.5 style "stats_value_text" color gold
 
 screen city_tavern_show_dices(dice_1, dice_2): # main dice screen, shows dices themselves
-    on "show":
-        action Show("city_tavern_show_status", dissolve)
     on "hide":
         action Hide("city_tavern_show_status")
-
     hbox:
         align .5, .4
         spacing 5
         box_reverse True
         for i in dice_1:
-            add "content/events/tavern_dice/"+str(i)+".png" at dice_roll_from_left()
+            add "content/events/tavern_dice/"+str(i)+".png" at dice_roll_zooming()
     hbox:
         align .5, .6
         spacing 5
         for i in dice_2:
-            add "content/events/tavern_dice/"+str(i)+".png" at dice_roll_from_right()
+            add "content/events/tavern_dice/"+str(i)+".png" at dice_roll_zooming()
 
 transform dice_roll_from_right():
     xoffset 1000
-    easeout_bounce .5 xoffset 0
+    easein .5 xoffset 0
 
 transform dice_roll_from_left():
     xoffset -1000
-    easeout_bounce .5 xoffset 0
+    easein .5 xoffset 0
 
 label tavern_dice_pass: # player passes, and cannot throw dices anymore
     $ player_passed = True
@@ -459,6 +456,10 @@ label city_tavern_play_dice_another_round: # additional rounds continue from her
 label city_tavern_play_show_dice:
     show screen city_tavern_show_dices(dice_1, dice_2)
     play events "events/dice_" + str(randint(1, 3)) +".mp3"
+    pause 0.4
+    $ d_1 = sum(dice_1) # we use separate values to delay calculation and thus numbers update until dices alt is finished
+    $ d_2 = sum(dice_2)
+    show screen city_tavern_show_status(d_1, d_2) 
     with dissolve
     if sum(dice_1) == 21:
         $ ai_passed = True
