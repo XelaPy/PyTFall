@@ -607,15 +607,11 @@
             total_stats = sum(x * y for x, y in zip(rate, amount)) / sum(amount)
 
             # Bonuses:
-            if char.occupations.intersection(self.occupations):
-                bonus1 = 10
-            else:
-                bonus1 = 0
-
+            result = char.occupations.intersection(self.occupations)
+            bonus1 = 10 if result else 0
             bonus2 = len(self.occupation_traits.intersection(char.traits))*5
 
             return total_skills + total_stats + bonus1 + bonus2
-
 
         def effectiveness(self, worker, difficulty):
             """We check effectiveness here during jobs from SimPy land.
@@ -623,13 +619,14 @@
             difficulty is used to counter worker tier.
             100 is considered a score where worker does the task with acceptible performance.
             """
-            if difficulty <= worker.tier:
-                effectiveness = 50 # We give 50 points for matching or being better than required.
-                # And 25 points for every extra level:
-                bonus = difficulty - worker.tier
-                effectiveness += bonus*25
+            if char.occupations.intersection(self.occupations):
+                effectiveness = 50
             else:
                 effectiveness = 0
+
+            # 25 points for difference between difficulty/tier:
+            diff = difficulty - worker.tier
+            effectiveness += diff*25
 
             return effectiveness
 
