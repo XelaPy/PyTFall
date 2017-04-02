@@ -33,6 +33,8 @@ init -11 python:
         
     def dice_poker_ai_decision(dice_1, dice_2): # handles ai logic
         counter = collections.Counter(dice_1)
+
+        
         if len(counter) == 1: # Five-of-a-Kind
         # if ai wins, no throws are needed; if ai loses, nothing can be done anyway
             return 0
@@ -48,7 +50,57 @@ init -11 python:
                     i = min(counter.keys())
                     result = dice_1.index(i) + 1
                     return result
-        elif len(counter) == 3:  # either Three-of-a-Kind or Two Pairs, it doesn't matter for ai, it just throws a single dice
+                    
+        # here we check Straights, since they are more important than combination down
+        
+        checking_list = [2, 3, 4, 5, 6]
+        result = result_1 = []
+        for i in dice_1:
+            if i in checking_list and not (i in result):
+                result.append(i)
+        if len(result) == 5: # Six High Straight
+            return 0
+        checking_list = [1, 2, 3, 4, 5]
+        result = result_1 = []
+        for i in dice_1:
+            if i in checking_list and not (i in result):
+                result.append(i)
+        if len(result) == 5: # Five High Straight
+            return 0
+        
+        checking_list = [2, 3, 4, 5, 6]
+        result = result_1 = []
+        for i in dice_1:
+            if i in checking_list and not (i in result):
+                result.append(i)
+        if len(result) == 5: # Six High Straight
+            return 0
+        elif len(result) == 4: # no pairs and one wrong dice for High Straight, like [1, 3, 4, 5, 6]; we should throw the wrong one ie 1
+            for i in dice_1:
+                if i in checking_list:
+                    result_1.append(i)
+                    checking_list.remove(i)
+            result = dice_1.index(result_1[0]) + 1
+            return result
+            
+        checking_list = [1, 2, 3, 4, 5]
+        result = result_1 = []
+        for i in dice_1:
+            if i in checking_list and not (i in result):
+                result.append(i)
+        if len(result) == 5: # Five High Straight
+            return 0
+        elif len(result) == 4:
+            for i in dice_1:
+                if i in checking_list:
+                    result_1.append(i)
+                    checking_list.remove(i)
+            result = dice_1.index(result_1[0]) + 1
+            return result
+                    
+        # if no Straights, we continue to check other combinations
+                    
+        if len(counter) == 3:  # either Three-of-a-Kind or Two Pairs, it doesn't matter for ai, it just throws a single dice
             result_1 = list(k for k, v in counter.iteritems() if v == 1)
             random.shuffle(result_1)
             result = dice_1.index(result_1[0]) + 1
@@ -72,29 +124,12 @@ init -11 python:
             random.shuffle(result_1)
             result = dice_1.index(result_1[0]) + 1
             return result
-        else:   # no same dices; the only hope is High Straight of some kind
-            checking_list = [2, 3, 4, 5, 6]
-            result = list(i for i in dice_1 if i in checking_list)
-            if len(result) == 5: # Six High Straight
-                return 0
-            elif len(result) == 4: # no pairs and one wrong dice for High Straight, like [1, 3, 4, 5, 6]; we should throw the wrong one ie 1
-                result_1 = list(i for i in dice_1 if i not in result)
-                result = dice_1.index(result_1[0]) + 1
-                return result
+
                 
-            checking_list = [1, 2, 3, 4, 5]
-            result = list(i for i in dice_1 if i in checking_list)
-            if len(result) == 5: # Five High Straight
-                return 0
-            elif len(result) == 4:
-                result_1 = list(i for i in dice_1 if i not in result)
-                result = dice_1.index(result_1[0]) + 1
-                return result
-                
-            # if we are here, there is no combinations at all; so ai just throws a dice with min value
-            result_1 = min(dice_1)
-            result = dice_1.index(result_1[0]) + 1
-            return result
+        # if we are here, there is no combinations at all; so ai just throws a dice with min value
+        result_1 = min(dice_1)
+        result = dice_1.index(result_1[0]) + 1
+        return result
             
     def dice_poker_decide_winner(dice_1, dice_2): # returns 1 if dice_1 is winner, 2 if dice_2 is winner, 0 if it's a draw
         score_1 = dice_poker_calculate(dice_1)[1]

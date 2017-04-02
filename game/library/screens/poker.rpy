@@ -23,6 +23,7 @@ label city_tavern_show_poker_dices_loop:
     python:
         dice_1 = []
         dice_2 = []
+        rerolls = 0 # we allow to change a dice twice; there could be more complicated rules in the future
         while len(dice_1) < 5: # both sides throw 5 dices in the beginning
             dice_1.append(throw_a_normal_dice())
         while len(dice_2) < 5:
@@ -139,17 +140,19 @@ label city_tavern_poker_give_up:
 label city_tavern_show_poker_shuffle:
     $ selected_ai_dice = dice_poker_ai_decision(dice_1, dice_2) # ai selects a dice it wants to change
     show screen city_tavern_show_poker_dices(dice_1, dice_2, False) # and we show selected by player and ai dices for a second
-    pause 1.0
+    $ rerolls += 1
     if selected_dice != 0 or selected_ai_dice != 0:
+        pause 0.3
         play events "events/dice_" + str(randint(1, 3)) +".mp3"
         if selected_dice != 0:
             $ dice_2[selected_dice-1] = throw_a_normal_dice()
         if selected_ai_dice != 0:
             $ dice_1[selected_ai_dice-1] = throw_a_normal_dice()
     show screen city_tavern_show_poker_dices(dice_1, dice_2, True) # then we reroll selected dices and show new dice sets
-    pause 0.5
+    pause 0.6
     $ selected_dice = selected_ai_dice = 0
-    # jump city_tavern_show_poker_dices_loop_continue
+    if rerolls < 2:
+        jump city_tavern_show_poker_dices_loop_continue
     
 
     if dice_poker_decide_winner(dice_1, dice_2) == 1:
