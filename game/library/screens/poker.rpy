@@ -29,6 +29,7 @@ label city_tavern_show_poker_dices_loop:
             dice_2.append(throw_a_normal_dice())
     show screen city_tavern_show_poker_dices(dice_1, dice_2, False)
     play events "events/dice_" + str(randint(1, 3)) +".mp3"
+label city_tavern_show_poker_dices_loop_continue:
     while 1:
         $ result = ui.interact()
         if result != selected_dice:
@@ -70,7 +71,7 @@ screen city_tavern_show_poker_dices(dice_1, dice_2, shuffle): # main poker scree
                         action None 
                 else:
                     imagebutton:
-                        at dice_roll_zoooming()
+                        at dice_roll_unzooming()
                         idle img
                         action None
     hbox:
@@ -103,7 +104,7 @@ screen city_tavern_show_poker_dices(dice_1, dice_2, shuffle): # main poker scree
                         action Return(number)
                 else:
                     imagebutton:
-                        at dice_roll_zoooming()
+                        at dice_roll_unzooming()
                         idle img
                         hover (im.MatrixColor(im.Recolor(img, 0, 255, 0, 255), im.matrix.brightness(0.15)))
                         action Return(number)
@@ -125,7 +126,7 @@ transform dice_roll_zooming():
     zoom 0
     easein_back 0.75 zoom 1
     
-transform dice_roll_zoooming():
+transform dice_roll_unzooming():
     zoom 0
     easein_bounce 0.75 zoom 1
             
@@ -136,8 +137,8 @@ label city_tavern_poker_give_up:
     jump city_tavern_menu
             
 label city_tavern_show_poker_shuffle:
-    $ selected_ai_dice = dice_poker_ai_decision(dice_1, dice_2)
-    show screen city_tavern_show_poker_dices(dice_1, dice_2, False)
+    $ selected_ai_dice = dice_poker_ai_decision(dice_1, dice_2) # ai selects a dice it wants to change
+    show screen city_tavern_show_poker_dices(dice_1, dice_2, False) # and we show selected by player and ai dices for a second
     pause 1.0
     if selected_dice != 0 or selected_ai_dice != 0:
         play events "events/dice_" + str(randint(1, 3)) +".mp3"
@@ -145,9 +146,11 @@ label city_tavern_show_poker_shuffle:
             $ dice_2[selected_dice-1] = throw_a_normal_dice()
         if selected_ai_dice != 0:
             $ dice_1[selected_ai_dice-1] = throw_a_normal_dice()
-    show screen city_tavern_show_poker_dices(dice_1, dice_2, True)
+    show screen city_tavern_show_poker_dices(dice_1, dice_2, True) # then we reroll selected dices and show new dice sets
     pause 0.5
     $ selected_dice = selected_ai_dice = 0
+    # jump city_tavern_show_poker_dices_loop_continue
+    
 
     if dice_poker_decide_winner(dice_1, dice_2) == 1:
         $ narrator("You lost!")
