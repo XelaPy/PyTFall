@@ -262,6 +262,20 @@ init -999 python:
                 self.flags[flag].remove(value)
 
 
+    class JobsLogger(_object):
+        # Used to log stats and skills during job actions
+        def __init__(self):
+            self.stats_skills = dict()
+
+        def logws(self, s, value):
+            """Logs workers stat/skill to a dict:
+            """
+            self.stats_skills[s] = self.stats_skills.get(s, 0) + value
+
+        def clear_jobs_log(self):
+            self.stats_skills = dict()
+
+
     def dice(percent_chance):
         """ returns randomly True with given % chance, or False """
         return random.random() * 100 <= percent_chance
