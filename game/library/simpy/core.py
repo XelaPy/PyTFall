@@ -230,4 +230,6 @@ class Environment(BaseEnvironment):
             # Create a copy of the failure exception with a new traceback.
             exc = type(event._value)(*event._value.args)
             exc.__cause__ = event._value
+            # import renpy.error
+            # renpy.error.report_exception([exc, repr(event)])
             raise Exception(exc, repr(event))

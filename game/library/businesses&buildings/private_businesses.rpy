@@ -34,18 +34,20 @@ init -6 python:
             self.log(temp)
             self.instance.nd_ups.remove(self)
 
-        def request_room(self, client, char):
+        def request_room(self, client, worker):
             """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms available...
             """
+            if not client or not worker:
+                raise Exception("!!!!!!!!!!!!!")
             with self.res.request() as request:
                 yield request
 
                 # All is well and the client enters:
-                temp = "{}: {} and {} enter the room.".format(self.env.now, client.name, char.name)
+                temp = "{}: {} and {} enter the room.".format(self.env.now, client.name, worker.name)
                 self.log(temp)
 
                 # This line will make sure code halts here until run_job ran it's course...
-                yield self.env.process(self.run_job(client, char))
+                yield self.env.process(self.run_job(client, worker))
 
                 # Action (Job) ran it's course and client is leaving...
                 temp = "{}: {} leaves the {}.".format(self.env.now, client.name, self.name)
@@ -53,7 +55,7 @@ init -6 python:
                 # client.flag("jobs_busy").interrupt()
             client.del_flag("jobs_busy")
 
-        def run_job(self, client, char):
+        def run_job(self, client, worker):
             """Waits for self.time delay and calls the job...
             """
             yield self.env.timeout(self.time)
@@ -61,16 +63,20 @@ init -6 python:
                 temp = "{}: Debug: {} Building Resource in use!".format(self.env.now, set_font_color(self.res.count, "red"))
                 self.log(temp)
 
-            temp = "{}: {} and {} did their thing!".format(self.env.now, set_font_color(char.name, "pink"), client.name)
+            temp = "{}: {} and {} did their thing!".format(self.env.now, set_font_color(worker.name, "pink"), client.name)
             self.log(temp)
 
             # Visit counter:
-            client.up_counter("got_serviced_by" + char.id)
-
+            client.up_counter("got_serviced_by" + worker.id)
             # Execute the job:
-            self.job(char, client)
+            job = self.job
+            log = NDEvent(job=job)
+            loc = self.instance
+            worker.AP -= 1
+            job.payout_mod() # TODO
+            job.acts(worker, client, self.instance, log)
+            NextDayEvents.append(log)
+            # create_nd_event(self, worker=worker, img=None, log=log, team=None, loc=loc)
 
             # We return the char to the nd list:
-            self.instance.available_workers.insert(0, char)
-
-        # Related to Job:
+            self.instance.available_workers.insert(0, worker)
