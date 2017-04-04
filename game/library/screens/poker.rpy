@@ -1,4 +1,4 @@
-##### dice poker logic:            
+##### dice poker logic:
 label city_tavern_play_poker: # additional rounds continue from here
     if not global_flags.flag('played_poker_in_tavern'):
         $ global_flags.set_flag('played_poker_in_tavern')
@@ -16,73 +16,79 @@ label city_tavern_play_poker: # additional rounds continue from here
         selected_dice = 0 # number of selected by player dice - goes from 1 to 5; 0 means no selected
         selected_ai_dice = 0 # same for ai
         city_tavern_current_dice_bet = city_tavern_dice_bet
-            
-label city_tavern_show_poker_dices_loop:
+
+label city_tavern_show_poker_dices_start:
     hide drunkards with dissolve
     hide screen city_tavern_show_poker_dices
     python:
-        dice_1 = []
-        dice_2 = []
+        dice_1 = [throw_a_normal_dice() for i in range(5)]
+        dice_2 = [throw_a_normal_dice() for i in range(5)]
         rerolls = 0 # we allow to change a dice twice; there could be more complicated rules in the future
-        while len(dice_1) < 5: # both sides throw 5 dices in the beginning
-            dice_1.append(throw_a_normal_dice())
-        while len(dice_2) < 5:
-            dice_2.append(throw_a_normal_dice())
-    show screen city_tavern_show_poker_dices_controls
-    show screen city_tavern_show_poker_dices(dice_1, dice_2)
     play events "events/dice_" + str(randint(1, 3)) +".mp3"
-    
-label city_tavern_show_poker_dices_loop_continue:
+    show screen city_tavern_show_poker_dices_controls
+    show screen city_tavern_show_poker_dices(dice_1, dice_2, dice_roll_zooming, dice_roll_zooming)
+
+label city_tavern_show_poker_dices_loop:
     while 1:
         $ result = ui.interact()
-        if result != selected_dice:
-            $ selected_dice = result
-        else:
-            $ selected_dice = 0
-        show screen city_tavern_show_poker_dices(dice_1, dice_2)
-        
-screen city_tavern_show_poker_dices(dice_1, dice_2): # main poker screen, shows dices themselves as imagebuttons
+        $ selected_dice = 0 if selected_dice == result else result
+        show screen city_tavern_show_poker_dices(dice_1, dice_2, Transform(), dice_roll_unzooming(1.0))
+
+screen city_tavern_show_poker_dices(dice_1, dice_2, atl, selected_atl): # main poker screen, shows dices themselves as imagebuttons
     on "show":
         action Show("city_tavern_show_poker_status", dissolve)
     on "hide":
         action Hide("city_tavern_show_poker_status")
-    
+    # default atl = dice_roll_unzooming(random.uniform(.9999, .99999))
+
     hbox:
         align .5, .4
         spacing 5
-        $ number = 0
-        for i in dice_1:
-            $ number += 1
-            $ img = "content/events/tavern_dice/"+str(i)+".png"
-            if number != selected_ai_dice:
-                imagebutton:
-                    at dice_roll_zooming()
-                    idle img
-                    action None 
-            else:
-                imagebutton:
-                    idle im.Recolor(img, 0, 255, 0, 255)
-                    action None
+        for index, d in enumerate(dice_1):
+            $ index += 1
+            python:
+                img = "content/events/tavern_dice/"+str(d)+".png"
+                if index != selected_ai_dice:
+                    idle_bg = img
+                    hover_bg = im.MatrixColor(img, im.matrix.brightness(.10))
+                else:
+                    idle_bg = im.MatrixColor(img, im.matrix.tint(.0, 1.0, 1.0))
+                    hover_bg = im.MatrixColor(idle_bg, im.matrix.brightness(.10))
+
+            imagebutton:
+                anchor (.5, .5)
+                if index == selected_ai_dice:
+                    at selected_atl
+                else:
+                    at atl
+                idle idle_bg
+                # hover hover_bg
+                action None
 
     hbox:
         align .5, .6
         spacing 5
-        $ number = 0 # since dices could have the same value, we cannot use index() here to return the number of selected dice in the list; so there will be artificial counter
-        for i in dice_2:
-            $ number += 1
-            $ img = "content/events/tavern_dice/"+str(i)+".png"
-            if number != selected_dice:
-                imagebutton:
-                    at dice_roll_zooming()
-                    idle img
-                    hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-                    action Return(number)
-            else:
-                imagebutton:
-                    idle im.Recolor(img, 0, 255, 0, 255)
-                    hover (im.MatrixColor(im.Recolor(img, 0, 255, 0, 255), im.matrix.brightness(0.15)))
-                    action Return(number)
-                        
+        for index, d in enumerate(dice_2):
+            $ index += 1
+            python:
+                img = "content/events/tavern_dice/"+str(d)+".png"
+                if index != selected_dice:
+                    idle_bg = img
+                    hover_bg = im.MatrixColor(img, im.matrix.brightness(.10))
+                else:
+                    idle_bg = im.MatrixColor(img, im.matrix.tint(.0, 1.0, 1.0))
+                    hover_bg = im.MatrixColor(idle_bg, im.matrix.brightness(.10))
+
+            imagebutton:
+                anchor (.5, .5)
+                if index == selected_dice:
+                    at selected_atl
+                else:
+                    at atl
+                idle idle_bg
+                hover hover_bg
+                action Return(index)
+
 screen city_tavern_show_poker_dices_controls:
     vbox:
         style_group "wood"
@@ -97,37 +103,41 @@ screen city_tavern_show_poker_dices_controls:
             yalign 0.5
             action [Hide("city_tavern_show_poker_dices"), Jump("city_tavern_poker_give_up")]
             text "Give Up" size 15
-            
+
 transform dice_roll_zooming():
+    subpixel True
+    anchor (.5, .5)
     zoom 0
-    easein_back 0.75 zoom 1
-    
-transform dice_roll_unzooming():
+    easein_back 0.75 zoom 1.0
+
+transform dice_roll_unzooming(x):
+    subpixel True
+    anchor (.5, .5)
     zoom 0
-    easein_bounce 0.75 zoom 1
-            
+    easein_bounce 0.75 zoom x
+
 label city_tavern_poker_give_up:
     $ hero.take_money(city_tavern_current_dice_bet)
     hide screen city_tavern_show_poker_dices
     with dissolve
     jump city_tavern_menu
-            
+
 label city_tavern_show_poker_shuffle:
     $ selected_ai_dice = dice_poker_ai_decision(dice_1, dice_2) # ai selects a dice it wants to change
-    show screen city_tavern_show_poker_dices(dice_1, dice_2) # and we show selected by player and ai dices for a second
+    show screen city_tavern_show_poker_dices(dice_1, dice_2, Transform(), dice_roll_unzooming(1.0)) # and we show selected by player and ai dices for a second
     $ rerolls += 1
     if selected_dice != 0 or selected_ai_dice != 0:
-        pause 0.3
+        pause .75
         play events "events/dice_" + str(randint(1, 3)) +".mp3"
         if selected_dice != 0:
             $ dice_2[selected_dice-1] = throw_a_normal_dice()
         if selected_ai_dice != 0:
             $ dice_1[selected_ai_dice-1] = throw_a_normal_dice()
     $ selected_dice = selected_ai_dice = 0
-    show screen city_tavern_show_poker_dices(dice_1, dice_2) # then we reroll selected dices and show new dice sets
+    show screen city_tavern_show_poker_dices(dice_1, dice_2, Transform(), Transform()) # then we reroll selected dices and show new dice sets
     if rerolls < 2:
-        jump city_tavern_show_poker_dices_loop_continue
-    
+        jump city_tavern_show_poker_dices_loop
+
     hide screen city_tavern_show_poker_dices_controls
     if dice_poker_decide_winner(dice_1, dice_2) == 1:
         $ narrator("You lost!")
@@ -141,7 +151,7 @@ label city_tavern_show_poker_shuffle:
                 "Double the bet":
                     $ city_tavern_current_dice_bet *= 2
                     hide screen city_tavern_show_dices
-                    jump city_tavern_show_poker_dices_loop
+                    jump city_tavern_show_poker_dices_start
         else:
             $ narrator("You won!")
             $ hero.add_money(city_tavern_current_dice_bet)
@@ -149,7 +159,7 @@ label city_tavern_show_poker_shuffle:
         $ narrator("It's a draw! You break even.")
     hide screen city_tavern_show_poker_dices
     jump city_tavern_menu
-    
+
 screen city_tavern_show_poker_status(): # additional screen, shows all info related to the dice game
     frame:
         xalign 0.05
