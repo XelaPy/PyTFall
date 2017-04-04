@@ -28,8 +28,10 @@ label city_tavern_show_poker_dices_loop:
             dice_1.append(throw_a_normal_dice())
         while len(dice_2) < 5:
             dice_2.append(throw_a_normal_dice())
+    show screen city_tavern_show_poker_dices_controls
     show screen city_tavern_show_poker_dices(dice_1, dice_2, False)
     play events "events/dice_" + str(randint(1, 3)) +".mp3"
+    
 label city_tavern_show_poker_dices_loop_continue:
     while 1:
         $ result = ui.interact()
@@ -109,6 +111,8 @@ screen city_tavern_show_poker_dices(dice_1, dice_2, shuffle): # main poker scree
                         idle img
                         hover (im.MatrixColor(im.Recolor(img, 0, 255, 0, 255), im.matrix.brightness(0.15)))
                         action Return(number)
+                        
+screen city_tavern_show_poker_dices_controls:
     vbox:
         style_group "wood"
         align (0.9, 0.9)
@@ -154,7 +158,7 @@ label city_tavern_show_poker_shuffle:
     if rerolls < 2:
         jump city_tavern_show_poker_dices_loop_continue
     
-
+    hide screen city_tavern_show_poker_dices_controls
     if dice_poker_decide_winner(dice_1, dice_2) == 1:
         $ narrator("You lost!")
         $ hero.take_money(city_tavern_current_dice_bet)

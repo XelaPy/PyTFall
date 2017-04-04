@@ -31,14 +31,14 @@ init -11 python:
                     return ["Five High Straight", 4] # dice showing values from 1 through 5, inclusive
         return ["Nothing", 0] # all checks failed, no combinations
         
-    def dice_poker_ai_decision(dice_1, dice_2): # handles ai logic
+    def dice_poker_ai_decision(dice_1, dice_2): # handles ai logic in poker
         counter = collections.Counter(dice_1)
-
         
         if len(counter) == 1: # Five-of-a-Kind
-        # if ai wins, no throws are needed; if ai loses, nothing can be done anyway
+        # if ai wins, no throws are needed; if ai loses, nothing can be done anyway since you need at least 5 throws to get a better hand
             return 0
-        elif len(counter) == 2: # two groups of the same number
+            
+        if len(counter) == 2: # two groups of the same number
             if 4 in counter.values(): # Four-of-a-Kind; at this point it won't hurt to try getting Five-of-a-Kind
                 result_1 = list(k for k, v in counter.iteritems() if v == 1) # we find the single left dice value
                 result = dice_1.index(result_1[0]) + 1 # and return its index
@@ -51,31 +51,37 @@ init -11 python:
                     result = dice_1.index(i) + 1
                     return result
                     
-        # here we check Straights, since they are more important than combination down
+        # here we check Straights, since they are more important than combinations below
         
         checking_list = [2, 3, 4, 5, 6]
         result = result_1 = []
         for i in dice_1:
             if i in checking_list and not (i in result):
                 result.append(i)
-        if len(result) == 5: # Six High Straight
+        if len(result) == 5: # Six High Straight; at this point it's guaranteed win or lose, since Full House will need 4 throws at least
             return 0
+                
         checking_list = [1, 2, 3, 4, 5]
         result = result_1 = []
         for i in dice_1:
             if i in checking_list and not (i in result):
                 result.append(i)
         if len(result) == 5: # Five High Straight
-            return 0
+            if dice_poker_decide_winner(dice_1, dice_2) in [1, 0]: # ai already has good hand
+                return 0
+            else: # if not than going for Six High Straight is the only chance, which means turning 1 to 6 ie throwing the lesser dice
+                i = min(counter.keys())
+                result = dice_1.index(i) + 1
+                return result
+        
+        # if we are here, it means no Straights exist, but now we should check if just one throw can change it
         
         checking_list = [2, 3, 4, 5, 6]
         result = result_1 = []
         for i in dice_1:
             if i in checking_list and not (i in result):
                 result.append(i)
-        if len(result) == 5: # Six High Straight
-            return 0
-        elif len(result) == 4: # no pairs and one wrong dice for High Straight, like [1, 3, 4, 5, 6]; we should throw the wrong one ie 1
+        if len(result) == 4: # no pairs and one wrong dice for High Straight, like [1, 3, 4, 5, 6]; we should throw the wrong one ie 1
             for i in dice_1:
                 if i in checking_list:
                     result_1.append(i)
@@ -88,9 +94,7 @@ init -11 python:
         for i in dice_1:
             if i in checking_list and not (i in result):
                 result.append(i)
-        if len(result) == 5: # Five High Straight
-            return 0
-        elif len(result) == 4:
+        if len(result) == 4:
             for i in dice_1:
                 if i in checking_list:
                     result_1.append(i)
@@ -98,28 +102,15 @@ init -11 python:
             result = dice_1.index(result_1[0]) + 1
             return result
                     
-        # if no Straights, we continue to check other combinations
+        # if we are here, no Straights are available, so we continue with other combinations
                     
         if len(counter) == 3:  # either Three-of-a-Kind or Two Pairs, it doesn't matter for ai, it just throws a single dice
             result_1 = list(k for k, v in counter.iteritems() if v == 1)
             random.shuffle(result_1)
             result = dice_1.index(result_1[0]) + 1
             return result
-        elif len(counter) == 4: # one pair; here we'll need to check for High Straight combinations first
-            if dice_poker_calculate(dice_2)[1] > 2: # one pair is still good if player has 0-2 scores, but if ai loses, it should go for High Straight
-                checking_list = [2, 3, 4, 5, 6]
-                result = list(i for i in dice_1 if i in checking_list)
-                if len(result) == 4: # ai needs just one dice for Six High Straight
-                    result_1 = list(k for k, v in counter.iteritems() if v == 2) # we already know that there is one pair, and only one dice is wrong for High Straight, so we should throw one of those dices from the pair
-                    result = dice_1.index(result_1[0]) + 1
-                    return result
-                checking_list = [1, 2, 3, 4, 5] # same for Five High Straight
-                result = list(i for i in dice_1 if i in checking_list)
-                if len(result) == 4: # ai needs just one dice for Six High Straight
-                    result_1 = list(k for k, v in counter.iteritems() if v == 2) # we already know that there is one pair, and only one dice is wrong for High Straight, so we should throw one of those dices from the pair
-                    result = dice_1.index(result_1[0]) + 1
-                    return result
-            # if we are here, it's just One Pair; so we'll try to make it Three-of-a-Kind
+            
+        if len(counter) == 4: # one pair; we already checked for High Straight combinations, so it only can be improved by making it Three-of-a-Kind
             result_1 = list(k for k, v in counter.iteritems() if v == 1)
             random.shuffle(result_1)
             result = dice_1.index(result_1[0]) + 1
