@@ -262,20 +262,6 @@ init -999 python:
                 self.flags[flag].remove(value)
 
 
-    class JobsLogger(_object):
-        # Used to log stats and skills during job actions
-        def __init__(self):
-            self.stats_skills = dict()
-
-        def logws(self, s, value):
-            """Logs workers stat/skill to a dict:
-            """
-            self.stats_skills[s] = self.stats_skills.get(s, 0) + value
-
-        def clear_jobs_log(self):
-            self.stats_skills = dict()
-
-
     def dice(percent_chance):
         """ returns randomly True with given % chance, or False """
         return random.random() * 100 <= percent_chance
@@ -539,11 +525,6 @@ init -999 python:
     load_frame_by_frame_animations_from_dir("gfx/animations")
     load_frame_by_frame_animations_from_dir("gfx/be/auto-animations")
 
-# Adds a number of useful development tools to the left buttom corner
-# X - Instant Exit
-# R - Recompilation of the game
-# Shows mouse coordinates
-init python:
     def dd_cursor_position(st, at):
         x, y = renpy.get_mouse_pos()
         return Text("{size=-5}%d-%d" % (x, y)), .1

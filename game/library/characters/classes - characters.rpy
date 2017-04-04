@@ -1,6 +1,334 @@
 # Characters classes and methods:
 init -9 python:
     ###### Character Helpers ######
+    class Tier(_object):
+        """This deals with expectations and social status of chars.
+
+        Used to calculate expected wages, upkeep, living conditions and etc.
+        I'd love it to contain at least some of the calculations and coditioning for Jobs as well, we can split this if it gets too confusing.
+        Maybe some behavior flags and alike can be a part of this as well?
+        """
+        BASE_WAGES = {"SIW": 20, "Warrior": 30, "Server": 15, "Specialist": 25}
+
+        def __init__(self):
+            # self.instance = instance
+
+            self.tier = 0
+
+            self.expected_wage = 0
+            self.paid_wage = 0
+            self.upkeep = 0
+            self.expected_accomodations = "poor"
+
+        def recalculate_tier(self):
+            """
+            I think we should attemt to figure out the tier based on
+            level and stats/skills of basetraits.
+
+            level always counts as half of the whole requirement.
+            stats and skills make up the other half.
+
+            We will aim at specific values and interpolate.
+            In case of one basetrait, we multiply result by 2!
+            """
+            target_tier = self.tier+1.0 # To get a float for Py2.7
+            target_level = (target_tier)*20
+            tier_points = 0 # We need 100 to tier up!
+
+            level_points = self.level*50.0/target_level
+
+            default_points = 12.5
+            max_default_points = default_points*1.1 # We do not want this to exceed default points too much
+            stats_skills_points = 0
+            for trait in self.traits.basetraits:
+                # Skills first (We calc this as 12.5% of the total)
+                len_skills = len(trait.base_skills)
+                if not len_skills: # Some weird ass base trait, we just award 33% of total possible points.
+                    stats_skills_points += default_points*.33
+                else:
+                    skills = trait.base_skills
+                    total_sp = sum(self.get_skill(x) for x in skills.iterkeys())
+                    total_sp_required = sum((SKILLS_MAX[x]*(target_tier*.1)) * (.01*y) for x, y in skills.iteritems())
+                    skill_bonus = min(default_points*total_sp/total_sp_required, max_default_points)
+                    stats_skills_points += skill_bonus
+
+                len_stats = len(trait.base_stats)
+                if not len_stats: # Some weird ass base trait, we just award 33% of total possible points.
+                    stats_skills_points += default_points*.33
+                else:
+                    stats = trait.base_stats
+                    total_sp = sum(self.stats.stats[x] for x in stats.iterkeys())
+                    total_sp_required = sum(self.get_max(x) * (.01*y) for x, y in stats.iteritems())
+                    stat_bonus = min(default_points*total_sp/total_sp_required, max_default_points)
+                    stats_skills_points += stat_bonus
+
+            if len(self.traits.basetraits) == 1:
+                stats_skills_points *= 2
+
+            total_points = level_points + stats_skills_points
+
+            devlog.info("Name: {}, tier points for Teir {}: {} (lvl: {}, st/sk=total: {}/{}==>{})".format(self.name,
+                                                                                                        int(target_tier),
+                                                                                                        round(total_points),
+                                                                                                        round(level_points),
+                                                                                                        round(stat_bonus),
+                                                                                                        round(skill_bonus),
+                                                                                                        round(stats_skills_points)))
+
+            if total_points >= 100:
+                self.tier += 1 # we tier up and return True!
+                return True
+            else:
+                return False
+
+        def calc_expected_wage(self, kind=None):
+            """Amount of money each character expects to get paid for her skillset.
+
+            Keeping it simple for now:
+            - We'll set defaults for all basic occupation types.
+            - We'll adjust by tiers.
+            - We'll adjust by other modifiers like traits.
+
+            kind: for now, any specific general occupation will do, but
+            we may use jobs in the future somehow. We provide this when hiring
+            for a specific task. If None, first occupation found when iterating
+            default list will do...
+            """
+            if kind:
+                wage = self.BASE_WAGES[kind]
+            else:
+                for i in ["Warrior", "Specialist", "SIW", "Server"]:
+                    if i in self.occupations:
+                        wage = self.BASE_WAGES[i]
+                        break
+                else:
+                    raise Exception("Impossible character detected! ID: {} ~ BT: {} ~ Occupations: {}".format(self.id,
+                                    ", ".join([str(t) for t in self.traits.basetraits]), ", ".join([str(t) for t in self.occupations])))
+
+            # Each tier increases wage by 50% without stacking:
+            wage = wage + wage*self.tier*.5
+
+            if "Dedicated" in self.traits: # the trait decreases wage, this check should remain after revising! - DarkTl
+                wage = wage*0.65
+
+            # Normalize:
+            wage = int(round(wage))
+            if wage < 10:
+                wage = 10
+
+            self.expected_wage = wage
+            return wage
+
+        def update_tier_info(self, kind=None):
+            for i in range(11):
+                if not self.recalculate_tier():
+                    break
+            self.calc_expected_wage(kind=kind)
+
+        # We need "reverse" calculation for when leveling up characters
+        # Mainly to figure out their skill levels, maybe moar in the future
+        def level_up_tier_to(self, level):
+            level_mod = level*.5 # We take level 200 as max...
+
+            skills = {}
+            # First, we get highest skill relevance from basetraits:
+            for bt in self.traits.basetraits:
+                for skill, value in bt.base_skills.items():
+                    skills[skill] = max(skills.get(skill, 0), value)
+
+            # Bit of an issue here is that we do not mind threathholds, not sure that it's a good thing.
+            for skill, value in skills.items():
+                value = (MAX_SKILLS[skill]*.01*value)*(.01*level_mod)
+                self.stats.mod_full_skill(skill, value)
+
+
+    class Trait(_object):
+        def __init__(self):
+            self.desc = ''
+            self.icon = None
+            self.hidden = False
+            self.mod = dict() # To be removed!
+            self.mod_stats = dict()
+            self.mod_skills = dict()
+            self.max = dict()
+            self.min = dict()
+            self.blocks = list()
+            self.effects = list()
+
+
+            # Occupations related:
+            self.occupations = list() # So far I came up with SIW (Sex Industry worker), Server, Warrior...
+            self.higher_tiers = list() # Required higher tier basetraits to enable this trait.
+
+            self.sex = "unisex" # Untill we set this up in traits: this should be "unisex" by default.
+
+            # Types:
+            self.type = "" # Specific type if specified.
+            self.basetrait = False
+            self.personality = False
+            self.race = False
+            self.breasts = False
+            self.body = False
+            self.elemental = False
+
+            self.mod_ap = 0 # Will only work on body traits!
+
+            self.mob_only = False
+            self.character_trait = False
+            self.sexual = False
+            self.client = False
+
+            # Elemental:
+            self.font_color = None
+            self.resist = list()
+            self.el_name = ""
+            self.el_absorbs = dict() # Pure ratio, NOT a modificator to a multiplier like for dicts below.
+            self.el_damage = dict()
+            self.el_defence = dict()
+            self.el_special = dict()
+
+            # Weaponfocus:                not used, as far as I know, so should be deleted?
+            self.we_damage = dict()
+            self.we_defence = dict()
+            self.we_special = dict()
+
+            # Base mods on init:
+            self.init_mod = dict() # Mod value setting
+            self.init_lvlmax = dict() # Mod value setting
+            self.init_max = dict() # Mod value setting
+            self.init_skills = dict() # {skill: [actions, training]}
+
+            # Special BE Fields:
+            # self.evasion_bonus = () # Bonuses in traits work differently from item bonuses, a tuple of (min_value, max_value, max_value_level) is expected (as a value in dict below) instead!
+            # self.ch_multiplier = 0 # Critical hit multi...
+            # self.damage_multiplier = 0
+
+            # self.defence_bonus = {} # Delivery! Not damage types!
+            # self.defence_multiplier = {}
+            # self.delivery_bonus = {} Expects a k/v pair of type: multiplier This is direct bonus added to attack power.
+            # self.delivery_multiplier = {}
+
+            self.leveling_stats = dict() # {stat: [lvl_max, max **as mod values]}
+
+            # For BasetTraits, we want to have a list of skills and stats, possibly weighted for evaluation.
+            self.base_skills = dict()
+            self.base_stats = dict()
+            # Where key: value are stat/skill: weight!
+
+        def __str__(self):
+            return str(self.id)
+
+
+    class Team(_object):
+        def __init__(self, name="", implicit=None, free=False, max_size=3):
+            if not implicit:
+                implicit = list()
+            self.name = name
+            self.implicit = implicit
+            self.max_size = max_size
+            self._members = list()
+            self._leader = None
+            self.free = free # Free teams do not have any implicit members.
+
+            # BE Assests:
+            self.position = None # BE will set it to "r" or "l" short for left/right on the screen.
+
+            if self.implicit:
+                for member in self.implicit:
+                    self.add(member)
+
+        def __len__(self):
+            return len(self._members)
+
+        def __iter__(self):
+            return iter(self._members)
+
+        def __getitem__(self, index):
+            return self._members[index]
+
+        def __nonzero__(self):
+            return bool(self._members)
+
+        @property
+        def members(self):
+            return self._members
+
+        @property
+        def leader(self):
+            try:
+                return self.members[0]
+            except:
+                return self._leader
+
+        def add(self, member):
+            if member in self:
+                notify("Impossible to join the same team twice")
+
+            if len(self._members) >= self.max_size:
+                notify("This team cannot have more than %d teammembers!"%self.max_size)
+            else:
+                if not self.free and not self.leader:
+                    self._leader = member
+                    if member not in self.implicit:
+                        self.implicit.append(member)
+                    self._members.append(member)
+                else:
+                    self._members.append(member)
+
+        def remove(self, member):
+            if member in self.implicit or member not in self._members:
+                notify("%s is not a member of this team or an implicit member of this team!"%member.name)
+            else:
+                self._members.remove(member)
+
+        def set_leader(self, member):
+            if member not in self._members:
+                notify("%s is not a member of this team!"%member.name)
+                return
+            if self.leader:
+                self.implicit.remove(self.leader)
+            self._leader = member
+            self.implicit.insert(0, member)
+
+        def get_level(self):
+            """
+            Returns an average level of the team as an integer.
+            """
+            av_level = 0
+            for member in self._members:
+                av_level += member.level
+            return int(math.ceil(av_level/len(self._members)))
+
+        def get_rep(self):
+            """
+            Returns average of arena reputation of a team as an interger.
+            """
+            arena_rep = 0
+            for member in self._members:
+                arena_rep += member.arena_rep
+            return int(math.ceil(arena_rep/len(self._members)))
+
+        # BE Related:
+        def reset_controller(self):
+            # Resets combat controller
+            for m in self.members:
+                m.controller = "player"
+
+
+    class JobsLogger(_object):
+        # Used to log stats and skills during job actions
+        def __init__(self):
+            self.stats_skills = dict()
+
+        def logws(self, s, value):
+            """Logs workers stat/skill to a dict:
+            """
+            self.stats_skills[s] = self.stats_skills.get(s, 0) + value
+
+        def clear_jobs_log(self):
+            self.stats_skills = dict()
+
+
     class SmartTracker(collections.MutableSequence):
         def __init__(self, instance, be_skill=True):
             self.instance = instance # Owner of this object, this is being instanciated as character.magic_skills = SmartTracker(character)
@@ -1181,7 +1509,7 @@ init -9 python:
 
 
     ###### Character Classes ######
-    class PytCharacter(Flags, Tier):
+    class PytCharacter(Flags, Tier, JobsLogger):
         STATS = set()
         SKILLS = set(["vaginal", "anal", "oral", "sex", "strip", "service", "refinement", "group", "bdsm", "dancing",
                       "bartending", "cleaning", "waiting", "management", "exploration", "teaching", "swimming", "fishing", "security"])
@@ -1272,6 +1600,7 @@ init -9 python:
             # For workers (like we may not want to run this for mobs :) )
             if is_worker:
                 Tier.__init__(self)
+                JobsLogger.__init__(self)
 
             # Stat support Dicts:
             stats = {
@@ -4911,319 +5240,3 @@ init -9 python:
         """
         def __init__(self):
             super(NPC, self).__init__()
-
-
-### ==>> Rest:
-init -10 python:
-    class Tier(_object):
-        """This deals with expectations and social status of chars.
-
-        Used to calculate expected wages, upkeep, living conditions and etc.
-        I'd love it to contain at least some of the calculations and coditioning for Jobs as well, we can split this if it gets too confusing.
-        Maybe some behavior flags and alike can be a part of this as well?
-        """
-        BASE_WAGES = {"SIW": 20, "Warrior": 30, "Server": 15, "Specialist": 25}
-
-        def __init__(self):
-            # self.instance = instance
-
-            self.tier = 0
-
-            self.expected_wage = 0
-            self.paid_wage = 0
-            self.upkeep = 0
-            self.expected_accomodations = "poor"
-
-        def recalculate_tier(self):
-            """
-            I think we should attemt to figure out the tier based on
-            level and stats/skills of basetraits.
-
-            level always counts as half of the whole requirement.
-            stats and skills make up the other half.
-
-            We will aim at specific values and interpolate.
-            In case of one basetrait, we multiply result by 2!
-            """
-            target_tier = self.tier+1.0 # To get a float for Py2.7
-            target_level = (target_tier)*20
-            tier_points = 0 # We need 100 to tier up!
-
-            level_points = self.level*50.0/target_level
-
-            default_points = 12.5
-            max_default_points = default_points*1.1 # We do not want this to exceed default points too much
-            stats_skills_points = 0
-            for trait in self.traits.basetraits:
-                # Skills first (We calc this as 12.5% of the total)
-                len_skills = len(trait.base_skills)
-                if not len_skills: # Some weird ass base trait, we just award 33% of total possible points.
-                    stats_skills_points += default_points*.33
-                else:
-                    skills = trait.base_skills
-                    total_sp = sum(self.get_skill(x) for x in skills.iterkeys())
-                    total_sp_required = sum((SKILLS_MAX[x]*(target_tier*.1)) * (.01*y) for x, y in skills.iteritems())
-                    skill_bonus = min(default_points*total_sp/total_sp_required, max_default_points)
-                    stats_skills_points += skill_bonus
-
-                len_stats = len(trait.base_stats)
-                if not len_stats: # Some weird ass base trait, we just award 33% of total possible points.
-                    stats_skills_points += default_points*.33
-                else:
-                    stats = trait.base_stats
-                    total_sp = sum(self.stats.stats[x] for x in stats.iterkeys())
-                    total_sp_required = sum(self.get_max(x) * (.01*y) for x, y in stats.iteritems())
-                    stat_bonus = min(default_points*total_sp/total_sp_required, max_default_points)
-                    stats_skills_points += stat_bonus
-
-            if len(self.traits.basetraits) == 1:
-                stats_skills_points *= 2
-
-            total_points = level_points + stats_skills_points
-
-            devlog.info("Name: {}, tier points for Teir {}: {} (lvl: {}, st/sk=total: {}/{}==>{})".format(self.name,
-                                                                                                        int(target_tier),
-                                                                                                        round(total_points),
-                                                                                                        round(level_points),
-                                                                                                        round(stat_bonus),
-                                                                                                        round(skill_bonus),
-                                                                                                        round(stats_skills_points)))
-
-            if total_points >= 100:
-                self.tier += 1 # we tier up and return True!
-                return True
-            else:
-                return False
-
-        def calc_expected_wage(self, kind=None):
-            """Amount of money each character expects to get paid for her skillset.
-
-            Keeping it simple for now:
-            - We'll set defaults for all basic occupation types.
-            - We'll adjust by tiers.
-            - We'll adjust by other modifiers like traits.
-
-            kind: for now, any specific general occupation will do, but
-            we may use jobs in the future somehow. We provide this when hiring
-            for a specific task. If None, first occupation found when iterating
-            default list will do...
-            """
-            if kind:
-                wage = self.BASE_WAGES[kind]
-            else:
-                for i in ["Warrior", "Specialist", "SIW", "Server"]:
-                    if i in self.occupations:
-                        wage = self.BASE_WAGES[i]
-                        break
-                else:
-                    raise Exception("Impossible character detected! ID: {} ~ BT: {} ~ Occupations: {}".format(self.id,
-                                    ", ".join([str(t) for t in self.traits.basetraits]), ", ".join([str(t) for t in self.occupations])))
-
-            # Each tier increases wage by 50% without stacking:
-            wage = wage + wage*self.tier*.5
-
-            if "Dedicated" in self.traits: # the trait decreases wage, this check should remain after revising! - DarkTl
-                wage = wage*0.65
-
-            # Normalize:
-            wage = int(round(wage))
-            if wage < 10:
-                wage = 10
-
-            self.expected_wage = wage
-            return wage
-
-        def update_tier_info(self, kind=None):
-            for i in range(11):
-                if not self.recalculate_tier():
-                    break
-            self.calc_expected_wage(kind=kind)
-
-        # We need "reverse" calculation for when leveling up characters
-        # Mainly to figure out their skill levels, maybe moar in the future
-        def level_up_tier_to(self, level):
-            level_mod = level*.5 # We take level 200 as max...
-
-            skills = {}
-            # First, we get highest skill relevance from basetraits:
-            for bt in self.traits.basetraits:
-                for skill, value in bt.base_skills.items():
-                    skills[skill] = max(skills.get(skill, 0), value)
-
-            # Bit of an issue here is that we do not mind threathholds, not sure that it's a good thing.
-            for skill, value in skills.items():
-                value = (MAX_SKILLS[skill]*.01*value)*(.01*level_mod)
-                self.stats.mod_full_skill(skill, value)
-
-
-    class Trait(_object):
-        def __init__(self):
-            self.desc = ''
-            self.icon = None
-            self.hidden = False
-            self.mod = dict() # To be removed!
-            self.mod_stats = dict()
-            self.mod_skills = dict()
-            self.max = dict()
-            self.min = dict()
-            self.blocks = list()
-            self.effects = list()
-
-
-            # Occupations related:
-            self.occupations = list() # So far I came up with SIW (Sex Industry worker), Server, Warrior...
-            self.higher_tiers = list() # Required higher tier basetraits to enable this trait.
-
-            self.sex = "unisex" # Untill we set this up in traits: this should be "unisex" by default.
-
-            # Types:
-            self.type = "" # Specific type if specified.
-            self.basetrait = False
-            self.personality = False
-            self.race = False
-            self.breasts = False
-            self.body = False
-            self.elemental = False
-
-            self.mod_ap = 0 # Will only work on body traits!
-
-            self.mob_only = False
-            self.character_trait = False
-            self.sexual = False
-            self.client = False
-
-            # Elemental:
-            self.font_color = None
-            self.resist = list()
-            self.el_name = ""
-            self.el_absorbs = dict() # Pure ratio, NOT a modificator to a multiplier like for dicts below.
-            self.el_damage = dict()
-            self.el_defence = dict()
-            self.el_special = dict()
-
-            # Weaponfocus:                not used, as far as I know, so should be deleted?
-            self.we_damage = dict()
-            self.we_defence = dict()
-            self.we_special = dict()
-
-            # Base mods on init:
-            self.init_mod = dict() # Mod value setting
-            self.init_lvlmax = dict() # Mod value setting
-            self.init_max = dict() # Mod value setting
-            self.init_skills = dict() # {skill: [actions, training]}
-
-            # Special BE Fields:
-            # self.evasion_bonus = () # Bonuses in traits work differently from item bonuses, a tuple of (min_value, max_value, max_value_level) is expected (as a value in dict below) instead!
-            # self.ch_multiplier = 0 # Critical hit multi...
-            # self.damage_multiplier = 0
-
-            # self.defence_bonus = {} # Delivery! Not damage types!
-            # self.defence_multiplier = {}
-            # self.delivery_bonus = {} Expects a k/v pair of type: multiplier This is direct bonus added to attack power.
-            # self.delivery_multiplier = {}
-
-            self.leveling_stats = dict() # {stat: [lvl_max, max **as mod values]}
-
-            # For BasetTraits, we want to have a list of skills and stats, possibly weighted for evaluation.
-            self.base_skills = dict()
-            self.base_stats = dict()
-            # Where key: value are stat/skill: weight!
-
-        def __str__(self):
-            return str(self.id)
-
-
-    class Team(_object):
-        def __init__(self, name="", implicit=None, free=False, max_size=3):
-            if not implicit:
-                implicit = list()
-            self.name = name
-            self.implicit = implicit
-            self.max_size = max_size
-            self._members = list()
-            self._leader = None
-            self.free = free # Free teams do not have any implicit members.
-
-            # BE Assests:
-            self.position = None # BE will set it to "r" or "l" short for left/right on the screen.
-
-            if self.implicit:
-                for member in self.implicit:
-                    self.add(member)
-
-        def __len__(self):
-            return len(self._members)
-
-        def __iter__(self):
-            return iter(self._members)
-
-        def __getitem__(self, index):
-            return self._members[index]
-
-        def __nonzero__(self):
-            return bool(self._members)
-
-        @property
-        def members(self):
-            return self._members
-
-        @property
-        def leader(self):
-            try:
-                return self.members[0]
-            except:
-                return self._leader
-
-        def add(self, member):
-            if member in self:
-                notify("Impossible to join the same team twice")
-
-            if len(self._members) >= self.max_size:
-                notify("This team cannot have more than %d teammembers!"%self.max_size)
-            else:
-                if not self.free and not self.leader:
-                    self._leader = member
-                    if member not in self.implicit:
-                        self.implicit.append(member)
-                    self._members.append(member)
-                else:
-                    self._members.append(member)
-
-        def remove(self, member):
-            if member in self.implicit or member not in self._members:
-                notify("%s is not a member of this team or an implicit member of this team!"%member.name)
-            else:
-                self._members.remove(member)
-
-        def set_leader(self, member):
-            if member not in self._members:
-                notify("%s is not a member of this team!"%member.name)
-                return
-            if self.leader:
-                self.implicit.remove(self.leader)
-            self._leader = member
-            self.implicit.insert(0, member)
-
-        def get_level(self):
-            """
-            Returns an average level of the team as an integer.
-            """
-            av_level = 0
-            for member in self._members:
-                av_level += member.level
-            return int(math.ceil(av_level/len(self._members)))
-
-        def get_rep(self):
-            """
-            Returns average of arena reputation of a team as an interger.
-            """
-            arena_rep = 0
-            for member in self._members:
-                arena_rep += member.arena_rep
-            return int(math.ceil(arena_rep/len(self._members)))
-
-        # BE Related:
-        def reset_controller(self):
-            # Resets combat controller
-            for m in self.members:
-                m.controller = "player"

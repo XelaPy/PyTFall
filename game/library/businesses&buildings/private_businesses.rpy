@@ -17,11 +17,6 @@ init -6 python:
             self.time = 5 # Same
             self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
 
-        def get_client_count(self):
-            # Returns amount of workers we expect to come here.
-            # We may not use this at all and handle everything on level of the main building instead!
-            return int(round(2 + self._rep*0.01*max(len(self.all_workers), self.capacity)))
-
         def has_workers(self):
             # Check if the building still has someone availbile to do the job.
             # We just check this for

@@ -702,43 +702,43 @@
                 if char.status != 'slave':
                     if sub < 0:
                         if dice(15):
-                            self.loggs('character', 1)
+                            char.logws('character', 1)
                         char.set_flag("jobs_whoreintro", "%s is not very happy with her current job as a harlot, but she will get the job done." % char.name)
                     elif sub == 0:
                         if dice(25):
-                            self.loggs('character', 1)
+                            char.logws('character', 1)
                         char.set_flag("jobs_whoreintro", "%s serves customers as a whore, but, truth be told, she would prefer to do something else." % char.nickname)
                     else:
                         if dice(35):
-                            self.loggs('character', 1)
+                            char.logws('character', 1)
                         char.set_flag("jobs_whoreintro", "%s makes it clear that she wants another job before getting busy with a client." % char.name)
                     difference = (self.calculate_disposition_level(char) - char.disposition)/6 # penalty is based on the difference between current and min needed disposition
                     if difference < 1:
                         difference = 1
-                    char.set_flag("jobs_introjoy", -randint(5, 10))
-                    char.set_flag("jobs_introdis", -randint(0, int(difference)))
-                    self.loggs('vitality', -randint(5,15))
+                    char.logws("joy", -randint(5, 10))
+                    char.logws("disposition", -randint(0, int(difference))
+                    char.logws('vitality', -randint(5, 15))
                 else:
-                    if sub<0:
+                    if sub < 0:
                         char.set_flag("jobs_whoreintro",choice(["%s is a slave so no one really cares but, being forced to work as a whore, she's quite upset." % char.name, "%s will do as she is told, but doesn't mean that she'll be happy about doing 'it' with strangers." % char.name]))
                         if dice(25):
-                            self.loggs('character', 1)
-                    elif sub==0:
+                            char.logws('character', 1)
+                    elif sub == 0:
                         char.set_flag("jobs_whoreintro",choice(["%s was very displeased by her order to work as a whore, but didn't dare to refuse." % char.name, "%s will do as you command, but she will hate every second of her harlot shift..." % char.name]))
                         if dice(35):
-                            self.loggs('character', 1)
+                            char.logws('character', 1)
                     else:
                         char.set_flag("jobs_whoreintro",choice(["%s was very displeased by her order to work as a whore, and makes it clear for everyone before getting busy with a client." % char.name, "%s will do as you command and work as a harlot, but not without a lot of grumbling and complaining." % char.name]))
                         if dice(45):
-                            self.loggs('character', 1)
+                            char.logws('character', 1)
                     difference = (self.calculate_disposition_level(char) - char.disposition)/5
                     if difference < 1:
                         difference = 1
                     if char.joy < 50: # slaves additionally get more disposition penalty with low joy
                         difference += randint(0, (50-char.joy))
-                    char.set_flag("jobs_introjoy", -randint(10, 15))
-                    char.set_flag("jobs_introdis", -randint(0, int(difference)))
-                    self.loggs('vitality', -randint(10,25))
+                    char.logws("joy", -randint(5, 10))
+                    char.logws("disposition", -randint(0, int(difference))
+                    char.logws('vitality', -randint(10, 25))
             else:
                 char.set_flag("jobs_whoreintro", choice(["%s is doing her shift as a harlot." % char.name, "%s gets busy with a client." % char.fullname, "%s serves customers as a whore." % char.nickname]))
             return True
@@ -761,7 +761,6 @@
             if flag:
                 self.loggs('joy', flag)
                 worker.del_flag("jobs_introjoy")
-
 
             width = 820
             height = 705
