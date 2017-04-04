@@ -41,7 +41,7 @@ label city_tavern_show_poker_dices_loop_continue:
             $ selected_dice = 0
         show screen city_tavern_show_poker_dices(dice_1, dice_2)
         
-screen city_tavern_show_poker_dices(dice_1, dice_2): # main poker screen, shows dices themselves as imagebuttons; shuffle=True means we want to show all buttons but the selected one without alts
+screen city_tavern_show_poker_dices(dice_1, dice_2): # main poker screen, shows dices themselves as imagebuttons
     on "show":
         action Show("city_tavern_show_poker_status", dissolve)
     on "hide":
