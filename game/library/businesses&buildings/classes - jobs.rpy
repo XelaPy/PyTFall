@@ -108,249 +108,6 @@
             return 0
 
     class Job(_object):
-        """ Baseclass for jobs and other next day actions with some defaults.
-
-        - Older class used with Schools and Training.
-        """
-        def __init__(self, girl=None, girls=None, loc=None, event_type="jobreport"):
-            """Creates a new Job.
-
-            girl = The girl doing the job.
-            girls = A container with all the girls. (May not be useful anymore)
-            """
-            self.id = "Base Job"
-            self.girls = girls
-            self.girl = girl
-            self.girlmod = {} # Logging all stats/skills changed during the job.
-
-            self.loc = loc
-            self.locmod = {}
-
-            # Traits/Job-types associated with this job:
-            self.occupations = list() # General Strings likes SIW, Warrior, Server...
-            self.occupation_traits = list() # Corresponing traits...
-
-            self.txt = list()
-            self.img = ""
-            self.finished = False
-
-            self.flag_red = False
-            self.flag_green = False
-
-            self.event_type = event_type
-
-        def __call__(self, girl, girls, loc=None, event_type="jobreport"):
-            self.girl = girl
-            self.girls = girls
-            self.loc = loc
-            self.event_type = event_type
-
-            self.finished = False
-
-        def __str__(self):
-            return str(self.id)
-
-        def reset(self):
-            self.girl = None
-            self.loc = None
-            self.client = None
-            self.event_type = None
-            self.finished = False
-            self.txt = list()
-            self.img = ""
-
-            self.flag_red = False
-            self.flag_green = False
-
-            self.girlmod = {}
-            self.locmod = {}
-
-
-        @property
-        def all_occs(self):
-            # All Occupations:
-            return set(self.occupations + self.occupation_traits)
-
-        def get_clients(self):
-            # This returns a correct amount of clients used for the job
-            return 0
-
-        def create_event(self):
-            """
-            Returns an event depicting the current state of this job.
-            """
-            if isinstance(self.txt, (list, tuple)):
-                try:
-                    self.txt = "".join(self.txt)
-                except TypeError:
-                    self.txt = "".join(str(i) for i in self.txt)
-
-            return NDEvent(type=self.event_type,
-                                 img=self.img,
-                                 txt=self.txt,
-                                 char=self.girl,
-                                 charmod=self.girlmod,
-                                 loc=self.loc,
-                                 locmod=self.locmod,
-                                 green_flag=self.flag_green,
-                                 red_flag=self.flag_red)
-
-        def check_occupation(self, char=None):
-            """
-            Checks the girls occupation.
-            """
-            return True
-
-        def check_life(self):
-            """
-            Checks whether the girl is alive.
-            Might be deprecated, needs updating.
-            """
-            if not self.girl.alive:
-                self.txt.append("%s is dead. \n"%self.girl.fullname)
-                self.girls.remove(self.girl)
-                self.img = im.Sepia(self.girl.show('profile'), resize=(740, 685))
-                self.finish_job()
-
-        def finish_job(self):
-            """
-            Finish the job and adds it to NextDayEvents.
-            """
-            self.finished = True
-            NextDayEvents.append(self.create_event())
-
-            # Reset all attrs:
-            # Redundant?
-            self.girlmod = {}
-            self.locmod = {}
-            self.txt = list()
-            self.img = ""
-            self.flag_red = False
-            self.flag_green = False
-
-        def check_injury(self):
-            """Checks whether the girl is injured and sets her to auto rest.
-            """
-            if self.girl.health < self.girl.get_max("health")*0.25:
-                self.txt.append("%s is injured and in need of medical attention! "%self.girl.name)
-                self.img = self.girl.show("profile", "sad", resize=(740, 685))
-
-                if self.girl.autocontrol['Rest']:
-                    self.girl.previousaction = self.girl.action
-                    self.girl.action = 'AutoRest'
-                    self.txt.append("She is going to take few days off to heal her wounds. ")
-
-                self.girls.remove(self.girl)
-                self.finish_job()
-
-        def check_vitality(self):
-            """
-            Checks whether the girl is tired and sets her to auto rest.
-            """
-            if self.girl.vitality < 30:
-                self.txt.append("%s is to tired to work today! "%self.girl.name)
-                self.img = self.girl.show("profile", "sad", resize=(740, 685))
-
-                if self.girl.autocontrol['Rest']:
-                    self.girl.previousaction = self.girl.action
-                    self.girl.action = 'AutoRest'
-                    self.txt.append("She's going to take few days off to recover her stamina. ")
-
-                self.girls.remove(self.girl)
-                self.finish_job()
-
-        def apply_stats(self):
-            """
-            Applies the stat changes generated by this job to the girl.
-            """
-            for stat in self.girlmod:
-                if stat == "exp":
-                    self.girlmod[stat] = self.girl.adjust_exp(self.girlmod[stat])
-                    self.girl.exp += self.girlmod[stat]
-
-                # After a long conversation with Dark and CW, we've decided to prevent girls dieing during jobs
-                # I am leaving the code I wrote before that decision was reached in case
-                # we change our minds or add jobs like exploration where it makes more sense.
-                # On the other hand just ignoring it is bad, so let's at least reduce some stuff, pretending that she lost consciousness for example.
-                elif stat == 'health' and (self.girl.health + self.girlmod[stat]) <= 0:
-                    self.girl.health = 1
-                    if self.girl.constitution > 5:
-                        self.girl.constitution -= 5
-
-                else:
-                    if self.girl.stats.is_stat(stat):
-                        self.girl.mod_stat(stat, self.girlmod[stat])
-
-                    elif self.girl.stats.is_skill(stat):
-                        self.girl.mod_stat(stat, self.girlmod[stat])
-
-            for stat in self.locmod:
-                if stat == 'fame':
-                    self.loc.modfame(self.locmod[stat])
-
-                elif stat == 'dirt':
-                    if self.locmod[stat] < 0:
-                        self.loc.clean(-self.locmod[stat])
-
-                    else:
-                        self.loc.dirt += self.locmod[stat]
-
-                elif stat == 'reputation':
-                    self.loc.modrep(self.locmod[stat])
-
-                else:
-                    raise Exception("Stat: {} does not exits for Businesses".format(stat))
-
-        def auto_clean(self):
-            """
-            Auto cleans the building if needed.
-            """
-            if isinstance(self.loc, DirtyBuilding):
-                if self.loc.auto_clean and self.loc.get_dirt_percentage()[0] > 80:
-                    price = self.loc.get_cleaning_price()
-                    if hero.take_money(price, reason="Pro-Cleaning"):
-                        self.loc.fin.log_expense(price, "Pro-Cleaning")
-                        self.loc.dirt = 0
-                        self.txt.append("Cleaners were hired to tidy up your building. Cost: {color=[gold]} %s Gold.{/color}\n\n"%price)
-
-                    else:
-                        self.txt.append("You did not have enough funds to pay for the professional cleaning service (%d Gold).\n\n"%price)
-
-        def check_dirt(self):
-            """
-            Checks the dirt for the building and reports it.
-            """
-            if isinstance(self.loc, DirtyBuilding):
-                if self.loc.get_dirt_percentage()[0] > 80:
-                    self.txt.append(choice(["Your building looks like a pigstall, fix this or keep losing your clients!",
-                                                         "Your building is to dirty to do business!",
-                                                         "Clean your damn establishment or keep losing money and rep!"]))
-
-                    if dice(self.loc.get_dirt_percentage()[0]):
-                        self.locmod["reputation"] -= randint(2, 5)
-
-                    self.apply_stats()
-                    self.img = self.girl.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
-                    self.finish_job()
-
-                    return True
-
-                else:
-                    return False
-
-            else:
-                return False
-
-        def loggs(self, s, value):
-            # Logs girls stat/skill to a dict:
-            self.girlmod[s] = self.girlmod.get(s, 0) + value
-
-        def logloc(self, s, value):
-            # Logs a stat for the building:
-            self.locmod[s] = self.girlmod.get(s, 0) + value
-
-
-    class NewStyleJob(Job):
         """Baseclass for jobs and other next day actions with some defaults.
 
         - Presently is used in modern Job Classes. Very similar to Job.
@@ -632,7 +389,7 @@
 
 
     ####################### Whore Job  ############################
-    class WhoreJob(NewStyleJob):
+    class WhoreJob(Job):
         def __init__(self):
             super(WhoreJob, self).__init__()
             self.id = "Whore Job"
@@ -1419,7 +1176,7 @@
 
 
     ####################### Strip Job  ############################
-    class StripJob(NewStyleJob):
+    class StripJob(Job):
         """
         Class for the solving of stripping logic.
         """
@@ -1644,7 +1401,7 @@
 
 
     ####################### Rest Job  #############################
-    class Rest(NewStyleJob):
+    class Rest(Job):
         """Resting for character, technically not a job...
         """
         def __init__(self):
@@ -1823,7 +1580,7 @@
 
 
     ####################### Manager Job  ############################
-    class Manager(NewStyleJob):
+    class Manager(Job):
         """This is the manager Job, so far it just creates the instance we can use to assign the job.
 
         - Later we may use this to do mod stats and level up Managers somehow...
@@ -1839,7 +1596,7 @@
 
 
     ####################### Service Job  ##########################
-    class TestingJob(NewStyleJob):
+    class TestingJob(Job):
         """
         Very Simple job that can be used for testing or as a "Blue Print"
         """
@@ -1881,7 +1638,7 @@
             return 1
 
 
-    class Waiting(NewStyleJob):
+    class Waiting(Job):
         def __init__(self):
             super(Waiting, self).__init__()
             self.id = "Waiting Job"
@@ -1996,7 +1753,7 @@
             self.finish_job()
 
 
-    class BarJob(NewStyleJob):
+    class BarJob(Job):
         def __init__(self):
             super(BarJob, self).__init__()
             self.id = "Bartending"
@@ -2174,7 +1931,7 @@
             self.finish_job()
 
 
-    class CleaningJob(NewStyleJob):
+    class CleaningJob(Job):
         def __init__(self):
             super(CleaningJob, self).__init__()
             self.id = "Cleaning"
@@ -2263,7 +2020,7 @@
             self.finish_job()
 
 
-    class ServiceJob(NewStyleJob):
+    class ServiceJob(Job):
         """The class that solves Bartending, Waitressing and Cleaning.
 
         TODO: Rewrite to work with SimPy! *Or this actually should prolly be split into three Jobs...
@@ -2438,7 +2195,7 @@
                     self.txt.append("\n")
 
 
-    class GuardJob(NewStyleJob):
+    class GuardJob(Job):
         def __init__(self):
             """Creates reports for GuardJob.
             """
@@ -2669,7 +2426,7 @@
                         self.worker.AP = 0
 
 
-    class ExplorationData(NewStyleJob):
+    class ExplorationData(Job):
         def __init__(self):
             """Creates a new GuardJob.
             """

@@ -102,7 +102,7 @@ init -10 python:
                 - Runs the Job once AP had been exhausted or there are no more clients availible.
                 - Removes the worker from active workers # TODO: Might be a good idea to move the worker back to self.instance_workers in case update simply ran out of clients.
 
-    NewStyleJob:
+    Job:
         # Classes that hold funcitons and some default data.
         # We keep one instance of a job for the whole game whenever possible.
         *workermod = Any Stats/Skills changed during this Jobs execution

@@ -268,7 +268,7 @@
             self.finish_job()
         
             
-    class NewStyleJob(Job):
+    class Job(Job):
         # Whole Job:
         def check_rank(self):
             """
