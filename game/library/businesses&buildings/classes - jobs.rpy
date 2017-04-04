@@ -655,7 +655,7 @@
             self.worker, self.client, self.loc = char, client, char.location
             self.worker.AP -= 1
             self.payout_mod()
-            self.acts()
+            self.acts(char, client)
 
         def is_valid_for(self, char):
             if "Prostitute" in char.traits:
@@ -716,7 +716,7 @@
                     if difference < 1:
                         difference = 1
                     char.logws("joy", -randint(5, 10))
-                    char.logws("disposition", -randint(0, int(difference))
+                    char.logws("disposition", -randint(0, int(difference)))
                     char.logws('vitality', -randint(5, 15))
                 else:
                     if sub < 0:
@@ -737,7 +737,7 @@
                     if char.joy < 50: # slaves additionally get more disposition penalty with low joy
                         difference += randint(0, (50-char.joy))
                     char.logws("joy", -randint(5, 10))
-                    char.logws("disposition", -randint(0, int(difference))
+                    char.logws("disposition", -randint(0, int(difference)))
                     char.logws('vitality', -randint(10, 25))
             else:
                 char.set_flag("jobs_whoreintro", choice(["%s is doing her shift as a harlot." % char.name, "%s gets busy with a client." % char.fullname, "%s serves customers as a whore." % char.nickname]))
@@ -751,16 +751,6 @@
             # Pass the flags from occupation_checks:
             self.txt.append(worker.flag("jobs_whoreintro"))
             self.txt.append("\n\n")
-
-            flag = worker.flag("jobs_introdis")
-            if flag:
-                self.loggs('disposition', flag)
-                worker.del_flag("jobs_introdis")
-
-            flag = worker.flag("jobs_introjoy")
-            if flag:
-                self.loggs('joy', flag)
-                worker.del_flag("jobs_introjoy")
 
             width = 820
             height = 705
@@ -1515,9 +1505,9 @@
                     else:
                         if dice(35):
                             self.loggs('character', 1)
-                    char.set_flag("jobs_introjoy", -randint(1, 10))
-                    char.set_flag("jobs_introdis", -randint(0, int(difference)))
-                    self.loggs('vitality', -randint(5,15))
+                    char.logws("joy", -randint(1, 10))
+                    char.logws("disposition", -randint(0, int(difference)))
+                    char.logws('vitality', -randint(5, 15))
                 else:
                     sub = check_submissivity(char)
                     if sub<0:
@@ -1537,10 +1527,9 @@
                         difference = 1
                     if char.joy < 50:
                         difference += randint(0, (50-char.joy))
-                    char.set_flag("jobs_introjoy", -randint(10, 15))
-                    char.set_flag("jobs_introdis", -randint(0, int(difference)))
-                    self.loggs('vitality', -randint(10,20))
-
+                    char.logws("joy", -randint(10, 15))
+                    char.logws("disposition", -randint(0, int(difference)))
+                    char.logws('vitality', -randint(10, 15))
             else:
                 char.set_flag("jobs_stripintro", choice(["%s is doing her shift as a stripper." % char.name, "%s shows her goods to clients." % char.fullname, "%s entertains customers with her body at the stage." % char.nickname]))
 
@@ -1550,16 +1539,6 @@
             # Pass the flags from occupation_checks:
             self.txt.append(self.worker.flag("jobs_stripintro"))
             self.txt.append("\n\n")
-
-            flag = self.worker.flag("jobs_introdis")
-            if flag:
-                self.loggs('disposition', flag)
-                self.worker.del_flag("jobs_introdis")
-
-            flag = self.worker.flag("jobs_introjoy")
-            if flag:
-                self.loggs('joy', flag)
-                self.worker.del_flag("jobs_introjoy")
 
             # Determine the amount of clients who seen this girl strip. We check if we can do len because if flag wasn't set during the business execution, we get False instead of a set.
             len_clients = len(self.clients) if self.clients else 0
