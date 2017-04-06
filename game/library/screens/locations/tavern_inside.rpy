@@ -230,17 +230,21 @@ label city_tavern_brawl_fight:
 
 label tavern_look_around: # various bonuses to theoretical skills for drinking with others in the lively mode
     if hero.take_money(randint(10, 20)):
+        hide drunkards with dissolve
         $ interactions_drinking_outside_of_inventory(character=hero, count=randint(15, 25))
         if global_flags.flag("tavern_status")[1] == "lively":
             $ N = random.choice(["fishing", "sex", "exp"])
         if N == "fishing":
-            show expression "content/gfx/images/tavern/fish.png" as sign at truecenter with dissolve
+            $ name = "content/gfx/images/tavern/fish_" + str(renpy.random.randint(1, 4)) + ".jpg"
+            show expression name as sign at truecenter with dissolve
             "A group of local fishermen celebrating a good catch in the corner. You join them, and they share a few secrets about fishing with you."
             $ hero.FISHING += randint(2, 5)
             hide sign with dissolve
         elif N == "sex":
-            show expression "content/gfx/images/tavern/sex.png" as sign at truecenter with dissolve
-            "A group of drunk young men boasting about their feats in the bed. Most of the feats never happened, but you still got a few interesting ideas."
+            $ character = random.choice(chars.values())
+            $ picture = character.show("sex", resize=(500, 600))
+            show expression picture as sign at truecenter with dissolve
+            "A group of drunk young men and women boasting about their sexual feats. Most of the feats never happened, but you still got a few interesting ideas."
             $ hero.SEX += randint(1, 3)
             hide sign with dissolve
         elif N == "exp":
@@ -278,6 +282,7 @@ label city_tavern_thugs_fight: # fight with random thugs in the brawl mode
 
 
 label city_tavern_shopping: # tavern shop with alcohol, available in all modes except brawl
+    hide drunkards with dissolve
     show npc tavern_rita_novel
     with dissolve
     tavern_rita "Do you want something?"
