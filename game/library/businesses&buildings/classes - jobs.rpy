@@ -37,7 +37,7 @@
             vp = Viewport(child=c, xysize=(xmax, ysize))
             return vp
 
-    def check_char(c, check_ap=True):
+    def can_do_work(c, check_ap=True):
         """Checks whether the character is injured/tired/has AP and sets her/him to auto rest.
 
         AP check is optional here, with True as default, there are cases where char might still have job points even though AP is 0.

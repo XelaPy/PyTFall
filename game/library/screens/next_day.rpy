@@ -157,7 +157,7 @@ label next_day_calculations:
 
     $ tl.timer("Rest (1)")
     $ ndr_chars = list(c for c in hero.chars if c.location != "Exploring" and (isinstance(c.action, Rest) or isinstance(c.action, AutoRest))) # Next Day Resting Chars
-    # $ ndr_chars2 = list(c for c in hero.chars if not check_char(c)) # Revice this for characters who are set to work till the drop???
+    # $ ndr_chars2 = list(c for c in hero.chars if not can_do_work(c)) # Revice this for characters who are set to work till the drop???
     while ndr_chars:
         $ resting_char = ndr_chars.pop()
         $ resting_char.action(resting_char) # <--- Looks odd and off?

@@ -194,7 +194,7 @@ init -12 python:
             Removes worker from instances master list.
             Returns True is yes, False otherwise.
             """
-            if check_char(worker):
+            if can_do_work(worker):
                 return True
             else:
                 if worker in self.instance.available_workers:

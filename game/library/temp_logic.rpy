@@ -57,7 +57,7 @@ init python:
                     store.char = store.nd_chars.pop()
 
                     # First check is the char is still well and ready:
-                    if not check_char(store.char):
+                    if not can_do_work(store.char):
                         if store.char in store.nd_chars:
                             store.nd_chars.remove(store.char)
                         temp = set_font_color('{} is done with this job for the day.'.format(store.char.name), "aliceblue")
