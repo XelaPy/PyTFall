@@ -132,8 +132,9 @@
 
         MONEY:
         During jobs, we log cash that players gets to self.earned
-        Cash that workers may get during the job (tips for example) are logged to
-        worker.mod_flag("jobs_earned", value)
+        Cash that workers may get during the job:
+        worker.mod_flag("jobs_earned", value) # Normal stuff like tips
+        worker.mod_flag("jobs_earned_dishonestly", value) # Stole a wallet from client?
 
         DevNote: We used to create this at the very end of an action,
         now, we are creating the event as the action starts and pass it around
@@ -248,15 +249,15 @@
             for key, value in self.locmod.iteritems():
                 if key == 'fame':
                     self.loc.modfame(value)
-                elif stat == 'dirt':
+                elif key == 'dirt':
                     if value < 0:
                         self.loc.clean(-value)
                     else:
                         self.loc.dirt += value
-                elif stat == 'reputation':
+                elif key == 'reputation':
                     self.loc.modrep(value)
                 else:
-                    raise Exception("Stat: {} does not exits for Businesses".format(stat))
+                    raise Exception("Stat: {} does not exits for Businesses".format(key))
 
         def after_job(self):
             # We run this after job but before ND reports
@@ -511,9 +512,6 @@
             else:
                 log.append(choice(["%s is doing her shift as a harlot." % worker.name, "%s gets busy with a client." % worker.fullname, "%s serves customers as a whore." % worker.nickname]))
             return True
-
-        def payout_mod(self):
-            self.payout = 1
 
         def acts(self, worker, client, loc, log):
             skill = 0
@@ -1069,6 +1067,9 @@
             # Dirt:
             log.logloc("dirt", randint(2, 5))
 
+            worker.fin.log_tips(1000000, "!!!!!!")
+            log.loc.fin.log_work_income(1000000, "!!!!!!")
+
         @staticmethod
         def get_act(worker, tags):
             acts = list()
@@ -1093,6 +1094,7 @@
                 tips = 100 + worker.charisma * 3 # TODO Slave/Free payouts
                 log.append("\n{color=[pink]}%s lost her virginity!{/color} Customer thought that was super hot and left a tip of {color=[gold]}%d Gold{/color} for the girl.\n\n"%(worker.nickname, tips))
                 worker.remove_trait(traits["Virgin"])
+                worker.mod_flag("jobs_earned", tips)
                 worker.fin.log_tips(tips, "WhoreJob")
                 loc.fin.log_work_income(tips, "WhoreJob")
 

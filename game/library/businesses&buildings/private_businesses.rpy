@@ -73,7 +73,7 @@ init -6 python:
             log = NDEvent(job=job, char=worker, loc=loc, business=self)
             worker.AP -= 1
             job.settle_workers_disposition(worker, log)
-            job.payout_mod() # TODO
+            # job.payout_mod() # TODO
             job.acts(worker, client, self.instance, log)
             log.after_job()
             NextDayEvents.append(log)
