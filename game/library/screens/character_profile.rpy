@@ -1152,9 +1152,9 @@ screen girl_finances():
             xysize (1100, 600)
             draggable False
             mousewheel True
-            if day > 1 and char.fin.game_fin_log.has_key(str(day-1)):
-                $ fin_inc = char.fin.game_fin_log[str(day-1)][0]
-                $ fin_exp = char.fin.game_fin_log[str(day-1)][1]
+            if day > 1:
+                $ fin_inc = char.fin.game_main_income_log[day-1]
+                $ fin_exp = char.fin.game_main_expense_log[day-1]
 
                 if show_fin == 'day':
                     label (u"{color=[ivory]}Fin Report (Yesterday)") xalign 0.4 ypos 30 text_size 30
@@ -1236,12 +1236,10 @@ screen girl_finances():
                     label (u"Fin Report (Game)") xalign 0.4 ypos 30 text_size 30
                     python:
                         income = dict()
-                        for _day in char.fin.game_fin_log:
-                            for key in char.fin.game_fin_log[_day][0]["work"]:
-                                income[key] = income.get(key, 0) + char.fin.game_fin_log[_day][0]["work"][key]
-                            for key in char.fin.game_fin_log[_day][0]["tips"]:
-                                income[key] = income.get(key, 0) + char.fin.game_fin_log[_day][0]["tips"][key]
-
+                        source = char.fin.game_logical_income_log
+                        for d in source:
+                            for key, value in source[d].iteritems():
+                                income[key] = income.get(key, 0) + value
                     # Income:
                     vbox:
                         pos (50, 100)
@@ -1263,9 +1261,10 @@ screen girl_finances():
                     # Expense:
                     python:
                         expenses = dict()
-                        for _day in char.fin.game_fin_log:
-                            for key in char.fin.game_fin_log[_day][1]["cost"]:
-                                expenses[key] = expenses.get(key, 0) + char.fin.game_fin_log[_day][1]["cost"][key]
+                        source = char.fin.game_logical_expense_log
+                        for d in source:
+                            for key, value in source[d].iteritems():
+                                expenses[key] = expenses.get(key, 0) + value
                     vbox:
                         pos (450, 100)
                         label "Expense:" text_size 20
@@ -1284,16 +1283,16 @@ screen girl_finances():
                                     text ("[val]") style "stats_value_text"
 
                     python:
-                        game_total = 0
-                        for _day in char.fin.game_fin_log:
-                            total_list = list(itertools.chain(char.fin.game_fin_log[_day][0]["work"].values(),
-                                                                          char.fin.game_fin_log[_day][0]["tips"].values()))
-                            total_income = sum(total_list)
-                            total_expenses = 0
-                            for key in char.fin.game_fin_log[_day][1]["cost"]:
-                                total_expenses += char.fin.game_fin_log[_day][1]["cost"][key]
-                            total = total_income - total_expenses
-                            game_total += total
+                        game_total = sum(income.values()) - sum(expenses.values())
+                        # for _day in char.fin.game_fin_log:
+                        #     total_list = list(itertools.chain(char.fin.game_fin_log[_day][0]["work"].values(),
+                        #                                                   char.fin.game_fin_log[_day][0]["tips"].values()))
+                        #     total_income = sum(total_list)
+                        #     total_expenses = 0
+                        #     for key in char.fin.game_fin_log[_day][1]["cost"]:
+                        #         total_expenses += char.fin.game_fin_log[_day][1]["cost"][key]
+                        #     total = total_income - total_expenses
+                        #     game_total += total
                     vbox:
                         align (0.80, 0.60)
                         text "----------------------------------------"

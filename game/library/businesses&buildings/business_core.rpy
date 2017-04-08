@@ -232,7 +232,7 @@ init -12 python:
             # Plainly logs income to the main building finances.
             if not reason:
                 reason = self.name
-            self.instance.fin.log_work_income(amount, reason)
+            self.instance.fin.log_logical_income(amount, reason)
 
         def post_nd_reset(self):
             # Resets all flags and variables after next day calculations are finished.

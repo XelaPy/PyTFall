@@ -908,7 +908,7 @@ screen next_day():
                     if i.type == "girlndreport" and i.red_flag:
                         red_flags = True
 
-            if  red_flags:
+            if red_flags:
                 button:
                     yalign 0.7
                     xalign 0.61
@@ -926,8 +926,8 @@ screen next_day():
             ypos 37
 
             # Day Total ===========================================>>>
-            $ fin_inc = hero.fin.game_fin_log[str(day-1)][0]["private"]
-            $ fin_exp = hero.fin.game_fin_log[str(day-1)][1]["private"]
+            $ fin_inc = hero.fin.game_main_income_log[day-1]
+            $ fin_exp = hero.fin.game_main_expense_log[day-1]
 
             frame:
                 style_prefix "proper_stats"

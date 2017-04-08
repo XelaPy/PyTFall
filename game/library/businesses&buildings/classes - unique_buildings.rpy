@@ -325,7 +325,7 @@ init -9 python:
             """
             hero.take_money(value, reason=self.name)
             self.income += value
-            char.fin.log_cost(value, "Training")
+            char.fin.log_logical_expense(value, "Training")
 
         def next_day(self):
             """
@@ -569,7 +569,7 @@ init -9 python:
             """
             hero.take_money(value, reason=self.name)
             self.income += value
-            char.fin.log_cost(value, "Training")
+            char.fin.log_logical_expense(value, "Training")
 
         def mod_disobey(self):
             """

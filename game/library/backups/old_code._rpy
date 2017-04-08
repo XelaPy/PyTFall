@@ -233,7 +233,7 @@
                 self.txt.append("\n{color=[pink]}%s lost her virginity!{/color} The customer thought it was super hot so he left a tip of {color=[gold]}%d Gold{/color}.\n\n"%(self.worker.nickname, tips))
                 self.worker.remove_trait(traits["Virgin"])
                 self.worker.fin.log_tips(tips, "WhoreJob")
-                self.loc.fin.log_work_income(tips, "WhoreJob")
+                self.loc.fin.log_logical_income(tips, "WhoreJob")
             
             else:
                 self.txt.append("\n")
@@ -261,8 +261,8 @@
             
             # Log income for girl and MC:
             self.txt.append("{color=[gold]}\nA total of %d Gold was earned!{/color}"%self.payout)
-            self.worker.fin.log_wage(self.payout, "WhoreJob")
-            self.loc.fin.log_work_income(self.payout, "WhoreJob")
+            self.worker.fin.log_logical_income(self.payout, "WhoreJob")
+            self.loc.fin.log_logical_income(self.payout, "WhoreJob")
             
             self.apply_stats()
             self.finish_job()

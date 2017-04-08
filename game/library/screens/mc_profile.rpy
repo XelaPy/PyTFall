@@ -1,47 +1,47 @@
 label hero_profile:
     scene bg h_profile
-    
+
     $ global_flags.set_flag("keep_playing_music")
-    
+
     # $ pytfall.world_quests.run_quests("auto") Goes against squelching policy?
     $ pytfall.world_events.run_events("auto")
     $ renpy.retain_after_load()
-    
+
     show screen hero_profile
     with dissolve
-    
+
     $ hero.inventory.set_page_size(18)
-    
+
     while 1:
         $ result = ui.interact()
-        
+
         # To kill input error during team renaming:
         if not result:
             pass
-        
+
         elif result[0] == 'control':
             if result[1] == 'return':
                 $ pytfall.hp.show_item_info = False
                 $ pytfall.hp.item = False
                 hide screen hero_profile
                 hide screen hero_equip
-                
+
                 # Reset filters (prevents crap from happening in shops):
                 $ hero.inventory.male_filter = False
                 $ hero.inventory.apply_filter('all')
-                
+
                 # Taking care of Ren'Pys annoying reserves... <-- Prolly obsolete after I rewrote the last label func.
                 if pytfall.hp.came_from.startswith("_"):
                     jump mainscreen
                 else:
                     jump expression pytfall.hp.came_from
-                    
+
         elif result[0] == "dropdown":
             if result[1] == "loc":
                 $ renpy.show_screen("set_location_dropdown", hero, pos=renpy.get_mouse_pos())
             elif result[1] == "home":
                 $ renpy.show_screen("set_home_dropdown", hero, pos=renpy.get_mouse_pos())
-                
+
         elif result[0] == 'hero':
             if result[1] == 'equip':
                 $ came_to_equip_from = "hero_profile"
@@ -50,27 +50,27 @@ label hero_profile:
 
         elif result[0] == "remove_from_team":
             $ hero.team.remove(result[1])
-            
+
         elif result[0] == "rename_team":
             if result[1] == "set_name":
                 $ hero.team.name = renpy.call_screen("ht_input")
 
 init:
     screen hero_profile():
-        
+
         default tt = Tooltip("")
         default lframe_display = "status"
         default rframe_display = "skills"
-        
+
         key "mousedown_3" action Return(['control', 'return'])
-        
+
         # HERO SPRITE ====================================>
         add Transform(hero.show("sprofile", resize=(550, 550)), alpha=0.97) align(0.65, 0.9)
-        
+
         # BASE FRAME 2 "bottom layer" and portrait ====================================>
         add "content/gfx/frame/h_profile.png"
         add hero.show("cportrait", resize=(100, 100)) pos (64, 8) # portrait should be between "Base Frame 2" and "Base Frame 1" :Gismo
-        
+
         # BATTLE STATS ====================================>
         fixed:
             xysize (270, 270)
@@ -82,7 +82,7 @@ init:
             add Transform(child=RadarChart((float(hero.attack)/hero.get_max("attack")), (float(hero.defence)/hero.get_max("defence")), (float(hero.agility)/hero.get_max("agility")),
                                                                   (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 33, 126, 148, aquamarine), alpha=0.2) align (0.5, 0.5)
             add ProportionalScale("content/gfx/interface/images/pentagon1.png", 250, 250) align (0.01, 0.5)
-            
+
         fixed:
             frame:
                 pos (375, 402)
@@ -114,12 +114,12 @@ init:
                 has hbox
                 add ProportionalScale("content/gfx/interface/images/mag.png", 24, 24)
                 text("{size=-5}{font=fonts/Rubius.ttf}{color=#8470FF}[hero.magic]|%d"%(hero.get_max("magic"))) outlines [(1, "#0d0d0d", 0, 0)]
-        
+
         # LEFT FRAME (Stats/Friends/Etc) ====================================>
         vbox:
             xsize 217
             pos (8, 110)
-            
+
             # NAME^   LVL   (ok for 1m lvls) ====================================>
             text (u"[hero.name]") style "TisaOTMol" size 28  xalign 0.492 ypos 5
             hbox:
@@ -134,7 +134,7 @@ init:
                     pos (73, 11)
                 label "{color=#CDAD00}Lvl" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
                 label "{color=#CDAD00}[hero.level]" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
-                
+
             if lframe_display == "status":
                 # STATS ====================================>
                 null height 20
@@ -173,9 +173,9 @@ init:
                             xalign 0.5
                             text '{}'.format(stat.capitalize()) xalign 0.02 color "#79CDCD"
                             text ('%d/%d'%(getattr(hero, stat), hero.get_max(stat))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
-                            
+
                 null height 5
-                            
+
                 # LOCATION ====================================>
                 button:
                     style_group "ddlist"
@@ -187,9 +187,9 @@ init:
                         else:
                             size 16
                     hovered tt.Action("Change MCs Home/Location.")
-                
+
                 null height 3
-                        
+
                 # ELEMENTAL ALIGNMENT ====================================>
                 $ els = [Transform(e.icon, size=(90, 90)) for e in hero.elements]
                 frame:
@@ -197,12 +197,12 @@ init:
                     background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
                     xysize (210, 120)
                     xalign 0.5
-                    
+
                     $ x = 0
                     $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
                     $ f = Fixed(*els, xysize=(90, 90))
                     add f xcenter 150 ycenter 55
-                    
+
                     viewport:
                         draggable True
                         edgescroll (15, 10)
@@ -216,7 +216,7 @@ init:
                                 action NullAction()
                                 hovered tt.Action("%s" % e.desc)
                     add ProportionalScale("content/gfx/interface/images/elements/hover.png", 90, 90) pos (105, 10)
-        
+
             elif lframe_display == "friends":
                 # FRIEND LIST ====================================>
                 null height 26
@@ -253,7 +253,7 @@ init:
                                 add ProportionalScale("content/gfx/interface/images/love.png", 35, 35) xalign 0.5
                             else:
                                 add ProportionalScale("content/gfx/interface/images/friendship.png", 35, 35) xalign 0.5
-            
+
         # BUTTONS on the "bottom layer" ------------------------------------>
         hbox:
             style_group "pb"
@@ -265,7 +265,7 @@ init:
             button:
                 action SetScreenVariable("rframe_display", "traits"), With(dissolve)
                 text "Traits" style "pb_button_text"
-            
+
         # RIGHT FRAME ====================================>
         vbox:
             pos (1124, 60)
@@ -283,13 +283,13 @@ init:
                 style_prefix "proper_stats"
                 text "Gold:" size 16  outlines [(1, "#3a3a3a", 0, 0)] color gold xalign .1
                 text "[hero.gold]" size 14 outlines [(1, "#3a3a3a", 0, 0)] style_suffix "value_text" color gold xalign .9 yoffset 2
-            
+
         # ATTACKS/MAGIC SKILLS ====================================>
         if rframe_display == "skills":
             vbox:
                 pos (1125, 205)
                 style_group "proper_stats"
-                
+
                 frame:
                     background Frame("content/gfx/frame/hp_1.png", 5, 5)
                     xysize (160, 192)
@@ -311,7 +311,7 @@ init:
                                     text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
                                     hovered tt.action(entry.desc)
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
-        
+
                 frame:
                     background Frame("content/gfx/frame/hp_1.png", 5, 5)
                     xysize (160, 192)
@@ -333,7 +333,7 @@ init:
                                     text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
                                     hovered tt.action(entry.desc)
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
-        
+
         # TRAITS ====================================>
         elif rframe_display == "traits":
             frame:
@@ -361,9 +361,9 @@ init:
                                     text trait.id idle_color ivory size 15 align .5, .5 hover_color crimson text_align .5
                                     hovered tt.Action(u"%s"%trait.desc)
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
-                                
+
                 null height 10
-                                    
+
                 label (u"Effects:") text_size 20 text_color ivory text_bold True xalign .45
                 viewport:
                     xysize (160, 150)
@@ -381,7 +381,7 @@ init:
                                     text "[effect]" idle_color ivory size 15 align .5, .5 hover_color crimson
                                     hovered tt.Action(u"%s"%val.get("desc", "No Description availible."))
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
-                                    
+
         # TOOLTIP TEXT ====================================>
         hbox:
             spacing 1
@@ -400,10 +400,10 @@ init:
                 text tt.value.desc style "content_text" size 18 color "#ecc88a" yalign 0.1
             else:
                 text (u"{=content_text}{color=#ecc88a}%s" % tt.value) size 18
-                
+
         # BASE FRAME 1 "top layer" ====================================>
         add "content/gfx/frame/h_profile2.png"
-        
+
         # BUTTONS and UI elements on the "top layer" ====================================>
         hbox:
             style_group "pb"
@@ -427,7 +427,7 @@ init:
             button:
                 action Hide("show_trait_info"), If(hero.friends | hero.lovers, true=[SetScreenVariable("lframe_display", "friends"), With(dissolve)])
                 text "Friends" style "pb_button_text"
-                
+
         # AP ====================================>
         frame:
             xalign .45
@@ -438,14 +438,14 @@ init:
                 style "content_label"
                 text_color ivory
                 text_size 22
-        
+
         imagebutton:
             pos (900, 7) # (178, 70)
             idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
             hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
             action Hide("show_trait_info"), Return(['control', 'return'])
             hovered tt.Action("Return to previous screen!")
-        
+
         # EXP BAR ====================================>
         fixed:
             pos (259, 697)
@@ -463,7 +463,7 @@ init:
                 xfill True
                 add "content/gfx/interface/images/exp_b.png" ypos 2 xalign 0.8
                 text "[hero.exp]/[hero.goal]" style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
-    
+
     screen hero_equip(): # This is not used any longer...?
         modal True
         zorder 1
@@ -475,13 +475,13 @@ init:
             key "mousedown_2" action Return(["item", "equip"])
         else:
             key "mousedown_2" action NullAction()
-            
+
         key "mousedown_4" action Return(["hero", "next_page"])
         key "mousedown_5" action Return(["hero", "prev_page"])
-        
+
         # Doll...
         use eqdoll(char=hero)
-        
+
         # Inventory ------------------------------------------------------------>
         vbox:
             at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)
@@ -491,8 +491,8 @@ init:
                 spacing 52
                 use paging(ref=hero.inventory, use_filter=True)
                 use items_inv(char=hero)
-                
-            # Buttons:    
+
+            # Buttons:
             frame:
                 background Frame("content/gfx/frame/p_frame2.png", 10, 10)
                 style_group "basic"
@@ -518,9 +518,9 @@ init:
                 if pytfall.hp.show_unequip_button():
                     textbutton "Unequip":
                         hovered tt.Action("Unequip this item.")
-                        action Return(['item', 'unequip'])  
-                            
-        # Item Info ------------------------------------------------------------------------>                    
+                        action Return(['item', 'unequip'])
+
+        # Item Info ------------------------------------------------------------------------>
         showif pytfall.hp.show_item_info:
             frame:
                 at fade_in_out()
@@ -531,12 +531,11 @@ init:
                 ypadding 30
                 xysize (555, 400)
                 use itemstats(item=pytfall.hp.item, size=(580, 350), style_group="content", mc_mode=True)
-        
-                
+
     screen ht_input():
         zorder 1
         modal True
-        
+
         add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
         frame:
             background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.65), 10, 10)
@@ -548,16 +547,16 @@ init:
                 align(0.5, 0.5)
                 label "{color=#F5F5DC}{size=28}Enter your team name:" xalign 0.5
                 input default "Player Team" length 20 xalign 0.5 style "content_label_text" color "#CDAD00" size 22
-    
+
     screen hero_team():
         zorder 1
         modal True
-        
+
         key "mousedown_3" action Hide("hero_team"), With(dissolve)
-        
+
         default tt = Tooltip("Welcome to MC profile screen!")
         add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
-        
+
         # Hero team ====================================>
         frame:
             style_prefix "proper_stats"
@@ -565,7 +564,7 @@ init:
             background Frame(Transform(im.Twocolor("content/gfx/frame/ink_box.png", white, black), alpha=0.7), 5, 5)
             padding 10, 5
             has vbox spacing 10
-            
+
             hbox:
                 spacing 2
                 xalign .5
@@ -575,7 +574,7 @@ init:
                     hover im.Scale("content/gfx/interface/buttons/edit_h.png", 24, 30)
                     action Return(["rename_team", "set_name"]), With(dissolve)
                     hovered tt.Action("Rename Heroes team!")
-            
+
             for member in hero.team:
                 $ img = member.show("portrait", resize=(120, 120), cache=True)
                 hbox:
@@ -592,20 +591,20 @@ init:
                             hover img
                             selected_idle Transform(img, alpha=1.05)
                             action NullAction()
-                        
+
                         python:
                             if member.front_row:
                                 img = ProportionalScale("content/gfx/interface/buttons/row_switch.png", 40, 20)
                             else:
                                 img = im.Flip(ProportionalScale("content/gfx/interface/buttons/row_switch.png", 40, 20), horizontal=True)
-                                
+
                         imagebutton:
                             align (0, 1.0)
                             idle Transform(img, alpha=0.9)
                             hover Transform(img, alpha=1.05)
                             insensitive im.Sepia(img)
                             action If(member.status != "slave", true=ToggleField(member, "front_row"))
-                            
+
                     # Name/Status:
                     frame:
                         xsize 162
@@ -623,7 +622,7 @@ init:
                                     hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 24, 30)
                                     action Return(["remove_from_team", member])
                                     hovered tt.Action("Remove %s for %s!"%(member.nickname, hero.team.name))
-                        
+
                         # HP:
                         fixed:
                             ysize 25
@@ -637,7 +636,7 @@ init:
                             text "HP" size 14 color "#F5F5DC" bold True xpos 8
                             $ tmb = red if member.health <= member.get_max("health")*0.3 else "#F5F5DC"
                             text "[member.health]" size 14 color tmb bold True style_suffix "value_text" xpos 125 yoffset -8
-                        
+
                         # MP:
                         fixed:
                             ysize 25
@@ -651,7 +650,7 @@ init:
                             text "{color=#F5F5DC}MP" size 14 bold True xpos 8
                             $ tmb = red if member.mp <= member.get_max("mp")*0.3 else "#F5F5DC"
                             text "[member.mp]" size 14 color tmb bold True style_suffix "value_text" xpos 125 yoffset -8
-                            
+
                         # VP
                         fixed:
                             ysize 25
@@ -665,20 +664,20 @@ init:
                             text "{color=#F5F5DC}VP" size 14 bold True xpos 8
                             $ tmb = red if member.vitality <= member.get_max("vitality")*0.3 else "#F5F5DC"
                             text "[member.vitality]" size 14 color tmb bold True style_suffix "value_text" xpos 125 yoffset -8
-            
+
             button:
                 style_group "pb"
                 xalign 0.5
                 xsize 120
                 action Hide("hero_team"), With(dissolve)
                 text "Close" style "pb_button_text"
-    
+
     screen hero_finances():
         modal True
         zorder 1
-        
+
         key "mousedown_3" action Hide("hero_finances"), With(dissolve)
-        
+
         add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
         frame:
             background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.65), 10, 10)
@@ -691,10 +690,10 @@ init:
                 style_group "stats"
                 draggable True
                 mousewheel True
-                if day > 1 and hero.fin.game_fin_log.has_key(str(day-1)):
-                    $ fin_inc = hero.fin.game_fin_log[str(day-1)][0]["private"]
-                    $ fin_exp = hero.fin.game_fin_log[str(day-1)][1]["private"]
-                    
+                if day > 1:
+                    $ fin_inc = hero.fin.game_main_income_log[day-1]
+                    $ fin_exp = hero.fin.game_main_expense_log[day-1]
+
                     if pytfall.hp.finance_filter == 'day':
                         label (u"Fin Report (Yesterday)") xalign 0.4 ypos 30 text_size 30
                         # Income:
@@ -714,7 +713,7 @@ init:
                                     for key in fin_inc:
                                         $ val = fin_inc[key]
                                         text "[val]" style_suffix "value_text"
-                                        
+
                         # Expense:
                         vbox:
                             pos (450, 100)
@@ -732,7 +731,7 @@ init:
                                     for key in fin_exp:
                                         $ val = fin_exp[key]
                                         text ("[val]") style_suffix "value_text"
-                                    
+
                         python:
                             total_income = 0
                             total_expenses = 0
@@ -741,7 +740,7 @@ init:
                             for key in fin_exp:
                                 total_expenses += fin_exp[key]
                             total = total_income - total_expenses
-                            
+
                         vbox:
                             align (0.80, 0.60)
                             text "----------------------------------------"
@@ -752,19 +751,19 @@ init:
                                     color lawngreen style_suffix "value_text"
                                 else:
                                     color red style_suffix "value_text"
-                            
+
                         hbox:
                             style_group "basic"
                             align (0.5, 0.9)
                             textbutton "Show Total" action SetField(pytfall.hp, "finance_filter", "total")
-                        
+
                     elif pytfall.hp.finance_filter == 'total':
                         label (u"Fin Report (Game)") xalign 0.4 ypos 30 text_size 30
                         python:
                             income = dict()
-                            for _day in hero.fin.game_fin_log:
-                                for key in hero.fin.game_fin_log[_day][0]["private"]:
-                                    income[key] = income.get(key, 0) + hero.fin.game_fin_log[_day][0]["private"][key]
+                            for d in hero.fin.game_main_income_log:
+                                for key, value in hero.fin.game_main_income_log[d].iteritems():
+                                    income[key] = income.get(key, 0) + value
                         # Income:
                         vbox:
                             pos (50, 100)
@@ -782,12 +781,12 @@ init:
                                     for key in income:
                                         $ val = income[key]
                                         text ("[val]") style_suffix "value_text"
-                                        
+
                         python:
                             expenses = dict()
-                            for _day in hero.fin.game_fin_log:
-                                for key in hero.fin.game_fin_log[_day][1]["private"]:
-                                    expenses[key] = expenses.get(key, 0) + hero.fin.game_fin_log[_day][1]["private"][key]
+                            for d in hero.fin.game_main_expense_log:
+                                for key, value in hero.fin.game_main_expense_log[d].iteritems():
+                                    expenses[key] = expenses.get(key, 0) + value
                         # Expense:
                         vbox:
                             pos (450, 100)
@@ -805,13 +804,13 @@ init:
                                     for key in expenses:
                                         $ val = expenses[key]
                                         text ("[val]") style_suffix "value_text"
-                                    
+
                         python:
                             game_total = 0
                             total_income = sum(income.values())
                             total_expenses = sum(expenses.values())
                             game_total = total_income - total_expenses
-                            
+
                         vbox:
                             align (0.80, 0.60)
                             text "----------------------------------------"
@@ -822,12 +821,12 @@ init:
                                     color lawngreen style_suffix "value_text"
                                 else:
                                     color red style_suffix "value_text"
-                            
+
                         hbox:
                             style_group "basic"
                             align (0.5, 0.9)
                             textbutton "{size=-3}Show Daily" action SetField(pytfall.hp, "finance_filter", "day")
-                    
+
                     hbox:
                         pos (750, 100)
                         vbox:
@@ -855,7 +854,7 @@ init:
                                 null height 4
                                 spacing 4
                                 text ("[taxes]\n ") style_suffix "value_text"
-                                    
+
                 # vbar value YScrollValue("herofin_vp")
             button:
                 style_group "basic"

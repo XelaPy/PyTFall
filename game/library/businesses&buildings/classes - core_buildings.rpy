@@ -512,7 +512,7 @@ init -10 python:
             # self.env.run(until=110)
             # self.log("{}".format(set_font_color("Ending the second stage of simulation:", "red")))
 
-            self.log("\nA total of {} Gold was earned here today!".format(set_font_color(str(self.fin.get_work_income()), "red")))
+            self.log("\nA total of {} Gold was earned here today!".format(set_font_color(str(self.fin.get_logical_income()), "red")))
             self.log("{}".format(set_font_color("===================", "red")))
             self.log("\n\n")
             tl.timer("Temp Jobs Loop")

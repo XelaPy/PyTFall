@@ -630,7 +630,7 @@ init python:
                 # Rewards + logging in global area
                 cash = sum(self.cash)
                 hero.add_money(cash, "Fighters Guild")
-                fg.fin.log_work_income(cash, "Fighters Guild")
+                fg.fin.log_logical_income(cash, "Fighters Guild")
                 
                 for item in self.items:
                     hero.inventory.append(items[item])

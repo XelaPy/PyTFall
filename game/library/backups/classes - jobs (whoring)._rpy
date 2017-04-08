@@ -731,7 +731,7 @@ init -9 python:
                                  "You recieve a compensation of {color=[gold]}%d Gold{/color}! \n"%totalpayoff)
                 
                 hero.add_money(totalpayoff, reason="GuardJob")
-                event.loc.fin.log_work_income(totalpayoff, "GuardJob")
+                event.loc.fin.log_logical_income(totalpayoff, "GuardJob")
                 event.flag_green = True
                 
                 for guard in guardlist:
@@ -753,7 +753,7 @@ init -9 python:
                                  "%s paid off your guards to prevent further escalation. You recieve a compensation of {color=[gold]}%d Gold{/color}! \n"%(pronoun, totalpayoff))
                 
                 hero.add_money(totalpayoff, reason="GuardJob")
-                event.loc.fin.log_work_income(totalpayoff, "GuardJob")
+                event.loc.fin.log_logical_income(totalpayoff, "GuardJob")
                 event.flag_green = True
                 
                 for guard in guardlist:
@@ -786,7 +786,7 @@ init -9 python:
                         totalpayoff = totalpayoff * 2
                         event.txt.append("Customer payed up a hefty sum of {color=[gold]}%d Gold {/color} as compensation for troubles caused. "%(totalpayoff))
                         hero.add_money(totalpayoff, reason="GuardJob")
-                        event.loc.fin.log_work_income(totalpayoff, "GuardJob")
+                        event.loc.fin.log_logical_income(totalpayoff, "GuardJob")
                     
                     else:
                         event.txt.append("Customer didn't have the funds to pay you off and after many cries for mercy, was handed over to the authorities to face an uncertain fate. ")
@@ -1019,7 +1019,7 @@ init -9 python:
                     event.girl.AP = 0
                     
                     hero.add_money(event.payout, "WhoreJob")
-                    event.loc.fin.log_work_income(event.payout, "WhoreJob")
+                    event.loc.fin.log_logical_income(event.payout, "WhoreJob")
                     if event.girl.has_image("hurt", exclude=["sex"]):
                         event.img = event.girl.show("hurt", exclude=["sex"], resize=(740, 685))
                 

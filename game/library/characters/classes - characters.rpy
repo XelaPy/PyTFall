@@ -794,66 +794,58 @@ init -9 python:
 
 
     class Finances(_object):
-        """Helper class that handles finance related matters in order to reduce the size of Characters/Buildings classes.
-
-        TODO: This is fairly old, I should be able to do better now.
-        TODO: Naming of methods could be better.
-        """
+        """Helper class that handles finance related matters in order to reduce
+        the size of Characters/Buildings classes."""
         def __init__(self, *args, **kwargs):
-            """
-            instance = reference to Character object
+            """Main logs log actual finances (money moving around)
+            Jobs income logs don't do any such thing. They just hold info about
+            how much building or character earned for MC or how much MC payed
+            to them
             """
             self.instance = args[0]
+            self.todays_main_income_log = dict()
+            self.todays_main_expense_log = dict()
+            self.todays_logical_income_log = dict()
+            self.todays_logical_expense_log = dict()
 
-            """
-            Income/expense log consists of personal, wages and tips dicts.
-            Private = Private (logs with acutal gold increases/decreases).
-            Work(Wages) = Earned but not settled (just a log to be settled later in next day methods).
-            Tips = Same as wages, only for tips.
-            Cost = What did this girl cost to the player over the day.
-            """
-            self.game_fin_log = dict()
-            self.daily_income_log = dict(work=dict(), tips=dict(), private=dict())
-            self.daily_expense_log = dict(work=dict(), private=dict(), cost=dict())
+            self.game_main_income_log = dict()
+            self.game_main_expense_log = dict()
+            self.game_logical_income_log = dict()
+            self.game_logical_expense_log = dict()
+
             self.income_tax_debt = 0
             self.property_tax_debt = 0
 
-        # Logging data:
-        def log_work_income(self, value, kind):
-            """This is for Buildings.
-            """
-            self.daily_income_log["work"][kind] = self.daily_income_log["work"].get(kind, 0) + int(round(value))
-
-        def log_work_expense(self, value, kind):
-            """This is for Buildings.
-            """
-            self.daily_expense_log["work"][kind] = self.daily_expense_log["work"].get(kind, 0) + int(round(value))
-
-        def log_wage(self, value, kind):
-            self.daily_income_log["work"][kind] = self.daily_income_log["work"].get(kind, 0) + int(round(value))
-
-        def log_tips(self, value, kind):
-            if not "tips" in self.daily_income_log:
-                self.daily_income_log["tips"] = dict()
-            self.daily_income_log["tips"][kind] = self.daily_income_log["tips"].get(kind, 0) + int(round(value))
-
+        # Logging actual data (money moving around)
         def log_income(self, value, kind):
-            """Logs private Income.
-            """
-            self.daily_income_log["private"][kind] = self.daily_income_log["private"].get(kind, 0) + int(round(value))
+            """Logs private Income."""
+            value = int(round(value))
+            temp = self.todays_main_income_log
+            temp[kind] = temp.get(kind, 0) + value
 
         def log_expense(self, value, kind):
-            """Logs private expence.
-            """
-            self.daily_expense_log["private"][kind] = self.daily_expense_log["private"].get(kind, 0) + int(round(value))
+            """Logs private expence."""
+            value = int(round(value))
+            temp = self.todays_main_expense_log
+            temp[kind] = temp.get(kind, 0) + value
 
-        def log_cost(self, value, kind):
-            """
-            This logs how much an object (usually a character) has cost the player over the day.
-            This is a part of that objects class and is being recorded to players class as a sum of all characters.
-            While not technically an expence to a character, it is being recorded to that dict.
-            """
-            self.daily_expense_log["cost"][kind] = self.daily_expense_log["cost"].get(kind, 0) + int(round(value))
+        # Logging logical data (just for info)
+        def log_logical_income(self, value, kind):
+            """Logs Jobs income (logical) (Buildings or Chars)"""
+            value = int(round(value))
+            temp = self.todays_logical_income_log
+            temp[kind] = temp.get(kind, 0) + value
+
+        def log_logical_expense(self, value, kind):
+            """Logs Jobs expense (logical) (Buildings or Chars)"""
+            value = int(round(value))
+            temp = self.todays_logical_expense_log
+            temp[kind] = temp.get(kind, 0) + value
+
+        def add_money(self, value, reason="Other"):
+            value = int(round(value))
+            self.log_income(value, reason)
+            self.instance.gold += value
 
         def take_money(self, value, reason="Other"):
             value = int(round(value))
@@ -861,16 +853,10 @@ init -9 python:
                 self.log_expense(value, reason)
                 self.instance.gold -= value
                 return True
-            else:
-                return False
-
-        def add_money(self, value, reason="Other"):
-            value = int(round(value))
-            self.log_income(value, reason)
-            self.instance.gold += value
+            return False
 
         # Retrieving data:
-        def get_work_income(self, kind="all", day=None):
+        def get_logical_income(self, kind="all", day=None):
             """Retrieve work income (for buildings/chars?)
 
             kind = "all" means any income earned on the day.
@@ -879,9 +865,9 @@ init -9 python:
                 raise Exception("Day on income retrieval must be lower than the current day!")
 
             if not day:
-                d = self.daily_income_log["work"]
+                d = self.todays_logical_income_log
             else:
-                d = self.game_fin_log[str(day)][0]["work"]
+                d = self.game_logical_income_log[day]
 
             if kind == "all":
                 return sum(val for val in d.values())
@@ -891,38 +877,38 @@ init -9 python:
                 raise Exception("Income kind: {} is not valid!".format(kind))
 
         def get_total_taxes(self, days):
-            char = self.instance
-            income = dict()
-            businesses = [b for b in char.buildings if hasattr(b, "fin")]
-            for b in businesses:
-                for _day in b.fin.game_fin_log:
-                    if int(_day) > day - days:
-                        for key in b.fin.game_fin_log[_day][0]["private"]:
-                            income[key] = income.get(key, 0) + b.fin.game_fin_log[_day][0]["private"][key]
-                        for key in b.fin.game_fin_log[_day][0]["work"]:
-                            income[key] = income.get(key, 0) + b.fin.game_fin_log[_day][0]["work"][key]
-
-            income = sum(income.values())
-
-            if income <= 5000:
-                tax = 0
-            elif income <= 25000:
-                tax = int(round(income*0.1))
-            elif income <= 50000:
-                tax = int(round(income*0.2))
-            elif income <= 100000:
-                tax = int(round(income*0.3))
-            elif income <= 200000:
-                tax = int(round(income*0.4))
-            else:
-                tax = int(round(income*0.45))
-
-            for b in businesses:
-                tax += int(b.price*0.04)
-            for ch in char.chars:
-                if ch.status == "slave":
-                    tax += int(ch.fin.get_price()*0.05)
-
+            # char = self.instance
+            # income = dict()
+            # businesses = [b for b in char.buildings if hasattr(b, "fin")]
+            # for b in businesses:
+            #     for _day in b.fin.game_fin_log:
+            #         if int(_day) > day - days:
+            #             for key in b.fin.game_fin_log[_day][0]["private"]:
+            #                 income[key] = income.get(key, 0) + b.fin.game_fin_log[_day][0]["private"][key]
+            #             for key in b.fin.game_fin_log[_day][0]["work"]:
+            #                 income[key] = income.get(key, 0) + b.fin.game_fin_log[_day][0]["work"][key]
+            #
+            # income = sum(income.values())
+            #
+            # if income <= 5000:
+            #     tax = 0
+            # elif income <= 25000:
+            #     tax = int(round(income*0.1))
+            # elif income <= 50000:
+            #     tax = int(round(income*0.2))
+            # elif income <= 100000:
+            #     tax = int(round(income*0.3))
+            # elif income <= 200000:
+            #     tax = int(round(income*0.4))
+            # else:
+            #     tax = int(round(income*0.45))
+            #
+            # for b in businesses:
+            #     tax += int(b.price*0.04)
+            # for ch in char.chars:
+            #     if ch.status == "slave":
+            #         tax += int(ch.fin.get_price()*0.05)
+            tax = 100
             return tax
         # ================================>
         # Rest
@@ -936,7 +922,7 @@ init -9 python:
             char = self.instance
 
             if self.wage_conditions():
-                total_wage = sum(self.daily_income_log["work"].values())
+                total_wage = sum(self.game_logical_income_log.values())
                 hero.add_money(total_wage, reason="Businesses")
 
                 if char.status != "slave":
@@ -944,28 +930,28 @@ init -9 python:
                         amount = int(char.expected_wage + int(round(char.expected_wage*0.01*(char.wagemod-100))))
                         if hero.take_money(amount, reason="Wages"):
                             self.add_money(amount, reason="Wages")
-                            self.log_cost(amount, "Wages")
+                            self.log_logical_expense(amount, "Wages")
                             if isinstance(char.location, Building):
-                                char.location.fin.log_work_expense(amount, "Wages")
+                                char.location.fin.log_logical_expense(amount, "Wages")
                             if char.disposition < 700:
                                 char.disposition += int(round((char.wagemod-100)*0.1))
                             char.joy += int(round((char.wagemod-100)*0.1))
 
-                    elif char.wagemod< 100:
+                    elif char.wagemod < 100:
                         amount = int(char.expected_wage - int(round(char.expected_wage*0.01*(100-char.wagemod))))
                         if hero.take_money(amount, reason="Wages"):
-                            self.log_cost(amount, "Wages")
+                            self.log_logical_expense(amount, "Wages")
                             self.add_money(amount, reason="Wages")
                             if isinstance(char.location, Building):
-                                char.location.fin.log_work_expense(amount, "Wages")
+                                char.location.fin.log_logical_expense(amount, "Wages")
 
                 else:
                     amount = int(char.expected_wage*0.01*(char.wagemod))
                     if hero.take_money(amount, reason="Wages"):
                         self.add_money(amount, reason="Wages")
-                        self.log_cost(amount, "Wages")
+                        self.log_logical_expense(amount, "Wages")
                         if isinstance(char.location, Building):
-                            char.location.fin.log_work_expense(amount, "Wages")
+                            char.location.fin.log_logical_expense(amount, "Wages")
                         if char.disposition < 700:
                             char.disposition += int(round((char.wagemod)*0.2))
                         char.joy += int(round((char.wagemod)*0.2))
@@ -1093,9 +1079,15 @@ init -9 python:
             return 100 # int(bp + sp + ssp)
 
         def next_day(self):
-            self.game_fin_log[str(day)] = (self.daily_income_log, self.daily_expense_log)
-            self.daily_income_log = dict(work=dict(), tips=dict(), private=dict())
-            self.daily_expense_log = dict(work=dict(), private=dict(), cost=dict())
+            self.game_main_income_log[day] = self.todays_main_income_log.copy()
+            self.game_main_expense_log[day] = self.todays_main_expense_log.copy()
+            self.game_logical_income_log[day] = self.todays_logical_income_log.copy()
+            self.game_logical_expense_log[day] = self.todays_logical_expense_log.copy()
+
+            self.todays_main_income_log = dict()
+            self.todays_main_expense_log = dict()
+            self.todays_logical_income_log = dict()
+            self.todays_logical_expense_log = dict()
 
 
     class Stats(_object):
@@ -1508,8 +1500,82 @@ init -9 python:
             return most_weights
 
 
+    class Pronouns(_object):
+        # Just to keep huge character class cleaner (smaller)
+        # We can move this back before releasing...
+        @property
+        def mc_ref(self):
+            if self._mc_ref is None:
+                if self.status == "slave":
+                    return "Master"
+                else:
+                    return hero.name
+            else:
+                return self._mc_ref
+
+        @property
+        def p(self):
+            # Subject pronoun (he/she/it): (prolly most used so we don't call it 'sp'):
+            if self.gender == "female":
+                return "she"
+            elif self.gender == "male":
+                return "he"
+            else:
+                return "it"
+
+        @property
+        def pC(self):
+            # Subject pronoun (he/she/it) capitalized:
+            return self.p.capitalize()
+
+        @property
+        def op(self):
+            # Object pronoun (him, her, it):
+            if self.gender == "female":
+                return "her"
+            elif self.gender == "male":
+                return "him"
+            else:
+                return "it"
+
+        @property
+        def opC(self):
+            # Object pronoun (him, her, it) capitalized:
+            return self.op.capitalize()
+
+        @property
+        def pp(self):
+            # Possessive pronoun (his, hers, its):
+            # This may 'gramatically' incorrect, cause things (it) cannot possess/own anything but knowing PyTFall :D
+            if self.gender == "female":
+                return "hers"
+            elif self.gender == "male":
+                return "his"
+            else:
+                return "its"
+
+        @property
+        def ppC(self):
+            # Possessive pronoun (his, hers, its) capitalized::
+            return self.pp.capitalize()
+
+        @property
+        def hs(self):
+            if self.gender == "female":
+                return "sister"
+            else:
+                return "brother"
+
+        @property
+        def hss(self):
+            if self.gender == "female":
+                return "sis"
+            else:
+                return "bro"
+
+
     ###### Character Classes ######
-    class PytCharacter(Flags, Tier, JobsLogger):
+    class PytCharacter(Flags, Tier, JobsLogger, Pronouns):
         STATS = set()
         SKILLS = set(["vaginal", "anal", "oral", "sex", "strip", "service", "refinement", "group", "bdsm", "dancing",
                       "bartending", "cleaning", "waiting", "management", "exploration", "teaching", "swimming", "fishing", "security"])
@@ -1744,76 +1810,6 @@ init -9 python:
             self.status = s
 
         # Properties:
-        @property
-        def mc_ref(self):
-            if self._mc_ref is None:
-                if self.status == "slave":
-                    return "Master"
-                else:
-                    return hero.name
-            else:
-                return self._mc_ref
-
-        @property
-        def p(self):
-            # Subject pronoun (he/she/it): (prolly most used so we don't call it 'sp'):
-            if self.gender == "female":
-                return "she"
-            elif self.gender == "male":
-                return "he"
-            else:
-                return "it"
-
-        @property
-        def pC(self):
-            # Subject pronoun (he/she/it) capitalized:
-            return self.p.capitalize()
-
-        @property
-        def op(self):
-            # Object pronoun (him, her, it):
-            if self.gender == "female":
-                return "her"
-            elif self.gender == "male":
-                return "him"
-            else:
-                return "it"
-
-        @property
-        def opC(self):
-            # Object pronoun (him, her, it) capitalized:
-            return self.op.capitalize()
-
-        @property
-        def pp(self):
-            # Possessive pronoun (his, hers, its):
-            # This may 'gramatically' incorrect, cause things (it) cannot possess/own anything but knowing PyTFall :D
-            if self.gender == "female":
-                return "hers"
-            elif self.gender == "male":
-                return "his"
-            else:
-                return "its"
-
-        @property
-        def ppC(self):
-            # Possessive pronoun (his, hers, its) capitalized::
-            return self.pp.capitalize()
-
-        @property
-        def hs(self):
-            if self.gender == "female":
-                return "sister"
-            else:
-                return "brother"
-
-        @property
-        def hss(self):
-            if self.gender == "female":
-                return "sis"
-            else:
-                return "bro"
-
         @property
         def is_available(self):
             # Is this enought or should there be separate tracker properties for gameworld and player actions? This will prolly do for now.
@@ -4642,10 +4638,10 @@ init -9 python:
                             hero.add_money(-amount, reason="Girls Upkeep")
 
                         elif hero.take_money(amount, reason="Slave Upkeep"):
-                            self.fin.log_cost(amount, "Upkeep")
+                            self.fin.log_logical_expense(amount, "Upkeep")
 
                             if hasattr(self.location, "fin"):
-                                self.location.fin.log_work_expense(amount, "Girls Upkeep")
+                                self.location.fin.log_logical_expense(amount, "Girls Upkeep")
 
                             txt += "You paid {color=[gold]}%d Gold{/color} for her upkeep. \n" % amount
 
@@ -4665,9 +4661,10 @@ init -9 python:
                     # Wages and tips:
                     if self.status != 'slave':
                         wage = self.expected_wage
-                        got_paid = self.fin.daily_income_log["private"].get("Wages", 0) + self.fin.daily_income_log["private"].get("Arena", 0)
-                        income = sum(val for val in self.fin.daily_income_log["work"].values())
-                        tips = sum(val for val in self.fin.daily_income_log["tips"].values())
+                        got_paid = self.fin.todays_main_income_log.get("Wages", 0) + self.fin.todays_main_income_log.get("Arena", 0)
+                        income = sum(val for val in self.fin.game_logical_income_log.values())
+                        # tips = sum(val for val in self.fin.todays_main_income_log["tips"].values()) # TODO: This is now settled elsewhere...
+                        tips = 0
 
                         # Wages:
                         if self.fin.wage_conditions():
@@ -4697,7 +4694,7 @@ init -9 python:
                                 if self.autocontrol["Tips"]:
                                     txt += choice(["As per agreement, your girl gets to keep all her tips! This is a very good motivator. ", "She's happy to keep it. "])
                                     self.add_money(tips, reason="Tips")
-                                    self.fin.log_cost(tips, "Tips")
+                                    self.fin.log_logical_expense(tips, "Tips")
                                     factor = float(tips) / wage
 
                                     self.disposition += int(round(factor * 5))
@@ -4715,9 +4712,10 @@ init -9 python:
 
                     else:
                         wage = self.expected_wage
-                        got_paid = self.fin.daily_income_log["private"].get("Wages", 0)
-                        income = sum(val for val in self.fin.daily_income_log["work"].values())
-                        tips = sum(val for val in self.fin.daily_income_log["tips"].values())
+                        got_paid = self.fin.todays_main_income_log.get("Wages", 0)
+                        income = sum(val for val in self.fin.game_logical_income_log.values())
+                        # tips = sum(val for val in self.fin.todays_income_log["tips"].values()) TODO This is now settled elsewhere.
+                        tips = 0
 
                         # Wages:
                         if self.fin.wage_conditions():

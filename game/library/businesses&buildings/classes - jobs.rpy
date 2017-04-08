@@ -133,7 +133,8 @@
         MONEY:
         During jobs, we log cash that players gets to self.earned
         Cash that workers may get during the job:
-        worker.mod_flag("jobs_earned", value) # Normal stuff like tips
+        worker.mod_flag("jobs_tips", value) # tips
+        worker.mod_flag("jobs_earned", value) # Normal stuff other than tips?
         worker.mod_flag("jobs_earned_dishonestly", value) # Stole a wallet from client?
 
         DevNote: We used to create this at the very end of an action,
@@ -275,20 +276,20 @@
                 self.charmod.update(self.char.stats_skills)
                 self.char.stats_skills = {}
                 self.reset_workers_flags(self.char)
-                self.char.fin.log_wage(self.earned, fin_source)
+                self.char.fin.log_logical_income(self.earned, fin_source)
             elif self.team:
                 for char in self.team:
                     self.update_char_data(char)
                     self.charmod[char] = char.stats_skills.copy()
                     char.stats_skills = {}
                     self.reset_workers_flags(char)
-                    # char.fin.log_wage(self.earned, fin_source) # TODO How should we handle this for teams?
+                    # char.fin.log_logical_income(self.earned, fin_source) # TODO How should we handle this for teams?
 
 
             # Location related:
             if self.loc:
                 self.update_loc_data()
-                self.loc.fin.log_work_income(self.earned, fin_source)
+                self.loc.fin.log_logical_income(self.earned, fin_source)
             self.append("{color=[gold]}\nA total of %d Gold was earned!{/color}" % self.earned)
             self.txt = self.log
             self.log = []
@@ -321,7 +322,7 @@
 
             self.disposition_threshold = 650 # Any worker with disposition this high will be willing to do the job even without matched traits.
 
-            self.event_type = event_type
+            self.event_type = "jobreport"
 
             # Each job should have two dicts of stats/skills to evaluate chars ability of performing it:
             self.base_skills = dict()
@@ -405,7 +406,7 @@
 
             return total_skills + total_stats + bonus1 + bonus2
 
-        def effectiveness(self, worker, difficulty):
+        def effectiveness(self, worker, difficulty, log):
             """We check effectiveness here during jobs from SimPy land.
 
             difficulty is used to counter worker tier.
@@ -429,7 +430,6 @@
             super(WhoreJob, self).__init__()
             self.id = "Whore Job"
             self.type = "SIW"
-            self.event_type = "jobreport"
 
             # Traits/Job-types associated with this job:
             self.occupations = ["SIW"] # General Strings likes SIW, Warrior, Server...
@@ -1067,8 +1067,7 @@
             # Dirt:
             log.logloc("dirt", randint(2, 5))
 
-            worker.fin.log_tips(1000000, "!!!!!!")
-            log.loc.fin.log_work_income(1000000, "!!!!!!")
+            log.loc.fin.log_logical_income(1000000, "!!!!!!")
 
         @staticmethod
         def get_act(worker, tags):
@@ -1094,9 +1093,8 @@
                 tips = 100 + worker.charisma * 3 # TODO Slave/Free payouts
                 log.append("\n{color=[pink]}%s lost her virginity!{/color} Customer thought that was super hot and left a tip of {color=[gold]}%d Gold{/color} for the girl.\n\n"%(worker.nickname, tips))
                 worker.remove_trait(traits["Virgin"])
-                worker.mod_flag("jobs_earned", tips)
-                worker.fin.log_tips(tips, "WhoreJob")
-                loc.fin.log_work_income(tips, "WhoreJob")
+                worker.mod_flag("jobs_tips", tips)
+                loc.fin.log_logical_income(tips, "WhoreJob")
 
         def check_skills(self, skill, worker, client, log):
             # I'm making checks for stats and skills separately, otherwise it will be a nightmare even with an army of writers
@@ -1380,8 +1378,8 @@
                 log.logws("joy", 1)
 
             # Finances:
-            worker.fin.log_tips(tippayout, "StripJob")
-            self.loc.fin.log_work_income(tippayout, "StripJob")
+            worker.mod_flag("jobs_tips", tippayout)
+            self.loc.fin.log_logical_income(tippayout, "StripJob")
 
             available = list()
             kwargs = dict(exclude=["sad", "angry", "in pain"], resize=(740, 685), type="first_default", add_mood=False)
@@ -1749,9 +1747,9 @@
             self.img = worker.show("bunny", "waitress", exclude=["sex"], resize=(740, 685), type="any")
 
             # Finances:
-            worker.fin.log_wage(clubfees, "Waitress")
-            worker.fin.log_tips(tips, "Waitress")
-            self.loc.fin.log_work_income(clubfees + tips, "Waitress")
+            worker.fin.log_logical_income(clubfees, "Waitress")
+            worker.mod_flag("jobs_tips", tips)
+            self.loc.fin.log_logical_income(clubfees + tips, "Waitress")
 
             self.apply_stats()
             self.finish_job()
@@ -1925,11 +1923,11 @@
                 self.img = worker.show("profile", exclude=["sex", "nude"], resize=(740, 685))
 
             # Finances:
-            # worker.fin.log_wage(barfees, "Barmaid")
+            # worker.fin.log_logical_income(barfees, "Barmaid")
             if tips:
-                worker.fin.log_tips(tips, "Barmaid")
+                worker.mod_flag("jobs_tips", tips)
 
-            self.loc.fin.log_work_income(tips, "Barmaid")
+            self.loc.fin.log_logical_income(tips, "Barmaid")
 
             self.apply_stats()
             self.finish_job()
@@ -2491,7 +2489,7 @@
                 # Rewards + logging in global area
                 cash = sum(self.cash)
                 hero.add_money(cash, "Fighters Guild")
-                fg.fin.log_work_income(cash, "Fighters Guild")
+                fg.fin.log_logical_income(cash, "Fighters Guild")
 
                 for item in self.items:
                     hero.inventory.append(items[item])
