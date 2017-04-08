@@ -129,35 +129,42 @@
 
         The load_image method will always return the same image. If you want to
         do another search, you have to set the 'img' attribute to 'None'.
+
+        DevNote: We used to create this at the very end of an action,
+        now, we are creating the event as the action starts and pass it around
+        between both normal methods and funcs and simpy events. This needs to
+        be kept in check because older parts of code still just create this
+        object at the end of their lifetime.
         """
-        def __init__(self, type='', txt='', img='', char=None, charmod={}, loc=None, locmod={}, red_flag=False, green_flag=False, team=None, job=None, **kwargs):
+        def __init__(self, type='', txt='', img='', char=None, charmod=None, loc=None, locmod=None, red_flag=False, green_flag=False, team=None, job=None, **kwargs):
             super(NDEvent, self).__init__(txt)
-            # describes the type of event
+
             self.job = job
             if not type and job:
                 self.type = job.event_type
             else:
                 self.type = type
-            # the description of the event
+
             self.txt = txt
-            # information on the event image or a displayable
             self.img = img
-            # the character involved in the event (optional)
+
             self.char = char
-            # Team, this overrides char property in the ND reports and is used for team events:
             self.team = team
-            # Same as above, just for stats:
+            if charmod is None:
+                charmod = {}
             if team:
                 self.team_charmod = charmod.copy()
                 self.charmod = None
             else:
-                # stat changes of a char (optional)
                 self.charmod = charmod.copy()
                 self.team_charmod = None
-            # the location of the event (optional)
+
+            # the location of the event (optional):
             self.loc = loc
-            # stat changes of that location (optional)
-            self.locmod = locmod.copy()
+            if locmod is None:
+                self.locmod = {}
+            else:
+                self.locmod = locmod
 
             self.kind = kwargs.get("kind", None)
 
