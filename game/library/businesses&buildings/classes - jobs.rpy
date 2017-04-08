@@ -49,7 +49,7 @@
                 c.previousaction = c.action
                 c.action = AutoRest()
                 # log.append("She is going to take few days off to heal her wounds. ")
-            return
+            return False
         if c.vitality < 30:
             # log.append("%s is to tired to work today! "%c.name)
             # self.img = c.show("profile", "sad", resize=(740, 685))
@@ -57,9 +57,9 @@
                 c.previousaction = c.action
                 c.action = AutoRest()
                 # log.append("She's going to take few days off to recover her stamina. ")
-            return
+            return False
         if check_ap and c.AP <= 0:
-            return
+            return False
 
         return True
 
