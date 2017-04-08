@@ -70,11 +70,12 @@ init -6 python:
             client.up_counter("got_serviced_by" + worker.id)
             # Execute the job:
             job = self.job
-            log = NDEvent(job=job)
             loc = self.instance
+            log = NDEvent(job=job, char=worker, loc=loc, business=self)
             worker.AP -= 1
             job.payout_mod() # TODO
             job.acts(worker, client, self.instance, log)
+            log.after_job()
             NextDayEvents.append(log)
             # create_nd_event(self, worker=worker, img=None, log=log, team=None, loc=loc)
 

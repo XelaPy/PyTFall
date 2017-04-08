@@ -265,7 +265,7 @@ label next_day_controls:
                     # TODO: There should always be the buiding report availible per design. Check NSUB to figure out what happned to default.
 
                 elif result[1] == "fighters_guild":
-                    order = {"fg_report":1, "exploration_report":2, "fg_job":3}
+                    order = {"fg_report": 1, "exploration_report": 2, "fg_job": 3}
                     FilteredList = sorted([e for e in NextDayEvents if e.type in order], key=lambda e: order[e.type])
 
                 else:
