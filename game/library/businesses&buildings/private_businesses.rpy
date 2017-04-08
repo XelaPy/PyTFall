@@ -69,8 +69,7 @@ init -6 python:
             # Visit counter:
             client.up_counter("got_serviced_by" + worker.id)
             # Execute the job:
-            job = self.job
-            loc = self.instance
+            job, loc = self.job, self.instance
             log = NDEvent(job=job, char=worker, loc=loc, business=self)
             worker.AP -= 1
             job.settle_workers_disposition(worker, log)

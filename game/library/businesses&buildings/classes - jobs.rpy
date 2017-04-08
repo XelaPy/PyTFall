@@ -130,6 +130,11 @@
         The load_image method will always return the same image. If you want to
         do another search, you have to set the 'img' attribute to 'None'.
 
+        MONEY:
+        During jobs, we log cash that players gets to self.earned
+        Cash that workers may get during the job (tips for example) are logged to
+        worker.mod_flag("jobs_earned", value)
+
         DevNote: We used to create this at the very end of an action,
         now, we are creating the event as the action starts and pass it around
         between both normal methods and funcs and simpy events. This needs to
@@ -171,6 +176,8 @@
 
             self.green_flag = green_flag
             self.red_flag = red_flag
+
+            self.earned = 0
 
         def load_image(self):
             """
@@ -253,17 +260,35 @@
 
         def after_job(self):
             # We run this after job but before ND reports
+            # Figure out source for finlogs:
+            if self.job:
+                fin_source = self.job.id
+            else:
+                if self.debug:
+                    fin_source = "Unspecified NDReport"
+                else:
+                    fin_source = "Unspecified"
+
             if self.char:
                 self.update_char_data(self.char)
                 self.charmod.update(self.char.stats_skills)
                 self.char.stats_skills = {}
                 self.reset_workers_flags(self.char)
+                self.char.fin.log_wage(self.earned, fin_source)
             elif self.team:
                 for char in self.team:
                     self.update_char_data(char)
                     self.charmod[char] = char.stats_skills.copy()
                     char.stats_skills = {}
                     self.reset_workers_flags(char)
+                    # char.fin.log_wage(self.earned, fin_source) # TODO How should we handle this for teams?
+
+
+            # Location related:
+            if self.loc:
+                self.update_loc_data()
+                self.loc.fin.log_work_income(self.earned, fin_source)
+            self.append("{color=[gold]}\nA total of %d Gold was earned!{/color}" % self.earned)
             self.txt = self.log
             self.log = []
 
@@ -291,7 +316,7 @@
 
             # Traits/Job-types associated with this job:
             self.occupations = list() # General Strings likes SIW, Warrior, Server...
-            self.occupation_traits = set() # Corresponing traits... # TODO: WE NEED TO MAKE SURE THESE ARE INSTANCES!
+            self.occupation_traits = list() # Corresponing traits... # TODO: WE NEED TO MAKE SURE THESE ARE INSTANCES!
 
             self.disposition_threshold = 650 # Any worker with disposition this high will be willing to do the job even without matched traits.
 
@@ -310,24 +335,20 @@
             # All Occupations:
             return set(self.occupations + self.occupation_traits)
 
-        def is_valid_for(self, char):
-            # Returns True if char is willing to do the job else False...
-            # Slave case:
-            if worker.status == "slave":
-                # we want to add all jobs there, except for the guard job:
-                # Since we do not have a Guard job yet, we'll just throw all the jobs in there:
+        def is_valid_for(self, worker):
+            """Returns True if char is willing to do the job else False.
+
+            elif worker.status in ("free", "various"): ~==various==~ was added by pico to handle groups!
+            """
+            if worker.status == 'slave':
                 return True
-
-            # Free chars:
-            elif worker.status in ("free", "various"):
-                # Here we got to figure out somehow, which jobs char might be willing to do:
-                # Get all jobs that are not a match to the character basetraits and are below disposition treshold:
-                if worker.disposition > self.disposition_threshold:
+            if worker.disposition >= self.calculate_disposition_level(worker):
+                return True
+            if not isinstance(worker, PytGroup):
+                # TODO: Devnote, this may be too strics and all_occs should be used instead...
+                # if [t for t in self.all_occs if t in worker.occupations]:
+                if set(self.occupation_traits).intersection(worker.traits):
                     return True
-                elif not isinstance(char, PytGroup):
-                    if [t for t in self.all_occs if t in worker.occupations]:
-                        return True
-
             return False
 
         def get_clients(self):
@@ -418,14 +439,6 @@
             self.base_skills = {"sex": 60, "vaginal": 40, "anal": 40, "oral": 40}
             self.base_stats = {"charisma": 100}
 
-        def is_valid_for(self, worker): # TODO: Update to work with occupations fields!
-            if "Prostitute" in worker.traits or worker.status == 'slave':
-                return True
-            if worker.disposition >= self.calculate_disposition_level(worker):
-                return True
-            else:
-                return False
-
         def calculate_disposition_level(self, worker): # calculating the needed level of disposition
             sub = check_submissivity(worker)
             if "Shy" in worker.traits:
@@ -452,22 +465,22 @@
                 disposition += 50
             return disposition
 
-        def settle_workers_disposition(self, worker, log): # TODO: Not called anywhere or what?
+        def settle_workers_disposition(self, worker, log):
             if not("Prostitute" in worker.traits) and worker.disposition < self.calculate_disposition_level(worker):
                 sub = check_submissivity(worker)
                 if worker.status != 'slave':
                     if sub < 0:
                         if dice(15):
                             worker.logws('character', 1)
-                        worker.set_flag("jobs_whoreintro", "%s is not very happy with her current job as a harlot, but she will get the job done." % worker.name)
+                        log.append("%s is not very happy with her current job as a harlot, but she will get the job done." % worker.name)
                     elif sub == 0:
                         if dice(25):
                             worker.logws('character', 1)
-                        worker.set_flag("jobs_whoreintro", "%s serves customers as a whore, but, truth be told, she would prefer to do something else." % worker.nickname)
+                        log.append("%s serves customers as a whore, but, truth be told, she would prefer to do something else." % worker.nickname)
                     else:
                         if dice(35):
                             worker.logws('character', 1)
-                        worker.set_flag("jobs_whoreintro", "%s makes it clear that she wants another job before getting busy with a client." % worker.name)
+                        log.append("%s makes it clear that she wants another job before getting busy with a client." % worker.name)
                     difference = (self.calculate_disposition_level(worker) - worker.disposition)/6 # penalty is based on the difference between current and min needed disposition
                     if difference < 1:
                         difference = 1
@@ -476,15 +489,15 @@
                     worker.logws('vitality', -randint(5, 15)) # TODO WTF IS VITALITY DOING HERE???? LOGGED DIRECTLY TO DICT NONE THE LESS!!!!??????????????????????????????
                 else:
                     if sub < 0:
-                        worker.set_flag("jobs_whoreintro", choice(["%s is a slave so no one really cares but, being forced to work as a whore, she's quite upset." % worker.name, "%s will do as she is told, but doesn't mean that she'll be happy about doing 'it' with strangers." % worker.name]))
+                        log.append(choice(["%s is a slave so no one really cares but, being forced to work as a whore, she's quite upset." % worker.name, "%s will do as she is told, but doesn't mean that she'll be happy about doing 'it' with strangers." % worker.name]))
                         if dice(25):
                             worker.logws('character', 1)
                     elif sub == 0:
-                        worker.set_flag("jobs_whoreintro", choice(["%s was very displeased by her order to work as a whore, but didn't dare to refuse." % worker.name, "%s will do as you command, but she will hate every second of her harlot shift..." % worker.name]))
+                        log.append(choice(["%s was very displeased by her order to work as a whore, but didn't dare to refuse." % worker.name, "%s will do as you command, but she will hate every second of her harlot shift..." % worker.name]))
                         if dice(35):
                             worker.logws('character', 1)
                     else:
-                        worker.set_flag("jobs_whoreintro", choice(["%s was very displeased by her order to work as a whore, and makes it clear for everyone before getting busy with a client." % worker.name, "%s will do as you command and work as a harlot, but not without a lot of grumbling and complaining." % worker.name]))
+                        log.append(choice(["%s was very displeased by her order to work as a whore, and makes it clear for everyone before getting busy with a client." % worker.name, "%s will do as you command and work as a harlot, but not without a lot of grumbling and complaining." % worker.name]))
                         if dice(45):
                             worker.logws('character', 1)
                     difference = (self.calculate_disposition_level(worker) - worker.disposition)/5
@@ -1055,14 +1068,6 @@
 
             # Dirt:
             log.logloc("dirt", randint(2, 5))
-
-            # Log income for worker and MC
-            log.append("{color=[gold]}\nA total of %d Gold was earned!{/color}" % self.payout)
-            worker.fin.log_wage(self.payout, "WhoreJob")
-            loc.fin.log_work_income(self.payout, "WhoreJob")
-
-            # self.apply_stats()
-            # self.finish_job()
 
         @staticmethod
         def get_act(worker, tags):
