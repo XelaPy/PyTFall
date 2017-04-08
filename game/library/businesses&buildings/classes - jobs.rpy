@@ -334,19 +334,6 @@
             # This returns a correct amount of clients used for the job
             return 0
 
-        def create_nd_event(self, worker=None, img=None, log=None, team=None, loc=None):
-            # We could create the event before hand? Instead of just logging data to it at jobs end!
-            return NDEvent(type=self.event_type,
-                           img=img,
-                           txt="",
-                           char=worker,
-                           team=None,
-                           charmod={},
-                           loc=None,
-                           locmod={},
-                           green_flag={},
-                           red_flag={})
-
         def settle_workers_disposition(self, char=None):
             # Formerly check_occupation
             """Settles effects of worker who already agreed to do the job.
@@ -354,24 +341,6 @@
             Normaly deals with disposition, joy and vitality (for some reason?)
             """
             return True
-
-        def check_life(self):
-            """
-            Checks whether the worker is alive.
-            Might be deprecated, needs updating.
-            """
-            if not worker.alive:
-                log.append("%s is dead. \n"%worker.fullname)
-                workers.remove(worker)
-                self.img = im.Sepia(worker.show('profile'), resize=(740, 685))
-                self.finish_job()
-
-        def finish(self):
-            """
-            Finish the job and adds it to NextDayEvents.
-            """
-            NextDayEvents.append(self.create_event())
-            self.reset()
 
         # We should also have a number of methods or properties to evaluate new dicts:
         def relative_ability(self, char, tier=None):
