@@ -40,7 +40,7 @@
     def can_do_work(c, check_ap=True):
         """Checks whether the character is injured/tired/has AP and sets her/him to auto rest.
 
-        AP check is optional here, with True as default, there are cases where char might still have job points even though AP is 0.
+        AP check is optional here, with True as default, there are cases where char might still have job points even though AP is 0. TODO: report about issues with health/vitality/etc somewhere in the next day report
         """
         if c.health < c.get_max("health")*0.25:
             # log.append("%s is injured and in need of medical attention! "%c.name)
@@ -50,7 +50,7 @@
                 c.action = AutoRest()
                 # log.append("She is going to take few days off to heal her wounds. ")
             return False
-        if c.vitality < 30:
+        if c.vitality <= randint(10, 15):
             # log.append("%s is to tired to work today! "%c.name)
             # self.img = c.show("profile", "sad", resize=(740, 685))
             if c.autocontrol['Rest']:
@@ -58,6 +58,13 @@
                 c.action = AutoRest()
                 # log.append("She's going to take few days off to recover her stamina. ")
             return False
+        if c.effects['Food Poisoning']['active']:
+            # log.append("%s cannot work today due to Food Poisoning! "%c.name)
+            # self.img = c.show("profile", "sad", resize=(740, 685))
+            if c.autocontrol['Rest']:
+                c.previousaction = c.action
+                c.action = AutoRest()
+                # log.append("She's going to take few days off to recover. ")
         if check_ap and c.AP <= 0:
             return False
 

@@ -1635,17 +1635,17 @@ init -9 python:
                 'Fast Learner': {'active': False, 'desc': "+10% experience"},
                 "Introvert": {'active': False, 'desc': "Harder to increase and decrease disposition."},
                 "Extrovert": {'active': False, 'desc': "Easier to increase and decrease disposition."},
-                "Insecure": {'active': False, 'desc': "Significant changes in disposition also change joy."},
+                "Insecure": {'active': False, 'desc': "Significant changes in disposition also affect joy."},
                 "Sibling": {'active': False, 'desc': "If disposition is low enough, it gradually increases over time."},
-                "Assertive": {'active': False, 'desc': "If character is low enough, it increases over time."},
-                "Diffident": {'active': False, 'desc': "If character is high enough, it slowly decreases over time."},
+                "Assertive": {'active': False, 'desc': "If character stat is low enough, it increases over time."},
+                "Diffident": {'active': False, 'desc': "If character stat is high enough, it slowly decreases over time."},
                 'Food Poisoning': {'active': False, 'activation_count': 0, "desc": "Intemperance in eating or low quality food often lead to problems."},
                 'Down with Cold': {'active': False, "desc": "Causes weakness and aches, will be held in a week or two."},
                 "Unstable": {"active": False, "desc": "From time to time mood chaotically changes."},
                 "Optimist": {"active": False, "desc": "Joy increases over time, unless it's too low. Grants immunity to Elation."},
                 "Pessimist": {"active": False, "desc": "Joy decreases over time, unless it's already low enough. Grants immunity to Depression."},
                 "Composure": {"active": False, "desc": "Over time joy decreases if it's too high and increases if it's too low."},
-                "Kleptomaniac": {"active": False, "desc": "With some luck, gold increases every day."},
+                "Kleptomaniac": {"active": False, "desc": "With some luck, her gold increases every day."},
                 "Drowsy": {"active": False, "desc": "Rest restores more vitality than usual."},
                 "Loyal": {"active": False, "desc": "Harder to decrease disposition."},
                 "Lactation": {"active": False, "desc": "Her breasts produce milk. If she's your slave or lover, you will get a free sample every day."},
@@ -3006,7 +3006,7 @@ init -9 python:
             if effect == "Poisoned" and "Artificial Body" not in self.traits:
                 self.effects['Poisoned']['active'] = True
                 self.effects['Poisoned']['duration'] = 0
-                self.effects['Poisoned']['penalty'] = randint(1, 3)
+                self.effects['Poisoned']['penalty'] = randint(5, 10)
 
             elif effect == "Unstable":
                 self.effects['Unstable']['active'] = True
@@ -3265,7 +3265,10 @@ init -9 python:
             if effect == "Poisoned":
                 self.effects['Poisoned']['duration'] += 1
                 self.effects['Poisoned']['penalty'] += self.effects['Poisoned']['duration'] * 5
-                self.health -= self.effects['Poisoned']['penalty']
+                if self.health > self.effects['Poisoned']['penalty']:
+                    self.health -= self.effects['Poisoned']['penalty']
+                else:
+                    self.health = 1
 
             elif effect == "Unstable":
                 unstable = self.effects['Unstable']
@@ -3354,12 +3357,12 @@ init -9 python:
                     self.disable_effect('Down with Cold')
 
             elif effect == "Kleptomaniac":
-                if dice(75):
-                    self.gold += max(1, randint(1, self.luck+50))
+                if dice(self.luck+50):
+                    self.gold += randint(5, 25)
 
             elif effect == "Injured":
-                if self.health > int(self.get_max("health")*0.35):
-                    self.health = int(self.get_max("health")*0.35)
+                if self.health > int(self.get_max("health")*0.2):
+                    self.health = int(self.get_max("health")*0.2)
                 if self.vitality > int(self.get_max("vitality")*0.5):
                     self.vitality = int(self.get_max("vitality")*0.5)
                 self.AP -= 1
