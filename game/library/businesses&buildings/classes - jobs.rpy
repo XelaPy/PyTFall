@@ -452,7 +452,7 @@
                 disposition += 50
             return disposition
 
-        def settle_workers_disposition(self, worker): # TODO: Not called anywhere or what?
+        def settle_workers_disposition(self, worker, log): # TODO: Not called anywhere or what?
             if not("Prostitute" in worker.traits) and worker.disposition < self.calculate_disposition_level(worker):
                 sub = check_submissivity(worker)
                 if worker.status != 'slave':
@@ -496,7 +496,7 @@
                     worker.logws("disposition", -randint(0, int(difference)))
                     worker.logws('vitality', -randint(10, 25))
             else:
-                worker.set_flag("jobs_whoreintro", choice(["%s is doing her shift as a harlot." % worker.name, "%s gets busy with a client." % worker.fullname, "%s serves customers as a whore." % worker.nickname]))
+                log.append(choice(["%s is doing her shift as a harlot." % worker.name, "%s gets busy with a client." % worker.fullname, "%s serves customers as a whore." % worker.nickname]))
             return True
 
         def payout_mod(self):

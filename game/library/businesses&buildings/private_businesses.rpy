@@ -73,11 +73,11 @@ init -6 python:
             loc = self.instance
             log = NDEvent(job=job, char=worker, loc=loc, business=self)
             worker.AP -= 1
+            job.settle_workers_disposition(worker, log)
             job.payout_mod() # TODO
             job.acts(worker, client, self.instance, log)
             log.after_job()
             NextDayEvents.append(log)
-            # create_nd_event(self, worker=worker, img=None, log=log, team=None, loc=loc)
 
             # We return the char to the nd list:
             self.instance.available_workers.insert(0, worker)
