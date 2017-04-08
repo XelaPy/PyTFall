@@ -116,8 +116,8 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
             "She wants [price] G. Do you want to pay?"
             
             "Yes":
-                if hero.take_money(price):
-                    $ char.add_money(price)
+                if hero.take_money(price, reason="Sexual Services"):
+                    $ char.add_money(price, reason="Sexual Services")
                     $ del price
                     jump interactions_sex_scene_select_place
                 else:

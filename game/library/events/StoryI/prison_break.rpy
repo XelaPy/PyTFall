@@ -263,7 +263,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
             $ money = randint(15, 30)
         else:
             $ money = 0
-        $ hero.add_money(money)
+        $ hero.add_money(money, reason="Loot")
         show screen give_exp_after_battle(hero.team, money)
         pause 3.5
         hide screen give_exp_after_battle

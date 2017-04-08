@@ -161,7 +161,7 @@ label tavern_relax:
         "You relax for awhile, but there is not much to do here. Perhaps if would be less boring if you wouldn't be alone..."
         $ hero.vitality += 5
     else:
-        if hero.take_money(randint(30, 50)):
+        if hero.take_money(randint(30, 50), reason="Tavern"):
             $ hero.set_flag("rest_in_tavern", value = day)
             $ members = list(x for x in hero.team if (x != hero))
             if len(members) == 1:
@@ -193,7 +193,7 @@ label city_tavern_brawl_fight:
 
     call city_tavern_thugs_fight
     if hero.flag("fought_in_tavern") == day:
-        if hero.take_money(randint(50, 250)):
+        if hero.take_money(randint(50, 250), reason="Tavern"):
             "You were beaten and robbed..."
         else:
             "You were beaten..."
@@ -203,7 +203,7 @@ label city_tavern_brawl_fight:
     $ N = randint(2, 5)
     while i < N:
         if hero.flag("fought_in_tavern") == day:
-            if hero.take_money(randint(150, 250)):
+            if hero.take_money(randint(150, 250), reason="Tavern"):
                 "You were beaten and robbed..."
             else:
                 "You were beaten..."
@@ -223,13 +223,13 @@ label city_tavern_brawl_fight:
         $ i += 1
 
     "The fight is finally over. You found a few coins in thugs pockets."
-    $ hero.add_money(randint(50, 150)*i)
+    $ hero.add_money(randint(50, 150)*i, reason="Tavern")
     $ hero.set_flag("fought_in_tavern", value = day)
     jump city
 
 
 label tavern_look_around: # various bonuses to theoretical skills for drinking with others in the lively mode
-    if hero.take_money(randint(10, 20)):
+    if hero.take_money(randint(10, 20), reason="Tavern"):
         hide drunkards with dissolve
         $ interactions_drinking_outside_of_inventory(character=hero, count=randint(15, 25))
         if global_flags.flag("tavern_status")[1] == "lively":
@@ -336,7 +336,7 @@ screen city_tavern_dicing(): # dice game controls menu
                 text "Give up" size 15
                 
 label city_tavern_dices_give_up:
-    $ hero.take_money(city_tavern_current_dice_bet)
+    $ hero.take_money(city_tavern_current_dice_bet, reason="Tavern")
     hide screen city_tavern_dicing
     hide screen city_tavern_show_dices
     with dissolve
@@ -483,7 +483,7 @@ label city_tavern_play_show_dice:
         else:
             $ game_outcome = -1
         if game_outcome == -1:
-            $ hero.take_money(city_tavern_current_dice_bet)
+            $ hero.take_money(city_tavern_current_dice_bet, reason="Tavern")
             $ narrator ("You lost!")
         elif game_outcome == 0:
             $ narrator ("It's a draw! You break even.")
@@ -492,14 +492,14 @@ label city_tavern_play_show_dice:
                 menu:
                     "You won! You can take your money right now or double your bet if you feeling lucky."
                     "Take the money":
-                        $ hero.add_money(city_tavern_current_dice_bet)
+                        $ hero.add_money(city_tavern_current_dice_bet, reason="Tavern")
                     "Double the bet":
                         $ city_tavern_current_dice_bet *= 2
                         hide screen city_tavern_show_dices
                         jump city_tavern_play_dice_another_round
             else:
                 "You won!"
-                $ hero.add_money(city_tavern_current_dice_bet)
+                $ hero.add_money(city_tavern_current_dice_bet, reason="Tavern")
         hide screen city_tavern_show_dices
         with dissolve
         jump city_tavern_menu

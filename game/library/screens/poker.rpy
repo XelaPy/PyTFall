@@ -132,7 +132,7 @@ transform dice_roll_null(x):
     anchor (.5, .5)
 
 label city_tavern_poker_give_up:
-    $ hero.take_money(city_tavern_current_dice_bet)
+    $ hero.take_money(city_tavern_current_dice_bet, reason="Tavern")
     hide screen city_tavern_show_poker_dices
     hide screen city_tavern_show_poker_dices_controls
     with dissolve
@@ -157,20 +157,20 @@ label city_tavern_show_poker_shuffle:
     hide screen city_tavern_show_poker_dices_controls
     if dice_poker_decide_winner(dice_1, dice_2) == 1:
         $ narrator("You lost!")
-        $ hero.take_money(city_tavern_current_dice_bet)
+        $ hero.take_money(city_tavern_current_dice_bet, reason="Tavern")
     elif dice_poker_decide_winner(dice_1, dice_2) == 2:
         if hero.gold >= city_tavern_current_dice_bet*2:
             menu:
                 "You won! You can take your money right now or double your bet if you feeling lucky."
                 "Take the money":
-                    $ hero.add_money(city_tavern_current_dice_bet)
+                    $ hero.add_money(city_tavern_current_dice_bet, reason="Tavern")
                 "Double the bet":
                     $ city_tavern_current_dice_bet *= 2
                     hide screen city_tavern_show_dices
                     jump city_tavern_show_poker_dices_start
         else:
             $ narrator("You won!")
-            $ hero.add_money(city_tavern_current_dice_bet)
+            $ hero.add_money(city_tavern_current_dice_bet, reason="Tavern")
     else:
         $ narrator("It's a draw! You break even.")
     hide screen city_tavern_show_poker_dices

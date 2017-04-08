@@ -27,8 +27,8 @@ label interactions_giftmoney:
             $ char.disposition -= (randint(9, 25))
             $ del temp
             jump girl_interactions
-    if hero.take_money(temp): # This will log the transaction into finances. Since we did not specify a reason, it will take the default reason: Other.
-        $ char.add_money(temp) # Same...
+    if hero.take_money(temp, reason="Charity"):
+        $ char.add_money(temp, reason="Charity")
         "You gave her [temp] G."
         if round(char.gold/temp) <= 1:
             "She enthusiastically accepts money. Looks like it's a huge sum for her."
@@ -77,8 +77,8 @@ label interactions_askmoney:
             $ temp = randint (round(char.gold*0.01), round(char.gold*0.1))
             while temp >= randint(500, 1000): # we will continue to divide it by 10 until it becomes less than 500-1000. a countermeasure against becoming too rich by persuading a high lvl rich character to give you money.
                 $ temp = round(temp*0.1)
-            if char.take_money(temp): # This will log the transaction into finances. Since we did not specify a reason, it will take the default reason: Other.
-                $ hero.add_money(temp) # Same...
+            if char.take_money(temp, reason="Charity"):
+                $ hero.add_money(temp, reason="Charity")
                 "She gave you [temp] G."
                 $ hero.exp += randint(3, 8)
                 $ char.disposition -= randint (20, 40)
@@ -104,8 +104,8 @@ label interactions_give_money:
     if temp == 0:
         "You changed your mind."
         jump girl_interactions
-    if hero.take_money(temp): # This will log the transaction into finances. Since we did not specify a reason, it will take the default reason: Other.
-        $ char.add_money(temp) # Same...
+    if hero.take_money(temp, reason="Exchange"):
+        $ char.add_money(temp, reason="Exchange")
         "You gave her [temp] G."
         $ del temp
     else:
@@ -122,8 +122,8 @@ label interactions_take_money:
     if temp == 0:
         "You changed your mind."
         jump girl_interactions
-    if char.take_money(temp): # This will log the transaction into finances. Since we did not specify a reason, it will take the default reason: Other.
-        $ hero.add_money(temp) # Same...
+    if char.take_money(temp, reason="Exchange"):
+        $ hero.add_money(temp, reason="Exchange")
         "You took [temp] G."
         $ del temp
     else:

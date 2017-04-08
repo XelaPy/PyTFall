@@ -2080,7 +2080,7 @@ init -9 python:
                     amount = min(amount, int(self.gold / item.price))
 
                     if amount != 0:
-                        self.take_money(item.price * amount)
+                        self.take_money(item.price * amount, reason="Items")
                         self.inventory.append(item, amount)
                         if equip:
                             self.equip(item)

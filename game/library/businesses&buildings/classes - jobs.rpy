@@ -2513,7 +2513,7 @@
             if not skip_rewards:
                 # Rewards + logging in global area
                 cash = sum(self.cash)
-                hero.add_money(cash, "Fighters Guild")
+                hero.add_money(cash, reason="Fighters Guild")
                 fg.fin.log_work_income(cash, "Fighters Guild")
 
                 for item in self.items:
