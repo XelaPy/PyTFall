@@ -440,34 +440,44 @@
             self.base_skills = {"sex": 60, "vaginal": 40, "anal": 40, "oral": 40}
             self.base_stats = {"charisma": 100}
 
-        def calculate_disposition_level(self, worker): # calculating the needed level of disposition
+        def calculate_disposition_level(self, worker): # calculating the needed level of disposition; since it's whoring we talking about, values are really close to max, or even higher than max in some cases, making it impossible
             sub = check_submissivity(worker)
             if "Shy" in worker.traits:
                 disposition = 900 + 50 * sub
             else:
-                disposition = 850 + 50 * sub
-            if cgochar(worker, "SIW"):
-                disposition -= 100
-            if "Nymphomaniac" in worker.traits:
-                disposition -= 150
+                disposition = 800 + 50 * sub
+            if "Open Minded" in worker.traits:  # really powerful trait
+                disposition = disposition // 2
+            if cgochar(worker, "SIW") or "Nymphomaniac" in worker.traits:
+                disposition -= 200
             elif "Frigid" in worker.traits:
-                disposition += 150
-            if check_lovers(worker, hero):
-                if "Virgin" in worker.traits:
-                    disposition += 100
+                disposition += 200
+            if "Natural Follower" in worker.traits:
+                disposition -= 50
+            elif "Natural Leader" in worker.traits:
+                disposition += 50
+
+
+            if check_lovers(worker, hero): # Virgin trait makes whoring problematic, unless Chastity effect is active which should protect Virgin trait all the time no matter what
+                if "Virgin" in worker.traits and "Dedicated" in worker.traits:
+                    disposition += 2000 # not a typo; they never agree, even with Chastity effect
+                    return disposition
+                    
+                if "Virgin" in worker.traits and not(worker.effects['Chastity']['active']):
+                    disposition += 300
                 else:
                     disposition -= 100
             elif check_friends(hero, worker):
-                if "Virgin" in worker.traits:
-                    disposition += 50
+                if "Virgin" in worker.traits and worker.disposition >= 900 and not(worker.effects['Chastity']['active']):
+                    disposition += 100
                 else:
                     disposition -= 50
-            elif "Virgin" in worker.traits:
+            elif "Virgin" in worker.traits and not(worker.effects['Chastity']['active']):
                 disposition += 50
             return disposition
 
         def settle_workers_disposition(self, worker, log):
-            if not("Prostitute" in worker.traits) and worker.disposition < self.calculate_disposition_level(worker):
+            if not("Prostitute" in worker.traits):
                 sub = check_submissivity(worker)
                 if worker.status != 'slave':
                     if sub < 0:
@@ -481,36 +491,42 @@
                     else:
                         if dice(35):
                             worker.logws('character', 1)
-                        log.append("%s makes it clear that she wants another job before getting busy with a client." % worker.name)
-                    difference = (self.calculate_disposition_level(worker) - worker.disposition)/6 # penalty is based on the difference between current and min needed disposition
-                    if difference < 1:
-                        difference = 1
-                    worker.logws("joy", -randint(5, 10))
-                    worker.logws("disposition", -randint(0, int(difference)))
-                    worker.logws('vitality', -randint(5, 15)) # TODO WTF IS VITALITY DOING HERE???? LOGGED DIRECTLY TO DICT NONE THE LESS!!!!??????????????????????????????
-                else:
+                        log.append("%s makes it clear that she wants another job before getting busy with clients." % worker.name)
+                    worker.logws("joy", -randint(3, 6))
+                    worker.logws("disposition", -randint(20, 40))
+                    worker.logws('vitality', -randint(2, 8)) # a small vitality penalty for wrong job
+                else: #worker.disposition < self.calculate_disposition_level(worker)
                     if sub < 0:
-                        log.append(choice(["%s is a slave so no one really cares but, being forced to work as a whore, she's quite upset." % worker.name, "%s will do as she is told, but doesn't mean that she'll be happy about doing 'it' with strangers." % worker.name]))
+                        if worker.disposition < self.calculate_disposition_level(worker):
+                            log.append("%s is a slave so no one really cares but, being forced to work as a whore, she's quite upset." % worker.name)
+                        else:
+                            log.append("%s will do as she is told, but doesn't mean that she'll be happy about doing 'it' with strangers." % worker.name)
                         if dice(25):
                             worker.logws('character', 1)
                     elif sub == 0:
-                        log.append(choice(["%s was very displeased by her order to work as a whore, but didn't dare to refuse." % worker.name, "%s will do as you command, but she will hate every second of her harlot shift..." % worker.name]))
+                        if worker.disposition < self.calculate_disposition_level(worker):
+                            log.append("%s will do as you command, but she will hate every second of her harlot shift..." % worker.name)
+                        else:
+                            log.append("%s was very displeased by her order to work as a whore, but didn't dare to refuse." % worker.name)
                         if dice(35):
                             worker.logws('character', 1)
                     else:
-                        log.append(choice(["%s was very displeased by her order to work as a whore, and makes it clear for everyone before getting busy with a client." % worker.name, "%s will do as you command and work as a harlot, but not without a lot of grumbling and complaining." % worker.name]))
+                        if worker.disposition < self.calculate_disposition_level(worker):
+                            log.append("%s was very displeased by her order to work as a whore, and makes it clear for everyone before getting busy with clients." % worker.name)
+                        else:
+                            log.append("%s will do as you command and work as a harlot, but not without a lot of grumbling and complaining." % worker.name)
                         if dice(45):
                             worker.logws('character', 1)
-                    difference = (self.calculate_disposition_level(worker) - worker.disposition)/5
-                    if difference < 1:
-                        difference = 1
-                    if worker.joy < 50: # slaves additionally get more disposition penalty with low joy
-                        difference += randint(0, (50-worker.joy))
-                    worker.logws("joy", -randint(5, 10))
-                    worker.logws("disposition", -randint(0, int(difference)))
-                    worker.logws('vitality', -randint(10, 25))
+                    if worker.disposition < self.calculate_disposition_level(worker):
+                        worker.logws("joy", -randint(5, 10))
+                        worker.logws("disposition", -randint(25, 50))
+                        worker.logws('vitality', -randint(10, 15))
+                    else:
+                        worker.logws("joy", -randint(3, 6))
+                        worker.logws("disposition", -randint(20, 40))
+                        worker.logws('vitality', -randint(2, 8))
             else:
-                log.append(choice(["%s is doing her shift as a harlot." % worker.name, "%s gets busy with a client." % worker.fullname, "%s serves customers as a whore." % worker.nickname]))
+                log.append(choice(["%s is doing her shift as a harlot." % worker.name, "%s gets busy with clients." % worker.fullname, "%s serves customers as a whore." % worker.nickname]))
             return True
 
         def acts(self, worker, client, loc, log):
