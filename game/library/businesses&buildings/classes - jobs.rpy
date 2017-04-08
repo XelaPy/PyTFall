@@ -476,7 +476,7 @@
                 disposition += 50
             return disposition
 
-        def settle_workers_disposition(self, worker, log):
+        def settle_workers_disposition(self, worker, log): # handles penalties in case of wrong job
             if not("Prostitute" in worker.traits):
                 sub = check_submissivity(worker)
                 if worker.status != 'slave':
@@ -495,7 +495,7 @@
                     worker.logws("joy", -randint(3, 6))
                     worker.logws("disposition", -randint(20, 40))
                     worker.logws('vitality', -randint(2, 8)) # a small vitality penalty for wrong job
-                else: #worker.disposition < self.calculate_disposition_level(worker)
+                else:
                     if sub < 0:
                         if worker.disposition < self.calculate_disposition_level(worker):
                             log.append("%s is a slave so no one really cares but, being forced to work as a whore, she's quite upset." % worker.name)
