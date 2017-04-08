@@ -335,7 +335,7 @@ label shop_control:
                         python:
                             for i in xrange(amount):
                                 shop.gold -= item_price
-                                char.add_money(item_price, "Items")
+                                char.add_money(item_price, reason="Items")
                                 char.inventory.remove(focus)
                                 shop.inventory.append(focus)
                     else:

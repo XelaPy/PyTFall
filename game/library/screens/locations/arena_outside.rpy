@@ -160,7 +160,7 @@ label work_in_arena:
         $ hero.attack += 1
         $ hero.constitution += 1
     $ hero.exp += hero.adjust_exp(randint(1, 3))    
-    $ hero.add_money(wage, "Job")
+    $ hero.add_money(wage, reason="Job")
     
     $ renpy.show("_tag", what=Text("%d" % wage, style="back_serpent", color=gold, size=40, bold=True), at_list=[found_cash(150, 600, 2)])
     

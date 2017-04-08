@@ -157,7 +157,7 @@ label work_in_slavemarket:
         if dice(0.5 + hero.luck*0.1):
             hero.charisma += 1
             hero.sex += 1
-        hero.add_money(wage, "Job")
+        hero.add_money(wage, reason="Job")
         hero.exp += hero.adjust_exp(randint(1, 3))
         renpy.show("_tag", what=Text("%d"%wage, style="back_serpent", color=gold, size=40, bold=True), at_list=[found_cash(150, 600, 2)])
         if hero.take_ap(1):

@@ -203,7 +203,7 @@ label building_management_loop:
             if result[1] == 'buyroom':
                 python:
                     if building.rooms < building.maxrooms:
-                        if hero.take_money(building.get_room_price()):
+                        if hero.take_money(building.get_room_price(), reason="Building"):
                             building.modrooms(1)
                         else:
                             renpy.call_screen('message_screen', "Not enough funds to buy new room!")
@@ -252,7 +252,7 @@ label building_management_loop:
                                 girl.location = hero
                                 girl.action = None
 
-                        hero.add_money(price, "Property")
+                        hero.add_money(price, reason="Property")
                         hero.remove_building(building)
 
                         if hero.upgradable_buildings:

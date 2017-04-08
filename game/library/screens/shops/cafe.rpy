@@ -116,7 +116,7 @@ label cafe_eat_alone:
         "What will it be?"
 
         "Light Snack (10 G)":
-            if hero.take_money(10):
+            if hero.take_money(10, reason="Cafe"):
                 $ name = "small_food_" + str(renpy.random.randint(1, 3))
                 show image name at truecenter with dissolve
                 # show image random.choice(movie_list)
@@ -147,7 +147,7 @@ label cafe_eat_alone:
                 "You don't have that amount of gold."
                 
         "Ordinary Meal (25 G)":
-            if hero.take_money(25):
+            if hero.take_money(25, reason="Cafe"):
                 $ name = "medium_food_" + str(renpy.random.randint(1, 3))
                 show image name at truecenter with dissolve
                 $ hero.set_flag("ate_in_cafe", value=day)
@@ -184,7 +184,7 @@ label cafe_eat_alone:
             else:
                 "You don't have that amount of gold."
         "Extra Large Meal (50 G)":   # by eating big meals hero can increase max health by 2 with 75% chance; after increasing it by 50 the chance drops to 10% with smaller bonus
-            if hero.take_money(50):
+            if hero.take_money(50, reason="Cafe"):
                 $ name = "big_food_" + str(renpy.random.randint(1, 3))
                 show image name at truecenter with dissolve
                 $ hero.set_flag("ate_in_cafe", value=day)
@@ -256,7 +256,7 @@ label cafe_invitation: # we jump here when the group was invited by one of chars
                     if "Always Hungry" in member.traits:
                         money += randint (10, 20)
                 result += money
-    if inviting_character.take_money(result):
+    if inviting_character.take_money(result, reason="Cafe"):
         $ n = renpy.random.randint(1, 9)
         $ img = "content/gfx/images/food/cafe_mass_%d.jpg" % n
         show expression img at truecenter with dissolve

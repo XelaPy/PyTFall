@@ -103,7 +103,7 @@ label single_swim_pool:
         "You are too tired at the moment."
     elif hero.health < hero.get_max("health")*0.5:
         "You are too wounded at the moment."
-    elif hero.take_money(10):
+    elif hero.take_money(10, reason="Swimming Pool"):
         play world "underwater.mp3"
         scene bg pool_swim
         with dissolve
@@ -117,7 +117,7 @@ label instructor_swim_pool:
         "You are too tired at the moment."
     elif hero.health < hero.get_max("health")*0.5:
         "You are too wounded at the moment."
-    elif hero.take_money(50):
+    elif hero.take_money(50, reason="Swimming Pool"):
         play world "underwater.mp3"
         scene bg pool_swim
         with dissolve
@@ -198,7 +198,7 @@ label work_swim_pool: # here we could use an option to meet characters with a ce
     $ picture = "content/gfx/images/swim_kids/sk_" + str(renpy.random.randint(1, 4)) + ".jpg"
     show expression picture at truecenter with dissolve
     $ narrator ("You teach local kids to swim. The payment is low, but at least you can use the pool for free. (+ %d) G" %result)
-    $ hero.add_money (result)
+    $ hero.add_money (result, reason="Job")
     hide expression picture with dissolve
     $ del result
     jump swimming_pool

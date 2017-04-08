@@ -147,7 +147,7 @@ label frog1_event_abby:
         "Pay her." if hero.gold >= 5000:
             w "I should have the answer soon. Come see me in few days." # not to Xela, MC -5000 gold, quest goes to next phase, kicked out the hut or just to the talk menu.
             $ pytfall.world_quests.get("Frog Princess!").next_in_label("For a hefty sum of 5000 Gold Abby the witch promised to look into the frog matter. You should visit her again in a few days.")
-            $ hero.take_money(5000, reason="Other")
+            $ hero.take_money(5000, reason="Events")
             if config.debug:
                 $ menu_extensions.add_extension("Abby The Witch Main", ("Ask about the frog (again)", Jump("frog1_event_abby_2"), "day > {}".format(day)))
             else:
