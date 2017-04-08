@@ -257,13 +257,22 @@
                 self.update_char_data(self.char)
                 self.charmod.update(self.char.stats_skills)
                 self.char.stats_skills = {}
+                self.reset_workers_flags(self.char)
             elif self.team:
                 for char in self.team:
                     self.update_char_data(char)
                     self.charmod[char] = char.stats_skills.copy()
                     char.stats_skills = {}
+                    self.reset_workers_flags(char)
             self.txt = self.log
             self.log = []
+
+        def reset_workers_flags(self, char):
+            # I am not sure this is still needed after refactoring, will check after refactoring is done
+            # TODO: Just what it sais above!
+            for flag in char.flags.keys():
+                if flag.startswith("jobs"):
+                    char.del_flag(flag)
 
 
     class Job(_object):
@@ -278,22 +287,13 @@
             workers = A container with all the workers. (May not be useful anymore)
             """
             self.id = "Base Job"
-            self.type = None
-
-            # New teams:
-            self.team = None
-            worker = None # Default for single worker jobs.
-            self.flag = None # Flag we pass around from SimPy land to Jobs to carry over events/data.
+            self.type = None # Is this still at all useful? Feels like a simple version of self.occupations
 
             # Traits/Job-types associated with this job:
             self.occupations = list() # General Strings likes SIW, Warrior, Server...
             self.occupation_traits = set() # Corresponing traits... # TODO: WE NEED TO MAKE SURE THESE ARE INSTANCES!
 
             self.disposition_threshold = 650 # Any worker with disposition this high will be willing to do the job even without matched traits.
-
-            self.img = Null()
-            self.flag_red = False
-            self.flag_green = False
 
             self.event_type = event_type
 
@@ -302,37 +302,8 @@
             self.base_stats = dict()
             # Where key: value are stat/skill: weight!
 
-        def __call__(self, worker, event_type="jobreport"):
-            worker = worker
-            self.loc = worker.location
-            self.event_type = event_type
-
         def __str__(self):
             return str(self.id)
-
-        def reset(self):
-            # All flags starting with 'jobs' are reset here. All flags starting with '_jobs' are reset on end of ND.
-            # New, we reset any flags that start with "job_" that a character might have.
-            if hasattr(self, "worker") and worker:
-                for f in worker.flags.keys():
-                    if f.startswith("jobs"):
-                        worker.del_flag(f)
-            if hasattr(self, "all_workers") and self.all_workers:
-                for w in self.all_workers:
-                    for f in w.flags.keys():
-                        if f.startswith("jobs"):
-                            w.del_flag(f)
-
-            self.all_workers = None
-            self.loc = None
-            self.team = None
-            self.client = None
-            self.event_type = None
-            self.img = Null()
-            self.flags = Null()
-
-            self.flag_red = False
-            self.flag_green = False
 
         @property
         def all_occs(self):
