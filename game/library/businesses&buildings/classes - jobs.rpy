@@ -190,6 +190,21 @@
             devlog.warning("Unknown Image Type: {} Provided to Event (Next Day Events class)".format(self.img))
             return ProportionalScale("content/gfx/interface/images/no_image.png", width, height)
 
+        def logws(self, s, value, char=None):
+            # Logs stats changes.
+            # Uses internal dict on chars namespace
+            if char is None:
+                char = self.char
+            char.logws(s, value)
+
+        def after_job(self):
+            # We run this after job but before ND reports
+            if self.char:
+                self.char.stats_skills = {}
+            if self.team:
+                for char in self.team:
+                    char.stats_skills = {}
+
 
     class Job(_object):
         """Baseclass for jobs and other next day actions with some defaults.
