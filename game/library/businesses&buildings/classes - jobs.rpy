@@ -468,6 +468,8 @@
                 traits = list(i for i in worker.traits if i in ["Ill-mannered", "Always Hungry", "Heavy Drinker", "Neat", "Messy", "Homebody", "Indifferent", "Open Minded", "Dawdler", "Energetic", "Sexy Air", "Frigid", "Nymphomaniac", "Psychic", "Flexible", "Lactation"])
                 if traits:
                     trait = random.choice(traits)
+                else:
+                    return effectiveness
                     
                 if trait == "Ill-mannered":
                     log.append("%s is pretty rude today, but fortunately in bed her unciviliness makes customers harder." % worker.name)
