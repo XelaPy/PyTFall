@@ -225,6 +225,31 @@ label fishing_logic_mor_dialogue:
     with dissolve
     m "Hey, what's up?"
     menu Mor_dialogue_usual:
+        "Fishing Requests" if pytfall.world_quests.check_stage("Fishery") != 1:
+            if hero.get_skill("fishing") < 10:
+                m "Yeah, I have special requests sometimes, but you need learn something about fishing for a start. Practice a bit, ok?"
+                jump Mor_dialogue_usual
+            else:
+                if hero.flag("mor_fish_dice") != day: # no rerolling quest after asking again
+                    $ fish = list(i for i in items.values() if "Fishing" in i.locations and i.type == "fish" and 3 <= i.price <= hero.get_skill("fishing"))
+                    $ mor_fish = random.choice(fish)
+                    $ mor_quantity = randint(3, 5)
+                    $ hero.set_flag("mor_fish_dice", value = day)
+                m "I need some [mor_fish.id], about [mor_quantity] should be enough. Think you can handle it?"
+                menu:
+                    "Yes":
+                        m "Awesome!"
+                        $ advance_quest("Fishery", "Mor asked you to catch some [mor_fish.id], about [mor_quantity] should be sufficient.", to=1, clear_logs=True)
+                        hide npc with dissolve
+                    "No":
+                        m "Your choice. You know where to find me."
+                        jump Mor_dialogue_usual
+        "Bring the Fish" if pytfall.world_quests.check_stage("Fishery") == 1 and has_items(mor_fish, [hero]) >= mor_quantity:
+            $ hero.remove_item(mor_fish, mor_quantity)
+            $ price = mor_fish.price * mor_quantity + randint(2, 8)
+            m "Magnificent. Here is your reward, [price] coins. It's much more than any city merchant can give you, trust me."
+            $ finish_quest("Fishery", "You brought required fish to Mor and got your reward.", "complete")
+            jump Mor_dialogue_usual
         "Buy a Fishing Pole (250G)" if hero.gold >= 250:
             $ hero.take_money(250, reason="Items")
             $ hero.add_item("Fishing Pole")
@@ -255,6 +280,7 @@ label fishing_logic:
     scene bg fishing_bg with dissolve
     
     if not global_flags.flag('fish_city_beach'):
+        $ create_quest("Fishery")
         show expression npcs["Mor"].get_vnsprite() as npc
         with dissolve
         m "Hey there, stranger! Looks like it's your first time here. Would you like to buy a Fishing Pole?"
