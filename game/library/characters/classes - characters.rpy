@@ -922,7 +922,7 @@ init -9 python:
             char = self.instance
 
             if self.wage_conditions():
-                total_wage = sum(self.game_logical_income_log.values())
+                total_wage = sum(self.todays_logical_income_log.values()) # TODO NEEDS TO BE RECODED!
                 hero.add_money(total_wage, reason="Businesses")
 
                 if char.status != "slave":
@@ -4665,7 +4665,7 @@ init -9 python:
                     if self.status != 'slave':
                         wage = self.expected_wage
                         got_paid = self.fin.todays_main_income_log.get("Wages", 0) + self.fin.todays_main_income_log.get("Arena", 0)
-                        income = sum(val for val in self.fin.game_logical_income_log.values())
+                        income = sum(self.fin.todays_logical_income_log.values())
                         # tips = sum(val for val in self.fin.todays_main_income_log["tips"].values()) # TODO: This is now settled elsewhere...
                         tips = 0
 
@@ -4716,7 +4716,7 @@ init -9 python:
                     else:
                         wage = self.expected_wage
                         got_paid = self.fin.todays_main_income_log.get("Wages", 0)
-                        income = sum(val for val in self.fin.game_logical_income_log.values())
+                        income = sum(val for val in self.fin.todays_logical_income_log.values())
                         # tips = sum(val for val in self.fin.todays_income_log["tips"].values()) TODO This is now settled elsewhere.
                         tips = 0
 
