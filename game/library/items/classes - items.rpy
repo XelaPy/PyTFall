@@ -2,7 +2,7 @@ init -9 python:
     ####### Equipment Classes ########
     class Item(_object):
         NOT_USABLE = set(["gift", "quest", "loot", "resources"])
-        NOT_TRANSFERABLE = set(["gift", "quest", "loot", "resources"])
+        NOT_TRANSFERABLE = set(["gift", "quest", "resources"])
         NOT_SELLABLE = set(["quest"])
         CONS_AND_MISC = set(['consumable', 'misc'])
 

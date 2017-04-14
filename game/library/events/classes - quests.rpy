@@ -339,9 +339,11 @@ init -9 python:
             prompt = Prompt to add to the Quest log.
             flags = List of strings to add to the Quest as flags.
             to = Stage to jump to instead of current+1.
+            clear_logs = True will clear all previous logs from the quest.
             """
             if not self.active: pytfall.world_quests.activate_quest(self)
-            
+            if kwargs.get("clear_logs"):
+                self.prompts = list()
             self.prompts.append(prompt)
             for i in flags: self.flag(i)
             self.stage = kwargs.get("to", self.stage+1)

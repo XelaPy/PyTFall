@@ -219,20 +219,93 @@ label city_beach_rest:
                 member.disposition += 1
     jump city_beach_left
                 
+label fishing_logic_mor_dialogue:
+    $ m = npcs["Mor"].say
+    show expression npcs["Mor"].get_vnsprite() as npc
+    with dissolve
+    m "Hey, what's up?"
+    menu Mor_dialogue_usual:
+        "Fishing Requests" if pytfall.world_quests.check_stage("Fishery") != 1:
+            if hero.get_skill("fishing") < 10:
+                m "Yeah, I have special requests sometimes, but you need learn something about fishing for a start. Practice a bit, ok?"
+                jump Mor_dialogue_usual
+            else:
+                if hero.flag("mor_fish_dice") != day: # no rerolling quest after asking again
+                    $ fish = list(i for i in items.values() if "Fishing" in i.locations and i.type == "fish" and 3 <= i.price <= hero.get_skill("fishing"))
+                    $ mor_fish = random.choice(fish)
+                    $ mor_quantity = randint(3, 5)
+                    $ hero.set_flag("mor_fish_dice", value = day)
+                m "I need some [mor_fish.id], about [mor_quantity] should be enough. Think you can handle it?"
+                menu:
+                    "Yes":
+                        m "Awesome!"
+                        $ advance_quest("Fishery", "Mor asked you to catch some [mor_fish.id], about [mor_quantity] should be sufficient.", to=1, clear_logs=True)
+                        hide npc with dissolve
+                    "No":
+                        m "Your choice. You know where to find me."
+                        jump Mor_dialogue_usual
+        "Bring the Fish" if pytfall.world_quests.check_stage("Fishery") == 1 and has_items(mor_fish, [hero]) >= mor_quantity:
+            $ hero.remove_item(mor_fish, mor_quantity)
+            $ price = mor_fish.price * mor_quantity + randint(2, 8)
+            m "Magnificent. Here is your reward, [price] coins. It's much more than any city merchant can give you, trust me."
+            $ finish_quest("Fishery", "You brought required fish to Mor and got your reward.", "complete")
+            jump Mor_dialogue_usual
+        "Buy a Fishing Pole (250G)" if hero.gold >= 250:
+            $ hero.take_money(250, reason="Items")
+            $ hero.add_item("Fishing Pole")
+            m "Nice, there you go! Happy fishing!"
+            jump Mor_dialogue_usual
+        "Ask about fishing":
+            m "Oh, it's very simple. You only need a fishing rod and good eyes."
+            m "Of course you also can try diving to find something good in the water, but trust me, it won't be easy."
+            jump Mor_dialogue_usual
+        "Ask about fishing skill":
+            m "Your catch is as good as your fishing skills. Practice makes perfect, so be sure to fish a lot if want something valuable!"
+            m "You won't catch anything useful at first, but don't let it to discourage you."
+            m "Besides, my dad sometimes drinks in the tavern with his friends, you can ask them for some tips."
+            jump Mor_dialogue_usual
+        "Ask about bites":
+            m "You don't have to use bites, fishing poles already have simple artificial baits attached. But they help a lot."
+            m "They give more attempts than usual, and the chance to catch something good is higher."
+            m "But the better bait, the higher skill it requires. You won't be able to use it if your skill is too low."
+            m "The General Shop sells them sometimes. But really good bites are not so easy to find."
+            jump Mor_dialogue_usual
+        "That's all for now":
+            m "Okey, buy!"
+            hide npc with dissolve
+            
 label fishing_logic:
     # during fishing itself only practical part of skill could be improved; theoretical part will be available via items and asking fishermen in tavern
+    $ m = npcs["Mor"].say
     scene bg fishing_bg with dissolve
     
     if not global_flags.flag('fish_city_beach'):
+        $ create_quest("Fishery")
+        show expression npcs["Mor"].get_vnsprite() as npc
+        with dissolve
+        m "Hey there, stranger! Looks like it's your first time here. Would you like to buy a Fishing Pole?"
+        m "We offer a discount for newbies, so it's only 250 coins!"
+        menu Mor_dialogue:
+            "Who are you?":
+                m "Me? I'm Mor. I'm helping my father, he's a fisherman. He usually takes a boat to catch more fish, and I stay here."
+                jump Mor_dialogue
+            "Buy the Pole" if hero.gold >= 250:
+                $ hero.take_money(250, reason="Items")
+                $ hero.add_item("Fishing Pole")
+                m "Nice, there you go! Happy fishing!"
+                m "If you have any questions about fishing, I'm usually here."
+            "Don't buy the Pole":
+                m "Fine by me. But you won't find it cheaper! I'm usually here if you change your mind."
         $ global_flags.set_flag('fish_city_beach')
-        "If you have a fishing rod, you could try to catch something here. With high enough fishing skill you can get valuable items."
-        "You can increase your chances to catch something good by using baits which could be bought or found in various places. However, they cannot be used if your fishing skill is too low, so make sure you practice a lot."
-        "Bites also increase the amount of attempts you can make for every Action Point. You can stop fishing anytime by pressing right mouse button, but it won't return the Action Point you spent."
+        hide npc with dissolve
     menu:
-        "Try out fishing?"
-        "Yes":
+        "What do you want to do?"
+        
+        "Find Mor":
+            jump fishing_logic_mor_dialogue
+        "Try Fishing (-1 AP)":
             $ pass
-        "Maybe later":
+        "Nothing":
             jump city_beach_left
             
     if not has_items("Fishing Pole", [hero]):
@@ -285,7 +358,7 @@ label fishing_logic:
                 $ hero.say("I caught %s!" % item.id)
                 hide expression our_image with dissolve
                 $ hero.fishing += round((100-item.chance)*0.1) # the less item's chance field, the more additional bonus to fishing; with 90 chance it will be +1, with less than 1 chance about 10
-                
+        $ hero.say("This is all for now.")
         $ del our_image
         $ del fish_list
         $ del fish

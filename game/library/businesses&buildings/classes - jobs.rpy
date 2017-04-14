@@ -417,7 +417,7 @@
             """We check effectiveness here during jobs from SimPy land.
 
             difficulty is used to counter worker tier.
-            100 is considered a score where worker does the task with acceptible performance.
+            100 is considered a score where worker does the task with acceptable performance.
             """
             if worker.occupations.intersection(self.occupations):
                 effectiveness = 50
@@ -446,6 +446,105 @@
 
             self.base_skills = {"sex": 60, "vaginal": 40, "anal": 40, "oral": 40}
             self.base_stats = {"charisma": 100}
+            
+        def base_effectiveness(self, worker, difficulty, log):
+            """Affects all worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
+               Calculates only once per turn, in the very beginning.
+            """
+            effectiveness = 0
+             # effects always work
+            if worker.effects['Food Poisoning']['active']:
+                log.append("%s suffers from Food Poisoning, and is very far from her top shape." % worker.name)
+                effectiveness -= 50
+            elif worker.effects['Down with Cold']['active']:
+                log.append("%s is not feeling well due to colds..." % worker.name)
+                effectiveness -= 10
+            elif worker.effects['Horny']['active']:
+                log.append("%s is horny. A perfect mindset for her job!" % worker.name)
+                effectiveness += 10
+                
+            if dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
+            
+                traits = list(i for i in worker.traits if i in ["Ill-mannered", "Always Hungry", "Heavy Drinker", "Neat", "Messy", "Homebody", "Indifferent", "Open Minded", "Dawdler", "Energetic", "Sexy Air", "Frigid", "Nymphomaniac", "Psychic", "Flexible", "Lactation"])
+                if traits:
+                    trait = random.choice(traits)
+                else:
+                    return effectiveness
+                    
+                if trait == "Ill-mannered":
+                    log.append("%s is pretty rude today, but fortunately in bed her unciviliness makes customers harder." % worker.name)
+                    effectiveness += 20
+                elif trait == "Always Hungry":
+                    if dice(50):
+                        log.append("Sperm is a good source of protein, and today %s intends to get all protein available!" % worker.name)
+                        effectiveness += 15
+                    else:
+                        log.append("Hungry %s eats her snacks all the day, making customers feel like they are less important for her than food... Which may be true." % worker.name)
+                        effectiveness -= 15
+                        log.logloc("dirt", 1)
+                elif trait == "Heavy Drinker":
+                    if dice(50):
+                        log.append("Unfortunately %s drank too much yesterday evening, and currently suffers from a headache." % worker.name)
+                        effectiveness -= 15
+                    else:
+                        log.append("Slightly drunk %s sexually assaults customers all the day, making them happy to oblige." % worker.name)
+                        effectiveness += 15
+                elif trait == "Neat":
+                    log.append("Unfortunately %s is too focused on keeping her freshly laundered clothes clean instead of satisfying her partners..." % worker.name)
+                    effectiveness -= 25
+                elif trait == "Messy":
+                    log.append("Today %s wants it really sloppy and messy, attracting customers with similar tastes." % worker.name)
+                    log.logloc("dirt", randint(1, 2))
+                    effectiveness += 25
+                elif trait == "Homebody":
+                    log.append("%s really enjoys her job, having warm food and soft bed nearby all the time. Nice to see someone who enjoys work." % worker.name)
+                    effectiveness += 10
+                elif trait == "Indifferent":
+                    log.append("Somehow %s doesn't care much about being fucked today, and most customers don't appreciate it." % worker.name)
+                    effectiveness -= 15
+                elif trait == "Open Minded":
+                    log.append("%s has no problems trying different things sexually, making a perfect partner for customers with unusual tastes." % worker.name)
+                    effectiveness += 20
+                elif trait == "Dawdler":
+                    log.append("%s's slow movements find favor among oversensitive customers who'd came too soon otherwise." % worker.name)
+                    effectiveness += 15
+                elif trait == "Energetic":
+                    log.append("%s's moves too fast for her own good today, rushing too much to the displeasure of her partners." % worker.name)
+                    effectiveness -= 15
+                elif trait == "Sexy Air":
+                    log.append("%s's sexiness gives customers more fuel, resulting in better satisfaction." % worker.name)
+                    effectiveness += 10
+                elif trait == "Frigid":
+                    log.append("For %s sex is just a boring job, and many customers don't appreciate it." % worker.name)
+                    effectiveness -= 35
+                elif trait == "Nymphomaniac":
+                    log.append("%s is always glad to engage in sex, and this job is just perfect for her." % worker.name)
+                    effectiveness += 35
+                elif trait == "Psychic":
+                    log.append("Knowing what her partners really want is a trivial matter for a psychic like %s, making her customers happier." % worker.name)
+                    effectiveness += 25
+                elif trait == "Flexible":
+                    log.append("Additional flexibility is never superfluous in bed, and %s knows it." % worker.name)
+                    effectiveness += 10
+                elif trait == "Lactation":
+                    log.append("Sometimes customers are happy to swallow liquids too. As in the case of %s's milk which is produced more than usual today." % worker.name)
+                    effectiveness += 15
+            return effectiveness
+            
+        def effectiveness(self, worker, difficulty, log):
+            """Checking effectiveness specifically for whore job.
+
+            difficulty is used to counter worker tier.
+            100 is considered a score where worker does the task with acceptable performance.
+            """
+            if worker.occupations.intersection(self.occupations):
+                effectiveness = 50
+            else:
+                effectiveness = 0
+            # 25 points for difference between difficulty/tier:
+            diff = difficulty - worker.tier
+            effectiveness += diff*25
+            return effectiveness
 
         def calculate_disposition_level(self, worker): # calculating the needed level of disposition; since it's whoring we talking about, values are really close to max, or even higher than max in some cases, making it impossible
             sub = check_submissivity(worker)
