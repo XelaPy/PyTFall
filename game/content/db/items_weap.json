@@ -32,7 +32,7 @@
     "attacks": ["Dagger Strike", "Dagger Strike 4X", "Rapid Strikes"],
     "max": {"attack": 20},
     "mod": {"attack": 10, "character": 5},
-    "locations": ["Work Shop", "Look around"]
+    "locations": ["Work Shop"]
     },
     {
     "id": "Assassin Dagger",
@@ -150,7 +150,7 @@
     "max": {"attack": 12},
     "mod": {"attack": 6, "character": 10, "agility": 5},
     "mod_skills": {"bdsm": [0.02, 0.01, 0.04, 0, 0], "management": [0, 0, 0.01, 0, 0]},
-    "locations": ["Work Shop", "Look around"],
+    "locations": ["Work Shop"],
     "goodtraits": ["Sadist"]
     },
     {
@@ -397,7 +397,7 @@
     "attacks": ["Sword Slash", "Sword Slash 2X"],
     "max": {"attack": 20},
     "mod": {"attack": 10, "character": 5},
-    "locations": ["Work Shop", "Look around"]
+    "locations": ["Work Shop"]
     },
     {
     "id": "Long Sword",
@@ -654,7 +654,7 @@
     "max": {"attack": 20, "agility": 10},
     "mod": {"attack": 10, "character": 10, "agility": 10},
     "mod_skills": {"refinement": [0.01, 0, 0, 0, 0]},
-    "locations": ["Work Shop", "Look around"]
+    "locations": ["Work Shop"]
     },
     {
     "id": "Elven Rapier",
@@ -862,7 +862,7 @@
     "attacks": ["Bow Shot"],
     "max": {"attack": 25, "defence": -10, "agility":7},
     "mod": {"attack": 10, "character": 5, "defence": -10},
-    "locations": ["Work Shop", "Look around"]
+    "locations": ["Work Shop"]
     },
     {
     "id": "Long Bow",

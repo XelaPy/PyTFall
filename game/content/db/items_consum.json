@@ -13,7 +13,7 @@
     "type": "restore",
     "cblock": 1,
     "mod": {"mp": 50},
-    "locations": ["Witches Hut", "Look around", "Fishing"]
+    "locations": ["Witches Hut", "Fishing"]
     },
     {
     "id": "Mana Potion",
@@ -30,7 +30,7 @@
     "type": "restore",
     "cblock": 1,
     "mod": {"mp": 100},
-    "locations": ["Witches Hut", "Look around"]
+    "locations": ["Witches Hut"]
     },
     {
     "id": "Great Mana Potion",
@@ -83,7 +83,7 @@
     "type": "restore",
     "cblock": 1,
     "mod": {"health": 50},
-    "locations": ["Witches Hut", "Look around", "Fishing"]
+    "locations": ["Witches Hut", "Fishing"]
     },
     {
     "id": "Healing Potion",
@@ -100,7 +100,7 @@
     "type": "restore",
     "cblock": 1,
     "mod": {"health": 100},
-    "locations": ["Witches Hut", "Look around"]
+    "locations": ["Witches Hut"]
     },
     {
     "id": "Great Healing Potion",
@@ -171,7 +171,7 @@
     "type": "restore",
     "cblock": 4,
     "mod": {"vitality": 50, "mp": 10},
-    "locations": ["Witches Hut", "Look around"]
+    "locations": ["Witches Hut"]
     },
     {
     "id": "Great Potion of Serenity",
@@ -328,7 +328,7 @@
     "ctemp": 8,
     "cblock": 8,
     "mod": {"charisma": 45, "character": 10, "joy": 5},
-    "locations": ["General Store", "Look around"],
+    "locations": ["General Store"],
     "badtraits": ["Bokukko", "Impersonal"]
     },
     {
@@ -368,7 +368,7 @@
     "cblock": 7,
     "skillmax": 300,
     "mod_skills": {"anal": [0.05, 0.05, 0.05, 0, 0], "group": [0, 0, 0.01, 0, 0]},
-    "locations": ["Witches Hut", "Look around"],
+    "locations": ["Witches Hut"],
     "goodtraits": ["Nymphomaniac"],
     "badtraits": ["Frigid"]
     },
@@ -454,7 +454,7 @@
     "max": {"charisma": 10},
     "skillmax": 150,
     "mod_skills": {"refinement": [0.02, 0, 0.03, 0, 0]},
-    "locations": ["General Store", "Look around"]
+    "locations": ["General Store"]
     },
     {
     "id": "Fancy Breath Mints",

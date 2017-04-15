@@ -13,7 +13,7 @@
     "slot": "head",
     "type": "dress",
     "max": {"joy": 5},
-    "locations": ["Tailor Store", "Look around"],
+    "locations": ["Tailor Store"],
     "goodtraits": ["Imouto"],
     "badtraits": ["Furry"]
     },
@@ -348,7 +348,7 @@
     "type": "armor",
     "max": {"defence": 5},
     "mod": {"defence": 5, "charisma": 5},
-    "locations": ["Tailor Store", "Look around"]
+    "locations": ["Tailor Store"]
     },
     {
     "id": "Imperial Leather Helmet",
