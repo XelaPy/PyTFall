@@ -284,10 +284,11 @@ label fishing_logic:
     $ m = npcs["Mor"].say
     scene bg fishing_bg with dissolve
     
-    if not global_flags.flag('fish_city_beach'):
+    if not global_flags.flag('visited_fish_city_beach'):
         $ create_quest("Fishery")
         show expression npcs["Mor"].get_vnsprite() as npc
         with dissolve
+        "A small boy fishes on the pier. Noticing you, he puts his fishing rod on the ground and approaches."
         m "Hey there, stranger! Looks like it's your first time here. Would you like to buy a Fishing Pole?"
         m "We offer a discount for newbies, so it's only 250 coins!"
         menu Mor_dialogue:
@@ -301,7 +302,7 @@ label fishing_logic:
                 m "If you have any questions about fishing, I'm usually here."
             "Don't buy the Pole":
                 m "Fine by me. But you won't find it cheaper! I'm usually here if you change your mind."
-        $ global_flags.set_flag('fish_city_beach')
+        $ global_flags.set_flag('visited_fish_city_beach')
         hide npc with dissolve
     menu:
         "What do you want to do?"

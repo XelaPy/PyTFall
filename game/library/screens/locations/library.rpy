@@ -126,9 +126,9 @@ init python:
         return books
         
 label academy_town:
-    
     $ gm.enter_location(badtraits=["Adventurous", "Slime", "Monster"], curious_priority=True, has_tags=["sfw", "schoolgirl"])
-    
+    $ e = npcs["Eleven"].say
+    $ npcs["Eleven"].override_portrait("portrait", "indifferent")
     if not "library" in ilists.world_music:
         $ ilists.world_music["library"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("library")]
         
@@ -142,12 +142,26 @@ label academy_town:
         if pytfall.world_actions.location("academy_town"):
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.add("library_matrix", "Read the books", Jump("library_read_matrix"))
+            pytfall.world_actions.add("eleven_dialogue", "Find Eleven", Jump("library_eleven_dialogue"))
             pytfall.world_actions.finish()
             
     scene bg academy_town
     with dissolve
+    if not global_flags.flag('visited_library'):
+        $ global_flags.set_flag('visited_library')
+        show expression npcs["Eleven"].get_vnsprite() as npc
+        with dissolve
+        e "{b}Welcome to the archive, [hero.name].{/b}"
+        $ npcs["Eleven"].override_portrait("portrait", "confident")
+        e "{b}Please keep silence to not disturb other visitors.{/b}"
+        $ npcs["Eleven"].override_portrait("portrait", "indifferent")
+        "A tall humanoid with glowing eyes and booming voice greets you at the entrance."
+        "Many years ago city archives were entrusted to him, and since then not a single document was lost. During the last war he single handedly destroyed all threats, preserving the whole building intact."
+        "He also always knows the name of his interlocutor, even if they never met before. This particular trait made him infamous in the city."
+        e "{b}I'll be around if you need consultations.{/b}"
+        hide npc with dissolve
+        
     show screen academy_town
-    
     while 1:
 
         $ result = ui.interact()
@@ -162,7 +176,32 @@ label academy_town:
                 hide screen cemetery_entrance
                 jump city
                 
-                
+label library_eleven_dialogue:
+    hide screen academy_town
+    $ e = npcs["Eleven"].say
+    $ npcs["Eleven"].override_portrait("portrait", "indifferent")
+    show expression npcs["Eleven"].get_vnsprite() as npc
+    with dissolve
+    "The golem stands in the center of the hall, resembling a statue. But his head instantly turns to your direction when you approach."
+    e "{b}...{/b}"
+    menu eleven_menu:
+        "Ask about him":
+            e "{b}This unit was found and activated during excavations in Crossgate city among other units thirty one year ago. It was eleventh, so it was called Eleven.{/b}"
+            e "{b}After classified amount of days it was bought by Pytfall's government and given the position of Archive Watcher. As the Watcher, this unit is a government official able to enforce rules using any necessary means.{/b}"
+            e "{b}Later it was given the order to join military, but this unit is incapable to rewrite core directives once they were set. Therefore it serves as the Archive Watcher to this day.{/b}"
+            $ npcs["Eleven"].override_portrait("portrait", "confident")
+            e "{b}All other information is classified for civilians.{/b}"
+            $ npcs["Eleven"].override_portrait("portrait", "indifferent")
+            jump eleven_menu
+        "Ask about the archive":
+            e "{b}You are free to read all books presenting here. Do not attempt to damage them or take them out of the building.{/b}"
+            $ npcs["Eleven"].override_portrait("portrait", "confident")
+            e "{b}Currently some books are seized by the government for examination. Please refrain from further questions.{/b}"
+            $ npcs["Eleven"].override_portrait("portrait", "indifferent")
+            jump eleven_menu
+        "Leave him be":
+            jump academy_town
+            
 screen academy_town():
 
     use top_stripe(True)

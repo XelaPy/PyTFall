@@ -12,6 +12,8 @@
         "location": "city",
         "status": "free",
         "gold": 5000,
+        "color": "palevioletred",
+        "what_color": "palevioletred",
         
         "level": 100,
         "basetraits": ["Mage"],

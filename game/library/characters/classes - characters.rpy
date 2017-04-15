@@ -3353,8 +3353,8 @@ init -9 python:
                     self.disable_effect('Down with Cold')
 
             elif effect == "Kleptomaniac":
-                if dice(self.luck+50):
-                    self.gold += randint(5, 25)
+                if dice(self.luck+55):
+                    self.give_money(randint(5, 25))
 
             elif effect == "Injured":
                 if self.health > int(self.get_max("health")*0.2):
