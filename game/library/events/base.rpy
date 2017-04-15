@@ -77,7 +77,7 @@ label found_money_event(event):
     python:
         amount = randint(10, 20) + max(10, hero.luck)
         renpy.show("_tag", what=Text("%d"%amount, style="back_serpent", color=gold, size=40, bold=True), at_list=[found_cash(150, 600, 4)])
-        hero.say(choice(["Yey! Some money!", "Free Gold, lucky!", "I will not let this go to waste!"]))
+        hero.say(choice(["Some money... Excellent.", "Free gold, nice!", "A few coins! I'm lucky today."]))
         hero.add_money(amount, "Events")
     return
      

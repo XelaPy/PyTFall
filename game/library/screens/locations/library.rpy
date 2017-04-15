@@ -184,6 +184,12 @@ label library_eleven_dialogue:
     "The golem stands in the center of the hall, resembling a statue. But his head instantly turns to your direction when you approach."
     e "{b}...{/b}"
     menu eleven_menu:
+        "Sell old books" if has_items("Old Books", [hero]):
+            $ money = has_items("Old Books", [hero])*15
+            e "{b}I appreciate your concern about the archive collection, [hero.name]. [money] coins should be sufficient.{/b}"
+            $ hero.add_money(money, reason="Items")
+            $ hero.remove_item("Old Books", has_items("Old Books", [hero]))
+            jump eleven_menu
         "Ask about him":
             e "{b}This unit was found and activated during excavations in Crossgate city among other units classified amount of time ago. It was eleventh, so it was called Eleven.{/b}"
             e "{b}After classified amount of time it was bought by Pytfall's government and given the position of Archive Watcher. As the Watcher, this unit is a government official able to enforce rules using any necessary means.{/b}"

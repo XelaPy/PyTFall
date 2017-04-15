@@ -15,8 +15,9 @@ label city_events_thugs_robbery:
         t "Hard times, eh... Well, there you go then."
         "He tosses you a few coins."
         t "My mother always told me to help those in need, heh. See ya."
-        $ hero.give_money(randint(10,50))
+        $ hero.add_money(randint(10,50))
         hide npc with dissolve
+        jump main_street
     else:
         menu:
             "Give him 200 G?"
@@ -134,5 +135,5 @@ label city_events_thugs_robbery_attack_lost:
 label city_events_thugs_robbery_attack_win:
     scene expression "bg " + scr
     "You found some gold in their pockets before handing them over to the City Guards."
-    $ hero.give_money(randint(10,40))
+    $ hero.add_money(randint(10,40))
     jump expression scr
