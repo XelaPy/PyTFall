@@ -184,7 +184,21 @@ label library_eleven_dialogue:
     "The golem stands in the center of the hall, resembling a statue. But his head instantly turns to your direction when you approach."
     e "{b}...{/b}"
     menu eleven_menu:
-        "Sell old books" if has_items("Old Books", [hero]):
+        "Show leaflets" if has_items("Rebels Leaflet", [hero]) and global_flags.flag('player_knows_about_eleven_jobs'):
+            hide npc
+            show expression npcs["Eleven"].show("battle", resize=(800, 600)) as npc
+            with pixellate #TODO: pixellate is not perfect solution, some custom transition may look better
+            $ money = has_items("Rebels Leaflet", [hero])*50
+            "Without a single word, the golem immediately destroys leaflets right in your hands. Still warm ash falls to the floor."
+            hide npc
+            show expression npcs["Eleven"].get_vnsprite() as npc
+            with pixellate
+            $ npcs["Eleven"].override_portrait("portrait", "confident")
+            e "{b}This unit and the city appreciate you services. Keep it up, [hero.name]. Here is your reward, [money] coins.{/b}"
+            $ hero.remove_item("Rebels Leaflet", has_items("Rebels Leaflet", [hero]))
+            $ hero.add_money(money, reason="Items")
+            jump eleven_menu
+        "Sell old books" if has_items("Old Books", [hero]) and global_flags.flag('player_knows_about_eleven_jobs'):
             $ money = has_items("Old Books", [hero])*15
             e "{b}I appreciate your concern about the archive collection, [hero.name]. [money] coins should be sufficient.{/b}"
             $ hero.add_money(money, reason="Items")
@@ -208,13 +222,16 @@ label library_eleven_dialogue:
             e "{b}I am authorized to buy books to expand the archive collection. The archive doesn't need common books, but you may bring any unusual and rare ones.{/b}"
             $ npcs["Eleven"].override_portrait("portrait", "confident")
             e "{b}More importantly, I was entrust with the task to clear the city from forbidden propaganda. After the war, lot of leaflets made by rebels left in the city. I am authorized to pay for any prohibited leaflets, which will be destroyed soon after that.{/b}"
-            "At these words his eyes flash brightly, and you can sense his aggression - not towards you, but towards the rebels."
+            "At these words his eyes flash brightly, and you can sense his hostility - not towards you, but towards the rebels."
             $ npcs["Eleven"].override_portrait("portrait", "angry")
             e "{b}But do handle them with care. One you find one, bring it to me immediately. Otherwise you can be suspected of treason.{/b}"
             $ npcs["Eleven"].override_portrait("portrait", "indifferent")
+            if not global_flags.flag('player_knows_about_eleven_jobs'):
+                $ global_flags.set_flag('player_knows_about_eleven_jobs')
             jump eleven_menu
         "Leave him be":
             "You step away, and the light in his eyes dims."
+            hide npc with dissolve
             $ global_flags.set_flag("keep_playing_music")
             jump academy_town
             
