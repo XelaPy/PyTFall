@@ -1745,8 +1745,8 @@ init -9 python:
                 "Intelligent": {"active": False, "desc": "If she feels fine, her intelligence increases over time."},
                 "Fast Metabolism": {"active": False, "desc": "Any food is more effective than usual."},
                 "Drunk": {"active": False, 'activation_count': 0, "desc": "It might feel good right now, but tomorrow's hangover is fast approaching (-1AP for every next drink)."},
-                "Depression": {"active": False, "desc": "She's in a very low mood right now (-1AP)."},
-                "Elation": {"active": False, "desc": "She's in a very high mood right now (+1AP)."},
+                "Depression": {"active": False, "desc": "She's in a very low mood right now (-1AP).", 'activation_count': 0},
+                "Elation": {"active": False, "desc": "She's in a very high mood right now (+1AP).", 'activation_count': 0},
                 "Drinker": {"active": False, "desc": "Neutralizes the AP penalty of Drunk effect. But hangover is still the same."},
                 "Injured": {"active": False, "desc": "Some wounds cannot be healed easily. In such cases special medicines are needed."},
                 "Exhausted": {"active": False, "desc": "Sometimes anyone needs a good long rest.", 'activation_count': 0},
@@ -3390,8 +3390,7 @@ init -9 python:
                 self.joy -= 10
 
             elif effect == "Exhausted":
-                if self.vitality > 5:
-                    self.vitality = 5
+                self.vitality -= 10
                 self.AP -= 1
 
             elif effect == "Lactation": # TO DO: maybe add milking job, like in WM? with much more milk outcome than this effect has
