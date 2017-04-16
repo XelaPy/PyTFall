@@ -1541,12 +1541,9 @@ screen finances(obj, mode="logical"):
                 button:
                     minimum (100, 30)
                     if fin_mode == "logical":
-                        if not obj.allowed_to_view_personal_finances():
-                            action NullAction()
-                            text "Personal N/A"
-                        else:
-                            action SetScreenVariable('fin_mode', "main")
-                            text "Personal"
+                        sensitive obj.allowed_to_view_personal_finances()
+                        action SetScreenVariable('fin_mode', "main")
+                        text "Personal"
                     elif fin_mode == "main":
                         action SetScreenVariable('fin_mode', "logical")
                         text "Performance"
