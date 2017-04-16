@@ -1145,7 +1145,7 @@ screen finances(obj, mode="logical"):
     add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
     frame:
         at slide(so1=(0, 700), t1=0.7, so2=(0, 0), t2=0.3, eo2=(0, -config.screen_height))
-        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.65), 10, 10)
+        background Frame(Transform("content/gfx/frame/FrameGP.png", alpha=0.9), 10, 10)
         style_prefix "proper_stats"
         xysize 1000, 600
         padding 20, 20
@@ -1171,7 +1171,7 @@ screen finances(obj, mode="logical"):
 
             vbox:
                 ypos 40
-                text "Income:" size 40
+                text "Income:" size 40 color goldenrod
                 viewport:
                     xysize (398, 350)
                     draggable True
@@ -1185,7 +1185,7 @@ screen finances(obj, mode="logical"):
                                 xysize (390, 27)
                                 xpadding 7
                                 text reason.capitalize() color "#79CDCD"
-                                text str(value) xalign 1.0 style_suffix "value_text"
+                                text str(value) xalign 1.0 style_suffix "value_text" color goldenrod
 
                         frame:
                             xoffset 4
@@ -1193,11 +1193,11 @@ screen finances(obj, mode="logical"):
                             xpadding 7
                             text "Total" color "#79CDCD"
                             $ total_income = sum(all_income_data[fin_day].values())
-                            text str(total_income) xalign 1.0 style_suffix "value_text"
+                            text str(total_income) xalign 1.0 style_suffix "value_text" color goldenrod
 
             vbox:
                 ypos 40 xalign 1.0
-                text "Expenses:" size 40
+                text "Expenses:" size 40 color goldenrod
                 viewport:
                     xysize (398, 350)
                     draggable True
@@ -1211,7 +1211,7 @@ screen finances(obj, mode="logical"):
                                 xysize (390, 27)
                                 xpadding 7
                                 text reason.capitalize() color "#79CDCD"
-                                text str(value) xalign 1.0 style_suffix "value_text"
+                                text str(value) xalign 1.0 style_suffix "value_text" color goldenrod
 
                         frame:
                             xoffset 4
@@ -1219,14 +1219,14 @@ screen finances(obj, mode="logical"):
                             xpadding 7
                             text "Total" color "#79CDCD"
                             $ total_expenses = sum(all_expense_data[fin_day].values())
-                            text str(total_expenses) xalign 1.0 style_suffix "value_text"
+                            text str(total_expenses) xalign 1.0 style_suffix "value_text" color goldenrod
 
             frame:
                 align .5, .9
                 xysize (400, 50)
                 xpadding 7
                 background Frame("content/gfx/frame/rank_frame.png", 3, 3)
-                text "Total" size 35
+                text "Total" size 35 color goldenrod
                 $ total = total_income - total_expenses
                 $ temp = red if total < 0 else lawngreen
                 text str(total) xalign 1.0 style_suffix "value_text" color temp size 35
