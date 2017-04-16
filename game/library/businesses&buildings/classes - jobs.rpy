@@ -1583,7 +1583,7 @@
                 else:
                     available.append("profile", exclude=["sad", "angry", "in pain"]) # no rest at all? c'mon...
 
-            if ("sleeping" in available) and (worker.vitality <= 50):
+            if ("sleeping" in available) and (worker.vitality <= worker.get_max("vitality")*0.15):
                     self.img = worker.show("sleeping", resize=(740, 685), **kwargs)
                     log.append("{} is too tired to do anything but sleep at her free time.".format(worker.name))
             else:

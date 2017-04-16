@@ -127,7 +127,7 @@ label city_beach_swimming_checks:
         with dissolve
         "You stay in shallow water not too far from land to get used to the water. It feels nice, but the real swimming will require some skills next time."
     else:
-        if hero.vitality < 50 or hero.AP <= 0:
+        if hero.vitality < 30 or hero.AP <= 0:
             "You are too tired at the moment."
         elif hero.health < hero.get_max("health")*0.5:
             "You are too wounded at the moment."

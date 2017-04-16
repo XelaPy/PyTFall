@@ -4542,13 +4542,13 @@ init -9 python:
             # Called whenever character needs to have on of the main stats restored.
             l = list()
             if self.autoequip:
-                if self.health < 60:
+                if self.health < self.get_max("health")*0.3:
                     l.extend(self.auto_equip(["health"]))
-                if self.vitality < 50:
+                if self.vitality < self.get_max("vitality")*0.2:
                     l.extend(self.auto_equip(["vitality"]))
-                if self.mp < 20:
+                if self.mp < self.get_max("mp")*0.1:
                     l.extend(self.auto_equip(["mp"]))
-                if self.joy < 40:
+                if self.joy < self.get_max("joy")*0.4:
                     l.extend(self.auto_equip(["joy"]))
             if l:
                 self.txt.append("She used: %s %s during the day!" % (", ".join(l), plural("item", len(l))))
@@ -4565,7 +4565,7 @@ init -9 python:
                     if self.autoequip:
                         equip_for(self, self.action)
                     self.previousaction = None  # This is redundant...
-            elif all([self.action not in ["Rest", "AutoRest"], (self.health < 60 or self.vitality < 35), self.autocontrol['Rest']]):
+            elif all([self.action not in ["Rest", "AutoRest"], (self.health < 60 or self.vitality < 35), self.autocontrol['Rest']]): # to do: get rid of absolute values!
                 self.previousaction = self.action
                 self.action = 'AutoRest'
                 txt = "\n\n{color=[blue]}She's going to take few days off to recover her health and stamina!{/color}\n\n"
