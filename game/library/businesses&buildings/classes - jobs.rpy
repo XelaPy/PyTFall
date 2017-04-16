@@ -37,34 +37,40 @@
             vp = Viewport(child=c, xysize=(xmax, ysize))
             return vp
 
-    def can_do_work(c, check_ap=True):
+    def can_do_work(c, check_ap=True, log=None):
         """Checks whether the character is injured/tired/has AP and sets her/him to auto rest.
 
         AP check is optional here, with True as default, there are cases where char might still have job points even though AP is 0. TODO: report about issues with health/vitality/etc somewhere in the next day report
         """
-        if c.health < c.get_max("health")*0.25:
-            # log.append("%s is injured and in need of medical attention! "%c.name)
+        if c.health < c.get_max("health")*.25:
+            if log:
+                log.append("%s is injured and in need of medical attention! "%c.name)
             # self.img = c.show("profile", "sad", resize=(740, 685))
             if c.autocontrol['Rest']:
                 c.previousaction = c.action
                 c.action = AutoRest()
-                # log.append("She is going to take few days off to heal her wounds. ")
+                if log:
+                    log.append("And going to take few days off to heal. ")
             return False
-        if c.vitality <= randint(10, 15):
-            # log.append("%s is to tired to work today! "%c.name)
+        if c.vitality <= c.get_max("vitality")*.10:
+            if log:
+                log.append("%s is too tired! "%c.name)
             # self.img = c.show("profile", "sad", resize=(740, 685))
             if c.autocontrol['Rest']:
                 c.previousaction = c.action
                 c.action = AutoRest()
-                # log.append("She's going to take few days off to recover her stamina. ")
+                if log:
+                    log.append("And going to take few days off to recover. ")
             return False
         if c.effects['Food Poisoning']['active']:
-            # log.append("%s cannot work today due to Food Poisoning! "%c.name)
+            if log:
+                log.append("%s is suffering from Food Poisoning! "%c.name)
             # self.img = c.show("profile", "sad", resize=(740, 685))
             if c.autocontrol['Rest']:
                 c.previousaction = c.action
                 c.action = AutoRest()
-                # log.append("She's going to take few days off to recover. ")
+                if log:
+                    log.append("And going to take few days off to recover. ")
         if check_ap and c.AP <= 0:
             return False
 
@@ -294,10 +300,11 @@
 
 
             # Location related:
-            if self.loc:
+            if self.loc and hasattr(self.loc, "fin"):
                 self.update_loc_data()
                 self.loc.fin.log_logical_income(self.earned, fin_source)
-            self.append("{color=[gold]}\nA total of %d Gold was earned!{/color}" % self.earned)
+            if self.earned:
+                self.append("{color=[gold]}\nA total of %d Gold was earned!{/color}" % self.earned)
             self.txt = self.log
             self.log = []
 
@@ -446,7 +453,7 @@
 
             self.base_skills = {"sex": 60, "vaginal": 40, "anal": 40, "oral": 40}
             self.base_stats = {"charisma": 100}
-            
+
         def base_effectiveness(self, worker, difficulty, log):
             """Affects all worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
                Calculates only once per turn, in the very beginning.
@@ -462,15 +469,15 @@
             elif worker.effects['Horny']['active']:
                 log.append("%s is horny. A perfect mindset for her job!" % worker.name)
                 effectiveness += 10
-                
+
             if dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
-            
+
                 traits = list(i for i in worker.traits if i in ["Ill-mannered", "Always Hungry", "Heavy Drinker", "Neat", "Messy", "Homebody", "Indifferent", "Open Minded", "Dawdler", "Energetic", "Sexy Air", "Frigid", "Nymphomaniac", "Psychic", "Flexible", "Lactation"])
                 if traits:
                     trait = random.choice(traits)
                 else:
                     return effectiveness
-                    
+
                 if trait == "Ill-mannered":
                     log.append("%s is pretty rude today, but fortunately in bed her unciviliness makes customers harder." % worker.name)
                     effectiveness += 20
@@ -530,7 +537,7 @@
                     log.append("Sometimes customers are happy to swallow liquids too. As in the case of %s's milk which is produced more than usual today." % worker.name)
                     effectiveness += 15
             return effectiveness
-            
+
         def effectiveness(self, worker, difficulty, log):
             """Checking effectiveness specifically for whore job.
 
@@ -568,7 +575,7 @@
                 if "Virgin" in worker.traits and "Dedicated" in worker.traits:
                     disposition += 2000 # not a typo; they never agree, even with Chastity effect
                     return disposition
-                    
+
                 if "Virgin" in worker.traits and not(worker.effects['Chastity']['active']):
                     disposition += 300
                 else:
@@ -1538,17 +1545,17 @@
             self.type = "Resting"
 
         def __call__(self, char):
-            worker = char
-            self.loc = worker.home
-            self.rest()
-            self.after_rest()
+            loc = char.home
+            log = NDEvent(job=self, char=char, loc=loc)
+            self.rest(char, loc, log)
+            self.after_rest(char, log)
+            log.after_job()
+            NextDayEvents.append(log)
 
-        def rest(self):
+        def rest(self, worker, loc, log):
             """Rests the worker.
             """
             # Stat Mods:
-
-
             worker.disable_effect('Exhausted')  # rest immediately disables the effect and removes its counter
 
             available = list()
@@ -1584,11 +1591,11 @@
                     available.append("profile", exclude=["sad", "angry", "in pain"]) # no rest at all? c'mon...
 
             if ("sleeping" in available) and (worker.vitality <= worker.get_max("vitality")*0.15):
-                    self.img = worker.show("sleeping", resize=(740, 685), **kwargs)
+                    log.img = worker.show("sleeping", resize=(740, 685), **kwargs)
                     log.append("{} is too tired to do anything but sleep at her free time.".format(worker.name))
             else:
-                self.img = worker.show(choice(available), resize=(740, 685), **kwargs)
-                image_tags = self.img.get_image_tags()
+                log.img = worker.show(choice(available), resize=(740, 685), **kwargs)
+                image_tags = log.img.get_image_tags()
                 if "sleeping" in image_tags:
                     if "living" in image_tags:
                         log.append("{} is enjoying additional bedtime in her room.".format(worker.name))
@@ -1646,61 +1653,56 @@
                             log.append(choice(["{} is relaxing somewhere in the city.".format(worker.name),
                                                     "{} is taking a break somewhere in the city.".format(worker.name)]))
                     else:
-                            log.append(choice(["{} is relaxing during her free time.".format(worker.name),
-                                                    "{} is taking a break during her free time.".format(worker.name)]))
+                        log.append(choice(["{} is relaxing during her free time.".format(worker.name),
+                                           "{} is taking a break during her free time.".format(worker.name)]))
 
+            if not log.img:
+                log.img = worker.show("rest", resize=(740, 685))
 
-            log.logws('health', randint(2, 3))
-            if worker.effects['Drowsy']['active']:
-                log.logws('vitality', (randint(30, 50)*worker.AP))
-            else:
-                log.logws('vitality', (randint(15, 30)*worker.AP))
-            log.logws('mp', randint(1, 3))
-            log.logws('joy', randint(1, 2))
+            # Resting effects (Must be calculated over AP so not to allow anything going to waste):
+            for i in range(worker.AP):
+                log.logws('health', randint(2, 3))
+                if worker.effects['Drowsy']['active']:
+                    log.logws('vitality', (randint(15, 30)))
+                else:
+                    log.logws('vitality', (randint(7, 15)))
+                log.logws('mp', randint(1, 3))
+                log.logws('joy', randint(1, 2))
+                worker.AP -= 1
 
-            if not self.img:
-                self.img = worker.show("rest", resize=(740, 685))
+                if self.is_rested(worker):
+                    break
 
-        def is_rested(self):
-            if (worker.vitality >= worker.get_max("vitality") - 50) and (worker.health >= worker.get_max('health') - 5):
-                return True
+        def is_rested(self, worker):
+            c0 = worker.vitality >= worker.get_max("vitality")*.95
+            c1 = worker.health >= worker.get_max('health')*.95
+            c2 = not worker.effects['Food Poisoning']['active']
+            if all([c0, c1, c2]): return True
 
-        def after_rest(self):
-            """
-            Solve the final logic.
-            """
-            self.apply_stats()
-
-            if self.is_rested():
+        def after_rest(self, worker, log):
+            # Must check for is_rested first always.
+            if self.is_rested(worker):
                 log.append("\n\nShe is both well rested and healthy so at this point this is simply called: {color=[red]}slacking off :){/color}")
-
-            self.finish_job()
 
 
     class AutoRest(Rest):
-        """
-        Same as Rest but game will try to reset character to it's previos job.
-        """
+        """Same as Rest but game will try to reset character to it's previos job."""
         def __init__(self):
             super(AutoRest, self).__init__()
             self.id = "AutoRest"
 
-        def after_rest(self):
-            """
-            Solve the final logic.
-            """
-            self.apply_stats()
-
-            if self.is_rested():
-                log.append("\n\nShe is now both well rested and healthy, so she goes back to work as %s!" % worker.previousaction)
+        def after_rest(self, worker, log):
+            if self.is_rested(worker):
+                if worker.previousaction:
+                    log.append("\n\n{} is now both well rested and goes back to work as {}!".format(worker.name, worker.previousaction))
+                else:
+                    log.append("\n\n{} is now both well rested and healthy!".format(worker.name))
                 worker.action = worker.previousaction
                 worker.previousaction = None
 
-                if worker.autoequip:
+                if worker.autoequip and worker.action:
                     # **Adapt to new code structure...
                     equip_for(worker, worker.action)
-
-            self.finish_job()
 
 
     ####################### Manager Job  ############################

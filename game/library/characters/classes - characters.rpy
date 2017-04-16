@@ -4587,22 +4587,15 @@ init -9 python:
                 self.txt.append("She used: %s %s during the day!" % (", ".join(l), plural("item", len(l))))
             return l
 
-        def auto_rest(self):
+        def check_resting(self):
             # Auto-Rest should return a well rested girl back to work (or send them auto-resting!):
-            txt = ""
-            if self.vitality >= self.get_max("vitality") - 50 and self.health >= self.get_max('health') - 5:
-                if self.action == 'AutoRest':
-                    txt = "She is now both well rested and healthy, so she goes back to work as %s!" % self.previousaction
-                    self.action = self.previousaction
-                    # We'll reequip items on return to the job!
-                    if self.autoequip:
-                        equip_for(self, self.action)
-                    self.previousaction = None  # This is redundant...
-            elif all([self.action not in ["Rest", "AutoRest"], (self.health < 60 or self.vitality < 35), self.autocontrol['Rest']]): # to do: get rid of absolute values!
-                self.previousaction = self.action
-                self.action = 'AutoRest'
-                txt = "\n\n{color=[blue]}She's going to take few days off to recover her health and stamina!{/color}\n\n"
-            return txt
+            txt = []
+            if not isinstance(self.action, Rest):
+                # This will set this char to AutoRest using normal checks!
+                can_do_work(self, check_ap=False, log=txt)
+            else: # Char is resting already, we can check if is no longer required.
+                self.action.after_rest(self, txt)
+            return "".join(txt)
 
         def next_day(self):
             if self in hero.chars:
@@ -4855,7 +4848,7 @@ init -9 python:
                         # --------------------------------->>>
 
                         self.restore()
-                        self.auto_rest()
+                        self.check_resting()
 
                         # Unhappiness and related:
                         if self.joy <= 30:

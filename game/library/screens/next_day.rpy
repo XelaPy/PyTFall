@@ -128,7 +128,7 @@ label next_day:
     jump mainscreen
 
 label next_day_calculations:
-    $ FilteredList=list()
+    $ FilteredList = list()
 
     if global_flags.flag("nd_music_play"):
         $ global_flags.del_flag("nd_music_play")
@@ -155,9 +155,9 @@ label next_day_calculations:
     # Ren'Py script:
     $ nd_buildings = list(b for b in hero.buildings if isinstance(b, UpgradableBuilding))
 
-    $ tl.timer("Rest (1)")
-    $ ndr_chars = list(c for c in hero.chars if c.location != "Exploring" and (isinstance(c.action, Rest) or isinstance(c.action, AutoRest))) # Next Day Resting Chars
     # $ ndr_chars2 = list(c for c in hero.chars if not can_do_work(c)) # Revice this for characters who are set to work till the drop???
+    $ tl.timer("Rest (1)")
+    $ ndr_chars = list(c for c in hero.chars if c.location != "Exploring" and isinstance(c.action, Rest) and c.AP > 0) # Next Day Resting Chars
     while ndr_chars:
         $ resting_char = ndr_chars.pop()
         $ resting_char.action(resting_char) # <--- Looks odd and off?
@@ -216,6 +216,15 @@ label next_day_calculations:
             while girls:
                 EscapeeSearchJob(choice(girls), building, girls)
 
+    # Second iteration of Rest:
+    $ tl.timer("Rest (2)")
+    $ ndr_chars = list(c for c in hero.chars if c.location != "Exploring" and isinstance(c.action, Rest) and c.AP > 0) # Next Day Resting Chars
+    while ndr_chars:
+        $ resting_char = ndr_chars.pop()
+        $ resting_char.action(resting_char) # <--- Looks odd and off?
+    $ tl.timer("Rest (2)")
+
+    python:
         ################## Searching events End ####################
         #
         #
