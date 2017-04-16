@@ -120,7 +120,6 @@
         else:
             return 0
 
-
     class JobLog(_object):
         """Stores text reports during the job execution.
         """
@@ -334,7 +333,7 @@
             self.occupations = list() # General Strings likes SIW, Warrior, Server...
             self.occupation_traits = list() # Corresponing traits... # TODO: WE NEED TO MAKE SURE THESE ARE INSTANCES!
 
-            self.disposition_threshold = 650 # Any worker with disposition this high will be willing to do the job even without matched traits.
+            self.disposition_threshold = -500 # Any worker with disposition this high will be willing to do the job even without matched traits.
 
             self.event_type = "jobreport"
 
@@ -370,6 +369,9 @@
         def get_clients(self):
             # This returns a correct amount of clients used for the job
             return 0
+
+        def calculate_disposition_level(self, worker):
+            return self.disposition_threshold
 
         def settle_workers_disposition(self, char=None):
             # Formerly check_occupation
