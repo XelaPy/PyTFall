@@ -3390,8 +3390,7 @@ init -9 python:
                 self.joy -= 10
 
             elif effect == "Exhausted":
-                if self.vitality > 5:
-                    self.vitality = 5
+                self.vitality -= 10
                 self.AP -= 1
 
             elif effect == "Lactation": # TO DO: maybe add milking job, like in WM? with much more milk outcome than this effect has
