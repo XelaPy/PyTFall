@@ -856,6 +856,31 @@ init -9 python:
             return False
 
         # Retrieving data:
+        def get_data_for_fin_screen(self, type=None):
+            if type == "logical":
+                all_income_data = self.game_logical_income_log.copy()
+                all_income_data[store.day] = self.todays_logical_income_log
+
+                all_expense_data = self.game_logical_expense_log.copy()
+                all_expense_data[store.day] = self.todays_logical_expense_log
+            if type == "main":
+                all_income_data = self.game_main_income_log.copy()
+                all_income_data[store.day] = self.todays_main_income_log
+
+                all_expense_data = self.game_main_expense_log.copy()
+                all_expense_data[store.day] = self.todays_main_expense_log
+
+            days = []
+            for d in all_income_data:
+                if all_income_data[d] or all_expense_data[d]:
+                    days.append(d)
+            days = days[-7:]
+            if days and len(days) > 1:
+                days.append("All")
+                all_income_data["All"] = add_dicts(all_income_data.values())
+                all_expense_data["All"] = add_dicts(all_expense_data.values())
+            return days, all_income_data, all_expense_data
+
         def get_logical_income(self, kind="all", day=None):
             """Retrieve work income (for buildings/chars?)
 
@@ -4255,6 +4280,14 @@ init -9 python:
 
         def add_money(self, value, reason="Other"):
             self.fin.add_money(value, reason)
+
+        # Logic assists:
+        def allowed_to_view_personal_finances(self):
+            if self.status == "slave":
+                return True
+            elif self.disposition > 900:
+                return True
+            return False
 
         ### Displaying images
         @property

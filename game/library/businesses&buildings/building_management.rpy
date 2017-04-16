@@ -410,7 +410,7 @@ init: # Screens:
                     text "Settle MC"
                 button:
                     xysize (135, 40)
-                    action Show("building_finances")
+                    action Show("finances", None, building, mode="logical")
                     hovered tt.action('Show Finance log.')
                     text "Finance Log"
                 button:

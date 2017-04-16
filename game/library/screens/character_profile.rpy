@@ -434,7 +434,6 @@ screen char_profile():
 
                     null height 4
 
-
                 elif stats_display == "stats":
                     frame:
                         style_suffix "main_frame"
@@ -617,7 +616,7 @@ screen char_profile():
                         text "Training"
                     button:
                         xysize (150, 40)
-                        action Hide("show_trait_info"), If(not_escaped, true=Show("girl_finances"))
+                        action Hide("show_trait_info"), If(not_escaped, true=Show("finances", None, char, mode="logical"))
                         hovered tt.action("Review Finances!")
                         text "Finances"
                     button:
@@ -1135,325 +1134,419 @@ screen confirm_girl_sale():
                 textbutton "Yes":
                     action Return(['control', 'fire'])
 
-screen girl_finances():
+screen finances(obj, mode="logical"):
     modal True
     zorder 1
 
-    default show_fin = "day"
+    key "mousedown_3" action Hide("finances")
 
+    default fin_mode = mode
+
+    add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
     frame:
         at slide(so1=(0, 700), t1=0.7, so2=(0, 0), t2=0.3, eo2=(0, -config.screen_height))
-        background Frame (Transform("content/gfx/frame/arena_d.png", alpha=1.2), 5, 5)
-        align (0.5, 0.5)
+        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.65), 10, 10)
+        style_prefix "proper_stats"
+        xysize 1000, 600
+        padding 20, 20
+        align .5, .5
 
-        # side "c r":
-        viewport id "message_vp":
-            style_group "stats"
-            xysize (1100, 600)
-            draggable False
-            mousewheel True
-            if day > 1:
-                $ fin_inc = char.fin.game_main_income_log[day-1]
-                $ fin_exp = char.fin.game_main_expense_log[day-1]
+        $ days, all_income_data, all_expense_data = obj.fin.get_data_for_fin_screen(fin_mode)
 
-                if show_fin == 'day':
-                    label (u"{color=[ivory]}Fin Report (Yesterday)") xalign 0.4 ypos 30 text_size 30
-                    # Income:
+        # Days:
+        default fin_day = days[-1] if days else None
+        if fin_day is None:
+            text "There are no Finances to display for {}!".format(obj.name) align .5, .5
+        else:
+            hbox:
+                style_prefix "basic"
+                for d in days:
+                    if d == store.day:
+                        $ temp = "Today"
+                    elif isinstance(d, int):
+                        $ temp = "Day " + str(d)
+                    else:
+                        $ temp = d # All variant...
+                    textbutton temp action SetScreenVariable("fin_day", d)
+
+            vbox:
+                ypos 40
+                text "Income:" size 40
+                viewport:
+                    xysize (398, 350)
+                    draggable True
+                    mousewheel True
+                    add Transform(Solid(grey), alpha=.3)
                     vbox:
-                        pos (50, 100)
-                        label "Income:" text_size 20
-                        null height 10
-                        hbox:
-                            vbox:
-                                xmaximum 150
-                                xfill True
-                                for key in fin_inc["work"]:
-                                    text ("[key]")
-                                for key in fin_inc["tips"]:
-                                    text ("[key]")
-                                for key in fin_inc:
-                                    if key not in ["work", "tips", "private"]:
-                                        text ("[key]")
-                            vbox:
-                                null height 1
-                                spacing 4
-                                for key in fin_inc["work"]:
-                                    $ val = fin_inc["work"][key]
-                                    text "[val]" style "stats_value_text"
-                                for key in fin_inc["tips"]:
-                                    $ val = fin_inc['tips'][key]
-                                    text "[val]" style "stats_value_text"
-                                for key in fin_inc:
-                                    if key not in ["work", "tips", "private"]:
-                                        $ val = fin_inc[key]
-                                        text "[val]" style "stats_value_text"
-                    # Expense:
+                        ypos 2
+                        for reason, value in all_income_data[fin_day].iteritems():
+                            frame:
+                                xoffset 4
+                                xysize (390, 27)
+                                xpadding 7
+                                text reason.capitalize() color "#79CDCD"
+                                text str(value) xalign 1.0 style_suffix "value_text"
+
+                        frame:
+                            xoffset 4
+                            xysize (390, 27)
+                            xpadding 7
+                            text "Total" color "#79CDCD"
+                            $ total_income = sum(all_income_data[fin_day].values())
+                            text str(total_income) xalign 1.0 style_suffix "value_text"
+
+            vbox:
+                ypos 40 xalign 1.0
+                text "Expenses:" size 40
+                viewport:
+                    xysize (398, 350)
+                    draggable True
+                    mousewheel True
+                    add Transform(Solid(grey), alpha=.3)
                     vbox:
-                        pos (450, 100)
-                        label "Expense:" text_size 20
-                        null height 10
-                        hbox:
-                            vbox:
-                                xmaximum 150
-                                xfill True
-                                for key in fin_exp["cost"]:
-                                    text ("[key]")
-                            vbox:
-                                null height 1
-                                spacing 4
-                                for key in fin_exp["cost"]:
-                                    $ val = fin_exp["cost"][key]
-                                    text ("[val]") style "stats_value_text"
+                        ypos 2
+                        for reason, value in all_expense_data[fin_day].iteritems():
+                            frame:
+                                xoffset 4
+                                xysize (390, 27)
+                                xpadding 7
+                                text reason.capitalize() color "#79CDCD"
+                                text str(value) xalign 1.0 style_suffix "value_text"
 
-                    python:
-                        total_list = list(itertools.chain(fin_inc["work"].values(),
-                                                                      fin_inc["tips"].values()))
-                        total_income = sum(total_list)
-                        total_expenses = 0
-                        for key in fin_exp["cost"]:
-                            total_expenses += fin_exp["cost"][key]
-                        total = total_income - total_expenses
+                        frame:
+                            xoffset 4
+                            xysize (390, 27)
+                            xpadding 7
+                            text "Total" color "#79CDCD"
+                            $ total_expenses = sum(all_expense_data[fin_day].values())
+                            text str(total_expenses) xalign 1.0 style_suffix "value_text"
 
-                    vbox:
-                        align (0.80, 0.60)
-                        text "----------------------------------------"
-                        text ("Revenue: [total]"):
-                            size 20
-                            xpos 15
-                            if total > 0:
-                                color lawngreen style "stats_value_text"
-                            else:
-                                color red style "stats_value_text"
+            frame:
+                align .5, .9
+                xysize (400, 50)
+                xpadding 7
+                background Frame("content/gfx/frame/rank_frame.png", 3, 3)
+                text "Total" size 35
+                $ total = total_income - total_expenses
+                $ temp = red if total < 0 else lawngreen
+                text str(total) xalign 1.0 style_suffix "value_text" color temp size 35
 
-                    hbox:
-                        style_group "basic"
-                        align (0.5, 0.9)
-                        textbutton "Show Total" action SetScreenVariable("show_fin", 'total') minimum (200, 30)
-                        textbutton "Show Personal" action SetScreenVariable("show_fin", 'personal') minimum (200, 30)
-                        textbutton "Show P. Total" action SetScreenVariable("show_fin", 'personal_total') minimum (200, 30)
+            # if day > 1:
+            #     $ fin_inc = char.fin.game_main_income_log[day-1]
+            #     $ fin_exp = char.fin.game_main_expense_log[day-1]
+            #
+            #     if show_fin == 'day':
+            #         label (u"{color=[ivory]}Fin Report (Yesterday)") xalign 0.4 ypos 30 text_size 30
+            #         # Income:
+            #         vbox:
+            #             pos (50, 100)
+            #             label "Income:" text_size 20
+            #             null height 10
+            #             hbox:
+            #                 vbox:
+            #                     xmaximum 150
+            #                     xfill True
+            #                     for key in fin_inc["work"]:
+            #                         text ("[key]")
+            #                     for key in fin_inc["tips"]:
+            #                         text ("[key]")
+            #                     for key in fin_inc:
+            #                         if key not in ["work", "tips", "private"]:
+            #                             text ("[key]")
+            #                 vbox:
+            #                     null height 1
+            #                     spacing 4
+            #                     for key in fin_inc["work"]:
+            #                         $ val = fin_inc["work"][key]
+            #                         text "[val]" style "stats_value_text"
+            #                     for key in fin_inc["tips"]:
+            #                         $ val = fin_inc['tips'][key]
+            #                         text "[val]" style "stats_value_text"
+            #                     for key in fin_inc:
+            #                         if key not in ["work", "tips", "private"]:
+            #                             $ val = fin_inc[key]
+            #                             text "[val]" style "stats_value_text"
+            #         # Expense:
+            #         vbox:
+            #             pos (450, 100)
+            #             label "Expense:" text_size 20
+            #             null height 10
+            #             hbox:
+            #                 vbox:
+            #                     xmaximum 150
+            #                     xfill True
+            #                     for key in fin_exp["cost"]:
+            #                         text ("[key]")
+            #                 vbox:
+            #                     null height 1
+            #                     spacing 4
+            #                     for key in fin_exp["cost"]:
+            #                         $ val = fin_exp["cost"][key]
+            #                         text ("[val]") style "stats_value_text"
+            #
+            #         python:
+            #             total_list = list(itertools.chain(fin_inc["work"].values(),
+            #                                                           fin_inc["tips"].values()))
+            #             total_income = sum(total_list)
+            #             total_expenses = 0
+            #             for key in fin_exp["cost"]:
+            #                 total_expenses += fin_exp["cost"][key]
+            #             total = total_income - total_expenses
+            #
+            #         vbox:
+            #             align (0.80, 0.60)
+            #             text "----------------------------------------"
+            #             text ("Revenue: [total]"):
+            #                 size 20
+            #                 xpos 15
+            #                 if total > 0:
+            #                     color lawngreen style "stats_value_text"
+            #                 else:
+            #                     color red style "stats_value_text"
+            #
+            #         hbox:
+            #             style_group "basic"
+            #             align (0.5, 0.9)
+            #             textbutton "Show Total" action SetScreenVariable("show_fin", 'total') minimum (200, 30)
+            #             textbutton "Show Personal" action SetScreenVariable("show_fin", 'personal') minimum (200, 30)
+            #             textbutton "Show P. Total" action SetScreenVariable("show_fin", 'personal_total') minimum (200, 30)
+            #
+            #     elif show_fin == 'total':
+            #         label (u"Fin Report (Game)") xalign 0.4 ypos 30 text_size 30
+            #         python:
+            #             income = dict()
+            #             source = char.fin.game_logical_income_log
+            #             for d in source:
+            #                 for key, value in source[d].iteritems():
+            #                     income[key] = income.get(key, 0) + value
+            #         # Income:
+            #         vbox:
+            #             pos (50, 100)
+            #             label "Income:" text_size 20
+            #             null height 10
+            #             hbox:
+            #                 vbox:
+            #                     xmaximum 150
+            #                     xfill True
+            #                     for key in income:
+            #                         text "[key]"
+            #                 vbox:
+            #                     null height 1
+            #                     spacing 4
+            #                     for key in income:
+            #                         $ val = income[key]
+            #                         text "[val]" style "stats_value_text"
+            #
+            #         # Expense:
+            #         python:
+            #             expenses = dict()
+            #             source = char.fin.game_logical_expense_log
+            #             for d in source:
+            #                 for key, value in source[d].iteritems():
+            #                     expenses[key] = expenses.get(key, 0) + value
+            #         vbox:
+            #             pos (450, 100)
+            #             label "Expense:" text_size 20
+            #             null height 10
+            #             hbox:
+            #                 vbox:
+            #                     xmaximum 150
+            #                     xfill True
+            #                     for key in expenses:
+            #                         text ("[key]")
+            #                 vbox:
+            #                     null height 1
+            #                     spacing 4
+            #                     for key in expenses:
+            #                         $ val = expenses[key]
+            #                         text ("[val]") style "stats_value_text"
+            #
+            #         python:
+            #             game_total = sum(income.values()) - sum(expenses.values())
+            #             # for _day in char.fin.game_fin_log:
+            #             #     total_list = list(itertools.chain(char.fin.game_fin_log[_day][0]["work"].values(),
+            #             #                                                   char.fin.game_fin_log[_day][0]["tips"].values()))
+            #             #     total_income = sum(total_list)
+            #             #     total_expenses = 0
+            #             #     for key in char.fin.game_fin_log[_day][1]["cost"]:
+            #             #         total_expenses += char.fin.game_fin_log[_day][1]["cost"][key]
+            #             #     total = total_income - total_expenses
+            #             #     game_total += total
+            #         vbox:
+            #             align (0.80, 0.60)
+            #             text "----------------------------------------"
+            #             text ("Revenue: [game_total]"):
+            #                 size 20
+            #                 xpos 15
+            #                 if game_total > 0:
+            #                     color lawngreen style "stats_value_text"
+            #                 else:
+            #                     color red style "stats_value_text"
+            #
+            #         hbox:
+            #             style_group "basic"
+            #             align (0.5, 0.9)
+            #             textbutton "Show Daily" action SetScreenVariable("show_fin", 'day') minimum(200, 30)
+            #             textbutton "Show Personal" action SetScreenVariable("show_fin", 'personal') minimum(200, 30)
+            #             textbutton "Show P. Total" action SetScreenVariable("show_fin", 'personal_total') minimum(200, 30)
+            #
+            #     elif show_fin == 'personal':
+            #         label (u"Personal (Yesterday)") xalign 0.4 ypos 30 text_size 30
+            #
+            #         # Income:
+            #         vbox:
+            #             pos (50, 100)
+            #             label "Income:" text_size 20
+            #             null height 10
+            #             hbox:
+            #                 vbox:
+            #                     xmaximum 150
+            #                     xfill True
+            #                     for key in fin_inc["private"]:
+            #                         text ("[key]")
+            #                 vbox:
+            #                     null height 1
+            #                     spacing 4
+            #                     for key in fin_inc["private"]:
+            #                         $ val = fin_inc["private"][key]
+            #                         text ("[val]") style "stats_value_text"
+            #
+            #         # Expense:
+            #         vbox:
+            #             pos (450, 100)
+            #             label "Expense:" text_size 20
+            #             null height 10
+            #             hbox:
+            #                 vbox:
+            #                     xmaximum 150
+            #                     xfill True
+            #                     for key in fin_exp["private"]:
+            #                         text ("[key]")
+            #                 vbox:
+            #                     null height 1
+            #                     spacing 4
+            #                     for key in fin_exp["private"]:
+            #                         $ val = fin_exp["private"][key]
+            #                         text ("[val]") style "stats_value_text"
+            #
+            #         python:
+            #             total_income = 0
+            #             for key in fin_inc["private"]:
+            #                 total_income += fin_inc["private"][key]
+            #             total_expenses = 0
+            #             for key in fin_exp["private"]:
+            #                 total_expenses += fin_exp["private"][key]
+            #             total = total_income - total_expenses
+            #         vbox:
+            #             align (0.80, 0.60)
+            #             text "----------------------------------------"
+            #             text ("Revenue: [total]"):
+            #                 size 20
+            #                 xpos 15
+            #                 if total > 0:
+            #                     color lawngreen style "stats_value_text"
+            #                 else:
+            #                     color red style "stats_value_text"
+            #
+            #         hbox:
+            #             style_group "basic"
+            #             align (0.5, 0.9)
+            #             textbutton "Show Total" action SetScreenVariable("show_fin", 'total') minimum(200, 30)
+            #             textbutton "Show Daily" action SetScreenVariable("show_fin", 'daily') minimum(200, 30)
+            #             textbutton "Show P. Total" action SetScreenVariable("show_fin", 'personal_total') minimum(200, 30)
+            #
+            #     elif show_fin == 'personal_total':
+            #         label (u"Personal (Total)") xalign 0.4 ypos 30 text_size 30
+            #
+            #         python:
+            #             income = dict()
+            #             for _day in char.fin.game_fin_log:
+            #                 for key in char.fin.game_fin_log[_day][0]["private"]:
+            #                     income[key] = income.get(key, 0) + char.fin.game_fin_log[_day][0]["private"][key]
+            #
+            #         # Income:
+            #         vbox:
+            #             pos (50, 100)
+            #             label "Income:" text_size 20
+            #             null height 10
+            #             hbox:
+            #                 vbox:
+            #                     xmaximum 150
+            #                     xfill True
+            #                     for key in income:
+            #                         text ("[key]")
+            #                 vbox:
+            #                     null height 1
+            #                     spacing 4
+            #                     for key in income:
+            #                         $ val = income[key]
+            #                         text ("[val]") style "stats_value_text"
+            #
+            #         # Expense:
+            #         python:
+            #             expenses = dict()
+            #             for _day in char.fin.game_fin_log:
+            #                 for key in char.fin.game_fin_log[_day][1]["private"]:
+            #                     expenses[key] = expenses.get(key, 0) + char.fin.game_fin_log[_day][1]["private"][key]
+            #         vbox:
+            #             pos (450, 100)
+            #             label "Expense:" text_size 20
+            #             null height 10
+            #             hbox:
+            #                 vbox:
+            #                     xmaximum 150
+            #                     xfill True
+            #                     for key in expenses:
+            #                         text ("[key]")
+            #                 vbox:
+            #                     null height 1
+            #                     spacing 4
+            #                     for key in expenses:
+            #                         $ val = expenses[key]
+            #                         text ("[val]") style "stats_value_text"
+            #
+            #         python:
+            #             total_income = sum(income.values())
+            #             total_expenses = sum(expenses.values())
+            #             game_total = total_income - total_expenses
+            #         vbox:
+            #             align (0.80, 0.60)
+            #             text "----------------------------------------"
+            #             text ("Revenue: [game_total]"):
+            #                 size 20
+            #                 xpos 15
+            #                 if game_total > 0:
+            #                     color lawngreen style "stats_value_text"
+            #                 else:
+            #                     color red style "stats_value_text"
+            #
+            #         hbox:
+            #             style_group "basic"
+            #             align (0.5, 0.9)
+            #             textbutton "Show Daily" action SetScreenVariable("show_fin", 'day') minimum(200, 30)
+            #             textbutton "Show Peronal" action SetScreenVariable("show_fin", 'personal') minimum(200, 30)
+            #             textbutton "Show Total" action SetScreenVariable("show_fin", 'total') minimum(200, 30)
+            #
+            # else:
+            #     text (u"No financial records availible!") align (0.5, 0.5)
 
-                elif show_fin == 'total':
-                    label (u"Fin Report (Game)") xalign 0.4 ypos 30 text_size 30
-                    python:
-                        income = dict()
-                        source = char.fin.game_logical_income_log
-                        for d in source:
-                            for key, value in source[d].iteritems():
-                                income[key] = income.get(key, 0) + value
-                    # Income:
-                    vbox:
-                        pos (50, 100)
-                        label "Income:" text_size 20
-                        null height 10
-                        hbox:
-                            vbox:
-                                xmaximum 150
-                                xfill True
-                                for key in income:
-                                    text "[key]"
-                            vbox:
-                                null height 1
-                                spacing 4
-                                for key in income:
-                                    $ val = income[key]
-                                    text "[val]" style "stats_value_text"
-
-                    # Expense:
-                    python:
-                        expenses = dict()
-                        source = char.fin.game_logical_expense_log
-                        for d in source:
-                            for key, value in source[d].iteritems():
-                                expenses[key] = expenses.get(key, 0) + value
-                    vbox:
-                        pos (450, 100)
-                        label "Expense:" text_size 20
-                        null height 10
-                        hbox:
-                            vbox:
-                                xmaximum 150
-                                xfill True
-                                for key in expenses:
-                                    text ("[key]")
-                            vbox:
-                                null height 1
-                                spacing 4
-                                for key in expenses:
-                                    $ val = expenses[key]
-                                    text ("[val]") style "stats_value_text"
-
-                    python:
-                        game_total = sum(income.values()) - sum(expenses.values())
-                        # for _day in char.fin.game_fin_log:
-                        #     total_list = list(itertools.chain(char.fin.game_fin_log[_day][0]["work"].values(),
-                        #                                                   char.fin.game_fin_log[_day][0]["tips"].values()))
-                        #     total_income = sum(total_list)
-                        #     total_expenses = 0
-                        #     for key in char.fin.game_fin_log[_day][1]["cost"]:
-                        #         total_expenses += char.fin.game_fin_log[_day][1]["cost"][key]
-                        #     total = total_income - total_expenses
-                        #     game_total += total
-                    vbox:
-                        align (0.80, 0.60)
-                        text "----------------------------------------"
-                        text ("Revenue: [game_total]"):
-                            size 20
-                            xpos 15
-                            if game_total > 0:
-                                color lawngreen style "stats_value_text"
-                            else:
-                                color red style "stats_value_text"
-
-                    hbox:
-                        style_group "basic"
-                        align (0.5, 0.9)
-                        textbutton "Show Daily" action SetScreenVariable("show_fin", 'day') minimum(200, 30)
-                        textbutton "Show Personal" action SetScreenVariable("show_fin", 'personal') minimum(200, 30)
-                        textbutton "Show P. Total" action SetScreenVariable("show_fin", 'personal_total') minimum(200, 30)
-
-                elif show_fin == 'personal':
-                    label (u"Personal (Yesterday)") xalign 0.4 ypos 30 text_size 30
-
-                    # Income:
-                    vbox:
-                        pos (50, 100)
-                        label "Income:" text_size 20
-                        null height 10
-                        hbox:
-                            vbox:
-                                xmaximum 150
-                                xfill True
-                                for key in fin_inc["private"]:
-                                    text ("[key]")
-                            vbox:
-                                null height 1
-                                spacing 4
-                                for key in fin_inc["private"]:
-                                    $ val = fin_inc["private"][key]
-                                    text ("[val]") style "stats_value_text"
-
-                    # Expense:
-                    vbox:
-                        pos (450, 100)
-                        label "Expense:" text_size 20
-                        null height 10
-                        hbox:
-                            vbox:
-                                xmaximum 150
-                                xfill True
-                                for key in fin_exp["private"]:
-                                    text ("[key]")
-                            vbox:
-                                null height 1
-                                spacing 4
-                                for key in fin_exp["private"]:
-                                    $ val = fin_exp["private"][key]
-                                    text ("[val]") style "stats_value_text"
-
-                    python:
-                        total_income = 0
-                        for key in fin_inc["private"]:
-                            total_income += fin_inc["private"][key]
-                        total_expenses = 0
-                        for key in fin_exp["private"]:
-                            total_expenses += fin_exp["private"][key]
-                        total = total_income - total_expenses
-                    vbox:
-                        align (0.80, 0.60)
-                        text "----------------------------------------"
-                        text ("Revenue: [total]"):
-                            size 20
-                            xpos 15
-                            if total > 0:
-                                color lawngreen style "stats_value_text"
-                            else:
-                                color red style "stats_value_text"
-
-                    hbox:
-                        style_group "basic"
-                        align (0.5, 0.9)
-                        textbutton "Show Total" action SetScreenVariable("show_fin", 'total') minimum(200, 30)
-                        textbutton "Show Daily" action SetScreenVariable("show_fin", 'daily') minimum(200, 30)
-                        textbutton "Show P. Total" action SetScreenVariable("show_fin", 'personal_total') minimum(200, 30)
-
-                elif show_fin == 'personal_total':
-                    label (u"Personal (Total)") xalign 0.4 ypos 30 text_size 30
-
-                    python:
-                        income = dict()
-                        for _day in char.fin.game_fin_log:
-                            for key in char.fin.game_fin_log[_day][0]["private"]:
-                                income[key] = income.get(key, 0) + char.fin.game_fin_log[_day][0]["private"][key]
-
-                    # Income:
-                    vbox:
-                        pos (50, 100)
-                        label "Income:" text_size 20
-                        null height 10
-                        hbox:
-                            vbox:
-                                xmaximum 150
-                                xfill True
-                                for key in income:
-                                    text ("[key]")
-                            vbox:
-                                null height 1
-                                spacing 4
-                                for key in income:
-                                    $ val = income[key]
-                                    text ("[val]") style "stats_value_text"
-
-                    # Expense:
-                    python:
-                        expenses = dict()
-                        for _day in char.fin.game_fin_log:
-                            for key in char.fin.game_fin_log[_day][1]["private"]:
-                                expenses[key] = expenses.get(key, 0) + char.fin.game_fin_log[_day][1]["private"][key]
-                    vbox:
-                        pos (450, 100)
-                        label "Expense:" text_size 20
-                        null height 10
-                        hbox:
-                            vbox:
-                                xmaximum 150
-                                xfill True
-                                for key in expenses:
-                                    text ("[key]")
-                            vbox:
-                                null height 1
-                                spacing 4
-                                for key in expenses:
-                                    $ val = expenses[key]
-                                    text ("[val]") style "stats_value_text"
-
-                    python:
-                        total_income = sum(income.values())
-                        total_expenses = sum(expenses.values())
-                        game_total = total_income - total_expenses
-                    vbox:
-                        align (0.80, 0.60)
-                        text "----------------------------------------"
-                        text ("Revenue: [game_total]"):
-                            size 20
-                            xpos 15
-                            if game_total > 0:
-                                color lawngreen style "stats_value_text"
-                            else:
-                                color red style "stats_value_text"
-
-                    hbox:
-                        style_group "basic"
-                        align (0.5, 0.9)
-                        textbutton "Show Daily" action SetScreenVariable("show_fin", 'day') minimum(200, 30)
-                        textbutton "Show Peronal" action SetScreenVariable("show_fin", 'personal') minimum(200, 30)
-                        textbutton "Show Total" action SetScreenVariable("show_fin", 'total') minimum(200, 30)
-
-            else:
-                text (u"No financial records availible!") align (0.5, 0.5)
-
+        hbox:
+            style_prefix "basic"
+            align .5, 1.0
             button:
-                style_group "basic"
-                action Hide('girl_finances')
-                minimum (250, 30)
-                align (0.5, 0.96)
+                minimum (100, 30)
+                action Hide('finances')
                 text "OK"
+            if isinstance(obj, Char):
+                button:
+                    minimum (100, 30)
+                    if fin_mode == "logical":
+                        if not obj.allowed_to_view_personal_finances():
+                            action NullAction()
+                            text "Personal N/A"
+                        else:
+                            action SetScreenVariable('fin_mode', "main")
+                            text "Personal"
+                    elif fin_mode == "main":
+                        action SetScreenVariable('fin_mode', "logical")
+                        text "Performance"

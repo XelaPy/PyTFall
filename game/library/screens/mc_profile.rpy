@@ -422,7 +422,7 @@ init:
                 text "Equipment" style "pb_button_text"
                 hovered tt.Action("Take a look at your inventory.")
             button:
-                action Hide("show_trait_info"), Show("hero_finances")#, With(dissolve)
+                action Hide("show_trait_info"), Show("finances", None, hero, mode="main")#, With(dissolve)
                 text "Finance" style "pb_button_text"
             button:
                 action Hide("show_trait_info"), If(hero.friends | hero.lovers, true=[SetScreenVariable("lframe_display", "friends"), With(dissolve)])
