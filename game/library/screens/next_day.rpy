@@ -74,17 +74,30 @@ label next_day_effects_check:  # all traits and effects which require some unusu
         $ hero.health += randint(10, 20)
     python:
         for i in hero.chars: # chars with low or high joy get joy-related effects every day
-            if not "Pessimist" in i.traits and i.joy <= 15 and not i.effects['Depression']['active']:
+        
+            if not "Pessimist" in i.traits and i.joy <= randint(15, 20) and not i.effects['Depression']['active']: 
+                i.effects['Depression']['activation_count'] += 1
+            elif i.joy > 20:
+                i.effects['Depression']['activation_count'] = 0
+            if i.effects['Depression']['activation_count'] >= 3 and not i.effects['Depression']['active']:
                 i.enable_effect('Depression')
-            elif not "Optimist" in i.traits and i.joy >= 95 and not i.effects['Elation']['active']:
+                
+            if not "Optimist" in i.traits and i.joy >= 95 and not i.effects['Elation']['active']:
+                i.effects['Elation']['activation_count'] += 1
+            elif i.joy < 95:
+                i.effects['Elation']['activation_count'] = 0
+            if i.effects['Elation']['activation_count'] >= 3 and not i.effects['Elation']['active']:
                 i.enable_effect('Elation')
-            if i.vitality < i.get_max("vitality")*0.3 and not i.effects['Exhausted']['active']: # 3+ days with vitality < 0,3 max lead to Exhausted effect, can be removed by one day of rest or some items
+                
+            if i.vitality < i.get_max("vitality")*0.3 and not i.effects['Exhausted']['active']: # 3+ days with vitality < 0.3 max lead to Exhausted effect, can be removed by one day of rest or some items
                 i.effects['Exhausted']['activation_count'] += 1
             if i.effects['Exhausted']['activation_count'] >= 3 and not i.effects['Exhausted']['active']:
                 i.enable_effect('Exhausted')
+                
             if "Life Beacon" in hero.traits: # hero-only trait which heals everybody
                 i.health += randint(10, 20)
                 i.joy += 1
+                
             if i.effects['Horny']['active']: # horny effect which affects various sex-related things and scenes
                 i.disable_effect("Horny")
             else:
