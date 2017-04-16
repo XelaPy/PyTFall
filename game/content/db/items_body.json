@@ -32,7 +32,7 @@
     "type": "dress",
     "max": {"charisma": 5},
     "mod": {"charisma": 5},
-    "locations": ["Tailor Store", "Look around"]
+    "locations": ["Tailor Store"]
     },
     {
     "id": "Linen Dress",
@@ -309,7 +309,7 @@
     "max": {"defence": 20},
     "mod": {"defence": 15, "magic": -15},
     "evasion_bonus": 1,
-    "locations": ["Work Shop", "Look around"]
+    "locations": ["Work Shop"]
     },
     {
     "id": "Chainmail Bikini",

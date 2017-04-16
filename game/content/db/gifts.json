@@ -118,7 +118,7 @@
         "dismod": 10,
         "type": "spooky",
         "infinite": false,
-        "locations": ["Witches Hut", "Look around"],
+        "locations": ["Witches Hut"],
         "traits": {
             "Yandere": 20,
             "Tsundere": 10,
@@ -136,7 +136,7 @@
         "dismod": 15,
         "type": "spooky",
         "infinite": false,
-        "locations": ["Look around", "Witches Hut"],
+        "locations": ["Witches Hut"],
         "traits": {
             "Yandere": 20,
             "Tsundere": 10,
@@ -414,7 +414,7 @@
         "cblock": 3,
         "type": "trinket",
         "infinite": false,
-        "locations": ["General Store", "Look around"],
+        "locations": ["General Store"],
         "traits": {
             "Deredere": 10,
             "Impersonal": -10,
@@ -880,7 +880,7 @@
         "cblock": 3,
         "type": "clothes",
         "infinite": true,
-        "locations": ["General Store", "Look around"],
+        "locations": ["General Store"],
         "traits": {
             "Dandere": 20,
             "Yandere": -20,

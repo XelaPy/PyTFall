@@ -62,7 +62,7 @@
     "slot": "ring",
     "max": {"charisma": 20},
     "mod": {"charisma": 5},
-    "locations": ["Witches Hut", "Look around"]
+    "locations": ["Witches Hut"]
     },
     {
     "id": "Ring of Pleasure",
@@ -530,7 +530,7 @@
     "slot": "ring",
     "max": {"character": -10, "charisma": 5},
     "mod": {"charisma": 5},
-    "locations": ["General Store", "Look around"]
+    "locations": ["General Store"]
     },
     {
     "id": "Frozen Tear",
@@ -577,7 +577,7 @@
     "slot": "ring",
     "max": {"agility": 5, "charisma": 25},
     "mod": {"luck": 5},
-    "locations": ["General Store", "Look around", "Fishing"],
+    "locations": ["General Store", "Fishing"],
     "goodtraits": ["Lolita"]
     },
     {

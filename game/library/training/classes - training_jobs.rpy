@@ -142,7 +142,7 @@ init python:
             """
             Checks whether the girl is tired and sets her to auto rest.
             """
-            if self.girl.vitality < 30:
+            if self.girl.vitality < self.girl.get_max("vitality")*0.2:
                 self.txt.append("%s is to tired to work today! "%self.girl.name)
                 self.img = self.girl.show("profile", "sad", resize=(740, 685))
 
@@ -1103,7 +1103,7 @@ init python:
                 self.girls.remove(self.girl)
                 self.finish_job()
 
-            elif self.girl.health < 40 or self.girl.vitality < 40:
+            elif self.girl.health < self.girl.get_max("health")*0.2 or self.girl.vitality < self.girl.get_max("vitality")*0.2:
                 self.txt.append("%s was unable to search for any escapees as she was too hurt to do so! \n"%self.girl.nickname)
                 self.girls.remove(self.girl)
                 self.finish_job()

@@ -208,5 +208,25 @@
     "slot": "loot",
     "type": "treasure",
     "locations": ["Diving"]
+    },
+    {
+    "id": "Old Books",
+    "desc": "A pile of old dusty books. Useless for anyone but collectors.",
+    "icon": "content/items/loot/books.png",
+    "price": 5,
+    "chance": 30,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
+    },
+    {
+    "id": "Rebels Leaflet",
+    "desc": "A leaflet left from the rebellion. Calls for the overthrow of the slave system.",
+    "icon": "content/items/loot/leaflet.png",
+    "price": 0,
+    "chance": 0,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Look around"]
     }
   ]

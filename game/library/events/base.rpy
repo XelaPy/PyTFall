@@ -7,8 +7,8 @@ init -1 python:
         register_event("meet_beggar_event", locations=["city_parkgates"], priority=1, restore_priority=8, dice=25, max_runs=7)
     register_event("simple_beach_event", locations=["city_beach", "city_beach_left", "city_beach_right"], restore_priority=1, dice=50, max_runs=50)
     register_event("creatures_beach_event", locations=["city_beach_right"], restore_priority=2, dice=40, max_runs=3)
-    register_event("found_money_event", locations=["all"], run_conditions=["dice(max(5, int(hero.luck/5)))"], priority=50, dice=0, restore_priority=0)
-    register_event("found_item_event", locations=["all"], run_conditions=["dice(max(3, int(hero.luck/6)))"], priority=50, dice=0, restore_priority=0)
+    register_event("found_money_event", locations=["all"], run_conditions=["dice(max(15, hero.luck+10))"], priority=50, dice=0, restore_priority=0)
+    register_event("found_item_event", locations=["all"], run_conditions=["dice(max(35, hero.luck+20))"], priority=50, dice=0, restore_priority=0)
 
    
 label meet_beggar_event(event):
@@ -75,19 +75,25 @@ label creatures_beach_event(event):
     
 label found_money_event(event):
     python:
-        amount = randint(10, 100) + hero.level*2 + max(10, hero.luck*4)
+        amount = randint(10, 20) + max(10, hero.luck)
         renpy.show("_tag", what=Text("%d"%amount, style="back_serpent", color=gold, size=40, bold=True), at_list=[found_cash(150, 600, 4)])
-        hero.say(choice(["Yey! Some money!", "Free Gold, lucky!", "I will not let this go to waste!"]))
+        hero.say(choice(["Some money... Excellent.", "Free gold, nice!", "A few coins! I'm lucky today."]))
         hero.add_money(amount, "Events")
     return
      
 label found_item_event(event):
     python:
         # amount = max(200, (randint(10, 100) + hero.level*2 + max(10, hero.luck*4)))
-        items_pool = list(item for item in items.values() if "Look around" in item.locations)
-        found_item = choice(items_pool)
+        if dice(60):
+            items_pool = list(item for item in items.values() if "Look around" in item.locations and dice(item.chance))
+            found_item = choice(items_pool)
+        else:
+            found_item = items["Rebels Leaflet"]
         renpy.show("_tag", what=ProportionalScale(found_item.icon, 100, 100), at_list=[found_cash(150, 600, 4)])
-        hero.say(choice(["Yey! Found something! ([found_item.id])", "[found_item.id] Might be useful!", "[found_item.id]! Lucky?", "-[found_item.id]- Never look a gift horse in the mouth :)"]))
+        if found_item != items["Rebels Leaflet"]:
+            hero.say(choice(["Hmm. I found something. ([found_item.id])", "[found_item.id] might be useful...", "[found_item.id]? Nice, might be useful.", "Oh, [found_item.id]! Never look a gift horse in the mouth..."]))
+        else:
+            hero.say("An old prewar leaflet... I probably shouldn't keep it in my pockets for long.")
         hero.inventory.append(found_item)
     return
         

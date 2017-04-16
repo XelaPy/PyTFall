@@ -29,7 +29,7 @@
     "slot": "amulet",
     "max": {"joy": -10, "character": -10},
     "mod": {"attack": -20, "defence": -20, "agility": -10, "character": -25},
-    "locations": ["General Store", "Look around"],
+    "locations": ["General Store"],
     "goodtraits": ["Masochist"]
     },
     {
@@ -66,7 +66,7 @@
     "max": {"charisma": 5},
     "mod": {"charisma": 10},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0]},
-    "locations": ["General Store", "Look around"]
+    "locations": ["General Store"]
     },
     {
     "id": "Pearl Necklace",
@@ -216,7 +216,7 @@
     "infinite": false,
     "slot": "amulet",
     "mod": {"luck": 5},
-    "locations": ["Witches Hut", "Look around"]
+    "locations": ["Witches Hut"]
     },
     {
     "id": "Health Charm",
@@ -231,7 +231,7 @@
     "infinite": false,
     "slot": "amulet",
     "max": {"health": 25},
-    "locations": ["Witches Hut", "Look around"]
+    "locations": ["Witches Hut"]
     },
     {
     "id": "Mana Charm",
@@ -246,7 +246,7 @@
     "infinite": false,
     "slot": "amulet",
     "max": {"mp": 25},
-    "locations": ["Witches Hut", "Look around"]
+    "locations": ["Witches Hut"]
     },
     {
     "id": "Warm Scarf",

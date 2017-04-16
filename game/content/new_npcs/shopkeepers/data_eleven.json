@@ -1,0 +1,33 @@
+[
+    {
+        "id": "Eleven",
+        "name": "Eleven",
+        "desc": "Ancient golem put in charge of Pytfall's archives.",
+        "origin": "PyTFall",
+        
+        "base_race": "Android",
+        "gender": "male",
+        "race": "Golem",
+        "height": "tall",
+        "location": "city",
+        "status": "free",
+        "gold": 5000,
+        "color": "palevioletred",
+        "what_color": "palevioletred",
+        
+        "level": 100,
+        "basetraits": ["Mage"],
+
+        "blocked_traits": [
+        
+        ],
+        "ab_traits": [
+        
+        ],
+        
+
+        "attack_skills": [
+            "Blunt Strike"
+        ]
+    }
+]

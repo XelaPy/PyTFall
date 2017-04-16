@@ -313,7 +313,7 @@
     "type": "armor",
     "max": {"defence": 10},
     "mod": {"defence": 5},
-    "locations": ["Work Shop", "Look around"]
+    "locations": ["Work Shop"]
     },
     {
     "id": "Tanned Leather Boots",

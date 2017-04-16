@@ -193,7 +193,7 @@ init -9 python:
                             pytfall.sm.blue_girls[self.worker] = 0
                             self.remove_prisoner(set_location=False)
                         else:
-                            hero.give_money(self.get_fees4captured(), reason="Jail Fees")
+                            hero.add_money(self.get_fees4captured(), reason="Jail Fees")
                             renpy.call_screen('message_screen', "You don't have enough money for upfront payment for Blue's services!")
                 else:
                     renpy.call_screen('message_screen', "You don't have enough money!")

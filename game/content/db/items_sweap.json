@@ -269,7 +269,7 @@
     "max": {"defence": 15, "agility": 10},
     "mod": {"defence": 10},
     "defence_multiplier": {"melee": 0.05, "ranged": 0.05},
-    "locations": ["Work Shop", "Look around"]
+    "locations": ["Work Shop"]
     },
     {
     "id": "Wooden Shield",

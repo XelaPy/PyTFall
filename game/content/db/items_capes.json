@@ -128,7 +128,7 @@
     "type": "dress",
     "max": {"charisma": 2},
     "mod": {"charisma": 5},
-    "locations": ["Tailor Store", "Look around"]
+    "locations": ["Tailor Store"]
     },
     {
     "id": "Linen Cape",

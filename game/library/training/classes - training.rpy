@@ -1789,7 +1789,7 @@ init -9 python:
                     return True, self.ESCAPED
 
                 # If girl is too injured to fight
-                elif girl.health < 40 or girl.vitality < 40:
+                elif girl.health < girl.get_max("health")*0.25 or girl.vitality < girl.get_max("vitality")*0.25 :
                     # Girl was caight without fighting
                     return False, self.CAUGHT
 

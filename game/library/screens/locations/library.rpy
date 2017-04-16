@@ -126,9 +126,9 @@ init python:
         return books
         
 label academy_town:
-    
     $ gm.enter_location(badtraits=["Adventurous", "Slime", "Monster"], curious_priority=True, has_tags=["sfw", "schoolgirl"])
-    
+    $ e = npcs["Eleven"].say
+    $ npcs["Eleven"].override_portrait("portrait", "indifferent")
     if not "library" in ilists.world_music:
         $ ilists.world_music["library"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("library")]
         
@@ -142,12 +142,25 @@ label academy_town:
         if pytfall.world_actions.location("academy_town"):
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.add("library_matrix", "Read the books", Jump("library_read_matrix"))
+            pytfall.world_actions.add("eleven_dialogue", "Find Eleven", Jump("library_eleven_dialogue"))
             pytfall.world_actions.finish()
             
     scene bg academy_town
     with dissolve
+    if not global_flags.flag('visited_library'):
+        $ global_flags.set_flag('visited_library')
+        show expression npcs["Eleven"].get_vnsprite() as npc
+        with dissolve
+        e "{b}Welcome to the archive, [hero.name].{/b}"
+        $ npcs["Eleven"].override_portrait("portrait", "confident")
+        e "{b}Please keep silence to not disturb other visitors.{/b}"
+        $ npcs["Eleven"].override_portrait("portrait", "indifferent")
+        "A tall humanoid with glowing eyes and booming voice greets you at the entrance."
+        "Many years ago city archives were entrusted to him, and since then not a single document was lost. During the last war he single handedly destroyed all threats, preserving the whole building intact."
+        "He also always knows the name of his interlocutor, even if they never met before. This particular trait made him infamous in the city."
+        hide npc with dissolve
+        
     show screen academy_town
-    
     while 1:
 
         $ result = ui.interact()
@@ -162,7 +175,66 @@ label academy_town:
                 hide screen cemetery_entrance
                 jump city
                 
-                
+label library_eleven_dialogue:
+    hide screen academy_town
+    $ e = npcs["Eleven"].say
+    $ npcs["Eleven"].override_portrait("portrait", "indifferent")
+    show expression npcs["Eleven"].get_vnsprite() as npc
+    with dissolve
+    "The golem stands in the center of the hall, resembling a statue. But his head instantly turns to your direction when you approach."
+    e "{b}...{/b}"
+    menu eleven_menu:
+        "Show leaflets" if has_items("Rebels Leaflet", [hero]) and global_flags.flag('player_knows_about_eleven_jobs'):
+            hide npc
+            show expression npcs["Eleven"].show("battle", resize=(800, 600)) as npc
+            with pixellate #TODO: pixellate is not perfect solution, some custom transition may look better
+            $ money = has_items("Rebels Leaflet", [hero])*50
+            "Without a single word, the golem immediately destroys leaflets right in your hands. Still warm ash falls to the floor."
+            hide npc
+            show expression npcs["Eleven"].get_vnsprite() as npc
+            with pixellate
+            $ npcs["Eleven"].override_portrait("portrait", "confident")
+            e "{b}This unit and the city appreciate you services. Keep it up, [hero.name]. Here is your reward, [money] coins.{/b}"
+            $ hero.remove_item("Rebels Leaflet", has_items("Rebels Leaflet", [hero]))
+            $ hero.add_money(money, reason="Items")
+            jump eleven_menu
+        "Sell old books" if has_items("Old Books", [hero]) and global_flags.flag('player_knows_about_eleven_jobs'):
+            $ money = has_items("Old Books", [hero])*15
+            e "{b}I appreciate your concern about the archive collection, [hero.name]. [money] coins should be sufficient.{/b}"
+            $ hero.add_money(money, reason="Items")
+            $ hero.remove_item("Old Books", has_items("Old Books", [hero]))
+            jump eleven_menu
+        "Ask about him":
+            e "{b}This unit was found and activated during excavations in Crossgate city among other units classified amount of time ago. It was eleventh, so it was called Eleven.{/b}"
+            e "{b}After classified amount of time it was bought by Pytfall's government and given the position of Archive Watcher. As the Watcher, this unit is a government official able to enforce rules using any necessary means.{/b}"
+            e "{b}Later it was given the order to join military, but this unit is incapable to rewrite core directives once they were set. Therefore it serves as the Archive Watcher to this day.{/b}"
+            $ npcs["Eleven"].override_portrait("portrait", "confident")
+            e "{b}All other information is classified for civilians.{/b}"
+            $ npcs["Eleven"].override_portrait("portrait", "indifferent")
+            jump eleven_menu
+        "Ask about the archive":
+            e "{b}You are free to read all books presenting here. Do not attempt to damage them or take them out of the building.{/b}"
+            $ npcs["Eleven"].override_portrait("portrait", "confident")
+            e "{b}Currently some books are seized by the government for examination. Please refrain from further questions.{/b}"
+            $ npcs["Eleven"].override_portrait("portrait", "indifferent")
+            jump eleven_menu
+        "Ask about job":
+            e "{b}I am authorized to buy books to expand the archive collection. The archive doesn't need common books, but you may bring any unusual and rare ones.{/b}"
+            $ npcs["Eleven"].override_portrait("portrait", "confident")
+            e "{b}More importantly, I was entrust with the task to clear the city from forbidden propaganda. After the war, lot of leaflets made by rebels left in the city. I am authorized to pay for any prohibited leaflets, which will be destroyed soon after that.{/b}"
+            "At these words his eyes flash brightly, and you can sense his hostility - not towards you, but towards the rebels."
+            $ npcs["Eleven"].override_portrait("portrait", "angry")
+            e "{b}But do handle them with care. One you find one, bring it to me immediately. Otherwise you can be suspected of treason.{/b}"
+            $ npcs["Eleven"].override_portrait("portrait", "indifferent")
+            if not global_flags.flag('player_knows_about_eleven_jobs'):
+                $ global_flags.set_flag('player_knows_about_eleven_jobs')
+            jump eleven_menu
+        "Leave him be":
+            "You step away, and the light in his eyes dims."
+            hide npc with dissolve
+            $ global_flags.set_flag("keep_playing_music")
+            jump academy_town
+            
 screen academy_town():
 
     use top_stripe(True)

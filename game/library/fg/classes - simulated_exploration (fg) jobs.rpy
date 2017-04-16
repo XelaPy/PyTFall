@@ -308,7 +308,7 @@ init python:
             restore = False
             
             for char in self.team:
-                if char.health < 60 or char.vitality < 30 or char.AP < 1:
+                if char.health < char.get_max("health")*0.5 or char.vitality < char.get_max("vitality")*0.5 or char.AP < 1:
                     restore = True
                     break
             
@@ -558,15 +558,15 @@ init python:
             for g in self.team:
                 l = list()
                 
-                if g.health < 75:
+                if g.health < g.get_max("health")*0.5:
                     for inv in invlist:
                         l.extend(g.auto_equip(["health"], inv=inv))
                 
-                if g.vitality < 100:
+                if g.vitality < g.get_max("vitality")*0.5:
                     for inv in invlist:
                         l.extend(g.auto_equip(["vitality"], inv=inv))
                 
-                if g.mp < 30:
+                if g.mp < g.get_max("mp")*0.5:
                     for inv in invlist:
                         l.extend(g.auto_equip(["mp"], inv=inv))
                 

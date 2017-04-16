@@ -15,8 +15,9 @@ label city_events_thugs_robbery:
         t "Hard times, eh... Well, there you go then."
         "He tosses you a few coins."
         t "My mother always told me to help those in need, heh. See ya."
-        $ hero.gold += randint(10,50)
+        $ hero.add_money(randint(10,50))
         hide npc with dissolve
+        jump main_street
     else:
         menu:
             "Give him 200 G?"
@@ -24,7 +25,7 @@ label city_events_thugs_robbery:
                 t "Thank you kindly. Worry not, no one will bother you. For now."
                 $ pytfall.world_events.kill_event("city_events_thugs_robbery_attack")
                 $ register_event("city_events_thugs_robbery", locations=["main_street"], dice=100, trigger_type = "look_around", priority = 50, start_day=day+7, jump=True, times_per_days=(1,3))
-                $ hero.gold -= 200
+                $ hero.take_money(200)
                 jump main_street
             "No":
                 t "It's your choice. Don't blame me if something will happen."
@@ -77,9 +78,9 @@ label city_events_thugs_robbery_lost:
         t "I'm taking you gold to give you a lesson: don't start a battle you can't win, idiot."
     $ g = randint (500, 800)
     if hero.gold < g:
-        $ hero.gold = 0
+        $ hero.take_money(hero.gold)
     else:
-        $ hero.gold -= g
+        $ hero.take_money(g)
     "He walks away."
     jump main_street
             
@@ -116,9 +117,9 @@ label city_events_thugs_robbery_attack:
                     member.health = 1
             g = randint (200, 400)
             if hero.gold < g:
-                hero.gold = 0
+                hero.take_money(hero.gold)
             else:
-                hero.gold -= g
+                hero.take_money(g)
             renpy.jump("city_events_thugs_robbery_attack_lost")
         else:
             for member in your_team:
@@ -134,5 +135,5 @@ label city_events_thugs_robbery_attack_lost:
 label city_events_thugs_robbery_attack_win:
     scene expression "bg " + scr
     "You found some gold in their pockets before handing them over to the City Guards."
-    $ hero.gold += randint(10,40)
+    $ hero.add_money(randint(10,40))
     jump expression scr
