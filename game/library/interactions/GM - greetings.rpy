@@ -980,3 +980,85 @@ label interactions_invite_to_beach: # used in hidden village atm, will be useful
         $ rc("How about it? Do you like my swimsuit? It wasn't easy to pick a good one, you know.", "Come on, let's swim together! I bet the water feels nice! ♪")
     $ char.restore_portrait()
     return
+    
+label interactions_bad_goodbye: # character leaves with bad disposition
+    $ char.override_portrait("portrait", "indifferent")
+    if ct("Impersonal"):
+        $ rc("This is farewell. I can't stand you any longer.", "It's over. I'm leaving. I never want to see you again.")
+    elif ct("Shy"):
+        $ rc("I-I'm sorry. I can't stay here anymore. Goodbye!", "I guess it couldn't be helped... Haah, I can finally relax...")
+    elif ct("Imouto"):
+        $ rc("Alright, I'm leaving. I don't want to hear any complaints, okay?", "Hey, could you not get involved with me anymore? Goodbye.") 
+    elif ct("Dandere"):
+        $ rc("This is the end of our partnership. I want nothing more to do with you.", "Our agreement is now done. I want nothing more to do with you.")
+    elif ct("Tsundere"):
+        $ rc("Goodbye. I can't deal with this anymore.", "Ugh... I can't stay here anymore.　Goodbye."),
+    elif ct("Kuudere"):
+        $ rc("Bye. Don't come near me again.", "I am cutting off all connections with you. Goodbye.")
+    elif ct("Kamidere"):
+        $ rc("Oh yeah, I don't need you anymore. See ya.", "Spare me from ever having to be around trash like you again. Goodbye.")
+    elif ct("Bokukko"):
+        $ rc("See ya. Can't stand to be with you for even a moment longer.", "Yeah, about time. Starting now, you and I are strangers!")
+    elif ct("Ane"):
+        $ rc("I don't want to be here any more. Goodbye.", "You and I are now complete strangers. This has already been decided.")
+    elif ct("Yandere"):
+        $ rc("I don't want to see your face anymore. Goodbye.", "I no longer feel like I need to be at your side, so... Farewell.")
+    else:
+        $ rc("I no longer want to stay here. Goodbye.", "We're complete strangers now. Bye.")
+    $ char.restore_portrait()
+    return
+    
+label interactions_good_goodbye: # character leaves with good disposition
+    $ char.override_portrait("portrait", "indifferent")
+    if ct("Impersonal"):
+        $ rc("See you.")
+    elif ct("Shy"):
+        $ rc("S-see you later.")
+    elif ct("Imouto"):
+        $ rc("Bye-bye♪") 
+    elif ct("Dandere"):
+        $ rc("Goodbye then...")
+    elif ct("Tsundere"):
+        $ rc("Fine, see you later."),
+    elif ct("Kuudere"):
+        $ rc("Alright, later...")
+    elif ct("Kamidere"):
+        $ rc("Well, see you then.")
+    elif ct("Bokukko"):
+        $ rc("'kay, see you around!")
+    elif ct("Ane"):
+        $ rc("Goodbye. If you'll excuse me, then...")
+    elif ct("Yandere"):
+        $ rc("Ok, see you next time.")
+    else:
+        $ rc("Alright, see you.")
+    $ char.restore_portrait()
+    return
+    
+label interactions_character_recovers: # char recovers from wound
+    $ char.override_portrait("portrait", "happy")
+    if ct("Impersonal"):
+        $ rc("I apologize for having made you worry about this incident.")
+    elif ct("Shy"):
+        $ rc("Um, what happened to me... Oh, I see...")
+    elif ct("Imouto"):
+        $ char.override_portrait("portrait", "sad")
+        $ rc("I-I was really scared, you know?! Uuh, I was so scared～") 
+    elif ct("Dandere"):
+        $ rc("I'm sorry for making you worry... I'm okay now.")
+    elif ct("Tsundere"):
+        $ rc("What is it? Is it that strange I'm still alive?"),
+    elif ct("Kuudere"):
+        $ rc("I never thought it'd have to come to that...")
+    elif ct("Kamidere"):
+        $ rc("Sorry for worrying you. Don't worry, I'm okay now.")
+    elif ct("Bokukko"):
+        $ rc("Mmm, I'm not really sure what happened, but I'm okay now!")
+    elif ct("Ane"):
+        $ rc("If you never want to go through something like that, be careful.")
+    elif ct("Yandere"):
+        $ rc("I'm alright. Seems like I worried you.", "Fufu, I've had a rather thrilling experience...")
+    else:
+        $ rc("Yeah... I'm okay now. Sorry to make you worried.")
+    $ char.restore_portrait()
+    return
