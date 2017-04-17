@@ -89,7 +89,9 @@ label char_profile:
                                 $ index = (index + 1) % len(girls)
                                 $ char = girls[index]
                             else:
-                                jump girls_profile_end
+                                hide screen char_profile
+                                $ char = hero
+                                jump chars_list
 
                     # elif result[1] == 'buyrank':
                         # # Should prolly move this to the Girl method at some point:
