@@ -73,6 +73,8 @@ label char_profile:
                                 $ char.location = 'slavemarket'
                             else:
                                 if char.disposition >= 0:
+                                    if char.disposition >= 500:
+                                        $ char.disposition -= 50
                                     call interactions_good_goodbye
                                 else:
                                     call interactions_bad_goodbye
