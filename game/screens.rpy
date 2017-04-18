@@ -6,12 +6,17 @@
 #
 # Screen that's used to display adv-mode dialogue.
 # http://www.renpy.org/doc/html/screen_special.html#say
-screen say(who, what, side_image=None, two_window=False):
+screen say(who, what, side_image=None, two_window=False, block=False):
     zorder 10
     # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=0.6) align (0.6, 0.9)
     # add Transform(Text("PyTFaLL", style="earthkid", color=azure, size=70), alpha=0.5) align (0.1, 0.95)
     # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=0.6) align (0.8, 0.98)
     # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=0.6) align (0.9, 0.9
+    if block:
+        button:
+            background Null()
+            xysize (config.screen_width, config.screen_height)
+            action Return()
 
     # Decide if we want to use the one-window or two-window variant.
     if not two_window:
@@ -62,8 +67,8 @@ screen say(who, what, side_image=None, two_window=False):
                 # add interactions_surprised_tr pos 150, 650 yanchor 1.0
             else:
                 add side_image.say_screen_portrait pos 219, 639 anchor .5, .5
-                
-            
+
+
             if side_image.say_screen_portrait_overlay_mode not in [None] + side_image.UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS:
                 timer .0001 action Function(interactions_portraits_overlay.change, side_image.say_screen_portrait_overlay_mode)
                 add interactions_portraits_overlay
@@ -72,7 +77,7 @@ screen say(who, what, side_image=None, two_window=False):
             add interactions_portraits_overlay
     else:
         add SideImage() xalign 0.0 yalign 1.0
-        
+
     # Use the quick menu.
     use quick_menu
 
@@ -83,7 +88,7 @@ screen say(who, what, side_image=None, two_window=False):
 # http://www.renpy.org/doc/html/screen_special.html#choice
 
 screen choice(items):
-    
+
     zorder 15
     modal True
 
@@ -94,7 +99,7 @@ screen choice(items):
         vbox:
             style "menu"
             spacing 2
-            
+
             $ item = items[0][0]
             if item in menu_extensions:
                 for cap, act in menu_extensions.build_choices(item):
@@ -105,9 +110,9 @@ screen choice(items):
                             else:
                                 action act
                             style "menu_choice_button_blue"
-    
+
                             text cap style "menu_choice"
-    
+
                     else:
                         text cap style "menu_caption"
 
@@ -119,13 +124,13 @@ screen choice(items):
                         button:
                             action action
                             style "menu_choice_button"
-    
+
                             text caption style "menu_choice"
-                            
+
                     else:
                         text caption style "menu_caption"
-            
-                        
+
+
 init -2:
     $ config.narrator_menu = True
 
@@ -202,18 +207,18 @@ screen nvl(dialogue, items=None):
 # Screen that's used to display the main menu, when Ren'Py first starts
 # http://www.renpy.org/doc/html/screen_special.html#main-menu
 screen main_menu():
-    
+
     # This ensures that any other menu screen is replaced.
     tag menu
     default prereqs = exist(["content/chars/", "content/rchars/"])
-    
+
     default map_options = ["content/gfx/bg/locations/map_buttons/dark/", "content/gfx/bg/locations/map_buttons/bright/", "content/gfx/bg/locations/map_buttons/gismo/"]
-    
+
     # The background of the main menu.
     # window:
        # style "mm_root"
     add "bg_main"
-        
+
     # $ index = map_options.index(persistent.town_path)
     # button:
         # xalign 0
@@ -222,7 +227,7 @@ screen main_menu():
         # style "blue1"
         # text "<->" color black align (0.5, 0.5) size 15
         # action [SetField(persistent, "town_path", map_options[(index + 1) % len(map_options)]), Jump("_save_reload_game")]
-        
+
     #add AlphaBlend(Text("PyTFall", size=210, font="fonts/earthkid.ttf"), Frame(Null(), 25, 25),  "fire_logo", alpha=True) align (0.02, 0.02)
 
     #$ img = ProportionalScale("content/gfx/interface/icons/arena.png", 60, 60)
@@ -245,18 +250,18 @@ screen main_menu():
                 "one random character .json in the\n"+
                 "{i}game/content/{b}r{/b}chars/{/i} directory.") size 15
     # ===== Animation ===== #
-    
+
     viewport:
         xysize (768, 328)
         pos (514, 100)
         add "mm_clouds" at mm_clouds(768, 0, 50)
         add "mm_clouds" at  mm_clouds(0, -768, 50)
-    
+
     add "eyes" pos (150, 410)
     #add "logo" pos (980, 250)
     add "content/gfx/animations/main_menu/logo/logo1.png" pos (980, 250) # static logo
     add "fog" at fog
-    
+
     # Fire
     viewport:
         xysize (200, 526)
@@ -266,9 +271,9 @@ screen main_menu():
         add "mm_fire" at mm_fire(263, 0, 1.0, 0, 8)
         add "mm_fire" at mm_fire(526, 263, 0, 1, 8)
         add "mm_fire" at mm_fire(426, 163, 0.5, 0, 8)
-        
+
     # The main menu buttons.
-    vbox: 
+    vbox:
         align (0.947, 0.87)
         #add "miku_dance"
         frame:
@@ -286,7 +291,7 @@ screen main_menu():
                     textbutton _("Credits") action Show("credits", transition=ImageDissolve("content/gfx/masks/m02.jpg", 3)) xsize 85 text_size 16
                     textbutton _("Help") action OpenURL("http://www.pinkpetal.org/index.php#c7") xsize 85 text_size 16
                 textbutton _("Quit") action Quit(confirm=False) xalign 0.5
-    
+
 
 screen credits():
     zorder 1
@@ -299,7 +304,7 @@ screen credits():
         textbutton "Hide":
             align(0.5, 0.90)
             action Hide("credits", transition=dissolve)
-            
+
         side "c r":
             area (100, 100, 800, 350)
             viewport id "vp":
@@ -335,8 +340,8 @@ screen credits():
                             text "GonDra:"
                             text "Jaeke:"
                             text "Janmaba:"
-                            
-                            
+
+
                         vbox:
                             text "The main coder and creator of the project"
                             text "Jack of all trades and master of none"
@@ -371,9 +376,9 @@ screen credits():
                             text "PyTom:"
                         vbox:
                             text "RenPy" color orange
-                            
-            vbar value YScrollValue("vp")   
-        
+
+            vbar value YScrollValue("vp")
+
 
 ##############################################################################
 # Navigation
@@ -402,7 +407,7 @@ screen navigation():
         textbutton _("Main Menu") action MainMenu()
         # textbutton _("Help") action Help()
         textbutton _("Quit") action Quit()
-        
+
     key "mousedown_3" action Return()
 
 ##############################################################################
@@ -442,7 +447,7 @@ screen yesno_prompt(message, yes_action, no_action):
     # Right-click and escape answer "no".
     key "game_menu" action no_action
 
-    
+
 ##############################################################################
 # Quick Menu
 #
@@ -474,66 +479,66 @@ init: # Default preference menus, replaces by our own versions:
     # Screens that allow the user to save and load the game.
     # http://www.renpy.org/doc/html/screen_special.html#save
     # http://www.renpy.org/doc/html/screen_special.html#load
-    
+
     # Since saving and loading are so similar, we combine them into
     # a single screen, file_picker. We then use the file_picker screen
     # from simple load and save screens.
-    
+
     screen file_picker():
-    
+
         frame:
             style "file_picker_frame"
-    
+
             has vbox
-    
+
             # The buttons at the top allow the user to pick a
             # page of files.
             hbox:
                 style_group "file_picker_nav"
-    
+
                 textbutton _("Previous"):
                     action FilePagePrevious()
-    
+
                 textbutton _("Auto"):
                     action FilePage("auto")
-    
+
                 textbutton _("Quick"):
                     action FilePage("quick")
-    
+
                 for i in range(1, 9):
                     textbutton str(i):
                         action FilePage(i)
-    
+
                 textbutton _("Next"):
                     action FilePageNext()
-    
+
             $ columns = 2
             $ rows = 4
-    
+
             # Display a grid of file slots.
             grid columns rows:
                 transpose True
                 xfill True
                 style_group "file_picker"
-    
+
                 # Display ten file slots, numbered 1 - 10.
                 for i in range(1, columns * rows + 1):
-                    
+
                     $ file_name = FileSlotName(i, columns * rows)
                     $ file_time = FileTime(i, empty=_("Empty Slot."))
                     $ json_info = FileJson(i, empty= _(""))
                     $ save_name = FileSaveName(i)
-    
+
                     # Each file slot is a button.
                     button:
                         action  FileAction(i)
                         xfill True
-    
+
                         has hbox
-    
+
                         # Add the screenshot.
                         add FileScreenshot(i)
-    
+
                         vbox:
                             spacing 1
                             text "[file_name]. [file_time!t]\n[save_name!t]" xpos 70
@@ -544,154 +549,152 @@ init: # Default preference menus, replaces by our own versions:
                                     if not key.startswith("_"):
                                         $ val = json_info[key]
                                         text "[key]: [val]"
-    
+
                         key "save_delete" action FileDelete(i)
-    
-    
+
+
     screen save():
-    
+
         # This ensures that any other menu screen is replaced.
         tag menu
-    
+
         use navigation
         use file_picker
-    
+
     screen load():
-    
+
         # This ensures that any other menu screen is replaced.
         tag menu
-    
+
         use navigation
         use file_picker
-    
+
     ##############################################################################
     # Preferences
     #
     # Screen that allows the user to change the preferences.
     # http://www.renpy.org/doc/html/screen_special.html#prefereces
-    
+
     screen preferences():
-    
+
         tag menu
-    
+
         # Include the navigation.
         use navigation
-    
+
         # Put the navigation columns in a three-wide grid.
         grid 3 1:
             style_group "prefs"
             xfill True
-    
+
             # The left column.
             vbox:
                 frame:
                     style_group "pref"
                     has vbox
-    
+
                     label _("Display")
                     textbutton _("Window") action Preference("display", "window")
                     textbutton _("Fullscreen") action Preference("display", "fullscreen")
-    
+
                 frame:
                     style_group "pref"
                     has vbox
-    
+
                     label _("Transitions")
                     textbutton _("All") action Preference("transitions", "all")
                     textbutton _("None") action Preference("transitions", "none")
-    
+
                 frame:
                     style_group "pref"
                     has vbox
-    
+
                     label _("Text Speed")
                     bar value Preference("text speed")
-    
+
                 frame:
                     style_group "pref"
                     has vbox
-    
+
                     textbutton _("Joystick...") action Preference("joystick")
-    
-    
+
+
             vbox:
                 frame:
                     style_group "pref"
                     has vbox
-    
+
                     label _("Skip")
                     textbutton _("Seen Messages") action Preference("skip", "seen")
                     textbutton _("All Messages") action Preference("skip", "all")
-    
+
                 frame:
                     style_group "pref"
                     has vbox
-    
+
                     textbutton _("Begin Skipping") action Skip()
-    
+
                 frame:
                     style_group "pref"
                     has vbox
-    
+
                     label _("After Choices")
                     textbutton _("Stop Skipping") action Preference("after choices", "stop")
                     textbutton _("Keep Skipping") action Preference("after choices", "skip")
-    
+
                 frame:
                     style_group "pref"
                     has vbox
-    
+
                     label _("Auto-Forward Time")
                     bar value Preference("auto-forward time")
-    
+
                     if config.has_voice:
                         textbutton _("Wait for Voice") action Preference("wait for voice", "toggle")
-    
+
             vbox:
                 frame:
                     style_group "pref"
                     has vbox
-                    
+
                     label _("Mute")
-                    
+
                     textbutton "Music":
                         action Preference("music mute", "toggle")
                     textbutton "Sound":
                         action Preference("sound mute", "toggle")
-                    
+
                 frame:
                     style_group "pref"
                     has vbox
-    
+
                     label _("Music Volume")
                     bar value Preference("music volume")
-    
+
                 frame:
                     style_group "pref"
                     has vbox
-    
+
                     label _("Sound Volume")
                     bar value Preference("sound volume")
-    
+
                     if config.sample_sound:
                         textbutton _("Test"):
                             action Play("sound", config.sample_sound)
                             style "soundtest_button"
-    
+
                 if config.has_voice:
                     frame:
                         style_group "pref"
                         has vbox
-    
+
                         label _("Voice Volume")
                         bar value Preference("voice volume")
-    
+
                         textbutton _("Voice Sustain") action Preference("voice sustain", "toggle")
                         if config.sample_voice:
                             textbutton _("Test"):
                                 action Play("voice", config.sample_voice)
                                 style "soundtest_button"
-                                
+
         # add Transform("or_dance", alpha=0.7) align(0.02, 0.98)
-
-

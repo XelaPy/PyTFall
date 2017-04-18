@@ -563,18 +563,10 @@ init -1 python: # Constants:
     equipSlotsPositions['ring2'] = [u'Ring', 1.18, 0.6]
 
 init python: # Locking random seed of internal renpys random
-
-    oldrandom_ = renpy.random.random
-
-    def newrandom_():
-        global state_
-
-        rv = oldrandom_()
-        state_ = renpy.random.getstate()
-
+    def locked_random(type, *args, **kwargs):
+        rv = getattr(renpy.random, type)(*args, **kwargs)
+        store.stored_random_seed = renpy.random.getstate()
         return rv
-
-    renpy.random.random = newrandom_
 
 init:
     default SKILLS_MAX = {k:5000 for k in PytCharacter.SKILLS}

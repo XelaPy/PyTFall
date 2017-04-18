@@ -313,6 +313,7 @@ label dev_testing_menu:
     jump mainscreen
 
 label after_load:
-    $ renpy.random.setstate(state_)
+    if hasattr(store, "stored_random_seed"):
+        $ renpy.random.setstate(stored_random_seed)
     stop music
     return
