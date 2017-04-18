@@ -266,6 +266,10 @@ init -999 python:
         """ returns randomly True with given % chance, or False """
         return random.random() * 100 <= percent_chance
 
+    def locked_dice(percent_chance):
+        # Same as above, only using locked seed...
+        return locked_random("random") * 100 <= percent_chance
+
     # "wrapper" around the notify
     def notify(message, style=False):
         if config.developer:
