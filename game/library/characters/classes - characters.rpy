@@ -2939,15 +2939,25 @@ init -9 python:
                         elif self.effects['Drunk']['active'] and self.AP > 0 and not self.effects['Drinker']['active']:
                             self.AP -=1
 
-                for effect in item.addeffects + item.removeeffects:
-                    if (effect in item.addeffects and direction) or (effect in item.removeeffects and not direction):
-                        condition = not self.effects[effect]['active']
-                        func = self.enable_effect
-                    else:
-                        condition = self.effects[effect]['active']
-                        func = self.disable_effect
-                    if condition:
-                        func(effect)
+                for effect in item.addeffects:
+                    if direction and not self.effects[effect]['active']:
+                        self.enable_effect(effect)
+                    elif not direction and self.effects[effect]['active']:
+                        self.disable_effect(effect)
+
+                for effect in item.removeeffects:
+                    if direction and self.effects[effect]['active']:
+                        self.disable_effect(effect)
+
+                # for effect in item.addeffects + item.removeeffects:
+                #     if (effect in item.addeffects and direction) or (effect in item.removeeffects and not direction):
+                #         condition = not self.effects[effect]['active']
+                #         func = self.enable_effect
+                #     else:
+                #         condition = self.effects[effect]['active']
+                #         func = self.disable_effect
+                #     if condition:
+                #         func(effect)
 
             # Jump away from equipment screen if appropriate:
             # if direction and getattr(store, "dummy", None):
