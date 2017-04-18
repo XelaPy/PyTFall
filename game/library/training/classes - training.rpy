@@ -2129,7 +2129,7 @@ init -9 python:
             1 = low chance
             2 = high chance
             """
-            return (renpy.random.random() * (2 - location.security_mult())) * modifier
+            return (random.random() * (2 - location.security_mult())) * modifier
 
         def next_day(self):
             """

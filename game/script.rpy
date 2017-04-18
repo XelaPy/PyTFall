@@ -1,5 +1,6 @@
 ﻿label start:
     # Trying to fix Git...
+    $ renpy.random.seed(oldrandom_()) # Ensuring locked seed
 
     $ renpy.block_rollback()
     if config.debug:
@@ -312,5 +313,6 @@ label dev_testing_menu:
     jump mainscreen
 
 label after_load:
+    $ renpy.random.setstate(state_)
     stop music
     return

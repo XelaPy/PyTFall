@@ -562,6 +562,20 @@ init -1 python: # Constants:
     equipSlotsPositions['ring1'] = [u'Ring', 1.18, 0.4]
     equipSlotsPositions['ring2'] = [u'Ring', 1.18, 0.6]
 
+init python: # Locking random seed of internal renpys random
+
+    oldrandom_ = renpy.random.random
+
+    def newrandom_():
+        global state_
+
+        rv = oldrandom_()
+        state_ = renpy.random.getstate()
+
+        return rv
+
+    renpy.random.random = newrandom_
+
 init:
     default SKILLS_MAX = {k:5000 for k in PytCharacter.SKILLS}
     default SKILLS_THRESHOLD = {k:2000 for k in PytCharacter.SKILLS} # Must be exceeded before skills becomes harder to gain.
