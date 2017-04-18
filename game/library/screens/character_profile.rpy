@@ -72,19 +72,24 @@ label char_profile:
                                 $ hero.add_money(int(char.fin.get_price()*0.8), reason="SlaveTrade")
                                 $ char.location = 'slavemarket'
                             else:
+                                if char.disposition >= 0:
+                                    if char.disposition >= 500:
+                                        $ char.disposition -= 50
+                                    call interactions_good_goodbye
+                                else:
+                                    call interactions_bad_goodbye
                                 $ char.location = 'city'
                             python:
                                 hero.remove_char(char)
                                 index = girls.index(char) # Index is not set otherwise???
                                 girls.remove(char)
-                                char.disposition -= 300
                             if char in hero.team:
                                 $ hero.team.remove(char)
                             if girls:
                                 $ index = (index + 1) % len(girls)
                                 $ char = girls[index]
                             else:
-                                jump girls_profile_end
+                                jump char_profile_end
 
                     # elif result[1] == 'buyrank':
                         # # Should prolly move this to the Girl method at some point:
