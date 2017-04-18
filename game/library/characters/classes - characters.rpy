@@ -1795,7 +1795,6 @@ init -9 python:
             self.apply_trait(traits["Neutral"])
 
             self.say = None # Speaker...
-            self.blocked_say = None # Sayer where the Null() bg button prevents PC from interacting with everything else.
 
         def __getattr__(self, key):
             stats = self.__dict__.get("stats", {})
@@ -3482,8 +3481,6 @@ init -9 python:
             # add Character:
             if not self.say:
                 self.say = Character(self.nickname, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), **self.say_style)
-            if not self.blocked_say:
-                self.blocked_say = Character(self.nickname, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), show_block=True, **self.say_style)
 
             # Stats log:
             self.log_stats()
@@ -4259,7 +4256,6 @@ init -9 python:
 
             # add Character:
             self.say = Character(self.nickname, show_two_window=True, show_side_image=self, **self.say_style)
-            self.blocked_say = Character(self.nickname, show_two_window=True, show_side_image=self, show_block=True, **self.say_style)
 
             self.say_screen_portrait = DynamicDisplayable(self._portrait)
             self.say_screen_portrait_overlay_mode = None

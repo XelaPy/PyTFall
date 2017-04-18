@@ -227,7 +227,6 @@ label dev_testing_menu:
                 af_pics = mc_pics
                 del mc_pics
                 hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(120, 120)))
-                hero.blocked_say = Character(hero.nickname, color=ivory, show_two_window=True, show_block=True, show_side_image=hero.show("portrait", resize=(120, 120)))
                 hero.restore_ap()
                 hero.log_stats()
     else:

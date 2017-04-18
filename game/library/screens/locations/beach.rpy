@@ -6,43 +6,43 @@ label city_beach:
     if not global_flags.has_flag("keep_playing_music"):
         play world choice(ilists.world_music["beach_main"])
     $ global_flags.del_flag("keep_playing_music")
-
+    
     python:
         # Build the actions
         if pytfall.world_actions.location("city_beach"):
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
-
+    
     scene bg city_beach
     with dissolve
     show screen city_beach
-
+    
     if not global_flags.flag('visited_city_beach'):
         $ global_flags.set_flag('visited_city_beach')
-        blocked_narrator "Welcome to the beach!"
-        blocked_narrator "Sand, sun and girls in bikinis, what else did you expect?"
-        blocked_narrator "Oh, we might have a kraken hiding somewhere as well :)"
+        "Welcome to the beach!"
+        "Sand, sun and girls in bikinis, what else did you expect?"
+        "Oh, we might have a kraken hiding somewhere as well :)"
 
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
-
+    
     while 1:
         $ result = ui.interact()
-
+        
         if result[0] == 'jump':
             $ gm.start_gm(result[1])
-
+        
         if result[0] == 'control':
             if result[1] == 'return':
                 hide screen city_beach
                 jump city
-
-
+                
+                
 screen city_beach():
-
+    
     use top_stripe(True)
-
+    
     # Jump buttons:
     $ img = im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80)
     imagebutton:
@@ -51,14 +51,14 @@ screen city_beach():
         idle (img)
         hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
         action [Hide("city_beach"), Jump("city_beach_right")]
-
+        
     $ img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
     imagebutton:
         align (0.01, 0.5)
         idle (img)
         hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
         action [Hide("city_beach"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_beach_left")]
-
+    
     use location_actions("city_beach")
     $ img_pool = ProportionalScale("content/gfx/interface/icons/swimming_pool.png", 60, 60)
     imagebutton:
@@ -66,7 +66,7 @@ screen city_beach():
         idle (img_pool)
         hover (im.MatrixColor(img_pool, im.matrix.brightness(0.15)))
         action [Hide("city_beach"), Jump("swimming_pool")]
-
+        
     $ img_beach_swim = ProportionalScale("content/gfx/interface/icons/sp_swimming.png", 90, 90)
     imagebutton:
         pos(280, 240)
@@ -74,19 +74,19 @@ screen city_beach():
         hover (im.MatrixColor(img_beach_swim, im.matrix.brightness(0.15)))
         action [Hide("city_beach"), Show("city_beach_swim"), With(dissolve)]
 
-
+        
     if gm.show_girls:
-
+    
         add "content/gfx/images/bg_gradient.png" yalign 0.2
-
+        
         hbox:
             align(0.5, 0.3)
             spacing 70
-
+            
             for entry in gm.display_girls():
-                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
 
-
+                
 screen city_beach_swim():
     frame:
         xalign 0.95
@@ -114,9 +114,9 @@ screen city_beach_swim():
                 yalign 0.5
                 action [Hide("city_beach_swim"), Show("city_beach"), With(dissolve)]
                 text "Leave" size 15
-
-label city_beach_swimming_checks:
-
+                
+label city_beach_swimming_checks:   
+    
     if not global_flags.flag('swam_city_beach'):
         $ global_flags.set_flag('swam_city_beach')
         $ hero.set_flag("constitution_bonus_from_swimming_at_beach", value=0)
@@ -136,7 +136,7 @@ label city_beach_swimming_checks:
             call hero_ocean_skill_checks
     $ global_flags.set_flag("keep_playing_music")
     jump city_beach
-
+    
 label hero_ocean_skill_checks:
     $ hero.AP -= 1
     if dice(20):
@@ -214,17 +214,17 @@ label city_beach_monsters_fight:
     else:
         jump game_over
     jump city_beach
-
+        
 transform alpha_dissolve:
     alpha 0.0
     linear 0.5 alpha 1.0
     on hide:
         linear 0.5 alpha 0
-
+    
 screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
     default oxigen = o2
     default max_oxigen = max_o2
-
+    
     timer .1 repeat True action If(oxigen > 0, true=SetScreenVariable('oxigen', oxigen - 1), false=(Hide("diving_progress_bar"), Return("All out of Air!")))
     key "mousedown_3" action (Hide("diving_progress_bar"), Return("Swim Out"))
     if config.debug:
@@ -232,7 +232,7 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
             xalign .5
             text str(oxigen)
             text str(max_oxigen)
-
+    
     bar:
         right_bar im.Scale("content/gfx/interface/bars/oxigen_bar_empty.png", 300, 50)
         left_bar im.Scale("content/gfx/interface/bars/oxigen_bar_full.png", 300, 50)
@@ -241,7 +241,7 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
         thumb None
         xysize (300, 50)
         at alpha_dissolve
-
+    
 label city_beach_diving_checks:
     if not global_flags.flag('diving_city_beach'):
         $ global_flags.set_flag('diving_city_beach')
@@ -264,12 +264,12 @@ label city_beach_diving_checks:
         $ i = int(hero.get_skill("swimming")+1) + 50
     else:
         $ i = int(hero.get_skill("swimming")+1)
-
+    
     if has_items("Underwater Lantern", [hero]):
         $ j = 90
     else:
         $ j = 60
-
+        
     show screen diving_progress_bar(i, i)
     while hero.vitality > 10:
         if not renpy.get_screen("diving_progress_bar"):
@@ -277,12 +277,12 @@ label city_beach_diving_checks:
             "You've ran out of air! (health -10)"
             $ hero.health -= 10
             jump city_beach
-
+        
         $ underwater_loot = tuple([choice(list(i for i in items.values() if "Diving" in i.locations and dice(i.chance)) or [False]), (j, j), (random.random(), random.random())] for i in range(4))
         show screen hidden_area(underwater_loot)
-
+        
         $ result = ui.interact()
-
+        
         if result == "All out of Air!":
             hide screen hidden_area
             "You've ran out of air! {color=[red]}(health -10)"
@@ -292,7 +292,7 @@ label city_beach_diving_checks:
             hide screen hidden_area
             "You return to the surface before you run our of air."
             jump city_beach
-
+        
         if isinstance(result, Item):
             hide screen hidden_area
             $ item = result
@@ -303,9 +303,9 @@ label city_beach_diving_checks:
             hide expression our_image with dissolve
         else:
             $ hero.say("There is nothing there.")
-
-        $ hero.vitality -= randint(10, 20)
-
+            
+        $ hero.vitality -= randint(10, 20) 
+        
     hide screen hidden_area
     hide screen diving_progress_bar
     "You're too tired to continue!"
