@@ -255,7 +255,7 @@
                     if char.stats.is_stat(key):
                         char.mod_stat(key, value)
                     elif char.stats.is_skill(key):
-                        setattr(char, key, value)
+                        char.mod_skill(key, value)
 
         def update_loc_data(self):
             """Settles dirt, rep and fame for buildings."""
@@ -1558,13 +1558,13 @@
             """Rests the worker.
             """
             worker.disable_effect('Exhausted')  # rest immediately disables the effect and removes its counter
-            
+
             # at first we set excluded tags
             if (worker.disposition >= 500) or ("Exhibitionist" in worker.traits) or check_lovers(worker, hero):
                 kwargs = dict(exclude=["dungeon", "angry", "in pain", "after sex", "group", "normalsex", "bdsm"], add_mood=False) # with not too low disposition nude pics become available during rest
             else:
                 kwargs = dict(exclude=["dungeon", "nude", "angry", "in pain", "after sex", "group", "normalsex", "bdsm"], add_mood=False)
-            
+
             # if vitality is really low, they try to sleep, assuming there is a sleeping picture
             if worker.vitality < worker.get_max("vitality")*0.2 and worker.has_image("sleeping", **kwargs):
                 log.img = worker.show("sleeping", resize=(740, 685), **kwargs)
@@ -1668,7 +1668,7 @@
             else:
                 vit_amount = randint(20, 30) + int(worker.get_max("vitality")*0.3)
             log.logws('vitality', vit_amount)
-            
+
             for i in range(worker.AP): # every left AP gives additional health, mp and joy
                 log.logws('health', randint(5, 10))
                 log.logws('mp', randint(5, 10))

@@ -59,9 +59,8 @@ init -11 python:
                 setattr(mob, i, data[i])
 
         for skill, value in data.get("skills", {}).iteritems():
-            if skill.lower() in skills:
-                setattr(mob, skill.lower(), value*(2/3.0))
-                setattr(mob, skill.capitalize(), value*(1/3.0))
+            if mob.stats.is_skill(skill):
+                mob.stats.mod_full_skill(skill, value)
             else:
                 devlog.warning(str("Skill: {} for Mob with id: {} is invalid! ".format(skill, id)))
 

@@ -191,8 +191,7 @@ init -11 python:
                             if "skills" in gd:
                                 for skill, value in gd["skills"].items():
                                     if char.stats.is_skill(skill):
-                                        setattr(char, skill.lower(), value*(2/3.0))
-                                        setattr(char, skill.capitalize(), value*(1/3.0))
+                                        char.stats.mod_full_skill(skill, value)
                                     else:
                                         devlog.warning("%s skill is unknown for %s!" % (skill, gd["id"]))
                                 del gd["skills"]

@@ -1185,7 +1185,7 @@ init -9 python:
         def get_skill(self, skill):
             """
             Returns adjusted skill.
-            Action points become less useful as they exceed training points * 3.
+            'Action' skill points become less useful as they exceed training points * 3.
             """
             skill = skill.lower()
             action = self._raw_skill(skill)
@@ -1366,10 +1366,11 @@ init -9 python:
 
                 self.stats[key] = val
 
-        def _mod_raw_skill(self, key, value):
+        def _mod_raw_skill(self, key, value, from__setattr__=True):
             """Modifies a skill.
 
             # DEVNOTE: THIS SHOULD NOT BE CALLED DIRECTLY! ASSUMES INPUT FROM PytCharcter.__setattr__
+            # DEVNOTE: New arg attempts to correct that...
 
             Do we get the most needlessly complicated skills system award? :)
             Maybe we'll simplify this greatly in the future...
@@ -1385,7 +1386,8 @@ init -9 python:
             if current_full_value >= skill_max: # Maxed out...
                 return
 
-            value -= self.skills[key][at]
+            if from__setattr__:
+                value -= self.skills[key][at]
             value *= max(0.5, min(self.skills_multipliers[key][at], 1.5))
 
             threshold = SKILLS_THRESHOLD[key]
@@ -1399,12 +1401,9 @@ init -9 python:
 
         def mod_full_skill(self, skill, value):
             """This spreads the skill bonus over both action and training.
-
-            Only for leveling up, should not be used in game!
             """
-            skill = skill.lower()
-            self.skills[skill][0] += value*.75
-            self.skills[skill][1] += quarter*.25
+            self._mod_raw_skill(skill.lower(), value*(2/3.0), from__setattr__=False)
+            self._mod_raw_skill(skill.capitalize(), value*(1/3.0), from__setattr__=False)
 
         def eval_inventory(self, inventory, weighted, target_stats, target_skills, exclude_on_skills, exclude_on_stats,
                            chance_func=None, min_value=-5, upto_skill_limit=False):
@@ -1918,6 +1917,9 @@ init -9 python:
 
         def mod_stat(self, stat, value):
             self.stats._mod_base_stat(stat, value)
+
+        def mod_skill(self, skill, value):
+            self.stats._mod_raw_skill(key, value, from__setattr__=False)
 
         def get_max(self, stat):
             return self.stats.get_max(stat)
