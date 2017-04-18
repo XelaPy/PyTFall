@@ -172,7 +172,8 @@ label next_day_calculations:
     $ tl.timer("Rest (1)")
     python:
         for c in hero.chars:
-            can_do_work(c, check_ap=True, log=None)
+            if not isinstance(c.action, Rest):
+                can_do_work(c, check_ap=True, log=None)
     $ ndr_chars = list(c for c in hero.chars if c.location != "Exploring" and isinstance(c.action, Rest) and c.AP > 0) # Next Day Resting Chars
     while ndr_chars:
         $ resting_char = ndr_chars.pop()
