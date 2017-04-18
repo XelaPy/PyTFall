@@ -1,7 +1,4 @@
 ﻿label start:
-    # Trying to fix Git...
-    $ renpy.random.seed(oldrandom_()) # Ensuring locked seed
-
     $ renpy.block_rollback()
     if config.debug:
         $ renpy.show_screen("debug_tools", _layer="pytfall")
