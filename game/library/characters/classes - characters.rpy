@@ -3300,7 +3300,7 @@ init -9 python:
         def apply_effects(self, effect):
             '''Called on next day, applies effects'''
             if effect == "Poisoned":
-                self.effects['Poisoned']['duration'] += 1
+                self.effects['Poisoned']['duration'] += 1 # TODO: improve poison logic
                 self.effects['Poisoned']['penalty'] += self.effects['Poisoned']['duration'] * 5
                 if self.health > self.effects['Poisoned']['penalty']:
                     self.health -= self.effects['Poisoned']['penalty']
@@ -3406,8 +3406,7 @@ init -9 python:
                 self.joy -= 10
 
             elif effect == "Exhausted":
-                self.vitality -= 10
-                self.AP -= 1
+                self.vitality -= int(self.get_max("vitality")*0.2)
 
             elif effect == "Lactation": # TO DO: maybe add milking job, like in WM? with much more milk outcome than this effect has
                 if self.health >= 30 and self.vitality >= 30:
