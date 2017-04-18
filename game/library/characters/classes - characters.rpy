@@ -3208,6 +3208,7 @@ init -9 python:
                 self.effects['Injured']['active'] = False
 
             elif effect == "Exhausted":
+                self.effects['Exhausted']['activation_count'] = 0
                 self.effects['Exhausted']['active'] = False
 
             elif effect == "Silly":

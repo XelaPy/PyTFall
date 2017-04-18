@@ -1557,45 +1557,46 @@
         def rest(self, worker, loc, log):
             """Rests the worker.
             """
-            # Stat Mods:
             worker.disable_effect('Exhausted')  # rest immediately disables the effect and removes its counter
-
-            available = list()
-            if (worker.disposition >= 250) or ("Exhibitionist" in worker.traits):
-                kwargs = dict(exclude=["dungeon", "sad", "angry", "in pain", "after sex", "group", "normalsex", "bdsm"], add_mood=False) # with not too low disposition nude pics become available during rest
+            
+            # at first we set excluded tags
+            if (worker.disposition >= 500) or ("Exhibitionist" in worker.traits) or check_lovers(worker, hero):
+                kwargs = dict(exclude=["dungeon", "angry", "in pain", "after sex", "group", "normalsex", "bdsm"], add_mood=False) # with not too low disposition nude pics become available during rest
             else:
-                kwargs = dict(exclude=["dungeon", "sad", "nude", "angry", "in pain", "after sex", "group", "normalsex", "bdsm"], add_mood=False)
-            if worker.has_image("sleeping", **kwargs):
-                available.append("sleeping")
-            if worker.has_image("reading", **kwargs):
-                available.append("reading")
-            if worker.vitality > 50:
-                if worker.has_image("shopping", **kwargs) and (worker.gold >= 200): # eventually there should be a real existing event about going to shop and buy a random item there for gold. after all we do have an algorithm for that. but atm it might be broken, so...
-                    available.append("shopping")
-                if "Nymphomaniac" in worker.traits and worker.disposition >= 300: # if we'll have some kind of high libido flags, they could be used here too
-                    if worker.has_image("masturbation", **kwargs):
-                        available.append("masturbation")
-            if worker.vitality > 150:
-                if worker.has_image("sport", **kwargs):
-                    available.append("sport")
-                if worker.has_image("exercising", **kwargs):
-                    available.append("exercising")
-            if worker.has_image("eating", **kwargs):
-                available.append("eating")
-            if worker.has_image("bathing", **kwargs):
-                available.append("bathing")
-            if worker.has_image("rest", **kwargs):
-                available.append("rest") # there always will be a simple rest, providing non-empty list. The only exception is a lack of any non nude pics, in which case we will allow to them with any disposition
-            if not(available):
-                if worker.has_image("rest"):
+                kwargs = dict(exclude=["dungeon", "nude", "angry", "in pain", "after sex", "group", "normalsex", "bdsm"], add_mood=False)
+            
+            # if vitality is really low, they try to sleep, assuming there is a sleeping picture
+            if worker.vitality < worker.get_max("vitality")*0.2 and worker.has_image("sleeping", **kwargs):
+                log.img = worker.show("sleeping", resize=(740, 685), **kwargs)
+                log.append("{} is too tired to do anything but sleep at her free time.".format(worker.name))
+            else:
+            # otherwise we build a list of usable tags
+                available = list()
+
+                if worker.has_image("sleeping", **kwargs):
+                    available.append("sleeping")
+                if worker.has_image("reading", **kwargs):
+                    available.append("reading")
+                if worker.vitality >= worker.get_max("vitality")*0.3: # not too tired for more active rest
+                    if worker.has_image("shopping", **kwargs) and (worker.gold >= 200): # eventually there should be a real existing event about going to shop and buy a random item there for gold. after all we do have an algorithm for that. but atm it might be broken, so...
+                        available.append("shopping")
+                    if "Nymphomaniac" in worker.traits or worker.effects['Horny']['active']:
+                        if worker.has_image("masturbation", **kwargs):
+                            available.append("masturbation")
+                if worker.vitality >= worker.get_max("vitality")*0.5: # not too tired for sport stuff
+                    if worker.has_image("sport", **kwargs):
+                        available.append("sport")
+                    if worker.has_image("exercising", **kwargs):
+                        available.append("exercising")
+                if worker.has_image("eating", **kwargs):
+                    available.append("eating")
+                if worker.has_image("bathing", **kwargs):
+                    available.append("bathing")
+                if worker.has_image("rest", **kwargs):
                     available.append("rest")
-                else:
+                if not(available):
                     available.append("profile", exclude=["sad", "angry", "in pain"]) # no rest at all? c'mon...
 
-            if ("sleeping" in available) and (worker.vitality <= worker.get_max("vitality")*0.15):
-                    log.img = worker.show("sleeping", resize=(740, 685), **kwargs)
-                    log.append("{} is too tired to do anything but sleep at her free time.".format(worker.name))
-            else:
                 log.img = worker.show(choice(available), resize=(740, 685), **kwargs)
                 image_tags = log.img.get_image_tags()
                 if "sleeping" in image_tags:
@@ -1609,7 +1610,7 @@
                         log.append("{} takes a small nap during her free time.".format(worker.name))
                 elif "masturbation" in image_tags:
                     log.append(choice(["{} has some fun with herself during her free time.".format(worker.name),
-                                                 "{} is relieving her sexual tension at free time.".format(worker.name)]))
+                                                 "{} is relieving her sexual tension at the free time.".format(worker.name)]))
                 elif "onsen" in image_tags:
                     log.append("{} relaxes in the onsen. The perfect remedy for stress!".format(worker.name))
                 elif "reading" in image_tags:
@@ -1661,14 +1662,16 @@
             if not log.img:
                 log.img = worker.show("rest", resize=(740, 685))
 
-            # Resting effects (Must be calculated over AP so not to allow anything going to waste):
-            for i in range(worker.AP):
-                log.logws('health', randint(2, 3))
-                if worker.effects['Drowsy']['active']:
-                    log.logws('vitality', (randint(15, 30)))
-                else:
-                    log.logws('vitality', (randint(7, 15)))
-                log.logws('mp', randint(1, 3))
+            # Resting effects (Must be calculated over AP so not to allow anything going to waste, however AP themselves cannot restore vitality):
+            if worker.effects['Drowsy']['active']:
+                vit_amount = randint(25, 35) + int(worker.get_max("vitality")*0.4)
+            else:
+                vit_amount = randint(20, 30) + int(worker.get_max("vitality")*0.3)
+            log.logws('vitality', vit_amount)
+            
+            for i in range(worker.AP): # every left AP gives additional health, mp and joy
+                log.logws('health', randint(5, 10))
+                log.logws('mp', randint(5, 10))
                 log.logws('joy', randint(1, 2))
                 worker.AP -= 1
 
