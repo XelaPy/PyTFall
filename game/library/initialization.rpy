@@ -581,6 +581,8 @@ init:
     default girls = None
     default reset_building_management = True
 
+    define blocked_narrator = Character("", show_block=True)
+
 init 999 python:
     # ensure that all initialization debug messages have been written to disk
     devlogfile.flush()
