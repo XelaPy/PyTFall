@@ -329,6 +329,7 @@ screen credits():
                             text "Matt:"
                             text "Xipomus:"
                             text "Longint:"
+                            text "Thewlis:"
                             text "Picobyte:"
                             null height 10
                             text "Armegetton:"
@@ -353,6 +354,7 @@ screen credits():
                             text "Code contributions, python consulting"
                             text "Code and content contributions, rendering"
                             text "Code contributions"
+                            text "Advanced code contributions"
                             text "Advanced code contributions, rendering"
                             null height 10
                             text "Writing"
