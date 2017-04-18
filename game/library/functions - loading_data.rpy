@@ -14,10 +14,10 @@ init 11 python:
                 if "moviemask" in file: # rare cases when movie itself is also the mask
                     webms.setdefault(folder, {})["movie"] = path
                     webms.setdefault(folder, {})["mask"] = path
-        
+
         for folder in webms:
             temp = folder.split(" ")
-            
+
             tag = temp[0]
             channel = temp[2] if len(temp) == 3 else "main_gfx_attacks"
             loops = temp[1] if len(temp) >= 2 else 1
@@ -26,7 +26,7 @@ init 11 python:
             else:
                 loops = int(loops)
                 renpy.image(tag, MovieLooped(channel=channel, loops=loops, play=webms[folder]["movie"], mask=webms[folder].get("mask", None)))
-                
+
     load_webms()
 
 init -11 python:
@@ -35,12 +35,12 @@ init -11 python:
         with open(content_path("db/names/team_names.json")) as f:
             rn = json.load(f)
         return random.sample(rn, amount)
-        
+
     def load_male_first_names(amount):
         with open(content_path("db/names/male_first_names.json")) as f:
             rn = json.load(f)
         return random.sample(rn, amount)
-    
+
     def load_female_first_names(amount):
         with open(content_path("db/names/female_first_names_1.json")) as f:
             rn1 = json.load(f)
@@ -48,17 +48,17 @@ init -11 python:
             rn2 = json.load(f)
         rn = rn1 + rn2
         return random.sample(rn, amount)
-        
+
     def load_random_last_names(amount):
         with open(content_path("db/names/last_names.json")) as f:
             rn = json.load(f)
         return random.sample(rn, amount)
-        
+
     def load_mc_images():
         dir = content_path("gfx/sprites/mc")
         dirlist = os.listdir(dir)
         content = OrderedDict()
-        
+
         for folder in dirlist:
             content[folder] = dict()
             for file in os.listdir('/'.join([dir, folder])):
@@ -69,24 +69,24 @@ init -11 python:
                 else:
                     content[folder][tag] = list()
                     content[folder][tag].append(path)
-                    
-        return content            
-    
+
+        return content
+
     def load_characters(path, cls):
         """Loads a Full character from JSON file.
-        
+
         path: Path to main folder.
         class: Class to use in creating the character.
-        
+
         This will walk through folders inside of a folder where the path leads, looking for JSONs and reading image tags off file names.
         """
         dir = content_path(path)
         dirlist = os.listdir(dir)
         content = dict()
-        
+
         tagdb = store.tagdb
         tags_dict = store.tags_dict
-        
+
         for packfolder in dirlist:
             kind = None
             if os.path.isdir('/'.join([dir, packfolder])):
@@ -106,18 +106,18 @@ init -11 python:
 
                         # Apply the content of the file to the character:
                         for gd in ugirls: # We go over each dict one mainaining correct order of application:
-                            
+
                             char = cls()
-                            
+
                             if "id" not in gd:
                                 # Only time we throw an error instead of writing to log.
                                 raise Exception("No id was specified in %s JSON Datafile!" % str(in_file))
                             char.id = gd["id"]
-                            
+
                             # Check if there is a gender:
                             if "gender" in gd:
                                 char.gender = gd["gender"]
-                            
+
                             # @Review: We make sure all traits get applied first!
                             for key in ("blocked_traits", "ab_traits"):
                                 if key in gd:
@@ -128,7 +128,7 @@ init -11 python:
                                         else:
                                             devlog.warning("%s trait is unknown for %s (In %s)!" % (t, gd["id"], key))
                                     setattr(char.traits, key, _traits)
-                                    
+
                             # Get and normalize basetraits:
                             if "basetraits" in gd:
                                 basetraits = set()
@@ -138,18 +138,18 @@ init -11 python:
                                             basetraits.add(traits[trait])
                                         else:
                                             devlog.warning("%s besetrait is unknown for %s!" % (trait, gd["id"]))
-                                            
+
                                 if len(basetraits) > 2:
                                     while len(basetraits) > 2:
                                         basetraits.pop()
-                                        
+
                                 # In case that we have basetraits:
                                 if basetraits:
                                     char.traits.basetraits = basetraits
-                                
+
                                 for trait in char.traits.basetraits:
                                     char.apply_trait(trait)
-                                    
+
                             for key in ("personality", "breasts", "body", "race"):
                                 if key in gd:
                                     trait = gd[key]
@@ -157,26 +157,26 @@ init -11 python:
                                         char.apply_trait(traits[trait])
                                     else:
                                         devlog.warning("%s %s is unknown for %s!" % (trait, key, gd["id"]))
-                                    
+
                             if "elements" in gd:
                                 for trait in gd["elements"]:
                                     if trait in traits:
                                         char.apply_trait(traits[trait])
                                     else:
                                         devlog.warning("%s element is unknown for %s!" % (trait, gd["id"]))
-                                        
+
                             if "traits" in gd:
                                 for trait in gd["traits"]:
                                     if trait in traits:
                                         char.apply_trait(traits[trait])
                                     else:
                                         devlog.warning("%s trait is unknown for %s!" % (trait, gd["id"]))
-                                
+
                             # Leveling up:
                             if "level" in gd:
                                 initial_levelup(char, gd["level"])
                                 del gd["level"]
-                                
+
                             if "stats" in gd:
                                 for stat in gd["stats"]:
                                     if stat in char.STATS:
@@ -187,24 +187,23 @@ init -11 python:
                                     else:
                                         devlog.warning("%s stat is unknown for %s!" % (stat, gd["id"]))
                                 del gd["stats"]
-                                
+
                             if "skills" in gd:
-                                for skill in gd["skills"]:
-                                    if skill in char.stats.skills:
-                                        value = gd["skills"][skill]
-                                        setattr(char, skill.lower(), value * (2/3.0))
-                                        setattr(char, skill.capitalize(), value * (1/3.0))
+                                for skill, value in gd["skills"].items():
+                                    if char.stats.is_skill(skill):
+                                        setattr(char, skill.lower(), value*(2/3.0))
+                                        setattr(char, skill.capitalize(), value*(1/3.0))
                                     else:
                                         devlog.warning("%s skill is unknown for %s!" % (skill, gd["id"]))
                                 del gd["skills"]
-                                
+
                             if "default_attack_skill" in gd:
                                 skill = gd["default_attack_skill"]
                                 if skill in store.battle_skills:
                                     char.default_attack_skill = store.battle_skills[skill]
                                 else:
                                     devlog.warning("%s JSON Loading func tried to apply unknown default attack skill: %s!" % (gd["id"], skill))
-                                
+
                             for key in ("magic_skills", "attack_skills"):
                                 if key in gd:
                                     # Skills can be either a list or a dict:
@@ -218,7 +217,7 @@ init -11 python:
                                             char.__dict__[key].append(skill)
                                         else:
                                             devlog.warning("%s JSON Loading func tried to apply unknown battle skill: %s!" % (gd["id"], skill))
-                                            
+
                             for key in ("color", "what_color"):
                                 if key in gd:
                                     if gd[key] in globals():
@@ -230,11 +229,11 @@ init -11 python:
                                             devlog.warning("{} color supplied to {} is invalid!".format(gd[key], gd["id"]))
                                             color = ivory
                                     char.say_style[key] = color
-                                            
+
                             for key in ("name", "nickname", "fullname", "origin", "gold", "desc", "location", "status", "height", "full_race"):
                                 if key in gd:
                                     setattr(char, key, gd[key])
-                            
+
                             folder = char.id
                             if os.path.isdir("/".join([dir, packfolder, folder])):
                                 # We set the path to the character so we know where to draw images from:
@@ -256,12 +255,12 @@ init -11 python:
                                             tagdb.tagmap[tags_dict[tag]].add(fn)
                                         # Adding filenames to girls id:
                                         tagdb.tagmap.setdefault(folder, set()).add(fn)
-                                        
+
                             char.init() # Normalize!
                             content[char.id] = char
-                                    
+
         return content
-        
+
     def load_crazy_characters():
         # Presently broken...
         dir = content_path("chars")
@@ -276,7 +275,7 @@ init -11 python:
                     if file.endswith(".girlsx"):
                         crazy_folders.add(folder)
                         content.update(load_database("%s/%s/%s" % (dir, folder, file), entity=Char))
-                        
+
                     # if os.path.isdir("/".join([dir, folder, file])):
                         # # We load the new tags!:
                         # for fn in os.listdir("/".join([dir, folder, file])):
@@ -286,7 +285,7 @@ init -11 python:
                                 # fn = fn.split("-")[1:]
                                 # for tag in fn:
                                     # tagdb.tagmap[tags_dict[tag]].add(rp_path)
-                                # tagdb.tagmap.setdefault(file, set()).add(rp_path)  
+                                # tagdb.tagmap.setdefault(file, set()).add(rp_path)
         for folder in crazy_folders:
             if os.path.isdir('/'.join([dir, folder])):
                 for file in os.listdir('/'.join([dir, folder])):
@@ -302,7 +301,7 @@ init -11 python:
                                 elif fn.startswith("anal"):
                                     filetag = "anal"
                                 elif fn.startswith("bdsm"):
-                                    filetag = "bdsm"    
+                                    filetag = "bdsm"
                                 elif fn.startswith("bunny"):
                                     filetag = "bunny"
                                 elif fn.startswith("card"):
@@ -341,9 +340,9 @@ init -11 python:
                                             if tag in all_tags:
                                                 tagdb.tagmap.setdefault(tag, set()).add(rp_path)
                                     tagdb.tagmap.setdefault(file, set()).add(rp_path)
-                                
-                                
-                                
+
+
+
         for key in content:
             for entry in content[key].xml:
                 if entry.tag == 'Trait':
@@ -354,7 +353,7 @@ init -11 python:
             del content[key].__dict__['xml']
             content[key].init()
         # raise Exception, [key.name for key in content.values()]
-            
+
         return content
 
     def load_random_characters():
@@ -362,9 +361,9 @@ init -11 python:
         dirlist = os.listdir(dir)
         random_girls = {}
         tags_dict = store.tags_dict
-        
+
         devlog.info("Loading Random Characters:")
-        
+
         # Loading all rgirls into the game:
         for packfolder in dirlist:
             if os.path.isdir(os.sep.join([dir, packfolder])): #if not packfolder.endswith('.gitignore'):
@@ -383,11 +382,11 @@ init -11 python:
                             if "id" not in gd:
                                 # Only time we throw an error instead of writing to log.
                                 raise Exception("No id was specified in %s JSON Datafile!" % str(in_file))
-                                    
+
                             random_girls[gd["id"]] = gd
-                    
+
                             folder = gd["id"]
-                            
+
                             # Set the path to the folder:
                             random_girls[gd["id"]]["_path_to_imgfolder"] = "/".join(["content/rchars", packfolder, folder])
                             # We load the new tags!:
@@ -400,14 +399,14 @@ init -11 python:
                                         del tags[0]
                                         tags[-1] = tags[-1].split(".")[0]
                                     except IndexError:
-                                        raise Exception("Invalid file path for image: %s" % rp_path)   
+                                        raise Exception("Invalid file path for image: %s" % rp_path)
                                     for tag in tags:
                                         if tag not in tags_dict:
                                             raise Exception("Unknown image tag: %s, path: %s" % (tag, rp_path))
                                         tagdb.tagmap[tags_dict[tag]].add(fn)
                                     # Adding filenames to girls id:
                                     tagdb.tagmap.setdefault(folder, set()).add(fn)
-                                    
+
         return random_girls
 
     def load_arena_fighters():
@@ -432,7 +431,7 @@ init -11 python:
                     f.__dict__[attr] = fighter[attr]
             for stat in stats:
                 f.mod_stat(stat, fighter["stats"][stat])
-            # Get da picz:     
+            # Get da picz:
             dir = content_path("npc/arena")
             for file in os.listdir("/".join([dir, f.name])):
                 tag = file.split(" ")[0]
@@ -442,11 +441,11 @@ init -11 python:
                 else:
                     f.img_db[tag] = list()
                     f.img_db[tag].append(path)
-                
+
             f.init()
             ac[f.name] = f
         return ac
-        
+
     def load_mobs():
         in_file = content_path("db/mobs.json")
         mobs = dict()
@@ -495,7 +494,7 @@ init -11 python:
             t.init()
             tiles[t.id] = t
         return tiles
-        
+
     def load_json(file):
         """
         Directly returns contents of JSON located in db folder
@@ -506,7 +505,7 @@ init -11 python:
 
         jsstor.add("misc", content, in_file)
         return content
-        
+
     def load_traits():
         content = list()
         folder = content_path('db')
@@ -526,7 +525,7 @@ init -11 python:
                 setattr(t, attr, trait[attr])
             traits[t.id] = t
         return traits
-        
+
     def load_fg_areas():
         content = list()
         folder = content_path('db')
@@ -534,7 +533,7 @@ init -11 python:
             if file.startswith("fg_areas") and file.endswith(".json"):
                 in_file = content_path("".join(["db/", file]))
                 with open(in_file) as f:
-                    content.extend(json.load(f))            
+                    content.extend(json.load(f))
                 jsstor.add("fg_areas", content, in_file)
         areas = dict()
         for area in content:
@@ -550,14 +549,14 @@ init -11 python:
         items = dict()
         folder = content_path('db')
         content = list()
-        
+
         for file in os.listdir(folder):
             if file.startswith("items") and file.endswith(".json"):
                 in_file = content_path("".join(["db/", file]))
                 with open(in_file) as f:
                     content.extend(json.load(f))
                 jsstor.add("items", content, in_file)
-                    
+
         for item in content:
             iteminst = Item()
             for attr in item:
@@ -568,7 +567,7 @@ init -11 python:
                     setattr(iteminst, attr, item[attr])
             iteminst.init()
             items[iteminst.id] = iteminst
-            
+
         return items
 
     def load_dungeons():
