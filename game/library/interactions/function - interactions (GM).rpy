@@ -1,6 +1,6 @@
 init -11 python:
     def throw_a_normal_dice(): # throwing a classic dice
-        i = randint(1, 6)
+        i = renpy.random.randint(1, 6)
         return i
         
     def dice_poker_calculate(dice_list): # check combinations for dice poker and calculate relative scores based on them
