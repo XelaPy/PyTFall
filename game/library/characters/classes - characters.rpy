@@ -3198,17 +3198,22 @@ init -9 python:
                 self.effects['Injured']['active'] = False
 
             elif effect == "Exhausted":
-                self.effects['Exhausted']['activation_count'] = 0
-                self.effects['Exhausted']['active'] = False
+                for key in self.effects["Exhausted"]:
+                    if key != "desc":
+                        self.effects["Exhausted"][key] = False
 
             elif effect == "Silly":
                 self.effects['Silly']['active'] = False
 
             elif effect == "Depression":
-                self.effects['Depression']['active'] = False
+                for key in self.effects["Depression"]:
+                    if key != "desc":
+                        self.effects["Depression"][key] = False
 
             elif effect == "Elation":
-                self.effects['Elation']['active'] = False
+                for key in self.effects["Elation"]:
+                    if key != "desc":
+                        self.effects["Elation"][key] = False
 
             elif effect == "Intelligent":
                 self.effects['Intelligent']['active'] = False
