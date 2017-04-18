@@ -2,8 +2,6 @@
 # this rpy handles jumps from special consumables which have jump_to_label field
 #-------------------------------------------------------------------------------
 label special_items_slime_bottle:
-    if not(hero.has_flag("slime_bottle")):
-        $ hero.set_flag("slime_bottle", value=True)
 
     scene bg h_profile with dissolve
 
@@ -15,7 +13,7 @@ label special_items_slime_bottle:
                 $ levels = randint (5,15)
             else:
                 $ levels = randint(15, 25) + hero.level/10
-            if dice(80):
+            if locked_dice(80):
                 $ new_slime = build_rc(id="Slime", level=levels, pattern=choice(["Warrior", "ServiceGirl"])) # TODO: maybe pattern will require updating closer to release
                 $ new_slime.set_status("free")
             else:
@@ -24,7 +22,7 @@ label special_items_slime_bottle:
             
             $ new_slime.disposition += 300
             $ spr = new_slime.get_vnsprite()
-            if hero.flag("slime_bottle"):
+            if locked_dice(50):
                 $ new_slime.override_portrait("portrait", "happy")
                 "The liquid quickly took the form of a girl."
                 show expression spr at center with dissolve
@@ -87,11 +85,6 @@ label special_items_slime_bottle:
             jump char_equip
 
     $ new_slime.restore_portrait()
-
-    if dice(50): # no easy save scumming; the first bottle will always be successful, but every next one will get flag which determines the outcome when previous bottle was opened :P
-        $ hero.set_flag("slime_bottle", value=True)
-    else:
-        $ hero.set_flag("slime_bottle", value=False)
     jump char_equip
 
 label special_items_empty_extractor:
