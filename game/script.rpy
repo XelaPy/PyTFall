@@ -1,5 +1,7 @@
 ﻿label start:
     $ renpy.block_rollback()
+    $ locked_random("random") # Just making sure that we have set the variable...
+
     if config.debug:
         $ renpy.show_screen("debug_tools", _layer="pytfall")
         show screen debug_tools
