@@ -868,8 +868,7 @@ init python:
                             self.girl.stats.max[statmod] += 1
 
                         elif self.girl.stats.is_skill(statmod):
-                            setattr(self.girl, statmod, 1) # Action
-                            setattr(self.girl, statmod.capitalize(), 1) # Training
+                            self.girl.stats.mod_full_skill(statmod, 2)
 
                         self.txt.append("Your girl got an {color=[lawngreen]}extra bonus{/color} in %s with the help of her trainer, this is a rare feat, you should be proud of her! \n"%statmod)
 

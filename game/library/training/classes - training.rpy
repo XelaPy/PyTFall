@@ -1158,7 +1158,8 @@ init -9 python:
                         if girlmod is not None:
                             girlmod[k] = girlmod.get(k, 0) + int(v*mult)
                         else:
-                            setattr(girl, k, int(v*mult))
+                            girl.mod_skill(k, int(v*mult))
+                            # setattr(girl, k, int(v*mult))
 
             if self.min is not None:
                 for k,v in self.min.iteritems():

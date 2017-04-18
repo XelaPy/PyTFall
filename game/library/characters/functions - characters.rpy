@@ -202,8 +202,7 @@ init -11 python:
             for key in d:
                 if key.lower() in Skills:
                     value = randint(d[key][0], d[key][1])
-                    setattr(rg, key.lower(), value * (2/3.0))
-                    setattr(rg, key.capitalize(), value * (1/3.0))
+                    rg.stats.mod_full_skill(key)
                 else:
                     devlog.warning(str("Skill: %s for random girl with id: %s is invalid! "%(key, id)))
 
