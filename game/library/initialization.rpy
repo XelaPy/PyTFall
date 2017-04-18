@@ -580,6 +580,7 @@ init:
     default char_equip = None
     default girls = None
     default reset_building_management = True
+    default block_say = False
 
 init 999 python:
     # ensure that all initialization debug messages have been written to disk

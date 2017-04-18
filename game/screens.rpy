@@ -6,13 +6,13 @@
 #
 # Screen that's used to display adv-mode dialogue.
 # http://www.renpy.org/doc/html/screen_special.html#say
-screen say(who, what, side_image=None, two_window=False, block=False):
+screen say(who, what, side_image=None, two_window=False):
     zorder 10
     # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=0.6) align (0.6, 0.9)
     # add Transform(Text("PyTFaLL", style="earthkid", color=azure, size=70), alpha=0.5) align (0.1, 0.95)
     # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=0.6) align (0.8, 0.98)
     # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=0.6) align (0.9, 0.9
-    if block:
+    if block_say:
         button:
             background Null()
             xysize (config.screen_width, config.screen_height)
