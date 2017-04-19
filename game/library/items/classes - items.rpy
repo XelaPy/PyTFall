@@ -312,7 +312,7 @@ init -9 python:
             self.buy_margin = buy_margin
             # self.target = None # Forgot what the hell tis is supposed to be
             self.visible = visible
-            self.restockday = randint(3, 5)
+            self.restockday = locked_random("randint", 3, 5)
             if not sells:
                 self.sells = set()
             else:
@@ -345,7 +345,7 @@ init -9 python:
                 self.gold += randint(int(self.normal_gold_amount / 10), int(self.normal_gold_amount / 7))
                 if self.gold > self.normal_gold_amount: self.gold = randint(int(self.normal_gold_amount * 1.3), int(self.normal_gold_amount * 1.6))
                 self.restock()
-                self.restockday += randint(3, 7)
+                self.restockday += locked_random("randint", 3, 7)
 
 
     class GeneralStore(ItemShop):
@@ -364,4 +364,4 @@ init -9 python:
                 self.restockday += randint(3, 7)
             else:
                 if self.gold < 15000:
-                    self.gold += randint(16000, 25000)
+                    self.gold += locked_random("randint", 16000, 25000)

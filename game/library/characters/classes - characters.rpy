@@ -3039,7 +3039,7 @@ init -9 python:
             if effect == "Poisoned" and "Artificial Body" not in self.traits:
                 self.effects['Poisoned']['active'] = True
                 self.effects['Poisoned']['duration'] = 0
-                self.effects['Poisoned']['penalty'] = randint(5, 10)
+                self.effects['Poisoned']['penalty'] = locked_random("randint", 5, 10)
 
             elif effect == "Unstable":
                 self.effects['Unstable']['active'] = True
@@ -3106,9 +3106,9 @@ init -9 python:
             elif effect == "Down with Cold":
                 self.effects['Down with Cold']['active'] = True
                 self.effects['Down with Cold']['count'] = day
-                self.effects['Down with Cold']['duration'] = randint(7, 14)
+                self.effects['Down with Cold']['duration'] = locked_random("randint", 6, 14)
                 self.effects['Down with Cold']['health'] = randint(2, 5)
-                self.effects['Down with Cold']['vitality'] = randint(20, 40)
+                self.effects['Down with Cold']['vitality'] = randint(5, 15)
                 self.effects['Down with Cold']['joy'] = randint(2, 5)
                 self.effects['Down with Cold']['healthy_again'] = day + self.effects['Down with Cold']['duration']
 
@@ -3164,7 +3164,7 @@ init -9 python:
                 self.effects['Food Poisoning']['active'] = True
                 self.effects['Food Poisoning']['count'] = day
                 self.effects['Food Poisoning']['health'] = randint(8, 12)
-                self.effects['Food Poisoning']['vitality'] = randint(40, 100)
+                self.effects['Food Poisoning']['vitality'] = randint(10, 25)
                 self.effects['Food Poisoning']['joy'] = randint(8, 12)
                 self.effects['Food Poisoning']['healthy_again'] = day + 2
 
@@ -4001,10 +4001,10 @@ init -9 python:
                 txt += "You've spent a night at your training dungeon."
 
                 if self.AP > 0:
-                    txt += "\nYou've had some Action Points left from the day so you've tried to improve yourself to the very best of your ability to do so! \n"
+                    txt += "\nYou've had some Action Points left from the day so you've tried to improve yourself to the very best of your ability to do so! \n" # probably a bad idea, there are already many ways to increase stats
                     for ap in xrange(self.AP):
                         self.health += randint(5, 10)
-                        self.vitality += randint(50, 70)
+                        self.vitality += randint(20, 35)
                         self.mp += randint(5, 10)
                         for stat in self.STATS:
                             if stat not in ["luck", "alignment", "vitality"]:
@@ -4015,10 +4015,10 @@ init -9 python:
                 txt += "You've comfortably spent a night under the roof of your dwelling."
 
                 if self.AP > 0:
-                    txt += "\nYou've had some Action Points left from the day so you've tried to improve yourself to the very best of your ability to do so! \n"
+                    txt += "\nYou've had some Action Points left from the day so you've tried to improve yourself to the very best of your ability to do so! \n" # probably a bad idea, there are already many ways to increase stats
                     for ap in xrange(self.AP):
                         self.health += randint(5, 10)
-                        self.vitality += randint(50, 70)
+                        self.vitality += randint(35, 50)
                         self.mp += randint(5, 10)
                         for stat in self.STATS:
                             if stat not in ["luck", "alignment", "vitality"]:

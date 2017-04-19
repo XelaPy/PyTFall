@@ -75,7 +75,7 @@ label creatures_beach_event(event):
     
 label found_money_event(event):
     python:
-        amount = randint(10, 20) + max(10, hero.luck)
+        amount = locked_random("randint", 5, 10) + max(0, hero.luck)
         renpy.show("_tag", what=Text("%d"%amount, style="back_serpent", color=gold, size=40, bold=True), at_list=[found_cash(150, 600, 4)])
         hero.say(choice(["Some money... Excellent.", "Free gold, nice!", "A few coins! I'm lucky today."]))
         hero.add_money(amount, "Events")
@@ -83,8 +83,7 @@ label found_money_event(event):
      
 label found_item_event(event):
     python:
-        # amount = max(200, (randint(10, 100) + hero.level*2 + max(10, hero.luck*4)))
-        if dice(60):
+        if locked_dice(60):
             items_pool = list(item for item in items.values() if "Look around" in item.locations and dice(item.chance))
             found_item = choice(items_pool)
         else:

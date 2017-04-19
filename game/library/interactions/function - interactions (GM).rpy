@@ -162,16 +162,16 @@ init -11 python:
     # Interactions (Girlsmeets Helper Functions):
     def interactions_set_repeating_lines_limit(c): # returns the number of character "patience", ie how many repeating lines she's willing to listen in addition to default value
         if check_lovers(c, hero):
-            patience = randint(1,2)
+            patience = locked_random("randint", 1, 2)
         elif check_friends(c, hero):
             patience = 1
         else:
             patience = 0
 
         if "Well-mannered" in c.traits:
-            patience += randint(0,1)
+            patience += locked_random("randint", 0, 1)
         elif "Ill-mannered" in c.traits:
-            patience -= randint(0,1)
+            patience -= locked_random("randint", 0, 1)
         return patience
         
     def interactions_drinking_outside_of_inventory(character, count): # allows to raise activation count and become drunk without using real items

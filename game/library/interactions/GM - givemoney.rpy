@@ -21,7 +21,7 @@ label interactions_giftmoney:
         "You don't have that amount of gold."
         $ del temp
         jump girl_interactions
-    if char.gold >= randint(500, 1000):
+    if char.gold >= locked_random("randint", 500, 1000):
         if round(char.gold/temp) > 5:
             call interactions_not_enough_gold
             $ char.disposition -= (randint(9, 25))
@@ -70,7 +70,7 @@ label interactions_askmoney:
         jump girl_interactions
     "You asked her to help you with money."
     if char.disposition >= 400 or check_lovers(char, hero) or check_friends(char, hero):
-        if char.gold < randint(500, 1000):
+        if char.gold < locked_random("randint", 500, 1000):
             call interactions_girl_is_too_poor_to_give_money
             jump girl_interactions
         elif char.gold > hero.gold*2:

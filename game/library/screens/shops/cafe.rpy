@@ -34,7 +34,7 @@ label cafe:
             members = [] # all chars willing to invite will be in this list
             for member in hero.team:
                 if member != hero:
-                    if member.status == "free" and member.gold >= randint(500, 1000) and member.disposition >= 200 and member.joy >= 30:
+                    if member.status == "free" and member.gold >= locked_random("randint", 500, 1000) and member.disposition >= 200 and member.joy >= 30:
                         members.append(member)
             if members:
                 inviting_character = random.choice(members)
@@ -204,13 +204,13 @@ label cafe_eat_alone:
                 else:
                     $ result_h = 0
                 $ hero.mod_stat("health", result_h)
-                if hero.flag("health_bonus_from_eating_in_cafe") <= 25 and dice(75):
+                if hero.flag("health_bonus_from_eating_in_cafe") <= 25 and locked_dice(75):
                     $ hero.stats.lvl_max["health"] += 2
                     $ hero.stats.max["health"] += 2
                     $ hero.mod_stat("health", 2)
                     $ result += "{color=[goldenrod]} +2 Max Health{/color}"
                     $ hero.set_flag("health_bonus_from_eating_in_cafe", value=hero.flag("health_bonus_from_eating_in_cafe")+1)
-                elif dice(10) and hero.flag("health_bonus_from_eating_in_cafe") <= 50: # after 50 successful attempts bonus no longer applies
+                elif locked_dice(10) and hero.flag("health_bonus_from_eating_in_cafe") <= 50: # after 50 successful attempts bonus no longer applies
                     $ hero.stats.lvl_max["health"] += 1
                     $ hero.stats.max["health"] += 1
                     $ hero.mod_stat("health", 1)

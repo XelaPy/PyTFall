@@ -141,9 +141,6 @@ screen city_beach_fishing():
                 
 label city_beach_rest:
     show bg beach_rest with dissolve
-    if not global_flags.flag('rest_at_beach'):
-        $ global_flags.set_flag('rest_at_beach')
-        "Once per day you can relax at the beach, either alone or together with your team. It's free, restores some vitality and increases disposition."
     if hero.flag("rest_at_beach") == day:
         "You already relaxed at the beach today. Doing it again will lead to sunburns."
         jump city_beach_left
@@ -234,7 +231,7 @@ label fishing_logic_mor_dialogue:
                     if hero.flag("mor_fish_dice") != day: # no rerolling quest after asking again at the same day
                         $ fish = list(i for i in items.values() if "Fishing" in i.locations and i.type == "fish" and 3 <= i.price <= hero.get_skill("fishing"))
                         $ mor_fish = random.choice(fish)
-                        $ mor_quantity = randint(3, 10)
+                        $ mor_quantity = locked_random("randint", 3, 10)
                         $ hero.set_flag("mor_fish_dice", value = day)
                     m "I need some [mor_fish.id], about [mor_quantity] should be enough. Think you can handle it?"
                     menu:

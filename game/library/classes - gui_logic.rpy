@@ -133,7 +133,7 @@ init -1 python:
 
             self.chars_list = None
             self.blue_girls = dict() # Girls (SE captured) blue is training for you.
-            self.restock_day = randint(2, 3)
+            self.restock_day = locked_random("randint", 2, 3)
 
         def get_girls(self):
             """
@@ -177,7 +177,7 @@ init -1 python:
             """
             if self.restock_day == day:
                 self.populate_chars_list()
-                self.restock_day += randint(2, 3)
+                self.restock_day += locked_random("randint", 2, 3)
 
             for g in self.blue_girls.keys():
                 self.blue_girls[g] += 1

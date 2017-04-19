@@ -472,7 +472,7 @@
                 log.append("%s is horny. A perfect mindset for her job!" % worker.name)
                 effectiveness += 10
 
-            if dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
+            if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
 
                 traits = list(i for i in worker.traits if i in ["Ill-mannered", "Always Hungry", "Heavy Drinker", "Neat", "Messy", "Homebody", "Indifferent", "Open Minded", "Dawdler", "Energetic", "Sexy Air", "Frigid", "Nymphomaniac", "Psychic", "Flexible", "Lactation"])
                 if traits:
@@ -484,7 +484,7 @@
                     log.append("%s is pretty rude today, but fortunately in bed her unciviliness makes customers harder." % worker.name)
                     effectiveness += 20
                 elif trait == "Always Hungry":
-                    if dice(50):
+                    if locked_dice(50):
                         log.append("Sperm is a good source of protein, and today %s intends to get all protein available!" % worker.name)
                         effectiveness += 15
                     else:
@@ -492,7 +492,7 @@
                         effectiveness -= 15
                         log.logloc("dirt", 1)
                 elif trait == "Heavy Drinker":
-                    if dice(50):
+                    if locked_dice(50):
                         log.append("Unfortunately %s drank too much yesterday evening, and currently suffers from a headache." % worker.name)
                         effectiveness -= 15
                     else:
@@ -532,9 +532,6 @@
                 elif trait == "Psychic":
                     log.append("Knowing what her partners really want is a trivial matter for a psychic like %s, making her customers happier." % worker.name)
                     effectiveness += 25
-                elif trait == "Flexible":
-                    log.append("Additional flexibility is never superfluous in bed, and %s knows it." % worker.name)
-                    effectiveness += 10
                 elif trait == "Lactation":
                     log.append("Sometimes customers are happy to swallow liquids too. As in the case of %s's milk which is produced more than usual today." % worker.name)
                     effectiveness += 15

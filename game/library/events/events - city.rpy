@@ -15,7 +15,7 @@ label city_events_thugs_robbery:
         t "Hard times, eh... Well, there you go then."
         "He tosses you a few coins."
         t "My mother always told me to help those in need, heh. See ya."
-        $ hero.add_money(randint(10,50))
+        $ hero.add_money(randint(2, 5))
         hide npc with dissolve
         jump main_street
     else:

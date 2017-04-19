@@ -102,9 +102,9 @@ label next_day_effects_check:  # all traits and effects which require some unusu
                 i.disable_effect("Horny")
             else:
                 if interactions_silent_check_for_bad_stuff(i):
-                    if "Nymphomaniac" in i.traits and dice(60):
+                    if "Nymphomaniac" in i.traits and locked_dice(60):
                         i.enable_effect("Horny")
-                    elif not ("Frigid" in i.traits) and dice(30) and i.joy > 50:
+                    elif not ("Frigid" in i.traits) and locked_dice(30) and i.joy > 50:
                         i.enable_effect("Horny")
     return
 
