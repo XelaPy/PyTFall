@@ -232,4 +232,4 @@ class Environment(BaseEnvironment):
             exc.__cause__ = event._value
             # import renpy.error
             # renpy.error.report_exception([exc, repr(event)])
-            raise Exception(exc, repr(event))
+            raise Exception(exc, repr(event), self.now)

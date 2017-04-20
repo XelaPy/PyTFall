@@ -242,6 +242,8 @@
             data = char.stats_skills
 
             for key, value in data.iteritems():
+                if key == "city_jail" or value == "city_jail":
+                    raise Exception("MEOW")
                 if key == "exp":
                     if adjust_exp:
                         value = char.adjust_exp(value)

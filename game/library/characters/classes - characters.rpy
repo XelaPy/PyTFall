@@ -1919,7 +1919,7 @@ init -9 python:
             self.stats._mod_base_stat(stat, value)
 
         def mod_skill(self, skill, value):
-            self.stats._mod_raw_skill(key, value, from__setattr__=False)
+            self.stats._mod_raw_skill(skill, value, from__setattr__=False)
 
         def get_max(self, stat):
             return self.stats.get_max(stat)

@@ -90,7 +90,7 @@ init: # Main Screens:
             ypos 39
             background Frame("content/gfx/frame/Mc_bg.png", 10, 10)
             xysize (725, 120)
-            add Transform(Text("{=content}{size=30}{color=[crimson]}Get your ass kicked in our Arena!"), alpha=0.8) align (0.5, 0.5)
+            text "Get your ass kicked in our Arena!" align .5, .5 font "fonts/badaboom.ttf" color crimson size 45
 
         # LEFT FRAME:
         # Buttons:
@@ -474,7 +474,7 @@ init: # Main Screens:
                     child_size (700, 1000)
                     has vbox spacing 5
                     for index, fighter in enumerate(pytfall.arena.ladder):
-                        $index = index+1
+                        $ index += 1
                         frame:
                             style_group "content"
                             xalign 0.5
@@ -495,8 +495,8 @@ init: # Main Screens:
                                     hbox:
                                         xfill True
                                         align (0.5, 0.5)
-                                        text("[fighter.name]") align (0.03, 0.5) size 25 style "stats_text" color gold
-                                        text("[fighter.arena_rep]") align (0.99, 0.5) size 20 style "stats_value_text" color gold
+                                        text("[fighter.name]") align .03, .5 size 25 style "proper_stats_text" color gold
+                                        text("[fighter.arena_rep]") align .99, 0.5 size 20 style "proper_stats_value_text" color gold
 
                 vbar value YScrollValue("arena_rep_vp")
 
@@ -533,7 +533,7 @@ init: # Main Screens:
                             xalign .5
                             xysize (695, 150)
                             background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
-                            has hbox xalign 0.5
+                            has hbox xalign .5
                             button:
                                 style "arena_channenge_button"
                                 action Return(["challenge", "dogfights", team])

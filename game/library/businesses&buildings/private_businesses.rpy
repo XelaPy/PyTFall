@@ -37,6 +37,7 @@ init -6 python:
         def request_room(self, client, worker):
             """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms available...
             """
+            devlog.warning(str(worker.__dict__))
             if not client or not worker:
                 raise Exception("!!!!!!!!!!!!!")
             with self.res.request() as request:
