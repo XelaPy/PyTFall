@@ -67,8 +67,8 @@ screen chars_list(source=None):
         pos 5, 70
         xysize 1010, 670
 
-        $ charz_list = charz_lists[page]
-        if charz_list:
+        if charz_lists:
+            $ charz_list = charz_lists[page]
             hbox:
                 style_group "content"
                 spacing 14
