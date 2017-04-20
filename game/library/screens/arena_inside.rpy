@@ -1,28 +1,28 @@
 label arena_inside:
-    
+
     # Music related:
     if not "arena_inside" in ilists.world_music:
         $ ilists.world_music["arena_inside"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("arena_inside")]
     play world choice(ilists.world_music["arena_inside"]) fadein 1.5
-    
+
     scene bg arena_inside
     show screen arena_inside
     with fade
-    
+
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
     $ renpy.retain_after_load()
-    
+
     while 1:
-        
+
         $ result = ui.interact()
-        
+
         if result[0] == 'control':
             if result[1] == "hide_vic":
                 hide screen arena_aftermatch
             if result[1] == 'return':
                 jump arena_inside_end
-                
+
         elif result[0] == "show":
             if result[1] == "bestiary":
                 hide screen arena_inside
@@ -30,7 +30,7 @@ label arena_inside:
             elif result[1] == "arena":
                 hide screen arena_bestiary
                 show screen arena_inside
-                
+
         elif result[0] == "challenge":
             if result[1] == "dogfights":
                 $ pytfall.arena.dogfight_challenge(result[2])
@@ -53,11 +53,28 @@ label arena_inside_end:
     jump arena_outside
 
 init: # Main Screens:
+    style arena_channenge_frame:
+        clear
+        background Frame("content/gfx/frame/p_frame4.png", 10, 10)
+        yalign .5
+        yoffset 2
+        padding (3, 12)
+        margin (0, 0)
+        xysize (250, 135)
+
+    style arena_channenge_button:
+        yalign .5
+        yoffset 2
+        margin (0, 0)
+        xysize (250, 135)
+        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+        hover_background Frame("content/gfx/frame/p_frame4.png", 10, 10)
+
     screen arena_inside():
-        
+
         #use top_stripe(True)
         add "content/gfx/bg/locations/arena_inside.jpg"  xpos 100 ypos 35
-        
+
         # Start match button:
         if day in hero.fighting_days:
             button:
@@ -66,7 +83,7 @@ init: # Main Screens:
                 style "right_wood_button"
                 action Return(["challenge", "start_match"])
                 text "Start Match!" style "wood_text" xalign(0.4) size 20
-                 
+
         # Kickass sign:
         frame:
             xalign .5
@@ -74,7 +91,7 @@ init: # Main Screens:
             background Frame("content/gfx/frame/Mc_bg.png", 10, 10)
             xysize (725, 120)
             add Transform(Text("{=content}{size=30}{color=[crimson]}Get your ass kicked in our Arena!"), alpha=0.8) align (0.5, 0.5)
-                    
+
         # LEFT FRAME:
         # Buttons:
         frame:
@@ -83,13 +100,13 @@ init: # Main Screens:
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=1.0), 10, 10)
             xysize (280, 682)
             has vbox align .5, .03 spacing 1
-            
+
             # Beast Fights:
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.7), 5, 5)
                 padding 10, 10
                 has vbox spacing 2
-                
+
                 frame:
                     xfill True
                     align .5, .5
@@ -103,13 +120,13 @@ init: # Main Screens:
                         action Return(["show", "bestiary"])
                     textbutton "{size=20}{color=[black]}Survival!":
                         action Return(["challenge", "start_chainfight"])
-                    
+
             # Ladders (Just Info):
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.7), 5, 5)
                 padding 10, 10
                 has vbox spacing 2
-                
+
                 frame:
                     xfill True
                     align .5, .5
@@ -131,7 +148,7 @@ init: # Main Screens:
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.7), 5, 5)
                 padding 10, 10
                 has vbox spacing 2
-            
+
                 frame:
                     xfill True
                     align .5, .5
@@ -147,13 +164,13 @@ init: # Main Screens:
                         action Show("arena_matches", container=pytfall.arena.matches_2v2, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.png", 130, 130))
                     textbutton "{size=20}{color=[black]}3v3":
                         action Show("arena_matches", container=pytfall.arena.matches_3v3, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_4.png", 130, 130))
-     
+
             # Dogfights:
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.7), 5, 5)
                 padding 10, 10
                 has vbox spacing 2
-                
+
                 frame:
                     xfill True
                     align .5, .5
@@ -169,7 +186,7 @@ init: # Main Screens:
                         action Show("arena_dogfights", transition=dissolve, container=pytfall.arena.dogfights_2v2)
                     textbutton "{size=20}{color=[black]}3v3":
                         action Show("arena_dogfights", transition=dissolve, container=pytfall.arena.dogfights_3v3)
-                        
+
         # RIGHT FRAME::
         # Hero stats + Some Buttons:
         frame:
@@ -179,36 +196,36 @@ init: # Main Screens:
             xysize 282, 682
             style_prefix "proper_stats"
             has vbox align .5, .0
-            
+
             null height 10
-            
+
             # Player Stats:
             frame:
                 xalign .5
                 padding 5, 1
                 background Frame("content/gfx/frame/ink_box.png", 5, 5)
                 has hbox spacing 2
-                
+
                 frame:
                     background Frame("content/gfx/frame/MC_bg3.png", 5, 5)
                     $ img = hero.show("portrait", resize=(95, 95), cache=True)
                     padding 2, 2
                     yalign .5
                     add img align .5, .5
-                    
+
                 # Name + Stats:
                 frame:
                     padding 8, 2
                     background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=0.6), 5, 5)
                     xsize 155
                     has vbox
-                    
+
                     label "[hero.name]":
                         text_size 16
                         text_bold True
                         yalign .03
                         text_color ivory
-                        
+
                     fixed: # HP:
                         ysize 25
                         bar:
@@ -223,7 +240,7 @@ init: # Main Screens:
                             text "[hero.health]" size 14 color red style_suffix "value_text" xpos 125 yoffset -8
                         else:
                             text "[hero.health]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
-            
+
                     fixed: # MP:
                         ysize 25
                         bar:
@@ -238,7 +255,7 @@ init: # Main Screens:
                             text "[hero.mp]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
                         else:
                             text "[hero.mp]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
-            
+
                     fixed: # VP:
                         ysize 25
                         bar:
@@ -253,13 +270,13 @@ init: # Main Screens:
                             text "[hero.vitality]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
                         else:
                             text "[hero.vitality]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
-                                
+
             # Rep:
             frame:
                 background im.Scale("content/gfx/frame/frame_bg.png", 270, 110)
                 xysize (270, 110)
                 label "Reputation: [hero.arena_rep]" text_size 25 text_color ivory align .5, .5
-                
+
             # Buttons:
             frame:
                 background im.Scale("content/gfx/frame/frame_bg.png", 270, 110)
@@ -274,179 +291,180 @@ init: # Main Screens:
                     textbutton "Reputation Ladder":
                         xalign 0.5
                         action [ShowTransient("arena_rep_ladder")]
-                                
+
         use top_stripe(True)
-                 
+
     screen arena_matches(container=None, vs_img=None):
         # Screens used to display and issue challenges in the official matches inside of Arena:
         modal True
         zorder 1
-        
+
         frame:
             background Frame("content/gfx/frame/p_frame52.png", 10, 10)
             xysize (721, 565)
             at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
             pos (280, 154)
-            
+
             side "c r":
                 pos (5, 5)
                 maximum (710, 515)
                 viewport id "vp_matches":
                     draggable True
                     mousewheel True
-                    child_size (710, 1000)
+                    child_size (710, 5000)
                     has vbox spacing 5
-                    
+
                     # for lineup in pytfall.arena.matches_3v3:
                     for lineup in container:
                         if lineup[1]:
                             frame:
                                 style_group "content"
-                                xalign 0.5
+                                xalign .5
                                 xysize (690, 150)
+                                margin 0, 0
+                                padding 3, 3
                                 background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
+                                has hbox # xysize (690, 150)
+
                                 # Day of the fight:
-                                has hbox xalign 0.5
                                 fixed:
                                     xysize (50, 50)
+                                    yalign .5
                                     label "[lineup[2]]":
-                                        align (0.5, 0.5)
+                                        align .5, .5
                                         text_color red
                                         text_size 35
+
                                 # Challenge button:
                                 if not lineup[0]:
-                                    textbutton "{size=+10}{color=[red]}Challenge!":
-                                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                                        hover_background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=1), 10, 10)
-                                        yalign 0.5
-                                        xysize (250, 150)
+                                    button:
+                                        style "arena_channenge_button"
                                         action Return(["challenge", "match", lineup])
+                                        text "Challenge!" size 40 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf"
                                 # Or we show the team that challenged:
                                 else:
                                     frame:
-                                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                                        xysize (250, 150)
-                                        xpadding 10
-                                        ypadding 10
-                                        yalign 0.5
+                                        style "arena_channenge_frame"
                                         frame:
-                                            xfill True
-                                            align (0.5, 0.01)
+                                            align .5, .0
+                                            padding 5, 3
                                             background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
                                             $ name = lineup[0][0].nickname if len(lineup[0]) == 1 else lineup[0].name
-                                            label "[name]" align (0.5, 0) text_size 25 text_style "stats_text" text_color gold
+                                            label "[name]" align .5, .5 text_size 25 text_style "proper_stats_text" text_color gold
                                         hbox:
                                             spacing 3
-                                            align (0.5, 1.0)
+                                            align .5, 1.0
                                             for fighter in lineup[0]:
                                                 frame:
-                                                    background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+                                                    background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+                                                    padding 2, 2
                                                     add fighter.show("portrait", resize=(60, 60))
-                                    
+
                                 add vs_img yalign 0.5
-                            
+
                                 # Waiting for the challenge or been challenged by former:
                                 frame:
-                                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                                    xysize (250, 150)
-                                    xpadding 10
-                                    ypadding 10
-                                    yalign 0.5
+                                    style "arena_channenge_frame"
                                     frame:
-                                        xfill True
-                                        align (0.5, 0.01)
+                                        align .5, .0
+                                        padding 5, 3
                                         background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
                                         $ name = lineup[1][0].nickname if len(lineup[1]) == 1 else lineup[1].name
-                                        label "[name]" align (0.5, 0) text_size 25 text_style "stats_text" text_color gold
+                                        label "[name]" align .5, .5 text_size 25 text_style "proper_stats_text" text_color gold
                                     hbox:
                                         spacing 3
-                                        align (0.5, 1.0)
+                                        align 0.5, 1.0
                                         for fighter in lineup[1]:
                                             frame:
                                                 background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+                                                padding 2, 2
                                                 add fighter.show("portrait", resize=(60, 60))
-                    
+
                 vbar value YScrollValue("vp_matches")
-            
+
             button:
                 style_group "basic"
                 action Hide("arena_matches")
                 minimum(50, 30)
                 align (0.5, 0.9995)
                 text  "OK"
-                
-            
-    screen arena_lineups(container):
+
+    screen arena_lineups(container): # Ladders
         modal True
         zorder 1
-        
+
         frame:
             background Frame("content/gfx/frame/p_frame52.png", 10, 10)
             at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
             style_group "content"
             pos (280, 154)
             xysize (721, 565)
-            
+
             side "c r":
                 pos (5, 5)
                 maximum (710, 515)
                 viewport id "arena_lineups":
                     draggable True
                     mousewheel True
-                    child_size (700, 1000)
+                    child_size (700, 5000)
                     has vbox spacing 5
                     for index, team in enumerate(container):
-                        $ index = index+1
+                        $ index += 1
                         frame:
-                            xalign 0.5
+                            xalign .5
                             xysize (695, 60)
                             background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
+                            padding 1, 1
                             has hbox spacing 5
                             fixed:
-                                xysize (60, 60)
-                                align (0.5, 0.5)
+                                xysize 60, 55
+                                yalign .5
                                 label "[index]":
                                     text_color red
                                     text_size 35
-                                    align (0.5, 0.5)
+                                    align .5, .5
                             if team:
                                 $ name = team[0].nickname if len(team) == 1 else team.name
                                 hbox:
-                                    align (0.5, 0.5)
-                                    spacing 3
+                                    yoffset 1
+                                    yalign .5
+                                    spacing 1
                                     ysize 55
                                     for fighter in team:
                                         frame:
-                                            background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
-                                            add fighter.show("portrait", resize=(60, 60), cache=True) yalign 0.5
+                                            yalign .5
+                                            background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+                                            padding 3, 3
+                                            add fighter.show("portrait", resize=(45, 45), cache=True)
                                 null width 12
                                 frame:
-                                    xfill True
-                                    align (0.5, 0.5)
-                                    xminimum 300
+                                    yalign .5
+                                    margin 0, 0
+                                    padding 3, 1
+                                    yoffset 2
+                                    xsize 450
                                     background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
-                                    label "[name]" align (0.5, 0.5) text_size 25 text_style "stats_text" text_color gold
-                                    
+                                    label "[name]" align .5, .5 text_size 28 text_style "proper_stats_text" text_color gold
+
                 vbar value YScrollValue("arena_lineups")
-                
+
             button:
                 style_group "basic"
                 action Hide("arena_lineups")
                 minimum(50, 30)
                 align (0.5, 0.9995)
                 text  "OK"
-                
-            
+
     screen arena_rep_ladder():
         modal True
         zorder 1
-        
+
         frame:
             background Frame("content/gfx/frame/p_frame52.png", 10, 10)
             xysize (721, 565)
             at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
             pos (280, 154)
-            
+
             side "c r":
                 pos (5, 5)
                 maximum (710, 515)
@@ -469,7 +487,7 @@ init: # Main Screens:
                                 xysize (50, 50)
                                 text_size 20
                                 xfill True
-                            if fighter:    
+                            if fighter:
                                 frame:
                                     xfill True
                                     align (0.5, 0.5)
@@ -479,28 +497,27 @@ init: # Main Screens:
                                         align (0.5, 0.5)
                                         text("[fighter.name]") align (0.03, 0.5) size 25 style "stats_text" color gold
                                         text("[fighter.arena_rep]") align (0.99, 0.5) size 20 style "stats_value_text" color gold
-                    
+
                 vbar value YScrollValue("arena_rep_vp")
-            
+
             button:
                 style_group "basic"
                 action Return([''])
                 minimum(50, 30)
                 align (0.5, 0.9995)
                 text  "OK"
-            
-    
+
     screen arena_dogfights(container={}):
         modal True
         zorder 1
-        
+
         frame:
             style_group "content"
             background Frame("content/gfx/frame/p_frame52.png", 10, 10)
             xysize (721, 565)
             at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
             pos (280, 154)
-            
+
             side "c r":
                 pos (5, 5)
                 maximum (710, 515)
@@ -508,59 +525,51 @@ init: # Main Screens:
                     id "vp_dogfights"
                     draggable True
                     mousewheel True
-                    child_size (700, 1000)
+                    child_size (700, 5000)
                     has vbox spacing 5
                     for team in container:
                         frame:
                             style_group "content"
-                            xalign 0.5
+                            xalign .5
                             xysize (695, 150)
                             background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
                             has hbox xalign 0.5
-                            textbutton "{size=+7}Ask for a Fight":
-                                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                                hover_background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=1), 10, 10)
-                                xysize (250, 150)
-                                yalign 0.5
+                            button:
+                                style "arena_channenge_button"
                                 action Return(["challenge", "dogfights", team])
-                                text_color bisque
-                                text_outlines [(1, "#3a3a3a", 0, 0)]
-                                
-                            add ProportionalScale("content/gfx/interface/images/vs_1.png", 130, 130) yalign 0.5
-                        
+                                text "Challenge!" size 40 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf" outlines [(1, "#3a3a3a", 0, 0)]
+
+                            add ProportionalScale("content/gfx/interface/images/vs_1.png", 130, 130) yalign .5
+
                             frame:
-                                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                                xysize (250, 150)
-                                xpadding 10
-                                ypadding 10
-                                yalign 0.5
-                            
+                                style "arena_channenge_frame"
                                 frame:
-                                    xfill True
-                                    align (0.5, 0.01)
+                                    align .5, .0
+                                    padding 5, 3
                                     background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
                                     $ name = team[0].nickname if len(team) == 1 else team.name
-                                    label ("[name]") align(0.5, 0.0) text_size 25 text_style "stats_text" text_color gold
+                                    label ("[name]") align .5, .5 text_size 25 text_style "proper_stats_text" text_color gold
                                 hbox:
                                     spacing 3
-                                    align(0.5, 1.0)
+                                    align 0.5, 1.0
                                     for fighter in team:
                                         frame:
+                                            padding 2, 2
                                             background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
                                             add fighter.show("portrait", resize=(60, 60))
-                    
+
                 vbar value YScrollValue("vp_dogfights")
-            
+
             button:
                 style_group "basic"
                 action Hide("arena_dogfights")
                 minimum(50, 30)
                 align (0.5, 0.9995)
                 text  "OK"
-            
+
     screen arena_bestiary():
         default in_focus_mob = False
-        
+
         add("content/gfx/bg/locations/arena_bestiary.jpg") at fade_in_out()
         hbox:
             viewport:
@@ -570,7 +579,7 @@ init: # Main Screens:
                 mousewheel True
                 scrollbars "vertical"
                 has hbox xysize 995, 720 box_wrap True spacing 2
-                
+
                 # Prepare the list of mobs:
                 $ _mobs = sorted(mobs.values(), key=itemgetter("min_lvl"))
                 for data in _mobs:
@@ -599,9 +608,9 @@ init: # Main Screens:
                                         hover (im.MatrixColor(img, im.matrix.brightness(0.25)))
                                         action SetScreenVariable("in_focus_mob", creature)
                         null height 2
-                    
+
             null width 1
-            
+
             if in_focus_mob:
                 $ data = mobs[in_focus_mob]
                 $ img = ProportionalScale(data["battle_sprite"], 200, 200)
@@ -611,7 +620,7 @@ init: # Main Screens:
                     xysize 277, 720
                     xoffset -5
                     has vbox
-                    
+
                     null height 5
                     hbox:
                         frame:
@@ -619,7 +628,7 @@ init: # Main Screens:
                             yalign 0.0
                             background Frame("content/gfx/frame/MC_bg.png", 10, 10)
                             add portrait
-                    
+
                         vbox:
                             style_group "proper_stats"
                             xalign 0.0
@@ -636,7 +645,7 @@ init: # Main Screens:
                                 xysize (148, 30)
                                 text (data["race"]) xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD"
 
-                    
+
                     null height 5
                     hbox:
                         frame:
@@ -647,11 +656,11 @@ init: # Main Screens:
                             background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
                             xysize 110, 110
                             xalign .5
-                            
+
                             $ x = 0
                             $ els_args = [Transform(i, crop=(100/len(els_transforms)*els_transforms.index(i), 0, 100/len(els), 100), subpixel=True, xpos=(x + 100/len(els)*els_transforms.index(i))) for i in els_transforms]
                             $ f = Fixed(*els_args, xysize=(100, 100))
-                            add f align (0.5, 0.5) 
+                            add f align (0.5, 0.5)
                             add ProportionalScale("content/gfx/interface/images/elements/hover.png", 100, 100) align (0.5, 0.5)
                         vbox:
                             style_group "proper_stats"
@@ -669,7 +678,7 @@ init: # Main Screens:
                                     xysize (148, 30)
                                     yfill True
                                     text t xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD"
-                    
+
                     # Stats:
                     frame:
                         xalign 0.5
@@ -703,7 +712,7 @@ init: # Main Screens:
                                     text '{}'.format(stat.capitalize()) xalign 0.02 color "#43CD80"
                                     text str(data["stats"][stat]) xalign 0.98 style "stats_value_text" color "#79CDCD"
                     null height 5
-                    
+
                     # Bottom Viewport:
                     viewport:
                         xalign .5
@@ -744,7 +753,7 @@ init: # Main Screens:
                                     background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                                     xysize (130, 30)
                                     text (u"{color=#CDAD00} Attacks") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5
-                                    
+
                                 vbox:
                                     style_group "proper_stats"
                                     xalign .5
@@ -761,7 +770,7 @@ init: # Main Screens:
                                             xysize (130, 22)
                                             yfill True
                                             text "-None-" size 17 xalign 0.5 yalign 0.5 style "stats_value_text" color indianred
-                        
+
                         # Spells:
                             vbox:
                                 frame:
@@ -770,7 +779,7 @@ init: # Main Screens:
                                     background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                                     xysize (130, 30)
                                     text (u"{color=#CDAD00} Spells") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5
-                                    
+
                                 vbox:
                                     style_group "proper_stats"
                                     xalign .5
@@ -793,16 +802,16 @@ init: # Main Screens:
             idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
             hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
             action Return(["show", "arena"])
-            
+
     screen arena_aftermatch(w_team, l_team, condition):
         modal True
         zorder 2
-        
+
         on "show" action If(condition=="Victory", true=Play("music", "content/sfx/sound/world/win_screen.mp3"))
-        
+
         default winner = w_team[0]
         default loser = l_team[0]
-            
+
         if hero.team == w_team:
             add "content/gfx/images/battle/victory_l.png" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=0.7, wait=0)
             add "content/gfx/images/battle/victory_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
@@ -817,9 +826,9 @@ init: # Main Screens:
             add "content/gfx/images/battle/defeat.png":
                 align (0.5, 0.5)
                 at simple_zoom_from_to_with_easein(start_val=50.0, end_val=1.0, t=2.0)
-                
+
         # timer 10 action Function(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])
-        
+
         frame:
             background Null()
             xsize 95
@@ -849,7 +858,7 @@ init: # Main Screens:
                         selected_idle Transform(img, alpha=1.05)
                         action SetScreenVariable("winner", member), With(dissolve)
                     $ i = i + 1
-            
+
         frame:
             background Null()
             xsize 95
@@ -878,19 +887,19 @@ init: # Main Screens:
                         selected_idle Transform(img, alpha=1.05)
                         action NullAction()
                     $ i = i + 1
-                    
+
         button:
             align (0.5, 0.63)
             style_group "pb"
             action [Function(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])]
             text "Continue" style "pb_button_text"
-         
+
         # Winner Details Display on the left:
         if winner.combat_stats == "K.O.":
             frame:
                 at fade_from_to_with_easeout(start_val=.0, end_val=1.0, t=.9, wait=0)
                 background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                add im.Sepia(winner.show('fighting', resize=(200, 200), cache=True)) 
+                add im.Sepia(winner.show('fighting', resize=(200, 200), cache=True))
                 align .2, .2
         else:
             frame:
@@ -898,7 +907,7 @@ init: # Main Screens:
                 background Frame("content/gfx/frame/MC_bg.png", 10, 10)
                 add winner.show("fighting", resize=(200, 200), cache=True)
                 align .2, .2
-                
+
             if hero.team == w_team: # Show only if we won...
                 frame:
                     style_group "proper_stats"
@@ -915,28 +924,28 @@ init: # Main Screens:
                             xysize (190, 27)
                             text '{}'.format(stat.capitalize()) xalign 0.02 color "#79CDCD"
                             label str(winner.combat_stats[stat]) xalign 1.0 yoffset -1
-        
+
         # Looser Details Display on the left:
         if loser.combat_stats == "K.O.":
             add im.Sepia(loser.show("fighting", resize=(200, 200), cache=True)) align (0.2, 0.2)
         else:
             add loser.show("fighting", resize=(200, 200), cache=True) align (0.8, 0.2)
-            
+
         add "content/gfx/frame/h1.png"
-        
+
     screen confirm_match():
         modal True
         zorder 1
-        
+
         frame:
             align(0.5, 0.5)
             minimum(300, 200)
             maximum(300, 200)
             xfill True
             yfill True
-            
+
             text("{size=-5}Are you sure you want to schedule a fight? Backing out of it later will mean a hit on reputation...") align(0.5, 0.1)
-            
+
             hbox:
                 align(0.5, 0.85)
                 spacing 40
@@ -944,9 +953,9 @@ init: # Main Screens:
                     action Hide("confirm_match")
                 textbutton "Yes":
                     action Return(["challenge", "confirm_match"])
-                
+
     screen arena_report():
-        
+
         frame:
             pos (280, 154)
             at fade_in_out(t1=1.5, t2=1.5)
@@ -960,14 +969,14 @@ init: # Main Screens:
                 minimum(650, 550)
                 maximum(650, 550)
                 text("{size=-4}%s"%pytfall.arena.daily_report)
-                
+
             button:
                 style_group "basic"
                 action Hide("arena_report")
                 minimum(50, 30)
                 align (0.5, 0.9)
                 text  "OK"
-                    
+
     screen arena_stats(member):
         hbox at arena_stats_slide:
             align (1.0, 1.0)
@@ -985,19 +994,19 @@ init: # Main Screens:
                         text("{size=-5}{color=[red]}%s"%(member.combat_stats[stat]))
             else:
                 text("{size=+20}{color=[red]}K.O.")
-            
+
 init: # ChainFights vs Mobs:
     screen chain_fight():
         zorder 1
-        
+
         add "content/gfx/bg/locations/arena_bestiary.jpg"
-        
+
         if not pytfall.arena.cf_mob:
             text "Choose your Fight!":
                 style "arena_header_text"
                 align (0.5, 0.1)
                 size 50
-                
+
             vbox:
                 style "menu"
                 spacing 1
@@ -1006,34 +1015,34 @@ init: # ChainFights vs Mobs:
                     button:
                         style "menu_choice_button_blue"
                         action [SetField(pytfall.arena, "result", setup), Return("Bupkis")]
-                        
+
                         text "[setup]" style "menu_choice"
-                        
+
                 button:
                     style "menu_choice_button"
                     action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
-                    
-                    text "Back" style "menu_choice" 
-                    
+
+                    text "Back" style "menu_choice"
+
                 key "mousedown_3" action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
         else:
             timer 0.5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
-        
+
     screen arena_minigame(range, interval, length_multiplier, d):
         zorder 2
         modal True
-        
+
         default reverse = False
         default rolled = False
         default value = 0
         default run = True
         default step = 2
-        
+
         if rolled:
             timer 1.0 action Return()
-        
+
         add "bg mc_setup"
-        
+
         # Bonus Roll: ===========================================================================>>>
         if pytfall.arena.cf_bonus:
             if run:
@@ -1049,19 +1058,19 @@ init: # ChainFights vs Mobs:
                         timer interval action SetScreenVariable("value", value - step) repeat True
                     else:
                         timer interval action SetScreenVariable("value", value + step) repeat True
-            
+
             python:
                 y_w = 0
                 y_r = d["white"] * length_multiplier
                 y_b = d["blue"] + y_r
                 y_g = d["green"] + y_b
                 y_w2 = y_g + d["white"]
-                
+
             frame:
                 background Frame(im.Twocolor("content/gfx/interface/bars/thvslider_thumb.png", white, red), 0, 0)
                 xysize(4, 4)
                 pos(110, 245 + value * length_multiplier)
-                
+
             vbox:
                 pos (70, 250)
                 add im.Scale("content/gfx/interface/bars/testbar.png", 40, d["white"] * length_multiplier)
@@ -1069,7 +1078,7 @@ init: # ChainFights vs Mobs:
                     if i != "white":
                         add im.Twocolor(im.Scale("content/gfx/interface/bars/testbar.png", 40, d[i] * length_multiplier), store.__dict__[i], store.__dict__[i])
                 add im.Scale("content/gfx/interface/bars/testbar.png", 40, d["white"] * length_multiplier)
-                
+
             # vbox:
                 # pos (90, 250)
                 # # box_reverse True
@@ -1085,7 +1094,7 @@ init: # ChainFights vs Mobs:
                 # frame:
                     # background Frame(white, 0, 0)
                     # xysize(20, (d["white"]) * length_multiplier)
-                  
+
             if not rolled:
                 text "Bonus Roll":
                     pos (150, 200)
@@ -1103,7 +1112,7 @@ init: # ChainFights vs Mobs:
                     text "Bonus Roll: Full!" pos (200, 200) style "black_serpent" color green size 30
                 else:
                     text "Bonus Roll: Bupkis" pos (200, 200) style "black_serpent" color white size 30
-                    
+
             vbox:
                 align (0.2, 0.5)
                 spacing 10
@@ -1135,12 +1144,12 @@ init: # ChainFights vs Mobs:
                         background Frame(grey, 0, 0)
                         xysize(1, 1)
                     text "{color=[grey]}Bupkis Award!" xalign 0.5 style "garamond"
-                    
+
                 if run:
                     textbutton "{color=[blue]}Freeze":
                         style "basic_button"
                         action SetScreenVariable("run", False), SetScreenVariable("rolled", True), SetField(pytfall.arena, "cf_bonus", value)
-                        
+
                 # if config.developer:
                     # python:
                         # d = pytfall.arena.d
@@ -1162,21 +1171,21 @@ init: # ChainFights vs Mobs:
                         # newlevel = newlevel + d["white"]
                         # bonus["bupkis_2"] = (level, newlevel)
                         # # raise Exception, bonus
-            
+
                         # for i in bonus:
                             # if bonus[i][0] <= v <= bonus[i][1]:
                                 # result = i
                                 # break
                     # text "Value: [v], Reward: [result]"
-            
+
     screen confirm_chainfight():
         zorder 2
         modal True
-        
+
         add "bg mc_setup"
-        
+
         if pytfall.arena.cf_count and pytfall.arena.cf_mob:
-            
+
             # Fight Number:
             text "Fight #[pytfall.arena.cf_count], proceed?":
                 at move_from_to_pos_with_ease(start_pos=(640, -100), end_pos=(640, 150), t=0.7)
@@ -1184,11 +1193,11 @@ init: # ChainFights vs Mobs:
                 color darkred
                 style "arena_header_text"
                 size 35
-                
+
             # Opposing Sprites:
             add hero.show("battle_sprite", resize=(200, 200)) at slide(so1=(-600, 0), t1=0.7, eo2=(-1300, 0), t2=0.7) align .35, .5
             add pytfall.arena.cf_mob.show("battle_sprite", resize=(200, 200)) at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7) align .65, .5
-            
+
             # Title Text and Boss name if appropriate:
             if pytfall.arena.cf_count == 7:
                 text "Boss Fight!":
@@ -1209,7 +1218,7 @@ init: # ChainFights vs Mobs:
                     at fade_in_out(t1=1.5, t2=1.5)
                     style "arena_header_text"
                     size 80
-            
+
         hbox at slide(so1=(0, 700), t1=0.7, so2=(0, 700), t2=0.7):
             spacing 40
             align(0.5, 0.9)
@@ -1221,18 +1230,18 @@ init: # ChainFights vs Mobs:
             textbutton "{color=[red]}Fight!!!":
                 style "basic_button"
                 action [Hide("arena_inside"), Hide("chain_fight"), Hide("confirm_chainfight"), SetField(pytfall.arena, "cf_bonus", False), Return(["challenge", "chainfight"])]
-    
+
     screen arena_finished_chainfight(w_team):
         zorder  3
         modal True
-        
+
         timer 9.0 action [Hide("arena_finished_chainfight"), Hide("arena_inside"), Hide("chain_fight"), Hide("confirm_chainfight"), SetField(pytfall.arena, "cf_count", 0), Jump("arena_inside")]
-        
+
         add "bg mc_setup"
-        
+
         add "arena_victory":
             at move_from_to_align_with_linear(start_align=(.5, .3), end_align=(.5, .03), t=2.2)
-        
+
         vbox:
             at fade_from_to_with_easeout(start_val=.0, end_val=1.0, t=.9)
             align .95, .5
@@ -1240,7 +1249,7 @@ init: # ChainFights vs Mobs:
             text "Rewards:":
                 xalign 0.5
                 style "arena_header_text"
-                
+
             hbox:
                 xalign 0.5
                 spacing 10
@@ -1256,14 +1265,14 @@ init: # ChainFights vs Mobs:
                         xalign 0.5
                         style "arena_header_text"
                         size 25
-    
+
         # Chars + Stats
         frame:
             at fade_from_to_with_easeout(start_val=.0, end_val=1.0, t=.9, wait=0)
             background Frame("content/gfx/frame/MC_bg.png", 10, 10)
             add hero.show("battle", resize=(426, 376), cache=True)
             align .1, .5
-            
+
         vbox:
             at arena_stats_slide
             pos (275, 405)

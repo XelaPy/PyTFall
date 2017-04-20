@@ -535,17 +535,22 @@ init -999 python:
 
 screen debug_tools():
     zorder 5
-    vbox:
-        xsize 90
-        align 1.0, 1.0
-        hbox:
-            xalign 1.0
-            textbutton "X":
-                action Quit(confirm=False)
-            textbutton "R":
-                action ui.callsinnewcontext("_save_reload_game")
-        add DynamicDisplayable(dd_cursor_position) xalign 1.0
-        $ screen_link(last_label)
+    drag:
+        id "meow____"
+        frame:
+            background Frame("content/gfx/frame/FrameGP2.png", 2, 2)
+            # xsize 90
+            has vbox xsize 90
+            hbox:
+                xalign 1.0
+                textbutton "X":
+                    action Quit(confirm=False)
+                textbutton "R":
+                    action ui.callsinnewcontext("_save_reload_game")
+            add DynamicDisplayable(dd_cursor_position)
+            # $ screen_link(last_label) # PICKLING ISSUES!
+            text "[last_label]" size 10
+            text "Call Stack: " + str(renpy.call_stack_depth()) size 10
 
 init -1 python: # Constants:
     # for f in renpy.list_files():
