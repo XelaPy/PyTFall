@@ -2,7 +2,7 @@ init python:
     renpy.image("jumping_frog", animate("/library/events/frog_event/img/frog_jump", loop=True))
     renpy.image("jumping_frog_2", animate("/library/events/frog_event/img/frog_jump_2", loop=True))
     renpy.image("frog", "library/events/frog_event/img/frog.png")
-    renpy.image("boyakki", "library/events/frog_event/img/boyakki.png")
+    renpy.image("stranger", "library/events/frog_event/img/stranger.png")
     register_quest("Frog Princess!")
     if config.developer:
         register_event("show_frog", screen=True, quest="Frog Princess!", locations=["forest_entrance"], trigger_type="auto", restore_priority=1, priority=300, start_day=1, jump=True, dice=100, max_runs=20)
@@ -140,14 +140,14 @@ label frog1_event_abby:
     if not global_flags.flag("frog_spoke_abby"):
         w "Frog transmutation, heh? I could look into it, but it will cost ya!"
         extend " Let me see..."
-        w "{color=[gold]}5000 Gold{/color} for my research!"
+        w "{color=[gold]}1000 Gold{/color} for my research!"
 
     menu:
         w "How about it?"
-        "Pay her." if hero.gold >= 5000:
-            w "I should have the answer soon. Come see me in few days." # not to Xela, MC -5000 gold, quest goes to next phase, kicked out the hut or just to the talk menu.
-            $ pytfall.world_quests.get("Frog Princess!").next_in_label("For a hefty sum of 5000 Gold Abby the witch promised to look into the frog matter. You should visit her again in a few days.")
-            $ hero.take_money(5000, reason="Events")
+        "Pay her." if hero.gold >= 1000:
+            w "I should have the answer soon. Come see me in few days." # not to Xela, MC -1000 gold, quest goes to next phase, kicked out the hut or just to the talk menu.
+            $ pytfall.world_quests.get("Frog Princess!").next_in_label("For a hefty sum of 1000 Gold Abby the witch promised to look into the frog matter. You should visit her again in a few days.")
+            $ hero.take_money(1000, reason="Events")
             if config.debug:
                 $ menu_extensions.add_extension("Abby The Witch Main", ("Ask about the frog (again)", Jump("frog1_event_abby_2"), "day > {}".format(day)))
             else:
@@ -159,8 +159,8 @@ label frog1_event_abby:
             w "That's too bad. Come back when you have the money."
             $ global_flags.set_flag("frog_spoke_abby")
             jump forest_entrance
-        "5000??? I'm not paying!": #note at Xela, drop quest option.
-            "Being the last ray of hope for a princess turned into a talking frog  to regain her humanity, you decided that spending 5000 gold was too much."
+        "1000??? I'm not paying!": #note at Xela, drop quest option.
+            "Being the last ray of hope for a princess turned into a talking frog  to regain her humanity, you decided that spending 1000 gold was too much."
             extend "{color=[red]} Way to go cheapskate!"
             $ pytfall.world_quests.get("Frog Princess!").finish_in_label("You've rejected the Frog Princess Quest! It's further fate is unknown.")
             $ menu_extensions.remove_extension("Abby The Witch Main", "Ask about the Frog")
@@ -364,13 +364,8 @@ label frog1_event_disq:
 
 label frog1_event_french:
     
-    "You had French kissed a frog! (Side note: Large Frogs eats: flies, mosquitoes, moths, dragonflies, small snakes, mice, baby turtles and sometime other smaller frogs)."
+    "You had French kissed a frog! (Side note: Large Frogs eat: flies, mosquitoes, moths, dragonflies, small snakes, mices, baby turtles and sometimes smaller frogs)."
     play sound "library/events/frog_event/sfx/kiss_long.mp3"
-    show frog:
-        size (389, 400)
-        crop (0, 0, 389, 400)
-        easein 1.0 crop (100, 100, 100, 100)
-    "..."
     scene black
     $ flash = Fade(.25, 0, .75, color="#fff")
     scene bg forest_entrance
@@ -379,32 +374,13 @@ label frog1_event_french:
     play sound "content/sfx/sound/events/good_night.mp3"
     "It worked. A bright flash and the frog was gone. In her place was…"
 
-    show boyakki
-    define b = Character("Boyakki", color=red, what_color=green, show_two_window=True)
+    show stranger
+    define b = Character("Stranger", color=red, what_color=green, show_two_window=True)
     b "Thanks dude. You really saved me. About that princess and gold..."
-    $ pytfall.world_quests.get("Frog Princess!").finish_in_label("{color=[blue]}You've completed the Quest... but the whole thing was Boyakkis scam...{/color}")
-    show boyakki:
-        parallel:
-            zoom 1.0
-            linear 1.0 zoom 0.1
-        parallel:
-            align (0.5, 1.0)
-            linear 1.0 align (0.28, 0.67)
+    $ pytfall.world_quests.get("Frog Princess!").finish_in_label("{color=[blue]}You've completed the Quest... but the whole thing was a scam...{/color}")
     extend " {color=[red]} It was all crap! Sorry, gotta go!"
-    hide boyakki
+    hide stranger
     with fade
-    "You had lost a lot of time, 5 000 Gold and French kissing frog. But look at the bright side. Now you know that you shouldn't trust a talking frog."
-    "On your way back you meet another talking frog with a cape on its back."
-
-    show jumping_frog_2
-    define f2 = Character("Frog x2", color=green, what_color=lawngreen, show_two_window=True)
-    f2 "Excuse me kind sir. Could you help a damsel in distress?"
-    menu:
-        "Not falling for it twice!": # note to xela, this will be the only option for times being. If we want to continue with event for the second frog we have a foothold in here.": 
-            jump frog1_event_frog2not
-
-label frog1_event_frog2not:
-    "Without stopping you ignored the frog getting away from it as fast as possible."
-    $ pytfall.world_events.kill_event("show_frog_final")
+    "You had lost a lot of time, 1 000 Gold and French kissing frog. But look at the bright side. Now you know that you shouldn't trust a talking frog."
     jump forest_entrance
 
