@@ -40,6 +40,16 @@
     "locations": ["Exploration"]
     },
     {
+    "id": "Gilded Crown",
+    "desc": "A shiny but rather cheap gilded copper crown.",
+    "icon": "content/items/loot/crown.png",
+    "price": 250,
+    "chance": 55,
+    "slot": "loot",
+    "type": "treasure",
+    "locations": ["Exploration"]
+    },
+    {
     "id": "Amethyst",
     "desc": "A purple variety of quartz suitable for use in jewelry.",
     "icon": "content/items/loot/amethyst.png",

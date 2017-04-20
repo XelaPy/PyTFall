@@ -47,7 +47,7 @@ screen show_frog_final:
 label start_frog_event:
     hide screen forest_entrance
     with dissolve
-    "In your hunt for attractive women, you picked the forest as your hunting ground for today. Walking for couple of hours, you had found a rather large frog jumping around."
+    "How odd. There is a rather large frog jumping around, even though there are no water bodies nearby."
     
     menu:
         "Approach with curiosity to have a closer look.":
@@ -59,27 +59,39 @@ label start_frog_event:
             jump forest_entrance
 
 label frog1_event_look:
-    
+    show frog
+    with dissolve
     menu:
-        "You approach the frog! Upon further inspection, it appears to be wearing a crown."
+        "You approach the frog. Upon further inspection, it appears to be wearing a crown."
         
         "Poke the frog with a stick.":
             jump frog1_event_poke
-        # "Try to snatch the crown":
-            # jump frog1_event_snatch # @Klaus you forgot this choice...
+        "Try to snatch the crown":
+            jump frog1_event_snatch
         "Leave the frog alone":
             "Not interested in green slime bags, you continue your quest looking for some fun bags."
             $ pytfall.world_quests.get("Frog Princess!").finish_in_label("You've rejected the Frog Princess Quest! It's further fate is unknown.")
             $ pytfall.world_events.kill_event("show_frog")
-            jump forest_entrance # note to Xela, I want it to jump to the previous end quest option, but i don't know if it will or should I copy it from above, paste it belowe and rename.
-            # I don't understand what is required here, for now it will terminate the event.
+            jump forest_entrance
 
-
+label frog1_event_snatch:
+    "You quickly grab the crown before the frog realises you intentions!"
+    $ hero.add_item("Gilded Crown")
+    hide frog
+    play events "events/clap.mp3"
+    show expression HitlerKaputt("frog", 50) as death
+    pause 1.5
+    "As soon as the crown is separated from the frog, its body disappears with a soft clap..."
+    "But on the bright side the crown is yours now, and local merchants will give you some gold for it."
+    $ pytfall.world_quests.get("Frog Princess!").finish_in_label("You've retrieved the frog's crown. Possibly killing the frog.")
+    $ pytfall.world_events.kill_event("show_frog")
+    hide death
+    jump forest_entrance
+            
 label frog1_event_poke:
     define f1 = Character("Frog", color=green, what_color=lawngreen, show_two_window=True)
     
     hero.say "How do you like that?."
-    show frog
     "It easiely dodges your stick and..."
     f1 "Another one came to laugh at my misfortune. Come on. Let's be done with it."
     "The animal's ability to use human language totally surprised you. You are just standing there not knowing what to do."
