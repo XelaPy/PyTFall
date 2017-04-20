@@ -44,13 +44,6 @@ label chars_list:
                 renpy.hide_screen("chars_list")
                 char = result[1]
                 jump('char_profile')
-            # elif result[0] == "paging":
-            #     gs = renpy.get_screen("chars_list").scope["_kwargs"]["source"]
-            #     if result[1] == "next":
-            #         gs.page += 1
-            #     elif result[1] == "previous":
-            #         gs.page -= 1
-            #     gs.page %= gs.total_pages
 
     hide screen chars_list
     jump mainscreen
@@ -62,7 +55,7 @@ screen chars_list(source=None):
     default page = min(chars_list_last_page_viewed, max_page)
 
     # Keybinds:
-    key "mousedown_4" action If(page + 1 < max_page, true=SetScreenVariable("page", page+1), false=NullAction())
+    key "mousedown_4" action If(page < max_page, true=SetScreenVariable("page", page+1), false=NullAction())
     key "mousedown_5" action If(page > 0, true=SetScreenVariable("page", page-1), false=NullAction())
 
     python:
@@ -310,7 +303,7 @@ screen chars_list(source=None):
         textbutton "[page]":
             action NullAction()
         textbutton "-->":
-            sensitive page + 1 < max_page
+            sensitive page < max_page
             action SetScreenVariable("page", page+1)
 
     $ store.chars_list_last_page_viewed = page # At Darks Request!
