@@ -186,13 +186,13 @@ label library_eleven_dialogue:
     menu eleven_menu:
         "Show leaflets" if has_items("Rebels Leaflet", [hero]) and global_flags.flag('player_knows_about_eleven_jobs'):
             hide npc
-            $ npc_1 = npcs["Eleven"].get_vnsprite()
-            $ npc_2 = npcs["Eleven"].show("battle", resize=(800, 600))
-            show expression PytPix(1, 5, npc_1, npc_2) at center as temp
+            show expression npcs["Eleven"].show("battle", resize=(800, 600)) as npc
+            with eye_open
             $ money = has_items("Rebels Leaflet", [hero])*50
             "Without a single word, the golem immediately destroys leaflets right in your hands. Still warm ash falls to the floor."
-            hide temp
-            show expression PytPix(1, 5, npc_2, npc_1) at center as temp
+            hide npc
+            show expression npcs["Eleven"].get_vnsprite() as npc
+            with eye_shut
             $ npcs["Eleven"].override_portrait("portrait", "confident")
             e "{b}This unit and the city appreciate you services. Keep it up, [hero.name]. Here is your reward, [money] coins.{/b}"
             $ hero.remove_item("Rebels Leaflet", has_items("Rebels Leaflet", [hero]))
