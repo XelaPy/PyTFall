@@ -4,7 +4,6 @@
 
     if config.debug:
         $ renpy.show_screen("debug_tools", _layer="pytfall")
-        show screen debug_tools
 
     python:
         # Global variables and loading content:
