@@ -21,7 +21,7 @@ init: # Items:
                         # in groups indicate some have the item
                         background Frame("content/gfx/frame/frame_it1.png", -1, -1)
                         use r_lightbutton (img=ProportionalScale(im.Sepia(item.icon), 70, 70), return_value=return_value+[item], align=(0.5, 0.5))
-    
+
     screen eqdoll(active_mode=True, char=None, frame_size=[55, 55], scr_align=(0.23, 0.23), return_value=['item', 'get'], txt_size=17, fx_size=(300, 320)):
         # active_mode = Allows equipped item to be focused if true, otherwise just dispayes a picture of an item (when equipped).
         # char = source of equipment slots.
@@ -35,12 +35,12 @@ init: # Items:
                 # background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
             add (char.show("vnsprite", resize=(288, 400), cache=True)) alpha 0.9 align (0.5, 1.0)
             # add im.Scale("content/gfx/interface/images/doll_fem.png", 350, 500) align (0.25, 0.23)
-            
+
         fixed:
             style_group "content"
             align scr_align
             xysize fx_size
-            
+
             for slot in equipSlotsPositions:
                 python:
                     is_multiple_pytgroup = False
@@ -70,7 +70,7 @@ init: # Items:
                         key = "ring" if slot.startswith("ring") else slot
                         img = blank
                 frame:
-                    
+
                     background bg
                     pos (equipSlotsPositions[slot][1]+ (0 if not isinstance(char, dict) or equipSlotsPositions[slot][1] < 0.5 else -0.619), equipSlotsPositions[slot][2])
                     xysize (frame_size[0], frame_size[1])
@@ -81,12 +81,12 @@ init: # Items:
                             add ProportionalScale(img, frame_size[0]*0.71, frame_size[1]*0.71) align (0.5, 0.5)
                     else:
                         add Transform(ProportionalScale("content/gfx/interface/buttons/filters/%s_bg.png"%key, frame_size[0]*0.71, frame_size[1]*0.71), alpha=0.35) align (0.5, 0.5)
-                        
-    
+
+
     screen shopping(left_ref=None, right_ref=None):
         use shop_inventory(ref=left_ref, x=0.0)
         use shop_inventory(ref=right_ref, x=1.0)
-        
+
         if focus:
             vbox:
                 align .5, .5
@@ -94,18 +94,18 @@ init: # Items:
                     background Frame("content/gfx/frame/frame_dec_1.png", 30, 30)
                     xalign .5
                     padding 30, 30
-                    
+
                     use itemstats(item=focus, size=(580, 350))
-                    
+
                 null height 3
-                    
+
                 frame:
                     background Frame("content/gfx/frame/p_frame5.png", 10, 10)
                     xalign .5
                     padding 10, 10
-                    
+
                     has vbox ysize 100
-                    
+
                     frame:
                         xalign .5
                         style_prefix "proper_stats"
@@ -115,7 +115,7 @@ init: # Items:
                             xysize 250, 25
                             label "Retail Price:" text_color gold text_size 22 xalign .0 yalign .5
                             label "[total_price]" text_color gold text_size 22 xalign 1.0 yalign .5
-                    
+
                     fixed:
                         xsize 180
                         xalign .5
@@ -126,7 +126,7 @@ init: # Items:
                         use r_lightbutton(img=ProportionalScale('content/gfx/interface/buttons/blue_arrow_right.png', 40, 40), return_value=['control', 1], align=(.75, .5))
                         use r_lightbutton(img=ProportionalScale('content/gfx/interface/buttons/blue_arrow_right.png', 30, 30), return_value=['control', 5], align=(.9, .5))
                         use r_lightbutton(img=ProportionalScale('content/gfx/interface/buttons/blue_arrow_right.png', 25, 25), return_value=['control', 10], align=(1.0, .5))
-                    
+
                     button:
                         style_prefix "basic"
                         action Return(['item', 'buy/sell'])
@@ -136,9 +136,9 @@ init: # Items:
                             text "Buy"
                         elif purchasing_dir == "sell":
                             text "Sell"
-        
+
         use exit_button
-    
+
     # Frame for item in girl inventory or a shop
     screen itemframe(txt="", value=None, img=None):
         frame:
@@ -150,7 +150,7 @@ init: # Items:
                 hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
                 action Return(value)
             text (txt) align(1.0, 1.0) style "content_text" size 20
-    
+
     screen itemstats(item=None, size=(635, 380), style_group="content", mc_mode=False):
         if item:
             vbox:
@@ -161,7 +161,7 @@ init: # Items:
                     xysize (440, 40)
                     background Frame("content/gfx/frame/p_frame7.png", 10, 10)
                     label '[item.id]' text_color gold xalign 0.5 text_size 20 text_outlines [(1, "#000000", 0, 0)] text_style "interactions_text"
-                    
+
                 vbox:
                     align .5, .5
                     label ('{color=#ecc88a}----------------------------------------') xalign .5
@@ -332,7 +332,7 @@ init: # Items:
                         background Frame("content/gfx/frame/p_frame7.png", 10, 10)
                         has viewport mousewheel True xysize (460, 100)
                         text '[item.desc]' style "TisaOTM" size 16 color gold
-                                    
+
     # Equipment slot frame (of an item)
     screen equipment_slot(pos=(0.5, 0.5), name="", img=None, value=None):
         frame:
@@ -348,7 +348,7 @@ init: # Items:
                 idle im.Scale(img, 70, 70)
                 hover (im.MatrixColor(im.Scale(img, 70, 70), im.matrix.brightness(0.15)))
                 action Return(value)
-    
+
     # Inventory paging
     screen paging(path="content/gfx/interface/buttons/", use_filter=True, ref=None, xysize=(270, 60), root=None, align=(.5, .0)):
         frame:
@@ -358,12 +358,12 @@ init: # Items:
             else:
                 background Frame("content/gfx/frame/frame_bg.png", 5, 5)
                 ypadding 15
-                
+
             style_group "content"
             xpadding 15
             xysize xysize
             align align
-            
+
             vbox:
                 align .5, .5
                 # Filter
@@ -378,14 +378,14 @@ init: # Items:
                             idle img
                             hover im.MatrixColor(img, im.matrix.brightness(.15))
                             action Function(ref.apply_filter, "prev")
-                            
+
                         python:
                             if ref.slot_filter in SLOTALIASES:
                                 slot = SLOTALIASES[ref.slot_filter]
                             else:
                                 slot = ref.slot_filter.capitalize()
                         label "[slot] " align .5, .5  text_color ivory
-                        
+
                         imagebutton:
                             align 1.0, .5
                             idle path+'next.png'
@@ -421,41 +421,41 @@ init: # Items:
                             idle (path+'last.png')
                             hover (im.MatrixColor(path+'last.png', im.matrix.brightness(0.15)))
                             action Function(ref.last)
-                        
+
     screen shop_inventory(ref=None, x=0.0):
         key "mousedown_4" action ref.inventory.next
         key "mousedown_5" action ref.inventory.prev
-        
+
         frame at fade_in_out(t1=0.5, t2=0.5):
             style_group "content"
             background Frame(Transform("content/gfx/frame/mes11.jpg", alpha=0.5), 5, 5)
             xalign x
             yfill True
             has vbox
-            
+
             use paging(ref=ref.inventory, xysize=(260, 90))
-            
+
             null height 5
-            
+
             hbox:
                 xalign 0.5
                 add im.Scale("content/gfx/interface/icons/gold.png", 25, 25) align (0.0, 0.5)
                 null width 10
                 text u'[ref.gold]' align (0.5, 1.0) color gold size 23
-                
+
             null height 5
-            
+
             if isinstance(ref, ItemShop):
                 label "[ref.name]" text_color ivory xalign 0.5
             elif isinstance(ref, PytCharacter):
                 label "[ref.nickname]" text_color ivory xalign 0.5
             else:
                 label "Inventory" text_color ivory xalign 0.5
-                
+
             null height 5
-            
+
             use items_inv(char=ref, main_size=(268, 522), frame_size=(85, 85), return_value=["item", ref])
-            
+
 init: # PyTFall:
     screen r_lightbutton:
         default align = (0, 0)
@@ -464,7 +464,7 @@ init: # PyTFall:
             idle img
             hover im.MatrixColor(img, im.matrix.brightness(0.15))
             action Return(return_value)
-    
+
     screen rg_lightbutton:
         default align = (0, 0)
         frame:
@@ -474,7 +474,7 @@ init: # PyTFall:
                 idle (img)
                 hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
                 action Return(return_value)
-    
+
     screen rtt_lightbutton:
         imagebutton yalign 0.5:
             idle (img)
@@ -492,10 +492,10 @@ init: # PyTFall:
                 if renpy.get_screen(scr):
                     return True
             return False
-            
+
     screen quest_notifications(q, type, align=None, autohide=2.5):
         zorder 500
-        
+
         fixed:
             at slide(so1=(0, -600), eo1=(0, 40), t1=.4,
                          so2=(0, 40), eo2=(0, -600), t2=.6)
@@ -513,249 +513,219 @@ init: # PyTFall:
                 xysize (400, 150)
                 align .5, .5
                 text q align .5, .5 style "TisaOTM" size 25
-                
+
                 imagebutton:
                     align 1.005, -.03
                     idle "content/gfx/interface/buttons/close3.png"
                     hover "content/gfx/interface/buttons/close3_h.png"
                     action Hide("quest_notifications")
-                
+
             add ProportionalScale(interfaceimages + "quest.png", 170, 120) pos (100, 0)
             frame:
                 pos 400, 140 xanchor 1.0
                 xpadding 15
                 background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.45), 10, 10)
                 text type style "content_text" size 40 color gold
-    
+
         if autohide:
             timer autohide action Hide("quest_notifications")
-            
-    screen top_stripe(show_return_button=True, use_hide_transform=False, normal_op=True):
+
+    screen top_stripe(show_return_button=True, return_button_action=None, show_lead_away_buttons=True):
+
         default tt = Tooltip("")
-        if not normal_op:
-            mousearea:
-                pos(0, 0)
-                xysize(config.screen_width, 43)
-                hovered SetField(pytfall, "city_dropdown", True)
-                unhovered SetField(pytfall, "city_dropdown", False)
-    
+        default return_action = Return(['control', 'return']) if return_button_action is None else return_button_action
+
         # Hotkeys:
         if show_return_button and not get_screens("girl_interactions", "building_management_leftframe_businesses_mode"):
-            key "mousedown_3" action Return(['control', 'return'])
+            key "mousedown_3" action return_action
         if renpy.current_screen().tag not in ["girl_interactions", "hero_profile", "quest_log", "dungeon"]:
             if global_flags.flag("visited_arena"):
                 key "a" action [Function(hs), Jump("arena_inside")]
             if global_flags.flag("visited_city_beach"):
                 key "c" action [Function(hs), Function(global_flags.del_flag, "keep_playing_music"), Jump("city_beach_cafe")]
-            key "g" action [Function(hs), Function(global_flags.del_flag, "keep_playing_music"), Jump("general_store")] 
+            key "g" action [Function(hs), Function(global_flags.del_flag, "keep_playing_music"), Jump("general_store")]
             key "m" action [Function(hs), Function(global_flags.del_flag, "keep_playing_music"), Jump("mainscreen")]
             key "j" action ShowMenu("quest_log")
-          
-        # Top Stripe:
-        showif normal_op or pytfall.city_dropdown:
-            # Mainframe:
-            add "content/gfx/frame/top_stripe.png":
-                pos (0, 0)
-                if use_hide_transform:
-                    at auto_slide()
-                    
-        # Screen frame, always visible:            
+
+        # Top Stripe Frame:
+        add "content/gfx/frame/top_stripe.png"
+
+        # Screen frame, always visible:
         if show_return_button:
             add "content/gfx/frame/h3.png"
         else:
             add "content/gfx/frame/h2.png"
-         
+
         # All buttons:
-        showif normal_op or pytfall.city_dropdown:
-            fixed:
-                if use_hide_transform:
-                    at auto_slide()
-                xysize(config.screen_width, 43)
-                pos (0, 0)
-                hbox:
-                    style_group "content"
-                    align(0.023, 0.5)
-                    null width 10 
-                    add "coin_top" yalign 0.5
-                    null width 5
-                    text (u"%d"%int(hero.gold)) size 20 color gold yalign 0.5
-                    null width 15
-                    text (u'Day [day]') size 20 color ivory yalign 0.5
-                    null width 15
-                    button:
-                        style "sound_button"
-                        xysize (37, 37)
-                        action [SelectedIf(not (_preferences.mute["music"] or _preferences.mute["sfx"])),
-                                    If(_preferences.mute["music"] or _preferences.mute["sfx"],
-                                    true=[Preference("sound mute", "disable"), Preference("music mute", "disable")],
-                                    false=[Preference("sound mute", "enable"), Preference("music mute", "enable")])]
-                            
-                # Left HBox:
-                hbox:
-                    align(0.3, 0.5)
-                    
-                    if renpy.get_screen("char_profile") and char not in pytfall.ra:
-                        if char in hero.team:
-                            imagebutton:
-                                idle im.Scale("content/gfx/interface/buttons/RG.png" , 36, 40)
-                                hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/RG.png", 36, 40), im.matrix.brightness(0.25))
-                                action Function(hero.team.remove, char)
-                                hovered tt.Action("Remove [char.nickname] from player team!")
-                        else:
-                            imagebutton:
-                                idle im.Scale("content/gfx/interface/buttons/AG.png" , 36, 40)
-                                hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/AG.png", 36, 40), im.matrix.brightness(0.25))
-                                action Function(hero.team.add, char)
-                                hovered tt.Action("Add [char.nickname] to player team!")
-                  
-                # Girlslist paging buttons:
-                if renpy.current_screen().tag == "chars_list":
-                    hbox:
-                        style_group "basic"
-                        align(0.3, 0.5)
-                        spacing 3
-                        
-                        $ gs = renpy.get_screen("chars_list").scope["_kwargs"]
-                        
-                        textbutton "<--":
-                            action SensitiveIf(gs["page"] > 0), Show("chars_list", source=gs["source"], page=gs["page"] - 1, total_pages=gs["total_pages"])
-                        $ page_2_display = gs["page"] + 1
-                        textbutton "[page_2_display]":
-                            action NullAction()
-                        textbutton "-->":
-                            action SensitiveIf(gs["page"] + 1 < gs["total_pages"]), Show("chars_list", source=gs["source"], page=gs["page"] + 1, total_pages=gs["total_pages"])
-                    
-                # AP Frame/Next Day button:
-                if any([renpy.current_screen().tag == "next_day", hero.AP == 0]) and renpy.current_screen().tag not in ["mainscreen", "girl_interactions"]:
-                    button:
-                        style_group "basic"
-                        align (0.5, 0.6)
-                        action (hs, Function(global_flags.set_flag, "nd_music_play"), Hide("hero_equip"), Jump("next_day"))
-                        text "Next Day"
-                else:
-                    add ProportionalScale("content/gfx/frame/frame_ap.png", 170, 50) align (0.5, 0.7)
-                    label "[hero.AP]" align (0.53, 0.6) style "content_label"  text_size 23 text_color ivory text_bold True
-                    
-                # Right HBox:    
-                hbox:
-                    align(0.8, 0.5)
-                    spacing 5
-                    
-                    if config.developer:
-                        textbutton "{size=20}{color=[ivory]}{b}F":
-                            action Jump("fonts")
-                            hovered tt.Action("View availible Fonts!")
-                            
-                    if renpy.current_screen().tag not in ["quest_log"]:
+        fixed:
+            xysize(config.screen_width, 43)
+            hbox:
+                style_group "content"
+                align .023, .5
+                null width 10
+                add "coin_top" yalign .5
+                null width 5
+                text "[hero.gold]" size 20 color gold yalign .5
+                null width 15
+                text u'Day [day]' size 20 color ivory yalign .5
+                null width 15
+                button:
+                    style "sound_button"
+                    xysize (37, 37)
+                    action [SelectedIf(not (_preferences.mute["music"] or _preferences.mute["sfx"])),
+                            If(_preferences.mute["music"] or _preferences.mute["sfx"],
+                            true=[Preference("sound mute", "disable"), Preference("music mute", "disable")],
+                            false=[Preference("sound mute", "enable"), Preference("music mute", "enable")])]
+
+            # Left HBox: ======================================================>>>>>>
+            # Add to and remove from Team Button.
+            hbox:
+                align(0.3, 0.5)
+                if renpy.get_screen("char_profile") and char not in pytfall.ra:
+                    if char in hero.team:
                         imagebutton:
-                            idle im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40)
-                            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40), im.matrix.brightness(0.25))
-                            hovered tt.Action("Quest Journal!")
-                            action ShowMenu("quest_log")
-                            
-                    if renpy.current_screen().tag == "mainscreen":
+                            idle im.Scale("content/gfx/interface/buttons/RG.png" , 36, 40)
+                            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/RG.png", 36, 40), im.matrix.brightness(.15))
+                            action Function(hero.team.remove, char)
+                            hovered tt.Action("Remove [char.nickname] from player team!")
+                    else:
                         imagebutton:
-                            idle im.Scale("content/gfx/interface/buttons/preference.png", 39, 40)
-                            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/preference.png", 39, 40), im.matrix.brightness(0.25))
-                            action Show("s_menu", transition=dissolve)
-                            hovered tt.Action("Game Preferences!")
-                            
-                    if renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "dungeon"]:
-                        imagebutton:
-                            idle im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37)
-                            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37), im.matrix.brightness(0.25))
-                            action (Hide(renpy.current_screen().tag), Function(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
-                            hovered tt.Action("Return to Main Screen!")
-                            
-                    if renpy.current_screen().tag in ["char_profile", "char_equip"] and char.action != "Exploring":
-                        imagebutton:
-                            idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
-                            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(0.25))
-                            action Return(["jump", "item_transfer"])
-                            hovered tt.Action("Transfer items between MC and and [char.nickname]!")
-                            
-                    if renpy.get_screen("hero_profile") and hero.location == ap:
-                        imagebutton:
-                            idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
-                            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(0.25))
-                            action Return(["item", "transfer"])
-                            hovered tt.Action("Leave your crap at your place (Inside of a safe chest)!")
-                    
-                    if renpy.current_screen().tag not in ["hero_profile", "girl_interactions", "quest_log"]:
-                        imagebutton:
-                            idle im.Scale("content/gfx/interface/buttons/profile.png", 35, 40)
-                            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/profile.png", 35, 40), im.matrix.brightness(0.25))
-                            action [SetField(pytfall.hp, "came_from", last_label), Hide(renpy.current_screen().tag), Jump("hero_profile")]
-                            hovered tt.Action("View Hero Profile!")
-                        
-                    null width 10    
-                    
+                            idle im.Scale("content/gfx/interface/buttons/AG.png" , 36, 40)
+                            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/AG.png", 36, 40), im.matrix.brightness(.15))
+                            action Function(hero.team.add, char)
+                            hovered tt.Action("Add [char.nickname] to player team!")
+
+            # AP Frame/Next Day button:
+            if any([renpy.current_screen().tag == "next_day", hero.AP == 0]) and renpy.current_screen().tag not in ["mainscreen", "girl_interactions"]:
+                button:
+                    style_group "basic"
+                    align (0.5, 0.6)
+                    action (hs, Function(global_flags.set_flag, "nd_music_play"), Hide("hero_equip"), Jump("next_day"))
+                    text "Next Day"
+            else:
+                add ProportionalScale("content/gfx/frame/frame_ap.png", 170, 50) align (0.5, 0.7)
+                label "[hero.AP]" align (0.53, 0.6) style "content_label"  text_size 23 text_color ivory text_bold True
+
+            # Right HBox:
+            hbox:
+                align(0.8, 0.5)
+                spacing 5
+
+                if config.developer:
+                    textbutton "{size=20}{color=[ivory]}{b}F":
+                        action Jump("fonts")
+                        hovered tt.Action("View availible Fonts!")
+
+                if renpy.current_screen().tag not in ["quest_log"]:
                     imagebutton:
-                            idle im.Scale("content/gfx/interface/buttons/save.png" , 40, 40)
-                            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/save.png" , 40, 40), im.matrix.brightness(0.25))
-                            hovered tt.Action("QuickSave!")
-                            action QuickSave()
-                            
+                        idle im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40)
+                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40), im.matrix.brightness(0.25))
+                        hovered tt.Action("Quest Journal!")
+                        action ShowMenu("quest_log")
+
+                if renpy.current_screen().tag == "mainscreen":
                     imagebutton:
-                        idle im.Scale("content/gfx/interface/buttons/load.png" , 38, 40)
-                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/load.png" , 38, 40), im.matrix.brightness(0.25))
-                        hovered tt.Action("QuickLoad!")
-                        action QuickLoad()
-    
-                if show_return_button:
+                        idle im.Scale("content/gfx/interface/buttons/preference.png", 39, 40)
+                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/preference.png", 39, 40), im.matrix.brightness(0.25))
+                        action Show("s_menu", transition=dissolve)
+                        hovered tt.Action("Game Preferences!")
+
+                if renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "dungeon"]:
                     imagebutton:
-                        align(0.993, 0.5)
-                        idle im.Scale("content/gfx/interface/buttons/close.png", 35, 35)
-                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 35, 35), im.matrix.brightness(0.25))
-                        action Return(['control', 'return'])
-                        hovered tt.Action("Return to previous screen!")
-                    
-                    
+                        idle im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37)
+                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37), im.matrix.brightness(0.25))
+                        action (Hide(renpy.current_screen().tag), Function(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
+                        hovered tt.Action("Return to Main Screen!")
+
+                if renpy.current_screen().tag in ["char_profile", "char_equip"] and char.action != "Exploring":
+                    imagebutton:
+                        idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
+                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(0.25))
+                        action Return(["jump", "item_transfer"])
+                        hovered tt.Action("Transfer items between MC and and [char.nickname]!")
+
+                if renpy.get_screen("hero_profile") and hero.location == ap:
+                    imagebutton:
+                        idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
+                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(0.25))
+                        action Return(["item", "transfer"])
+                        hovered tt.Action("Leave your crap at your place (Inside of a safe chest)!")
+
+                if renpy.current_screen().tag not in ["hero_profile", "girl_interactions", "quest_log"]:
+                    imagebutton:
+                        idle im.Scale("content/gfx/interface/buttons/profile.png", 35, 40)
+                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/profile.png", 35, 40), im.matrix.brightness(0.25))
+                        action [SetField(pytfall.hp, "came_from", last_label), Hide(renpy.current_screen().tag), Jump("hero_profile")]
+                        hovered tt.Action("View Hero Profile!")
+
+                null width 10
+
+                imagebutton:
+                        idle im.Scale("content/gfx/interface/buttons/save.png" , 40, 40)
+                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/save.png" , 40, 40), im.matrix.brightness(0.25))
+                        hovered tt.Action("QuickSave!")
+                        action QuickSave()
+
+                imagebutton:
+                    idle im.Scale("content/gfx/interface/buttons/load.png" , 38, 40)
+                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/load.png" , 38, 40), im.matrix.brightness(0.25))
+                    hovered tt.Action("QuickLoad!")
+                    action QuickLoad()
+
+            if show_return_button:
+                imagebutton:
+                    align(0.993, 0.5)
+                    idle im.Scale("content/gfx/interface/buttons/close.png", 35, 35)
+                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 35, 35), im.matrix.brightness(0.25))
+                    action Return(['control', 'return'])
+                    hovered tt.Action("Return to previous screen!")
+
+
     screen message_screen(msg, size=(500, 300), use_return=False):
         modal True
         zorder 10
-        
+
         fixed:
             align(0.5, 0.5)
             xysize(size[0], size[1])
             xfill True
             yfill True
-            
+
             add im.Scale("content/gfx/frame/frame_bg.png", size[0], size[1])
-            
+
             vbox:
                 style_prefix "proper_stats"
                 spacing 30
                 align(0.5, 0.5)
                 vbox:
-                    xmaximum (size[0] - 50) 
+                    xmaximum (size[0] - 50)
                     text msg xalign 0.5 color lightgoldenrodyellow size 20
                 textbutton "Ok" action If(use_return, true=Return(), false=Hide("message_screen")) minimum(120, 30) xalign 0.5 style "yesno_button"
-        
+
     screen display_disposition(tag, d, size, x, y, t):
         tag tag
         text "[d]" font "fonts/rubius.ttf" size size color crimson at found_cash(x, y, t)
         timer t+0.2 action Hide("display_disposition")
-        
+
     screen pyt_input(default="", text="", length=20, size=(350, 150)):
         modal True
         zorder 10
-    
+
         fixed:
             align(0.5, 0.5)
             minimum(size[0], size[1])
             maximum(size[0], size[1])
             xfill True
             yfill True
-            
+
             add im.Scale("content/gfx/frame/frame_bg.png", size[0], size[1])
-            
+
             vbox:
                 spacing 30
                 align(0.5, 0.5)
                 text text xalign 0.5
                 input default default length length xalign 0.5
-                
+
     screen exit_button(size=(35, 35), align=(1.0, 0.0), action=Return(['control', 'return'])):
         $ img = im.Scale("content/gfx/interface/buttons/close.png" , size[0], size[1])
         imagebutton:
@@ -763,49 +733,49 @@ init: # PyTFall:
             idle img
             hover im.MatrixColor(img, im.matrix.brightness(0.25))
             action action
-            
+
     screen dropdown(pos):
         # Trying to create a drop down screen with choices of actions:
         zorder 3
         modal True
-        
+
         key "mousedown_4" action NullAction()
         key "mousedown_5" action NullAction()
-        
+
         # Get mouse coords:
         python:
             x, y = pos
             xval = 1.0 if x > config.screen_width/2 else .0
             yval = 1.0 if y > config.screen_height/2 else .0
-            
+
         frame:
             style_prefix "dropdown_gm"
             pos (x, y)
             anchor (xval, yval)
             has vbox
-            
+
             transclude # Doesn't work as expected, no style passing to other screens, no modal, bull shit of a statement basically at this stage :(
-            
+
     screen set_action_dropdown(char, pos=()):
         # Trying to create a drop down screen with choices of actions:
         zorder 3
         modal True
-        
+
         key "mousedown_4" action NullAction()
         key "mousedown_5" action NullAction()
-        
+
         # Get mouse coords:
         python:
             x, y = pos
             xval = 1.0 if x > config.screen_width/2 else .0
             yval = 1.0 if y > config.screen_height/2 else .0
-            
+
         frame:
             style_prefix "dropdown_gm"
             pos (x, y)
             anchor (xval, yval)
             has vbox
-            
+
             if isinstance(char.location, UpgradableBuilding):
                 # Jobs:
                 $ jobs = char.location.get_valid_jobs(char)
@@ -813,7 +783,7 @@ init: # PyTFall:
                     textbutton "[i.id]":
                         # Without Equipping for the job!
                         action [Function(set_char_to_work, char, char.location, i), Hide("set_action_dropdown")]
-                        
+
             # Buildings:
             # TODO: This needs to be rewritten:
             elif isinstance(char.location, Building):
@@ -829,7 +799,7 @@ init: # PyTFall:
                     else:
                         textbutton "[entry]":
                             action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-            
+
             # Fighters Guild
             #elif isinstance(char.location, FighterGuild):
             #    for entry in FighterGuild.ACTIONS:
@@ -851,7 +821,7 @@ init: # PyTFall:
             #        else:
             #            textbutton "[entry]":
             #                action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-            
+
             # Other buildings
             elif hasattr(char.location, "actions"):
                 for entry in char.location.actions:
@@ -859,43 +829,43 @@ init: # PyTFall:
                         if char.status not in ("slave", "various") and ("Warrior" in char.occupations or char.disposition <= 950):
                             textbutton "[entry]":
                                 action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-                    
+
                     elif entry == "Take Course":
                         textbutton "[entry]":
                             action [Hide("set_action_dropdown"), Hide("charslist"), Hide("char_profile"), # Hide the dropdown screen, the chars list and char profile screens
                                     SetField(store, "char", char, True), # Ensure that the global var char is set to the current char
                                     Jump("char_training")] # Jump to the training screen
-                    
+
                     else:
                         textbutton "[entry]":
                                 action [SetField(char, "action", entry), Function(equip_for, char, entry), If(char_is_training(char), true=Function(stop_training, char)), Hide("set_action_dropdown")]
-            
+
             # Prevent none action in schools
             if not hasattr(char.location, "is_school") or not char.location.is_school:
                 textbutton "None":
                     action [SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Hide("set_action_dropdown")]
-            
+
             textbutton "Rest":
                 # TODO: Temporary way to set action to Rest, this needs to be rewritten completely.
                 action [SetField(char, "action", Rest()), Hide("set_action_dropdown")]
-                    
+
             textbutton "Close":
                 action [Hide("set_action_dropdown")]
-                
+
     screen set_location_dropdown(char, pos=()):
         # Trying to create a drop down screen with choices of actions:
         zorder 3
         modal True
-        
+
         key "mousedown_4" action NullAction()
         key "mousedown_5" action NullAction()
-        
+
         # Get mouse coords:
         python:
             x, y = pos
             xval = 1.0 if x > config.screen_width/2 else .0
             yval = 1.0 if y > config.screen_height/2 else .0
-            
+
         frame:
             style_prefix "dropdown_gm"
             pos (x, y)
@@ -931,33 +901,33 @@ init: # PyTFall:
                     else:
                         textbutton "[building.name]":
                             action [SelectedIf(char.location==building), SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
-            
+
             textbutton "Home":
                 action [If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, char.home), Hide("set_location_dropdown")]
-            
+
             textbutton "Close":
                 action Hide("set_location_dropdown")
-                    
+
     screen set_home_dropdown(char, pos=()):
         # Trying to create a drop down screen with choices of actions:
         zorder 3
         modal True
-        
+
         key "mousedown_4" action NullAction()
         key "mousedown_5" action NullAction()
-        
+
         # Get mouse coords:
         python:
             x, y = pos
             xval = 1.0 if x > config.screen_width/2 else .0
             yval = 1.0 if y > config.screen_height/2 else .0
-            
+
         frame:
             style_prefix "dropdown_gm"
             pos (x, y)
             anchor (xval, yval)
             has vbox
-            
+
             for building in hero.buildings:
                 if isinstance(building, UpgradableBuilding) and building.habitable:
                     textbutton "[building.name]":
@@ -966,11 +936,11 @@ init: # PyTFall:
                 action SetField(char, "home", locations["Streets"]), Hide("set_home_dropdown")
             textbutton "Close":
                 action Hide("set_home_dropdown")
-        
+
     screen char_rename(char=None):
         modal True
         zorder 1
-        
+
         vbox:
             style_group "basic"
             at fade_in_out()
@@ -984,24 +954,24 @@ init: # PyTFall:
             if isinstance(char, Player) or char.status == "slave":
                 textbutton "Full: [char.fullname]":
                     action Return(["rename", "full"])
-                
+
             null height 20
-            
+
             textbutton "Back":
                 action Hide("char_rename")
-                
+
     screen poly_matrix(in_file, show_exit_button=False, cursor="content/gfx/interface/icons/zoom_glass.png", xoff=20, yoff=20, hidden=[]):
         # If a tuple with coordinates is provided instead of False for show_exit_button, exit button will be placed there.
-        
+
         default tooltip = False
-        
+
         on "hide":
             action SetField(config, "mouse", None), Hide("show_poly_matrix_tt")
-        
+
         python:
             with open(renpy.loader.transfn(in_file)) as f:
                 matrix = json.load(f)
-                
+
         $ func = renpy.curry(point_in_poly)
         for i in matrix:
             if i["id"] not in hidden:
@@ -1016,20 +986,20 @@ init: # PyTFall:
                             align = ()
                             # Get a proper placement:
                             allx, ally = list(), list()
-                            
+
                             for t in i["xy"]:
                                 allx.append(t[0])
                                 ally.append(t[1])
-                                
+
                             maxx = max(allx)
                             maxy = max(ally)
                             minx = min(allx)
                             miny = min(ally)
-                            
+
                             w, h = config.screen_width, config.screen_height
-                            
+
                             side = i.get("place", "left")
-                            
+
                             if side == "left":
                                 pos = (minx - 10, sum(ally)/len(ally))
                                 anchor = (1.0, 0.5)
@@ -1042,7 +1012,7 @@ init: # PyTFall:
                             elif side == "top":
                                 pos = (sum(allx)/len(allx), miny - 10)
                                 anchor = (0.5, 1.0)
-                
+
                     button:
                         background Null()
                         focus_mask func(i["xy"])
@@ -1058,12 +1028,12 @@ init: # PyTFall:
                         action Return(i["id"])
                         hovered SetField(config, "mouse", {"default": [(cursor, xoff, yoff)]})
                         unhovered SetField(config, "mouse", None)
-                
+
         if show_exit_button:
             textbutton "All Done":
                 align show_exit_button
                 action Return(False)
-                
+
     screen show_poly_matrix_tt(pos=(), anchor=(), align=(), text=""):
         zorder 1
         frame:
@@ -1073,11 +1043,11 @@ init: # PyTFall:
                 pos pos
                 anchor anchor
             text text
-        
+
     screen hidden_area(items=()):
         on "hide":
             action SetField(config, "mouse", None)
-            
+
         # randomly places a "hidden" rectangular area(s) on the screen. Areas are actually plain buttons with super low alpha...
         # Expects a list/tuple, like: (["hidden_cache_1", (100, 100), (.1, .5)], ["hidden_cache_2", (50, 50), (.54, .10)] If cache is found, screen (which should be called) will return: "hidden_cache_1" string. Tuple is the size in pixels.
         # Data is randomized outside of this screen!
@@ -1090,19 +1060,19 @@ init: # PyTFall:
                 action Return(item)
                 hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/net.png", 0, 0)]})
                 unhovered SetField(config, "mouse", None)
-                
+
                 # $ raise Exception(args[1])
-                
+
     screen fishing_area(items):
         on "hide":
             action SetField(config, "mouse", None)
-            
+
         hbox:
             xsize 1280
             box_wrap True
             for i in xrange(15):
                 add "water_texture__"
-        
+
         # special screen for fishing based on screen hidden_area, uses visible animated imagebuttons instead of invisible areas:
         $ fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=0.4, alpha=0.4)
         $ fishing_circles_webm_alpha = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=0.8, alpha=1.0)
@@ -1118,27 +1088,27 @@ init: # PyTFall:
     ##############################################################################
     screen notify:
         zorder 500
-        
+
         vbox:
             at fade_in_out(t1=0.25, t2=0.25)
             style_group "notify_bubble"
-            
+
             frame:
                 text message
-        
+
         timer 1.5 action Hide("notify")
-        
+
 init: # Settings:
     screen s_menu(s_menu="Settings"):
         zorder 10**5 + 1
         modal True
-        
+
         key "mousedown_3" action Hide("s_menu"), With(dissolve)
-    
+
         # default s_menu = "Settings"
-        
+
         add Transform("content/gfx/images/bg_gradient2.png", alpha=0.8)
-        
+
         frame:
             # at fade_in_out(sv1=0.0, ev1=1.0, t1=0.7,
                                     # sv2=1.0, ev2=0.0, t2=0.5)
@@ -1147,7 +1117,7 @@ init: # Settings:
             xysize (690, 414)
             style_group "smenu"
             has hbox align (0.5, 0.5) xfill True
-            
+
             if s_menu == "Settings":
                 grid 3 1:
                     align (0.5, 0.5)
@@ -1165,7 +1135,7 @@ init: # Settings:
                             # ypadding 8
                             # style_group "dropdown_gm2"
                             # has vbox align (0.5, 0.5)
-                            
+
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
                             xsize 194
@@ -1179,7 +1149,7 @@ init: # Settings:
                                 text _("- Display -") style "TisaOTMolxm"
                             textbutton _("Window") action Preference("display", "window") xsize 150 xalign 0.5 text_size 16
                             textbutton _("Fullscreen") action Preference("display", "fullscreen") xsize 150 xalign 0.5 text_size 16
-                                
+
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
                             xsize 194
@@ -1193,7 +1163,7 @@ init: # Settings:
                                 text _("- Transitions -") style "TisaOTMolxm"
                             textbutton _("All") action Preference("transitions", "all") xsize 150 xalign 0.5 text_size 16
                             textbutton _("None") action Preference("transitions", "none") xsize 150 xalign 0.5 text_size 16
-                            
+
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
                             xsize 194
@@ -1207,7 +1177,7 @@ init: # Settings:
                                 text _("- Text Speed -") style "TisaOTMolxm"
                             null height 8
                             bar value Preference("text speed") align (0.5, 0.5)
-                            
+
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
                             xsize 194
@@ -1215,7 +1185,7 @@ init: # Settings:
                             style_group "dropdown_gm2"
                             has vbox align (0.5, 0.5)
                             textbutton _("Joystick...") action Preference("joystick") xsize 150 text_size 16
-                                
+
                     # Middle column...
                     frame:
                         align (0.5, 0.5)
@@ -1236,7 +1206,7 @@ init: # Settings:
                                 text _("- Skip -") style "TisaOTMolxm"
                             textbutton _("Seen Messages") action Preference("skip", "seen") xsize 150 xalign 0.5 text_size 16
                             textbutton _("All Messages") action Preference("skip", "all") xsize 150 xalign 0.5 text_size 16
-                            
+
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
                             xsize 194
@@ -1250,7 +1220,7 @@ init: # Settings:
                                 text _("- After Choices -") style "TisaOTMolxm"
                             textbutton _("Stop Skipping") action Preference("after choices", "stop") xsize 150 xalign 0.5 text_size 16
                             textbutton _("Keep Skipping") action Preference("after choices", "skip") xsize 150 xalign 0.5 text_size 16
-                            
+
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
                             xsize 194
@@ -1266,7 +1236,7 @@ init: # Settings:
                             bar value Preference("auto-forward time") align (0.5, 0.5)
                             if config.has_voice:
                                 textbutton _("Wait for Voice") action Preference("wait for voice", "toggle") xsize 150 xalign 0.5 text_size 16
-                                
+
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
                             xsize 194
@@ -1274,7 +1244,7 @@ init: # Settings:
                             style_group "dropdown_gm2"
                             has vbox align (0.5, 0.5)
                             textbutton _("Begin Skipping") action Skip() xsize 150 text_size 16
-                                    
+
                     # Right column...
                     frame:
                         align (0.5, 0.5)
@@ -1282,7 +1252,7 @@ init: # Settings:
                         xpadding 10
                         ypadding 10
                         has vbox spacing 5
-                        
+
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
                             xsize 194
@@ -1296,7 +1266,7 @@ init: # Settings:
                                 text _("- Mute -") style "TisaOTMolxm"
                             textbutton "Music" action Preference("music mute", "toggle") xsize 150 xalign 0.5 text_size 16
                             textbutton "Sound" action Preference("sound mute", "toggle") xsize 150 xalign 0.5 text_size 16
-                            
+
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
                             xsize 194
@@ -1310,7 +1280,7 @@ init: # Settings:
                                 text _("- Music Volume -") align (0.5, 0.0) style "TisaOTMolxm"
                             null height 8
                             bar value Preference("music volume") align (0.5, 0.5)
-                            
+
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
                             xsize 194
@@ -1370,13 +1340,13 @@ init: # Settings:
                         yfill True
                         spacing -10
                         for i in range(1, columns * rows + 1):
-            
+
                             $ file_name = FileSlotName(i, columns * rows)
                             $ file_time = FileTime(i, empty=_("Empty Slot"))
                             # $ file_time = "0"
                             $ json_info = FileJson(i, empty= _(""))
                             $ save_name = FileSaveName(i)
-            
+
                             hbox:
                                 align (0.5, 0.5)
                                 if "portrait" in json_info:
@@ -1504,7 +1474,7 @@ init: # Settings:
             style_group "smenu"
             xpadding 8
             has vbox spacing 5 align (0.5, 0.5)
-            null height 3            
+            null height 3
             vbox:
                 xfill True
                 spacing -10
@@ -1548,5 +1518,3 @@ init: # Settings:
                 action Quit()
                 text "Quit" size 18 align (0.5, 0.5) # style "mmenu_button_text"
             null height 3
-        
-    

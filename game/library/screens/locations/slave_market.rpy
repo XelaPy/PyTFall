@@ -125,7 +125,6 @@ label slave_market:
                         $ pytfall.sm.girl = None
                 else:
                     call screen message_screen("You don't have enough money for this purchase!")
-
             else:
                 call screen message_screen("You don't have enough AP left for this action!!")
 
@@ -211,7 +210,7 @@ screen slavemarket():
 
 screen slave_shopping(store, tt_text, buy_button, buy_tt):
     modal True
-    zorder 1
+    zorder 99
 
     # Tooltip
     default tt = Tooltip("%s"%tt_text)

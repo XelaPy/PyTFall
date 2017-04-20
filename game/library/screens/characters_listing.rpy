@@ -22,7 +22,7 @@ label chars_list:
             selected_filters = set()
             the_chosen = set()
 
-        show screen chars_list(source=char_lists_filters, page=chars_list_last_page_viewed, total_pages=1)
+        show screen chars_list(source=char_lists_filters)
     with dissolve
 
     python:
@@ -44,133 +44,126 @@ label chars_list:
                 renpy.hide_screen("chars_list")
                 char = result[1]
                 jump('char_profile')
-            elif result[0] == "paging":
-                gs = renpy.get_screen("chars_list").scope["_kwargs"]["source"]
-                if result[1] == "next":
-                    gs.page += 1
-                elif result[1] == "previous":
-                    gs.page -= 1
-                gs.page %= gs.total_pages
+            # elif result[0] == "paging":
+            #     gs = renpy.get_screen("chars_list").scope["_kwargs"]["source"]
+            #     if result[1] == "next":
+            #         gs.page += 1
+            #     elif result[1] == "previous":
+            #         gs.page -= 1
+            #     gs.page %= gs.total_pages
 
     hide screen chars_list
     jump mainscreen
 
-screen chars_list(source=None, page=0, total_pages=1):
-    frame:
-        background Frame("content/gfx/frame/framegp2.png", 10, 10)
-        pos (5, 46)
-        xysize (1010, 670)
+screen chars_list(source=None):
 
-        if source.sorted:
-            python:
-                chars_list = list()
-                chars_list.append([c for ind, c in enumerate(source.sorted) if ind % 2 == 0])
-                chars_list.append([c for ind, c in enumerate(source.sorted) if ind % 2 == 1])
-                page_lenght = 5
-                total_pages = len(source.sorted) / (page_lenght * 2) + (len(source.sorted) % (page_lenght * 2) != 0)
-                gs = renpy.get_screen("chars_list").scope["_kwargs"]
-                gs["total_pages"] = total_pages
+    default page_size = 10
+    default max_page = len(source.sorted)/page_size
+    default page = min(chars_list_last_page_viewed, max_page)
 
-                # Per Dark's request, we remember the page:
+    # Keybinds:
+    key "mousedown_4" action If(page + 1 < max_page, true=SetScreenVariable("page", page+1), false=NullAction())
+    key "mousedown_5" action If(page > 0, true=SetScreenVariable("page", page-1), false=NullAction())
 
-                page = max(0, min(gs["page"], total_pages - 1))
-                store.chars_list_last_page_viewed = gs["page"] = page
+    python:
+        charz_lists = []
+        for start in xrange(0, len(source.sorted), page_size):
+             charz_lists.append(source.sorted[start:start+page_size])
 
-                chars_list[0] = chars_list[0][page*page_lenght:page*page_lenght+page_lenght]
-                chars_list[1] = chars_list[1][page*page_lenght:page*page_lenght+page_lenght]
+    fixed:
+        pos 5, 70
+        xysize 1010, 670
 
-            # Keybinds:
-            key "mousedown_4" action If(gs["page"] + 1 < gs["total_pages"], true=Show("chars_list", source=gs["source"], page=gs["page"] + 1, total_pages=gs["total_pages"]), false=NullAction())
-            key "mousedown_5" action If(gs["page"] > 0, true=Show("chars_list", source=gs["source"], page=gs["page"] - 1, total_pages=gs["total_pages"]), false=NullAction())
-
+        $ charz_list = charz_lists[page]
+        if charz_list:
             hbox:
                 style_group "content"
                 spacing 14
                 pos (17, 15)
-                for l in chars_list:
-                    vbox:
-                        spacing 14
-                        for c in l:
-                            $ char_profile_img = c.show('portrait', resize=(98, 98), cache=True)
-                            $ img = "content/gfx/frame/ink_box.png"
-                            button:
-                                idle_background Frame(Transform(img, alpha=0.4), 10 ,10)
-                                hover_background Frame(Transform(img, alpha=0.9), 10 ,10)
-                                xysize (470, 115)
-                                action Return(['choice', c])
+                xsize 970
+                box_wrap True
+                for c in charz_list:
+                    $ char_profile_img = c.show('portrait', resize=(98, 98), cache=True)
+                    $ img = "content/gfx/frame/ink_box.png"
+                    button:
+                        ymargin 0
+                        idle_background Frame(Transform(img, alpha=.4), 10 ,10)
+                        hover_background Frame(Transform(img, alpha=.9), 10 ,10)
+                        xysize (470, 115)
+                        action Return(['choice', c])
 
-                                # Girl Image:
-                                frame:
-                                    background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-                                    padding 0, 0
-                                    align 0, .5
-                                    xysize(100, 100)
-                                    add char_profile_img align .5, .5 alpha 0.96
+                        # Girl Image:
+                        frame:
+                            background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+                            padding 0, 0
+                            align 0, .5
+                            xysize 100, 100
+                            add char_profile_img align .5, .5 alpha .96
 
-                                # Texts/Status:
-                                frame:
-                                    xpos 120
-                                    xysize (335, 110)
-                                    background Frame (Transform("content/gfx/frame/P_frame2.png", alpha=0.6), 10 ,10)
-                                    label "[c.name]":
-                                        text_size 18
-                                        xpos 10
-                                        yalign 0.06
-                                        if c.__class__ == Char:
-                                            text_color pink
-                                        else:
-                                            text_color ivory
+                        # Texts/Status:
+                        frame:
+                            xpos 120
+                            xysize (335, 110)
+                            background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=0.6), 10, 10)
+                            label "[c.name]":
+                                text_size 18
+                                xpos 10
+                                yalign 0.06
+                                if c.__class__ == Char:
+                                    text_color pink
+                                else:
+                                    text_color ivory
 
-                                    vbox:
-                                        align (0.96, 0.035)
-                                        spacing 5
+                            vbox:
+                                align (0.96, 0.035)
+                                spacing 5
+                                if c.status == "slave":
+                                    add ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50)
+                                else:
+                                    add ProportionalScale("content/gfx/interface/icons/free.png", 50, 50)
+                                text "AP: [c.AP]" size 17 color ivory
+                                button:
+                                    style_group "basic"
+                                    xysize (25, 25)
+                                    xpos 30
+                                    if c.status == "slave":
+                                        ypos 11
+                                    action ToggleSetMembership(the_chosen, c)
+                                    if c in the_chosen:
+                                        add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (0.5, 0.5)
+                                    else:
+                                        add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (0.5, 0.5)
+
+                            vbox:
+                                yalign 0.98
+                                xpos 10
+                                # Prof-Classes
+                                python:
+                                    if len(c.traits.basetraits) == 1:
+                                        classes = list(c.traits.basetraits)[0].id
+                                    elif len(c.traits.basetraits) == 2:
+                                        classes = list(c.traits.basetraits)
+                                        classes.sort()
+                                        classes = ", ".join([str(t) for t in classes])
+                                    else:
+                                        raise Exception("Character without prof basetraits detected! line: 211, chars_lists screen")
+                                text "Classes: [classes]" color ivory size 18
+
+                                null height 2
+                                if c not in pytfall.ra:
+                                    button:
+                                        style_group "ddlist"
+                                        action Return(["dropdown", "loc", c])
                                         if c.status == "slave":
-                                            add ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50)
-                                        else:
-                                            add ProportionalScale("content/gfx/interface/icons/free.png", 50, 50)
-                                        text "AP: [c.AP]" size 17 color ivory
-                                        button:
-                                            style_group "basic"
-                                            xysize (25, 25)
-                                            xpos 30
-                                            if c.status == "slave":
-                                                ypos 11
-                                            action ToggleSetMembership(the_chosen, c)
-                                            if c in the_chosen:
-                                                add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (0.5, 0.5)
-                                            else:
-                                                add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (0.5, 0.5)
-
-                                    vbox:
-                                        yalign 0.98
-                                        xpos 10
-                                        # Prof-Classes
-                                        python:
-                                            if len(c.traits.basetraits) == 1:
-                                                classes = list(c.traits.basetraits)[0].id
-                                            elif len(c.traits.basetraits) == 2:
-                                                classes = list(c.traits.basetraits)
-                                                classes.sort()
-                                                classes = ", ".join([str(t) for t in classes])
-                                            else:
-                                                raise Exception("Character without prof basetraits detected! line: 211, chars_lists screen")
-                                        text "Classes: [classes]" color ivory size 18
-
-                                        null height 2
-                                        if c not in pytfall.ra:
-                                            button:
-                                                style_group "ddlist"
-                                                action Return(["dropdown", "loc", c])
-                                                if c.status == "slave":
-                                                    alternate Return(["dropdown", "home", c])
-                                                text "{image=content/gfx/interface/icons/move15.png}Location: [c.location]"
-                                            button:
-                                                style_group "ddlist"
-                                                action Return(["dropdown", "action", c])
-                                                text "{image=content/gfx/interface/icons/move15.png}Action: [c.action]"
-                                        else:
-                                            text "{size=15}Location: Unknown"
-                                            text "{size=15}Action: Hiding"
+                                            alternate Return(["dropdown", "home", c])
+                                        text "{image=content/gfx/interface/icons/move15.png}Location: [c.location]"
+                                    button:
+                                        style_group "ddlist"
+                                        action Return(["dropdown", "action", c])
+                                        text "{image=content/gfx/interface/icons/move15.png}Action: [c.action]"
+                                else:
+                                    text "{size=15}Location: Unknown"
+                                    text "{size=15}Action: Hiding"
 
     frame:
         background Frame(Transform("content/gfx/frame/p_frame2.png", alpha=0.55), 10 ,10)
@@ -266,7 +259,7 @@ screen chars_list(source=None, page=0, total_pages=1):
                 has hbox style_group "basic" align .5, .5 spacing 5
                 hbox:
                     spacing 3
-                    $ chars_on_page = set(chars_list[0] + chars_list[1]) if hero.chars else set()
+                    $ chars_on_page = set(charz_list) if hero.chars else set()
                     button: # select all on current listing, deselects them if all are selected
                         xysize (66, 40)
                         if the_chosen.issuperset(chars_on_page):
@@ -305,3 +298,19 @@ screen chars_list(source=None, page=0, total_pages=1):
                         text "Training"
 
     use top_stripe(True)
+
+    # Two buttons that used to be in top-stripe:
+    hbox:
+        style_group "basic"
+        pos 300, 5
+        spacing 3
+        textbutton "<--":
+            sensitive page > 0
+            action SetScreenVariable("page", page-1)
+        textbutton "[page]":
+            action NullAction()
+        textbutton "-->":
+            sensitive page + 1 < max_page
+            action SetScreenVariable("page", page+1)
+
+    $ store.chars_list_last_page_viewed = page # At Darks Request!

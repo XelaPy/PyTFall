@@ -15,7 +15,6 @@ init -9 python:
             self.maps = OnScreenMap()
 
             # GUI
-            self.city_dropdown = False
             self.it = None  # Items Transfer
             self.sm = SlaveMarket()
             self.hp = GuiHeroProfile()
