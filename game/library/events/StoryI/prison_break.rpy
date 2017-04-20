@@ -8,8 +8,8 @@ init python:
     q_dissolve = Dissolve(.2) # fast dissolve to quickly show backgrounds
     def eyewarp(x):
         return x**1.33
-    eye_open = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=False, time_warp=eyewarp) # transitions for backgrounds, try to emulate effect of opening or closing eyes
-    eye_shut = ImageDissolve("content/gfx/masks/eye_blink.png", 1.5, ramplen=128, reverse=True, time_warp=eyewarp)
+    eye_open = ImageDissolve("content/gfx/masks/eye_blink.png", 0.5, ramplen=128, reverse=False, time_warp=eyewarp) # transitions for backgrounds, try to emulate effect of opening or closing eyes
+    eye_shut = ImageDissolve("content/gfx/masks/eye_blink.png", 0.5, ramplen=128, reverse=True, time_warp=eyewarp)
 
 init:
     $ point = "content/gfx/interface/icons/move15.png" # the point which shows location on the map; it's actually a part of the main gui
