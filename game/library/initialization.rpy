@@ -586,6 +586,7 @@ init:
     default girls = None
     default reset_building_management = True
     default block_say = False
+    define PytPix = renpy.display.transition.Pixellate
 
 init 999 python:
     # ensure that all initialization debug messages have been written to disk

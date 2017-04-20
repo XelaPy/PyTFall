@@ -385,7 +385,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     style_group "stats"
                     pos(0.015, 10)
                     frame:
-                        background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                         #xysize (317, 10)
                         xsize 258
                         xanchor 5
