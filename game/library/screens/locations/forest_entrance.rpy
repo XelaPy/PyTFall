@@ -20,6 +20,12 @@ label forest_entrance:
     show screen forest_entrance
     with dissolve
     
+    if not global_flags.flag('visited_dark_forest'):
+        $ global_flags.set_flag('visited_dark_forest')
+        $ block_say = True
+        "A dark, deep forest surrounds the city from the west. Only a few people live here, and even fewer are brave enough to step away far from city walls without a platoon of guards."
+        $ block_say = False
+    
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
     

@@ -151,12 +151,12 @@ label academy_town:
         $ global_flags.set_flag('visited_library')
         show expression npcs["Eleven"].get_vnsprite() as npc
         with dissolve
+        "A tall humanoid with glowing eyes and booming voice greets you at the entrance."
         e "{b}Welcome to the archive, [hero.name].{/b}"
         $ npcs["Eleven"].override_portrait("portrait", "confident")
         e "{b}Please keep silence to not disturb other visitors.{/b}"
         $ npcs["Eleven"].override_portrait("portrait", "indifferent")
-        "A tall humanoid with glowing eyes and booming voice greets you at the entrance."
-        "Many years ago city archives were entrusted to him, and since then not a single document was lost. During the last war he single handedly destroyed all threats, preserving the whole building intact."
+        "Many years ago academy archives were entrusted to him, and since then not a single document was lost. During the last war he single handedly destroyed all threats, preserving the whole building intact."
         "He also always knows the name of his interlocutor, even if they never met before. This particular trait made him infamous in the city."
         hide npc with dissolve
         
