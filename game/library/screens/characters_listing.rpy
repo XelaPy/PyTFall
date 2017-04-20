@@ -300,7 +300,8 @@ screen chars_list(source=None):
         textbutton "<--":
             sensitive page > 0
             action SetScreenVariable("page", page-1)
-        textbutton "[page]":
+        $ temp = page+1
+        textbutton "[temp]":
             action NullAction()
         textbutton "-->":
             sensitive page < max_page

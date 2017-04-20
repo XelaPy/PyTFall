@@ -610,9 +610,9 @@ init: # PyTFall:
             hbox:
                 align(0.8, 0.5)
                 spacing 5
-
                 if config.developer:
                     textbutton "{size=20}{color=[ivory]}{b}F":
+                        yalign .5
                         action Jump("fonts")
                         hovered tt.Action("View availible Fonts!")
 
@@ -630,7 +630,7 @@ init: # PyTFall:
                         action Show("s_menu", transition=dissolve)
                         hovered tt.Action("Game Preferences!")
 
-                if renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "dungeon"]:
+                if renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "dungeon"] and show_lead_away_buttons:
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37), im.matrix.brightness(0.25))
@@ -651,7 +651,7 @@ init: # PyTFall:
                         action Return(["item", "transfer"])
                         hovered tt.Action("Leave your crap at your place (Inside of a safe chest)!")
 
-                if renpy.current_screen().tag not in ["hero_profile", "girl_interactions", "quest_log"]:
+                if renpy.current_screen().tag not in ["hero_profile", "girl_interactions", "quest_log"] and show_lead_away_buttons:
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/profile.png", 35, 40)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/profile.png", 35, 40), im.matrix.brightness(0.25))
@@ -677,7 +677,7 @@ init: # PyTFall:
                     align(0.993, 0.5)
                     idle im.Scale("content/gfx/interface/buttons/close.png", 35, 35)
                     hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 35, 35), im.matrix.brightness(0.25))
-                    action Return(['control', 'return'])
+                    action return_action
                     hovered tt.Action("Return to previous screen!")
 
 

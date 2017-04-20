@@ -210,7 +210,7 @@ screen slavemarket():
 
 screen slave_shopping(store, tt_text, buy_button, buy_tt):
     modal True
-    zorder 99
+    zorder 1
 
     # Tooltip
     default tt = Tooltip("%s"%tt_text)
@@ -220,7 +220,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
         align(0.977, 1.0)
         xysize (1003, 92)
         vbox:
-            label (u"{=stats_text}%s"%tt.value) text_outlines [(1, "#3a3a3a", 0, 0)]
+            text "{=proper_stats_text}%s"%tt.value style "proper_stats_text" outlines [(1, "#3a3a3a", 0, 0)]
 
     if store.chars_list:
         # Stats and Info (Left Frame):
@@ -254,8 +254,6 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                         text ('%s'%store.girl.wranks['r%s'%store.girl.rank]['name'][1]) align (0.5, 0.96) color ivory size 16
                 else:
                     null height -5
-
-                null height 0
 
                 label (u"{size=20}{color=[ivory]}{b}Info:") xalign(0.5) text_outlines [(2, "#424242", 0, 0)]
 
@@ -442,7 +440,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                                     xysize (195, 25)
                                     action NullAction()
                                     text trait.id idle_color bisque size 19 align .5, .5 hover_color crimson
-                                    hovered tt.Action(u"%s"%trait.desc)
+                                    hovered tt.Action(trait.desc)
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
 
         # Buttons:
@@ -496,28 +494,28 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
 
         # Girl choice:
         frame:
-            pos(265, 459)
+            # pos 265, 459
+            pos 265, 455
             background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=0.98), 10, 10)
             side "c t":
+                yoffset -2
                 viewport id "sm_vp_glist":
-                    maximum (1001, 150)
+                    xysize 1001, 150
                     draggable True
                     mousewheel True
-                    hbox:
-                        align(0, 0)
-                        spacing 5
-                        for girl in store.chars_list:
-                            $ img = girl.show("vnsprite", resize=(180, 140), cache=True)
-                            frame:
-                                background Frame("content/gfx/frame/Mc_bg3.png", 10, 10)
-                                imagebutton:
-                                    idle img
-                                    hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-                                    action Function(store.set_girl, girl)
-                                    hovered tt.Action(u"{=stats_label_text}%s{=stats_value_text}{size=+2}\nDescription:\n{=stats_value_text}%s"%(girl.name, girl.desc))
+                    has hbox spacing 5
+                    for c in store.chars_list:
+                        $ img = c.show("vnsprite", resize=(180, 138), cache=True)
+                        frame:
+                            background Frame("content/gfx/frame/Mc_bg3.png", 10, 10)
+                            imagebutton:
+                                idle img
+                                hover (im.MatrixColor(img, im.matrix.brightness(.15)))
+                                action Function(store.set_girl, c)
+                                hovered tt.Action(u"{=proper_stats_text}%s\n{size=-5}{=proper_stats_value_text}%s"%(c.name, c.desc))
                 bar value XScrollValue("sm_vp_glist")
 
-    use top_stripe(True)
+    use top_stripe(show_return_button=True, return_button_action=Hide("slave_shopping"), show_lead_away_buttons=False)
 
 screen se_captured_retrieval(pos=(900, 300)):
     zorder 3
