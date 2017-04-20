@@ -141,10 +141,10 @@ label city_beach_swimming_checks:
 
 label hero_ocean_skill_checks:
     $ hero.AP -= 1
-    if dice(20):
+    if locked_dice(20):
         $ narrator ("A group of sea monsters surrounded you!")
         if hero.get_skill("swimming") < 50:
-            if hero.health > 30 and dice(75):
+            if hero.health > 30 and locked_dice(75):
                 $ narrator ("They managed to attack you a few times before you got a chance to react.")
                 $ hero.health -= randint(15, 30)
             jump city_beach_monsters_fight
@@ -160,7 +160,7 @@ label hero_ocean_skill_checks:
                 "Fight":
                     jump city_beach_monsters_fight
     if hero.get_skill("swimming") < 50:
-        if dice(50):
+        if locked_dice(50):
             $ narrator ("You trying to swim, but strong tide keeps you away {color=[red]}(no bonus to swimming skill this time){/color}.")
         else:
             scene bg ocean_underwater with dissolve
@@ -171,7 +171,7 @@ label hero_ocean_skill_checks:
         $ hero.vitality -= randint (40, 50)
     elif hero.get_skill("swimming") < 100:
         "You trying to swim, but rapid underwater currents make it very difficult for a novice swimmer."
-        if dice(30):
+        if locked_dice(30):
             scene bg ocean_underwater with dissolve
             "Waves are pretty big today. You trying to fight them, but they win, sending you under the water."
             $ narrator ("Nearly drowned, you get out of the ocean {color=[red]}(-20% health){/color}.")
@@ -180,7 +180,7 @@ label hero_ocean_skill_checks:
         $ hero.vitality -= randint (40, 50)
     elif hero.get_skill("swimming") < 150:
         "You cautiously swim in the ocean, trying to stay close to the shore just in case."
-        if dice(10):
+        if locked_dice(10):
             scene bg ocean_underwater with dissolve
             "Waves are pretty big today. You trying to fight them, but eventually they win, sending you under the water."
             $ narrator ("Nearly drowned, you get out of the ocean {color=[red]}(-15% health){/color}.")
@@ -191,7 +191,7 @@ label hero_ocean_skill_checks:
         "You take your time enjoying the water. Even big ocean waves are no match for your swimming skill."
         $ hero.swimming += randint(6, 10)
         $ hero.vitality -= randint (20, 30)
-    if dice(hero.get_skill("swimming")) and hero.flag("constitution_bonus_from_swimming_at_beach") <= 30:
+    if locked_dice(hero.get_skill("swimming")) and hero.flag("constitution_bonus_from_swimming_at_beach") <= 30:
         $ hero.stats.lvl_max["constitution"] += 1
         $ hero.stats.max["constitution"] += 1
         $ hero.mod_stat("constitution", 1)

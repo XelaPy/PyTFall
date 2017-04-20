@@ -110,5 +110,4 @@ label interactions_refusegift:
         $ rc("Sorry, I don't want another one of these.", "Didn't you give me it not so long ago?")
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
-    $ char.disposition -= randint(5, 15)
     jump girl_interactions

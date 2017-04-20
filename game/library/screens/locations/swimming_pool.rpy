@@ -16,10 +16,12 @@ label swimming_pool:
    
     if not global_flags.flag('visited_swimming_pool'):
         $ global_flags.set_flag('visited_swimming_pool')
+        $ block_say = True
         show npc trainer with dissolve
         "Welcome to the swimming pool!"
         "It's not free, but we don't have sea monsters and big waves here, so it's perfect for a novice swimmer!"
         "We also provide swimming lessons at a reasonable price. Feel free to ask anytime!"
+        $ block_say = False
         hide npc trainer with dissolve
     show screen swimming_pool
     $ pytfall.world_quests.run_quests("auto")
@@ -129,7 +131,7 @@ label instructor_swim_pool:
 label hero_swimming_pool_skill_checks:
     $ hero.AP -= 1
     if hero.get_skill("swimming") < 20:
-        if dice(60):
+        if locked_dice(60):
             "You barely stay afloat. Clearly more practice is needed."
             $ hero.swimming += randint(1,2)
         else:
@@ -149,7 +151,7 @@ label hero_swimming_pool_skill_checks:
         "It feels nice swimming in the pool, but the sea is more suitable to learn something new."
         $ hero.swimming += randint(0,1)
         $ hero.vitality -= randint (20, 30)
-    if dice(75) and hero.get_skill("swimming") >= 50:
+    if locked_dice(75) and hero.get_skill("swimming") >= 50:
         $ hero.mod_stat("constitution", 1)
     return
     
@@ -180,7 +182,7 @@ label instructor_swimming_pool_skill_checks:
         $ hero.swimming += randint(0,1)
         $ hero.SWIMMING += randint(5,10)
         $ hero.vitality -= randint (20, 25)
-    if dice(65) and hero.get_skill("swimming") >= 50:
+    if locked_dice(65) and hero.get_skill("swimming") >= 50:
         $ hero.mod_stat("constitution", 1)
     return
 

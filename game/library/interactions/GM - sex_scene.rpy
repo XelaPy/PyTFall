@@ -572,16 +572,16 @@ init python:
     # it's more or less permanent pseudostat compared to many other games where it changes regularly like health, if not more often
 
         if ct("Nymphomaniac"):
-            l = randint(5, 7)
+            l = locked_random("randint", 5, 7)
         elif ct("Frigid"):
-            l = randint(2, 4)
+            l = locked_random("randint", 2, 4)
         else:
-            l = randint(3, 5)
+            l = locked_random("randint", 3, 5)
         
         if mc:
             if ct("Half-Sister") and not "Sister Lover" in hero.traits:
                 if char.disposition >= 700:
-                    l += randint(1, 2)
+                    l += locked_random("randint", 1, 2)
                 else:
                     l -= 1
             if check_lovers(hero, char):

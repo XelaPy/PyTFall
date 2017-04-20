@@ -10,9 +10,9 @@ label special_items_slime_bottle:
         "Yes":
             "The seal is durable, but eventually it gives up, and pressurized fluid breaks out."
             if hero.level <= 10:
-                $ levels = randint (5,15)
+                $ levels = locked_random("randint", 5, 15)
             else:
-                $ levels = randint(15, 25) + hero.level/10
+                $ levels = locked_random("randint", 15, 25) + hero.level/10
             if locked_dice(80):
                 $ new_slime = build_rc(id="Slime", level=levels, pattern=choice(["Warrior", "ServiceGirl"])) # TODO: maybe pattern will require updating closer to release
                 $ new_slime.set_status("free")
