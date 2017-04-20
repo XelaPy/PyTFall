@@ -41,7 +41,8 @@ label slave_market:
             "You should not be so hard on those girls!":
                 g "DON'T TELL ME HOW TO DO MY JOB YOU @$$#^*!!!"
                 extend " ... but I guess that since you had to witness that, I'll let this slide."
-
+            "Omg stfu I just need to test something!" if config.developer:
+                jump omg_stfu_blue
         g "My name is Delphine but apperently that's too hard to remember... so everyone calls me Blue. Original isn't it?"
 
         $ g = Character("Blue", color=blue, show_two_window=True)
@@ -80,7 +81,8 @@ label slave_market:
         extend " and you might learn a thing or two in the process!"
 
         g "See you around :)"
-
+        
+    label omg_stfu_blue:
         hide npc blue
         with dissolve
         show bg slave_market
@@ -285,11 +287,6 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                                 xysize 244, 20
                                 text "{color=#79CDCD}{size=-1}Market Price:" pos (1, -4)
                                 label (u"{color=[gold]}{size=-5}%s"%store.girlfin.get_price()) align (1.0, 0.5) ypos 10
-                            if traits['Prostitute'] in store.girl.occupations:
-                                frame:
-                                    xysize 244, 20
-                                    text "{color=#79CDCD}{size=-1}Work Price:" pos (1, -4)
-                                    label (u"{size=-5}%s"%store.girlfin.get_whore_price()) align (1.0, 0.5) ypos 10
                             frame:
                                 xysize 244, 20
                                 text "{color=#79CDCD}{size=-1}Upkeep:" pos (1, -4)
@@ -336,16 +333,12 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                                 label (u"{size=-5}%s/%s"%(store.girl.character, store.girl.get_max("character"))) align (1.0, 0.5) ypos 10
                             frame:
                                 xysize 245, 20
-                                text "{color=#79CDCD}{size=-1}Reputation:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.reputation, store.girl.get_max("reputation"))) align (1.0, 0.5) ypos 10
-                            frame:
-                                xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Constitution:" pos (1, -4)
                                 label (u"{size=-5}%s/%s"%(store.girl.constitution, store.girl.get_max("constitution"))) align (1.0, 0.5) ypos 10
                             frame:
                                 xysize 245, 20
-                                text "{color=#79CDCD}{size=-1}Joy:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.joy, store.girl.get_max("joy"))) align (1.0, 0.5) ypos 10
+                                text "{color=#79CDCD}{size=-1}Intelligence:" pos (1, -4)
+                                label (u"{size=-5}%s/%s"%(store.girl.intelligence, store.girl.get_max("intelligence"))) align (1.0, 0.5) ypos 10
                             #text (u"| %d"%store.girl.goal)
                     frame:
                         background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
@@ -365,15 +358,6 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                                 xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Level:" pos (1, -4)
                                 label (u"{size=-5}%s"%store.girl.level) align (1.0, 0.5) ypos 10
-                            frame:
-                                xysize 245, 20
-                                text "{color=#79CDCD}{size=-1}Experience:" pos (1, -4)
-                                label (u"{size=-5}[store.girl.exp]") align (1.0, 0.5) ypos 10
-                            frame:
-                                xysize 245, 20
-                                text "{color=#79CDCD}{size=-1}Disposition:" pos (1, -4)
-                                label (u"{size=-5}%s"%store.girl.disposition) align (1.0, 0.5) ypos 10
-
 
                 null height 8
 
