@@ -21,7 +21,7 @@ label tavern_town:
     if hero.flag("fought_in_tavern") == day: # after a brawl tavern will be unavailable until the next turn
         show npc tavern_rita_novel
         with dissolve
-        tavern_rita "I'm sorry, we are closed for maintenance. Please come tomorrow."
+        tavern_rita "I'm sorry, we are closed for maintenance. Please return tomorrow."
         jump city
 
     if not global_flags.flag('visited_tavern'):

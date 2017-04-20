@@ -20,6 +20,12 @@ label forest_entrance:
     show screen forest_entrance
     with dissolve
     
+    if not global_flags.flag('visited_dark_forest'):
+        $ global_flags.set_flag('visited_dark_forest')
+        $ block_say = True
+        "A dark, deep forest surrounds the city from the west. Only a few people live here, and even fewer are brave enough to step away far from city walls without a platoon of guards."
+        $ block_say = False
+    
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
     
@@ -54,18 +60,10 @@ screen forest_entrance():
             
             for entry in gm.display_girls():
                 use rg_lightbutton(img=entry.show("girlmeets", "nature", "wildness", exclude=["urban", "winter", "night", "beach", "onsen", "dungeon", "stage", "swimsuit", "indoor", "formal"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
-               
-
-    for key in pytfall.maps("pytfall_fe"):
-        if not key.get("hidden", False):
-            if "img" in key:
-                python:
-                    rx = int(key["rx"]) if "rx" in key else 25
-                    ry = int(key["ry"]) if "ry" in key else 25
-                    x = int(key['x']) / float(config.screen_width)
-                    y = int(key['y']) / float(config.screen_height)
-                use r_lightbutton(img=ProportionalScale(key['img'], rx, ry), return_value=['location', key["id"]], align=(x, y))
-                frame:
-                    background Frame(Transform(im.Twocolor("content/gfx/frame/ink_box.png", white, grey), alpha=0.5), 5, 5)
-                    align (x, y+0.05)
-                    text (u"%s"%(key['name'])) size 16 color black
+                    
+    $ img_witch_shop = ProportionalScale("content/gfx/interface/icons/witch.png", 90, 90)
+    imagebutton:
+        pos(670, 490)
+        idle (img_witch_shop)
+        hover (im.MatrixColor(img_witch_shop, im.matrix.brightness(0.15)))
+        action [Jump("witches_hut"), With(dissolve)]
