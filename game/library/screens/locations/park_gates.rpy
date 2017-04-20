@@ -22,7 +22,7 @@ label city_parkgates:
     if not global_flags.flag('visited_park_gates'):
         $ global_flags.set_flag('visited_park_gates')
         $ block_say = True
-        "Gates to the park on city outskirts! Great place to meet people. "
+        "Gates to the park on city outskirts. Great place to hit on girls or take a walk after lunch in a sunny day."
         $ block_say = False
     
     $ pytfall.world_quests.run_quests("auto")

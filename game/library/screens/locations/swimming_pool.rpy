@@ -101,7 +101,7 @@ screen swimmong_pool_swim():
                 text "Leave" size 15
                 
 label single_swim_pool:
-    if hero.vitality < 30 or hero.AP <= 0:
+    if hero.vitality < 20 or hero.AP <= 0:
         "You are too tired at the moment."
     elif hero.health < hero.get_max("health")*0.5:
         "You are too wounded at the moment."
@@ -115,7 +115,7 @@ label single_swim_pool:
     jump swimming_pool
     
 label instructor_swim_pool:
-    if hero.vitality < 30 or hero.AP <= 0:
+    if hero.vitality < 20 or hero.AP <= 0:
         "You are too tired at the moment."
     elif hero.health < hero.get_max("health")*0.5:
         "You are too wounded at the moment."
@@ -138,56 +138,57 @@ label hero_swimming_pool_skill_checks:
             "You barely stay afloat. At some point you lose you cool and start drowning, but the swimming instructor immediately come to your aid."
             $ hero.swimming += 1
             $ hero.health -= 5
-        $ hero.vitality -= randint (40, 50)
+        $ hero.vitality -= randint (25, 35)
     elif hero.get_skill("swimming") < 50:
         "You can swim well enough to not drown in a swimming pool, but more practice is needed."
         $ hero.swimming += randint(2,3)
-        $ hero.vitality -= randint (35, 45)
+        $ hero.vitality -= randint (20, 30)
     elif hero.get_skill("swimming") < 100:
         "You are somewhat confident about your swimming skills, but big waves and playful dolphins are still bad news."
         $ hero.swimming += randint(2,4)
-        $ hero.vitality -= randint (30, 40)
+        $ hero.vitality -= randint (15, 20)
     else:
         "It feels nice swimming in the pool, but the sea is more suitable to learn something new."
         $ hero.swimming += randint(0,1)
-        $ hero.vitality -= randint (20, 30)
-    if locked_dice(75) and hero.get_skill("swimming") >= 50:
+        $ hero.vitality -= randint (10, 15)
+    if locked_dice(75) and hero.get_skill("swimming") >= 50 and hero.constitution < hero.get_max("constitution"):
         $ hero.mod_stat("constitution", 1)
+        "Swimming was good for you, you became a bit more enduring."
     return
     
 label instructor_swimming_pool_skill_checks:
     $ hero.AP -= 1
     if hero.get_skill("swimming") < 20:
-        "He teaches you water safety to prevent mouth-to-mouth accidents once and for all."
+        "The instructor teaches you water safety to prevent mouth-to-mouth accidents once and for all."
         $ hero.swimming += randint(2,4)
         $ hero.SWIMMING += randint(2,4) # theoretical part
-        $ hero.vitality -= randint (35, 45)
+        $ hero.vitality -= randint (20, 30)
     elif hero.get_skill("swimming") < 50:
-        "He shows you the most basic swimming styles."
+        "The instructor shows you the most basic swimming styles."
         $ hero.swimming += randint(4,6)
         $ hero.SWIMMING += randint(4,6)
-        $ hero.vitality -= randint (30, 40)
+        $ hero.vitality -= randint (15, 25)
     elif hero.get_skill("swimming") < 100:
-        "He shows you common swimming styles and the very basics of underwater swimming."
+        "The instructor shows you common swimming styles and the very basics of underwater swimming."
         $ hero.swimming += randint(4,8)
         $ hero.SWIMMING += randint(4,8)
-        $ hero.vitality -= randint (25, 35)
+        $ hero.vitality -= randint (10, 15)
     elif hero.get_skill("swimming") < 250:
-        "He shows you advanced swimming styles, including underwater ones."
+        "The instructor shows you advanced swimming styles, including underwater ones."
         $ hero.swimming += randint(1,3)
         $ hero.SWIMMING += randint(5,10)
-        $ hero.vitality -= randint (20, 30)
+        $ hero.vitality -= randint (10, 15)
     else:
-        "There is not much he can show you now, but his knowledge about behavior on the water is second to none."
+        "There is nothing else he can show you now, but his knowledge about behavior on the water is second to none nevertheless."
         $ hero.swimming += randint(0,1)
         $ hero.SWIMMING += randint(5,10)
-        $ hero.vitality -= randint (20, 25)
+        $ hero.vitality -= randint (5, 10)
     if locked_dice(65) and hero.get_skill("swimming") >= 50:
         $ hero.mod_stat("constitution", 1)
     return
 
 label work_swim_pool: # here we could use an option to meet characters with a certain probability
-    if hero.vitality < 30 or hero.AP <= 0 or  hero.health < hero.get_max("health")*0.5:
+    if hero.vitality < 20 or hero.AP <= 0 or  hero.health < hero.get_max("health")*0.5:
         jump swimming_pool
 
     $ result = randint(5, round(hero.get_skill("swimming")*0.1))
@@ -196,7 +197,7 @@ label work_swim_pool: # here we could use an option to meet characters with a ce
     $ hero.AP -= 1
     $ hero.swimming += randint(0,2)
     $ hero.SWIMMING += randint(1,2)
-    $ hero.vitality -= randint (40, 50)
+    $ hero.vitality -= randint (20, 35)
     $ picture = "content/gfx/images/swim_kids/sk_" + str(renpy.random.randint(1, 4)) + ".jpg"
     show expression picture at truecenter with dissolve
     $ narrator ("You teach local kids to swim. The payment is low, but at least you can use the pool for free. (+ %d) G" %result)
