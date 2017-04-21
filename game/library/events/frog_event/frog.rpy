@@ -292,6 +292,7 @@ label final_frog_event:
             f1 "My hero! Thanks a lot!"
         "I know how to break the spell but it will cost you.": 
             f1 "I will do anything just help me. My father is a very rich and powerful man. He surely will pay you any sum when I safely return home."
+    stop world
     play sound "library/events/frog_event/sfx/kiss_short.mp3"
     "Frog drunk the potion and you gave it a quick kiss. Nothing happened. You need to be more passionate."
     menu:
@@ -318,5 +319,4 @@ label final_frog_event:
             "First kiss was disgusting enough, this is just too much for you. After dropping the frog you head back home thinking about what a crappy ordeal this was." # note to Xela, end quest.
             $ pytfall.world_quests.get("Frog Princess!").finish_in_label("You could not bring yourself to kiss the frog properly...")
             $ pytfall.world_events.kill_event("show_frog_final")
-    $ global_flags.set_flag("keep_playing_music")
     jump forest_entrance
