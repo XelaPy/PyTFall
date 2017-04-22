@@ -1,3 +1,6 @@
+init:
+    image slave_market_slaves = "content/gfx/bg/locations/slave_podium.jpeg"
+
 label slave_market:
 
     # Music related:
@@ -8,8 +11,9 @@ label slave_market:
     $ global_flags.del_flag("came_from_sc")
 
     if not global_flags.has_flag("visited_sm"):
-        scene bg slave_podium
+        scene bg slave_market
         with dissolve
+        show slave_market_slaves at truecenter
 
         "What's this?"
         extend " WHAT THE HELL IS THIS???"
@@ -29,7 +33,7 @@ label slave_market:
         "{color=[red]} Yes, Ma'am! Yes, Ma'am! Yes, Ma'am!"
         "And bring out some decent slaves to shop!"
 
-        show bg slave_market_empty with fade
+        hide slave_market_slaves with fade
         show npc blue with dissolve
 
         $ g = Character("?????", color=blue, show_two_window=True)
@@ -43,7 +47,7 @@ label slave_market:
                 extend " ... but I guess that since you had to witness that, I'll let this slide."
             "Omg stfu I just need to test something!" if config.developer:
                 jump omg_stfu_blue
-        g "My name is Delphine but apperently that's too hard to remember... so everyone calls me Blue. Original isn't it?"
+        g "My name is Irma but apperently that's too hard to remember... so everyone calls me Blue. Original isn't it?"
 
         $ g = Character("Blue", color=blue, show_two_window=True)
 
@@ -53,8 +57,7 @@ label slave_market:
 
         $ s = Character("Stan", show_two_window=True)
 
-        show npc blue at right with move
-        show npc2 stan at left with dissolve
+        show npc2 stan at mid_left with dissolve
 
         s "Hey, hey there!"
         s "Is there anyone here talking about me?"
@@ -74,13 +77,6 @@ label slave_market:
         g "Ah, visit our club as well, we do presentations and you can do 'some sampling' if you have the Gold."
         g "You won't be disappointed!"
         g "Goodbye!"
-
-        g "Oh... don't know if you need to hear this but there might be a clone of mine lurking around the town, don't get confused or let her rip you off in my name!"
-        g "Also, if you're interested, there are usually some chores you can do around the market."
-        g "Pay is crap but if you're in dear need of some cash..."
-        extend " and you might learn a thing or two in the process!"
-
-        g "See you around :)"
         
     label omg_stfu_blue:
         hide npc blue
@@ -171,7 +167,7 @@ label work_in_slavemarket:
 
 label blue_menu:
     $ g = Character("Blue", color=blue, show_two_window=True)
-    scene bg slave_market_empty with fade
+    scene bg slave_market with fade
     show npc blue with dissolve
     g "[hero.nickname]!"
     g "Welcome back to our fine establishment!"
