@@ -40,9 +40,9 @@ label slave_market:
 
         menu:
             g "Hah? And who might you be?!"
-            "[hero.name]'s the name! I just want to check out the slave market.":
+            "Just want to check out the slave market":
                 g "Oh? We didn't expect to see any customers here so early."
-            "You should not be so hard on those girls!":
+            "You should not be so hard on those girls":
                 g "DON'T TELL ME HOW TO DO MY JOB YOU @$$#^*!!!"
                 extend " ... but I guess that since you had to witness that, I'll let this slide."
             "Omg stfu I just need to test something!" if config.developer:
