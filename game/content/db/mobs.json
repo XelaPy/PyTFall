@@ -2136,6 +2136,36 @@
         ]
     },
     {
+        "name": "Undead Unicorn",
+        "desc": "Once a mythical creature and a guardian of forests, now it only seeks fresh meat to devour.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/uniz.png",
+        "portrait": "content/npc/mobs/uniz1.png",
+        "race": "Undead",
+        "locations": [],
+        "min_lvl": 55,
+        "basetraits": [
+            "Warrior", "Mage"
+        ],
+        "stats": {
+            "attack": 75,
+            "defence": 35,
+            "magic": 40,
+            "agility": 30,
+            "luck": 0,
+            "charisma":90,
+            "constitution": 30,
+            "intelligence": 50
+        },
+        "skills": {},
+        "traits": ["Undead", "Darkness Immunity", "Neutral", "Poison Immunity"],
+        "attack_skills": [
+            "Bite"
+        ],
+        "magic_skills": ["Arcane Shield", "Aery Shield", "Eternal Gluttony"
+        ]
+    },
+    {
         "name": "Phantasm",
         "desc": "Wandering without a purpose remnants of someone's soul.",
         "front_row": 0,

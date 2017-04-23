@@ -643,7 +643,7 @@ init: # Main Screens:
                                 xalign 0.5
                                 yfill True
                                 xysize (148, 30)
-                                text (data["race"]) xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD"
+                                text (data["race"]) xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD" size 15
 
 
                     null height 5
@@ -677,7 +677,7 @@ init: # Main Screens:
                                     xalign 0.5
                                     xysize (148, 30)
                                     yfill True
-                                    text t xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD"
+                                    text t xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD" size 15
 
                     # Stats:
                     frame:
