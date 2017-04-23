@@ -1,4 +1,6 @@
 init python:
+    golem_change = ImageDissolve("content/gfx/masks/m12.jpg", 0.5, ramplen=128, reverse=True, time_warp=eyewarp) # masks for changing between eleven sprites
+    golem_change_back = ImageDissolve("content/gfx/masks/m12.jpg", 0.5, ramplen=128, reverse=False, time_warp=eyewarp)
     class LibraryBooks(_object):
         """Simple class to hold library texts and format them appropriately.
         """
@@ -187,12 +189,12 @@ label library_eleven_dialogue:
         "Show leaflets" if has_items("Rebels Leaflet", [hero]) and global_flags.flag('player_knows_about_eleven_jobs'):
             hide npc
             show expression npcs["Eleven"].show("battle", resize=(800, 600)) as npc
-            with eye_open
+            with golem_change
             $ money = has_items("Rebels Leaflet", [hero])*50
             "Without a single word, the golem immediately destroys leaflets right in your hands. Still warm ash falls to the floor."
             hide npc
             show expression npcs["Eleven"].get_vnsprite() as npc
-            with eye_shut
+            with golem_change_back
             $ npcs["Eleven"].override_portrait("portrait", "confident")
             e "{b}This unit and the city appreciate you services. Keep it up, [hero.name]. Here is your reward, [money] coins.{/b}"
             $ hero.remove_item("Rebels Leaflet", has_items("Rebels Leaflet", [hero]))
