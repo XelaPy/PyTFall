@@ -54,5 +54,17 @@ screen city_dark_forest():
             button:
                 xysize (120, 40)
                 yalign 0.5
-                action [Hide("city_dark_forest"), Function(global_flags.set_flag, "keep_playing_music"), Jump("forest_entrance"), With(dissolve)]
-                text "Leave" size 15
+                action [Hide("city_dark_forest"), Jump("city_dark_forest_explore"), With(dissolve)]
+                text "Explore" size 15
+                
+label city_dark_forest_explore:
+    python:
+        enemy_team = Team(name="Enemy Team", max_size=3)
+        your_team = Team(name="Your Team", max_size=3)
+        for j in range(randint(1, 3)):
+            mob = build_mob(id="Undead Rat", level=15)
+            mob.controller = BE_AI(mob)
+            enemy_team.add(mob)
+        place = interactions_pick_background_for_fight("forest")
+        result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=True, skill_lvl=3)
+    jump forest_dark

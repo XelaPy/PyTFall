@@ -2046,6 +2046,36 @@
         ]
     },
     {
+        "name": "Undead Rat",
+        "desc": "Rats are commonly used as mount animals by pixies. However, magic of their masters sometimes returns them back to life a few years after death.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/urat.png",
+        "portrait": "content/npc/mobs/urat1.png",
+        "race": "Undead",
+        "locations": [],
+        "min_lvl": 5,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 25,
+            "defence":5,
+            "magic": 0,
+            "agility": 75,
+            "luck": 0,
+            "charisma":0,
+            "constitution": 70,
+            "intelligence": 0
+        },
+        "skills": {},
+        "traits": ["Undead", "Darkness Immunity", "Neutral", "Healing Immunity", "Poison Immunity"],
+        "attack_skills": [
+            "Bite", "Poison"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
         "name": "Skeleton",
         "desc": "A mindless, quite fragile pile of bones animated by dark magic.",
         "front_row": 1,

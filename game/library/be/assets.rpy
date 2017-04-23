@@ -1549,7 +1549,7 @@ label load_battle_skills:
     ##### Effects:
         # Poison:
         # effect should be from 0 to 1, ie part of max health the poison takes every turn
-        BasicPoisonSpell("Poison", menu_pos=-5, attributes=["status", "poison", "darkness"], effect=0.1, multiplier=1.0, mp_cost=30, range=4, kind="damage_over_time",
+        BasicPoisonSpell("Poison", menu_pos=-5, attributes=["status", "poison", "darkness"], effect=0.1, multiplier=1.0, mp_cost=30, range=4, kind="damage_over_time", buff_group="poison",
                 desc="Poisons the target causing additional damage each turn.",
                 attacker_effects={"gfx": "default_1", "sfx": "default"},
                 main_effect={"gfx": Transform("poison_1", zoom=2.1), "sfx": "content/sfx/sound/be/poison_01.ogg", "duration": 1.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": -25}},
