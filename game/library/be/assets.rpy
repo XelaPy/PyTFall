@@ -977,8 +977,19 @@ label load_battle_skills:
                 main_effect={"gfx": "shock_whip_webm", "sfx": "content/sfx/sound/be/shock_whip.ogg", "duration": 1.36, "aim": {"point": "center", "anchor": (.5, .5), "xo": 180}, "hflip": True},
                 target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": 0.5, "duration": 0.5},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5})
-
-
+        # Magical staffs attacks:
+        BE_Action(u"Heat Discharge", menu_pos=-0.1, range=4, attributes=["magic", "fire"], critpower=0.3, effect=50, multiplier=0.5, mp_cost=3,
+                desc="Releases a simple discharge of heat energy.",
+                main_effect={"gfx": "magic_staff_01_webm", "sfx": "content/sfx/sound/be/fire4.mp3", "duration": 0.967, "aim": {"point": "center", "anchor": (.5, .5), "xo": 120}, "hflip": True},
+                target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": 0.45, "duration": 0.45},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .25})
+        P2P_Skill("Ice Sphere", menu_pos=-0.1, attributes=["magic", "ice"], effect=40, critpower=.2, multiplier=0.45, mp_cost=2, range=4, piercing=True,
+                desc="Creates a simple projectile made of ice.",
+                projectile_effects={"gfx": "magic_staff_02_webm", "sfx": "content/sfx/sound/be/ice_staff.opus", "duration": 0.4},
+                main_effect={"gfx": "Ice Arrow impact", "sfx": "content/sfx/sound/be/ice_axe.mp3", "duration": 0.7, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
+                target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.01},
+                target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .01, "duration": .3},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5})
 
     ##### Magic:
         # Fire:

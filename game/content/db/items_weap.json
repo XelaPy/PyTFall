@@ -213,7 +213,7 @@
     },
     {
     "id": "Crystal Wand",
-    "desc": "This wand carry a crystal capable of storing magical energy, but is also durable enough to smash someone in the face if needed.",
+    "desc": "This wand carry an ice crystal capable of storing and releasing magical energy, but is also durable enough to smash someone in the face if needed.",
     "icon": "content/items/weapon/cw.png",
     "price": 300,
     "sex": "unisex",
@@ -225,6 +225,7 @@
     "slot": "weapon",
     "type": "rod",
     "attacks": ["Blunt Strike"],
+    "add_be_spells": ["Ice Sphere"],
     "max": {"mp": 25},
     "mod": {"attack": 5},
     "ch_multiplier": -0.1,
@@ -364,8 +365,8 @@
     "locations": ["Exploration", "Ninja Shop"]
     },
     {
-    "id": "Arcane Club",
-    "desc": "This heavy, knobbly length of petrified wood is perfect for those who want a little skull-crushing with their spell-slinging, or vice-versa.",
+    "id": "Arcane Stuff",
+    "desc": "A heavy, long staff made of several types of enchanted wood, capable to channel heat energy.",
     "icon": "content/items/weapon/ac.png",
     "price": 450,
     "sex": "unisex",
@@ -377,6 +378,7 @@
     "slot": "weapon",
     "type": "rod",
     "attacks": ["Blunt Strike"],
+    "add_be_spells": ["Heat Discharge"],
     "max": {"magic": 45, "mp": 35},
     "mod": {"magic": 20, "character": 10, "attack": 10},
     "locations": ["Witches Hut"]
