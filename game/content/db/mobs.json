@@ -608,7 +608,7 @@
     },
     {
         "name": "Vixen",
-        "desc": "Vixens kidnap men from villages and small towns in order to breed, and protected by the law in some countries where the presence of women in politics is low.",
+        "desc": "Vixens kidnap men from villages and small towns in order to breed, and are protected by the law in some countries where the presence of women in politics is low.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/u.png",
         "portrait": "content/npc/mobs/u1.png",
@@ -638,7 +638,7 @@
     },
     {
         "name": "Hag",
-        "desc": "Hags attack men in big cities and rape them on the spot in order to breed. In some cities they replace brothels and have to pay brothel taxes every year.",
+        "desc": "Hags attack men in big cities and rape them on the spot in order to breed. In some cities they replace brothels and have to pay usual brothel taxes.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/v.png",
         "portrait": "content/npc/mobs/v1.png",
@@ -3367,7 +3367,7 @@
     },
     {
         "name": "Undead Cemetery",
-        "desc": "Woven together remains of multiple once living beings.",
+        "desc": "Woven together remains of multiple dead beings.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/cu.png",
         "portrait": "content/npc/mobs/cu1.png",
