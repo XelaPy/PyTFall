@@ -1,5 +1,16 @@
 label forest_dark:
 
+    python:
+        # Build the actions
+        if pytfall.world_actions.location("forest_entrance"):
+            pytfall.world_actions.look_around()
+            pytfall.world_actions.finish()
+        n = randint(1, 6)
+        forest_location = "content/gfx/bg/locations/forest_" + str(n) + ".jpg"
+    scene expression forest_location
+    with dissolve
+    
+label forest_dark_continue:
     # Music related:
     if not "forest_entrance" in ilists.world_music:
         $ ilists.world_music["forest_entrance"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("forest_entrance")]
@@ -7,15 +18,7 @@ label forest_dark:
         play world choice(ilists.world_music["forest_entrance"])
     $ global_flags.del_flag("keep_playing_music")
     
-    python:
-        # Build the actions
-        if pytfall.world_actions.location("forest_entrance"):
-            pytfall.world_actions.look_around()
-            pytfall.world_actions.finish()
-        n = randint(1, 4)
-        forest_location = "content/gfx/bg/locations/forest_" + str(n) + ".jpg"
-    scene expression forest_location
-    with dissolve
+
     
     if not global_flags.flag('visited_deep_forest'):
         $ global_flags.set_flag('visited_deep_forest')
@@ -44,7 +47,7 @@ screen city_dark_forest():
     use top_stripe(True)
     frame:
         xalign 0.95
-        ypos 20
+        ypos 50
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
@@ -59,6 +62,10 @@ screen city_dark_forest():
                 text "Explore" size 15
                 
 label city_dark_forest_explore:
+    $ n = randint(1, 6)
+    $ forest_location = "content/gfx/bg/locations/forest_" + str(n) + ".jpg"
+    scene expression forest_location
+    with dissolve
     jump city_dark_forest_fight
 
 label city_dark_forest_fight:
@@ -67,7 +74,7 @@ label city_dark_forest_fight:
         levels = 0
         for i in hero.team:
             levels += i.level
-        levels = int(levels/len(hero.team))
+        levels = int(levels/len(hero.team))+randint(0, 5)
         mob = choice(["slime", "were", "harpy", "goblin", "wolf", "bear", "druid", "rat", "undead", "butterfly"])
     if mob == "slime":
         "You encountered a small group of predatory slimes."
@@ -156,8 +163,8 @@ label city_dark_forest_fight:
                 member.exp += 150
         scene expression forest_location
         show screen give_exp_after_battle(hero.team)
-        pause 2.0
+        pause 3.0
         hide screen give_exp_after_battle
-        jump forest_dark
+        jump forest_dark_continue
     else:
         jump game_over
