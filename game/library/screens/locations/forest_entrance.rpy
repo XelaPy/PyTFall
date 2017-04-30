@@ -45,7 +45,6 @@ label forest_entrance:
             
             
 screen forest_entrance():
-
     use top_stripe(True)
     
     use location_actions("forest_entrance")

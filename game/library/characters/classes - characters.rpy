@@ -2931,7 +2931,7 @@ init -9 python:
                 if direction:
                     if item.slot == 'consumable' and item.type == 'food':
                         self.effects['Food Poisoning']['activation_count'] += 1
-                        if self.effects['Food Poisoning']['activation_count'] == 7:
+                        if self.effects['Food Poisoning']['activation_count'] >= 7 and not (self.effects['Food Poisoning']['active']):
                             self.enable_effect('Food Poisoning')
 
                     if item.slot == 'consumable' and item.type == 'alcohol':

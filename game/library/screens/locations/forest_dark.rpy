@@ -58,8 +58,13 @@ screen city_dark_forest():
             button:
                 xysize (120, 40)
                 yalign 0.5
-                action [Hide("city_dark_forest"), Hide("city_dark_forest_exploration"), Jump("city_dark_forest_explore"), With(dissolve)]
+                action [Hide("city_dark_forest"), Jump("city_dark_forest_explore"), With(dissolve), SensitiveIf(hero.AP > 0)]
                 text "Explore" size 15
+            button:
+                xysize (120, 40)
+                yalign 0.5
+                action [Hide("city_dark_forest"), Jump("city_dark_forest_rest"), With(dissolve), SensitiveIf(hero.flag("dark_forest_rested_today") != day)]
+                text "Rest" size 15
                 
 label city_dark_forest_explore:
     $ background_number_list = list(i for i in range(1, 7) if i != background_number)
@@ -70,6 +75,19 @@ label city_dark_forest_explore:
     $ global_flags.set_flag("keep_playing_music")
     jump forest_dark_continue
     # jump city_dark_forest_fight
+    
+label city_dark_forest_rest:
+    if hero.AP > 0:
+        $ hero.set_flag("dark_forest_rested_today", value=day)
+        scene bg camp
+        with dissolve
+        "You take a short rest before moving on"
+        python:
+            for i in hero.team:
+                i.vitality += 25
+                i.health += 5
+                i.mp += 10
+    jump forest_dark_continue
 
 label city_dark_forest_fight:
     python:

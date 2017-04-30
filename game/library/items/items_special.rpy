@@ -270,3 +270,14 @@ label special_items_flashing_extract:
         "[eqtarget.name] becomes a bit faster (+1 AP)."
         $ eqtarget.baseAP += 1
         jump char_equip
+        
+label special_items_puke_cola:
+    if not eqtarget.effects['Food Poisoning']['active']:
+        $ eqtarget.health += randint(15, 100)
+        $ eqtarget.effects['Food Poisoning']['activation_count'] += 5
+        if eqtarget.effects['Food Poisoning']['activation_count'] >= 7:
+            $ eqtarget.enable_effect('Food Poisoning')
+    else:
+        $ renpy.show_screen('message_screen', "{} is already suffering from food poisoning. More of this «puke» stuff won't do any good.".format(eqtarget.name))
+        $ inv_source.add_item("Puke-a-Cola")
+    jump char_equip
