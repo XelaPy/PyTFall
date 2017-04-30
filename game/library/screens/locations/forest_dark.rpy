@@ -5,8 +5,8 @@ label forest_dark:
         if pytfall.world_actions.location("forest_entrance"):
             pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
-        n = randint(1, 6)
-        forest_location = "content/gfx/bg/locations/forest_" + str(n) + ".jpg"
+        background_number = randint(1, 6)
+        forest_location = "content/gfx/bg/locations/forest_" + str(background_number) + ".jpg"
     scene expression forest_location
     with dissolve
     
@@ -58,15 +58,18 @@ screen city_dark_forest():
             button:
                 xysize (120, 40)
                 yalign 0.5
-                action [Hide("city_dark_forest"), Jump("city_dark_forest_explore"), With(dissolve)]
+                action [Hide("city_dark_forest"), Hide("city_dark_forest_exploration"), Jump("city_dark_forest_explore"), With(dissolve)]
                 text "Explore" size 15
                 
 label city_dark_forest_explore:
-    $ n = randint(1, 6)
-    $ forest_location = "content/gfx/bg/locations/forest_" + str(n) + ".jpg"
+    $ background_number_list = list(i for i in range(1, 7) if i != background_number)
+    $ background_number = choice(background_number_list)
+    $ forest_location = "content/gfx/bg/locations/forest_" + str(background_number) + ".jpg"
     scene expression forest_location
     with dissolve
-    jump city_dark_forest_fight
+    $ global_flags.set_flag("keep_playing_music")
+    jump forest_dark_continue
+    # jump city_dark_forest_fight
 
 label city_dark_forest_fight:
     python:
