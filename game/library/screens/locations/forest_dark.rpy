@@ -73,6 +73,7 @@ label city_dark_forest_explore:
     scene expression forest_location
     with dissolve
     $ global_flags.set_flag("keep_playing_music")
+    jump city_dark_forest_hideout
     jump forest_dark_continue
     # jump city_dark_forest_fight
     
@@ -88,7 +89,62 @@ label city_dark_forest_rest:
                 i.health += 5
                 i.mp += 10
     jump forest_dark_continue
+    
+label city_dark_forest_hideout:
+    hide screen city_dark_forest
+    scene bg forest_hideout
+    with dissolve
+    menu:
+        "You found bandits hideout inside an old abandoned castle."
+        
+        "Attack them":
+            $ pass
+        "Leave them be":
+            show screen city_dark_forest
+            jump city_dark_forest_explore
+    call city_dark_forest_hideout_fight
+    $ N = randint(1, 4)
+    while i < N:
+        scene bg forest_hideout
+        with dissolve
+        "Another group is approaching you!"
+        call city_dark_forest_hideout_fight
+        $ i += 1
+    show screen give_exp_after_battle(hero.team)
+    pause 2.5
+    hide screen give_exp_after_battle
+    show screen city_dark_forest
+    scene bg forest_hideout
+    with dissolve
+    "After killing all the bandits you found stash with loot."
+    call give_to_mc_item_reward(type="loot", price=300)
+    call give_to_mc_item_reward(type="restore", price=100)
+    call give_to_mc_item_reward(type="restore", price=100)
+    jump city_dark_forest_explore
 
+label city_dark_forest_hideout_fight:
+    python:
+        enemy_team = Team(name="Enemy Team", max_size=3)
+        levels = 0
+        for i in hero.team:
+            levels += i.level
+        levels = int(levels/len(hero.team))+randint(0, 5)
+        levels = 1
+        for i in range(3):
+            mob_id = choice(["Samurai", "Warrior", "Archer", "Soldier", "Barbarian", "Orc", "Infantryman", "Thug", "Mercenary", "Dark Elf Archer"])
+            mob = build_mob(id=mob_id, level=levels)
+            mob.controller = BE_AI(mob)
+            enemy_team.add(mob)
+    $ place = interactions_pick_background_for_fight("forest")
+    $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=True)
+    if result is True:
+        python:
+            for member in hero.team:
+                member.exp += 250
+        scene expression forest_location
+        return
+
+        
 label city_dark_forest_fight:
     python:
         enemy_team = Team(name="Enemy Team", max_size=3)
@@ -101,79 +157,79 @@ label city_dark_forest_fight:
         "You encountered a small group of predatory slimes."
         python:
             for i in range(randint(2, 3)):
-                mod_id = choice(["Alkaline Slime", "Slime", "Acid Slime"])
-                mob = build_mob(id=mod_id, level=levels)
+                mob_id = choice(["Alkaline Slime", "Slime", "Acid Slime"])
+                mob = build_mob(id=mob_id, level=levels)
                 mob.controller = BE_AI(mob)
                 enemy_team.add(mob)
     elif mob == "were":
         "A hungry shapeshifters want a piece of you."
         python:
             for i in range(randint(2, 3)):
-                mod_id = choice(["Werecat", "Werewolf", "Weregirl"])
-                mob = build_mob(id=mod_id, level=levels)
+                mob_id = choice(["Werecat", "Werewolf", "Weregirl"])
+                mob = build_mob(id=mob_id, level=levels)
                 mob.controller = BE_AI(mob)
                 enemy_team.add(mob)
     elif mob == "harpy":
         "A flock of wild harpies attempts to protects their territory."
         python:
             for i in range(randint(2, 3)):
-                mod_id = choice(["Harpy", "Vixen", "Weregirl"])
-                mob = build_mob(id=mod_id, level=levels)
+                mob_id = choice(["Harpy", "Vixen", "Weregirl"])
+                mob = build_mob(id=mob_id, level=levels)
                 mob.controller = BE_AI(mob)
                 enemy_team.add(mob)
     elif mob == "goblin":
         "You find yourself surrounded by a group of goblins."
         python:
             for i in range(3):
-                mod_id = choice(["Goblin", "Goblin Archer", "Goblin Warrior", "Goblin Shaman"])
-                mob = build_mob(id=mod_id, level=levels)
+                mob_id = choice(["Goblin", "Goblin Archer", "Goblin Warrior", "Goblin Shaman"])
+                mob = build_mob(id=mob_id, level=levels)
                 mob.controller = BE_AI(mob)
                 enemy_team.add(mob)
     elif mob == "wolf":
         "A pack of wolves picks you for dinner."
         python:
             for i in range(3):
-                mod_id = choice(["Wolf", "Black Wolf"])
-                mob = build_mob(id=mod_id, level=levels)
+                mob_id = choice(["Wolf", "Black Wolf"])
+                mob = build_mob(id=mob_id, level=levels)
                 mob.controller = BE_AI(mob)
                 enemy_team.add(mob)
     elif mob == "bear":
         "You disturbed an angry bear."
         python:
-            mod_id = choice(["Bear", "Beargirl"])
-            mob = build_mob(id=mod_id, level=levels)
+            mob_id = choice(["Bear", "Beargirl"])
+            mob = build_mob(id=mob_id, level=levels)
             mob.controller = BE_AI(mob)
             enemy_team.add(mob)
     elif mob == "druid":
         "Forest fanatics attempt to sacrifice you in the name of «mother nature» or something like that."
         python:
             for i in range(randint(2, 3)):
-                mod_id = choice(["Druid", "Wild Dryad"])
-                mob = build_mob(id=mod_id, level=levels)
+                mob_id = choice(["Druid", "Wild Dryad"])
+                mob = build_mob(id=mob_id, level=levels)
                 mob.controller = BE_AI(mob)
                 enemy_team.add(mob)
     elif mob == "rat":
         "A pack of foul-smelling rats picks you for dinner."
         python:
             for i in range(randint(2, 3)):
-                mod_id = "Undead Rat"
-                mob = build_mob(id=mod_id, level=levels)
+                mob_id = "Undead Rat"
+                mob = build_mob(id=mob_id, level=levels)
                 mob.controller = BE_AI(mob)
                 enemy_team.add(mob)
     elif mob == "rat":
         "A pack of foul-smelling rats picks you for dinner."
         python:
             for i in range(3):
-                mod_id = choice(["Skeleton", "Skeleton Warrior"])
-                mob = build_mob(id=mod_id, level=levels)
+                mob_id = choice(["Skeleton", "Skeleton Warrior"])
+                mob = build_mob(id=mob_id, level=levels)
                 mob.controller = BE_AI(mob)
                 enemy_team.add(mob)
     else:
         "You encountered a small group of aggressive giant butterflies."
         python:
             for i in range(randint(2, 3)):
-                mod_id = "Black Butterfly"
-                mob = build_mob(id=mod_id, level=levels)
+                mob_id = "Black Butterfly"
+                mob = build_mob(id=mob_id, level=levels)
                 mob.controller = BE_AI(mob)
                 enemy_team.add(mob)
     $ place = interactions_pick_background_for_fight("forest")
@@ -184,7 +240,7 @@ label city_dark_forest_fight:
                 member.exp += 150
         scene expression forest_location
         show screen give_exp_after_battle(hero.team)
-        pause 3.0
+        pause 2.5
         hide screen give_exp_after_battle
         jump forest_dark_continue
     else:
