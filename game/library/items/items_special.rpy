@@ -2,9 +2,7 @@
 # this rpy handles jumps from special consumables which have jump_to_label field
 #-------------------------------------------------------------------------------
 label special_items_slime_bottle:
-
     scene bg h_profile with dissolve
-
     menu:
         "It's an old bottle with unknown, thick liquid inside. Do you want to open it?"
         "Yes":
@@ -88,17 +86,17 @@ label special_items_slime_bottle:
     jump char_equip
 
 label special_items_empty_extractor:
-    scene bg h_profile with dissolve
     if eqtarget.exp <= 2000:
         $ inv_source.add_item("Empty Extractor")
         if eqtarget <> hero:
             $ spr = eqtarget.get_vnsprite()
             show expression spr at center with dissolve
-            "Unfortunately, [eqtarget.name] is not experienced enough yet to share her knowledge with anybody."
+            $ renpy.show_screen('message_screen', "Unfortunately, [eqtarget.name] is not experienced enough yet to share her knowledge with anybody.")
         else:
-            "Unfortunately, you are not experienced enough yet to share your knowledge with anybody."
+            $ renpy.show_screen('message_screen', "Unfortunately, you are not experienced enough yet to share your knowledge with anybody.")
         jump char_equip
     else:
+        scene bg h_profile
         if eqtarget <> hero:
             $ spr = eqtarget.get_vnsprite()
             show expression spr at center with dissolve
@@ -121,56 +119,53 @@ label special_items_empty_extractor:
                 $ hero.add_item("Full Extractor", 1)
                 "The device seems to be full of energy."
             "No":
+                $ inv_source.add_item("Empty Extractor")
                 $ pass
     jump char_equip
 
 label special_items_full_extractor:
-    scene bg h_profile with dissolve
-
     if not(eqtarget.has_flag("exp_extractor")):
         $ eqtarget.set_flag("exp_extractor", value=day)
     elif eqtarget.flag("exp_extractor") == day:
-        "Experience already has been transferred to this person today. It cannot be done too often."
+        $ renpy.show_screen('message_screen', "Experience already has been transferred to this person today. It cannot be done too often.")
         $ inv_source.add_item("Full Extractor")
         jump char_equip
     $ inv_source.add_item("Empty Extractor")
     if eqtarget <> hero:
         $ spr = eqtarget.get_vnsprite()
-
         show expression spr at center with dissolve
-
-        "The energy of knowledge slowly flows inside [eqtarget.name]. She became more experienced."
-
+        $ renpy.show_screen('message_screen', "The energy of knowledge slowly flows inside [eqtarget.name]. She became more experienced.")
         if eqtarget.disposition < 750:
             $ eqtarget.disposition += randint(25, 50)
         if eqtarget.joy <50:
             $ eqtarget.joy += 10
     else:
-        "The energy of knowledge slowly flows inside you. You became more experienced."
-
+        $ renpy.show_screen('message_screen', "The energy of knowledge slowly flows inside you. You became more experienced.")
     $ eqtarget.exp += 1500
     jump char_equip
 
 label special_items_one_for_all:
-    scene bg h_profile with dissolve
     if eqtarget.status <> "slave":
-        "It would be unwise to use it on a free girl, unless you'd like to spend the rest of your live in prison."
+        $ renpy.show_screen('message_screen', "It would be unwise to use it on a free girl, unless you'd like to spend the rest of your live in prison.")
         $ inv_source.add_item("One For All")
         jump char_equip
 
     if eqtarget.health < 50 and eqtarget.mp < 50 and eqtarget.vitality < 50:
-        "[eqtarget.name]'s body is in a poor condition. It will be a waste to use this item on her."
+        $ renpy.show_screen('message_screen', "Her body is in a poor condition. It will be a waste to use this item on her.")
         $ inv_source.add_item("One For All")
         jump char_equip
 
     $ spr = eqtarget.get_vnsprite()
-    show expression spr at center with dissolve
+    scene bg h_profile
+    show expression spr at center
+    with dissolve
 
     menu:
         "Using this item will kill [eqtarget.name] on spot. Continue?"
         "Yes":
-            $ inv_source.add_item("One For All")
+            $ pass
         "No":
+            $ inv_source.add_item("One For All")
             jump char_equip
     $ health = eqtarget.health
     $ n = health/100
@@ -222,7 +217,7 @@ label special_items_one_for_all:
 
     hide expression spr
     show expression HitlerKaputt(spr, 50) as death
-    pause 1.5
+    pause 2.5
     hide death
 
     "[eqtarget.name]'s body crumbles as her life energies turn into potions in your inventory."
@@ -233,14 +228,12 @@ label special_items_one_for_all:
 label special_items_herbal_extract:
     $ h = eqtarget.get_max("health") - eqtarget.health
     if h <= 0:
-        scene bg h_profile with dissolve
         $ inv_source.add_item("Herbal Extract")
-        "There is no need to use it at the moment."
+        $ renpy.show_screen('message_screen', "There is no need to use it at the moment, health is full.")
         jump char_equip
     if eqtarget.vitality <= 10:
-        scene bg h_profile with dissolve
         $ inv_source.add_item("Herbal Extract")
-        "Not enough vitality to use it."
+        $ renpy.show_screen('message_screen', "Not enough vitality to use it.")
         jump char_equip
     if h <= eqtarget.vitality:
         $ eqtarget.health = eqtarget.get_max("health")
@@ -260,14 +253,12 @@ label special_items_emerald_tincture:
 
 label special_items_flashing_extract:
     if eqtarget.flag("drunk_flashing_extract"):
-        scene bg h_profile with dissolve
-        "[eqtarget.name] already used it before, it can be used only once."
+        $ renpy.show_screen('message_screen', "[eqtarget.name] already used it before, it can be used only once.")
         $ inv_source.add_item("Flashing Extract")
         jump char_equip
     else:
         $ eqtarget.set_flag("drunk_flashing_extract")
-        scene bg h_profile with dissolve
-        "[eqtarget.name] becomes a bit faster (+1 AP)."
+        $ renpy.show_screen('message_screen', "[eqtarget.name] becomes a bit faster (+1 AP).")
         $ eqtarget.baseAP += 1
         jump char_equip
         
