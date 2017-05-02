@@ -1,5 +1,16 @@
 # Characters classes and methods:
 init -9 python:
+    def take_team_ap(value):
+        """
+        Checks the whole hero team for enough AP; if at least one teammate doesn't have enough AP, AP won't decrease, and function will return False, otherwise True
+        """
+        for i in hero.team:
+            if i.AP - value < 0:
+                return False
+        for i in hero.team:
+            i.AP -= value
+        return True
+
     ###### Character Helpers ######
     class Tier(_object):
         """This deals with expectations and social status of chars.

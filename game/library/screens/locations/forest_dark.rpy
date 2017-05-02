@@ -44,7 +44,6 @@ label forest_dark_continue:
             
 screen city_dark_forest():
 
-    use top_stripe(True)
     frame:
         xalign 0.95
         ypos 50
@@ -58,7 +57,7 @@ screen city_dark_forest():
             button:
                 xysize (120, 40)
                 yalign 0.5
-                action [Hide("city_dark_forest"), Jump("city_dark_forest_explore"), With(dissolve), SensitiveIf(hero.AP > 0)]
+                action [Hide("city_dark_forest"), Jump("city_dark_forest_explore"), With(dissolve)]
                 text "Explore" size 15
             button:
                 xysize (120, 40)
@@ -75,8 +74,16 @@ screen city_dark_forest():
                 yalign 0.5
                 action [Hide("city_dark_forest"), Jump("city_dark_forest_fight"), With(dissolve)]
                 text "Test Fight" size 15
+            button:
+                xysize (120, 40)
+                yalign 0.5
+                action [Hide("city_dark_forest"), Jump("forest_entrance"), With(dissolve)]
+                text "Leave" size 15
                 
 label city_dark_forest_explore:
+    if not(take_team_ap(1)):
+        "Unfortunately your team is too tired at the moment. Maybe another time."
+        jump forest_dark_continue
     $ background_number_list = list(i for i in range(1, 7) if i != background_number)
     $ background_number = choice(background_number_list)
     $ forest_location = "content/gfx/bg/locations/forest_" + str(background_number) + ".jpg"
@@ -86,16 +93,15 @@ label city_dark_forest_explore:
     jump forest_dark_continue
     
 label city_dark_forest_rest:
-    if hero.AP > 0:
-        $ hero.set_flag("dark_forest_rested_today", value=day)
-        scene bg camp
-        with dissolve
-        "You take a short rest before moving on"
-        python:
-            for i in hero.team:
-                i.vitality += 25
-                i.health += 5
-                i.mp += 10
+    $ hero.set_flag("dark_forest_rested_today", value=day)
+    scene bg camp
+    with dissolve
+    "You take a short rest before moving on"
+    python:
+        for i in hero.team:
+            i.vitality += 25
+            i.health += 5
+            i.mp += 10
     jump forest_dark_continue
     
 label city_dark_forest_hideout:
@@ -188,7 +194,7 @@ label city_dark_forest_fight:
         "A flock of wild harpies attempts to protects their territory."
         python:
             for i in range(randint(2, 3)):
-                mob_id = choice(["Harpy", "Vixen", "Weregirl"])
+                mob_id = choice(["Harpy", "Vixen"])
                 mob = build_mob(id=mob_id, level=levels)
                 mob.controller = BE_AI(mob)
                 enemy_team.add(mob)
