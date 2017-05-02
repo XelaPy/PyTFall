@@ -82,7 +82,11 @@ screen city_dark_forest():
                 
 label city_dark_forest_explore:
     if not(take_team_ap(1)):
-        "Unfortunately your team is too tired at the moment. Maybe another time."
+        if len(hero.team) > 1:
+            "Unfortunately your team is too tired at the moment. Maybe another time."
+        else:
+            "Unfortunately you are too tired at the moment. Maybe another time."
+        $ global_flags.set_flag("keep_playing_music")
         jump forest_dark_continue
     $ background_number_list = list(i for i in range(1, 7) if i != background_number)
     $ background_number = choice(background_number_list)
