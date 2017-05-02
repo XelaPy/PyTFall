@@ -65,6 +65,16 @@ screen city_dark_forest():
                 yalign 0.5
                 action [Hide("city_dark_forest"), Jump("city_dark_forest_rest"), With(dissolve), SensitiveIf(hero.flag("dark_forest_rested_today") != day)]
                 text "Rest" size 15
+            button:
+                xysize (120, 40)
+                yalign 0.5
+                action [Hide("city_dark_forest"), Jump("city_dark_forest_hideout"), With(dissolve)]
+                text "Test Bandits" size 15
+            button:
+                xysize (120, 40)
+                yalign 0.5
+                action [Hide("city_dark_forest"), Jump("city_dark_forest_fight"), With(dissolve)]
+                text "Test Fight" size 15
                 
 label city_dark_forest_explore:
     $ background_number_list = list(i for i in range(1, 7) if i != background_number)
@@ -73,9 +83,7 @@ label city_dark_forest_explore:
     scene expression forest_location
     with dissolve
     $ global_flags.set_flag("keep_playing_music")
-    jump city_dark_forest_hideout
     jump forest_dark_continue
-    # jump city_dark_forest_fight
     
 label city_dark_forest_rest:
     if hero.AP > 0:
@@ -118,8 +126,15 @@ label city_dark_forest_hideout:
     with dissolve
     "After killing all the bandits you found stash with loot."
     call give_to_mc_item_reward(type="loot", price=300)
+    if locked_dice(50):
+        call give_to_mc_item_reward(type="loot", price=300)
     call give_to_mc_item_reward(type="restore", price=100)
-    call give_to_mc_item_reward(type="restore", price=100)
+    if locked_dice(50):
+        call give_to_mc_item_reward(type="restore", price=200)
+    if locked_dice(50):
+        call give_to_mc_item_reward(type="armor", price=300)
+    if locked_dice(50):
+        call give_to_mc_item_reward(type="weapon", price=300)
     jump city_dark_forest_explore
 
 label city_dark_forest_hideout_fight:
