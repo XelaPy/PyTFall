@@ -1,16 +1,18 @@
 label forest_dark:
-
     python:
+        background_number = -1
         # Build the actions
         if pytfall.world_actions.location("forest_entrance"):
-            pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
-        background_number = randint(1, 6)
-        forest_location = "content/gfx/bg/locations/forest_" + str(background_number) + ".jpg"
-    scene expression forest_location
-    with dissolve
     
 label forest_dark_continue:
+    $ background_number_list = list(i for i in range(1, 7) if i != background_number)
+    $ background_number = choice(background_number_list)
+    $ forest_location = "content/gfx/bg/locations/forest_" + str(background_number) + ".jpg"
+    scene expression forest_location
+    with dissolve
+    $ global_flags.set_flag("keep_playing_music")
+
     # Music related:
     if not "forest_entrance" in ilists.world_music:
         $ ilists.world_music["forest_entrance"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("forest_entrance")]
@@ -18,10 +20,8 @@ label forest_dark_continue:
         play world choice(ilists.world_music["forest_entrance"])
     $ global_flags.del_flag("keep_playing_music")
     
-
-    
-    if not global_flags.flag('visited_deep_forest'):
-        $ global_flags.set_flag('visited_deep_forest')
+    if not hero.flag('visited_deep_forest'):
+        $ hero.set_flag('visited_deep_forest')
         $ block_say = True
         "You step away from the city walls and go deep into the forest. It's not safe here, better to be on guard."
         $ block_say = False
@@ -30,20 +30,15 @@ label forest_dark_continue:
     
     while 1:
         $ result = ui.interact()
-        
-        if result[0] == 'jump':
-            $ gm.start_gm(result[1])
-        if result[0] == 'control':
-            if result[1] == 'return':
-                hide screen city_dark_forest
-                $ global_flags.set_flag("keep_playing_music")
-                jump forest_entrance
-        elif result[0] == 'location':
-            $ renpy.music.stop(channel="world")
-            $ jump(result[1])
+        if result in hero.team:
+            $ came_to_equip_from = "forest_dark_continue"
+            $ eqtarget = result
+            $ equipment_safe_mode = True
+            jump char_equip
             
 screen city_dark_forest():
-
+    use top_stripe(False, None, False, True)
+    use show_mc_team_status(hero.team)
     frame:
         xalign 0.95
         ypos 50
@@ -88,12 +83,7 @@ label city_dark_forest_explore:
             "Unfortunately you are too tired at the moment. Maybe another time."
         $ global_flags.set_flag("keep_playing_music")
         jump forest_dark_continue
-    $ background_number_list = list(i for i in range(1, 7) if i != background_number)
-    $ background_number = choice(background_number_list)
-    $ forest_location = "content/gfx/bg/locations/forest_" + str(background_number) + ".jpg"
-    scene expression forest_location
-    with dissolve
-    $ global_flags.set_flag("keep_playing_music")
+
     jump forest_dark_continue
     
 label city_dark_forest_rest:

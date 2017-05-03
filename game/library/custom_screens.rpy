@@ -530,7 +530,7 @@ init: # PyTFall:
         if autohide:
             timer autohide action Hide("quest_notifications")
 
-    screen top_stripe(show_return_button=True, return_button_action=None, show_lead_away_buttons=True):
+    screen top_stripe(show_return_button=True, return_button_action=None, show_lead_away_buttons=True, show_team_status=False):
 
         default tt = Tooltip("")
         default return_action = Return(['control', 'return']) if return_button_action is None else return_button_action
@@ -596,7 +596,7 @@ init: # PyTFall:
                             hovered tt.Action("Add [char.nickname] to player team!")
 
             # AP Frame/Next Day button:
-            if any([renpy.current_screen().tag == "next_day", hero.AP == 0]) and renpy.current_screen().tag not in ["mainscreen", "girl_interactions"]:
+            if any([renpy.current_screen().tag == "next_day", hero.AP == 0]) and renpy.current_screen().tag not in ["mainscreen", "girl_interactions"] and not show_team_status:
                 button:
                     style_group "basic"
                     align (0.5, 0.6)
@@ -679,7 +679,50 @@ init: # PyTFall:
                     hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 35, 35), im.matrix.brightness(0.25))
                     action return_action
                     hovered tt.Action("Return to previous screen!")
-
+            if show_team_status:
+                hbox:
+                    spacing 25
+                    pos (17, 50)
+                    for l in hero.team:
+                        $ char_profile_img = l.show('portrait', resize=(101, 101), cache=True)
+                        $ img = "content/gfx/frame/ink_box.png"
+                        vbox:
+                            spacing 1
+                            xsize 102
+                            imagebutton:
+                                background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+                                idle (char_profile_img)
+                                hover (im.MatrixColor(char_profile_img, im.matrix.brightness(0.15)))
+                                action Return(l)
+                                align 0, .5
+                                xysize (102, 102)
+                            bar:
+                                right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
+                                left_bar im.Scale("content/gfx/interface/bars/hp2.png", 102, 14)
+                                value l.health
+                                range l.get_max("health")
+                                thumb None
+                                left_gutter 0
+                                right_gutter 0
+                                xysize (102, 14)
+                            bar:
+                                right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
+                                left_bar im.Scale("content/gfx/interface/bars/mp2.png", 102, 14)
+                                value l.mp
+                                range l.get_max("mp")
+                                thumb None
+                                left_gutter 0
+                                right_gutter 0
+                                xysize (102, 14)
+                            bar:
+                                right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
+                                left_bar im.Scale("content/gfx/interface/bars/vitality2.png", 102, 14)
+                                value l.vitality
+                                range l.get_max("vitality")
+                                thumb None
+                                left_gutter 0
+                                right_gutter 0
+                                xysize (102, 14)
 
     screen message_screen(msg, size=(500, 300), use_return=False):
         modal True

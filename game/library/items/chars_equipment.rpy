@@ -325,6 +325,7 @@ label char_equip_finish:
         eqtarget = None
         eqsave = None
         equip_girls = None
+        equipment_safe_mode = False
 
     if came_to_equip_from:
         $ last_label, came_to_equip_from = came_to_equip_from, None
