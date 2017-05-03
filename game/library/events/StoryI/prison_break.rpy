@@ -58,7 +58,7 @@ screen prison_break_controls(): # control buttons screen
             button:
                 xysize (120, 40)
                 yalign 0.5
-                action [Hide("prison_break_controls"), jump("mainscreen")]
+                action [Hide("prison_break_controls"), Jump("mainscreen")]
                 text "Exit" size 15
 
 screen give_exp_after_battle(group, money=0): # shows post-battle results; TO DO: make it to show animation gained post battle, not just the current one
@@ -98,7 +98,7 @@ screen give_exp_after_battle(group, money=0): # shows post-battle results; TO DO
                     add "coin_top" align (0.5, 0.5)
                     null width 5
                     text ("%d"%money) size 20 color gold align (0.5, 0.5)
-                
+
 
 label storyi_bossroom:
     stop music
@@ -174,7 +174,7 @@ label storyi_bossroom:
     "You return to the ground floor. It's time to home."
     show screen prison_break_controls
     jump storyi_gui_loop
-    
+
 label storyi_rest: # resting inside the dungeon; team may be attacked during the rest
     show bg tent with q_dissolve
     python:
@@ -293,7 +293,7 @@ label storyi_start: # beginning point of the dungeon; TODO: change expression be
     $ storyi_treat_wounds_count = 5
     $ storyi_prison_stage = 1
     $ storyi_prison_location = 6
-    show screen prison_break_controls
+    call screen prison_break_controls
 
 label storyi_gui_loop: # the gui loop; we jump here every time we need to show controlling gui
     while 1:
