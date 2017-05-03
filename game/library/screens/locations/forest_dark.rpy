@@ -38,7 +38,6 @@ label forest_dark_continue:
             
 screen city_dark_forest():
     use top_stripe(False, None, False, True)
-    use show_mc_team_status(hero.team)
     frame:
         xalign 0.95
         ypos 50

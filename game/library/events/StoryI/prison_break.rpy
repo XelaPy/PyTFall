@@ -17,6 +17,7 @@ init:
     $ enemy_soldier2 = Character("Guard", color=white, what_color=white, show_two_window=True, show_side_image=ProportionalScale("content/npc/mobs/h1.png", 120, 120))
 
 screen prison_break_controls(): # control buttons screen
+    # use top_stripe(False, None, False, True)
     frame:
         xalign 0.95
         ypos 50
@@ -30,7 +31,7 @@ screen prison_break_controls(): # control buttons screen
             button:
                 xysize (120, 40)
                 yalign 0.5
-                action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Play("events2", "events/letter.mp3"), Jump("storyi_map")]
+                action [Hide("prison_break_controls"), Play("events2", "events/letter.mp3"), Jump("storyi_map")]
                 text "Show map" size 15
             button:
                 xysize (120, 40)
@@ -41,71 +42,24 @@ screen prison_break_controls(): # control buttons screen
                 button:
                     xysize (120, 40)
                     yalign 0.5
-                    action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("storyi_treat_wounds")]
+                    action [Hide("prison_break_controls"), Jump("storyi_treat_wounds")]
                     text "Heal" size 15
             button:
                 xysize (120, 40)
                 yalign 0.5
-                action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("storyi_bossroom")]
+                action [Hide("prison_break_controls"), Jump("storyi_bossroom")]
                 text "Test Boss" size 15
             if storyi_prison_location in treasures:
                 button:
                     xysize (120, 40)
                     yalign 0.5
-                    action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("storyi_search_items")]
+                    action [Hide("prison_break_controls"), Jump("storyi_search_items")]
                     text "Search" size 15
             button:
                 xysize (120, 40)
                 yalign 0.5
-                action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Jump("mainscreen")]
+                action [Hide("prison_break_controls"), jump("mainscreen")]
                 text "Exit" size 15
-
-screen show_mc_team_status(characters): # shows characters status, and allows to enter their equipment assuming that proper gui loop exists
-    hbox:
-        spacing 25
-        pos (17, 50)
-        for l in characters:
-            $ char_profile_img = l.show('portrait', resize=(101, 101), cache=True)
-            $ img = "content/gfx/frame/ink_box.png"
-            vbox:
-                spacing 1
-                xsize 102
-                imagebutton:
-                    background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-                    idle (char_profile_img)
-                    hover (im.MatrixColor(char_profile_img, im.matrix.brightness(0.15)))
-                    action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Return(l)]
-                    align 0, .5
-                    xysize (102, 102)
-                bar:
-                    right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
-                    left_bar im.Scale("content/gfx/interface/bars/hp2.png", 102, 14)
-                    value l.health
-                    range l.get_max("health")
-                    thumb None
-                    left_gutter 0
-                    right_gutter 0
-                    xysize (102, 14)
-                bar:
-                    right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
-                    left_bar im.Scale("content/gfx/interface/bars/mp2.png", 102, 14)
-                    value l.mp
-                    range l.get_max("mp")
-                    thumb None
-                    left_gutter 0
-                    right_gutter 0
-                    xysize (102, 14)
-                bar:
-                    right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
-                    left_bar im.Scale("content/gfx/interface/bars/vitality2.png", 102, 14)
-                    value l.vitality
-                    range l.get_max("vitality")
-                    thumb None
-                    left_gutter 0
-                    right_gutter 0
-                    xysize (102, 14)
-
-
 
 screen give_exp_after_battle(group, money=0): # shows post-battle results; TO DO: make it to show animation gained post battle, not just the current one
     fixed:
@@ -122,7 +76,7 @@ screen give_exp_after_battle(group, money=0): # shows post-battle results; TO DO
                     background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
                     idle (char_profile_img)
                     hover (im.MatrixColor(char_profile_img, im.matrix.brightness(0.15)))
-                    action [Hide("prison_break_controls"), Hide("show_mc_team_status"), Return(l)]
+                    action [Hide("prison_break_controls"), Return(l)]
                     align 0, .5
                     xysize (102, 102)
                 bar:
@@ -170,7 +124,6 @@ label storyi_bossroom:
             stop events2
             hide sinister_star
             show screen prison_break_controls
-            show screen show_mc_team_status(hero.team)
             jump storyi_gui_loop
     show sinister_star:
         linear 2.5 zoom 0.2
@@ -220,7 +173,6 @@ label storyi_bossroom:
     play world "Theme2.ogg" fadein 2.0 loop
     "You return to the ground floor. It's time to home."
     show screen prison_break_controls
-    show screen show_mc_team_status(hero.team)
     jump storyi_gui_loop
     
 label storyi_rest: # resting inside the dungeon; team may be attacked during the rest
@@ -233,11 +185,10 @@ label storyi_rest: # resting inside the dungeon; team may be attacked during the
     $ fight_chance += 10
     call storyi_show_bg
     if dice(fight_chance):
+        hide screen prison_break_controls
         "You have been ambushed by enemies!"
-        hide screen show_mc_team_status
         jump storyi_randomfight
     show screen prison_break_controls
-    show screen show_mc_team_status(hero.team)
     jump storyi_gui_loop
 
 label storyi_randomfight:  # initiates fight with random enemy team
@@ -267,7 +218,6 @@ label storyi_randomfight:  # initiates fight with random enemy team
         show screen give_exp_after_battle(hero.team, money)
         pause 3.5
         hide screen give_exp_after_battle
-        show screen show_mc_team_status(hero.team)
         show screen prison_break_controls
         jump storyi_gui_loop
     else:
@@ -322,7 +272,6 @@ label storyi_treat_wounds:
             "Unfortunately, you used all stored medicaments."
     else:
         "Supplies are limited, it's not wise to waste them if your health is fine."
-    show screen show_mc_team_status(hero.team)
     show screen prison_break_controls
     $ del j
     jump storyi_gui_loop
@@ -344,7 +293,6 @@ label storyi_start: # beginning point of the dungeon; TODO: change expression be
     $ storyi_treat_wounds_count = 5
     $ storyi_prison_stage = 1
     $ storyi_prison_location = 6
-    show screen show_mc_team_status(hero.team)
     show screen prison_break_controls
 
 label storyi_gui_loop: # the gui loop; we jump here every time we need to show controlling gui
@@ -359,7 +307,6 @@ label storyi_gui_loop: # the gui loop; we jump here every time we need to show c
 label storyi_continue: # the label where we return after visiting characters equipment screens
     call storyi_show_bg
     $ equipment_safe_mode = False
-    show screen show_mc_team_status(hero.team)
     show screen prison_break_controls
     jump storyi_gui_loop
 
@@ -449,7 +396,6 @@ label storyi_search_items:
         if dice(hero.luck + 100):
             call give_to_mc_item_reward(type="dress", price=500)
     $ treasures.remove(storyi_prison_location)
-    show screen show_mc_team_status(hero.team)
     show screen prison_break_controls
     jump storyi_gui_loop
 
@@ -666,7 +612,6 @@ label storyi_map: # shows dungeon map and calls matrix to control it
         hide blueprint
         hide expression point
         with dissolve
-        show screen show_mc_team_status(hero.team)
         show screen prison_break_controls
         jump storyi_gui_loop
 
