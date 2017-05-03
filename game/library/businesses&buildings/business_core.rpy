@@ -357,9 +357,14 @@ init -12 python:
         - Clients are handled in one general pool.
         - Workers randomly serve them.
         """
-        def __init__(self, name="Public Default", instance=None, desc="Client is always right!?!", img=None, build_effort=0, materials=None, in_slots=3, cost=500, **kwargs):
+        def __init__(self, name="Public Default", instance=None,
+                     desc="Client is always right!?!", img=None,
+                     build_effort=0, materials=None, in_slots=3,
+                     cost=500, **kwargs):
             img = Null() if img is None else img
-            super(PublicBusiness, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+            super(PublicBusiness, self).__init__(name=name, instance=instance,
+                            desc=desc, img=img, build_effort=build_effort,
+                            materials=materials, cost=cost, **kwargs)
             self.jobs = set() # Job bound to this update.
             self.workable = True
             self.type = "public_service"
@@ -410,7 +415,8 @@ init -12 python:
                 self.log_income(cash)
                 self.instance.dirt += dirt
 
-                temp = "{}: {} exits the {} leaving {} Gold and {} Dirt behind.".format(self.env.now, client.name, self.name, cash, dirt)
+                temp = "{}: {} exits the {} leaving {} Gold and {} Dirt behind.".format(self.env.now,
+                                                                client.name, self.name, cash, dirt)
                 self.clients.remove(client)
                 self.log(temp)
                 client.del_flag("jobs_busy")
@@ -477,7 +483,8 @@ init -12 python:
             self.instance.nd_ups.remove(self)
 
         def use_worker(self, worker):
-            temp = "{}: {} comes out to serve customers in {}!".format(self.env.now, worker.name, self.name)
+            temp = "{}: {} comes out to serve customers in {}!".format(self.env.now,
+                                                            worker.name, self.name)
             self.log(temp)
             while worker.AP and self.res.count:
                 yield self.env.timeout(self.time) # This is a single shift a worker can take for cost of 1 AP.
@@ -491,7 +498,8 @@ init -12 python:
                 tips = randint(1, 2) * self.res.count
                 self.log_income(tips)
                 worker.mod_flag("jobs_" + self.job.id + "_tips", tips)
-                temp = "{}: {} gets {} in tips from {} clients!".format(self.env.now, worker.name, tips, self.res.count)
+                temp = "{}: {} gets {} in tips from {} clients!".format(self.env.now,
+                                                worker.name, tips, self.res.count)
                 self.log(temp)
 
             # Once the worker is done, we run the job and create the event:
@@ -505,7 +513,8 @@ init -12 python:
                 self.log(temp)
 
             self.active_workers.remove(worker)
-            temp = "{}: {} is done with the job in {} for the day!".format(self.env.now, set_font_color(worker.name, "red"), self.name)
+            temp = "{}: {} is done with the job in {} for the day!".format(self.env.now,
+                                        set_font_color(worker.name, "red"), self.name)
             self.log(temp)
 
         def post_nd_reset(self):

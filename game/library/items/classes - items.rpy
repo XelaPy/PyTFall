@@ -125,9 +125,13 @@ init -9 python:
     # Inventory with listing
     # this is used together with a specialized screens/functions
     class Inventory(_object):
-        GENDER_FILTERS = {"any": ["unisex", "female", "male"], "male": ["unisex", "male"], "female": ["unisex", "female"]}
-        SLOT_FILTERS = {"all": ('weapon', 'smallweapon', 'head', 'body', 'wrist', 'feet', 'cape', 'amulet', 'ring', 'consumable', 'gift', 'misc', 'quest', "resources", "loot"),
-                                        "quest": ("quest", "resources", "loot")}
+        GENDER_FILTERS = {"any": ["unisex", "female", "male"],
+                          "male": ["unisex", "male"],
+                          "female": ["unisex", "female"]}
+        SLOT_FILTERS = {"all": ('weapon', 'smallweapon', 'head', 'body', 'wrist',
+            'feet', 'cape', 'amulet', 'ring', 'consumable', 'gift', 'misc', 'quest',
+            "resources", "loot"),
+            "quest": ("quest", "resources", "loot")}
 
         def __init__(self, per_page):
             self.filtered_items = list() # Handles actual filtered items instances.
@@ -201,12 +205,14 @@ init -9 python:
                 self.page = (self.page + 1) % self.max_page
             else:
                 self.page = 0
+
         def prev(self):
             """Previous page"""
             if self.max_page>0:
                 self.page = (self.page - 1) % self.max_page
             else:
                 self.page = 0
+
         def first(self):
             """First page"""
             self.page = 0
