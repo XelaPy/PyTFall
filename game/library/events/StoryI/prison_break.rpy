@@ -293,7 +293,7 @@ label storyi_start: # beginning point of the dungeon; TODO: change expression be
     $ storyi_treat_wounds_count = 5
     $ storyi_prison_stage = 1
     $ storyi_prison_location = 6
-    call screen prison_break_controls
+    show screen prison_break_controls
 
 label storyi_gui_loop: # the gui loop; we jump here every time we need to show controlling gui
     while 1:
