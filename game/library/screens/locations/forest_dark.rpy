@@ -1,17 +1,20 @@
 label forest_dark:
     python:
         background_number = -1
+        forest_bg_change = True
         # Build the actions
         if pytfall.world_actions.location("forest_entrance"):
             pytfall.world_actions.finish()
     
 label forest_dark_continue:
-    $ background_number_list = list(i for i in range(1, 7) if i != background_number)
-    $ background_number = choice(background_number_list)
-    $ forest_location = "content/gfx/bg/locations/forest_" + str(background_number) + ".jpg"
+    if forest_bg_change:
+        $ background_number_list = list(i for i in range(1, 7) if i != background_number)
+        $ background_number = choice(background_number_list)
+        $ forest_location = "content/gfx/bg/locations/forest_" + str(background_number) + ".jpg"
+    else:
+        $ forest_bg_change = True
     scene expression forest_location
     with dissolve
-    $ global_flags.set_flag("keep_playing_music")
 
     # Music related:
     if not "forest_entrance" in ilists.world_music:
@@ -33,7 +36,9 @@ label forest_dark_continue:
         if result in hero.team:
             $ came_to_equip_from = "forest_dark_continue"
             $ eqtarget = result
+            $ global_flags.set_flag("keep_playing_music")
             $ equipment_safe_mode = True
+            $ forest_bg_change = False
             jump char_equip
             
 screen city_dark_forest():
@@ -87,9 +92,12 @@ label city_dark_forest_explore:
     
 label city_dark_forest_rest:
     $ hero.set_flag("dark_forest_rested_today", value=day)
+    $ forest_bg_change = False
     scene bg camp
     with dissolve
-    "You take a short rest before moving on"
+    "You take a short rest before moving on."
+    $ forest_bg_change = False
+    $ global_flags.set_flag("keep_playing_music")
     python:
         for i in hero.team:
             i.vitality += 25
@@ -101,6 +109,7 @@ label city_dark_forest_hideout:
     hide screen city_dark_forest
     scene bg forest_hideout
     with dissolve
+    $ forest_bg_change = False
     menu:
         "You found bandits hideout inside an old abandoned castle."
         
@@ -108,6 +117,7 @@ label city_dark_forest_hideout:
             $ pass
         "Leave them be":
             show screen city_dark_forest
+            $ global_flags.set_flag("keep_playing_music")
             jump city_dark_forest_explore
     call city_dark_forest_hideout_fight
     $ N = randint(1, 4)
@@ -160,6 +170,7 @@ label city_dark_forest_hideout_fight:
 
         
 label city_dark_forest_fight:
+    $ forest_bg_change = False
     python:
         enemy_team = Team(name="Enemy Team", max_size=3)
         levels = 0
