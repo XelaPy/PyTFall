@@ -850,11 +850,13 @@ init -1 python: # Core classes:
                         pass
                     else:
                         for event in store.battle.mid_turn_events:
-                            if (isinstance(event, self.event_class) and t == event.target): # TODO: Add field to event that would allow being hit multiple times?
-                                # battle.log("%s is already poisoned!" % (t.nickname)) # TODO: Add reports to events? So they make sense?
+                            if t == event.target and event.type == self.buff_group:
+                                battle.log("%s is already effected by %s!" % (t.nickname, self.buff_group))
                                 break
                         else:
                             battle.mid_turn_events.append(temp)
+                            # We also add the icon to targets status overlay:
+                            target.status_overlay.append(self.icon)
 
                 # Finally, log to battle:
                 self.log_to_battle(effects, total_damage, a, t, message=None)

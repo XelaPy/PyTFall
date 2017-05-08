@@ -1043,6 +1043,14 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5})
+        if config.debug:
+            BasicPoisonSpell("PoisonTest", menu_pos=-5, attributes=["status", "poison", "darkness"], effect=0.1, multiplier=.1, mp_cost=30, range=4, kind="damage_over_time", buff_group="poison",
+                    desc="Poisons the target causing additional damage each turn.",
+                    attacker_effects={"gfx": "default_1", "sfx": "default"},
+                    main_effect={"gfx": Transform("poison_1", zoom=2.1), "sfx": "content/sfx/sound/be/poison_01.ogg", "duration": 1.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": -25}},
+                    target_sprite_damage_effect={"gfx": None},
+                    target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
+                    target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5})
         # Buffs:
         DefenceBuffSpell("Aery Field", menu_pos=-1, attributes=["status", "air"], kind="buff", defence_multiplier={"ranged": 1.5}, buff_group="ranged shield", buff_icon=ProportionalScale("content/gfx/be/buffs/ranged_def.png", 30, 30), mp_cost=0.1, vitality_cost=0.3, range=4, type="sa", defence_gfx="air_shield",
                 desc="Creates a force field, reducing damage from ranged attacks.",

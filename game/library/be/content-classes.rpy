@@ -226,9 +226,6 @@ init python:
             self.type = "poison"
             self.icon = ProportionalScale("content/gfx/be/poison1.png", 30, 30)
 
-            # We also add the icon to targets status overlay:
-            target.status_overlay.append(self.icon)
-
         def check_conditions(self):
             if battle.controller == self.target:
                 return True
@@ -697,6 +694,7 @@ init python:
         def __init__(self, *args, **kwargs):
             super(BasicPoisonSpell, self).__init__(*args, **kwargs)
             self.event_class = PoisonEvent
+            self.buff_group = kwargs.get("buff_group", self.__class__)
 
 
     class ReviveSpell(BE_Action):
