@@ -1480,7 +1480,7 @@ init: # Screens:
                             textbutton "{size=-3}Show Daily" action SetScreenVariable("show_fin", "day") minimum(200, 30)
 
                 else:
-                    text (u"No financial records availible!") align(0.5, 0.5)
+                    text (u"No financial records available!") align(0.5, 0.5)
 
                 button:
                     style_group "basic"
