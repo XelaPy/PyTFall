@@ -1292,14 +1292,24 @@ init -1 python: # Core classes:
                 self.time_bg_main_effect(start)
 
             time_stamps = sorted(self.timestamps.keys())
-            last_time_stamp = 0
-            for index, stamp in enumerate(time_stamps):
-                pause = stamp-last_time_stamp
-                if pause > 0.02:
-                    renpy.pause(pause)
-                self.timestamps[stamp]()
+            st = time.time()
+            for stamp in time_stamps:
+                func = self.timestamps[stamp]
+                # devlog.info("Func: {}".format(func.__dict__["callable"]))
 
-                last_time_stamp = stamp
+                real_passed_time = time.time()-st
+                # devlog.info("New iteration at: {}".format(round(real_passed_time, 2)))
+
+                if real_passed_time < stamp:
+                    pause = stamp-real_passed_time
+                    if pause-.05 > 0:
+                        # devlog.info("Paused for: {}".format(round(pause, 2)))
+                        ui.pausebehavior(pause, False)
+                        ui.interact(mouse='pause', type='pause', roll_forward=None)
+
+                # devlog.info("Function called at: {} (perfect time to call: {})".format(round(time.time()-st, 2), round(stamp, 2)))
+                func()
+                # devlog.info("Leaving iteration at: {}".format(round(time.time()-st, 2)))
 
             self.timestamps = {}
             # Try to predict the images:
