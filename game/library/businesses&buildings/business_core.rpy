@@ -119,7 +119,7 @@ init -12 python:
                         w = priorityw.pop()
                     if self.check_worker_capable(w) and self.check_worker_willing(w, job):
                         workers.append(w)
-
+            
             if any:
                 anyw = list(i for i in self.all_workers if i not in priorityw) if priority else self.all_workers[:]
                 shuffle(anyw)

@@ -344,6 +344,8 @@
             self.base_stats = dict()
             # Where key: value are stat/skill: weight!
 
+            self.desc = "" # String we can use to describe the Job.
+
         def __str__(self):
             return str(self.id)
 
@@ -424,6 +426,13 @@
 
             return total_skills + total_stats + bonus1 + bonus2
 
+        def traits_and_effects_effectiveness_mod(self, worker, difficulty, log):
+            """Modifies workers effectiveness depending on traits and effects.
+
+            returns an integer to be added to base calculations!
+            """
+            return 0
+
         def effectiveness(self, worker, difficulty, log):
             """We check effectiveness here during jobs from SimPy land.
 
@@ -458,8 +467,8 @@
             self.base_skills = {"sex": 60, "vaginal": 40, "anal": 40, "oral": 40}
             self.base_stats = {"charisma": 100}
 
-        def base_effectiveness(self, worker, difficulty, log):
-            """Affects all worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
+        def traits_and_effects_effectiveness_mod(self, worker, difficulty, log):
+            """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
                Calculates only once per turn, in the very beginning.
             """
             effectiveness = 0
@@ -1328,23 +1337,24 @@
             self.skills = ["strip", "dancing"]
             self.stats = ["charisma"]
 
-        def __call__(self, char):
-            worker, self.loc = char, worker.location
-            self.clients = worker.flag("jobs_strip_clients")
-            self.strip()
+        # def __call__(self, char):
+        #     worker, self.loc = char, worker.location
+        #     self.clients = worker.flag("jobs_strip_clients")
+        #     self.strip()
 
-        def is_valid_for(self, char):
+        def is_valid_for(self, worker):
             if "Stripper" in worker.traits:
                 return True
             if worker.status == 'slave':
                 return True
 
-            if worker.disposition >= self.calculate_disposition_level(char):
+            if worker.disposition >= self.calculate_disposition_level(worker):
                 return True
             else:
                 return False
 
         def calculate_disposition_level(self, char): # calculating the needed level of disposition
+            worker = char # TODO, get rid of this
             sub = check_submissivity(char)
             if "Shy" in worker.traits:
                 disposition = 800 + 50 * sub
@@ -1367,6 +1377,7 @@
         def check_occupation(self, char=None):
             """Checks if the worker is willing to do this job.
             """
+            worker = char # TODO, get rid of this
             if not("Stripper" in worker.traits) and worker.disposition < self.calculate_disposition_level(char):
                 sub = check_submissivity(char)
                 if worker.status != 'slave':
