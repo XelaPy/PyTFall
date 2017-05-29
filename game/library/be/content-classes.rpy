@@ -218,11 +218,11 @@ init python:
 
 
     class PoisonEvent(BE_Event):
-        def __init__(self, source, target, effect):
+        def __init__(self, source, target, effect, duration=5):
             self.target = target
             self.source = source
-            self.counter = randint(3, 5) # Poisoned for 3-5 turns
-            self.effect = effect # effect should be from 0 to 1, ie part of max health the poison takes every turn
+            self.counter = duration
+            self.effect = effect
             self.type = "poison"
             self.icon = ProportionalScale("content/gfx/be/poison1.png", 30, 30)
 
@@ -703,6 +703,7 @@ init python:
             super(BasicPoisonSpell, self).__init__(*args, **kwargs)
             self.event_class = PoisonEvent
             self.buff_group = kwargs.get("buff_group", self.__class__)
+            self.event_duration = kwargs.get("event_duration", 3)
 
 
     class ReviveSpell(BE_Action):

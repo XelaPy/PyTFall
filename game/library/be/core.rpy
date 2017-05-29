@@ -878,7 +878,8 @@ init -1 python: # Core classes:
                 if self.event_class:
                     # Check if event is in play already:
                     # Check for resistance first:
-                    temp = self.event_class(a, t, self.effect)
+                    duration = getattr(self, "event_duration", 3)
+                    temp = self.event_class(a, t, self.effect, duration=duration)
                     if temp.type in t.resist or self.check_absorbtion(t, temp.type):
                         pass
                     else:
