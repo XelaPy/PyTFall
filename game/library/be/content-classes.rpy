@@ -256,16 +256,17 @@ init python:
 
             if t.health - damage > 0:
                 t.mod_stat("health", -damage)
-                msg = "%s is poisoned! {color=[green]}☠: %d{/color}" % (self.target.name, damage)
+                msg = "%s is poisoned! {color=[green]}☠: %d{/color}" % (t.name, damage)
                 battle.log(msg)
             else:
-                death = RPG_Death(self.target, msg="{color=[red]}Poison took out %s!\n{/color}" % self.target.name, death_effect="dissolve")
+                t.health = 1
+                death = RPG_Death(self.target, msg="{color=[red]}Poison took out %s!\n{/color}" % t.name, death_effect="dissolve")
                 death.apply_effects()
 
             self.counter -= 1
 
             if self.counter <= 0:
-                msg = "{color=[teal]}Poison effect on %s has ran it's course...{/color}" % (self.target.name)
+                msg = "{color=[teal]}Poison effect on %s has ran it's course...{/color}" % (t.name)
                 battle.log(msg)
 
 
