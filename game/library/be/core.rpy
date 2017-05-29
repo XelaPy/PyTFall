@@ -845,7 +845,7 @@ init -1 python: # Core classes:
                 if self.event_class:
                     # Check if event is in play already:
                     # Check for resistance first:
-                    temp = self.event_class(a, t, total_damage)
+                    temp = self.event_class(a, t, self.effect)
                     if temp.type in t.resist or self.check_absorbtion(t, temp.type):
                         pass
                     else:
@@ -856,7 +856,7 @@ init -1 python: # Core classes:
                         else:
                             battle.mid_turn_events.append(temp)
                             # We also add the icon to targets status overlay:
-                            target.status_overlay.append(self.icon)
+                            t.status_overlay.append(temp.icon)
 
                 # Finally, log to battle:
                 self.log_to_battle(effects, total_damage, a, t, message=None)
