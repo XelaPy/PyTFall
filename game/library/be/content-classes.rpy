@@ -243,6 +243,13 @@ init python:
             damage = t.get_max("health") * self.effect
             damage = max(randint(5, 10), int(damage) + randint(-2, 2))
 
+            # Take care of modifiers:
+            damage = self.damage_modifier(t, damage, self.type)
+            if damage == "resisted":
+                damage = 0
+            else:
+                damage = int(round(damage))
+
             # GFX:
             if not battle.logical:
                 gfx = Transform("poison_2", zoom=1.5)

@@ -460,6 +460,39 @@ init -1 python: # Core classes:
         def apply_effects(self, targets=None):
             pass
 
+        # ported from Action class as we need this for Events as well:
+        def damage_modifier(self, t, damage, type):
+            """
+            This calculates the multiplier to use with effect of the skill.
+            d: Damage (number per type)
+            type: Damage Type
+            """
+            effects = list()
+            a = self.source
+            m = 1.0
+
+            if type in t.resist:
+                return "resisted"
+
+            # Get multiplier from traits:
+            # We decided that any trait could influence this:
+            # damage = 0
+            # defence = 0
+
+            # Damage first:
+            for trait in a.traits:
+                if type in trait.el_damage:
+                    m += trait.el_damage[type]
+
+            # Defence next:
+            for trait in t.traits:
+                if type in trait.el_defence:
+                     m -= trait.el_defence[type]
+
+            damage *= m
+
+            return damage
+
 
     class BE_Action(BE_Event):
         """Basic action class that assumes that there will be targeting of some kind and followup logical and graphical effects.
@@ -1025,38 +1058,6 @@ init -1 python: # Core classes:
             damage *= m
 
             return int(round(damage))
-
-        def damage_modifier(self, t, damage, type):
-            """
-            This calculates the multiplier to use with effect of the skill.
-            d: Damage (number per type)
-            type: Damage Type
-            """
-            effects = list()
-            a = self.source
-            m = 1.0
-
-            if type in t.resist:
-                return "resisted"
-
-            # Get multiplier from traits:
-            # We decided that any trait could influence this:
-            # damage = 0
-            # defence = 0
-
-            # Damage first:
-            for trait in a.traits:
-                if type in trait.el_damage:
-                    m += trait.el_damage[type]
-
-            # Defence next:
-            for trait in t.traits:
-                if type in trait.el_defence:
-                     m -= trait.el_defence[type]
-
-            damage *= m
-
-            return damage
 
         # To String methods:
         def log_to_battle(self, effects, total_damage, a, t, message=None):
