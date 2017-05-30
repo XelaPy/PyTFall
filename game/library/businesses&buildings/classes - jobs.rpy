@@ -1333,34 +1333,40 @@
             self.occupations = ["SIW"] # General Strings likes SIW, Warrior, Server...
             self.occupation_traits = [traits["Stripper"]] # Corresponding traits...
 
-            # Relevant skills and stats:
-            self.skills = ["strip", "dancing"]
-            self.stats = ["charisma"]
+            self.disposition_threshold = 750 # Any worker with disposition this high will be willing to do the job even without matched traits.
 
-        # def __call__(self, char):
-        #     worker, self.loc = char, worker.location
-        #     self.clients = worker.flag("jobs_strip_clients")
-        #     self.strip()
+            self.base_skills = {"strip": 100, "dancing": 60}
+            self.base_stats = {"charisma": 100}
 
-        def is_valid_for(self, worker):
-            if "Stripper" in worker.traits:
-                return True
-            if worker.status == 'slave':
-                return True
+        def traits_and_effects_effectiveness_mod(self, worker, difficulty, log):
+            # TODO, UPDATE FOR BETA!
+            return 0
 
-            if worker.disposition >= self.calculate_disposition_level(worker):
-                return True
-            else:
-                return False
+        def effectiveness(self, worker, difficulty, log):
+            """
+            difficulty is used to counter worker tier.
+            100 is considered a score where worker does the task with acceptable performance.
+            """
+            base_effectiveness = super(StripJob, self).effectiveness(worker, difficulty, log)
 
-        def calculate_disposition_level(self, char): # calculating the needed level of disposition
-            worker = char # TODO, get rid of this
-            sub = check_submissivity(char)
+            # Do whatever has to be done for the job:
+            effectiveness = base_effectiveness + 0
+
+            return effectiveness
+
+        def calculate_disposition_level(self, worker):
+            """
+            calculating the needed level of disposition;
+            since it's whoring we talking about, values are really close to max,
+            or even higher than max in some cases, making it impossible
+            """
+            # TODO: UPDATE FOR BETA!
+            sub = check_submissivity(worker)
             if "Shy" in worker.traits:
                 disposition = 800 + 50 * sub
             else:
                 disposition = 700 + 50 * sub
-            if cgochar(char, "SIW"):
+            if cgochar(worker, "SIW"):
                 disposition -= 500
             if "Exhibitionist" in worker.traits:
                 disposition -= 200
@@ -1368,18 +1374,20 @@
                 disposition -= 50
             elif "Frigid" in worker.traits:
                 disposition += 50
-            if check_lovers(char, hero):
+            if check_lovers(hero, worker):
                 disposition -= 50
-            elif check_friends(hero, char):
+            elif check_friends(hero, worker):
                 disposition -= 25
             return disposition
 
-        def check_occupation(self, char=None):
-            """Checks if the worker is willing to do this job.
+        def settle_workers_disposition(self, worker, log):
             """
-            worker = char # TODO, get rid of this
-            if not("Stripper" in worker.traits) and worker.disposition < self.calculate_disposition_level(char):
-                sub = check_submissivity(char)
+            handles penalties in case of wrong job
+            """
+            # Formerly check_occupation
+            # TODO: UPDATE FOR BETA!
+            if not("Stripper" in worker.traits) and worker.disposition < self.calculate_disposition_level(worker):
+                sub = check_submissivity(worker)
                 if worker.status != 'slave':
                     if sub < 0:
                         if dice(15):
@@ -1409,20 +1417,24 @@
                     worker.logws("disposition", -randint(0, int(difference)))
                     worker.logws('vitality', -randint(5, 15))
                 else:
-                    sub = check_submissivity(char)
+                    sub = check_submissivity(worker)
                     if sub< 0:
                         worker.set_flag("jobs_stripintro",choice(["%s is a slave so no one really cares but, being forced to work as a stripper, she's quite upset." % worker.name, "%s will do as she is told, but doesn't mean that she'll be happy about showing her body to strangers." % worker.name]))
                         if dice(25):
                             log.logws('character', 1)
                     elif sub == 0:
-                        worker.set_flag("jobs_stripintro",choice(["%s was very displeased by her order to work as a stripper, but didn't dare to refuse." % worker.name, "%s will do as you command, but she will hate every second of her stripper shift..." % worker.name]))
+                        worker.set_flag("jobs_stripintro",
+                            choice(["%s was very displeased by her order to work as a stripper, but didn't dare to refuse." % worker.name,
+                            "%s will do as you command, but she will hate every second of her stripper shift..." % worker.name]))
                         if dice(35):
                             log.logws('character', 1)
                     else:
-                        worker.set_flag("jobs_stripintro",choice(["%s was very displeased by her order to work as a stripper, and makes it clear for everyone before going to the stage." % worker.name, "%s will do as you command and work as a stripper, but not without a lot of grumbling and complaining." % worker.name]))
+                        worker.set_flag("jobs_stripintro",
+                            choice(["%s was very displeased by her order to work as a stripper, and makes it clear for everyone before going to the stage." % worker.name,
+                            "%s will do as you command and work as a stripper, but not without a lot of grumbling and complaining." % worker.name]))
                         if dice(45):
                             log.logws('character', 1)
-                    difference = (self.calculate_disposition_level(char) - worker.disposition)/7
+                    difference = (self.calculate_disposition_level(worker) - worker.disposition)/7
                     if difference < 1:
                         difference = 1
                     if worker.joy < 50:
@@ -1431,22 +1443,26 @@
                     worker.logws("disposition", -randint(0, int(difference)))
                     worker.logws('vitality', -randint(10, 15))
             else:
-                worker.set_flag("jobs_stripintro", choice(["%s is doing her shift as a stripper." % worker.name, "%s shows her goods to clients." % worker.fullname, "%s entertains customers with her body at the stage." % worker.nickname]))
+                worker.set_flag("jobs_stripintro",
+                    choice(["%s is doing her shift as a stripper." % worker.name,
+                    "%s shows her goods to clients." % worker.fullname,
+                    "%s entertains customers with her body at the stage." % worker.nickname]))
 
             return True
 
-        def strip(self):
+        def strip(self, worker, clients, loc, log):
             # Pass the flags from occupation_checks:
             log.append(worker.flag("jobs_stripintro"))
             log.append("\n\n")
 
             # Determine the amount of clients who seen this girl strip. We check if we can do len because if flag wasn't set during the business execution, we get False instead of a set.
-            len_clients = len(self.clients) if self.clients else 0
+            len_clients = len(clients) if clients else 0
 
-            tippayout = worker.flag("jobs_" + self.id + "_tips")
-            skill = round(worker.get_skill("strip")*0.75 + worker.get_skill("dancing")*0.25)
+            tippayout = worker.flag("jobs_" + self.id + "_tips") # TODO Adapt to SimPy loop!
+            skill = round(worker.get_skill("strip")*0.75 + worker.get_skill("dancing")*0.25) # TODO We can now interpolate this from base_stats/skills
             charisma = worker.charisma
 
+            # TODO: This should prolly die:
             if charisma >= 1500:
                 log.append("%s supernal loveliness instantly captivated audiences. " %worker.name)
                 log.logws("joy", 1)
@@ -1496,7 +1512,6 @@
                     log.append("She tripped several times while trying to undress herself as she 'stripdanced' on the floor. Still, she was pretty enough to arouse some men and women in the club.")
                 else:
                     log.append("She certainly did not shine as she clumsily 'danced' on the floor. Neither her looks nor her skill could save the performance...")
-
                     log.append("\n")
 
             # Take care of stats mods
@@ -1520,7 +1535,7 @@
 
             # Finances:
             worker.mod_flag("jobs_tips", tippayout)
-            self.loc.fin.log_logical_income(tippayout, "StripJob")
+            loc.fin.log_logical_income(tippayout, "StripJob")
 
             available = list()
             kwargs = dict(exclude=["sad", "angry", "in pain"], resize=(740, 685), type="first_default", add_mood=False)
@@ -1531,16 +1546,13 @@
             if worker.has_image("stripping", "no bg", exclude=["sad", "angry", "in pain"]):
                 available.append("no bg")
             if available:
-                self.img = worker.show("stripping", choice(available), **kwargs)
+                log.img = worker.show("stripping", choice(available), **kwargs)
             elif worker.has_image("stripping", "indoors"):
-                self.img = worker.show("stripping", "indoors", **kwargs)
+                log.img = worker.show("stripping", "indoors", **kwargs)
             else:
-                self.img = worker.show("stripping", **kwargs)
+                log.img = worker.show("stripping", **kwargs)
 
-            self.event_type = "jobreport"
-            self.kind = self.id
-            self.apply_stats()
-            self.finish_job()
+            # self.kind = self.id # Check wtf this is TODO
 
 
     ####################### Rest Job  #############################
