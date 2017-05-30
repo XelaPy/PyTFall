@@ -393,7 +393,7 @@ init -1: # Images and Animations
         VBox(Transform("moz_webm", crop=(0, 0, 1199, 320)),
                   Transform("moz_webm", crop=(0, 320, 1199, 278), yzoom=2))
     ########### Poison:
-    image poison_1 = FilmStrip("content/gfx/be/filmstrips/poison_1.png", (192, 192), (5, 6), 0.07, loop=False)
+    image poison_1 = FilmStrip("content/gfx/be/filmstrips/poison_1.png", (192, 192), (5, 6), 0.05, loop=False)
     image poison_2 = FilmStrip("content/gfx/be/filmstrips/poison_2.png", (192, 192), (5, 3), 0.1, loop=False)
     image poison_3 = FilmStrip("content/gfx/be/filmstrips/poison_3.png", (192, 192), (5, 5), 0.06, loop=False)
     ########### Healing:
