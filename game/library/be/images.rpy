@@ -395,7 +395,7 @@ init -1: # Images and Animations
     ########### Poison:
     image poison_1 = FilmStrip("content/gfx/be/filmstrips/poison_1.png", (192, 192), (5, 6), 0.05, loop=False)
     image poison_2 = FilmStrip("content/gfx/be/filmstrips/poison_2.png", (192, 192), (5, 3), 0.1, loop=False)
-    image poison_3 = FilmStrip("content/gfx/be/filmstrips/poison_3.png", (192, 192), (5, 5), 0.06, loop=False)
+    image poison_3 = FilmStrip("content/gfx/be/filmstrips/poison_3.png", (192, 192), (5, 5), 0.1, loop=False)
     ########### Healing:
     image heal_1 = FilmStrip("content/gfx/be/filmstrips/heal_1.png", (192, 192), (5, 6), 0.1, loop=False)
     image heal_2 = FilmStrip("content/gfx/be/filmstrips/heal_2.png", (192, 192), (5, 5), 0.1, loop=False)
