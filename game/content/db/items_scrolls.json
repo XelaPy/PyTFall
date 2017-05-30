@@ -1109,6 +1109,21 @@
     "add_be_spells": ["Poison"]
     },
     {
+    "id": "Deadly Poison Scroll",
+    "desc": "This scroll contains the arcane formula of Deadly Poison spell.",
+    "icon": "content/items/scrolls/deadly_poison.png",
+    "price": 800,
+    "sex": "unisex",
+    "chance": 30,
+    "badness": 80,
+    "eqchance": 40,
+    "hidden": false,
+    "infinite": false,
+    "slot": "consumable",
+    "type": "scroll",
+    "add_be_spells": ["Deadly Poison"]
+    },
+    {
     "id": "Aery Field Scroll",
     "desc": "This scroll contains the arcane formula of Aery Field spell.",
     "icon": "content/items/scrolls/aery_field.png",

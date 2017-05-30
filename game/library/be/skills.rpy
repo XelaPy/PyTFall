@@ -1037,24 +1037,27 @@ label load_battle_skills:
         # Poison:
         # effect should be from 0 to 1, ie part of max health the poison takes every turn
         BasicPoisonSpell("Poison", menu_pos=-5, attributes=["status", "poison", "darkness"],
-                        effect=0.1, multiplier=.5, mp_cost=30, range=4, kind="damage_over_time", buff_group="poison",
-                        event_duration=3,
-                        desc="Poisons the target causing additional damage each turn.",
+                        effect=0.05, multiplier=.5, mp_cost=10, vitality_cost=10, range=4, kind="damage_over_time", buff_group="poison",
+                        event_duration=5,
+                        desc="Sprays poison into the air around the target, decreasing health by 5% for 5 turns.",
                         attacker_effects={"gfx": "default_1", "sfx": "default"},
                         main_effect={"gfx": Transform("poison_1", zoom=2.1),
-                                     "sfx": "content/sfx/sound/be/poison_01.ogg", "duration": 1.0,
-                                     "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": -25}},
+                                     "sfx": "content/sfx/sound/be/poison_01.ogg", "duration": 1.5,
+                                     "aim": {"point": "center", "anchor": (0.5, 0.5)}},
                         target_sprite_damage_effect={"gfx": None},
                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
                         target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5})
-        if config.debug:
-            BasicPoisonSpell("PoisonTest", menu_pos=-5, attributes=["status", "poison", "darkness"], effect=0.1, multiplier=.1, mp_cost=30, range=4, kind="damage_over_time", buff_group="poison",
-                    desc="Poisons the target causing additional damage each turn.",
-                    attacker_effects={"gfx": "default_1", "sfx": "default"},
-                    main_effect={"gfx": Transform("poison_1", zoom=2.1), "sfx": "content/sfx/sound/be/poison_01.ogg", "duration": 1.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": -25}},
-                    target_sprite_damage_effect={"gfx": None},
-                    target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
-                    target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5})
+        BasicPoisonSpell("Deadly Poison", menu_pos=-4, attributes=["status", "poison", "darkness"],
+                        effect=0.1, multiplier=.5, mp_cost=15, vitality_cost=20, range=4, kind="damage_over_time", buff_group="poison",
+                        event_duration=3,
+                        desc="Sprays concentrated poison into the air around the target, decreasing health by 10% for 3 turns.",
+                        attacker_effects={"gfx": "default_1", "sfx": "default"},
+                        main_effect={"gfx": Transform("poison_3", zoom=2.1),
+                                     "sfx": "content/sfx/sound/be/poison_cloud_2.mp3", "duration": 2.5,
+                                     "aim": {"point": "center", "anchor": (0.5, 0.5)}},
+                        target_sprite_damage_effect={"gfx": None},
+                        target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
+                        target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5})
         # Buffs:
         DefenceBuffSpell("Aery Field", menu_pos=-1, attributes=["status", "air"], kind="buff", defence_multiplier={"ranged": 1.5}, buff_group="ranged shield", buff_icon=ProportionalScale("content/gfx/be/buffs/ranged_def.png", 30, 30), mp_cost=0.1, vitality_cost=0.3, range=4, type="sa", defence_gfx="air_shield",
                 desc="Creates a force field, reducing damage from ranged attacks.",
