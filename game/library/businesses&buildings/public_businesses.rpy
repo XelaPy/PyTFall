@@ -22,10 +22,6 @@ init -6 python:
 
             self.earned_cash = 0
 
-        def get_client_count(self):
-            # Returns amount of clients we expect to come here.
-            return int(round(3 + self._rep*0.05*max(len(self.all_workers), self.capacity)))
-
         def client_control(self, client):
             """Request for a spot for a client...
 
@@ -129,9 +125,13 @@ init -6 python:
             job, loc = self.job, self.instance
             log = NDEvent(job=job, char=worker, loc=loc, business=self)
 
+            clients = set() # list of clients this worker is severing
+
             while worker.AP and self.res.count:
                 yield self.env.timeout(self.time) # This is a single shift a worker can take for cost of 1 AP.
-                worker.set_union("jobs_bar_clients", self.clients) # TODO: Maybe limit clients to worker routines?
+
+                # TODO: Limit clients to worker routines? This must be done before BETA
+                clients = clients.union(self.clients)
 
                 # Visit counter:
                 for client in self.clients:
@@ -146,11 +146,15 @@ init -6 python:
                 self.log(temp)
 
             # Once the worker is done, we run the job and create the event:
-            if worker.flag("jobs_bar_clients"):
+            if clients:
                 if config.debug:
                     temp = "{}: Logging {} for {}!".format(self.env.now, self.name, worker.name)
                     self.log(temp)
-                # self.job(worker) # better bet to access Class directly...
+                job.strip(worker, clients, loc, log)
+
+                # Create the job report and settle!
+                log.after_job()
+                NextDayEvents.append(log)
             else:
                 temp = "{}: There were no clients for {} to serve".format(self.env.now, worker.name)
                 self.log(temp)
@@ -159,14 +163,6 @@ init -6 python:
             temp = "{}: {} is done with the job in {} for the day!".format(self.env.now,
                                         set_font_color(worker.name, "red"), self.name)
             self.log(temp)
-
-        def post_nd_reset(self):
-            self.res = None
-            self.is_running = False
-            self.active_workers = set()
-            self.clients = set()
-            self.earned_cash = 0
-
 
 
     class Bar(PublicBusiness):

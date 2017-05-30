@@ -1229,7 +1229,7 @@ screen next_day():
                                 text u"{}".format(event.txt) style "TisaOTMolxm" size 18
                             else:
                                 for i in event.txt:
-                                    text i style "TisaOTMolxm" xalign .0
+                                    text str(i) style "TisaOTMolxm" xalign .0
                         vbar value YScrollValue("nextdaytxt_vp")
 
         mousearea:
@@ -1257,7 +1257,7 @@ screen next_day():
                         align (0.5, 0.5)
                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
                         xysize (90, 40)
-                        text(u'Act: %d/%d'%(FilteredList.index(event)+1, len(FilteredList))) align (.5, .5) size 16 style "stats_text"
+                        text(u'Act: %d/%d'%(FilteredList.index(event)+1, len(FilteredList))) align (.5, .5) size 16 style "stats_text" text_align .5
                     button:
                         xysize (120, 40)
                         style "right_wood_button"
@@ -1272,13 +1272,14 @@ screen next_day():
                         hovered tt.action("Begin New day and watch the results.")
                         action [Hide("mainscreen"), Jump("next_day")]
                         text_size 16
-                        xysize (150, 20)
+                        ypadding 5
+                        xysize (150, 40)
 
                     $ img = im.Scale("content/gfx/interface/buttons/close.png", 40, 40)
                     imagebutton:
                         align (.5, .5)
                         idle img
-                        hover im.MatrixColor(img, im.matrix.brightness(0.25))
+                        hover im.MatrixColor(img, im.matrix.brightness(.25))
                         action Return(['control', 'return'])
                         hovered tt.Action("Return to previous screen!")
 
@@ -1287,4 +1288,5 @@ screen next_day():
                         hovered tt.action("Back to ND Summary!")
                         action SetScreenVariable("show_summary", True)
                         text_size 16
-                        xysize (150, 20)
+                        ypadding 5
+                        xysize (150, 40)
