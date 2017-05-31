@@ -79,7 +79,9 @@ label city_dark_forest_explore:
         $ global_flags.set_flag("keep_playing_music")
         jump forest_dark_continue
     else:
-        if dice(70) or hero.flag("dark_forest_met_bandits") == day:
+        if dice(20):
+            jump dark_forest_girl_meet
+        elif dice(70) or hero.flag("dark_forest_met_bandits") == day:
             jump city_dark_forest_fight
         else:
             $ hero.set_flag("dark_forest_met_bandits", value=day)
@@ -265,3 +267,21 @@ label city_dark_forest_fight:
         jump forest_dark_continue
     else:
         jump game_over
+        
+label dark_forest_girl_meet:
+    $ choices = list(i for i in chars.values() if i.location == "city" and i not in hero.chars and not i.arena_active and i.disposition < 500 and i not in gm.get_all_girls())
+    if choices:
+        $ character = random.choice(choices)
+        $ spr = character.get_vnsprite()
+        show expression spr at center with dissolve
+        "You found a girl lost in the woods and escorted her to the city."
+        $ character.override_portrait("portrait", "happy")
+        $ character.show_portrait_overlay("love", "reset")
+        $ character.say("She happily kisses you in the chick as a thanks. Maybe you should try to find her in the city later.")
+        if character.disposition < 450:
+            $ character.disposition += 150
+        hide expression spr with dissolve
+        $ character.restore_portrait()
+        $ character.hide_portrait_overlay()
+        $ global_flags.set_flag("keep_playing_music")
+        jump forest_dark_continue
