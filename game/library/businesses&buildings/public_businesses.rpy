@@ -136,6 +136,7 @@ init -6 python:
 
             clients = set() # list of clients this worker is severing
             max_clients = 5 # Come up with a good way to figure out how many clients a worker can serve!
+            tips = 0 # Tips the worker is going to get!
 
             while worker.AP and self.res.count:
                 yield self.env.timeout(self.time) # This is a single shift a worker can take for cost of 1 AP.
@@ -156,9 +157,12 @@ init -6 python:
                     client.up_counter("got_serviced_by" + worker.id)
 
                 worker.AP -= 1
-                tips = randint(1, 2) * self.res.count
-                self.log_income(tips)
-                worker.mod_flag("jobs_" + self.job.id + "_tips", tips)
+
+                if effectiveness > 200:
+                    tips += randint(3, 5) * self.instance.tier
+                elif effectiveness > 100:
+                    tips += randint(1, 3) * self.instance.tier
+
                 temp = "{}: {} gets {} in tips from {} clients!".format(self.env.now,
                                                 worker.name, tips, self.res.count)
                 self.log(temp)
@@ -176,6 +180,11 @@ init -6 python:
             else:
                 temp = "{}: There were no clients for {} to serve".format(self.env.now, worker.name)
                 self.log(temp)
+
+            # log the tips
+            self.log_income(tips)
+            worker.mod_flag("jobs_tips", tips)
+            loc.fin.log_logical_income(tips, "WhoreJob")
 
             self.active_workers.remove(worker)
             temp = "{}: {} is done with the job in {} for the day!".format(self.env.now,
