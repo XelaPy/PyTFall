@@ -79,7 +79,7 @@ label city_dark_forest_explore:
         $ global_flags.set_flag("keep_playing_music")
         jump forest_dark_continue
     else:
-        if dice(1) or hero.flag("dark_forest_met_bandits") == day:
+        if dice(70) or hero.flag("dark_forest_met_bandits") == day:
             jump city_dark_forest_fight
         else:
             $ hero.set_flag("dark_forest_met_bandits", value=day)
@@ -97,7 +97,7 @@ label city_dark_forest_rest:
         for i in hero.team:
             i.vitality += int(i.get_max("vitality")*0.25)
             i.health += int(i.get_max("health")*0.05)
-            i.mp += int(i.get_max("mp")*0.1)
+            i.mp += int(i.get_max("mp")*0.2)
     jump forest_dark_continue
     
 label city_dark_forest_hideout:
@@ -109,19 +109,20 @@ label city_dark_forest_hideout:
         "You found bandits hideout inside an old abandoned castle."
         
         "Attack them":
-            $ pass
+            "You carefully approach the hideout when a group of bandits attack you."
         "Leave them be":
             show screen city_dark_forest
             $ global_flags.set_flag("keep_playing_music")
             jump forest_dark_continue
     call city_dark_forest_hideout_fight
     $ N = randint(1, 3)
-    while i < N:
+    $ j = 0
+    while j < N:
         scene bg forest_hideout
         with dissolve
         "Another group is approaching you!"
         call city_dark_forest_hideout_fight
-        $ i += 1
+        $ j += 1
     show screen give_exp_after_battle(hero.team)
     pause 2.5
     hide screen give_exp_after_battle
@@ -159,11 +160,10 @@ label city_dark_forest_hideout_fight:
     if result is True:
         python:
             for member in hero.team:
-                member.exp += 250
+                member.exp += adjust_exp(member, 250)
         scene expression forest_location
         return
 
-        
 label city_dark_forest_fight:
     $ forest_bg_change = False
     python:
@@ -257,7 +257,7 @@ label city_dark_forest_fight:
     if result is True:
         python:
             for member in hero.team:
-                member.exp += 150
+                member.exp += adjust_exp(member, 150)
         scene expression forest_location
         show screen give_exp_after_battle(hero.team)
         pause 2.5
