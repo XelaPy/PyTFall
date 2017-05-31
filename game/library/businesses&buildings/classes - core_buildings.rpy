@@ -164,6 +164,8 @@ init -10 python:
             self.security_rating = 0
             self.security_presence = 0
 
+            self.tier = 3
+
             # ND Report
             self.txt = ""
 
@@ -829,7 +831,7 @@ init -10 python:
                     self.env.process(upgrade.client_control(client))
 
                     upgrade.worker_control()
-                    
+
                     visited += 1
                     client.set_flag("jobs_busy")
                     while client.flag("jobs_busy"):

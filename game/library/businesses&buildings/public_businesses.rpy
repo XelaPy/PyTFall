@@ -125,13 +125,31 @@ init -6 python:
             job, loc = self.job, self.instance
             log = NDEvent(job=job, char=worker, loc=loc, business=self)
 
+            log.append("{} is performing Strip Job!".format(worker.name))
+            log.append("\n")
+
+            difficulty = self.instance.tier
+            effectiveness = job.effectiveness(worker, difficulty, log)
+            effectiveness += job.traits_and_effects_effectiveness_mod(worker, log)
+            if config.debug:
+                log.append("Debug: Her effectiveness: {}! (difficulty: {}, Tier: {})".format(effectiveness, difficulty, worker.tier))
+
             clients = set() # list of clients this worker is severing
+            max_clients = 5 # Come up with a good way to figure out how many clients a worker can serve!
 
             while worker.AP and self.res.count:
                 yield self.env.timeout(self.time) # This is a single shift a worker can take for cost of 1 AP.
 
-                # TODO: Limit clients to worker routines? This must be done before BETA
-                clients = clients.union(self.clients)
+                # Account for clients that left...
+                clients = {c for c in clients if c in self.clients} # There might be a better way to handle this!
+                if len(clients) < max_clients: # Find some clients for worker to take care of:
+                    temp = [c for c in self.clients if not c.flag("jobs_attended_by")]
+                    can_service = max_clients - len(clients)
+                    if len(temp) > can_service:
+                        temp = random.sample(temp, can_service)
+                    for client in temp:
+                        client.set_flag("jobs_attended_by", worker)
+                    clients = clients.union(temp)
 
                 # Visit counter:
                 for client in self.clients:

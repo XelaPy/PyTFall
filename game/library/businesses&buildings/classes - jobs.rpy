@@ -445,7 +445,7 @@
                 effectiveness = 0
 
             # 25 points for difference between difficulty/tier:
-            diff = difficulty - worker.tier
+            diff = worker.tier - difficulty
             effectiveness += diff*25
 
             return effectiveness
@@ -467,7 +467,7 @@
             self.base_skills = {"sex": 60, "vaginal": 40, "anal": 40, "oral": 40}
             self.base_stats = {"charisma": 100}
 
-        def traits_and_effects_effectiveness_mod(self, worker, difficulty, log):
+        def traits_and_effects_effectiveness_mod(self, worker, log):
             """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
                Calculates only once per turn, in the very beginning.
             """
@@ -551,7 +551,7 @@
         def effectiveness(self, worker, difficulty, log):
             """Checking effectiveness specifically for whore job.
 
-            difficulty is used to counter worker tier.
+            difficulty is used to counter worker's tier.
             100 is considered a score where worker does the task with acceptable performance.
             """
             if worker.occupations.intersection(self.occupations):
@@ -1338,7 +1338,7 @@
             self.base_skills = {"strip": 100, "dancing": 60}
             self.base_stats = {"charisma": 100}
 
-        def traits_and_effects_effectiveness_mod(self, worker, difficulty, log):
+        def traits_and_effects_effectiveness_mod(self, worker, log):
             # TODO, UPDATE FOR BETA!
             return 0
 
@@ -1451,10 +1451,6 @@
             return True
 
         def strip(self, worker, clients, loc, log):
-            # Pass the flags from occupation_checks:
-            log.append(worker.flag("jobs_stripintro"))
-            log.append("\n\n")
-
             # Determine the amount of clients who seen this girl strip. We check if we can do len because if flag wasn't set during the business execution, we get False instead of a set.
             len_clients = len(clients) if clients else 0
 
