@@ -39,6 +39,7 @@ label forest_dark_continue:
             $ global_flags.set_flag("keep_playing_music")
             $ equipment_safe_mode = True
             $ forest_bg_change = False
+            hide screen city_dark_forest
             jump char_equip
             
 screen city_dark_forest():
@@ -66,16 +67,6 @@ screen city_dark_forest():
             button:
                 xysize (120, 40)
                 yalign 0.5
-                action [Hide("city_dark_forest"), Jump("city_dark_forest_hideout"), With(dissolve)]
-                text "Test Bandits" size 15
-            button:
-                xysize (120, 40)
-                yalign 0.5
-                action [Hide("city_dark_forest"), Jump("city_dark_forest_fight"), With(dissolve)]
-                text "Test Fight" size 15
-            button:
-                xysize (120, 40)
-                yalign 0.5
                 action [Hide("city_dark_forest"), Jump("forest_entrance"), With(dissolve)]
                 text "Leave" size 15
                 
@@ -87,22 +78,26 @@ label city_dark_forest_explore:
             "Unfortunately you are too tired at the moment. Maybe another time."
         $ global_flags.set_flag("keep_playing_music")
         jump forest_dark_continue
-
-    jump forest_dark_continue
+    else:
+        if dice(1) or hero.flag("dark_forest_met_bandits") == day:
+            jump city_dark_forest_fight
+        else:
+            $ hero.set_flag("dark_forest_met_bandits", value=day)
+            jump city_dark_forest_hideout
     
 label city_dark_forest_rest:
     $ hero.set_flag("dark_forest_rested_today", value=day)
     $ forest_bg_change = False
     scene bg camp
     with dissolve
-    "You take a short rest before moving on."
+    "You take a short rest before moving on, restoring mp and vitality."
     $ forest_bg_change = False
     $ global_flags.set_flag("keep_playing_music")
     python:
         for i in hero.team:
-            i.vitality += 25
-            i.health += 5
-            i.mp += 10
+            i.vitality += int(i.get_max("vitality")*0.25)
+            i.health += int(i.get_max("health")*0.05)
+            i.mp += int(i.get_max("mp")*0.1)
     jump forest_dark_continue
     
 label city_dark_forest_hideout:
@@ -118,9 +113,9 @@ label city_dark_forest_hideout:
         "Leave them be":
             show screen city_dark_forest
             $ global_flags.set_flag("keep_playing_music")
-            jump city_dark_forest_explore
+            jump forest_dark_continue
     call city_dark_forest_hideout_fight
-    $ N = randint(1, 4)
+    $ N = randint(1, 3)
     while i < N:
         scene bg forest_hideout
         with dissolve
@@ -144,7 +139,7 @@ label city_dark_forest_hideout:
         call give_to_mc_item_reward(type="armor", price=300)
     if locked_dice(50):
         call give_to_mc_item_reward(type="weapon", price=300)
-    jump city_dark_forest_explore
+    jump forest_dark_continue
 
 label city_dark_forest_hideout_fight:
     python:
