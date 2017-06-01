@@ -11,9 +11,9 @@ label forest_dark_continue:
         $ background_number_list = list(i for i in range(1, 7) if i != background_number)
         $ background_number = choice(background_number_list)
         $ forest_location = "content/gfx/bg/locations/forest_" + str(background_number) + ".jpg"
+        scene expression forest_location
     else:
         $ forest_bg_change = True
-    scene expression forest_location
     with dissolve
 
     # Music related:
@@ -79,7 +79,9 @@ label city_dark_forest_explore:
         $ global_flags.set_flag("keep_playing_music")
         jump forest_dark_continue
     else:
-        if dice(25) and hero.flag("dark_forest_met_girl") != day:
+        if hero.flag("dark_forest_found_river") != day and hero.vitality < hero.get_max("vitality") and dice(35):
+            jump city_dark_forest_river
+        elif dice(25) and hero.flag("dark_forest_met_girl") != day:
             jump dark_forest_girl_meet
         elif dice(70) or hero.flag("dark_forest_met_bandits") == day:
             jump city_dark_forest_fight
@@ -290,3 +292,16 @@ label dark_forest_girl_meet:
         $ character.hide_portrait_overlay()
         $ global_flags.set_flag("keep_playing_music")
         jump forest_dark_continue
+        
+label city_dark_forest_river:
+    play world "forest_lake.ogg"
+    $ global_flags.set_flag("keep_playing_music")
+    $ hero.set_flag("dark_forest_found_river", value=day)
+    $ forest_bg_change = False
+    scene bg forest_lake
+    with dissolve
+    "You found a river. Fresh clean water restores some of your vitality."
+    python:
+        for i in hero.team:
+            i.vitality += int(i.get_max("vitality")*0.5)
+    jump forest_dark_continue
