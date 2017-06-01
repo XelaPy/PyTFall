@@ -1442,7 +1442,7 @@
         "attack_skills": [
             "Bite"
         ],
-        "magic_skills": ["Poison"
+        "magic_skills": ["Deadly Poison"
         ]
     },
     {
@@ -3812,7 +3812,7 @@
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
-        "magic_skills": ["Poison"
+        "magic_skills": ["Deadly Poison"
         ]
     },
     {

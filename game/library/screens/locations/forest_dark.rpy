@@ -11,9 +11,9 @@ label forest_dark_continue:
         $ background_number_list = list(i for i in range(1, 7) if i != background_number)
         $ background_number = choice(background_number_list)
         $ forest_location = "content/gfx/bg/locations/forest_" + str(background_number) + ".jpg"
+        scene expression forest_location
     else:
         $ forest_bg_change = True
-    scene expression forest_location
     with dissolve
 
     # Music related:
@@ -39,6 +39,7 @@ label forest_dark_continue:
             $ global_flags.set_flag("keep_playing_music")
             $ equipment_safe_mode = True
             $ forest_bg_change = False
+            hide screen city_dark_forest
             jump char_equip
             
 screen city_dark_forest():
@@ -66,16 +67,6 @@ screen city_dark_forest():
             button:
                 xysize (120, 40)
                 yalign 0.5
-                action [Hide("city_dark_forest"), Jump("city_dark_forest_hideout"), With(dissolve)]
-                text "Test Bandits" size 15
-            button:
-                xysize (120, 40)
-                yalign 0.5
-                action [Hide("city_dark_forest"), Jump("city_dark_forest_fight"), With(dissolve)]
-                text "Test Fight" size 15
-            button:
-                xysize (120, 40)
-                yalign 0.5
                 action [Hide("city_dark_forest"), Jump("forest_entrance"), With(dissolve)]
                 text "Leave" size 15
                 
@@ -87,22 +78,30 @@ label city_dark_forest_explore:
             "Unfortunately you are too tired at the moment. Maybe another time."
         $ global_flags.set_flag("keep_playing_music")
         jump forest_dark_continue
-
-    jump forest_dark_continue
+    else:
+        if hero.flag("dark_forest_found_river") != day and hero.vitality < hero.get_max("vitality") and dice(35):
+            jump city_dark_forest_river
+        elif dice(20) and hero.flag("dark_forest_met_girl") != day:
+            jump dark_forest_girl_meet
+        elif dice(70) or hero.flag("dark_forest_met_bandits") == day:
+            jump city_dark_forest_fight
+        else:
+            $ hero.set_flag("dark_forest_met_bandits", value=day)
+            jump city_dark_forest_hideout
     
 label city_dark_forest_rest:
     $ hero.set_flag("dark_forest_rested_today", value=day)
     $ forest_bg_change = False
     scene bg camp
     with dissolve
-    "You take a short rest before moving on."
+    "You take a short rest before moving on, restoring mp and vitality."
     $ forest_bg_change = False
     $ global_flags.set_flag("keep_playing_music")
     python:
         for i in hero.team:
-            i.vitality += 25
-            i.health += 5
-            i.mp += 10
+            i.vitality += int(i.get_max("vitality")*0.25)
+            i.health += int(i.get_max("health")*0.05)
+            i.mp += int(i.get_max("mp")*0.2)
     jump forest_dark_continue
     
 label city_dark_forest_hideout:
@@ -114,19 +113,20 @@ label city_dark_forest_hideout:
         "You found bandits hideout inside an old abandoned castle."
         
         "Attack them":
-            $ pass
+            "You carefully approach the hideout when a group of bandits attack you."
         "Leave them be":
             show screen city_dark_forest
             $ global_flags.set_flag("keep_playing_music")
-            jump city_dark_forest_explore
+            jump forest_dark_continue
     call city_dark_forest_hideout_fight
-    $ N = randint(1, 4)
-    while i < N:
+    $ N = randint(1, 3)
+    $ j = 0
+    while j < N:
         scene bg forest_hideout
         with dissolve
         "Another group is approaching you!"
         call city_dark_forest_hideout_fight
-        $ i += 1
+        $ j += 1
     show screen give_exp_after_battle(hero.team)
     pause 2.5
     hide screen give_exp_after_battle
@@ -144,7 +144,7 @@ label city_dark_forest_hideout:
         call give_to_mc_item_reward(type="armor", price=300)
     if locked_dice(50):
         call give_to_mc_item_reward(type="weapon", price=300)
-    jump city_dark_forest_explore
+    jump forest_dark_continue
 
 label city_dark_forest_hideout_fight:
     python:
@@ -164,11 +164,10 @@ label city_dark_forest_hideout_fight:
     if result is True:
         python:
             for member in hero.team:
-                member.exp += 250
+                member.exp += adjust_exp(member, 250)
         scene expression forest_location
         return
 
-        
 label city_dark_forest_fight:
     $ forest_bg_change = False
     python:
@@ -262,7 +261,7 @@ label city_dark_forest_fight:
     if result is True:
         python:
             for member in hero.team:
-                member.exp += 150
+                member.exp += adjust_exp(member, 150)
         scene expression forest_location
         show screen give_exp_after_battle(hero.team)
         pause 2.5
@@ -270,3 +269,39 @@ label city_dark_forest_fight:
         jump forest_dark_continue
     else:
         jump game_over
+        
+label dark_forest_girl_meet:
+    $ hero.set_flag("dark_forest_met_girl", value=day)
+    $ choices = list(i for i in chars.values() if i.location == "city" and i not in hero.chars and not i.arena_active and i not in gm.get_all_girls()) #TODO: will we even have arena_active eventually?
+    $ badtraits = ["Homebody", "Indifferent", "Coward"]
+    $ choices = list(i for i in choices if not any(trait in badtraits for trait in i.traits))
+    if choices:
+        $ character = random.choice(choices)
+        $ spr = character.get_vnsprite()
+        show expression spr at center with dissolve
+        "You found a girl lost in the woods and escorted her to the city."
+        $ character.override_portrait("portrait", "happy")
+        $ character.show_portrait_overlay("love", "reset")
+        $ character.say("She happily kisses you in the chick as a thanks. Maybe you should try to find her in the city later.")
+        if character.disposition < 450:
+            $ character.disposition += 100
+        else:
+            $ character.disposition += 50
+        hide expression spr with dissolve
+        $ character.restore_portrait()
+        $ character.hide_portrait_overlay()
+        $ global_flags.set_flag("keep_playing_music")
+        jump forest_dark_continue
+        
+label city_dark_forest_river:
+    play world "forest_lake.ogg"
+    $ global_flags.set_flag("keep_playing_music")
+    $ hero.set_flag("dark_forest_found_river", value=day)
+    $ forest_bg_change = False
+    scene bg forest_lake
+    with dissolve
+    "You found a river. Fresh clean water restores some of your vitality."
+    python:
+        for i in hero.team:
+            i.vitality += int(i.get_max("vitality")*0.5)
+    jump forest_dark_continue
