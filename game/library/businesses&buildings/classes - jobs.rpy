@@ -1912,17 +1912,95 @@
             self.occupations = ["Server"] # General Strings likes SIW, Warrior, Server...
             self.occupation_traits = [traits["Bartender"]] # Corresponding traits...
 
+            self.disposition_threshold = 750 # Any worker with disposition this high will be willing to do the job even without matched traits.
+
             # Relevant skills and stats:
-            self.skills = ["bartending"]
-            self.stats = ["charisma"]
+            self.base_skills = {"bartending": 100}
+            self.base_stats = {"charisma": 100}
 
-            workermod = {}
-            self.locmod = {}
+        def traits_and_effects_effectiveness_mod(self, worker, log):
+            # TODO, UPDATE FOR BETA!
+            return 0
 
-        def __call__(self, char):
-            worker, self.loc = char, worker.location
-            self.clients = worker.flag("jobs_bar_clients")
-            self.bar_task()
+        def effectiveness(self, worker, difficulty, log):
+            """
+            difficulty is used to counter worker tier.
+            100 is considered a score where worker does the task with acceptable performance.
+            """
+            base_effectiveness = super(BarJob, self).effectiveness(worker, difficulty, log)
+
+            # Do whatever has to be done for the job:
+            effectiveness = base_effectiveness + 0
+
+            return effectiveness
+
+        def calculate_disposition_level(self, worker):
+            """
+            calculating the needed level of disposition;
+            since it's whoring we talking about, values are really close to max,
+            or even higher than max in some cases, making it impossible
+            """
+            # TODO: UPDATE FOR BETA!
+            sub = check_submissivity(worker)
+            if "Shy" in worker.traits:
+                disposition = 800 + 50 * sub
+            else:
+                disposition = 700 + 50 * sub
+            if cgochar(worker, "SIW"):
+                disposition -= 500
+            if "Exhibitionist" in worker.traits:
+                disposition -= 200
+            if "Nymphomaniac" in worker.traits:
+                disposition -= 50
+            elif "Frigid" in worker.traits:
+                disposition += 50
+            if check_lovers(hero, worker):
+                disposition -= 50
+            elif check_friends(hero, worker):
+                disposition -= 25
+            return disposition
+
+        def settle_workers_disposition(self, worker, log):
+            """
+            handles penalties in case of wrong job
+            """
+            # Formerly check_occupation
+            # TODO: UPDATE FOR BETA! (This version lools really old)
+            if not [t for t in self.all_occs if t in worker.occupations]:
+                if worker.status == 'slave':
+                    temp = choice(["%s has no choice but to agree to tend the bar."%worker.fullname,
+                                            "She'll tend the bar for customer, does not mean she'll enjoy it.",
+                                            "%s is a slave so she'll do as she is told. However you might want to consider giving her work fit to her profession."%worker.name])
+                    worker.set_flag("jobs_barintro", temp)
+                    worker.set_flag("jobs_introjoy", -3)
+
+                elif worker.disposition < 800:
+                    temp = choice(["%s refused to serve! It's not what she wishes to do in life."%worker.name,
+                                             "%s will not work as a Service Girl, find better suited task for her!"%worker.fullname])
+                    temp = set_font_color(temp, "red")
+                    log.append(temp)
+
+                    worker = char
+                    self.loc = worker.location
+                    self.event_type = "jobreport"
+
+                    log.logws('disposition', -50)
+                    self.img = worker.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
+                    worker.action = None
+
+                    # self.apply_stats()
+                    # self.finish_job()
+                    # return False
+
+                else: # worker.disposition > 800:
+                    temp = "%s reluctantly agreed to be a servicer. It's not what she wishes to do in life but she admires you to much to refuse. " % worker.name
+                    worker.set_flag("jobs_barintro", temp)
+
+            else:
+                temp = choice(["%s will work as a Bartender!"%worker.name,
+                                         "Tending the Bar:"])
+                worker.set_flag("jobs_barintro", temp)
+            return True
 
         def check_occupation(self, char):
             """Checks the workers occupation against the job.
@@ -1963,88 +2041,48 @@
                 worker.set_flag("jobs_barintro", temp)
             return True
 
-        def bar_task(self):
-            # Pass the flags from occupation_checks:
-            log.append(worker.flag("jobs_barintro"))
-            log.append("\n\n")
+        def bar_task(self, worker, clients, loc, log):
 
-            flag = worker.flag("jobs_introdis")
-            if flag:
-                log.logws('disposition', flag)
-                worker.del_flag("jobs_introdis")
-
-            flag = worker.flag("jobs_introjoy")
-            if flag:
-                log.logws('joy', flag)
-                worker.del_flag("jobs_introjoy")
-
-            # Old Code:
-            # beer = self.loc.get_upgrade_mod("bar") == 2
-            # tapas = self.loc.get_upgrade_mod("bar") == 3
-            # clientsmax = self.APr * (4 + (worker.agility * 0.1 + worker.serviceskill * 0.08))
-            # clients = plural("customer", clientsmax)
-            # if self.loc.servicer['barclientsleft'] - clientsmax <= 0:
-                # clientsserved = self.loc.servicer['barclientsleft']
-                # if tapas:
-                    # log.append("Your girl finished serving cold beer and tasty snacks to customers for the day! She even managed a small break at the end of her shift! \n")
-                # elif beer:
-                    # log.append("Remaining bar customers enjoyed cold draft beer. %s got a little break at the end of her shift! \n"%worker.nickname)
-                # else:
-                    # log.append("Your girl wrapped up the day at the bar by serving drinks to %d remaining customers. At least she got a small break.  \n"%self.loc.servicer['barclientsleft'])
-                # self.loc.servicer['barclientsleft'] = 0
-                # workermod['vitality'] += self.APr * randint(1, 5)
-
-            # elif self.loc.servicer['barclientsleft'] - clientsmax > 0:
-                # clientsserved = clientsmax
-                # if tapas:
-                    # log.append("She served cold draft beer and mouthwatering snacks to %d %s. \n"%(clientsmax, clients))
-                # elif beer:
-                    # log.append("She served cold and refreshing tapbeer to %d %s. \n"%(clientsmax, clients))
-                # else:
-                    # log.append("She served snacks and drinks at the bar to %d %s. \n" % (clientsmax, clients))
-                # self.loc.servicer['barclientsleft'] = self.loc.servicer['barclientsleft'] - clientsserved
-                # workermod['vitality'] -= 4 * clientsmax
-
-            len_clients = len(self.clients)
+            len_clients = len(clients)
 
             serviceskill = worker.get_skill("bartending")
             charisma = worker.charisma
 
             # Skill checks
             if serviceskill > 2000:
-                self.logloc('reputation', choice([0, 1, 2]))
+                log.logloc('reputation', choice([0, 1, 2]))
                 log.append("She was an excellent bartender, customers kept spending their money just for the pleasure of her company. \n")
 
             elif serviceskill >= 1000:
-                self.logloc('reputation', choice([0, 1]))
+                log.logloc('reputation', choice([0, 1]))
                 log.append("Customers were pleased with her company and kept asking for more booze. \n")
 
             elif serviceskill >= 500:
-                self.logloc('reputation', choice([0, 0, 0, 0, 0, 1]))
+                log.logloc('reputation', choice([0, 0, 0, 0, 0, 1]))
                 log.append("She was skillful enough not to mess anything up during her job. \n")
 
             elif serviceskill >= 100:
-                self.logloc('reputation', -1)
+                log.logloc('reputation', -1)
                 log.append("Her performance was rather poor and it most definitely has cost you income. \n")
 
             else:
-                self.logloc('reputation', -2)
+                log.logloc('reputation', -2)
                 log.append("She is a very unskilled bartender, this girl definitely needs training \n")
 
             if charisma > 300:
-                self.logloc('fame', choice([0,1,1]))
+                log.logloc('fame', choice([0,1,1]))
                 log.append("Your girl was stunningly pretty, customers couldn't keep their eyes off her. \n")
 
             elif charisma > 150:
-                self.logloc('fame', choice([0,0,1]))
+                log.logloc('fame', choice([0,0,1]))
                 log.append("Your girl looked beautiful, this will not go unnoticed. \n")
 
             elif charisma > 45:
-                self.logloc('fame', choice([0, 0, 0, 1]))
+                log.logloc('fame', choice([0, 0, 0, 1]))
                 log.append("Your girl was easy on the eyes, not bad for a bartender. \n")
 
             else:
-                self.logloc('fame', -2)
+                log.logloc('fame', -2)
                 log.append("Customers did not appreciate a hag serving them. Consider sending this girl to a beauty school. \n")
 
             log.append("\n")
@@ -2057,27 +2095,27 @@
 
             # Integers:
             # barfees = int(round(worker.earned_cash))
-            tips = int(round(worker.flag("jobs_" + self.id + "_tips")))
-
-            if tips:
-                log.append("She got %d in tips! " % tips)
+            # tips = int(round(worker.flag("jobs_" + self.id + "_tips")))
+            #
+            # if tips:
+            #     log.append("She got %d in tips! " % tips)
 
             if worker.has_image("waitress", exclude=["sex"]):
-                self.img = worker.show("waitress", exclude=["sex"], resize=(740, 685))
+                log.img = worker.show("waitress", exclude=["sex"], resize=(740, 685))
             elif worker.has_image("maid", exclude=["sex"]):
-                self.img = worker.show("maid", exclude=["sex"], resize=(740, 685))
+                log.img = worker.show("maid", exclude=["sex"], resize=(740, 685))
             else:
-                self.img = worker.show("profile", exclude=["sex", "nude"], resize=(740, 685))
+                log.img = worker.show("profile", exclude=["sex", "nude"], resize=(740, 685))
 
             # Finances:
             # worker.fin.log_logical_income(barfees, "Barmaid")
-            if tips:
-                worker.mod_flag("jobs_tips", tips)
+            # if tips:
+            #     worker.mod_flag("jobs_tips", tips)
 
-            self.loc.fin.log_logical_income(tips, "Barmaid")
-
-            self.apply_stats()
-            self.finish_job()
+            # self.loc.fin.log_logical_income(tips, "Barmaid")
+            #
+            # self.apply_stats()
+            # self.finish_job()
 
 
     class CleaningJob(Job):
