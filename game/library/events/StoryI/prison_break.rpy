@@ -4,7 +4,7 @@ init:
     transform blueprint_position:
         align (0.5, 0.6)
     $ sflash = Fade(.25, 0, .25, color=darkred)
-init python:
+init -10 python:
     q_dissolve = Dissolve(.2) # fast dissolve to quickly show backgrounds
     def eyewarp(x):
         return x**1.33

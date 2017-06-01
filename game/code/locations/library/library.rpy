@@ -7,45 +7,45 @@ init python:
         def __init__(self):
             self.books = {}
             self.book = None
-            
+
         def __getitem__(self, book):
             if book in self.books:
                 return self.books[book]
             else:
                 return {}
-            
+
         def create_new_book(self, name):
             self.books[name] = OrderedDict()
             self.book = name
-            
+
         def create_main_header(self, header, skip="\n\n", **kwargs):
             """This creates a large header with the name of the book.
-            
+
             By default uses a bold text.
             """
             if "style" not in kwargs:
                 kwargs["style"] = "library_book_header_main"
             self.books[self.book][header + skip] = kwargs
-            
+
         def create_sub_header(self, header, skip="\n\n", **kwargs):
             """This creates a large header with the name of the book.
-            
+
             By default uses a bold text.
             """
             if "style" not in kwargs:
                 kwargs["style"] = "library_book_header_sub"
             self.books[self.book][header + skip] = kwargs
-            
+
         def add_text(self, text, skip="\n\n", **kwargs):
             """Plainly adds a body of text to the book.
             """
             if "style" not in kwargs:
                 kwargs["style"] = "library_book_content"
             self.books[self.book][text + skip] = kwargs
-            
+
     def create_lib_books():
         books = LibraryBooks()
-        
+
         books.create_new_book("Books_1")
         books.create_main_header("World Geography")
         books.add_text("Mundiga, as both the central continent and the world itself are called, is the forth planet from its star.")
@@ -53,7 +53,7 @@ init python:
         books.add_text("The second largest continent, Puerto, is located in a position analogous to Greenland, with roughly the same size and iciness as the island itself.  North and easterly to the central continent, the majority of Puerto is entombed under vast glaciers, with only a thin fringe of coast available for habitation.  The inhabitants of Puerto are primarily fishermen, striving to eck out enough food to allow for survival during the winter season, with perhaps enough of a surplus to trade in exchange for steel tools, weapons, and other necessary technology.")
         books.add_text("The smallest of the three continents is referred to as either Vilnis or as Aenstan.  As the inhabitants of Mundiga, by far the most populous of the continents, call it Vilnis, it shall henceforth in this discussion be called Vilnis.  Southeast of Puerto, and due west of Mundiga, Vilnis is less a continent than a collection of archipelagos, of which there are six, all located in a relatively small portion of the sea.  The six archipelagos circle a shallow inland sea, and are surrounded by deep undersea trenches.  Vilnis is home to a large number of warring tribes of various species, with a few tribes of degenerate elfin-kind warring with a large assortment of humans and humanoids, along with subhuman things, vast sea monsters, and raiding incursions from the land-based nations of Mundiga.  Currently, no one faction controls the Vilnis archipelagos, but the elves have established absolute dominance over one archipelago, with multiple enclaves on two others.  The humans, spread out over three different archipelagos, are currently on the run, but have thus far managed a very successful series of guerrilla actions against both the subhuman beastmen and the elfinkin.  The beastmen are present on all archipelagos except for the archipelago of Utrecht, over which the elves hold sway.  The maraudering sea monsters make travel between the archipelagos a risky business, though they tend to avoid the shallow, intra-archipelago waters.  The nations of Mundiga rely upon Vilnis for a wide assortment of raw materials and some crude products.  To establish control over those resources, and to prevent a neighboring nation from establishing hegemony over those same resources, the governments and mercantile guilds encourage and sponsor the warring tribes, providing weaponry, transport, and information, in exchange for raw material and slaves.")
         books.add_text("Mundiga was once the domain of three empires, known as Medius, Kam-Chou, and Friedwulfa, which engaged in a series of protracted military actions and outright wars until all three were exhausted to the point of collapse.  Once the three old empires collapsed, a legion of autonomous and semi-autonomous principalities, bishoprics, kingdoms, city-states, republics, tyrannies, petty empires, and other small nations spawned from the rotting carcasses of the old orders.  After a long period of anarchy and inter-state warring, a new series of nations congealed out of the wreckage.  Forming either seventeen or eighteen states, depending on the current political state of the nation of Bituous, which is undergoing a war of succession with the sub-region of High Clystra, the nations encompass all of Central, West, North and North-East Mundiga, while South-East and South Mundiga remain in the grasp of constant war, barbarism, and in the case of the far-southerly Tierra de Fuega, the inhabitence of Grendalkin, an absolutely savage species that desire nothing save destruction and pain.")
-        
+
         books.create_new_book("Books_2")
         books.create_main_header("Ancient History, Part I")
         books.add_text("The very first group of people brought to the World of Mundiga were actually the inhabitants of Puerto, who are characterized by pale skin, thin faces, and either light brown, red, or blonde hair.  While not much is known about the history of the Puertese, it is known that they have descended from a group of servants of some empire who worshipped a Queen who was possibly divine or semi-divine in nature, as she was accorded religious and political power.  The Puertese refer to themselves, not as Puertese, but as Territes.  They speak a tongue that shares some words in common with the tongue of Crossgate, indicating a possible common origin.")
@@ -63,7 +63,7 @@ init python:
         books.add_text("Roughly fifty years after the first Grendalkin incursion, and two centuries after the Romansh under the self-styled High Consul Scipius Casca arrived on Mundiga, the line of House  Casca was extinguished after a coup led by Commander Pentus Aquilinus, who controlled Legios II and VI, as well as the Crossgate citizens militia and City Guard.  The new High Consul and his line adopted an expansionist policy, similar to the policies of the Cascas during the first century AE (Anno Exsilium).  This renewal of interest in conquest and colonization marks the end of a period of decay that began with the Pyrrhic conquest of the Children of the Sun, and as such, High Consul Aquilinus first turned his attentions to the restoration of hegemony over the western coastal regions of Mundiga, rebuilding the cities and towns that had been abandoned during the Grendalkin incursion.  Upon restoring the Northern Territories (recall, Crucis Portus was built on the Southwestern coast), the Romansh turned their eyes to the East, wishing to strengthen their hold over the Southwestern regions, which, since the incursion now seventy years previous, had been a sea of barbarianism.  Under the eyes of Secondus Aquilinus Supremus, the newly enthroned High Consul, the Legio IV and Legios Servoi V and VIII marched.  There, the professional soldiers of Crucis Portus and the slave soldiers alike distinguished themselves, and won much glory for their city and nation.  Over the next 35 years, each wave of conquest was followed by 2-5 years of construction, as new colonies were erected, and new cities rose in the new lands.")
         books.add_text("While the Romansh civilization flourished in Southwestern and Western Mundiga, while the Puertites still inhabited First City on the frozen coast, and while the Grendalkin fought pitched intertribal wars in the Tierra De La Fuega, a new group of successful arrivals was deposited in the shallow inner sea of Vilnis.  By linguistic and cultural evidence, as well as a few examples of shared histories imported from their old worlds, the new arrivals may have come from the same world as the Puertese, or at least a very similar one.  However, if this theory is correct, than the possibility exists that either the Puertese or the new arrivals, who dubbed themselves \"Eldridgans\", after the ship that carried them to their new world, also traveled through time as well as through space.  If so, than the power of the wormholes is much greater than we have hithero believed.  But, I digress.  The Eldrigans, who arrived in Mundiga during the year 237 AE, were the crew of a warship of great technology, with a steel hull and engines that burnt a kind of distilled oil, called \"deeceall\".  This initial group of settlers was both extraordinarily lucky and unlucky in their  composition and existing structure:  Coming with a strong, mobile fortress and an existent social structure helped the early settlement of the Philidelphian archipelago (the most eastern of the six archipelagos) immensely, as the group managed to avoid the pitfall of anarchy that was the doom of many groups of arrivals.  Unfortunately, the fact that the crew of the warship was entirely male presented a significant problem, as did the lack of stores on board (the ship had only been on a short voyage before its sudden transport, meaning that supplies of food, water, ammunition, medicine, and fuel were low).  The crew settled in a sheltered port, named Port Deliverance by the captain of the ship, and built a collection of wooden barracks surrounded by a palisade, as well as a crude dock for their warship.")
         books.add_text("For the next three years, the crew explored the Philidelphian archipelago, and, after discovering that the soil was hardy enough for agriculture, began planting seeds and growing food, while also using some of the native timber to construct coracles, which, along with the life-boats of the Eldridge, allowed them to fish in the shallow enclosed sea to the west.  Along with fertile soil, the Eldridgans discovered two springs on their archipelago, which ensured their survival.  The only real threats that the Eldridgans had at this point was disease, or possible civil unrest, beside the ticking time-bomb of having no females with which to create a viable population.")
-        
+
         books.create_new_book("Books_3")
         books.create_main_header("Ancient History, Part II")
         books.add_text("Midway through 241 AE, a Romansh fishing boat, blown badly off-course, landed on the eastern-most atoll of the Philidelphian archipelago, where they were discovered by a pair of Philidelphian fishermen.  Fortunately, neither group decided to attack, as the Romansh fishermen were far too weary after battling the sea for a month, and the Philidelphians were far too relieved to discover that they were not alone on the planet.  The Romansh fishermen were brought to Port Deliverance, where they must have been impressed at the gradually decaying but still majestic Eldridge, which by this time was permanently docked.  While the language barrier proved to be a major problem in these initial communications, as well as with those to follow, the Romansh fishermen had no problem understanding the hospitality of their hosts, who fed them, repaired their boat, and gave them provisions for the return trip to Mundiga.  When they left, an Eldrigan accompanied them.  Second Lieutenant Thomas Salterizzo, picked for his officership, his resemblance to the fishermen, and the fact that the few words of Latin he knew were understood by the Romansh, accompanied the fishermen back across the sea, the city of Crucis Portus, where they arrived in the last week of 241.")
@@ -71,7 +71,7 @@ init python:
         books.add_text("During the second year of his reign, Quartus received Lieutenant Salterizzo in Crucis Portus.  Having spent his month and a half in transit learning passable Romansh, Salterizzo managed to impress Quartus.  Of course, the fact that Salterizzo brought significant technological knowledge, which could propel the Romansh economic, civil, and war engine far forward, also helped greatly.  In exchange for this information, Quartus granted the Eldrigans an economic and political alliance, along with several shiploads of female slaves, and a wide selection of seeds for numerous crops, including cotton, maize, and rice.")
         books.add_text("This new alliance, the Romansh-Eldrigan Pact of 242 AE, proved to be a powerful force, far beyond what Quartus could have ever seen, as the firearms and ammunition technology brought by Salterizzo, along with the recipes for various alloys, the mechanics of crude electrical systems, and the blueprints of major pieces of civic architecture (such as aqueducts, sewers, and mass-produced housing) would prove significant to the Empire for years to come.")
         books.add_text("About twenty years before the Pact of 242, in the far southern region of Mundiga, on the very border of the Tierra De La Fuega, a new group of arrivals were deposited.  Unlike the Puertese, the Romansh, and the Eldrigans, these new arrivals were not humans of some stripe or another; nor were they were-humans, like the Children of the Sun, nor were they elves, like the Ceelee or the Ughnseelee.  In appearance, they resembled a cross between the tall, elongated, centuries extinct Nahvee, with the noticeable difference of having reptiloid rather than feline analogous features (tails, ears, eyes, noses, etc.); their heavily muscled arms and torsos resembled the Grendalkin, as did their taste for blood and the long, sharp claws that they use to spill the same upon the blasted sod.  These lizard-men, known in their own language as the Sse'ruk (translating directly to \"People\"), are colloquially and commonly known as the \"Sharp-Claws\".  The Sharp-Claws arrived on Mundiga in a possibly unique way; instead of being transported via thinny-made portals, the Sharp-Claws are native to our own universe, though not our world.  Descended from the crew of a wayward \"starship\", which to this day they claim allowed them to travel between the stars, their vessel was attacked by a dreadful creature known only as a \"Starfox\", who to this day is spoken of only in whispers.")
-        
+
         books.create_new_book("Books_4")
         books.create_main_header("Medieval History, Part I")
         books.add_text("The unexpected arrival of the Sharp-Claws on Mundiga led to the halt of all Grendalkin raiding for the next several hundred years, until 497 AE, when the Grendalkin managed to break through Sharp-Claw territory via the village of Marrowak, and briefly raided a number of Romansh settlements in the southern reaches of the Median empire.  Fortunately, at this point, the Grendalkin and Sharp-Claws were both exhausted to the point where neither race had the ability to continue sustained combat, leading to the reaffirmation of imperial authority in Southwestern Mundiga, in the form of the construction of Tarquin's Wall, which sealed off the Southern peninsula from the rest of Mundiga.  The wall, along with the buffer state that the Sharp-Claw tribal territories were effectively turned into, kept the Grendalkin out of the civilized territories for the remainder of the time the Median Empire stood.")
@@ -80,7 +80,7 @@ init python:
         books.add_text("It was his grandson, Han Liu, who began to use A'ch'ak as more than a provincial capital and fishing hub, by dispatching ships full of explorers to look for new possible holdings across the seas.  Han Liu's father, Han Teban, had significantly expanded Kaminese territory to the north, but had not actually built much infrastructure, or done much with the new territory beyond extracting tribute.  While Kaminese explorers began to brave the Outer Sea, Han Liu began an ambitious project of laying roads across his territory, radiating from Kitchkinet in all directions, all the way to A'ch'ak and all the other major towns and cities in the empire.  These roads promoted mercantile activities, as well as increasing the centralization of the government, the speed of movement for soldiers and travelers, and the safety of travel throughout the empire.  All of these activities led to an increased yield of tax, as well as the imposition of a systematic code of law across all the imperial provinces.")
         books.add_text("The Kaminese explorers discovered much, traveling across the Outer Sea, including the continent of Puerto, and the western-most archipelago of Vilnis, the Min Archipelago, named for the captain of the ship that discovered it.  Some of their discoveries were positive, such as the Puertese, who, after utterly destroying the only attempt to conquer any part of the Puertese tribes (specifically, the Erebean Ha'Castle Tribe, located closest to the main continent), entered into a somewhat terse, but profitable, trading relationship with the Kaminese.  Others were markedly negative; many islets that were discovered offered no provisions or useful resources to exhausted crews, which meant unprofitable expeditions.  By far the most negative effect of the expeditions was the Kaminese's first encounter with the beastmen who lurked on Vilnis.")
         books.add_text("Since the establishment of the Pact of 242 AE, a strong bond had existed between the Eldrigans and the Romansh.  The Eldrigans got fresh blood and resources that weren't found in Vilnis from the Romansh, as well as news from the outside, and cultural exports.  The Romansh got technical know-how, an increasingly strong naval ally, and materials not found in Mundiga from the Eldrigans.  The Eldrigans used the security of this bond to colonize and take over the Utrecht and Kubo archipelagos, as well as to further expand their capital at Point Deliverance, and to begin the process of building an industrial base.  However, in the year 483 AE, the Eldrigans discovered that they were not alone in the islands - the two western-most archipelagos, the Min and Vater archipelagos were both heavily colonized by a race that made the Grendalkin appear near civilized in comparison:  The Trollocs.  Transported by the black spell of a magus who had sold her soul to an eldritch abomination from beyond the tapestry of the multiverse, the Trollocs were moved to pollute Mundiga with their filth, as they attempted to do in any world they were brought into.  Raving with an insatiable hunger, moved by malign intelligence, and filled with an insatiable lust, the Trollocs (or \"beastmen\") had already rendered the Min and Vater archipelagos into blackened wastelands in the few years that they'd been there.")
-        
+
         books.create_new_book("Books_5")
         books.create_main_header("Medieval History, Part II")
         books.add_text("The Kaminese expedition, which had been decimated by their brief meeting with Trollocs while attempting a landing on Min archipelago on 459 AE, had returned to Eastern Mundiga, and had warned the Kaminese emperor of what lurked on the islands.  No further Kaminese expeditions were dispatched for the next seven hundred years.  This left the issue of the Trollocs to the Eldrigans and their Romansh allies; until the Romansh returned to Mundiga to deal with the Grendalkin incursion of 497 AE via the Sharp-Claw territory, and to build Tarquin's Wall.")
@@ -89,7 +89,7 @@ init python:
         books.add_text("At the camp, the new Eldridgan recruits learned the traditional tightly disciplined fighting formations of the Legios, as well as the wide order skirmishing that had been added to doctrine, to deal with enemies while fighting in forests or in mountains.  The recruits were taught how to use the gladius and shield of the Legio, how to march, and how to use the muskets that had been developed from the technology the Eldridgans themselves had brought hundreds of years earlier.  The combination of close-order musketry, with the shield lines defending the musketeers against counter-attack had led to the dominating tactics of the Legio defending the Median Empire for the last two centuries against all comers. These tactics would prove to be the salvation of the Eldridgan people")
         books.add_text("In the tenth month of 484, the 1st Division of the new Eldridgan Home Army marched from their training grounds at Port Rigby, and boarded naval vessels, which took them to Lacey Island, in the Utrecht Archipelago, the closest point in Eldridgan technology to the infested Vater and Min archipelagoes.  There, on Lacey Island, the 1st Division, along with the finest stone masons and architects from both Crucis Portus and Port Deliverance, built Timothy’s Citadel and Naval Yards over the next four years, using stone quarried on Lacey as material.  The Citadel, rearing high over the island, was surrounded in multiple walls, with a thick central tower standing in the center of the base.  A fortified harbor, built within the second defensive line, provided a naval base within easy striking range of the Vater and Min archipelagoes.  Timothy’s Citadel, built to hold a massive garrison for decades under a state of siege, became the home of the vast majority of the Eldridgan armed forces, as well as a large body of allied troops in the form of the Legios IX, X, and XXIV, who the Emperor, Aetius III Aquilinus Supremus, had sent to ensure that Trollocs would not join the legion of threats that faced the Empire.")
         books.add_text("During the four years spent building the fortress on Lacey Island, the Home Army recruited heavily, and soon had an additional five fully trained divisions, each consisting of one thousand men.  The Navy also recruited heavily, and also began to train its crews with an eye for long range gunnery, extended combat operations against numerous enemies, and counter-boarder tactics, none of which had been used required against the primitive tribal fleets or pirates who had been the primary enemies that the Eldridgan Navy had engaged previously.")
-        
+
         books.create_new_book("Books_6")
         books.create_main_header("Contemporary History, Part I")
         books.add_text("During the summer of 488, the remainder of the newly trained Home Army moved to join the garrison at Timothy’s Citadel, along with fifty Eldridgan ships, including three dreadnoughts, tasked with providing landing ships with heavy cannonades, to suppress Trolloc presence in the landing zones.  A fleet of eighty Romansh troop carriers accompanied the Eldridgan warships to Timothy’s Citadel, to carry the three Romansh Legios and five Eldridgan Divisions (the 1st Division’s mission was to maintain the garrison of Timothy’s Citadel) to the Vater Archipelago, as well as the light cannon attached to each century and battalion.  Also in the reprisal fleet were twenty civilian transport ships, which would act as the logistical support, hauling rations, medicines, ammunition, and other necessities to campaign.")
@@ -100,7 +100,7 @@ init python:
         books.add_text("Over the course of the next five weeks, the Legios and Divisions would learn a number of interesting facts, both about the habits of the Trollocs, and the nature of this war.  Amongst other things, the fact that the Vater main island was honeycombed by a vast network of tunnels and caves had been completely unknown to the High Command and it was this network that would be the main battlefield of the entire invasion.  The soldiers and legionnaires would also have a unique opportunity to understand the nature of Trollocs:  Created by a wizard goaded on by darkness greater than his ken, the first Trollocs were the horribly mutilated prisoners of the same magus, forcibly merged with demons and beasts of all sorts.  The Trollocs were defined from their very beginnings as beings of infinite hunger for suffering, and for flesh.  Trollocs delight in misery, and cause pain in any way within their capabilities.  While thuggish and small-minded, Trollocs possess an internal malice that manifests itself with a near genius in methods of cruelty unsurpassed in even the dankest slum of Crossgate or in the most infernal mind of the Grendalkin.  Amongst their many habits, Trollocs savor the taste of cooked human flesh, preferably prepared whilest the subject is alive and fully conscience.  Many soldiers, upon taking a Trolloc outpost, had the nauseating experience of discovering partially cooked and eaten comrades")
         books.add_text("The tunnels and caverns of Vater Island severely hampered the advance during the first week of combat, as the tightly confined battlefield made large-unit tactics, the common tactic of both Legios and Divisions, completely impossible to implement.  Soon, a modified plan of battle was devised, where squads (or, in the Legios, decios), would leapfrog up the tunnels in triples, with one squad using melee weapons and shields, the second using muskets, and the third either providing support or moving up to take the first squad’s place, at which point all squads change position.")
         books.add_text("This new method of organized, squad-based combat would lead the combined forces to victory, but only at a horrific cost. Squad after squad disappeared into the tunnels, never to reemerge from the darkness.  Hours of near constant combat turned into days, with the constantly echoing cries, howls, and gibbering of Trollocs audible at all times.")
-        
+
         books.create_new_book("Books_7")
         books.create_main_header("Contemporary History, Part II")
         books.add_text("One week into the battle, and 18% of the total allied army was either killed or injured.  Two weeks in, and the Army was operating at 72% efficiency.  Fortunately, the rate of casualty decreased after the second week, as the surviving soldiers grew more adapt to fighting their tenacious enemy on his home ground.  By the end of the campaign, at the beginning of Week Five, 57% of the soldiers who had arrived on the Vater Archipelago were still capable of combat operations. Trolloc casualties are not known with any degree of certainty, as the Beastmen are cannibals and frequently ate their fallen, but the number of Trollocs estimated to have fallen over the War of Five Weeks is placed somewhere around seven thousand, nearly twice the number of allied casualties.")
@@ -126,19 +126,19 @@ init python:
         books.add_text("Every creature, even undead or artificially created one, may have so-called elemental affinity with one or, rarely, more elements. It brings various unique advantages and disadvantages in magic offence and defense. Those who don't have said affinity are called Neutral. It is one of the most popular options among warriors that do not rely on use of magic. It will ensure some degree of resistance from all elements, but on other hand this is possibly the worst choice for any magic user since it greatly weakens all spells.")
         books.add_text("When preparing for battle, one must consider possible weaknesses and strengths of the opponent. Meetings with powerful creatures resistant, immune or even absorbing specific elements are not uncommon. Although the same is true for common weapons and exotic things like poisons, so the best bet is to have as many ways to damage the enemy as possible.")
         return books
-        
+
 label academy_town:
     $ gm.enter_location(badtraits=["Adventurous", "Slime", "Monster"], curious_priority=True, has_tags=["sfw", "schoolgirl"])
     $ e = npcs["Eleven"].say
     $ npcs["Eleven"].override_portrait("portrait", "indifferent")
     if not "library" in ilists.world_music:
         $ ilists.world_music["library"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("library")]
-        
+
     if not global_flags.has_flag("keep_playing_music"):
         play world choice(ilists.world_music["library"]) fadein 0.5
-        
+
     $ global_flags.del_flag("keep_playing_music")
-    
+
     python:
         # Build the actions
         if pytfall.world_actions.location("academy_town"):
@@ -146,7 +146,7 @@ label academy_town:
             pytfall.world_actions.add("library_matrix", "Read the books", Jump("library_read_matrix"))
             pytfall.world_actions.add("eleven_dialogue", "Find Eleven", Jump("library_eleven_dialogue"))
             pytfall.world_actions.finish()
-            
+
     scene bg academy_town
     with dissolve
     if not global_flags.flag('visited_library'):
@@ -161,7 +161,7 @@ label academy_town:
         "Many years ago academy archives were entrusted to him, and since then not a single document was lost. During the last war he single handedly destroyed all threats, preserving the whole building intact."
         "He also always knows the name of his interlocutor, even if they never met before. This particular trait made him infamous in the city."
         hide npc with dissolve
-        
+
     show screen academy_town
     while 1:
 
@@ -169,14 +169,14 @@ label academy_town:
 
         if result[0] == 'jump':
             $ gm.start_gm(result[1])
-            
+
         if result[0] == 'control':
             hide screen academy_town
             if result[1] == 'return':
                 $ renpy.music.stop(channel="world")
                 hide screen cemetery_entrance
                 jump city
-                
+
 label library_eleven_dialogue:
     hide screen academy_town
     $ e = npcs["Eleven"].say
@@ -236,41 +236,41 @@ label library_eleven_dialogue:
             hide npc with dissolve
             $ global_flags.set_flag("keep_playing_music")
             jump academy_town
-            
+
 screen academy_town():
 
     use top_stripe(True)
-    
+
     use location_actions("academy_town")
-    
+
     if gm.show_girls:
-    
+
         add "content/gfx/images/bg_gradient.png" yalign 0.2
-    
+
         hbox:
             align(0.5, 0.3)
             spacing 70
             for entry in gm.display_girls():
                 use rg_lightbutton(img=entry.show("girlmeets", "indoors", "schoolgirl", exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage", "onsen", "indoor"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
-                
+
 label library_read_matrix:
     hide screen academy_town
     scene bg academy_town
-    
+
     if not hasattr(store, "lib_books"):
         $ lib_books = create_lib_books()
-    
-    call screen poly_matrix("library/screens/locations/coordinates_library.json", show_exit_button=(1.0, 1.0))
-    
+
+    call screen poly_matrix("code/locations/library/coordinates.json", show_exit_button=(1.0, 1.0))
+
     if not _return:
         $ del lib_books
         jump academy_town
     else:
         call screen library_show_text(lib_books[_return])
         with dissolve
-    
+
 screen library_show_text(book):
-    
+
     add "content/gfx/frame/library_page.jpg" at truecenter
     side "c r":
         pos (306, 30)
@@ -284,7 +284,7 @@ screen library_show_text(book):
                 for i in book:
                     add Text(i, **book[i])
         vbar value YScrollValue("vp")
-        
+
     textbutton "Enough with it":
         align (1.0, 1.0)
         action (Hide("library_show_text", transition=dissolve), Jump("library_read_matrix"))

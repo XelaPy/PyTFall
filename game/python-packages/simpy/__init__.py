@@ -52,5 +52,5 @@ toc = (
 __doc__ = __doc__.format(toc=compile_toc(toc))
 __all__ = [obj.__name__ for section, objs in toc for obj in objs]
 
-__path__.append(renpy.loader.transfn("library")) # extend_path(__path__, __name__) # @Failed Import
+# __path__.append(renpy.loader.transfn("library")) # extend_path(__path__, __name__) # @Failed Import
 __version__ = '3.0.8'

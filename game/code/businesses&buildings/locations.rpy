@@ -40,7 +40,7 @@ init -20 python:
         actor.location = loc
         if isinstance(loc, Location):
             loc.add(actor)
-        
+
     class Location(_object):
         """
         Usually a place or a building.
@@ -50,20 +50,20 @@ init -20 python:
         def __init__(self):
             self.id = self.__class__
             self.actors = set()
-            
+
         def __str__(self):
             if hasattr(self, "name"):
                 return str(self.name)
             else:
                 return str(self.id)
-            
+
         def add(self, actor):
             self.actors.add(actor)
-        
+
         def remove(self, actor):
             self.actors.remove(actor)
             
-            
+
     # Content:
     class Streets(Location):
         """
@@ -72,7 +72,8 @@ init -20 python:
         def __init__(self):
             super(Streets, self).__init__()
             self.id = "Streets"
-            
+
+
     class Apartments(Location):
         """
         Another Dummy Location, this one is used for free characters that have a place to live of their own.
@@ -81,5 +82,3 @@ init -20 python:
         def __init__(self):
             super(Apartments, self).__init__()
             self.id = "City Apartment"
-            
-            
