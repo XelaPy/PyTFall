@@ -240,7 +240,7 @@ label frog_deathfight:
     else:
         jump game_over
         
-    scene bg arena_outside
+    scene bg arena_quarters
     show npc xeona
     with dissolve
             

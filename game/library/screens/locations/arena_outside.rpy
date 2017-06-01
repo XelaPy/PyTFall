@@ -8,7 +8,7 @@ label arena_outside:
         play world choice(ilists.world_music["arena_outside"])
     $ global_flags.del_flag("keep_playing_music")
     
-    scene bg arena_outside
+    scene bg arena_quarters
     with dissolve
     
     # Texts: ---------------------------------------------------------->

@@ -5,7 +5,7 @@ label arena_inside:
         $ ilists.world_music["arena_inside"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("arena_inside")]
     play world choice(ilists.world_music["arena_inside"]) fadein 1.5
 
-    scene bg arena_inside
+    scene expression "content/gfx/bg/be/battle_arena_1.jpg"
     show screen arena_inside
     with fade
 
@@ -73,7 +73,7 @@ init: # Main Screens:
     screen arena_inside():
 
         #use top_stripe(True)
-        add "content/gfx/bg/locations/arena_inside.jpg"  xpos 100 ypos 35
+        add "content/gfx/bg/be/battle_arena_1.jpg"  xpos 100 ypos 35
 
         # Start match button:
         if day in hero.fighting_days:
