@@ -79,7 +79,7 @@ label city_dark_forest_explore:
         $ global_flags.set_flag("keep_playing_music")
         jump forest_dark_continue
     else:
-        if dice(20):
+        if dice(25) and hero.flag("dark_forest_met_girl") != day:
             jump dark_forest_girl_meet
         elif dice(70) or hero.flag("dark_forest_met_bandits") == day:
             jump city_dark_forest_fight
@@ -269,7 +269,10 @@ label city_dark_forest_fight:
         jump game_over
         
 label dark_forest_girl_meet:
-    $ choices = list(i for i in chars.values() if i.location == "city" and i not in hero.chars and not i.arena_active and i.disposition < 500 and i not in gm.get_all_girls())
+    $ hero.set_flag("dark_forest_met_girl", value=day)
+    $ choices = list(i for i in chars.values() if i.location == "city" and i not in hero.chars and not i.arena_active and i not in gm.get_all_girls()) #TODO: will we even have arena_active eventually?
+    $ badtraits = ["Homebody", "Indifferent", "Coward"]
+    $ choices = list(i for i in choices if not any(trait in badtraits for trait in i.traits))
     if choices:
         $ character = random.choice(choices)
         $ spr = character.get_vnsprite()
@@ -279,7 +282,9 @@ label dark_forest_girl_meet:
         $ character.show_portrait_overlay("love", "reset")
         $ character.say("She happily kisses you in the chick as a thanks. Maybe you should try to find her in the city later.")
         if character.disposition < 450:
-            $ character.disposition += 150
+            $ character.disposition += 100
+        else:
+            $ character.disposition += 50
         hide expression spr with dissolve
         $ character.restore_portrait()
         $ character.hide_portrait_overlay()
