@@ -81,7 +81,7 @@ label city_dark_forest_explore:
     else:
         if hero.flag("dark_forest_found_river") != day and hero.vitality < hero.get_max("vitality") and dice(35):
             jump city_dark_forest_river
-        elif dice(25) and hero.flag("dark_forest_met_girl") != day:
+        elif dice(20) and hero.flag("dark_forest_met_girl") != day:
             jump dark_forest_girl_meet
         elif dice(70) or hero.flag("dark_forest_met_bandits") == day:
             jump city_dark_forest_fight
