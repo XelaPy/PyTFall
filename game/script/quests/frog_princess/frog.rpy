@@ -1,37 +1,37 @@
 init python:
-    renpy.image("jumping_frog", animate("/library/events/frog_event/img/frog_jump", loop=True))
-    renpy.image("frog", "library/events/frog_event/img/frog.png")
-    renpy.image("stranger", "library/events/frog_event/img/stranger.png")
+    renpy.image("jumping_frog", animate("/script/quests/frog_princess/img/frog_jump", loop=True))
+    renpy.image("frog", "script/quests/frog_princess/img/frog.png")
+    renpy.image("stranger", "script/quests/frog_princess/img/stranger.png")
     register_quest("Frog Princess!")
     if config.developer:
         register_event("show_frog", screen=True, quest="Frog Princess!", locations=["forest_entrance"], trigger_type="auto", restore_priority=1, priority=300, start_day=1, jump=True, dice=100, max_runs=20)
     else:
         register_event("show_frog", screen=True, quest="Frog Princess!", locations=["forest_entrance"], trigger_type="auto", restore_priority=1, priority=300, start_day=choice([15, 25, 35]), jump=True, dice=65, max_runs=20)
-    
+
 label show_frog_deathfight:
     $ menu_extensions.add_extension("Xeona Main", ("Deathfight vs Goblin Champ!", Jump("frog_deathfight")))
     jump arena_outside
-    
+
 label show_frog_final:
     show screen show_frog_final
     jump forest_entrance
-    
+
 screen show_frog:
     zorder 10
     if renpy.get_screen("forest_entrance"):
         $ img = Transform("jumping_frog", zoom=0.2)
         imagebutton:
             pos (237, 586)
-            idle Transform("jumping_frog", zoom=0.2) 
+            idle Transform("jumping_frog", zoom=0.2)
             hover Transform("jumping_frog", zoom=0.2)
             action Jump("start_frog_event")
     else:
         timer 0.01 action Hide("show_frog")
-        
+
 screen show_frog_final:
     zorder 10
     if renpy.get_screen("forest_entrance"):
-        $ img = im.Scale("library/events/frog_event/img/frog.png", 70, 70)
+        $ img = im.Scale("script/quests/frog_princess/img/frog.png", 70, 70)
         imagebutton:
             pos (237, 586)
             idle img
@@ -39,19 +39,19 @@ screen show_frog_final:
             action Jump("final_frog_event")
     else:
         timer 0.01 action Hide("show_frog_final")
-        
+
 label start_frog_event:
     hide screen forest_entrance
     with dissolve
     "How odd. There is a rather large frog jumping around, even though there are no water bodies nearby."
-    
+
     menu:
         "Approach with curiosity to have a closer look.":
             show frog
             with dissolve
             menu:
                 "You approach the frog. Upon further inspection, it appears to be wearing a crown."
-                
+
                 "Poke the frog with a stick.":
                     jump frog1_event_poke
                 "Try to snatch the crown":
@@ -76,7 +76,7 @@ label start_frog_event:
             $ pytfall.world_events.kill_event("show_frog")
     $ global_flags.set_flag("keep_playing_music")
     jump forest_entrance
-            
+
 label frog1_event_poke:
     define f1 = Character("Frog", color=green, what_color=lawngreen, show_two_window=True)
     hero.say "How do you like that?."
@@ -129,7 +129,7 @@ label frog1_event_abby:
     hide screen shopping
     hide screen witches_hut_shopping
     with dissolve
-    
+
     if not global_flags.flag("frog_spoke_abby"):
         w "Frog transmutation, heh? I could look into it, but it will cost ya!"
         extend " Let me see..."
@@ -147,7 +147,7 @@ label frog1_event_abby:
                 $ menu_extensions.add_extension("Abby The Witch Main", ("Ask about the frog (again)", Jump("frog1_event_abby_2"), "day > {}".format(day + 4)))
             $ menu_extensions.remove_extension("Abby The Witch Main", "Ask about the Frog")
             jump forest_entrance
-             
+
         "I don't have that kind of money right now.":
             w "That's too bad. Come back when you have the money."
             $ global_flags.set_flag("frog_spoke_abby")
@@ -165,15 +165,15 @@ label frog1_event_abby_2:
     hide screen shopping
     hide screen witches_hut_shopping
     with dissolve
-    
+
     hero.say "Did you found anything?"
     if dice(50 + day/3):
         w "Still going thru my books and scrolls. Come back later."
-        
+
         $ menu_extensions.remove_extension("Abby The Witch Main", "Ask about the frog (again)")
         $ menu_extensions.add_extension("Abby The Witch Main", ("Ask about the frog (again)", Jump("frog1_event_abby_2"), "day > {}".format(day)))
 
-    else:    
+    else:
         w "I found a solution. A rare magic potion should do the trick but that's not the hard part..."
         extend " I need another 10 000 gold to buy the necessary ingredients but the real trick will be getting a goblin champion eye."
 
@@ -181,9 +181,9 @@ label frog1_event_abby_2:
             "I will get you the money and the eye...":
                 $ menu_extensions.remove_extension("Abby The Witch Main", "Ask about the frog (again)")
                 $ pytfall.world_quests.get("Frog Princess!").next_in_label("Abby asked you to acquire another 10000 Gold for ingredients and an eye of a Goblin Champion...")
-                
+
                 $ menu_extensions.add_extension("Xeona Main", ("Enquire about an eye of a Goblin Champion!", Jump("frog_event_arena")))
-                
+
             "10 000? Not a chance...":
                 "You gave up :("
                 $ pytfall.world_quests.get("Frog Princess!").finish_in_label("You've rejected the Frog Princess Quest! It's further fate is unknown.")
@@ -196,7 +196,7 @@ label frog_event_arena:
     define ax = Character('Xeona', color=ivory, show_two_window=True)
     show npc xeona
     with dissolve
-    
+
     ax "An eye of the goblin champion you say?"
     ax "I sure hope it's not some weird fetish you're into..."
     ax "It can be arranged I suppose, as you may know, dampening field prevents fatal blows in the Arena, often even to Monsters but a proper DeathMatch can be arranged."
@@ -211,20 +211,20 @@ label frog_event_arena:
         $ register_event_in_label("show_frog_deathfight", locations=["arena_outside"], trigger_type="auto", restore_priority=1, priority=300, start_day=day+3, jump=True, dice=100, max_runs=1)
     $ menu_extensions.remove_extension("Xeona Main", "Enquire about an eye of a Goblin Champion!")
     jump arena_outside
-    
+
 label frog_deathfight:
     hide screen arena_outside
     define ax = Character('Xeona', color=ivory, show_two_window=True)
     show npc xeona
     with dissolve
     stop world
-    
+
     ax "Well, I hope that you're ready! Best of luck!"
     $ enemy_team = Team(name="Enemy Team", max_size=3)
     $ mob = build_mob("Goblin Warrior", level=80)
     $ mob.controller = BE_AI(mob)
     $ enemy_team.add(mob)
-    
+
     python:
         for i in xrange(2):
             mob = build_mob("Goblin Archer", level=60)
@@ -239,24 +239,24 @@ label frog_deathfight:
                 member.exp += adjust_exp(member, 500)
     else:
         jump game_over
-        
+
     scene bg arena_quarters
     show npc xeona
     with dissolve
-            
+
     ax "Great Fight! I was rooting for you! I am sure getting to the eye will be no problem."
     $ pytfall.world_quests.get("Frog Princess!").next_in_label("You got the eye! You should visit Abby yet again!")
     $ menu_extensions.add_extension("Abby The Witch Main", ("Give her the eye", Jump("frog1_event_abby_3")))
     $ pytfall.world_events.kill_event("show_frog_arena_eye")
     $ menu_extensions.remove_extension("Xeona Main", "Deathfight vs Goblin Champ!")
     jump arena_outside
-            
+
 label frog1_event_abby_3:
     $ w = npcs["Abby_the_witch"].say
     hide screen shopping
     hide screen witches_hut_shopping
     with dissolve
-    
+
     w "I heard you got the base ingredient. "
     extend "I heard it was one hell of a fight in the Arena!"
     extend " ... too bad I've missed it."
@@ -269,10 +269,10 @@ label frog1_event_abby_3:
     $ pytfall.world_quests.get("Frog Princess!").next_in_label("Finally you have the potion! Talk to the frog again!")
     $ renpy.music.stop(channel="world", fadeout=1)
     scene bg forest_entrance at truecenter
-    
+
     hero.say "Damn, that blasted frog isn't around... Maybe I should comeback tomorrow."
     $ menu_extensions.remove_extension("Abby The Witch Main", "Give her the eye")
-    
+
     $ register_event_in_label("show_frog_final", locations=["forest_entrance"], trigger_type="auto", restore_priority=1, priority=300, start_day=day, jump=True, dice=100, max_runs=100)
     $ global_flags.set_flag("keep_playing_music")
     jump forest_entrance
@@ -281,29 +281,29 @@ label final_frog_event:
     hide screen forest_entrance
     "Having a solution to the frog princess problem you enter the forest with confidence."
     "Finding her wasn't really a problem, she was sitting on the same rock when you met for the first time."
-    
+
     define f1 = Character("Frog", color=green, what_color=lawngreen, show_two_window=True)
-    
+
     show frog
     f1 "So why did you came today?"
-    
+
     menu:
-        "I have found a method to break the spell.": 
+        "I have found a method to break the spell.":
             f1 "My hero! Thanks a lot!"
-        "I know how to break the spell but it will cost you.": 
+        "I know how to break the spell but it will cost you.":
             f1 "I will do anything just help me. My father is a very rich and powerful man. He surely will pay you any sum when I safely return home."
     stop world
-    play sound "library/events/frog_event/sfx/kiss_short.mp3"
+    play sound "script/quests/frog_princess/sfx/kiss_short.mp3"
     "Frog drunk the potion and you gave it a quick kiss. Nothing happened. You need to be more passionate."
     menu:
         "French kiss":
             "You had French kissed a frog! (side note: frogs eat: flies, mosquitoes, moths, dragonflies, small snakes, mice, baby turtles and sometimes smaller frogs)."
-            play sound "library/events/frog_event/sfx/kiss_long.mp3"
+            play sound "script/quests/frog_princess/sfx/kiss_long.mp3"
             scene black
             $ flash = Fade(.25, 0, .75, color="#fff")
             scene bg forest_entrance
             with flash
-            
+
             play sound "content/sfx/sound/events/good_night.mp3"
             "It worked. A bright flash and the frog was gone. In her place was…"
 

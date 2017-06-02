@@ -1,5 +1,7 @@
 init python:
-    register_event("city_events_thugs_robbery", locations=["main_street"], dice=100, trigger_type = "look_around", priority=50, start_day=1, jump=True, times_per_days=(1,7))
+    register_event("city_events_thugs_robbery", locations=["main_street"], dice=100,
+                    trigger_type = "look_around", priority=50, start_day=1,
+                    jump=True, times_per_days=(1,7))
 
 label city_events_thugs_robbery:
     scene
@@ -62,6 +64,7 @@ label city_events_thugs_robbery:
                             if member in battle.corpses:
                                 member.health = 1
                         renpy.jump("city_events_thugs_robbery_win")
+
 label city_events_thugs_robbery_win:
     show bg street_alley
     show expression npcs["street_thug"].get_vnsprite() as npc with dissolve
@@ -70,6 +73,7 @@ label city_events_thugs_robbery_win:
     $ pytfall.world_events.kill_event("city_events_thugs_robbery")
     "He walks away."
     jump main_street
+
 label city_events_thugs_robbery_lost:
     show bg street_alley
     show expression npcs["street_thug"].get_vnsprite() as npc with dissolve
@@ -83,7 +87,7 @@ label city_events_thugs_robbery_lost:
         $ hero.take_money(g)
     "He walks away."
     jump main_street
-            
+
 label city_events_thugs_robbery_attack:
     $ scr = pytfall.world_events.get("city_events_thugs_robbery_attack").label_cache
     "A group of men suddenly surrounds you!"
@@ -127,11 +131,13 @@ label city_events_thugs_robbery_attack:
                 if member in battle.corpses:
                     member.health = 1
             renpy.jump("city_events_thugs_robbery_attack_win")
+
 label city_events_thugs_robbery_attack_lost:
     scene expression "bg " + scr
     $ renpy.scene(layer="screens")
     "After beating you they took some gold and disappeared before City Guards arrived."
     jump expression scr
+
 label city_events_thugs_robbery_attack_win:
     scene expression "bg " + scr
     "You found some gold in their pockets before handing them over to the City Guards."
