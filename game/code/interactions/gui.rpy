@@ -448,7 +448,6 @@ screen girl_interactions():
 
     use top_stripe(False)
 
-
 screen girl_interactions_old:
 
     # Controls

@@ -62,9 +62,8 @@ init -20 python:
 
         def remove(self, actor):
             self.actors.remove(actor)
-            
 
-    # Content:
+
     class Streets(Location):
         """
         Dummy location for actors that have no place to live...

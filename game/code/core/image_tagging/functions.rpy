@@ -23,7 +23,7 @@ init -11 python:
     def generate_tags():
         # No longer used...
         '''Generate tag information from image filenames.
-        
+
         The function returns a dictionary of tags as keys and lists of relative
         image paths as values.
         '''
@@ -64,7 +64,7 @@ init -11 python:
         msg = "generated the following tags for images in 'content/chars':\n%s"
         tagslog.debug(msg % ", ".join(sorted(tagmap.keys())))
         return tagmap
-        
+
     def rebuild_tagsjson():
         # No longer used...
         '''Rebuilds the JSON files storing the image tags.
@@ -82,12 +82,12 @@ init -11 python:
         targetdirs = [os.path.dirname(df) for df in datafiles]
         targets = [os.path.join(td, "tags.json") for td in targetdirs]
         tagdb.dump_json(targets)
-        
+
     def normalize_path(path, start=""):
         # No longer used...
         # This is the same as renpy.loader.transfn so it is useless anyway.
         '''Returns a filesystem path following the conventions of the local OS.
-        
+
         If start is empty, an absolute path will be returned.
         If start is not empty, a path relative to start will be returned.
         '''
