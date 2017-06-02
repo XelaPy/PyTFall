@@ -1,3 +1,5 @@
+# This file needs revicesment and splitting it logically!
+
 init -9 python:
     # ======================= (Simulated) Exploration code =====================>>>
     class FG_Area(_object):

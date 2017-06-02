@@ -13,7 +13,7 @@ init -10 python:
     """Core order for SimPy jobs loop:2
     ***Needs update after restructuring/renaming.
 
-    NSUBUILDING:
+    BUILDING:
         # Holds Businesses and data/properties required for operation.
         run_nd():
             # Setups and starts the simulation.
@@ -23,7 +23,6 @@ init -10 python:
             *Runs pre_day for all updates.
             *Creates SimPy Envoronment and runs it (run_jobs being the main controlling process)
             *Runs the post_nd.
-
         building_manager():
             SimPy process that manages the building as a whole.
             # Main controller for all businesses.
@@ -34,7 +33,7 @@ init -10 python:
             *Adds a steady/conditioned stream of clients to the appropriate businesses and manages that stream:
             *Kicks clients if nothing could be arranged for them.
 
-    BUSINESS: (aka Upgrade)
+    BUSINESS:
         # Hold all data/methods required for business to operate.
 
         *Personal Service:
@@ -43,7 +42,7 @@ init -10 python:
         *Public Service:
             - Simply sends client to business.
             - Sends in Workers to serve/entertain the clients.
-        *OnDemand:
+        *OnDemand Service:
             - Includes some form of "on demand" service, like cleaning or guarding (defending).
             - May also have a continued, "automatic" service like Guard-patrol.
 
@@ -103,27 +102,10 @@ init -10 python:
                 - Removes the worker from active workers # TODO: Might be a good idea to move the worker back to self.instance_workers in case update simply ran out of clients.
 
     Job:
-        # Classes that hold funcitons and some default data.
-        # We keep one instance of a job for the whole game whenever possible.
-        *workermod = Any Stats/Skills changed during this Jobs execution
-        *locmod = Same for the Building
-        *occupations = Base occs like SIW/Server
-        *occupation_traits = Direct Traits of chars that would be willing to do this job (currently we just use basetraits)
-
-        *__call__ = Executes the job to do whatever it is supposed to.
-        *reset = Resets the base properties for the job
-        *all_occs = set(self.occupations + self.occupation_traits) # TODO: Should be a contant, no point in rebuilding the set every time.
-        *get_clients = Returns the amount of clients required to properly run this job, not used afaik
-        *create_event = Creates an event for the next day that will hold all the data required to display in reports.
-        **check_occupation = ***Very important one, checks if the worker if willing to do the job.
-        *check_life = Not used atm. TODO: Confirm and remove!
-        **apply_stats = Applies Stats and Skills and Building mods accordingly.
-        *loggs/logloc = Cool way to log the required stats to worker/building in order to have them applied later.
-        **finish_job = Another really important one, this:
-            - Creates the NDEvent
-            - Resets the Job
+        Has been completely restructured to server as an object to keep track
+        of what character is doing what by direct binding and hosting loose
+        functions.
     """
-
     class BaseBuilding(Location, Flags):
         """The super class for all Building logic.
         """

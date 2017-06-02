@@ -1,4 +1,4 @@
-init -6 python:
+init -5 python:
     class BrothelBlock(PrivateBusiness):
         COMPATIBILITY = []
         MATERIALS = {"Wood": 70, "Bricks": 30, "Glass": 5}

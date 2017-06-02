@@ -868,6 +868,69 @@ init -9 python:
                 return False
 
 init -10 python:
+    @renpy.pure
+    class ModSet(Action, FieldEquality):
+        """
+        :doc: data_action
+
+        Adds `value` to `set` or removes 'value' from it in case it is already in the set.
+
+        `set`
+            The set to modify. This may be a python set or list.
+        `value`
+            The value.
+        """
+
+        identity_fields = [ 'set', 'value' ]
+
+        def __init__(self, set, value):
+            self.set = set
+            self.value = value
+
+        def get_selected(self):
+            return self.value in self.set
+
+        def __call__(self):
+            if self.value in self.set:
+                self.set.remove(self.value)
+            else:
+                if isinstance(self.set, list):
+                    self.set.append(self.value)
+                else:
+                    self.set.add(self.value)
+
+            renpy.restart_interaction()
+
+
+    class ModFilterSet(ModSet):
+        """Adjusted ModSet to update gui filters for characters.
+        """
+        def __init__(self, filters, set, value):
+            self.set = getattr(filters, set)
+            self.filters = filters
+            self.value = value
+
+        def __call__(self):
+            if self.value in self.set:
+                self.set.remove(self.value)
+            else:
+                self.set.add(self.value)
+            self.filters.filter()
+            renpy.restart_interaction()
+
+
+    class SetFilter(SetField):
+        """Set the filter for char filters and updates them.
+         """
+        def __init__(self, container, value):
+            super(SetFilter, self).__init__(container, "sorting_order", value)
+
+        def __call__(self):
+            setattr(self.container, self.name, self.value)
+            self.container.filter()
+            renpy.restart_interaction()
+
+
     class NullAction(Action):
         """
         Overrides the NullAction action to allow for the action to present an insensitive button.
@@ -956,9 +1019,9 @@ init -10 python:
         def __call__(self):
             for callable in self.actions:
                 callable()
-                
-screen location_actions(actions, girl=None, pos=(0.98, 0.98), anchor=(1.0, 1.0), align=None, style="dropdown_gm"):
 
+
+screen location_actions(actions, girl=None, pos=(0.98, 0.98), anchor=(1.0, 1.0), align=None, style="dropdown_gm"):
     python:
         if pytfall.world_actions != actions:
             pytfall.world_actions(actions, girl)
