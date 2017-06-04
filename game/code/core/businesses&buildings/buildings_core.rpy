@@ -455,54 +455,6 @@ init -10 python:
 
             self.fin = Finances(self)
 
-        def run_nd(self):
-            tl.timer("Temp Jobs Loop")
-            # Setup and start the simulation
-            self.flag_red = False
-
-            self.log(set_font_color("===================", "lawngreen"))
-            self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
-            self.log("--- Testing {} Building ---".format(set_font_color(self.name, "lawngreen")))
-
-            # All workers and workable businesses:
-            self.available_workers = list(c for c in self.all_workers if c.location == self and c.action in self.jobs) # The last check may not be good enought, may need rewriting.
-            self.nd_ups = list(up for up in self._upgrades if up.workable) # Get businesses we wish SimPy to manage! # IMPORTANT! .manage_business method is expected.
-
-            # Clients:
-            tl.timer("Generating clients")
-            self.get_client_count(write_to_nd=True)
-            clnts = self.total_clients
-            # TODO: Generate and add regulars!
-            # ALSO: We at the moment randomly pick a business for a client to like, that may need to be adjusted.
-            if self.available_workers and len(self.all_clients) < clnts:
-                if self.nd_ups:
-                    for i in xrange(clnts - len(self.all_clients)):
-                        if dice(80):
-                            self.all_clients.add(build_client(likes=[choice(self.nd_ups)]))
-                        else:
-                            self.all_clients.add(build_client(gender="female", likes=[choice(self.nd_ups)]))
-            self.clients = self.all_clients.copy()
-            self.log("Total of {} clients are expected to visit this establishment!".format(set_font_color(len(self.clients), "lawngreen")))
-            tl.timer("Generating clients")
-
-            # Create an environment and start the setup process:
-            self.env = simpy.Environment()
-            for up in self._upgrades:
-                up.pre_nd()
-
-            self.env.process(self.building_manager(end=101))
-            self.env.run(until=101) # 101 will run events at 100 so it is more intuitive to manage.
-            self.log("{}".format(set_font_color("Ending the simulation:", "red")))
-            # self.env.run(until=110)
-            # self.log("{}".format(set_font_color("Ending the second stage of simulation:", "red")))
-
-            self.log("\nA total of {} Gold was earned here today!".format(set_font_color(str(self.fin.get_logical_income()), "red")))
-            self.log("{}".format(set_font_color("===================", "red")))
-            self.log("\n\n")
-            tl.timer("Temp Jobs Loop")
-
-            self.post_nd_reset()
-
         def get_client_count(self, write_to_nd=False):
             """Get the amount of clients that will visit the brothel the next day.
             """
@@ -669,6 +621,63 @@ init -10 python:
             return any(i.expects_clients for i in self._upgrades)
 
         # SimPy:
+        def run_nd(self):
+            """This method is ran for buildings during next day
+            - Gets list of workable businesses and availible workers
+            - Creates SimPy Environment
+            -
+            """
+            tl.timer("Temp Jobs Loop")
+            # Setup and start the simulation
+            self.flag_red = False
+
+            self.log(set_font_color("===================", "lawngreen"))
+            self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
+            self.log("--- Testing {} Building ---".format(set_font_color(self.name, "lawngreen")))
+
+            # All workers and workable businesses:
+            # The last check may not be good enought, may need rewriting.
+            self.available_workers = list(c for c in self.all_workers if c.location == self and c.action in self.jobs)
+            # Get businesses we wish SimPy to manage! # IMPORTANT! .manage_business method is expected.
+            self.nd_ups = list(up for up in self._upgrades if up.workable)
+
+            # Clients:
+            tl.timer("Generating clients")
+            self.get_client_count(write_to_nd=True)
+            clnts = self.total_clients
+            # TODO: Generate and add regulars!
+            # ALSO: We at the moment randomly pick a business for a client to like, that may need to be adjusted.
+            if self.available_workers and len(self.all_clients) < clnts:
+                if self.nd_ups:
+                    for i in xrange(clnts - len(self.all_clients)):
+                        if dice(80):
+                            self.all_clients.add(build_client(likes=[choice(self.nd_ups)]))
+                        else:
+                            self.all_clients.add(build_client(gender="female", likes=[choice(self.nd_ups)]))
+            self.clients = self.all_clients.copy()
+            self.log("Total of {} clients are expected to visit this establishment!".format(set_font_color(len(self.clients), "lawngreen")))
+            tl.timer("Generating clients")
+
+            # Create an environment and start the setup process:
+            self.env = simpy.Environment()
+            for up in self._upgrades:
+                up.pre_nd()
+
+            self.env.process(self.building_manager(end=101))
+            self.env.run(until=101) # 101 will run events at 100 which it is more intuitive to manage.
+            self.log("{}".format(set_font_color("Ending the simulation:", "red")))
+
+            # We can run it for a bit more, as matrons option!?!
+            # self.env.run(until=110)
+            # self.log("{}".format(set_font_color("Ending the second stage of simulation:", "red")))
+
+            self.log("\nA total of {} Gold was earned here today!".format(set_font_color(str(self.fin.get_logical_income()), "red")))
+            self.log("{}".format(set_font_color("===================", "red")))
+            self.log("\n\n")
+            tl.timer("Temp Jobs Loop")
+
+            self.post_nd_reset()
+
         def building_manager(self, end=100):
             """This is the main proccess that manages everything that is happening in the building!
             """
@@ -686,30 +695,28 @@ init -10 python:
             if self.expects_clients:
                 self.env.process(self.clients_dispatcher(end=end))
 
+            for business in self._upgrades:
+                if business.__class__ == Cleaners: # Why not isinstance?
+                    cleaners = business
+            else:
+                cleaners = None
+
             while 1:
-                # We also check if the building needs cleaning here?: TODO: Concider renaming the method?
-                # This also needs to be placed elsewhere... do we need a process that simply tracks events???
                 if self.get_dirt() > self.get_max_dirt()*.9:
                     temp = "{}: The building is very dirty! Lets look for someone to clean it.".format(self.env.now)
                     temp = set_font_color(temp, "red")
                     self.log(temp)
 
-                    # In the future, find the appropriate building with cleaning upgrade, for now we simple assume that we have one (TODO:)
-                    # And yet another TODO: ... getting to upgrade is really clumsy at the moment, maybe it would make sense to use dicts, instead of lists?
-                    cleaners = None
-                    for u in self._upgrades:
-                        if u.__class__ == Cleaners:
-                            cleaners = u
-                            cleaners.request_cleaning(building=self, start_job=True, priority=True, any=False)
-                            break
+                    if cleaners:
+                        cleaners.request_cleaning(building=self, start_job=True, priority=True, any=False)
+                    # TODO: ADD AUTOCLEANING!
 
                 yield self.env.timeout(1)
 
         def clients_dispatcher(self, end=100):
             """This method provides stream of clients to the building following it's own algorithm.
             """
-            # For Jobs that require clients to run:
-            # This is a weird way to distribute clients... I'll come up with a better one in the future.
+            # TODO: This can plainly be done better... i ii iii
             i = 0
             ii = 0
             if self.clients and len(self.clients) > 60:
@@ -753,15 +760,14 @@ init -10 python:
             businesses = [b for b in self.nd_ups if not isinstance(b, TaskBusiness)]
             shuffle(businesses)
 
-            # TODO: Add Matron/Client likes effects here and to client classes.
+            # TODO: Add Matron/Client-likes effects here and to client classes.
             fav_business = client.likes.intersection(self._upgrades)
 
-            if not fav_business: # Case where clients fav business was removed from the building, we would the client to react appropriately.
+            if not fav_business: # Case where clients fav business was removed from the building, client to react appropriately.
                 self.all_clients.remove(client)
-                temp = "{}: {} leaves the building pissed off as his favorite business was removed!".format(self.env.now, client.name)
+                temp = "{}: {} storms out of the building pissed off as his favorite business was removed!".format(self.env.now, client.name)
                 self.log(temp)
-                # We may be required to yield here due to SimPy structure!
-                return
+                self.env.exit()
             else:
                 fav_business = fav_business.pop()
 
@@ -770,24 +776,24 @@ init -10 python:
                 # Here we pick an upgrade if a client has one in preferences:
                 if not visited and fav_business in businesses:
                     # On the first run we'd want to pick the clients fav.
-                    upgrade = fav_business
-                    businesses.remove(upgrade)
+                    business = fav_business
+                    businesses.remove(business)
                 else:
-                    upgrade = businesses.pop()
+                    business = businesses.pop()
 
                 # Matron case:
                 # Wait for the business to open in case of a favorite:
-                if self.manager and upgrade == fav_business:
+                if self.manager and business == fav_business:
                     timer = 0
-                    if upgrade.res.count < upgrade.capacity:
-                        while timer < 7 and upgrade.res.count < upgrade.capacity: # Max wait time
-                            timer = timer + 1
+                    if business.res.count < business.capacity:
+                        while timer < 7 and business.res.count < business.capacity: # Max wait time
+                            timer += 1
                             yield self.env.timeout(1)
 
-                if upgrade.type == "personal_service" and upgrade.res.count < upgrade.capacity:
+                if business.type == "personal_service" and business.res.count < business.capacity:
                     # Personal Service (Brothel-like):
-                    job = upgrade.job
-                    workers = upgrade.get_workers(job, amount=1, match_to_client=client)
+                    job = business.job
+                    workers = business.get_workers(job, amount=1, match_to_client=client)
 
                     if not workers:
                         continue # Send to the next update.
@@ -799,21 +805,15 @@ init -10 python:
 
                         # We bind the process to a flag and wait until it is interrupted:
                         visited += 1
-                        # client.set_flag("jobs_busy", self.env.process(upgrade.request_room(client, worker)))
-                        # raise Exception(client.flag("jobs_busy").__dict__)
-                        # while self.env.process(upgrade.request_room(client, worker)).is_alive:
-                            # yield self.env.timeout(1)
-                        self.env.process(upgrade.request_room(client, worker))
+                        self.env.process(business.request_room(client, worker))
                         client.set_flag("jobs_busy")
                         while client.flag("jobs_busy"):
                             yield self.env.timeout(1)
 
                 # Jobs like the Club:
-                elif upgrade.type == "public_service" and upgrade.res.count < upgrade.capacity:
-                    self.env.process(upgrade.client_control(client))
-
-                    upgrade.worker_control()
-
+                elif business.type == "public_service" and business.res.count < business.capacity:
+                    self.env.process(business.client_control(client))
+                    business.worker_control()
                     visited += 1
                     client.set_flag("jobs_busy")
                     while client.flag("jobs_busy"):
