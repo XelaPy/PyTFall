@@ -323,6 +323,10 @@
             else:
                 effectiveness = 0
 
+            # We throw in another 50 on top, if tier is matched or it's higher:
+            if worker.tier >= difficulty:
+                effectiveness += 50
+
             # 25 points for difference between difficulty/tier:
             diff = worker.tier - difficulty
             effectiveness += diff*25
