@@ -5,49 +5,64 @@ init -5 python:
         COST = 500
         ID = "Cleaners"
         IMG = "content/buildings/upgrades/cleaners.jpg"
-        """This will be the first upgrade that will take care clearing some workload.
-
-        This will have to work differently from any other upgrade... it prolly should have a request method that activates a cleaning routine and searches for willing workers.
-        """
-        def __init__(self, name="Cleaning Block", instance=None, desc="Until it shines!", img="content/buildings/upgrades/cleaners.jpg", build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
-            super(Cleaners, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+        def __init__(self, name="Cleaning Block", instance=None, desc="Until it shines!",
+                     img="content/buildings/upgrades/cleaners.jpg", build_effort=0,
+                     materials=None, in_slots=0, cost=0, **kwargs):
+            super(Cleaners, self).__init__(name=name, instance=instance,
+                  desc=desc, img=img, build_effort=build_effort,
+                  materials=materials, cost=cost, **kwargs)
             self.jobs = set([simple_jobs["Cleaning"]])
 
-        def request_cleaning(self, building=None, start_job=True, priority=True, any=False):
+        def cleaning(self):
             """This checks if there are idle workers willing/ready to clean in the building.
-
-            This will also start the job by default.
-            Priority will call just the real cleaners.
-            Any will also add everyone else who might be willing to clean.
+            Cleaning is always active, checked on every tick.
+            Cleaners are on call at all times.
+            Whenever dirt reaches 200, they start cleaning till it’s 0 or are on standby on idle otherwise.
+            If dirt reaches 600 (they cannot coop or there are simply no pure cleaners),
+            all “Service Types” that are free help out and they are released when dirt reaches 50 or below.
+            If dirt reaches 900, we check for auto-cleaning and do the “magical” thing if player has
+            the money and is willing to pay (there is a checkbox for that already).
+            If there is no auto-cleaning, we call all workers in the building to clean…
+            unless they just refuse that on some principal (trait checks)...
             """
 
-            if not building:
-                building = self
+            make_nd_report = False # We build a report every 25 ticks but only if this is True!
+            dirt_cleaned = 0 # We only do this for the ND report!
 
+            cleaning = False # set to true if there is active cleaning in process
             job = simple_jobs["Cleaning"]
-            # dirt = building.get_dirt()
-            cleaners = self.get_workers(job, amount=10, priority=priority, any=any)
-
-            if not cleaners:
-                return False # Noone to clean the building so we don't.
-            else:
-                # Might require optimization so we don't send all the cleaners to once.
-                # Update worker lists:
-                self.active_workers = cleaners[:]
-                self.instance.available_workers = list(i for i in self.instance.available_workers if i not in cleaners)
-                self.env.process(self.clean(cleaners, building))
-                return True
-
-        def clean(self, cleaners, building):
-            """Cleaning the building...
-            """
-            cleaners_original = cleaners[:]
-            power_flag_name = "jobs_cleaning_power"
+            pure_cleaners = action_priority_workers(job)
+            shuffle(pure_cleaners) # just for fun...
+            # Set power, it can only change in a very insignifical manner (which we don't care about):
             for w in cleaners:
-                # Set their cleaning capabilities as temp flag:
+                # TODO Review, revice and account for effectiveness!!!
+                power_flag_name = "jobs_cleaning_power"
                 value = int(round(1 + w.get_skill("service") * 0.025 + w.agility * 0.3))
                 w.set_flag(power_flag_name, value)
 
+            while 1:
+                dirt = building.get_dirt()
+
+                if dirt >= 900:
+                    make_nd_report = True
+                    pass
+                    # Check for "magical autocleaners"
+                    # get all workers in the building to clean!
+                    # Do cleaning
+                elif dirt >= 600:
+                    make_nd_report = True
+                    pass
+                    # get all service workers to clean!
+                    # Do cleaning
+                elif dirt >= 200:
+                    make_nd_report = True
+                    pass
+                    # get just the cleaners to clean!
+                    # Do cleaning
+
+                yield self.env.timeout(1)
+
+        def clean(self, cleaners, building):
             wlen = len(cleaners)
             if self.env:
                 t = self.env.now

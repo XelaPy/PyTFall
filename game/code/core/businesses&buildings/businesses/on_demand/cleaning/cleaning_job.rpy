@@ -10,8 +10,8 @@ init -5 python:
             self.occupation_traits = [traits["Maid"]] # Corresponding traits...
 
             # Relevant skills and stats:
-            self.skills = ["cleaning"]
-            self.stats = ["agility"]
+            self.base_skills = {"cleaning": 100}
+            self.base_stats = {"agility": 100}
 
         def __call__(self, cleaners_original, cleaners, building, dirt, dirt_cleaned):
             self.all_workers = cleaners_original
@@ -20,42 +20,20 @@ init -5 python:
             self.dirt, self.dirt_cleaned = dirt, dirt_cleaned
             self.clean()
 
-        def is_valid_for(self, char):
-            if "Service" in worker.traits:
-                return True
-            if worker.status == 'slave':
-                return True
-
-            if worker.disposition >= self.calculate_disposition_level(char):
-                return True
-            else:
-                return False
+        def traits_and_effects_effectiveness_mod(self, worker, log):
+            """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
+               Calculates only once per turn, in the very beginning.
+            """
+            # TODO: Update for beta
+            return 0
 
         def calculate_disposition_level(self, char): # calculating the needed level of disposition
-            # sub = check_submissivity(char)
-            # if "Shy" in worker.traits:
-                # disposition = 800 + 50 * sub
-            # else:
-                # disposition = 700 + 50 * sub
-            # if cgochar(char, "SIW"):
-                # disposition -= 500
-            # if "Exhibitionist" in worker.traits:
-                # disposition -= 200
-            # if "Nymphomaniac" in worker.traits:
-                # disposition -= 50
-            # elif "Frigid" in worker.traits:
-                # disposition += 50
-            # if check_lovers(char, hero):
-                # disposition -= 50
-            # elif check_friends(hero, char):
-                # disposition -= 25
-            # return disposition
-            return 500
+            # TODO: Update for beta
+            return 0
 
-        def check_occupation(self, char=None):
-            """Checks if the worker is willing to do this job.
-            """
-            return True # Don't want to mess with this atm.
+        def settle_workers_disposition(self, worker, log):
+            # TODO: Update for beta
+            pass
 
         def clean(self):
             """Build a report for cleaning team effort.
