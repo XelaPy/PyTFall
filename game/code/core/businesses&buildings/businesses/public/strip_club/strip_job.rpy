@@ -39,7 +39,7 @@ init -5 python:
 
             if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
 
-                traits = list(i for i in worker.traits if i in ["Abnormally Large Boobs", "Small Boobs", "Scars", "Not Human", "Flat Ass", "Exhibitionist", "Sexy Air", "Clumsy", "Flexible"])
+                traits = list(i for i in worker.traits if i in ["Abnormally Large Boobs", "Small Boobs", "Scars", "Not Human", "Flat Ass", "Exhibitionist", "Sexy Air", "Clumsy", "Flexible", "Psychic"])
                 if traits:
                     trait = random.choice(traits)
                 else:
@@ -80,6 +80,9 @@ init -5 python:
                 elif trait == "Flexible":
                     log.append("%s makes a good use of her flexibility, bending around the pole in impossible ways." % worker.name)
                     effectiveness = 20
+                elif trait == "Psychic":
+                    log.append("Every customer wants different things, which is quite confusing for psychics like %s when so many people watching her." % worker.name)
+                    effectiveness -= 20
             return effectiveness
 
         def effectiveness(self, worker, difficulty, log):
