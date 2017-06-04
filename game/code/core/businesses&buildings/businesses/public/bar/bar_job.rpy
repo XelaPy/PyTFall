@@ -16,8 +16,59 @@ init -5 python:
             self.base_stats = {"charisma": 100}
 
         def traits_and_effects_effectiveness_mod(self, worker, log):
-            # TODO, UPDATE FOR BETA!
-            return 0
+            if worker.effects['Food Poisoning']['active']:
+                log.append("%s suffers from Food Poisoning, and is very far from her top shape." % worker.name)
+                effectiveness -= 50
+            elif worker.effects['Down with Cold']['active']:
+                log.append("%s is not feeling well due to colds..." % worker.name)
+                effectiveness -= 15
+            elif worker.effects['Drunk']['active']:
+                log.append("Being drunk, %s perfectly understands her customers who also are far from sobriety." % worker.name)
+                effectiveness += 20
+                
+            if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
+
+                traits = list(i for i in worker.traits if i in ["Great Arse", "Bad Eyesight", "Curious", "Indifferent", "Neat", "Messy", "Heavy Drinker", "Ill-mannered", "Psychic", "Shy"])
+                if "Lolita" in worker.traits and worker.height == "short":
+                    traits.append("Lolita")
+                if traits:
+                    trait = random.choice(traits)
+                else:
+                    return effectiveness
+
+                if trait == "Great Arse":
+                    log.append("Customers keep ordering drinks from lower shelves to see %s bending over. What a view!" % worker.name)
+                    effectiveness += 25
+                elif trait == "Lolita":
+                    log.append("Poor %s has a hard time with the top shelves of the bar due to her height." % worker.name)
+                    effectiveness -= 20
+                elif trait == "Bad Eyesight":
+                    log.append("Occasionally %s serves the wrong drinks due to her bad eyesight, making customers unhappy." % worker.name)
+                    effectiveness -= 15
+                elif trait == "Curious":
+                    log.append("Curious %s can listen to customers complaints about their lives for hours, making a great barmaid." % worker.name)
+                    effectiveness += 10
+                elif trait == "Indifferent":
+                    log.append("%s shows no interest in conversations with drunk customers, upsetting them a bit." % worker.name)
+                    effectiveness -= 10
+                elif trait == "Neat":
+                    log.append("%s keeps the bar and all the glasses perfect clean, making a good impression on customers." % worker.name)
+                    effectiveness += 30
+                elif trait == "Messy":
+                    log.append("It's not unusual for %s to serve drinks without cleaning glasses first. That does not add to her popularity as a barmaid." % worker.name)
+                    effectiveness -= 30
+                elif trait == "Heavy Drinker":
+                    log.append("%s's deep knowledge of alcohol helps to serve the best possible drink." % worker.name)
+                    effectiveness += 10
+                elif trait == "Ill-mannered":
+                    log.append("Unfortunately %s's rudeness scares away customers, affecting the business." % worker.name)
+                    effectiveness -= 20
+                elif trait == "Psychic":
+                    log.append("As a barmaid, %s always has the best advice for her customers, knowing what they want to hear." % worker.name)
+                    effectiveness += 25
+                elif trait == "Shy":
+                    log.append("%s is too shy for a proper conversation with her customers, while they expect the barmaid to hear out their problems." % worker.name)
+                    effectiveness -= 25
 
         def effectiveness(self, worker, difficulty, log):
             """
