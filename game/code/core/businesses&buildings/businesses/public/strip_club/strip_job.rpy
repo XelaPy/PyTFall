@@ -19,8 +19,68 @@ init -5 python:
             self.base_stats = {"charisma": 100}
 
         def traits_and_effects_effectiveness_mod(self, worker, log):
-            # TODO, UPDATE FOR BETA!
-            return 0
+            """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
+               Calculates only once per turn, in the very beginning.
+            """
+            effectiveness = 0
+             # effects always work
+            if worker.effects['Food Poisoning']['active']:
+                log.append("%s suffers from Food Poisoning, and is very far from her top shape." % worker.name)
+                effectiveness -= 50
+            elif worker.effects['Down with Cold']['active']:
+                log.append("%s is not feeling well due to colds..." % worker.name)
+                effectiveness -= 15
+            elif worker.effects['Horny']['active']:
+                log.append("%s is horny. A positive mindset for her job!" % worker.name)
+                effectiveness += 10
+            elif worker.effects['Drunk']['active']:
+                log.append("%s is drunk, which affects her coordination. Not the best thing when you need to dance around pole." % worker.name)
+                effectiveness -= 20
+
+            if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
+
+                traits = list(i for i in worker.traits if i in ["Abnormally Large Boobs", "Small Boobs", "Scars", "Not Human", "Flat Ass", "Exhibitionist", "Sexy Air", "Clumsy", "Flexible"])
+                if traits:
+                    trait = random.choice(traits)
+                else:
+                    return effectiveness
+
+                if trait == "Abnormally Large Boobs":
+                    if dice(65):
+                        log.append("%s makes a big splash today playing with her massive boobs to customers delight." % worker.name)
+                        effectiveness += 50
+                    else:
+                        log.append("Handling massive boobs on daily basis is a tiresome job, even more so when %s has to dance at the stage." % worker.name)
+                        worker.logws('vitality', -randint(10, 20))
+                elif trait == "Small Boobs":
+                    if not "Lolita" in worker.traits:
+                        log.append("%s tries her best, but most customers are not very impressed by her modest forms." % worker.name)
+                        effectiveness -= 25
+                    else:
+                        log.append("%s may not have many fans due to her forms, but there are always lolicons among customers." % worker.name)
+                        effectiveness += 20
+                elif trait == "Scars":
+                    log.append("Poor %s does her best, but many customers turn away when they see her scars..." % worker.name)
+                    effectiveness -= 35
+                elif trait == "Not Human":
+                    log.append("%s's inhuman features attract more attention than usual, which is never a bad thing in striptease." % worker.name)
+                    effectiveness = 15
+                elif trait == "Flat Ass":
+                    log.append("%s tries her best, but skill alone cannot replace a fine ass." % worker.name)
+                    effectiveness -= 15
+                elif trait == "Exhibitionist":
+                    log.append("%s enjoys every second of being exposed to the public, doing really great." % worker.name)
+                    effectiveness += 50
+                elif trait == "Sexy Air":
+                    log.append("%s's sexiness attracts the views all day. Even more so when she's dancing at the stage." % worker.name)
+                    effectiveness += 10
+                elif trait == "Clumsy":
+                    log.append("Sadly, %s ruins the show when she trips and falls from the stage. At least customers had a good laugh." % worker.name)
+                    effectiveness -= 25
+                elif trait == "Flexible":
+                    log.append("%s makes a good use of her flexibility, bending around the pole in impossible ways." % worker.name)
+                    effectiveness = 20
+            return effectiveness
 
         def effectiveness(self, worker, difficulty, log):
             """
