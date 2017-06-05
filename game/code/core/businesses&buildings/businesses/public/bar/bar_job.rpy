@@ -49,7 +49,7 @@ init -5 python:
                     log.append("Curious %s can listen to customers complaints about their lives for hours, making a great barmaid." % worker.name)
                     effectiveness += 10
                 elif trait == "Indifferent":
-                    log.append("%s shows no interest in conversations with drunk customers, upsetting them a bit." % worker.name)
+                    log.append("%s shows no interest in conversations with drunk customers, upsetting them a little." % worker.name)
                     effectiveness -= 10
                 elif trait == "Neat":
                     log.append("%s keeps the bar and all the glasses perfect clean, making a good impression on customers." % worker.name)
@@ -64,10 +64,10 @@ init -5 python:
                     log.append("Unfortunately %s's rudeness scares away customers, affecting the business." % worker.name)
                     effectiveness -= 20
                 elif trait == "Psychic":
-                    log.append("As a barmaid, %s always has the best advice for her customers, knowing what they want to hear." % worker.name)
+                    log.append("As a psychic, %s always has the best advice for her customers, knowing what they want to hear." % worker.name)
                     effectiveness += 25
                 elif trait == "Shy":
-                    log.append("%s is too shy for a proper conversation with her customers, while they expect the barmaid to hear out their problems." % worker.name)
+                    log.append("%s is too shy for a proper conversation with her customers today, something that drunk people don't really appreciate." % worker.name)
                     effectiveness -= 25
 
         def effectiveness(self, worker, difficulty, log):
