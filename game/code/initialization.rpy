@@ -37,6 +37,17 @@ init -999 python:
     gfximages = "content/gfx/images/"
     interfaceimages = "content/gfx/interface/images/"
     interfacebuttons = "content/gfx/interface/buttons/"
+    
+    # binding a key to show panic screen
+    
+    def show_pause_menu():
+        renpy.show_screen("panic_screen")
+        return
+        
+    config.keymap["open_pause_menu"] = ["q", "Q"]
+    config.underlay.append(renpy.Keymap(open_pause_menu=show_pause_menu))
+
+    
 
     def content_path(path):
         '''Returns proper path for a file in the content directory *To be used with os module.'''
