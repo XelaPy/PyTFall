@@ -1561,12 +1561,16 @@ init: # Settings:
                 action Quit()
                 text "Quit" size 18 align (0.5, 0.5) # style "mmenu_button_text"
             null height 3
-
+            
+screen panic_screen_summon: 
+    key "q" action Show("panic_screen")
+    key "Q" action Show("panic_screen")
+    
 screen panic_screen:
     zorder 1000
     modal True
-    add "content/gfx/bg/panic_screen.jpg" zoom 1.5
+    add "content/gfx/bg/panic_screen.jpg" zoom 1.32
     on "show":
-        action [PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True)]
-    key "q" action [Hide("panic_screen"), PauseAudio("events", False), PauseAudio("events2", False), PauseAudio("world", False), PauseAudio("gamemusic", False)]
-    key "Q" action [Hide("panic_screen"), PauseAudio("events", False), PauseAudio("events2", False), PauseAudio("world", False), PauseAudio("gamemusic", False)]
+        action [PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+    key "q" action [Hide("panic_screen"), PauseAudio("events", False), PauseAudio("events2", False), PauseAudio("world", False), PauseAudio("gamemusic", False), PauseAudio("music", False)]
+    key "Q" action [Hide("panic_screen"), PauseAudio("events", False), PauseAudio("events2", False), PauseAudio("world", False), PauseAudio("gamemusic", False), PauseAudio("music", False)]
