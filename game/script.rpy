@@ -165,6 +165,7 @@
         tl.timer("Loading: Populating SlaveMarket")
 
     # Loading apartments/guilds:
+    show screen panic_screen_summon
     call load_resources
 
 label dev_testing_menu:

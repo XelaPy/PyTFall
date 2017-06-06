@@ -1,5 +1,5 @@
 init: # screens:
-    screen target_practice(skill, source, targets): #Dark: normal attacks require the same tooltips as magical ones
+    screen target_practice(skill, source, targets):
         zorder 2
 
         style_group "dropdown_gm"
@@ -395,6 +395,14 @@ init: # screens:
                 align (0.99, 0)
                 textbutton "Terminate":
                     action SetField(be, "terminate", True)
+                    
+
+        button:
+            style_group "dropdown_gm"
+            align (0.0, 1.0)
+            xysize 90, 30
+            text "Main Menu" size 14
+            action MainMenu()
 
     screen be_status_overlay():
         zorder 1
