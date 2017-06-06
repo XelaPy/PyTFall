@@ -26,7 +26,7 @@ init -5 python:
             unless they just refuse that on some principal (trait checks)...
             """
 
-            make_nd_report = False # We build a report every 25 ticks but only if this is True!
+            make_nd_report_at = 0 # We build a report every 25 ticks but only if this is True!
             dirt_cleaned = 0 # We only do this for the ND report!
 
             cleaning = False # set to true if there is active cleaning in process
@@ -44,28 +44,57 @@ init -5 python:
                 dirt = building.get_dirt()
 
                 if dirt >= 900:
-                    make_nd_report = True
+                    if not make_nd_report_at:
+                        make_nd_report_at = min(self.env.now+25, 100)
+                        if self.env:
+                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now, set_font_color(wlen, "red"), building.name)
+                            self.log(temp)
                     pass
                     # Check for "magical autocleaners"
                     # get all workers in the building to clean!
                     # Do cleaning
                 elif dirt >= 600:
-                    make_nd_report = True
+                    if not make_nd_report_at:
+                        make_nd_report_at = min(self.env.now+25, 100)
+                        if self.env:
+                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now, set_font_color(wlen, "red"), building.name)
+                            self.log(temp)
                     pass
                     # get all service workers to clean!
                     # Do cleaning
                 elif dirt >= 200:
-                    make_nd_report = True
+                    if not make_nd_report_at:
+                        make_nd_report_at = min(self.env.now+25, 100)
+                        if self.env:
+                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now, set_font_color(wlen, "red"), building.name)
+                            self.log(temp)
                     pass
                     # get just the cleaners to clean!
                     # Do cleaning
 
+                if make_nd_report and self.env.now == make_nd_report:
+                    self.write_nd_report()
+
                 yield self.env.timeout(1)
+
+        def write_nd_report(self, cleaners):
+            job, loc = self.job, self.instance
+            # log = NDEvent(job=job, char=worker, loc=loc, business=self)
+            log = NDEvent(job=job, loc=loc, business=self)
+
+            wlen = len(cleaners)
+            temp = "{} Workers are cleaning {}!".format(set_font_color(wlen, "red"), building.name)
+            log.append(temp)
+
+            # job.settle_workers_disposition(worker, log)
+            # job.payout_mod() # TODO
+            # job.acts(worker, client, self.instance, log)
+            log.after_job()
+            NextDayEvents.append(log)
 
         def clean(self, cleaners, building):
             wlen = len(cleaners)
             if self.env:
-                t = self.env.now
                 temp = "{}: {} Workers have started to clean {}!".format(self.env.now, set_font_color(wlen, "red"), building.name)
                 self.log(temp)
 
@@ -96,7 +125,8 @@ init -5 python:
                 # We may be running this outside of SimPy...
                 if self.env:
                     yield self.env.timeout(1)
-                counter = counter + 1
+
+                counter += 1
 
             temp = "{}: Cleaning process of {} is now finished!".format(self.env.now, building.name)
             temp = set_font_color(temp, "red")

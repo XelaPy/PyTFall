@@ -709,7 +709,6 @@ init -10 python:
 
                     if cleaners:
                         cleaners.request_cleaning(building=self, start_job=True, priority=True, any=False)
-                    # TODO: ADD AUTOCLEANING!
 
                 yield self.env.timeout(1)
 
