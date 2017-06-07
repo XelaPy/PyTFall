@@ -34,10 +34,10 @@ init -5 python:
             pure_cleaners = action_priority_workers(job)
             shuffle(pure_cleaners) # just for fun...
             # Set power, it can only change in a very insignifical manner (which we don't care about):
-            for w in cleaners:
+            for w in pure_cleaners:
                 # TODO Review, revice and account for effectiveness!!!
                 power_flag_name = "jobs_cleaning_power"
-                value = int(round(1 + w.get_skill("service") * 0.025 + w.agility * 0.3))
+                value = -int(round(1 + w.get_skill("service") * 0.025 + w.agility * 0.03))
                 w.set_flag(power_flag_name, value)
 
             while 1:
@@ -49,46 +49,58 @@ init -5 python:
                         if self.env:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now, set_font_color(wlen, "red"), building.name)
                             self.log(temp)
-                    pass
-                    # Check for "magical autocleaners"
-                    # get all workers in the building to clean!
-                    # Do cleaning
                 elif dirt >= 600:
                     if not make_nd_report_at:
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now, set_font_color(wlen, "red"), building.name)
                             self.log(temp)
-                    pass
-                    # get all service workers to clean!
-                    # Do cleaning
                 elif dirt >= 200:
                     if not make_nd_report_at:
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now, set_font_color(wlen, "red"), building.name)
                             self.log(temp)
-                    pass
-                    # get just the cleaners to clean!
-                    # Do cleaning
+
+                if make_nd_report:
+                    for w in pure_cleaners:
+                        self.instance.clean(w.flag(power_flag_name))
 
                 if make_nd_report and self.env.now == make_nd_report:
-                    self.write_nd_report()
+                    self.write_nd_report(pure_cleaners, dirt_cleaned)
+                    make_nd_report_at = 0
+                    dirt_cleaned = 0
 
                 yield self.env.timeout(1)
 
-        def write_nd_report(self, cleaners):
+        def write_nd_report(self, pure_cleaners, dirt_cleaned):
             job, loc = self.job, self.instance
             # log = NDEvent(job=job, char=worker, loc=loc, business=self)
             log = NDEvent(job=job, loc=loc, business=self)
 
-            wlen = len(cleaners)
+            wlen = len(pure_cleaners)
             temp = "{} Workers are cleaning {}!".format(set_font_color(wlen, "red"), building.name)
             log.append(temp)
 
-            # job.settle_workers_disposition(worker, log)
-            # job.payout_mod() # TODO
-            # job.acts(worker, client, self.instance, log)
+            log.img = Fixed(xysize=(820, 705))
+            log.img.add(Transform(self.loc.img, size=(820, 705)))
+            vp = vp_or_fixed(self.all_workers, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (150, 150), "type": "any"})
+            log.img.add(Transform(vp, align=(.5, .9)))
+
+            log.team = self.all_workers
+
+            # log = ["{} cleaned {} today!".format(", ".join([w.nickname for w in self.all_workers]), self.loc.name)]
+
+            # Stat mods
+            log.logloc('dirt', dirt_cleaned)
+            for w in self.all_workers:
+                log.logws('vitality', -randint(15, 25), w)  # = ? What to do here?
+                log.logws('exp', randint(15, 25), w) # = ? What to do here?
+                if dice(33):
+                    log.logws('service', 1, w) # = ? What to do here?
+            # ... We prolly need to log how much dirt each individual worker is cleaning or how much wp is spent...
+            self.event_type = "jobreport" # Come up with a new type for team reports?
+
             log.after_job()
             NextDayEvents.append(log)
 

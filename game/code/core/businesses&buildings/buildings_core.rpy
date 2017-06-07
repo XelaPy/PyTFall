@@ -346,18 +346,14 @@ init -10 python:
             return int(round(dirt)), dirt_string
 
         def clean(self, value):
-            """
-            Cleans the building of the given amount of dirt.
-            value = The amount to clean.
-            """
-            if self.dirt > self.get_max_dirt():
-                self.dirt = self.get_max_dirt()
-
-            if self.dirt - value > 0:
-                self.dirt -= value
-
-            elif self.dirt - value <= 0:
+            newval = self.dirt + value
+            maxdirt = self.get_max_dirt()
+            if newval > maxdirt:
+                self.dirt = maxdirt
+            elif newval < 0:
                 self.dirt = 0
+            else:
+                self.dirt = newval
 
 
     class AdvertableBuilding(BaseBuilding):
