@@ -14,10 +14,11 @@ init -5 python:
             # Relevant skills and stats:
             self.base_skills = {"bartending": 100}
             self.base_stats = {"intelligence": 25, "constitution": 25, "character": 25}
-            
+
             self.desc = "Barmaids serve drinks from the bar and occasionally chat with customers."
 
         def traits_and_effects_effectiveness_mod(self, worker, log):
+            effectiveness = 0
             if worker.effects['Food Poisoning']['active']:
                 log.append("%s suffers from Food Poisoning, and is very far from her top shape." % worker.name)
                 effectiveness -= 50
@@ -27,7 +28,7 @@ init -5 python:
             elif worker.effects['Drunk']['active']:
                 log.append("Being drunk, %s perfectly understands her customers who also are far from sobriety." % worker.name)
                 effectiveness += 20
-                
+
             if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
 
                 traits = list(i for i in worker.traits if i in ["Great Arse", "Bad Eyesight", "Curious", "Indifferent", "Neat", "Messy", "Heavy Drinker", "Ill-mannered", "Psychic", "Shy"])
@@ -71,6 +72,7 @@ init -5 python:
                 elif trait == "Shy":
                     log.append("%s is too shy for a proper conversation with her customers today, something that drunk people don't really appreciate." % worker.name)
                     effectiveness -= 25
+            return effectiveness
 
         def effectiveness(self, worker, difficulty, log):
             """
