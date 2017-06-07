@@ -14,6 +14,8 @@ init -5 python:
             # Relevant skills and stats:
             self.base_skills = {"bartending": 100}
             self.base_stats = {"intelligence": 25, "constitution": 25, "character": 25}
+            
+            self.desc = "Barmaids serve drinks from the bar and occasionally chat with customers."
 
         def traits_and_effects_effectiveness_mod(self, worker, log):
             if worker.effects['Food Poisoning']['active']:

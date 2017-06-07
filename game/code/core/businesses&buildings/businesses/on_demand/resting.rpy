@@ -11,6 +11,8 @@ init -5 python:
             super(Rest, self).__init__()
             self.id = "Rest"
             self.type = "Resting"
+            
+            self.desc = "No one can work without taking a break sometimes. Rest restores health, vitality and mp and removes some negative effects."
 
         def __call__(self, char):
             loc = char.home
@@ -157,10 +159,11 @@ init -5 python:
 
 
     class AutoRest(Rest):
-        """Same as Rest but game will try to reset character to it's previos job."""
+        """Same as Rest but game will try to reset character to it's previous job."""
         def __init__(self):
             super(AutoRest, self).__init__()
             self.id = "AutoRest"
+            self.desc = "Autorest is a type of rest which automatically return character to previous job after resting is no longer needed."
 
         def after_rest(self, worker, log):
             if self.is_rested(worker):
