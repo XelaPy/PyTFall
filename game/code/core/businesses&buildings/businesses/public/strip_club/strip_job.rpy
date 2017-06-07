@@ -15,8 +15,10 @@ init -5 python:
 
             self.disposition_threshold = 750 # Any worker with disposition this high will be willing to do the job even without matched traits.
 
-            self.base_skills = {"strip": 100, "dancing": 60}
-            self.base_stats = {"charisma": 100}
+            self.base_skills = {"strip": 100, "dancing": 50}
+            self.base_stats = {"charisma": 70, "agility": 30}
+            
+            self.desc = "Strippers dance half-naked at the stage, keeping customers hard and ready to hire more whores."
 
         def traits_and_effects_effectiveness_mod(self, worker, log):
             """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.

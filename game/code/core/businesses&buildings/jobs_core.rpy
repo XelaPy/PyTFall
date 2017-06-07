@@ -212,7 +212,7 @@
 
             # Traits/Job-types associated with this job:
             self.occupations = list() # General Strings likes SIW, Warrior, Server...
-            self.occupation_traits = list() # Corresponing traits... # TODO: WE NEED TO MAKE SURE THESE ARE INSTANCES!
+            self.occupation_traits = list() # Corresponding traits... # TODO: WE NEED TO MAKE SURE THESE ARE INSTANCES!
 
             self.disposition_threshold = -500 # Any worker with disposition this high will be willing to do the job even without matched traits.
 
