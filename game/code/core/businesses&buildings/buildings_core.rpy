@@ -694,6 +694,7 @@ init -10 python:
             for business in self._upgrades:
                 if business.__class__ == Cleaners: # Why not isinstance?
                     cleaners = business
+                    break
             else:
                 cleaners = None
 
@@ -703,8 +704,8 @@ init -10 python:
                 #     temp = set_font_color(temp, "red")
                 #     self.log(temp)
                 #
-                #     if cleaners:
-                # cleaners.request_cleaning(building=self, start_job=True, priority=True, any=False)
+                if cleaners:
+                    cleaners.cleaning()
 
                 yield self.env.timeout(100)
 

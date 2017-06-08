@@ -25,6 +25,7 @@ init -5 python:
             If there is no auto-cleaning, we call all workers in the building to clean…
             unless they just refuse that on some principal (trait checks)...
             """
+            raise Exception("|")
 
             make_nd_report_at = 0 # We build a report every 25 ticks but only if this is True!
             dirt_cleaned = 0 # We only do this for the ND report!
@@ -39,6 +40,8 @@ init -5 python:
                 power_flag_name = "jobs_cleaning_power"
                 value = -int(round(1 + w.get_skill("service") * 0.025 + w.agility * 0.03))
                 w.set_flag(power_flag_name, value)
+
+            raise Exception("|")
 
             while 1:
                 dirt = building.get_dirt()
@@ -99,7 +102,7 @@ init -5 python:
 
             # Stat mods
             # log.logloc('dirt', dirt_cleaned)
-            
+
             # for w in self.all_workers:
             #     log.logws('vitality', -randint(15, 25), w)  # = ? What to do here?
             #     log.logws('exp', randint(15, 25), w) # = ? What to do here?
