@@ -47,24 +47,29 @@ init -5 python:
                     if not make_nd_report_at:
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env:
-                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now, set_font_color(wlen, "red"), building.name)
+                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
+                                                set_font_color(wlen, "red"), building.name)
                             self.log(temp)
                 elif dirt >= 600:
                     if not make_nd_report_at:
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env:
-                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now, set_font_color(wlen, "red"), building.name)
+                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
+                                                set_font_color(wlen, "red"), building.name)
                             self.log(temp)
                 elif dirt >= 200:
                     if not make_nd_report_at:
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env:
-                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now, set_font_color(wlen, "red"), building.name)
+                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
+                                                set_font_color(wlen, "red"), building.name)
                             self.log(temp)
 
                 if make_nd_report:
                     for w in pure_cleaners:
-                        self.instance.clean(w.flag(power_flag_name))
+                        value = -w.flag(power_flag_name)
+                        dirt_cleaned += value
+                        self.instance.clean(value)
 
                 if make_nd_report and self.env.now == make_nd_report:
                     self.write_nd_report(pure_cleaners, dirt_cleaned)
@@ -83,23 +88,25 @@ init -5 python:
             log.append(temp)
 
             log.img = Fixed(xysize=(820, 705))
-            log.img.add(Transform(self.loc.img, size=(820, 705)))
-            vp = vp_or_fixed(self.all_workers, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (150, 150), "type": "any"})
+            log.img.add(Transform(loc, size=(820, 705)))
+            vp = vp_or_fixed(pure_cleaners, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (150, 150), "type": "any"})
             log.img.add(Transform(vp, align=(.5, .9)))
 
             log.team = self.all_workers
 
-            # log = ["{} cleaned {} today!".format(", ".join([w.nickname for w in self.all_workers]), self.loc.name)]
+            temp = ["{} cleaned {} today!".format(", ".join([w.nickname for w in pure_cleaners]), loc.name)]
+            log.append(temp)
 
             # Stat mods
-            log.logloc('dirt', dirt_cleaned)
-            for w in self.all_workers:
-                log.logws('vitality', -randint(15, 25), w)  # = ? What to do here?
-                log.logws('exp', randint(15, 25), w) # = ? What to do here?
-                if dice(33):
-                    log.logws('service', 1, w) # = ? What to do here?
+            # log.logloc('dirt', dirt_cleaned)
+            
+            # for w in self.all_workers:
+            #     log.logws('vitality', -randint(15, 25), w)  # = ? What to do here?
+            #     log.logws('exp', randint(15, 25), w) # = ? What to do here?
+            #     if dice(33):
+            #         log.logws('service', 1, w) # = ? What to do here?
             # ... We prolly need to log how much dirt each individual worker is cleaning or how much wp is spent...
-            self.event_type = "jobreport" # Come up with a new type for team reports?
+            log.event_type = "jobreport" # Come up with a new type for team reports?
 
             log.after_job()
             NextDayEvents.append(log)

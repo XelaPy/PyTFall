@@ -698,15 +698,15 @@ init -10 python:
                 cleaners = None
 
             while 1:
-                if self.get_dirt() > self.get_max_dirt()*.9:
-                    temp = "{}: The building is very dirty! Lets look for someone to clean it.".format(self.env.now)
-                    temp = set_font_color(temp, "red")
-                    self.log(temp)
+                # if self.get_dirt() > self.get_max_dirt()*.9:
+                #     temp = "{}: The building is very dirty! Lets look for someone to clean it.".format(self.env.now)
+                #     temp = set_font_color(temp, "red")
+                #     self.log(temp)
+                #
+                #     if cleaners:
+                # cleaners.request_cleaning(building=self, start_job=True, priority=True, any=False)
 
-                    if cleaners:
-                        cleaners.request_cleaning(building=self, start_job=True, priority=True, any=False)
-
-                yield self.env.timeout(1)
+                yield self.env.timeout(100)
 
         def clients_dispatcher(self, end=100):
             """This method provides stream of clients to the building following it's own algorithm.
