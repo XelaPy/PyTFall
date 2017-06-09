@@ -217,9 +217,9 @@ label special_items_one_for_all:
 
     hide expression spr
     show expression HitlerKaputt(spr, 50) as death
+    play events "events/item_4.wav"
     pause 2.5
     hide death
-
     "[eqtarget.name]'s body crumbles as her life energies turn into potions in your inventory."
     $ eqtarget.disposition -= 1000 # in case if we'll have reviving one day
     $ eqtarget.health = 0
@@ -241,6 +241,7 @@ label special_items_herbal_extract:
     else:
         $ eqtarget.health += eqtarget.vitality
         $ eqtarget.vitality = 0
+    play events "events/item_2.wav"
     jump char_equip
 
 label special_items_emerald_tincture:
@@ -249,6 +250,7 @@ label special_items_emerald_tincture:
     $ h = eqtarget.get_max("vitality") - eqtarget.vitality
     $ eqtarget.vitality += int(.5*h)
     $ eqtarget.mp = 0
+    play events "events/item_2.wav"
     jump char_equip
 
 label special_items_flashing_extract:
@@ -260,6 +262,7 @@ label special_items_flashing_extract:
         $ eqtarget.set_flag("drunk_flashing_extract")
         $ renpy.show_screen('message_screen', "[eqtarget.name] becomes a bit faster (+1 AP).")
         $ eqtarget.baseAP += 1
+        play events "events/item_3.wav"
         jump char_equip
         
 label special_items_puke_cola:
@@ -268,6 +271,7 @@ label special_items_puke_cola:
         $ eqtarget.effects['Food Poisoning']['activation_count'] += 5
         if eqtarget.effects['Food Poisoning']['activation_count'] >= 7:
             $ eqtarget.enable_effect('Food Poisoning')
+        play events "events/item_cola.mp3"
     else:
         $ renpy.show_screen('message_screen', "{} is already suffering from food poisoning. More of this «puke» stuff won't do any good.".format(eqtarget.name))
         $ inv_source.add_item("Puke-a-Cola")
