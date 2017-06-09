@@ -1338,5 +1338,21 @@
     "hidden": false,
     "infinite": false,
     "slot": "quest"
+    },
+    {
+    "id": "Cleaning Cloud",
+    "desc": "Once used, the bottle releases a cloud of microscopic creatures that feed on dust and dirt, quickly making all your buildings cleaner.",
+    "icon": "content/items/cons/clean.png",
+    "price": 900,
+    "sex": "male",
+    "chance": 30,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": false,
+    "infinite": false,
+    "slot": "consumable",
+    "type": "special",
+    "jump_to_label": "special_items_cleaning_cloud",
+    "locations": ["Witches Hut", "Exploration"]
     }
   ]

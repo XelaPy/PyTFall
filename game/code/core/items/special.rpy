@@ -272,3 +272,18 @@ label special_items_puke_cola:
         $ renpy.show_screen('message_screen', "{} is already suffering from food poisoning. More of this «puke» stuff won't do any good.".format(eqtarget.name))
         $ inv_source.add_item("Puke-a-Cola")
     jump char_equip
+    
+label special_items_cleaning_cloud:
+    $ clean_list = list(i for i in hero.buildings if hasattr(i, 'dirt'))
+    if clean_list:
+        python:
+            for i in clean_list:
+                i.dirt = max(0, i.dirt - 200)
+            renpy.show_screen('message_screen', "You release the dust, making all your buildings cleaner.")
+        play events "events/item_1.wav"
+        with Fade(.5, .2, .0, color=yellow)
+    else:
+        $ inv_source.add_item("Cleaning Cloud")
+        $ renpy.show_screen('message_screen', "You don't own any buildings which require cleaning, using this item is meaningless.")
+    jump char_equip
+
