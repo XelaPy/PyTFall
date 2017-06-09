@@ -1062,40 +1062,34 @@ screen next_day():
             text (u"{size=20}{color=[ivory]}%s" % tt.value) style "TisaOTM"
 
         use top_stripe(True)
-
     #  Reports  =============================================================================>>>>
     else:
-
         key "mousedown_4" action Return(['control', 'right'])
         key "mousedown_5" action Return(['control', 'left'])
 
         # Image frame:
         frame:
-            pos (0, 0)
-            xysize (835, 720)
+            pos 0, 0
+            xysize 835, 720
             background Frame("content/gfx/frame/p_frame7.png", 10, 10)
-            xpadding 0
-            ypadding 0
-            xmargin 0
-            ymargin 0
+            padding 0, 0
+            margin 0, 0
             frame:
-                align(0.5, 0.5)
-                xpadding 7
-                ypadding 7
-                xmargin 0
-                ymargin 0
+                align .5, .5
+                padding 7, 7
+                margin 0, 0
                 background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                add gimg align (0.5, 0.5)
+                add gimg align .5, .5
 
         # Stat Frames:
         showif report_stats:
             # Chars/Teams Stats Frame:
-            frame background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10):
+            frame:
                 at slide(so1=(136, 0), eo1=(0, 0), t1=0.4,
-                             so2=(0, 0), eo2=(136, 0), t2=0.3)
+                         so2=(0, 0), eo2=(136, 0), t2=0.3)
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                 pos (690, -2)
                 has fixed xysize 136, 400
-
                 if event.charmod or event.team_charmod:
                     frame:
                         style_group "content"
@@ -1105,7 +1099,9 @@ screen next_day():
                         background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.7), 10, 10)
                         label (u"Char Stats:") text_size 18 text_color ivory align (0.5, 0.5)
 
-                    if event.team_charmod:
+                    if event.team:
+                        pass # Preventing crash before system is adjusted to team jobs again.
+                    elif event.team_charmod:
                         viewport:
                             xalign .5
                             ypos 45
@@ -1137,34 +1133,34 @@ screen next_day():
                                                 text w.nickname align .5, .5 style "TisaOTM" size size
                                             null height 4
                                             for key in sorted(stats.keys()):
-                                                if stats[key] != 0:
+                                                $ value = stats[key]
+                                                if value:
                                                     frame:
                                                         xalign .5
                                                         xysize 130, 25
                                                         text (u"%s:"%str(key).capitalize()) align .02, .5
-                                                        if stats[key] > 0:
-                                                            label (u"{color=[lawngreen]}%d"%stats[key]) align .98, .5
+                                                        if value > 0:
+                                                            label (u"{color=[lawngreen]}%d"%value) align .98, .5
                                                         else:
-                                                            label (u"{color=[red]}%d"%stats[key]) align .98, .5
-                                        $ xpos = xpos + 136
+                                                            label (u"{color=[red]}%d"%value) align .98, .5
+                                        $ xpos += 136
                     # Normal, one worker report case:
                     else:
                         vbox:
                             style_group "proper_stats"
                             xsize 136
-                            xalign .5
-                            ypos 45
+                            xalign .5 ypos 45
                             spacing 1
-                            for key in event.charmod:
-                                if event.charmod[key] != 0:
+                            for key, value in event.charmod.items():
+                                if value:
                                     frame:
                                         xalign .5
                                         xysize 130, 25
                                         text (u"%s:"%str(key).capitalize()) align .02, .5
-                                        if event.charmod[key] > 0:
-                                            label (u"{color=[lawngreen]}%d"%event.charmod[key]) align .98, .5
+                                        if value > 0:
+                                            label (u"[value]") text_color lawngreen align .98, .5
                                         else:
-                                            label (u"{color=[red]}%d"%event.charmod[key]) align .98, 05
+                                            label (u"[value]") text_color red align .98, .5
 
             # Buildings Stats Frame:
             frame background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10):
@@ -1178,10 +1174,10 @@ screen next_day():
                             null height 5
                             frame:
                                 style_group "content"
-                                xalign 0.5
+                                xalign .5
                                 xysize (136, 40)
-                                background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.7), 10, 10)
-                                label (u"Building Stats:") text_size 18 text_color ivory align(0.5, 0.5)
+                                background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=.7), 10, 10)
+                                label (u"Building Stats:") text_size 18 text_color ivory align .5, .5
                             null height 10
                             vbox:
                                 style_group "proper_stats"

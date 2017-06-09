@@ -17,7 +17,8 @@ init -12 python:
         EX_SLOTS = 1
         COST = 100
 
-        def __init__(self, name="", instance=None, desc="", img="", build_effort=0, materials=None, in_slots=1, ex_slots=0, cost=0, **kwargs):
+        def __init__(self, name="", instance=None, desc="", img="", build_effort=0,
+                     materials=None, in_slots=1, ex_slots=0, cost=0, **kwargs):
             self.name = name # name, a string.
             self.instance = instance # Building this upgrade belongs to.
             self.desc = desc # description, a string.
@@ -119,7 +120,7 @@ init -12 python:
                         w = priorityw.pop()
                     if self.check_worker_capable(w) and self.check_worker_willing(w, job):
                         workers.append(w)
-            
+
             if any:
                 anyw = list(i for i in self.all_workers if i not in priorityw) if priority else self.all_workers[:]
                 shuffle(anyw)

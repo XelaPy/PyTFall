@@ -143,11 +143,8 @@
             for key, value in self.locmod.iteritems():
                 if key == 'fame':
                     self.loc.modfame(value)
-                elif key == 'dirt':
-                    if value < 0:
-                        self.loc.clean(-value)
-                    else:
-                        self.loc.dirt += value
+                elif key == 'dirt': # We Handle Dirt Directly now!
+                    pass # self.loc.clean(value)
                 elif key == 'reputation':
                     self.loc.modrep(value)
                 else:
@@ -173,7 +170,7 @@
             elif self.team:
                 for char in self.team:
                     self.update_char_data(char)
-                    self.charmod[char] = char.stats_skills.copy()
+                    self.team_charmod[char] = char.stats_skills.copy()
                     char.stats_skills = {}
                     self.reset_workers_flags(char)
                     # char.fin.log_logical_income(self.earned, fin_source) # TODO How should we handle this for teams?

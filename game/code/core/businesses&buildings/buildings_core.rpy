@@ -698,14 +698,19 @@ init -10 python:
             else:
                 cleaners = None
 
+            if cleaners:
+                self.env.process(cleaners.business_control())
+
             while 1:
                 # if self.get_dirt() > self.get_max_dirt()*.9:
                 #     temp = "{}: The building is very dirty! Lets look for someone to clean it.".format(self.env.now)
                 #     temp = set_font_color(temp, "red")
                 #     self.log(temp)
                 #
-                if cleaners:
-                    cleaners.cleaning()
+                # if cleaners:
+                # raise Exception("|")
+
+                # cleaners.xxxxxx()
 
                 yield self.env.timeout(100)
 

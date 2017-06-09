@@ -13,7 +13,7 @@ init -5 python:
                   materials=materials, cost=cost, **kwargs)
             self.jobs = set([simple_jobs["Cleaning"]])
 
-        def cleaning(self):
+        def business_control(self):
             """This checks if there are idle workers willing/ready to clean in the building.
             Cleaning is always active, checked on every tick.
             Cleaners are on call at all times.
@@ -25,14 +25,12 @@ init -5 python:
             If there is no auto-cleaning, we call all workers in the building to clean…
             unless they just refuse that on some principal (trait checks)...
             """
-            raise Exception("|")
-
             make_nd_report_at = 0 # We build a report every 25 ticks but only if this is True!
             dirt_cleaned = 0 # We only do this for the ND report!
 
             cleaning = False # set to true if there is active cleaning in process
             job = simple_jobs["Cleaning"]
-            pure_cleaners = action_priority_workers(job)
+            pure_cleaners = self.action_priority_workers(job)
             shuffle(pure_cleaners) # just for fun...
             # Set power, it can only change in a very insignifical manner (which we don't care about):
             for w in pure_cleaners:
@@ -41,13 +39,11 @@ init -5 python:
                 value = -int(round(1 + w.get_skill("service") * 0.025 + w.agility * 0.03))
                 w.set_flag(power_flag_name, value)
 
-            raise Exception("|")
-
             while 1:
                 dirt = building.get_dirt()
-
                 if dirt >= 900:
                     if not make_nd_report_at:
+                        wlen = len(pure_cleaners)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
@@ -55,6 +51,7 @@ init -5 python:
                             self.log(temp)
                 elif dirt >= 600:
                     if not make_nd_report_at:
+                        wlen = len(pure_cleaners)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
@@ -62,19 +59,20 @@ init -5 python:
                             self.log(temp)
                 elif dirt >= 200:
                     if not make_nd_report_at:
+                        wlen = len(pure_cleaners)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
                                                 set_font_color(wlen, "red"), building.name)
                             self.log(temp)
 
-                if make_nd_report:
+                if make_nd_report_at:
                     for w in pure_cleaners:
                         value = -w.flag(power_flag_name)
                         dirt_cleaned += value
                         self.instance.clean(value)
 
-                if make_nd_report and self.env.now == make_nd_report:
+                if make_nd_report_at and self.env.now == make_nd_report_at:
                     self.write_nd_report(pure_cleaners, dirt_cleaned)
                     make_nd_report_at = 0
                     dirt_cleaned = 0
@@ -83,25 +81,24 @@ init -5 python:
 
         def write_nd_report(self, pure_cleaners, dirt_cleaned):
             job, loc = self.job, self.instance
-            # log = NDEvent(job=job, char=worker, loc=loc, business=self)
-            log = NDEvent(job=job, loc=loc, business=self)
+            log = NDEvent(job=job, loc=loc, team=pure_cleaners, business=self)
 
             wlen = len(pure_cleaners)
-            temp = "{} Workers are cleaning {}!".format(set_font_color(wlen, "red"), building.name)
+            temp = "{} Workers cleaned {} today!".format(set_font_color(wlen, "red"), loc.name)
             log.append(temp)
 
             log.img = Fixed(xysize=(820, 705))
-            log.img.add(Transform(loc, size=(820, 705)))
+            log.img.add(Transform(loc.img, size=(820, 705)))
             vp = vp_or_fixed(pure_cleaners, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (150, 150), "type": "any"})
             log.img.add(Transform(vp, align=(.5, .9)))
 
-            log.team = self.all_workers
+            log.team = pure_cleaners
 
-            temp = ["{} cleaned {} today!".format(", ".join([w.nickname for w in pure_cleaners]), loc.name)]
+            temp = "{} cleaned {} dirt!".format(", ".join([w.nickname for w in pure_cleaners]), dirt_cleaned)
             log.append(temp)
 
             # Stat mods
-            # log.logloc('dirt', dirt_cleaned)
+            log.logloc('dirt', dirt_cleaned)
 
             # for w in self.all_workers:
             #     log.logws('vitality', -randint(15, 25), w)  # = ? What to do here?
