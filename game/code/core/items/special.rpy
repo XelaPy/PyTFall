@@ -283,7 +283,7 @@ label special_items_cleaning_cloud:
         python:
             for i in clean_list:
                 i.dirt = max(0, i.dirt - 200)
-            renpy.show_screen('message_screen', "You release the dust, making all your buildings cleaner.")
+            renpy.show_screen('message_screen', "You release the cloud, making all your buildings cleaner.")
         play events "events/item_1.wav"
         with Fade(.5, .2, .0, color=yellow)
     else:
