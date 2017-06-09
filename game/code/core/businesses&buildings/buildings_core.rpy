@@ -331,6 +331,8 @@ init -10 python:
             """
             Returns percentage of dirt in the building as (percent, description).
             """
+            if self.dirt < 0:
+                self.dirt = 0
             dirt = self.dirt * 100 / self.get_max_dirt()
             if dirt > 100:
                 dirt = 100
