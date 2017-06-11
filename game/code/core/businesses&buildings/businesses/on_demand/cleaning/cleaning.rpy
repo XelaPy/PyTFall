@@ -112,14 +112,6 @@ init -5 python:
             NextDayEvents.append(log)
 
         def clean(self, cleaners, building):
-            wlen = len(cleaners)
-            if self.env:
-                temp = "{}: {} Workers have started to clean {}!".format(self.env.now, set_font_color(wlen, "red"), building.name)
-                self.log(temp)
-
-            dirt = building.get_dirt()
-            dirt_cleaned = 0
-            counter = 0 # Just to make sure lines are not printed every du to the general building report.
             while cleaners and dirt - dirt_cleaned >= 10:
                 # Job Points:
                 flag_name = "_jobs_cleaning_points"
