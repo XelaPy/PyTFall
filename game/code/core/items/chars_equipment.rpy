@@ -87,8 +87,9 @@ label char_equip:
     $ global_flags.set_flag("hero_equip")
     $ renpy.retain_after_load()
     show screen char_equip
-
-    $ inv_source.inventory.apply_filter("all")
+    if not "last_inv_filter" in globals():
+        $ last_inv_filter = "all"
+    $ inv_source.inventory.apply_filter(last_inv_filter)
 
 label char_equip_loop:
     while 1:
@@ -858,7 +859,7 @@ screen char_equip_right_frame(tt):
                     hover Transform(img_hover, alpha=1.1)
                     selected_idle img_selected
                     selected_hover Transform(img_selected, alpha=1.15)
-                    action [Function(inv_source.inventory.apply_filter, filter), SelectedIf(filter == inv_source.inventory.slot_filter)], With(dissolve)
+                    action [Function(inv_source.inventory.apply_filter, filter), SelectedIf(filter == inv_source.inventory.slot_filter), SetVariable("last_inv_filter", filter)], With(dissolve)
                     focus_mask True
 
     # Inventory: ====================================>
