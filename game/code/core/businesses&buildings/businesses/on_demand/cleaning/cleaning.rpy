@@ -25,6 +25,7 @@ init -5 python:
             If there is no auto-cleaning, we call all workers in the building to clean…
             unless they just refuse that on some principal (trait checks)...
             """
+            building = self.instance
             make_nd_report_at = 0 # We build a report every 25 ticks but only if this is True!
             dirt_cleaned = 0 # We only do this for the ND report!
 
@@ -42,7 +43,15 @@ init -5 python:
             while 1:
                 dirt = building.get_dirt()
                 if dirt >= 900:
-                    if not make_nd_report_at:
+                    if building.auto_clean:
+                        price = building.get_cleaning_price()
+                        if hero.take_money(price):
+                            building.dirt = 0
+                            temp = "{}: {} Building was auto-cleaned!".format(self.env.now,
+                                                building.name)
+                            self.log(temp)
+
+                    if not make_nd_report_at and building.dirt:
                         wlen = len(pure_cleaners)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env:
@@ -66,11 +75,11 @@ init -5 python:
                                                 set_font_color(wlen, "red"), building.name)
                             self.log(temp)
 
-                if make_nd_report_at:
+                if make_nd_report_at and building.dirt > 0:
                     for w in pure_cleaners:
                         value = -w.flag(power_flag_name)
                         dirt_cleaned += value
-                        self.instance.clean(value)
+                        building.clean(value)
 
                 if make_nd_report_at and self.env.now == make_nd_report_at:
                     self.write_nd_report(pure_cleaners, dirt_cleaned)

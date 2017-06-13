@@ -1146,15 +1146,15 @@ init: # Screens:
                         text "Clean: All Buildings"
 
                     button:
-                                xysize (200, 32)
-                                yalign 0.5
-                                action ToggleField(building, "auto_clean")
-                                hovered tt.action("Enable automatic hiring of cleaners if building gets to dirty!")
-                                text "Auto-Cleaning:" align (0.0, 0.5)
-                                if not building.auto_clean:
-                                    add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
-                                else:
-                                    add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
+                        xysize (200, 32)
+                        yalign 0.5
+                        action ToggleField(building, "auto_clean")
+                        hovered tt.action("Enable automatic hiring of cleaners if building gets to dirty!")
+                        text "Auto-Cleaning:" align (0.0, 0.5)
+                        if not building.auto_clean:
+                            add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
+                        else:
+                            add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
 
                 null height 30
                 button:
