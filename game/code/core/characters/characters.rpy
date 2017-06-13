@@ -2101,6 +2101,10 @@ init -9 python:
 
         def remove_item(self, item, amount=1):
             self.inventory.remove(item, amount=amount)
+            
+        def remove_all_items(self):
+            for i in self.inventory:
+                self.inventory.remove(i.id, amount=has_items(i.id, [self]))
 
         def auto_buy(self, item=None, amount=1, equip=False):
 
