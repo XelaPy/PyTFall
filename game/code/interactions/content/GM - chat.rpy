@@ -528,19 +528,13 @@ label interactions_aboutoccupation:
             if co("Stripper"):
                 $ rc("I specialize in erotic dances.", "I'm undressing on stage, if you know what I mean.")
         if cgo("Server") and not(co("Stripper")):
-            $ rc("I specialize in service industry.", "I'm a service girl.")
+            $ rc("I specialize in service industry.")
             if co("Entertainer"):
                 $ rc("I entertain the public.", "I don't allow customers to get bored.")
             if co("Dancer"):
                 $ rc("I specialize in art of dancing.", "I'm a pretty good dancer.")
             if co("Maid"):
-                $ rc("I perform menial tasks around the household.", "And I'm a professional maid.")
-            if co("Cleaner"):
-                $ rc("I specialize in cleaning.", "I'm especially good in cleaning.")
-            if co("Waitress"):
-                $ rc("I have some experience in serving customers in a restaurant.", "I think I'm a pretty good waitress.")
-            if co("Bartender"):
-                $ rc("Also I know how to serve customers behind the bar.", "I'm a bartender. It's a rare profession, I know.")
+                $ rc("I perform menial tasks around the household.", "I'm a professional maid.")
         if co("Manager"):
             $ rc("I know a thing or two about managing.", "I know how to manage people.")
         if not(cgo("Server") or cgo("SIW") or cgo("Warrior") or cgo("Caster") or co("Manager")): #you never know

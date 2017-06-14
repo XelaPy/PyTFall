@@ -10,8 +10,6 @@ init -5 python:
             self.occupations = ["SIW"] # General Strings likes SIW, Warrior, Server...
             self.occupation_traits = [traits["Prostitute"]] # Corresponding traits...
 
-            self.disposition_threshold = 950 # Any worker with disposition this high will be willing to do the job even without matched traits.
-
             self.base_skills = {"sex": 60, "vaginal": 40, "anal": 40, "oral": 40}
             self.base_stats = {"charisma": 100}
             
@@ -166,7 +164,7 @@ init -5 python:
                             worker.logws('character', 1)
                         log.append("%s makes it clear that she wants another job before getting busy with clients." % worker.name)
                     worker.logws("joy", -randint(3, 6))
-                    worker.logws("disposition", -randint(20, 40))
+                    worker.logws("disposition", -randint(10, 15))
                     worker.logws('vitality', -randint(2, 8)) # a small vitality penalty for wrong job
                 else:
                     if sub < 0:
@@ -191,13 +189,12 @@ init -5 python:
                         if dice(45):
                             worker.logws('character', 1)
                     if worker.disposition < self.calculate_disposition_level(worker):
-                        worker.logws("joy", -randint(5, 10))
+                        worker.logws("joy", -randint(8, 15))
                         worker.logws("disposition", -randint(25, 50))
                         worker.logws('vitality', -randint(10, 15))
                     else:
-                        worker.logws("joy", -randint(3, 6))
-                        worker.logws("disposition", -randint(20, 40))
-                        worker.logws('vitality', -randint(2, 8))
+                        worker.logws("joy", -randint(2, 4))
+                        worker.logws('vitality', -randint(2, 6))
             else:
                 log.append(choice(["%s is doing her shift as a harlot." % worker.name, "%s gets busy with clients." % worker.fullname, "%s serves customers as a whore." % worker.nickname]))
             return True

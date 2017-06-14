@@ -277,7 +277,6 @@
       "enum": [
         "Assassin",
         "Berserker",
-        "Cleaner",
         "Knight",
         "Demigod",
         "Entertainer",
@@ -289,10 +288,9 @@
         "Manager",
         "Prostitute",
         "Shooter",
-        "Straight Prostitute",
         "Stripper",
         "Trickster",
-        "Waitress",
+        "Maid",
         "Warrior"
       ], "type": "string"
     },

@@ -211,8 +211,6 @@
             self.occupations = list() # General Strings likes SIW, Warrior, Server...
             self.occupation_traits = list() # Corresponding traits... # TODO: WE NEED TO MAKE SURE THESE ARE INSTANCES!
 
-            self.disposition_threshold = -500 # Any worker with disposition this high will be willing to do the job even without matched traits.
-
             self.event_type = "jobreport"
 
             # Each job should have two dicts of stats/skills to evaluate chars ability of performing it:
@@ -251,7 +249,7 @@
             return 0
 
         def calculate_disposition_level(self, worker):
-            return self.disposition_threshold
+            return 0
 
         def settle_workers_disposition(self, char=None):
             # Formerly check_occupation

@@ -7,9 +7,7 @@ init -5 python:
 
             # Traits/Job-types associated with this job:
             self.occupations = ["Server"] # General Strings likes SIW, Warrior, Server...
-            self.occupation_traits = [traits["Bartender"]] # Corresponding traits...
-
-            self.disposition_threshold = 750 # Any worker with disposition this high will be willing to do the job even without matched traits.
+            self.occupation_traits = [traits["Maid"]] # Corresponding traits...
 
             # Relevant skills and stats:
             self.base_skills = {"bartending": 100}
@@ -92,105 +90,82 @@ init -5 python:
             since it's whoring we talking about, values are really close to max,
             or even higher than max in some cases, making it impossible
             """
-            # TODO: UPDATE FOR BETA!
             sub = check_submissivity(worker)
             if "Shy" in worker.traits:
-                disposition = 800 + 50 * sub
+                disposition = 400 + 50 * sub
+                if "Psychic" in worker.traits:
+                    disposition += 200
             else:
-                disposition = 700 + 50 * sub
-            if cgochar(worker, "SIW"):
-                disposition -= 500
-            if "Exhibitionist" in worker.traits:
-                disposition -= 200
-            if "Nymphomaniac" in worker.traits:
-                disposition -= 50
-            elif "Frigid" in worker.traits:
-                disposition += 50
+                disposition = 200 + 50 * sub
+                if "Psychic" in worker.traits:
+                    disposition -= 50
             if check_lovers(hero, worker):
-                disposition -= 50
+                disposition -= 200
             elif check_friends(hero, worker):
-                disposition -= 25
+                disposition -= 100
+            if "Natural Follower" in worker.traits:
+                disposition -= 50
+            elif "Natural Leader" in worker.traits:
+                disposition += 50
+            if "Heavy Drinker" in worker.traits:
+                disposition -= 150
+            if "Indifferent" in worker.traits:
+                disposition += 100
             return disposition
 
         def settle_workers_disposition(self, worker, log):
             """
             handles penalties in case of wrong job
             """
-            # Formerly check_occupation
-            # TODO: UPDATE FOR BETA! (This version lools really old)
-            if not [t for t in self.all_occs if t in worker.occupations]:
-                if worker.status == 'slave':
-                    temp = choice(["%s has no choice but to agree to tend the bar."%worker.fullname,
-                                            "She'll tend the bar for customer, does not mean she'll enjoy it.",
-                                            "%s is a slave so she'll do as she is told. However you might want to consider giving her work fit to her profession."%worker.name])
-                    worker.set_flag("jobs_barintro", temp)
-                    worker.set_flag("jobs_introjoy", -3)
-
-                elif worker.disposition < 800:
-                    temp = choice(["%s refused to serve! It's not what she wishes to do in life."%worker.name,
-                                             "%s will not work as a Service Girl, find better suited task for her!"%worker.fullname])
-                    temp = set_font_color(temp, "red")
-                    log.append(temp)
-
-                    worker = char
-                    self.loc = worker.location
-                    self.event_type = "jobreport"
-
-                    log.logws('disposition', -50)
-                    self.img = worker.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
-                    worker.action = None
-
-                    # self.apply_stats()
-                    # self.finish_job()
-                    # return False
-
-                else: # worker.disposition > 800:
-                    temp = "%s reluctantly agreed to be a servicer. It's not what she wishes to do in life but she admires you to much to refuse. " % worker.name
-                    worker.set_flag("jobs_barintro", temp)
-
+            if not("Maid" in worker.traits):
+                sub = check_submissivity(worker)
+                if worker.status != 'slave':
+                    if sub < 0:
+                        if dice(15):
+                            worker.logws('character', 1)
+                        log.append("%s is not very happy with her current job as a barmaid, but she will get the job done." % worker.name)
+                    elif sub == 0:
+                        if dice(25):
+                            worker.logws('character', 1)
+                        log.append("%s serves customers as a barmaid, but, truth be told, she would prefer to do something else." % worker.nickname)
+                    else:
+                        if dice(35):
+                            worker.logws('character', 1)
+                        log.append("%s makes it clear that she wants another job before getting busy with clients." % worker.name)
+                    worker.logws("joy", -randint(3, 5))
+                    worker.logws("disposition", -randint(5, 10))
+                    worker.logws('vitality', -randint(2, 5)) # a small vitality penalty for wrong job
+                else:
+                    if sub < 0:
+                        if worker.disposition < self.calculate_disposition_level(worker):
+                            log.append("%s is a slave so no one really cares but, being forced to work as a barmaid, she's quite upset." % worker.name)
+                        else:
+                            log.append("%s will do as she is told, but doesn't mean that she'll be happy about her bar duties." % worker.name)
+                        if dice(25):
+                            worker.logws('character', 1)
+                    elif sub == 0:
+                        if worker.disposition < self.calculate_disposition_level(worker):
+                            log.append("%s will do as you command, but she will hate every second of her barmaid shift..." % worker.name)
+                        else:
+                            log.append("%s was very displeased by her order to work as a barmaid, but didn't dare to refuse." % worker.name)
+                        if dice(35):
+                            worker.logws('character', 1)
+                    else:
+                        if worker.disposition < self.calculate_disposition_level(worker):
+                            log.append("%s was very displeased by her order to work as a barmaid, and makes it clear for everyone before getting busy with clients." % worker.name)
+                        else:
+                            log.append("%s will do as you command and work as a barmaid, but not without a lot of grumbling and complaining." % worker.name)
+                        if dice(45):
+                            worker.logws('character', 1)
+                    if worker.disposition < self.calculate_disposition_level(worker):
+                        worker.logws("joy", -randint(5, 10))
+                        worker.logws("disposition", -randint(5, 15))
+                        worker.logws('vitality', -randint(5, 10))
+                    else:
+                        worker.logws("joy", -randint(2, 4))
+                        worker.logws('vitality', -randint(1, 4))
             else:
-                temp = choice(["%s will work as a Bartender!"%worker.name,
-                                         "Tending the Bar:"])
-                worker.set_flag("jobs_barintro", temp)
-            return True
-
-        def check_occupation(self, char):
-            """Checks the workers occupation against the job.
-            """
-            if not [t for t in self.all_occs if t in worker.occupations]:
-                if worker.status == 'slave':
-                    temp = choice(["%s has no choice but to agree to tend the bar."%worker.fullname,
-                                            "She'll tend the bar for customer, does not mean she'll enjoy it.",
-                                            "%s is a slave so she'll do as she is told. However you might want to consider giving her work fit to her profession."%worker.name])
-                    worker.set_flag("jobs_barintro", temp)
-                    worker.set_flag("jobs_introjoy", -3)
-
-                elif worker.disposition < 800:
-                    temp = choice(["%s refused to serve! It's not what she wishes to do in life."%worker.name,
-                                             "%s will not work as a Service Girl, find better suited task for her!"%worker.fullname])
-                    temp = set_font_color(temp, "red")
-                    log.append(temp)
-
-                    worker = char
-                    self.loc = worker.location
-                    self.event_type = "jobreport"
-
-                    log.logws('disposition', -50)
-                    self.img = worker.show("profile", "confident", "angry", "uncertain", exclude=["happy", "sad", "ecstatic", "suggestive"], resize=(740, 685), type="normal")
-                    worker.action = None
-
-                    self.apply_stats()
-                    self.finish_job()
-                    return False
-
-                else: # worker.disposition > 800:
-                    temp = "%s reluctantly agreed to be a servicer. It's not what she wishes to do in life but she admires you to much to refuse. " % worker.name
-                    worker.set_flag("jobs_barintro", temp)
-
-            else:
-                temp = choice(["%s will work as a Bartender!"%worker.name,
-                                         "Tending the Bar:"])
-                worker.set_flag("jobs_barintro", temp)
+                log.append(choice(["%s is doing her shift as a barmaid." % worker.name, "%s gets busy with clients." % worker.fullname, "%s serves customers in the bar." % worker.nickname]))
             return True
 
         def bar_task(self, worker, clients, loc, log):
@@ -200,7 +175,7 @@ init -5 python:
             serviceskill = worker.get_skill("bartending")
             charisma = worker.charisma
 
-            # Skill checks
+            # Skill checks, TODO: This should prolly die or be moved to another place?
             if serviceskill > 2000:
                 log.logloc('reputation', choice([0, 1, 2]))
                 log.append("She was an excellent bartender, customers kept spending their money just for the pleasure of her company. \n")

@@ -326,12 +326,7 @@ init -11 python:
             basetrait = choice([traits["Warrior"], traits["Mage"]])
             _traits.append(basetrait)
         elif pattern == "ServiceGirl":
-            _traits.append(choice([traits["Maid"], traits["Cleaner"], traits["Waitress"], traits["Bartender"]]))
-        elif pattern == "Maid":
-            if dice(50):
-                _traits = [traits["Maid"], traits["Cleaner"]]
-            else:
-                _traits.append(choice([traits["Maid"], traits["Cleaner"]]))
+            _traits.append(traits["Maid"])
         elif pattern == "Prostitute":
             _traits.append(traits["Prostitute"])
         elif pattern == "Stripper":

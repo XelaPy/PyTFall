@@ -13,8 +13,6 @@ init -5 python:
             self.occupations = ["SIW"] # General Strings likes SIW, Warrior, Server...
             self.occupation_traits = [traits["Stripper"]] # Corresponding traits...
 
-            self.disposition_threshold = 750 # Any worker with disposition this high will be willing to do the job even without matched traits.
-
             self.base_skills = {"strip": 100, "dancing": 50}
             self.base_stats = {"charisma": 70, "agility": 30}
             
@@ -105,12 +103,11 @@ init -5 python:
             since it's whoring we talking about, values are really close to max,
             or even higher than max in some cases, making it impossible
             """
-            # TODO: UPDATE FOR BETA!
             sub = check_submissivity(worker)
             if "Shy" in worker.traits:
-                disposition = 800 + 50 * sub
-            else:
                 disposition = 700 + 50 * sub
+            else:
+                disposition = 600 + 50 * sub
             if cgochar(worker, "SIW"):
                 disposition -= 500
             if "Exhibitionist" in worker.traits:
@@ -123,6 +120,10 @@ init -5 python:
                 disposition -= 50
             elif check_friends(hero, worker):
                 disposition -= 25
+            if "Natural Follower" in worker.traits:
+                disposition -= 50
+            elif "Natural Leader" in worker.traits:
+                disposition += 50
             return disposition
 
         def settle_workers_disposition(self, worker, log):
@@ -130,7 +131,6 @@ init -5 python:
             handles penalties in case of wrong job
             """
             # Formerly check_occupation
-            # TODO: UPDATE FOR BETA!
             if not("Stripper" in worker.traits) and worker.disposition < self.calculate_disposition_level(worker):
                 sub = check_submissivity(worker)
                 if worker.status != 'slave':
@@ -146,47 +146,40 @@ init -5 python:
                         if dice(35):
                             log.logws('character', 1)
                         worker.set_flag("jobs_stripintro", "%s makes it clear that she wants another job before going to the stage." % worker.name)
-                    difference = (self.calculate_disposition_level(char) - worker.disposition)/8
-                    if difference < 1:
-                        difference = 1
-                    if sub < 0:
-                        if dice(15):
-                            log.logws('character', 1)
-                    elif sub == 0:
-                        if dice(25):
-                            log.logws('character', 1)
-                    else:
-                        if dice(35):
-                            log.logws('character', 1)
                     worker.logws("joy", -randint(1, 10))
-                    worker.logws("disposition", -randint(0, int(difference)))
-                    worker.logws('vitality', -randint(5, 15))
+                    worker.logws("disposition", -randint(10, 15))
+                    worker.logws('vitality', -randint(5, 10))
                 else:
                     sub = check_submissivity(worker)
                     if sub< 0:
-                        worker.set_flag("jobs_stripintro",choice(["%s is a slave so no one really cares but, being forced to work as a stripper, she's quite upset." % worker.name, "%s will do as she is told, but doesn't mean that she'll be happy about showing her body to strangers." % worker.name]))
+                        if worker.disposition < self.calculate_disposition_level(worker):
+                            log.append("%s is a slave so no one really cares but, being forced to work as a stripper, she's quite upset." % worker.name)
+                        else:
+                            log.append("%s will do as she is told, but doesn't mean that she'll be happy about showing her body to strangers." % worker.name)
                         if dice(25):
                             log.logws('character', 1)
                     elif sub == 0:
-                        worker.set_flag("jobs_stripintro",
-                            choice(["%s was very displeased by her order to work as a stripper, but didn't dare to refuse." % worker.name,
-                            "%s will do as you command, but she will hate every second of her stripper shift..." % worker.name]))
+                        if worker.disposition < self.calculate_disposition_level(worker):
+                            log.append("%s will do as you command, but she will hate every second of her stripper shift..." % worker.name)
+                        else:
+                            log.append("%s was very displeased by her order to work as a stripper, but didn't dare to refuse." % worker.name)
                         if dice(35):
                             log.logws('character', 1)
                     else:
-                        worker.set_flag("jobs_stripintro",
-                            choice(["%s was very displeased by her order to work as a stripper, and makes it clear for everyone before going to the stage." % worker.name,
-                            "%s will do as you command and work as a stripper, but not without a lot of grumbling and complaining." % worker.name]))
+                        if worker.disposition < self.calculate_disposition_level(worker):
+                            log.append("%s was very displeased by her order to work as a stripper, and makes it clear for everyone before going to the stage." % worker.name)
+                        else:
+                            log.append("%s will do as you command and work as a stripper, but not without a lot of grumbling and complaining." % worker.name)
                         if dice(45):
                             log.logws('character', 1)
-                    difference = (self.calculate_disposition_level(worker) - worker.disposition)/7
-                    if difference < 1:
-                        difference = 1
-                    if worker.joy < 50:
-                        difference += randint(0, (50-worker.joy))
-                    worker.logws("joy", -randint(10, 15))
-                    worker.logws("disposition", -randint(0, int(difference)))
-                    worker.logws('vitality', -randint(10, 15))
+                            
+                    if worker.disposition < self.calculate_disposition_level(worker):
+                        worker.logws("joy", -randint(5, 10))
+                        worker.logws("disposition", -randint(15, 30))
+                        worker.logws('vitality', -randint(10, 15))
+                    else:
+                        worker.logws("joy", -randint(2, 4))
+                        worker.logws('vitality', -randint(2, 6))
             else:
                 worker.set_flag("jobs_stripintro",
                     choice(["%s is doing her shift as a stripper." % worker.name,
