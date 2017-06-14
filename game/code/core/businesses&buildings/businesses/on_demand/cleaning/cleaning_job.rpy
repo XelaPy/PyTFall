@@ -7,11 +7,11 @@ init -5 python:
 
             # Traits/Job-types associated with this job:
             self.occupations = ["Service"] # General Strings likes SIW, Warrior, Server...
-            self.occupation_traits = [traits["Maid"]] # Corresponding traits...
+            self.occupation_traits = [traits["Maid", "Cleaner"]] # Corresponding traits...
 
             # Relevant skills and stats:
             self.base_skills = {"cleaning": 100}
-            self.base_stats = {"agility": 100}
+            self.base_stats = {"agility": 30, "constitution": 30}
 
         def traits_and_effects_effectiveness_mod(self, worker, log):
             """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
