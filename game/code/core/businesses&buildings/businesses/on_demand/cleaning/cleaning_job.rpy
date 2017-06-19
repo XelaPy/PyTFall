@@ -54,7 +54,7 @@ init -5 python:
                     effectiveness -= 15
             return effectiveness
 
-        def calculate_disposition_level(self, char): # calculating the needed level of disposition
+        def calculate_disposition_level(self, worker): # calculating the needed level of disposition
             sub = check_submissivity(worker)
             if "Shy" in worker.traits:
                 disposition = 150 + 50 * sub
