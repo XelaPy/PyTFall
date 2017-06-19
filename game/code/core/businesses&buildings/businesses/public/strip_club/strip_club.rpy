@@ -128,7 +128,7 @@ init -5 python:
             log.append("{} is performing Strip Job!".format(worker.name))
             log.append("\n")
 
-            difficulty = self.instance.tier
+            difficulty = loc.tier
             effectiveness = job.effectiveness(worker, difficulty, log)
             effectiveness += job.traits_and_effects_effectiveness_mod(worker, log)
             if config.debug:

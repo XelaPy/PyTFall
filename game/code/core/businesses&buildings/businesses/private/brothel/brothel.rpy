@@ -70,12 +70,17 @@ init -5 python:
             # Visit counter:
             client.up_counter("got_serviced_by" + worker.id)
             # Execute the job:
-            job, loc = self.job, self.instance
-            log = NDEvent(job=job, char=worker, loc=loc, business=self)
+            job, building = self.job, self.instance
+            log = NDEvent(job=job, char=worker, loc=building, business=self)
             worker.AP -= 1
             job.settle_workers_disposition(worker, log)
+
+            difficulty = building.tier
+            effectiveness = job.effectiveness(worker, difficulty, log)
+            effectiveness += job.traits_and_effects_effectiveness_mod(worker, log)
+
             # job.payout_mod() # TODO
-            job.acts(worker, client, self.instance, log)
+            job.acts(worker=worker, client=client, building=building, log=log, effectiveness=effectiveness)
             log.after_job()
             NextDayEvents.append(log)
 
