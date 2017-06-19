@@ -199,8 +199,7 @@ init -5 python:
                 log.append(choice(["%s is doing her shift as a harlot." % worker.name, "%s gets busy with clients." % worker.fullname, "%s serves customers as a whore." % worker.nickname]))
             return True
 
-        def acts(self, worker, client, loc, log):
-            skill = 0
+        def acts(self, worker, client, building, log, effectiveness):
             # Pass the flags from occupation_checks:
             # log.append(worker.flag("jobs_whoreintro"))
             log.append("\n\n")
@@ -215,11 +214,10 @@ init -5 python:
                 kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"], resize=size, type="reduce", add_mood=False)
                 log.append(choice(["%s hired her for some good old straight sex. " % client.name, "%s is willing to pay for her pussy. " % client.name]))
                 if "Lesbian" in worker.traits: # lesbians will have only a part of skill level compared to others during normal sex
-                    skill = round(worker.get_skill("vaginal")*0.6 + worker.get_skill("sex")*0.15)
+                    effectiveness -= 25
                     vaginalmod = 1 if dice(20) else 0
                     sexmod = 1 if dice(8) else 0
                 else:
-                    skill = round(worker.get_skill("vaginal")*0.75 + worker.get_skill("sex")*0.25)
                     vaginalmod = 1 if dice(25) else 0
                     sexmod = 1 if dice(10) else 0
                 # Temporarily done here, should be moved to game init and after_load to improve performance
@@ -254,11 +252,10 @@ init -5 python:
                 kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"], resize=size, type="reduce", add_mood=False)
                 log.append(choice(["%s hired her for some anal fun. " % client.name, "%s is willing to pay her for backdoor action. " % client.name]))
                 if "Lesbian" in worker.traits:
-                    skill = round(worker.get_skill("anal")*0.6 + worker.get_skill("sex")*0.15)
+                    effectiveness -= 25
                     analmod = 1 if dice(20) else 0
                     sexmod = 1 if dice(8) else 0
                 else:
-                    skill = round(worker.get_skill("anal")*0.75 + worker.get_skill("sex")*0.25)
                     analmod = 1 if dice(25) else 0
                     sexmod = 1 if dice(10) else 0
                 log.append(choice(["Anal sex is the best, customer thought... ",
@@ -297,29 +294,27 @@ init -5 python:
                 if act == tags[0]:
                     log.append(choice(["He shoved his cock all the way into her throat! \n", "Deepthroat is definitely my style, thought the customer... \n"]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("oral")*0.65 + worker.get_skill("sex")*0.1)
+                        effectiveness -= 25
                         oralmod = 1 if dice(20) else 0
                         sexmod = 1 if dice(8) else 0
                     else:
-                        skill = round(worker.get_skill("oral")*0.8 + worker.get_skill("sex")*0.2)
                         oralmod = 1 if dice(25) else 0
                         sexmod = 1 if dice(10) else 0
                     log.img = worker.show("bc deepthroat", **kwargs)
                 elif act == tags[1]:
                     log.append("He told %s to give him a good handjob.\n"%worker.nickname)
-                    if "Lesbian" in worker.traits: # lesbians will have 0.7 of skill level compared to others during normal sex
-                        skill = round(worker.get_skill("oral")*0.1 + worker.get_skill("sex")*0.6)
+                    if "Lesbian" in worker.traits:
+                        effectiveness -= 25
                         oralmod = 1 if dice(20) else 0
                         sexmod = 1 if dice(8) else 0
                     else:
-                        skill = round(worker.get_skill("oral")*0.25 + worker.get_skill("sex")*0.75)
                         oralmod = 1 if dice(25) else 0
                         sexmod = 1 if dice(10) else 0
                     log.img = worker.show("bc handjob", **kwargs)
                 elif act == tags[2]:
                     log.append(choice(["He asked her for a footjob.\n", "Footjob might be a weird fetish but that's what the customer wanted...\n"]))
-                    if "Lesbian" in worker.traits: # lesbians will have 0.7 of skill level compared to others during normal sex
-                        skill = round(worker.get_skill("oral")*0.1 + worker.get_skill("sex")*0.6)
+                    if "Lesbian" in worker.traits:
+                        effectiveness -= 25
                         oralmod = 1 if dice(20) else 0
                         sexmod = 1 if dice(8) else 0
                     else:
@@ -329,11 +324,10 @@ init -5 python:
                     log.img = worker.show("bc footjob", **kwargs)
                 elif act == tags[3]:
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("oral")*0.1 + worker.get_skill("sex")*0.65)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                         oralmod = 1 if dice(8) else 0
                     else:
-                        skill = round(worker.get_skill("oral")*0.2 + worker.get_skill("sex")*0.8)
                         sexmod = 1 if dice(25) else 0
                         oralmod = 1 if dice(10) else 0
                     if traits["Big Boobs"] in worker.traits or traits["Abnormally Large Boobs"] in worker.traits:
@@ -348,10 +342,9 @@ init -5 python:
                     log.img = worker.show("bc titsjob", **kwargs)
                 elif act == tags[4]:
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("sex")*0.75)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                     else:
-                        skill = round(worker.get_skill("oral")*0.1 + worker.get_skill("sex")*0.9)
                         sexmod = 1 if dice(25) else 0
                         oralmod = 1 if dice(5) else 0
                     log.append(choice(["Customer wanted nothing else then to jerk himself in from of her and ejaculate on her face. \n", "He wanked himself hard in effort to cover her with his cum. \n"]))
@@ -359,17 +352,15 @@ init -5 python:
                 elif act == tags[5]:
                     log.append(choice(['Client was in mood for some oral sex. \n', 'Client was in the mood for a blowjob. \n', 'He asked her to lick his dick. \n']))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("oral")*0.65 + worker.get_skill("sex")*0.1)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                         oralmod = 1 if dice(8) else 0
                     else:
-                        skill = round(worker.get_skill("oral")*0.8 + worker.get_skill("sex")*0.2)
                         sexmod = 1 if dice(25) else 0
                         oralmod = 1 if dice(10) else 0
                     log.img = worker.show("bc blowjob", **kwargs)
                 else: # I do not thing that this will ever be reached...
                     log.append(choice(['Client was in mood for some oral sex. \n', 'Client was in the mood for a blowjob. \n', 'He asked her to lick his dick. \n']))
-                    skill = worker.get_skill("oral")
                     oralmod = 1 if dice(20) else 0
                     log.img = worker.show("bc blowjob", **kwargs)
 
@@ -384,18 +375,17 @@ init -5 python:
                 if act == tags[0]:
                     log.append(choice(["Clearly in the mood for some cunt, she licked %ss pussy clean.\n"%worker.nickname,
                                                          "Hungry for a cunt, she told %s to be still and started licking her soft pussy with her hot tong. \n"%worker.nickname]))
-                    if "Lesbian" in worker.traits: # bisexuals will have normal value during lesbian action, lesbians will get ~1.2 of skill, and straight ones ~0.8
-                        skill = round(worker.get_skill("oral")*0.2 + worker.get_skill("vaginal")*0.2 + worker.get_skill("sex")*0.8)
+                    if "Lesbian" in worker.traits: # bisexuals will have normal value during lesbian action, lesbians will get +15 effectiveness, and straight ones -25
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                         oralmod = 1 if dice(10) else 0
                         vaginalmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("oral")*0.15 + worker.get_skill("vaginal")*0.15 + worker.get_skill("sex")*0.7)
                         sexmod = 1 if dice(22) else 0
                         oralmod = 1 if dice(9) else 0
                         vaginalmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("oral")*0.1 + worker.get_skill("vaginal")*0.1 + worker.get_skill("sex")*0.6)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                         oralmod = 1 if dice(8) else 0
                         vaginalmod = 1 if dice(8) else 0
@@ -404,7 +394,7 @@ init -5 python:
                     log.append(choice(["All hot and bothered, she ordered %s to lick her cunt. \n"%worker.nickname,
                                                          "As if she had an itch, she quickly told %s to tong her pussy. \n"%worker.nickname]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("oral")*0.8 + worker.get_skill("vaginal")*0.2 + worker.get_skill("sex")*0.2)
+                        effectiveness += 15
                         sexmod = 1 if dice(10) else 0
                         oralmod = 1 if dice(25) else 0
                         vaginalmod = 1 if dice(10) else 0
@@ -414,7 +404,7 @@ init -5 python:
                         oralmod = 1 if dice(22) else 0
                         vaginalmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("oral")*0.6 + worker.get_skill("vaginal")*0.1 + worker.get_skill("sex")*0.1)
+                        effectiveness -= 25
                         sexmod = 1 if dice(8) else 0
                         oralmod = 1 if dice(20) else 0
                         vaginalmod = 1 if dice(8) else 0
@@ -423,17 +413,16 @@ init -5 python:
                     log.append(choice(["She licked %ss anus clean.\n"%worker.nickname,
                                                                                     "She told %s to be still and started licking her asshole with her hot tong. \n"%worker.nickname]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("oral")*0.2 + worker.get_skill("anal")*0.2 + worker.get_skill("sex")*0.8)
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                         oralmod = 1 if dice(10) else 0
                         analmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("oral")*0.15 + worker.get_skill("anal")*0.15 + worker.get_skill("sex")*0.7)
                         sexmod = 1 if dice(22) else 0
                         oralmod = 1 if dice(9) else 0
                         analmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("oral")*0.1 + worker.get_skill("anal")*0.1 + worker.get_skill("sex")*0.6)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                         oralmod = 1 if dice(8) else 0
                         analmod = 1 if dice(8) else 0
@@ -442,17 +431,16 @@ init -5 python:
                     log.append(choice(["All hot and bothered, she ordered %s to lick her asshole. \n"%worker.nickname,
                                                          "As if she had an itch, she quickly told %s to tong her anus. \n"%worker.nickname]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("oral")*0.8 + worker.get_skill("anal")*0.2 + worker.get_skill("sex")*0.2)
+                        effectiveness += 15
                         sexmod = 1 if dice(10) else 0
                         oralmod = 1 if dice(25) else 0
                         analmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("oral")*0.7 + worker.get_skill("anal")*0.15 + worker.get_skill("sex")*0.15)
                         sexmod = 1 if dice(8) else 0
                         oralmod = 1 if dice(22) else 0
                         analmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("oral")*0.6 + worker.get_skill("anal")*0.1 + worker.get_skill("sex")*0.1)
+                        effectiveness -= 25
                         sexmod = 1 if dice(8) else 0
                         oralmod = 1 if dice(20) else 0
                         analmod = 1 if dice(8) else 0
@@ -461,15 +449,14 @@ init -5 python:
                     log.append(choice(["In mood for a hot lesbo action, she stuck her fingers in your girls pussy. \n",
                                                          "She watched %s moan as she stuck fingers in her pussy. \n"%worker.nickname]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("vaginal")*0.4 + worker.get_skill("sex")*0.8)
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                         vaginalmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("vaginal")*0.2 + worker.get_skill("sex")*0.8)
                         sexmod = 1 if dice(22) else 0
                         vaginalmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("vaginal")*0.15 + worker.get_skill("sex")*0.65)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                         vaginalmod = 1 if dice(8) else 0
                     log.img = worker.show("gay", "2c vaginalfingering", **kwargs)
@@ -477,15 +464,14 @@ init -5 python:
                     log.append(choice(["Quite horny, she ordered your girl to finger her cunt. \n",
                                                          "Clearly in the mood, she told %s to finger her until she cums. \n"%worker.nickname]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("vaginal")*0.4 + worker.get_skill("sex")*0.8)
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                         vaginalmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("vaginal")*0.2 + worker.get_skill("sex")*0.8)
                         sexmod = 1 if dice(22) else 0
                         vaginalmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("vaginal")*0.15 + worker.get_skill("sex")*0.65)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                         vaginalmod = 1 if dice(8) else 0
                     log.img = worker.show("gay", "bc vagnalhandjob", **kwargs)
@@ -493,15 +479,14 @@ init -5 python:
                     log.append(choice(["In mood for a hot lesbo action, she stuck her fingers in your girls anus. \n",
                                                          "She watched %s moan as she stuck fingers in her asshole. \n"%worker.nickname]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("anal")*0.4 + worker.get_skill("sex")*0.8)
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                         analmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("anal")*0.2 + worker.get_skill("sex")*0.8)
                         sexmod = 1 if dice(22) else 0
                         analmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("anal")*0.15 + worker.get_skill("sex")*0.65)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                         analmod = 1 if dice(8) else 0
                     log.img = worker.show("gay", "2c analfingering", **kwargs)
@@ -509,15 +494,14 @@ init -5 python:
                     log.append(choice(["Quite horny, she ordered your girl to finger her anus. \n",
                                                          "Clearly in the mood, she told %s to finger her asshole until she cums. \n"%worker.nickname]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("anal")*0.4 + worker.get_skill("sex")*0.8)
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                         analmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("anal")*0.2 + worker.get_skill("sex")*0.8)
                         sexmod = 1 if dice(22) else 0
                         analmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("anal")*0.15 + worker.get_skill("sex")*0.65)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                         analmod = 1 if dice(8) else 0
                     log.img = worker.show("gay", "bc analhandjob", **kwargs)
@@ -525,54 +509,50 @@ init -5 python:
                     log.append(choice(["Liking your girls breasts, she had some good time caressing them. \n",
                                                          "She enjoyed herself by caressing your girls breasts. \n"]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("sex")*1.1)
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = worker.get_skill("sex")
                         sexmod = 1 if dice(22) else 0
                     else:
-                        skill = round(worker.get_skill("sex")*0.9)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                     log.img = worker.show("gay", "2c caresstits", **kwargs)
                 elif act == tags[9]:
                     log.append(choice(["She asked your girl to caress her tits. \n",
                                                          "She told your girl to put a squeeze on her breasts. \n"]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("sex")*1.1)
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = worker.get_skill("sex")
                         sexmod = 1 if dice(22) else 0
                     else:
-                        skill = round(worker.get_skill("sex")*0.9)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                     log.img = worker.show("gay", "bc caresstits", **kwargs)
                 elif act == tags[10]:
                     log.append(choice(["Girls lost themselves in eachothers embrace.\n",
                                                          "Any good lesbo action should start with a hug, don't you think??? \n"]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("sex")*1.1)
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = worker.get_skill("sex")
                         sexmod = 1 if dice(22) else 0
                     else:
-                        skill = round(worker.get_skill("sex")*0.9)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                     log.img = worker.show("gay", "bc hug", "2c hug", **kwargs)
                 elif act == tags[11]:
                     log.append(choice(["She put on a strapon and fucked your girl in her cunt. \n",
                                                           "Equipping herself with a strap-on, she lustfully shoved it in %ss pussy. \n"%worker.nickname]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("vaginal")*0.9 + worker.get_skill("sex")*0.3)
+                        effectiveness += 15
                         vaginalmod = 1 if dice(25) else 0
                         sexmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("vaginal")*0.75 + worker.get_skill("sex")*0.25)
                         vaginalmod = 1 if dice(22) else 0
                         sexmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("vaginal")*0.7 + worker.get_skill("sex")*0.2)
+                        effectiveness -= 25
                         vaginalmod = 1 if dice(20) else 0
                         sexmod = 1 if dice(8) else 0
                     log.img = worker.show("gay", "2c vaginal", **kwargs)
@@ -581,15 +561,14 @@ init -5 python:
                     log.append(choice(["She ordered %s to put on a strapon and fuck her silly with it. \n"%worker.nickname,
                                                           "She equipped %s with a strapon and told her that she was 'up' for a good fuck! \n" %worker.nickname]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("sex")*0.9 + worker.get_skill("vaginal")*0.3)
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                         vaginalmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("sex")*0.8 + worker.get_skill("vaginal")*0.2)
                         sexmod = 1 if dice(22) else 0
                         vaginalmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("sex")*0.6 + worker.get_skill("vaginal")*0.15)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                         vaginalmod = 1 if dice(8) else 0
                     log.img = worker.show("gay", "bc vaginal", **kwargs)
@@ -597,15 +576,14 @@ init -5 python:
                     log.append(choice(["She put on a strapon and fucked your girl in her butt. \n",
                                                           "Equipping herself with a strapon, she lustfully shoved it in %s's asshole. \n"%worker.nickname]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("anal")*0.9 + worker.get_skill("sex")*0.3)
+                        effectiveness += 15
                         analmod = 1 if dice(25) else 0
                         sexmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("anal")*0.75 + worker.get_skill("sex")*0.25)
                         analmod = 1 if dice(22) else 0
                         sexmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("anal")*0.6 + worker.get_skill("sex")*0.2)
+                        effectiveness -= 25
                         analmod = 1 if dice(20) else 0
                         sexmod = 1 if dice(8) else 0
                     log.img = worker.show("gay", "2c anal", **kwargs)
@@ -613,15 +591,14 @@ init -5 python:
                     log.append(choice(["She ordered %s to put on a strapon and butt-fuck her silly with it. \n"%worker.nickname,
                                                          "She equipped %s with a strapon and told her that she was 'up' for a good anal fuck! \n"]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("sex")*0.9 + worker.get_skill("anal")*0.3)
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                         analmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("sex")*0.8 + worker.get_skill("anal")*0.2)
                         sexmod = 1 if dice(22) else 0
                         analmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("sex")*0.6 + worker.get_skill("anal")*0.15)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                         analmod = 1 if dice(8) else 0
                     log.img = worker.show("gay", "bc anal", **kwargs)
@@ -629,15 +606,14 @@ init -5 python:
                     log.append(choice(["She played with a toy and %ss pussy. \n"%worker.nickname,
                                                          "She stuck a toy up %s cunt. \n"%worker.nickname]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("vaginal")*0.4 + worker.get_skill("sex")*0.8)
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                         vaginalmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("vaginal")*0.2 + worker.get_skill("sex")*0.8)
                         sexmod = 1 if dice(22) else 0
                         vaginalmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("vaginal")*0.15 + worker.get_skill("sex")*0.65)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                         vaginalmod = 1 if dice(8) else 0
                     log.img = worker.show("gay", "2c vaginaltoy", **kwargs)
@@ -646,15 +622,14 @@ init -5 python:
                     log.append(choice(["Without further ado, %s fucked her with a toy. \n"%worker.nickname,
                                                          "She asked your girl to fuck her pussy with a toy. \n"]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("vaginal")*0.4 + worker.get_skill("sex")*0.8)
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                         vaginalmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("vaginal")*0.2 + worker.get_skill("sex")*0.8)
                         sexmod = 1 if dice(22) else 0
                         vaginalmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("vaginal")*0.15 + worker.get_skill("sex")*0.65)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                         vaginalmod = 1 if dice(8) else 0
                     log.img = worker.show("gay", "bc toypussy", **kwargs)
@@ -662,15 +637,14 @@ init -5 python:
                     log.append(choice(["After some foreplay, she stuck a toy up your girls butt. \n",
                                                                                    "For her money, she had some fun playing with a toy and your girls asshole. \n"]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("anal")*0.4 + worker.get_skill("sex")*0.8)
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                         analmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("anal")*0.2 + worker.get_skill("sex")*0.8)
                         sexmod = 1 if dice(22) else 0
                         analmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("anal")*0.15 + worker.get_skill("sex")*0.65)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                         analmod = 1 if dice(8) else 0
                     log.img = worker.show("gay", "2c analtoy", **kwargs)
@@ -678,15 +652,14 @@ init -5 python:
                     log.append(choice(["After some foreplay, she asked %s to shove a toy up her ass. \n"%worker.nickname,
                                                          "This female customer of your brothel clearly believed that there is no greater pleasure than a toy up her butt. \n"]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("anal")*0.4 + worker.get_skill("sex")*0.8)
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                         analmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("anal")*0.2 + worker.get_skill("sex")*0.8)
                         sexmod = 1 if dice(22) else 0
                         analmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("anal")*0.15 + worker.get_skill("sex")*0.65)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                         analmod = 1 if dice(8) else 0
                     log.img = worker.show("gay", "bc toyanal", **kwargs)
@@ -694,28 +667,26 @@ init -5 python:
                     log.append(choice(["She was hoping to get some clit to clit action, and she got it. \n",
                                                          "The female customer asked for a session of hot, sweaty tribadism. \n"]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("anal")*0.4 + worker.get_skill("sex")*0.8)
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                         analmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("anal")*0.2 + worker.get_skill("sex")*0.8)
                         sexmod = 1 if dice(22) else 0
                         analmod = 1 if dice(9) else 0
                     else:
-                        skill = round(worker.get_skill("anal")*0.15 + worker.get_skill("sex")*0.65)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                         analmod = 1 if dice(8) else 0
                     log.img = worker.show("gay", "scissors", **kwargs)
                 else:
                     log.append(choice(["She was in the mood for some girl on girl action. \n", "She asked for a good lesbian sex. \n"]))
                     if "Lesbian" in worker.traits:
-                        skill = round(worker.get_skill("sex")*1.1)
+                        effectiveness += 15
                         sexmod = 1 if dice(25) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = worker.get_skill("sex")
                         sexmod = 1 if dice(22) else 0
                     else:
-                        skill = round(worker.get_skill("sex")*0.8)
+                        effectiveness -= 25
                         sexmod = 1 if dice(20) else 0
                     log.img = worker.show("gay", **kwargs)
                     # Last fallback!
@@ -723,15 +694,57 @@ init -5 python:
             else:
                 log.append("Whore Job\n\nMissed All acts!\n\n")
 
-                skill = worker.get_skill("sex")
                 log.img = worker.show("sex", **kwargs)
 
-            self.check_skills(skill, worker, client, log)
+            if effectiveness >= 190:
+                if client.gender == "male":
+                    log.append("The client was at the girls mercy. She brought him to the heavens and left there, unconscious due to sensory overload.")
+                else:
+                    log.append("The client was at the girls mercy. She brought her to the heavens and left there, unconscious due to sensory overload.")
+                log.logws("exp", randint(250, 500))
+                log.logloc("reputation", choice([0, 1]))
+                log.logws("joy", 3)
+            elif effectiveness >= 150:
+                if client.gender == "male":
+                    log.append("She playfully took the customer into embrace and made him forget about the rest of the world until they were finished.")
+                else:
+                    log.append("She playfully took the customer into embrace and made her forget about the rest of the world until they were finished.")
+                log.logws("exp", randint(100, 200))
+                log.logloc("reputation", choice([0, 0, 1]))
+                log.logws("joy", 2)
+            elif effectiveness >= 130:
+                log.append("She performed wonderfully with her unmatched carnal skills, making the customer exhausted and completely satisfied.")
+                log.logws("exp", randint(50, 120))
+                log.logws("joy", 2)
+            elif effectiveness >= 100:
+                log.append("Her well honed sexual tricks and techniques were very pleasing to the customer, and she was quite pleased in return by client's praises.")
+                log.logws("exp", randint(40, 75))
+                log.logws("joy", 1)
+            elif effectiveness >= 65:
+                log.append("$s did the job to the best of her ability, making a good impression, but her skills could definitely be improved." %worker.name)
+                log.logws("exp", randint(35, 45))
+            elif effectiveness >= 35:
+                log.append("The girl performed quite poorly. Still, %s somewhat managed to provide required service, following impatient instructions of the client." %worker.name)
+                log.logws("exp", randint(20, 35))
+            else:
+                log.logws("exp", randint(15, 25))
+                if worker.charisma >= 200:
+                    log.append("Even though %s failed to satisfy the client, her performance was however somewhat saved by her looks." %worker.name)
+                else:
+                    log.append("Unfortunately, %s failed to satisfy the client. Her looks were not likely to be of any help to her either." %worker.name)
+            if effectiveness < 100: # with low effectiveness wrong orientation will take some vitality
+                if ("Lesbian" in worker.traits) and (client.gender == "male"):
+                    log.append(" It was a bit difficult for %s to do it with a man due to her sexual orientation..." %worker.name)
+                    log.logws("vitality", -randint(1, 5))
+                elif (client.gender == "female") and not("Lesbian" in worker.traits) and not("Bisexual" in worker.traits):
+                    log.append(" It was a bit difficult for %s to do it with a woman due to her sexual orientation..." %worker.name)
+                    log.logws("vitality", -randint(1, 5))
+            log.append("\n")
 
             # Take care of stats mods
             constmod = 1 if dice(12) else 0
             worker.logws("constitution", constmod)
-            worker.logws("vitality", -randint(14, 28))
+            # worker.logws("vitality", -randint(14, 28))
             sexskill = 0
             if 'sexmod' in locals():
                 worker.logws("sex", sexmod)
@@ -749,11 +762,7 @@ init -5 python:
                 log.append("\n%s feels like she learned something! \n"%worker.name)
                 worker.logws("joy", 1)
 
-
-            # Dirt:
-            log.logloc("dirt", randint(2, 5))
-
-            log.loc.fin.log_logical_income(1000000, "!!!!!!")
+            log.loc.fin.log_logical_income(1000000, "!!!!!!") # TODO: wtf is this?
 
         @staticmethod
         def get_act(worker, tags):
@@ -782,8 +791,8 @@ init -5 python:
                 worker.mod_flag("jobs_tips", tips)
                 loc.fin.log_logical_income(tips, "WhoreJob")
 
-        def check_skills(self, skill, worker, client, log):
-            # I'm making checks for stats and skills separately, otherwise it will be a nightmare even with an army of writers
+        def check_effectivenesss(self, effectiveness, worker, client, log):
+            # I'm making checks for stats and effectivenesss separately, otherwise it will be a nightmare even with an army of writers
             # first is charisma, as initial impression
             if worker.charisma >= 1500:
                 log.append("Her supernal loveliness made the customer to shed tears of happiness, comparing %s to ancient goddess of love. Be wary of possible cults dedicated to her..." %worker.name)
@@ -818,49 +827,6 @@ init -5 python:
             if dice(worker.get_skill("refinement")*0.1) and worker.charisma >= 150:
                 log.append(" Her impeccable manners also made a very good impression." %worker.name)
                 log.logloc("reputation", choice([0, 0, 1]))
-            # then we check for skill level
+            # then we check for effectiveness level
             log.append("\n")
-            if skill >= 4000:
-                if client.gender == "male":
-                    log.append("The client was at the girls mercy. She brought him to the heavens and left there, unconscious due to sensory overload.")
-                else:
-                    log.append("The client was at the girls mercy. She brought her to the heavens and left there, unconscious due to sensory overload.")
-                log.logws("exp", randint(250, 500))
-                log.logloc("reputation", choice([0, 1]))
-                log.logws("joy", 3)
-            elif skill >= 2000:
-                if client.gender == "male":
-                    log.append("She playfully took the customer into embrace and made him forget about the rest of the world until they were finished.")
-                else:
-                    log.append("She playfully took the customer into embrace and made her forget about the rest of the world until they were finished.")
-                log.logws("exp", randint(100, 200))
-                log.logloc("reputation", choice([0, 0, 1]))
-                log.logws("joy", 2)
-            elif skill >= 1000:
-                log.append("She performed wonderfully with her unmatched carnal skill, making the customer exhausted and completely satisfied.")
-                log.logws("exp", randint(50, 120))
-                log.logws("joy", 2)
-            elif skill >= 500:
-                log.append("Her well honed sexual tricks and techniques were very pleasing to the customer, and she was quite pleased in return by client's praises.")
-                log.logws("exp", randint(40, 75))
-                log.logws("joy", 1)
-            elif skill >= 200:
-                log.append("$s did the job to the best of her ability but her skills could definitely be improved." %worker.name)
-                log.logws("exp", randint(35, 45))
-            elif skill >= 50:
-                log.append("The girl barely knew what she was doing. Still, %s somewhat managed to provide basic service, following impatient instructions of the client." %worker.name)
-                log.logws("exp", randint(20, 35))
-            else:
-                log.logws("exp", randint(15, 25))
-                if worker.charisma >= 200:
-                    log.append("A cold turkey sandwich would have made a better sex partner than %s. Her performance was however somewhat saved by her looks." %worker.name)
-                else:
-                    log.append("Unfortunately, %s barely knew what she was doing. Her looks were not likely to be of any help to her either." %worker.name)
-            if skill < 500: # with low skill wrong orientation will take some vitality
-                if ("Lesbian" in worker.traits) and (client.gender == "male"):
-                    log.append(" It was a bit difficult for %s to do it with a man due to her sexual orientation..." %worker.name)
-                    log.logws("vitality", randint(-25, -5))
-                elif (client.gender == "female") and not("Lesbian" in worker.traits) and not("Bisexual" in worker.traits):
-                    log.append(" It was a bit difficult for %s to do it with a woman due to her sexual orientation..." %worker.name)
-                    log.logws("vitality", randint(-25, -5))
-            log.append("\n")
+
