@@ -244,7 +244,7 @@ init -5 python:
                                                          'He was in the mood for some pussy pounding. \n',
                                                          'He asked for some playtime with her vagina.\n']))
                 # Virgin trait check:
-                self.take_virginity(worker, loc, log)
+                self.take_virginity(worker, log.loc, log)
 
 
             # Anal Sex Act
@@ -556,7 +556,7 @@ init -5 python:
                         vaginalmod = 1 if dice(20) else 0
                         sexmod = 1 if dice(8) else 0
                     log.img = worker.show("gay", "2c vaginal", **kwargs)
-                    self.take_virginity(worker, loc, log)
+                    self.take_virginity(worker, log.loc, log)
                 elif act == tags[12]:
                     log.append(choice(["She ordered %s to put on a strapon and fuck her silly with it. \n"%worker.nickname,
                                                           "She equipped %s with a strapon and told her that she was 'up' for a good fuck! \n" %worker.nickname]))
@@ -617,7 +617,7 @@ init -5 python:
                         sexmod = 1 if dice(20) else 0
                         vaginalmod = 1 if dice(8) else 0
                     log.img = worker.show("gay", "2c vaginaltoy", **kwargs)
-                    self.take_virginity(worker, loc, log)
+                    self.take_virginity(worker, log.loc, log)
                 elif act == tags[16]:
                     log.append(choice(["Without further ado, %s fucked her with a toy. \n"%worker.nickname,
                                                          "She asked your girl to fuck her pussy with a toy. \n"]))
@@ -695,7 +695,43 @@ init -5 python:
                 log.append("Whore Job\n\nMissed All acts!\n\n")
 
                 log.img = worker.show("sex", **kwargs)
-
+                
+            if effectiveness >= 75:
+                if worker.charisma >= 1500:
+                    log.append("Her supernal loveliness made the customer to shed tears of happiness, comparing %s to ancient goddess of love. Be wary of possible cults dedicated to her..." %worker.name)
+                    log.logws("joy", 1)
+                    log.logloc("fame", choice([0, 1, 1, 1]))
+                    log.logloc("reputation", choice([0, 1]))
+                elif worker.charisma >= 800:
+                    log.append("%s made the customer fall in love with her unearthly beauty. Careful now girl, we don't need crowds of admires around our businesses..." %worker.name)
+                    log.logws("joy", 1)
+                    log.logloc("fame", choice([0, 1]))
+                    log.logloc("reputation", choice([0, 0, 1]))
+                elif worker.charisma >= 500:
+                    log.append("%s completely enchanted the customer with her stunning beauty." %worker.name)
+                    log.logloc("fame", choice([0, 0, 1]))
+                    log.logloc("reputation", choice([0, 0, 0, 1]))
+                elif worker.charisma >= 200:
+                    log.append("The client was happy to be alone with such a breathtakingly beautiful girl as %s." %worker.name)
+                    log.logloc("fame", choice([0, 0, 0, 1]))
+                elif worker.charisma >= 100:
+                    log.append("%s good looks clearly was pleasing to the customer." %worker.name)
+                elif worker.charisma >= 50:
+                    log.append("%s did her best to make the customer like her, but her beauty could definitely be enhanced." %worker.name)
+                    log.logloc("fame", choice([-1, 0, 0, 1]))
+                if dice(worker.get_skill("refinement")*0.1) and worker.charisma >= 150:
+                    log.append(" Her impeccable manners also made a very good impression." %worker.name)
+                    log.logloc("reputation", choice([0, 0, 1]))
+            else:
+                if worker.charisma < 50:
+                    log.logws("joy", -2)
+                    log.logloc("fame", choice([-1, 0]))
+                    if client.gender == "male":
+                        log.append("The customer was unimpressed by %s looks, to say at least. Still, he preferred fucking her over a harpy. Hearing that from him however, was not encouraging for the poor girl at all..." %worker.name)
+                    else:
+                        log.append("The customer was unimpressed by %s looks, to say at least. Still, she preferred fucking her over a harpy. Hearing that from her however, was not encouraging for the poor girl at all..." %worker.name)
+            log.append("\n")
+                
             if effectiveness >= 190:
                 if client.gender == "male":
                     log.append("The client was at the girls mercy. She brought him to the heavens and left there, unconscious due to sensory overload.")
@@ -744,7 +780,7 @@ init -5 python:
             # Take care of stats mods
             constmod = 1 if dice(12) else 0
             worker.logws("constitution", constmod)
-            # worker.logws("vitality", -randint(14, 28))
+            worker.logws("vitality", -randint(2, 5))
             sexskill = 0
             if 'sexmod' in locals():
                 worker.logws("sex", sexmod)
@@ -783,50 +819,10 @@ init -5 python:
             return act
 
         @staticmethod
-        def take_virginity(worker, loc, log): # let's just assume that dildos are too small to take virginity, otherwise it becomes too complicated in terms of girls control :)
+        def take_virginity(worker, loc, log): # let's just assume (for now) that dildos are too small to take virginity, otherwise it becomes too complicated in terms of girls control :)
             if traits["Virgin"] in worker.traits and not (worker.effects['Chastity']['active']):
                 tips = 100 + worker.charisma * 3 # TODO Slave/Free payouts
                 log.append("\n{color=[pink]}%s lost her virginity!{/color} Customer thought that was super hot and left a tip of {color=[gold]}%d Gold{/color} for the girl.\n\n"%(worker.nickname, tips))
                 worker.remove_trait(traits["Virgin"])
                 worker.mod_flag("jobs_tips", tips)
                 loc.fin.log_logical_income(tips, "WhoreJob")
-
-        def check_effectivenesss(self, effectiveness, worker, client, log):
-            # I'm making checks for stats and effectivenesss separately, otherwise it will be a nightmare even with an army of writers
-            # first is charisma, as initial impression
-            if worker.charisma >= 1500:
-                log.append("Her supernal loveliness made the customer to shed tears of happiness, comparing %s to ancient goddess of love. Be wary of possible cults dedicated to her..." %worker.name)
-                log.logws("joy", 1)
-                log.logloc("fame", choice([0, 1, 1, 1]))
-                log.logloc("reputation", choice([0, 1]))
-            elif worker.charisma >= 800:
-                log.append("%s made the customer fall in love with her unearthly beauty. Careful now girl, we don't need crowds of admires around our businesses..." %worker.name)
-                log.logws("joy", 1)
-                log.logloc("fame", choice([0, 1]))
-                log.logloc("reputation", choice([0, 0, 1]))
-            elif worker.charisma >= 500:
-                log.append("%s completely enchanted the customer with her stunning beauty." %worker.name)
-                log.logloc("fame", choice([0, 0, 1]))
-                log.logloc("reputation", choice([0, 0, 0, 1]))
-            elif worker.charisma >= 200:
-                log.append("The client was happy to be alone with such a breathtakingly beautiful girl as %s." %worker.name)
-                log.logloc("fame", choice([0, 0, 0, 1]))
-            elif worker.charisma >= 100:
-                log.append("%s good looks clearly was pleasing to the customer." %worker.name)
-            elif worker.charisma >= 50:
-                log.append("%s did her best to make the customer like her, but her beauty could definitely be enhanced." %worker.name)
-                log.logloc("fame", choice([-1, 0, 0, 1]))
-            else:
-                log.logws("joy", -2)
-                log.logloc("fame", choice([-1, 0]))
-                if client.gender == "male":
-                    log.append("The customer was unimpressed by %s looks, to say at least. Still, he preferred fucking her over a harpy. Hearing that from him however, was not encouraging for the poor girl at all..." %worker.name)
-                else:
-                    log.append("The customer was unimpressed by %s looks, to say at least. Still, she preferred fucking her over a harpy. Hearing that from her however, was not encouraging for the poor girl at all..." %worker.name)
-            # then a small refinement check, useless with low charisma
-            if dice(worker.get_skill("refinement")*0.1) and worker.charisma >= 150:
-                log.append(" Her impeccable manners also made a very good impression." %worker.name)
-                log.logloc("reputation", choice([0, 0, 1]))
-            # then we check for effectiveness level
-            log.append("\n")
-
