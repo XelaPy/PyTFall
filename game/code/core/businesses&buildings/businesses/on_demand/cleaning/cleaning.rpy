@@ -25,20 +25,20 @@ init -5 python:
             If there is no auto-cleaning, we call all workers in the building to clean…
             unless they just refuse that on some principal (trait checks)...
             """
+            # while 1:
+            #     yield self.env.timeout(1)
             building = self.instance
             make_nd_report_at = 0 # We build a report every 25 ticks but only if this is True!
             dirt_cleaned = 0 # We only do this for the ND report!
 
             cleaning = False # set to true if there is active cleaning in process
+            using_all_service_workers = False
+            using_all_workers = False
+
+            power_flag_name = "jobs_cleaning_power"
             job = simple_jobs["Cleaning"]
-            pure_cleaners = self.action_priority_workers(job)
-            shuffle(pure_cleaners) # just for fun...
-            # Set power, it can only change in a very insignifical manner (which we don't care about):
-            for w in pure_cleaners:
-                # TODO Review, revice and account for effectiveness!!!
-                power_flag_name = "jobs_cleaning_power"
-                value = -int(round(1 + w.get_skill("service") * 0.025 + w.agility * 0.03))
-                w.set_flag(power_flag_name, value)
+            all_cleaners = self.get_pure_cleaners(job, power_flag_name) # Everyone that cleaned for the report.
+            cleaners = all_cleaners.copy() # cleaners on active duty
 
             while 1:
                 dirt = building.get_dirt()
@@ -51,16 +51,26 @@ init -5 python:
                                                 building.name)
                             self.log(temp)
 
+                    if not using_all_workers and building.dirt:
+                        using_all_workers = True
+                        all_cleaners = self.all_on_deck(cleaners, job, power_flag_name)
+                        cleaners = all_cleaners.union(cleaners)
+
                     if not make_nd_report_at and building.dirt:
-                        wlen = len(pure_cleaners)
+                        wlen = len(cleaners)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
                                                 set_font_color(wlen, "red"), building.name)
                             self.log(temp)
                 elif dirt >= 600:
+                    if not using_all_workers:
+                        using_all_workers = True
+                        all_cleaners = self.all_on_deck(cleaners, job, power_flag_name)
+                        cleaners = all_cleaners.union(cleaners)
+
                     if not make_nd_report_at:
-                        wlen = len(pure_cleaners)
+                        wlen = len(cleaners)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
@@ -68,25 +78,53 @@ init -5 python:
                             self.log(temp)
                 elif dirt >= 200:
                     if not make_nd_report_at:
-                        wlen = len(pure_cleaners)
+                        wlen = len(cleaners)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
                                                 set_font_color(wlen, "red"), building.name)
                             self.log(temp)
 
+                # switch back to normal cleaners only
+                if dirt <= 100 and using_all_workers:
+                    using_all_workers = False
+                    cleaners = self.get_pure_cleaners(job, power_flag_name)
+
                 if make_nd_report_at and building.dirt > 0:
-                    for w in pure_cleaners:
+                    for w in cleaners:
                         value = -w.flag(power_flag_name)
                         dirt_cleaned += value
                         building.clean(value)
 
-                if make_nd_report_at and self.env.now == make_nd_report_at:
-                    self.write_nd_report(pure_cleaners, dirt_cleaned)
+                condition1 = make_nd_report_at and self.env.now == make_nd_report_at
+                condition2 = make_nd_report_at and building.dirt <= 0
+                if condition1 or condition2:
+                    self.write_nd_report(all_cleaners, dirt_cleaned)
                     make_nd_report_at = 0
                     dirt_cleaned = 0
 
                 yield self.env.timeout(1)
+
+        def get_pure_cleaners(self, job, power_flag_name):
+            cleaners = set(self.get_workers(job, amount=float("inf"),
+                            match_to_client=None, priority=True, any=False))
+            for w in cleaners:
+                # TODO Review, revice and account for effectiveness!!!
+                if not w.flag(power_flag_name):
+                    value = -int(round(1 + w.get_skill("service") * 0.025 + w.agility * 0.03))
+                    w.set_flag(power_flag_name, value)
+            return cleaners
+
+        def all_on_deck(self, cleaners, job, power_flag_name):
+            power_flag_name = "jobs_cleaning_power"
+            # calls everyone in the building to clean it
+            cleaners.union(self.get_workers(job, amount=float("inf"),
+                           match_to_client=None, priority=True, any=True))
+            for w in cleaners:
+                if not w.flag(power_flag_name):
+                    value = -int(round(1 + w.get_skill("service") * 0.025 + w.agility * 0.03))
+                    w.set_flag(power_flag_name, value)
+            return cleaners
 
         def write_nd_report(self, pure_cleaners, dirt_cleaned):
             job, loc = self.job, self.instance
