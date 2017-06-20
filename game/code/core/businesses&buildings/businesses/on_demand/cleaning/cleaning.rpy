@@ -27,6 +27,7 @@ init -5 python:
             """
             # while 1:
             #     yield self.env.timeout(1)
+            # TODO: FIGURE OUT WHAT TO DO WITH JOBPOINTS!
             building = self.instance
             make_nd_report_at = 0 # We build a report every 25 ticks but only if this is True!
             dirt_cleaned = 0 # We only do this for the ND report!
@@ -47,16 +48,17 @@ init -5 python:
                         price = building.get_cleaning_price()
                         if hero.take_money(price):
                             building.dirt = 0
+                            dirt = 0
                             temp = "{}: {} Building was auto-cleaned!".format(self.env.now,
                                                 building.name)
                             self.log(temp)
 
-                    if not using_all_workers and building.dirt:
+                    if not using_all_workers and dirt:
                         using_all_workers = True
                         all_cleaners = self.all_on_deck(cleaners, job, power_flag_name)
                         cleaners = all_cleaners.union(cleaners)
 
-                    if not make_nd_report_at and building.dirt:
+                    if not make_nd_report_at and dirt:
                         wlen = len(cleaners)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env:

@@ -78,7 +78,6 @@ label building_management:
             bm_exploration_view_mode = "explore"
             selected_log_area = None
 
-
     python:
         # Some Global Vars we use to pass data between screens:
         if hero.upgradable_buildings:
