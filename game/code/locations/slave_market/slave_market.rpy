@@ -207,6 +207,8 @@ screen slavemarket():
     use location_actions("slave_market")
 
 screen slave_shopping(store, tt_text, buy_button, buy_tt):
+    key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+    key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
     modal True
     zorder 1
 
@@ -498,6 +500,8 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
     use top_stripe(show_return_button=True, return_button_action=Hide("slave_shopping"), show_lead_away_buttons=False)
 
 screen se_captured_retrieval(pos=(900, 300)):
+    key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+    key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
     zorder 3
     modal True
 
