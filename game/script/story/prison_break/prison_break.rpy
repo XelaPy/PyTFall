@@ -61,56 +61,6 @@ screen prison_break_controls(): # control buttons screen
                 action [Hide("prison_break_controls"), Jump("mainscreen")]
                 text "Exit" size 15
 
-screen give_exp_after_battle(group, money=0): # shows post-battle results; TODO after beta: make the animation to show exp gained post battle, not just the current one;
-    modal True
-    zorder 100
-    frame:
-        align (0.5, 0.5)
-        background Frame("content/gfx/frame/post_battle.png", 75, 75)
-        xpadding 75
-        ypadding 75
-        has vbox
-        for l in group:
-            $ char_profile_img = l.show('portrait', resize=(101, 101), cache=True)
-            $ img = "content/gfx/frame/ink_box.png"
-            hbox:
-                imagebutton:
-                    background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-                    idle (char_profile_img)
-                    hover (im.MatrixColor(char_profile_img, im.matrix.brightness(0.15)))
-                    action None
-                    align 0, .5
-                    xysize (102, 102)
-                text ("      Level %d"%l.level) size 20 color gold align (1.0, 1.0)
-            bar:
-                value AnimatedValue(value=l.stats.exp + l.stats.goal_increase - l.stats.goal, range=l.stats.goal_increase, delay=1.0, old_value=0)
-                left_bar ("content/gfx/interface/bars/exp_full.png")
-                right_bar ("content/gfx/interface/bars/exp_empty.png")
-                thumb None
-                maximum (324, 18)
-            hbox:
-                spacing 10
-                pos (90, -17)
-                xmaximum 160
-                xfill True
-                text "lvl [l.level]" style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
-                add "content/gfx/interface/images/exp_b.png" ypos 2 xalign 0.8
-                text "[l.exp]/[l.goal]" style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
-        if money > 0:
-            hbox:
-                xalign 0.5
-                text ("You found %d"%money) size 20 color gold align (0.5, 0.5)
-                null width 5
-                add "coin_top" align (0.5, 0.5)
-        style_prefix "wood"
-        null height 15
-        button:
-            xalign .5
-            xysize (120, 40)
-            yalign 0.5
-            action [Hide("give_exp_after_battle")]
-            text "OK" size 15
-
 label storyi_bossroom:
     stop music
     stop world fadeout 2.0
