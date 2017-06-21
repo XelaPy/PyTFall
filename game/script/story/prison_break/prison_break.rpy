@@ -61,45 +61,6 @@ screen prison_break_controls(): # control buttons screen
                 action [Hide("prison_break_controls"), Jump("mainscreen")]
                 text "Exit" size 15
 
-screen give_exp_after_battle(group, money=0): # shows post-battle results; TO DO: make it to show animation gained post battle, not just the current one
-    fixed:
-        pos (50, 50)
-        frame:
-            background Frame("content/gfx/frame/MC_bg2.png", 10, 10)
-            xpadding 20
-            ypadding 20
-            has vbox
-            for l in group:
-                $ char_profile_img = l.show('portrait', resize=(101, 101), cache=True)
-                $ img = "content/gfx/frame/ink_box.png"
-                imagebutton:
-                    background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-                    idle (char_profile_img)
-                    hover (im.MatrixColor(char_profile_img, im.matrix.brightness(0.15)))
-                    action [Hide("prison_break_controls"), Return(l)]
-                    align 0, .5
-                    xysize (102, 102)
-                bar:
-                    value AnimatedValue(value=l.stats.exp + l.stats.goal_increase - l.stats.goal, range=l.stats.goal_increase, delay=1.0, old_value=0)
-                    left_bar ("content/gfx/interface/bars/exp_full.png")
-                    right_bar ("content/gfx/interface/bars/exp_empty.png")
-                    thumb None
-                    maximum (324, 18)
-                hbox:
-                    spacing 10
-                    pos (90, -17)
-                    xmaximum 160
-                    xfill True
-                    text "lvl [l.level]" style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
-                    add "content/gfx/interface/images/exp_b.png" ypos 2 xalign 0.8
-                    text "[l.exp]/[l.goal]" style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
-            if money > 0:
-                hbox:
-                    add "coin_top" align (0.5, 0.5)
-                    null width 5
-                    text ("%d"%money) size 20 color gold align (0.5, 0.5)
-
-
 label storyi_bossroom:
     stop music
     stop world fadeout 2.0
@@ -216,8 +177,6 @@ label storyi_randomfight:  # initiates fight with random enemy team
             $ money = 0
         $ hero.add_money(money, reason="Loot")
         show screen give_exp_after_battle(hero.team, money)
-        pause 3.5
-        hide screen give_exp_after_battle
         show screen prison_break_controls
         jump storyi_gui_loop
     else:
