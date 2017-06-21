@@ -208,6 +208,10 @@ init -12 python:
             # Converts AP to "Job Points".
             # Removes w from workers list if remove is True.
             # Returns False if no AP was left, True otherwise
+
+            # TODO: Still making plans with no time to implement them
+            # This should be a direct conversion of AP to job points in
+            # same proportion for all simple jobs and CHECKING AVALIBILITY METHODS MUST BE ADJUSTED TO THIS!
             if w.take_ap(1):
                 value = int(round(7 + w.agility * 0.1))
                 w.set_flag(flag, value)

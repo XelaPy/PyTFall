@@ -210,10 +210,10 @@ init -5 python:
                 self.log(temp)
                 self.env.exit(False)
 
-        def convert_AP(self, w, workers, flag):
-            # "Job Points": TODO: Remove this, temp code to help out with testing.
-            if w.take_ap(1):
-                value = 100
-                w.set_flag(flag, value)
-            else:
-                workers.remove(w)
+        # def convert_AP(self, w, workers, flag):
+        #     # "Job Points": TODO: Remove this, temp code to help out with testing.
+        #     if w.take_ap(1):
+        #         value = 100
+        #         w.set_flag(flag, value)
+        #     else:
+        #         workers.remove(w)
