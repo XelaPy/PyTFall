@@ -725,6 +725,8 @@ init: # PyTFall:
                                 xysize (102, 14)
 
     screen message_screen(msg, size=(500, 300), use_return=False):
+        key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+        key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
         modal True
         zorder 10
 
@@ -1624,3 +1626,5 @@ screen give_exp_after_battle(group, money=0): # shows post-battle results; TODO 
             yalign 0.5
             action [Hide("give_exp_after_battle")]
             text "OK" size 15
+    key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+    key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
