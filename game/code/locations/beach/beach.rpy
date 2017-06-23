@@ -1,5 +1,7 @@
 label city_beach:
     $ gm.enter_location(goodtraits=["Energetic", "Exhibitionist"], badtraits=["Scars", "Undead", "Furry", "Monster", "Not Human"], curious_priority=False)
+    $ coords = [[.14, .65], [.42, .6], [.85, .45]]
+        
     # Music related:
     if not "beach_main" in ilists.world_music:
         $ ilists.world_music["beach_main"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("beach_main")]
@@ -42,7 +44,6 @@ label city_beach:
 
 
 screen city_beach():
-
     use top_stripe(True)
 
     # Jump buttons:
@@ -79,14 +80,18 @@ screen city_beach():
 
     if gm.show_girls:
 
-        add "content/gfx/images/bg_gradient.png" yalign 0.2
+        add "content/gfx/images/bg_gradient.png" yalign 0.45
 
-        hbox:
-            align(0.5, 0.3)
-            spacing 70
-
-            for entry in gm.display_girls():
-                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+        # hbox:
+            # align(0.5, 0.3)
+            # spacing 70
+        $ j = 0
+        for entry in gm.display_girls():
+            hbox:
+                align (coords[j])
+                $ j += 1
+                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry], p_img=entry.show("portrait", "indifferent", label_cache=True, resize=(80, 80)))
+                # use rg_lightbutton(p_img=entry.show("portrait", label_cache=True, resize=(200, 200)), return_value=['jump', entry])
 
 
 screen city_beach_swim():
@@ -105,7 +110,7 @@ screen city_beach_swim():
                 yalign 0.5
                 action [Hide("city_beach_swim"), Jump("city_beach_swimming_checks")]
                 text "Swim" size 15
-            if hero.get_skill("swimming") >= -100: # FOR TESTING! do not forget to change back to >= 100
+            if hero.get_skill("swimming") >= -100: # TODO: FOR TESTING! do not forget to change back to >= 100
                 button:
                     xysize (120, 40)
                     yalign 0.5

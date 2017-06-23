@@ -468,11 +468,11 @@ init: # PyTFall:
     screen rg_lightbutton:
         default align = (0, 0)
         frame:
-            background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+            background Frame("content/gfx/frame/MC_bg3.png", 1, 1)
             imagebutton:
                 align align
-                idle (img)
-                hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+                idle (p_img)
+                hover (im.MatrixColor(p_img, im.matrix.brightness(0.15)))
                 action Return(return_value)
 
     screen rtt_lightbutton:
