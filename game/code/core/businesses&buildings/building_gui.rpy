@@ -1097,8 +1097,9 @@ init: # Screens:
                 textbutton "Back" align .5, .95 action SetVariable("bm_mid_frame_mode", "building")
 
     screen building_maintenance():
-        key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
-        key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+        if persistent.unsafe_mode:
+            key "q" action Show("panic_screen")
+            key "Q" action Show("panic_screen")
         modal True
         zorder 1
 
@@ -1186,8 +1187,9 @@ init: # Screens:
                 text  "OK"
 
     screen building_adverts():
-        key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
-        key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+        if persistent.unsafe_mode:
+            key "q" action Show("panic_screen")
+            key "Q" action Show("panic_screen")
         modal True
         zorder 1
 
@@ -1254,8 +1256,9 @@ init: # Screens:
                 text  "OK"
 
     screen building_finances():
-        key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
-        key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+        if persistent.unsafe_mode:
+            key "q" action Show("panic_screen")
+            key "Q" action Show("panic_screen")
         modal True
         zorder 1
 
@@ -1434,8 +1437,9 @@ init: # Screens:
 
     # Customized screens for specific businesses:
     screen fg_log(area, tt):
-        key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
-        key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+        if persistent.unsafe_mode:
+            key "q" action Show("panic_screen")
+            key "Q" action Show("panic_screen")
         on "hide":
             action SetVariable("selected_log_area", None)
 
@@ -1539,8 +1543,9 @@ init: # Screens:
                                 text item.desc xalign .5 color white
 
     screen fg_area(area):
-        key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
-        key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+        if persistent.unsafe_mode:
+            key "q" action Show("panic_screen")
+            key "Q" action Show("panic_screen")
         modal True
         zorder 1
 
@@ -1922,8 +1927,9 @@ init: # Screens:
                         # text  "Launch!!! Days 1" # Gismo: AutoCalculate. 1 day per stage (1-5), 2 days per stage (6-10).
 
     screen fg_char_dropdown(char, team=None, remove=False):
-        key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
-        key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+        if persistent.unsafe_mode:
+            key "q" action Show("panic_screen")
+            key "Q" action Show("panic_screen")
         # Trying to create a drop down screen with choices of actions:
         zorder 3
         modal True

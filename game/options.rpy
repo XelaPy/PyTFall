@@ -12,7 +12,6 @@ python early:
     # with tracebacks and other debugging logs.
     config.name = "PyTFall"
     config.version = "0.56 Step by Step..."
-
     #########################################
     ## This is the name of the directory where the game's data is
     ## stored. (It needs to be set early, before any other init code
@@ -43,7 +42,6 @@ init -5 python hide:
         config.keymap['game_menu'] = ["K_ESCAPE"]
     else:
         config.keymap['game_menu'] = []
-
     # Fixing path:
     config.reject_backslash = False
 

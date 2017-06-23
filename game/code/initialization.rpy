@@ -37,6 +37,10 @@ init -999 python:
     gfximages = "content/gfx/images/"
     interfaceimages = "content/gfx/interface/images/"
     interfacebuttons = "content/gfx/interface/buttons/"
+    if persistent.unsafe_mode is None:
+        persistent.unsafe_mode = True
+    if persistent.battle_results is None:
+        persistent.battle_results = True
 
     def content_path(path):
         '''Returns proper path for a file in the content directory *To be used with os module.'''

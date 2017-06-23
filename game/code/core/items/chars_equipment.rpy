@@ -10,8 +10,9 @@ init:
         color "#ff1a1a"
 
     screen discard_item(eq_sourse, item):
-        key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
-        key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+        if persistent.unsafe_mode:
+            key "q" action Show("panic_screen")
+            key "Q" action Show("panic_screen")
         zorder 10
         modal True
 
@@ -337,8 +338,9 @@ label char_equip_finish:
         jump char_profile
 
 screen equip_for(pos=()):
-    key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
-    key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+    if persistent.unsafe_mode:
+        key "q" action Show("panic_screen")
+        key "Q" action Show("panic_screen")
     zorder 3
     modal True
 

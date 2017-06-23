@@ -902,8 +902,9 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None): # TODO: upkeep 
             action Hide("show_trait_info")
 
 screen girl_control():
-    key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
-    key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+    if persistent.unsafe_mode:
+        key "q" action Show("panic_screen")
+        key "Q" action Show("panic_screen")
     default char = PytGroup(the_chosen) if the_chosen else char
     modal True
     zorder 1
@@ -1113,8 +1114,9 @@ screen girl_control():
             text  "OK"
 
 screen confirm_girl_sale():
-    key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
-    key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+    if persistent.unsafe_mode:
+        key "q" action Show("panic_screen")
+        key "Q" action Show("panic_screen")
     modal True
     zorder 1
 
@@ -1148,8 +1150,9 @@ screen confirm_girl_sale():
                     action Return(['control', 'fire'])
 
 screen finances(obj, mode="logical"):
-    key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
-    key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+    if persistent.unsafe_mode:
+        key "q" action Show("panic_screen")
+        key "Q" action Show("panic_screen")
     modal True
     zorder 1
 

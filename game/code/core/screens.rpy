@@ -725,8 +725,9 @@ init: # PyTFall:
                                 xysize (102, 14)
 
     screen message_screen(msg, size=(500, 300), use_return=False):
-        key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
-        key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+        if persistent.unsafe_mode:
+            key "q" action Show("panic_screen")
+            key "Q" action Show("panic_screen")
         modal True
         zorder 10
 
@@ -1359,6 +1360,67 @@ init: # Settings:
                                     action SelectedIf(s_menu == "Settings"), Hide("s_menu"), Show("s_menu", s_menu="Debug"), With(dissolve) # SetScreenVariable("s_menu", "Settings")
                                     text "Debug menu" size 18 align (0.5, 0.5) # style "mmenu_button_text"
 
+            elif s_menu == "Game":
+                grid 1 1:
+                    align (0.5, 0.5)
+                    spacing 7
+                    # Left column...
+                    frame:
+                        align (0.5, 0.5)
+                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
+                        xpadding 10
+                        ypadding 10
+                        has vbox spacing 5
+                        frame:
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            xsize 194
+                            ypadding 8
+                            style_group "dropdown_gm2"
+                            has vbox align (0.5, 0.5)
+                            frame:
+                                xsize 184
+                                align (0.5, 0.5)
+                                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                                text _("- Panic Screen -") style "TisaOTMolxm"
+                            textbutton _("Enable") action SetField(persistent, "unsafe_mode", True) xsize 150 xalign 0.5 text_size 16
+                            textbutton _("Disable") action SetField(persistent, "unsafe_mode", False) xsize 150 xalign 0.5 text_size 16
+
+                        frame:
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            xsize 194
+                            ypadding 8
+                            style_group "dropdown_gm2"
+                            has vbox align (0.5, 0.5)
+                            frame:
+                                xsize 184
+                                align (0.5, 0.5)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                                text _("- Battle Results -") style "TisaOTMolxm"
+                            textbutton _("Show") action SetField(persistent, "battle_results", True) xsize 150 xalign 0.5 text_size 16
+                            textbutton _("Don't") action SetField(persistent, "battle_results", False) xsize 150 xalign 0.5 text_size 16
+
+                        # frame:
+                            # background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            # xsize 194
+                            # ypadding 10
+                            # style_group "dropdown_gm2"
+                            # has vbox align (0.5, 0.5)
+                            # frame:
+                                # xsize 184
+                                # align (0.5, 0.5)
+                                # background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                                # text _("- Text Speed -") style "TisaOTMolxm"
+                            # null height 8
+                            # bar value Preference("text speed") align (0.5, 0.5)
+
+                        # frame:
+                            # background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            # xsize 194
+                            # ypadding 8
+                            # style_group "dropdown_gm2"
+                            # has vbox align (0.5, 0.5)
+                            # textbutton _("Joystick...") action Preference("joystick") xsize 150 text_size 16
+                                    
             elif s_menu in ("Save", "Load"):
                 vbox:
                     yfill True
@@ -1524,16 +1586,16 @@ init: # Settings:
                 xfill True
                 spacing -10
                 align (0.5, 0.5)
-                text "-------------" style "TisaOTMol" size 20 align (0.5, 0.5)
                 if s_menu == "Settings":
                     text "Settings" style "TisaOTMol" size 26 align (0.5, 0.5)
+                if s_menu == "Game":
+                    text "Game" style "TisaOTMol" size 26 align (0.5, 0.5)
                 elif s_menu == "Save":
                     text "Save" style "TisaOTMol" size 26 align (0.5, 0.5)
                 elif s_menu == "Load":
                     text "Load" style "TisaOTMol" size 26 align (0.5, 0.5)
                 elif s_menu == "Debug":
                     text "Debug" style "TisaOTMol" size 26 align (0.5, 0.5)
-                text "----------" style "TisaOTMol" size 20 align (0.5, 0.5)
             button:
                 yalign 0.5
                 if s_menu != "Debug":
@@ -1546,6 +1608,10 @@ init: # Settings:
                 yalign 0.5
                 action SelectedIf(s_menu == "Settings"), Hide("s_menu"), Show("s_menu", s_menu="Settings"), With(dissolve) # SetScreenVariable("s_menu", "Settings")
                 text "Settings" size 18 align (0.5, 0.5) # style "mmenu_button_text"
+            button:
+                yalign 0.5
+                action SelectedIf(s_menu == "Game"), Hide("s_menu"), Show("s_menu", s_menu="Game"), With(dissolve)
+                text "Game" size 18 align (0.5, 0.5)
             button:
                 yalign 0.5
                 action SensitiveIf(not main_menu), SelectedIf(s_menu == "Save"), Hide("s_menu"), Show("s_menu", s_menu="Save"), With(dissolve)#, SetScreenVariable("s_menu", "Save")
@@ -1564,9 +1630,10 @@ init: # Settings:
                 text "Quit" size 18 align (0.5, 0.5) # style "mmenu_button_text"
             null height 3
             
-screen panic_screen_summon: 
-    key "q" action Show("panic_screen")
-    key "Q" action Show("panic_screen")
+screen panic_screen_summon:
+    if persistent.unsafe_mode:
+        key "q" action Show("panic_screen")
+        key "Q" action Show("panic_screen")
     
 screen panic_screen:
     zorder 1000
@@ -1626,5 +1693,6 @@ screen give_exp_after_battle(group, money=0): # shows post-battle results; TODO 
             yalign 0.5
             action [Hide("give_exp_after_battle")]
             text "OK" size 15
-    key "q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
-    key "Q" action [Show("panic_screen"), PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
+    if persistent.unsafe_mode:
+        key "q" action Show("panic_screen")
+        key "Q" action Show("panic_screen")

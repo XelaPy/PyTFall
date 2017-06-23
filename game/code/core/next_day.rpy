@@ -261,7 +261,6 @@ label next_day_controls:
     scene bg profile_2
     show screen next_day
     with dissolve
-
     while 1:
         python:
             result = ui.interact()

@@ -18,9 +18,9 @@ label mainscreen:
     show screen mainscreen
     show screen panic_screen_summon # in case if somehow it was hidden after all
     # with pixellate
-    
+   
     # Prediction Helpers:
-    # TODO: Stop predicions when we've moved to far away from the images!
+    # TODO: Stop predictions when we've moved to far away from the images!
     python:
         imglist = ["".join([pytfall.map_pattern, key, ".png"]) for key in list(i["id"] for i in pytfall.maps("pytfall"))]
         imglist.extend(["".join([pytfall.map_pattern, key, "_hover.png"])  for key in list(i["id"] for i in pytfall.maps("pytfall"))])
