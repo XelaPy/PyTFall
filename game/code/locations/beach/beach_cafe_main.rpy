@@ -1,6 +1,6 @@
 label city_beach_cafe_main:
     $ gm.enter_location(goodtraits=["Athletic", "Dawdler", "Always Hungry"], badtraits=["Scars", "Undead", "Furry", "Monster"], curious_priority=False)
-    
+    $ coords = [[.15, .75], [.5, .6], [.9, .8]]
     # Music related:
     if not "beach_cafe" in ilists.world_music:
         $ ilists.world_music["beach_cafe"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("beach_cafe")]
@@ -38,21 +38,21 @@ label city_beach_cafe_main:
 screen city_beach_cafe_main:
 
     use top_stripe(True)
-    
-    # Jump buttons:
-    $img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
-    imagebutton:
-        align (0.01, 0.5)
-        idle (img)
-        hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-        action [Hide("city_beach_cafe_main"), Function(global_flags.del_flag, "keep_playing_music"), Jump("city_beach_cafe")]
-    
-    $img = im.Scale(im.Flip("content/gfx/interface/buttons/blue_arrow_up.png", vertical=True), 80, 70)
-    imagebutton:
-        align (0.5, 0.99)
-        idle (img)
-        hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-        action [Hide("city_beach_cafe_main"), Jump("city_beach_left")]        
+    if not gm.show_girls:
+        # Jump buttons:
+        $img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
+        imagebutton:
+            align (0.01, 0.5)
+            idle (img)
+            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            action [Hide("city_beach_cafe_main"), Function(global_flags.del_flag, "keep_playing_music"), Jump("city_beach_cafe")]
+        
+        $img = im.Scale(im.Flip("content/gfx/interface/buttons/blue_arrow_up.png", vertical=True), 80, 70)
+        imagebutton:
+            align (0.5, 0.99)
+            idle (img)
+            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            action [Hide("city_beach_cafe_main"), Jump("city_beach_left")]        
     
     use location_actions("city_beach_cafe_main")
     
@@ -60,9 +60,9 @@ screen city_beach_cafe_main:
     
         add "content/gfx/images/bg_gradient.png" yalign 0.2
     
-        hbox:
-            align(0.5, 0.3)
-            spacing 70
-            
-            for entry in gm.display_girls():
-                    use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
+        $ j = 0
+        for entry in gm.display_girls():
+            hbox:
+                align (coords[j])
+                $ j += 1
+                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])

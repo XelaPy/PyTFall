@@ -466,6 +466,7 @@ init: # PyTFall:
             action Return(return_value)
 
     screen rg_lightbutton:
+        $ p_img = entry.show("portrait", "indifferent", label_cache=True, resize=(80, 80), type="reduce")
         default align = (0, 0)
         frame:
             background Frame("content/gfx/frame/MC_bg3.png", 1, 1)

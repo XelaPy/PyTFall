@@ -45,52 +45,48 @@ label city_beach:
 
 screen city_beach():
     use top_stripe(True)
+    if not gm.show_girls:
+        # Jump buttons:
+        $ img = im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80)
+        imagebutton:
+            id "meow"
+            align (0.99, 0.5)
+            idle (img)
+            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            action [Hide("city_beach"), Jump("city_beach_right")]
 
-    # Jump buttons:
-    $ img = im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80)
-    imagebutton:
-        id "meow"
-        align (0.99, 0.5)
-        idle (img)
-        hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-        action [Hide("city_beach"), Jump("city_beach_right")]
+        $ img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
+        imagebutton:
+            align (0.01, 0.5)
+            idle (img)
+            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            action [Hide("city_beach"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_beach_left")]
 
-    $ img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
-    imagebutton:
-        align (0.01, 0.5)
-        idle (img)
-        hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-        action [Hide("city_beach"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_beach_left")]
+        use location_actions("city_beach")
+        $ img_pool = ProportionalScale("content/gfx/interface/icons/swimming_pool.png", 60, 60)
+        imagebutton:
+            pos(1040, 80)
+            idle (img_pool)
+            hover (im.MatrixColor(img_pool, im.matrix.brightness(0.15)))
+            action [Hide("city_beach"), Jump("swimming_pool")]
 
-    use location_actions("city_beach")
-    $ img_pool = ProportionalScale("content/gfx/interface/icons/swimming_pool.png", 60, 60)
-    imagebutton:
-        pos(1040, 80)
-        idle (img_pool)
-        hover (im.MatrixColor(img_pool, im.matrix.brightness(0.15)))
-        action [Hide("city_beach"), Jump("swimming_pool")]
-
-    $ img_beach_swim = ProportionalScale("content/gfx/interface/icons/sp_swimming.png", 90, 90)
-    imagebutton:
-        pos(280, 240)
-        idle (img_beach_swim)
-        hover (im.MatrixColor(img_beach_swim, im.matrix.brightness(0.15)))
-        action [Hide("city_beach"), Show("city_beach_swim"), With(dissolve)]
+        $ img_beach_swim = ProportionalScale("content/gfx/interface/icons/sp_swimming.png", 90, 90)
+        imagebutton:
+            pos(280, 240)
+            idle (img_beach_swim)
+            hover (im.MatrixColor(img_beach_swim, im.matrix.brightness(0.15)))
+            action [Hide("city_beach"), Show("city_beach_swim"), With(dissolve)]
 
 
     if gm.show_girls:
 
         add "content/gfx/images/bg_gradient.png" yalign 0.45
-
-        # hbox:
-            # align(0.5, 0.3)
-            # spacing 70
         $ j = 0
         for entry in gm.display_girls():
             hbox:
                 align (coords[j])
                 $ j += 1
-                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry], p_img=entry.show("portrait", "indifferent", label_cache=True, resize=(80, 80)))
+                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
                 # use rg_lightbutton(p_img=entry.show("portrait", label_cache=True, resize=(200, 200)), return_value=['jump', entry])
 
 

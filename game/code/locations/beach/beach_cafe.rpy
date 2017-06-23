@@ -1,6 +1,6 @@
 label city_beach_cafe:
     $ gm.enter_location(goodtraits=["Athletic", "Dawdler", "Always Hungry"], badtraits=["Scars", "Undead", "Furry", "Monster"], curious_priority=False)
-    
+    $ coords = [[.2, .75], [.5, .65], [.87, .6]]
     $ global_flags.set_flag("keep_playing_music")
     
     python:
@@ -33,13 +33,13 @@ label city_beach_cafe:
 screen city_beach_cafe:
 
     use top_stripe(True)
-    
-    $ img = im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80)
-    imagebutton:
-        align (0.99, 0.5)
-        idle (img)
-        hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-        action [Hide("city_beach_cafe"), Jump("city_beach_cafe_main")]
+    if not gm.show_girls:
+        $ img = im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80)
+        imagebutton:
+            align (0.99, 0.5)
+            idle (img)
+            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            action [Hide("city_beach_cafe"), Jump("city_beach_cafe_main")]
     
     use location_actions("city_beach_cafe")
     
@@ -47,9 +47,9 @@ screen city_beach_cafe:
     
         add "content/gfx/images/bg_gradient.png" yalign 0.2
     
-        hbox:
-            align(0.5, 0.3)
-            spacing 70
-            
-            for entry in gm.display_girls():
+        $ j = 0
+        for entry in gm.display_girls():
+            hbox:
+                align (coords[j])
+                $ j += 1
                 use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
