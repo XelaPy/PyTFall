@@ -58,7 +58,7 @@ screen swimming_pool():
     
     if gm.show_girls:
     
-        add "content/gfx/images/bg_gradient.png" yalign 0.2
+        add "content/gfx/images/bg_gradient.png" yalign 0.45
         
         hbox:
             align(0.5, 0.3)

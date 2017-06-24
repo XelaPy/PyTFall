@@ -1,6 +1,6 @@
 label graveyard_town:
     $ gm.enter_location(goodtraits=["Undead", "Divine Creature", "Demonic Creature"], badtraits=["Elf", "Android", "Monster", "Human", "Furry"], curious_priority=False)
-    
+    $ coords = [[.1, .55], [.5, .84], [.92, .45]]
     if not "cemetery" in ilists.world_music:
         $ ilists.world_music["cemetery"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("cemetery")]
     if not global_flags.has_flag("keep_playing_music"):
@@ -125,25 +125,27 @@ screen graveyard_town():
     
     use location_actions("graveyard_town")
     
-    $ img_cemetery = ProportionalScale("content/gfx/interface/icons/cemetery.png", 80, 80)
-    $ img_mausoleum = ProportionalScale("content/gfx/interface/icons/mausoleum.png", 80, 80)
-    imagebutton:
-        pos(580, 220)
-        idle (img_cemetery)
-        hover (im.MatrixColor(img_cemetery, im.matrix.brightness(0.15)))
-        action [Hide("graveyard_town"), Jump("show_dead_list")]
-    imagebutton:
-        pos(1090, 180)
-        idle (img_mausoleum)
-        hover (im.MatrixColor(img_mausoleum, im.matrix.brightness(0.15)))
-        action [Hide("graveyard_town"), Jump("enter_dungeon")]
+    if not gm.show_girls:
+        $ img_cemetery = ProportionalScale("content/gfx/interface/icons/cemetery.png", 80, 80)
+        $ img_mausoleum = ProportionalScale("content/gfx/interface/icons/mausoleum.png", 80, 80)
+        imagebutton:
+            pos(580, 220)
+            idle (img_cemetery)
+            hover (im.MatrixColor(img_cemetery, im.matrix.brightness(0.15)))
+            action [Hide("graveyard_town"), Jump("show_dead_list")]
+        imagebutton:
+            pos(1090, 180)
+            idle (img_mausoleum)
+            hover (im.MatrixColor(img_mausoleum, im.matrix.brightness(0.15)))
+            action [Hide("graveyard_town"), Jump("enter_dungeon")]
 
     if gm.show_girls:
     
-        add "content/gfx/images/bg_gradient.png" yalign 0.2
-    
-        hbox:
-            align(0.5, 0.3)
-            spacing 70
-            for entry in gm.display_girls():
+        add "content/gfx/images/bg_gradient.png" yalign 0.45
+        $ j = 0
+        
+        for entry in gm.display_girls():
+            hbox:
+                align (coords[j])
+                $ j += 1
                 use rg_lightbutton(img=entry.show('girlmeets', exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage", "onsen", "indoors", "indoor"], type="first_default",label_cache=True, resize=(300, 400)), return_value=['jump', entry])

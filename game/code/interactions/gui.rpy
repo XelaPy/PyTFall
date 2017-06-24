@@ -322,7 +322,7 @@ label interactions_control:
 
 screen girl_interactions():
     # BG
-    add "content/gfx/images/bg_gradient.png" yalign 0.2
+    add "content/gfx/images/bg_gradient.png" yalign 0.45
 
     # Disposition bar
     vbox:

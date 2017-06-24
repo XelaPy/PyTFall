@@ -1,6 +1,6 @@
 label city_parkgates:
     $ gm.enter_location(goodtraits=["Elf", "Furry", "Human"], badtraits=["Aggressive", "Adventurous"], curious_priority=False)
-    
+    $ coords = [[.1, .75], [.4, .67], [.9, .7]]
     # Music related:
     if not "park" in ilists.world_music:
         $ ilists.world_music["park"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("park")]
@@ -52,17 +52,19 @@ screen city_parkgates():
 
     use top_stripe(True)
     
-    use r_lightbutton(img=im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), return_value=['control', 'jumppark'], align=(0.99,0.5))
+    if not gm.show_girls:
+        use r_lightbutton(img=im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), return_value=['control', 'jumppark'], align=(0.99,0.5))
     
     use location_actions("city_parkgates")
     
     if gm.show_girls:
-    
-        add "content/gfx/images/bg_gradient.png" yalign 0.2
-    
-        hbox:
-            align(0.5, 0.3)
-            spacing 70
-            for entry in gm.display_girls():
-          
+
+        add "content/gfx/images/bg_gradient.png" yalign 0.45
+        
+        $ j = 0
+        
+        for entry in gm.display_girls():
+            hbox:
+                align (coords[j])
+                $ j += 1
                 use rg_lightbutton(img=entry.show("girlmeets", "outdoors", "nature", "urban", exclude=["swimsuit", "wildness", "indoors", "stage", "beach", "pool", "onsen", "indoor"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])

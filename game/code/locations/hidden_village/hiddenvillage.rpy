@@ -1,5 +1,6 @@
 label hiddenvillage_entrance:
     $ gm.enter_location(limited_location=True)
+    $ coords = [[.2, .25], [.55, .2], [.8, .18]]
     if not "village" in ilists.world_music:
         $ ilists.world_music["village"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("village")]
     if not global_flags.has_flag("keep_playing_music"):
@@ -43,23 +44,23 @@ screen hiddenvillage_entrance:
     use top_stripe(True)
 
     use location_actions("hiddenvillage_entrance")
-    
-    $img = ProportionalScale("content/gfx/interface/icons/ninja_shop.png", 100, 70)
-    imagebutton:
-        pos(300, 315)
-        idle (img)
-        hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-        action [Hide("hiddenvillage_entrance"), Jump("hidden_village_shop")]
+    if not gm.show_girls:
+        $img = ProportionalScale("content/gfx/interface/icons/ninja_shop.png", 100, 70)
+        imagebutton:
+            pos(300, 315)
+            idle (img)
+            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            action [Hide("hiddenvillage_entrance"), Jump("hidden_village_shop")]
         
     if gm.show_girls:
     
-        add "content/gfx/images/bg_gradient.png" yalign 0.2
-    
-        hbox:
-            align(0.5, 0.3)
-            spacing 70
-            
-            for entry in gm.display_girls():
+        add "content/gfx/images/bg_gradient.png" yalign 0.45
+        $ j = 0
+        
+        for entry in gm.display_girls():
+            hbox:
+                align (coords[j])
+                $ j += 1
                 use rg_lightbutton(img=entry.show("girlmeets", exclude=["beach", "winter", "night", "formal", "indoors", "swimsuit"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
     
 label hidden_village_shop: # ninja shop logic

@@ -129,6 +129,7 @@ init python:
 
 label academy_town:
     $ gm.enter_location(badtraits=["Adventurous", "Slime", "Monster"], curious_priority=True, has_tags=["sfw", "schoolgirl"])
+    $ coords = [[.1, .55], [.45, .64], [.86, .65]]
     $ e = npcs["Eleven"].say
     $ npcs["Eleven"].override_portrait("portrait", "indifferent")
     if not "library" in ilists.world_music:
@@ -244,13 +245,14 @@ screen academy_town():
     use location_actions("academy_town")
 
     if gm.show_girls:
-
-        add "content/gfx/images/bg_gradient.png" yalign 0.2
-
-        hbox:
-            align(0.5, 0.3)
-            spacing 70
-            for entry in gm.display_girls():
+    
+        add "content/gfx/images/bg_gradient.png" yalign 0.45
+        $ j = 0
+        
+        for entry in gm.display_girls():
+            hbox:
+                align (coords[j])
+                $ j += 1
                 use rg_lightbutton(img=entry.show("girlmeets", "indoors", "schoolgirl", exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage", "onsen", "indoor"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
 
 label library_read_matrix:

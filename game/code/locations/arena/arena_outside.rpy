@@ -1,6 +1,6 @@
 label arena_outside:
     $ gm.enter_location(goodtraits=["Manly", "Courageous", "Aggressive"], badtraits=["Coward", "Nerd", "Homebody"], goodoccupations=["Warrior"], curious_priority=False)
-    
+    $ coords = [[.1, .6], [.59, .64], [.98, .61]]
     # Music related:
     if not "arena_outside" in ilists.world_music:
         $ ilists.world_music["arena_outside"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("arena_outside")]
@@ -8,7 +8,7 @@ label arena_outside:
         play world choice(ilists.world_music["arena_outside"])
     $ global_flags.del_flag("keep_playing_music")
     
-    scene bg arena_quarters
+    scene bg arena_outside
     with dissolve
     
     # Texts: ---------------------------------------------------------->
@@ -286,10 +286,11 @@ screen arena_outside:
     
     if gm.show_girls:
     
-        add "content/gfx/images/bg_gradient.png" yalign 0.2
-    
-        hbox:
-            align(0.5,0.3)
-            spacing 70
-            for entry in gm.display_girls():
+        add "content/gfx/images/bg_gradient.png" yalign 0.45
+        $ j = 0
+        
+        for entry in gm.display_girls():
+            hbox:
+                align (coords[j])
+                $ j += 1
                 use rg_lightbutton(img=entry.show("girlmeets", "armor", exclude=["swimsuit", "beach", "pool", "onsen", "bunny", "indoor", "formal", "wildness"], label_cache=True, resize=(300, 400), type="reduce"), return_value=['jump', entry])
