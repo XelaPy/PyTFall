@@ -456,7 +456,6 @@ init: # Items:
 
             use items_inv(char=ref, main_size=(268, 522), frame_size=(85, 85), return_value=["item", ref])
 
-init: # PyTFall:
     screen r_lightbutton:
         default align = (0, 0)
         imagebutton:
@@ -466,10 +465,19 @@ init: # PyTFall:
             action Return(return_value)
 
     screen rg_lightbutton:
-        $ p_img = entry.show("portrait", "indifferent", label_cache=True, resize=(80, 80), type="reduce")
+        if entry.flag("_day_countdown_interactions_blowoff"):
+            $ temp = "angry"
+        elif entry.disposition >= 500:
+            $ temp = "shy"
+        elif entry.disposition >= 100:
+            $ temp = "happy"
+        else:
+            $ temp = "indifferent"
+        $ p_img = entry.show("portrait", temp, label_cache=True, resize=(90, 90), type="reduce")
         default align = (0, 0)
         frame:
-            background Frame("content/gfx/frame/MC_bg3.png", 1, 1)
+            padding(2, 2)
+            background Frame("content/gfx/frame/MC_bg3.png")
             imagebutton:
                 align align
                 idle (p_img)

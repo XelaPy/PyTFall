@@ -62,7 +62,6 @@ screen city_beach():
             hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
             action [Hide("city_beach"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_beach_left")]
 
-        use location_actions("city_beach")
         $ img_pool = ProportionalScale("content/gfx/interface/icons/swimming_pool.png", 60, 60)
         imagebutton:
             pos(1040, 80)
@@ -76,7 +75,7 @@ screen city_beach():
             idle (img_beach_swim)
             hover (im.MatrixColor(img_beach_swim, im.matrix.brightness(0.15)))
             action [Hide("city_beach"), Show("city_beach_swim"), With(dissolve)]
-
+    use location_actions("city_beach")
 
     if gm.show_girls:
 
