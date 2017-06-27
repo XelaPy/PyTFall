@@ -204,22 +204,9 @@ init -12 python:
                 self.log(temp)
                 return False
 
-        def convert_AP(self, w, workers, flag, remove=True):
-            # Converts AP to "Job Points".
-            # Removes w from workers list if remove is True.
-            # Returns False if no AP was left, True otherwise
-
-            # TODO: Still making plans with no time to implement them
-            # This should be a direct conversion of AP to job points in
-            # same proportion for all simple jobs and CHECKING AVALIBILITY METHODS MUST BE ADJUSTED TO THIS!
-            if w.take_ap(1):
-                value = int(round(7 + w.agility * 0.1))
-                w.set_flag(flag, value)
-                return True
-            else:
-                if remove:
-                    workers.remove(w)
-                return False
+        def convert_AP(self, worker):
+            worker.jobpoints = worker.AP*100
+            worker.AP = 0
 
         # Runs before ND calcs stats for this building.
         def pre_nd(self):

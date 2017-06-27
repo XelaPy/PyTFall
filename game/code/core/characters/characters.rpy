@@ -1798,6 +1798,8 @@ init -9 python:
             self.alive = True
             self._available = True
 
+            self.jobpoints = 0
+
             # Say style properties:
             self.say_style = {"color": ivory}
 
@@ -2101,7 +2103,7 @@ init -9 python:
 
         def remove_item(self, item, amount=1):
             self.inventory.remove(item, amount=amount)
-            
+
         def remove_all_items(self):
             for i in self.inventory:
                 self.inventory.remove(i.id, amount=has_items(i.id, [self]))
@@ -3504,6 +3506,8 @@ init -9 python:
             self.restore_ap()
 
         def next_day(self):
+            self.jobpoints = 0
+
             # We assume this to be safe for any character...
             # Day counter flags:
             for flag in self.flags.keys():

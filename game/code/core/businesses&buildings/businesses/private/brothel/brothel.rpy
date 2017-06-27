@@ -72,7 +72,7 @@ init -5 python:
             # Execute the job:
             job, building = self.job, self.instance
             log = NDEvent(job=job, char=worker, loc=building, business=self)
-            worker.AP -= 1
+            worker.jobpoints -= 100
             job.settle_workers_disposition(worker, log)
 
             difficulty = building.tier

@@ -71,8 +71,9 @@ init -10 python:
                 c.action = AutoRest()
                 if log:
                     log.append("And going to take few days off to recover. ")
-        if check_ap and c.AP <= 0:
-            return False
+        if check_ap:
+            if c.AP <= 0 and c.jobpoints <= 0:
+                return False
 
         return True
 
