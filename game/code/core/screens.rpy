@@ -475,15 +475,21 @@ init: # Items:
             $ temp = "indifferent"
         $ p_img = entry.show("portrait", temp, label_cache=True, resize=(90, 90), type="reduce")
         default align = (0, 0)
-        frame:
-            padding(2, 2)
-            background Frame("content/gfx/frame/MC_bg3.png")
-            imagebutton:
-                align align
-                idle (p_img)
-                hover (im.MatrixColor(p_img, im.matrix.brightness(0.15)))
-                action Return(return_value)
-
+        vbox:
+            frame:
+                padding(2, 2)
+                background Frame("content/gfx/frame/MC_bg3.png")
+                imagebutton:
+                    align align
+                    idle (p_img)
+                    hover (im.MatrixColor(p_img, im.matrix.brightness(0.15)))
+                    action Return(return_value)
+            frame:
+                padding(2, 2)
+                xsize 94
+                background Frame("content/gfx/frame/gm_frame.png")
+                label "Tier [entry.tier]" xalign 0.5 text_color "#DAA520"
+                
     screen rtt_lightbutton:
         imagebutton yalign 0.5:
             idle (img)
