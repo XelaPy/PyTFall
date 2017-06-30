@@ -109,7 +109,6 @@ label next_day_effects_check:  # all traits and effects which require some unusu
     return
 
 label next_day:
-    $ renpy.force_autosave(True)
     call next_day_effects_check
     scene bg profile_2
     if just_view_next_day: # Review old reports:
@@ -139,6 +138,10 @@ label next_day:
     $ girls = None
     hide screen next_day
     jump mainscreen
+    
+label auto:
+    $ renpy.force_autosave(True)
+    return
 
 label next_day_calculations:
     $ FilteredList = list()
