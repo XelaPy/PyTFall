@@ -18,7 +18,7 @@ label mainscreen:
     show screen mainscreen
     show screen panic_screen_summon # in case if somehow it was hidden after all
     # with pixellate
-
+   
     # Prediction Helpers:
     # TODO: Stop predictions when we've moved to far away from the images!
     python:
@@ -39,7 +39,7 @@ label mainscreen:
     $ pytfall.world_quests.run_quests("auto") # Unsquelch active quests
     $ pytfall.world_events.run_events("auto") # Run current events
     $ pytfall.world_quests.next_day() # Garbage collect quests
-    call auto
+    
     while 1:
         $ result = ui.interact()
         
