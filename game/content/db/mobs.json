@@ -1446,6 +1446,36 @@
         ]
     },
     {
+        "name": "Arachna",
+        "desc": "A female arachnid. They always devour their partners after mating, which led to their rapid extermination by other races.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/ara.png",
+        "portrait": "content/npc/mobs/ara1.png",
+        "race": "Monster Girl",
+        "locations": [],
+        "min_lvl": 35,
+        "basetraits": [
+            "Berserker", "Warrior"
+        ],
+        "stats": {
+            "attack": 50,
+            "defence":60,
+            "magic": 0,
+            "agility": 60,
+            "luck":0,
+            "charisma": 10,
+            "constitution": 30,
+            "intelligence": 3
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral", "Poison Resistance"],
+        "attack_skills": [
+            "Bite"
+        ],
+        "magic_skills": ["Deadly Poison"
+        ]
+    },
+    {
         "name": "Royal Mantis",
         "desc": "A giant ambush predator with huge scythe-like claws and excellent reflexes.",
         "front_row": 1,
@@ -1986,6 +2016,36 @@
         ]
     },
     {
+        "name": "Poison Ivy",
+        "desc": "An intelligent plant covered with poisonous spines. Only hardcore masochists can mate with them, but somehow their population remains stable.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/ivy.png",
+        "portrait": "content/npc/mobs/ivy1.png",
+        "race": "Monster Girl",
+        "locations": [],
+        "min_lvl": 25,
+        "basetraits": [
+            "Mage"
+        ],
+        "stats": {
+            "attack": 7,
+            "defence":60,
+            "magic": 65,
+            "agility": 70,
+            "luck":20,
+            "charisma":65,
+            "constitution": 20,
+            "intelligence": 40
+        },
+        "skills": {},
+        "traits": ["Monster", "Earth", "Earth Immunity", "Water Absorption", "Poison Absorption"],
+        "attack_skills": [
+            "Whip Strike"
+        ],
+        "magic_skills": ["Stonera", "Stonega", "Arcane Shield", "Poisonous Rune"
+        ]
+    },
+    {
         "name": "Druid",
         "desc": "A crazy old hermit. Noone can keep the sanity and healthy stomach eating only mushrooms and berries for decades.",
         "front_row": 0,
@@ -2349,8 +2409,8 @@
         "name": "Ice Maiden",
         "desc": "A mysterious female creature from the dimension of Ice. She may look hot, but her touch can freeze you on spot.",
         "front_row": 0,
-        "battle_sprite": "content/npc/mobs/bt.png",
-        "portrait": "content/npc/mobs/bt1.png",
+        "battle_sprite": "content/npc/mobs/icy.png",
+        "portrait": "content/npc/mobs/icy1.png",
         "race": "Elemental",
         "locations": [],
         "min_lvl": 40,
@@ -3786,6 +3846,36 @@
         ]
     },
     {
+        "name": "Naga Warrior",
+        "desc": "A half-snake, half-woman. Because of the unusual structure of the body they are experiencing certain difficulties during mating.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/fc.png",
+        "portrait": "content/npc/mobs/fc1.png",
+        "race": "Monster Girl",
+        "locations": [],
+        "min_lvl": 30,
+        "basetraits": [
+            "Warrior"
+        ],
+        "stats": {
+            "attack": 80,
+            "defence":40,
+            "magic": 20,
+            "agility": 60,
+            "luck":-20,
+            "charisma":35,
+            "constitution": 40,
+            "intelligence": 25
+        },
+        "skills": {},
+        "traits": ["Monster", "Neutral"],
+        "attack_skills": [
+            "Chop Rush", "Weapon Dance"
+        ],
+        "magic_skills": [
+        ]
+    },
+    {
         "name": "Giant Scorpion",
         "desc": "A predatory arachnid armed with claws and a venomous stinger.",
         "front_row": 1,
@@ -4442,6 +4532,66 @@
             "Gun Shot"
         ],
         "magic_skills": ["Waterga", "Watera"
+        ]
+    },
+    {
+        "name": "Forest Fairy",
+        "desc": "Malicious wild fairies often attack travellers just for fun.",
+        "front_row": 0,
+        "battle_sprite": "content/npc/mobs/fa.png",
+        "portrait": "content/npc/mobs/fa1.png",
+        "race": "Fairy",
+        "locations": [],
+        "min_lvl": 50,
+        "basetraits": [
+            "Mage"
+        ],
+        "stats": {
+            "attack": 15,
+            "defence":20,
+            "magic": 80,
+            "agility": 95,
+            "luck":10,
+            "charisma":85,
+            "constitution": 30,
+            "intelligence": 40
+        },
+        "skills": {},
+        "traits": ["Elf", "Earth", "Minor Physical Resistance"],
+        "attack_skills": [
+            
+        ],
+        "magic_skills": ["Stone", "Stonera", "Stonega", "Stoneja"
+        ]
+    },
+    {
+        "name": "Insect Queen",
+        "desc": "Queens control all lesser insects within large area. Some of them are friendly, but most see strangers only as food.",
+        "front_row": 1,
+        "battle_sprite": "content/npc/mobs/fb.png",
+        "portrait": "content/npc/mobs/fb1.png",
+        "race": "Monster Girl",
+        "locations": [],
+        "min_lvl": 60,
+        "basetraits": [
+            "Assassin"
+        ],
+        "stats": {
+            "attack": 75,
+            "defence":50,
+            "magic": 30,
+            "agility": 65,
+            "luck":-10,
+            "charisma":35,
+            "constitution": 50,
+            "intelligence": 30
+        },
+        "skills": {},
+        "traits": ["Monster", "Poison Immunity"],
+        "attack_skills": ["Claw Slash 2X", "Claw Slash 4X", "Rapid Strikes"
+            
+        ],
+        "magic_skills": ["Deadly Poison"
         ]
     }
 ]
