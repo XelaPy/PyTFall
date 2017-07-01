@@ -22,7 +22,6 @@ python early:
     config.screen_width = 1280
     config.screen_height = 720
 
-define config.autosave_slots = 6
 define config.quicksave_slots = 6
 
 init -1000 python hide:
@@ -64,7 +63,7 @@ init -5 python hide:
     config.image_cache_size = 80
 
     # getting rid of auto-saves
-    config.has_autosave = True
+    config.has_autosave = False
     config.autosave_frequency = None
     renpy.config.autosave_on_choice = False
 
