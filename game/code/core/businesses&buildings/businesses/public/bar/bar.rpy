@@ -139,7 +139,7 @@ init -5 python:
             max_clients = 5 # Come up with a good way to figure out how many clients a worker can serve!
             tips = 0 # Tips the worker is going to get!
 
-            while worker.AP and self.res.count:
+            while worker.jobpoints and self.res.count:
                 yield self.env.timeout(self.time) # This is a single shift a worker can take for cost of 1 AP.
 
                 # Account for clients that left...
@@ -157,7 +157,8 @@ init -5 python:
                 for client in self.clients:
                     client.up_counter("got_serviced_by" + worker.id)
 
-                worker.AP -= 1
+                worker.jobpoints -= 100
+                # TODO Is this worth adjusting to lower base???
 
                 if effectiveness > 200:
                     tips += randint(3, 5) * self.instance.tier
