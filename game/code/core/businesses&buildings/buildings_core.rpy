@@ -348,14 +348,16 @@ init -10 python:
             return int(round(dirt)), dirt_string
 
         def clean(self, value):
-            newval = self.dirt + value
+            result = self.dirt + value
             maxdirt = self.get_max_dirt()
-            if newval > maxdirt:
-                self.dirt = maxdirt
-            elif newval < 0:
+            if result > maxdirt:
+                self.dirt = result
+            elif result < 0:
                 self.dirt = 0
             else:
-                self.dirt = newval
+                self.dirt = result
+            if config.debug:
+                devlog.info("{}: Clean Function: result: {}, self.dirt: {}".format(self.env.now, result, self.dirt))
 
 
     class AdvertableBuilding(BaseBuilding):
@@ -601,6 +603,10 @@ init -10 python:
                 else:
                     return False
 
+        def convert_AP(self, worker):
+            worker.jobpoints = worker.AP*100
+            worker.AP = 0
+
         @property
         def habitable(self):
             """
@@ -634,8 +640,10 @@ init -10 python:
             self.log("--- Testing {} Building ---".format(set_font_color(self.name, "lawngreen")))
 
             # All workers and workable businesses:
-            # The last check may not be good enought, may need rewriting.
+            # The last check may not be good enought, may need rewriting. TODO
             self.available_workers = list(c for c in self.all_workers if c.location == self and c.action in self.jobs)
+            for w in self.available_workers:
+                self.convert_AP(w)
             # Get businesses we wish SimPy to manage! # IMPORTANT! .manage_business method is expected.
             self.nd_ups = list(up for up in self._upgrades if up.workable)
 

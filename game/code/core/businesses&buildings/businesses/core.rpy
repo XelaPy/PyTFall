@@ -205,8 +205,7 @@ init -12 python:
                 return False
 
         def convert_AP(self, worker):
-            worker.jobpoints = worker.AP*100
-            worker.AP = 0
+            self.instance.convert_AP(worker)
 
         # Runs before ND calcs stats for this building.
         def pre_nd(self):

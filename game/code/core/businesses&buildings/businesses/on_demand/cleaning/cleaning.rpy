@@ -41,8 +41,13 @@ init -5 python:
             all_cleaners = self.get_pure_cleaners(job, power_flag_name) # Everyone that cleaned for the report.
             cleaners = all_cleaners.copy() # cleaners on active duty
 
+
             while 1:
                 dirt = building.get_dirt()
+                if config.debug:
+                    temp = "{color=[red]}" + "{}: DEBUG: {} DIRT IN THE BUILDING!".format(self.env.now,
+                                        dirt)
+                    self.log(temp)
                 if dirt >= 900:
                     if building.auto_clean:
                         price = building.get_cleaning_price()
@@ -92,11 +97,20 @@ init -5 python:
                     using_all_workers = False
                     cleaners = self.get_pure_cleaners(job, power_flag_name)
 
+                # Actually handle dirt cleaning:
                 if make_nd_report_at and building.dirt > 0:
-                    for w in cleaners:
-                        value = -w.flag(power_flag_name)
+                    for w in cleaners.copy():
+                        value = w.flag(power_flag_name)
                         dirt_cleaned += value
                         building.clean(value)
+
+                        # Adjust JP and Remove the clear after running out of jobpoints:
+                        w.jobpoints -= 5
+                        if w.jobpoints <= 0:
+                            temp = "{}: {} is done cleaning for the day!".format(self.env.now,
+                                                set_font_color(w.nickname, "blue"))
+                            self.log(temp)
+                            cleaners.remove(w)
 
                 condition1 = make_nd_report_at and self.env.now == make_nd_report_at
                 condition2 = make_nd_report_at and building.dirt <= 0
@@ -165,8 +179,6 @@ init -5 python:
                 # Job Points:
                 flag_name = "_jobs_cleaning_points"
                 for w in cleaners[:]:
-                    if not w.flag(flag_name) or w.flag(flag_name) <= 0:
-                        self.convert_AP(w, cleaners, flag_name)
 
                     # Cleaning itself:
                     if w in cleaners:

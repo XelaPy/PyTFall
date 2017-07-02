@@ -63,8 +63,8 @@ init -5 python:
                 try:
                     flag_name = "_jobs_guard_points"
                     for w in workers[:]:
-                        if not w.flag(flag_name) or w.flag(flag_name) <= 0:
-                            self.convert_AP(w, workers, flag_name)
+                        # if not w.flag(flag_name) or w.flag(flag_name) <= 0:
+                        #     self.convert_AP(w, workers, flag_name)
 
                         # Cleaning itself:
                         if w in workers:
@@ -209,11 +209,3 @@ init -5 python:
                 temp = temp + set_font_color("....", "crimson")
                 self.log(temp)
                 self.env.exit(False)
-
-        # def convert_AP(self, w, workers, flag):
-        #     # "Job Points": TODO: Remove this, temp code to help out with testing.
-        #     if w.take_ap(1):
-        #         value = 100
-        #         w.set_flag(flag, value)
-        #     else:
-        #         workers.remove(w)
