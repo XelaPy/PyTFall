@@ -5,7 +5,9 @@ init -5 python:
         COST = 10000
         ID = "Brothel"
         IMG = "content/buildings/upgrades/room.jpg"
-        def __init__(self, name="Brothel", instance=None, desc="Rooms to freck in!", img="content/buildings/upgrades/room.jpg", build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
+        def __init__(self, name="Brothel", instance=None, desc="Rooms to freck in!",
+                     img="content/buildings/upgrades/room.jpg", build_effort=0, materials=None,
+                     in_slots=2, cost=500, **kwargs):
             super(BrothelBlock, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.capacity = in_slots
             self.type = "personal_service"

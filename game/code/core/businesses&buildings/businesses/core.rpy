@@ -173,7 +173,8 @@ init -12 python:
             """
             if job.is_valid_for(worker):
                 if config.debug:
-                    temp = set_font_color("{}: Debug: {} worker (Occupations: {}) with action: {} is doing {}.".format(self.env.now, worker.nickname, ", ".join(list(str(t) for t in worker.occupations)), worker.action, job.id), "lawngreen")
+                    temp = set_font_color("{}: Debug: {} worker (Occupations: {}) with action: {} is doing {}.".format(self.env.now,
+                                          worker.nickname, ", ".join(list(str(t) for t in worker.occupations)), worker.action, job.id), "lawngreen")
                     self.log(temp)
                 return True
             else:
@@ -205,8 +206,7 @@ init -12 python:
                 return False
 
         def convert_AP(self, worker):
-            worker.jobpoints = worker.AP*100
-            worker.AP = 0
+            self.instance.convert_AP(worker)
 
         # Runs before ND calcs stats for this building.
         def pre_nd(self):
