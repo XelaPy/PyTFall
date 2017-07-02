@@ -176,6 +176,10 @@ init -999 python:
         """Simple class to log all variables into a single namespace
 
         Now and count...
+
+        PF Flags:
+        starts with "jobs": Reset internally in SimPy land!
+        starts with "_ndr": Deleted at the very end of next day logic!
         """
         def __init__(self):
             self.flags = dict()
