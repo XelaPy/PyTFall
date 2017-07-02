@@ -36,7 +36,9 @@ init -5 python:
             power_flag_name = "jobs_cleaning_power"
             job = simple_jobs["Cleaning"]
 
-            all_cleaners = self.get_pure_cleaners(job, power_flag_name) # Everyone that cleaned for the report.
+            # Pure cleaners, container is kept around for checking during all_on_deck scenarios
+            pure_cleaners = self.get_pure_cleaners(job, power_flag_name)
+            all_cleaners = pure_cleaners.copy() # Everyone that cleaned for the report.
             cleaners = all_cleaners.copy() # cleaners on active duty
 
             while 1:
@@ -120,8 +122,13 @@ init -5 python:
                     # Release none-pure cleaners:
                     if dirt < 600 and using_all_workers:
                         using_all_workers = False
-                        all_cleaners = self.get_pure_cleaners(job, power_flag_name) # Everyone that cleaned for the report.
-                        cleaners = all_cleaners.copy() # cleaners on active duty
+                        for worker in cleaners.copy():
+                            if worker not in pure_cleaners:
+                                cleaners.remove(worker)
+                                self.instance.active_workers.insert(0, worker)
+
+                        # all_cleaners = self.get_pure_cleaners(job, power_flag_name) # Everyone that cleaned for the report.
+                        # cleaners = all_cleaners.copy() # cleaners on active duty
 
                 yield self.env.timeout(1)
 
@@ -141,7 +148,7 @@ init -5 python:
             power_flag_name = "jobs_cleaning_power"
             # calls everyone in the building to clean it
             new_cleaners = self.get_workers(job, amount=float("inf"),
-                            match_to_client=None, priority=True, any=True))
+                            match_to_client=None, priority=True, any=True)
 
             for w in new_cleaners:
                 if not w.flag(power_flag_name):
@@ -149,7 +156,7 @@ init -5 python:
                     w.set_flag(power_flag_name, value)
                     # Remove from active workers:
                     self.instance.available_workers.remove(w)
-            return new_cleaners.union(cleaners)
+            return cleaners.union(new_cleaners)
 
         def write_nd_report(self, pure_cleaners, dirt_cleaned):
             job, loc = self.job, self.instance
