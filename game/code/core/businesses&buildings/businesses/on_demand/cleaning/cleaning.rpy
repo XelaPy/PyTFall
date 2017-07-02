@@ -25,9 +25,6 @@ init -5 python:
             If there is no auto-cleaning, we call all workers in the building to clean…
             unless they just refuse that on some principal (trait checks)...
             """
-            # while 1:
-            #     yield self.env.timeout(1)
-            # TODO: FIGURE OUT WHAT TO DO WITH JOBPOINTS!
             building = self.instance
             make_nd_report_at = 0 # We build a report every 25 ticks but only if this is True!
             dirt_cleaned = 0 # We only do this for the ND report!
@@ -38,9 +35,9 @@ init -5 python:
 
             power_flag_name = "jobs_cleaning_power"
             job = simple_jobs["Cleaning"]
+
             all_cleaners = self.get_pure_cleaners(job, power_flag_name) # Everyone that cleaned for the report.
             cleaners = all_cleaners.copy() # cleaners on active duty
-
 
             while 1:
                 dirt = building.get_dirt()
@@ -48,6 +45,7 @@ init -5 python:
                     temp = "{color=[red]}" + "{}: DEBUG: {} DIRT IN THE BUILDING!".format(self.env.now,
                                         dirt)
                     self.log(temp)
+
                 if dirt >= 900:
                     if building.auto_clean:
                         price = building.get_cleaning_price()
@@ -115,32 +113,43 @@ init -5 python:
                 condition1 = make_nd_report_at and self.env.now == make_nd_report_at
                 condition2 = make_nd_report_at and building.dirt <= 0
                 if condition1 or condition2:
-                    self.write_nd_report(all_cleaners, dirt_cleaned)
+                    self.write_nd_report(all_cleaners, -dirt_cleaned)
                     make_nd_report_at = 0
                     dirt_cleaned = 0
+
+                    # Release none-pure cleaners:
+                    if dirt < 600 and using_all_workers:
+                        using_all_workers = False
+                        all_cleaners = self.get_pure_cleaners(job, power_flag_name) # Everyone that cleaned for the report.
+                        cleaners = all_cleaners.copy() # cleaners on active duty
 
                 yield self.env.timeout(1)
 
         def get_pure_cleaners(self, job, power_flag_name):
             cleaners = set(self.get_workers(job, amount=float("inf"),
-                            match_to_client=None, priority=True, any=False))
+                           match_to_client=None, priority=True, any=False))
             for w in cleaners:
-                # TODO Review, revice and account for effectiveness!!!
+                # TODO Review and account for effectiveness!!!
                 if not w.flag(power_flag_name):
-                    value = -int(round(1 + w.get_skill("service") * 0.025 + w.agility * 0.03))
+                    value = -int(round(5 + w.get_skill("service") * .025 + w.agility * .03))
                     w.set_flag(power_flag_name, value)
+                # Remove from active workers:
+                self.instance.available_workers.remove(w)
             return cleaners
 
         def all_on_deck(self, cleaners, job, power_flag_name):
             power_flag_name = "jobs_cleaning_power"
             # calls everyone in the building to clean it
-            cleaners.union(self.get_workers(job, amount=float("inf"),
-                           match_to_client=None, priority=True, any=True))
-            for w in cleaners:
+            new_cleaners = self.get_workers(job, amount=float("inf"),
+                            match_to_client=None, priority=True, any=True))
+
+            for w in new_cleaners:
                 if not w.flag(power_flag_name):
-                    value = -int(round(1 + w.get_skill("service") * 0.025 + w.agility * 0.03))
+                    value = -int(round(5 + w.get_skill("service") * 0.025 + w.agility * 0.03))
                     w.set_flag(power_flag_name, value)
-            return cleaners
+                    # Remove from active workers:
+                    self.instance.available_workers.remove(w)
+            return new_cleaners.union(cleaners)
 
         def write_nd_report(self, pure_cleaners, dirt_cleaned):
             job, loc = self.job, self.instance
@@ -163,52 +172,7 @@ init -5 python:
             # Stat mods
             log.logloc('dirt', dirt_cleaned)
 
-            # for w in self.all_workers:
-            #     log.logws('vitality', -randint(15, 25), w)  # = ? What to do here?
-            #     log.logws('exp', randint(15, 25), w) # = ? What to do here?
-            #     if dice(33):
-            #         log.logws('service', 1, w) # = ? What to do here?
-            # ... We prolly need to log how much dirt each individual worker is cleaning or how much wp is spent...
             log.event_type = "jobreport" # Come up with a new type for team reports?
 
             log.after_job()
             NextDayEvents.append(log)
-
-        def clean(self, cleaners, building):
-            while cleaners and dirt - dirt_cleaned >= 10:
-                # Job Points:
-                flag_name = "_jobs_cleaning_points"
-                for w in cleaners[:]:
-
-                    # Cleaning itself:
-                    if w in cleaners:
-                        dirt_cleaned = dirt_cleaned + w.flag(power_flag_name)
-                        w.mod_flag("_jobs_cleaning_points", -1) # 1 point per 1 dp? Is this reasonable...? Prolly, yeah.
-                        w.mod_flag("job_cleaning_points_spent", 1) # So we know what to do during the job event buildup and stats application.
-
-                if config.debug and self.env and not counter % 2:
-                    wlen = len(cleaners)
-                    # We run this once per 2 du and only for debug purposes.
-                    temp = "{}: Debug: ".format(self.env.now)
-                    temp = temp + " {} Workers are currently cleaning {}!".format(set_font_color(wlen, "red"), building.name)
-                    temp = temp + set_font_color(" Cleaned: {} dirt".format(dirt_cleaned), "blue")
-                    self.log(temp)
-
-                # We may be running this outside of SimPy...
-                if self.env:
-                    yield self.env.timeout(1)
-
-                counter += 1
-
-            temp = "{}: Cleaning process of {} is now finished!".format(self.env.now, building.name)
-            temp = set_font_color(temp, "red")
-            self.log(temp)
-
-            # Once the loop is broken:
-            # Restore the lists:
-            self.active_workers = list()
-            for w in cleaners:
-                self.instance.available_workers.append(w)
-
-            # Build the report:
-            simple_jobs["Cleaning"](cleaners_original, cleaners, building, dirt, dirt_cleaned)

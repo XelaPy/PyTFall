@@ -642,8 +642,9 @@ init -10 python:
             # All workers and workable businesses:
             # The last check may not be good enought, may need rewriting. TODO
             self.available_workers = list(c for c in self.all_workers if c.location == self and c.action in self.jobs)
-            for w in self.available_workers:
+            for w in self.all_workers:
                 self.convert_AP(w)
+                
             # Get businesses we wish SimPy to manage! # IMPORTANT! .manage_business method is expected.
             self.nd_ups = list(up for up in self._upgrades if up.workable)
 
