@@ -133,7 +133,7 @@ init -5 python:
             effectiveness = job.effectiveness(worker, difficulty, log)
             effectiveness += job.traits_and_effects_effectiveness_mod(worker, log)
             if config.debug:
-                log.append("Debug: Her effectiveness: {}! (difficulty: {}, Tier: {})".format(effectiveness, difficulty, worker.tier))
+                log.append("Debug: Her effectiveness: {}! (difficulty: {}, worker tier: {})".format(effectiveness, difficulty, worker.tier))
 
             clients = set() # list of clients this worker is severing
             max_clients = 5 # Come up with a good way to figure out how many clients a worker can serve!

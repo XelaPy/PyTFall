@@ -115,7 +115,7 @@ init -5 python:
                 condition1 = make_nd_report_at and self.env.now == make_nd_report_at
                 condition2 = make_nd_report_at and building.dirt <= 0
                 if condition1 or condition2:
-                    self.write_nd_report(all_cleaners, -dirt_cleaned)
+                    self.write_nd_report(pure_cleaners, all_cleaners, -dirt_cleaned)
                     make_nd_report_at = 0
                     dirt_cleaned = 0
 
@@ -126,6 +126,9 @@ init -5 python:
                             if worker not in pure_cleaners:
                                 cleaners.remove(worker)
                                 self.instance.active_workers.insert(0, worker)
+
+                    # and finally update all cleaners container:
+                    all_cleaners = cleaners.copy()
 
                         # all_cleaners = self.get_pure_cleaners(job, power_flag_name) # Everyone that cleaned for the report.
                         # cleaners = all_cleaners.copy() # cleaners on active duty
@@ -158,12 +161,17 @@ init -5 python:
                     self.instance.available_workers.remove(w)
             return cleaners.union(new_cleaners)
 
-        def write_nd_report(self, pure_cleaners, dirt_cleaned):
+        def write_nd_report(self, pure_cleaners, all_cleaners, dirt_cleaned):
             job, loc = self.job, self.instance
-            log = NDEvent(job=job, loc=loc, team=pure_cleaners, business=self)
+            log = NDEvent(job=job, loc=loc, team=all_cleaners, business=self)
 
-            wlen = len(pure_cleaners)
-            temp = "{} Workers cleaned {} today!".format(set_font_color(wlen, "red"), loc.name)
+            extra_cleaners = all_cleaners - pure_cleaners
+
+            temp = "{} Cleaning Report!\n".format(loc.name)
+            log.append(temp)
+
+            wlen = len(all_cleaners)
+            temp = "{} Workers cleaned the building today.".format(set_font_color(wlen, "red"))
             log.append(temp)
 
             log.img = Fixed(xysize=(820, 705))
@@ -171,9 +179,25 @@ init -5 python:
             vp = vp_or_fixed(pure_cleaners, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (150, 150), "type": "any"})
             log.img.add(Transform(vp, align=(.5, .9)))
 
-            log.team = pure_cleaners
+            log.team = all_cleaners
 
-            temp = "{} cleaned {} dirt!".format(", ".join([w.nickname for w in pure_cleaners]), dirt_cleaned)
+            if extra_cleaners:
+                temp = "Dirt overwhelmed your building so extra staff was called to clean it! "
+                if len(extra_cleaners) > 1:
+                    temp += "{} were pulled off their duties to help out...".format(", ".join([w.nickname for w in extra_cleaners]))
+                else:
+                    temp += "{} was pulled off ger duty to help out...".format(", ".join([w.nickname for w in extra_cleaners]))
+                log.append(temp)
+
+            cleaners = all_cleaners - extra_cleaners
+            temp = "{} worked hard keeping your business clean".format(", ".join([w.nickname for w in cleaners]))
+            if extra_cleaners:
+                temp += " as it is their direct job!"
+            else:
+                temp += "!"
+            log.append(temp)
+
+            temp = "\nA total of {} dirt was cleaned.".format(set_font_color(dirt_cleaned, "red"))
             log.append(temp)
 
             # Stat mods
