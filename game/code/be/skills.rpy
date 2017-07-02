@@ -338,13 +338,14 @@ label load_battle_skills:
                 main_effect={"gfx": ProportionalScale("content/gfx/be/fists.png", 150, 150), "sfx": "content/sfx/sound/be/fist_attack_5.mp3", "duration": 1.2, "times": 4},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.05},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .3})
-        BE_Action(u"Fire Barrage", menu_pos=0.5, range=1, attributes=["melee", "fire", "physical"], effect=40, critpower=.1, multiplier=0.9, vitality_cost=5,
+        BE_Action(u"Fire Barrage", menu_pos=2, range=1, attributes=["melee", "fire", "physical"], effect=40, critpower=.1, multiplier=0.9, vitality_cost=5,
                 desc="A high-speed combination of attacks, fast enough to set air ablaze.",
-                main_effect={"gfx": "multi_fist_webm", "sfx": "content/sfx/sound/be/fire_barrage.ogg", "duration": 0.46, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+                main_effect={"gfx": "multi_fist_webm", "sfx": "content/sfx/sound/be/fire_barrage.ogg", "duration": 0.46, "aim": {"point": "fc", "anchor": (.5, .5)}, "hflip": True},
                 target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": 0.1, "duration": 0.36},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .4})
+                
         # Cannon Attacks:
-        BE_Action("Cannon Shot", attributes=["ranged", "physical"], critpower=0.3, effect=50, range=3, vitality_cost=3, menu_pos=0, multiplier=0.55,
+        BE_Action("Cannon Shot", attributes=["ranged", "physical"], critpower=0.3, effect=50, range=3, vitality_cost=3, menu_pos=0, multiplier=0.55, piercing=True,
                 desc="Shooting a large caliber.",
                 main_effect={"gfx": "simple_cannon_attack", "sfx": list("content/sfx/sound/be/cannon_%d.mp3"%i for i in xrange(1, 4)), "duration": .5, "hflip": True},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
@@ -466,6 +467,20 @@ label load_battle_skills:
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.01},
                 target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .01, "duration": .3},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5})
+                
+        ##### Mobs-only attacks:
+        BE_Action(u"Stone Fist", menu_pos=3, range=1, attributes=["melee", "earth", "physical"], effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True,
+                desc="The earth itself becomes becomes an extension of hand to deal powerful blow.",
+                main_effect={"gfx": "stone_fist_webm", "sfx": "content/sfx/sound/be/stone_fist.ogg", "duration": 0.77, "aim": {"point": "bc", "anchor": (.5, .6)}, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.2, "duration": 0.56},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .3})
+        BE_Action(u"Power Pack", menu_pos=3, range=1, attributes=["melee", "light", "physical"], effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True,
+                desc="Spirits of ancient long dead wolves assist in battle, attacking the target from the spirits world.",
+                attacker_effects={"gfx": "wolf", "sfx": "content/sfx/sound/be/wolf_1.ogg", "hflip": True},
+                main_effect={"gfx": "wolf_2_webm", "sfx": "content/sfx/sound/be/wolf_2.ogg", "duration": 0.37, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.3},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .2})
+                
 
     ##### Magic:
         # Fire:

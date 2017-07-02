@@ -1259,7 +1259,7 @@ init -1 python: # Core classes:
             # Next is the "casting effect":
             # Here we need to start checking for overlapping time_stamps so we don't overwrite:
             if self.attacker_effects["gfx"] or self.attacker_effects["sfx"]:
-                effects_delay = self.time_attackers_first_effect(battle, attacker)
+                effects_delay = self.time_attackers_first_effect(battle, attacker, targets)
 
             # Next is the main GFX/SFX effect! ==> We calc the start in any case because we'll need it later...
             if "effects_delay" in locals(): # We start as effects gfx is finished.
@@ -1346,11 +1346,11 @@ init -1 python: # Core classes:
             if self.attacker_action["gfx"] == "step_forward":
                 battle.move(attacker, attacker.dpos, 0.5, pause=False)
 
-        def time_attackers_first_effect(self, battle, attacker):
+        def time_attackers_first_effect(self, battle, attacker, targets):
             start = self.get_show_attackers_first_action_duration()
             if start in self.timestamps:
                 start = start + random.uniform(0.001, 0.002)
-            self.timestamps[start] = renpy.curry(self.show_attackers_first_effect)(battle, attacker)
+            self.timestamps[start] = renpy.curry(self.show_attackers_first_effect)(battle, attacker, targets)
 
             if self.attacker_effects["gfx"]:
                 effects_delay = start + self.get_attackers_first_effect_pause(battle, attacker)
@@ -1365,6 +1365,8 @@ init -1 python: # Core classes:
             gfx = self.attacker_effects["gfx"]
             if gfx == "orb":
                 what=Transform("cast_orb_1", zoom=1.85)
+            elif gfx == "wolf":
+                what=Transform("wolf_1_webm", zoom=0.85)
             elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
                 what=Transform("cast_" + gfx, zoom=1.5)
             elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
@@ -1384,7 +1386,7 @@ init -1 python: # Core classes:
 
             return what
 
-        def show_attackers_first_effect(self, battle, attacker):
+        def show_attackers_first_effect(self, battle, attacker, targets):
             gfx, sfx = self.attacker_effects["gfx"], self.attacker_effects["sfx"]
             what = self.get_attackers_first_effect_gfx()
 
@@ -1393,6 +1395,11 @@ init -1 python: # Core classes:
 
             if gfx == "orb":
                 renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
+            elif gfx == "wolf":
+                if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]:
+                    renpy.show("casting", what=what,  at_list=[Transform(xzoom=-1, pos=battle.get_cp(attacker, type="center"), align=(1.0, 0.5))], zorder=attacker.besk["zorder"]+1)
+                else:
+                    renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(0.1, 0.5))], zorder=attacker.besk["zorder"]+1)
             elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
                 renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-75), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
             elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
@@ -1415,6 +1422,8 @@ init -1 python: # Core classes:
             gfx = self.attacker_effects["gfx"]
             if gfx == "orb":
                 pause = 0.84
+            elif gfx == "wolf":
+                pause = 1.27
             elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
                 pause = 0.84
             elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
