@@ -33,7 +33,7 @@ init -5 python:
             using_all_service_workers = False
             using_all_workers = False
 
-            power_flag_name = "jobs_cleaning_power"
+            power_flag_name = "_ndr_cleaning_power"
             job = simple_jobs["Cleaning"]
 
             # Pure cleaners, container is kept around for checking during all_on_deck scenarios
@@ -93,9 +93,12 @@ init -5 python:
                             self.log(temp)
 
                 # switch back to normal cleaners only
-                if dirt <= 100 and using_all_workers:
+                if dirt <= 200 and using_all_workers:
                     using_all_workers = False
-                    cleaners = self.get_pure_cleaners(job, power_flag_name)
+                    for worker in cleaners.copy():
+                        if worker not in pure_cleaners:
+                            cleaners.remove(worker)
+                            self.instance.available_workers.insert(0, worker)
 
                 # Actually handle dirt cleaning:
                 if make_nd_report_at and building.dirt > 0:
@@ -112,9 +115,14 @@ init -5 python:
                             self.log(temp)
                             cleaners.remove(w)
 
-                condition1 = make_nd_report_at and self.env.now == make_nd_report_at
-                condition2 = make_nd_report_at and building.dirt <= 0
-                if condition1 or condition2:
+                # Create actual report:
+                condition0 = make_nd_report_at and self.env.now == make_nd_report_at
+                condition1 = make_nd_report_at and building.dirt <= 0
+                if condition0 or condition1:
+                    if config.debug:
+                        temp = "{}: DEBUG! WRITING CLEANING REPORT! c0: {}, c1: {}".format(self.env.now,
+                                            condition0, condition1)
+                        self.log(temp)
                     self.write_nd_report(pure_cleaners, all_cleaners, -dirt_cleaned)
                     make_nd_report_at = 0
                     dirt_cleaned = 0
@@ -125,38 +133,45 @@ init -5 python:
                         for worker in cleaners.copy():
                             if worker not in pure_cleaners:
                                 cleaners.remove(worker)
-                                self.instance.active_workers.insert(0, worker)
+                                self.instance.available_workers.insert(0, worker)
 
                     # and finally update all cleaners container:
                     all_cleaners = cleaners.copy()
-
-                        # all_cleaners = self.get_pure_cleaners(job, power_flag_name) # Everyone that cleaned for the report.
-                        # cleaners = all_cleaners.copy() # cleaners on active duty
 
                 yield self.env.timeout(1)
 
         def get_pure_cleaners(self, job, power_flag_name):
             cleaners = set(self.get_workers(job, amount=float("inf"),
                            match_to_client=None, priority=True, any=False))
+
+            if cleaners:
+                # Do Disposition checks:
+                job.settle_workers_disposition(cleaners, self)
+
             for w in cleaners:
                 # TODO Review and account for effectiveness!!!
                 if not w.flag(power_flag_name):
-                    value = -int(round(5 + w.get_skill("service") * .025 + w.agility * .03))
+                    value = -int(round(3 + w.get_skill("service") * .025 + w.agility * .03))
                     w.set_flag(power_flag_name, value)
+
                 # Remove from active workers:
                 self.instance.available_workers.remove(w)
             return cleaners
 
         def all_on_deck(self, cleaners, job, power_flag_name):
-            power_flag_name = "jobs_cleaning_power"
             # calls everyone in the building to clean it
             new_cleaners = self.get_workers(job, amount=float("inf"),
                             match_to_client=None, priority=True, any=True)
 
+            if new_cleaners:
+                # Do Disposition checks:
+                job.settle_workers_disposition(new_cleaners, self, all_on_deck=True)
+
             for w in new_cleaners:
                 if not w.flag(power_flag_name):
-                    value = -int(round(5 + w.get_skill("service") * 0.025 + w.agility * 0.03))
+                    value = -int(round(3 + w.get_skill("service") * 0.025 + w.agility * 0.03))
                     w.set_flag(power_flag_name, value)
+
                     # Remove from active workers:
                     self.instance.available_workers.remove(w)
             return cleaners.union(new_cleaners)

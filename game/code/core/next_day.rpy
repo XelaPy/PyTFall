@@ -254,6 +254,14 @@ label next_day_calculations:
         calendar.next() # day + 1 is here.
         tl.timer("pytfall + calender.next_day")
         tl.timer("Next Day")
+
+    # Reset Flags:
+    python:
+        for char in chars.values():
+            for flag in char.flags.keys():
+                if flag.startswith("_ndr"):
+                    char.del_flag(flag)
+
     return
 
 label next_day_controls:
