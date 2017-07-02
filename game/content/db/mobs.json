@@ -991,7 +991,7 @@
         "skills": {},
         "traits": ["Monster", "Earth", "Poison Immunity"],
         "attack_skills": [
-            "Fist Attack"
+            "Fist Attack", "Stone Fist"
         ],
         "magic_skills": ["Stone"
         ]
@@ -1021,7 +1021,7 @@
         "skills": {},
         "traits": ["Monster", "Earth", "Earth Immunity", "Poison Immunity"],
         "attack_skills": [
-            "Fist Attack"
+            "Fist Attack", "Stone Fist"
         ],
         "magic_skills": ["Stone", "Stonera"
         ]
@@ -1051,7 +1051,7 @@
         "skills": {},
         "traits": ["Monster", "Earth", "Fire", "Fire Immunity", "Earth Absorption", "Poison Immunity"],
         "attack_skills": [
-            "Fist Attack"
+            "Fist Attack", "Stone Fist"
         ],
         "magic_skills": ["Stone", "Stonera", "Stonega", "Fira"
         ]
@@ -1860,7 +1860,7 @@
         "skills": {},
         "traits": ["Furry", "Neutral"],
         "attack_skills": [
-            "Bite"
+            "Bite", "Power Pack"
         ],
         "magic_skills": [
         ]
@@ -1950,7 +1950,7 @@
         "skills": {},
         "traits": ["Furry", "Fire", "Earth", "Minor Physical Resistance"],
         "attack_skills": [
-            "Claw Slash", "Bite"
+            "Claw Slash", "Bite", "Power Pack"
         ],
         "magic_skills": ["Fira", "Stonera"
         ]
@@ -2310,7 +2310,7 @@
         "skills": {},
         "traits": ["Furry", "Ice Resistance"],
         "attack_skills": [
-            "Claw Slash", "Bite"
+            "Claw Slash", "Bite", "Power Pack"
         ],
         "magic_skills": [
         ]
