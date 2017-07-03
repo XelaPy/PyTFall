@@ -147,15 +147,9 @@ init -5 python:
             if cleaners:
                 # Do Disposition checks:
                 job.settle_workers_disposition(cleaners, self)
+                # Do Effectiveness calculations:
+                self.calc_job_effectiveness(cleaners, job, power_flag_name)
 
-            for w in cleaners:
-                # TODO Review and account for effectiveness!!!
-                if not w.flag(power_flag_name):
-                    value = -int(round(3 + w.get_skill("service") * .025 + w.agility * .03))
-                    w.set_flag(power_flag_name, value)
-
-                # Remove from active workers:
-                self.instance.available_workers.remove(w)
             return cleaners
 
         def all_on_deck(self, cleaners, job, power_flag_name):
@@ -166,15 +160,25 @@ init -5 python:
             if new_cleaners:
                 # Do Disposition checks:
                 job.settle_workers_disposition(new_cleaners, self, all_on_deck=True)
+                # Do Effectiveness calculations:
+                self.calc_job_effectiveness(new_cleaners, job, power_flag_name)
 
-            for w in new_cleaners:
+            return cleaners.union(new_cleaners)
+
+        def calc_job_effectiveness(self, cleaners, job, power_flag_name, remove_from_available_workers=True):
+            difficulty = self.instance.tier
+            for w in cleaners:
                 if not w.flag(power_flag_name):
+                    effectiveness = job.effectiveness(w, difficulty)
+                    effectiveness += job.traits_and_effects_effectiveness_mod(w)
+                    if config.debug:
+                        devlog.info("Cleaning Job Effectiveness: {}: {}".format(w.nickname, effectiveness))
                     value = -int(round(3 + w.get_skill("service") * 0.025 + w.agility * 0.03))
                     w.set_flag(power_flag_name, value)
 
                     # Remove from active workers:
-                    self.instance.available_workers.remove(w)
-            return cleaners.union(new_cleaners)
+                    if remove_from_available_workers:
+                        self.instance.available_workers.remove(w)
 
         def write_nd_report(self, pure_cleaners, all_cleaners, dirt_cleaned):
             job, loc = self.job, self.instance

@@ -13,10 +13,12 @@ init -5 python:
             self.base_skills = {"cleaning": 100}
             self.base_stats = {"agility": 30, "constitution": 30}
 
-        def traits_and_effects_effectiveness_mod(self, worker, log):
+        def traits_and_effects_effectiveness_mod(self, worker, log=None):
             """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
                Calculates only once per turn, in the very beginning.
             """
+            if not log:
+                log = []
             effectiveness = 0
              # effects always work
             if worker.effects['Food Poisoning']['active']:

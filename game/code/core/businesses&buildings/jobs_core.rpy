@@ -307,7 +307,7 @@
             """
             return 0
 
-        def effectiveness(self, worker, difficulty, log):
+        def effectiveness(self, worker, difficulty, log=None):
             """We check effectiveness here during jobs from SimPy land.
 
             difficulty is used to counter worker tier.
