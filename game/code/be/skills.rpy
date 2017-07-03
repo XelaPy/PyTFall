@@ -474,6 +474,11 @@ label load_battle_skills:
                 main_effect={"gfx": "stone_fist_webm", "sfx": "content/sfx/sound/be/stone_fist.ogg", "duration": 0.77, "aim": {"point": "bc", "anchor": (.5, .6)}, "hflip": True},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.2, "duration": 0.56},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .3})
+        BE_Action(u"Web Vortex", menu_pos=-3, range=1, attributes=["melee", "poison", "physical"], effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True,
+                desc="A vortex of spider web crashes the target.",
+                main_effect={"gfx":  Transform("web_webm", zoom=1.5), "sfx": "content/sfx/sound/be/web.ogg", "duration": 0.97, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.2, "duration": 0.7},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .3})
         BE_Action(u"Power Pack", menu_pos=3, range=1, attributes=["melee", "light", "physical"], effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True,
                 desc="Spirits of ancient long dead wolves assist in battle, attacking the target from the spirits world.",
                 attacker_effects={"gfx": "wolf", "sfx": "content/sfx/sound/be/wolf_1.ogg", "hflip": True},

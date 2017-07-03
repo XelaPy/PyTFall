@@ -1440,7 +1440,7 @@
         "skills": {},
         "traits": ["Monster", "Neutral", "Poison Resistance"],
         "attack_skills": [
-            "Bite"
+            "Bite", "Web Vortex"
         ],
         "magic_skills": ["Deadly Poison"
         ]
@@ -1470,7 +1470,7 @@
         "skills": {},
         "traits": ["Monster", "Neutral", "Poison Resistance"],
         "attack_skills": [
-            "Bite"
+            "Bite", "Web Vortex"
         ],
         "magic_skills": ["Deadly Poison"
         ]
