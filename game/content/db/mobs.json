@@ -1890,7 +1890,7 @@
         "skills": {},
         "traits": ["Furry", "Neutral"],
         "attack_skills": [
-            "Claw Slash", "Bite"
+            "Claw Slash", "Bite", "Power Bear"
         ],
         "magic_skills": [
         ]
@@ -2280,7 +2280,7 @@
         "skills": {},
         "traits": ["Furry", "Ice Resistance"],
         "attack_skills": [
-            "Claw Slash", "Bite"
+            "Claw Slash", "Bite", "Power Bear"
         ],
         "magic_skills": [
         ]
@@ -4290,7 +4290,7 @@
         "skills": {},
         "traits": ["Furry", "Neutral"],
         "attack_skills": [
-            "Claw Slash", "Claw Slash 2X"
+            "Claw Slash", "Claw Slash 2X", "Power Bear"
         ],
         "magic_skills": [
         ]

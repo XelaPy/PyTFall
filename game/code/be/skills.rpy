@@ -480,6 +480,12 @@ label load_battle_skills:
                 main_effect={"gfx": "wolf_2_webm", "sfx": "content/sfx/sound/be/wolf_2.ogg", "duration": 0.37, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.3},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .2})
+        BE_Action(u"Power Bear", menu_pos=3, range=1, attributes=["melee", "ice", "physical"], effect=100, critpower=.1, multiplier=1.4, vitality_cost=20, piercing=True,
+                desc="A spirit of ancient long dead bear assist in battle, attacking the target from the spirits world.",
+                attacker_effects={"gfx": "bear", "sfx": "content/sfx/sound/be/bear.mp3", "hflip": True},
+                main_effect={"gfx": "bear_2_webm", "sfx": "content/sfx/sound/be/wolf_2.ogg", "duration": 0.57, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.4},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .25, "duration": .25})
                 
 
     ##### Magic:

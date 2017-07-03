@@ -1367,6 +1367,8 @@ init -1 python: # Core classes:
                 what=Transform("cast_orb_1", zoom=1.85)
             elif gfx == "wolf":
                 what=Transform("wolf_1_webm", zoom=0.85)
+            elif gfx == "bear":
+                what=Transform("bear_1_webm", zoom=0.85)
             elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
                 what=Transform("cast_" + gfx, zoom=1.5)
             elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
@@ -1395,11 +1397,6 @@ init -1 python: # Core classes:
 
             if gfx == "orb":
                 renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
-            elif gfx == "wolf":
-                if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]:
-                    renpy.show("casting", what=what,  at_list=[Transform(xzoom=-1, pos=battle.get_cp(attacker, type="center"), align=(1.0, 0.5))], zorder=attacker.besk["zorder"]+1)
-                else:
-                    renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(0.1, 0.5))], zorder=attacker.besk["zorder"]+1)
             elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
                 renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-75), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
             elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
@@ -1414,7 +1411,11 @@ init -1 python: # Core classes:
                 renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center", yo=-50), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]+1)
             elif gfx == "runes_1":
                 renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-50), align=(0.5, 0.5))], zorder=attacker.besk["zorder"]-1)
-
+            elif gfx == "wolf" or gfx == "bear":
+                if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]:
+                    renpy.show("casting", what=what,  at_list=[Transform(xzoom=-1, pos=battle.get_cp(attacker, type="center"), align=(1.0, 0.5))], zorder=attacker.besk["zorder"]+1)
+                else:
+                    renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(0.1, 0.5))], zorder=attacker.besk["zorder"]+1)
             if sfx:
                 renpy.sound.play(sfx)
 
@@ -1424,6 +1425,8 @@ init -1 python: # Core classes:
                 pause = 0.84
             elif gfx == "wolf":
                 pause = 1.27
+            elif gfx == "bear":
+                pause = 0.97
             elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
                 pause = 0.84
             elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
