@@ -151,11 +151,6 @@ init -1: # Images and Animations
         alpha 1.0
         linear 0.5 alpha 0
 
-    image simple_bite_attack:
-        ProportionalScale("content/gfx/be/bites.png", 150, 150)
-        alpha 1.0
-        linear 0.5 alpha 0
-
     image simple_gun_attack:
         ProportionalScale("content/gfx/be/shoots.png", 150, 150)
         alpha 1.0

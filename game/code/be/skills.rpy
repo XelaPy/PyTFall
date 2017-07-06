@@ -5,7 +5,7 @@ label load_battle_skills:
         # Sword attacks:
         BE_Action("Sword Slash", attributes=["melee", "physical"], critpower=0, effect=5, multiplier=0.5, range=1, vitality_cost=1, menu_pos=0,
                 desc="Attacking with a blade.",
-                main_effect={"gfx": "simple_sword_attack", "sfx": "content/sfx/sound/be/sword.mp3", "duration": .5},
+                main_effect={"gfx": "simple_sword_attack_webm", "sfx": "content/sfx/sound/be/sword.mp3", "duration": .5, "hflip": True},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
         MultiAttack("Sword Slash 2X", attributes=["melee", "physical"], critpower=.02, multiplier=0.65, effect=10, range=1, vitality_cost=2, menu_pos=0.1,
                 desc="Two quick attacks with a blade.",
@@ -156,8 +156,8 @@ label load_battle_skills:
         # Bow Attacks:
         BE_Action("Bow Shot", attributes=["ranged", "physical"], critpower=0, effect=5, range=3, vitality_cost=1, menu_pos=0, multiplier=0.5,
                 desc="Shooting an arrow.",
-                main_effect={"gfx": "simple_bow_attack", "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": .5,},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+                main_effect={"gfx": "simple_bow_attack_webm", "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": .48, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .43})
         MultiAttack("Bow Shot 2X", attributes=["ranged", "physical"], critpower=.02, multiplier=0.65, effect=20, range=3, vitality_cost=2, menu_pos=0.1,
                 desc="Shooting two arrows in quick succession.",
                 main_effect={"gfx": ProportionalScale("content/gfx/be/bows.png", 150, 150), "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": .6},
@@ -215,8 +215,9 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": .05, "duration": .5})
         BE_Action("Ice Shot", attributes=["ranged", "physical", "ice"], critpower=0.1, multiplier=0.85, effect=30, range=3, vitality_cost=3, menu_pos=1.0,
                 desc="Shooting an ice arrow.",
-                main_effect={"gfx": Transform("simple_bow_ice_attack", zoom=0.8), "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": 0.5},
-                target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .05, "duration": .5})
+                main_effect={"gfx": Transform("simple_ice_bow_attack_webm", zoom=0.8), "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": 0.57, "hflip": True},
+                target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .05, "duration": .5},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .15})
         ArrowsSkill(u"Fire Arrow", menu_pos=1.2, attributes=["ranged", "fire", "air"], effect=45, multiplier=1.0, critpower=.2, mp_cost=5, vitality_cost=10, range=4, piercing=True,
                 desc="Shooting an arrow of scorching air.",
                 firing_effects={"gfx": "Fire Arrow cast", "sfx": "content/sfx/sound/be/fire_arrow.mp3"},
@@ -246,8 +247,8 @@ label load_battle_skills:
         # Crossbow Attacks:
         BE_Action("Crossbow Shot", attributes=["ranged", "physical"], critpower=0.1, multiplier=0.55, effect=10, range=4, vitality_cost=1, menu_pos=0,
                 desc="Shooting a bolt.",
-                main_effect={"gfx": "simple_crossbow_attack", "sfx": "content/sfx/sound/be/crossbow_attack.mp3", "duration": 0.5},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+                main_effect={"gfx": "simple_crossbow_attack_webm", "sfx": "content/sfx/sound/be/crossbow_attack.mp3", "duration": 0.37, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .32})
         BE_Action(u"Penetrating Bolt", range=3, attributes=["ranged", "physical"], critpower=.5, multiplier=0.65, piercing=True, effect=20, vitality_cost=6, menu_pos=1,
                 desc="Releases special high-density bolt with high critical damage.",
                 main_effect={"gfx": Transform("crossbow_hit_webm", zoom=1.3), "sfx": "content/sfx/sound/be/crossbow_1.ogg", "duration": 0.56, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
@@ -382,8 +383,8 @@ label load_battle_skills:
         # Bite Attacks:
         BE_Action("Bite", attributes=["melee", "physical"], critpower=.3, effect=1, range=1, vitality_cost=1, menu_pos=0, multiplier=0.5,
                 desc="Biting with fangs.",
-                main_effect={"gfx": "simple_bite_attack", "sfx": "content/sfx/sound/be/bite_attack.mp3", "duration": .5},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+                main_effect={"gfx": "simple_bite_attack_webm", "sfx": "content/sfx/sound/be/bite_attack.mp3", "duration": .77, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": .5})
         # Gun Attacks:
         BE_Action("Gun Shot", attributes=["ranged", "physical"], critpower=.3, effect=50, range=3, vitality_cost=2, menu_pos=0, multiplier=0.5,
                 desc="Shooting a bullet.",
@@ -491,7 +492,11 @@ label load_battle_skills:
                 main_effect={"gfx": "bear_2_webm", "sfx": "content/sfx/sound/be/wolf_2.ogg", "duration": 0.57, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 0.4},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .25, "duration": .25})
-                
+        BE_Action(u"Sharpest Claws", menu_pos=3, range=1, attributes=["melee", "physical"], effect=110, critpower=.15, multiplier=1.35, vitality_cost=25, piercing=False,
+                desc="Multiple quick attacks with sharp deadly claws.",
+                main_effect={"gfx": "claws_webm", "sfx": "content/sfx/sound/be/many_hits.mp3", "duration": 1.37, "aim": {"point": "center", "anchor": (.5, .5), "xo": 40, "yo": -40}, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.01, "duration": 1.3},
+                target_death_effect={"gfx": "dissolve", "initial_pause": 1.1, "duration": .25})
 
     ##### Magic:
         # Fire:

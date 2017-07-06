@@ -1410,7 +1410,7 @@
         "skills": {},
         "traits": ["Monster", "Neutral"],
         "attack_skills": [
-            "Claw Slash", "Claw Slash 2X", "Claw Slash 4X"
+            "Claw Slash", "Claw Slash 2X", "Claw Slash 4X", "Sharpest Claws"
         ],
         "magic_skills": [
         ]
@@ -1511,7 +1511,7 @@
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/au.png",
         "portrait": "content/npc/mobs/au1.png",
-        "race": "Insect",
+        "race": "Monster",
         "locations": [],
         "min_lvl": 20,
         "basetraits": [
@@ -1590,7 +1590,7 @@
         "skills": {},
         "traits": ["Monster", "Neutral"],
         "attack_skills": [
-            "Claw Slash", "Claw Slash 2X"
+            "Claw Slash", "Claw Slash 2X", "Sharpest Claws"
         ],
         "magic_skills": [
         ]
@@ -4588,7 +4588,7 @@
         },
         "skills": {},
         "traits": ["Monster", "Poison Immunity"],
-        "attack_skills": ["Claw Slash 2X", "Claw Slash 4X", "Rapid Strikes"
+        "attack_skills": ["Claw Slash 2X", "Claw Slash 4X", "Rapid Strikes", "Sharpest Claws"
             
         ],
         "magic_skills": ["Deadly Poison"
