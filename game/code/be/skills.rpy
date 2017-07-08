@@ -211,8 +211,9 @@ label load_battle_skills:
                 dodge_effect={"initial_pause": 0.005})
         BE_Action("Fire Shot", attributes=["ranged", "physical", "fire"], critpower=0.1, multiplier=0.85, effect=30, range=3, vitality_cost=3, menu_pos=1.0,
                 desc="Shooting a fire arrow.",
-                main_effect={"gfx": Transform("simple_bow_fire_attack", zoom=0.8), "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": 0.5},
-                target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": .05, "duration": .5})
+                main_effect={"gfx": Transform("simple_fire_bow_attack_webm", zoom=0.8), "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": 0.67, "hflip": True},
+                target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": .05, "duration": .5},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .15})
         BE_Action("Ice Shot", attributes=["ranged", "physical", "ice"], critpower=0.1, multiplier=0.85, effect=30, range=3, vitality_cost=3, menu_pos=1.0,
                 desc="Shooting an ice arrow.",
                 main_effect={"gfx": Transform("simple_ice_bow_attack_webm", zoom=0.8), "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": 0.57, "hflip": True},
@@ -228,7 +229,6 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "burning_with_shake", "initial_pause": .01, "duration": .3},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5},
                 dodge_effect={"initial_pause": .1})
-
         ArrowsSkill("Ice Arrow", menu_pos=1.2, attributes=["ranged", "ice", "water"], effect=45, multiplier=1.0, critpower=.2, mp_cost=5, vitality_cost=10, range=4, piercing=True,
                 desc="Shooting an arrow of frozen water.",
                 firing_effects={"gfx": "Ice Arrow cast", "sfx": "content/sfx/sound/be/ice_arrow.mp3"},
@@ -248,7 +248,8 @@ label load_battle_skills:
         BE_Action("Crossbow Shot", attributes=["ranged", "physical"], critpower=0.1, multiplier=0.55, effect=10, range=4, vitality_cost=1, menu_pos=0,
                 desc="Shooting a bolt.",
                 main_effect={"gfx": "simple_crossbow_attack_webm", "sfx": "content/sfx/sound/be/crossbow_attack.mp3", "duration": 0.37, "hflip": True},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .32})
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .32},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .15})
         BE_Action(u"Penetrating Bolt", range=3, attributes=["ranged", "physical"], critpower=.5, multiplier=0.65, piercing=True, effect=20, vitality_cost=6, menu_pos=1,
                 desc="Releases special high-density bolt with high critical damage.",
                 main_effect={"gfx": Transform("crossbow_hit_webm", zoom=1.3), "sfx": "content/sfx/sound/be/crossbow_1.ogg", "duration": 0.56, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
@@ -257,11 +258,12 @@ label load_battle_skills:
         # Daggers Attacks:
         BE_Action("Dagger Strike", attributes=["melee", "physical"], critpower=0.05, effect=1, range=1, vitality_cost=1, menu_pos=0, multiplier=0.5,
                 desc="Attacking with a dagger.",
-                main_effect={"gfx": "simple_dagger_attack", "sfx": "content/sfx/sound/be/knife.mp3", "duration": .5, "hflip": True},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+                main_effect={"gfx": "simple_dagger_attack_webm", "sfx": "content/sfx/sound/be/knife.mp3", "duration": .564, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .15})
         MultiAttack("Dagger Strike 4X", attributes=["melee", "physical"], critpower=.075, multiplier=0.75, effect=20, vitality_cost=5, range=1,
                 desc="Four quick strikes with a dagger.",
-                main_effect={"gfx": ProportionalScale("content/gfx/be/knives.png", 150, 150), "sfx": "content/sfx/sound/be/dagger_attack_2.mp3", "duration": 1.2, "times": 4, "interval": .2},
+                main_effect={"gfx": ProportionalScale("content/gfx/be/daggers.png", 150, 150), "sfx": "content/sfx/sound/be/dagger_attack_2.mp3", "duration": 1.2, "times": 4, "interval": .2},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .5})
         BE_Action(u"Rapid Strikes", range=1, attributes=["melee", "physical"], effect=30, menu_pos=0.5, multiplier=0.85, critpower=.2, vitality_cost=15, type="all_enemies",
@@ -287,8 +289,9 @@ label load_battle_skills:
                 target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
         BE_Action("Poisoned Dagger", attributes=["melee", "physical", "poison"], critpower=0.2, effect=20, range=1, vitality_cost=2, menu_pos=0.2, multiplier=0.6,
                 desc="Stabbing with a poisoned dagger.",
-                main_effect={"gfx": Transform("simple_poison_dagger_attack", zoom=0.9), "sfx": "content/sfx/sound/be/knife.mp3", "duration": 0.5, "hflip": True},
-                target_sprite_damage_effect={"gfx": "poisoned_with_shake", "initial_pause": .05, "duration": .5})
+                main_effect={"gfx": AlphaBlend(Transform("simple_dagger_attack_webm", alpha=.8), "simple_dagger_attack_webm", poison_effect_color(149, 120), alpha=True), "sfx": "content/sfx/sound/be/knife.mp3", "duration": 0.564, "hflip": True},
+                target_sprite_damage_effect={"gfx": "poisoned_with_shake", "initial_pause": .05, "duration": .5},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .15})
         BasicPoisonSpell(u"Poisonous Rune", range=2, attributes=["status", "poison"], effect=55, menuname = "P Rune", menu_pos=0.7, multiplier=1.0, vitality_cost=20, mp_cost=0.1,
                 desc="Blade enchantment materializes a good deal of poison above the target.",
                 main_effect={"gfx": Transform("poison_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/poison_cloud.mp3", "duration": 1.8, "aim": {"point": "tc", "anchor": (.5, .5)}, "hflip": True},
@@ -312,8 +315,9 @@ label load_battle_skills:
         # Claw Attacks:
         BE_Action("Claw Slash", attributes=["melee", "physical"], critpower=0.1, effect=15, range=1, vitality_cost=1, menu_pos=0, multiplier=0.5,
                 desc="Ripping with claws.",
-                main_effect={"gfx": "simple_claw_attack", "sfx": "content/sfx/sound/be/claw_attack.mp3", "duration": .5, "hflip": True},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+                main_effect={"gfx": "simple_claw_attack_webm", "sfx": "content/sfx/sound/be/claw_attack.mp3", "duration": .367, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .3},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .15})
         MultiAttack("Claw Slash 2X", attributes=["melee", "physical"], critpower=.1,  effect=30, range=1, vitality_cost=2, menu_pos=0.1, multiplier=0.65,
                 desc="Two quick attacks with claws.",
                 main_effect={"gfx": ProportionalScale("content/gfx/be/claws.png", 150, 150), "sfx": "content/sfx/sound/be/claw_attack.mp3", "duration": 0.6, "times": 2},
