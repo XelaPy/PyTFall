@@ -6,7 +6,8 @@ label load_battle_skills:
         BE_Action("Sword Slash", attributes=["melee", "physical"], critpower=0, effect=5, multiplier=0.5, range=1, vitality_cost=1, menu_pos=0,
                 desc="Attacking with a blade.",
                 main_effect={"gfx": "simple_sword_attack_webm", "sfx": "content/sfx/sound/be/sword.mp3", "duration": .5, "hflip": True},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .15})
         MultiAttack("Sword Slash 2X", attributes=["melee", "physical"], critpower=.02, multiplier=0.65, effect=10, range=1, vitality_cost=2, menu_pos=0.1,
                 desc="Two quick attacks with a blade.",
                 main_effect={"gfx": ProportionalScale("content/gfx/be/swords.png", 150, 150), "sfx": "content/sfx/sound/be/sword.mp3", "duration": .6},
@@ -157,7 +158,8 @@ label load_battle_skills:
         BE_Action("Bow Shot", attributes=["ranged", "physical"], critpower=0, effect=5, range=3, vitality_cost=1, menu_pos=0, multiplier=0.5,
                 desc="Shooting an arrow.",
                 main_effect={"gfx": "simple_bow_attack_webm", "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": .48, "hflip": True},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .43})
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .43},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .15})
         MultiAttack("Bow Shot 2X", attributes=["ranged", "physical"], critpower=.02, multiplier=0.65, effect=20, range=3, vitality_cost=2, menu_pos=0.1,
                 desc="Shooting two arrows in quick succession.",
                 main_effect={"gfx": ProportionalScale("content/gfx/be/bows.png", 150, 150), "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": .6},
@@ -331,8 +333,9 @@ label load_battle_skills:
         # Fist Attacks:
         BE_Action("Fist Attack", attributes=["melee", "physical"], critpower=-0.2, effect=5, range=1, menu_pos=0, multiplier=0.4,
                 desc="Attacking with bare hands.",
-                main_effect={"gfx": "simple_fist_attack", "sfx": list("content/sfx/sound/be/fist_attack_%d.mp3"%i for i in xrange(1, 6)), "duration": .5},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+                main_effect={"gfx": "simple_fist_attack_webm", "sfx": list("content/sfx/sound/be/fist_attack_%d.mp3"%i for i in xrange(1, 6)), "duration": .567, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .15})
         MultiAttack("Fist Attack 2X", attributes=["melee", "physical"], critpower=-0.2, effect=5, range=1, vitality_cost=1, menu_pos=0.1,  multiplier=0.5,
                 desc="Two quick attacks with bare hands.",
                 main_effect={"gfx": ProportionalScale("content/gfx/be/fists.png", 150, 150), "sfx": "content/sfx/sound/be/fist_attack_5.mp3", "duration": 0.6, "times": 2},
