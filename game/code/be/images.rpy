@@ -106,41 +106,6 @@ init -1: # Images and Animations
     $ renpy.audio.music.register_channel("main_gfx_attacks", renpy.config.movie_mixer, loop=False, stop_on_mute=False, movie=True)
 
     # simplest single weapon attacks; after certain BE changes they require these simple alts to gradually disappear
-    image simple_sword_attack:
-        ProportionalScale("content/gfx/be/swords.png", 150, 150)
-        alpha 1.0
-        linear 0.5 alpha 0
-
-    image simple_bow_attack:
-        ProportionalScale("content/gfx/be/bows.png", 150, 150)
-        alpha 1.0
-        linear 0.5 alpha 0
-
-    image simple_crossbow_attack:
-        ProportionalScale("content/gfx/be/crossbows.png", 150, 150)
-        alpha 1.0
-        linear 0.5 alpha 0
-
-    image simple_dagger_attack:
-        ProportionalScale("content/gfx/be/knives.png", 150, 150)
-        alpha 1.0
-        linear 0.5 alpha 0
-
-    image simple_claw_attack:
-        ProportionalScale("content/gfx/be/claws.png", 150, 150)
-        alpha 1.0
-        linear 0.5 alpha 0
-
-    image simple_fist_attack:
-        ProportionalScale("content/gfx/be/fists.png", 150, 150)
-        alpha 1.0
-        linear 0.5 alpha 0
-
-    image simple_cannon_attack:
-        ProportionalScale("content/gfx/be/cannons.png", 150, 150)
-        alpha 1.0
-        linear 0.5 alpha 0
-
     image simple_blunt_attack:
         ProportionalScale("content/gfx/be/rods.png", 150, 150)
         alpha 1.0
@@ -148,11 +113,6 @@ init -1: # Images and Animations
 
     image simple_axe_attack:
         ProportionalScale("content/gfx/be/axes.png", 150, 150)
-        alpha 1.0
-        linear 0.5 alpha 0
-
-    image simple_bite_attack:
-        ProportionalScale("content/gfx/be/bites.png", 150, 150)
         alpha 1.0
         linear 0.5 alpha 0
 
@@ -412,21 +372,6 @@ init -1: # Images and Animations
             linear 0.5 alpha 0.7
             repeat
     ########### Weapons-only attacks
-    image simple_poison_dagger_attack:
-        im.Recolor("content/gfx/be/knives.png", 0, 255, 0, 255) # green attack for poison dagger
-        alpha 1.0
-        linear 0.5 alpha 0
-
-    image simple_bow_fire_attack:
-        im.Recolor("content/gfx/be/bows.png", 255, 45, 10, 255) # orange attack for fire bow
-        alpha 1.0
-        linear 0.5 alpha 0
-
-    image simple_bow_ice_attack:
-        im.Recolor("content/gfx/be/bows.png", 0, 173, 233, 255) # blue attack for ice bow
-        alpha 1.0
-        linear 0.5 alpha 0
-
     # fire bow:
     image Fire Arrow cast:
         "content/gfx/be/animations/flame_arrow/FlameArrow_1.png"
