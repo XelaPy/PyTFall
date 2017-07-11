@@ -260,7 +260,7 @@
             return True
 
         # We should also have a number of methods or properties to evaluate new dicts:
-        def relative_ability(self, char, tier=None):
+        def relative_ability(self, worker, tier=None):
             """
             # Maybe just do the stats/skills interpolation here???
             # And later add that to tier calc in the effectiveness method?
@@ -270,6 +270,8 @@
             ability = 0
             if tier is None:
                 tier = worker.tier
+                if not tier:
+                    tier = 1 # Risking ZeroDev error otherwise
 
             rates = []
             amount = []
@@ -280,23 +282,23 @@
                 rates.append(weight)
                 amount.append(rv)
             # Formula from SO:
-            total_skills = sum(x * y for x, y in zip(rate, amount)) / sum(amount)
+            total_skills = sum(x * y for x, y in zip(rates, amount)) / sum(amount)
 
             rates = []
             amount = []
             for stat, weight in self.base_stats.items():
                 target_value = worker.get_max(stat)*.1*tier
-                real_value = getattr(char, stat)
+                real_value = getattr(worker, stat)
                 rv = 50.0*real_value/target_value # resulting value, 50 base
                 rates.append(weight)
                 amount.append(rv)
             # Formula from SO:
-            total_stats = sum(x * y for x, y in zip(rate, amount)) / sum(amount)
+            total_stats = sum(x * y for x, y in zip(rates, amount)) / sum(amount)
 
             # Bonuses:
             temp = worker.occupations.intersection(self.occupations)
             bonus1 = 10 if temp else 0
-            bonus2 = len(self.occupation_traits.intersection(worker.traits))*5
+            bonus2 = len(set(self.occupation_traits).intersection(worker.traits))*5
 
             return total_skills + total_stats + bonus1 + bonus2
 
