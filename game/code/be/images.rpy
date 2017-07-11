@@ -106,16 +106,6 @@ init -1: # Images and Animations
     $ renpy.audio.music.register_channel("main_gfx_attacks", renpy.config.movie_mixer, loop=False, stop_on_mute=False, movie=True)
 
     # simplest single weapon attacks; after certain BE changes they require these simple alts to gradually disappear
-    image simple_fist_attack:
-        ProportionalScale("content/gfx/be/fists.png", 150, 150)
-        alpha 1.0
-        linear 0.5 alpha 0
-
-    image simple_cannon_attack:
-        ProportionalScale("content/gfx/be/cannons.png", 150, 150)
-        alpha 1.0
-        linear 0.5 alpha 0
-
     image simple_blunt_attack:
         ProportionalScale("content/gfx/be/rods.png", 150, 150)
         alpha 1.0

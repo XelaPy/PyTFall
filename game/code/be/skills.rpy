@@ -355,8 +355,9 @@ label load_battle_skills:
         # Cannon Attacks:
         BE_Action("Cannon Shot", attributes=["ranged", "physical"], critpower=0.3, effect=50, range=3, vitality_cost=3, menu_pos=0, multiplier=0.55, piercing=True,
                 desc="Shooting a large caliber.",
-                main_effect={"gfx": "simple_cannon_attack", "sfx": list("content/sfx/sound/be/cannon_%d.mp3"%i for i in xrange(1, 4)), "duration": .5, "hflip": True},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+                main_effect={"gfx": "simple_cannon_attack_webm", "sfx": list("content/sfx/sound/be/cannon_%d.mp3"%i for i in xrange(1, 4)), "duration": .433, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .15})
         # Blunt Attacks:
         BE_Action("Blunt Strike", attributes=["melee", "physical"],  effect=35, range=1, vitality_cost=1, menu_pos=0.1, multiplier=0.5,
                 desc="Hitting with a blunt weapon.",
