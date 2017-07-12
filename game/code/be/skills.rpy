@@ -359,10 +359,11 @@ label load_battle_skills:
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .15})
         # Blunt Attacks:
-        BE_Action("Blunt Strike", attributes=["melee", "physical"],  effect=35, range=1, vitality_cost=1, menu_pos=0.1, multiplier=0.5,
+        BE_Action("Blunt Strike", attributes=["melee", "physical"],  effect=35, range=1, vitality_cost=1, menu_pos=0, multiplier=0.5,
                 desc="Hitting with a blunt weapon.",
-                main_effect={"gfx": "simple_blunt_attack", "sfx": "content/sfx/sound/be/rod_attack.mp3", "duration": .5, "hflip": True},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+                main_effect={"gfx": "simple_blunt_attack_webm", "sfx": "content/sfx/sound/be/rod_attack.mp3", "duration": .567, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .15})
         BE_Action(u"Ground Shockwave", menu_pos=0.6, range=1, attributes=["melee", "earth", "physical"], effect=100, critpower=0.25, multiplier=1.15, vitality_cost=20,
                 desc="Sends a shock wave powerful enough to cause a local earthquake.",
                 main_effect={"gfx": "earth_hammer_webm", "sfx": "content/sfx/sound/be/earth_hammer.mp3", "duration": 0.9, "aim": {"point": "bc", "anchor": (.5, 1.0), "xo": 160}, "hflip": True},
@@ -371,8 +372,9 @@ label load_battle_skills:
         # Axes Attack:
         BE_Action("Axe Strike", attributes=["melee", "physical"], critpower=.1, effect=10, range=1, vitality_cost=2, menu_pos=0, multiplier=0.55,
                 desc="Cutting through with an axe.",
-                main_effect={"gfx": "simple_axe_attack", "sfx": "content/sfx/sound/be/axe_attack.mp3", "duration": .5, "hflip": True},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+                main_effect={"gfx": "simple_axe_attack_webm", "sfx": "content/sfx/sound/be/axe_attack.mp3", "duration": .367, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .3},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .35, "duration": .15})
         MultiAttack("Axe Strike 2X", attributes=["melee", "physical"], critpower=.15, multiplier=0.7, effect=15, range=1, vitality_cost=4, menu_pos=0.1,
                 desc="Two quick attacks with an axe.",
                 main_effect={"gfx": ProportionalScale("content/gfx/be/axes.png", 150, 150), "sfx": "content/sfx/sound/be/axe_attack.mp3", "duration": .6},
@@ -392,12 +394,14 @@ label load_battle_skills:
         BE_Action("Bite", attributes=["melee", "physical"], critpower=.3, effect=1, range=1, vitality_cost=1, menu_pos=0, multiplier=0.5,
                 desc="Biting with fangs.",
                 main_effect={"gfx": "simple_bite_attack_webm", "sfx": "content/sfx/sound/be/bite_attack.mp3", "duration": .77, "hflip": True},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": .5})
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": .5},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .15})
         # Gun Attacks:
         BE_Action("Gun Shot", attributes=["ranged", "physical"], critpower=.3, effect=50, range=3, vitality_cost=2, menu_pos=0, multiplier=0.5,
                 desc="Shooting a bullet.",
-                main_effect={"gfx": "simple_gun_attack", "sfx": "content/sfx/sound/be/gun_attack.mp3", "duration": .5},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+                main_effect={"gfx": "simple_gun_attack_webm", "sfx": "content/sfx/sound/be/gun_attack.mp3", "duration": .433, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .4},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .35, "duration": .15})
         # Scythe Attacks:
         BE_Action("Scythe Slash", attributes=["melee", "physical"], critpower=.5, effect=10, range=1, vitality_cost=2, menu_pos=0, multiplier=0.5,
                 desc="Shredding with a scythe.",
@@ -483,7 +487,7 @@ label load_battle_skills:
                 main_effect={"gfx": "stone_fist_webm", "sfx": "content/sfx/sound/be/stone_fist.ogg", "duration": 0.77, "aim": {"point": "bc", "anchor": (.5, .6)}, "hflip": True},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.2, "duration": 0.56},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .3})
-        BE_Action(u"Web Vortex", menu_pos=-3, range=1, attributes=["melee", "poison", "physical"], effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True,
+        BE_Action(u"Web Vortex", menu_pos=3, range=1, attributes=["melee", "poison", "physical"], effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True,
                 desc="A vortex of spider web crashes the target.",
                 main_effect={"gfx":  Transform("web_webm", zoom=1.5), "sfx": "content/sfx/sound/be/web.ogg", "duration": 0.97, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.2, "duration": 0.7},
