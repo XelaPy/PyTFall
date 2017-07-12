@@ -405,8 +405,9 @@ label load_battle_skills:
         # Scythe Attacks:
         BE_Action("Scythe Slash", attributes=["melee", "physical"], critpower=.5, effect=10, range=1, vitality_cost=2, menu_pos=0, multiplier=0.5,
                 desc="Shredding with a scythe.",
-                main_effect={"gfx": "simple_scythe_attack", "sfx": "content/sfx/sound/be/scythe_attack.mp3", "duration": .5, "hflip": True},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+                main_effect={"gfx": Transform("simple_scythe_attack_webm", zoom = .6), "sfx": "content/sfx/sound/be/scythe_attack.mp3", "duration": .363, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .3},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .15})
         MultiAttack("Scythe Slash 2X", attributes=["melee", "physical"], critpower=.5, multiplier=0.65, effect=25, range=1, vitality_cost=4, menu_pos=0.1,
                 desc="Two quick attacks with a scythe.",
                 main_effect={"gfx": ProportionalScale("content/gfx/be/scythe.png", 150, 150), "sfx": "content/sfx/sound/be/scythe_attack.mp3", "duration": 0.6, "times": 2},
