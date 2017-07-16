@@ -430,15 +430,17 @@ label load_battle_skills:
                 bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 1.5},
                 target_sprite_damage_effect={"gfx": "on_death", "initial_pause": .3, "duration": 1.25})
         # Spray Attacks:
-        BE_Action("Spray", attributes=["ranged", "poison"], critpower=-0.3, effect=100, range=2, vitality_cost=3, menu_pos=0, multiplier=0.5,
+        BE_Action("Spray", attributes=["ranged", "poison"], critpower=-0.3, effect=100, range=2, vitality_cost=3, menu_pos=0, multiplier=0.65,
                 desc="Spraying a dangerous substance.",
-                main_effect={"gfx": "simple_spray_attack", "sfx": "content/sfx/sound/be/spray_attack.mp3", "duration": 1.0, "hflip": True},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .5, "duration": .5})
+                main_effect={"gfx": "simple_spray_attack", "sfx": "content/sfx/sound/be/spray_attack.mp3", "duration": 1.3, "hflip": True, "aim": {"point": "fc", "anchor": (.5, .5)}},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.1},
+                target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .15})
         # Throw attacks:
         BE_Action("Throw", attributes=["ranged", "physical"], effect=5, range=3, vitality_cost=1, menu_pos=0, multiplier=0.5,
                 desc="Throwing a projectile.",
-                main_effect={"gfx": "simple_throw_attack", "sfx": list("content/sfx/sound/be/throwing_attack_%d.mp3"%i for i in xrange(1, 3)), "duration": .5, "hflip": True},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+                main_effect={"gfx": "simple_throw_attack_webm", "sfx": list("content/sfx/sound/be/throwing_attack_%d.mp3"%i for i in xrange(1, 3)), "duration": .367, "hflip": True},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .31},
+                target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": .15})
         ArrowsSkill("Shadow Shuriken", menu_pos=0.5, attributes=["ranged", "darkness"], effect=60, critpower=.5, multiplier=0.95, mp_cost=.05, vitality_cost=15, range=4, piercing=True,
                 desc="Throwing explosive shadow projectile.",
                 firing_effects={"gfx": "shuriken_throw_webm", "sfx": "content/sfx/sound/be/kunai_throw.mp3"},
@@ -456,8 +458,9 @@ label load_battle_skills:
         # Whip Attacks:
         BE_Action("Whip Strike", attributes=["melee", "physical"], critpower=.1, effect=4, range=1, vitality_cost=1, menu_pos=0, multiplier=0.5,
                 desc="Lashing with a whip.",
-                main_effect={"gfx": "simple_whip_attack", "sfx": list("content/sfx/sound/be/whip_attack_%d.mp3"%i for i in xrange(1, 3)), "duration": .5, "hflip": True},
-                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5})
+                main_effect={"gfx": "simple_whip_attack_webm", "sfx": list("content/sfx/sound/be/whip_attack_%d.mp3"%i for i in xrange(1, 3)), "duration": .367, "hflip": True, "initial_pause": 0.1},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .25},
+                target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": .15})
         MultiAttack("Whip Strike 2X", attributes=["melee", "physical"], critpower=.1, multiplier=0.6, effect=15, range=1, menu_pos=0.1, vitality_cost=3,
                 desc="Two quick attacks with a whip.",
                 main_effect={"gfx": ProportionalScale("content/gfx/be/whip.png", 150, 150), "sfx": "content/sfx/sound/be/whip_attack_1.mp3", "duration": 0.6, "times": 2},

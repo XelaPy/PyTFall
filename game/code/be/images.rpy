@@ -105,26 +105,8 @@ init -1: # Images and Animations
 
     $ renpy.audio.music.register_channel("main_gfx_attacks", renpy.config.movie_mixer, loop=False, stop_on_mute=False, movie=True)
 
-    # simplest single weapon attacks; after certain BE changes they require these simple alts to gradually disappear
-    image simple_scythe_attack:
-        ProportionalScale("content/gfx/be/scythe.png", 150, 150)
-        alpha 1.0
-        linear 0.5 alpha 0
-
-    image simple_spray_attack:
-        ProportionalScale("content/gfx/be/spray.png", 150, 150)
-        alpha 1.0
-        linear 1.0 alpha 0
-
-    image simple_throw_attack:
-        ProportionalScale("content/gfx/be/throw.png", 150, 150)
-        alpha 1.0
-        linear 0.5 alpha 0
-
-    image simple_whip_attack:
-        ProportionalScale("content/gfx/be/whip.png", 150, 150)
-        alpha 1.0
-        linear 0.5 alpha 0
+    # filmstrip for spray simple attack:
+    image simple_spray_attack = Transform(FilmStrip("content/gfx/be/filmstrips/spray.png", (192, 192), (5, 8), 0.03, loop=False), zoom=1.2)
 
     python:
         for i in xrange(1, 6):
