@@ -300,7 +300,13 @@
             bonus1 = 10 if temp else 0
             bonus2 = len(set(self.occupation_traits).intersection(worker.traits))*5
 
-            return total_skills + total_stats + bonus1 + bonus2
+            total = total_skills + total_stats + bonus1 + bonus2
+
+            if config.debug:
+                devlog.info("Calculating Jobs Relative Ability, Char/Job: {}/{}:".format(worker.name, self.id))
+                devlog.info("Gen Occ: {}, Base: {}, Skills: {}, Stats: {} ==>> {}".format(bonus1, bonus2, total_skills, total_stats, total))
+
+            return total
 
         def traits_and_effects_effectiveness_mod(self, worker, difficulty, log):
             """Modifies workers effectiveness depending on traits and effects.

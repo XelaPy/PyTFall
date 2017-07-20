@@ -172,9 +172,7 @@ init -5 python:
                     effectiveness = job.effectiveness(w, difficulty)
                     effectiveness += job.traits_and_effects_effectiveness_mod(w)
 
-                    relative_ability = job.relative_ability(w)
-                    if config.debug:
-                        devlog.info("Cleaning Job relative_ability: {}: {}".format(w.nickname, relative_ability))
+                    relative_ability = job.relative_ability(w, difficulty)
 
                     if config.debug:
                         devlog.info("Cleaning Job Effectiveness: {}: {}".format(w.nickname, effectiveness))
