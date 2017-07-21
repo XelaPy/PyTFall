@@ -16,6 +16,11 @@ label city_beach_left:
             pytfall.world_actions.finish()
     
     scene bg city_beach_left
+    show back_tower:
+        xpos 444
+        ypos 224
+        anchor (0.5, 1.0)
+        zoom 0.2
     with dissolve
     show screen city_beach_left
     
