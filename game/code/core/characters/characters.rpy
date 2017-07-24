@@ -16,7 +16,7 @@ init -9 python:
         """This deals with expectations and social status of chars.
 
         Used to calculate expected wages, upkeep, living conditions and etc.
-        I'd love it to contain at least some of the calculations and coditioning for Jobs as well, we can split this if it gets too confusing.
+        I'd love it to contain at least some of the calculations and conditioning for Jobs as well, we can split this if it gets too confusing.
         Maybe some behavior flags and alike can be a part of this as well?
         """
         BASE_WAGES = {"SIW": 20, "Warrior": 30, "Server": 15, "Specialist": 25}
@@ -33,7 +33,7 @@ init -9 python:
 
         def recalculate_tier(self):
             """
-            I think we should attemt to figure out the tier based on
+            I think we should attempt to figure out the tier based on
             level and stats/skills of basetraits.
 
             level always counts as half of the whole requirement.

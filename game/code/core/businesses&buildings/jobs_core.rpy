@@ -260,7 +260,7 @@
             return True
 
         # We should also have a number of methods or properties to evaluate new dicts:
-        def relative_ability(self, worker, tier=None):
+        def relative_ability(self, worker, difficulty=None):
             """
             # Maybe just do the stats/skills interpolation here???
             # And later add that to tier calc in the effectiveness method?
@@ -268,43 +268,98 @@
             100 or above is the target for this method.
             """
             ability = 0
-            if tier is None:
-                tier = worker.tier
-                if not tier:
-                    tier = 1 # Risking ZeroDev error otherwise
+            if difficulty is None:
+                difficulty = worker.tier
+                if not difficulty:
+                    difficulty = 1 # Risking ZeroDev error otherwise
 
-            rates = []
-            amount = []
-            for skill, weight in self.base_skills.items():
-                target_value = SKILLS_MAX[skill]*.1*tier
-                real_value = worker.get_skill(skill)
-                rv = 50.0*real_value/target_value # resulting value, 50 base
-                rates.append(weight)
-                amount.append(rv)
-            # Formula from SO:
-            total_skills = sum(x * y for x, y in zip(rates, amount)) / sum(amount)
+            matched_gen_occ = worker.occupations.intersection(self.occupations)
 
-            rates = []
-            amount = []
-            for stat, weight in self.base_stats.items():
-                target_value = worker.get_max(stat)*.1*tier
-                real_value = getattr(worker, stat)
-                rv = 50.0*real_value/target_value # resulting value, 50 base
-                rates.append(weight)
-                amount.append(rv)
-            # Formula from SO:
-            total_stats = sum(x * y for x, y in zip(rates, amount)) / sum(amount)
+            # if we matched occupation:
+            if matched_gen_occ:
+                if worker.tier >= difficulty:
+                    gen_occ_ability = 70
+                else:
+                    gen_occ_ability = 50
+
+            # 25 points for difference between difficulty/tier:
+            diff = worker.tier - difficulty
+            gen_occ_ability += diff*25
+
+            # We give only 1/2 of the ability points if only one trait matched!
+            if len(worker.occupations) == 2 and len(matched_gen_occ) < 2:
+                if gen_occ_ability > 0:
+                    gen_occ_ability *= .5
+
+            default_points = 12.5
+            max_default_points = default_points*1.1 # We do not want this to exceed default points too much
+            total_skills = 0
+            total_stats = 0
+            len_skills = len(self.base_skills)
+            for skill in self.base_skills:
+                # Skills first (We calc this as 12.5% of the total)
+                if not len_skills: # Some weird ass base trait, we just award 33% of total possible points.
+                    total_skills = default_points*.33
+                else:
+                    skills = self.base_skills
+                    total_sp = sum(worker.get_skill(x) for x in skills.iterkeys())
+                    total_sp_required = sum((SKILLS_MAX[x]*(difficulty*.1)) * (.01*y) for x, y in skills.iteritems())
+                    total_skills = min(default_points*total_sp/total_sp_required, max_default_points)
+
+            len_stats = len(self.base_stats)
+            for stat in self.base_stats:
+                if not len_stats: # Some weird ass base trait, we just award 33% of total possible points.
+                    total_stats = default_points*.33
+                else:
+                    stats = self.base_stats
+                    total_sp = sum(getattr(worker, stat) for x in stats.iterkeys())
+                    if stat in worker.stats.FIXED_MAX:
+                        target_value = worker.get_max(stat)
+                    else:
+                        # 450 is my guess for a target stat of a maxed out character
+                        target_value = 450*.1*difficulty
+                    total_sp_required = sum(target_value * (.01*y) for x, y in stats.iteritems())
+                    total_stats = min(default_points*total_sp/total_sp_required, max_default_points)
+
+            # # SKILLS:
+            # rates = []
+            # amount = []
+            # for skill, weight in self.base_skills.items():
+            #     target_value = SKILLS_MAX[skill]*.1*difficulty
+            #     real_value = float(worker.get_skill(skill))
+            #     rv = 50*(real_value/target_value) or .001 # resulting value, 50 base
+            #     rates.append(weight)
+            #     amount.append(rv)
+            # # Formula from SO:
+            # total_skills = sum(x * y for x, y in zip(rates, amount)) / sum(amount)
+            #
+            # rates = []
+            # amount = []
+            # for stat, weight in self.base_stats.items():
+            #     if stat in worker.stats.FIXED_MAX:
+            #         target_value = worker.get_max(stat)
+            #     else:
+            #         # 450 is my guess for a target stat of a maxed out character
+            #         target_value = 450*.1*difficulty
+            #     real_value = float(getattr(worker, stat))
+            #     rv = 50*(real_value/target_value) # resulting value, 50 base
+            #     rates.append(weight)
+            #     amount.append(rv)
+            # # Formula from SO:
+            # total_stats = sum(x * y for x, y in zip(rates, amount)) / sum(amount)
 
             # Bonuses:
-            temp = worker.occupations.intersection(self.occupations)
-            bonus1 = 10 if temp else 0
-            bonus2 = len(set(self.occupation_traits).intersection(worker.traits))*5
+            bonus = len(set(self.occupation_traits).intersection(worker.traits))*5
 
-            total = total_skills + total_stats + bonus1 + bonus2
+            total = gen_occ_ability + total_skills + total_stats + bonus
 
             if config.debug:
+                temp = {}
+                for stat in self.base_stats:
+                    temp[stat] = getattr(worker, stat)
                 devlog.info("Calculating Jobs Relative Ability, Char/Job: {}/{}:".format(worker.name, self.id))
-                devlog.info("Gen Occ: {}, Base: {}, Skills: {}, Stats: {} ==>> {}".format(bonus1, bonus2, total_skills, total_stats, total))
+                devlog.info("Stats: {}:".format(temp))
+                devlog.info("Gen Occ: {}, Base: {}, Skills: {}, Stats: {} ==>> {}".format(gen_occ_ability, bonus, total_skills, total_stats, total))
 
             return total
 

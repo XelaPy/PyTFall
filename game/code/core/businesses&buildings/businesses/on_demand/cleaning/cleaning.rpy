@@ -167,6 +167,7 @@ init -5 python:
 
         def calc_job_effectiveness(self, cleaners, job, power_flag_name, remove_from_available_workers=True):
             difficulty = self.instance.tier
+
             for w in cleaners:
                 if not w.flag(power_flag_name):
                     effectiveness = job.effectiveness(w, difficulty)
