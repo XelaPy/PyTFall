@@ -1,0 +1,16 @@
+[
+    {
+        "id": "sad_cat",
+        "name": "Cat",
+        "fullname": "Cat",
+        "desc": "Just a local cat.",
+        "origin": "PyTFall",
+        
+        "base_race": "Furry",
+        "gender": "male",
+        "race": "Animal",
+        "location": "city",
+        "status": "free",
+        "gold": 0
+    }
+]
