@@ -22,10 +22,10 @@ label hiddenvillage_entrance:
 
     scene bg hiddenvillage_entrance
     show back_tower:
-        xpos 44
-        ypos 148
+        xpos 39
+        ypos 123
         anchor (0.5, 1.0)
-        zoom 0.1
+        alpha .8
     with dissolve
     show screen hiddenvillage_entrance
     

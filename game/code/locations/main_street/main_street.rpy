@@ -18,10 +18,10 @@ label main_street:
     hide screen city_screen
     scene bg main_street at truecenter
     show back_tower:
-        xpos 551
-        ypos 160
+        xpos 553
+        ypos 158
         anchor (0.5, 1.0)
-        zoom 0.15
+        alpha .8
     with dissolve
     
     show screen main_street
