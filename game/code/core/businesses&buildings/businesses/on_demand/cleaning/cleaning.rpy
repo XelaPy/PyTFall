@@ -170,9 +170,9 @@ init -5 python:
 
             for w in cleaners:
                 if not w.flag(power_flag_name):
-                    effectiveness_ratio = job.effectiveness(w, difficulty, log, True)
+                    effectiveness_ratio = job.effectiveness(w, difficulty)
                     if config.debug:
-                        devlog.info("Cleaning Job Effectiveness: {}: {}".format(w.nickname, effectiveness))
+                        devlog.info("Cleaning Job Effectiveness: {}: {}".format(w.nickname, effectiveness_ratio))
                     value = -int(round(3 + w.get_skill("service") * .025 + w.agility * .03))*effectiveness_ratio
                     w.set_flag(power_flag_name, value)
 
