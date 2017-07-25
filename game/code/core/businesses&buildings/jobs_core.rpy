@@ -260,12 +260,14 @@
             return True
 
         # We should also have a number of methods or properties to evaluate new dicts:
-        def relative_ability(self, worker, difficulty=None):
-            """
-            # Maybe just do the stats/skills interpolation here???
-            # And later add that to tier calc in the effectiveness method?
+        def effectiveness(self, worker, difficulty, log=None, return_ratio=True):
+            """We check effectiveness here during jobs from SimPy land.
 
-            100 or above is the target for this method.
+            difficulty is used to counter worker tier.
+            100 is considered a score where worker does the task with acceptable performance.
+            min = 0 and max is 200
+
+            return_ratio argument, when True, returns a multiplier of .1 to 2.0 instead...
             """
             ability = 0
             if difficulty is None:
@@ -281,6 +283,11 @@
                     gen_occ_ability = 70
                 else:
                     gen_occ_ability = 50
+            else:
+                if worker.tier >= difficulty:
+                    gen_occ_ability = 25
+                else:
+                    gen_occ_ability = -50
 
             # 25 points for difference between difficulty/tier:
             diff = worker.tier - difficulty
@@ -291,67 +298,51 @@
                 if gen_occ_ability > 0:
                     gen_occ_ability *= .5
 
-            default_points = 12.5
-            max_default_points = default_points*1.1 # We do not want this to exceed default points too much
-            total_skills = 0
-            total_stats = 0
-            len_skills = len(self.base_skills)
-            for skill in self.base_skills:
-                # Skills first (We calc this as 12.5% of the total)
-                if not len_skills: # Some weird ass base trait, we just award 33% of total possible points.
-                    total_skills = default_points*.33
-                else:
-                    skills = self.base_skills
-                    total_sp = sum(worker.get_skill(x) for x in skills.iterkeys())
-                    total_sp_required = sum((SKILLS_MAX[x]*(difficulty*.1)) * (.01*y) for x, y in skills.iteritems())
-                    total_skills = min(default_points*total_sp/total_sp_required, max_default_points)
+            default_points = 25
+            skills = self.base_skills
+            if not skills:
+                total_skills = default_points*.33
+            else:
+                total_weight_points = sum(skills.values())
+                total_skills = 0
+                for skill, weight in skills.items():
+                    weight_ratio = float(weight)/total_weight_points
+                    max_p = default_points*weight_ratio
 
-            len_stats = len(self.base_stats)
-            for stat in self.base_stats:
-                if not len_stats: # Some weird ass base trait, we just award 33% of total possible points.
-                    total_stats = default_points*.33
-                else:
-                    stats = self.base_stats
-                    total_sp = sum(getattr(worker, stat) for x in stats.iterkeys())
+                    sp = worker.get_skill(skill)
+                    sp_required = SKILLS_MAX[skill]*(difficulty*.1)
+
+                    total_skills += min(sp*max_p/sp_required, max_p*1.1)
+
+            stats = self.base_stats
+            if not stats:
+                total_stats = default_points*.33
+            else:
+                total_stats = 0
+                total_weight_points = sum(stats.values())
+                for stat, weight in stats.items():
+                    weight_ratio = float(weight)/total_weight_points
+                    max_p = default_points*weight_ratio
+
+                    sp = getattr(worker, stat)
                     if stat in worker.stats.FIXED_MAX:
-                        target_value = worker.get_max(stat)
+                        sp_required = worker.get_max(stat)
                     else:
                         # 450 is my guess for a target stat of a maxed out character
-                        target_value = 450*.1*difficulty
-                    total_sp_required = sum(target_value * (.01*y) for x, y in stats.iteritems())
-                    total_stats = min(default_points*total_sp/total_sp_required, max_default_points)
+                        sp_required = 450*(difficulty*.1)
 
-            # # SKILLS:
-            # rates = []
-            # amount = []
-            # for skill, weight in self.base_skills.items():
-            #     target_value = SKILLS_MAX[skill]*.1*difficulty
-            #     real_value = float(worker.get_skill(skill))
-            #     rv = 50*(real_value/target_value) or .001 # resulting value, 50 base
-            #     rates.append(weight)
-            #     amount.append(rv)
-            # # Formula from SO:
-            # total_skills = sum(x * y for x, y in zip(rates, amount)) / sum(amount)
-            #
-            # rates = []
-            # amount = []
-            # for stat, weight in self.base_stats.items():
-            #     if stat in worker.stats.FIXED_MAX:
-            #         target_value = worker.get_max(stat)
-            #     else:
-            #         # 450 is my guess for a target stat of a maxed out character
-            #         target_value = 450*.1*difficulty
-            #     real_value = float(getattr(worker, stat))
-            #     rv = 50*(real_value/target_value) # resulting value, 50 base
-            #     rates.append(weight)
-            #     amount.append(rv)
-            # # Formula from SO:
-            # total_stats = sum(x * y for x, y in zip(rates, amount)) / sum(amount)
+                    total_stats += min(sp*max_p/sp_required, max_p*1.1)
 
             # Bonuses:
-            bonus = len(set(self.occupation_traits).intersection(worker.traits))*5
+            bt_bonus = len(set(self.occupation_traits).intersection(worker.traits))*5
+            traits_bonus = self.traits_and_effects_effectiveness_mod(worker, log)
 
-            total = gen_occ_ability + total_skills + total_stats + bonus
+            total = int(round(sum([gen_occ_ability, bt_bonus, traits_bonus, total_skills, total_stats])))
+            # Normalize:
+            if total < 0:
+                total = 0
+            elif total > 200:
+                total = 200
 
             if config.debug:
                 temp = {}
@@ -359,30 +350,19 @@
                     temp[stat] = getattr(worker, stat)
                 devlog.info("Calculating Jobs Relative Ability, Char/Job: {}/{}:".format(worker.name, self.id))
                 devlog.info("Stats: {}:".format(temp))
-                devlog.info("Gen Occ: {}, Base: {}, Skills: {}, Stats: {} ==>> {}".format(gen_occ_ability, bonus, total_skills, total_stats, total))
+                args = (gen_occ_ability, bt_bonus, traits_bonus, total_skills, total_stats, total)
+                devlog.info("Gen Occ: {}, Base Traits: {}, Traits: {}, Skills: {}, Stats: {} ==>> {}".format(*args))
+
+            if return_ratio:
+                total /= 100.0
+                if total < .1:
+                    total = .1
 
             return total
 
-        def traits_and_effects_effectiveness_mod(self, worker, difficulty, log):
+        def traits_and_effects_effectiveness_mod(self, worker, log):
             """Modifies workers effectiveness depending on traits and effects.
 
             returns an integer to be added to base calculations!
             """
             return 0
-
-        def effectiveness(self, worker, difficulty, log=None):
-            """We check effectiveness here during jobs from SimPy land.
-
-            difficulty is used to counter worker tier.
-            100 is considered a score where worker does the task with acceptable performance.
-            """
-            if worker.occupations.intersection(self.occupations):
-                effectiveness = 50
-            else:
-                effectiveness = 0
-
-            # 25 points for difference between difficulty/tier:
-            diff = worker.tier - difficulty
-            effectiveness += diff*25
-
-            return effectiveness
