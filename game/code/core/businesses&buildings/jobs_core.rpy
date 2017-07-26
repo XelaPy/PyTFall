@@ -209,7 +209,7 @@
 
             # Traits/Job-types associated with this job:
             self.occupations = list() # General Strings likes SIW, Warrior, Server...
-            self.occupation_traits = list() # Corresponding traits... # TODO: WE NEED TO MAKE SURE THESE ARE INSTANCES!
+            self.occupation_traits = list() # Corresponding traits...
 
             self.event_type = "jobreport"
 

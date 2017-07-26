@@ -7,44 +7,33 @@ init -5 python:
             self.id = "Guarding"
             self.type = "Combat"
 
+            self.event_type = "jobreport"
+
             # Traits/Job-types associated with this job:
             self.occupations = ["Warrior"] # General Strings likes SIW, Warrior, Server...
             self.occupation_traits = [traits["Warrior"], traits["Mage"], traits["Knight"], traits["Shooter"]] # Corresponding traits...
 
             # Relevant skills and stats:
-            self.skills = ["cleaning"]
-            self.stats = ["agility"]
+            self.base_skills = {"attack": 20, "defense": 20, "agility": 60, "magic": 20}
+            self.base_stats = {"security": 100}
 
-            workermod = {}
-            self.locmod = {}
+            self.desc = "Don't let them take your shit!"
 
-        def __call__(self, workers_original, workers, location, action, flag=None):
-            self.all_workers = workers_original
-            workers = workers
-            self.loc = location
-            self.flag = flag
-
-            if action == "patrol":
-                self.patrol()
-            elif action == "intercept":
-                self.intercept()
-
-        def patrol(self):
+        def write_patrol_report(self, guards, log):
             """Builds ND event for Guard Job.
 
             This one is simpler... it just logs the stats, picks an image and builds a report...
             """
-            self.img = Fixed(xysize=(820, 705))
-            self.img.add(Transform(self.loc.img, size=(820, 705)))
+            img = Fixed(xysize=(820, 705))
+            img.add(Transform(self.loc.img, size=(820, 705)))
             vp = vp_or_fixed(self.all_workers, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
-            self.img.add(Transform(vp, align=(.5, .9)))
+            img.add(Transform(vp, align=(.5, .9)))
+            log.img = img
 
-            self.team = self.all_workers
-
-            log = ["{} intercepted {} today!".format(", ".join([w.nickname for w in self.all_workers]), self.loc.name)]
+            temp = "{} intercepted {} today!".format(", ".join([w.nickname for w in self.all_workers]), self.loc.name)
+            log.append(temp)
 
             # Stat mods
-            self.logloc('dirt', 25 * len(self.all_workers)) # 25 per guard? Should prolly be resolved in SimPy land...
             for w in self.all_workers:
                 log.logws('vitality', -randint(15, 25), w)  # = ? What to do here?
                 log.logws('exp', randint(15, 25), w) # = ? What to do here?
@@ -52,9 +41,11 @@ init -5 python:
                     if dice(20):
                         log.logws(stat, 1, w)
 
-            self.event_type = "jobreport" # Come up with a new type for team reports?
-            self.apply_stats()
-            self.finish_job()
+            log.logloc('dirt', 25*len(self.all_workers)) # 25 per guard? Should prolly be resolved in SimPy land...
+            log.event_type = "jobreport" # Come up with a new type for team reports?
+
+            log.after_job()
+            NextDayEvents.append(log)
 
         def intercept(self):
             """Builds ND event for Guard Job.
