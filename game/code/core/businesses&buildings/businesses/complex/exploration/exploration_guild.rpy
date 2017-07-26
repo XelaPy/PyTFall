@@ -100,7 +100,7 @@ init -6 python:
             team = The team that is exploring.
             area = The area that is being explored.
             """
-            super(WhoreJob, self).__init__()
+            super(ExplorationTracker, self).__init__()
             self.id = "Exploration"
             self.type = "Combat"
 
