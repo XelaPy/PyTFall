@@ -1,4 +1,4 @@
-# This file needs revicesment and splitting it logically!
+# This file needs revisement and splitting it logically!
 
 init -9 python:
     # ======================= (Simulated) Exploration code =====================>>>
@@ -100,6 +100,18 @@ init -6 python:
             team = The team that is exploring.
             area = The area that is being explored.
             """
+            super(WhoreJob, self).__init__()
+            self.id = "Exploration"
+            self.type = "Combat"
+
+            # Traits/Job-types associated with this job:
+            self.occupations = ["Warrior"] # General Strings likes SIW, Warrior, Server...
+            self.occupation_traits = [traits["Warrior"], traits["Mage"]] # Corresponding traits...
+
+            self.base_skills = {"attack": 20, "defense": 20, "agility": 60, "magic": 20}
+            self.base_stats = {"exploration": 100}
+
+            self.desc = "Explore the world, find new places, meet new people... and take their shit!"
 
             # We do this because this data needs to be tracked separately and area object can only be updated once team has returned.
             # There is a good chance that some of these data must be updated in real time.
@@ -140,8 +152,9 @@ init -6 python:
 
             # Exploration:
             self.points = 0 # Combined exploration points from the whole team. Replaces AP.
-            self.effectiveness = 0 # How well the team can perform any given exploration task.
-            self.travel_points = 0 # travel point we use during traveling to offset ep sorrectly.
+            # Used to be effectiveness, but that would collide with a method of parent class
+            self.ability = 0 # How well the team can perform any given exploration task.
+            self.travel_points = 0 # travel point we use during traveling to offset ep correctly.
 
             self.state = "traveling to" # Instead of a bunch of properties, we'll use just the state as string and set it accordingly.
             self.captured_chars = list()
@@ -180,7 +193,6 @@ init -6 python:
         def log(self, txt, name="", nd_log=True, ui_log=False, **kwargs):
             if config.debug:
                 devlog.info("Logging SE: {}: {} at {}\n    {}".format(self.area.name, self.team.name, self.guild.env.now, txt))
-
 
             obj = ExplorationLog(name, txt, nd_log, ui_log, **kwargs)
             self.logs.append(obj)
@@ -569,10 +581,14 @@ init -6 python:
             encountered_opfor = 0
             cash = 0
 
-            # Points (ability) Convertion:
+            # Effectiveness (Ability):
+            abilities = list()
+            difficulty = 2 # MUST BE INTERPOLATED FROM RISK, JSON DATA AND Maybe some other factors.
             for char in team:
-                # Set their exploration capabilities as temp flag:
-                tracker.effectiveness += int(round(1 + char.agility*.1) + char.get_skill("exploration")) # Effectiveness? How do we calculate?
+                # Set their exploration capabilities as temp flag
+                a = tracker.effectiveness(char, difficulty, log=None, return_ratio=False)
+                abilities.append(a)
+            self.ability = get_mean(abilities)
 
             #Day 1 Risk 1 = 0.213, D 15 R 1 = 0.287, D 1 R 50 = 0.623, D 15 R 50 = 0.938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
             risk_a_day_multiplicator = 50 # int(round(((.2 + (area.risk*.008))*(1 + tracker.day*(.025*(1+area.risk/100))))*.05)) # For now, I'll just devide the damn thing by 20 (*.05)...
@@ -802,6 +818,7 @@ init -6 python:
             for m in team:
                 AP + m.AP
             tracker.points = AP * 100
+
 
 screen se_debugger():
     zorder 200

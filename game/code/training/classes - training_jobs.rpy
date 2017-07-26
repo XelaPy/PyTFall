@@ -937,7 +937,7 @@ init python:
             course = The course that is being trained.
             """
             # Do non-standard inheritance
-            Job.__init__(self, girl, None, loc=loc, event_type="schoolreport")
+            TrainingJob.__init__(self, girl, None, loc=loc, event_type="schoolreport")
 
             # Get needed stats
             self.course = course
