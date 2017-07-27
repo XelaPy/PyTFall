@@ -49,36 +49,45 @@ init -9 python:
             level_points = self.level*50.0/target_level
 
             default_points = 12.5
-            max_default_points = default_points*1.1 # We do not want this to exceed default points too much
-            stats_skills_points = 0
+            skill_bonus = 0
+            stat_bonus = 0
             for trait in self.traits.basetraits:
                 # Skills first (We calc this as 12.5% of the total)
-                len_skills = len(trait.base_skills)
-                if not len_skills: # Some weird ass base trait, we just award 33% of total possible points.
-                    stats_skills_points += default_points*.33
+                skills = trait.base_skills
+                if not skills: # Some weird ass base trait, we just award 33% of total possible points.
+                    skill_bonus += default_points*.33
                 else:
-                    skills = trait.base_skills
-                    total_sp = sum(self.get_skill(x) for x in skills.iterkeys())
-                    total_sp_required = sum((SKILLS_MAX[x]*(target_tier*.1)) * (.01*y) for x, y in skills.iteritems())
-                    skill_bonus = min(default_points*total_sp/total_sp_required, max_default_points)
-                    stats_skills_points += skill_bonus
+                    total_weight_points = sum(skills.values())
+                    for skill, weight in skills.items():
+                        weight_ratio = float(weight)/total_weight_points
+                        max_p = default_points*weight_ratio
 
-                len_stats = len(trait.base_stats)
-                if not len_stats: # Some weird ass base trait, we just award 33% of total possible points.
-                    stats_skills_points += default_points*.33
+                        sp = self.get_skill(skill)
+                        sp_required = SKILLS_MAX[skill]*(target_tier*.1)
+
+                        skill_bonus += min(sp*max_p/sp_required, max_p*1.1)
+
+                stats = trait.base_stats
+                if not stats: # Some weird ass base trait, we just award 33% of total possible points.
+                    stat_bonus += default_points*.33
                 else:
                     stats = trait.base_stats
-                    total_sp = sum(self.stats.stats[x] for x in stats.iterkeys())
-                    total_sp_required = sum(self.get_max(x) * (.01*y) for x, y in stats.iteritems())
-                    stat_bonus = min(default_points*total_sp/total_sp_required, max_default_points)
-                    stats_skills_points += stat_bonus
+                    for stat, weight in stats.items():
+                        weight_ratio = float(weight)/total_weight_points
+                        max_p = default_points*weight_ratio
 
+                        sp = self.stats.stats[stat]
+                        sp_required = self.get_max(stat)
+
+                        stat_bonus += min(sp*max_p/sp_required, max_p*1.1)
+
+            stats_skills_points = skill_bonus + stat_bonus
             if len(self.traits.basetraits) == 1:
                 stats_skills_points *= 2
 
             total_points = level_points + stats_skills_points
 
-            devlog.info("Name: {}, tier points for Teir {}: {} (lvl: {}, st/sk=total: {}/{}==>{})".format(self.name,
+            devlog.info("Name: {}, total tier points for Teir {}: {} (lvl: {}, st/sk=total: {}/{}==>{})".format(self.name,
                                                                                                         int(target_tier),
                                                                                                         round(total_points),
                                                                                                         round(level_points),

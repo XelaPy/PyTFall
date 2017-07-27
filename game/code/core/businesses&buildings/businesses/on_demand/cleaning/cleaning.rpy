@@ -148,7 +148,7 @@ init -5 python:
                 # Do Disposition checks:
                 job.settle_workers_disposition(cleaners, self)
                 # Do Effectiveness calculations:
-                self.calc_job_effectiveness(cleaners, job, power_flag_name)
+                self.calc_job_power(cleaners, job, power_flag_name)
 
             return cleaners
 
@@ -161,23 +161,19 @@ init -5 python:
                 # Do Disposition checks:
                 job.settle_workers_disposition(new_cleaners, self, all_on_deck=True)
                 # Do Effectiveness calculations:
-                self.calc_job_effectiveness(new_cleaners, job, power_flag_name)
+                self.calc_job_power(new_cleaners, job, power_flag_name)
 
             return cleaners.union(new_cleaners)
 
-        def calc_job_effectiveness(self, cleaners, job, power_flag_name, remove_from_available_workers=True):
+        def calc_job_power(self, cleaners, job, power_flag_name, remove_from_available_workers=True):
             difficulty = self.instance.tier
 
             for w in cleaners:
                 if not w.flag(power_flag_name):
-                    effectiveness = job.effectiveness(w, difficulty)
-                    effectiveness += job.traits_and_effects_effectiveness_mod(w)
-
-                    relative_ability = job.relative_ability(w, difficulty)
-
+                    effectiveness_ratio = job.effectiveness(w, difficulty)
                     if config.debug:
-                        devlog.info("Cleaning Job Effectiveness: {}: {}".format(w.nickname, effectiveness))
-                    value = -int(round(3 + w.get_skill("service") * 0.025 + w.agility * 0.03))
+                        devlog.info("Cleaning Job Effectiveness: {}: {}".format(w.nickname, effectiveness_ratio))
+                    value = -int(round(3 + w.get_skill("service") * .025 + w.agility * .03))*effectiveness_ratio
                     w.set_flag(power_flag_name, value)
 
                     # Remove from active workers:

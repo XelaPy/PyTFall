@@ -12,6 +12,9 @@ init -11 python:
                 new[key] = new.get(key, 0) + value
         return new
 
+    def get_mean(numbers):
+        return float(sum(numbers)) / max(len(numbers), 1)
+
     # ---------------------- Game related:
     # Assists:
     # Function are not named according to PEP8 because we'll be using the living shit out of them in the game:
