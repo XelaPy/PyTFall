@@ -1855,6 +1855,10 @@ init -9 python:
                 raise Exception("{} status is not valid for {} with an id: {}".format(s, self.__class__, self.id))
             self.status = s
 
+
+        def update_sayer(self):
+            self.say = Character(self.nickname, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), **self.say_style)
+
         # Properties:
         @property
         def is_available(self):
@@ -3508,7 +3512,7 @@ init -9 python:
 
             # add Character:
             if not self.say:
-                self.say = Character(self.nickname, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), **self.say_style)
+                self.update_sayer()
 
             # Stats log:
             self.log_stats()
@@ -4285,7 +4289,7 @@ init -9 python:
             self.set_flag("day_since_shopping", 1)
 
             # add Character:
-            self.say = Character(self.nickname, show_two_window=True, show_side_image=self, **self.say_style)
+            self.update_sayer()
 
             self.say_screen_portrait = DynamicDisplayable(self._portrait)
             self.say_screen_portrait_overlay_mode = None
@@ -4294,6 +4298,9 @@ init -9 python:
             self.update_tier_info()
 
             super(Char, self).init()
+
+        def update_sayer(self):
+            self.say = Character(self.nickname, show_two_window=True, show_side_image=self, **self.say_style)
 
         def get_availible_pics(self):
             """
