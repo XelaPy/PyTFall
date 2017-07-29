@@ -137,14 +137,14 @@ label found_sad_cat_4:
                     cat.say "Meow!"
                     hero.say "The cat follows me. I suppose it's not safe for him to stay here."
                     extend " I need to give him a name."
-                    $ npcs["sad_cat"].name = npcs["sad_cat"].fullname = items["Your Pet"].id = renpy.call_screen("pyt_input", "Fluffy", "Enter name for your cat", 20)
-                    $ del cat
+                    $ npcs["sad_cat"].name = npcs["sad_cat"].fullname = npcs["sad_cat"].nickname = renpy.call_screen("pyt_input", "Fluffy", "Enter name for your cat", 20)
+                    $ npcs["sad_cat"].update_sayer()
                     $ cat = npcs["sad_cat"]
                     cat.say "Meow!"
-                    $ cat_id = npcs["sad_cat"].name
-                    $ hero.add_item(cat_id)
-                    $ del cat_id
-                    hero.say "Let's go, [npcs['sad_cat'].name]."
+                    hero.say "Let's go, [cat.name]."
+                    $ items["Your Pet"].desc = "%s, your personal pet cat. Don't forget to pet him!" %cat.name
+                    $ hero.add_item("Your Pet")
+                    "You got yourself a pet cat."
                     $ pytfall.world_events.kill_event("found_sad_cat_4", cached=True)
                 "Don't heal":
                     hero.say "I need those potions for myself."
