@@ -364,5 +364,20 @@
     "slot": "smallweapon",
     "type": "tool",
     "locations": ["General Store"]
+    },
+    {
+    "id": "Your Pet",
+    "desc": "The cat you found on city streets. Cute, funny and loyal, all girls just love him.",
+    "icon": "content/items/cons/sad_cat.png",
+    "price": 0,
+    "sex": "male",
+    "chance": 0,
+    "badness": 100,
+    "eqchance": 0,
+    "hidden": false,
+    "infinite": false,
+    "slot": "smallweapon",
+    "type": "tool",
+    "addeffects": ["Fluffy Companion"]
     }
   ]

@@ -244,7 +244,39 @@ label girl_meets_greeting: # also lines for sad and angry flags are needed. but 
                 $ rc("Yes? What's wrong, [char.mc_ref]?", "[char.mc_ref]?")
             else:
                 $ rc("What is it, [char.mc_ref]?", "Yes?")
+                
+    if hero.effects["Fluffy Companion"]['active'] and m < 2 and not(check_friends(hero, char)) and not(check_lovers(hero, char)) and char.disposition <= 400:
+        $ cat = npcs["sad_cat"]
+        $ cat.override_portrait("portrait", "happy")
+        $ char.override_portrait("portrait", "happy")
+        $ char.show_portrait_overlay("note", "reset")
+        cat.say "Meow!"
+        $ char.disposition += locked_random("randint", 5, 10)
+        if ct("Impersonal"):
+            $ rc("Oh? I'm sorry, cat, I don't have any treats.")
+        elif ct("Shy") and dice(50):
+            $ rc("Oh, he's so pretty!")
+        elif ct("Tsundere"):
+            $ rc("What a cute cat.... What? N-no, I don't want to pet him at all...")
+        elif ct("Dandere"):
+            $ rc("How cute... May I pet him?.. Thanks. *pets him*")
+        elif ct("Kuudere"):
+            $ rc("Oh, you have a nice cat there." )
+        elif ct("Ane"):
+            $ rc("Well hello there, cutey. *pets him*")
+        elif ct("Imouto"):
+            $ rc("Ohh, a kitty! How cute!")
+        elif ct("Bokukko"):
+            $ rc("Sup, buddy? Does your master threat you well?")
+        elif ct("Yandere"):
+            $ rc("You have a cat? Interesting.")
+        elif ct("Kamidere"):
+            $ rc("Fine, fine, I'll pet you, so be thankful. *pets him*")
+        else:
+            $ rc("Oh, he's so fluffy and funny, hehe!")
+        $ cat.restore_portrait()
     $ char.restore_portrait()
+    $ char.hide_portrait_overlay()
     return    
     
 label interactions_girl_never_come: 

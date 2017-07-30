@@ -1777,7 +1777,8 @@ init -9 python:
                 "Blood Connection": {"active": False, "desc": "Disposition increases and character decreases every day."},
                 "Horny": {"active": False, "desc": "She's in the mood for sex."},
                 "Chastity": {"active": False, "desc": "Special enchantment preserves her virginity intact."},
-                "Revealing Clothes": {"active": False, "desc": "Her clothes show a lot of skin, attracting views."}
+                "Revealing Clothes": {"active": False, "desc": "Her clothes show a lot of skin, attracting views."},
+                "Fluffy Companion": {"active": False, "desc": "All girls love cute cats, what often helps to increase disposition."}
                 }
 
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
@@ -1854,6 +1855,10 @@ init -9 python:
             if s not in ["slave", "free"]:
                 raise Exception("{} status is not valid for {} with an id: {}".format(s, self.__class__, self.id))
             self.status = s
+
+
+        def update_sayer(self):
+            self.say = Character(self.nickname, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), **self.say_style)
 
         # Properties:
         @property
@@ -3098,6 +3103,9 @@ init -9 python:
 
             elif effect == "Small Regeneration":
                 self.effects['Small Regeneration']['active'] = True
+                
+            elif effect == "Fluffy Companion":
+                self.effects['Fluffy Companion']['active'] = True
 
             elif effect == "Injured":
                 self.effects['Injured']['active'] = True
@@ -3227,8 +3235,11 @@ init -9 python:
                 self.effects['MP Regeneration']['active'] = False
 
             elif effect == "Small Regeneration":
-                self.effects['Small Regeneration']['active'] = False
+                self.effects['Small Regeneration']['active'] = False 
 
+            elif effect == "Fluffy Companion":
+                self.effects['Fluffy Companion']['active'] = False
+                
             elif effect == "Drinker":
                 self.effects['Drinker']['active'] = False
 
@@ -3343,7 +3354,7 @@ init -9 python:
                     unstable['day_log'] = day
                     unstable['day_target'] = day + randint(2, 4)
                     unstable['joy_mod'] = randint(20, 30) if randrange(2) else -randint(20, 30)
-
+                    
             elif effect == "Optimist":
                 if self.joy >= 30:
                     self.joy += 1
@@ -3508,7 +3519,7 @@ init -9 python:
 
             # add Character:
             if not self.say:
-                self.say = Character(self.nickname, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), **self.say_style)
+                self.update_sayer()
 
             # Stats log:
             self.log_stats()
@@ -4285,7 +4296,7 @@ init -9 python:
             self.set_flag("day_since_shopping", 1)
 
             # add Character:
-            self.say = Character(self.nickname, show_two_window=True, show_side_image=self, **self.say_style)
+            self.update_sayer()
 
             self.say_screen_portrait = DynamicDisplayable(self._portrait)
             self.say_screen_portrait_overlay_mode = None
@@ -4294,6 +4305,9 @@ init -9 python:
             self.update_tier_info()
 
             super(Char, self).init()
+
+        def update_sayer(self):
+            self.say = Character(self.nickname, show_two_window=True, show_side_image=self, **self.say_style)
 
         def get_availible_pics(self):
             """
