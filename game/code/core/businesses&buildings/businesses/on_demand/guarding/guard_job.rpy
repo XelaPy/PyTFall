@@ -24,59 +24,65 @@ init -5 python:
 
             This one is simpler... it just logs the stats, picks an image and builds a report...
             """
+            loc = log.loc
+            log.team = guards
+
             img = Fixed(xysize=(820, 705))
-            img.add(Transform(self.loc.img, size=(820, 705)))
-            vp = vp_or_fixed(self.all_workers, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
+            img.add(Transform(loc.img, size=(820, 705)))
+            vp = vp_or_fixed(guards, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
             img.add(Transform(vp, align=(.5, .9)))
             log.img = img
 
-            temp = "{} intercepted {} today!".format(", ".join([w.nickname for w in self.all_workers]), self.loc.name)
+            temp = "{} intercepted {} today!".format(", ".join([w.nickname for w in guards]), loc.name)
             log.append(temp)
 
-            # Stat mods
-            for w in self.all_workers:
-                log.logws('vitality', -randint(15, 25), w)  # = ? What to do here?
-                log.logws('exp', randint(15, 25), w) # = ? What to do here?
+            # Stat mods (Should be moved/split here).
+            for worker in self.all_workers:
+                worker.logws('vitality', -randint(15, 25))
+                worker.logws('exp', randint(15, 25))
                 for stat in ['attack', 'defence', 'magic', 'joy']:
                     if dice(20):
-                        log.logws(stat, 1, w)
+                        worker.logws(stat, 1)
 
-            log.logloc('dirt', 25*len(self.all_workers)) # 25 per guard? Should prolly be resolved in SimPy land...
+            log.logloc('dirt', 25*guards) # 25 per guard? Should prolly be resolved in SimPy land...
             log.event_type = "jobreport" # Come up with a new type for team reports?
 
             log.after_job()
             NextDayEvents.append(log)
 
-        def intercept(self):
+        def intercept(self, guards, log):
             """Builds ND event for Guard Job.
 
             This one is simpler... it just logs the stats, picks an image and builds a report...
             """
-            self.img = Fixed(xysize=(820, 705))
-            self.img.add(Transform(self.loc.img, size=(820, 705)))
-            vp = vp_or_fixed(self.all_workers, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
-            self.img.add(Transform(vp, align=(.5, .9)))
+            loc = log.loc
 
-            self.team = self.all_workers
+            log.img = Fixed(xysize=(820, 705))
+            log.img.add(Transform(loc.img, size=(820, 705)))
+            vp = vp_or_fixed(guards, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
+            log.img.add(Transform(vp, align=(.5, .9)))
 
-            log = ["{} intercepted a bunch of drunk miscreants in {}! ".format(", ".join([w.nickname for w in self.all_workers]), self.loc.name)]
+            log.team = guards
+
+            log = ["{} intercepted a bunch of drunk miscreants in {}! ".format(", ".join([w.nickname for w in guards]), loc.name)]
             if self.flag.flag("result"):
                 log.append("They managed to subdue them!")
             else:
                 log.append("They failed to subdue them, that will cause you some issues with your clients and {} reputation will suffer!".format(self.loc.name))
 
             # Stat mods (Should be moved/split here).
-            self.logloc('dirt', 25 * len(self.all_workers)) # 25 per guard? Should prolly be resolved in SimPy land...
-            for w in self.all_workers:
-                log.logws('vitality', -randint(15, 25), w)  # = ? What to do here?
-                log.logws('exp', randint(15, 25), w) # = ? What to do here?
+            for worker in self.all_workers:
+                worker.logws('vitality', -randint(15, 25))
+                worker.logws('exp', randint(15, 25))
                 for stat in ['attack', 'defence', 'magic', 'joy']:
                     if dice(20):
-                        log.logws(stat, 1, w)
+                        worker.logws(stat, 1)
 
-            self.event_type = "jobreport" # Come up with a new type for team reports?
-            self.apply_stats()
-            self.finish_job()
+            log.logloc('dirt', 25*guards) # 25 per guard? Should prolly be resolved in SimPy land...
+            log.event_type = "jobreport" # Come up with a new type for team reports?
+
+            log.after_job()
+            NextDayEvents.append(log)
 
         def get_events(self):
             """
