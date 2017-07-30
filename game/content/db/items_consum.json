@@ -1354,21 +1354,5 @@
     "type": "special",
     "jump_to_label": "special_items_cleaning_cloud",
     "locations": ["Witches Hut", "Exploration"]
-    },
-    {
-    "id": "Your Pet",
-    "desc": "The cat you found on city streets. ",
-    "icon": "content/items/cons/sad_cat.png",
-    "price": 0,
-    "sex": "male",
-    "chance": 0,
-    "badness": 100,
-    "eqchance": 0,
-    "hidden": false,
-    "infinite": false,
-    "slot": "consumable",
-    "type": "special",
-    "jump_to_label": "special_items_sad_cat",
-    "locations": ["Witches Hut", "Exploration"]
     }
   ]

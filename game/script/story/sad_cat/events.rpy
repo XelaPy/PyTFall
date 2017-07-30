@@ -142,7 +142,7 @@ label found_sad_cat_4:
                     $ cat = npcs["sad_cat"]
                     cat.say "Meow!"
                     hero.say "Let's go, [cat.name]."
-                    $ items["Your Pet"].desc = "%s, your personal pet cat. Don't forget to pet him!" %cat.name
+                    $ items["Your Pet"].desc = "%s, the cat you found on city streets. Cute, funny and loyal, all girls just love him." %cat.name
                     $ hero.add_item("Your Pet")
                     "You got yourself a pet cat."
                     $ pytfall.world_events.kill_event("found_sad_cat_4", cached=True)
