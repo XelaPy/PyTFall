@@ -66,7 +66,7 @@ init -9 python:
                     self.transferable = True
 
             if self.sellable is None:
-                if self.slot in self.NOT_SELLABLE:
+                if self.slot in self.NOT_SELLABLE or self.price == 0:
                     self.sellable = False
                 else:
                     self.sellable = True
