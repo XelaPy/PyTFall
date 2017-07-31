@@ -158,7 +158,9 @@ label char_equip_loop:
             elif result[1] == "discard":
                 python:
                     # Check if we can access the inventory:
-                    if equipment_access(inv_source):
+                    if focusitem.slot == "quest" or focusitem.id in ["Your Pet"]:
+                        renpy.call_screen('message_screen', "This item cannot be discarded.")
+                    elif equipment_access(inv_source):
                         renpy.call_screen("discard_item", inv_source, focusitem)
 
                     focusitem = None
