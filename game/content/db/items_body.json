@@ -919,7 +919,7 @@
     "mod_skills": {"refinement": [0.02, 0.02, 0.1, 0, 0]}
     },
     {
-    "id": "Strapped Leather Jacket",
+    "id": "Leather Jacket",
     "desc": "An expensive compromise between stylish looks and protective properties. Perfect for bdsm activities, but terrible for warm seasons.",
     "icon": "content/items/body/sj.png",
     "price": 1300,
