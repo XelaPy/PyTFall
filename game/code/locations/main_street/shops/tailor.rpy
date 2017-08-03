@@ -12,42 +12,16 @@ label tailor_store:
     with dissolve
     
     $ t = npcs["Kayo_Sudou"].say
-    
-    if not global_flags.has_flag("tailor_special_order_ask"):    
-        $ global_flags.set_flag("tailor_special_order_ask", value=False)
-    
-    # TODO: Gotta add those special request, its a good idea
-    
-    # if global_flags.flag("tailor_special_order_ask"):
-        # $ global_flags.set_flag("tailor_special_order_ask", value=False)
-        # hide screen tailor_store_shopping
-        
-        # "A tailor lady comes in from the backroom."
-        
-        # show npc tailor_kayo_novel
-        # with dissolve 
-        
-        # tailor_kayo "Yes? How can I be of service?"
-        # menu:
-            # "I would like..." if global_flags.flag("tailor_special_order"):
-                # "dev message" "Hey! I didn't set one yet!"
-            # "I don't have anything on my mind right now":
-                # show npc tailor_kayo_angry_novel
-                # tailor_kayo "Do vacate yourself then. Loitering is not allowed here." 
-
-        # $ global_flags.del_flag("keep_playing_music")
-        # jump main_street
-
         
     if global_flags.flag('visited_tailor_store'):
         show expression npcs["Kayo_Sudou"].get_vnsprite() as npc
         with dissolve
         t "Welcome back, take a look at our latest arrivals!"
-        
+
     else:
         $global_flags.set_flag('visited_tailor_store')
             
-        "You entered the shop. The shelves are filled with colorful silks and some exquisite dresses are displayed on the mannequins.{p}Noticing your arrival, a tailor lady comes in from the backroom and approaches you."
+        "You entered the shop. The shelves are filled with colourful silks and some exquisite dresses are displayed on the mannequins. Noticing your arrival, a tailor lady comes in from the back room and approaches you."
  
         show expression npcs["Kayo_Sudou"].get_vnsprite() as npc
         with dissolve
@@ -55,7 +29,12 @@ label tailor_store:
         t "Oh, a new customer! Welcome to my store."
         t "I'm honored to present you our wares. All pieces you see were acquired from the most renowned merchants. "
         t "But If you have any special requests, just tell me. I'm sure I will be able to help you."
-    
+        
+label tailor_menu: # after she said her lines but before we show menu controls, to return here when needed
+    show screen tailor_shop
+    with dissolve
+    while 1:
+        $ result = ui.interact()
 
     
 label tailor_store_shopping:
@@ -71,29 +50,14 @@ label tailor_store_shopping:
         char.inventory.apply_filter(filter)
 
     show screen shopping(left_ref=hero, right_ref=shop)
-    show screen tailor_store_shopping
     with dissolve
     call shop_control from _call_shop_control_4
     
     $ global_flags.del_flag("keep_playing_music") 
 
     hide screen shopping
-    hide screen tailor_store_shopping
     with dissolve
-    jump main_street
-
-screen tailor_store_shopping: # TODO in the future: vertical scrolling may be needed eventually
-    vbox:
-        style_group "basic"
-        xfill True
-        maximum (500, 400)
-        align(0.5, 0.99)
-        button:
-            xysize (200, 50)
-            style_prefix "wood"
-            text "Special Order" size 16 color goldenrod
-            xalign 0.5
-            action Jump("tailor_special_order")
+    jump tailor_menu
             
 screen shopkeeper_items_upgrades(upgrades_list):
     modal True
@@ -103,6 +67,8 @@ screen shopkeeper_items_upgrades(upgrades_list):
         xpadding 75
         ypadding 75
         has vbox
+        text "Upgrades" style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 30 yalign .5 xalign .5
+        null height 15
         for i in upgrades_list:
             frame:
                 style_prefix "wood"
@@ -124,7 +90,7 @@ screen shopkeeper_items_upgrades(upgrades_list):
                         xalign 1.0
                         yalign 0.5
                         text "Order" size 16 color goldenrod
-                        action Return(i[0])
+                        action Return(upgrades_list.index(i))
                         padding (10, 10)
                     null height 1
         null height 5
@@ -136,15 +102,60 @@ screen shopkeeper_items_upgrades(upgrades_list):
             action Return(-1)
 
 label tailor_special_order:
-    hide screen tailor_store_shopping
-    hide screen shopping
-    t "For a small price I can upgrade your clothes to better versions. What would you like to order?"
-    $ upgrade_list = [["Casual Clothes", "100", "Armored Casual Clothes"], ["Artisan Outfit", "200", "Elite Artisan Outfit"], ["Leather Jacket", "300", "Altered Leather Jacket"], ["Mercenary Clothes", "400", "Proper Mercenary Clothes"]]
-    $ result = renpy.call_screen("shopkeeper_items_upgrades", upgrade_list)
-    if result != -1:
-        t "[result]"
-    t "Please come again!"
-    hide screen shopping
-    hide screen tailor_store_shopping
-    with dissolve
-    jump main_street
+    if npcs["Kayo_Sudou"].has_flag("tailor_special_order"):
+        if day - npcs["Kayo_Sudou"].flag("tailor_special_order")[0] < 3:
+            t "I'm very sorry, your order is not ready yet. Please come later."
+        else:
+            $ i = int(npcs["Kayo_Sudou"].flag("tailor_special_order")[1])
+            $ j = upgrade_list[i][2]
+            t "Yes, your order is ready. *she gives you [j]*"
+            $ hero.add_item(upgrade_list[i][2])
+            $ del i
+            $ del j
+            t "Ask anytime if you need anything else!"
+            $ npcs["Kayo_Sudou"].del_flag("tailor_special_order")
+    else:
+        t "For a small price I can upgrade your clothes to better versions. What would you like to order?"
+        $ upgrade_list = [["Casual Clothes", 40, "Armored Casual Clothes"], ["Artisan Outfit", 200, "Elite Artisan Outfit"], ["Leather Jacket", 600, "Altered Leather Jacket"], ["Mercenary Clothes", 900, "Proper Mercenary Clothes"]]
+        # TODO: load the list of upgrades from json instead of this hardcoded list
+        $ result = renpy.call_screen("shopkeeper_items_upgrades", upgrade_list)
+        # t "[result]"
+        if result == -1:
+            t "If you want anything, please don't hesitate to tell me."
+        else:
+            if has_items(upgrade_list[result][0], [hero], equipped=False) <= 0:
+                t "I'm sorry, you don't have the required base item. Please make sure to unequip it if it's equipped."
+            elif hero.take_money(upgrade_list[result][1], reason="Tailor Upgrade"):
+                $ hero.remove_item(upgrade_list[result][0])
+                t "Of course, dear customer, it will be ready in three days. You can retrieve your order in our shop after the time passes."
+                $ npcs["Kayo_Sudou"].set_flag("tailor_special_order", value=[day, result])
+            else:
+                t "I'm sorry, but you don't have that much gold."
+    jump tailor_menu
+    
+screen tailor_shop:
+    frame:
+        xalign 0.95
+        ypos 20
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        xpadding 10
+        ypadding 10
+        vbox:
+            style_group "wood"
+            align (0.5, 0.5)
+            spacing 10
+            button:
+                xysize (150, 40)
+                yalign 0.5
+                action [Hide("tailor_shop"), Jump("tailor_store_shopping")]
+                text "Shop" size 15
+            button:
+                xysize (150, 40)
+                yalign 0.5
+                action [Hide("tailor_shop"), Jump("tailor_special_order")]
+                text "Special Order" size 15
+            button:
+                xysize (150, 40)
+                yalign 0.5
+                action [Hide("tailor_shop"), Jump("main_street")]
+                text "Leave" size 15
