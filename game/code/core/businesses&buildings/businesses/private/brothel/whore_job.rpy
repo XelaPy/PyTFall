@@ -12,7 +12,7 @@ init -5 python:
 
             self.base_skills = {"sex": 60, "vaginal": 40, "anal": 40, "oral": 40}
             self.base_stats = {"charisma": 100}
-            
+
             self.desc = "Whores provide very personal service by selling their bodies."
 
         def traits_and_effects_effectiveness_mod(self, worker, log):
@@ -33,9 +33,12 @@ init -5 python:
 
             if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
 
-                traits = list(i for i in worker.traits if i in ["Ill-mannered", "Always Hungry", "Heavy Drinker", "Neat", "Messy", "Homebody", "Indifferent", "Open Minded", "Dawdler", "Energetic", "Sexy Air", "Frigid", "Nymphomaniac", "Psychic", "Flexible", "Lactation"])
+                traits = list(i.id for i in worker.traits if i in ["Ill-mannered",
+                                "Always Hungry", "Heavy Drinker", "Neat", "Messy", "Homebody",
+                                "Indifferent", "Open Minded", "Dawdler", "Energetic", "Sexy Air",
+                                "Frigid", "Nymphomaniac", "Psychic", "Flexible", "Lactation"])
                 if traits:
-                    trait = random.choice(traits)
+                    trait = choice(traits)
                 else:
                     return effectiveness
 
@@ -695,7 +698,7 @@ init -5 python:
                 log.append("Whore Job\n\nMissed All acts!\n\n")
 
                 log.img = worker.show("sex", **kwargs)
-                
+
             if effectiveness >= 75:
                 if worker.charisma >= 1500:
                     log.append("Her supernal loveliness made the customer to shed tears of happiness, comparing %s to ancient goddess of love. Be wary of possible cults dedicated to her..." %worker.name)
@@ -731,7 +734,7 @@ init -5 python:
                     else:
                         log.append("The customer was unimpressed by %s looks, to say at least. Still, she preferred fucking her over a harpy. Hearing that from her however, was not encouraging for the poor girl at all..." %worker.name)
             log.append("\n")
-                
+
             if effectiveness >= 190:
                 if client.gender == "male":
                     log.append("The client was at the girls mercy. She brought him to the heavens and left there, unconscious due to sensory overload.")

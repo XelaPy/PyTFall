@@ -42,12 +42,12 @@ init -5 python:
                 effectiveness -= 20
 
             if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
-                # TODO: Can this ever run? Should prolly be i.id instead of i
-                traits = list(i for i in worker.traits if i in ["Abnormally Large Boobs", "Small Boobs", "Scars",
-                                                                "Not Human", "Flat Ass", "Exhibitionist", "Sexy Air",
-                                                                "Clumsy", "Flexible", "Psychic"])
+                # This cannot work comparing strings to trait objects:
+                traits = list(i.id for i in worker.traits if i in ["Abnormally Large Boobs", "Small Boobs", "Scars",
+                                                                   "Not Human", "Flat Ass", "Exhibitionist", "Sexy Air",
+                                                                   "Clumsy", "Flexible", "Psychic"])
                 if traits:
-                    trait = random.choice(traits)
+                    trait = choice(traits)
                 else:
                     return effectiveness
 
