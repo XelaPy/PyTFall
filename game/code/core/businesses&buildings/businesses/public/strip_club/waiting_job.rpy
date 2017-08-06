@@ -16,9 +16,6 @@ init -5 python:
             workermod = {}
             self.locmod = {}
 
-        def __call__(self, char):
-            pass
-
         def club_task(self):
             """
             Solve the job as a waitress.

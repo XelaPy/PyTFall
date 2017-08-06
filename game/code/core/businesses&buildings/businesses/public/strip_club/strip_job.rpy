@@ -15,13 +15,17 @@ init -5 python:
 
             self.base_skills = {"strip": 100, "dancing": 50}
             self.base_stats = {"charisma": 70, "agility": 30}
-            
+
             self.desc = "Strippers dance half-naked at the stage, keeping customers hard and ready to hire more whores."
 
         def traits_and_effects_effectiveness_mod(self, worker, log):
             """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
                Calculates only once per turn, in the very beginning.
             """
+            # Special check to prevent crashing
+            if log is None:
+                log = []
+
             effectiveness = 0
              # effects always work
             if worker.effects['Food Poisoning']['active']:
@@ -38,8 +42,10 @@ init -5 python:
                 effectiveness -= 20
 
             if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
-
-                traits = list(i for i in worker.traits if i in ["Abnormally Large Boobs", "Small Boobs", "Scars", "Not Human", "Flat Ass", "Exhibitionist", "Sexy Air", "Clumsy", "Flexible", "Psychic"])
+                # TODO: Can this ever run? Should prolly be i.id instead of i
+                traits = list(i for i in worker.traits if i in ["Abnormally Large Boobs", "Small Boobs", "Scars",
+                                                                "Not Human", "Flat Ass", "Exhibitionist", "Sexy Air",
+                                                                "Clumsy", "Flexible", "Psychic"])
                 if traits:
                     trait = random.choice(traits)
                 else:
@@ -83,18 +89,6 @@ init -5 python:
                 elif trait == "Psychic":
                     log.append("Every customer wants different things, which is quite confusing for psychics like %s when so many people watching her." % worker.name)
                     effectiveness -= 20
-            return effectiveness
-
-        def effectiveness(self, worker, difficulty, log):
-            """
-            difficulty is used to counter worker tier.
-            100 is considered a score where worker does the task with acceptable performance.
-            """
-            base_effectiveness = super(StripJob, self).effectiveness(worker, difficulty, log)
-
-            # Do whatever has to be done for the job:
-            effectiveness = base_effectiveness + 0
-
             return effectiveness
 
         def calculate_disposition_level(self, worker):
@@ -172,7 +166,7 @@ init -5 python:
                             log.append("%s will do as you command and work as a stripper, but not without a lot of grumbling and complaining." % worker.name)
                         if dice(45):
                             log.logws('character', 1)
-                            
+
                     if worker.disposition < self.calculate_disposition_level(worker):
                         worker.logws("joy", -randint(5, 10))
                         worker.logws("disposition", -randint(15, 30))

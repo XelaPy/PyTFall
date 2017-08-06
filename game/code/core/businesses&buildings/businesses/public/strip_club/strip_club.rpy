@@ -6,8 +6,12 @@ init -5 python:
         ID = "Strip Club"
         IMG = "content/buildings/upgrades/strip_club.jpg"
 
-        def __init__(self, name="Strip Club", instance=None, desc="Exotic Dancers go here!", img="content/buildings/upgrades/strip_club.jpg", build_effort=0, materials=None, in_slots=5, cost=500, **kwargs):
-            super(StripClub, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+        def __init__(self, name="Strip Club", instance=None, desc="Exotic Dancers go here!",
+                     img="content/buildings/upgrades/strip_club.jpg", build_effort=0,
+                     materials=None, in_slots=5, cost=500, **kwargs):
+            super(StripClub, self).__init__(name=name, instance=instance,
+                                            desc=desc, img=img, build_effort=build_effort,
+                                            materials=materials, cost=cost, **kwargs)
             self.jobs = set([simple_jobs["Striptease Job"]])
             self.workable = True
             self.type = "public_service"
@@ -129,7 +133,7 @@ init -5 python:
             log.append("\n")
 
             difficulty = loc.tier
-            effectiveness = job.effectiveness(w, difficulty, None, False)
+            effectiveness = job.effectiveness(worker, difficulty, None, False)
             if config.debug:
                 log.append("Debug: Her effectiveness: {}! (difficulty: {}, Tier: {})".format(effectiveness, difficulty, worker.tier))
 

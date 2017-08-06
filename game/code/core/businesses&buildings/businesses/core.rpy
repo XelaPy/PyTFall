@@ -432,6 +432,7 @@ init -12 python:
             counter = 0
             while 1:
                 yield self.env.timeout(self.time)
+                raise Exception("// core.business_control")
 
                 # Temp code: =====================================>>>
                 # TODO: Should be turned into Job Event.
