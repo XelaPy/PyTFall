@@ -18,6 +18,93 @@ init -5 python:
 
         def __call__(self, char):
             pass
+            
+        def traits_and_effects_effectiveness_mod(self, worker, log):
+            """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
+               Calculates only once per turn, in the very beginning.
+            """
+            effectiveness = 0
+             # effects always work
+            if worker.effects['Food Poisoning']['active']:
+                log.append("%s suffers from Food Poisoning, and is very far from her top shape." % worker.name)
+                effectiveness -= 50
+            elif worker.effects['Down with Cold']['active']:
+                log.append("%s is not feeling well due to colds..." % worker.name)
+                effectiveness -= 15
+            elif worker.effects['Drunk']['active']:
+                log.append("%s is drunk, which affects her coordination. Not the best thing when you need to carry drinks and snacks." % worker.name)
+                effectiveness -= 20
+
+            if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
+
+                traits = list(i for i in worker.traits if i in ["Abnormally Large Boobs", "Aggressive", "Big Boobs", "Always Hungry", "Clumsy", "Great Arse", "Ill-mannered", "Long Legs", "Vicious", "Nerd", "Shy", "Masochist", "Psychic", "Natural Leader", "Scars", "Elegant", "Natural Follower", "Serious", "Optimist", "Small Boobs"])
+                if traits:
+                    trait = random.choice(traits)
+                else:
+                    return effectiveness
+
+                if trait == "Abnormally Large Boobs":
+                    log.append("When %s isn't getting hit on for her huge breasts, she is busy accidentally spilling drinks with those massive funbags." % worker.name)
+                    effectiveness -= 40
+                elif trait == "Aggressive":
+                    log.append("A customer tried to hit on her and %s kicked him where it counts. It didn't help with keeping customers." % worker.name)
+                    effectiveness -= 20
+                elif trait == "Big Boobs":
+                    log.append("%s always gets the attention of lecherous old men because of her boobs and hates every minute of it." % worker.name)
+                    effectiveness -= 20
+                elif trait == "Small Boobs":
+                    log.append("Her small chest gets her ignored for the whole shift and %s gets to do her job in peace." % worker.name)
+                    effectiveness += 40
+                elif trait == "Always Hungry":
+                    log.append("%s can't resist the smell of a customers food, biting off pieces in front of them." % worker.name)
+                    effectiveness -= 25
+                elif trait == "Clumsy":
+                    log.append("The sound of shattering glasses and angry customers was heard throughout the shift...")
+                    effectiveness -= 20
+                elif trait == "Great Arse":
+                    log.append("%s spends the entire shift with one customer or another trying to cop a feel of her ass, having trouble getting anything done." % worker.name)
+                    effectiveness -= 20
+                elif trait == "Long Legs":
+                    log.append("Her sexy legs get a lot of the wrong kind of attention from drunk old men.")
+                    effectiveness -= 20
+                elif trait == "Ill-mannered":
+                    log.append("%s constantly gets into an argument with customers over what they ordered, killing the mood." % worker.name)
+                    effectiveness -= 20
+                elif trait == "Vicious":
+                    log.append("%s accidentally broke a glass on a customers face after he groped her." % worker.name)
+                    effectiveness -= 20
+                elif trait == "Nerd":
+                    log.append("%s cannot carry a decent conversation with most of the patrons because she keeps going on about stuff they don't care about." % worker.name)
+                    effectiveness -= 15
+                elif trait == "Shy":
+                    log.append("%s is too nervous to even approach customers for their orders, slowing down the business." % worker.name)
+                    effectiveness -= 25
+                elif trait == "Masochist":
+                    log.append("The customers are especially bad to her today, but looks like %s enjoys it. Being treated like a piece of meat by a drunken customer is her idea of a good time." % worker.name)
+                    effectiveness += 25
+                elif trait == "Psychic":
+                    log.append("%s deflects the customers' sexual harassment with ease and maintains a friendly air with them." % worker.name)
+                    effectiveness += 35
+                elif trait == "Natural Leader":
+                    log.append("The customers are too charmed by her character to consider harassing her.")
+                    effectiveness += 10
+                elif trait == "Natural Follower":
+                    log.append("The customers like %s because she is easy to order around." % worker.name)
+                    effectiveness += 20
+                elif trait == "Scars":
+                    log.append("Her scars make the customers think twice about picking on her.")
+                    effectiveness += 15
+                elif trait == "Elegant":
+                    log.append("%s gracefully evades customers' attempts to grope her.")
+                    effectiveness += 20
+                elif trait == "Serious":
+                    log.append("Being a waitress isn't very fun, but %s makes the most of it and even enjoys talking to a few nice guys." % worker.name)
+                    effectiveness += 10
+                elif trait == "Optimist":
+                    log.append("%s is genuinely fun for the customers to talk to and she plays along with their crude jokes." % worker.name)
+                    effectiveness += 15
+            return effectiveness
+            
 
         def club_task(self):
             """

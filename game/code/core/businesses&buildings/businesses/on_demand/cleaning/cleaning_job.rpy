@@ -30,30 +30,45 @@ init -5 python:
 
             if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
 
-                traits = list(i for i in worker.traits if i in ["Adventurous", "Homebody", "Neat", "Messy", "Shy", "Curious", "Indifferent", "Energetic"])
+                traits = list(i for i in worker.traits if i in ["Adventurous", "Homebody", "Neat", "Messy", "Shy", "Curious", "Indifferent", "Energetic", "Smart", "Clumsy", "Vicious", "Virtuous", "Abnormally Large Boobs"])
                 if traits:
                     trait = random.choice(traits)
                 else:
                     return effectiveness
 
                 if trait == "Adventurous":
-                    log.append("%s would prefer to explore dungeons and look for treasures rather than clean stuff..." % worker.name)
+                    log.append("%s got a little sad whenever she cleaned a window because she wanted to go out and explore, not clean." % worker.name)
                     effectiveness -= 25
                 elif trait == "Homebody" or trait == "Indifferent":
                     log.append("%s really enjoys the simple and predictable cleaning task." % worker.name)
                     effectiveness += 25
                 elif trait == "Neat":
-                    log.append("%s diligently gets rid of even slightest traces of dirt. Refreshing to see someone who truly enjoys her work." % worker.name)
+                    log.append("%s rearranged rooms to look a little more presentable on top of her cleaning duties." % worker.name)
                     effectiveness += 40
+                elif trait == "Smart":
+                    log.append("%s constantly finds new, more effective ways to tidy up the place." % worker.name)
+                    effectiveness += 10
                 elif trait == "Messy":
                     log.append("%s reluctantly does her job, preferring to hide the dirt instead of cleaning it properly." % worker.name)
-                    effectiveness += 40
+                    effectiveness -= 40
                 elif trait == "Shy":
-                    log.append("%s appreciates the chance to have a job far away from customers, where her shyness doesn't get in the way." % worker.name)
+                    log.append("%s took comfort in the fact that she doesn't have to work too closely with people on the cleaning job." % worker.name)
                     effectiveness += 15
                 elif trait == "Curious" or trait == "Energetic":
                     log.append("%s finds the cleaning duties too boring and repetitive to perform them properly." % worker.name)
                     effectiveness -= 15
+                elif trait == "Clumsy":
+                    log.append("%s spilled a full bucket of freshener. At least it'll smell extra nice, if you can get past the eye-watering chemicals." % worker.name)
+                    effectiveness -= 20
+                elif trait == "Vicious":
+                    log.append("After cleaning %s set it up so that the next person to walk into the room would get a bucket of nasty stuff on their head..." % worker.name)
+                    effectiveness -= 10
+                elif trait == "Virtuous":
+                    log.append("%s was happy to be useful regardless of the job." % worker.name)
+                    effectiveness += 10
+                elif trait == "Abnormally Large Boobs":
+                    log.append("Her boobs get in the way so much that she may as well scrub down the walls with them instead..." % worker.name)
+                    effectiveness -= 50
             return effectiveness
 
         def calculate_disposition_level(self, worker): # calculating the needed level of disposition
