@@ -69,16 +69,16 @@ init -5 python:
                     log.append("Poor %s does her best, but many customers turn away when they see her scars..." % worker.name)
                     effectiveness -= 35
                 elif trait == "Not Human":
-                    log.append("%s's inhuman features attract more attention than usual, which is never a bad thing in striptease." % worker.name)
+                    log.append("%s's inhuman features attract more attention than usual, and that is never a bad thing in striptease." % worker.name)
                     effectiveness = 15
                 elif trait == "Flat Ass":
                     log.append("%s tries her best, but skill alone cannot replace a fine ass." % worker.name)
                     effectiveness -= 15
                 elif trait == "Exhibitionist":
-                    log.append("%s enjoys every second of being exposed to the public, doing really great." % worker.name)
+                    log.append("%s is at least as aroused as the customers and isn't afraid to show it." % worker.name)
                     effectiveness += 50
                 elif trait == "Sexy Air":
-                    log.append("%s's sexiness attracts the views all day. Even more so when she's dancing at the stage." % worker.name)
+                    log.append("%s's sexiness attracts the views all day. She has an air about her that makes her a natural at stripping." % worker.name)
                     effectiveness += 10
                 elif trait == "Clumsy":
                     log.append("Sadly, %s ruins the show when she trips and falls from the stage. At least customers had a good laugh." % worker.name)
@@ -89,6 +89,36 @@ init -5 python:
                 elif trait == "Psychic":
                     log.append("Every customer wants different things, which is quite confusing for psychics like %s when so many people watching her." % worker.name)
                     effectiveness -= 20
+                elif trait == "Manly":
+                    log.append("Looks like %s is a bit too muscular for this job, intimidating some customers." % worker.name)
+                    effectiveness -= 25
+                elif trait == "Artificial Body":
+                    log.append("Sadly, customers figured out that her body is a construct and booed %s off the stage." % worker.name)
+                    effectiveness -= 50
+                elif trait == "Lesbian":
+                    log.append("%s is somewhat disgusted by the idea of letting so many MEN see her naked." % worker.name)
+                    effectiveness -= 30
+                elif trait == "Shy":
+                    log.append("%s is too nervous and stiff, making customers bored." % worker.name)
+                    effectiveness -= 30
+                elif trait == "Aggressive":
+                    log.append("%s slaps customers who get too close, ruining the mood." % worker.name)
+                    effectiveness -= 20
+                elif trait == "Big Boobs":
+                    log.append("The customers' eyes are glued to her tits all the time.")
+                    effectiveness += 15
+                elif trait == "Great Arse":
+                    log.append("%s shakes her sexy ass to great effect. It's like her curves were made for stripping." % worker.name)
+                    effectiveness += 15
+                elif trait == "Long Legs":
+                    log.append("Today the customers go nuts for those sexy legs of hers.")
+                    effectiveness += 15
+                elif trait == "Strange Eyes":
+                    log.append("Her exotic eyes hold the customers in a trance.")
+                    effectiveness += 10
+                elif trait == "Natural Follower":
+                    log.append("%s is quick to figure out how a crowd likes her to move, making a great show." % worker.name)
+                    effectiveness += 20
             return effectiveness
 
         def calculate_disposition_level(self, worker):

@@ -12,8 +12,6 @@ label interactions_shopping:
     scene bg tailor_store
     with dissolve
     
-    show npc tailor_store_assistant
-    with dissolve
     
     if global_flags.flag('visited_tailor_store'):
         "Welcome Back!"
@@ -24,9 +22,6 @@ label interactions_shopping:
         "Welcome to my store!"
         "Just the best clothing you'll ever see! "
         "Check out our latest collection, your girl will love it: "
-    
-    hide npc tailor_store_assistant
-    with dissolve
     
     python:
         focus = False

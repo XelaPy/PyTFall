@@ -1,15 +1,16 @@
 init -11 python:
     # Equipment checks and area effects!
-    def has_items(item, chars):
+    def has_items(item, chars, equipped=True):
         if isinstance(item, basestring):
             item = items[item]
 
         amount = 0
         for c in chars:
             amount += c.inventory[item]
-            for i in c.eqslots.itervalues():
-                if i == item:
-                    amount += 1
+            if equipped:
+                for i in c.eqslots.itervalues():
+                    if i == item:
+                        amount += 1
 
         return amount
 
