@@ -112,7 +112,7 @@ init -5 python:
                 self.instance.available_workers.append(w)
 
             # Build the report:
-            self.write_nd_report(self, workers_original, workers)
+            # self.write_nd_report(workers_original, workers)
             # simple_jobs["Guarding"](workers_original, workers, building, action="patrol")
 
         def intercept(self, opfor=None, interrupted=False):

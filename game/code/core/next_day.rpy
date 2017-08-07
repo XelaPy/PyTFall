@@ -111,6 +111,7 @@ label next_day_effects_check:  # all traits and effects which require some unusu
 label next_day:
     call next_day_effects_check
     scene bg profile_2
+    $ next_day_local = None
     if just_view_next_day: # Review old reports:
         $ just_view_next_day = False
     else: # Do the calculations:
@@ -134,6 +135,9 @@ label next_day:
     # Lets free some memory...
     if not day%50:
         $ renpy.free_memory()
+
+    if next_day_local:
+        jump next_day
 
     $ girls = None
     hide screen next_day
@@ -327,6 +331,11 @@ label next_day_controls:
                     if index < len(FilteredList)-1:
                         event = FilteredList[index+1]
                         gimg = event.load_image()
+
+            elif result[1] == "next_day_local":
+                # Special Logic required:
+                $ next_day_local = True
+                return
 
             elif result[1] == 'return':
                 return
@@ -1272,7 +1281,7 @@ screen next_day():
                     textbutton "-Next Day-":
                         style "main_screen_4_button"
                         hovered tt.action("Begin New day and watch the results.")
-                        action [Hide("mainscreen"), Jump("next_day")]
+                        action [Hide("mainscreen"), Return(['control', "next_day_local"])]
                         text_size 16
                         ypadding 5
                         xysize (150, 40)

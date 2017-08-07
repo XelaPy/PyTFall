@@ -489,7 +489,7 @@ init: # Items:
                 xsize 94
                 background Frame("content/gfx/frame/gm_frame.png")
                 label "Tier [entry.tier]" xalign 0.5 text_color "#DAA520"
-                
+
     screen rtt_lightbutton:
         imagebutton yalign 0.5:
             idle (img)
@@ -615,7 +615,10 @@ init: # Items:
                 button:
                     style_group "basic"
                     align (0.5, 0.6)
-                    action (hs, Function(global_flags.set_flag, "nd_music_play"), Hide("hero_equip"), Jump("next_day"))
+                    if renpy.current_screen().tag == "next_day":
+                        action Return(['control', "next_day_local"])
+                    else:
+                        action (hs, Function(global_flags.set_flag, "nd_music_play"), Hide("hero_equip"), Jump("next_day"))
                     text "Next Day"
             else:
                 add ProportionalScale("content/gfx/frame/frame_ap.png", 170, 50) align (0.5, 0.7)
@@ -1435,7 +1438,7 @@ init: # Settings:
                             # style_group "dropdown_gm2"
                             # has vbox align (0.5, 0.5)
                             # textbutton _("Joystick...") action Preference("joystick") xsize 150 text_size 16
-                                    
+
             elif s_menu in ("Save", "Load"):
                 vbox:
                     yfill True
@@ -1644,12 +1647,12 @@ init: # Settings:
                 action Quit()
                 text "Quit" size 18 align (0.5, 0.5) # style "mmenu_button_text"
             null height 3
-            
+
 screen panic_screen_summon:
     if persistent.unsafe_mode:
         key "q" action Show("panic_screen")
         key "Q" action Show("panic_screen")
-    
+
 screen panic_screen:
     zorder 1000
     modal True
@@ -1658,7 +1661,7 @@ screen panic_screen:
         action [PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
     key "q" action [Hide("panic_screen"), PauseAudio("events", False), PauseAudio("events2", False), PauseAudio("world", False), PauseAudio("gamemusic", False), PauseAudio("music", False)]
     key "Q" action [Hide("panic_screen"), PauseAudio("events", False), PauseAudio("events2", False), PauseAudio("world", False), PauseAudio("gamemusic", False), PauseAudio("music", False)]
-    
+
 screen give_exp_after_battle(group, money=0): # shows post-battle results; TODO after beta: make the animation to show exp gained post battle, not just the current one;
     modal True
     zorder 100
