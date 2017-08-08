@@ -29,13 +29,11 @@ init -5 python:
 
             if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
 
-                traits = list(i.id for i in worker.traits if i in ["Great Arse", "Bad Eyesight",
-                                "Curious", "Indifferent", "Neat", "Messy", "Heavy Drinker",
-                                "Ill-mannered", "Psychic", "Shy"])
+                traits = list(i.id for i in worker.traits if i in ["Great Arse", "Bad Eyesight", "Curious", "Indifferent", "Neat", "Messy", "Heavy Drinker", "Ill-mannered", "Psychic", "Shy", "Nerd", "Natural Follower", "Virtuous", "Natural Leader", "Clumsy", "Stupid", "Abnormally Large Boobs", "Big Boobs", "Scars", "Manly", "Vicious"])
                 if "Lolita" in worker.traits and worker.height == "short":
                     traits.append("Lolita")
                 if traits:
-                    trait = random.choice(traits)
+                    trait = choice(traits)
                 else:
                     return effectiveness
 
