@@ -453,7 +453,7 @@ init: # Robert's test:
             text "100" color "F00" size 50 at i((x, 400))
             $ x = x + 110
         textbutton "All Done":
-            align (0.5, 0.9)
+            align (.5, .9)
             action Return()
 
 label testing_chain_udd:
@@ -475,7 +475,7 @@ label testing_chain_udd:
 label gfx_water_effect_test:
     $ img = Image("content/gfx/sprites/mc/Dito/battle_sprite 0.png")
     $ mask = Transform("be_water_mask", size=(353, 671))
-    
+
     python:
        fixed_ = Fixed(xysize=(353, 671))
        fixed_.add(img)

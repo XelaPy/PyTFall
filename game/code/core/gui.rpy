@@ -322,7 +322,7 @@ init -1 python:
             transitions = list()
             path = content_path("gfx/masks")
             for file in os.listdir(path):
-                if file.endswith((".png", ".jpg", ".jpeg")):
+                if check_image_extention(file):
                     transitions.append("/".join([path, file]))
             transitions.reverse()
             transitions_copy = copy.copy(transitions)

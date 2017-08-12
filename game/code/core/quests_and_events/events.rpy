@@ -3,21 +3,21 @@ init -9 python:
         templist = []
         if eventfolder in os.listdir(content_path('events')):
             for file in os.listdir(content_path('events/%s' % eventfolder)):
-                if file.lower().endswith((".png", ".jpg", ".jpeg")):
+                if check_image_extention(file):
                     templist.append('content/events/%s/%s' % (eventfolder, file))
             return ProportionalScale(choice(templist), config.screen_width, config.screen_height)
-    
+
     def register_event(*args, **kwargs):
         """
         Registers a new event in an init block (and now in labels as well!).
         """
         if hasattr(store, "pytfall"):
             return register_event_in_label(*args, **kwargs)
-            
+
         event = WorldEvent(*args, **kwargs)
         world_events.append(event)
         return event
-    
+
     def register_event_in_label(*args, **kwargs):
         """
         Registers a new event in a label.
@@ -25,7 +25,7 @@ init -9 python:
         event = WorldEvent(*args, **kwargs)
         pytfall.world_events.events.append(event)
         return event
-    
+
     class WorldEventsManager(_object):
         """Manager of all events in PyTFall.
         """
@@ -38,13 +38,13 @@ init -9 python:
             self.events_cache = list() # events that should be acutally checked
             self.garbage = list()
             self.label_cache = None
-            
+
         def get(self, name):
             # Returns the event object with given name.
             for e in self.events:
                 if e.name == name:
                     return e
-        
+
         def kill_event(self, event_name, cached=False):
             """
             Stop an event from triggering.
@@ -54,12 +54,12 @@ init -9 python:
             for i in self.events[:]:
                 if i.name == event_name:
                     self.events.remove(i)
-            
+
             if cached:
                 for i in self.events_cache[:]:
                     if i.name == event_name:
                         self.events_cache.remove(i)
-        
+
         def force_event(self, name):
             """
             Forces an event to the daily stack, this should be used with caution as it can mess up the conditioning.
@@ -70,7 +70,7 @@ init -9 python:
                 if event.name == name:
                     if event not in self.events_cache:
                         self.events_cache.append(event)
-        
+
         def run_events(self, trigger_type, default=None, cost=0):
             """
             Functions an available event with the given trigger.
@@ -80,10 +80,10 @@ init -9 python:
             """
             self.label_cache = last_label
             l = list()
-            
+
             for i in self.events_cache:
                 if i.trigger_type == trigger_type and ("all" in i.locations or last_label in i.locations): l.append(i)
-            
+
             if hero.AP < cost:
                 renpy.show_screen("message_screen", "Not enough AP left")
                 return
@@ -96,33 +96,33 @@ init -9 python:
                 else:
                     if default: renpy.call_in_new_context(default)
                     return
-            
+
         def finish_event(self):
             """
             Finishes the current event.
             """
             jump(self.label_cache)
-        
+
         def next_day(self):
             """
             Filters events to be triggered and removes the garbage.
             Being called on main screen, NOT during the next day transition.
             """
             self.events_cache = list()
-            
+
             # Clean-up
             for event in self.garbage:
                 if event in self.events: self.events.remove(event)
-            
+
             self.garbage = list()
-            
+
             # Prepare the event list:
             for event in self.events:
                 # Max runs
                 if event.max_runs and event.max_runs <= event.runs:
                     self.garbage.append(event)
                     continue
-                
+
                 # Priority skip:
                 # This also restores the priority if required
                 if not event.priority:
@@ -131,35 +131,35 @@ init -9 python:
                     else:
                         continue
                     # else: event.priority = event.priority_cache
-                
+
                 # Day range
                 if event.end_day <= day:
                     self.garbage.append(event)
                     continue
-                
+
                 elif event.start_day > day:
                     continue
-                
+
                 # Times per day:
                 if event.tpd and not event.resolve_tpd():
                     continue
-                
+
                 # Custom Condition:
                 # Could simply check is method exists?
                 if event.custom_condition and not event.custom_conditions():
                     continue
-                
+
                 # Simple Conditions:
                 if event.simple_conditions and not all(list(bool(renpy.python.py_eval_bytecode(c)) for c in event.simple_conditions)):
                     continue
-                
+
                 # We got to the final part:
                 self.events_cache.append(event)
-            
+
             # And finally, sorting by priority:
             self.events_cache.sort(key=attrgetter("priority"), reverse=True)
-        
-    
+
+
     class WorldEvent(Flags):
         """Container for the world event.
         """
@@ -174,10 +174,10 @@ init -9 python:
             run_conditions = evaluated at execution of the event, should be a list of strings.
             priority = higher number will ensure higher priority.
             (Should never be set to 0 by a user!, Anything above 0 is fair game (rate you own events :) ))
-            
+
             restore_priority = how many days should pass until priority is restored after the event is ran,
             0 will ensure that event runs at the same priority until disabled.
-            
+
             start_day = day to start checking triggers for the event.
             end_day = day to stop checking triggers for the event.
             jump = jumps instead of running in new context.
@@ -193,11 +193,11 @@ init -9 python:
             - Note: Custom conditions will overrule simple once!
             max_runs = maximum amount of times this event can run until it is removed from the game.
             stop_music = selfexplanatory, defaults to false.
-            
+
             quest = The name of the quest the event is attached to.
             """
             super(WorldEvent, self).__init__()
-            
+
             # Names/Label
             self.name = name
             self.jump = jump
@@ -206,7 +206,7 @@ init -9 python:
             else: self.label = label
             self.dice = dice
             self.run_conditions = run_conditions
-            # Prority related    
+            # Prority related
             self.priority = priority
             self.priority_cache = priority
             self.restore_priority = restore_priority
@@ -223,10 +223,10 @@ init -9 python:
             # Runs
             self.max_runs = max_runs
             self.runs = 0
-            
+
             # Quest support
             self.quest = quest
-            
+
             # Rest/Not used
             self.custom_condition = custom_condition
             self.simple_conditions = simple_conditions
@@ -234,26 +234,26 @@ init -9 python:
             self.disabled = False
             self.enable_on = 0 # Day to restore the event
             self.label_cache = None # Just for kicks I guess, someone may find it useful
-        
+
         def check_conditions(self):
             """
             Check before the actual run of the event. This should return a boolean.
             """
             if not self.priority: return False
-            
+
             if self.tpd:
                 if self.resolve_tpd():
                     if self.dice and dice(self.dice): return True
                     elif self.run_conditions and all(list(bool(renpy.python.py_eval_bytecode(c)) for c in self.run_conditions)): return True
-                
+
                 else: return False
-            
+
             elif self.dice and dice(self.dice): return True
-            
+
             elif self.run_conditions and all(list(bool(renpy.python.py_eval_bytecode(c)) for c in self.run_conditions)): return True
-            
+
             return False
-        
+
         def resolve_tpd(self):
             """
             Resolves the amount many times event has been run in given amount of previous days.
@@ -261,39 +261,37 @@ init -9 python:
             """
             range_of_days = range(day-self.tpd[1], day+1)
             matched_days = list()
-            
+
             for i in self.days[:]:
                 if i in range_of_days:
                     matched_days.append(i)
                 # and clean-up:
                 if i < day-self.tpd[1]: self.days.remove(i)
-            
+
             if len(matched_days) < self.tpd[0]: return True
             else: return False
-        
+
         def run_event(self):
             """
             Runs the event after all conditions have been met.
             """
             if self.tpd: self.days.append(day)
-            self.runs += 1    
+            self.runs += 1
             self.last_executed = day
             self.label_cache = last_label
-            
+
             if self.restore_priority:
                 self.priority = 0
                 self.day_to_restore_priority = day + self.restore_priority
-            
+
             if self.stop_music: renpy.music.stop(channel="music", fadeout=1.0)
-            
+
             if self.screen: renpy.show_screen(self.label)
             elif self.jump: jump(self.label)
             else: renpy.call_in_new_context(self.label, self)
-        
+
         def finish_event(self):
             """
             Finishes the cevent.
             """
             jump(self.label_cache)
-        
-    

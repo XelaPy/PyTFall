@@ -697,6 +697,7 @@ init: # Items:
                     hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 35, 35), im.matrix.brightness(0.25))
                     action return_action
                     hovered tt.Action("Return to previous screen!")
+                    
             if show_team_status:
                 hbox:
                     spacing 25
