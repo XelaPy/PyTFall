@@ -160,14 +160,14 @@ init -999 python:
     ######################## Classes/Functions ###################################
     IMAGE_EXTENSIONS = (".png", ".jpg", ".gif", ".jpeg", ".webp")
 
-    def check_image_extention(fn):
+    def check_image_extension(fn):
         return fn.lower().endswith(IMAGE_EXTENSIONS)
 
     # Auto Animation from a folder:
     def animate(path, delay=0.25, function=None, transition=None, loop=False):
         # Build a list of all images:
         files = os.listdir("".join([gamedir, path]))
-        images = list("".join([path[1:], "/", fn]) for fn in files if check_image_extention(fn))
+        images = list("".join([path[1:], "/", fn]) for fn in files if check_image_extension(fn))
         # Build a list of arguments
         args = list()
         # for image in images:
@@ -437,28 +437,28 @@ init -999 python:
                         # config.screen_height))
 
     for fname in os.listdir(gamedir + '/content/gfx/bg'):
-        if check_image_extention(fname):
+        if check_image_extension(fname):
             tag = 'bg ' + fname.rsplit(".", 1)[0]
             image = 'content/gfx/bg/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
 
     for fname in os.listdir(gamedir + '/content/gfx/bg/locations'):
-        if check_image_extention(fname):
+        if check_image_extension(fname):
             tag = 'bg ' + fname.rsplit(".", 1)[0]
             image = 'content/gfx/bg/locations/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
 
     for fname in os.listdir(gamedir + '/content/gfx/bg/story'):
-        if check_image_extention(fname):
+        if check_image_extension(fname):
             tag = 'bg ' + 'story ' + fname.rsplit(".", 1)[0]
             image = 'content/gfx/bg/story/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
 
     for fname in os.listdir(gamedir + '/content/gfx/bg/be'):
-        if check_image_extention(fname):
+        if check_image_extension(fname):
             tag = 'bg ' + fname.rsplit(".", 1)[0]
             image = 'content/gfx/bg/be/' + fname
             renpy.image(tag, im.Scale(image, config.screen_width,
@@ -466,13 +466,13 @@ init -999 python:
 
     # Same thing for sprites and NPC
     for fname in os.listdir(gamedir + '/content/gfx/sprites'):
-        if check_image_extention(fname):
+        if check_image_extension(fname):
             tag = fname[:-4]
             image = 'content/gfx/sprites/' + fname
             renpy.image(tag, image)
 
     for fname in os.listdir(gamedir + '/content/gfx/sprites/npc'):
-        if check_image_extention(fname):
+        if check_image_extension(fname):
             tag = 'npc ' + fname[:-4]
             image = 'content/gfx/sprites/npc/' + fname
             renpy.image(tag, ProportionalScale(image, 400,
@@ -484,7 +484,7 @@ init -999 python:
 
     # We'll define same images again so multiple npcs could be placed on the screen at the same time.
     for fname in os.listdir(gamedir + '/content/gfx/sprites/npc'):
-        if check_image_extention(fname):
+        if check_image_extension(fname):
             tag = 'npc2 ' + fname[:-4]
             image = 'content/gfx/sprites/npc/' + fname
             renpy.image(tag, ProportionalScale(image, 400,
@@ -499,20 +499,20 @@ init -999 python:
         for blend in ('bluegrey', 'door', 'barrel', 'mossy', 'pilar', 'more_barrels', 'barrel_crate',
                       'portal', 'portal_turned', 'ladderdownf', 'mossy_alcove', 'dagger', 'ring'):
             for fname in os.listdir('%s/content/dungeon/%s%s' % (gamedir, blend, light)):
-                if check_image_extention(fname):
+                if check_image_extension(fname):
                     renpy.image(fname[:-4], 'content/dungeon/%s%s/%s' % (blend, light, fname))
 
         # 2 sided symmetry and no symmetry
         for blend, orientations in [('portal', ['', '_turned']), ('ladder', "lrfb")]:
             for ori in orientations:
                 for fname in os.listdir('%s/content/dungeon/%s%s%s' % (gamedir, blend, ori, light)):
-                    if check_image_extention(fname):
+                    if check_image_extension(fname):
                         renpy.image(fname[:-4], 'content/dungeon/%s%s%s/%s' % (blend, ori, light, fname))
 
         #composite images
         for wall in ('bluegrey', 'mossy'):
             for bgfname in os.listdir('%s/content/dungeon/%s%s' % (gamedir, wall, light)):
-                if check_image_extention(bgfname):
+                if check_image_extension(bgfname):
                     bg_img = 'content/dungeon/%s%s/%s' % (wall, light, bgfname)
                     for blend in ('door2','button'):
                         fn_end = bgfname[len('dungeon_'+wall):-4]
@@ -566,7 +566,7 @@ screen debug_tools():
 
 init -1 python: # Constants:
     # for f in renpy.list_files():
-        # if check_image_extention(f):
+        # if check_image_extension(f):
             # renpy.image(f, At(f, slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)))
     SLOTALIASES = {"smallweapon": "Left Hand", "weapon": "Right Hand", "amulet": "Neck", "feet": "Legs", "quest": "Special"}
     equipSlotsPositions = dict()

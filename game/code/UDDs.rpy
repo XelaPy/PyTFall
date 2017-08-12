@@ -869,7 +869,7 @@ init python:
         transitions = list()
         path = content_path("gfx/masks")
         for file in os.listdir(path):
-            if check_image_extention(file):
+            if check_image_extension(file):
                 transitions.append("/".join(["content/gfx/masks", file]))
         return ImageDissolve(choice(transitions), time)
 
