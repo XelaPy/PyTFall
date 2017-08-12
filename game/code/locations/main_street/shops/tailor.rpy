@@ -61,13 +61,20 @@ label tailor_store_shopping:
             
 screen shopkeeper_items_upgrades(upgrades_list):
     modal True
+    if persistent.unsafe_mode:
+        key "q" action Show("panic_screen")
+        key "Q" action Show("panic_screen")
     frame:
         align (0.5, 0.5)
         background Frame("content/gfx/frame/frame_dec_1.png", 75, 75)
         xpadding 75
         ypadding 75
         has vbox
-        text "Upgrades" style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 30 yalign .5 xalign .5
+        hbox:
+            xalign 0.5
+            add "content/gfx/animations/coin_top 0.13 1/1.png" yalign .6
+            null width 15
+            text "%d" % hero.gold style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 30
         null height 15
         for i in upgrades_list:
             frame:
@@ -82,7 +89,11 @@ screen shopkeeper_items_upgrades(upgrades_list):
                     vbox:
                         add ProportionalScale(items[i["first_item"]].icon, 80, 80) xalign 0.5
                         text "%s" %i["first_item"] style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 15 xalign 0.5
-                    text "+ %s GP =" %i["price"] style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 25 yalign .5 xalign 0.0
+                    hbox:
+                        yalign .5
+                        text "+ %s " %i["price"] style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 25 yalign .5 xalign 0.0
+                        add "content/gfx/animations/coin_top 0.13 1/1.png" yalign .7
+                        text "  =" style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 25 yalign .5 xalign 0.0
                     add ProportionalScale(items[i["second_item"]].icon, 80, 80) xalign 0.5
                     null width 10
                     button:
@@ -114,7 +125,6 @@ label tailor_special_order:
             $ npcs["Kayo_Sudou"].del_flag("tailor_special_order")
     else:
         t "For a small price I can upgrade your clothes to better versions. What would you like to order?"
-        # $ upgrade_list = [["Casual Clothes", 40, "Armored Casual Clothes"], ["Artisan Outfit", 200, "Elite Artisan Outfit"], ["Leather Jacket", 600, "Altered Leather Jacket"], ["Mercenary Clothes", 900, "Proper Mercenary Clothes"]]
         $ upgrade_list = list(i for i in items_upgrades if i["location"] == "Tailor")
         
         $ result = renpy.call_screen("shopkeeper_items_upgrades", upgrade_list)
