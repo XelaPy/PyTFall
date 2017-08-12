@@ -195,7 +195,7 @@ init -5 python:
 
             log.img = Fixed(xysize=(820, 705))
             log.img.add(Transform(loc.img, size=(820, 705)))
-            vp = vp_or_fixed(pure_cleaners, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (150, 150), "type": "any"})
+            vp = vp_or_fixed(all_cleaners, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (150, 150), "type": "any"})
             log.img.add(Transform(vp, align=(.5, .9)))
 
             log.team = all_cleaners

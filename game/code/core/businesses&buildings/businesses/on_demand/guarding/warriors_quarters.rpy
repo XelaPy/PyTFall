@@ -217,36 +217,36 @@ init -5 python:
 
         def write_nd_report(self, pure_guards, all_guards):
             job, loc = self.job, self.instance
-            log = NDEvent(job=job, loc=loc, team=all_cleaners, business=self)
+            log = NDEvent(job=job, loc=loc, team=pure_guards, business=self)
 
-            extra_cleaners = all_cleaners - pure_cleaners
+            extra_guards = all_guards - pure_guards
 
-            temp = "{} Cleaning Report!\n".format(loc.name)
+            temp = "{} Security Report!\n".format(loc.name)
             log.append(temp)
 
-            wlen = len(all_cleaners)
-            temp = "{} Workers cleaned the building today.".format(set_font_color(wlen, "red"))
+            wlen = len(all_guards)
+            temp = "{} Workers kept your businesses safe today.".format(set_font_color(wlen, "red"))
             log.append(temp)
 
             log.img = Fixed(xysize=(820, 705))
             log.img.add(Transform(loc.img, size=(820, 705)))
-            vp = vp_or_fixed(pure_cleaners, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (150, 150), "type": "any"})
+            vp = vp_or_fixed(all_guards, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
             log.img.add(Transform(vp, align=(.5, .9)))
 
-            log.team = all_cleaners
+            log.team = all_guards
 
-            if extra_cleaners:
-                temp = "Dirt overwhelmed your building so extra staff was called to clean it! "
+            if extra_guards:
+                temp = "Security was lacking so your workers had to protect themselves! "
                 if len(extra_cleaners) > 1:
-                    temp += "{} were pulled off their duties to help out...".format(", ".join([w.nickname for w in extra_cleaners]))
+                    temp += "{} were pulled off their duties to help out...".format(", ".join([w.nickname for w in extra_guards]))
                 else:
-                    temp += "{} was pulled off ger duty to help out...".format(", ".join([w.nickname for w in extra_cleaners]))
+                    temp += "{} was pulled off ger duty to help out...".format(", ".join([w.nickname for w in extra_guards]))
                 log.append(temp)
 
-            cleaners = all_cleaners - extra_cleaners
-            temp = "{} worked hard keeping your business clean".format(", ".join([w.nickname for w in cleaners]))
-            if extra_cleaners:
-                temp += " as it is their direct job!"
+            guards = all_guards - extra_guards
+            temp = "{} worked hard keeping your businesses secure".format(", ".join([w.nickname for w in guards]))
+            if extra_guards:
+                temp += " as per their job assignment!"
             else:
                 temp += "!"
             log.append(temp)
@@ -255,7 +255,7 @@ init -5 python:
             log.append(temp)
 
             # Stat mods
-            log.logloc('dirt', dirt_cleaned)
+            # log.logloc('dirt', dirt_cleaned)
 
             log.event_type = "jobreport" # Come up with a new type for team reports?
 
