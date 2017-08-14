@@ -37,7 +37,11 @@ init -5 python:
 
             if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
 
-                traits = list(i.id for i in worker.traits if i in ["Abnormally Large Boobs", "Aggressive", "Coward", "Stupid", "Neat", "Psychic", "Adventurous", "Natural Leader", "Scars", "Artificial Body", "Sexy Air", "Courageous", "Manly", "Sadist", "Nerd", "Smart", "Peaceful"])
+                traits = list(i.id for i in worker.traits if i in ["Abnormally Large Boobs",
+                              "Aggressive", "Coward", "Stupid", "Neat", "Psychic", "Adventurous",
+                              "Natural Leader", "Scars", "Artificial Body", "Sexy Air",
+                              "Courageous", "Manly", "Sadist", "Nerd", "Smart", "Peaceful"])
+
                 if "Lolita" in worker.traits and worker.height == "short":
                     traits.append("Lolita")
                 if traits:
@@ -99,12 +103,12 @@ init -5 python:
                     effectiveness += 15
                 elif trait == "Nerd":
                     log.append("%s feels like a super hero while protecting your workers." % worker.name)
-                    effectiveness += 15 
+                    effectiveness += 15
                 elif trait == "Peaceful":
                     log.append("%s has to deal with some very unruly patrons that give her a hard time." % worker.name)
                     effectiveness -= 35
             return effectiveness
-            
+
         def write_patrol_report(self, guards, log):
             """Builds ND event for Guard Job.
 
