@@ -112,7 +112,7 @@ init -5 python:
                 self.instance.available_workers.append(w)
 
             # Build the report:
-            # self.write_nd_report(workers_original, workers)
+            self.write_nd_report(workers_original, workers)
             # simple_jobs["Guarding"](workers_original, workers, building, action="patrol")
 
         def intercept(self, opfor=None, interrupted=False):
@@ -219,6 +219,9 @@ init -5 python:
             job, loc = self.job, self.instance
             log = NDEvent(job=job, loc=loc, team=pure_guards, business=self)
 
+            pure_guards = set(pure_guards)
+            all_guards = set(all_guards)
+
             extra_guards = all_guards - pure_guards
 
             temp = "{} Security Report!\n".format(loc.name)
@@ -251,8 +254,8 @@ init -5 python:
                 temp += "!"
             log.append(temp)
 
-            temp = "\nA total of {} dirt was cleaned.".format(set_font_color(dirt_cleaned, "red"))
-            log.append(temp)
+            # temp = "\nA total of {} dirt was cleaned.".format(set_font_color(dirt_cleaned, "red"))
+            # log.append(temp)
 
             # Stat mods
             # log.logloc('dirt', dirt_cleaned)
