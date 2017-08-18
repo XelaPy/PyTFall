@@ -1,4 +1,41 @@
 init -11 python:
+    def select_girl_room(char, image): # selects room background for interactions, will be based on tiers too eventually
+        image_tags = image.get_image_tags()
+        if "no bg" in image_tags or "simple bg" in image_tags or "living" in image_tags:
+            if char.status == "slave":
+                if dice(50):
+                    return "bg girl_room_s1"
+                else:
+                    return "bg girl_room_s2"
+            else:
+                return random.choice(["bg girl_room", "bg girl_room_1", "bg girl_room_a1", "bg girl_room_a2"])
+        elif "beach" in image_tags:
+            return "bg city_beach"
+        elif "pool" in image_tags:
+            return "bg pool_lockers"
+        elif "onsen" in image_tags:
+            return "bg onsen"
+        elif "indoors" in image_tags:
+            if "public" in image_tags:
+                return "bg city_bar"
+            elif "dungeon" in image_tags:
+                return "bg slave_market"
+            else:
+                return "bg girl_room"
+        elif "outdoors" in image_tags:
+            if "nature" in image_tags:
+                if "urban" in image_tags:
+                    return "bg city_park"
+                else:
+                    return "bg forest_3"
+            elif "urban" in image_tags:
+                return "bg main_street"
+            else:
+                return "bg wildness"
+        else:
+            return "bg girl_room"
+            
+                
     def throw_a_normal_dice(): # throwing a classic dice
         i = locked_random("randint", 1, 6)
         return i

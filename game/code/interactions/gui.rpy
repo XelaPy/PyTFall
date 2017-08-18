@@ -16,7 +16,7 @@ init python:
 
     # The job for the GT mode
     gm_job = None
-
+    
 
 label girl_interactions:
     python:
@@ -37,8 +37,10 @@ label girl_interactions:
         # Hide menus till greeting
         gm.show_menu = False
         gm.show_menu_givegift = False
-
-    scene expression gm.bg_cache
+    if gm.mode == "girl_interactions":
+        scene expression select_girl_room(char, gm.img)
+    else:
+        scene expression gm.bg_cache
     show screen girl_interactions
     with dissolve
 
@@ -227,6 +229,8 @@ label girl_interactions_after_greetings: # when character wants to say something
 
 label girl_interactions_end:
         # End the GM:
+        if gm.mode == "girl_meets":
+            $ global_flags.set_flag("keep_playing_music")
         $ gm.end()
 
 label interactions_control:
