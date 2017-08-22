@@ -173,7 +173,7 @@ init -5 python:
                     effectiveness_ratio = job.effectiveness(w, difficulty)
                     if config.debug:
                         devlog.info("Cleaning Job Effectiveness: {}: {}".format(w.nickname, effectiveness_ratio))
-                    value = -int(round(3 + w.get_skill("service") * .025 + w.agility * .03))*effectiveness_ratio
+                    value = -((3 + w.get_skill("service") * .025 + w.agility * .03) * effectiveness_ratio)
                     w.set_flag(power_flag_name, value)
 
                     # Remove from active workers:

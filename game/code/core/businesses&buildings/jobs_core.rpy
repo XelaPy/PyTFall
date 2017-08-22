@@ -337,7 +337,7 @@
             bt_bonus = len(set(self.occupation_traits).intersection(worker.traits))*5
             traits_bonus = self.traits_and_effects_effectiveness_mod(worker, log)
 
-            total = int(round(sum([gen_occ_ability, bt_bonus, traits_bonus, total_skills, total_stats])))
+            total = rount_int(sum([gen_occ_ability, bt_bonus, traits_bonus, total_skills, total_stats]))
             # Normalize:
             if total < 0:
                 total = 0

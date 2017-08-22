@@ -1,6 +1,6 @@
 init -10 python:
-        
-    
+
+
     # First part of working with databases - Autoclass
     # Universal structure for data
     class Structure(_object):
@@ -47,7 +47,7 @@ init -10 python:
         tree = ET.parse(filename).getroot()
         result = parse_xml_node(tree)
         return result
-        
+
     def parse_xml_node(node):
         result = {}
         for n in node:
@@ -105,7 +105,7 @@ init -10 python:
                         if key != "luck":
                             value = parse(db[entry][key])
                             key = key.lower()
-                            value = int(round(float(value)*dictionary[entry].get_max(key))/100)
+                            value = rount_int(float(value)*dictionary[entry].get_max(key)/100)
                             dictionary[entry].mod_stat(key, value)
                         elif key == "luck":
                             value = parse(db[entry][key])
@@ -123,7 +123,7 @@ init -10 python:
                         else:
                             dictionary[entry].__dict__[key] = parse(db[entry][key])
                     dictionary[entry].id = entry
-            else:    
+            else:
                 for key in db[entry]:
                     dictionary[entry].__dict__[key] = parse(db[entry][key])
                     dictionary[entry].id = entry

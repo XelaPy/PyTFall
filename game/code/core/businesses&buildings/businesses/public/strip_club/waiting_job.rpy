@@ -18,7 +18,7 @@ init -5 python:
 
         def __call__(self, char):
             pass
-            
+
         def traits_and_effects_effectiveness_mod(self, worker, log):
             """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
                Calculates only once per turn, in the very beginning.
@@ -104,7 +104,7 @@ init -5 python:
                     log.append("%s is genuinely fun for the customers to talk to and she plays along with their crude jokes." % worker.name)
                     effectiveness += 15
             return effectiveness
-            
+
 
         def club_task(self):
             """
@@ -180,8 +180,8 @@ init -5 python:
             self.locmod['dirt'] += clientsserved * 6
 
             # Integers:
-            clubfees = int(round(clubfees))
-            tips = int(round(tips))
+            clubfees = rount_int(clubfees)
+            tips = rount_int(tips)
 
             log.append("{color=[gold]}%s earned %d Gold during this shift"%(worker.nickname, clubfees))
 

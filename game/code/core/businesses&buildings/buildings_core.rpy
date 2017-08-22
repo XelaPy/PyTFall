@@ -325,7 +325,7 @@ init -10 python:
             """
             dirt = self.get_dirt()
             price = 10 + dirt + dirt
-            return int(round(price))
+            return rount_int(price)
 
         def get_dirt_percentage(self):
             """
@@ -345,7 +345,7 @@ init -10 python:
             if not dirt_string:
                 raise Exception, "No valid string for dirt percentage of %s was found!" % self.id
 
-            return int(round(dirt)), dirt_string
+            return rount_int(dirt), dirt_string
 
         def clean(self, value):
             result = self.dirt + value
@@ -465,7 +465,7 @@ init -10 python:
                     self.flag_red = True
                 return 0
 
-            clients = self.baseclients*int(round(self.mod*1.5))
+            clients = self.baseclients*rount_int(self.mod*1.5)
             if write_to_nd:
                 self.log("{} clients came to brothel just because its there!".format(set_font_color(clients, "green")))
 
@@ -644,7 +644,7 @@ init -10 python:
             self.available_workers = list(c for c in self.all_workers if c.location == self and c.action in self.jobs)
             for w in self.all_workers:
                 self.convert_AP(w)
-                
+
             # Get businesses we wish SimPy to manage! # IMPORTANT! .manage_business method is expected.
             self.nd_ups = list(up for up in self._upgrades if up.workable)
 

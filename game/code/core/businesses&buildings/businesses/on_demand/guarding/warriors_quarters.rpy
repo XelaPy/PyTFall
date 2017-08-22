@@ -50,8 +50,8 @@ init -5 python:
             workers_original = workers[:]
             power_flag_name = "jobs_guard_power"
             for w in workers:
-                # Set their cleaning capabilities as temp flag:
-                value = int(round(1 + w.defence * 0.025 + w.agility * 0.3)) # Is defence sound here? We don't have guarding still...
+                # Set their defence capabilities as temp flag:
+                value = round((1 + w.defence * 0.025 + w.agility * 0.3), 2) # Is defence sound here? We don't have guarding still...
                 w.set_flag(power_flag_name, value)
 
             wlen = len(workers)

@@ -1058,7 +1058,7 @@ init -1 python: # Core classes:
                     m = m + i.damage_multiplier
             damage *= m
 
-            return int(round(damage))
+            return rount_int(damage)
 
         # To String methods:
         def log_to_battle(self, effects, total_damage, a, t, message=None):
