@@ -1167,7 +1167,50 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                     padding 10, 5
                     background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.9)
                     has viewport draggable True mousewheel True
-                    text '[item.desc]' font "fonts/TisaOTM.otf" size 15 color "#ecc88a" outlines [(1, "#3a3a3a", 0, 0)]
+                    $ temp = ""
+                    if hasattr(item, "evasion_bonus"):
+                        if item.evasion_bonus > 0:
+                            $ temp += ' Increases evasion chance.'
+                        elif item.evasion_bonus < 0:
+                            $ temp += ' Decreases evasion chance.'
+                    if hasattr(item, "ch_multiplier"):
+                        if item.ch_multiplier > 0:
+                            $ temp += ' Increases chance of critical hit.'
+                        elif item.ch_multiplier < 0:
+                            $ temp += ' Decreases chance of critical hit.'
+                    if hasattr(item, "damage_multiplier"):
+                        if item.damage_multiplier > 0:
+                            $ temp += ' Increases all outgoing damage.'
+                        elif item.damage_multiplier < 0:
+                            $ temp += ' Decreases all outgoing damage.'
+                    if hasattr(item, "defence_bonus"):
+                        if "magic" in item.defence_bonus.keys():
+                            $ temp += ' Magic defence bonus.'
+                        if "melee" in item.defence_bonus.keys():
+                            $ temp += ' Melee defence bonus.'
+                        if "ranged" in item.defence_bonus.keys():
+                            $ temp += ' Ranged defence bonus.'
+                    if hasattr(item, "defence_multiplier"):
+                        if "magic" in item.defence_multiplier.keys():
+                            $ temp += ' Magic protection.'
+                        if "melee" in item.defence_multiplier.keys():
+                            $ temp += ' Melee protection.'
+                        if "ranged" in item.defence_multiplier.keys():
+                            $ temp += ' Ranged protection.'
+                        if "status" in item.defence_multiplier.keys():
+                            $ temp += ' Status effects protection.'
+                    if hasattr(item, "delivery_bonus"):
+                        if "magic" in item.delivery_bonus.keys():
+                            $ temp += ' Increases power of magic.'
+                        if "melee" in item.delivery_bonus.keys():
+                            $ temp += ' Increases power of melee skills.'
+                        if "ranged" in item.delivery_bonus.keys():
+                            $ temp += ' Increases power of ranged skills.'
+                        if "status" in item.delivery_bonus.keys():
+                            $ temp += ' Increases power of status skills.'
+
+                    text '{color=#ecc88a}[item.desc]{/color}{color=#daa520}[temp]{/color}' font "fonts/TisaOTM.otf" size 15 outlines [(1, "#3a3a3a", 0, 0)]
+
 
                 frame:
                     background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
