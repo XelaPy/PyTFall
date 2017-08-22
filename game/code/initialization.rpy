@@ -17,6 +17,8 @@ init -999 python:
     from copy import deepcopy, copy as shallowcopy
     import itertools
     from itertools import chain, izip_longest
+    import functools
+    from functools import partial
     import operator
     from operator import attrgetter, itemgetter
     import collections

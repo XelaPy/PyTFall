@@ -1,16 +1,5 @@
 # Characters classes and methods:
 init -9 python:
-    def take_team_ap(value):
-        """
-        Checks the whole hero team for enough AP; if at least one teammate doesn't have enough AP, AP won't decrease, and function will return False, otherwise True
-        """
-        for i in hero.team:
-            if i.AP - value < 0:
-                return False
-        for i in hero.team:
-            i.AP -= value
-        return True
-
     ###### Character Helpers ######
     class Tier(_object):
         """This deals with expectations and social status of chars.
@@ -3103,7 +3092,7 @@ init -9 python:
 
             elif effect == "Small Regeneration":
                 self.effects['Small Regeneration']['active'] = True
-                
+
             elif effect == "Fluffy Companion":
                 self.effects['Fluffy Companion']['active'] = True
 
@@ -3235,11 +3224,11 @@ init -9 python:
                 self.effects['MP Regeneration']['active'] = False
 
             elif effect == "Small Regeneration":
-                self.effects['Small Regeneration']['active'] = False 
+                self.effects['Small Regeneration']['active'] = False
 
             elif effect == "Fluffy Companion":
                 self.effects['Fluffy Companion']['active'] = False
-                
+
             elif effect == "Drinker":
                 self.effects['Drinker']['active'] = False
 
@@ -3354,7 +3343,7 @@ init -9 python:
                     unstable['day_log'] = day
                     unstable['day_target'] = day + randint(2, 4)
                     unstable['joy_mod'] = randint(20, 30) if randrange(2) else -randint(20, 30)
-                    
+
             elif effect == "Optimist":
                 if self.joy >= 30:
                     self.joy += 1

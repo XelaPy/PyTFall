@@ -11,6 +11,17 @@ init -11 python:
             hero.team.remove(char)
         gm.remove_girl(char)
 
+    def take_team_ap(value):
+        """
+        Checks the whole hero team for enough AP; if at least one teammate doesn't have enough AP, AP won't decrease, and function will return False, otherwise True
+        """
+        for i in hero.team:
+            if i.AP - value < 0:
+                return False
+        for i in hero.team:
+            i.AP -= value
+        return True
+
     # Characters related:
     def get_first_name(sex="female"):
         """Gets a randomly generated first name.
@@ -497,3 +508,31 @@ init -11 python:
         # Make sure that the manager is set:
         if job == simple_jobs["Manager"]:
             building.manager = char
+
+    def tier_up_to(char, tier, bios=(.8, 1.2)):
+        """Tiers up a character trying to set them up smartly
+
+        @params:
+        char: Character object or id
+        tier: Tier number to level to (10 is max and basically a God)
+        bios: When setting up stats and skills, uniform between the two values
+              will be used.
+
+        Important: Should only be used right after the character was created!
+        """
+        bios = random.uniform(*bios)
+        # Level with base 20
+        level = tier*20
+        level = int(round(level*bios))
+        initial_levelup(char, level)
+
+        # Do the stats/skills:
+        base_skills = []
+        base_stats = []
+        for trait in self.traits.basetraits:
+            for skill in trait.base_skills:
+                pass # TODO Decide if we want to use weight here.
+
+        for stat in char.stats.stats:
+            if stat not in char.stats.FIXED_MAX:
+                setattr(char, stat, char.get_max(stat))
