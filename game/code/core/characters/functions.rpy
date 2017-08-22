@@ -534,6 +534,7 @@ init -11 python:
         base_skills = set()
         base_stats = set()
         # !!! Using weight may actually confuse thing in here... this needs testing.
+        # Also, it may be a good idea to do list(s) of stats/skills every ht char should have a bit of...
         for trait in char.traits.basetraits:
             skills = trait.base_skills
             total_weight_points = sum(skills.values())
@@ -561,13 +562,21 @@ init -11 python:
         for stat in char.stats.stats:
             if stat not in char.stats.FIXED_MAX and stat not in base_stats:
                 if dice(char.luck*.5):
-                    value = char.get_max(stat)*.2
+                    value = char.get_max(stat)*.3
+                    value = round_int(value*stat_bios())
+                    char.mod_stat(stat, value)
+                else:
+                    value = char.get_max(stat)*random.uniform(.05, .15)
                     value = round_int(value*stat_bios())
                     char.mod_stat(stat, value)
         for skill in char.stats.skills:
             if skill not in base_skills:
                 if dice(char.luck*.5):
-                    value = (SKILLS_MAX[skill]*(tier*.1))*.2
+                    value = (SKILLS_MAX[skill]*(tier*.1))*.3
+                    value = round_int(value*skill_bios())
+                    char.mod_skill(skill, value)
+                else:
+                    value = (SKILLS_MAX[skill]*(tier*.1))*random.uniform(.05, .15)
                     value = round_int(value*skill_bios())
                     char.mod_skill(skill, value)
 
