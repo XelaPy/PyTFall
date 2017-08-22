@@ -426,7 +426,7 @@ init -6 python:
             # Figure out how far we can travel in steps of 5 DU:
             # Understanding here is that any team can travel 25 KM per day on average. This can be offset by traits and stats in the future.
             # tacker.tp = int(round(tracker.points / 20.0))
-            travel_points = rount_int(tracker.points / 20.0) # local variable just might do the trick...
+            travel_points = round_int(tracker.points / 20.0) # local variable just might do the trick...
 
             if not tracker.traveled:
                 temp = "{} is on route to {}!".format(tracker.team.name, tracker.area.id)
@@ -459,7 +459,7 @@ init -6 python:
             # Figure out how far we can travel in 5 du:
             # Understanding here is that any team can travel 25 KM per day on average. This can be offset by traits and stats in the future.
             # tacker.tp = int(round(tracker.points / 20.0))
-            travel_points = rount_int(tracker.points / 20.0) # local variable just might do the trick...
+            travel_points = round_int(tracker.points / 20.0) # local variable just might do the trick...
 
             if not tracker.traveled:
                 temp = "{} is traveling back home!".format(tracker.team.name)
@@ -603,7 +603,7 @@ init -6 python:
                     for char in team:
                         for stat, value in area.hazard:
                             # value, because we calculated effects on daily base in the past...
-                            var = max(1, rount_int(value*.05))
+                            var = max(1, round_int(value*.05))
                             char.mod_stat(stat, -var) # TODO: Change to log + direct application.
 
                 # This code and comment are both odd...

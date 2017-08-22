@@ -325,7 +325,7 @@ init -10 python:
             """
             dirt = self.get_dirt()
             price = 10 + dirt + dirt
-            return rount_int(price)
+            return round_int(price)
 
         def get_dirt_percentage(self):
             """
@@ -345,7 +345,7 @@ init -10 python:
             if not dirt_string:
                 raise Exception, "No valid string for dirt percentage of %s was found!" % self.id
 
-            return rount_int(dirt), dirt_string
+            return round_int(dirt), dirt_string
 
         def clean(self, value):
             result = self.dirt + value
@@ -465,7 +465,7 @@ init -10 python:
                     self.flag_red = True
                 return 0
 
-            clients = self.baseclients*rount_int(self.mod*1.5)
+            clients = self.baseclients*round_int(self.mod*1.5)
             if write_to_nd:
                 self.log("{} clients came to brothel just because its there!".format(set_font_color(clients, "green")))
 

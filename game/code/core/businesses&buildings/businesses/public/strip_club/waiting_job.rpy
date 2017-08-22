@@ -180,8 +180,8 @@ init -5 python:
             self.locmod['dirt'] += clientsserved * 6
 
             # Integers:
-            clubfees = rount_int(clubfees)
-            tips = rount_int(tips)
+            clubfees = round_int(clubfees)
+            tips = round_int(tips)
 
             log.append("{color=[gold]}%s earned %d Gold during this shift"%(worker.nickname, clubfees))
 

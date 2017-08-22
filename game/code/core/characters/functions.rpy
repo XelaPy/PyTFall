@@ -510,7 +510,7 @@ init -11 python:
             building.manager = char
 
     def tier_up_to(char, tier, level_bios=(.9, 1.1),
-                   skill_bios=(.8. 1.2), stat_bios=(.8, 1.0)):
+                   skill_bios=(.8, 1.2), stat_bios=(.8, 1.0)):
         """Tiers up a character trying to set them up smartly
 
         @params:
@@ -527,13 +527,14 @@ init -11 python:
         stat_bios = partial(random.uniform, stat_bios[0], stat_bios[1])
         # Level with base 20
         level = tier*20
-        level = rount_int(level*level_bios())
+        level = round_int(level*level_bios())
         initial_levelup(char, level)
 
         # Do the stats/skills:
         base_skills = set()
         base_stats = set()
-        for trait in self.traits.basetraits:
+        # !!! Using weight may actually confuse thing in here... this needs testing.
+        for trait in char.traits.basetraits:
             skills = trait.base_skills
             total_weight_points = sum(skills.values())
             for skill, weight in skills.items():
@@ -541,7 +542,7 @@ init -11 python:
                 weight_ratio = float(weight)/total_weight_points
                 sp = SKILLS_MAX[skill]*(tier*.1)
                 weight_sp = weight_ratio*sp
-                biosed_sp = rount_int(weight_sp*skill_bios())
+                biosed_sp = round_int(weight_sp*skill_bios())
 
                 char.mod_skill(skill, biosed_sp)
 
@@ -550,21 +551,24 @@ init -11 python:
             for stat, weight in stats.items():
                 base_stats.add(stat)
                 weight_ratio = float(weight)/total_weight_points
-                sp = self.get_max(stat)
+                sp = char.get_max(stat)
                 weight_sp = weight_ratio*sp
-                biosed_sp = rount_int(weight_sp*stat_bios())
+                biosed_sp = round_int(weight_sp*stat_bios())
 
                 char.mod_skill(skill, biosed_sp)
 
-        # stats_skills_points = skill_bonus + stat_bonus
-        # if len(self.traits.basetraits) == 1:
-        #     stats_skills_points *= 2
-        #
-        # total_points = level_points + stats_skills_points
-        # for trait in self.traits.basetraits:
-        #     for skill in trait.base_skills:
-        #         pass # TODO Decide if we want to use weight here.
-        #
-        # for stat in char.stats.stats:
-        #     if stat not in char.stats.FIXED_MAX:
-        #         setattr(char, stat, char.get_max(stat))
+        # Now that we're done with baseskills, we can play with other stats/skills a little bit
+        for stat in char.stats.stats:
+            if stat not in char.stats.FIXED_MAX and stat not in base_stats:
+                if dice(char.luck*.5):
+                    value = char.get_max(stat)*.2
+                    value = round_int(value*stat_bios())
+                    char.mod_stat(stat, value)
+        for skill in char.stats.skills:
+            if skill not in base_skills:
+                if dice(char.luck*.5):
+                    value = (SKILLS_MAX[skill]*(tier*.1))*.2
+                    value = round_int(value*skill_bios())
+                    char.mod_skill(skill, value)
+
+        char.tier = tier
