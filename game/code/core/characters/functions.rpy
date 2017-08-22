@@ -509,7 +509,8 @@ init -11 python:
         if job == simple_jobs["Manager"]:
             building.manager = char
 
-    def tier_up_to(char, tier, level_bios=(.9, 1.1), skill_bios=(.8. 1.2), stat_bios=(.8, 1.0)):
+    def tier_up_to(char, tier, level_bios=(.9, 1.1),
+                   skill_bios=(.8. 1.2), stat_bios=(.8, 1.0)):
         """Tiers up a character trying to set them up smartly
 
         @params:
@@ -526,12 +527,43 @@ init -11 python:
         stat_bios = partial(random.uniform, stat_bios[0], stat_bios[1])
         # Level with base 20
         level = tier*20
-        level = rount_int(level*bios())
+        level = rount_int(level*level_bios())
         initial_levelup(char, level)
 
         # Do the stats/skills:
-        base_skills = []
-        base_stats = []
+        base_skills = set()
+        base_stats = set()
+        for trait in self.traits.basetraits:
+            skills = trait.base_skills
+            total_weight_points = sum(skills.values())
+            for skill, weight in skills.items():
+                base_skills.add(skill)
+                weight_ratio = float(weight)/total_weight_points
+                sp = SKILLS_MAX[skill]*(tier*.1)
+                weight_sp = weight_ratio*sp
+                biosed_sp = rount_int(weight_sp*skill_bios())
+                
+                skill_bonus += min(sp*max_p/sp_required, max_p*1.1)
+
+        stats = trait.base_stats
+        if not stats: # Some weird ass base trait, we just award 33% of total possible points.
+            stat_bonus += default_points*.33
+        else:
+            stats = trait.base_stats
+            for stat, weight in stats.items():
+                weight_ratio = float(weight)/total_weight_points
+                max_p = default_points*weight_ratio
+
+                sp = self.stats.stats[stat]
+                sp_required = self.get_max(stat)
+
+                stat_bonus += min(sp*max_p/sp_required, max_p*1.1)
+
+        stats_skills_points = skill_bonus + stat_bonus
+        if len(self.traits.basetraits) == 1:
+            stats_skills_points *= 2
+
+        total_points = level_points + stats_skills_points
         for trait in self.traits.basetraits:
             for skill in trait.base_skills:
                 pass # TODO Decide if we want to use weight here.
