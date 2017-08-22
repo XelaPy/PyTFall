@@ -509,7 +509,7 @@ init -11 python:
         if job == simple_jobs["Manager"]:
             building.manager = char
 
-    def tier_up_to(char, tier, bios=(.8, 1.2)):
+    def tier_up_to(char, tier, level_bios=(.9, 1.1), skill_bios=(.8. 1.2), stat_bios=(.8, 1.0)):
         """Tiers up a character trying to set them up smartly
 
         @params:
@@ -517,13 +517,16 @@ init -11 python:
         tier: Tier number to level to (10 is max and basically a God)
         bios: When setting up stats and skills, uniform between the two values
               will be used.
+              Level, stats and skills bioses work in the same way
 
         Important: Should only be used right after the character was created!
         """
-        bios = random.uniform(*bios)
+        level_bios = partial(random.uniform, level_bios[0], level_bios[1])
+        skill_bios = partial(random.uniform, skill_bios[0], skill_bios[1])
+        stat_bios = partial(random.uniform, stat_bios[0], stat_bios[1])
         # Level with base 20
         level = tier*20
-        level = int(round(level*bios))
+        level = rount_int(level*bios())
         initial_levelup(char, level)
 
         # Do the stats/skills:
