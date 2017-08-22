@@ -542,32 +542,29 @@ init -11 python:
                 sp = SKILLS_MAX[skill]*(tier*.1)
                 weight_sp = weight_ratio*sp
                 biosed_sp = rount_int(weight_sp*skill_bios())
-                
-                skill_bonus += min(sp*max_p/sp_required, max_p*1.1)
 
-        stats = trait.base_stats
-        if not stats: # Some weird ass base trait, we just award 33% of total possible points.
-            stat_bonus += default_points*.33
-        else:
+                char.mod_skill(skill, biosed_sp)
+
             stats = trait.base_stats
+            total_weight_points = sum(stats.values())
             for stat, weight in stats.items():
+                base_stats.add(stat)
                 weight_ratio = float(weight)/total_weight_points
-                max_p = default_points*weight_ratio
+                sp = self.get_max(stat)
+                weight_sp = weight_ratio*sp
+                biosed_sp = rount_int(weight_sp*stat_bios())
 
-                sp = self.stats.stats[stat]
-                sp_required = self.get_max(stat)
+                char.mod_skill(skill, biosed_sp)
 
-                stat_bonus += min(sp*max_p/sp_required, max_p*1.1)
-
-        stats_skills_points = skill_bonus + stat_bonus
-        if len(self.traits.basetraits) == 1:
-            stats_skills_points *= 2
-
-        total_points = level_points + stats_skills_points
-        for trait in self.traits.basetraits:
-            for skill in trait.base_skills:
-                pass # TODO Decide if we want to use weight here.
-
-        for stat in char.stats.stats:
-            if stat not in char.stats.FIXED_MAX:
-                setattr(char, stat, char.get_max(stat))
+        # stats_skills_points = skill_bonus + stat_bonus
+        # if len(self.traits.basetraits) == 1:
+        #     stats_skills_points *= 2
+        #
+        # total_points = level_points + stats_skills_points
+        # for trait in self.traits.basetraits:
+        #     for skill in trait.base_skills:
+        #         pass # TODO Decide if we want to use weight here.
+        #
+        # for stat in char.stats.stats:
+        #     if stat not in char.stats.FIXED_MAX:
+        #         setattr(char, stat, char.get_max(stat))
