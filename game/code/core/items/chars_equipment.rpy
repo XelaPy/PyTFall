@@ -1167,47 +1167,103 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                     padding 10, 5
                     background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.9)
                     has viewport draggable True mousewheel True
-                    $ temp = ""
+                    $ temp = "\n"
                     if hasattr(item, "evasion_bonus"):
                         if item.evasion_bonus > 0:
-                            $ temp += ' Increases evasion chance.'
+                            $ temp += '*Increases evasion chance.\n'
                         elif item.evasion_bonus < 0:
-                            $ temp += ' Decreases evasion chance.'
+                            $ temp += '*Decreases evasion chance.\n'
                     if hasattr(item, "ch_multiplier"):
                         if item.ch_multiplier > 0:
-                            $ temp += ' Increases chance of critical hit.'
+                            $ temp += '*Increases chance of critical hit.\n'
                         elif item.ch_multiplier < 0:
-                            $ temp += ' Decreases chance of critical hit.'
+                            $ temp += '*Decreases chance of critical hit.\n'
                     if hasattr(item, "damage_multiplier"):
                         if item.damage_multiplier > 0:
-                            $ temp += ' Increases all outgoing damage.'
+                            $ temp += '*Increases all outgoing damage.\n'
                         elif item.damage_multiplier < 0:
-                            $ temp += ' Decreases all outgoing damage.'
+                            $ temp += '*Decreases all outgoing damage.\n'
                     if hasattr(item, "defence_bonus"):
                         if "magic" in item.defence_bonus.keys():
-                            $ temp += ' Magic defence bonus.'
+                            if item.defence_bonus["magic"] > 0:
+                                $ temp += '*Magic defence bonus.\n'
+                            else:
+                                $ temp += '*Magic defence penalty.\n'
                         if "melee" in item.defence_bonus.keys():
-                            $ temp += ' Melee defence bonus.'
+                            if item.defence_bonus["melee"] > 0:
+                                $ temp += '*Melee defence bonus.\n'
+                            else:
+                                $ temp += '*Melee defence penalty.\n'
                         if "ranged" in item.defence_bonus.keys():
-                            $ temp += ' Ranged defence bonus.'
+                            if item.defence_bonus["ranged"] > 0:
+                                $ temp += '*Ranged defence bonus.\n'
+                            else:
+                                $ temp += '*Ranged defence penalty.\n'
                     if hasattr(item, "defence_multiplier"):
                         if "magic" in item.defence_multiplier.keys():
-                            $ temp += ' Magic protection.'
+                            if item.defence_multiplier["magic"] > 0:
+                                $ temp += '*Multiplies magic defence.\n'
+                            else:
+                                $ temp += '*Reduces magic defence.'
                         if "melee" in item.defence_multiplier.keys():
-                            $ temp += ' Melee protection.'
+                            if item.defence_multiplier["melee"] > 0:
+                                $ temp += '*Multiplies melee defence.\n'
+                            else:
+                                $ temp += '*Reduces melee defence.'
                         if "ranged" in item.defence_multiplier.keys():
-                            $ temp += ' Ranged protection.'
+                            if item.defence_multiplier["ranged"] > 0:
+                                $ temp += '*Multiplies ranged defence.\n'
+                            else:
+                                $ temp += '*Reduces ranged defence.'
                         if "status" in item.defence_multiplier.keys():
-                            $ temp += ' Status effects protection.'
+                            if item.defence_multiplier["status"] > 0:
+                                $ temp += '*Multiplies status defence.\n'
+                            else:
+                                $ temp += '*Reduces status defence.\n'
+                            
                     if hasattr(item, "delivery_bonus"):
                         if "magic" in item.delivery_bonus.keys():
-                            $ temp += ' Increases power of magic.'
+                            if item.delivery_bonus["magic"] > 0:
+                                $ temp += '*Bonus to power of magic skills.\n'
+                            else:
+                                $ temp += '*Penalty to power of magic skills.\n'
                         if "melee" in item.delivery_bonus.keys():
-                            $ temp += ' Increases power of melee skills.'
+                            if item.delivery_bonus["melee"] > 0:
+                                $ temp += '*Bonus to power of melee skills.\n'
+                            else:
+                                $ temp += '*Penalty to power of melee skills.\n'
                         if "ranged" in item.delivery_bonus.keys():
-                            $ temp += ' Increases power of ranged skills.'
+                            if item.delivery_bonus["ranged"] > 0:
+                                $ temp += '*Bonus to power of ranged skills.\n'
+                            else:
+                                $ temp += '*Penalty to power of ranged skills.\n'
                         if "status" in item.delivery_bonus.keys():
-                            $ temp += ' Increases power of status skills.'
+                            if item.delivery_bonus["status"] > 0:
+                                $ temp += '*Bonus to power of status skills.\n'
+                            else:
+                                $ temp += '*Penalty to power of status skills.\n'
+
+                    if hasattr(item, "delivery_multiplier"):
+                        if "magic" in item.delivery_bonus.keys():
+                            if item.delivery_multiplier["magic"] > 0:
+                                $ temp += '*Multiplies power of magic skills.\n'
+                            else:
+                                $ temp += '*Decreases power of magic skills.\n'
+                        if "melee" in item.delivery_bonus.keys():
+                            if item.delivery_multiplier["melee"] > 0:
+                                $ temp += '*Multiplies power of melee skills.\n'
+                            else:
+                                $ temp += '*Decreases power of melee skills.\n'
+                        if "ranged" in item.delivery_bonus.keys():
+                            if item.delivery_multiplier["ranged"] > 0:
+                                $ temp += '*Multiplies power of ranged skills.\n'
+                            else:
+                                $ temp += '*Decreases power of ranged skills.\n'
+                        if "status" in item.delivery_bonus.keys():
+                            if item.delivery_multiplier["status"] > 0:
+                                $ temp += '*Multiplies status of ranged skills.\n'
+                            else:
+                                $ temp += '*Decreases status of ranged skills.\n'
 
                     text '{color=#ecc88a}[item.desc]{/color}{color=#daa520}[temp]{/color}' font "fonts/TisaOTM.otf" size 15 outlines [(1, "#3a3a3a", 0, 0)]
 

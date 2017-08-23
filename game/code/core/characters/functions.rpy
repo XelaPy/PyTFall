@@ -510,7 +510,7 @@ init -11 python:
             building.manager = char
 
     def tier_up_to(char, tier, level_bios=(.9, 1.1),
-                   skill_bios=(.8. 1.2), stat_bios=(.8, 1.0)):
+                   skill_bios=(.8, 1.2), stat_bios=(.8, 1.0)):
         """Tiers up a character trying to set them up smartly
 
         @params:
