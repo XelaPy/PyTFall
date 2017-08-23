@@ -538,113 +538,6 @@ init -9 python:
                             fighter.fighting_days.append(setup[2])
                         setup[0] = c_team
 
-        # -------------------------- Simple Auto Combat Resolving ---------------------------------->
-        def resolve_combat(self, off_team, def_team, type="dog_fight"):
-            """
-            Simple combat resolver for Arena, based on battle stats, luck not included.
-            Teams from official lineups get a boost!!! :)
-            valid types: dog_fight, match as strings
-            """
-            winner = None
-            loser = None
-            offforce = 0
-            defforce = 0
-
-            if def_team in list(itertools.chain.from_iterable([self.lineup_1v1, self.lineup_2v2, self.lineup_3v3])):
-                d_modifier = choice([1.1, 1.2, 1.3, 1.4, 1.5])
-            else:
-                d_modifier = 1
-            if off_team in list(itertools.chain.from_iterable([self.lineup_1v1, self.lineup_2v2, self.lineup_3v3])):
-                o_modifier = choice([1.1, 1.2, 1.3, 1.4, 1.5])
-            else:
-                o_modifier = 1
-
-            for member in off_team:
-                offforce += member.attack + member.defence + member.agility
-                if member.mp > member.magic/5:
-                    offforce += member.magic
-                    offforce += member.mp
-
-            offforce = int(offforce*o_modifier)
-
-            for member in def_team:
-                defforce += member.attack + member.defence + member.agility
-                if member.mp > member.magic/5:
-                    defforce += member.magic
-                    defforce += member.mp
-
-            defforce = int(defforce*d_modifier)
-
-            devlog.info("Arena Combat Resolver: Defending Team %s - Force: %d, Opfor Team %s - Force: %d"%(def_team, defforce, off_team, offforce))
-            # Extra check to prevent devision by 0 (had a weird encounter like that before...)
-            if defforce <= 0: defforce = 1
-            if offforce <= 0: offforce = 1
-
-            if offforce >= defforce:
-                for member in off_team:
-                    statdict = {}
-                    statdict["health"] = int(member.health * (1 - float(defforce) / offforce))
-                    statdict["mp"] = int(member.mp * (1 - float(defforce) / offforce))
-                    statdict["attack"] = randint(1, 2)
-                    statdict["defence"] = randint(1, 2)
-                    statdict["agility"] = randint(1, 2)
-                    statdict["magic"] = randint(1, 2)
-                    statdict["Arena Rep"] = (def_team.get_rep() / 20)
-                    exp = 50 * (float(def_team.get_level()) / off_team.get_level())
-                    statdict["exp"] = adjust_exp(member, exp)
-                    for stat in statdict:
-                        if stat == "exp":
-                            member.exp += statdict[stat]
-                        elif stat == "Arena Rep":
-                            member.arena_rep += statdict[stat]
-                        else:
-                            member.mod_stat(stat, statdict[stat])
-
-                for member in def_team:
-                    member.health = 1
-                    member.mp = 0
-                    member.arena_rep -= int(off_team.get_rep() / 300)
-
-                winner = off_team
-                loser = def_team
-
-            else: # Def Team Won
-                for member in def_team:
-                    statdict = {}
-                    statdict["health"] = int(member.health * (1 - float(offforce) / defforce))
-                    statdict["mp"] = int(member.mp * (1 - float(offforce) / defforce))
-                    statdict["attack"] = randint(1, 2)
-                    statdict["defence"] = randint(1, 2)
-                    statdict["agility"] = randint(1, 2)
-                    statdict["magic"] = randint(1, 2)
-                    statdict["Arena Rep"] = (off_team.get_rep() / 20)
-                    exp = 50 * (float(off_team.get_level()) / def_team.get_level())
-                    statdict["exp"] = adjust_exp(member, exp)
-                    for stat in statdict:
-                        if stat == "exp":
-                            member.exp += statdict[stat]
-                        elif stat == "Arena Rep":
-                            member.arena_rep += statdict[stat]
-                        else:
-                            member.mod_stat(stat, statdict[stat])
-
-                for member in off_team:
-                    member.health = 1
-                    member.mp = 0
-                    member.arena_rep -= int(def_team.get_rep() / 300)
-
-                winner = def_team
-                loser = off_team
-
-            if type == "match":
-                self.update_setups(winner, loser)
-
-            if type == "dog_fight":
-                pass
-
-            return winner, loser
-
-
         # -------------------------- GUI methods ---------------------------------->
         def dogfight_challenge(self, team):
             """
@@ -767,7 +660,6 @@ init -9 python:
             """
             Initial Arena Setup, this will be improved and prolly split several times and I should prolly call it init() as in other classes...
             """
-
             # Team formations!!!: -------------------------------------------------------------->
             in_file = content_path("db/arena_teams.json")
             with open(in_file) as f:
@@ -778,7 +670,7 @@ init -9 python:
                 if teamsize > 3:
                     raise Exception("Arena Teams are not allowed to include more than 3 members!")
                 if teamsize == 1 and not team["lineups"]:
-                    raise Exception("Single member teams are only avalible for lineups!" \
+                    raise Exception("Single member teams are only available for lineups!" \
                                     "Adjust data.xml files if you just wish girls to participate in the Arena!")
                 a_team = Team(name=team["name"], max_size=teamsize)
                 for member in team["members"]:
@@ -793,10 +685,10 @@ init -9 python:
                         if chars[member] in hero.chars:
                             hero.remove_char(chars[member])
                         if chars[member] in self.get_teams_fighters(teams="2v2"):
-                            raise Exception("You've added unique girl %s" \
+                            raise Exception("You've added unique character %s" \
                                             " to 2v2 Arena teams twice!" % chars[member].name)
                         if chars[member] in self.get_teams_fighters(teams="3v3"):
-                            raise Exception("You've added unique girl %s to 3v3 Arena teams more than once!" % chars[member].name)
+                            raise Exception("You've added unique character %s to 3v3 Arena teams more than once!" % chars[member].name)
                         a_team.add(chars[member])
                     elif member in pytfall.arena.ac:
                         member = pytfall.arena.ac[member]
@@ -1190,7 +1082,6 @@ init -9 python:
                 renpy.call_screen("arena_minigame", 50, 0.01, 6, d)
 
             renpy.show_screen("confirm_chainfight")
-
 
         def start_chainfight(self):
             """
