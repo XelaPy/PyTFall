@@ -1233,7 +1233,9 @@ init -9 python:
 
         # -------------------------- Battle/Next Day ------------------------------->
         def auto_resolve_combat(self, off_team, def_team, type="dog_fight"):
-            battle = new_style_conflict_resolver(off_team, def_team)
+
+            battle = new_style_conflict_resolver(off_team, def_team,
+                     battle_kwargs={"max_turns": 15*(len(off_team)+len(def_team))})
 
             winner = battle.winner
             loser = off_team if winner == def_team else def_team

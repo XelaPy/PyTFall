@@ -55,9 +55,11 @@ init -11 python:
             if new_results: return "D", exp
             else: return "defeat"
 
-    def new_style_conflict_resolver(off_team, def_team, ai="simple"):
+    def new_style_conflict_resolver(off_team, def_team, ai="simple", battle_kwargs=None):
+        if battle_kwargs is None:
+            battle_kwargs = {}
         chained = partial(chain, off_team, def_team)
-        battle = BE_Core(logical=True)
+        battle = BE_Core(logical=True, **battle_kwargs)
         store.battle = battle
         battle.teams = [off_team, off_team]
 
