@@ -36,7 +36,7 @@ init -9 python:
             # ----------------------------->
             self.king = None
 
-            self.ac = dict() # Neow :)
+            self.pure_arena_fighters = dict() # Neow :)
 
             self.arena_fighters = list() # A list of Arena Fighters loaded into the game and actively participating in the Arena.
             self.teams_2v2 = list()
@@ -144,11 +144,11 @@ init -9 python:
             Returns a list of all characters available/willing to fight in the Arena.
             Excludes all girls participating in girl_meets to avoid them being at multiple locations (this needs better handling)
             '''
-            gm_chars = gm.get_all_girls()
+            interactions_chars = gm.get_all_girls()
             arena_ready = [c for c in chars.values() if c.arena_willing and
                            "Warrior" in c.occupations and
                            c.status != "slave" and c not in hero.chars and
-                           c not in gm_chars]
+                           c not in interactions_chars]
             arena_candidates = []
             # First pass, unique girls...
             for char in arena_ready:
@@ -158,7 +158,7 @@ init -9 python:
             for char in arena_ready:
                 if char.__class__ == rChar:
                     arena_candidates.append(char)
-                    
+
             return arena_candidates
 
         def get_lineups_fighters(self, lineup="all"):
@@ -692,8 +692,8 @@ init -9 python:
                         if chars[member] in self.get_teams_fighters(teams="3v3"):
                             raise Exception("You've added unique character %s to 3v3 Arena teams more than once!" % chars[member].name)
                         a_team.add(chars[member])
-                    elif member in pytfall.arena.ac:
-                        member = pytfall.arena.ac[member]
+                    elif member in pytfall.arena.pure_arena_fighters:
+                        member = pytfall.arena.pure_arena_fighters[member]
                         if member.unique:
                             if member in self.get_teams_fighters(teams="2v2"):
                                 raise Exception("You've added an unique Arena" \
@@ -754,7 +754,7 @@ init -9 python:
             # ---------------------------------------------------------------->
 
             candidates = self.get_arena_candidates()
-            for fighter in self.ac.values():
+            for fighter in self.pure_arena_fighters.values():
                 if fighter.unique and fighter.arena_active:
                     pass
                 else:
@@ -1232,6 +1232,27 @@ init -9 python:
             return self.cf_bonus
 
         # -------------------------- Battle/Next Day ------------------------------->
+        def auto_resolve_combat(self, off_team, def_team, type="dog_fight"):
+            battle = new_style_conflict_resolver(off_team, def_team)
+
+            winner = battle.winner
+            loser = off_team if winner == def_team else def_team
+
+            for fighter in winner:
+                for stat in ("attack", "defence", "agility", "magic"):
+                    fighter.mod_stat(stat, randint(1, 2))
+                fighter.arena_rep += (loser.get_rep() / 20)
+                exp = round_int(50 * (float(loser.get_level()) / winner.get_level()))
+                fighter.mod_stat("exp", exp)
+
+            for fighter in loser:
+                fighter.arena_rep -= int(def_team.get_rep() / 300.0)
+
+            if type == "match":
+                self.update_setups(winner, loser)
+
+            return winner, loser
+
         def start_dogfight(self, team):
             '''
             Bridge to battle engine + rewards/penalties
@@ -1438,7 +1459,7 @@ init -9 python:
             for setup in self.matches_1v1:
                 if setup[2] == day and setup[0] != hero.team:
                     if setup[0] and setup[1]:
-                        match_result = self.resolve_combat(setup[0], setup[1], "match")
+                        match_result = self.auto_resolve_combat(setup[0], setup[1], "match")
                         txt = "".join([txt, "%s has defeated %s in a one on one fight. "%(match_result[0][0].name, match_result[1][0].name)])
                         txt = "".join([txt, choice(["It was quite a show! \n", "\n", "Amazing performance! \n", "Crowd never stopped cheering! \n", "\n"])])
                     elif setup[1]:
@@ -1449,7 +1470,7 @@ init -9 python:
             for setup in self.matches_2v2:
                 if setup[2] == day and setup[0] != hero.team:
                     if setup[0] and setup[1]:
-                        match_result = self.resolve_combat(setup[0], setup[1], "match")
+                        match_result = self.auto_resolve_combat(setup[0], setup[1], "match")
                         txt = "".join([txt, "%s team has defeated %s in an official match. "%(match_result[0].name, match_result[1].name)])
                         txt = "".join([txt, choice(["It was quite a show! \n", "\n", "Amazing performance! \n", "Crowd never stopped cheering! \n", "\n", "Team's leader %s got most of the credit! \n"%match_result[0].leader.name])])
                     elif setup[1]:
@@ -1460,7 +1481,7 @@ init -9 python:
             for setup in self.matches_3v3:
                 if setup[2] == day and setup[0] != hero.team:
                     if setup[0] and setup[1]:
-                        match_result = self.resolve_combat(setup[0], setup[1], "match")
+                        match_result = self.auto_resolve_combat(setup[0], setup[1], "match")
                         txt = "".join([txt, "%s team has defeated %s in an official match. "%(match_result[0].name, match_result[1].name)])
                         txt = "".join([txt, choice(["It was quite a show! \n", "\n", "Amazing performance! \n", "Crowd never stopped cheering! \n", "\n", "Team's leader %s got most of the credit! \n"%match_result[0].leader.name])])
                     elif setup[1]:
@@ -1513,7 +1534,7 @@ init -9 python:
                     opfor_fighter = opfor_pool.pop()
                     opfor = Team(max_size=1)
                     opfor.add(opfor_fighter)
-                    self.resolve_combat(opfor, defender)
+                    self.auto_resolve_combat(opfor, defender)
                     df_count += 1
 
             # 2v2:
@@ -1530,7 +1551,7 @@ init -9 python:
                 if self.dogfights_2v2 and opfor_pool:
                     defender = self.dogfights_2v2.pop()
                     opfor = opfor_pool.pop()
-                    self.resolve_combat(opfor, defender)
+                    self.auto_resolve_combat(opfor, defender)
                     df_count += 1
 
             # 3v3:
@@ -1547,7 +1568,7 @@ init -9 python:
                 if self.dogfights_3v3 and opfor_pool:
                     defender = self.dogfights_3v3.pop()
                     opfor = opfor_pool.pop()
-                    self.resolve_combat(opfor, defender)
+                    self.auto_resolve_combat(opfor, defender)
                     df_count += 1
 
             self.update_dogfights()
