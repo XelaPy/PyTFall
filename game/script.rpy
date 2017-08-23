@@ -243,11 +243,11 @@ label dev_testing_menu:
             f.name = key
             f.img_db = af_pics[key]
             f.init()
-            pytfall.arena.ac[f.name] = f
+            pytfall.arena.pure_arena_fighters[f.name] = f
 
         del af_pics
 
-        pytfall.arena.ac.update(load_arena_fighters())
+        pytfall.arena.pure_arena_fighters.update(load_arena_fighters())
         pytfall.arena.setup_arena()
         pytfall.arena.update_matches()
         pytfall.arena.update_teams()

@@ -410,7 +410,7 @@ init -1 python: # Core classes:
                 return True
             if self.logical and self.logical_counter >= 1000:
                 self.winner = self.teams[1]
-                self.log("Battle went on for far too long! %s is concidered the winner!" % self.winner.name)
+                self.log("Battle went on for far too long! %s is considered the winner!" % self.winner.name)
                 return True
             if len(self.teams[0]) == len(self.get_fighters(state="dead", rows=(0, 1))):
                 self.winner = self.teams[1]
