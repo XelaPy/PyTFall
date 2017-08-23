@@ -253,7 +253,7 @@
     },
     {
     "id": "Buckler",
-    "desc": "A small dinner plate size shield.  Used for parrying rather than blocking",
+    "desc": "A small dinner plate size shield.  Used for parrying rather than blocking.",
     "icon": "content/items/sweapon/b.png",
     "price": 120,
     "sex": "unisex",
