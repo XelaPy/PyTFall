@@ -141,22 +141,24 @@ init -9 python:
 
         def get_arena_candidates(self):
             '''
-            Returns a list of all charachters availible/willing to fight in the Arena.
+            Returns a list of all characters available/willing to fight in the Arena.
             Excludes all girls participating in girl_meets to avoid them being at multiple locations (this needs better handling)
             '''
-            gm_girls = gm.get_all_girls()
+            gm_chars = gm.get_all_girls()
+            arena_ready = [c for c in chars.values() if c.arena_willing and
+                           "Warrior" in c.occupations and
+                           c.status != "slave" and c not in hero.chars and
+                           c not in gm_chars]
             arena_candidates = []
-
             # First pass, unique girls...
-            for girl in chars.values():
-                if girl.arena_willing and "Warrior" in girl.occupations and girl.__class__ == Char and girl.status != "slave" and girl not in hero.chars and girl not in gm_girls:
-                    arena_candidates.append(girl)
-
+            for char in arena_ready:
+                if char.__class__ == Char:
+                    arena_candidates.append(char)
             # Second pass, random girls:
-            for girl in chars.values():
-                if girl.arena_willing and "Warrior" in girl.occupations and girl.__class__ == rChar and girl.status != "slave" and girl not in hero.chars and girl not in gm_girls:
-                    arena_candidates.append(girl)
-
+            for char in arena_ready:
+                if char.__class__ == rChar:
+                    arena_candidates.append(char)
+                    
             return arena_candidates
 
         def get_lineups_fighters(self, lineup="all"):
