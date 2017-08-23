@@ -248,7 +248,7 @@ init python:
             if damage == "resisted":
                 damage = 0
             else:
-                damage = rount_int(damage)
+                damage = round_int(damage)
 
             # GFX:
             if not battle.logical:
@@ -681,7 +681,7 @@ init python:
                 if restore == "resisted":
                     restore = 0
 
-                restore = rount_int(restore)
+                restore = round_int(restore)
                 effects.append(("healing", restore))
 
                 t.dmg_font = "lawngreen" # Color the battle bounce green!
@@ -797,7 +797,7 @@ init python:
                 if effect == "resisted":
                     effect = 0
 
-                effect = rount_int(effect)
+                effect = round_int(effect)
 
                 if effect:
                     # Check if event is in play already:

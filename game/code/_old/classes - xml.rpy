@@ -105,7 +105,7 @@ init -10 python:
                         if key != "luck":
                             value = parse(db[entry][key])
                             key = key.lower()
-                            value = rount_int(float(value)*dictionary[entry].get_max(key)/100)
+                            value = round_int(float(value)*dictionary[entry].get_max(key)/100)
                             dictionary[entry].mod_stat(key, value)
                         elif key == "luck":
                             value = parse(db[entry][key])

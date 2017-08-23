@@ -810,7 +810,7 @@ init -9 python:
             else:
                 no_clients = False
 
-            clients = self.baseclients*rount_int(self.mod*1.5)
+            clients = self.baseclients*round_int(self.mod*1.5)
             if config.debug:
                 if not self.logged_clients:
                     self.txt += "\n Adding 10 Clients in the debug mode!"

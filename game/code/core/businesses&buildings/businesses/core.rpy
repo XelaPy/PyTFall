@@ -276,7 +276,7 @@ init -12 python:
         def get_client_count(self):
             # Returns amount of workers we expect to come here.
             # We may not use this at all and handle everything on level of the main building instead!
-            return rount_int(2 + self._rep*0.01*max(len(self.all_workers), self.capacity))
+            return round_int(2 + self._rep*0.01*max(len(self.all_workers), self.capacity))
 
         def has_workers(self):
             # Check if the building still has someone availbile to do the job.
@@ -374,7 +374,7 @@ init -12 python:
 
         def get_client_count(self):
             # Returns amount of clients we expect to come here.
-            return rount_int(3 + self._rep*0.05*max(len(self.all_workers), self.capacity))
+            return round_int(3 + self._rep*0.05*max(len(self.all_workers), self.capacity))
 
         def pre_nd(self):
             # Whatever we need to do at start of Next Day calculations.
