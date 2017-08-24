@@ -27,13 +27,16 @@ init -1 python: # Core classes:
     class BE_Core(object):
         """Main BE attrs, data and the loop!
         """
-        def __init__(self, bg=Null(), music=None, row_pos=None, start_sfx=None, end_sfx=None, logical=False, quotes=False, max_skill_lvl=float("inf")):
+        def __init__(self, bg=Null(), music=None, row_pos=None, start_sfx=None,
+                     end_sfx=None, logical=False, quotes=False,
+                     max_skill_lvl=float("inf"), max_turns=1000):
             """Creates an instance of BE scenario.
 
             logical: Just the calculations, without pause/gfx/sfx.
             """
             self.teams = list() # Each team represents a faction on the battlefield. 0 index for left team and 1 index for right team.
             self.queue = list() # List of events in BE..
+            self.max_turn = max_turns
 
             self.bg = ConsitionSwitcher("default", {"default": bg, "black": Solid("#000000"), "mirage": Mirage(bg, resize=get_size(bg), amplitude=0.04, wavelength=10, ycrop=10)}) # Background we'll use.
 
@@ -408,9 +411,9 @@ init -1 python: # Core classes:
             # For now this assumes that team indexed 0 is player team.
             if self.terminate:
                 return True
-            if self.logical and self.logical_counter >= 1000:
+            if self.logical and self.logical_counter >= self.max_turn:
                 self.winner = self.teams[1]
-                self.log("Battle went on for far too long! %s is concidered the winner!" % self.winner.name)
+                self.log("Battle went on for far too long! %s is considered the winner!" % self.winner.name)
                 return True
             if len(self.teams[0]) == len(self.get_fighters(state="dead", rows=(0, 1))):
                 self.winner = self.teams[1]
