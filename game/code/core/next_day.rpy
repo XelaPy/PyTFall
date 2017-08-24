@@ -107,9 +107,22 @@ label next_day_effects_check:  # all traits and effects which require some unusu
                     elif not ("Frigid" in i.traits) and locked_dice(30) and i.joy > 50:
                         i.enable_effect("Horny")
     return
+    
+label next_day_culling:
+    python: # one big TODO post beta -_-
+        for i in chars.values(): # until we'll have means to deal with chars with very low disposition (aka slave training), negative disposition will slowly increase
+            if i.disposition < -200:
+                i.disposition += randint(5, 15)
+            # friendship activates and deactivates automatically. eventually additional flags will expand this logic, but they most likely need updated GMs/Interactions
+            if i.disposition >= 400 and not check_friends(hero, i):
+                set_friends(hero, i)
+            elif i.disposition < 150 and check_friends(hero, i):
+                end_friends(hero, i)
+    return
 
 label next_day:
     call next_day_effects_check
+    call next_day_culling
     scene bg profile_2
     $ next_day_local = None
     if just_view_next_day: # Review old reports:

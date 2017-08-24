@@ -1,101 +1,51 @@
-label interactions_friends:
-    $ interactions_check_for_bad_stuff(char)
-    if check_friends(char, hero):
-        "But you already are!"
-        python:
-            char.AP += 1
-            hero.AP += 1
-        jump girl_interactions
-    $ m = interactions_flag_count_checker(char, "flag_interactions_friends")
-    if m > 1:
-        call interactions_too_many_lines
-        $ char.disposition -= randint(1,m)
-        if char.joy > 50:
-            $ char.joy -= randint(0,1)
-        $ del m
-        jump girl_interactions
-    if ct("Shy"):  
-        $ fr_ch = -10
-    else:
-        $ fr_ch = 0
-    if ct("Impersonal"):
-        $ fr_ch += 50
-    elif ct("Kuudere"):  
-        $ fr_ch += 30
-    elif ct("Dandere"):
-        $ fr_ch += 20
-    elif ct("Tsundere"):
-        $ fr_ch += 40
-    elif ct("Imouto"):
-        $ fr_ch += 80
-    elif ct("Bokukko"):
-        $ fr_ch += 70
-    elif ct("Ane"):
-        $ fr_ch += 90
-    elif ct("Kamidere"):  
-        $ fr_ch += 60
-    elif ct("Yandere"):  
-        $ fr_ch += 50
-    else:
-        $ fr_ch += 70
-    if (char.disposition >= (250 - fr_ch)) and (dice(round((fr_ch + char.disposition)*0.25))):
-        $ set_friends(hero, char)
-        $ hero.exp += randint(10, 30)
-        $ char.exp += randint(10, 30)
-        $ char.joy += 20
-        $ char.override_portrait("portrait", "happy")
-        if ct("Impersonal"):
-            $ rc("Very well.", "Alright.")
-        elif ct("Shy") and dice(50):  
-            $ rc("Umm... That is... I-I'm in your care...!", "I think of you as a precious friend too.")
-        elif ct("Kuudere"):  
-            $ rc("I can't think of any reason to refuse. Sure, why not.", "...Looks like we're a good match.")
-        elif ct("Dandere"):
-            $ rc("I agree.", "I understand...", "Please...take good care of me.")
-        elif ct("Tsundere"):
-            $ rc("I suppose I have no choice.", "Fine ...I-it's not like this makes me happy!")
-        elif ct("Imouto"):
-            $ rc("R-Really...? Fuaah, I'm so glad!", "We'll be friends forever, right?", "Hehehe ♪ We somehow became good friends, huh?")
-        elif ct("Bokukko"):
-            $ rc("Hmm, okay, sounds good!", "I s'pose I could.", "Feels nice having someone support me for a change.")
-        elif ct("Ane"):
-            $ rc("Yes, that would be acceptable.", "Looks like you and I could be good partners.")
-        elif ct("Kamidere"):  
-            $ rc("Yes, with pleasure. Treat me well, okay? ♪", "Please continue to be good friends with me.")
-        elif ct("Yandere"):  
-            $ rc("I have the feeling I could get along with you.",  "Well, we get along fine... Alright.")
-        else:
-           $ rc("Mm, alright.", "Okay!", "Hehehe, it's great to be friends ♪", "Of course. Let's get along ♪")
-    else:
-        $ char.override_portrait("portrait", "indifferent")
-        if ct("Impersonal"):  
-            $ rc("Not interested.", "I cannot understand. Please give me a detailed explanation.")
-        elif ct("Shy") and dice(50):
-            $ rc("I-I'm really sorry...", "Another time, maybe...")
-        elif ct("Tsundere"):
-            $ rc("Huh? Why should I agree to that?", "Uh? Wha...what are you talking about?")
-        elif ct("Kuudere"):
-            $ rc("There's all sorts of problems with that.", "A bother. Don't want to.")
-        elif ct("Dandere"):
-            $ rc("Smells suspicious. I will refrain.", "If I feel like it.")
-        elif ct("Imouto"):
-            $ rc("Umm, uh... Sorry. Hehe ♪", "Sure... Pfft... Just kidding, I lied!")
-        elif ct("Yandere"):
-           $ rc("I don't see any prerequisites to this.", "I don't trust you.")
-        elif ct("Ane"):
-            $ rc("Could you perhaps not get me involved in this? It is quite the bother.", "Sorry. Maybe some other time.")
-        elif ct("Kamidere"):
-            $ rc("I don't think I should...", "No way! You're looking at me all lewd!")
-        elif ct("Bokukko"):
-            $ rc("Ah... This's kind of a huge pain...", "Mm, sounds kinda boring, y'know?")
-        else:
-            $ rc("I don't feel like it.", "Something about this seems kinda suspicious... I think I'll pass.")
-    $ char.restore_portrait()
-    $ del fr_ch
-    jump girl_interactions
-    
+# USED TO BE FRIENDSHIP LINES, MAY BE USEFUL IN THE FUTURE
+        # if ct("Impersonal"):
+            # $ rc("Very well.", "Alright.")
+        # elif ct("Shy") and dice(50):  
+            # $ rc("Umm... That is... I-I'm in your care...!", "I think of you as a precious friend too.")
+        # elif ct("Kuudere"):  
+            # $ rc("I can't think of any reason to refuse. Sure, why not.", "...Looks like we're a good match.")
+        # elif ct("Dandere"):
+            # $ rc("I agree.", "I understand...", "Please...take good care of me.")
+        # elif ct("Tsundere"):
+            # $ rc("I suppose I have no choice.", "Fine ...I-it's not like this makes me happy!")
+        # elif ct("Imouto"):
+            # $ rc("R-Really...? Fuaah, I'm so glad!", "We'll be friends forever, right?", "Hehehe ♪ We somehow became good friends, huh?")
+        # elif ct("Bokukko"):
+            # $ rc("Hmm, okay, sounds good!", "I s'pose I could.", "Feels nice having someone support me for a change.")
+        # elif ct("Ane"):
+            # $ rc("Yes, that would be acceptable.", "Looks like you and I could be good partners.")
+        # elif ct("Kamidere"):  
+            # $ rc("Yes, with pleasure. Treat me well, okay? ♪", "Please continue to be good friends with me.")
+        # elif ct("Yandere"):  
+            # $ rc("I have the feeling I could get along with you.",  "Well, we get along fine... Alright.")
+        # else:
+           # $ rc("Mm, alright.", "Okay!", "Hehehe, it's great to be friends ♪", "Of course. Let's get along ♪")
+    # else:
+        # $ char.override_portrait("portrait", "indifferent")
+        # if ct("Impersonal"):  
+            # $ rc("Not interested.", "I cannot understand. Please give me a detailed explanation.")
+        # elif ct("Shy") and dice(50):
+            # $ rc("I-I'm really sorry...", "Another time, maybe...")
+        # elif ct("Tsundere"):
+            # $ rc("Huh? Why should I agree to that?", "Uh? Wha...what are you talking about?")
+        # elif ct("Kuudere"):
+            # $ rc("There's all sorts of problems with that.", "A bother. Don't want to.")
+        # elif ct("Dandere"):
+            # $ rc("Smells suspicious. I will refrain.", "If I feel like it.")
+        # elif ct("Imouto"):
+            # $ rc("Umm, uh... Sorry. Hehe ♪", "Sure... Pfft... Just kidding, I lied!")
+        # elif ct("Yandere"):
+           # $ rc("I don't see any prerequisites to this.", "I don't trust you.")
+        # elif ct("Ane"):
+            # $ rc("Could you perhaps not get me involved in this? It is quite the bother.", "Sorry. Maybe some other time.")
+        # elif ct("Kamidere"):
+            # $ rc("I don't think I should...", "No way! You're looking at me all lewd!")
+        # elif ct("Bokukko"):
+            # $ rc("Ah... This's kind of a huge pain...", "Mm, sounds kinda boring, y'know?")
+        # else:
+            # $ rc("I don't feel like it.", "Something about this seems kinda suspicious... I think I'll pass.")
 
-###### j2    
 label interactions_girlfriend:
     $ interactions_check_for_bad_stuff(char)
     if check_lovers(char, hero): # you never know
