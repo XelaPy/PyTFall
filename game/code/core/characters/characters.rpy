@@ -4962,15 +4962,19 @@ init -9 python:
                     txt += "\n\n  {color=[red]}Please note that she is not really doing anything productive!{/color}\n"
 
                 # TODO:
-                # This is temporary code, better and more reasonable system is needed, especially if we want different characters to befriend each other.
-                # For now, Girls will simply remove MC from their sets:
-                if self.disposition < -100 and hero in self.friends:
+                    # This is temporary code, better and more reasonable system is needed, especially if we want different characters to befriend each other.
+                if self.disposition < -200: # until we'll have means to deal with chars with very low disposition (aka slave training), negative disposition will slowly increase
+                    self.disposition += randint(5, 15)
+                if self.disposition < -150 and hero in self.friends:
                     txt += "\n {} is no longer friends with you...".format(self.nickname)
                     end_friends(self, hero)
+                if self.disposition > 400 and not(hero in self.friends):
+                    txt += "\n {} became pretty close to you.".format(self.nickname)
+                    set_friends(self, hero)
                 if self.disposition < 500 and hero in self.lovers:
                     txt += "\n {} and you are no longer lovers...".format(self.nickname)
                     end_lovers(self, hero)
-
+                    
                 txt += "{color=[green]}\n\n%s{/color}" % "\n".join(self.txt)
 
                 # Create the event:
