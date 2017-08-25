@@ -4664,10 +4664,10 @@ init -9 python:
                 else:
                     # Front text
                     if not self.flag("daysemployed"):
-                        txt += "{} has started working for you today! ".format(self.fullname)
+                        txt += "{} has started working for you today! ".format(set_font_color(self.fullname, "green"))
 
                     else:
-                        txt += "{} has been working for you for {} {}. ".format(self.nickname, self.flag("daysemployed"), plural("day", self.flag("daysemployed")))
+                        txt += "{} has been working for you for {} {}. ".format(set_font_color(self.nickname, "green"), self.flag("daysemployed"), plural("day", self.flag("daysemployed")))
 
                     self.up_counter("daysemployed")
 
