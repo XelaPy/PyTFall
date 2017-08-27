@@ -45,6 +45,33 @@
             # $ rc("Ah... This's kind of a huge pain...", "Mm, sounds kinda boring, y'know?")
         # else:
             # $ rc("I don't feel like it.", "Something about this seems kinda suspicious... I think I'll pass.")
+            
+label interactions_sparring: # sparring with MC, for Warriors occupations only
+    # call interactions_provoked_character_line
+    hide screen girl_interactions
+    $ last_track = renpy.music.get_playing("world")
+    $ back = interactions_pick_background_for_fight(gm.label_cache)
+        
+    python:
+        enemy_team = Team(name="Enemy Team")
+        enemy_team.add(char)
+        result = run_default_be(enemy_team, background=back)
+        
+    if result == True:
+        python:
+            for member in hero.team:
+                member.exp += char.level*10
+            char.health = 1
+        # call interactions_fight_lost
+    else:
+        $ char.exp += hero.level*10
+        # call interactions_fight_won
+    if last_track:
+        play world last_track
+    $ gm.restore_img()
+    show screen girl_interactions
+    show expression gm.bg_cache
+    jump girl_interactions
 
 label interactions_girlfriend:
     $ interactions_check_for_bad_stuff(char)

@@ -177,6 +177,7 @@ label girl_interactions_after_greetings: # when character wants to say something
             pytfall.world_actions.menu(m, "Propose", condition="not(char in hero.chars) or not(check_friends(char, hero)) or not(check_lovers(char, hero))")
             pytfall.world_actions.gm_choice("Girlfriend", condition="not check_lovers(char, hero)", index=(m, 0))
             pytfall.world_actions.gm_choice("Hire", condition="not(char in hero.chars) and not char.flag('quest_cannot_be_hired')", index=(m, 1))
+            pytfall.world_actions.gm_choice("Sparring", condition="'Warrior' in char.occupations", index=(m, 2))
 
             # INTIMACY
             m = 7
@@ -208,11 +209,11 @@ label girl_interactions_after_greetings: # when character wants to say something
                     if "condition" in char.flag(f) and eval(char.flag(f)["condition"]):
                         pytfall.world_actions.gm_choice(char.flag(f)["button_name"], label=char.flag(f)["label"], index=(m, i))
                         i = i + 1
-            m = 9
-            pytfall.world_actions.menu(m, "Harassment", condition="not(char in hero.team) and char in hero.chars") # no fights between team members
-            pytfall.world_actions.gm_choice("Insult", index=(m, 0))
-            pytfall.world_actions.gm_choice("Escalation", index=(m, 1))
-            # Back
+            # m = 9  --- for the time being we disable negative actions, since they require ST
+            # pytfall.world_actions.menu(m, "Harassment", condition="not(char in hero.team) and char in hero.chars") # no fights between team members
+            # pytfall.world_actions.gm_choice("Insult", index=(m, 0))
+            # pytfall.world_actions.gm_choice("Escalation", index=(m, 1))
+
             pytfall.world_actions.add("zzz", "Leave", Return(["control", "back"]))
 
             # Developer mode switches
