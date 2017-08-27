@@ -3,12 +3,12 @@ init -11 python:
         image_tags = image.get_image_tags()
         if "no bg" in image_tags or "simple bg" in image_tags or "living" in image_tags:
             if char.status == "slave":
-                if dice(50):
+                if check_friends(hero, char) or check_lovers(char, hero):
                     return "bg girl_room_s1"
                 else:
                     return "bg girl_room_s2"
             else:
-                return random.choice(["bg girl_room", "bg girl_room_1", "bg girl_room_a1", "bg girl_room_a2"])
+                return "bg girl_room"
         elif "beach" in image_tags:
             return "bg city_beach"
         elif "pool" in image_tags:
