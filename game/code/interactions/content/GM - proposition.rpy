@@ -47,7 +47,18 @@
             # $ rc("I don't feel like it.", "Something about this seems kinda suspicious... I think I'll pass.")
             
 label interactions_sparring: # sparring with MC, for Warriors occupations only
-    # call interactions_provoked_character_line
+    $ interactions_check_for_bad_stuff(char)
+    $ m = interactions_flag_count_checker(char, "flag_interactions_girlfriend")
+    if char.health < char.get_max("health")*.5:
+        call interactions_refused_because_tired
+        jump girl_interactions
+    elif hero.health < hero.get_max("health")*.5:
+        "Unfortunately, you are not in the shape for a sparring."
+        jump girl_interactions
+    elif m > 1:
+        call interactions_refused_because_tired
+        jump girl_interactions
+    call interactions_presparring_lines
     hide screen girl_interactions
     $ last_track = renpy.music.get_playing("world")
     $ back = interactions_pick_background_for_fight(gm.label_cache)
@@ -61,18 +72,67 @@ label interactions_sparring: # sparring with MC, for Warriors occupations only
         python:
             for member in hero.team:
                 member.exp += char.level*10
-            char.health = 1
-        # call interactions_fight_lost
     else:
         $ char.exp += hero.level*10
-        # call interactions_fight_won
+    if char.health < char.get_max("health")*.5:
+        $ char.health = int(char.get_max("health")*.5)
+    if hero.health < hero.get_max("health")*.5:
+        $ hero.health = int(hero.get_max("health")*.5)
     if last_track:
         play world last_track
     $ gm.restore_img()
     show screen girl_interactions
     show expression gm.bg_cache
+    call interactions_postsparring_lines
     jump girl_interactions
-
+    
+label interactions_presparring_lines: # lines before sparring
+    if ct("Impersonal") in  char.traits:
+        $ rc("Understood. Initialising battle mode.", "Very well. Switching to training mode.")
+    elif ct("Imouto"):
+        $ rc("Behold of my amazing combat techniques, [mc_ref]! ♪", "Activate super duper mega ultra assault mode! ♪")
+    elif ct("Dandere"):
+        $ rc("Let's end this quickly, [mc_ref]. We have many other things to do.",  "I will dedicate all of my passionate feelings to you.")
+    elif ct("Kuudere"):  
+        $ rc("Fine, I accept your challenge.", "Let's fight fair and square.")
+    elif ct("Tsundere"):
+        $ rc("I won't go easy on you!", "Fine, I'll show you how it's done.")
+    elif ct("Bokukko"):  
+        $ rc("I'm gonna whack you good!", "All right, let's clean this up fast!")
+    elif ct("Ane"):
+        $ rc("Hehe, let's both do our best.", "Fine, but let's be careful, ok?")
+    elif ct("Kamidere"):
+        $ rc("Alright, let's see what you can do.", "I suppose a have a few minutes to spare.")
+    elif ct("Yandere"):
+        $ rc("Sure, but don't blame me if it gets a little rough...", "I'll try to be gentle, but no promises.")
+    else:
+        $ rc("I don't mind. Let's do it.", "Sure, I can use some exercises. ♪")
+    return
+        
+label interactions_postsparring_lines: # lines after sparring
+    $ char.disposition += randint(15, 30)
+    if ct("Impersonal") in  char.traits:
+        $ rc("Practice is over. Switching to standby mode.", "An unsurprising victory.")
+    elif ct("Imouto"):
+        $ rc("Woohoo! Getting stronger every day!", "Haha, it was fun! We should do it again!")
+    elif ct("Dandere"):
+        $ rc("Guess that does it. Good fight.", "Ok, I suppose we can leave it at this.")
+    elif ct("Kuudere"):  
+        $ rc("You are a worthy opponent.", "We both still have much to learn.")
+    elif ct("Tsundere"):
+        $ rc("Jeez, now I'm tired after all that.", "Haaa... It was pretty intense.")
+    elif ct("Bokukko"):  
+        $ rc("Oh, we done fighting already?", "Not a bad exercise, was it?")
+    elif ct("Ane"):
+        $ rc("Oh my, I think I may have overdone it a little. Apologies.", "It didn't look pretty, but what matters is who's standing at the end.")
+    elif ct("Kamidere"):
+        $ rc("I'm tired. We are done here.", "I suppose it was a valuable experience.")
+    elif ct("Yandere"):
+        $ rc("Sorry, I got carried away. But you did well nevertheless.", "Goodness, look at this. I got my clothes all dirty.")
+    else:
+        $ rc("You're pretty good.", "Phew... We should do this again sometime.")
+    return
+        
 label interactions_girlfriend:
     $ interactions_check_for_bad_stuff(char)
     if check_lovers(char, hero): # you never know

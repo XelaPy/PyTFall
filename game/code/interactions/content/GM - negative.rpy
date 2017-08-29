@@ -152,25 +152,25 @@ label interactions_provoked_character_line:
 label interactions_fight_won:
     $ char.override_portrait("portrait", "confident")
     if ct("Impersonal"):
-        $ rc("Just as I expected.", "The difference in power is so obvious.", "Now do you understand your own powerlessness?", "Not really a fair fight, was it?", "I'm not good at holding back.", "I think you underestimated me.", "An unsurprising victory.")
+        $ rc("Just as I expected.", "The difference in power is so obvious.", "Now do you understand your own powerlessness?", "Not really a fair fight, was it?", "I'm not good at holding back.", "I think you underestimated me.")
     elif ct("Imouto"):
-        $ rc("Flawless victory! ♪", "Special service! I up my attacks by twenty percent ♪", "This must be my lucky day! Want more? ♪", "Woohoo! Getting stronger every day!", "You're no match for me! ♪", "Ha! This is kiddy stuff!")
+        $ rc("Flawless victory! ♪", "Special service! I up my attacks by twenty percent ♪", "This must be my lucky day! Want more? ♪", "You're no match for me! ♪", "Ha! This is kiddy stuff!")
     elif ct("Dandere"):
-        $ rc("This victory was assured.", "That's what happens when you get in my way.", "You should pick your fights better.", "Huu... I suppose I can leave it at this.", "Like crashing a bug. Squish.", "Guess that does it.", "That was easy. *Yawn*")
+        $ rc("This victory was assured.", "That's what happens when you get in my way.", "You should pick your fights better.", "Like crashing a bug. Squish.", "That was easy. *Yawn*")
     elif ct("Tsundere"):
-        $ rc("Haaa... Feels so good.", "Hah! Big mouth and little muscles!", "...Hmph! Did you really think you could win against me?", "Hmph, of course it was going to end this way.", "That wasn't much harder than combat practice...", "Over already? I'm just starting to get serious!", "Hmph! Laughable.", "Regret messing with me? Well it's too late now!"),
+        $ rc("Hah! Big mouth and little muscles!", "...Hmph! Did you really think you could win against me?", "Hmph, of course it was going to end this way.", "That wasn't much harder than combat practice...", "Over already? I'm just starting to get serious!", "Hmph! Laughable.", "Regret messing with me? Well it's too late now!"),
     elif ct("Kuudere"):
-        $ rc("Cowards never win.", "Hmph. You're out of your league.", "I win, you lose, we're done.", "Phew, what a waste of time...", "And stay down.", "Tch, what a stupid waste of time.", "You still have much to learn!", "I will not deny you tried, but crude effort is no match for true ability.", "Is that it? I hardly did a thing.")
+        $ rc("Cowards never win.", "Hmph. You're out of your league.", "I win, you lose, we're done.", "Phew, what a waste of time...", "And stay down.", "Tch, what a stupid waste of time.", "I will not deny you tried, but crude effort is no match for true ability.", "Is that it? I hardly did a thing.")
     elif ct("Kamidere"):
         $ rc("Hmph, not even worth talking about...", "Hmph, charging in without knowing your opponent's strength... You're nothing but a stupid, weak animal.", "This is what you deserve.", "Oh, how pitiful!", "Hmph. They were pretty weak.", "Never stood a chance...")
     elif ct("Bokukko"):
-        $ rc("How much more of this you want?",  "'Course I won.", "Ahaha ♪ I'm so strong ♪", "Jeez, now I'm tired after all that.", "Huh, so that's all you got?", "Oh, done fighting already?", "Piece of cake! ♪", "Is that it? I thought that would be tougher.", "I've got lots more where this comes from!")
+        $ rc("How much more of this you want?",  "'Course I won.", "Ahaha ♪ I'm so strong ♪", "Huh, so that's all you got?", "Piece of cake! ♪", "Is that it? I thought that would be tougher.", "I've got lots more where this comes from!")
     elif ct("Ane"):
-        $ rc("You should learn when to draw back.", "Phew, I wonder if you'll still stand up to me after that?", "Oh my, I think I may have overdone it a little.", "If you get in my way then I have no choice.", "Hmm. Was you too weak or I was too strong?", "Some problems cannot be solved by words alone.", "It didn't look pretty, but what matters is who's standing at the end.", "Not a bad exercise, was it?")
+        $ rc("You should learn when to draw back.", "Phew, I wonder if you'll still stand up to me after that?",  "If you get in my way then I have no choice.", "Hmm. Was you too weak or I was too strong?", "Some problems cannot be solved by words alone.")
     elif ct("Yandere"):
         $ rc("Lie on the ground... as you are...", "Another one bites the dust. I like it when it gets messy ♪", "That wasn't a battle, that was assisted suicide...", "Death is better than you deserve.", "I feel nothing for my enemy.", "Did that hurt? I hope it did ♪")
     else:
-        $ rc("Goodness, look at this. You even got my clothes all dirty.", "Phew... I feel so much better now... ♪", "That was your best?", "Now you know the difference between us.", "Not much of a challenge.")
+        $ rc("That was your best?", "Now you know the difference between us.", "Not much of a challenge.")
     $ char.restore_portrait()
     return
  
