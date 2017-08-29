@@ -82,7 +82,10 @@ label interactions_sparring: # sparring with MC, for Warriors occupations only
         play world last_track
     $ gm.restore_img()
     show screen girl_interactions
-    show expression gm.bg_cache
+    if gm.mode == "girl_interactions":
+        scene expression select_girl_room(char, gm.img)
+    else:
+        show expression gm.bg_cache
     call interactions_postsparring_lines
     jump girl_interactions
     
