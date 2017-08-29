@@ -95,7 +95,7 @@ label interactions_presparring_lines: # lines before sparring
     elif ct("Imouto"):
         $ rc("Behold of my amazing combat techniques, [char.mc_ref]! ♪", "Activate super duper mega ultra assault mode! ♪")
     elif ct("Dandere"):
-        $ rc("Let's end this quickly, [char.mc_ref]. We have many other things to do.",  "I will dedicate all of my passionate feelings to you.")
+        $ rc("Let's end this quickly, [char.mc_ref]. We have many other things to do.",  "Let's see who's stronger.")
     elif ct("Kuudere"):  
         $ rc("Fine, I accept your challenge.", "Let's fight fair and square.")
     elif ct("Tsundere"):
