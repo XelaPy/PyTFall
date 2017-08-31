@@ -271,7 +271,7 @@ init: # MC Setup Screens:
                 activate_sound "content/sfx/sound/events/start_2.mp3"
                 action [Stop("music"), Return(["control", "build_mc"])]
                 
-        textbutton "{size=24}{font=fonts/TisaOTM.otf}{color=[white]}[hero.name]":
+        textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[white]}Click to enter your name":
             background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
             hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
             xpadding 12
@@ -290,10 +290,10 @@ init: # MC Setup Screens:
                     temp = mc_stories[main_story].get("class", None)
             except:
                 temp = None
-        if temp:
-            textbutton "[temp]":
-                align .32, .06
-                action NullAction()
+        # if temp:
+            # textbutton "[temp]":
+                # align .32, .06
+                # action NullAction()
                 
         python:
             try:
@@ -305,10 +305,10 @@ init: # MC Setup Screens:
                     temp = mc_stories[main_story]["MC"][sub_story][mc_story].get("class", None)
             except:
                 temp = None
-        if temp:
-            textbutton "[temp]":
-                align .42, .17
-                action NullAction()
+        # if temp:
+            # textbutton "[temp]":
+                # align .42, .17
+                # action NullAction()
         
         # Text:
         # text ("{size=80}{font=fonts/earthkid.ttf}PyTFall") antialias True vertical True align (0.51, 0.65)
@@ -317,7 +317,7 @@ init: # MC Setup Screens:
         if hasattr(store, "mc_pics"):
             hbox:
                 spacing 4
-                align (0.463, 0.71)
+                align (0.463, 0.75)
                 $ img = ProportionalScale("content/gfx/interface/buttons/blue_arrow_left.png", 40, 40)
                 imagebutton:
                     idle img
@@ -328,6 +328,11 @@ init: # MC Setup Screens:
                                SetScreenVariable("right_index", (right_index - 1) % len(sprites)),
                                SetField(hero, "img_db", mc_pics[sprites[(index - 1) % len(sprites)]])]
                 $ img = ProportionalScale("content/gfx/interface/buttons/blue_arrow_right.png", 40, 40)
+                textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[white]}Select your appearance":
+                    background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
+                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
+                    xpadding 12
+                    ypadding 8
                 imagebutton:
                     idle img
                     hover im.MatrixColor(img, im.matrix.brightness(0.20))

@@ -1005,25 +1005,48 @@ init: # Items:
     screen char_rename(char=None):
         modal True
         zorder 1
-
-        vbox:
-            style_group "basic"
-            at fade_in_out()
+        frame:
+            background Frame("content/gfx/frame/post_battle.png", 500, 400)
             align (0.5, 0.5)
-            spacing 10
-            if isinstance(char, Player) or char.status == "slave":
-                textbutton "Name: [char.name]":
-                    action Return(["rename", "name"])
-            textbutton "Nick: [char.nickname]":
-                action Return(["rename", "nick"])
-            if isinstance(char, Player) or char.status == "slave":
-                textbutton "Full: [char.fullname]":
-                    action Return(["rename", "full"])
+            xysize(500, 400)
+            vbox:
+                style_prefix "wood"
+                at fade_in_out()
+                align (0.5, 0.5)
+                spacing 10
+                if isinstance(char, Player) or char.status == "slave":
+                    button:
+                        xysize (300, 60)
+                        xalign 1.0
+                        yalign 0.5
+                        text "Name: [char.name]" size 16 color goldenrod
+                        action Return(["rename", "name"])
+                        padding (10, 10)
+                button:
+                    xysize (300, 60)
+                    xalign 1.0
+                    yalign 0.5
+                    text "Nick: [char.nickname]" size 16 color goldenrod
+                    action Return(["rename", "nick"])
+                    padding (10, 10)
+                if isinstance(char, Player) or char.status == "slave":
+                    button:
+                        xysize (300, 60)
+                        xalign 1.0
+                        yalign 0.5
+                        text "Full: [char.fullname]" size 16 color goldenrod
+                        action Return(["rename", "full"])
+                        padding (10, 10)
 
-            null height 20
-
-            textbutton "Back":
-                action Hide("char_rename")
+                null height 20
+                button:
+                    xysize (100, 50)
+                    xalign 0.5
+                    yalign 0.5
+                    text "Back" size 16 color goldenrod
+                    action Hide("char_rename")
+                    padding (10, 10)
+                
 
     screen poly_matrix(in_file, show_exit_button=False, cursor="content/gfx/interface/icons/zoom_glass.png", xoff=20, yoff=20, hidden=[]):
         # If a tuple with coordinates is provided instead of False for show_exit_button, exit button will be placed there.
