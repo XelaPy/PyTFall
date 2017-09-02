@@ -268,7 +268,6 @@ init: # MC Setup Screens:
                 background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=1)
                 hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
                 align (0.46, 0.93)
-                activate_sound "content/sfx/sound/events/start_2.mp3"
                 action [Stop("music"), Return(["control", "build_mc"])]
         vbox:
             # align (0.37, 0.10)
