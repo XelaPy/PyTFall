@@ -270,14 +270,29 @@ init: # MC Setup Screens:
                 align (0.46, 0.93)
                 activate_sound "content/sfx/sound/events/start_2.mp3"
                 action [Stop("music"), Return(["control", "build_mc"])]
-                
-        textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[white]}Click to enter your name":
-            background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
-            hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
-            xpadding 12
-            ypadding 8
-            align (0.37, 0.10)
-            action Show("char_rename", char=hero)
+        vbox:
+            # align (0.37, 0.10)
+            pos (365, 68)
+            hbox:
+                textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Name:":
+                    background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
+                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
+                    xpadding 12
+                    ypadding 8
+                textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[white]}[hero.name]":
+                    background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
+                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
+                    xpadding 12
+                    ypadding 8
+                    
+            button:
+                style_prefix "wood"
+                xysize (150, 55)
+                xalign 0.0
+                yalign 0.5
+                text "Change Name" size 16 color goldenrod
+                action Show("char_rename", char=hero)
+                padding (10, 10)
             
         # Base Traits (Classes):
         python:

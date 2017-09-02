@@ -1016,25 +1016,26 @@ init: # Items:
                 spacing 10
                 if isinstance(char, Player) or char.status == "slave":
                     button:
-                        xysize (300, 60)
+                        xysize (340, 60)
                         xalign 1.0
                         yalign 0.5
                         text "Name: [char.name]" size 16 color goldenrod
                         action Return(["rename", "name"])
                         padding (10, 10)
-                button:
-                    xysize (300, 60)
-                    xalign 1.0
-                    yalign 0.5
-                    text "Nick: [char.nickname]" size 16 color goldenrod
-                    action Return(["rename", "nick"])
-                    padding (10, 10)
-                if isinstance(char, Player) or char.status == "slave":
+                if not(isinstance(char, Player)): # it's weird to give a nickname to yourself. should be handled by ingame events
                     button:
-                        xysize (300, 60)
+                        xysize (340, 60)
                         xalign 1.0
                         yalign 0.5
-                        text "Full: [char.fullname]" size 16 color goldenrod
+                        text "Nickname: [char.nickname]" size 16 color goldenrod
+                        action Return(["rename", "nick"])
+                        padding (10, 10)
+                if isinstance(char, Player) or char.status == "slave":
+                    button:
+                        xysize (340, 60)
+                        xalign 1.0
+                        yalign 0.5
+                        text "Full Name: [char.fullname]" size 16 color goldenrod
                         action Return(["rename", "full"])
                         padding (10, 10)
 
