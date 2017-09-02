@@ -433,7 +433,7 @@ init: # MC Setup Screens:
             pos 173, 16 anchor .5, .0
             padding 15, 10
             # xysize (150, 40)
-            text ("{size=20}{font=fonts/TisaOTm.otf}[main_story]") # align (0.53, 0.4)
+            text ("{size=20}{font=fonts/TisaOTm.otf}Select your origin!") # align (0.53, 0.4)
             
         hbox: # Fathers Main occupation:
             style_group "sqstory"
