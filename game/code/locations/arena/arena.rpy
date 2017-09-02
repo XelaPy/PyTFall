@@ -761,188 +761,89 @@ init -9 python:
                     fighter = copy.deepcopy(fighter)
                     self.arena_fighters.append(fighter)
                     candidates.append(fighter)
-            candidates_copy = copy.copy(candidates)
+
+            _candidates = shallowcopy(candidates)
+            shuffle(_candidates)
 
             # Add da King!
             if not self.king:
                 tier_kwargs = {"level_bios": (1.0, 1.2), "stat_bios": (1.0, 1.2)}
-                if candidates:
-                    char = choice(candidates)
+                if _candidates:
+                    char = _candidates.pop()
                     tier_up_to(char, 7, **tier_kwargs)
                 else:
                     char = build_rc(tier=7, tier_kwargs=tier_kwargs)
+                    candidates.append(char)
 
-                char.arena_rep = randint(60000, 70000)
+                char.arena_rep = randint(79000, 81000)
                 char.arena_permit = True
                 char.arena_active = True
                 candidates.remove(char)
                 self.king = char
 
-
             # Setting up some decent fighters:
-            str_lvl_1 = 10
-            str_lvl_2 = 20
-            str_lvl_3 = 30
-            str_lvl_4 = 40
-            while candidates:
-                if str_lvl_1 > 0:
-                    fighter = choice(candidates)
-                    fighter.exp += randint(500000, 600000)
-                    fighter.attack_skills.append("Sword Slash")
-                    mskillz = list(["Fire 2", "Fire 3",
-                                         "Water 2", "Water 3",
-                                         "Earth 2", "Earth 3",
-                                         "Windwhirl", "Ice Arrow", "Fire Arrow"])
-                    shuffle(mskillz)
-                    for i in xrange(3):
-                        fighter.magic_skills.append(mskillz.pop())
-                    for stat in ilists.battlestats:
-                        setattr(fighter, stat, randint(250, 350))
-                        fighter.health += 1000
-                        fighter.mp += 1000
-                        setattr(fighter, "arena_rep", randint(35000, 50000))
-                        fighter.arena_permit = True
-                        fighter.arena_active = True
+            power_levels = [random.uniform(.2, .8) for i in range(6)]
+            power_levels.extend([random.uniform(.4, 1.2) for i in range(6)])
+            power_levels.extend([random.uniform(.8, 1.8) for i in range(8)])
+            power_levels.extend([random.uniform(1.5, 2.3) for i in range(20)])
+            power_levels.extend([random.uniform(1.8, 2.6) for i in range(10)])
+            power_levels.extend([random.uniform(2.3, 3.5) for i in range(20)])
+            power_levels.extend([random.uniform(3.0, 4.5) for i in range(20)])
+            power_levels.extend([random.uniform(3.8, 5.2) for i in range(10)])
+            for tier in power_levels:
+                if _candidates:
+                    fighter = _candidates.pop()
+                    tier_up_to(char, tier)
+                else:
+                    fighter = build_rc(pattern="Warrior", tier=tier)
+                    candidates.append(fighter)
 
-                    candidates.remove(fighter)
-                    str_lvl_1 -= 1
-
-                elif str_lvl_2 > 0:
-                    fighter = choice(candidates)
-                    fighter.exp += randint(350000, 400000)
-                    fighter.attack_skills.append("Sword Slash")
-                    mskillz = list(["Fire 1", "Fire 2", "Fire 3",
-                                         "Water 1", "Water 2", "Water 3",
-                                         "Earth 1", "Earth 2", "Earth 3",
-                                         "Windwhirl", "Ice Arrow", "Fire Arrow"])
-                    shuffle(mskillz)
-                    for i in xrange(3):
-                        fighter.magic_skills.append(mskillz.pop())
-                    for stat in ilists.battlestats:
-                        setattr(fighter, stat, randint(150, 250))
-                        fighter.health += 1000
-                        fighter.mp += 1000
-                        setattr(fighter, "arena_rep", randint(26000, 35000))
-                        fighter.arena_permit = True
-                        fighter.arena_active = True
-
-                    candidates.remove(fighter)
-                    str_lvl_2 -= 1
-
-                elif str_lvl_3 > 0:
-                    fighter = choice(candidates)
-                    fighter.exp += randint(150000, 200000)
-                    fighter.attack_skills.append("Sword Slash")
-                    mskillz = list(["Fire 1", "Fire 2",
-                                         "Water 1",
-                                         "Earth 1",
-                                         "Windwhirl"])
-                    shuffle(mskillz)
-                    for i in xrange(3):
-                        fighter.magic_skills.append(mskillz.pop())
-                    for stat in ilists.battlestats:
-                        setattr(fighter, stat, randint(60, 150))
-                        setattr(fighter, "arena_rep", randint(15000, 25000))
-                        fighter.health += 1000
-                        fighter.mp += 1000
-                        fighter.arena_permit = True
-                        fighter.arena_active = True
-
-                    candidates.remove(fighter)
-                    str_lvl_3 -= 1
-
-                elif str_lvl_4 > 0:
-                    fighter = choice(candidates)
-                    fighter.exp += randint(20000, 60000)
-                    fighter.attack_skills.append("Sword Slash")
-                    mskillz = list(["Fire 1", "Fire 2",
-                                         "Ice Arrow",
-                                         "Wrath Of Nature",
-                                         "Windwhirl"])
-                    shuffle(mskillz)
-                    for i in xrange(1):
-                        fighter.magic_skills.append(mskillz.pop())
-                    for stat in ilists.battlestats:
-                        setattr(fighter, stat, randint(20, 70))
-                        setattr(fighter, "arena_rep", randint(15000, 25000))
-                        fighter.health += 1000
-                        fighter.mp += 1000
-                        fighter.arena_permit = True
-                        fighter.arena_active = True
-
-                    candidates.remove(fighter)
-                    str_lvl_4 -= 1
-
-                else: break
+                fighter.arena_rep = randint(int(tier*9000), int(tier*11000))
+                fighter.arena_permit = True
+                fighter.arena_active = True
 
             # Populate the reputation ladder:
-            templist = sorted(candidates_copy, key=attrgetter("arena_rep"), reverse=True)
-            for i in xrange(len(self.ladder)):
-                if templist:
-                    self.ladder[i] = templist.pop(0)
+            candidates.sort(key=attrgetter("arena_rep"))
+            self.ladder = candidates[:len(self.ladder)]
 
             # Populate tournament ladders:
             # 1v1 Ladder lineup:
-            if len(candidates_copy) >  30:
-                templist = sorted(candidates_copy, key=attrgetter("arena_rep"), reverse=True)[1:30]
-            elif candidates_copy:
-                templist = sorted(candidates_copy, key=attrgetter("arena_rep"), reverse=True)[1:len(candidates_copy)]
-            else:
-                templist = []
-
-            if templist:
+            if self.king:
                 self.lineup_1v1[0].add(self.king)
-                # templist.remove(self.king)
+            temp = candidates[:30]
+            if self.king in temp:
+                temp.remove(self.king)
+            shuffle(temp)
 
-            shuffle(templist)
-            for i in xrange(1, 20):
-                if templist and not self.lineup_1v1[i]:
-                    self.lineup_1v1[i].add(templist.pop())
+            for team in self.lineup_1v1:
+                if not team:
+                    team.add(temp.pop())
 
             # 2v2 Ladder lineup:
-            if len(candidates_copy) >  40:
-                templist = sorted(candidates_copy, key=attrgetter("arena_rep"), reverse=True)[:40]
-            elif candidates_copy:
-                templist = sorted(candidates_copy, key=attrgetter("arena_rep"), reverse=True)[:len(candidates_copy)]
-            else:
-                templist = []
+            if self.king:
+                self.lineup_2v2[0].add(self.king)
+            temp = candidates[:50]
+            if self.king in temp:
+                temp.remove(self.king)
+            shuffle(temp)
 
-            shuffle(templist)
-            for i in xrange(10):
-                if len(templist) >= 2 and not self.lineup_2v2[i]:
-                    self.lineup_2v2[i].name = get_team_name()
-                    self.lineup_2v2[i].add(templist.pop())
-                    self.lineup_2v2[i].add(templist.pop())
-
-            # Check if all teams have 2 members and append them to the teams:
             for team in self.lineup_2v2:
-                if len(team) != 2:
-                    self.lineup_2v2[self.lineup_2v2.index(team)] = Team(max_size=2)
-                else:
-                    self.teams_2v2.append(team)
+                team.name = get_team_name()
+                while len(team) < 2:
+                    team.add(temp.pop())
 
             # 3v3 Ladder lineup:
-            if len(candidates_copy) >  50:
-                templist = sorted(candidates_copy, key=attrgetter("arena_rep"), reverse=True)[:50]
-            elif candidates_copy:
-                templist = sorted(candidates_copy, key=attrgetter("arena_rep"), reverse=True)[:len(candidates_copy)]
-            else:
-                templist = []
+            if self.king:
+                self.lineup_3v3[randint(1, 3)].add(self.king)
+            temp = candidates[:60]
+            if self.king in temp:
+                temp.remove(self.king)
+            shuffle(temp)
 
-            shuffle(templist)
-            for i in xrange(10):
-                if len(templist) >= 3 and not self.lineup_3v3[i]:
-                    self.lineup_3v3[i].name = get_team_name()
-                    self.lineup_3v3[i].add(templist.pop())
-                    self.lineup_3v3[i].add(templist.pop())
-                    self.lineup_3v3[i].add(templist.pop())
-
-            # Check if all teams have 3 members:
             for team in self.lineup_3v3:
-                if len(team) != 3:
-                    self.lineup_3v3[self.lineup_3v3.index(team)] = Team(max_size=3)
-                else:
-                    self.teams_3v3.append(team)
+                team.name = get_team_name()
+                while len(team) < 3:
+                    team.add(temp.pop())
 
         # -------------------------- ChainFights vs Mobs ------------------------>
         def update_cf(self):
