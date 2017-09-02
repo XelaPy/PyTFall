@@ -146,7 +146,7 @@
             for i in xrange(25):
                 if rgirls:
                     rgirl = rgirls.pop()
-                    new_random_girl = build_rc(id=rgirl)
+                    new_random_girl = build_rc(id=rgirl, tier=random.uniform(.3, 1.5))
                 else:
                     rgirls = rchars.keys()
                     shuffle(rgirls)
@@ -154,8 +154,6 @@
             del rgirls
             del rgirl
             del new_random_girl
-
-            create_arena_girls()
 
         tl.timer("Loading: GirlsMeets", nested=False)
         gm = GirlsMeets()

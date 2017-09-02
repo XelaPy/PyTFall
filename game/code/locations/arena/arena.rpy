@@ -765,22 +765,19 @@ init -9 python:
 
             # Add da King!
             if not self.king:
+                tier_kwargs = {"level_bios": (1.0, 1.2), "stat_bios": (1.0, 1.2)}
                 if candidates:
-                    self.king = choice(candidates)
-                    self.king.exp += 700000 # TODO: Improve
-                    self.king.attack_skills.append("Sword Slash")
-                    self.king.magic_skills.append("Windwhirl")
-                    self.king.magic_skills.append("Fire Arrow")
+                    char = choice(candidates)
+                    tier_up_to(char, 7, **tier_kwargs)
+                else:
+                    char = build_rc(tier=7, tier_kwargs=tier_kwargs)
 
-                    for stat in ilists.battlestats:
-                        self.king.stats.max[stat] = 400
-                        setattr(self.king, stat, 400)
-                        fighter.health += 1000
-                        fighter.mp += 1000
-                        setattr(self.king, "arena_rep", randint(60000, 70000))
-                        self.king.arena_permit = True
-                        self.king.arena_active = True
-                    candidates.remove(self.king)
+                char.arena_rep = randint(60000, 70000)
+                char.arena_permit = True
+                char.arena_active = True
+                candidates.remove(char)
+                self.king = char
+
 
             # Setting up some decent fighters:
             str_lvl_1 = 10
@@ -1445,7 +1442,7 @@ init -9 python:
             # For the daily report:
             txt = ""
 
-            # Normalizing amount of teams availible for the Arena.
+            # Normalizing amount of teams available for the Arena.
             if not day % 5:
                 self.update_teams()
 

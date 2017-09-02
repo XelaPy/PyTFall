@@ -105,7 +105,7 @@ init -11 python:
         return mob
 
     def build_rc(id=None, name=None, last_name=None, pattern=None, tier=0,
-                 add_to_gameworld=True):
+                 tier_kwargs=None, add_to_gameworld=True):
         ''' Creates a random character!
         id: id to choose from the rchars dictionary that holds rGirl loading data
             from JSON files, will be chosen at random if none availible.
@@ -117,6 +117,8 @@ init -11 python:
         add_to_gameworld: Adds to characters dictionary, should always
         be True unless character is created not to participate in the game world...
         '''
+        if tier_kwargs is None:
+            tier_kwargs = {}
         rg = rChar()
         Stats = rg.STATS
         Skills = rg.stats.skills.keys()
@@ -270,7 +272,7 @@ init -11 python:
         super(rChar, rg).init()
 
         # And at last, leveling up and stats/skills applications:
-        tier_up_to(rg, tier)
+        tier_up_to(rg, tier, **tier_kwargs)
 
         # And add to char! :)
         if add_to_gameworld:
@@ -333,7 +335,7 @@ init -11 python:
         """
         Mostly used for NPCs and Random Characters.
         The idea is to attempt creation of interesting and dynamic blue-prints.
-        For the future this prolly should return a matrix or a dict with prof-base and support traits separetly...
+        For the future this prolly should return a matrix or a dict with prof-base and support traits separately...
         """
         _traits = list()
         if pattern == "Warrior":
@@ -353,7 +355,8 @@ init -11 python:
         # Should never return more than two traits! That is expected by callers of this func!
         return _traits
 
-    def build_client(id=None, gender="male", caste="Peasant", name=None, last_name=None, pattern=None, likes=None, dislikes=None, level=1):
+    def build_client(id=None, gender="male", caste="Peasant", name=None, last_name=None,
+                     pattern=None, likes=None, dislikes=None, level=1):
         """
         This function creates Customers to be used in the jobs.
         Some things are initiated in __init__ and funcs/methods that call this.
