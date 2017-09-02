@@ -104,14 +104,18 @@ init -11 python:
 
         return mob
 
-    def build_rc(id=None, name=None, last_name=None, pattern=None, level=1, add_to_gameworld=True):
+    def build_rc(id=None, name=None, last_name=None, pattern=None, tier=0,
+                 add_to_gameworld=True):
         ''' Creates a random character!
-        id: id to choose from the rchars dictionary that holds rGirl loading data from JSON files, will be chosen at random if none availible.
+        id: id to choose from the rchars dictionary that holds rGirl loading data
+            from JSON files, will be chosen at random if none availible.
         name: (String) Name for a girl to use. If None one will be chosen from randomNames file!
         last_name: Same thing only for last name :)
-        pattern: Pattern to use when creating the character! (Options atm: Warrior, ServiceGirl, Prostitute, Stripper, Manager) If None, we use data or normalize in init()
-        level: Level of the character...
-        add_to_gameworld: Adds to characters dictionary, should always be True unless character is created not to participate in the game world...
+        pattern: Pattern to use when creating the character! (Options atm: Warrior,
+            ServiceGirl, Prostitute, Stripper, Manager) If None, we use data or normalize in init()
+        teir: Tier of the character... floats are allowed.
+        add_to_gameworld: Adds to characters dictionary, should always
+        be True unless character is created not to participate in the game world...
         '''
         rg = rChar()
         Stats = rg.STATS
@@ -266,8 +270,7 @@ init -11 python:
         super(rChar, rg).init()
 
         # And at last, leveling up and stats/skills applications:
-        if level > 1:
-            initial_levelup(rg, level)
+        tier_up_to(rg, tier)
 
         # And add to char! :)
         if add_to_gameworld:
@@ -527,8 +530,9 @@ init -11 python:
         stat_bios = partial(random.uniform, stat_bios[0], stat_bios[1])
         # Level with base 20
         level = tier*20
-        level = round_int(level*level_bios())
-        initial_levelup(char, level)
+        if level:
+            level = round_int(level*level_bios())
+            initial_levelup(char, level)
 
         # Do the stats/skills:
         base_skills = set()
