@@ -356,7 +356,7 @@ init -11 python:
         return _traits
 
     def build_client(id=None, gender="male", caste="Peasant", name=None, last_name=None,
-                     pattern=None, likes=None, dislikes=None, level=1):
+                     pattern=None, likes=None, dislikes=None, tier=1):
         """
         This function creates Customers to be used in the jobs.
         Some things are initiated in __init__ and funcs/methods that call this.
@@ -408,8 +408,7 @@ init -11 python:
             client.likes = client.likes.union(likes)
             # We pick some of the traits to like/dislike at random.
 
-        if level > 1:
-            initial_levelup(client, level)
+        tier_up_to(client, tier)
 
         return client
 

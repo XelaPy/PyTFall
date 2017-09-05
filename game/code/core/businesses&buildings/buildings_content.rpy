@@ -881,26 +881,9 @@ init -9 python:
             else: caste = choice(['Clerk', 'Noble', 'Royal'])
 
             # create random customer
-            customer = build_client(gender=gender, caste=caste, level=randint(2, 70))
-
-            # @ Review: Jobs, Traits and other should plainly be added to likes and dislikes.
-            # if customer.gender == 'female' and dice(60): customer.favtraits.add(choice(['Lesbian', 'Bisexual']))
-            # if not customer.favtraits and dice(50):
-                # customer.favtraits.add(choice(['Great Arse',
-                                                               # 'Nymphomaniac', 'Sexy Air', 'Great Figure',
-                                                               # 'Abnormally Large Boobs', 'Not Human', 'Meek',
-                                                               # 'Nerd', 'Famous',
-                                                               # 'Well-mannered', 'Long Legs',
-                                                               # 'Kind', 'Energetic', 'Shy',
-                                                               # 'Average Boobs', 'Strange Eyes', 'MILF', 'Sensitive',
-                                                               # 'Protective', 'Serious', 'Noble', 'Tomboy',
-                                                               # 'Tough', 'Athletic', 'Lolita', 'Exhibitionist',
-                                                               # 'Small Boobs', 'Aggressive', 'Outgoing', 'Big Boobs', 'Elegant']))
-            # if not customer.favtraits and dice(20):
-                # customer.favtraits.add(choice(['Genius',  'Smart', 'Ill-mannered', 'Merciless', 'Yandere', 'Fearless', 'Kuudere',  'Masochist',
-                                               # 'Dandere', 'Clumsy',  'Old Scars', 'Pessimist', 'Sadistic', 'Heavy Drinker', 'Tsundere', 'Optimist', 'Impersonal']))
-            # if not customer.favtraits and dice(10):
-                # customer.favtraits.add(choice(['Psychic', 'Artificial Body', 'Adventurous', 'Broken Will', 'Frigid', 'Silly', 'Fragile', 'Alien', 'Manly', 'Mind Fucked']))
+            min_tier = float(max(self.tier-2, .1))
+            max_tier = float(self.tier + 1)
+            customer = build_client(gender=gender, caste=caste, tier=random.uniform(min_tier, max_tier))
 
             return customer
 
