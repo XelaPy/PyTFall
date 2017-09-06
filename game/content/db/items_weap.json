@@ -14,7 +14,9 @@
     "attacks": ["Dagger Strike"],
     "max": {"attack": 10},
     "mod": {"attack": 5, "character": 3},
-    "locations": ["Work Shop", "Look around"]
+    "locations": ["Work Shop", "Look around"],
+    "tier": 0,
+    "pref_class":["Assassin"]
     },
     {
     "id": "Enchanted Dagger",
@@ -32,7 +34,9 @@
     "attacks": ["Dagger Strike", "Dagger Strike 4X", "Rapid Strikes"],
     "max": {"attack": 20},
     "mod": {"attack": 10, "character": 5},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 1,
+    "pref_class":["Assassin"]
     },
     {
     "id": "Assassin Dagger",
@@ -55,7 +59,9 @@
     "addtraits": ["Sadist"],
     "goodtraits": ["Yandere"],
     "badtraits": ["Virtuous"],
-    "locations": ["Ninja Shop"]
+    "locations": ["Ninja Shop"],
+    "tier": 4,
+    "pref_class":["Assassin"]
     },
     {
     "id": "Ice Daggers",
@@ -73,7 +79,9 @@
     "attacks": ["Ice Strike", "Ice Break", "Ice Strike 3X"],
     "max": {"attack": 25, "magic": 5},
     "mod": {"attack": 10, "magic": 5},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 3,
+    "pref_class":["Assassin"]
     },
     {
     "id": "Bone Knife",
@@ -91,7 +99,9 @@
     "attacks": ["Dagger Strike", "Dagger Strike 4X"],
     "max": {"attack": 20},
     "mod": {"attack": 10, "charisma": -5},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 1,
+    "pref_class":["Assassin"]
     },
     {
     "id": "Kunai",
@@ -112,7 +122,9 @@
     "evasion_bonus": -8,
     "ch_multiplier": 0.08,
     "locations": ["Ninja Shop", "Exploration"],
-    "goodtraits": []
+    "goodtraits": [],
+    "tier": 4,
+    "pref_class":["Assassin"]
     },
     {
     "id": "Small Cane",
@@ -131,7 +143,9 @@
     "max": {"magic": 10},
     "ch_multiplier": -0.1,
     "mod": {"magic": 5, "character": 3, "attack": 3},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 1,
+    "pref_class":["Mage"]
     },
     {
     "id": "Bullwhip",
@@ -151,7 +165,9 @@
     "mod": {"attack": 6, "character": 10, "agility": 5},
     "mod_skills": {"bdsm": [0.02, 0.01, 0.04, 0, 0], "management": [0, 0, 0.01, 0, 0]},
     "locations": ["Work Shop"],
-    "goodtraits": ["Sadist"]
+    "goodtraits": ["Sadist"],
+    "tier": 1,
+    "pref_class":["Any"]
     },
     {
     "id": "Cat O'Nine Tails",
@@ -172,7 +188,9 @@
     "mod_skills": {"bdsm": [0.04, 0.02, 0.08, 0, 0], "management": [0.01, 0, 0.02, 0, 0]},
     "ch_multiplier": 0.05,
     "addtraits": ["Sadist"],
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 2,
+    "pref_class":["Any"]
     },
     {
     "id": "Claws",
@@ -190,7 +208,9 @@
     "attacks": ["Claw Slash", "Claw Slash 2X"],
     "max": {"attack": 5, "defence": -20, "agility": 20},
     "mod": {"character": 10, "agility": 10},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 1,
+    "pref_class":["Warrior", "Assassin"]
     },
     {
     "id": "Balanced Claws",
@@ -209,7 +229,9 @@
     "max": {"attack": 15, "defence": -10, "agility": 35},
     "mod": {"character": 15, "agility": 15},
     "ch_multiplier": 0.01,
-    "locations": ["Ninja Shop", "Exploration"]
+    "locations": ["Ninja Shop", "Exploration"],
+    "tier": 2,
+    "pref_class":["Warrior", "Assassin"]
     },
     {
     "id": "Crystal Wand",
@@ -229,7 +251,9 @@
     "max": {"mp": 25},
     "mod": {"attack": 5},
     "ch_multiplier": -0.1,
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 0,
+    "pref_class":["Mage"]
     },
     {
     "id": "Replica Sword",
@@ -250,7 +274,9 @@
     "max": {"attack": 15, "joy": 10},
     "mod": {"attack": 10, "character": 5},
     "mod_skills": {"refinement": [-0.03, 0, -0.01, 0, 0], "teaching": [0.03, 0, 0.01, 0, 0]},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 0,
+    "pref_class":["Manager"]
     },
     {
     "id": "Dildo Sword",
@@ -267,7 +293,9 @@
     "type": "tool",
     "max": {"attack": 1},
     "mod_skills": {"vaginal": [0, 0.01, 0, 0, 0], "anal": [0, 0.01, 0, 0, 0], "oral": [0, 0.01, 0, 0, 0], "group": [0, 0.01, 0, 0, 0], "bdsm": [0, 0.01, 0, 0, 0], "sex": [0, 0.01, 0, 0, 0]},
-    "locations": ["Fishing"]
+    "locations": ["Fishing"],
+    "tier": 0,
+    "pref_class":["SIW"]
     },
     {
     "id": "Brass Knuckles",
@@ -286,7 +314,9 @@
     "max": {"attack": 15, "agility": 15},
     "mod": {"attack": 10, "agility": 10, "defence": 10},
     "locations": ["Work Shop"],
-    "goodtraits": ["Manly"]
+    "goodtraits": ["Manly"],
+    "tier": 1,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Spiked Brass Knuckles",
@@ -306,7 +336,9 @@
     "mod": {"attack": 10, "agility": 10, "defence": 10},
     "ch_multiplier": 0.02,
     "locations": ["Exploration"],
-    "goodtraits": ["Manly"]
+    "goodtraits": ["Manly"],
+    "tier": 2,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Shuriken",
@@ -325,7 +357,9 @@
     "max": {"attack": 20, "defence": -10, "agility": 15},
     "mod": {"attack": 10, "agility": 10},
     "locations": ["Ninja Shop", "Exploration"],
-    "goodtraits": []
+    "goodtraits": [],
+    "tier": 2,
+    "pref_class":["Assassin", "Shooter"]
     },
     {
     "id": "Throwing Knives",
@@ -343,7 +377,9 @@
     "attacks": ["Throw", "Cloud of Knives"],
     "max": {"attack": 35},
     "mod": {"attack": 15, "agility": 5},
-    "locations": ["Ninja Shop"]
+    "locations": ["Ninja Shop"],
+    "tier": 2,
+    "pref_class":["Assassin", "Shooter"]
     },
     {
     "id": "Foldable Crossbow",
@@ -362,7 +398,9 @@
     "max": {"attack": 60, "agility": -50},
     "mod": {"attack": 70, "agility": -70},
     "delivery_multiplier": {"ranged": 0.1},
-    "locations": ["Exploration", "Ninja Shop"]
+    "locations": ["Exploration", "Ninja Shop"],
+    "tier": 3,
+    "pref_class":["Shooter"]
     },
     {
     "id": "Arcane Stuff",
@@ -381,7 +419,9 @@
     "add_be_spells": ["Heat Discharge"],
     "max": {"magic": 45, "mp": 35},
     "mod": {"magic": 20, "character": 10, "attack": 10},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut"],
+    "tier": 2,
+    "pref_class":["Mage"]
     },
     {
     "id": "Short Sword",
@@ -399,7 +439,9 @@
     "attacks": ["Sword Slash", "Sword Slash 2X"],
     "max": {"attack": 20},
     "mod": {"attack": 10, "character": 5},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 0,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Long Sword",
@@ -417,7 +459,9 @@
     "attacks": ["Sword Slash", "Sword Slash 2X", "Soul Blade"],
     "max": {"attack": 35},
     "mod": {"attack": 15, "character": 10},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 0,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Imperial Short Sword",
@@ -435,7 +479,9 @@
     "attacks": ["Sword Slash", "Sword Slash 2X", "Sword Slash 4X"],
     "max": {"attack": 22, "defence": 3},
     "mod": {"attack": 12, "character": 7},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 0,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Ornate Gladius",
@@ -454,7 +500,9 @@
     "max": {"attack": 45},
     "mod": {"attack": 20, "character": 20},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "management": [0, 0, 0.01, 0, 0]},
-    "locations": ["Work Shop", "Exploration"]
+    "locations": ["Work Shop", "Exploration"],
+    "tier": 1,
+    "pref_class":["Warrior", "Manager"]
     },
     {
     "id": "Ceremonial Sabre",
@@ -474,7 +522,9 @@
     "delivery_multiplier": {"melee": 0.05},
     "mod": {"attack": 30, "character": 30},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "management": [0, 0, 0.02, 0, 0]},
-    "locations": ["Work Shop", "Exploration"]
+    "locations": ["Work Shop", "Exploration"],
+    "tier": 2,
+    "pref_class":["Warrior", "Manager"]
     },
     {
     "id": "Icy Sword",
@@ -493,7 +543,9 @@
     "max": {"attack": 40, "magic": 15},
     "delivery_multiplier": {"melee": 0.05, "magic": 0.07},
     "mod": {"attack": 15, "magic": 10, "character": 10},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 1,
+    "pref_class":["Warrior", "Mage"]
     },
     {
     "id": "Exotic Head Chopper",
@@ -512,7 +564,9 @@
     "delivery_multiplier": {"melee": 0.03},
     "max": {"attack": 100, "agility": -30},
     "mod": {"attack": 60},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 2,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Silver-Eyed Witch's Claymore",
@@ -532,7 +586,9 @@
     "mod": {"attack": 20, "magic": 20},
     "evasion_bonus": 3,
     "ch_multiplier": 0.05,
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut"],
+    "tier": 3,
+    "pref_class":["Warrior", "Mage"]
     },
     {
     "id": "Crescent Moon Sword",
@@ -552,7 +608,9 @@
     "mod": {"attack": 10, "magic": 10},
     "evasion_bonus": 2,
     "ch_multiplier": 0.04,
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Witches Hut", "Exploration"],
+    "tier": 3,
+    "pref_class":["Warrior", "Mage"]
     },
     {
     "id": "Sword of Luck",
@@ -571,7 +629,9 @@
     "attacks": ["Sword Slash", "Sword Slash 2X", "Sword Slash 4X", "Projective Slash"],
     "max": {"attack": 13, "character": 13, "agility": 13, "charisma": 13, "constitution": 13, "health": 13, "mp": 13, "vitality": 13},
     "mod": {"attack": 13, "character": 13, "agility": 13, "charisma": 13, "constitution": 13},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 0,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Angelic Blade",
@@ -594,7 +654,9 @@
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "teaching": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
     "goodtraits": ["Alien", "Virtuous"],
-    "badtraits": ["Vicious"]
+    "badtraits": ["Vicious"],
+    "tier": 4,
+    "pref_class":["Warrior", "Assassin"]
     },
     {
     "id": "Demonic Blade",
@@ -616,7 +678,9 @@
     "locations": ["Exploration"],
     "ch_multiplier": 0.1,
     "goodtraits": ["Alien", "Vicious"],
-    "badtraits": ["Virtuous"]
+    "badtraits": ["Virtuous"],
+    "tier": 4,
+    "pref_class":["Warrior", "Assassin"]
     },
     {
     "id": "Excalibur",
@@ -637,7 +701,9 @@
     "mod": {"attack": 400, "character": 50, "defence": 50, "agility": 50, "intelligence": -30},
     "evasion_bonus": 3,
     "ch_multiplier": 0.15,
-    "locations": ["Exploration", "Fishing"]
+    "locations": ["Exploration", "Fishing"],
+    "tier": 4,
+    "pref_class":["Warrior", "Assassin"]
     },
     {
     "id": "Rapier",
@@ -656,7 +722,9 @@
     "max": {"attack": 20, "agility": 10},
     "mod": {"attack": 10, "character": 10, "agility": 10},
     "mod_skills": {"refinement": [0.01, 0, 0, 0, 0]},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 0,
+    "pref_class":["Warrior", "Assassin"]
     },
     {
     "id": "Elven Rapier",
@@ -678,7 +746,9 @@
     "locations": ["Exploration"],
     "evasion_bonus": 5,
     "delivery_multiplier": {"melee": 0.02},
-    "goodtraits": ["Not Human"]
+    "goodtraits": ["Not Human"],
+    "tier": 3,
+    "pref_class":["Warrior", "Assassin"]
     },
     {
     "id": "Chain Scythe",
@@ -698,7 +768,9 @@
     "max": {"attack": 80, "agility": 50, "defence": -50},
     "mod": {"attack": 35, "character": 30, "agility": 20},
     "delivery_multiplier": {"melee": 0.01},
-    "locations": ["Work Shop", "Exploration"]
+    "locations": ["Work Shop", "Exploration"],
+    "tier": 2,
+    "pref_class":["Warrior", "Assassin"]
     },
     {
     "id": "Scythe of Death",
@@ -718,7 +790,9 @@
     "mod": {"attack": 100, "character": 60, "agility": 10, "magic": 10, "defence": 10},
     "evasion_bonus": 1,
     "ch_multiplier": 0.2,
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 4,
+    "pref_class":["Warrior", "Assassin"]
     },
     {
     "id": "Wooden Club",
@@ -736,7 +810,9 @@
     "attacks": ["Blunt Strike"],
     "max": {"attack": 4},
     "mod": {"charisma": -4, "attack": 4},
-    "locations": ["Exploration", "Look around"]
+    "locations": ["Exploration", "Look around"],
+    "tier": 0,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Mallet",
@@ -754,7 +830,9 @@
     "attacks": ["Blunt Strike", "Ground Shockwave"],
     "max": {"attack": 40},
     "mod": {"charisma": -10, "character": 10, "agility": -10, "attack": 10, "defence": -5},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 1,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Pitchfork",
@@ -772,7 +850,9 @@
     "attacks": ["Claw Slash"],
     "max": {"attack": 15},
     "mod": {"character": 5, "defence": 2},
-    "locations": ["Exploration", "General Store"]
+    "locations": ["Exploration", "General Store"],
+    "tier": 0,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Woodcutting Axe",
@@ -790,7 +870,9 @@
     "attacks": ["Axe Strike"],
     "max": {"attack": 20},
     "mod": {"character": 5, "attack": 15, "agility": -5},
-    "locations": ["Exploration", "General Store"]
+    "locations": ["Exploration", "General Store"],
+    "tier": 0,
+    "pref_class":["Warrior"]
     },
     {
     "id": "War Axe",
@@ -808,7 +890,9 @@
     "attacks": ["Axe Strike", "Axe Strike 2X"],
     "max": {"attack": 30},
     "mod": {"character": 10, "attack": 20, "agility": -5},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 1,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Great Axe",
@@ -827,7 +911,9 @@
     "max": {"attack": 70},
     "mod": {"character": 30, "attack": 30, "agility": -10, "defence": -5},
     "delivery_multiplier": {"melee": 0.05},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 2,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Ice Axe",
@@ -846,7 +932,9 @@
     "max": {"attack": 70},
     "mod": {"character": 20, "attack": 35, "agility": -5, "defence": -5},
     "delivery_multiplier": {"melee": 0.06},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 2,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Short Bow",
@@ -864,7 +952,9 @@
     "attacks": ["Bow Shot"],
     "max": {"attack": 25, "defence": -10, "agility":7},
     "mod": {"attack": 10, "character": 5, "defence": -10},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 0,
+    "pref_class":["Shooter"]
     },
     {
     "id": "Long Bow",
@@ -882,7 +972,9 @@
     "attacks": ["Bow Shot", "Bow Shot 2X"],
     "max": {"attack": 40, "defence": -10, "agility":5},
     "mod": {"attack": 20, "character": 10, "defence": -10},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 0,
+    "pref_class":["Shooter"]
     },
     {
     "id": "Magic Bow",
@@ -901,7 +993,9 @@
     "max": {"attack": 70, "defence": -20, "agility": 10},
     "mod": {"attack": 30, "character": 20, "defence": -20},
     "ch_multiplier": 0.02,
-    "locations": ["Work Shop", "Exploration"]
+    "locations": ["Work Shop", "Exploration"],
+    "tier": 1,
+    "pref_class":["Shooter"]
     },
     {
     "id": "Glacial Bow",
@@ -920,7 +1014,9 @@
     "max": {"attack": 80, "charisma": 30, "agility": 15, "defence": -30},
     "mod": {"attack": 20, "character": 20, "agility": 5, "defence": -30},
     "delivery_multiplier": {"ranged": 0.02},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 2,
+    "pref_class":["Shooter"]
     },
     {
     "id": "Flamy Bow",
@@ -939,7 +1035,9 @@
     "max": {"attack": 80, "charisma": 30, "agility": 15, "defence": -30},
     "mod": {"attack": 20, "character": 20, "agility": 5, "defence": -30},
     "delivery_multiplier": {"ranged": 0.02},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 2,
+    "pref_class":["Shooter"]
     },
     {
     "id": "Elven Bow",
@@ -961,7 +1059,9 @@
     "delivery_multiplier": {"ranged": 0.04},
     "evasion_bonus": 1,
     "locations": ["Exploration"],
-    "goodtraits": ["Not Human"]
+    "goodtraits": ["Not Human"],
+    "tier": 3,
+    "pref_class":["Shooter"]
     },
     {
     "id": "Angelic Bow",
@@ -983,7 +1083,9 @@
     "locations": ["Exploration"],
     "ch_multiplier": 0.1,
     "goodtraits": ["Alien", "Virtuous"],
-    "badtraits": ["Vicious"]
+    "badtraits": ["Vicious"],
+    "tier": 4,
+    "pref_class":["Shooter"]
     },
     {
     "id": "Demonic Bow",
@@ -1005,7 +1107,9 @@
     "locations": ["Exploration"],
     "ch_multiplier": 0.12,
     "goodtraits": ["Alien", "Vicious"],
-    "badtraits": ["Virtuous"]
+    "badtraits": ["Virtuous"],
+    "tier": 4,
+    "pref_class":["Shooter"]
     },
     {
     "id": "Hand Fan",
@@ -1023,7 +1127,9 @@
     "max": {"charisma": 5, "character": 5},
     "mod": {"charisma": 5},
     "mod_skills": {"refinement": [0.01, 0, 0.01, 0, 0], "management": [0.01, 0, 0.01, 0, 0]},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store"],
+    "tier": 0,
+    "pref_class":["SIW", "Manager"]
     },
     {
     "id": "Fancy Hand Fan",
@@ -1041,7 +1147,9 @@
     "max": {"charisma": 10, "character": 10},
     "mod": {"charisma": 5},
     "mod_skills": {"refinement": [0.05, 0, 0.05, 0, 0], "management": [0.05, 0, 0.05, 0, 0], "dancing": [0, 0, 0.03, 0, 0]},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store"],
+    "tier": 1,
+    "pref_class":["SIW", "Manager"]
     },
     {
     "id": "Big Umbrella",
@@ -1059,6 +1167,8 @@
     "max": {"charisma": 5},
     "mod": {"charisma": 5},
     "mod_skills": {"refinement": [0.01, 0, 0, 0, 0], "exploration": [0.01, 0, 0, 0, 0]},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store"],
+    "tier": 0,
+    "pref_class":["SIW", "Manager"]
     }
   ]
