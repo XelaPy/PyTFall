@@ -286,7 +286,7 @@ init python:
             self.type = type
             self.buff = True # We may need this for debuffing later on?
 
-            self.counter = randint(3, 5) # Active for 3-5 turns
+            self.counter = randint(5, 8) # Active for 5-8 turns
 
             self.icon = icon or ProportionalScale("content/gfx/be/fists.png", 30, 30)
             self.gfx_effect = gfx_effect
