@@ -15,7 +15,9 @@
     "max": {"joy": 5},
     "locations": ["Tailor Store"],
     "goodtraits": ["Imouto"],
-    "badtraits": ["Furry"]
+    "badtraits": ["Furry"],
+    "tier": 0,
+    "pref_class":["Any"]
     },
     {
     "id": "Angel Halo",
@@ -33,7 +35,9 @@
     "max": {"charisma": 5},
     "locations": ["Tailor Store", "Look around"],
     "goodtraits": ["Deredere"],
-    "badtraits": ["Divine Creature", "Demonic Creature"]
+    "badtraits": ["Divine Creature", "Demonic Creature"],
+    "tier": 0,
+    "pref_class":["Any"]
     },
     {
     "id": "Flower Bonnet",
@@ -50,7 +54,9 @@
     "type": "dress",
     "mod_skills": {"refinement": [0.01, 0.01, 0.005, 0, 0]},
     "locations": ["Tailor Store"],
-    "goodtraits": ["Ane"]
+    "goodtraits": ["Ane"],
+    "tier": 0,
+    "pref_class":["Any"]
     },
     {
     "id": "Nurse Cap",
@@ -68,7 +74,9 @@
     "max": {"mp": 10, "magic": 5, "charisma": 5},
     "mod": {"defence": -10, "character": -15},
     "locations": ["Tailor Store"],
-    "goodtraits": ["Healer"]
+    "goodtraits": ["Healer"],
+    "tier": 1,
+    "pref_class":["Mage"]
     },
     {
     "id": "Leather hood",
@@ -85,7 +93,9 @@
     "type": "armor",
     "mod": {"magic": 15, "mp": 20, "defence": 10},
     "locations": ["Ninja Shop", "Exploration"],
-    "goodtraits": ["Dandere"]
+    "goodtraits": ["Dandere"],
+    "tier": 1,
+    "pref_class":["Warrior", "Mage", "Shooter"]
     },
     {
     "id": "Hush Mask",
@@ -102,7 +112,9 @@
     "type": "dress",
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "management": [0.01, 0, 0.01, 0, 0]},
     "mod": {"agility": 20},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store"],
+    "tier": 2,
+    "pref_class":["Manager"]
     },
     {
     "id": "Catkin headgear",
@@ -119,7 +131,9 @@
     "type": "dress",
     "max": {"agility": 5},
     "mod": {"defence": 5, "agility": 10, "charisma": 5},
-    "locations": ["Tailor Store", "Look around"]
+    "locations": ["Tailor Store", "Look around"],
+    "tier": 1,
+    "pref_class":["Server", "Assassin"]
     },
     {
     "id": "General Helmet",
@@ -136,7 +150,9 @@
     "type": "armor",
     "max": {"defence": 30, "health": 50},
     "mod": {"attack": 10, "defence": 30, "agility": -30},
-    "locations": ["Work Shop", "Exploration"]
+    "locations": ["Work Shop", "Exploration"],
+    "tier": 3,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Officer Helmet",
@@ -153,7 +169,9 @@
     "type": "armor",
     "max": {"defence": 15, "health": 20},
     "mod": {"attack": 15, "defence": 10, "agility": -10},
-    "locations": ["Work Shop", "Exploration"]
+    "locations": ["Work Shop", "Exploration"],
+    "tier": 2,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Private Helmet",
@@ -170,7 +188,9 @@
     "type": "armor",
     "max": {"defence": 10, "attack": 5, "agility": 10},
     "mod": {"agility": 5, "defence": 10},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 1,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Recon Helmet",
@@ -189,7 +209,9 @@
     "mod": {"agility": 20, "defence": 20},
     "defence_bonus": {"ranged": 10},
     "mod_skills": {"refinement": [-0.04, 0, -0.03, 0, 0]},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 1,
+    "pref_class":["Shooter"]
     },
     {
     "id": "Joy Hat",
@@ -209,7 +231,9 @@
     "removetraits": ["Pessimist"],
     "locations": ["Exploration"],
     "goodtraits": ["Optimist"],
-    "badtraits": ["Serious"]
+    "badtraits": ["Serious"],
+    "tier": 2,
+    "pref_class":["Any"]
     },
     {
     "id": "The All-Seeing Hat",
@@ -227,7 +251,9 @@
     "max": {"magic": 30, "mp": 25, "agility": 20},
     "delivery_multiplier": {"magic": 0.05},
     "addtraits": ["Nerd"],
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 4,
+    "pref_class":["Mage"]
     },
     {
     "id": "Seashell Hat",
@@ -244,7 +270,9 @@
     "type": "dress",
     "max": {"intelligence": -30, "constitution": 30, "vitality": 10},
     "addtraits": ["Extremely Jealous", "Homebody"],
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 4,
+    "pref_class":["Warrior", "Shooter"]
     },
     {
     "id": "Old Mask",
@@ -261,7 +289,9 @@
     "type": "armor",
     "max": {"vitality": 200, "constitution": 100},
     "mod": {"constitution": 100},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 4,
+    "pref_class":["Warrior", "Shooter", "Assassin"]
     },
     {
     "id": "Top Hat",
@@ -277,7 +307,9 @@
     "slot": "head",
     "type": "dress",
     "mod_skills": {"refinement": [0.04, 0.02, 0.03, 0, 0]},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store"],
+    "tier": 1,
+    "pref_class":["SIW"]
     },
     {
     "id": "Silver Barrette",
@@ -295,7 +327,9 @@
     "max": {"charisma": 20},
     "mod": {"charisma": 10},
     "mod_skills": {"refinement": [0.01, 0.01, 0.01, 0, 0], "service": [0, 0, 0.01, 0, 0]},
-    "locations": ["General Store"]
+    "locations": ["General Store"],
+    "tier": 2,
+    "pref_class":["SIW", "Server"]
     },
     {
     "id": "Golden Tiara",
@@ -314,7 +348,9 @@
     "mod": {"charisma": 30},
     "mod_skills": {"refinement": [0.05, 0.03, 0.07, 0, 0], "management": [0.01, 0.01, 0.01, 0, 0]},
     "addtraits": ["Elegant"],
-    "locations": ["Exploration", "General Store"]
+    "locations": ["Exploration", "General Store"],
+    "tier": 4,
+    "pref_class":["Manager", "SIW"]
     },
     {
     "id": "White Turban",
@@ -331,7 +367,9 @@
     "type": "dress",
     "mod": {"charisma": 10},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "management": [0, 0, 0.03, 0, 0], "bdsm": [0, 0, 0.02, 0, 0], "teaching": [0, 0, 0.03, 0, 0]},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 3,
+    "pref_class":["Manager"]
     },
     {
     "id": "Huntsman Hat",
@@ -348,7 +386,9 @@
     "type": "armor",
     "max": {"defence": 5},
     "mod": {"defence": 5, "charisma": 5},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store"],
+    "tier": 0,
+    "pref_class":["Warrior", "Shooter"]
     },
     {
     "id": "Imperial Leather Helmet",
@@ -365,7 +405,9 @@
     "type": "armor",
     "max": {"defence": 12, "agility": 3, "charisma": 5},
     "mod": {"defence": 10, "agility": 2},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 1,
+    "pref_class":["Warrior", "Shooter"]
     },
     {
     "id": "Tricorne",
@@ -383,7 +425,9 @@
     "max": {"character": 5, "charisma": 10},
     "mod": {"character": 5, "defence": 5},
     "mod_skills": {"exploration": [0.01, 0.01, 0.01, 0, 0], "management": [0.01, 0.01, 0.01, 0, 0], "refinement": [0.02, 0.02, 0.01, 0, 0]},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store"],
+    "tier": 2,
+        "pref_class":["Manager", "SIW"]
     },
     {
     "id": "Bonnet",
@@ -401,7 +445,9 @@
     "max": {"character": -5},
     "mod": {"character": -5},
     "mod_skills": {"service": [0, 0, 0.01, 0, 0], "cleaning": [0.01, 0.01, 0.01, 0, 0]},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store"],
+    "tier": 1,
+    "pref_class":["Server"]
     },
     {
     "id": "Leprechaun Hat",
@@ -419,7 +465,9 @@
     "mod": {"luck": 20},
     "mod_skills": {"management": [0.01, 0.01, 0.02, 0, 0]},
     "defence_multiplier": {"magic": 0.05},
-    "locations": ["Exploration", "Tailor Store"]
+    "locations": ["Exploration", "Tailor Store"],
+    "tier": 4,
+    "pref_class":["Mage", "Manager"]
     },
     {
     "id": "Maid Headband",
@@ -437,7 +485,9 @@
     "mod": {"defence": -5, "character": -5},
     "mod_skills": {"refinement": [0.01, 0, 0.01, 0, 0], "service": [0.01, 0.01, 0.02, 0, 0], "waiting": [0.01, 0.01, 0.01, 0, 0]},
     "locations": ["Tailor Store"],
-    "goodtraits": ["Neat"]
+    "goodtraits": ["Neat"],
+    "tier": 3,
+    "pref_class":["Server"]
     },
     {
     "id": "Elven Vail",
@@ -458,7 +508,9 @@
     "locations": ["Exploration"],
     "defence_bonus": {"magic": 5},
     "evasion_bonus": 1,
-    "goodtraits": ["Not Human"]
+    "goodtraits": ["Not Human"],
+    "tier": 4,
+    "pref_class":["Warrior", "Mage", "Shooter", "Assassin"]
     },
     {
     "id": "Ancient Helmet",
@@ -477,7 +529,9 @@
     "max": {"agility": 5, "defence": 20},
     "mod": {"defence": 10, "agility": 5},
     "defence_bonus": {"melee": 5},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 2,
+    "pref_class":["Warrior", "Manager", "Shooter"]
     },
     {
     "id": "Safety Glasses",
@@ -494,7 +548,9 @@
     "type": "tool",
     "mod_skills": {"exploration": [0.03, 0.03, 0.1, 0, 0], "cleaning": [0, 0, 0.1, 0, 0], "refinement": [0, 0, -0.1, 0, 0], "service": [0, 0, -0.1, 0, 0]},
     "max": {"defence": 5},
-    "locations": ["Work Shop", "Fishing"]
+    "locations": ["Work Shop", "Fishing"],
+    "tier": 2,
+    "pref_class":["Server"]
     },
     {
     "id": "Snorkel Mask",
@@ -510,6 +566,7 @@
     "slot": "head",
     "type": "tool",
     "mod_skills": {"swimming": [0.02, 0.02, 0.05, 0, 0]},
-    "locations": ["General Store"]
+    "locations": ["General Store"],
+    "tier": 1
     }
   ]
