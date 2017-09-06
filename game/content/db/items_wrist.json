@@ -15,7 +15,9 @@
     "max": {"defence": 5},
     "mod": {"defence": 5},
     "evasion_bonus": 1,
-    "locations": ["Work Shop"]
+    "tier": 0,
+    "locations": ["Work Shop"],
+    "pref_class":["Warrior", "Mage", "Shooter"]
     },
     {
     "id": "Tanned Leather Gloves",
@@ -34,7 +36,9 @@
     "mod": {"defence": 10},
     "defence_bonus": {"ranged": 10},
     "evasion_bonus": 1,
-    "locations": ["Exploration"]
+    "tier": 0,
+    "locations": ["Exploration"],
+    "pref_class":["Warrior", "Mage", "Shooter"]
     },
     {
     "id": "Metal Gloves",
@@ -52,7 +56,9 @@
     "max": {"defence": 10},
     "mod": {"defence": 10, "agility": -5},
     "evasion_bonus": -1,
-    "locations": ["Work Shop"]
+    "tier": 0,
+    "locations": ["Work Shop"],
+    "pref_class":["Warrior"]
     },
     {
     "id": "Steel Gloves",
@@ -71,7 +77,9 @@
     "max": {"defence": 15},
     "mod": {"defence": 15, "agility": -10},
     "defence_bonus": {"melee": 10},
-    "locations": ["Exploration"]
+    "tier": 0,
+    "locations": ["Exploration"],
+    "pref_class":["Warrior"]
     },
     {
     "id": "Mail Gloves",
@@ -89,7 +97,9 @@
     "max": {"defence": 20},
     "mod": {"defence": 20, "agility": 5},
     "defence_bonus": {"ranged": 10, "melee": 10},
-    "locations": ["Exploration", "Work Shop"]
+    "tier": 1,
+    "locations": ["Exploration", "Work Shop"],
+    "pref_class":["Warrior", "Shooter"]
     },
     {
     "id": "Mithril Gloves",
@@ -108,7 +118,9 @@
     "max": {"defence": 30, "agility": 10},
     "mod": {"defence": 20, "agility": 10},
     "defence_bonus": {"ranged": 15, "melee": 15},
-    "locations": ["Exploration"]
+    "tier": 1,
+    "locations": ["Exploration"],
+    "pref_class":["Warrior", "Shooter"]
     },
     {
     "id": "Draconic Leather Gloves",
@@ -127,7 +139,9 @@
     "mod": {"defence": 25, "agility": 15},
     "defence_bonus": {"ranged": 10, "magic": 20, "melee": 5},
     "evasion_bonus": 2,
-    "locations": ["Exploration"]
+    "tier": 2,
+    "locations": ["Exploration"],
+    "pref_class":["Warrior", "Mage"]
     },
     {
     "id": "Slave Handcuffs",
@@ -146,7 +160,9 @@
     "max": {"character": -15, "joy": -5},
     "mod": {"character": -15, "agility": -5, "defence": -5},
     "locations": ["Work Shop", "Look around"],
-    "goodtraits": ["Masochist"]
+    "tier": 0,
+    "goodtraits": ["Masochist"],
+    "pref_class":["Slave"]
     },
     {
     "id": "Cleaning Gloves",
@@ -163,7 +179,9 @@
     "type": "dress",
     "mod": {"charisma": -10},
     "mod_skills": {"service": [0.05, 0, 0.01, 0, 0], "refinement": [-0.04, 0, 0, 0, 0]},
-    "locations": ["General Store", "Look around"]
+    "tier": 1,
+    "locations": ["General Store", "Look around"],
+    "pref_class":["Server"]
     },
     {
     "id": "Bracer of Toughness",
@@ -183,7 +201,9 @@
     "mod": {"defence": 10},
     "locations": ["General Store"],
     "goodtraits": ["Manly"],
-    "badtraits": ["Nerd"]
+    "tier": 1,
+    "badtraits": ["Nerd"],
+    "pref_class":["Warrior"]
     },
     {
     "id": "Thief Gloves",
@@ -199,7 +219,9 @@
     "slot": "wrist",
     "type": "dress",
     "addtraits": ["Kleptomaniac", "Extremely Jealous"],
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 1,
+    "pref_class":["Any"]
     },
     {
     "id": "Dealer Gloves",
@@ -216,7 +238,9 @@
     "type": "dress",
     "mod": {"luck": 10, "intelligence": 10, "agility": 5},
     "locations": ["Tailor Store"],
-    "goodtraits": ["Curious"]
+    "goodtraits": ["Curious"],
+    "tier": 1,
+    "pref_class":["Mage", "Manager"]
     },
     {
     "id": "Gloves of Concentration",
@@ -236,7 +260,9 @@
     "evasion_bonus": -5,
     "delivery_multiplier": {"magic": 0.05},
     "locations": ["Exploration", "General Store"],
-    "goodtraits": []
+    "tier": 2,
+    "goodtraits": [],
+    "pref_class":["Mage"]
     },
     {
     "id": "Gloves of Swordplay",
@@ -255,7 +281,9 @@
     "mod": {"defence": 20},
     "evasion_bonus": 1,
     "defence_multiplier": {"melee": 0.05, "ranged": 0.05},
-    "locations": ["Exploration", "General Store"]
+    "tier": 2,
+    "locations": ["Exploration", "General Store"],
+    "pref_class":["Warrior"]
     },
     {
     "id": "Bracer of Seduction",
@@ -273,7 +301,9 @@
     "removetraits": ["Frigid"],
     "addtraits": ["Nymphomaniac"],
     "mod": {"defence": -100, "charisma": 40},
-    "locations": ["Exploration"]
+    "tier": 2,
+    "locations": ["Exploration"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Wristbands of Power",
@@ -290,7 +320,9 @@
     "type": "armor",
     "max": {"constitution": 35, "vitality": 10},
     "mod": {"constitution": 35, "charisma": -30},
-    "locations": ["Exploration", "General Store"]
+    "tier": 3,
+    "locations": ["Exploration", "General Store"],
+    "pref_class":["Warrior"]
     },
     {
     "id": "Devil Arms",
@@ -311,7 +343,9 @@
     "mod_skills": {"vaginal": [-0.02, 0, 0, 0, 0], "oral": [-0.02, 0, 0, 0, 0], "anal": [-0.02, 0, 0, 0, 0], "bdsm": [-0.02, 0, 0, 0, 0], "group": [-0.02, 0, 0, 0, 0], "sex": [-0.02, 0, 0, 0, 0]},
     "min": {"attack": 10},
     "delivery_multiplier": {"melee": 0.05},
-    "locations": ["Exploration"]
+    "tier": 4,
+    "locations": ["Exploration"],
+    "pref_class":["Warrior"]
     },
     {
     "id": "Linen Gloves",
@@ -327,7 +361,9 @@
     "slot": "wrist",
     "type": "dress",
     "mod": {"charisma": 5},
-    "locations": ["Tailor Store"]
+    "tier": 0,
+    "locations": ["Tailor Store"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Velvet Gloves",
@@ -345,7 +381,9 @@
     "max": {"joy": 5},
     "mod": {"charisma": 10},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0]},
-    "locations": ["Tailor Store"]
+    "tier": 0,
+    "locations": ["Tailor Store"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Black Leather Gloves",
@@ -362,8 +400,10 @@
     "type": "dress",
     "max": {"joy": 5, "charisma": 10},
     "mod": {"charisma": 10},
+    "tier": 1,
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "strip": [0, 0, 0.01, 0, 0]},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Silken Gloves",
@@ -381,7 +421,9 @@
     "max": {"joy": 10, "charisma": 10},
     "mod": {"charisma": 10},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "service": [0, 0, 0.01, 0, 0]},
-    "locations": ["Tailor Store"]
+    "tier": 2,
+    "locations": ["Tailor Store"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Tiger Gloves",
@@ -397,7 +439,9 @@
     "slot": "wrist",
     "type": "dress",
     "max": {"joy": 10, "charisma": 5, "agility": 5},
-    "locations": ["Tailor Store"]
+    "tier": 3,
+    "locations": ["Tailor Store"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Satin Gloves",
@@ -414,8 +458,10 @@
     "type": "dress",
     "max": {"joy": 10, "charisma": 20},
     "mod": {"charisma": 15, "character": 5},
+    "tier": 4,
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "service": [0, 0, 0.02, 0, 0]},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Maid Gloves",
@@ -434,7 +480,9 @@
     "mod": {"defence": -5, "character": -10},
     "mod_skills": {"refinement": [0.01, 0, 0.02, 0, 0], "service": [0.02, 0.02, 0.03, 0, 0], "waiting": [0.01, 0.01, 0.02, 0, 0]},
     "locations": ["Tailor Store"],
-    "goodtraits": ["Neat"]
+    "tier": 4,
+    "goodtraits": ["Neat"],
+    "pref_class":["Server"]
     },
     {
     "id": "Elven Gloves",
@@ -455,7 +503,9 @@
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "defence_bonus": {"magic": 20, "melee": 20},
     "locations": ["Exploration"],
-    "goodtraits": ["Not Human"]
+    "tier": 3,
+    "goodtraits": ["Not Human"],
+    "pref_class":["Warrior"]
     },
     {
     "id": "Elven Ranger Armbands",
@@ -476,7 +526,9 @@
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "defence_bonus": {"magic": 20, "ranged": 20},
     "locations": ["Exploration"],
-    "goodtraits": ["Not Human"]
+    "tier": 3,
+    "goodtraits": ["Not Human"],
+    "pref_class":["Shooter"]
     },
     {
     "id": "Elven Sage Armbands",
@@ -496,7 +548,9 @@
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "defence_bonus": {"magic": 35},
     "locations": ["Exploration"],
-    "goodtraits": ["Not Human"]
+    "tier": 3,
+    "goodtraits": ["Not Human"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Faerie Bracers",
@@ -518,7 +572,9 @@
     "locations": ["Exploration"],
     "defence_multiplier": {"magic": 0.05},
     "delivery_multiplier": {"magic": 0.05},
-    "goodtraits": ["Alien"]
+    "tier": 4,
+    "goodtraits": ["Alien"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Ninja Gloves",
@@ -540,7 +596,9 @@
     "locations": ["Exploration"],
     "defence_multiplier": {"status": 0.05},
     "delivery_multiplier": {"status": 0.05},
-    "goodtraits": []
+    "tier": 4,
+    "goodtraits": [],
+    "pref_class":["Assassin"]
     },
     {
     "id": "Imperial Leather Gloves",
@@ -557,6 +615,8 @@
     "type": "armor",
     "max": {"defence": 8, "charisma": 3},
     "mod": {"defence": 7, "agility": 2, "charisma": 2},
-    "locations": ["Work Shop"]
+    "tier": 0,
+    "locations": ["Work Shop"],
+    "pref_class":["Warrior", "Shooter"]
     }
   ]
