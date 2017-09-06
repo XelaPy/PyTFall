@@ -14,7 +14,9 @@
     "mod": {"intelligence": -50, "character": 50},
     "mod_skills": {"vaginal": [0.01, 0, 0.01, 0, 0], "group": [0.01, 0, 0.01, 0, 0], "exploration": [0.01, 0, 0.01, 0, 0]},
     "damage_multiplier": 0.01,
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Witches Hut", "Exploration"],
+    "tier": 2,
+    "pref_class":["SIW"]
     },
     {
     "id": "Bimbo Ring",
@@ -31,7 +33,9 @@
     "mod": {"charisma": 40},
     "removetraits": ["Well-mannered"],
     "addtraits": ["Ill-mannered", "Serious"],
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut"],
+    "tier": 2,
+    "pref_class":["SIW"]
     },
     {
     "id": "Crystal",
@@ -46,7 +50,9 @@
     "infinite": false,
     "slot": "ring",
     "max": {"health": 30, "vitality": 20, "constitution": 20, "charisma": -20, "character": -10, "joy": -10},
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Witches Hut", "Exploration"],
+    "tier": 1,
+    "pref_class":["Warrior", "Mage", "Shooter"]
     },
     {
     "id": "Rainbow Ring",
@@ -62,7 +68,9 @@
     "slot": "ring",
     "max": {"charisma": 20},
     "mod": {"charisma": 5},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut"],
+    "tier": 0,
+    "pref_class":["Any"]
     },
     {
     "id": "Ring of Pleasure",
@@ -78,7 +86,9 @@
     "slot": "ring",
     "mod_skills": {"vaginal": [0.02, 0, 0.01, 0, 0], "group": [0.02, 0, 0.01, 0, 0], "anal": [0.02, 0, 0.01, 0, 0]},
     "locations": ["Exploration"],
-    "badtraits": ["Frigid"]
+    "badtraits": ["Frigid"],
+    "tier": 1,
+    "pref_class":["SIW"]
     },
     {
     "id": "Ring of the Hivemind",
@@ -94,7 +104,9 @@
     "slot": "ring",
     "mod_skills": {"strip": [0.04, 0, 0.03, 0, 0], "group": [0.04, 0, 0.03, 0, 0], "service": [0.04, 0, 0.03, 0, 0]},
     "locations": ["Exploration"],
-    "goodtraits": ["Curious"]
+    "goodtraits": ["Curious"],
+    "tier": 2,
+    "pref_class":["SIW"]
     },
     {
     "id": "Minor Ring of Charisma",
@@ -110,7 +122,9 @@
     "slot": "ring",
     "max": {"charisma": 30},
     "mod": {"charisma": 20},
-    "locations": ["Witches Hut", "Fishing"]
+    "locations": ["Witches Hut", "Fishing"],
+    "tier": 1,
+    "pref_class":["SIW", "Manager"]
     },
     {
     "id": "Ring of Charisma",
@@ -127,7 +141,9 @@
     "mod_skills": {"strip": [0, 0, 0.02, 0, 0], "management": [0, 0, 0.05, 0, 0]},
     "max": {"charisma": 60},
     "mod": {"charisma": 40},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 2,
+    "pref_class":["SIW", "Manager"]
     },
     {
     "id": "Aquamarine Eye",
@@ -143,7 +159,9 @@
     "slot": "ring",
     "max": {"charisma": 90, "joy": 20},
     "mod": {"charisma": 60},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 3,
+    "pref_class":["SIW"]
     },
     {
     "id": "Minor Ring of Refinement",
@@ -158,7 +176,9 @@
     "infinite": false,
     "slot": "ring",
     "mod_skills": {"refinement": [0.04, 0.02, 0.05, 0, 0], "teaching": [0.01, 0, 0.03, 0, 0]},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut"],
+    "tier": 1,
+    "pref_class":["SIW", "Manager"]
     },
     {
     "id": "Ring of Refinement",
@@ -174,7 +194,9 @@
     "slot": "ring",
     "mod_skills": {"refinement": [0.08, 0.04, 0.1, 0, 0], "teaching": [0.02, 0.01, 0.06, 0, 0], "management": [0.01, 0.01, 0.05, 0, 0]},
     "mod": {"intelligence": 5},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 2,
+    "pref_class":["SIW", "Manager"]
     },
     {
     "id": "Flower Ring",
@@ -190,7 +212,9 @@
     "slot": "ring",
     "mod_skills": {"refinement": [0.08, 0, 0.1, 0, 0], "management": [0, 0, 0.01, 0, 0]},
     "mod": {"charisma": 15},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 3,
+    "pref_class":["SIW", "Manager"]
     },
     {
     "id": "Minor Ring of the Horndog",
@@ -205,7 +229,9 @@
     "infinite": false,
     "slot": "ring",
     "mod_skills": {"vaginal": [0.01, 0.01, 0, 0, 0], "group": [0.01, 0.01, 0, 0, 0], "anal": [0.01, 0.01, 0, 0, 0], "oral": [0.01, 0.01, 0, 0, 0], "bdsm": [0.01, 0.01, 0, 0, 0], "sex": [0.01, 0.01, 0, 0, 0]},
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Witches Hut", "Exploration"],
+    "tier": 2,
+    "pref_class":["SIW"]
     },
     {
     "id": "Ring of the Horndog",
@@ -220,7 +246,9 @@
     "infinite": false,
     "slot": "ring",
     "mod_skills": {"vaginal": [0.02, 0.02, 0, 0, 0], "group": [0.02, 0.02, 0, 0, 0], "anal": [0.02, 0.02, 0, 0, 0], "oral": [0.02, 0.02, 0, 0, 0], "bdsm": [0.02, 0.02, 0, 0, 0], "sex": [0.02, 0.02, 0, 0, 0]},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 3,
+    "pref_class":["SIW"]
     },
     {
     "id": "Minor Ring of Physique",
@@ -236,7 +264,9 @@
     "slot": "ring",
     "max": {"vitality": 20, "constitution": 5},
     "mod": {"constitution": 20},
-    "locations": ["Ninja Shop", "Fishing"]
+    "locations": ["Ninja Shop", "Fishing"],
+    "tier": 1,
+    "pref_class":["Any"]
     },
     {
     "id": "Ring of Physique",
@@ -252,7 +282,9 @@
     "slot": "ring",
     "max": {"vitality": 50, "constitution": 25},
     "mod": {"constitution": 30},
-    "locations": ["Ninja Shop", "Exploration"]
+    "locations": ["Ninja Shop", "Exploration"],
+    "tier": 2,
+    "pref_class":["Any"]
     },
     {
     "id": "Rogue's Ring",
@@ -270,7 +302,9 @@
     "mod": {"agility": 50},
     "locations": ["Exploration", "Ninja Shop"],
     "evasion_bonus": 1,
-    "goodtraits": ["Kleptomaniac"]
+    "goodtraits": ["Kleptomaniac"],
+    "tier": 3,
+    "pref_class":["Shooter", "Assassin"]
     },
     {
     "id": "Minor Ring of Protection",
@@ -287,7 +321,9 @@
     "max": {"defence": 25},
     "mod": {"defence": 20},
     "locations": ["Exploration", "Ninja Shop"],
-    "goodtraits": ["Adventurous"]
+    "goodtraits": ["Adventurous"],
+    "tier": 1,
+    "pref_class":["Warrior", "Mage", "Shooter", "Assassin"]
     },
     {
     "id": "Ring of Protection",
@@ -304,7 +340,8 @@
     "max": {"defence": 50},
     "mod": {"defence": 30},
     "locations": ["Exploration", "Ninja Shop"],
-    "goodtraits": []
+    "tier": 2,
+    "pref_class":["Warrior", "Mage", "Shooter", "Assassin"]
     },
     {
     "id": "Ring of Clear Thought",
@@ -320,7 +357,9 @@
     "slot": "ring",
     "max": {"intelligence": 30},
     "mod": {"intelligence": 10},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 3,
+    "pref_class":["Mage"]
     },
     {
     "id": "Ring of Recklessness",
@@ -339,7 +378,9 @@
     "evasion_bonus": -3,
     "damage_multiplier": 0.04,
     "addtraits": ["Courageous", "Exhibitionist"],
-    "locations": ["Exploration", "Fishing"]
+    "locations": ["Exploration", "Fishing"],
+    "tier": 4,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Ring of Luck",
@@ -354,7 +395,9 @@
     "infinite": false,
     "slot": "ring",
     "mod": {"luck": 30},
-    "locations": ["Exploration", "Witches Hut"]
+    "locations": ["Exploration", "Witches Hut"],
+    "tier": 4,
+    "pref_class":["Assassin"]
     },
     {
     "id": "Ring of Magic Energy",
@@ -369,7 +412,9 @@
     "infinite": false,
     "slot": "ring",
     "max": {"mp": 50, "health": -50},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut"],
+    "tier": 2,
+    "pref_class":["Mage"]
     },
     {
     "id": "Ring of Health",
@@ -384,11 +429,13 @@
     "infinite": false,
     "slot": "ring",
     "max": {"mp": -50, "health": 50},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut"],
+    "tier": 2,
+    "pref_class":["Warrior", "Shooter"]
     },
     {
     "id": "Witch's Ring",
-    "desc": "This ring helps in sorcery, but keep in mind that most witches are not too pleasant in appearance.",
+    "desc": "This ring helps in sorcery, but witchcraft takes its toll on the appearance.",
     "icon": "content/items/ring/wr.png",
     "price": 450,
     "sex": "unisex",
@@ -400,7 +447,9 @@
     "slot": "ring",
     "max": {"magic": 50, "mp": 60, "charisma": -50},
     "mod": {"magic": 50, "charisma": -70},
-    "locations": ["Witches Hut", "Fishing"]
+    "locations": ["Witches Hut", "Fishing"],
+    "tier": 2,
+    "pref_class":["Mage"]
     },
     {
     "id": "Divergent Ring",
@@ -415,11 +464,13 @@
     "infinite": false,
     "slot": "ring",
     "max": {"charisma": -15, "vitality": -15, "character": 35},
-    "locations": ["Witches Hut", "Look around"]
+    "locations": ["Witches Hut", "Look around"],
+    "tier": 0,
+    "pref_class":["Manager"]
     },
     {
     "id": "The Scratch",
-    "desc": "Simple golden ring with a platinum accented stripe with three small rubies.",
+    "desc": "The three enchanted small rubies suppress the aggression of the wearer.",
     "icon": "content/items/ring/ts.png",
     "price": 900,
     "sex": "female",
@@ -429,8 +480,10 @@
     "hidden": false,
     "infinite": false,
     "slot": "ring",
-    "removetraits": ["Vicious"],
-    "locations": ["Exploration"]
+    "removetraits": ["Aggressive"],
+    "locations": ["Exploration"],
+    "tier": 3,
+    "pref_class":["Any"]
     },
     {
     "id": "Onyx Ring",
@@ -446,7 +499,9 @@
     "slot": "ring",
     "mod": {"attack": 45, "defence": 5, "luck": 5},
     "max": {"agility": 25},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 2,
+    "pref_class":["Warrior", "Shooter"]
     },
     {
     "id": "Orion Ring",
@@ -462,7 +517,9 @@
     "slot": "ring",
     "max": {"joy": 30, "magic": 90, "mp": 100},
     "mod": {"magic": 20, "constitution": -60},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 3,
+    "pref_class":["Mage"]
     },
     {
     "id": "Golden Wrap",
@@ -479,7 +536,9 @@
     "mod": {"charisma": 10, "character": 10},
     "max": {"charisma": 10, "character": 10},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "management": [0, 0, 0.06, 0, 0], "teaching": [0, 0, 0.02, 0, 0]},
-    "locations": ["General Store"]
+    "locations": ["General Store"],
+    "tier": 2,
+    "pref_class":["SIW", "Manager"]
     },
     {
     "id": "Silver Skull",
@@ -496,7 +555,9 @@
     "max": {"attack": 50, "defence": -30, "charisma": -30, "character": 50},
     "mod": {"character": 70},
     "locations": ["Exploration"],
-    "goodtraits": ["Vicious"]
+    "goodtraits": ["Vicious"],
+    "tier": 4,
+    "pref_class":["Warrior", "Assassin", "Shooter"]
     },
     {
     "id": "The Clit",
@@ -514,7 +575,9 @@
     "locations": ["Witches Hut"],
     "badtraits": ["Frigid", "Shy"],
     "goodtraits": ["Nymphomaniac"],
-    "mod_skills": {"vaginal": [0.05, 0.05, 0.08, 0, 0]}
+    "mod_skills": {"vaginal": [0.05, 0.05, 0.08, 0, 0]},
+    "tier": 2,
+    "pref_class":["SIW"]
     },
     {
     "id": "Golden Hoop",
@@ -530,26 +593,30 @@
     "slot": "ring",
     "max": {"character": -10, "charisma": 5},
     "mod": {"charisma": 5},
-    "locations": ["General Store"]
+    "locations": ["General Store"],
+    "tier": 1,
+    "pref_class":["SIW"]
     },
     {
     "id": "Frozen Tear",
     "desc": "They say there was a really unusual story behind the origin of these rings, but, curiously enough, everyone forgot it long ago.",
     "icon": "content/items/ring/ft.png",
-    "price": 1800,
+    "price": 180,
     "sex": "female",
     "chance": 10,
-    "badness": 30,
+    "badness": 40,
     "eqchance": 15,
     "hidden": false,
     "infinite": false,
     "slot": "ring",
     "max": {"character": -80, "intelligence": -80},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 1,
+    "pref_class":["SIW"]
     },
     {
     "id": "Ribbon Ring",
-    "desc": "Rumors says that these rings are wore by members of some fighters organization.",
+    "desc": "Rumors says that these rings are worn by members of some secret organization.",
     "icon": "content/items/ring/rbr.png",
     "price": 2000,
     "sex": "unisex",
@@ -561,11 +628,13 @@
     "slot": "ring",
     "max": {"defence": 40, "attack": 40, "agility": 25, "constitution": 15},
     "mod": {"luck": 10, "defence": 10, "attack": 10},
-    "locations": ["Exploration", "Ninja Shop"]
+    "locations": ["Exploration", "Ninja Shop"],
+    "tier": 4,
+    "pref_class":["Shooter", "Assassin"]
     },
     {
     "id": "Emerald Ribbon",
-    "desc": "Well shaped emerald in a gold ring. Ideal accessory for young ladies.",
+    "desc": "Well shaped emerald in a golden ring. Ideal accessory for young ladies.",
     "icon": "content/items/ring/er.png",
     "price": 220,
     "sex": "female",
@@ -578,7 +647,9 @@
     "max": {"agility": 5, "charisma": 25},
     "mod": {"luck": 5},
     "locations": ["General Store", "Fishing"],
-    "goodtraits": ["Lolita"]
+    "goodtraits": ["Lolita"],
+    "tier": 1,
+    "pref_class":["SIW", "Assassin"]
     },
     {
     "id": "Mysterious Gray Ring",
@@ -601,7 +672,9 @@
     "locations": ["Exploration", "Fishing"],
     "add_be_spells": ["Gray Shield"],
     "goodtraits": ["Indifferent"],
-    "removetraits": ["Pessimist", "Optimist", "Serious"]
+    "removetraits": ["Pessimist", "Optimist", "Serious"],
+    "tier": 4,
+    "pref_class":["Warrior", "Mage", "Shooter", "Assassin"]
     },
     {
     "id": "Flame Ring",
@@ -617,7 +690,9 @@
     "slot": "ring",
     "max": {"attack": 5, "mp": 5},
     "locations": ["Exploration"],
-    "addtraits": ["Minor Fire Focus"]
+    "addtraits": ["Minor Fire Focus"],
+    "tier": 1,
+    "pref_class":["Mage"]
     },
     {
     "id": "Breeze Ring",
@@ -633,7 +708,9 @@
     "slot": "ring",
     "max": {"mp": 10},
     "locations": ["Exploration"],
-    "addtraits": ["Minor Air Focus"]
+    "addtraits": ["Minor Air Focus"],
+    "tier": 1,
+    "pref_class":["Mage"]
     },
     {
     "id": "Winter Ring",
@@ -649,7 +726,9 @@
     "slot": "ring",
     "max": {"defence": 10},
     "locations": ["Exploration"],
-    "addtraits": ["Minor Ice Focus"]
+    "addtraits": ["Minor Ice Focus"],
+    "tier": 1,
+    "pref_class":["Mage"]
     },
     {
     "id": "Bone Ring",
@@ -665,7 +744,9 @@
     "slot": "ring",
     "max": {"magic": 10},
     "locations": ["Exploration"],
-    "addtraits": ["Minor Darkness Focus"]
+    "addtraits": ["Minor Darkness Focus"],
+    "tier": 1,
+    "pref_class":["Mage"]
     },
     {
     "id": "Woody Ring",
@@ -681,7 +762,9 @@
     "slot": "ring",
     "max": {"health": 10},
     "locations": ["Exploration"],
-    "addtraits": ["Minor Earth Focus"]
+    "addtraits": ["Minor Earth Focus"],
+    "tier": 1,
+    "pref_class":["Mage"]
     },
     {
     "id": "Aquatic Ring",
@@ -697,7 +780,9 @@
     "slot": "ring",
     "max": {"charisma": 5, "constitution": 5},
     "locations": ["Exploration"],
-    "addtraits": ["Minor Water Focus"]
+    "addtraits": ["Minor Water Focus"],
+    "tier": 1,
+    "pref_class":["Mage"]
     },
     {
     "id": "Discharge Ring",
@@ -713,7 +798,9 @@
     "slot": "ring",
     "max": {"agility": 10},
     "locations": ["Exploration"],
-    "addtraits": ["Minor Electricity Focus"]
+    "addtraits": ["Minor Electricity Focus"],
+    "tier": 1,
+    "pref_class":["Mage"]
     },
     {
     "id": "Daylight Ring",
@@ -729,6 +816,8 @@
     "slot": "ring",
     "max": {"vitality": 10},
     "locations": ["Exploration"],
-    "addtraits": ["Minor Light Focus"]
+    "addtraits": ["Minor Light Focus"],
+    "tier": 1,
+    "pref_class":["Mage"]
     }
   ]
