@@ -13,7 +13,9 @@
     "slot": "amulet",
     "max": {"charisma": 3},
     "mod": {"charisma": 7},
-    "locations": ["General Store", "Look around", "Fishing"]
+    "tier": 0,
+    "locations": ["General Store", "Look around", "Fishing"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Leash",
@@ -30,7 +32,9 @@
     "max": {"joy": -10, "character": -10},
     "mod": {"attack": -20, "defence": -20, "agility": -10, "character": -25},
     "locations": ["General Store"],
-    "goodtraits": ["Masochist"]
+    "tier": 0,
+    "goodtraits": ["Masochist"],
+    "pref_class":["Slave"]
     },
     {
     "id": "Necklace of Pain Reversal",
@@ -49,7 +53,9 @@
     "mod_skills": {"bdsm": [0.01, 0.01, 0.02, 0, 0]},
     "addtraits": ["Masochist"],
     "locations": ["Exploration"],
-    "goodtraits": ["Curious"]
+    "tier": 2,
+    "goodtraits": ["Curious"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Obsidian Choker",
@@ -66,7 +72,9 @@
     "max": {"charisma": 5},
     "mod": {"charisma": 10},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0]},
-    "locations": ["General Store"]
+    "tier": 1,
+    "locations": ["General Store"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Pearl Necklace",
@@ -83,7 +91,9 @@
     "max": {"charisma": 10},
     "mod": {"charisma": 15},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0]},
-    "locations": ["General Store"]
+    "tier": 1,
+    "locations": ["General Store"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Pet Collar",
@@ -101,7 +111,9 @@
     "mod": {"character": -15},
     "locations": ["General Store", "Look around"],
     "mod_skills": {"refinement": [-0.01, 0, -0.02, 0, 0], "bdsm": [0.01, 0, 0.02, 0, 0]},
-    "goodtraits": ["Masochist"]
+    "tier": 0,
+    "goodtraits": ["Masochist"],
+    "pref_class":["Slave"]
     },
     {
     "id": "Silver Necklace",
@@ -118,7 +130,9 @@
     "max": {"charisma": 5},
     "mod": {"charisma": 7},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "management": [0, 0, 0.01, 0, 0]},
-    "locations": ["General Store", "Fishing"]
+    "tier": 1,
+    "locations": ["General Store", "Fishing"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Spiked Collar",
@@ -134,7 +148,10 @@
     "slot": "amulet",
     "max": {"attack": 5},
     "locations": ["General Store", "Look around"],
-    "goodtraits": ["Manly", "Yandere"]
+    "tier": 0,
+    "goodtraits": ["Manly", "Yandere"],
+    "pref_class":["SIW"],
+    "pref_class":["Warrior", "Assassin", "Shooter"]
     },
     {
     "id": "Aromatic Pendant",
@@ -151,7 +168,9 @@
     "addtraits": ["Sexy Air"],
     "locations": ["Exploration"],
     "goodtraits": ["Nymphomaniac"],
-    "badtraits": ["Frigid"]
+    "tier": 2,
+    "badtraits": ["Frigid"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Diamond Necklace",
@@ -168,7 +187,9 @@
     "max": {"charisma": 10},
     "mod": {"charisma": 20},
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "management": [0, 0, 0.02, 0, 0]},
-    "locations": ["General Store"]
+    "tier": 3,
+    "locations": ["General Store"],
+    "pref_class":["SIW", "Manager"]
     },
     {
     "id": "Minor Reflector",
@@ -185,7 +206,9 @@
     "max": {"defence": 5, "agility": 5},
     "mod": {"defence": 15},
     "locations": ["Work Shop"],
-    "goodtraits": ["Adventurous"]
+    "tier": 1,
+    "goodtraits": ["Adventurous"],
+    "pref_class":["Warrior", "Assassin", "Shooter"]
     },
     {
     "id": "Reflector",
@@ -201,7 +224,9 @@
     "slot": "amulet",
     "max": {"defence": 15, "agility": 15},
     "mod": {"defence": 30},
-    "locations": ["Exploration"]
+    "tier": 2,
+    "locations": ["Exploration"],
+    "pref_class":["Warrior", "Assassin", "Shooter"]
     },
     {
     "id": "Good Luck Charm",
@@ -216,7 +241,9 @@
     "infinite": false,
     "slot": "amulet",
     "mod": {"luck": 5},
-    "locations": ["Witches Hut"]
+    "tier": 0,
+    "locations": ["Witches Hut"],
+    "pref_class":["Warrior", "Assassin", "Shooter"]
     },
     {
     "id": "Health Charm",
@@ -231,7 +258,9 @@
     "infinite": false,
     "slot": "amulet",
     "max": {"health": 25},
-    "locations": ["Witches Hut"]
+    "tier": 0,
+    "locations": ["Witches Hut"],
+    "pref_class":["Warrior", "Assassin", "Shooter", "Mage"]
     },
     {
     "id": "Mana Charm",
@@ -246,7 +275,9 @@
     "infinite": false,
     "slot": "amulet",
     "max": {"mp": 25},
-    "locations": ["Witches Hut"]
+    "tier": 0,
+    "locations": ["Witches Hut"],
+    "pref_class":["Warrior", "Assassin", "Shooter", "Mage"]
     },
     {
     "id": "Warm Scarf",
@@ -262,7 +293,9 @@
     "slot": "amulet",
     "max": {"charisma": 5},
     "mod": {"constitution": 5, "vitality": 5},
-    "locations": ["Tailor Store"]
+    "tier": 1,
+    "locations": ["Tailor Store"],
+    "pref_class":["Any"]
     },
     {
     "id": "Victory Charm",
@@ -278,7 +311,9 @@
     "slot": "amulet",
     "min": {"character": 15},
     "removetraits": ["Pessimist"],
-    "locations": ["Exploration", "Ninja Shop"]
+    "tier": 3,
+    "locations": ["Exploration", "Ninja Shop"],
+    "pref_class":["Assassin", "Manager"]
     },
     {
     "id": "Garem Charm",
@@ -293,8 +328,10 @@
     "infinite": false,
     "slot": "amulet",
     "max": {"joy": -10},
+    "tier": 4,
     "removetraits": ["Extremely Jealous"],
-    "locations": ["Exploration", "Fishing"]
+    "locations": ["Exploration", "Fishing"],
+    "pref_class":["Any"]
     },
     {
     "id": "Darksome Trophy",
@@ -310,7 +347,9 @@
     "slot": "amulet",
     "max": {"attack": 5, "mp": 5},
     "mod": {"attack": 5, "character": 2},
-    "locations": ["Exploration", "Fishing"]
+    "tier": 1,
+    "locations": ["Exploration", "Fishing"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Master Charm",
@@ -327,7 +366,9 @@
     "max": {"character": 10},
     "mod": {"character": 30},
     "mod_skills": {"management": [0, 0, 0.1, 0, 0]},
-    "locations": ["Exploration"]
+    "tier": 4,
+    "locations": ["Exploration"],
+    "pref_class":["Manager"]
     },
     {
     "id": "Bandana",
@@ -346,7 +387,9 @@
     "mod_skills": {"exploration": [0, 0, 0.01, 0, 0]},
     "locations": ["Exploration", "Tailor Store"],
     "evasion_bonus": 1,
-    "goodtraits": ["Bokukko"]
+    "tier": 0,
+    "goodtraits": ["Bokukko"],
+    "pref_class":["Any"]
     },
     {
     "id": "Spectacles",
@@ -363,8 +406,10 @@
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0]},
     "locations": ["Tailor Store"],
     "evasion_bonus": 1,
+    "tier": 1,
     "removetraits": ["Bad Eyesight"],
-    "goodtraits": ["Bad Eyesight"]
+    "goodtraits": ["Bad Eyesight"],
+    "pref_class":["Any"]
     },
     {
     "id": "Hurricane Charm",
@@ -380,7 +425,9 @@
     "slot": "amulet",
     "max": {"mp": 10, "magic": 5},
     "locations": ["Exploration"],
-    "addtraits": ["Air Focus"]
+    "tier": 3,
+    "addtraits": ["Air Focus"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Earthquake Charm",
@@ -396,7 +443,9 @@
     "slot": "amulet",
     "max": {"defence": 10, "magic": 5},
     "locations": ["Exploration"],
-    "addtraits": ["Earth Focus"]
+    "tier": 3,
+    "addtraits": ["Earth Focus"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Morning Charm",
@@ -412,7 +461,9 @@
     "slot": "amulet",
     "max": {"magic": 25},
     "locations": ["Exploration"],
-    "addtraits": ["Light Focus"]
+    "tier": 3,
+    "addtraits": ["Light Focus"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Fiery Charm",
@@ -428,7 +479,9 @@
     "slot": "amulet",
     "max": {"attack": 15, "mp": 15},
     "locations": ["Exploration"],
-    "addtraits": ["Fire Focus"]
+    "tier": 3,
+    "addtraits": ["Fire Focus"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Sea Charm",
@@ -444,7 +497,9 @@
     "slot": "amulet",
     "max": {"charisma": 15, "constitution": 15},
     "locations": ["Exploration"],
-    "addtraits": ["Water Focus"]
+    "tier": 3,
+    "addtraits": ["Water Focus"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Thundery Charm",
@@ -460,7 +515,9 @@
     "slot": "amulet",
     "max": {"agility": 25},
     "locations": ["Exploration"],
-    "addtraits": ["Water Focus"]
+    "tier": 3,
+    "addtraits": ["Water Focus"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Ice Charm",
@@ -476,7 +533,9 @@
     "slot": "amulet",
     "max": {"defence": 25},
     "locations": ["Exploration"],
-    "addtraits": ["Ice Focus"]
+    "tier": 3,
+    "addtraits": ["Ice Focus"],
+    "pref_class":["Mage"]
     },
     {
     "id": "Chastity Charm",
@@ -493,6 +552,8 @@
     "locations": ["Witches Hut", "General Store"],
     "mod_skills": {"vaginal": [-0.5, -0.5, -0.5, 0, 0], "sex": [-0.15, -0.15, -0.15, 0, 0]},
     "max": {"vitality": -10},
-    "addeffects": ["Chastity"]
+    "tier": 2,
+    "addeffects": ["Chastity"],
+    "pref_class":["SIW"]
     }
   ]
