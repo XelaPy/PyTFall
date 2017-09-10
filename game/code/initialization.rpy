@@ -43,6 +43,8 @@ init -999 python:
         persistent.unsafe_mode = True
     if persistent.battle_results is None:
         persistent.battle_results = True
+    if persistent.auto_saves is None:
+        persistent.auto_saves = False
 
     def content_path(path):
         '''Returns proper path for a file in the content directory *To be used with os module.'''

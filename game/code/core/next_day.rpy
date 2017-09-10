@@ -108,6 +108,17 @@ label next_day_effects_check:  # all traits and effects which require some unusu
                         i.enable_effect("Horny")
     return
     
+label special_auto_save: # since built-in autosave works like shit, I use normal saves to save in auto slots
+    if not "special_save_number" in globals():
+        $ special_save_number = 1
+    $ temp_str = "auto-" + str(special_save_number)
+    $ renpy.save(temp_str)
+    $ del temp_str
+    $ special_save_number += 1
+    if special_save_number > 6:
+        $ special_save_number = 1
+    return
+    
 label next_day:
     call next_day_effects_check
     scene bg profile_2
@@ -141,6 +152,8 @@ label next_day:
 
     $ girls = None
     hide screen next_day
+    if persistent.auto_saves: # TODO: is it the best possible place for autosave? maybe not?
+        call special_auto_save
     jump mainscreen
 
 label next_day_calculations:

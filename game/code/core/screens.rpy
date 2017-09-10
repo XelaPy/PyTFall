@@ -1441,6 +1441,20 @@ init: # Settings:
                                 text _("- Battle Results -") style "TisaOTMolxm"
                             textbutton _("Show") action SetField(persistent, "battle_results", True) xsize 150 xalign 0.5 text_size 16
                             textbutton _("Don't") action SetField(persistent, "battle_results", False) xsize 150 xalign 0.5 text_size 16
+                            
+                        frame:
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            xsize 194
+                            ypadding 8
+                            style_group "dropdown_gm2"
+                            has vbox align (0.5, 0.5)
+                            frame:
+                                xsize 184
+                                align (0.5, 0.5)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                                text _("- Autosave per turn -") style "TisaOTMolxm"
+                            textbutton _("Enable") action SetField(persistent, "auto_saves", True) xsize 150 xalign 0.5 text_size 16
+                            textbutton _("Disable") action SetField(persistent, "auto_saves", False) xsize 150 xalign 0.5 text_size 16
 
                         # frame:
                             # background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
