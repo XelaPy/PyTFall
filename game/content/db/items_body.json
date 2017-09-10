@@ -12,12 +12,12 @@
     "infinite": true,
     "slot": "body",
     "type": "dress",
-    "max": {"defence": 5},
-    "mod": {"defence": 10},
+    "max": {"defence": 2},
+    "mod": {"defence": 2},
     "mod_skills": {"refinement": [0, 0, -0.06, 0, 0]},
     "locations": ["Tailor Store", "Look around"],
     "tier": 0,
-    "pref_class":["Any"]
+    "pref_class":["Slave"]
     },
     {
     "id": "Peasant Gown",

@@ -80,7 +80,7 @@
     },
     {
     "id": "Leather hood",
-    "desc": "If you lack of mysterious and secrecy in you live. Then the astonish Leather hood is for you! Being the number one pick in all occult and secret societies is the hottest head gear in town! Don’t be left behind and get this number one seller today!",
+    "desc": "The number one pick in all occult and secret societies.",
     "icon": "content/items/head/hal.png",
     "price": 280,
     "sex": "female",
@@ -99,7 +99,7 @@
     },
     {
     "id": "Hush Mask",
-    "desc": "To all those who wants to be anonymous and stylish the same time. Be it for seducing a stranger, a romantic rendezvous under the moonlight or hiding your face when stabbing someone. The HushHush Mask provides them all!",
+    "desc": "For all those who want to be anonymous and stylish the same time.",
     "icon": "content/items/head/hm.png",
     "price": 550,
     "sex": "unisex",
@@ -354,7 +354,7 @@
     },
     {
     "id": "White Turban",
-    "desc": "Headwear from a far away land. It get popularized by a slave broker called Lurker in this parts of the world. ",
+    "desc": "Headwear from a far away land. It get popularized by a slave broker called Lurker in this parts of the world.",
     "icon": "content/items/head/turban.png",
     "price": 450,
     "sex": "male",
@@ -451,7 +451,7 @@
     },
     {
     "id": "Leprechaun Hat",
-    "desc": "Sometimes leprechauns allow their hats to absorb a small portion of their powerm and then sell them to mortals for quick cash.",
+    "desc": "Sometimes leprechauns allow their hats to absorb a small portion of their powers and then sell them to mortals for quick cash.",
     "icon": "content/items/head/lep.png",
     "price": 700,
     "sex": "unisex",

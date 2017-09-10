@@ -39,7 +39,7 @@
     },
     {
     "id": "Crystal",
-    "desc": "Inspired and formed from crystal formations, founded deep inside one of the multiple magical mines.",
+    "desc": "Inspired and formed from crystal formations founded deep inside one of the multiple magical mines.",
     "icon": "content/items/ring/c.png",
     "price": 350,
     "sex": "female",
@@ -74,7 +74,7 @@
     },
     {
     "id": "Ring of Pleasure",
-    "desc": "This magical ring affects the wearer's nervous system, heightening the effects of sexual stimulation and allowing her to reach orgasm much faster than most.",
+    "desc": "This magical ring affects the wearer's nervous system, heightening the effects of sexual stimulation and allowing her to reach orgasm much faster than usual.",
     "icon": "content/items/ring/rp.png",
     "price": 300,
     "sex": "female",
@@ -147,7 +147,7 @@
     },
     {
     "id": "Aquamarine Eye",
-    "desc": "Classical design, nice bright stone on a small silver loop. This ring will look good on any ladies slender finger.",
+    "desc": "The ring slightly alters reality around the wearer, making people believe she's more beautiful than she really is.",
     "icon": "content/items/ring/ae.png",
     "price": 850,
     "sex": "female",
@@ -200,7 +200,7 @@
     },
     {
     "id": "Flower Ring",
-    "desc": "Seven big gems in the middle part strictly together, creating an illusion of one, big, well cut rock. All that planted on a thick golden hoop. Unfortunately it’s a well made imitation.",
+    "desc": "Seven big enchanted gems in the middle part strictly together, creating an illusion of one, big, well cut rock.",
     "icon": "content/items/ring/fr.png",
     "price": 850,
     "sex": "female",
@@ -714,7 +714,7 @@
     },
     {
     "id": "Winter Ring",
-    "desc": "The ring covered with frost, but the metal itself is not as cold as one might think.",
+    "desc": "The ring is covered with frost, but the metal itself is not as cold as it should be.",
     "icon": "content/items/ring/ice.png",
     "price": 500,
     "sex": "unisex",
@@ -786,7 +786,7 @@
     },
     {
     "id": "Discharge Ring",
-    "desc": "The ring softly hums on the verge of audibility. The gem is dim, but miniature lightning are shining around it.",
+    "desc": "The ring softly hums on the verge of audibility. The gem is dim, but miniature lightnings are shining around it.",
     "icon": "content/items/ring/ele.png",
     "price": 500,
     "sex": "unisex",
@@ -804,7 +804,7 @@
     },
     {
     "id": "Daylight Ring",
-    "desc": "The ring is covered with glowing patterns, but the gem shines especially brightly.",
+    "desc": "The whole ring is covered with glowing patterns, but the gem shines especially brightly.",
     "icon": "content/items/ring/light.png",
     "price": 500,
     "sex": "unisex",

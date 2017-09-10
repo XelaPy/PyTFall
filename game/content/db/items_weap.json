@@ -876,7 +876,7 @@
     },
     {
     "id": "War Axe",
-    "desc": "A military axe with a curved hardwood shaft and a single-bladed forged head with sharp tempered edge. ",
+    "desc": "A military axe with a curved hardwood shaft and a single-bladed forged head with sharp tempered edge.",
     "icon": "content/items/weapon/wr.png",
     "price": 225,
     "sex": "unisex",
