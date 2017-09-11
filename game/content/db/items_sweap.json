@@ -16,7 +16,9 @@
     "mod": {"attack": 5, "agility": 15},
     "evasion_bonus": 5,
     "defence_bonus": {"melee": 20},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 0,
+    "pref_class":["Assassin", "Shooter"]
     },
     {
     "id": "Crystal Staff",
@@ -35,7 +37,9 @@
     "max": {"magic": 20, "mp": 20},
     "mod": {"magic": 15, "character": 5, "defence": 5, "attack": -10},
     "delivery_bonus": {"magic": 15},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut"],
+    "tier": 0,
+    "pref_class":["Mage"]
     },
     {
     "id": "Icicle Staff",
@@ -54,7 +58,9 @@
     "max": {"magic": 50, "mp": 20},
     "delivery_bonus": {"magic": 20},
     "mod": {"magic": 20, "defence": 5, "attack": -10},
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Witches Hut", "Exploration"],
+    "tier": 1,
+    "pref_class":["Mage"]
     },
     {
     "id": "Archmage Staff",
@@ -75,7 +81,9 @@
     "add_be_spells": ["Thundaga"],
     "delivery_bonus": {"magic": 25},
     "delivery_multiplier": {"magic": 0.05},
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Witches Hut", "Exploration"],
+    "tier": 2,
+    "pref_class":["Mage"]
     },
     {
     "id": "Rune Staff",
@@ -95,7 +103,9 @@
     "min": {"mp": 5},
     "delivery_bonus": {"magic": 50},
     "delivery_multiplier": {"magic": 0.1},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 3,
+    "pref_class":["Mage"]
     },
     {
     "id": "Tower Shield",
@@ -116,7 +126,9 @@
     "max": {"defence": 80, "health": 40, "constitution": 35, "agility": -40},
     "mod": {"defence": 50, "agility": -65},
     "defence_multiplier": {"melee": 0.5, "ranged": 0.5},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 3,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Courtesan Dagger",
@@ -137,7 +149,9 @@
     "mod": {"attack": 10, "character": 10, "charisma": 10},
     "locations": ["Work Shop", "Exploration"],
     "goodtraits": ["Nymphomaniac"],
-    "badtraits": ["Frigid"]
+    "badtraits": ["Frigid"],
+    "tier": 1,
+    "pref_class":["Assassin", "SIW"]
     },
     {
     "id": "Jeweled Poignard",
@@ -155,7 +169,9 @@
     "max": {"attack": 20, "charisma": 15},
     "mod": {"attack": 10, "character": 10, "charisma": 5},
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "management": [0, 0, 0.02, 0, 0]},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 1,
+    "pref_class":["Manager"]
     },
     {
     "id": "Wand of Concentration",
@@ -175,7 +191,9 @@
     "max": {"magic": 20, "mp": 25},
     "mod": {"attack": -15, "magic": 10},
     "delivery_bonus": {"magic": 10},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 0,
+    "pref_class":["Mage"]
     },
     {
     "id": "Spray with Acid",
@@ -194,7 +212,9 @@
     "max": {"attack": 5, "defence": 25},
     "delivery_bonus": {"status": 25},
     "mod": {"character": 20, "agility": 10, "defence": 15},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut"],
+    "tier": 2,
+    "pref_class":["Any"]
     },
     {
     "id": "Spirit-Defender",
@@ -212,7 +232,9 @@
     "max": {"defence": 60},
     "mod": {"defence": 50},
     "evasion_bonus": 2,
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 4,
+    "pref_class":["Any"]
     },
     {
     "id": "Magician Handbag",
@@ -230,7 +252,9 @@
     "max": {"magic": 50},
     "mod": {"magic": 25},
     "locations": ["Exploration"],
-    "goodtraits": []
+    "goodtraits": [],
+    "tier": 3,
+    "pref_class":["Mage"]
     },
     {
     "id": "Rose Shield",
@@ -249,7 +273,9 @@
     "max": {"defence": 40, "health": 10, "constitution": 10},
     "mod": {"defence": 20, "agility": -15, "charisma": 15, "character": 10},
     "defence_multiplier": {"melee": 0.45, "ranged": 0.45},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 2,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Buckler",
@@ -269,7 +295,9 @@
     "max": {"defence": 15, "agility": 10},
     "mod": {"defence": 10},
     "defence_multiplier": {"melee": 0.05, "ranged": 0.05},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 0,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Wooden Shield",
@@ -288,7 +316,9 @@
     "max": {"defence": 25, "health": 5},
     "defence_multiplier": {"melee": 0.1, "ranged": 0.1},
     "mod": {"defence": 15},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 1,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Kite Shield",
@@ -308,7 +338,9 @@
     "max": {"defence": 55, "health": 20, "constitution": 20, "agility": -20},
     "mod": {"defence": 30, "agility": -45},
     "defence_multiplier": {"melee": 0.3, "ranged": 0.3},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 3,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Imperial Shield",
@@ -328,7 +360,9 @@
     "max": {"defence": 15, "agility": 15},
     "mod": {"defence": 15},
     "defence_multiplier": {"melee": 0.07, "ranged": 0.07},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 1,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Vibranium Shield",
@@ -348,7 +382,9 @@
     "max": {"defence": 300, "health": 50, "constitution": 40, "agility": -30, "charisma": 20},
     "mod": {"defence": 150, "agility": -35, "charisma": 10},
     "defence_multiplier": {"melee": 0.6, "ranged": 0.6},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 4,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Underwater Lantern",
@@ -363,7 +399,8 @@
     "infinite": false,
     "slot": "smallweapon",
     "type": "tool",
-    "locations": ["General Store"]
+    "locations": ["General Store"],
+    "tier": 1
     },
     {
     "id": "Your Pet",
@@ -378,6 +415,7 @@
     "infinite": false,
     "slot": "smallweapon",
     "type": "tool",
-    "addeffects": ["Fluffy Companion"]
+    "addeffects": ["Fluffy Companion"],
+    "tier": 4
     }
   ]

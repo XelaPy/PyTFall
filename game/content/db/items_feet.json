@@ -14,7 +14,9 @@
     "type": "dress",
     "mod": {"agility": 2, "defence": 1},
     "locations": ["Tailor Store", "Look around", "Fishing"],
-    "badtraits": ["Not Human"]
+    "badtraits": ["Not Human"],
+    "tier": 0,
+    "pref_class":["Any"]
     },
     {
     "id": "Wool Slippers",
@@ -30,7 +32,9 @@
     "slot": "feet",
     "type": "dress",
     "max": {"vitality": 5},
-    "locations": ["Tailor Store", "Look around"]
+    "locations": ["Tailor Store", "Look around"],
+    "tier": 0,
+    "pref_class":["Any"]
     },
     {
     "id": "Hot Stilettos",
@@ -48,7 +52,9 @@
     "type": "dress",
     "mod_skills": {"refinement": [0, 0, -0.01, 0, 0], "bartending": [0.01, 0, 0.01, 0, 0]},
     "mod": {"charisma": 10},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store"],
+    "tier": 1,
+    "pref_class":["Server"]
     },
     {
     "id": "Running Boots",
@@ -68,7 +74,9 @@
     "mod": {"agility": 10},
     "mod_skills": {"refinement": [0, 0, -0.08, 0, 0]},
     "locations": ["Tailor Store", "Ninja Shop"],
-    "goodtraits": ["Athletic"]
+    "goodtraits": ["Athletic"],
+    "tier": 1,
+    "pref_class":["Assassin"]
     },
     {
     "id": "Female Work Boots",
@@ -86,7 +94,9 @@
     "max": {"character": 5},
     "mod": {"charisma": 5},
     "mod_skills": {"cleaning": [0, 0, 0.01, 0, 0], "exploration": [0, 0, 0.01, 0, 0], "service": [0, 0, 0.01, 0, 0], "strip": [0, 0, -0.1, 0, 0]},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store"],
+    "tier": 2,
+    "pref_class":["Server", "SIW"]
     },
     {
     "id": "Male Work Boots",
@@ -104,7 +114,8 @@
     "max": {"constitution": 5},
     "mod": {"defence": 5},
     "mod_skills": {"cleaning": [0, 0, 0.01, 0, 0], "exploration": [0, 0, 0.01, 0, 0], "service": [0, 0, 0.01, 0, 0]},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store"],
+    "tier": 2
     },
     {
     "id": "High Boots",
@@ -122,7 +133,9 @@
     "max": {"character": 15, "agility": -25},
     "mod": {"charisma": 10, "agility": -15},
     "mod_skills": {"cleaning": [0, 0, -0.1, 0, 0], "teaching": [0, 0, 0.01, 0, 0], "service": [0, 0, -0.01, 0, 0], "strip": [0, 0, 0.1, 0, 0]},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store"],
+    "tier": 2,
+    "pref_class":["Server", "SIW"]
     },
     {
     "id": "Slave Shackles",
@@ -142,7 +155,9 @@
     "mod": {"character": -20, "defence": -10, "attack": -10},
     "mod_skills": {"refinement": [0, 0, -0.1, 0, 0]},
     "locations": ["Work Shop", "Look around"],
-    "goodtraits": ["Masochist"]
+    "goodtraits": ["Masochist"],
+    "tier": 0,
+    "pref_class":["Slave"]
     },
     {
     "id": "Kung Fu Shoes",
@@ -161,7 +176,9 @@
     "mod": {"agility": 10, "character": 5},
     "evasion_bonus": 2,
     "mod_skills": {"refinement": [0, 0, -0.07, 0, 0], "dancing": [0.02, 0, 0.01, 0, 0]},
-    "locations": ["Ninja Shop"]
+    "locations": ["Ninja Shop"],
+    "tier": 1,
+    "pref_class":["Assassin"]
     },
     {
     "id": "High Heels",
@@ -181,7 +198,9 @@
     "mod": {"charisma": 10, "agility": -5, "defence": -5},
     "mod_skills": {"refinement": [0.02, 0, 0.04, 0, 0], "dancing": [-0.02, 0, -0.04, 0, 0]},
     "locations": ["Tailor Store"],
-    "badtraits": []
+    "badtraits": [],
+    "tier": 2,
+    "pref_class":["Server", "SIW"]
     },
     {
     "id": "Mistress Boots",
@@ -200,7 +219,9 @@
     "mod": {"character": 15, "defence": -10, "agility": -10},
     "mod_skills": {"refinement": [0.03, 0, 0.04, 0, 0], "bdsm": [0.05, 0.02, 0.1, 0, 0]},
     "locations": ["Tailor Store"],
-    "goodtraits": ["Sadist"]
+    "goodtraits": ["Sadist"],
+    "tier": 3,
+    "pref_class":["SIW"]
     },
     {
     "id": "Dancer Slippers",
@@ -220,7 +241,9 @@
     "max": {"agility": 5, "joy": 5},
     "mod_skills": {"dancing": [0.09, 0.04, 0.1, 0, 0], "strip": [0.02, 0, 0.01, 0, 0]},
     "mod": {"charisma": 5},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store"],
+    "tier": 3,
+    "pref_class":["SIW"]
     },
     {
     "id": "Glass Shoes",
@@ -240,7 +263,9 @@
     "min": {"joy": 5},
     "mod_skills": {"refinement": [0.07, 0, 0.1, 0, 0], "strip": [0.05, 0, 0.05, 0, 0]},
     "addtraits": ["Optimist"],
-    "locations": ["Exploration", "Fishing"]
+    "locations": ["Exploration", "Fishing"],
+    "tier": 3,
+    "pref_class":["SIW"]
     },
     {
     "id": "Designer Pumps",
@@ -258,7 +283,9 @@
     "max": {"joy": 20},
     "mod": {"charisma": 15, "defence": -20, "attack": -10},
     "mod_skills": {"refinement": [0.1, 0, 0.12, 0, 0], "management": [0, 0, 0.02, 0, 0]},
-    "locations": ["Tailor Store"]
+    "locations": ["Tailor Store"],
+    "tier": 4,
+    "pref_class":["Manager"]
     },
     {
     "id": "Boots of Mercury",
@@ -277,7 +304,9 @@
     "mod": {"agility": 25},
     "evasion_bonus": 2,
     "removetraits": ["Dawdler"],
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 4,
+    "pref_class":["Assassin", "Shooter"]
     },
     {
     "id": "Maid Heels",
@@ -296,7 +325,9 @@
     "mod": {"defence": -5, "character": -10},
     "mod_skills": {"refinement": [0.02, 0, 0.04, 0, 0], "service": [0.04, 0.04, 0.05, 0, 0], "waiting": [0.02, 0.02, 0.03, 0, 0]},
     "locations": ["Tailor Store"],
-    "goodtraits": ["Neat"]
+    "goodtraits": ["Neat"],
+    "tier": 4,
+    "pref_class":["Server"]
     },
     {
     "id": "Leather Boots",
@@ -313,7 +344,9 @@
     "type": "armor",
     "max": {"defence": 10},
     "mod": {"defence": 5},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 0,
+    "pref_class":["Warrior", "Mage", "Shooter"]
     },
     {
     "id": "Tanned Leather Boots",
@@ -331,7 +364,9 @@
     "max": {"vitality": 5, "defence": 10},
     "mod": {"defence": 10},
     "defence_bonus": {"ranged": 10},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 0,
+    "pref_class":["Warrior", "Mage", "Shooter"]
     },
     {
     "id": "Mercenary Boots",
@@ -351,7 +386,8 @@
     "mod": {"charisma": 15, "defence": 15},
     "defence_bonus": {"ranged": 5, "melee": 5},
     "mod_skills": {"exploration": [0.01, 0.01, 0.03, 0, 0], "management": [0.01, 0.01, 0.03, 0, 0], "refinement": [0.01, 0.01, 0.01, 0, 0]},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 2
     },
     {
     "id": "Metal Boots",
@@ -369,7 +405,9 @@
     "evasion_bonus": -2,
     "max": {"defence": 10},
     "mod": {"defence": 10, "agility": -5},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 1,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Steel Boots",
@@ -388,7 +426,9 @@
     "max": {"defence": 15},
     "mod": {"defence": 15, "agility": -10},
     "defence_bonus": {"melee": 10},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 1,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Mail Boots",
@@ -406,7 +446,9 @@
     "max": {"defence": 20},
     "mod": {"defence": 20, "agility": 5},
     "defence_bonus": {"ranged": 10, "melee": 10},
-    "locations": ["Exploration", "Work Shop"]
+    "locations": ["Exploration", "Work Shop"],
+    "tier": 2,
+    "pref_class":["Warrior", "Shooter"]
     },
     {
     "id": "Mithril Boots",
@@ -425,7 +467,9 @@
     "max": {"defence": 30, "agility": 10},
     "mod": {"defence": 20, "agility": 10},
     "defence_bonus": {"ranged": 20, "melee": 20},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 2,
+    "pref_class":["Warrior", "Shooter"]
     },
     {
     "id": "Draconic Leather Boots",
@@ -444,7 +488,9 @@
     "mod": {"defence": 25, "agility": 15},
     "evasion_bonus": 2,
     "defence_bonus": {"ranged": 25, "magic": 20, "melee": 5},
-    "locations": ["Exploration"]
+    "locations": ["Exploration"],
+    "tier": 3,
+    "pref_class":["Warrior", "Mage", "Shooter"]
     },
     {
     "id": "Elven Boots",
@@ -465,7 +511,9 @@
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "defence_bonus": {"magic": 20, "melee": 20},
     "locations": ["Exploration"],
-    "goodtraits": ["Not Human"]
+    "goodtraits": ["Not Human"],
+    "tier": 4,
+    "pref_class":["Warrior"]
     },
     {
     "id": "Elven Ranger Boots",
@@ -486,7 +534,9 @@
     "evasion_bonus": 3,
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "locations": ["Exploration"],
-    "goodtraits": ["Not Human"]
+    "goodtraits": ["Not Human"],
+    "tier": 4,
+    "pref_class":["Shooter"]
     },
     {
     "id": "Elven Sage Boots",
@@ -506,7 +556,9 @@
     "mod": {"defence": 5, "agility": 5, "luck": 10, "magic": 5},
     "defence_bonus": {"magic": 35},
     "locations": ["Exploration"],
-    "goodtraits": ["Not Human"]
+    "goodtraits": ["Not Human"],
+    "tier": 4,
+    "pref_class":["Mage"]
     },
     {
     "id": "Faerie Boots",
@@ -528,7 +580,9 @@
     "defence_multiplier": {"magic": 0.05},
     "delivery_multiplier": {"magic": 0.05},
     "locations": ["Exploration"],
-    "goodtraits": ["Alien"]
+    "goodtraits": ["Alien"],
+    "tier": 4,
+    "pref_class":["Mage"]
     },
     {
     "id": "Ninja Boots",
@@ -550,7 +604,9 @@
     "defence_multiplier": {"status": 0.01},
     "delivery_multiplier": {"status": 0.01},
     "locations": ["Exploration", "Ninja Shop"],
-    "goodtraits": []
+    "goodtraits": [],
+    "tier": 4,
+    "pref_class":["Assassin"]
     },
     {
     "id": "Ice Shoes",
@@ -568,7 +624,9 @@
     "max": {"charisma": 10},
     "mod": {"defence": -10, "attack": -5, "charisma": 15, "vitality": -5, "constitution": -5, "joy": -10},
     "mod_skills": {"refinement": [0.11, 0.01, 0.14, 0, 0], "management": [0, 0, 0.06, 0, 0]},
-    "locations": ["Exploration", "Fishing"]
+    "locations": ["Exploration", "Fishing"],
+    "tier": 3,
+    "pref_class":["Manager"]
     },
     {
     "id": "Imperial Leather Boots",
@@ -585,7 +643,9 @@
     "type": "armor",
     "max": {"defence": 10, "vitality": 3},
     "mod": {"defence": 8, "agility": 2, "vitality": 2},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 0,
+    "pref_class":["Warrior", "Mage", "Shooter"]
     },
     {
     "id": "High Fur Boots",
@@ -603,7 +663,9 @@
     "max": {"defence": 15, "vitality": 25},
     "mod": {"defence": 10, "agility": 5},
     "mod_skills": {"exploration": [0.01, 0.01, 0.03, 0, 0]},
-    "locations": ["Work Shop"]
+    "locations": ["Work Shop"],
+    "tier": 2,
+    "pref_class":["Any"]
     },
     {
     "id": "Flippers",
@@ -619,6 +681,7 @@
     "slot": "feet",
     "type": "tool",
     "mod_skills": {"swimming": [0.02, 0.02, 0.05, 0, 0]},
-    "locations": ["General Store"]
+    "locations": ["General Store"],
+    "tier": 1
     }
   ]
