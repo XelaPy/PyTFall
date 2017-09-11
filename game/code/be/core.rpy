@@ -1864,6 +1864,8 @@ init -1 python: # Core classes:
 
         def get_availible_skills(self):
             allskills = list(self.source.attack_skills) + list(self.source.magic_skills)
+            # TODO Remove this temp check:
+            allskills = [s for s in allskills if hasattr(s, "check_conditions")]
             return [s for s in allskills if s.check_conditions(self.source)]
 
 
