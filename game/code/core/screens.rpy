@@ -1189,6 +1189,7 @@ init: # Items:
 
 init: # Settings:
     screen s_menu(s_menu="Settings"):
+        default tt = Tooltip("Hover cursor over options buttons to see their description.")
         zorder 10**5 + 1
         modal True
 
@@ -1404,6 +1405,12 @@ init: # Settings:
                                     text "Debug menu" size 18 align (0.5, 0.5) # style "mmenu_button_text"
 
             elif s_menu == "Game":
+                frame:
+                    background Frame("content/gfx/frame/ink_box.png", 10, 10)
+                    xysize (333, 130)
+                    xpadding 10
+                    align .5, .1
+                    text (u"{=stats_text}{color=[goldenrod]}{size=15}%s" % tt.value) outlines [(1, "#3a3a3a", 0, 0)]
                 grid 1 1:
                     align (0.5, 0.5)
                     spacing 7
@@ -1425,8 +1432,8 @@ init: # Settings:
                                 align (0.5, 0.5)
                                 background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Panic Screen -") style "TisaOTMolxm"
-                            textbutton _("Enable") action SetField(persistent, "unsafe_mode", True) xsize 150 xalign 0.5 text_size 16
-                            textbutton _("Disable") action SetField(persistent, "unsafe_mode", False) xsize 150 xalign 0.5 text_size 16
+                            textbutton _("Enable") action SetField(persistent, "unsafe_mode", True) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("Press Q to activate panic screen, it hides NSFW content and stops all sounds. Press Q again to deactivate it.")
+                            textbutton _("Disable") action SetField(persistent, "unsafe_mode", False) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("Press Q to activate panic screen, it hides NSFW content and stops all sounds. Press Q again to deactivate it.")
 
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
@@ -1439,8 +1446,8 @@ init: # Settings:
                                 align (0.5, 0.5)
                                 background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Battle Results -") style "TisaOTMolxm"
-                            textbutton _("Show") action SetField(persistent, "battle_results", True) xsize 150 xalign 0.5 text_size 16
-                            textbutton _("Don't") action SetField(persistent, "battle_results", False) xsize 150 xalign 0.5 text_size 16
+                            textbutton _("Show") action SetField(persistent, "battle_results", True) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("Enables/disables screen with gained experience and gold after combat.")
+                            textbutton _("Don't") action SetField(persistent, "battle_results", False) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("Enables/disables screen with gained experience and gold after combat.")
                             
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
@@ -1452,9 +1459,9 @@ init: # Settings:
                                 xsize 184
                                 align (0.5, 0.5)
                                 background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
-                                text _("- Autosave per turn -") style "TisaOTMolxm"
-                            textbutton _("Enable") action SetField(persistent, "auto_saves", True) xsize 150 xalign 0.5 text_size 16
-                            textbutton _("Disable") action SetField(persistent, "auto_saves", False) xsize 150 xalign 0.5 text_size 16
+                                text _("- Autosave -") style "TisaOTMolxm"
+                            textbutton _("Enable") action SetField(persistent, "auto_saves", True) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("Creates autosave every time you exit next day screen. Can be slow, disable if it bothers you.")
+                            textbutton _("Disable") action SetField(persistent, "auto_saves", False) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("Creates autosave every time you exit next day screen. Can be slow, disable if it bothers you.")
 
                         # frame:
                             # background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
