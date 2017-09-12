@@ -1189,7 +1189,7 @@ init: # Items:
 
 init: # Settings:
     screen s_menu(s_menu="Settings"):
-        default tt = Tooltip("Hover cursor over options buttons to see their description.")
+        default tt = Tooltip("Hover cursor over options buttons to see the description.")
         zorder 10**5 + 1
         modal True
 
@@ -1432,8 +1432,8 @@ init: # Settings:
                                 align (0.5, 0.5)
                                 background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Panic Screen -") style "TisaOTMolxm"
-                            textbutton _("Enable") action SetField(persistent, "unsafe_mode", True) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("Press Q to activate panic screen, it hides NSFW content and stops all sounds. Press Q again to deactivate it.")
-                            textbutton _("Disable") action SetField(persistent, "unsafe_mode", False) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("Press Q to activate panic screen, it hides NSFW content and stops all sounds. Press Q again to deactivate it.")
+                            textbutton _("Enable") action SetField(persistent, "unsafe_mode", True) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("If it's enabled, press Q to activate panic screen. It hides NSFW content and mutes all sounds. Press Q again to deactivate it.")
+                            textbutton _("Disable") action SetField(persistent, "unsafe_mode", False) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("If it's enabled, press Q to activate panic screen. It hides NSFW content and mutes all sounds. Press Q again to deactivate it.")
 
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
@@ -1460,8 +1460,8 @@ init: # Settings:
                                 align (0.5, 0.5)
                                 background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Autosave -") style "TisaOTMolxm"
-                            textbutton _("Enable") action SetField(persistent, "auto_saves", True) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("Creates autosave every time you exit next day screen. Can be slow, disable if it bothers you.")
-                            textbutton _("Disable") action SetField(persistent, "auto_saves", False) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("Creates autosave every time you exit next day screen. Can be slow, disable if it bothers you.")
+                            textbutton _("Enable") action SetField(persistent, "auto_saves", True) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("Creates autosave every time you leave the next day screen. Can be slow, disable if it bothers you.")
+                            textbutton _("Disable") action SetField(persistent, "auto_saves", False) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("Creates autosave every time you leave the next day screen. Can be slow, disable if it bothers you.")
 
                         # frame:
                             # background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
