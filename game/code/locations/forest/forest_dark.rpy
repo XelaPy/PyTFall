@@ -128,7 +128,7 @@ label city_dark_forest_hideout:
         call city_dark_forest_hideout_fight
         $ j += 1
     if persistent.battle_results:
-        show screen give_exp_after_battle(hero.team)
+        show screen give_exp_after_battle(hero.team, exp)
     show screen city_dark_forest
     scene bg forest_hideout
     with dissolve
@@ -258,7 +258,7 @@ label city_dark_forest_fight:
                 member.exp += exp
         scene expression forest_location
         if persistent.battle_results:
-            show screen give_exp_after_battle(hero.team)
+            show screen give_exp_after_battle(hero.team, exp)
         jump forest_dark_continue
     else:
         jump game_over

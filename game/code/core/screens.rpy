@@ -1708,7 +1708,7 @@ screen panic_screen:
     key "q" action [Hide("panic_screen"), PauseAudio("events", False), PauseAudio("events2", False), PauseAudio("world", False), PauseAudio("gamemusic", False), PauseAudio("music", False)]
     key "Q" action [Hide("panic_screen"), PauseAudio("events", False), PauseAudio("events2", False), PauseAudio("world", False), PauseAudio("gamemusic", False), PauseAudio("music", False)]
 
-screen give_exp_after_battle(group, money=0): # shows post-battle results; TODO after beta: make the animation to show exp gained post battle, not just the current one;
+screen give_exp_after_battle(group, exp = 0, money=0): # shows post-battle results; TODO after beta: make the animation to show exp gained post battle, not just the current one;
     modal True
     zorder 100
     frame:
@@ -1717,6 +1717,8 @@ screen give_exp_after_battle(group, money=0): # shows post-battle results; TODO 
         xpadding 75
         ypadding 75
         has vbox
+        text ("You gained %d exp"%exp) size 20 align (0.5, 0.5) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
+        null height 15
         for l in group:
             $ char_profile_img = l.show('portrait', resize=(101, 101), cache=True)
             $ img = "content/gfx/frame/ink_box.png"

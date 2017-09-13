@@ -178,7 +178,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
             $ money = 0
         $ hero.add_money(money, reason="Loot")
         if persistent.battle_results:
-            show screen give_exp_after_battle(hero.team, money)
+            show screen give_exp_after_battle(hero.team, exp, money)
         show screen prison_break_controls
         jump storyi_gui_loop
     else:
