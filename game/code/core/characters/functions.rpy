@@ -62,6 +62,7 @@ init -11 python:
 
         data = mobs[id]
         mob.id = id
+        mob.min_lvl = data.get("min_lvl", 1)
         mob.name = data.get("name", id)
         mob.desc = data.get("desc", "Some Random Monsta!")
 

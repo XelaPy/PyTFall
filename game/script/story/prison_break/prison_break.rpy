@@ -165,8 +165,9 @@ label storyi_randomfight:  # initiates fight with random enemy team
 
     if result is True:
         python:
+            exp = exp_reward(hero.team, enemy_team)
             for member in hero.team:
-                member.exp += adjust_exp(member, 150)
+                member.exp += exp
         call storyi_show_bg
         play world "Theme2.ogg" fadein 2.0 loop
         if storyi_prison_location in [6, 14, 2, 8, 15, 16, 11, 18] and dice(80):

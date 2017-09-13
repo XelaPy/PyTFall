@@ -1955,3 +1955,37 @@ init -1 python: # Core classes:
             super(Slave_BE_AI, self).__init__(source=source)
         def __call__(self):
             Slave_BE_Skip(source=self.source)()
+
+    def exp_reward(team, enemies): # calculates exp reward after a battle
+        team_level = 0
+        for i in team:
+            if hasattr(i, "level"): # a countermeasure in case if there will be exotic party members
+                team_level += i.level # sum of all party members levels
+        if team_level <= 0:
+            team_level = 1
+        
+        mob_level = 0
+        min_exp = 0
+        for i in enemies:
+            mob_level += i.level  # sum of enemies levels
+            if hasattr(i, "min_lvl"):
+                min_exp += i.min_lvl  # min exp level, based on min_lvl field
+            else:
+                min_exp += 20 # most likely enemies without min_lvl are characters, let it be 20 for them
+        if mob_level <= 0:
+            mob_level = 1
+        if min_exp <= 0:
+            min_exp = 1
+        levels_proportion = mob_level/team_level # the difference between summary levels
+        if levels_proportion < .5:
+            levels_proportion = .5
+        elif levels_proportion > 3:
+            levels_proportion = 3
+            
+        resulting_exp = int(min_exp*10*levels_proportion)
+        
+        return resulting_exp
+            
+        
+        
+            

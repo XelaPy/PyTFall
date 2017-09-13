@@ -148,11 +148,7 @@ label city_dark_forest_hideout:
 label city_dark_forest_hideout_fight:
     python:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        levels = 0
-        for i in hero.team:
-            levels += i.level
-        levels = int(levels/len(hero.team))+randint(0, 5)
-        levels = 1
+        levels = randint(20, 40)
         for i in range(3):
             mob_id = choice(["Samurai", "Warrior", "Archer", "Soldier", "Barbarian", "Orc", "Infantryman", "Thug", "Mercenary", "Dark Elf Archer"])
             mob = build_mob(id=mob_id, level=levels)
@@ -162,8 +158,9 @@ label city_dark_forest_hideout_fight:
     $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=True)
     if result is True:
         python:
+            exp = exp_reward(hero.team, enemy_team)
             for member in hero.team:
-                member.exp += adjust_exp(member, 250)
+                member.exp += exp
         scene expression forest_location
         return
 
@@ -171,10 +168,7 @@ label city_dark_forest_fight:
     $ forest_bg_change = False
     python:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        levels = 0
-        for i in hero.team:
-            levels += i.level
-        levels = int(levels/len(hero.team))+randint(0, 5)
+        levels = randint(5, 20)
         mob = choice(["slime", "were", "harpy", "goblin", "wolf", "bear", "druid", "rat", "undead", "butterfly"])
     if mob == "slime":
         "You encountered a small group of predatory slimes."
@@ -259,8 +253,9 @@ label city_dark_forest_fight:
     $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=True)
     if result is True:
         python:
+            exp = exp_reward(hero.team, enemy_team)
             for member in hero.team:
-                member.exp += adjust_exp(member, 150)
+                member.exp += exp
         scene expression forest_location
         if persistent.battle_results:
             show screen give_exp_after_battle(hero.team)
