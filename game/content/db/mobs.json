@@ -7,7 +7,7 @@
         "portrait": "content/npc/mobs/a1.png",
         "race": "Slime",
         "locations": [],
-        "min_lvl": 35,
+        "min_lvl": 350,
         "basetraits": [
             "Juggernaut", "Mage"
         ],
@@ -35,7 +35,7 @@
     {
         "name": "Alkaline Slime",
         "desc": "A liquid form of life based on organic alkalis.",
-        "front_row": 1,
+        "front_row": 100,
         "battle_sprite": "content/npc/mobs/b.png",
         "portrait": "content/npc/mobs/b1.png",
         "race": "Slime",
@@ -71,7 +71,7 @@
         "portrait": "content/npc/mobs/c1.png",
         "race": "Slime",
         "locations": [],
-        "min_lvl": 1,
+        "min_lvl": 50,
         "basetraits": [
             "Trickster"
         ],
@@ -101,7 +101,7 @@
         "portrait": "content/npc/mobs/d1.png",
         "race": "Slime",
         "locations": [],
-        "min_lvl": 15,
+        "min_lvl": 100,
         "basetraits": [
             "Healer"
         ],
@@ -132,7 +132,7 @@
         "portrait": "content/npc/mobs/e1.png",
         "race": "Slime",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 150,
         "basetraits": [
             "Juggernaut"
         ],
@@ -163,7 +163,7 @@
         "portrait": "content/npc/mobs/f1.png",
         "race": "Slime",
         "locations": [],
-        "min_lvl": 15,
+        "min_lvl": 90,
         "basetraits": [
             "Shooter"
         ],
@@ -194,7 +194,7 @@
         "portrait": "content/npc/mobs/g1.png",
         "race": "Human",
         "locations": [],
-        "min_lvl": 10,
+        "min_lvl": 200,
         "basetraits": [
             "Assassin", "Warrior"
         ],
@@ -224,7 +224,7 @@
         "portrait": "content/npc/mobs/h1.png",
         "race": "Human",
         "locations": [],
-        "min_lvl": 10,
+        "min_lvl": 200,
         "basetraits": [
             "Knight"
         ],
@@ -254,7 +254,7 @@
         "portrait": "content/npc/mobs/i1.png",
         "race": "Human",
         "locations": [],
-        "min_lvl": 10,
+        "min_lvl": 150,
         "basetraits": [
             "Knight"
         ],
@@ -284,7 +284,7 @@
         "portrait": "content/npc/mobs/j1.png",
         "race": "Human",
         "locations": [],
-        "min_lvl": 10,
+        "min_lvl": 150,
         "basetraits": [
             "Knight"
         ],
@@ -314,7 +314,7 @@
         "portrait": "content/npc/mobs/k1.png",
         "race": "Human",
         "locations": [],
-        "min_lvl": 15,
+        "min_lvl": 150,
         "basetraits": [
             "Berserker"
         ],
@@ -344,7 +344,7 @@
         "portrait": "content/npc/mobs/l1.png",
         "race": "Goblinoid",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 250,
         "basetraits": [
             "Berserker", "Warrior"
         ],
@@ -374,7 +374,7 @@
         "portrait": "content/npc/mobs/m1.png",
         "race": "Human",
         "locations": [],
-        "min_lvl": 25,
+        "min_lvl": 200,
         "basetraits": [
             "Assassin", "Warrior"
         ],
@@ -404,7 +404,7 @@
         "portrait": "content/npc/mobs/n1.png",
         "race": "Human",
         "locations": [],
-        "min_lvl": 25,
+        "min_lvl": 200,
         "basetraits": [
             "Warrior"
         ],
@@ -434,7 +434,7 @@
         "portrait": "content/npc/mobs/o1.png",
         "race": "Human",
         "locations": [],
-        "min_lvl": 25,
+        "min_lvl": 200,
         "basetraits": [
             "Shooter"
         ],
@@ -464,7 +464,7 @@
         "portrait": "content/npc/mobs/p1.png",
         "race": "Human",
         "locations": [],
-        "min_lvl": 30,
+        "min_lvl": 400,
         "basetraits": [
             "Assassin"
         ],
@@ -494,7 +494,7 @@
         "portrait": "content/npc/mobs/q1.png",
         "race": "Lamia",
         "locations": [],
-        "min_lvl": 30,
+        "min_lvl": 300,
         "basetraits": [
             "Warrior"
         ],
@@ -524,7 +524,7 @@
         "portrait": "content/npc/mobs/r1.png",
         "race": "Monster",
         "locations": [],
-        "min_lvl": 40,
+        "min_lvl": 400,
         "basetraits": [
             "Berserker", "Warrior"
         ],
@@ -554,7 +554,7 @@
         "portrait": "content/npc/mobs/s1.png",
         "race": "Undead Monster",
         "locations": [],
-        "min_lvl": 45,
+        "min_lvl": 450,
         "basetraits": [
             "Berserker", "Warrior"
         ],
@@ -584,7 +584,7 @@
         "portrait": "content/npc/mobs/t1.png",
         "race": "Harpy",
         "locations": [],
-        "min_lvl": 35,
+        "min_lvl": 250,
         "basetraits": [
             "Mage"
         ],
@@ -614,7 +614,7 @@
         "portrait": "content/npc/mobs/u1.png",
         "race": "Harpy",
         "locations": [],
-        "min_lvl": 38,
+        "min_lvl": 350,
         "basetraits": [
             "Mage"
         ],
@@ -644,7 +644,7 @@
         "portrait": "content/npc/mobs/v1.png",
         "race": "Harpy",
         "locations": [],
-        "min_lvl": 40,
+        "min_lvl": 450,
         "basetraits": [
             "Mage", "Warrior"
         ],
@@ -674,7 +674,7 @@
         "portrait": "content/npc/mobs/w1.png",
         "race": "Goblinoid",
         "locations": [],
-        "min_lvl": 1,
+        "min_lvl": 20,
         "basetraits": [
             "Trickster"
         ],
@@ -704,7 +704,7 @@
         "portrait": "content/npc/mobs/x1.png",
         "race": "Goblinoid",
         "locations": [],
-        "min_lvl": 2,
+        "min_lvl": 20,
         "basetraits": [
             "Shooter"
         ],
@@ -734,7 +734,7 @@
         "portrait": "content/npc/mobs/y1.png",
         "race": "Goblinoid",
         "locations": [],
-        "min_lvl": 3,
+        "min_lvl": 60,
         "basetraits": [
             "Warrior"
         ],
@@ -764,7 +764,7 @@
         "portrait": "content/npc/mobs/z1.png",
         "race": "Goblinoid",
         "locations": [],
-        "min_lvl": 4,
+        "min_lvl": 90,
         "basetraits": [
             "Mage"
         ],
@@ -794,7 +794,7 @@
         "portrait": "content/npc/mobs/aa1.png",
         "race": "Goblinoid",
         "locations": [],
-        "min_lvl": 40,
+        "min_lvl": 300,
         "basetraits": [
             "Juggernaut"
         ],
@@ -824,7 +824,7 @@
         "portrait": "content/npc/mobs/ab1.png",
         "race": "Goblinoid",
         "locations": [],
-        "min_lvl": 45,
+        "min_lvl": 300,
         "basetraits": [
             "Juggernaut"
         ],
@@ -854,7 +854,7 @@
         "portrait": "content/npc/mobs/ac1.png",
         "race": "Undine",
         "locations": [],
-        "min_lvl": 40,
+        "min_lvl": 350,
         "basetraits": [
             "Healer"
         ],
@@ -884,7 +884,7 @@
         "portrait": "content/npc/mobs/ad1.png",
         "race": "Undine",
         "locations": [],
-        "min_lvl": 45,
+        "min_lvl": 450,
         "basetraits": [
             "Mage"
         ],
@@ -914,7 +914,7 @@
         "portrait": "content/npc/mobs/ae1.png",
         "race": "Undine",
         "locations": [],
-        "min_lvl": 50,
+        "min_lvl": 600,
         "basetraits": [
             "Mage"
         ],
@@ -944,7 +944,7 @@
         "portrait": "content/npc/mobs/af1.png",
         "race": "Undine",
         "locations": [],
-        "min_lvl": 55,
+        "min_lvl": 700,
         "basetraits": [
             "Knight"
         ],
@@ -974,7 +974,7 @@
         "portrait": "content/npc/mobs/ag1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 25,
+        "min_lvl": 400,
         "basetraits": [
             "Knight"
         ],
@@ -1004,7 +1004,7 @@
         "portrait": "content/npc/mobs/ah1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 45,
+        "min_lvl": 450,
         "basetraits": [
             "Knight", "Magical Creature"
         ],
@@ -1034,7 +1034,7 @@
         "portrait": "content/npc/mobs/ai1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 55,
+        "min_lvl": 550,
         "basetraits": [
             "Knight", "Magical Creature"
         ],
@@ -1064,7 +1064,7 @@
         "portrait": "content/npc/mobs/aj1.png",
         "race": "Undead",
         "locations": [],
-        "min_lvl": 50,
+        "min_lvl": 600,
         "basetraits": [
             "Mage", "Magical Creature"
         ],
@@ -1094,7 +1094,7 @@
         "portrait": "content/npc/mobs/ak1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 50,
+        "min_lvl": 200,
         "basetraits": [
             "Juggernaut"
         ],
@@ -1124,7 +1124,7 @@
         "portrait": "content/npc/mobs/al1.png",
         "race": "Angel",
         "locations": [],
-        "min_lvl": 50,
+        "min_lvl": 800,
         "basetraits": [
             "Knight"
         ],
@@ -1154,7 +1154,7 @@
         "portrait": "content/npc/mobs/am1.png",
         "race": "Angel",
         "locations": [],
-        "min_lvl": 60,
+        "min_lvl": 900,
         "basetraits": [
             "Knight", "Magical Creature"
         ],
@@ -1184,7 +1184,7 @@
         "portrait": "content/npc/mobs/an1.png",
         "race": "Angel",
         "locations": [],
-        "min_lvl": 70,
+        "min_lvl": 1000,
         "basetraits": [
             "Magical Creature"
         ],
@@ -1214,7 +1214,7 @@
         "portrait": "content/npc/mobs/vip1.png",
         "race": "Gargoyle",
         "locations": [],
-        "min_lvl": 35,
+        "min_lvl": 350,
         "basetraits": [
             "Trickster", "Knight"
         ],
@@ -1244,7 +1244,7 @@
         "portrait": "content/npc/mobs/gar1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 75,
+        "min_lvl": 750,
         "basetraits": [
             "Demigod"
         ],
@@ -1274,7 +1274,7 @@
         "portrait": "content/npc/mobs/gaz1.png",
         "race": "Plant",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 200,
         "basetraits": [
             "Mage"
         ],
@@ -1303,7 +1303,7 @@
         "portrait": "content/npc/mobs/ap1.png",
         "race": "Chimera",
         "locations": [],
-        "min_lvl": 45,
+        "min_lvl": 450,
         "basetraits": [
             "Warrior"
         ],
@@ -1333,7 +1333,7 @@
         "portrait": "content/npc/mobs/aq1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 5,
+        "min_lvl": 50,
         "basetraits": [
             "Trickster"
         ],
@@ -1363,7 +1363,7 @@
         "portrait": "content/npc/mobs/ar1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 25,
+        "min_lvl": 250,
         "basetraits": [
             "Trickster"
         ],
@@ -1393,7 +1393,7 @@
         "portrait": "content/npc/mobs/as1.png",
         "race": "Insect",
         "locations": [],
-        "min_lvl": 25,
+        "min_lvl": 400,
         "basetraits": [
             "Berserker"
         ],
@@ -1423,7 +1423,7 @@
         "portrait": "content/npc/mobs/at1.png",
         "race": "Insect",
         "locations": [],
-        "min_lvl": 35,
+        "min_lvl": 350,
         "basetraits": [
             "Berserker"
         ],
@@ -1453,7 +1453,7 @@
         "portrait": "content/npc/mobs/ara1.png",
         "race": "Monster Girl",
         "locations": [],
-        "min_lvl": 35,
+        "min_lvl": 350,
         "basetraits": [
             "Berserker", "Warrior"
         ],
@@ -1483,7 +1483,7 @@
         "portrait": "content/npc/mobs/gro1.png",
         "race": "Insect",
         "locations": [],
-        "min_lvl": 55,
+        "min_lvl": 600,
         "basetraits": [
             "Warrior", "Trickster"
         ],
@@ -1513,7 +1513,7 @@
         "portrait": "content/npc/mobs/au1.png",
         "race": "Monster",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 500,
         "basetraits": [
             "Berserker"
         ],
@@ -1543,7 +1543,7 @@
         "portrait": "content/npc/mobs/av1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 70,
+        "min_lvl": 900,
         "basetraits": [
             "Magical Creature", "Warrior"
         ],
@@ -1573,7 +1573,7 @@
         "portrait": "content/npc/mobs/aw1.png",
         "race": "Insect",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 200,
         "basetraits": [
             "Knight"
         ],
@@ -1603,7 +1603,7 @@
         "portrait": "content/npc/mobs/ax1.png",
         "race": "Demon",
         "locations": [],
-        "min_lvl": 40,
+        "min_lvl": 400,
         "basetraits": [
             "Warrior", "Magical Creature"
         ],
@@ -1633,7 +1633,7 @@
         "portrait": "content/npc/mobs/ay1.png",
         "race": "Demon",
         "locations": [],
-        "min_lvl": 60,
+        "min_lvl": 600,
         "basetraits": [
             "Warrior", "Magical Creature"
         ],
@@ -1663,7 +1663,7 @@
         "portrait": "content/npc/mobs/az1.png",
         "race": "Demon",
         "locations": [],
-        "min_lvl": 80,
+        "min_lvl": 900,
         "basetraits": [
             "Warrior", "Magical Creature"
         ],
@@ -1693,7 +1693,7 @@
         "portrait": "content/npc/mobs/ba1.png",
         "race": "Demon",
         "locations": [],
-        "min_lvl": 90,
+        "min_lvl": 1200,
         "basetraits": [
             "Berserker", "Magical Creature"
         ],
@@ -1723,7 +1723,7 @@
         "portrait": "content/npc/mobs/oni1.png",
         "race": "Demon",
         "locations": [],
-        "min_lvl": 50,
+        "min_lvl": 800,
         "basetraits": [
             "Warrior", "Magical Creature"
         ],
@@ -1753,7 +1753,7 @@
         "portrait": "content/npc/mobs/vamp1.png",
         "race": "Undead",
         "locations": [],
-        "min_lvl": 40,
+        "min_lvl": 600,
         "basetraits": [
             "Warrior", "Magical Creature"
         ],
@@ -1783,7 +1783,7 @@
         "portrait": "content/npc/mobs/bb1.png",
         "race": "Demon",
         "locations": [],
-        "min_lvl": 100,
+        "min_lvl": 1500,
         "basetraits": [
             "Demigod"
         ],
@@ -1813,7 +1813,7 @@
         "portrait": "content/npc/mobs/bc1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 10,
+        "min_lvl": 100,
         "basetraits": [
             "Warrior"
         ],
@@ -1843,7 +1843,7 @@
         "portrait": "content/npc/mobs/bd1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 15,
+        "min_lvl": 150,
         "basetraits": [
             "Berserker"
         ],
@@ -1873,7 +1873,7 @@
         "portrait": "content/npc/mobs/be1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 200,
         "basetraits": [
             "Knight"
         ],
@@ -1903,7 +1903,7 @@
         "portrait": "content/npc/mobs/bf1.png",
         "race": "Monster",
         "locations": [],
-        "min_lvl": 25,
+        "min_lvl": 400,
         "basetraits": [
             "Warrior"
         ],
@@ -1933,7 +1933,7 @@
         "portrait": "content/npc/mobs/bg1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 500,
         "basetraits": [
             "Magical Creature"
         ],
@@ -1963,7 +1963,7 @@
         "portrait": "content/npc/mobs/bh1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 25,
+        "min_lvl": 450,
         "basetraits": [
             "Healer"
         ],
@@ -1993,7 +1993,7 @@
         "portrait": "content/npc/mobs/bi1.png",
         "race": "Dryad",
         "locations": [],
-        "min_lvl": 25,
+        "min_lvl": 500,
         "basetraits": [
             "Healer", "Mage"
         ],
@@ -2023,7 +2023,7 @@
         "portrait": "content/npc/mobs/ivy1.png",
         "race": "Monster Girl",
         "locations": [],
-        "min_lvl": 25,
+        "min_lvl": 600,
         "basetraits": [
             "Mage"
         ],
@@ -2053,7 +2053,7 @@
         "portrait": "content/npc/mobs/bj1.png",
         "race": "Human",
         "locations": [],
-        "min_lvl": 25,
+        "min_lvl": 650,
         "basetraits": [
             "Mage"
         ],
@@ -2083,7 +2083,7 @@
         "portrait": "content/npc/mobs/bk1.png",
         "race": "Undead",
         "locations": [],
-        "min_lvl": 35,
+        "min_lvl": 750,
         "basetraits": [
             "Mage"
         ],
@@ -2113,7 +2113,7 @@
         "portrait": "content/npc/mobs/urat1.png",
         "race": "Undead",
         "locations": [],
-        "min_lvl": 5,
+        "min_lvl": 200,
         "basetraits": [
             "Warrior"
         ],
@@ -2143,7 +2143,7 @@
         "portrait": "content/npc/mobs/bl1.png",
         "race": "Undead",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 150,
         "basetraits": [
             "Berserker"
         ],
@@ -2173,7 +2173,7 @@
         "portrait": "content/npc/mobs/bm1.png",
         "race": "Undead",
         "locations": [],
-        "min_lvl": 50,
+        "min_lvl": 250,
         "basetraits": [
             "Warrior"
         ],
@@ -2203,7 +2203,7 @@
         "portrait": "content/npc/mobs/uniz1.png",
         "race": "Undead",
         "locations": [],
-        "min_lvl": 55,
+        "min_lvl": 550,
         "basetraits": [
             "Warrior", "Mage"
         ],
@@ -2233,7 +2233,7 @@
         "portrait": "content/npc/mobs/bn1.png",
         "race": "Undead",
         "locations": [],
-        "min_lvl": 60,
+        "min_lvl": 650,
         "basetraits": [
             "Mage"
         ],
@@ -2263,7 +2263,7 @@
         "portrait": "content/npc/mobs/bo1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 40,
+        "min_lvl": 400,
         "basetraits": [
             "Warrior"
         ],
@@ -2293,7 +2293,7 @@
         "portrait": "content/npc/mobs/bp1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 30,
+        "min_lvl": 300,
         "basetraits": [
             "Warrior"
         ],
@@ -2323,7 +2323,7 @@
         "portrait": "content/npc/mobs/bq1.png",
         "race": "Snow Creature",
         "locations": [],
-        "min_lvl": 40,
+        "min_lvl": 400,
         "basetraits": [
             "Warrior"
         ],
@@ -2353,7 +2353,7 @@
         "portrait": "content/npc/mobs/br1.png",
         "race": "Snow Creature",
         "locations": [],
-        "min_lvl": 45,
+        "min_lvl": 450,
         "basetraits": [
             "Warrior"
         ],
@@ -2383,7 +2383,7 @@
         "portrait": "content/npc/mobs/bs1.png",
         "race": "Snow Creature",
         "locations": [],
-        "min_lvl": 55,
+        "min_lvl": 700,
         "basetraits": [
             "Juggernaut"
         ],
@@ -2413,7 +2413,7 @@
         "portrait": "content/npc/mobs/icy1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 40,
+        "min_lvl": 900,
         "basetraits": [
             "Mage"
         ],
@@ -2443,7 +2443,7 @@
         "portrait": "content/npc/mobs/ice1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 80,
+        "min_lvl": 1300,
         "basetraits": [
             "Magical Creature"
         ],
@@ -2473,7 +2473,7 @@
         "portrait": "content/npc/mobs/bu1.png",
         "race": "Snow Creature",
         "locations": [],
-        "min_lvl": 50,
+        "min_lvl": 650,
         "basetraits": [
             "Juggernaut"
         ],
@@ -2503,7 +2503,7 @@
         "portrait": "content/npc/mobs/bv1.png",
         "race": "Snow Creature",
         "locations": [],
-        "min_lvl": 70,
+        "min_lvl": 700,
         "basetraits": [
             "Magical Creature", "Shooter"
         ],
@@ -2533,7 +2533,7 @@
         "portrait": "content/npc/mobs/bz1.png",
         "race": "Demon",
         "locations": [],
-        "min_lvl": 30,
+        "min_lvl": 300,
         "basetraits": [
             "Trickster"
         ],
@@ -2563,7 +2563,7 @@
         "portrait": "content/npc/mobs/ca1.png",
         "race": "Monster Girl",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 200,
         "basetraits": [
             "Trickster", "Warrior"
         ],
@@ -2593,7 +2593,7 @@
         "portrait": "content/npc/mobs/cb1.png",
         "race": "Monster Girl",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 200,
         "basetraits": [
             "Mage", "Shooter"
         ],
@@ -2623,7 +2623,7 @@
         "portrait": "content/npc/mobs/cc1.png",
         "race": "Monster Girl",
         "locations": [],
-        "min_lvl": 50,
+        "min_lvl": 500,
         "basetraits": [
             "Knight"
         ],
@@ -2653,7 +2653,7 @@
         "portrait": "content/npc/mobs/min1.png",
         "race": "Monster",
         "locations": [],
-        "min_lvl": 51,
+        "min_lvl": 500,
         "basetraits": [
             "Warrior"
         ],
@@ -2683,7 +2683,7 @@
         "portrait": "content/npc/mobs/cd1.png",
         "race": "???",
         "locations": [],
-        "min_lvl": 80,
+        "min_lvl": 800,
         "basetraits": [
             "Magical Creature"
         ],
@@ -2713,7 +2713,7 @@
         "portrait": "content/npc/mobs/ce1.png",
         "race": "???",
         "locations": [],
-        "min_lvl": 80,
+        "min_lvl": 800,
         "basetraits": [
             "Magical Creature"
         ],
@@ -2743,7 +2743,7 @@
         "portrait": "content/npc/mobs/cf1.png",
         "race": "Monster Girl",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 200,
         "basetraits": [
             "Trickster", "Assassin"
         ],
@@ -2773,7 +2773,7 @@
         "portrait": "content/npc/mobs/mim.png",
         "race": "Monster",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 200,
         "basetraits": [
             "Trickster", "Assassin"
         ],
@@ -2803,7 +2803,7 @@
         "portrait": "content/npc/mobs/cg1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 100,
         "basetraits": [
             "Juggernaut"
         ],
@@ -2833,7 +2833,7 @@
         "portrait": "content/npc/mobs/ww.png",
         "race": "Undead",
         "locations": [],
-        "min_lvl": 2,
+        "min_lvl": 25,
         "basetraits": [
             "Magical Creature"
         ],
@@ -2863,7 +2863,7 @@
         "portrait": "content/npc/mobs/ws1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 21,
+        "min_lvl": 250,
         "basetraits": [
             "Berserker", "Magical Creature"
         ],
@@ -2893,7 +2893,7 @@
         "portrait": "content/npc/mobs/was1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 21,
+        "min_lvl": 250,
         "basetraits": [
             "Knight", "Magical Creature"
         ],
@@ -2923,7 +2923,7 @@
         "portrait": "content/npc/mobs/fir1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 21,
+        "min_lvl": 250,
         "basetraits": [
             "Warrior", "Magical Creature"
         ],
@@ -2953,7 +2953,7 @@
         "portrait": "content/npc/mobs/if1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 25,
+        "min_lvl": 250,
         "basetraits": [
             "Magical Creature"
         ],
@@ -2983,7 +2983,7 @@
         "portrait": "content/npc/mobs/ch1.png",
         "race": "Monster Girl",
         "locations": [],
-        "min_lvl": 30,
+        "min_lvl": 300,
         "basetraits": [
             "Trickster", "Shooter"
         ],
@@ -3013,7 +3013,7 @@
         "portrait": "content/npc/mobs/ci1.png",
         "race": "Human",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 200,
         "basetraits": [
             "Berserker"
         ],
@@ -3043,7 +3043,7 @@
         "portrait": "content/npc/mobs/cj1.png",
         "race": "Angel",
         "locations": [],
-        "min_lvl": 100,
+        "min_lvl": 1000,
         "basetraits": [
             "Demigod"
         ],
@@ -3073,7 +3073,7 @@
         "portrait": "content/npc/mobs/ck1.png",
         "race": "Stone..?",
         "locations": [],
-        "min_lvl": 1,
+        "min_lvl": 5,
         "basetraits": [
             "Juggernaut"
         ],
@@ -3103,7 +3103,7 @@
         "portrait": "content/npc/mobs/cl1.png",
         "race": "Monster Girl",
         "locations": [],
-        "min_lvl": 30,
+        "min_lvl": 300,
         "basetraits": [
             "Juggernaut"
         ],
@@ -3133,7 +3133,7 @@
         "portrait": "content/npc/mobs/cm1.png",
         "race": "Monster Girl",
         "locations": [],
-        "min_lvl": 35,
+        "min_lvl": 350,
         "basetraits": [
             "Warrior"
         ],
@@ -3163,7 +3163,7 @@
         "portrait": "content/npc/mobs/cn1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 85,
+        "min_lvl": 1100,
         "basetraits": [
             "Magical Creature"
         ],
@@ -3193,7 +3193,7 @@
         "portrait": "content/npc/mobs/co1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 25,
+        "min_lvl": 250,
         "basetraits": [
             "Warrior"
         ],
@@ -3223,7 +3223,7 @@
         "portrait": "content/npc/mobs/plant1.png",
         "race": "Plant",
         "locations": [],
-        "min_lvl": 25,
+        "min_lvl": 250,
         "basetraits": [
             "Juggernaut"
         ],
@@ -3253,7 +3253,7 @@
         "portrait": "content/npc/mobs/cp1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 65,
+        "min_lvl": 650,
         "basetraits": [
             "Knight"
         ],
@@ -3283,7 +3283,7 @@
         "portrait": "content/npc/mobs/cq1.png",
         "race": "Human",
         "locations": [],
-        "min_lvl": 25,
+        "min_lvl": 600,
         "basetraits": [
             "Knight"
         ],
@@ -3313,7 +3313,7 @@
         "portrait": "content/npc/mobs/cs1.png",
         "race": "Droid",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 250,
         "basetraits": [
             "Shooter"
         ],
@@ -3343,7 +3343,7 @@
         "portrait": "content/npc/mobs/fog1.png",
         "race": "Construct",
         "locations": [],
-        "min_lvl": 35,
+        "min_lvl": 700,
         "basetraits": [
             "Warrior"
         ],
@@ -3373,7 +3373,7 @@
         "portrait": "content/npc/mobs/ct1.png",
         "race": "Human",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 200,
         "basetraits": [
             "Warrior"
         ],
@@ -3403,7 +3403,7 @@
         "portrait": "content/npc/mobs/thi1.png",
         "race": "Human",
         "locations": [],
-        "min_lvl": 10,
+        "min_lvl": 100,
         "basetraits": [
             "Trickster"
         ],
@@ -3433,7 +3433,7 @@
         "portrait": "content/npc/mobs/cu1.png",
         "race": "Undead",
         "locations": [],
-        "min_lvl": 60,
+        "min_lvl": 1400,
         "basetraits": [
             "Warrior", "Magical Creature"
         ],
@@ -3463,7 +3463,7 @@
         "portrait": "content/npc/mobs/dea1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 30,
+        "min_lvl": 300,
         "basetraits": [
             "Warrior"
         ],
@@ -3493,7 +3493,7 @@
         "portrait": "content/npc/mobs/cv1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 60,
+        "min_lvl": 600,
         "basetraits": [
             "Warrior", "Magical Creature"
         ],
@@ -3523,7 +3523,7 @@
         "portrait": "content/npc/mobs/cw1.png",
         "race": "Monster",
         "locations": [],
-        "min_lvl": 10,
+        "min_lvl": 100,
         "basetraits": [
             "Mage"
         ],
@@ -3553,7 +3553,7 @@
         "portrait": "content/npc/mobs/cx1.png",
         "race": "Human",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 250,
         "basetraits": [
             "Warrior"
         ],
@@ -3583,7 +3583,7 @@
         "portrait": "content/npc/mobs/cy1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 30,
+        "min_lvl": 550,
         "basetraits": [
             "Magical Creature"
         ],
@@ -3613,7 +3613,7 @@
         "portrait": "content/npc/mobs/cz1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 40,
+        "min_lvl": 600,
         "basetraits": [
             "Magical Creature", "Warrior"
         ],
@@ -3643,7 +3643,7 @@
         "portrait": "content/npc/mobs/da1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 40,
+        "min_lvl": 600,
         "basetraits": [
             "Magical Creature", "Warrior"
         ],
@@ -3673,7 +3673,7 @@
         "portrait": "content/npc/mobs/db1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 600,
         "basetraits": [
             "Magical Creature"
         ],
@@ -3703,7 +3703,7 @@
         "portrait": "content/npc/mobs/dc1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 600,
         "basetraits": [
             "Magical Creature"
         ],
@@ -3733,7 +3733,7 @@
         "portrait": "content/npc/mobs/dd1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 650,
         "basetraits": [
             "Magical Creature"
         ],
@@ -3763,7 +3763,7 @@
         "portrait": "content/npc/mobs/de1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 600,
         "basetraits": [
             "Magical Creature"
         ],
@@ -3793,7 +3793,7 @@
         "portrait": "content/npc/mobs/df1.png",
         "race": "Elemental",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 600,
         "basetraits": [
             "Magical Creature"
         ],
@@ -3823,7 +3823,7 @@
         "portrait": "content/npc/mobs/dg1.png",
         "race": "Monster Girl",
         "locations": [],
-        "min_lvl": 30,
+        "min_lvl": 350,
         "basetraits": [
             "Shooter"
         ],
@@ -3853,7 +3853,7 @@
         "portrait": "content/npc/mobs/fc1.png",
         "race": "Monster Girl",
         "locations": [],
-        "min_lvl": 30,
+        "min_lvl": 350,
         "basetraits": [
             "Warrior"
         ],
@@ -3883,7 +3883,7 @@
         "portrait": "content/npc/mobs/sco1.png",
         "race": "Insect",
         "locations": [],
-        "min_lvl": 5,
+        "min_lvl": 300,
         "basetraits": [
             "Warrior"
         ],
@@ -3913,7 +3913,7 @@
         "portrait": "content/npc/mobs/dh1.png",
         "race": "Insect",
         "locations": [],
-        "min_lvl": 10,
+        "min_lvl": 100,
         "basetraits": [
             "Trickster"
         ],
@@ -3943,7 +3943,7 @@
         "portrait": "content/npc/mobs/di1.png",
         "race": "Homunculus",
         "locations": [],
-        "min_lvl": 60,
+        "min_lvl": 600,
         "basetraits": [
             "Berserker"
         ],
@@ -3973,7 +3973,7 @@
         "portrait": "content/npc/mobs/sah1.png",
         "race": "Monster",
         "locations": [],
-        "min_lvl": 15,
+        "min_lvl": 150,
         "basetraits": [
             "Shooter"
         ],
@@ -4003,7 +4003,7 @@
         "portrait": "content/npc/mobs/dj1.png",
         "race": "Homunculus",
         "locations": [],
-        "min_lvl": 60,
+        "min_lvl": 600,
         "basetraits": [
             "Warrior"
         ],
@@ -4033,7 +4033,7 @@
         "portrait": "content/npc/mobs/dk1.png",
         "race": "Undead",
         "locations": [],
-        "min_lvl": 50,
+        "min_lvl": 500,
         "basetraits": [
             "Mage"
         ],
@@ -4063,7 +4063,7 @@
         "portrait": "content/npc/mobs/dl1.png",
         "race": "Insect",
         "locations": [],
-        "min_lvl": 50,
+        "min_lvl": 200,
         "basetraits": [
             "Mage", "Assassin"
         ],
@@ -4093,7 +4093,7 @@
         "portrait": "content/npc/mobs/dm1.png",
         "race": "Titan",
         "locations": [],
-        "min_lvl": 80,
+        "min_lvl": 800,
         "basetraits": [
             "Juggernaut"
         ],
@@ -4123,7 +4123,7 @@
         "portrait": "content/npc/mobs/dn1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 30,
+        "min_lvl": 250,
         "basetraits": [
             "Trickster"
         ],
@@ -4153,7 +4153,7 @@
         "portrait": "content/npc/mobs/do1.png",
         "race": "Undead",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 100,
         "basetraits": [
             "Trickster", "Shooter"
         ],
@@ -4183,7 +4183,7 @@
         "portrait": "content/npc/mobs/dp1.png",
         "race": "Undead",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 100,
         "basetraits": [
             "Trickster", "Knight"
         ],
@@ -4213,7 +4213,7 @@
         "portrait": "content/npc/mobs/dq1.png",
         "race": "Dark Elf",
         "locations": [],
-        "min_lvl": 40,
+        "min_lvl": 400,
         "basetraits": [
             "Shooter", "Mage"
         ],
@@ -4243,7 +4243,7 @@
         "portrait": "content/npc/mobs/dr1.png",
         "race": "Monster Girl",
         "locations": [],
-        "min_lvl": 90,
+        "min_lvl": 900,
         "basetraits": [
             "Knight", "Mage"
         ],
@@ -4273,7 +4273,7 @@
         "portrait": "content/npc/mobs/ds1.png",
         "race": "Monster Girl",
         "locations": [],
-        "min_lvl": 30,
+        "min_lvl": 300,
         "basetraits": [
             "Knight", "Berserker"
         ],
@@ -4303,7 +4303,7 @@
         "portrait": "content/npc/mobs/dt1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 35,
+        "min_lvl": 350,
         "basetraits": [
             "Berserker"
         ],
@@ -4333,7 +4333,7 @@
         "portrait": "content/npc/mobs/jellyfish1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 35,
+        "min_lvl": 350,
         "basetraits": [
             "Mage"
         ],
@@ -4362,7 +4362,7 @@
         "portrait": "content/npc/mobs/du1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 35,
+        "min_lvl": 300,
         "basetraits": [
             "Shooter"
         ],
@@ -4392,7 +4392,7 @@
         "portrait": "content/npc/mobs/beh1.png",
         "race": "Animal",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 250,
         "basetraits": [
             "Juggernaut"
         ],
@@ -4422,7 +4422,7 @@
         "portrait": "content/npc/mobs/cock1.png",
         "race": "Monster",
         "locations": [],
-        "min_lvl": 20,
+        "min_lvl": 200,
         "basetraits": [
             "Mage"
         ],
@@ -4453,7 +4453,7 @@
         "be_webm_sprites": {"idle": ["BlStar_idle", [200, 150]]},
         "race": "Unknown",
         "locations": [],
-        "min_lvl": 100,
+        "min_lvl": 2000,
         "basetraits": [
             "Magical Creature"
         ],
@@ -4482,7 +4482,7 @@
         "portrait": "content/npc/mobs/dv1.png",
         "race": "Droid",
         "locations": [],
-        "min_lvl": 45,
+        "min_lvl": 450,
         "basetraits": [
             "Mage"
         ],
@@ -4512,7 +4512,7 @@
         "portrait": "content/npc/mobs/dw1.png",
         "race": "Monster Girl",
         "locations": [],
-        "min_lvl": 25,
+        "min_lvl": 250,
         "basetraits": [
             "Mage"
         ],
@@ -4542,7 +4542,7 @@
         "portrait": "content/npc/mobs/fa1.png",
         "race": "Fairy",
         "locations": [],
-        "min_lvl": 50,
+        "min_lvl": 500,
         "basetraits": [
             "Mage"
         ],
@@ -4572,7 +4572,7 @@
         "portrait": "content/npc/mobs/fb1.png",
         "race": "Monster Girl",
         "locations": [],
-        "min_lvl": 60,
+        "min_lvl": 600,
         "basetraits": [
             "Assassin"
         ],
