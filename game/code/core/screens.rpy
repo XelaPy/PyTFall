@@ -744,9 +744,6 @@ init: # Items:
                                 xysize (102, 14)
 
     screen message_screen(msg, size=(500, 300), use_return=False):
-        if persistent.unsafe_mode:
-            key "q" action Show("panic_screen")
-            key "Q" action Show("panic_screen")
         modal True
         zorder 10
 
@@ -1693,21 +1690,35 @@ init: # Settings:
                 action Quit()
                 text "Quit" size 18 align (0.5, 0.5) # style "mmenu_button_text"
             null height 3
+            
+screen keymap_override():
+    on "show":
+        action SetVariable("_skipping", False)
+    on "hide":
+        action SetVariable("_skipping", True)
 
-screen panic_screen_summon:
-    if persistent.unsafe_mode:
-        key "q" action Show("panic_screen")
-        key "Q" action Show("panic_screen")
+    key "hide_windows" action NullAction()
+    key "game_menu" action NullAction()
+    key "help" action NullAction()
+    key "rollback" action NullAction()
+    key "rollforward" action NullAction()
+    key "skip" action NullAction()
+    key "toggle_skip" action NullAction()
+    key "fast_skip" action NullAction()
+    key "mouseup_3" action NullAction()
 
 screen panic_screen:
-    zorder 1000
+    zorder 1000000000
     modal True
     add "content/gfx/bg/panic_screen.jpg" zoom 1.32
+    default original_transitions_state = _preferences.transitions
     on "show":
-        action [PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True)]
-    key "q" action [Hide("panic_screen"), PauseAudio("events", False), PauseAudio("events2", False), PauseAudio("world", False), PauseAudio("gamemusic", False), PauseAudio("music", False)]
-    key "Q" action [Hide("panic_screen"), PauseAudio("events", False), PauseAudio("events2", False), PauseAudio("world", False), PauseAudio("gamemusic", False), PauseAudio("music", False)]
-
+        action [PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True), SetField(_preferences, "transitions", 0)]
+    on "hide":
+        action [SetField(config, "window_title", config.name), PauseAudio("events", False), PauseAudio("events2", False), PauseAudio("world", False), PauseAudio("gamemusic", False), PauseAudio("music", False), SetField(_preferences, "transitions", original_transitions_state)]
+    use keymap_override
+    key "q" action Hide("panic_screen")
+    key "Q" action Hide("panic_screen")
 screen give_exp_after_battle(group, exp = 0, money=0): # shows post-battle results; TODO after beta: make the animation to show exp gained post battle, not just the current one;
     modal True
     zorder 100
@@ -1759,6 +1770,3 @@ screen give_exp_after_battle(group, exp = 0, money=0): # shows post-battle resul
             yalign 0.5
             action [Hide("give_exp_after_battle")]
             text "OK" size 15
-    if persistent.unsafe_mode:
-        key "q" action Show("panic_screen")
-        key "Q" action Show("panic_screen")

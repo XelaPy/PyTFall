@@ -207,9 +207,6 @@ screen slavemarket():
     use location_actions("slave_market")
 
 screen slave_shopping(store, tt_text, buy_button, buy_tt):
-    if persistent.unsafe_mode:
-        key "q" action Show("panic_screen")
-        key "Q" action Show("panic_screen")
     modal True
     zorder 1
 
@@ -501,9 +498,6 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
     use top_stripe(show_return_button=True, return_button_action=Hide("slave_shopping"), show_lead_away_buttons=False)
 
 screen se_captured_retrieval(pos=(900, 300)):
-    if persistent.unsafe_mode:
-        key "q" action Show("panic_screen")
-        key "Q" action Show("panic_screen")
     zorder 3
     modal True
 

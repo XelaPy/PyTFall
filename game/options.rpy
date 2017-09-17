@@ -24,6 +24,15 @@ python early:
 
 define config.quicksave_slots = 6
 
+init -999 python:
+    def show_panic_screen_func():
+        if persistent.unsafe_mode:
+            config.window_title = "System Log"
+            renpy.show_screen("panic_screen")
+            renpy.restart_interaction()
+    config.keymap['panic_screen'] = ['q', 'Q']
+    config.underlay.append(renpy.Keymap(panic_screen=show_panic_screen_func))
+
 init -1000 python hide:
     ## Should we enable the use of developer tools? This should be
     ## set to False before the game is released, so the user can't

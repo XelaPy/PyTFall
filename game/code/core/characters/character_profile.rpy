@@ -902,9 +902,6 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None): # TODO: upkeep 
             action Hide("show_trait_info")
 
 screen girl_control():
-    if persistent.unsafe_mode:
-        key "q" action Show("panic_screen")
-        key "Q" action Show("panic_screen")
     default char = PytGroup(the_chosen) if the_chosen else char
     modal True
     zorder 1
@@ -1114,9 +1111,6 @@ screen girl_control():
             text  "OK"
 
 screen confirm_girl_sale():
-    if persistent.unsafe_mode:
-        key "q" action Show("panic_screen")
-        key "Q" action Show("panic_screen")
     modal True
     zorder 1
 
@@ -1150,9 +1144,6 @@ screen confirm_girl_sale():
                     action Return(['control', 'fire'])
 
 screen finances(obj, mode="logical"):
-    if persistent.unsafe_mode:
-        key "q" action Show("panic_screen")
-        key "Q" action Show("panic_screen")
     modal True
     zorder 1
 
