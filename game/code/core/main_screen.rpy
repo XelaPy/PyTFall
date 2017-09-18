@@ -15,7 +15,6 @@ label mainscreen:
 
     scene black
     show screen mainscreen
-    show screen panic_screen_summon # in case if somehow it was hidden after all
     # with pixellate
 
     # Prediction Helpers:

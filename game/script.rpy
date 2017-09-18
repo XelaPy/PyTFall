@@ -165,7 +165,6 @@
         items_upgrades = json.load(renpy.file("content/db/upgrades.json"))
 
     # Loading apartments/guilds:
-    show screen panic_screen_summon
     call load_resources
 
 label dev_testing_menu:

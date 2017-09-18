@@ -419,10 +419,7 @@ screen navigation():
 # http://www.renpy.org/doc/html/screen_special.html#yesno-prompt
 
 screen yesno_prompt(message, yes_action, no_action):
-    if persistent.unsafe_mode:
-        key "q" action Show("panic_screen")
-        key "Q" action Show("panic_screen")
-    zorder 10**10 + 1
+    zorder 10000
     modal True
 
     # window:

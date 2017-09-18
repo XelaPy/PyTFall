@@ -61,9 +61,6 @@ label tailor_store_shopping:
             
 screen shopkeeper_items_upgrades(upgrades_list):
     modal True
-    if persistent.unsafe_mode:
-        key "q" action Show("panic_screen")
-        key "Q" action Show("panic_screen")
     frame:
         align (0.5, 0.5)
         background Frame("content/gfx/frame/frame_dec_1.png", 75, 75)
