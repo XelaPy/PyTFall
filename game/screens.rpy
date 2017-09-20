@@ -419,7 +419,7 @@ screen navigation():
 # http://www.renpy.org/doc/html/screen_special.html#yesno-prompt
 
 screen yesno_prompt(message, yes_action, no_action):
-    zorder 10000
+    zorder 10000000
     modal True
 
     # window:
