@@ -28,6 +28,8 @@ init -999 python:
     def show_panic_screen_func():
         if persistent.unsafe_mode:
             config.window_title = "System Log"
+            config.window_icon = "content/gfx/interface/icons/terminal.png"
+            renpy.game.interface.set_icon()
             renpy.show_screen("panic_screen")
             renpy.restart_interaction()
     config.keymap['panic_screen'] = ['q', 'Q']
@@ -40,12 +42,12 @@ init -1000 python hide:
     config.developer = True
     config.debug = True
 
+define config.window_icon = "content/gfx/interface/icons/win_icon.png"
+    
 init -5 python hide:
     ## This controls the title of the window, when Ren'Py is
     ## running in a window.
     config.window_title = "%s %s" % (config.name, config.version)
-    config.window_icon = "content/gfx/interface/icons/win_icon.png"
-    config.windows_icon = "content/gfx/interface/icons/win_icon.png"
 
     # ----------------------------- Moved from initialization.rpy -------------------------------------->>>
     config.quit_action = Quit()

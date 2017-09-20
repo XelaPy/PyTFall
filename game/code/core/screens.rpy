@@ -1715,7 +1715,7 @@ screen panic_screen:
     on "show":
         action [PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True), SetField(_preferences, "transitions", 0)]
     on "hide":
-        action [SetField(config, "window_title", config.name), PauseAudio("events", False), PauseAudio("events2", False), PauseAudio("world", False), PauseAudio("gamemusic", False), PauseAudio("music", False), SetField(_preferences, "transitions", original_transitions_state)]
+        action [SetField(config, "window_title", config.name), PauseAudio("events", False), PauseAudio("events2", False), PauseAudio("world", False), PauseAudio("gamemusic", False), PauseAudio("music", False), SetField(_preferences, "transitions", original_transitions_state), SetField(config, "window_icon", "content/gfx/interface/icons/win_icon.png"), renpy.game.interface.set_icon]
     use keymap_override
     key "q" action Hide("panic_screen")
     key "Q" action Hide("panic_screen")
