@@ -42,6 +42,7 @@ label mc_setup:
         elif result[0] == "rename":
             if result[1] == "name":
                 $ n = renpy.call_screen("pyt_input", hero.name, "Enter Name", 20)
+                "[n]"
                 if len(n):
                     $ hero.name = n
                     $ hero.nickname = hero.name
@@ -438,7 +439,7 @@ init: # MC Setup Screens:
             pos 173, 16 anchor .5, .0
             padding 15, 10
             # xysize (150, 40)
-            text ("{size=20}{font=fonts/TisaOTm.otf}Select your origin!") # align (0.53, 0.4)
+            text ("{size=20}{font=fonts/TisaOTm.otf}Select your origin") # align (0.53, 0.4)
             
         hbox: # Fathers Main occupation:
             style_group "sqstory"

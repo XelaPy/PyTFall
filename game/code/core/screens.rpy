@@ -770,7 +770,8 @@ init: # Items:
         timer t+0.2 action Hide("display_disposition")
 
     screen pyt_input(default="", text="", length=20, size=(350, 150)):
-        modal True
+        use keymap_override
+        modal False
         zorder 10
 
         fixed:
@@ -785,9 +786,19 @@ init: # Items:
             vbox:
                 spacing 30
                 align(0.5, 0.5)
-                text text xalign 0.5
-                input default default length length xalign 0.5
-
+                text text xalign 0.5 style "TisaOTM" size 20 color goldenrod
+                input:
+                    id "text_input"
+                    default default
+                    length length
+                    xalign 0.5
+                    style "TisaOTM"
+                    size 20
+                    color white
+                textbutton "OK":
+                    xalign .5
+                    action Return(renpy.get_widget("pyt_input", "text_input").content)
+                    
     screen exit_button(size=(35, 35), align=(1.0, 0.0), action=Return(['control', 'return'])):
         $ img = im.Scale("content/gfx/interface/buttons/close.png" , size[0], size[1])
         imagebutton:
