@@ -735,81 +735,82 @@ init: # Screens:
             xysize (630, 685)
             xalign .5
             ypos 40
-            # has vbox xsize 630
-            null height 5
-            frame:
-                xalign 0.5
-                xysize (380, 50)
-                background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                label (u"__ [building.name] __") text_size 23 text_color ivory align (0.5, 0.6)
-            null height 5
-
-            frame:
-                xalign 0.5
-                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
-                add ProportionalScale(building.img, 600, 444) align (0.5, 0.5)
-
-            # Left/Right Controls.
-            frame:
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
-                has hbox xysize (600, 74)
-                button:
-                    align .1, .5
-                    xysize (140, 40)
-                    style "left_wood_button"
-                    action Return(['control', 'left'])
-                    hovered tt.action("<== Previous")
-                    text "Previous" style "wood_text" xalign 0.69
+            vbox:
+                xsize 630
+                null height 5
+                frame:
+                    xalign 0.5
+                    xysize (380, 50)
+                    background Frame("content/gfx/frame/namebox5.png", 10, 10)
+                    label (u"__ [building.name] __") text_size 23 text_color ivory align (0.5, 0.6)
+                null height 5
 
                 frame:
-                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                    xysize (200, 50)
-                    align (0.5, 0.5)
+                    xalign 0.5
+                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                    add ProportionalScale(building.img, 600, 444) align (0.5, 0.5)
 
-                button:
-                    align .9, .5
-                    xysize (140, 40)
-                    style "right_wood_button"
-                    action Return(['control', 'right'])
-                    hovered tt.action("Next ==>")
-                    text "Next" style "wood_text" xalign 0.39
-
-            if isinstance(building, UpgradableBuilding):
+                # Left/Right Controls.
                 frame:
-                    align .5, .95
-                    style_group "wood"
-                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
-                    xpadding 20
-                    ypadding 10
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
+                    has hbox xysize (600, 74)
                     button:
-                        align .5, .5
-                        xysize (135, 40)
-                        action SetVariable("bm_mid_frame_mode", building)
-                        hovered tt.action('Open a new business in this building!.')
-                        text "Expand"
+                        align .1, .5
+                        xysize (140, 40)
+                        style "left_wood_button"
+                        action Return(['control', 'left'])
+                        hovered tt.action("<== Previous")
+                        text "Previous" style "wood_text" xalign 0.69
 
-            ## Security Bar:
-            if hasattr(building, "gui_security_bar") and building.gui_security_bar()[0]:
-                frame:
-                    xalign 0.490
-                    ypos 561
-                    background Frame (Transform("content/gfx/frame/rank_frame.png", alpha=0.4), 5, 5)
-                    xysize (240, 55)
-                    xpadding 10
-                    ypadding 10
-                    hbox:
-                        pos (34, 1)
-                        vbox:
-                            xsize 135
-                            text "Security Presence:" size 12
-                        vbox:
-                            text (u"%d/%d"%(building.security_presence, building.gui_security_bar()[1])) size 12
-                    null height 3
-                    bar:
-                        align (0.45, 0.8)
-                        value FieldValue(building, 'security_presence', building.gui_security_bar()[1], max_is_zero=False, style='scrollbar', offset=0, step=1)
-                        xsize 170
-                        thumb 'content/gfx/interface/icons/move15.png'
+                    frame:
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                        xysize (200, 50)
+                        align (0.5, 0.5)
+
+                    button:
+                        align .9, .5
+                        xysize (140, 40)
+                        style "right_wood_button"
+                        action Return(['control', 'right'])
+                        hovered tt.action("Next ==>")
+                        text "Next" style "wood_text" xalign 0.39
+
+                if isinstance(building, UpgradableBuilding):
+                    frame:
+                        align .5, .95
+                        style_group "wood"
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
+                        xpadding 20
+                        ypadding 10
+                        button:
+                            align .5, .5
+                            xysize (135, 40)
+                            action SetVariable("bm_mid_frame_mode", building)
+                            hovered tt.action('Open a new business in this building!.')
+                            text "Expand"
+
+                ## Security Bar:
+                if hasattr(building, "gui_security_bar") and building.gui_security_bar()[0]:
+                    frame:
+                        xalign 0.490
+                        ypos 561
+                        background Frame (Transform("content/gfx/frame/rank_frame.png", alpha=0.4), 5, 5)
+                        xysize (240, 55)
+                        xpadding 10
+                        ypadding 10
+                        hbox:
+                            pos (34, 1)
+                            vbox:
+                                xsize 135
+                                text "Security Presence:" size 12
+                            vbox:
+                                text (u"%d/%d"%(building.security_presence, building.gui_security_bar()[1])) size 12
+                        null height 3
+                        bar:
+                            align (0.45, 0.8)
+                            value FieldValue(building, 'security_presence', building.gui_security_bar()[1], max_is_zero=False, style='scrollbar', offset=0, step=1)
+                            xsize 170
+                            thumb 'content/gfx/interface/icons/move15.png'
 
     screen building_management_midframe_businesses_mode:
         frame:
@@ -823,57 +824,59 @@ init: # Screens:
             # Fighter Guild, team launch and area info:
             if isinstance(bm_mid_frame_mode, ExplorationGuild):
                 if bm_exploration_view_mode == "log":
-                    # has vbox xsize 630
-                    frame: # Image
-                        xalign .5
-                        padding 5, 5
-                        background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                        add im.Scale("content/gfx/bg/buildings/log.png", 600, 390)
+                    vbox:
+                        xsize 630
+                        frame: # Image
+                            xalign .5
+                            padding 5, 5
+                            background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
+                            add im.Scale("content/gfx/bg/buildings/log.png", 600, 390)
 
                 if bm_exploration_view_mode == "explore":
-                    # has vbox xsize 630
-                    frame: # Image
-                        xalign .5
-                        padding 5, 5
-                        background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                        add im.Scale("content/gfx/bg/buildings/Exploration.png", 600, 390)
+                    vbox:
+                        xsize 630
+                        frame: # Image
+                            xalign .5
+                            padding 5, 5
+                            background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
+                            add im.Scale("content/gfx/bg/buildings/Exploration.png", 600, 390)
 
-                    hbox:
-                        box_wrap 1
-                        spacing 2
-                        xalign .5
-                        if isinstance(bm_mid_frame_focus, FG_Area):
-                            $ temp = sorted([a for a in fg_areas.values() if a.area == bm_mid_frame_focus.name], key=attrgetter("stage"))
-                            for area in temp:
-                                $ fbg = "content/gfx/frame/mes12.jpg"
-                                $ hfbg = im.MatrixColor("content/gfx/frame/mes11.jpg", im.matrix.brightness(0.10))
-                                button:
-                                    background Transform(Frame(fbg, 10, 10), alpha=0.9)
-                                    hover_background Transform(Frame(hfbg, 10, 10), alpha=0.9)
-                                    xysize (150, 90)
-                                    ymargin 1
-                                    ypadding 1
-                                    if area.unlocked:
-                                        $ temp = area.name
-                                        action Show("fg_area", dissolve, area)
-                                    else:
-                                        $ temp = "?????????"
-                                        action NullAction()
-                                    text temp color gold style "interactions_text" size 14 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
-                                    hbox:
-                                        align (0.5, 0.9)
-                                        # Get the correct stars:
-                                        python:
-                                            temp = []
-                                            for i in range(area.explored//20):
-                                                temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
-                                            if len(temp) != 5:
-                                                if area.explored%20 >= 10:
-                                                    temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
-                                            while len(temp) != 5:
-                                                temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
-                                        for i in temp:
-                                            add i
+                        hbox:
+                            box_wrap 1
+                            spacing 2
+                            xalign .5
+                            if isinstance(bm_mid_frame_focus, FG_Area):
+                                $ temp = sorted([a for a in fg_areas.values() if a.area == bm_mid_frame_focus.name], key=attrgetter("stage"))
+                                for area in temp:
+                                    $ fbg = "content/gfx/frame/mes12.jpg"
+                                    $ hfbg = im.MatrixColor("content/gfx/frame/mes11.jpg", im.matrix.brightness(0.10))
+                                    button:
+                                        background Transform(Frame(fbg, 10, 10), alpha=0.9)
+                                        hover_background Transform(Frame(hfbg, 10, 10), alpha=0.9)
+                                        xysize (150, 90)
+                                        ymargin 1
+                                        ypadding 1
+                                        if area.unlocked:
+                                            $ temp = area.name
+                                            action Show("fg_area", dissolve, area)
+                                        else:
+                                            $ temp = "?????????"
+                                            action NullAction()
+                                        text temp color gold style "interactions_text" size 14 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.01)
+                                        hbox:
+                                            align (0.5, 0.9)
+                                            # Get the correct stars:
+                                            python:
+                                                temp = []
+                                                for i in range(area.explored//20):
+                                                    temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
+                                                if len(temp) != 5:
+                                                    if area.explored%20 >= 10:
+                                                        temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
+                                                while len(temp) != 5:
+                                                    temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
+                                            for i in temp:
+                                                add i
 
                 if bm_exploration_view_mode == "team":
                     # Backgrounds:
@@ -1014,85 +1017,86 @@ init: # Screens:
                                     # add gfxframes + "small_port_empty.png"
 
             else: # TODO: This needs an extra variable and better conditioning...
-                # has vbox xsize 630
-                for u in bm_mid_frame_mode.allowed_upgrades:
-                    if building._has_upgrade(u):
-                        frame:
-                            xalign .5
-                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                            has fixed xysize 500, 150
-
+                vbox:
+                    xsize 630
+                    for u in bm_mid_frame_mode.allowed_upgrades:
+                        if building._has_upgrade(u):
                             frame:
-                                align .3, .5
+                                xalign .5
                                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                                xpadding 15
-                                text "Active" align .5, .5 style "stats_text" size 35
+                                has fixed xysize 500, 150
 
-                            vbox:
-                                align 1.0, 0
-                                xsize 150
                                 frame:
-                                    xalign .5
+                                    align .3, .5
+                                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                    xpadding 15
+                                    text "Active" align .5, .5 style "stats_text" size 35
+
+                                vbox:
+                                    align 1.0, 0
+                                    xsize 150
+                                    frame:
+                                        xalign .5
+                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                        xpadding 10
+                                        text "[u.ID]" align .5, .5 style "stats_text" size 15
+                                    frame:
+                                        xalign .5
+                                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                                        if hasattr(u, "IMG"):
+                                            add im.Scale(u.IMG, 120, 75) align .5, .5
+                                        else:
+                                            add Solid(black, xysize=(120, 75)) align .5, .5
+
+                        else:
+                            frame:
+                                xalign .5
+                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                has fixed xysize 500, 150
+
+                                frame:
+                                    align .3, 0
                                     background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                                     xpadding 10
-                                    text "[u.ID]" align .5, .5 style "stats_text" size 15
-                                frame:
-                                    xalign .5
-                                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
-                                    if hasattr(u, "IMG"):
-                                        add im.Scale(u.IMG, 120, 75) align .5, .5
-                                    else:
-                                        add Solid(black, xysize=(120, 75)) align .5, .5
+                                    text "Resources Needed:" align .5, .5 style "stats_text" size 15
 
-                    else:
-                        frame:
-                            xalign .5
-                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                            has fixed xysize 500, 150
-
-                            frame:
-                                align .3, 0
-                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                                xpadding 10
-                                text "Resources Needed:" align .5, .5 style "stats_text" size 15
-
-                            hbox:
-                                pos 15, 35
-                                box_wrap True
-                                xsize 330
-                                spacing 10
-                                frame:
-                                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                                    has hbox xysize 135, 40
-                                    text "Gold: [u.COST]" align .5, .5 style "stats_text" size 20 color gold
-                                # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
-                                for r in sorted(u.MATERIALS):
-                                    $ r = items[r]
+                                hbox:
+                                    pos 15, 35
+                                    box_wrap True
+                                    xsize 330
+                                    spacing 10
                                     frame:
                                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                                         has hbox xysize 135, 40
-                                        text "[r.id] x {}".format(u.MATERIALS[r.id]) align .01, .5 style "stats_text" color ivory size 15
+                                        text "Gold: [u.COST]" align .5, .5 style "stats_text" size 20 color gold
+                                    # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
+                                    for r in sorted(u.MATERIALS):
+                                        $ r = items[r]
                                         frame:
-                                            align .99, .5
-                                            background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
-                                            add im.Scale(r.icon, 33, 33) align .5, .5
+                                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                            has hbox xysize 135, 40
+                                            text "[r.id] x {}".format(u.MATERIALS[r.id]) align .01, .5 style "stats_text" color ivory size 15
+                                            frame:
+                                                align .99, .5
+                                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                                                add im.Scale(r.icon, 33, 33) align .5, .5
 
-                            vbox:
-                                align 1.0, 0
-                                xsize 150
-                                frame:
-                                    xalign .5
-                                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                                    xpadding 10
-                                    text "[u.ID]" align .5, .5 style "stats_text" size 15
-                                frame:
-                                    xalign .5
-                                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
-                                    if hasattr(u, "IMG"):
-                                        add im.Scale(u.IMG, 120, 75) align .5, .5
-                                    else:
-                                        add Solid(black, xysize=(120, 75)) align .5, .5
-                                textbutton "{size=15}Build" xalign .5 action Return(["upgrade", "build", u, bm_mid_frame_mode]), SensitiveIf(building.can_upgrade(u))
+                                vbox:
+                                    align 1.0, 0
+                                    xsize 150
+                                    frame:
+                                        xalign .5
+                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                        xpadding 10
+                                        text "[u.ID]" align .5, .5 style "stats_text" size 15
+                                    frame:
+                                        xalign .5
+                                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                                        if hasattr(u, "IMG"):
+                                            add im.Scale(u.IMG, 120, 75) align .5, .5
+                                        else:
+                                            add Solid(black, xysize=(120, 75)) align .5, .5
+                                    textbutton "{size=15}Build" xalign .5 action Return(["upgrade", "build", u, bm_mid_frame_mode]), SensitiveIf(building.can_upgrade(u))
 
                 textbutton "Back" align .5, .95 action SetVariable("bm_mid_frame_mode", "building")
 
