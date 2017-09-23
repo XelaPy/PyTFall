@@ -261,8 +261,6 @@ init: # Screens:
         default tt = Tooltip("Manage your Buildings here.")
 
         if hero.upgradable_buildings:
-            # Middle Frame:
-                # has vbox xsize 630
 
             # Main Building mode:
             if bm_mid_frame_mode == "building":
@@ -737,7 +735,7 @@ init: # Screens:
             xysize (630, 685)
             xalign .5
             ypos 40
-            has vbox xsize 630
+            # has vbox xsize 630
             null height 5
             frame:
                 xalign 0.5
@@ -825,7 +823,7 @@ init: # Screens:
             # Fighter Guild, team launch and area info:
             if isinstance(bm_mid_frame_mode, ExplorationGuild):
                 if bm_exploration_view_mode == "log":
-                    has vbox xsize 630
+                    # has vbox xsize 630
                     frame: # Image
                         xalign .5
                         padding 5, 5
@@ -833,7 +831,7 @@ init: # Screens:
                         add im.Scale("content/gfx/bg/buildings/log.png", 600, 390)
 
                 if bm_exploration_view_mode == "explore":
-                    has vbox xsize 630
+                    # has vbox xsize 630
                     frame: # Image
                         xalign .5
                         padding 5, 5
@@ -1016,7 +1014,7 @@ init: # Screens:
                                     # add gfxframes + "small_port_empty.png"
 
             else: # TODO: This needs an extra variable and better conditioning...
-                has vbox xsize 630
+                # has vbox xsize 630
                 for u in bm_mid_frame_mode.allowed_upgrades:
                     if building._has_upgrade(u):
                         frame:
