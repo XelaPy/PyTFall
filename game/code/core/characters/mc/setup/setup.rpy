@@ -42,7 +42,6 @@ label mc_setup:
         elif result[0] == "rename":
             if result[1] == "name":
                 $ n = renpy.call_screen("pyt_input", hero.name, "Enter Name", 20)
-                "[n]"
                 if len(n):
                     $ hero.name = n
                     $ hero.nickname = hero.name

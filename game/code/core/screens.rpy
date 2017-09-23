@@ -1,3 +1,7 @@
+init python:
+    def dummy_interaction_restart(*args, **kwargs):
+        renpy.restart_interaction()
+
 ################### Specialized ####################
 init: # Items:
     image water_texture__ = Movie(channel="main_gfx_bow", play="content/gfx/animations/water_texture_webm/movie.webm")
@@ -795,9 +799,11 @@ init: # Items:
                     style "TisaOTM"
                     size 20
                     color white
+                    changed dummy_interaction_restart
                 textbutton "OK":
                     xalign .5
                     action Return(renpy.get_widget("pyt_input", "text_input").content)
+        key "input_enter" action Return(renpy.get_widget("pyt_input", "text_input").content)
                     
     screen exit_button(size=(35, 35), align=(1.0, 0.0), action=Return(['control', 'return'])):
         $ img = im.Scale("content/gfx/interface/buttons/close.png" , size[0], size[1])
