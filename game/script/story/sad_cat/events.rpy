@@ -137,7 +137,10 @@ label found_sad_cat_4:
                     cat.say "Meow!"
                     hero.say "The cat follows me. I suppose it's not safe for him to stay here."
                     extend " I need to give him a name."
-                    $ npcs["sad_cat"].name = npcs["sad_cat"].fullname = npcs["sad_cat"].nickname = renpy.call_screen("pyt_input", "Fluffy", "Enter name for your cat", 20)
+                    $ n = renpy.call_screen("pyt_input", "Fluffy", "Enter name for your cat", 20)
+                    if not(len(n)):
+                        $ n = "Cat"
+                    $ npcs["sad_cat"].name = npcs["sad_cat"].fullname = npcs["sad_cat"].nickname = n
                     $ npcs["sad_cat"].update_sayer()
                     $ cat = npcs["sad_cat"]
                     cat.say "Meow!"

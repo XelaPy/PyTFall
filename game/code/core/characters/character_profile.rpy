@@ -120,11 +120,17 @@ label char_profile:
 
                 elif result[0] == "rename":
                     if result[1] == "name":
-                        $ char.name = renpy.call_screen("pyt_input", char.name, "Enter Name", 20)
+                        $ n = renpy.call_screen("pyt_input", char.name, "Enter Name", 20)
+                        if len(n):
+                            $ char.name = n
                     if result[1] == "nick":
-                        $ char.nickname = renpy.call_screen("pyt_input", char.name, "Enter Nick-Name", 20)
+                        $ n = renpy.call_screen("pyt_input", char.name, "Enter Nick-Name", 20)
+                        if len(n):
+                            $ char.nickname = n
                     if result[1] == "full":
-                        $ char.fullname = renpy.call_screen("pyt_input", char.name, "Enter Full-Name", 20)
+                        $ n = renpy.call_screen("pyt_input", char.name, "Enter Full-Name", 20)
+                        if len(n):
+                            $ char.fullname = n
 
             if result[0] == 'control':
                 $ index = girls.index(char)

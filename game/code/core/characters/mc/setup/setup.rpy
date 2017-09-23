@@ -41,13 +41,19 @@ label mc_setup:
                  
         elif result[0] == "rename":
             if result[1] == "name":
-                $ hero.name = renpy.call_screen("pyt_input", hero.name, "Enter Name", 20)
-                $ hero.nickname = hero.name
-                $ hero.fullname = hero.name
+                $ n = renpy.call_screen("pyt_input", hero.name, "Enter Name", 20)
+                if len(n):
+                    $ hero.name = n
+                    $ hero.nickname = hero.name
+                    $ hero.fullname = hero.name
             if result[1] == "nick":
-                $ hero.nickname = renpy.call_screen("pyt_input", hero.name, "Enter Nick-Name", 20)
+                $ n = renpy.call_screen("pyt_input", hero.name, "Enter Name", 20)
+                if len(n):
+                    $ hero.nickname = renpy.call_screen("pyt_input", hero.name, "Enter Nick-Name", 20)
             if result[1] == "full":
-                $ hero.fullname = renpy.call_screen("pyt_input", hero.name, "Enter Full-Name", 20)
+                $ n = renpy.call_screen("pyt_input", hero.name, "Enter Full-Name", 20)
+                if len(n):
+                    $ hero.fullname = n
                         
             # elif result[0] == "adjust_stat":
                 # stat = result[2]
@@ -284,14 +290,13 @@ init: # MC Setup Screens:
                     xpadding 12
                     ypadding 8
                     
-            button:
-                style_prefix "wood"
-                xysize (150, 55)
-                xalign 0.0
-                yalign 0.5
-                text "Change Name" size 16 color goldenrod
+            textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[red]}Click to change name":
+                background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
+                hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
+                xpadding 12
+                ypadding 8
+                align (0.0, 0.10)
                 action Show("char_rename", char=hero)
-                padding (10, 10)
             
         # Base Traits (Classes):
         python:
@@ -372,6 +377,7 @@ init: # MC Setup Screens:
                 add ProportionalScale(mc_pics[sprites[index]]["battle_sprite"][0], 150, 200) align (0.5, 0.4)
                 frame:
                     align (0.995, -0.74)
+                    xoffset 45
                     anchor (1, 1) 
                     background Frame("content/gfx/frame/MC_bg.png", 10, 10)
                     add ProportionalScale(mc_pics[sprites[index]]["portrait"][0], 100, 100)

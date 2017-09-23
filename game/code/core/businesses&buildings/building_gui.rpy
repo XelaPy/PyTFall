@@ -129,7 +129,9 @@ label building_management_loop:
 
         if result[0] == "fg_team":
             if result[1] == "rename":
-                $ result[2].name = renpy.call_screen("pyt_input", result[2].name, "Enter Name", 20)
+                $ n = renpy.call_screen("pyt_input", result[2].name, "Enter Name", 20)
+                if len(n):
+                    $ result[2].name = n
             elif result[1] == "clear":
                 python:
                     for i in result[2]._members[:]:
