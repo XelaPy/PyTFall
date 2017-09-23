@@ -1238,22 +1238,22 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                 $ temp += '*Penalty to power of status skills.\n'
 
                     if hasattr(item, "delivery_multiplier"):
-                        if "magic" in item.delivery_bonus.keys():
+                        if "magic" in item.delivery_multiplier.keys():
                             if item.delivery_multiplier["magic"] > 0:
                                 $ temp += '*Multiplies power of magic skills.\n'
                             else:
                                 $ temp += '*Decreases power of magic skills.\n'
-                        if "melee" in item.delivery_bonus.keys():
+                        if "melee" in item.delivery_multiplier.keys():
                             if item.delivery_multiplier["melee"] > 0:
                                 $ temp += '*Multiplies power of melee skills.\n'
                             else:
                                 $ temp += '*Decreases power of melee skills.\n'
-                        if "ranged" in item.delivery_bonus.keys():
+                        if "ranged" in item.delivery_multiplier.keys():
                             if item.delivery_multiplier["ranged"] > 0:
                                 $ temp += '*Multiplies power of ranged skills.\n'
                             else:
                                 $ temp += '*Decreases power of ranged skills.\n'
-                        if "status" in item.delivery_bonus.keys():
+                        if "status" in item.delivery_multiplier.keys():
                             if item.delivery_multiplier["status"] > 0:
                                 $ temp += '*Multiplies status of ranged skills.\n'
                             else:
