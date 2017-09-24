@@ -124,11 +124,11 @@ label char_profile:
                         if len(n):
                             $ char.name = n
                     if result[1] == "nick":
-                        $ n = renpy.call_screen("pyt_input", char.name, "Enter Nick-Name", 20)
+                        $ n = renpy.call_screen("pyt_input", char.name, "Enter Nick Name", 20)
                         if len(n):
                             $ char.nickname = n
                     if result[1] == "full":
-                        $ n = renpy.call_screen("pyt_input", char.name, "Enter Full-Name", 20)
+                        $ n = renpy.call_screen("pyt_input", char.name, "Enter Full Name", 20)
                         if len(n):
                             $ char.fullname = n
 

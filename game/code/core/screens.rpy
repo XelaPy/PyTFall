@@ -788,7 +788,7 @@ init: # Items:
             add im.Scale("content/gfx/frame/frame_bg.png", size[0], size[1])
 
             vbox:
-                spacing 30
+                spacing 10
                 align(0.5, 0.5)
                 text text xalign 0.5 style "TisaOTM" size 20 color goldenrod
                 input:
@@ -800,7 +800,10 @@ init: # Items:
                     size 20
                     color white
                     changed dummy_interaction_restart
-                textbutton "OK":
+                button:
+                    style_prefix "wood"
+                    xysize (100, 50)
+                    text "OK"  style "TisaOTM" size 15 color goldenrod align (.5, .5)
                     xalign .5
                     action Return(renpy.get_widget("pyt_input", "text_input").content)
         key "input_enter" action Return(renpy.get_widget("pyt_input", "text_input").content)
