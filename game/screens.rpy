@@ -215,8 +215,7 @@ screen main_menu():
     default map_options = ["content/gfx/bg/locations/map_buttons/dark/", "content/gfx/bg/locations/map_buttons/bright/", "content/gfx/bg/locations/map_buttons/gismo/"]
 
     # The background of the main menu.
-    # window:
-       # style "mm_root"
+
     add "bg_main"
 
     # $ index = map_options.index(persistent.town_path)

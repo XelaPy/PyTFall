@@ -162,7 +162,7 @@ init -5 python hide:
         ## The background of the main menu. This can be a color
         ## beginning with '#', or an image filename. The latter
         ## should take up the full height and width of the screen.
-        mm_root = ImageReference("humans"),
+        # mm_root = ImageReference("humans"),
 
         ## The background of the game menu. This can be a color
         ## beginning with '#', or an image filename. The latter
@@ -194,12 +194,9 @@ init -5 python hide:
     ## the number is interpreted as a fraction of the size of the
     ## displayable or screen.
 
-    # mm_root = "content/gfx/bg/locations/humans.jpg",
-
     ## The background of the game menu. This can be a color
     ## beginning with '#', or an image filename. The latter
     ## should take up the full height and width of the screen.
-    # gm_root = "content/gfx/bg/gallery.jpg",
 
     #########################################
     ## These let you customize the default font used for text in Ren'Py.
