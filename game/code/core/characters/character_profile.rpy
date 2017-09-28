@@ -56,7 +56,7 @@ label char_profile:
                     if result[1] == "gallery":
                         $ gallery = PytGallery(char)
                         jump gallery
-                    elif result[1] == "it": # THIS IS WTF???
+                    elif result[1] == "it": # TODO: THIS IS WTF???!!!
                         $ raise Exception("MEOW")
                         $ pytfall.it = GuiItemsTransfer("personal_transfer", char=char, last_label=last_label)
                         jump items_transfer
@@ -165,7 +165,6 @@ screen char_profile():
         action Hide("show_trait_info")
 
     if girls:
-        # text ("{color=[ivory]}[char.desc]") style "content_text" layout "greedy" justify True minwidth 304 xalign 0.5
         default tt = Tooltip("[char.desc]")
     else:
         default tt = Tooltip("Manage your girls here!!!")
@@ -176,11 +175,11 @@ screen char_profile():
     if girls:
         # Picture and left/right buttons ====================================>
         if True:
-            add "content/gfx/frame/p_frame6.png" xalign 0.487 yalign 0.185 size (613, 595)
+            add "content/gfx/frame/p_frame6.png" xalign 0.495 yalign 0.185 size (613, 595)
             # Alex: Code by Gismo, messy but gets the job done, I actually have no idea of how to get this done with just one frame and the image...
             # Vbox is just for more convenient positioning.
             vbox:
-                align (0.487, 0.184) #0.487, 0.164
+                align (0.496, 0.184) #0.487, 0.164
                 yfill True
                 ymaximum 514 #569
                 if check_lovers(char, hero) or "Exhibitionist" in char.traits:
@@ -245,7 +244,7 @@ screen char_profile():
         # Left Frame with most of the info ====================================>
         frame:
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-            xysize (330, 780)
+            xysize (337, 780)
             xanchor 0.01
             ypos 30
             style_group "content"
@@ -257,7 +256,7 @@ screen char_profile():
                 $ img = ProportionalScale("".join(["content/gfx/interface/images/personality/", trait.id.lower(), ".png"]), 120, 120)
                 imagebutton:
                     at pers_effect()
-                    xcenter 60
+                    xcenter 55
                     ycenter 65
                     idle img
                     hover img
@@ -265,7 +264,8 @@ screen char_profile():
                     action Show("show_trait_info", trait=trait.id, place="main_trait", tt=tt)
                 align (.0, .0)
                 xysize (330, 126)
-                add Transform("content/gfx/frame/base_frame.png", alpha=0.9, size=(330, 126))
+                add Transform("content/gfx/frame/base_frame.png", alpha=0.9, size=(330, 126)):
+                    xoffset -5
 
 
                 label "[char.name]":
@@ -275,12 +275,6 @@ screen char_profile():
                     anchor 0, 1.0
                     if len(char.name) < 20:
                         text_size 21
-                # background Frame (Transform("content/gfx/frame/namebox5.png", alpha=0.95), 250, 50)
-                # label "{color=[gold]}[char.name]":
-                    # text_color ivory text_outlines [(2, "#424242", 0, 0)]
-                    # align (0.5, 0.5)
-                    # if len(char.name) < 20:
-                        # text_size 21
                 textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Rename":
                     background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
@@ -598,7 +592,7 @@ screen char_profile():
         frame:
             ypos 38
             xalign 1.0
-            xysize (345, 586)
+            xysize (339, 586)
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
             has vbox spacing 1
             null height 1
@@ -607,6 +601,7 @@ screen char_profile():
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
                 xalign 0.5
+                xoffset -4
                 # ypos 5
                 xysize (325, 150)
                 has hbox style_group "wood" align .5, .5 spacing 5
@@ -668,6 +663,7 @@ screen char_profile():
                 xanchor 1
                 ypadding 7
                 xpadding 8
+                xoffset -3
                 has vbox xoffset 3 spacing 2
                 # Traits/Effects ====================================>
                 hbox:
@@ -760,7 +756,7 @@ screen char_profile():
         # Tooltip ====================================>
         frame:
             background Frame("content/gfx/frame/black_frame.png")
-            pos 325, 622
+            pos 332, 622
             xpadding 10
             xysize (951, 100)
             has hbox spacing 1
@@ -851,7 +847,6 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None): # TODO: upkeep 
                     for skill, data in trait_info.mod_skills.iteritems():
                         frame:
                             xysize 170, 20
-                            # has hbox xsize 170
                             text str(skill).title() size 15 color yellowgreen align .0, .5
 
                             $ img_path = "content/gfx/interface/icons/skills_icons/"
