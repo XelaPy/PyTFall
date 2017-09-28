@@ -1044,7 +1044,10 @@ init: # Items:
                         xysize (340, 60)
                         xalign 1.0
                         yalign 0.5
-                        text "Nickname: [char.nickname]" size 16 color goldenrod
+                        if char.nickname != char.name:
+                            text "Nickname: [char.nickname]" size 16 color goldenrod
+                        else:
+                            text "Nickname: None" size 16 color goldenrod
                         action Return(["rename", "nick"])
                         padding (10, 10)
                 if isinstance(char, Player) or char.status == "slave":

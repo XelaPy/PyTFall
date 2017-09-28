@@ -124,11 +124,11 @@ label char_profile:
                         if len(n):
                             $ char.name = n
                     if result[1] == "nick":
-                        $ n = renpy.call_screen("pyt_input", char.name, "Enter Nick Name", 20)
+                        $ n = renpy.call_screen("pyt_input", char.nickname, "Enter Nick Name", 20)
                         if len(n):
                             $ char.nickname = n
                     if result[1] == "full":
-                        $ n = renpy.call_screen("pyt_input", char.name, "Enter Full Name", 20)
+                        $ n = renpy.call_screen("pyt_input", char.fullname, "Enter Full Name", 20)
                         if len(n):
                             $ char.fullname = n
 
@@ -281,7 +281,14 @@ screen char_profile():
                     # align (0.5, 0.5)
                     # if len(char.name) < 20:
                         # text_size 21
-
+                textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Rename":
+                    background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
+                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
+                    xpadding 12
+                    ypadding 8
+                    align (0.85, 1.0)
+                    yoffset 20
+                    action Show("char_rename", char=char)
             null height 5
             # Rank up for prostitutes:
             # TODO: Adapt ranks to new skills code!
