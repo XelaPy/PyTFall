@@ -286,13 +286,13 @@ screen char_profile():
                     else:
                         text_size 15
                     text_outlines [(2, "#424242", 0, 0)]
-                    pos 110, 100
+                    pos 113, 100
                     anchor 0, 1.0
 
                 label "[char.name]":
                     text_color gold
                     text_outlines [(2, "#424242", 0, 0)]
-                    pos 118, 47
+                    pos 113, 47
                     anchor 0, 1.0
                     if len(char.name) < 20:
                         text_size 21
