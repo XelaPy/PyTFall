@@ -463,15 +463,20 @@ init -100 python:
 
 
     class ParticleBurst(renpy.Displayable):
-        def __init__(self, displayable, interval=(0.02, 0.04), speed=(0.15, 0.3), around=(config.screen_width/2, config.screen_height/2), angle=(0, 360), radius=(50, 75), particles=None, mouse_sparkle_mode=False, **kwargs):
+        def __init__(self, displayable, interval=(0.02, 0.04), speed=(0.15, 0.3),
+                     around=(config.screen_width/2, config.screen_height/2), angle=(0, 360),
+                     radius=(50, 75), particles=None, mouse_sparkle_mode=False, **kwargs):
             """Creates a burst of displayable...
             ==> This class can be used as a blueprint for similar setups.
 
             @params:
-            - displayable: Anything that can be shown in Ren'Py (expects a single displayable or a container of displayable to randomly draw from).
-            - interval: Time between bursts in seconds (expects a tuple with two floats to get randoms between them).
+            - displayable: Anything that can be shown in Ren'Py
+                (expects a single displayable or a container of displayable to randomly draw from).
+            - interval: Time between bursts in seconds
+                (expects a tuple with two floats to get randoms between them).
             - speed: Speed of the particle (same rule as above).
-            - angle: Area delimiter (expects a tuple with two integers to get randoms between them) with full circle burst by default. (0, 180) for example will limit the burst only upwards creating sort of a fountain.
+            - angle: Area delimiter (expects a tuple with two integers to get randoms between them)
+                with full circle burst by default. (0, 180) for example will limit the burst only upwards creating sort of a fountain.
             - radius: Distance delimiter (same rule as above).
             - around: Position of the displayable (expects a tuple of with integers). Burst will be focused around this position.
             - particles: Amount of particle to go through, endless by default.
@@ -517,7 +522,7 @@ init -100 python:
                     del(self.shown[d])
                 else:
                     d = self.shown[d]
-                    render.place(d)
+                    render.place(d, st=st)
 
             rp.redraw(self, 0)
 
