@@ -40,6 +40,8 @@ init -9 python:
             self.chance = 50
             self.badness = 0
 
+            self.tier = None # Tier of an item to match class tier, 0 - 4 is the range.
+
             # BE attributes:
             # self.evasion_bonus = 0 # Needs a int, will be used a percentage (1 = 1%)
             # self.ch_multiplier = 0 # Critical hit multi...

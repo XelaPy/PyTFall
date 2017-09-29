@@ -265,6 +265,7 @@ label dev_testing_menu:
         for i in ("chars_unique_label", "char", "girl", "testBrothel", "all_chars", "temp"):
             del(i)
 
+    # Items sorting for AutoBuy
     python:
         shop_items = [item for item in items.values() if (set(pytfall.shops) & set(item.locations))]
         all_auto_buy_items = [item for item in shop_items if item.usable and not item.jump_to_label]
@@ -301,6 +302,12 @@ label dev_testing_menu:
         for k in ("body", "restore", "food", "dress", "rest", "warrior", "scroll"):
             auto_buy_items[k] = [(i.price, i) for i in auto_buy_items[k]]
             auto_buy_items[k].sort()
+
+    # Items sorting per Tier:
+    $ tiered_items = {}
+    python:
+        for i in items.values():
+            tiered_items.setdefault(i.tier, []).append(item)
 
     #  --------------------------------------
     # Put here to facilitate testing:
