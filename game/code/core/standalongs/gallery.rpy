@@ -97,7 +97,7 @@ screen gallery():
                                         fixed:
                                             xysize (230, 28)
                                             text "[name]" xalign 0
-                                            text "{color=[blue]}[amount]" xalign 1.0
+                                            text "{color=[blue]}[amount]" xalign 0.93
                     vbar value YScrollValue("g_buttons_vp")
 
         # Buttons:                
