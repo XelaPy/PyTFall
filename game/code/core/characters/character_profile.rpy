@@ -251,6 +251,17 @@ screen char_profile():
             has vbox
             null height 7
             # Base frame ====================================>
+            # Prof-Classes ====================================>
+            python:
+                if len(char.traits.basetraits) == 1:
+                    classes = list(char.traits.basetraits)[0].id
+                elif len(char.traits.basetraits) == 2:
+                    classes = list(char.traits.basetraits)
+                    classes.sort()
+                    classes = ", ".join([str(c) for c in classes])
+                else:
+                    raise Exception("Character without prof basetraits detected! line: 267, girlsprofile screen")
+
             fixed:
                 $ trait = char.personality
                 $ img = ProportionalScale("".join(["content/gfx/interface/images/personality/", trait.id.lower(), ".png"]), 120, 120)
@@ -268,6 +279,16 @@ screen char_profile():
                     xoffset -5
 
 
+                label "[classes]":
+                    text_color gold
+                    if len(classes) < 18:
+                        text_size 17
+                    else:
+                        text_size 15
+                    text_outlines [(2, "#424242", 0, 0)]
+                    pos 110, 100
+                    anchor 0, 1.0
+
                 label "[char.name]":
                     text_color gold
                     text_outlines [(2, "#424242", 0, 0)]
@@ -275,6 +296,7 @@ screen char_profile():
                     anchor 0, 1.0
                     if len(char.name) < 20:
                         text_size 21
+                        
                 textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Rename":
                     background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
@@ -315,26 +337,6 @@ screen char_profile():
                 xanchor -0.01
                 xysize (300, 60)
                 vbox:
-                    # Prof-Classes ====================================>
-                    python:
-                        if len(char.traits.basetraits) == 1:
-                            classes = list(char.traits.basetraits)[0].id
-                        elif len(char.traits.basetraits) == 2:
-                            classes = list(char.traits.basetraits)
-                            classes.sort()
-                            classes = ", ".join([str(c) for c in classes])
-                        else:
-                            raise Exception("Character without prof basetraits detected! line: 267, girlsprofile screen")
-                    button:
-                        xmargin 0
-                        xpadding 0
-                        ypadding 0
-                        action NullAction()
-                        background Null()
-                        text "Classes: [classes]" color ivory size 18
-
-                    null height 2
-
                     button:
                         style_group "ddlist"
                         action Return(["dropdown", "loc", char])
@@ -436,17 +438,6 @@ screen char_profile():
                                     background img
                                     action Show("show_trait_info", trait=trait.id, place="race_trait", tt=tt)
                                     hover_background im.MatrixColor(img, im.matrix.brightness(0.10))
-
-                    # Basetraits:
-                    vbox:
-                        xsize 315
-                        xfill True
-                        fixed:
-                            xysize (300, 70)
-                            yfill True
-                            for trait in sorted(list(char.traits.basetraits)):
-                                $ temp = (0.7, 0.9) if sorted(list(char.traits.basetraits)).index(trait) else (0.3, 0.1)
-                                textbutton "[trait]" action NullAction() hovered tt.action(trait.desc) align temp
 
                     null height 4
 
