@@ -291,7 +291,6 @@ screen main_menu():
                     textbutton _("Help") action OpenURL("http://www.pinkpetal.org/index.php#c7") xsize 85 text_size 16
                 textbutton _("Quit") action Quit(confirm=False) xalign 0.5
 
-
 screen credits():
     zorder 1
     modal True
@@ -303,6 +302,7 @@ screen credits():
         textbutton "Hide":
             align(0.5, 0.90)
             action Hide("credits", transition=dissolve)
+        text "About Us" align (.45, .1) size 35 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
 
         side "c r":
             area (100, 100, 800, 350)
@@ -310,73 +310,53 @@ screen credits():
                 draggable True
                 mousewheel True
                 vbox:
-                    style_prefix "proper_stats"
-                    text "Brought to you by:" size 22 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
-                    null height 20
                     hbox:
+                        xalign .52
+                        vbox:
+                            style_prefix "proper_stats"
+                            text "Core Coding" xalign .5 size 22 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
+                            button:
+                                xalign .5
+                                xysize (100, 100)
+                                background ProportionalScale("content/gfx/interface/icons/credits/x_hole_idle.png", 100, 100)
+                                hover_background ProportionalScale("content/gfx/interface/icons/credits/x_hole_hover.png", 100, 100)
+                                action OpenURL('https://www.patreon.com/xelapy')
+                                add At(ProportionalScale("content/gfx/interface/icons/credits/patreonlogoorange.png", 100, 25, yalign=1.0), patreon_bounce)
+                            null height 3
+                            text " XelaPy " xalign .5 size 30 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
+                            hbox:
+                                spacing 10
+                                xalign .5
+                                button:
+                                    xysize 30, 30
+                                    background Frame("content/gfx/interface/icons/credits/twitter.png")
+                                    hover_background Frame(im.MatrixColor("content/gfx/interface/icons/credits/twitter.png", im.matrix.brightness(.05)))
+                                    action OpenURL('https://twitter.com/XelaPy')
+                                button:
+                                    xysize 30, 30
+                                    background Frame("content/gfx/interface/icons/credits/youtube.png")
+                                    hover_background Frame(im.MatrixColor("content/gfx/interface/icons/credits/youtube.png", im.matrix.brightness(.05)))
+                                    action OpenURL('https://www.youtube.com/channel/UCWnMQ6MO-KpMytYf4hoFFBA')
+                        null width 100
+                        vbox:
+                            style_prefix "proper_stats"
+                            text "Content and Coding" size 22 xalign .5 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
+                            button:
+                                xalign .5
+                                xysize (100, 100)
+                                background ProportionalScale("content/gfx/interface/icons/credits/dark_hole_idle.png", 100, 100)
+                                hover_background ProportionalScale("content/gfx/interface/icons/credits/dark_hole_hover.png", 100, 100)
+                                action OpenURL('https://www.patreon.com/darkt')
+                                add At(ProportionalScale("content/gfx/interface/icons/credits/patreonlogoorange.png", 100, 25, yalign=1.0), patreon_bounce)
+                            null height 3
+                            text " DarkTl " align .5, 1.0 size 30 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
+                            null height 30
+                    null height 50
+                    vbox:
                         style_prefix "proper_stats"
-                        vbox:
-                            xsize 150
-                            xfill True
-                            text "Xela" color goldenrod drop_shadow [(1, 1)] drop_shadow_color black antialias True
-                            text "DarkTl" color goldenrod drop_shadow [(1, 1)] drop_shadow_color black antialias True
-                            text "CherryWood" color goldenrod drop_shadow [(1, 1)] drop_shadow_color black antialias True
-                            text "Gismo" color goldenrod drop_shadow [(1, 1)] drop_shadow_color black antialias True
-                            null height 10
-                            text "Rudistoned:"
-                            text "Eliont:"
-                            text "Matt:"
-                            text "Xipomus:"
-                            text "Longint:"
-                            text "Thewlis:"
-                            text "Picobyte:"
-                            null height 10
-                            text "Armegetton:"
-                            text "MrKlaus:"
-                            text "Krakr"
-                            text "Lamoli"
-                            null height 10
-                            text "Sysreq:"
-                            text "GonDra:"
-                            text "Jaeke:"
-                            text "Janmaba:"
-
-
-                        vbox:
-                            text "The main coder and creator of the project"
-                            text "Jack of all trades and master of none"
-                            text "Code contributions, packs, writing, design and resources"
-                            text "Art, user interface, design, backgrounds and icons"
-                            null height 10
-                            text "First tagger concept, code contributions, python consulting"
-                            text "Code contributions, resources"
-                            text "Code contributions, python consulting"
-                            text "Code and content contributions, rendering"
-                            text "Code contributions"
-                            text "Advanced code contributions"
-                            text "Advanced code contributions, rendering"
-                            null height 10
-                            text "Writing"
-                            text "Writing, items creation"
-                            text "Writing for jobs"
-                            text "Rendering"
-                            null height 10
-                            text "Spell-checks"
-                            text "Spell-checks"
-                            text "Extensive testing"
-                            text "Help with packs"
-                    null height 10
-                    text "Credits:" size 20 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
-                    null height 5
-                    hbox:
-                        null width 10
-                        style_prefix "proper_stats"
-                        vbox:
-                            xsize 150
-                            xfill True
-                            text "PyTom:"
-                        vbox:
-                            text "RenPy" color orange
+                        text "Special thanks to:" size 22 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
+                        text "The Worst, Lamoli, CherryWood, Gismo, Rudistoned, Eliont, Matt, Xipomus, Longint,"
+                        text "Thewlis, Picobyte, Armegetton, MrKlaus, Krakr, Sysreq, GonDra, Jaeke, Janmaba"
 
             vbar value YScrollValue("vp")
 

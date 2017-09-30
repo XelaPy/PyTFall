@@ -1,6 +1,18 @@
 # Assets of the BE:
 init -1: # Images and Animations
-    # Test of an alternative damge overlay concept:
+    transform patreon_bounce():
+        xoffset 0
+        on hover:
+            pause .1
+            easein .4 xoffset 40
+            easeout .3  xoffset 0
+            easein .3 xoffset 25
+            easeout .2  xoffset 0
+            easein .1 xoffset 10
+            easeout .1  xoffset 0
+        on idle:
+            linear .1 xoffset 0
+
     transform dark_death_color(w, h):
         Solid("#222222", xysize=(w, h))
         0.1
