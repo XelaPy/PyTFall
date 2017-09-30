@@ -288,9 +288,36 @@ screen main_menu():
                 hbox:
                     xalign 0.5
                     textbutton _("Credits") action Show("credits", transition=ImageDissolve("content/gfx/masks/m02.jpg", 3)) xsize 85 text_size 16
-                    textbutton _("Help") action OpenURL("http://www.pinkpetal.org/index.php#c7") xsize 85 text_size 16
+                    textbutton _("Help") action Show("discord", transition=ImageDissolve("content/gfx/masks/m02.jpg", 3)) xsize 85 text_size 16
                 textbutton _("Quit") action Quit(confirm=False) xalign 0.5
 
+screen discord():
+    zorder 1
+    modal True
+    frame:
+        background Transform(Frame("content/gfx/frame/frame_dec_1.png", 20, 20), alpha=0.7)
+        pos(10, 120)
+        xysize (900, 580)
+        style_group "mmenu"
+        textbutton "Hide":
+            align(0.5, 0.90)
+            action Hide("discord", transition=dissolve)
+        vbox:
+            xalign .5
+            yalign .2
+            text "ANY QUESTIONS OR BUGS TO REPORT?" size 35 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats" xalign .5
+            text "JOIN OUR COMMUNITY ON:" size 35 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats" xalign .5
+        null height 5
+        button:
+            yalign .6
+            xalign .5
+            xysize 300, 83
+            background Transform("content/gfx/interface/icons/credits/discord.png", zoom=.9, align=(.5, .5))
+            hover_background Transform("content/gfx/interface/icons/credits/discord.png", align=(.5, .5))
+            action OpenURL("https://discord.gg/4tT4qmW")
+
+                
+                
 screen credits():
     zorder 1
     modal True
