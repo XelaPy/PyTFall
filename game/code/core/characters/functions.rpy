@@ -281,6 +281,28 @@ init -11 python:
 
         return rg
 
+    def give_tiered_items(char, amount=1, base_trait=None):
+        """Gives items based on tier and class of the character.
+
+        amount: Usually 1, this number of items will be awarded per slot.
+        """
+        tier = max(min(round_int(char.tier*.5), 5), 0)
+        if base_trait is None:
+            base_trait = random.sample(char.basetraits)[0]
+        items = tiered_items[tier]
+
+        'body', 'head', 'feet'
+        'wrist', 'amulet'
+        'cape'
+
+        'weapon'
+
+        'misc'
+
+        'ring' 'ring1' 'ring2'
+
+        'smallweapon'
+
     def initial_levelup(char, level, max_out_stats=False):
         """
         This levels up the character, usually when it's first created.

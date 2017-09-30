@@ -151,83 +151,6 @@ init -9 python:
                 self.stats.mod_full_skill(skill, value)
 
 
-    class Trait(_object):
-        def __init__(self):
-            self.desc = ''
-            self.icon = None
-            self.hidden = False
-            self.mod = dict() # To be removed!
-            self.mod_stats = dict()
-            self.mod_skills = dict()
-            self.max = dict()
-            self.min = dict()
-            self.blocks = list()
-            self.effects = list()
-
-
-            # Occupations related:
-            self.occupations = list() # So far I came up with SIW (Sex Industry worker), Server, Warrior...
-            self.higher_tiers = list() # Required higher tier basetraits to enable this trait.
-
-            self.sex = "unisex" # Untill we set this up in traits: this should be "unisex" by default.
-
-            # Types:
-            self.type = "" # Specific type if specified.
-            self.basetrait = False
-            self.personality = False
-            self.race = False
-            self.breasts = False
-            self.body = False
-            self.elemental = False
-
-            self.mod_ap = 0 # Will only work on body traits!
-
-            self.mob_only = False
-            self.character_trait = False
-            self.sexual = False
-            self.client = False
-
-            # Elemental:
-            self.font_color = None
-            self.resist = list()
-            self.el_name = ""
-            self.el_absorbs = dict() # Pure ratio, NOT a modificator to a multiplier like for dicts below.
-            self.el_damage = dict()
-            self.el_defence = dict()
-            self.el_special = dict()
-
-            # Weaponfocus:                not used, as far as I know, so should be deleted?
-            self.we_damage = dict()
-            self.we_defence = dict()
-            self.we_special = dict()
-
-            # Base mods on init:
-            self.init_mod = dict() # Mod value setting
-            self.init_lvlmax = dict() # Mod value setting
-            self.init_max = dict() # Mod value setting
-            self.init_skills = dict() # {skill: [actions, training]}
-
-            # Special BE Fields:
-            # self.evasion_bonus = () # Bonuses in traits work differently from item bonuses, a tuple of (min_value, max_value, max_value_level) is expected (as a value in dict below) instead!
-            # self.ch_multiplier = 0 # Critical hit multi...
-            # self.damage_multiplier = 0
-
-            # self.defence_bonus = {} # Delivery! Not damage types!
-            # self.defence_multiplier = {}
-            # self.delivery_bonus = {} Expects a k/v pair of type: multiplier This is direct bonus added to attack power.
-            # self.delivery_multiplier = {}
-
-            self.leveling_stats = dict() # {stat: [lvl_max, max **as mod values]}
-
-            # For BasetTraits, we want to have a list of skills and stats, possibly weighted for evaluation.
-            self.base_skills = dict()
-            self.base_stats = dict()
-            # Where key: value are stat/skill: weight!
-
-        def __str__(self):
-            return str(self.id)
-
-
     class Team(_object):
         def __init__(self, name="", implicit=None, free=False, max_size=3):
             if not implicit:
@@ -467,6 +390,83 @@ init -9 python:
                 if item in self:
                     super(SmartTracker, self).remove(item)
                     return True
+
+
+    class Trait(_object):
+        def __init__(self):
+            self.desc = ''
+            self.icon = None
+            self.hidden = False
+            self.mod = dict() # To be removed!
+            self.mod_stats = dict()
+            self.mod_skills = dict()
+            self.max = dict()
+            self.min = dict()
+            self.blocks = list()
+            self.effects = list()
+
+
+            # Occupations related:
+            self.occupations = list() # So far I came up with SIW (Sex Industry worker), Server, Warrior...
+            self.higher_tiers = list() # Required higher tier basetraits to enable this trait.
+
+            self.sex = "unisex" # Untill we set this up in traits: this should be "unisex" by default.
+
+            # Types:
+            self.type = "" # Specific type if specified.
+            self.basetrait = False
+            self.personality = False
+            self.race = False
+            self.breasts = False
+            self.body = False
+            self.elemental = False
+
+            self.mod_ap = 0 # Will only work on body traits!
+
+            self.mob_only = False
+            self.character_trait = False
+            self.sexual = False
+            self.client = False
+
+            # Elemental:
+            self.font_color = None
+            self.resist = list()
+            self.el_name = ""
+            self.el_absorbs = dict() # Pure ratio, NOT a modificator to a multiplier like for dicts below.
+            self.el_damage = dict()
+            self.el_defence = dict()
+            self.el_special = dict()
+
+            # Weaponfocus:                not used, as far as I know, so should be deleted?
+            self.we_damage = dict()
+            self.we_defence = dict()
+            self.we_special = dict()
+
+            # Base mods on init:
+            self.init_mod = dict() # Mod value setting
+            self.init_lvlmax = dict() # Mod value setting
+            self.init_max = dict() # Mod value setting
+            self.init_skills = dict() # {skill: [actions, training]}
+
+            # Special BE Fields:
+            # self.evasion_bonus = () # Bonuses in traits work differently from item bonuses, a tuple of (min_value, max_value, max_value_level) is expected (as a value in dict below) instead!
+            # self.ch_multiplier = 0 # Critical hit multi...
+            # self.damage_multiplier = 0
+
+            # self.defence_bonus = {} # Delivery! Not damage types!
+            # self.defence_multiplier = {}
+            # self.delivery_bonus = {} Expects a k/v pair of type: multiplier This is direct bonus added to attack power.
+            # self.delivery_multiplier = {}
+
+            self.leveling_stats = dict() # {stat: [lvl_max, max **as mod values]}
+
+            # For BasetTraits, we want to have a list of skills and stats, possibly weighted for evaluation.
+            self.base_skills = dict()
+            self.base_stats = dict()
+            # Where key: value are stat/skill: weight!
+
+        def __str__(self):
+            return str(self.id)
 
 
     class Traits(SmartTracker):
@@ -1845,7 +1845,6 @@ init -9 python:
                 raise Exception("{} status is not valid for {} with an id: {}".format(s, self.__class__, self.id))
             self.status = s
 
-
         def update_sayer(self):
             self.say = Character(self.nickname, show_two_window=True, show_side_image=self.show("portrait", resize=(120, 120)), **self.say_style)
 
@@ -1860,18 +1859,20 @@ init -9 python:
             return self._available
 
         @property
+        def basetraits(self):
+            return self.traits.basetraits
+
+        @property
         def occupations(self):
             """
-            Formely "occupation", will return a set of jobs that a girl may be willing to do based of her basetraits.
+            Formerly "occupation", will return a set of jobs that a worker may be willing to do based of her basetraits.
             Not decided if this should be strings, Trait objects of a combination of both.
             """
             allowed = set()
-
             for t in self.traits:
                 if t.basetrait:
                     allowed.add(t)
                     allowed = allowed.union(t.occupations)
-
             return allowed
 
         @property
@@ -4974,7 +4975,7 @@ init -9 python:
                 if self.disposition < 500 and hero in self.lovers:
                     txt += "\n {} and you are no longer lovers...".format(self.nickname)
                     end_lovers(self, hero)
-                    
+
                 txt += "{color=[green]}\n\n%s{/color}" % "\n".join(self.txt)
 
                 # Create the event:
