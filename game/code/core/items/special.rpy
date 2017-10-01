@@ -7,17 +7,14 @@ label special_items_slime_bottle:
         "It's an old bottle with unknown, thick liquid inside. Do you want to open it?"
         "Yes":
             "The seal is durable, but eventually it gives up, and pressurized fluid breaks out."
-            if hero.level <= 10:
-                $ levels = locked_random("randint", 5, 15)
-            else:
-                $ levels = locked_random("randint", 15, 25) + hero.level/10
+            # TODO: May require adjustment for release after all systems are normalized:
+            $ level = locked_random("randint", max(hero.level, 5), hero.level+6+round_int(hero.level/10))
+            $ new_slime = build_rc(id="Slime", level=level, pattern=choice(["Warrior", "Server"]))
             if locked_dice(80):
-                $ new_slime = build_rc(id="Slime", level=levels, pattern=choice(["Warrior", "ServiceGirl"])) # TODO: maybe pattern will require updating closer to release
                 $ new_slime.set_status("free")
             else:
-                $ new_slime = build_rc(id="Slime", level=levels, pattern=choice(["Prostitute", "ServiceGirl"]))
                 $ new_slime.set_status("slave")
-            
+
             $ new_slime.disposition += 300
             $ spr = new_slime.get_vnsprite()
             if locked_dice(50):
@@ -264,7 +261,7 @@ label special_items_flashing_extract:
         $ eqtarget.baseAP += 1
         play events "events/item_3.wav"
         jump char_equip
-        
+
 label special_items_puke_cola:
     if not eqtarget.effects['Food Poisoning']['active']:
         $ eqtarget.health += randint(15, 100)
@@ -276,7 +273,7 @@ label special_items_puke_cola:
         $ renpy.show_screen('message_screen', "{} is already suffering from food poisoning. More of this «puke» stuff won't do any good.".format(eqtarget.name))
         $ inv_source.add_item("Puke-a-Cola")
     jump char_equip
-    
+
 label special_items_cleaning_cloud:
     $ clean_list = list(i for i in hero.buildings if hasattr(i, 'dirt'))
     if clean_list:
@@ -290,4 +287,3 @@ label special_items_cleaning_cloud:
         $ inv_source.add_item("Cleaning Cloud")
         $ renpy.show_screen('message_screen', "You don't own any buildings which require cleaning, using this item is meaningless.")
     jump char_equip
-

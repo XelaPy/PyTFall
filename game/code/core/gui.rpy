@@ -44,11 +44,11 @@ init -1 python:
                     ['Slaves', self.STATUS_GROUP, 'slave'],
                     ["Run away", self.ACTION_GROUP, RunawayManager.ACTION] # Put here as "status" makes more sense then "job"
                 ]),
-                ('Current job', [
+                ('Current job', [ # TODO: This filter no longer makes any sense, action are now jobs:
                     ['None', self.ACTION_GROUP, None],
                     ['Whore', self.ACTION_GROUP, 'Whore'],
                     ['Guard', self.ACTION_GROUP, 'Guard'],
-                    ['Service Girl', self.ACTION_GROUP, 'ServiceGirl'],
+                    ['Server', self.ACTION_GROUP, 'Server'],
                 ]),
                 ('Courses', [
                     [course_name, self.ACTION_GROUP, course_action] for course_name, course_action in get_all_courses()

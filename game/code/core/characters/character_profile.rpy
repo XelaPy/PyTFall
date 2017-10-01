@@ -1088,7 +1088,7 @@ screen girl_control():
                         # elif not char.autocontrol['Acts'][key]:
                             # add cd_unchecked yalign 0.5
 
-            # if char.action == "ServiceGirl":
+            # if char.action == "Server":
             #     for key in char.autocontrol['S_Tasks']:
             #         $ devlog.warn("key:"+key)
             #         button:

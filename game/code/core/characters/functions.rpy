@@ -113,7 +113,7 @@ init -11 python:
         name: (String) Name for a girl to use. If None one will be chosen from randomNames file!
         last_name: Same thing only for last name :)
         pattern: Pattern to use when creating the character! (Options atm: Warrior,
-            ServiceGirl, Prostitute, Stripper, Manager) If None, we use data or normalize in init()
+            Server, SIW, Manager) If None, we use data or normalize in init()
         teir: Tier of the character... floats are allowed.
         add_to_gameworld: Adds to characters dictionary, should always
         be True unless character is created not to participate in the game world...

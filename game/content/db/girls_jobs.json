@@ -23,7 +23,7 @@
 		}
 	},
 	{
-		"ServiceGirl": {
+		"Server": {
 			"Maid": ["refinement", 4],
 			"Extortionist": ["luck", 2.5],
 			"Gardener": ["constitution", 3],

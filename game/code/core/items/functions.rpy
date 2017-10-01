@@ -26,10 +26,11 @@ init -11 python:
 
     def equip_for(girl, jobtype):
         # TODO: Must be updated to work with new base-traits and jobs system.
+        # Also, iirc, we now have better way of figuring this out with basetraits/occupations.
         if girl.autoequip:
             if jobtype == "Guard":
                 girl.equip_for("Combat")
-            elif jobtype == "ServiceGirl":
+            elif jobtype == "Server":
                 girl.equip_for("Service")
             elif jobtype == "Stripper":
                 girl.equip_for("Striptease")
