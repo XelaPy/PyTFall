@@ -526,7 +526,7 @@ init -1 python: # Core classes:
                            **kwargs):
             """
             range: range of the spell, 1 is minimum.
-            damage_effect: None is default, character is dissolved with the death effect in gfx method in special cases
+            damage_effect: None is default, character is dissolved with the death effect in gfx method in special cases.
             type: type of the attack, types are:
             *all: Everyone in the range. *This doesn't work yet
             *all_enemies: All enemies within the range.
@@ -538,6 +538,7 @@ init -1 python: # Core classes:
             self.name = name
             self.kind = kind
             self.menu_pos = menu_pos # Skill level might be a better name.
+            self.tier = kwargs.get("tier", None)
             if not menuname:
                 self.mn = self.name
             else:
@@ -1963,7 +1964,7 @@ init -1 python: # Core classes:
                 team_level += i.level # sum of all party members levels
         if team_level <= 0:
             team_level = 1
-        
+
         mob_level = 0
         min_exp = 0
         for i in enemies:
@@ -1981,11 +1982,7 @@ init -1 python: # Core classes:
             levels_proportion = .5
         elif levels_proportion > 3:
             levels_proportion = 3
-            
+
         resulting_exp = int(min_exp*levels_proportion)
-        
+
         return resulting_exp
-            
-        
-        
-            

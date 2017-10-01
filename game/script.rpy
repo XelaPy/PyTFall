@@ -76,6 +76,11 @@
     $ tl.timer("Loading: Battle Skills", nested=False)
     $ battle_skills = dict()
     call load_battle_skills
+    $ tiered_magic_skills = {}
+    python:
+        for s in battle_skills.values():
+            tiered_magic_skills.setdefault(s.tier, []).append(s)
+
     $ tl.timer("Loading: Battle Skills")
 
     python:
@@ -219,7 +224,6 @@ label continue_with_start:
         auto_buy_items = {k: [] for k in ("body", "restore", "food", "dress", "rest", "warrior", "scroll")}
 
         for item in all_auto_buy_items:
-
             for k in ("goodtraits", "badtraits"):
                 if hasattr(item, k):
                     for t in getattr(item, k):

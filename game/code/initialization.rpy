@@ -552,6 +552,7 @@ init -999 python:
 screen debug_tools():
     zorder 5
     drag:
+        align .0, 1.0
         id "meow____"
         frame:
             background Frame("content/gfx/frame/FrameGP2.png", 2, 2)
