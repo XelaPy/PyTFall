@@ -34,6 +34,9 @@ init -5 python:
             elif worker.effects['Drunk']['active']:
                 log.append("%s is drunk, which affects her coordination. Not the best thing when you need to carry drinks and snacks." % worker.name)
                 effectiveness -= 20
+            elif worker.effects['Revealing Clothes']['active']:
+                log.append("Her revealing clothes get a lot of the wrong kind of attention from drunk customers, interfering with work.")
+                effectiveness -= 15
 
             if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
 

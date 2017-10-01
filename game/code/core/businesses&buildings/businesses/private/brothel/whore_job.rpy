@@ -30,6 +30,9 @@ init -5 python:
             elif worker.effects['Horny']['active']:
                 log.append("%s is horny. A perfect mindset for her job!" % worker.name)
                 effectiveness += 20
+            elif worker.effects['Revealing Clothes']['active']:
+                log.append("Her revealing clothes attract horny customers, and make them even hornier.")
+                effectiveness += 15
 
             if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
 
