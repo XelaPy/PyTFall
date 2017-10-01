@@ -1622,7 +1622,7 @@ init -9 python:
                       "bartending", "cleaning", "waiting", "management", "exploration", "teaching", "swimming", "fishing", "security"])
         FULLSKILLS = set(skill + "skill" for skill in SKILLS) # Used to access true, final, adjusted skill values through direct access to class, like: char.swimmingskill
         PERSONALITY_TRAITS = set(["Tsundere", "Yandere", "Kuudere", "Dandere", "Ane", "Imouto", "Kamidere", "Bokukko", "Impersonal", "Deredere"]) # Do we still need this? Traits themselves are now flagged!
-        GEN_OCCS = set(["SIW", "Warrior", "Server", "Manager"])
+        GEN_OCCS = set(["SIW", "Warrior", "Server", "Specialist"])
         STATUS = set(["slave", "free"])
         ATTACKS = dict(Rod = "Rod Attack", Sword = "Sword Slash",
                                    Ranged = "Bow Shot", Dagger = "Knife Attack",

@@ -113,7 +113,7 @@ init -11 python:
         name: (String) Name for a girl to use. If None one will be chosen from randomNames file!
         last_name: Same thing only for last name :)
         pattern: Pattern to use when creating the character! (Options atm: Warrior,
-            Server, SIW, Manager) If None, we use data or normalize in init()
+            Server, SIW, Specialist) If None, we use data or normalize in init()
         teir: Tier of the character... floats are allowed.
         add_to_gameworld: Adds to characters dictionary, should always
         be True unless character is created not to participate in the game world...
@@ -281,21 +281,26 @@ init -11 python:
 
         return rg
 
-    def give_tiered_items(char, amount=1, gen_occ=None):
+    def give_tiered_items(char, amount=1, gen_occ=None, occ=None, equip=True):
         """Gives items based on tier and class of the character.
 
         amount: Usually 1, this number of items will be awarded per slot.
-        gen_occ: General occupation that we equip for: ("SIW", "Warrior", "Server", "Manager")
+            # Note: atm we just work with 1!
+        gen_occ: General occupation that we equip for: ("SIW", "Warrior", "Server", "Specialist")
+        occ: Specific basetrait.
+        equip: Run auto_equip function after we're done.
         """
         tier = max(min(round_int(char.tier*.5), 4), 0)
         # TODO: Update to char.occupation once that is implemented:
         if gen_occ is None:
             gen_occ = choice(char.gen_occs)
-        items = tiered_items[tier]
-
         # See if we can get a perfect occupation:
-        if gen_occ == "Warrior":
-            pass
+        if occ is None:
+
+
+            if gen_occ == "Warrior":
+                gen_occ_basetraits["Warrior"]
+        items = tiered_items[tier]
 
         # Perfect matches are subclass matches, such as a Bow would be for an Shooter
         perfect = []
@@ -383,7 +388,7 @@ init -11 python:
         elif pattern == "SIW":
             basetrait = choice([traits["Prostitute"], traits["Stripper"]])
             _traits.append(basetrait)
-        elif pattern == "Manager":
+        elif pattern == "Specialist":
             _traits.append(traits["Manager"])
         else:
             raise Exception("Cannot create base traits list from pattern: {}".format(pattern))

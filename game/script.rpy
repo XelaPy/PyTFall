@@ -59,6 +59,13 @@
         tgs.race = [i for i in traits.values() if i.race]
         tgs.client = [i for i in traits.values() if i.client]
 
+        # Base classes such as: {"SIW": [Prostitute, Stripper]}
+        gen_occ_basetraits = defaultdict(set)
+        for t in tgs.base:
+            for occ in t.occupations:
+                gen_occ_basetraits[occ].add(t)
+        gen_occ_basetraits = dict(gen_occ_basetraits)
+
         tl.timer("Loading: Items", nested=False)
         items = load_items()
         items.update(load_gifts())
@@ -166,71 +173,9 @@
 
     # Loading apartments/guilds:
     call load_resources
+    jump dev_testing_menu_and_load_mc
 
-label dev_testing_menu:
-    if config.developer:
-        menu:
-            "Debug Mode":
-                $ hero.traits.basetraits.add(traits["Mage"])
-                $ hero.apply_trait(traits["Mage"])
-                $ initial_levelup(hero, 50, max_out_stats=True)
-
-            "Content":
-                menu:
-                    "Test Intro":
-                        call intro
-                        call mc_setup
-                    "MC Setup":
-                        call mc_setup
-                        $ neow = True
-                    "Skip MC Setup":
-                        $ pass
-                    "Back":
-                        jump dev_testing_menu
-            "GFX":
-                while 1:
-                    menu gfx_testing_menu:
-                        "Webm":
-                            call test_webm
-                        "Chain UDD":
-                            call testing_chain_udd
-                        "Water Effect":
-                            call gfx_water_effect_test
-                            jump gfx_testing_menu
-                        "Test Matrix":
-                            call test_matrix
-                        "Test Vortex":
-                            call test_vortex
-                        # "Quality Test":
-                            # call screen testing_image_quality
-                        "FilmStrip":
-                            call screen testing_new_filmstrip
-                        "Particle":
-                            scene black
-                            show expression ParticleBurst([Solid("#%06x"%renpy.random.randint(0, 0xFFFFFF), xysize=(5, 5)) for i in xrange(50)], mouse_sparkle_mode=True) as pb
-                            pause
-                            hide pb
-                        "Test Robert Penners Easing":
-                            call screen test_penners_easing
-                        "Back":
-                            jump dev_testing_menu
-
-
-        python:
-            if not hasattr(store, "neow"):
-                renpy.music.stop()
-                mc_pics = load_mc_images()
-                picbase = choice(mc_pics.keys())
-                hero.img_db = mc_pics[picbase]
-                del mc_pics[picbase]
-                af_pics = mc_pics
-                del mc_pics
-                hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(120, 120)))
-                hero.restore_ap()
-                hero.log_stats()
-    else:
-        call mc_setup
-
+label continue_with_start:
     python:
         tl.timer("Loading: Arena!")
         pytfall.arena = Arena()
@@ -282,14 +227,11 @@ label dev_testing_menu:
                         trait_selections[k].setdefault(t, []).append(item)
 
             if item.type != "permanent":
-
                 if item.type == "armor" or item.slot == "weapon":
                     auto_buy_items["warrior"].append(item)
-
                 else:
                     if item.slot == "body":
                         auto_buy_items["body"].append(item)
-
                     if item.type in ("restore", "food", "scroll", "dress"):
                         auto_buy_items[item.type].append(item)
                     else:
@@ -309,18 +251,6 @@ label dev_testing_menu:
         for i in items.values():
             tiered_items.setdefault(i.tier, []).append(item)
 
-    # Base classes such as: {"SIW": ["Prostitute", "Stripper"]}
-    $ base_classes = {}
-    $ temp = defaultdict(set)
-    python:
-        for t in tgs.base:
-            for occ in t.occupations:
-                temp[occ].add(t)
-        for k, v in temp.items():
-            base_classes[k] = list(v)
-        del temp
-
-
     #  --------------------------------------
     # Put here to facilitate testing:
     if config.developer and renpy.has_label("testing"):
@@ -328,6 +258,69 @@ label dev_testing_menu:
 
     $ jsstor.finish()
     jump mainscreen
+
+label dev_testing_menu_and_load_mc:
+    if config.developer:
+        menu:
+            "Debug Mode":
+                $ hero.traits.basetraits.add(traits["Mage"])
+                $ hero.apply_trait(traits["Mage"])
+                $ initial_levelup(hero, 50, max_out_stats=True)
+
+            "Content":
+                menu:
+                    "Test Intro":
+                        call intro
+                        call mc_setup
+                    "MC Setup":
+                        call mc_setup
+                        $ neow = True
+                    "Skip MC Setup":
+                        $ pass
+                    "Back":
+                        jump dev_testing_menu
+            "GFX":
+                while 1:
+                    menu gfx_testing_menu:
+                        "Webm":
+                            call test_webm
+                        "Chain UDD":
+                            call testing_chain_udd
+                        "Water Effect":
+                            call gfx_water_effect_test
+                            jump gfx_testing_menu
+                        "Test Matrix":
+                            call test_matrix
+                        "Test Vortex":
+                            call test_vortex
+                        # "Quality Test":
+                            # call screen testing_image_quality
+                        "FilmStrip":
+                            call screen testing_new_filmstrip
+                        "Particle":
+                            scene black
+                            show expression ParticleBurst([Solid("#%06x"%renpy.random.randint(0, 0xFFFFFF), xysize=(5, 5)) for i in xrange(50)], mouse_sparkle_mode=True) as pb
+                            pause
+                            hide pb
+                        "Test Robert Penners Easing":
+                            call screen test_penners_easing
+                        "Back":
+                            jump dev_testing_menu
+        python:
+            if not hasattr(store, "neow"):
+                renpy.music.stop()
+                mc_pics = load_mc_images()
+                picbase = choice(mc_pics.keys())
+                hero.img_db = mc_pics[picbase]
+                del mc_pics[picbase]
+                af_pics = mc_pics
+                del mc_pics
+                hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(120, 120)))
+                hero.restore_ap()
+                hero.log_stats()
+    else:
+        call mc_setup
+    jump continue_with_start
 
 label after_load:
     if hasattr(store, "stored_random_seed"):
