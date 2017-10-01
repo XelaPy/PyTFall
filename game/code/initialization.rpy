@@ -22,7 +22,7 @@ init -999 python:
     import operator
     from operator import attrgetter, itemgetter
     import collections
-    from collections import OrderedDict
+    from collections import OrderedDict, defaultdict, deque
     import xml.etree.ElementTree as ET
     import simpy
     import cPickle as pickle
