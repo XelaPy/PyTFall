@@ -107,7 +107,7 @@ init -11 python:
 
     def build_rc(id=None, name=None, last_name=None, patterns=None, specific_patterns=None, tier=0,
                  tier_kwargs=None, add_to_gameworld=True):
-        ''' Creates a random character!
+        '''Creates a random character!
         id: id to choose from the rchars dictionary that holds rGirl loading data
             from JSON files, will be chosen at random if none availible.
         name: (String) Name for a girl to use. If None one will be chosen from randomNames file!
@@ -292,6 +292,7 @@ init -11 python:
         amount: Usually 1, this number of items will be awarded per slot.
             # Note: atm we just work with 1!
         gen_occ: General occupation that we equip for: ("SIW", "Warrior", "Server", "Specialist")
+            This must always be provided, even if occ is specified.
         occ: Specific basetrait.
         equip: Run auto_equip function after we're done.
         """
@@ -299,33 +300,51 @@ init -11 python:
         # TODO: Update to char.occupation once that is implemented:
         if gen_occ is None:
             gen_occ = choice(char.gen_occs)
+        if char.status == "slave" and gen_occ == "Warrior":
+            return
         # See if we can get a perfect occupation:
         if occ is None:
+            basetraits = gen_occ_basetraits[gen_occ]
+            basetraits = char.basetraits.intersection(basetraits)
+            if basetraits:
+                occ = random.sample(basetraits, 1)[0].id
+        if char.status == "slave" and occ in gen_occ_basetraits["Warrior"]:
+            return
+        _items = tiered_items[tier]
 
+        # Perfect matches are subclass matches, such as a Bow would be for a Shooter
+        perfect = defaultdict(list)
+        normal = defaultdict(list)
+        _any = defaultdict(list)
 
-            if gen_occ == "Warrior":
-                gen_occ_basetraits["Warrior"]
-        items = tiered_items[tier]
+        for i in _items:
+            if occ in i.pref_class:
+                perfect[i.slot].append(i)
+            elif gen_occ in i.pref_class:
+                normal[i.slot].append(i)
+            elif "Any" in i.pref_class:
+                _any[i.slot].append(i)
 
-        # Perfect matches are subclass matches, such as a Bow would be for an Shooter
-        perfect = []
-        normal = []
-        _any = []
+        for slot in EQUIP_SLOTS:
+            if slot in perfect:
+                char.add_item(choice(perfect[slot]))
+            elif slot in normal:
+                char.add_item(choice(normal[slot]))
+            elif slot in _any:
+                char.add_item(choice(_any[slot]))
 
-        for i in items:
-            pass
-
-        'body', 'head', 'feet'
-        'wrist', 'amulet'
-        'cape'
-
-        'weapon'
-
-        'misc'
-
-        'ring' 'ring1' 'ring2'
-
-        'smallweapon'
+        if equip:
+            if "Caster" in char.gen_occs:
+                purpose = "Wizard"
+            elif "Warrior" in char.gen_occs:
+                purpose = "Combat"
+            elif "SIW" in char.gen_occs:
+                purpose = "Sex"
+            elif "Server" in char.gen_occs:
+                purpose = "Service"
+            elif "Specialist" in char.gen_occs:
+                purpose = "???" # TODO Not implemented yet
+            char.equip_for(purpose)
 
     def initial_levelup(char, level, max_out_stats=False):
         """

@@ -501,7 +501,7 @@ init -9 python:
         def gen_occs(self):
             # returns a list of general occupation from Base Traits only.
             gen_occs = list()
-            for go in chain(t.occupations for t in self.basetraits):
+            for go in chain.from_iterable(t.occupations for t in self.basetraits):
                 if go not in gen_occs:
                     gen_occs.append(go)
             return gen_occs
@@ -1618,17 +1618,16 @@ init -9 python:
     ###### Character Classes ######
     class PytCharacter(Flags, Tier, JobsLogger, Pronouns):
         STATS = set()
-        SKILLS = set(["vaginal", "anal", "oral", "sex", "strip", "service", "refinement", "group", "bdsm", "dancing",
-                      "bartending", "cleaning", "waiting", "management", "exploration", "teaching", "swimming", "fishing", "security"])
-        FULLSKILLS = set(skill + "skill" for skill in SKILLS) # Used to access true, final, adjusted skill values through direct access to class, like: char.swimmingskill
-        PERSONALITY_TRAITS = set(["Tsundere", "Yandere", "Kuudere", "Dandere", "Ane", "Imouto", "Kamidere", "Bokukko", "Impersonal", "Deredere"]) # Do we still need this? Traits themselves are now flagged!
+        SKILLS = set(["vaginal", "anal", "oral", "sex", "strip", "service",
+                      "refinement", "group", "bdsm", "dancing",
+                      "bartending", "cleaning", "waiting", "management",
+                      "exploration", "teaching", "swimming", "fishing",
+                      "security"])
+        # Used to access true, final, adjusted skill values through direct access to class, like: char.swimmingskill
+        FULLSKILLS = set(skill + "skill" for skill in SKILLS)
         GEN_OCCS = set(["SIW", "Warrior", "Server", "Specialist"])
         STATUS = set(["slave", "free"])
-        ATTACKS = dict(Rod = "Rod Attack", Sword = "Sword Slash",
-                                   Ranged = "Bow Shot", Dagger = "Knife Attack",
-                                   Whip = "Whip Strike", Fists = "Fist Attack") # Also should be worked out of the class...
-        """
-        Decided to create a base class for characters (finally)...
+        """Base Character class for PyTFall.
         """
         def __init__(self, arena=False, inventory=False, effects=False, is_worker=True):
             super(PytCharacter, self).__init__()
@@ -2481,40 +2480,49 @@ init -9 python:
             if self.eqslots["weapon"]:
                 self.unequip(self.eqslots["weapon"])
 
-            slots = [slot for slot in self.eqslots if slot not in ("ring1", "ring2", "consumable")]
+            slots = store.EQUIP_SLOTS
 
             if purpose == "Combat":
-                returns.extend(self.auto_equip(['health', 'mp', 'attack', 'magic', 'defence', 'agility', "luck"], slots=slots, real_weapons=True))
-
+                returns.extend(self.auto_equip(['health', 'mp', 'attack', 'magic',
+                                                'defence', 'agility', "luck"],
+                                                slots=slots, real_weapons=True))
             elif purpose == "Battle Mage":
-                returns.extend(self.auto_equip(['health', 'mp', 'attack', 'magic'], exclude_on_stats=["agility", "luck", 'defence', 'intelligence'], slots=slots, real_weapons=True))
-
+                returns.extend(self.auto_equip(['health', 'mp', 'attack', 'magic'],
+                               exclude_on_stats=["agility", "luck", 'defence', 'intelligence'],
+                               slots=slots, real_weapons=True))
             elif purpose == "Barbarian":
-                returns.extend(self.auto_equip(['health', 'attack', 'constitution', 'agility'], exclude_on_stats=["luck"], slots=slots, real_weapons=True))
-
+                returns.extend(self.auto_equip(['health', 'attack', 'constitution', 'agility'],
+                               exclude_on_stats=["luck"], slots=slots, real_weapons=True))
             elif purpose == "Wizard":
-                returns.extend(self.auto_equip(['mp', 'magic', "luck", 'intelligence'], exclude_on_stats=["health", 'defence'], slots=slots, real_weapons=True))
-
+                returns.extend(self.auto_equip(['mp', 'magic', "luck", 'intelligence'],
+                               exclude_on_stats=["health", 'defence'],
+                               slots=slots, real_weapons=True))
             elif purpose == "Striptease":
-                returns.extend(self.auto_equip(["charisma"], ["strip"], exclude_on_stats=["health", "vitality", "mp", "joy"], slots=slots))
-
+                returns.extend(self.auto_equip(["charisma"], ["strip"],
+                               exclude_on_stats=["health", "vitality", "mp", "joy"],
+                               slots=slots))
             elif purpose == "Sex":
-                returns.extend(self.auto_equip(["charisma"], ["vaginal", "anal", "oral"], exclude_on_stats=["health", "vitality", "mp"], slots=slots))
-
+                returns.extend(self.auto_equip(["charisma"], ["vaginal", "anal", "oral"],
+                               exclude_on_stats=["health", "vitality", "mp"], slots=slots))
             elif purpose == "Service":
-                returns.extend(self.auto_equip(["charisma"], ["service"], exclude_on_stats=["health", "vitality", "mp", "joy"], slots=slots))
-
+                returns.extend(self.auto_equip(["charisma"], ["service"],
+                               exclude_on_stats=["health", "vitality", "mp", "joy"],
+                               slots=slots))
             else:
-                devlog.warning("Supplied unknown purpose: %s to equip_for method for: %s, (Class: %s)" % (purpose, self.name, self.__class__.__name__))
+                devlog.warning("Supplied unknown purpose: %s to equip_for method for: %s, (Class: %s)" % (purpose,
+                                                            self.name, self.__class__.__name__))
             return returns
 
-        def auto_equip(self, target_stats, target_skills=None, exclude_on_skills=None, exclude_on_stats=None, slots=None,
+        def auto_equip(self, target_stats, target_skills=None, exclude_on_skills=None,
+                       exclude_on_stats=None, slots=None,
                        inv=None, real_weapons=False):
             """
             targetstats: expects a list of stats to pick the item
             targetskills: expects a list of skills to pick the item
-            exclude_on_stats: items will not be used if stats in this list are being diminished by use of the item *Decreased the chance of picking this item
-            exclude_on_skills: items will not be used if stats in this list are being diminished by use of the item *Decreased the chance of picking this item
+            exclude_on_stats: items will not be used if stats in this list are being
+                diminished by use of the item *Decreased the chance of picking this item
+            exclude_on_skills: items will not be used if stats in this list are being
+                diminished by use of the item *Decreased the chance of picking this item
             ==>   do not put stats/skills both in target* and in exclude_on_* !
             *default: All Stats - targetstats
             slots: a list of slots, contains just consumables by default
@@ -2635,9 +2643,7 @@ init -9 python:
                 # consumables not filtered will also be iterated over multiple times
 
                 for weight, item in sorted(selected, key=lambda x: x[0], reverse=True):
-
                     while self.equip_chance(item) != None:
-
                         inv.remove(item)
                         self.equip(item, remove=False)
                         returns.append(item.id)
