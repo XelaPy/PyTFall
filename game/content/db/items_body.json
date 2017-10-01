@@ -926,7 +926,7 @@
     "slot": "body",
     "type": "dress",
     "max": {"mp": 100, "magic": 100, "intelligence": 40},
-    "mod": {"magic": 50, "charisma": 25, "character": 50, "service": -50},
+    "mod": {"magic": 50, "charisma": 25, "character": 50},
     "addtraits": ["Psychic", "Sadist"],
     "mod_skills": {"service": [-0.01, -0.01, 0.03, 0, 0]},
     "locations": ["Exploration"],

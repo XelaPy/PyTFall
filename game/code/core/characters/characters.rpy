@@ -2912,14 +2912,18 @@ init -9 python:
                         elif "Bow Master" in self.traits and item.type == "bow":
                             self.stats.imod[stat] += int(value*1.3)
                         else:
-                            self.stats.imod[stat] += value
+                            try:
+                                self.stats.imod[stat] += value
+                            except:
+                                raise Exception(item.id, stat)
 
             # Special modifiers based off traits:
-            if "Royal Assassin" in self.traits and item.slot in ["smallweapon", "weapon", "body", "cape", "feet", "wrist", "head"]:
+            temp = ["smallweapon", "weapon", "body", "cape", "feet", "wrist", "head"]
+            if "Royal Assassin" in self.traits and item.slot in temp:
                 value = int(item.price*.01) if direction else -int(item.price*.01)
                 self.stats.max["attack"] += value
                 self.mod_stat("attack", value)
-            elif "Armor Expert" in self.traits and item.slot in ["smallweapon", "weapon", "body", "cape", "feet", "wrist", "head"]:
+            elif "Armor Expert" in self.traits and item.slot in temp:
                 value = int(item.price*.01) if direction else -int(item.price*.01)
                 self.stats.max["defence"] += value
                 self.mod_stat("defence", value)
@@ -2928,7 +2932,8 @@ init -9 python:
                 imod_val = int(item.mod["attack"]*.5) if direction else -int(item.mod["attack"]*.5)
                 self.stats.max["magic"] += max_val
                 self.stats.imod["magic"] += imod_val
-            if direction and "Recharging" in self.traits and item.slot == 'consumable' and not item.ctemp and not("mp" in item.mod):
+            if direction and "Recharging" in self.traits and item.slot == 'consumable' \
+                and not item.ctemp and not("mp" in item.mod):
                 self.mod_stat("mp", 10)
 
             # Skills:

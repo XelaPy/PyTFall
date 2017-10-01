@@ -7,13 +7,6 @@ init python:
                 c = c + 1
         return time.time() - t, c
 
-    def set_font_color(s, color):
-        """
-        @param: color: should be supplied as a string! Not as a variable!
-        Sets font color duting interpolation.
-        """
-        return "".join(["{color=[%s]}" % color, "{}".format(s), "{/color}"])
-
     class BuildingRelay(object):
         """An upgrade has a limited number of rooms to
         run jobs in parallel.
