@@ -873,13 +873,11 @@ init: # Items:
                         if char.status not in ("slave", "various") and ("Warrior" in char.occupations or char.disposition <= 950):
                             textbutton "[entry]":
                                 action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-
                     elif entry == "Take Course":
                         textbutton "[entry]":
                             action [Hide("set_action_dropdown"), Hide("charslist"), Hide("char_profile"), # Hide the dropdown screen, the chars list and char profile screens
                                     SetField(store, "char", char, True), # Ensure that the global var char is set to the current char
                                     Jump("char_training")] # Jump to the training screen
-
                     else:
                         textbutton "[entry]":
                                 action [SetField(char, "action", entry), Function(equip_for, char, entry), If(char_is_training(char), true=Function(stop_training, char)), Hide("set_action_dropdown")]
@@ -924,27 +922,15 @@ init: # Items:
                         $ can_keep_action = False
                     if can_keep_action:
                         textbutton "[building.name]":
-                            action [SelectedIf(char.location==building), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
+                            action [SelectedIf(char.location==building), If(char_is_training(char),
+                                    true=Function(stop_training, char)), Function(change_location, char, building),
+                                    Hide("set_location_dropdown")]
                     else:
                         textbutton "[building.name]":
-                            action [SelectedIf(char.location==building), SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
-                elif building.free_rooms():
-                    $ can_keep_action = False
-                    if isinstance(building, Building):
-                        if char.action in Building.ACTIONS:
-                            $ can_keep_action = True
-                    elif isinstance(building, FighterGuild):
-                        if char.action in FighterGuild.ACTIONS:
-                            $ can_keep_action = True
-                    elif hasattr(building, "actions"):
-                        if char.action in building.actions:
-                            $ can_keep_action = True
-                    if can_keep_action:
-                        textbutton "[building.name]":
-                            action [SelectedIf(char.location==building), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
-                    else:
-                        textbutton "[building.name]":
-                            action [SelectedIf(char.location==building), SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, building), Hide("set_location_dropdown")]
+                            action [SelectedIf(char.location==building), SetField(char, "action", None),
+                                    If(char_is_training(char), true=Function(stop_training, char)),
+                                    Function(change_location, char, building),
+                                    Hide("set_location_dropdown")]
 
             textbutton "Home":
                 action [If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, char.home), Hide("set_location_dropdown")]

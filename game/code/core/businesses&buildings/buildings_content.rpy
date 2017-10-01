@@ -703,9 +703,6 @@ init -9 python:
         """
         The building that represents Business Buildings.
         """
-
-        ACTIONS = ['Prostitute', 'ServiceGirl', 'Rest', 'Stripper', 'Guard']
-
         def __init__(self, *args, **kwargs):
             """
             Creates a new Building.
@@ -723,7 +720,7 @@ init -9 python:
             self.maxrank = kwargs.pop("maxrank", 0)
 
             self.baseclients = 2
-            self.actions = Building.ACTIONS
+            self.actions = [] # @unused
 
             # Upgrades
             self.used_upgrade_slots = 0
