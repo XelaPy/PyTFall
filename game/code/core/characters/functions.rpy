@@ -105,8 +105,9 @@ init -11 python:
 
         return mob
 
-    def build_rc(id=None, name=None, last_name=None, patterns=None, specific_patterns=None, tier=0,
-                 tier_kwargs=None, add_to_gameworld=True):
+    def build_rc(id=None, name=None, last_name=None, patterns=None, specific_patterns=None,
+                 tier=0, tier_kwargs=None, add_to_gameworld=True,
+                 equip_to_tier=False, gti_kwargs=None):
         '''Creates a random character!
         id: id to choose from the rchars dictionary that holds rGirl loading data
             from JSON files, will be chosen at random if none availible.
@@ -119,9 +120,12 @@ init -11 python:
         teir: Tier of the character... floats are allowed.
         add_to_gameworld: Adds to characters dictionary, should always
         be True unless character is created not to participate in the game world...
+        equip_to_tier/gti_kwargs: Do we run equip to tier func and kwargs for it.
         '''
         if tier_kwargs is None:
             tier_kwargs = {}
+        if gti_kwargs is None:
+            gti_kwargs = {}
         rg = rChar()
         Stats = rg.STATS
         Skills = rg.stats.skills.keys()
@@ -280,13 +284,16 @@ init -11 python:
         # And at last, leveling up and stats/skills applications:
         tier_up_to(rg, tier, **tier_kwargs)
 
+        if equip_to_tier:
+            give_tiered_items(char, **gti_kwargs)
+
         # And add to char! :)
         if add_to_gameworld:
             store.chars["_".join([rg.id, rg.name, rg.fullname.split(" ")[1]])] = rg
 
         return rg
 
-    def give_tiered_items(char, amount=1, gen_occ=None, occ=None, equip=True):
+    def give_tiered_items(char, amount=1, gen_occ=None, occ=None, equip=False):
         """Gives items based on tier and class of the character.
 
         amount: Usually 1, this number of items will be awarded per slot.
@@ -310,28 +317,39 @@ init -11 python:
                 occ = random.sample(basetraits, 1)[0].id
         if char.status == "slave" and occ in gen_occ_basetraits["Warrior"]:
             return
-        _items = tiered_items[tier]
 
+        # print("gen_occ: {}, occ: {}".format(gen_occ, occ))
+
+        filled_slots = {s: [] for s in EQUIP_SLOTS}
         # Perfect matches are subclass matches, such as a Bow would be for a Shooter
-        perfect = defaultdict(list)
-        normal = defaultdict(list)
-        _any = defaultdict(list)
 
-        for i in _items:
-            if occ in i.pref_class:
-                perfect[i.slot].append(i)
-            elif gen_occ in i.pref_class:
-                normal[i.slot].append(i)
-            elif "Any" in i.pref_class:
-                _any[i.slot].append(i)
+        for _ in reversed(range(tier+1)):
+            _items = [i for i in tiered_items[_] if i.sex in (char.gender, 'unisex')]
+            # print(", ".join([i.id for i in _items]))
+            perfect = defaultdict(list)
+            normal = defaultdict(list)
+            _any = defaultdict(list)
 
-        for slot in EQUIP_SLOTS:
-            if slot in perfect:
-                char.add_item(choice(perfect[slot]))
-            elif slot in normal:
-                char.add_item(choice(normal[slot]))
-            elif slot in _any:
-                char.add_item(choice(_any[slot]))
+            for i in _items:
+                if occ in i.pref_class:
+                    perfect[i.slot].append(i)
+                elif gen_occ in i.pref_class:
+                    normal[i.slot].append(i)
+                elif "Any" in i.pref_class:
+                    _any[i.slot].append(i)
+
+            for slot in EQUIP_SLOTS:
+                if not filled_slots[slot]:
+                    if slot in perfect:
+                        filled_slots[slot].append(choice(perfect[slot]))
+                    elif slot in normal:
+                        filled_slots[slot].append(choice(normal[slot]))
+                    elif slot in _any:
+                        filled_slots[slot].append(choice(_any[slot]))
+
+        for i in filled_slots.values():
+            if i:
+                char.add_item(i.pop())
 
         if equip:
             if "Caster" in char.gen_occs:
