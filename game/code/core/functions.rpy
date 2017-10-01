@@ -3,7 +3,7 @@ init -11 python:
     def set_font_color(s, color):
         """
         @param: color: should be supplied as a string! Not as a variable!
-        Sets font color duting interpolation.
+        Sets font color during interpolation.
         """
         return "".join(["{color=[%s]}" % color, "{}".format(s), "{/color}"])
 

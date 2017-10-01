@@ -249,7 +249,7 @@ label continue_with_start:
     $ tiered_items = {}
     python:
         for i in items.values():
-            tiered_items.setdefault(i.tier, []).append(item)
+            tiered_items.setdefault(i.tier, []).append(i)
 
     #  --------------------------------------
     # Put here to facilitate testing:
