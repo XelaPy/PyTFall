@@ -293,6 +293,15 @@ init -11 python:
             gen_occ = choice(char.gen_occs)
         items = tiered_items[tier]
 
+        # See if we can get a perfect occupation:
+        if gen_occ == "Warrior":
+            pass
+
+        # Perfect matches are subclass matches, such as a Bow would be for an Shooter
+        perfect = []
+        normal = []
+        _any = []
+
         for i in items:
             pass
 

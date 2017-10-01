@@ -309,6 +309,18 @@ label dev_testing_menu:
         for i in items.values():
             tiered_items.setdefault(i.tier, []).append(item)
 
+    # Base classes such as: {"SIW": ["Prostitute", "Stripper"]}
+    $ base_classes = {}
+    $ temp = defaultdict(set)
+    python:
+        for t in tgs.base:
+            for occ in t.occupations:
+                temp[occ].add(t)
+        for k, v in temp:
+            base_classes[k] = list(v)
+        del temp
+
+
     #  --------------------------------------
     # Put here to facilitate testing:
     if config.developer and renpy.has_label("testing"):

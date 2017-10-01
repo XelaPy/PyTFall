@@ -4220,9 +4220,8 @@ init -9 python:
                 self.nickname = self.name
 
             # Class | Status normalization:
-            # TODO: REMOVE CLASSES FROM HERE!
-            if not self.traits.basetraits: # TODO: Just until all chars have proper jsons...
-                pattern = create_traits_base(random.sample(self.CLASSES, 1).pop())
+            if not self.traits.basetraits: # TODO: Just until all chars have proper JSONs...
+                pattern = create_traits_base(random.sample(self.GEN_OCCS, 1).pop())
                 for i in pattern:
                     self.traits.basetraits.add(i)
                     self.apply_trait(i)
