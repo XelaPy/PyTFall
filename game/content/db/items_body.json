@@ -17,7 +17,7 @@
     "mod_skills": {"refinement": [0, 0, -0.06, 0, 0]},
     "locations": ["Tailor Store", "Look around"],
     "tier": 0,
-    "pref_class":["Slave"]
+    "pref_class": ["Slave"]
     },
     {
     "id": "Peasant Gown",
@@ -36,7 +36,7 @@
     "mod": {"charisma": 5},
     "locations": ["Tailor Store"],
     "tier": 0,
-    "pref_class":["SIW"]
+    "pref_class": ["SIW"]
     },
     {
     "id": "Linen Dress",
@@ -56,7 +56,7 @@
     "mod_skills": {"service": [0, 0, 0.02, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class":["SIW", "Server"]
+    "pref_class": ["SIW", "Server"]
     },
     {
     "id": "Bourgeoise Gown",
@@ -76,7 +76,7 @@
     "mod_skills": {"refinement": [0, 0, 0.04, 0, 0], "management": [0, 0, 0.02, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class":["SIW", "Manager"]
+    "pref_class": ["SIW", "Manager"]
     },
     {
     "id": "Bunny Outfit",

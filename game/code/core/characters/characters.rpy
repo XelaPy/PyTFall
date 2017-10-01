@@ -405,9 +405,8 @@ init -9 python:
             self.blocks = list()
             self.effects = list()
 
-
             # Occupations related:
-            self.occupations = list() # So far I came up with SIW (Sex Industry worker), Server, Warrior...
+            self.occupations = list() # GEN_OCCS (Misnamed here)
             self.higher_tiers = list() # Required higher tier basetraits to enable this trait.
 
             self.sex = "unisex" # Untill we set this up in traits: this should be "unisex" by default.
@@ -497,6 +496,15 @@ init -9 python:
                 else: return False
 
             return super(Traits, self).__contains__(item)
+
+        @property
+        def gen_occs(self):
+            # returns a list of general occupation from Base Traits only.
+            gen_occs = list()
+            for go in chain(t.occupations for t in self.basetraits):
+                if go not in gen_occs:
+                    gen_occs.append(go)
+            return gen_occs
 
         @property
         def base_to_string(self):
@@ -1861,6 +1869,11 @@ init -9 python:
         @property
         def basetraits(self):
             return self.traits.basetraits
+
+        @property
+        def gen_occs(self):
+            # returns a list of general occupation from Base Traits only.
+            return self.traits.gen_occs
 
         @property
         def occupations(self):

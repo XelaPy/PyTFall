@@ -21,6 +21,7 @@ init -9 python:
             self.removeeffects = []
             self.goodtraits = set()
             self.badtraits = set()
+            self.pref_class = []
 
             # Rules:
             self.usable = None

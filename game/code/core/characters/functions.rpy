@@ -281,18 +281,20 @@ init -11 python:
 
         return rg
 
-    def give_tiered_items(char, amount=1, occ=None):
+    def give_tiered_items(char, amount=1, gen_occ=None):
         """Gives items based on tier and class of the character.
 
         amount: Usually 1, this number of items will be awarded per slot.
-        occ: General occupation that we equip for: ()
+        gen_occ: General occupation that we equip for: ("SIW", "Warrior", "Server", "Manager")
         """
-        tier = max(min(round_int(char.tier*.5), 5), 0)
-        if base_trait is None:
-            base_trait = random.sample(char.basetraits)[0]
+        tier = max(min(round_int(char.tier*.5), 4), 0)
+        # TODO: Update to char.occupation once that is implemented:
+        if gen_occ is None:
+            gen_occ = choice(char.gen_occs)
         items = tiered_items[tier]
 
-
+        for i in items:
+            pass
 
         'body', 'head', 'feet'
         'wrist', 'amulet'
