@@ -299,13 +299,12 @@ screen char_profile():
                     if len(char.name) < 20:
                         text_size 21
 
-                textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Rename":
-                    background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
-                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
-                    xpadding 12
-                    ypadding 8
-                    align (0.83, 1.0)
-                    yoffset 20
+                textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[green]}Rename":
+                    background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=0.8)
+                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15))), alpha=1)
+                    xysize (107, 41)
+                    align (0.58, 1.0)
+                    yoffset 158
                     action Show("char_rename", char=char)
             null height 5
             # Rank up for prostitutes:

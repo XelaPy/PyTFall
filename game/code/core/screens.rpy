@@ -971,39 +971,49 @@ init: # Items:
         modal True
         zorder 1
         frame:
-            background Frame("content/gfx/frame/post_battle.png", 500, 400)
+            if isinstance(char, Player):
+                background Frame("content/gfx/frame/post_battle.png", 500, 400)
+                xysize(500, 400)
+            elif char.status != "slave":
+                background Frame("content/gfx/frame/post_battle.png", 500, 300)
+                xysize(500, 300)
+            else:
+                background Frame("content/gfx/frame/post_battle.png", 500, 500)
+                xysize(500, 500)
             align (0.5, 0.5)
-            xysize(500, 400)
             vbox:
                 style_prefix "wood"
                 at fade_in_out()
                 align (0.5, 0.5)
                 spacing 10
                 if isinstance(char, Player) or char.status == "slave":
+                    text "Name:" size 21 color goldenrod outlines [(2, "#3a3a3a", 0, 0)]
                     button:
                         xysize (340, 60)
                         xalign 1.0
                         yalign 0.5
-                        text "Name: [char.name]" size 16 color goldenrod
+                        text "[char.name]" size 16 color goldenrod
                         action Return(["rename", "name"])
                         padding (10, 10)
                 if not(isinstance(char, Player)): # it's weird to give a nickname to yourself. should be handled by ingame events
+                    text "Nickname:" size 21 color goldenrod outlines [(2, "#3a3a3a", 0, 0)]
                     button:
                         xysize (340, 60)
                         xalign 1.0
                         yalign 0.5
                         if char.nickname != char.name:
-                            text "Nickname: [char.nickname]" size 16 color goldenrod
+                            text "[char.nickname]" size 16 color goldenrod
                         else:
-                            text "Nickname: None" size 16 color goldenrod
+                            text "None" size 16 color goldenrod
                         action Return(["rename", "nick"])
                         padding (10, 10)
                 if isinstance(char, Player) or char.status == "slave":
+                    text "Full Name:" size 21 color goldenrod outlines [(2, "#3a3a3a", 0, 0)]
                     button:
                         xysize (340, 60)
                         xalign 1.0
                         yalign 0.5
-                        text "Full Name: [char.fullname]" size 16 color goldenrod
+                        text "[char.fullname]" size 16 color goldenrod
                         action Return(["rename", "full"])
                         padding (10, 10)
 
