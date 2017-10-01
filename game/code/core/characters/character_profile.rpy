@@ -296,7 +296,7 @@ screen char_profile():
                     anchor 0, 1.0
                     if len(char.name) < 20:
                         text_size 21
-                        
+
                 textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Rename":
                     background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
@@ -1049,9 +1049,9 @@ screen girl_control():
                 else:
                     add cd_unchecked align (1.0, 0.5)
             # ------------------------------------------------------------------------------------------------------------------------------------->>>
-
+            # TODO: If we ever restore this, char actions are not Jobs!
             # Disabled until Beta release
-            # if char.action in ["Whore", "ServiceGirl", "Stripper"]:
+            # if char.action in ["Server", "SIW"]:
                 # null height 10
                 # hbox:
                     # spacing 20
@@ -1088,19 +1088,19 @@ screen girl_control():
                         # elif not char.autocontrol['Acts'][key]:
                             # add cd_unchecked yalign 0.5
 
-            if char.action == "ServiceGirl":
-                for key in char.autocontrol['S_Tasks']:
-                    $ devlog.warn("key:"+key)
-                    button:
-                        action ToggleDict(char.autocontrol['S_Tasks'], key)
-                        xysize (200, 30)
-                        text (key.capitalize()) align (0.0, 0.5)
-                        if isinstance(char.autocontrol['S_Tasks'][key], list):
-                            add cb_some_checked align (1.0, 0.5)
-                        elif char.autocontrol['S_Tasks'][key]:
-                            add cb_checked align (1.0, 0.5)
-                        elif not char.autocontrol['S_Tasks'][key]:
-                            add cd_unchecked align (1.0, 0.5)
+            # if char.action == "ServiceGirl":
+            #     for key in char.autocontrol['S_Tasks']:
+            #         $ devlog.warn("key:"+key)
+            #         button:
+            #             action ToggleDict(char.autocontrol['S_Tasks'], key)
+            #             xysize (200, 30)
+            #             text (key.capitalize()) align (0.0, 0.5)
+            #             if isinstance(char.autocontrol['S_Tasks'][key], list):
+            #                 add cb_some_checked align (1.0, 0.5)
+            #             elif char.autocontrol['S_Tasks'][key]:
+            #                 add cb_checked align (1.0, 0.5)
+            #             elif not char.autocontrol['S_Tasks'][key]:
+            #                 add cd_unchecked align (1.0, 0.5)
 
         button:
             style_group "basic"
