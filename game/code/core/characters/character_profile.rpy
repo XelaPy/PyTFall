@@ -283,8 +283,10 @@ screen char_profile():
                     text_color gold
                     if len(classes) < 18:
                         text_size 17
+                        pos 113, 100
                     else:
                         text_size 15
+                        pos 113, 98
                     text_outlines [(2, "#424242", 0, 0)]
                     pos 113, 100
                     anchor 0, 1.0
@@ -390,54 +392,47 @@ screen char_profile():
                         action SetScreenVariable("stats_display", "skillstest"), With(dissolve)
                         text "S" size 15
 
-            null height 4
+            null height 15
             vbox:
                 style_prefix "proper_stats"
                 xsize 318
+                xpos 18
                 if stats_display == "main":
                     frame:
-                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                        xpadding 12
-                        ypadding 12
-                        xmargin 0
-                        ymargin 0
-                        has vbox spacing 1
-                        frame:
-                            xalign 0.0
-                            yfill True
-                            background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
-                            xysize (145, 30)
-                            text (u"{color=#CDAD00} Full name") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
-                        frame:
-                            xpadding 10
-                            has vbox box_wrap True xmaximum 250
-                            xalign .0
-                            ysize 25
-                            text "[char.fullname]" xalign .0 yalign 0.5 style "TisaOTM" color "#79CDCD" size 15
+                        xalign 0.0
+                        yfill True
+                        background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                        xysize (100, 30)
+                        text (u"{color=#CDAD00} Full name") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
+                    if len(char.fullname) >= 17:
+                        null height 2
+                    text "[char.fullname]" xalign .0 style "TisaOTM" color "#79CDCD":
+                        if len(char.fullname) < 17:
+                            size 20
+                        else:
+                            size 16
+                    if len(char.fullname) < 17:
+                        null height 2
+                    else:
                         null height 5
-                        frame:
-                            xalign 0.0
-                            yfill True
-                            background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
-                            xysize (145, 30)
-                            text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
-                        vbox:
-                            frame:
-                                xpadding 10
-                                has vbox box_wrap True xmaximum 250
-                                xalign .0
-                                ysize 25
-                                text "[char.full_race]" xalign .0 yalign 0.5 style "TisaOTM" color "#79CDCD" size 15
-                            null height 1
-                            frame:
-                                xysize (100, 100)
-                                $ trait = char.race
-                                $ img = ProportionalScale(trait.icon, 100, 100)
-                                button:
-                                    xysize (100, 100)
-                                    background img
-                                    action Show("show_trait_info", trait=trait.id, place="race_trait", tt=tt)
-                                    hover_background im.MatrixColor(img, im.matrix.brightness(0.10))
+                    frame:
+                        xalign 0.0
+                        yfill True
+                        background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                        xysize (100, 30)
+                        text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
+                    null height 3
+                    frame:
+                        xysize (100, 100)
+                        $ trait = char.race
+                        background Frame (Transform("content/gfx/frame/frame_it1.png", alpha=0.6, size=(100, 100)), 10, 10)
+                        $ img = ProportionalScale(trait.icon, 100, 100)
+                        button:
+                            xysize (100, 100)
+                            background img
+                            action Show("show_trait_info", trait=trait.id, place="race_trait", tt=tt)
+                            hovered tt.action("[char.full_race]")
+                            hover_background im.MatrixColor(img, im.matrix.brightness(0.10))
 
                     null height 4
 
