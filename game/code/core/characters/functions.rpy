@@ -281,15 +281,18 @@ init -11 python:
 
         return rg
 
-    def give_tiered_items(char, amount=1, base_trait=None):
+    def give_tiered_items(char, amount=1, occ=None):
         """Gives items based on tier and class of the character.
 
         amount: Usually 1, this number of items will be awarded per slot.
+        occ: General occupation that we equip for: ()
         """
         tier = max(min(round_int(char.tier*.5), 5), 0)
         if base_trait is None:
             base_trait = random.sample(char.basetraits)[0]
         items = tiered_items[tier]
+
+
 
         'body', 'head', 'feet'
         'wrist', 'amulet'
@@ -404,7 +407,7 @@ init -11 python:
 
         # Patterns:
         if not pattern:
-            pattern = random.sample(client.CLASSES, 1).pop()
+            pattern = random.sample(client.GEN_OCCS, 1).pop()
         pattern = create_traits_base(pattern)
         for i in pattern:
             client.traits.basetraits.add(i)
