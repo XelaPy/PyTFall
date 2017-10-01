@@ -364,6 +364,12 @@ init -11 python:
                 purpose = "???" # TODO Not implemented yet
             char.equip_for(purpose)
 
+    def give_tiered_magic_skills(char, amount=1):
+        """Gives items based on tier and class of the character.
+
+        amount: Amount of skills to give."""
+        pass
+
     def initial_levelup(char, level, max_out_stats=False):
         """
         This levels up the character, usually when it's first created.
