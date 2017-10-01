@@ -415,25 +415,62 @@ screen char_profile():
                         null height 2
                     else:
                         null height 5
-                    frame:
-                        xalign 0.0
-                        yfill True
-                        background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
-                        xysize (100, 30)
-                        text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
-                    null height 3
-                    frame:
-                        xysize (100, 100)
-                        $ trait = char.race
-                        background Frame (Transform("content/gfx/frame/frame_it1.png", alpha=0.6, size=(100, 100)), 10, 10)
-                        $ img = ProportionalScale(trait.icon, 100, 100)
-                        button:
-                            xysize (100, 100)
-                            background img
-                            action Show("show_trait_info", trait=trait.id, place="race_trait", tt=tt)
-                            hovered tt.action("[char.full_race]")
-                            hover_background im.MatrixColor(img, im.matrix.brightness(0.10))
+                    hbox:
+                        spacing 15
+                        vbox:
+                            frame:
+                                xalign 0.0
+                                yfill True
+                                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                                xysize (100, 30)
+                                text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
+                            null height 3
+                            frame:
+                                xysize (100, 100)
+                                $ trait = char.race
+                                background Frame (Transform("content/gfx/frame/frame_it1.png", alpha=0.6, size=(100, 100)), 10, 10)
+                                $ img = ProportionalScale(trait.icon, 100, 100)
+                                button:
+                                    xysize (100, 100)
+                                    background img
+                                    action Show("show_trait_info", trait=trait.id, place="race_trait", tt=tt)
+                                    hovered tt.action("[char.full_race]")
+                                    hover_background im.MatrixColor(img, im.matrix.brightness(0.10))
+                        vbox:
+                            # Elements icon:
+                            $ els = [Transform(e.icon, size=(90, 90)) for e in char.elements]
+                            $ els_a = [Transform(im.MatrixColor(e.icon, im.matrix.brightness(0.10)), size=(90, 90)) for e in char.elements]
+                            frame:
+                                xalign 0.0
+                                yfill True
+                                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                                xysize (100, 30)
+                                text (u"{color=#CDAD00} Element") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
+                            null height 3
+                            frame:
+                                xysize (100, 100)
+                                background Frame (Transform("content/gfx/frame/frame_it1.png", alpha=0.6, size=(100, 100)), 10, 10)
+                                $ x = 0
+                                $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
+                                $ els_a = [Transform(i, crop=(90/len(els_a)*els_a.index(i), 0, 90/len(els_a), 90), subpixel=True, xpos=(x + 90/len(els_a)*els_a.index(i))) for i in els_a]
+                                $ f = Fixed(*els, xysize=(90, 90))
+                                $ f_a = Fixed(*els_a, xysize=(90, 90))
 
+                                button:
+                                    xysize (90, 90)
+                                    pos (5, 5)
+                                    if len(char.elements) > 1:
+                                        $ ele = ""
+                                        for e in char.elements:
+                                            $ ele += e.id + ", "
+                                        $ ele = ele[:-2]
+                                    else:
+                                        $ ele = char.elements[0].id
+                                    action tt.action("[ele]") # TODO: will need to construct help screen for elements traits too
+                                    background f
+                                    hover_background f_a
+                                    hovered tt.action("[ele]")
+                                    
                     null height 4
 
                 elif stats_display == "stats":
@@ -519,33 +556,6 @@ screen char_profile():
                                 text "{}/{}".lower().format(getattr(char, stat.lower()), char.get_max(stat.lower())) style_suffix "value_text" color color
 
                     null height 4
-
-                    # Elements:
-                    $ els = [Transform(e.icon, size=(90, 90)) for e in char.elements]
-                    frame:
-                        style_group "content"
-                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
-                        xysize (300, 130)
-                        ymaximum 120
-                        xalign 0.5
-
-                        $ x = 0
-                        $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
-                        $ f = Fixed(*els, xysize=(90, 90))
-                        add f xcenter 230 ycenter 58
-
-                        viewport:
-                            draggable True
-                            edgescroll (20, 10)
-                            xysize (200, 102)
-                            yalign 0.5
-                            has vbox spacing -10
-                            for e in char.elements:
-                                textbutton "{=TisaOTM}[e.id]":
-                                    background None
-                                    action NullAction()
-                                    hovered tt.Action("%s" % e.desc)
-                        add ProportionalScale("content/gfx/interface/images/elements/hover.png", 90, 90) pos (185, 12)
 
                 elif stats_display == "skillstest":
                     frame:
