@@ -378,12 +378,11 @@ init -11 python:
         if pattern == "Warrior":
             basetrait = choice([traits["Warrior"], traits["Mage"]])
             _traits.append(basetrait)
-        elif pattern == "ServiceGirl":
+        elif pattern == "Server":
             _traits.append(traits["Maid"])
-        elif pattern == "Prostitute":
-            _traits.append(traits["Prostitute"])
-        elif pattern == "Stripper":
-            _traits.append(traits["Stripper"])
+        elif pattern == "SIW":
+            basetrait = choice([traits["Prostitute"], traits["Stripper"]])
+            _traits.append(basetrait)
         elif pattern == "Manager":
             _traits.append(traits["Manager"])
         else:
