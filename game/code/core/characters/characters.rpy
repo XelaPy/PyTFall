@@ -4221,7 +4221,7 @@ init -9 python:
 
             # Class | Status normalization:
             if not self.traits.basetraits: # TODO: Just until all chars have proper JSONs...
-                pattern = create_traits_base(random.sample(self.GEN_OCCS, 1).pop())
+                pattern = create_traits_base(self.GEN_OCCS)
                 for i in pattern:
                     self.traits.basetraits.add(i)
                     self.apply_trait(i)

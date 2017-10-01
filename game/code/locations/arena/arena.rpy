@@ -677,7 +677,7 @@ init -9 python:
                 a_team = Team(name=team["name"], max_size=teamsize)
                 for member in team["members"]:
                     if member == "random_girl":
-                        member = build_rc(pattern="Warrior")
+                        member = build_rc(patterns="Warrior")
                         member.status = "free"
                         member.location = "arena"
                         member.arena_permit = True
@@ -710,7 +710,7 @@ init -9 python:
                             a_team.add(af)
                     # TODO: Check is this is still valid code (member in rchars)
                     elif member in rchars:
-                        build_rc(id=member, pattern="Warrior")
+                        build_rc(id=member, patterns="Warrior")
                         member.status = "free"
                         member.location = "arena"
                         member.arena_permit = True
@@ -795,7 +795,7 @@ init -9 python:
                     fighter = _candidates.pop()
                     tier_up_to(char, tier)
                 else:
-                    fighter = build_rc(pattern="Warrior", tier=tier)
+                    fighter = build_rc(patterns="Warrior", tier=tier)
                     candidates.append(fighter)
 
                 fighter.arena_rep = randint(int(tier*9000), int(tier*11000))

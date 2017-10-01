@@ -9,7 +9,7 @@ label special_items_slime_bottle:
             "The seal is durable, but eventually it gives up, and pressurized fluid breaks out."
             # TODO: May require adjustment for release after all systems are normalized:
             $ level = locked_random("randint", max(hero.level, 5), hero.level+6+round_int(hero.level/10))
-            $ new_slime = build_rc(id="Slime", level=level, pattern=choice(["Warrior", "Server"]))
+            $ new_slime = build_rc(id="Slime", level=level, patterns=["Warrior", "Server"])
             if locked_dice(80):
                 $ new_slime.set_status("free")
             else:

@@ -105,15 +105,17 @@ init -11 python:
 
         return mob
 
-    def build_rc(id=None, name=None, last_name=None, pattern=None, tier=0,
+    def build_rc(id=None, name=None, last_name=None, patterns=None, specific_patterns=None, tier=0,
                  tier_kwargs=None, add_to_gameworld=True):
         ''' Creates a random character!
         id: id to choose from the rchars dictionary that holds rGirl loading data
             from JSON files, will be chosen at random if none availible.
         name: (String) Name for a girl to use. If None one will be chosen from randomNames file!
         last_name: Same thing only for last name :)
-        pattern: Pattern to use when creating the character! (Options atm: Warrior,
-            Server, SIW, Specialist) If None, we use data or normalize in init()
+        patterns: Pattern to use when creating the character!
+            Expects general occupation or list of the same.
+        specific_patterns: A list of one or more specific base traits
+            to use in character creation. If more than two are provided, two will be chosen at random.
         teir: Tier of the character... floats are allowed.
         add_to_gameworld: Adds to characters dictionary, should always
         be True unless character is created not to participate in the game world...
@@ -185,17 +187,20 @@ init -11 python:
             if data["force_location"]:
                 rg.location = data["force_location"]
 
-        # Occupations:
-        if pattern: # In case if there is no pattern,
-            rg.traits.basetraits = set(create_traits_base(pattern))
-            for t in rg.traits.basetraits:
+        # BASE TRAITS:
+        basetraits = []
+        if specific_patterns:
+            for p in specific_patterns:
+                if isinstance(p, basestring):
+                    p = traits[p]
+                basetraits.append(p)
+        if not basetraits and patterns:
+            basetraits = create_traits_base(patterns)
+        if basetraits:
+            basetraits = random.sample(basetraits, min(len(basetraits), 2))
+            rg.traits.basetraits = set(basetraits)
+            for t in basetraits:
                 rg.apply_trait(t)
-        # This is possibly temporary: TODO: Update after discussion:
-        # if "init_basetraits" in data:
-            # d = data["init_basetraits"]
-            # if pattern not in d:
-                # devlog.warning(str("{} Random Girl tried to apply blocked pattern: {}!".format(id, pattern)))
-            # rg.occupation = choice(d)
 
         # Battle and Magic skills:
         if "battle_skills" in data:
@@ -373,28 +378,21 @@ init -11 python:
                 return int(math.ceil(char.level * exp)*0.4)
         return int(math.ceil(char.level * exp))
 
-    def create_traits_base(pattern):
-        """
-        Mostly used for NPCs and Random Characters.
-        The idea is to attempt creation of interesting and dynamic blue-prints.
-        For the future this prolly should return a matrix or a dict with prof-base and support traits separately...
-        """
-        _traits = list()
-        if pattern == "Warrior":
-            basetrait = choice([traits["Warrior"], traits["Mage"]])
-            _traits.append(basetrait)
-        elif pattern == "Server":
-            _traits.append(traits["Maid"])
-        elif pattern == "SIW":
-            basetrait = choice([traits["Prostitute"], traits["Stripper"]])
-            _traits.append(basetrait)
-        elif pattern == "Specialist":
-            _traits.append(traits["Manager"])
-        else:
-            raise Exception("Cannot create base traits list from pattern: {}".format(pattern))
+    def create_traits_base(patterns):
+        """Create a pattern with one or two base traits for a character.
 
-        # Should never return more than two traits! That is expected by callers of this func!
-        return _traits
+        patterns: Single general occupation or list of the same to build a specific pattern from.
+        """
+        try:
+            if isinstance(patterns, basestring):
+                patterns = [patterns]
+            patterns = list(chain.from_iterable(gen_occ_basetraits[p] for p in patterns))
+            if len(patterns) > 1 and dice(50):
+                return random.sample(patterns, 2)
+            else:
+                return random.sample(patterns, 1)
+        except:
+            raise Exception("Cannot create base traits list from patterns: {}".format(patterns))
 
     def build_client(id=None, gender="male", caste="Peasant", name=None, last_name=None,
                      pattern=None, likes=None, dislikes=None, tier=1):
@@ -459,7 +457,7 @@ init -11 python:
             if not rgirls: rgirls = store.rchars.keys()
             if rgirls:
                 rgirl = rgirls.pop()
-                arena_girl = build_rc(id=rgirl, pattern="Warrior")
+                arena_girl = build_rc(id=rgirl, patterns="Warrior")
                 arena_girl.arena_willing = True
                 arena_girl.arena_active = False # Should prolly be moved to preparation?
                 arena_girl.status = "free"
