@@ -701,7 +701,7 @@ init: # Items:
                     hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 35, 35), im.matrix.brightness(0.25))
                     action return_action
                     hovered tt.Action("Return to previous screen!")
-                    
+
             if show_team_status:
                 hbox:
                     spacing 25
@@ -807,7 +807,7 @@ init: # Items:
                     xalign .5
                     action Return(renpy.get_widget("pyt_input", "text_input").content)
         key "input_enter" action Return(renpy.get_widget("pyt_input", "text_input").content)
-                    
+
     screen exit_button(size=(35, 35), align=(1.0, 0.0), action=Return(['control', 'return'])):
         $ img = im.Scale("content/gfx/interface/buttons/close.png" , size[0], size[1])
         imagebutton:
@@ -865,44 +865,6 @@ init: # Items:
                     textbutton "[i.id]":
                         # Without Equipping for the job!
                         action [Function(set_char_to_work, char, char.location, i), Hide("set_action_dropdown")]
-
-            # Buildings:
-            # TODO: This needs to be rewritten:
-            elif isinstance(char.location, Building):
-                for entry in Building.ACTIONS:
-                    if entry == 'Stripper':
-                        if char.location.upgrades['stripclub']['1']['active']:
-                            textbutton "[entry]":
-                                action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-                    elif entry == 'Guard':
-                        if char.status != 'slave' and ("Warrior" in char.occupations or char.disposition <= 950): # The not inversion here seems wrong, so I removed it -Thewlis
-                            textbutton "[entry]":
-                                action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-                    else:
-                        textbutton "[entry]":
-                            action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-
-            # Fighters Guild
-            #elif isinstance(char.location, FighterGuild):
-            #    for entry in FighterGuild.ACTIONS:
-            #        if entry == 'Training':
-            #            if char.status != "slave":
-            #                textbutton "[entry]":
-            #                    action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-            #        elif entry == 'ServiceGirl':
-            #            if (char.status == "slave" or "Server" in char.occupations) and not list(g for g in fg.get_chars() if g.action == "ServiceGirl"):
-            #                textbutton "[entry]":
-            #                    action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-            #        elif entry == 'BarGirl':
-            #            if fg.upgrades["bar"][0] and (char.status == "slave" or "Server" in char.occupations) and not list(g for g in fg.get_chars() if g.action == "BarGirl"):
-            #                textbutton "[entry]":
-            #                    action [SetField(char, "action", entry), Function(equip_for, char, "ServiceGirl"), Hide("set_action_dropdown")]
-            #        elif entry == 'Rest':
-            #            textbutton "[entry]":
-            #                action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-            #        else:
-            #            textbutton "[entry]":
-            #                action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
 
             # Other buildings
             elif hasattr(char.location, "actions"):
@@ -1067,7 +1029,7 @@ init: # Items:
                     text "Back" size 16 color goldenrod
                     action Hide("char_rename")
                     padding (10, 10)
-                
+
 
     screen poly_matrix(in_file, show_exit_button=False, cursor="content/gfx/interface/icons/zoom_glass.png", xoff=20, yoff=20, hidden=[]):
         # If a tuple with coordinates is provided instead of False for show_exit_button, exit button will be placed there.
@@ -1468,7 +1430,7 @@ init: # Settings:
                                 text _("- Battle Results -") style "TisaOTMolxm"
                             textbutton _("Show") action SetField(persistent, "battle_results", True) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("Enables/disables screen with gained experience and gold after combat.")
                             textbutton _("Don't") action SetField(persistent, "battle_results", False) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("Enables/disables screen with gained experience and gold after combat.")
-                            
+
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
                             xsize 194
@@ -1713,7 +1675,7 @@ init: # Settings:
                 action Quit()
                 text "Quit" size 18 align (0.5, 0.5) # style "mmenu_button_text"
             null height 3
-            
+
 screen keymap_override():
     on "show":
         action SetVariable("_skipping", False)

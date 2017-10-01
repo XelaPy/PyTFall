@@ -1945,28 +1945,6 @@ init: # Screens:
                 textbutton "Remove from the Team":
                     action [Function(team.remove, char), Function(workers.add, char), Hide("fg_char_dropdown")]
 
-            # null height 10
-            # text "Jobs:" style "della_respira" color ivory bold True
-            # for entry in FighterGuild.ACTIONS:
-                # if entry == 'Training':
-                    # if girl.status != "slave":
-                        # textbutton "[entry]":
-                            # action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), Hide("pyt_fg_girl_menu")]
-                # elif entry == 'ServiceGirl':
-                    # if (girl.status == "slave" or "Server" in girl.occupations) and not list(g for g in fg.get_girls() if g.action == "ServiceGirl"):
-                        # textbutton "[entry]":
-                            # action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), Hide("pyt_fg_girl_menu")]
-                # elif entry == 'BarGirl':
-                    # if fg.upgrades["bar"][0] and (girl.status == "slave" or "Server" in girl.occupations) and not list(g for g in fg.get_girls() if g.action == "BarGirl"):
-                        # textbutton "[entry]":
-                            # action [SetField(girl, "action", entry), Execute(equip_for, girl, "ServiceGirl"), Hide("pyt_fg_girl_menu")]
-                # elif entry == 'Rest':
-                    # textbutton "[entry]":
-                        # action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), Hide("pyt_fg_girl_menu")]
-                # else:
-                    # textbutton "[entry]":
-                            # action [SetField(girl, "action", entry), Execute(equip_for, girl, entry), Hide("pyt_fg_girl_menu")]
-
             null height 10
 
             textbutton "Close":
