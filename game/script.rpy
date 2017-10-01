@@ -316,7 +316,7 @@ label dev_testing_menu:
         for t in tgs.base:
             for occ in t.occupations:
                 temp[occ].add(t)
-        for k, v in temp:
+        for k, v in temp.items():
             base_classes[k] = list(v)
         del temp
 
