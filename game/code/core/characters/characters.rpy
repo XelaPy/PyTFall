@@ -263,8 +263,8 @@ init -9 python:
 
     class SmartTracker(collections.MutableSequence):
         def __init__(self, instance, be_skill=True):
-            self.instance = instance # Owner of this object, this is being instanciated as character.magic_skills = SmartTracker(character)
-            self.normal = set() # Normal we concider anything that's been applied by normal game operations like events, loading routines and etc.
+            self.instance = instance # Owner of this object, this is being instantiated as character.magic_skills = SmartTracker(character)
+            self.normal = set() # Normal we consider anything that's been applied by normal game operations like events, loading routines and etc.
             self.items = dict() # Stuff that's been applied through items, it's a counter as multiple items can apply the same thing (like a trait).
             self.be_skill = be_skill # If we expect a be skill or similar mode.
             self.list = _list()
@@ -325,70 +325,6 @@ init -9 python:
             if not item in self.normal and self.items.get(item, 0) <= 0:
                 if item in self.list:
                     self.list.remove(item)
-                    return True
-
-
-    class SmartTrackerOld(_list):
-        """
-        Basically a smart list that tracks anything that can be added by items and events/game.
-        Prevents removal when unequipping items and/or other types of ralated errors/bugs.
-        """
-        def __init__(self, instance, be_skill=True):
-            _list.__init__(self)
-            self.instance = instance # Owner of this object, this is being instanciated as character.magic_skills = SmartTracker(character)
-            self.normal = set() # Normal we concider anything that's been applied by normal game operations like events, loading routines and etc.
-            self.items = dict() # Stuff that's been applied through items, it's a counter as multiple items can apply the same thing (like a trait).
-            self.be_skill = be_skill # If we expect a be skill or similar mode.
-            # raise Exception("zzzz", self.instance)
-
-        def __getattr__(self, item):
-            raise AttributeError("%s object has no attribute named %r, __dict__: %s" %
-                                 (self.__class__.__name__, item, self.__dict__))
-
-        def set_instance(self, instance):
-            self.instance = instance
-
-        def append(self, item, normal=True):
-            # Overwriting default list method, always assumed normal game operations and never adding through items.
-            # ==> For battle & magic skills:
-            if self.be_skill:
-                if isinstance(item, basestring):
-                    if item in store.battle_skills:
-                        item = store.battle_skills[item]
-                    else:
-                        devlog.warning("Tried to apply unknown skill %s to %s!" % (item, self.instance.__class__))
-                        return
-            if normal: #  Item applied by anything other than that
-                self.normal.add(item)
-            else:
-                self.items[item] = self.items.get(item, 0) + 1
-
-            # The above is enough for magic/battle skills, but for traits... we need to know if the effects should be applied.
-            if item in self.normal or self.items.get(item, 0) > 0:
-                if not item in self:
-                    super(SmartTracker, self).append(item)
-                    return True
-
-        def remove(self, item, normal=True):
-            # Overwriting default list method.
-            # ==> For battle & magic skills:
-            if self.be_skill:
-                if isinstance(item, basestring):
-                    if item in store.battle_skills:
-                        item = store.battle_skills[item]
-                    else:
-                        devlog.warning("Tried to remove unknown skill %s from %s!" % (item, self.instance.__class__))
-                        return
-            if normal:
-                if item in self.normal:
-                    self.normal.remove(item)
-            else:
-                self.items[item] = self.items.get(item, 0) - 1
-
-            # The above is enough for magic/battle skills, but for traits... we need to know if the effects should be applied.
-            if not item in self.normal and self.items.get(item, 0) <= 0:
-                if item in self:
-                    super(SmartTracker, self).remove(item)
                     return True
 
 

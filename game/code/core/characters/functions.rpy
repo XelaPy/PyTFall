@@ -366,9 +366,26 @@ init -11 python:
 
     def give_tiered_magic_skills(char, amount=1):
         """Gives items based on tier and class of the character.
+        *We assume that is called on a char that actually needs it.
 
-        amount: Amount of skills to give."""
-        pass
+        amount: Amount of skills to give.
+        """
+        tier = max(min(round_int(char.tier*.5), 4), 0)
+        attributes = set([t.id.lower() for t in char.elements])
+        for _ in reversed(range(tier+1)):
+            if "neutral" in attributes:
+                spells = tiered_magic_skills[_]
+            else:
+                spells = [s for s in tiered_magic_skills[_] if attributes.intersection(s.attributes)]
+
+            _amount = min(amount, len(spells))
+            amount -= _amount
+            spells = random.sample(spells, _amount)
+            for s in spells:
+                char.magic_skills.append(s)
+            # print(", ".join([s.name for s in spells]))
+            if amount <= 0:
+                break
 
     def initial_levelup(char, level, max_out_stats=False):
         """
