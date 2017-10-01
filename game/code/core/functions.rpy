@@ -1,5 +1,12 @@
 # Library of functions
 init -11 python:
+    def set_font_color(s, color):
+        """
+        @param: color: should be supplied as a string! Not as a variable!
+        Sets font color duting interpolation.
+        """
+        return "".join(["{color=[%s]}" % color, "{}".format(s), "{/color}"])
+
     def add_dicts(dicts):
         """Does what I originally expected dict.update method to do many years ago...
         This works with dicts where all values are numbers
