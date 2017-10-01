@@ -572,7 +572,10 @@ init -1 python: # Constants:
     # for f in renpy.list_files():
         # if check_image_extension(f):
             # renpy.image(f, At(f, slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)))
+    EQUIP_SLOTS = ['body', 'head', 'feet', 'wrist', 'amulet',
+                   'cape', 'weapon', 'misc', 'ring', 'smallweapon']
     SLOTALIASES = {"smallweapon": "Left Hand", "weapon": "Right Hand", "amulet": "Neck", "feet": "Legs", "quest": "Special"}
+
     equipSlotsPositions = dict()
     equipSlotsPositions['head'] = [u'Head', 0.2, 0.1]
     equipSlotsPositions['body'] = [u'Body', 0.2, 0.3]
