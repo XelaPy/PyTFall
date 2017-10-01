@@ -107,7 +107,8 @@ init -11 python:
 
     def build_rc(id=None, name=None, last_name=None, patterns=None, specific_patterns=None,
                  tier=0, tier_kwargs=None, add_to_gameworld=True,
-                 equip_to_tier=False, gti_kwargs=None):
+                 equip_to_tier=False, gtt_kwargs=None,
+                 spells_to_tier=False, stt_kwargs=None):
         '''Creates a random character!
         id: id to choose from the rchars dictionary that holds rGirl loading data
             from JSON files, will be chosen at random if none availible.
@@ -120,12 +121,15 @@ init -11 python:
         teir: Tier of the character... floats are allowed.
         add_to_gameworld: Adds to characters dictionary, should always
         be True unless character is created not to participate in the game world...
-        equip_to_tier/gti_kwargs: Do we run equip to tier func and kwargs for it.
+        equip_to_tier/gtt_kwargs: Do we run equip to tier func and kwargs for it.
+        spells_to_tier/stt_kwargs: Award spells and kwargs for the func
         '''
         if tier_kwargs is None:
             tier_kwargs = {}
-        if gti_kwargs is None:
-            gti_kwargs = {}
+        if gtt_kwargs is None:
+            gtt_kwargs = {}
+        if stt_kwargs is None:
+            stt_kwargs = {}
         rg = rChar()
         Stats = rg.STATS
         Skills = rg.stats.skills.keys()
@@ -285,7 +289,9 @@ init -11 python:
         tier_up_to(rg, tier, **tier_kwargs)
 
         if equip_to_tier:
-            give_tiered_items(char, **gti_kwargs)
+            give_tiered_items(rg, **gtt_kwargs)
+        if spells_to_tier:
+            give_tiered_magic_skills(rg, **stt_kwargs)
 
         # And add to char! :)
         if add_to_gameworld:
@@ -306,7 +312,10 @@ init -11 python:
         tier = max(min(round_int(char.tier*.5), 4), 0)
         # TODO: Update to char.occupation once that is implemented:
         if gen_occ is None:
-            gen_occ = choice(char.gen_occs)
+            try:
+                gen_occ = choice(char.gen_occs)
+            except:
+                raise Exception(char.name, char.__class__)
         if char.status == "slave" and gen_occ == "Warrior":
             return
         # See if we can get a perfect occupation:
@@ -364,27 +373,68 @@ init -11 python:
                 purpose = "???" # TODO Not implemented yet
             char.equip_for(purpose)
 
-    def give_tiered_magic_skills(char, amount=1):
-        """Gives items based on tier and class of the character.
+    def give_tiered_magic_skills(char, amount="auto", support_amount="auto"):
+        """Gives spells based on tier and class of the character.
         *We assume that is called on a char that actually needs it.
 
-        amount: Amount of skills to give.
+        amount: Amount of skills to give. "auto" will get it from occupations and tiers.
+        support_amount: healing and status spells (forced).
         """
         tier = max(min(round_int(char.tier*.5), 4), 0)
         attributes = set([t.id.lower() for t in char.elements])
-        for _ in reversed(range(tier+1)):
-            if "neutral" in attributes:
-                spells = tiered_magic_skills[_]
+        if support_amount == "auto":
+            if traits["Healer"] in char.traits.basetraits:
+                s_amount = max(tier, 2)
+            elif traits["Healer"] in char.traits:
+                s_amount = max(tier, 1)
             else:
-                spells = [s for s in tiered_magic_skills[_] if attributes.intersection(s.attributes)]
+                s_amount = 0
+        else:
+            s_amount = support_amount
 
-            _amount = min(amount, len(spells))
-            amount -= _amount
-            spells = random.sample(spells, _amount)
-            for s in spells:
-                char.magic_skills.append(s)
+        if amount == "auto":
+            if "Caster" in char.gen_occs:
+                amount = tier + randint(1, 2)
+                s_amount += 1
+            elif "Warrior" in char.gen_occs or "Specialist" in char.gen_occs:
+                if "neutral" in attributes:
+                    amount = randint(0, 1)
+                else:
+                    amount = randint(0, 2)
+            else:
+                amount = 0
+
+        if amount <= 0 and s_amount <= 0:
+            return
+
+        for _ in reversed(range(tier+1)):
+            if amount > 0:
+                if "neutral" in attributes:
+                    spells = tiered_magic_skills[_]
+                else:
+                    spells = [s for s in tiered_magic_skills[_] if attributes.intersection(s.attributes)]
+                shuffle(spells)
+                for s in spells:
+                    if s not in char.magic_skills:
+                        char.magic_skills.append(s)
+                        amount -= 1
+                    if amount <= 0:
+                        break
+
+            if s_amount > 0:
+                spells = [s for s in tiered_magic_skills[_] if \
+                    set(["status", "healing"]).intersection(s.attributes) or s.kind == "revival"]
+                shuffle(spells)
+                for s in spells:
+                    if s not in char.magic_skills:
+                        char.magic_skills.append(s)
+                        s_amount -= 1
+
+                    if s_amount <= 0:
+                        break
+
             # print(", ".join([s.name for s in spells]))
-            if amount <= 0:
+            if amount <= 0 and s_amount <= 0:
                 break
 
     def initial_levelup(char, level, max_out_stats=False):

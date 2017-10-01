@@ -663,6 +663,8 @@ init -9 python:
             Initial Arena Setup, this will be improved and prolly split several times and I should prolly call it init() as in other classes...
             """
             # Team formations!!!: -------------------------------------------------------------->
+
+            # Arena Teams Special presets: TODO: Update it!
             in_file = content_path("db/arena_teams.json")
             with open(in_file) as f:
                 teams = json.load(f)
@@ -751,9 +753,10 @@ init -9 python:
                         self.teams_2v2.append(a_team)
                     if teamsize == 3:
                         self.teams_3v3.append(a_team)
-            # ---------------------------------------------------------------->
 
+            # Loading rest of Arena Combatants:
             candidates = self.get_arena_candidates()
+            # This is also a suspect, TODO: Check if this needs updating to new basetraits format
             for fighter in self.pure_arena_fighters.values():
                 if fighter.unique and fighter.arena_active:
                     pass
@@ -771,8 +774,11 @@ init -9 python:
                 if _candidates:
                     char = _candidates.pop()
                     tier_up_to(char, 7, **tier_kwargs)
+                    give_tiered_items(char, equip=True)
+                    give_tiered_magic_skills(char)
                 else:
-                    char = build_rc(tier=7, tier_kwargs=tier_kwargs)
+                    char = build_rc(tier=7, tier_kwargs=tier_kwargs,
+                                    equip_to_tier=True, spells_to_tier=True)
                     candidates.append(char)
 
                 char.arena_rep = randint(79000, 81000)
@@ -793,9 +799,12 @@ init -9 python:
             for tier in power_levels:
                 if _candidates:
                     fighter = _candidates.pop()
-                    tier_up_to(char, tier)
+                    tier_up_to(fighter, tier)
+                    give_tiered_items(fighter, equip=True)
+                    give_tiered_magic_skills(fighter)
                 else:
-                    fighter = build_rc(patterns="Warrior", tier=tier)
+                    fighter = build_rc(patterns="Warrior", tier=tier,
+                                       equip_to_tier=True, spells_to_tier=True)
                     candidates.append(fighter)
 
                 fighter.arena_rep = randint(int(tier*9000), int(tier*11000))

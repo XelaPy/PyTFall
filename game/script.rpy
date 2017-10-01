@@ -70,6 +70,47 @@
         items = load_items()
         items.update(load_gifts())
 
+        # Build shops:
+        pytfall.init_shops()
+
+        # Items sorting for AutoBuy:
+        shop_items = [item for item in items.values() if (set(pytfall.shops) & set(item.locations))]
+        all_auto_buy_items = [item for item in shop_items if item.usable and not item.jump_to_label]
+
+        trait_selections = {"goodtraits": {}, "badtraits": {}}
+        auto_buy_items = {k: [] for k in ("body", "restore", "food", "dress", "rest", "warrior", "scroll")}
+
+        for item in all_auto_buy_items:
+            for k in ("goodtraits", "badtraits"):
+                if hasattr(item, k):
+                    for t in getattr(item, k):
+                        # same item may occur multiple times for different traits.
+                        trait_selections[k].setdefault(t, []).append(item)
+
+            if item.type != "permanent":
+                if item.type == "armor" or item.slot == "weapon":
+                    auto_buy_items["warrior"].append(item)
+                else:
+                    if item.slot == "body":
+                        auto_buy_items["body"].append(item)
+                    if item.type in ("restore", "food", "scroll", "dress"):
+                        auto_buy_items[item.type].append(item)
+                    else:
+                        auto_buy_items["rest"].append(item)
+
+        for k in trait_selections:
+            for v in trait_selections[k].values():
+                v = sorted(v, key=lambda i: i.price)
+
+        for k in ("body", "restore", "food", "dress", "rest", "warrior", "scroll"):
+            auto_buy_items[k] = [(i.price, i) for i in auto_buy_items[k]]
+            auto_buy_items[k].sort()
+
+        # Items sorting per Tier:
+        tiered_items = {}
+        for i in items.values():
+            tiered_items.setdefault(i.tier, []).append(i)
+
         tl.timer("Loading: Dungeons", nested=False)
         dungeons = load_dungeons()
 
@@ -133,9 +174,6 @@
         del crazy_chars
         tl.timer("Loading: All Characters!")
         devlog.info("Loaded %d images from filenames!" % tagdb.count_images())
-
-        # Build shops:
-        pytfall.init_shops()
 
         # Start auto-quests
         pytfall.world_quests.first_day()
@@ -214,46 +252,6 @@ label continue_with_start:
     python:
         for i in ("chars_unique_label", "char", "girl", "testBrothel", "all_chars", "temp"):
             del(i)
-
-    # Items sorting for AutoBuy
-    python:
-        shop_items = [item for item in items.values() if (set(pytfall.shops) & set(item.locations))]
-        all_auto_buy_items = [item for item in shop_items if item.usable and not item.jump_to_label]
-
-        trait_selections = {"goodtraits": {}, "badtraits": {}}
-        auto_buy_items = {k: [] for k in ("body", "restore", "food", "dress", "rest", "warrior", "scroll")}
-
-        for item in all_auto_buy_items:
-            for k in ("goodtraits", "badtraits"):
-                if hasattr(item, k):
-                    for t in getattr(item, k):
-                        # same item may occur multiple times for different traits.
-                        trait_selections[k].setdefault(t, []).append(item)
-
-            if item.type != "permanent":
-                if item.type == "armor" or item.slot == "weapon":
-                    auto_buy_items["warrior"].append(item)
-                else:
-                    if item.slot == "body":
-                        auto_buy_items["body"].append(item)
-                    if item.type in ("restore", "food", "scroll", "dress"):
-                        auto_buy_items[item.type].append(item)
-                    else:
-                        auto_buy_items["rest"].append(item)
-
-        for k in trait_selections:
-            for v in trait_selections[k].values():
-                v = sorted(v, key=lambda i: i.price)
-
-        for k in ("body", "restore", "food", "dress", "rest", "warrior", "scroll"):
-            auto_buy_items[k] = [(i.price, i) for i in auto_buy_items[k]]
-            auto_buy_items[k].sort()
-
-    # Items sorting per Tier:
-    $ tiered_items = {}
-    python:
-        for i in items.values():
-            tiered_items.setdefault(i.tier, []).append(i)
 
     #  --------------------------------------
     # Put here to facilitate testing:

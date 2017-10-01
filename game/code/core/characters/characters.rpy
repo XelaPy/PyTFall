@@ -3503,14 +3503,13 @@ init -9 python:
         Base class for Custom Arena fighters.
         """
         def __init__(self):
-            super(ArenaFighter, self).__init__(arena=True)
+            super(ArenaFighter, self).__init__(arena=True, inventory=True, effects=True)
 
             # Basic Images:
             self.img_db = dict()
             self.cache = list()
 
             self.unique = True
-
 
         def show(self, tag, resize=(None, None), cache=True):
             if tag == "battle":
@@ -3544,6 +3543,11 @@ init -9 python:
             if not self.nickname:
                 self.nickname = self.name
 
+            self.set_status("free")
+
+            if not self.traits.basetraits:
+                self.traits.basetraits.add(traits["Warrior"])
+                self.apply_trait(traits["Warrior"])
 
             self.arena_willing = True # Indicates the desire to fight in the Arena
             self.arena_permit = True # Has a permit to fight in main events of the arena.

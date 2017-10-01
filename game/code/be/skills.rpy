@@ -358,7 +358,7 @@ label load_battle_skills:
                 main_effect={"gfx": "multi_fist_webm", "sfx": "content/sfx/sound/be/fire_barrage.ogg", "duration": 0.46, "aim": {"point": "fc", "anchor": (.5, .5)}, "hflip": True},
                 target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": 0.1, "duration": 0.36},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .4})
-                
+
         # Cannon Attacks:
         BE_Action("Cannon Shot", attributes=["ranged", "physical"], critpower=0.3, effect=50, range=3, vitality_cost=3, menu_pos=0, multiplier=0.55, piercing=True,
                 desc="Shooting a large caliber.", item_only=True,
@@ -491,7 +491,7 @@ label load_battle_skills:
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.01},
                 target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .01, "duration": .3},
                 target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5})
-                
+
         ##### Mobs-only attacks:
         BE_Action(u"Stone Fist", menu_pos=3, range=1, attributes=["melee", "earth", "physical"], effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True,
                 desc="The earth itself becomes becomes an extension of hand to deal powerful blow.", mob_only=True,
@@ -978,35 +978,40 @@ label load_battle_skills:
         BE_Action(u"Dark", menu_pos=0, attributes=["magic", "darkness"], effect=15, multiplier=1.0, mp_cost=12, range=4, type="all_enemies",
                 desc="The mere presence of dark energy is dangerous for most creatures.", tier=0,
                 attacker_effects={"gfx": "dark_1", "sfx": "default"},
-                main_effect={"gfx": Transform("darkness_1", zoom=1.3), "sfx": "content/sfx/sound/be/darkness1.mp3", "duration": 1.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
+                main_effect={"gfx": Transform("darkness_1", zoom=1.3), "sfx": "content/sfx/sound/be/darkness1.mp3",
+                            "duration": 1.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "on_darkness", "initial_pause": 0.1, "duration": 0.9},
                 target_damage_effect={"gfx": "battle_bounce", "sfx": None},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":0.8, "duration": 0.2})
         BE_Action(u"Darkra", menu_pos=0.1, attributes=["magic", "darkness"], effect=15, multiplier=1.1, mp_cost=10, range=4,
                 desc="Darkness envelops the target, slowly killing it.", tier=0,
                 attacker_effects={"gfx": "dark_1", "sfx": "default"},
-                main_effect={"gfx": Transform("darkness_2", zoom=1.6), "sfx": "content/sfx/sound/be/darkness2.mp3", "duration": 1.6, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
+                main_effect={"gfx": Transform("darkness_2", zoom=1.6), "sfx": "content/sfx/sound/be/darkness2.mp3",
+                             "duration": 1.6, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": 0}, "start_at": 0},
                 target_sprite_damage_effect={"gfx": "on_darkness", "initial_pause": 0.3, "duration": 1.3},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.4},
                 target_death_effect={"gfx": "dissolve", "sfx": None, "initial_pause":0.8, "duration": 0.2})
         BE_Action(u"Darkga", menu_pos=0.2, attributes=["magic", "darkness"], effect=15, multiplier=0.9, mp_cost=14, range=4, piercing=True,
                 desc="Negative energy concentrates in a very small area and then explodes.", tier=0,
                 attacker_effects={"gfx": "dark_1", "sfx": "default"},
-                main_effect={"gfx": Transform("darkness_3", zoom=1.4), "sfx": "content/sfx/sound/be/darkness3.mp3", "duration": 1.5, "aim": {"point": "center", "anchor": (0.5, 0.5)}},
+                main_effect={"gfx": Transform("darkness_3", zoom=1.4), "sfx": "content/sfx/sound/be/darkness3.mp3",
+                             "duration": 1.5, "aim": {"point": "center", "anchor": (0.5, 0.5)}},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.9},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.9, "duration": 0.6},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.5})
         BE_Action(u"Darkja", menu_pos=0.3, attributes=["magic", "darkness"], effect=15, multiplier=0.8, mp_cost=17, range=4, piercing=True, type="all_enemies",
                 desc="Summons an abnormal and chaotic substances from a dark world that deforms targets.", tier=0,
                 attacker_effects={"gfx": "dark_1", "sfx": "default"},
-                main_effect={"gfx": Transform("darkness_4", zoom=1.2), "sfx": "content/sfx/sound/be/darkness2.mp3", "duration": 1.5, "aim": {"point": "center", "anchor": (0.5, 0.5)}},
+                main_effect={"gfx": Transform("darkness_4", zoom=1.2), "sfx": "content/sfx/sound/be/darkness2.mp3",
+                             "duration": 1.5, "aim": {"point": "center", "anchor": (0.5, 0.5)}},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.1},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.1, "duration": 1.2},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": 0.4})
         BE_Action(u"Eternal Gluttony", menu_pos=0.5, attributes=["magic", "darkness"], effect=60, multiplier=1.3, mp_cost=35, range=4, piercing=True,
                 desc="Summons a dark creature from the world of darkness to devour.", tier=1,
                 attacker_effects={"gfx": "dark_2", "sfx": "default"},
-                main_effect={"gfx": Transform("darkness_5", zoom=1.2), "sfx": "content/sfx/sound/be/horny2.mp3", "duration": 1.2, "aim": {"point": "center", "anchor": (0.5, 0.5)}},
+                main_effect={"gfx": Transform("darkness_5", zoom=1.2), "sfx": "content/sfx/sound/be/horny2.mp3",
+                             "duration": 1.2, "aim": {"point": "center", "anchor": (0.5, 0.5)}},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.5},
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": 0.5, "duration": 0.7},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 0.9, "duration": 0.2})
@@ -1078,11 +1083,14 @@ label load_battle_skills:
                     target_death_effect={"gfx": "dissolve", "initial_pause": 2, "duration": 0.5},
                     bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 2.6})
         # Reviving:
-        ReviveSpell(u"Revive", attributes=["magic", "light"], kind="revival", menu_pos=-1, effect=10, mp_cost=35, health_cost=0.3, range=5, type="sa", piercing=True, true_pierce=True, target_state="dead",
+        ReviveSpell(u"Revive", attributes=["magic", "light"], kind="revival", menu_pos=-1,
+                    effect=10, mp_cost=35, health_cost=0.3, range=5, type="sa",
+                    piercing=True, true_pierce=True, target_state="dead",
                 desc="Brings an unconscious ally back to the battlefield by sharing some life energy.", tier=3,
                 attacker_action={"gfx": None},
                 attacker_effects={"gfx": "circle_3", "sfx": "default"},
-                main_effect={"gfx": Transform("resurrection", zoom=1.75), "sfx": "content/sfx/sound/be/heal2.mp3", "duration": 2.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": -150}},
+                main_effect={"gfx": Transform("resurrection", zoom=1.75), "sfx": "content/sfx/sound/be/heal2.mp3",
+                             "duration": 2.0, "aim": {"point": "center", "anchor": (0.5, 0.5), "yo": -150}},
                 target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": "battle_bounce", "initial_pause": 2.0},
                 target_death_effect={"gfx": None})
@@ -1113,18 +1121,30 @@ label load_battle_skills:
                         target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.2},
                         target_death_effect={"gfx": "dissolve", "initial_pause": 0.3, "duration": 0.5})
         # Buffs:
-        DefenceBuffSpell("Aery Field", menu_pos=-1, attributes=["status", "air"], kind="buff", defence_multiplier={"ranged": 1.5}, buff_group="ranged shield", buff_icon=ProportionalScale("content/gfx/be/buffs/ranged_def.png", 30, 30), mp_cost=0.1, vitality_cost=0.1, range=4, type="sa", defence_gfx="air_shield",
+        DefenceBuffSpell("Aery Field", menu_pos=-1, attributes=["status", "air"], kind="buff",
+                         defence_multiplier={"ranged": 1.5}, buff_group="ranged shield",
+                         buff_icon=ProportionalScale("content/gfx/be/buffs/ranged_def.png", 30, 30),
+                         mp_cost=0.1, vitality_cost=0.1, range=4, type="sa", defence_gfx="air_shield",
                 desc="Creates a force field, reducing damage from ranged attacks.", tier=1,
-                main_effect={"gfx": Transform(AlphaBlend(ImageReference("ranged_shield1_webm"), ImageReference("ranged_shield1_webm"), green_shield(350, 300), alpha=True), size=(350, 300)), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 0.967, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
+                main_effect={"gfx": Transform(AlphaBlend(ImageReference("ranged_shield1_webm"),
+                             ImageReference("ranged_shield1_webm"), green_shield(350, 300), alpha=True),
+                             size=(350, 300)), "sfx": "content/sfx/sound/be/m_shield.ogg",
+                             "duration": 0.967, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
                 target_sprite_damage_effect={"gfx": None},
                 target_damage_effect={"gfx": None},
                 target_death_effect={"gfx": None})
-        DefenceBuffSpell("Aery Shield", menu_pos=-1, attributes=["status", "air"], kind="buff", defence_multiplier={"ranged": 3.0}, buff_group="ranged shield", buff_icon=ProportionalScale("content/gfx/be/buffs/big_ranged_def.png", 30, 30), mp_cost=0.2, vitality_cost=0.2, range=4, type="sa", defence_gfx="air_shield",
-                desc="Creates a powerful force field, reducing damage from ranged attacks.", tier=2,
-                main_effect={"gfx": Transform(AlphaBlend(ImageReference("ranged_shield1_webm"), ImageReference("ranged_shield1_webm"), green_shield(350, 300), alpha=True), size=(350, 300)), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 0.967, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
-                target_sprite_damage_effect={"gfx": None},
-                target_damage_effect={"gfx": None},
-                target_death_effect={"gfx": None})
+        DefenceBuffSpell("Aery Shield", menu_pos=-1, attributes=["status", "air"],
+                         kind="buff", defence_multiplier={"ranged": 3.0}, buff_group="ranged shield",
+                         buff_icon=ProportionalScale("content/gfx/be/buffs/big_ranged_def.png", 30, 30),
+                         mp_cost=0.2, vitality_cost=0.2, range=4, type="sa", defence_gfx="air_shield",
+                         desc="Creates a powerful force field, reducing damage from ranged attacks.", tier=2,
+                         main_effect={"gfx": Transform(AlphaBlend(ImageReference("ranged_shield1_webm"),
+                                      ImageReference("ranged_shield1_webm"), green_shield(350, 300), alpha=True),
+                                      size=(350, 300)), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 0.967,
+                                      "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
+                         target_sprite_damage_effect={"gfx": None},
+                         target_damage_effect={"gfx": None},
+                         target_death_effect={"gfx": None})
         DefenceBuffSpell("Arcane Field", menu_pos=-1, attributes=["status", "darkness"], kind="buff", defence_multiplier={"magic": 1.5}, buff_group="spell shield", buff_icon=ProportionalScale("content/gfx/be/buffs/mag_def.png", 30, 30), mp_cost=0.1, vitality_cost=0.1, range=4, type="sa",
                 desc="Sets up a force field, partly shielding from magical damage.", tier=1,
                 main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
