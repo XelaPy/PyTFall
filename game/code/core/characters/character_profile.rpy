@@ -304,7 +304,7 @@ screen char_profile():
                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
                     xpadding 12
                     ypadding 8
-                    align (0.85, 1.0)
+                    align (0.83, 1.0)
                     yoffset 20
                     action Show("char_rename", char=char)
             null height 5
