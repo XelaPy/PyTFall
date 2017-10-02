@@ -298,14 +298,6 @@ screen char_profile():
                     anchor 0, 1.0
                     if len(char.name) < 20:
                         text_size 21
-
-                textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[green]}Rename":
-                    background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=0.8)
-                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15))), alpha=1)
-                    xysize (107, 41)
-                    align (0.58, 1.0)
-                    yoffset 158
-                    action Show("char_rename", char=char)
             null height 5
             # Rank up for prostitutes:
             # TODO: Adapt ranks to new skills code!
@@ -397,12 +389,21 @@ screen char_profile():
                 xsize 318
                 xpos 18
                 if stats_display == "main":
-                    frame:
-                        xalign 0.0
-                        yfill True
-                        background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
-                        xysize (100, 30)
-                        text (u"{color=#CDAD00} Full name") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
+                    hbox:
+                        spacing 20
+                        frame:
+                            xalign 0.0
+                            yfill True
+                            background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                            xysize (100, 30)
+                            text (u"{color=#CDAD00} Full name") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
+                        textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[green]}Rename":
+                            background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=0.8)
+                            hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15))), alpha=1)
+                            xysize (106, 40)
+                            yoffset -4
+                            action Show("char_rename", char=char)
+                            
                     if len(char.fullname) >= 17:
                         null height 2
                     text "[char.fullname]" xalign .0 style "TisaOTM" color "#79CDCD":
@@ -415,7 +416,7 @@ screen char_profile():
                     else:
                         null height 5
                     hbox:
-                        spacing 15
+                        spacing 20
                         vbox:
                             frame:
                                 xalign 0.0
@@ -475,12 +476,13 @@ screen char_profile():
                 elif stats_display == "stats":
                     frame:
                         style_suffix "main_frame"
-                        xsize 318
+                        xsize 300
+
                         has vbox spacing 1
                         $ stats = ["charisma", "character", "reputation", "constitution", "joy", "intelligence", "disposition"]
                         frame:
                             xoffset 4
-                            xysize (290, 27)
+                            xysize (270, 27)
                             xpadding 7
                             text "Health:" color "#CD4F39"
                             if char.health <= char.get_max("health")*0.3:
@@ -489,7 +491,7 @@ screen char_profile():
                                 text (u"%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style_suffix "value_text"
                         frame:
                             xoffset 4
-                            xysize (290, 27)
+                            xysize (270, 27)
                             xpadding 7
                             text "Vitality:" color "#43CD80"
                             if char.vitality < char.get_max("vitality")*0.3:
@@ -499,13 +501,13 @@ screen char_profile():
                         for stat in stats:
                             frame:
                                 xoffset 4
-                                xysize (290, 27)
+                                xysize (270, 27)
                                 xpadding 7
                                 text '{}'.format(stat.capitalize()) color "#79CDCD"
                                 text ('%d/%d'%(getattr(char, stat), char.get_max(stat))) xalign 1.0 style_suffix "value_text"
                         frame:
                             xoffset 4
-                            xysize (290, 27)
+                            xysize (270, 27)
                             xpadding 7
                             text "Gold:" color gold
                             text (u"{color=[gold]}[char.gold]") xalign 1.0 style_suffix "value_text"
@@ -513,26 +515,26 @@ screen char_profile():
                     label (u"{size=20}{color=[ivory]}{b}Info:") xalign .48 text_outlines [(2, "#424242", 0, 0)]
                     frame:
                         background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                        xsize 318
+                        xsize 300
                         padding 12, 12
                         has vbox spacing 1
                         frame:
                             xoffset 4
-                            xysize (290, 27)
+                            xysize (270, 27)
                             xpadding 7
                             text "{color=#79CDCD}Upkeep:"
                             text u"%s"%(char.fin.get_upkeep()) xalign 1.0 style_suffix "value_text"
                         if char.status == "slave":
                             frame:
                                 xoffset 4
-                                xysize (290, 27)
+                                xysize (270, 27)
                                 xpadding 7
                                 text "{color=#79CDCD}Market Price:"
                                 text (u"%s"%(char.fin.get_price())) xalign 1.0 style_suffix "value_text"
                         if traits['Prostitute'] in char.occupations:
                             frame:
                                 xoffset 4
-                                xysize (290, 27)
+                                xysize (270, 27)
                                 xpadding 7
                                 text "{color=#79CDCD}Work Price:"
                                 text (u"%s"%(char.fin.get_whore_price())) xalign 1.0 style_suffix "value_text"
@@ -543,13 +545,13 @@ screen char_profile():
                     label (u"{size=20}{color=[ivory]}{b}Battle Stats:") xalign(0.48) text_outlines [(2, "#424242", 0, 0)]
                     frame:
                         style_suffix "main_frame"
-                        xsize 318
+                        xsize 300
                         has vbox spacing 1
                         $ stats = [("Attack", "#CD4F39"), ("Defence", "#dc762c"), ("Magic", "#8470FF"), ("MP", "#009ACD"), ("Agility", "#1E90FF"), ("Luck", "#00FA9A")]
                         for stat, color in stats:
                             frame:
                                 xoffset 4
-                                xysize (290, 27)
+                                xysize (270, 27)
                                 xpadding 7
                                 text "[stat]" color color
                                 text "{}/{}".lower().format(getattr(char, stat.lower()), char.get_max(stat.lower())) style_suffix "value_text" color color
@@ -559,7 +561,7 @@ screen char_profile():
                 elif stats_display == "skillstest":
                     frame:
                         style_suffix "main_frame"
-                        xsize 318
+                        xsize 300
                         has viewport scrollbars "vertical" xysize(310, 392) mousewheel True child_size (300, 1000)
                         vbox spacing 1:
                             for skill in char.stats.skills:
