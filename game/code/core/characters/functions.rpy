@@ -1,4 +1,21 @@
 init -11 python:
+    def calculate_elementals(char): # returns a dict of character elemental defences and attacks, based on elemental traits
+        el_attacks = {}
+        el_defence = {}
+        for trait in char.elements:
+            for element in trait.el_damage:
+                if element in el_attacks:
+                    el_attacks[element] += int(trait.el_damage[element]*100)
+                else:
+                    el_attacks[element] = int(trait.el_damage[element]*100)
+            for element in trait.el_defence:
+                if element in el_defence:
+                    el_defence[element] += int(trait.el_defence[element]*100)
+                else:
+                    el_defence[element] = int(trait.el_defence[element]*100)
+        el_attacks = {x:y for x,y in el_attacks.items() if y!=0}
+        el_defence = {x:y for x,y in el_defence.items() if y!=0}
+        return el_attacks, el_defence
     def kill_char(char):
         # Attempts to remove a character from the game world.
         # This happens automatiaclly if char.health goes 0 or below.
