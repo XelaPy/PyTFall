@@ -56,10 +56,6 @@ label char_profile:
                     if result[1] == "gallery":
                         $ gallery = PytGallery(char)
                         jump gallery
-                    elif result[1] == "it": # TODO: THIS IS WTF???!!!
-                        $ raise Exception("MEOW")
-                        $ pytfall.it = GuiItemsTransfer("personal_transfer", char=char, last_label=last_label)
-                        jump items_transfer
                     elif result[1] == "get_rid":
                         if char.status == "slave":
                             $ message = "Are you sure you wish to sell {} for {}?".format(char.name, int(char.fin.get_price()*0.8))

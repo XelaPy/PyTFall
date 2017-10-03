@@ -230,7 +230,13 @@ init -11 python:
                                     char.say_style[key] = color
 
                             for key in ("name", "nickname", "fullname", "origin", "gold", "desc", "location", "status", "height", "full_race"):
-                                if key in gd:
+                                if key in ["name", "nickname", "fullname"] and key in gd:
+                                    if len(gd[key]) > 20:
+                                        temp = gd[key][0:20]
+                                        setattr(char, key, gd[key][0:20])
+                                    else:
+                                        setattr(char, key, gd[key])
+                                elif key in gd:
                                     setattr(char, key, gd[key])
 
                             folder = char.id
