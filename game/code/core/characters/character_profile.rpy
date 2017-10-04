@@ -425,9 +425,10 @@ screen char_profile():
                                 xysize (100, 100)
                                 $ trait = char.race
                                 background Frame (Transform("content/gfx/frame/frame_it1.png", alpha=0.6, size=(100, 100)), 10, 10)
-                                $ img = ProportionalScale(trait.icon, 100, 100)
+                                $ img = ProportionalScale(trait.icon, 95, 95)
                                 button:
-                                    xysize (100, 100)
+                                    align (.5, .5)
+                                    xysize (95, 95)
                                     background img
                                     action Show("show_trait_info", trait=trait.id, place="race_trait", tt=tt)
                                     hovered tt.action("[char.full_race]")
@@ -446,6 +447,7 @@ screen char_profile():
                             frame:
                                 xysize (100, 100)
                                 background Frame (Transform("content/gfx/frame/frame_it1.png", alpha=0.6, size=(100, 100)), 10, 10)
+                                add ProportionalScale("content/gfx/interface/images/elements/hover.png", 98, 98) align (.5, .5)
                                 $ x = 0
                                 $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
                                 $ els_a = [Transform(i, crop=(90/len(els_a)*els_a.index(i), 0, 90/len(els_a), 90), subpixel=True, xpos=(x + 90/len(els_a)*els_a.index(i))) for i in els_a]

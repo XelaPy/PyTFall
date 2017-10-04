@@ -210,6 +210,7 @@ init:
                         $ els_a = [Transform(i, crop=(90/len(els_a)*els_a.index(i), 0, 90/len(els_a), 90), subpixel=True, xpos=(x + 90/len(els_a)*els_a.index(i))) for i in els_a]
                         $ f = Fixed(*els, xysize=(90, 90))
                         $ f_a = Fixed(*els_a, xysize=(90, 90))
+                    add ProportionalScale("content/gfx/interface/images/elements/hover.png", 98, 98) align (.5, .5)
                     button:
                         xysize (90, 90)
                         align (.5, .5)
