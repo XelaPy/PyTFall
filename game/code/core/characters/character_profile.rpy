@@ -780,8 +780,8 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=F
         $ al = (.1, .2)
     elif place == "race_trait":
         $ al = (.25, .9)
-    # elif place == "girl_element":
-        # $ al = (.25, .9)
+    elif place == "hero_element":
+        $ al = (.2, .9)
     if not(elemental_mode):
         $ trait_info = traits[trait]
         fixed:

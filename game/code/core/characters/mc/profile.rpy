@@ -192,30 +192,51 @@ init:
 
                 # ELEMENTAL ALIGNMENT ====================================>
                 $ els = [Transform(e.icon, size=(90, 90)) for e in hero.elements]
+                $ els_a = [Transform(im.MatrixColor(e.icon, im.matrix.brightness(0.10)), size=(90, 90)) for e in hero.elements]
                 frame:
-                    style_group "content"
-                    background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
-                    xysize (210, 120)
                     xalign 0.5
+                    yfill True
+                    background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                    xysize (100, 30)
+                    text (u"{color=#CDAD00} Element") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
+                fixed:
+                    xalign 0.5
+                    xysize (100, 100)
+                    frame:
+                        xysize (100, 100)
+                        background Frame (Transform("content/gfx/frame/frame_it1.png", alpha=0.6, size=(100, 100)), 10, 10)
+                        $ x = 0
+                        $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
+                        $ els_a = [Transform(i, crop=(90/len(els_a)*els_a.index(i), 0, 90/len(els_a), 90), subpixel=True, xpos=(x + 90/len(els_a)*els_a.index(i))) for i in els_a]
+                        $ f = Fixed(*els, xysize=(90, 90))
+                        $ f_a = Fixed(*els_a, xysize=(90, 90))
+                    button:
+                        xysize (90, 90)
+                        align (.5, .5)
+                        if len(hero.elements) > 1:
+                            $ ele = ""
+                            for e in hero.elements:
+                                $ ele += e.id + ", "
+                            $ ele = ele[:-2]
+                        else:
+                            $ ele = hero.elements[0].id
+                        action Show("show_trait_info", trait=hero, elemental_mode=True, place="hero_element")
+                        background f
+                        hover_background f_a
+                        hovered tt.action("[ele]")
 
-                    $ x = 0
-                    $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
-                    $ f = Fixed(*els, xysize=(90, 90))
-                    add f xcenter 150 ycenter 55
-
-                    viewport:
-                        draggable True
-                        edgescroll (15, 10)
-                        xysize (200, 110)
-                        align (0, 0.5)
-                        # yoffset 33
-                        has vbox spacing -4
-                        for e in hero.elements:
-                            textbutton "{=TisaOTM}{size=14}[e.id]":
-                                background None
-                                action NullAction()
-                                hovered tt.Action("%s" % e.desc)
-                    add ProportionalScale("content/gfx/interface/images/elements/hover.png", 90, 90) pos (105, 10)
+                    # viewport:
+                        # draggable True
+                        # edgescroll (15, 10)
+                        # xysize (200, 110)
+                        # align (0, 0.5)
+                        # has vbox spacing -4
+                        # for e in hero.elements:
+                            # textbutton "{=TisaOTM}{size=14}[e.id]":
+                                # background None
+                                # action NullAction()
+                                # hovered tt.Action("%s" % e.desc)
+                    # add ProportionalScale("content/gfx/interface/images/elements/hover.png", 90, 90) pos (105, 10)
 
             elif lframe_display == "friends":
                 # FRIEND LIST ====================================>
