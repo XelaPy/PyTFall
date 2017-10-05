@@ -616,7 +616,7 @@ screen char_profile():
                     button:
                         xysize (150, 40)
                         action [Hide("char_profile"), With(dissolve), Return(["girl", "gallery"])]
-                        hovered tt.action("View this girl's gallery!")
+                        hovered tt.action("View this girl's gallery! (building a gallery may take some time for big packs)")
                         text "Gallery"
 
                 vbox:

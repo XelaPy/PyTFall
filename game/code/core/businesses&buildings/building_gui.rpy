@@ -531,7 +531,11 @@ init: # Screens:
                                 xysize 150, 60
                                 text "[u.name]" xalign .5 style "proper_stats_text" size 20
                                 null height 2
-                                textbutton "{size=15}Details" xalign .5 action SetVariable("bm_mid_frame_mode", u)
+                                textbutton "{size=15}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Details":
+                                    background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=0.8)
+                                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15))), alpha=1)
+                                    xalign .5
+                                    action SetVariable("bm_mid_frame_mode", u)
 
         # frame:
             # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
@@ -1097,8 +1101,12 @@ init: # Screens:
                                         else:
                                             add Solid(black, xysize=(120, 75)) align .5, .5
                                     textbutton "{size=15}Build" xalign .5 action Return(["upgrade", "build", u, bm_mid_frame_mode]), SensitiveIf(building.can_upgrade(u))
+                textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Back":
+                    background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=0.8)
+                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15))), alpha=1)
+                    align .5, .95
+                    action SetVariable("bm_mid_frame_mode", "building")
 
-                textbutton "Back" align .5, .95 action SetVariable("bm_mid_frame_mode", "building")
 
     screen building_maintenance():
         modal True
