@@ -570,11 +570,11 @@ init: # Main Screens:
     screen arena_bestiary():
         default in_focus_mob = False
 
-        add("content/gfx/bg/locations/arena_bestiary.jpg") at fade_in_out()
+        add("content/gfx/bg/locations/arena_bestiary.jpg")
         hbox:
             viewport:
                 at fade_in_out()
-                xysize 995, 720
+                xysize 1008, 720
                 draggable True
                 mousewheel True
                 scrollbars "vertical"
@@ -589,7 +589,7 @@ init: # Main Screens:
                         frame:
                             background "content/gfx/frame/bst.png"
                             xysize 230, 240
-                            if not data["defeated"]: # <------------------------------ Note for faster search, change here to test the whole beasts screen without the need to kill mobs
+                            if data["defeated"]: # <------------------------------ Note for faster search, change here to test the whole beasts screen without the need to kill mobs
                                 vbox:
                                     xalign .5
                                     xysize 230, 240
@@ -616,6 +616,7 @@ init: # Main Screens:
                 $ img = ProportionalScale(data["battle_sprite"], 200, 200)
                 $ portrait = im.Scale(data["portrait"], 100, 100)
                 frame:
+                    xalign 1.0
                     background Frame("content/gfx/frame/p_frame5.png")
                     xysize 277, 720
                     xoffset -5
