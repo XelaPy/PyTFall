@@ -275,7 +275,9 @@ init: # Main Screens:
             frame:
                 background im.Scale("content/gfx/frame/frame_bg.png", 270, 110)
                 xysize (270, 110)
-                label "Reputation: [hero.arena_rep]" text_size 25 text_color ivory align .5, .5
+                label "Reputation: [hero.arena_rep]" text_size 25 text_color ivory align .5, .5:
+                    if len(str(hero.arena_rep)) > 7:
+                        text_size 20
 
             # Buttons:
             frame:
