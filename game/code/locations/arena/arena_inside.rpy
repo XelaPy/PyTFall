@@ -588,8 +588,8 @@ init: # Main Screens:
                     vbox:
                         frame:
                             background "content/gfx/frame/bst.png"
-                            xysize 230, 240
-                            if data["defeated"]: # <------------------------------ Note for faster search, change here to test the whole beasts screen without the need to kill mobs
+                            xysize 230, 249
+                            if not data["defeated"]: # <------------------------------ Note for faster search, change here to test the whole beasts screen without the need to kill mobs
                                 vbox:
                                     xalign .5
                                     xysize 230, 240
@@ -679,7 +679,7 @@ init: # Main Screens:
                                     xysize (148, 30)
                                     yfill True
                                     text t xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD" size 15
-
+                    null height 5
                     # Stats:
                     frame:
                         xalign 0.5
@@ -698,8 +698,11 @@ init: # Main Screens:
                                 frame:
                                     xysize (130, 22)
                                     xalign 0.5
-                                    text '{}'.format(stat.capitalize()) xalign 0.02 color "#43CD80"
-                                    text str(data["stats"][stat]) xalign 0.98 style "stats_value_text" color "#79CDCD"
+                                    text '{}'.format(stat.capitalize()) xalign 0.02 color "#43CD80" size 16
+                                    if stat in data["stats"]:
+                                        text str(data["stats"][stat]) xalign 0.98 style "stats_value_text" color "#79CDCD" size 17
+                                    else:
+                                        text str(20) xalign 0.98 style "stats_value_text" color "#79CDCD" size 17
                         null width 2
                         vbox:
                             $ stats = ["charisma", "constitution", "intelligence", "luck"]
@@ -710,8 +713,11 @@ init: # Main Screens:
                                 frame:
                                     xysize (130, 22)
                                     xalign 0.5
-                                    text '{}'.format(stat.capitalize()) xalign 0.02 color "#43CD80"
-                                    text str(data["stats"][stat]) xalign 0.98 style "stats_value_text" color "#79CDCD"
+                                    text '{}'.format(stat.capitalize()) xalign 0.02 color "#43CD80" size 16
+                                    if stat in data["stats"]:
+                                        text str(data["stats"][stat]) xalign 0.98 style "stats_value_text" color "#79CDCD" size 17
+                                    else:
+                                        text str(20) xalign 0.98 style "stats_value_text" color "#79CDCD" size 17
                     null height 5
 
                     # Bottom Viewport:
@@ -745,6 +751,7 @@ init: # Main Screens:
                                     xysize (150, 30)
                                     yfill True
                                     text "-None-" size 17 xalign 0.5 yalign 0.5 style "stats_value_text" color indianred
+                        null height 5
                         hbox:
                         # Attacks:
                             vbox:
@@ -764,7 +771,9 @@ init: # Main Screens:
                                                 xalign 0.5
                                                 xysize (130, 22)
                                                 yfill True
-                                                text s size 16 xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD"
+                                                text s size 16 xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD":
+                                                    if len(s) > 12:
+                                                        size 12
                                     else:
                                         frame:
                                             xalign 0.5
@@ -791,7 +800,9 @@ init: # Main Screens:
                                                 xalign 0.5
                                                 xysize (130, 22)
                                                 yfill True
-                                                text s size 16 xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD"
+                                                text s size 16 xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD":
+                                                    if len(s) > 12:
+                                                        size 12
                                     else:
                                         frame:
                                             xalign 0.5

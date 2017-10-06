@@ -4258,11 +4258,11 @@
             "intelligence": 80
         },
         "skills": {},
-        "traits": ["Furry", "Air", "Air Resistance", "Life Wind"],
+        "traits": ["Furry", "Air", "Air Resistance"],
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
-        "magic_skills": ["Pressure", "Air Blast", "Aeroja", "Aery Shield", "Arcane Field"
+        "magic_skills": ["Pressure", "Air Blast", "Aeroja", "Aery Shield", "Arcane Field", "Life Wind"
         ]
     },
     {
