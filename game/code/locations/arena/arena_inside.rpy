@@ -992,14 +992,10 @@ init: # Main Screens:
             at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
             pos (280, 154)
             background im.Scale("content/gfx/frame/frame_dec_1.png", 720, 580)
-            minimum(720, 580)
-            maximum(720, 580)
-            xfill True
-            yfill True
+            xysize(720, 580)
             hbox:
-                align(0.5, 0.2)
-                minimum(650, 500)
-                maximum(650, 500)
+                pos(50, 50)
+                xysize(620, 400)
                 if not len(pytfall.arena.daily_report):
                     text("\n\n There is nothing to report right now. Try tomorrow.") color goldenrod
                 else:
