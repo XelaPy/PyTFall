@@ -159,11 +159,11 @@ init: # Main Screens:
                     spacing 5
                     style_group "basic"
                     textbutton "{size=20}{color=[black]}1v1":
-                        action Show("arena_matches", container=pytfall.arena.matches_1v1, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_3.png", 130, 130))
+                        action Show("arena_matches", container=pytfall.arena.matches_1v1, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.png", 100, 100))
                     textbutton "{size=20}{color=[black]}2v2":
-                        action Show("arena_matches", container=pytfall.arena.matches_2v2, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.png", 130, 130))
+                        action Show("arena_matches", container=pytfall.arena.matches_2v2, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.png", 100, 100))
                     textbutton "{size=20}{color=[black]}3v3":
-                        action Show("arena_matches", container=pytfall.arena.matches_3v3, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_4.png", 130, 130))
+                        action Show("arena_matches", container=pytfall.arena.matches_3v3, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.png", 100, 100))
 
             # Dogfights:
             frame:
@@ -287,10 +287,10 @@ init: # Main Screens:
                     spacing 10
                     textbutton "Show Daily Report":
                         xalign 0.5
-                        action [ShowTransient("arena_report")]
+                        action Show("arena_report")
                     textbutton "Reputation Ladder":
                         xalign 0.5
-                        action [ShowTransient("arena_rep_ladder")]
+                        action Show("arena_rep_ladder")
 
         use top_stripe(True)
 
@@ -327,13 +327,23 @@ init: # Main Screens:
                                 has hbox # xysize (690, 150)
 
                                 # Day of the fight:
+
                                 fixed:
-                                    xysize (50, 50)
-                                    yalign .5
-                                    label "[lineup[2]]":
-                                        align .5, .5
-                                        text_color red
-                                        text_size 35
+                                    xoffset 15
+                                    xysize (100, 100)
+                                    align (.5, .5)
+                                    vbox:
+                                        frame:
+                                            background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
+                                            label "Day:":
+                                                align .5, .5
+                                                text_color goldenrod
+                                                text_size 20
+                                        null height 10
+                                        label "[lineup[2]]":
+                                            align .5, .5
+                                            text_color goldenrod
+                                            text_size 25
 
                                 # Challenge button:
                                 if not lineup[0]:
@@ -348,9 +358,11 @@ init: # Main Screens:
                                         frame:
                                             align .5, .0
                                             padding 5, 3
-                                            background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
+                                            background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                             $ name = lineup[0][0].nickname if len(lineup[0]) == 1 else lineup[0].name
-                                            label "[name]" align .5, .5 text_size 25 text_style "proper_stats_text" text_color gold
+                                            label "[name]" align .5, .5 text_size 20 text_style "proper_stats_text" text_color gold:
+                                                if len(name) > 15:
+                                                    text_size 15
                                         hbox:
                                             spacing 3
                                             align .5, 1.0
@@ -368,9 +380,11 @@ init: # Main Screens:
                                     frame:
                                         align .5, .0
                                         padding 5, 3
-                                        background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
+                                        background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                         $ name = lineup[1][0].nickname if len(lineup[1]) == 1 else lineup[1].name
-                                        label "[name]" align .5, .5 text_size 25 text_style "proper_stats_text" text_color gold
+                                        label "[name]" align .5, .5 text_size 20 text_style "proper_stats_text" text_color gold:
+                                            if len(name) > 15:
+                                                text_size 15
                                     hbox:
                                         spacing 3
                                         align 0.5, 1.0
@@ -420,8 +434,8 @@ init: # Main Screens:
                                 xysize 60, 55
                                 yalign .5
                                 label "[index]":
-                                    text_color red
-                                    text_size 35
+                                    text_color goldenrod
+                                    text_size 30
                                     align .5, .5
                             if team:
                                 $ name = team[0].nickname if len(team) == 1 else team.name
@@ -443,8 +457,10 @@ init: # Main Screens:
                                     padding 3, 1
                                     yoffset 2
                                     xsize 450
-                                    background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
-                                    label "[name]" align .5, .5 text_size 28 text_style "proper_stats_text" text_color gold
+                                    background Frame("content/gfx/frame/rank_frame.png", 5, 5)
+                                    label "[name]" align .5, .5 text_size 25 text_style "proper_stats_text" text_color gold:
+                                        if len(name) > 15:
+                                            text_size 15
 
                 vbar value YScrollValue("arena_lineups")
 
@@ -491,7 +507,7 @@ init: # Main Screens:
                                 frame:
                                     xfill True
                                     align (0.5, 0.5)
-                                    background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
+                                    background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                     hbox:
                                         xfill True
                                         align (0.5, 0.5)
@@ -502,7 +518,7 @@ init: # Main Screens:
 
             button:
                 style_group "basic"
-                action Return([''])
+                action Hide("arena_rep_ladder")
                 minimum(50, 30)
                 align (0.5, 0.9995)
                 text  "OK"
@@ -546,9 +562,11 @@ init: # Main Screens:
                                 frame:
                                     align .5, .0
                                     padding 5, 3
-                                    background Frame("content/gfx/frame/stat_box_proper.png", 5, 5)
+                                    background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                     $ name = team[0].nickname if len(team) == 1 else team.name
-                                    label ("[name]") align .5, .5 text_size 25 text_style "proper_stats_text" text_color gold
+                                    label ("[name]") align .5, .5 text_size 25 text_style "proper_stats_text" text_color gold:
+                                        if len(name) > 15:
+                                            text_size 15
                                 hbox:
                                     spacing 3
                                     align 0.5, 1.0
@@ -966,11 +984,11 @@ init: # Main Screens:
                 textbutton "Yes":
                     action Return(["challenge", "confirm_match"])
 
-    screen arena_report():
+    screen arena_report(): # TODO: uses weird showing logic -_-
 
         frame:
+            at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
             pos (280, 154)
-            at fade_in_out(t1=1.5, t2=1.5)
             background im.Scale("content/gfx/frame/frame_dec_1.png", 720, 580)
             minimum(720, 580)
             maximum(720, 580)
@@ -978,16 +996,19 @@ init: # Main Screens:
             yfill True
             hbox:
                 align(0.5, 0.2)
-                minimum(650, 550)
-                maximum(650, 550)
-                text("{size=-4}%s"%pytfall.arena.daily_report)
+                minimum(650, 500)
+                maximum(650, 500)
+                if not len(pytfall.arena.daily_report):
+                    text("\n\n There is nothing to report right now. Try tomorrow.") color goldenrod
+                else:
+                    text("{size=-4}%s"%pytfall.arena.daily_report) color goldenrod
 
             button:
                 style_group "basic"
                 action Hide("arena_report")
                 minimum(50, 30)
                 align (0.5, 0.9)
-                text  "OK"
+                text  "OK" # TODO: possibly will require align changes when arena log is full
 
     screen arena_stats(member):
         hbox at arena_stats_slide:
