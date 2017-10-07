@@ -612,11 +612,9 @@ init -9 python:
                 if self.setup[2] in hero.fighting_days:
                     renpy.call_screen("message_screen", "You already have a fight planned for day %d. Having two official matches on the same day is not allowed!"%self.setup[2])
                     return
-
-                renpy.show_screen("confirm_match")
-
+                renpy.show_screen("yesno_prompt", "Are you sure you want to schedule a fight? Backing out of it later will mean a hit on reputation!", [Return(["challenge", "confirm_match"]), Hide("yesno_prompt")], Hide("yesno_prompt"))
             else:
-                renpy.hide_screen("confirm_match")
+                renpy.hide_screen("yesno_prompt")
                 self.setup[0] = hero.team
                 hero.fighting_days.append(self.setup[2])
 
@@ -650,10 +648,6 @@ init -9 python:
             renpy.hide_screen("arena_1v1_fights")
             renpy.hide_screen("arena_2v2_fights")
             renpy.hide_screen("arena_3v3_fights")
-
-            team.leader.say("You seriously believe that you've got a chance?")
-            hero.say("Talk is cheap!")
-            team.leader.say("Bring it!")
 
             self.start_matchfight(battle_setup)
 

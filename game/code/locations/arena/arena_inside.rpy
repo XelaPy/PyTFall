@@ -965,27 +965,6 @@ init: # Main Screens:
 
         add "content/gfx/frame/h1.png"
 
-    screen confirm_match():
-        modal True
-        zorder 1
-
-        frame:
-            align(0.5, 0.5)
-            minimum(300, 200)
-            maximum(300, 200)
-            xfill True
-            yfill True
-
-            text("{size=-5}Are you sure you want to schedule a fight? Backing out of it later will mean a hit on reputation...") align(0.5, 0.1)
-
-            hbox:
-                align(0.5, 0.85)
-                spacing 40
-                textbutton "No":
-                    action Hide("confirm_match")
-                textbutton "Yes":
-                    action Return(["challenge", "confirm_match"])
-
     screen arena_report(): # TODO: uses weird showing logic -_-
 
         frame:
