@@ -246,7 +246,7 @@ init: # screens:
                             margin 0, 0
                             padding 3, 3
                             xalign .5
-                            xsize 140, 320
+                            xysize 140, 320
                             python:
                                 size = 70
                                 x = 0
@@ -254,7 +254,7 @@ init: # screens:
                                 els = [Transform(i, crop=(size/(len(els)-1)*els.index(i), 0, size/(len(els)-1), size), subpixel=True, xpos=(x + size/(len(els)-1)*els.index(i))) for i in els]
                                 f = Fixed(*els, xysize=(size, size))
                             vbox:
-                                add f align .5, .1 # xcenter 230 ycenter 58
+                                add f align (.5, .1) # xcenter 230 ycenter 58
                                 for skill in me:
                                     textbutton "{=text}{color=[black]}{size=-6}[skill.mn]":
                                         padding 0, 1
@@ -264,16 +264,16 @@ init: # screens:
                                         action SensitiveIf(skill.check_conditions(char)), Return(skill)
                                         hovered tt.action(skill)
 
-                if ne:
-                    frame:
-                        xalign 0.5
-                        has vbox
-                        for skill in ne:
-                            textbutton "{=text}{color=[black]}{size=-6}[skill.mn]":
-                                xsize 130
-                                xalign 0.5
-                                action SensitiveIf(skill.check_conditions(char)), Return(skill)
-                                hovered tt.action(skill)
+                # if ne:
+                    # frame:
+                        # xalign 0.5
+                        # has vbox
+                        # for skill in ne:
+                            # textbutton "{=text}{color=[black]}{size=-6}[skill.mn]":
+                                # xsize 130
+                                # xalign 0.5
+                                # action SensitiveIf(skill.check_conditions(char)), Return(skill)
+                                # hovered tt.action(skill)
 
     screen battle_overlay(be):
         zorder 2
