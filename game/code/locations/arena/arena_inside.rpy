@@ -987,7 +987,7 @@ init: # Main Screens:
                 align (0.5, 0.9)
                 text  "OK" # TODO: possibly will require align changes when arena log is full
 
-    screen arena_stats(member):
+    screen arena_stats(member): #TODO: is it even used right now? I don't see it
         hbox at arena_stats_slide:
             align (1.0, 1.0)
             if not isinstance(member.combat_stats, basestring):
