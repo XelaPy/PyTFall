@@ -1,6 +1,6 @@
 label test_be:
     python: # Do this just once, otherwise they get stronger and stronger when reloading.
-        h = chars["Hinata"] # Changing to Kushina cause Hinata is still in old xml format that cannot add basetraits.
+        h = chars["Hinata"]
         if h.level < 40:
             initial_levelup(h, 50, True)
         h.front_row = True

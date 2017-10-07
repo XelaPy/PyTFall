@@ -181,6 +181,8 @@ init -1 python: # Core classes:
                 team = self.teams[0]
                 for i in team:
                     self.show_char(i, at_list=[Transform(pos=self.get_icp(team, i))])
+                    if not i.attack_skills:
+                        i.attack_skills.append("Fist Attack") # we never allow hero team members to have zero attacks
 
                 team = self.teams[1]
                 for i in team:

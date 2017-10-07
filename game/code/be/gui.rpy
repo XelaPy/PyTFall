@@ -97,13 +97,13 @@ init: # screens:
                             $ value = int(tt.value.vitality_cost * 100)
                             text "VP: [value] % " size 14 color green style "TisaOTM"
                     if (tt.value.type=="all_enemies" and tt.value.piercing) or tt.value.type=="all_allies":
-                        text "TARGET: All" size 14 color gold style "TisaOTM"
+                        text "Target: All" size 14 color gold style "TisaOTM"
                     elif tt.value.type=="all_enemies":
-                        text "TARGET: First Row" size 14 color gold style "TisaOTM"
+                        text "Target: First Row" size 14 color gold style "TisaOTM"
                     elif tt.value.piercing:
-                        text "TARGET: Any" size 14 color gold style "TisaOTM"
+                        text "Target: Any" size 14 color gold style "TisaOTM"
                     else:
-                        text "TARGET: One" size 14 color gold style "TisaOTM"
+                        text "Target: One" size 14 color gold style "TisaOTM"
 
         # Skillz Menu:
         frame:
@@ -186,9 +186,6 @@ init: # screens:
                                 action SensitiveIf(skill.check_conditions(char)), Return(skill)
                                 hovered tt.action(skill)
 
-                if len(attacks) == 1:
-                    timer .01 action Return(attacks[0])
-
         elif menu_mode == "magic":
             python:
                 d = OrderedDict()
@@ -231,11 +228,11 @@ init: # screens:
                                 margin 0, 0
                                 padding 1, 3
                                 xalign .5
-                                xysize 140, 250
-                                if e.icon:
-                                    $ img = ProportionalScale(e.icon, 120, 120)
-                                    add img align .5, .1
+                                xysize 140, 320
                                 vbox:
+                                    if e.icon:
+                                        $ img = ProportionalScale(e.icon, 70, 70)
+                                        add img align .5, .1
                                     for skill in d[e]:
                                         textbutton "{=text}{color=[black]}{size=-6}[skill.mn]":
                                             padding 0, 1
@@ -249,15 +246,15 @@ init: # screens:
                             margin 0, 0
                             padding 3, 3
                             xalign .5
-                            xysize 134, 250
+                            xsize 140, 320
                             python:
-                                size = 120
+                                size = 70
                                 x = 0
-                                els = [Transform(e.icon, size=(size, size)) for e in tgs.elemental]
-                                els = [Transform(i, crop=(size/len(els)*els.index(i), 0, size/len(els), size), subpixel=True, xpos=(x + size/len(els)*els.index(i))) for i in els]
+                                els = [Transform(e.icon, size=(size, size)) for e in tgs.elemental if e.id != "Neutral"]
+                                els = [Transform(i, crop=(size/(len(els)-1)*els.index(i), 0, size/(len(els)-1), size), subpixel=True, xpos=(x + size/(len(els)-1)*els.index(i))) for i in els]
                                 f = Fixed(*els, xysize=(size, size))
-                            add f align .5, .1 # xcenter 230 ycenter 58
                             vbox:
+                                add f align .5, .1 # xcenter 230 ycenter 58
                                 for skill in me:
                                     textbutton "{=text}{color=[black]}{size=-6}[skill.mn]":
                                         padding 0, 1
