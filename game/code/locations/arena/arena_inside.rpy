@@ -965,8 +965,8 @@ init: # Main Screens:
 
         add "content/gfx/frame/h1.png"
 
-    screen arena_report(): # TODO: uses weird showing logic -_-
-
+    screen arena_report():
+        modal True
         frame:
             at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
             pos (280, 154)
