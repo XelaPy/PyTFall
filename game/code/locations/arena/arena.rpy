@@ -650,12 +650,7 @@ init -9 python:
             self.start_matchfight(battle_setup)
 
         # -------------------------- Setup Methods -------------------------------->
-        def setup_arena(self):
-            """
-            Initial Arena Setup, this will be improved and prolly split several times and I should prolly call it init() as in other classes...
-            """
-            # Team formations!!!: -------------------------------------------------------------->
-
+        def load_special_presets(self):
             # Arena Teams Special presets: TODO: Update it!
             in_file = content_path("db/arena_teams.json")
             with open(in_file) as f:
@@ -746,6 +741,13 @@ init -9 python:
                     if teamsize == 3:
                         self.teams_3v3.append(a_team)
 
+        def setup_arena(self):
+            """
+            Initial Arena Setup, this will be improved and prolly split several times and I should prolly call it init() as in other classes...
+            """
+            # Team formations!!!: -------------------------------------------------------------->
+            self.load_special_presets()
+            
             # Loading rest of Arena Combatants:
             candidates = self.get_arena_candidates()
             # This is also a suspect, TODO: Check if this needs updating to new basetraits format
@@ -760,6 +762,8 @@ init -9 python:
             _candidates = shallowcopy(candidates)
             shuffle(_candidates)
 
+            print("CANDIDATES: {}".format(len(_candidates)))
+
             # Add da King!
             if not self.king:
                 tier_kwargs = {"level_bios": (1.0, 1.2), "stat_bios": (1.0, 1.2)}
@@ -771,6 +775,7 @@ init -9 python:
                 else:
                     char = build_rc(tier=7, tier_kwargs=tier_kwargs,
                                     equip_to_tier=True, spells_to_tier=True)
+                    char.location = "city"
                     candidates.append(char)
 
                 char.arena_rep = randint(79000, 81000)
@@ -788,6 +793,7 @@ init -9 python:
             power_levels.extend([random.uniform(2.3, 3.5) for i in range(20)])
             power_levels.extend([random.uniform(3.0, 4.5) for i in range(20)])
             power_levels.extend([random.uniform(3.8, 5.2) for i in range(20)])
+            print("POWER LEVELS: {}".format(len(power_levels)))
             for tier in power_levels:
                 if _candidates:
                     fighter = _candidates.pop()
@@ -797,12 +803,13 @@ init -9 python:
                 else:
                     fighter = build_rc(patterns="Warrior", tier=tier,
                                        equip_to_tier=True, spells_to_tier=True)
+                    print("Created Arena RG: {}".format(fighter.name))
                     fighter.set_status("free")
                     candidates.append(fighter)
 
                 fighter.arena_rep = randint(int(tier*9000), int(tier*11000))
                 fighter.arena_permit = True
-                fighter.arena_ready = True
+                fighter.arena_willing = True
                 # fighter.arena_active = True
 
             # Populate the reputation ladder:
