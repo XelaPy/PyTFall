@@ -550,7 +550,7 @@ init -999 python:
         return Text("{size=-5}%d-%d" % (x, y)), .1
 
 screen debug_tools():
-    zorder 5
+    zorder 4
     drag:
         align .0, 1.0
         id "meow____"

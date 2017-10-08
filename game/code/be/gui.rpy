@@ -392,7 +392,7 @@ init: # screens:
         button:
             style_group "dropdown_gm"
             align (0.0, 1.0)
-            xysize 90, 30
+            xysize 130, 30
             text "Main Menu" size 14
             action MainMenu()
 

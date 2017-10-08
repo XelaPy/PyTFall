@@ -22,7 +22,7 @@ init -20 python:
             return
 
         if isinstance(actor.location, basestring):
-            devlog.warn("%s has a string location: %s"%(actor.name, actor.location))
+            devlog.warn("%s has a string location: %s"%(actor.name, actor.location)) # TODO: why do we care about string location? it means they are tied to specific location, and it works properly
         elif actor.location and hasattr(actor.location, "remove"):
             try:
                 actor.location.remove(actor)
