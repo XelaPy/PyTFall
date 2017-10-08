@@ -454,6 +454,8 @@ screen yesno_prompt(message, yes_action, no_action):
 
     # Right-click and escape answer "no".
     key "game_menu" action no_action
+    key "K_RETURN" action yes_action
+    key "K_ESCAPE" action no_action
 
 
 ##############################################################################
