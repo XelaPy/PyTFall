@@ -742,12 +742,57 @@ init -9 python:
                         self.teams_3v3.append(a_team)
 
         def load_special_arena_fighters(self):
+            tagdb = store.tagdb
+            tags_dict = store.tags_dict
+
             img_db = {}
+            path_db = {}
+
             for fn in renpy.list_files():
                 if "content/new_npcs/arena" in fn and fn.lower().endswith(IMAGE_EXTENSIONS):
                     split = fn.split("/")
                     id = split[-2]
-                    img_db.setdefault(id, []).append(fn)
+                    img_db.setdefault(id, []).append(split[-1])
+                    path_db[id] = "/".join(split[:-1])
+
+            for id, images in img_db.items():
+                path = path_db[id]
+                if "assassins" in path:
+                    pass
+                elif "healers" in path:
+                    pass
+                elif "knights" in path:
+                    pass
+                elif "mages" in path:
+                    pass
+                elif "maids" in path:
+                    pass
+                elif "shooters" in path:
+                    pass
+                elif "warriors" in path:
+                    pass
+                else:
+                    pass
+
+                rg = rChar()
+                rg.id = id
+                rg._path_to_imgfolder = path
+                for fn in images:
+                    rp_path = "/".join([path, fn])
+                    tags = fn.split("-")
+                    # TODO: REMOVE TRY BEFORE BUILDING THE GAME! MAY SLOW THINGS DOWN!
+                    try:
+                        del tags[0]
+                        tags[-1] = tags[-1].split(".")[0]
+                    except IndexError:
+                        raise Exception("Invalid file path for image: %s" % rp_path)
+                    for tag in tags:
+                        if tag not in tags_dict:
+                            raise Exception("Unknown image tag: %s, path: %s" % (tag, rp_path))
+                        tagdb.tagmap[tags_dict[tag]].add(fn)
+                    # Adding filenames to girls id:
+                    tagdb.tagmap.setdefault(id, set()).add(fn)
+
             # print(img_db)
 
         def setup_arena(self):

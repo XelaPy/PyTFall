@@ -214,7 +214,7 @@ init -11 python:
         rg.nickname = rg.name
 
         if "origin" not in data:
-            rg.origin = "Random Girl"
+            rg.origin = choice(["Alkion", "PyTFall", "Crossgate"])
 
         # Status next:
         if "force_status" in data:

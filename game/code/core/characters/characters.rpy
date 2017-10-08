@@ -5060,7 +5060,7 @@ init -9 python:
 
         def auto_discard(self, slots=None):
             """
-            This function is to prevent that chars acumulate too many items in inventory. In particular
+            This function is to prevent that chars accumulate too many items in inventory. In particular
             multiple copies. Given items will not be discarded.
             """
 
