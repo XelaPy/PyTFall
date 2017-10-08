@@ -247,14 +247,9 @@ init: # screens:
                             padding 3, 3
                             xalign .5
                             xysize 140, 320
-                            python:
-                                size = 70
-                                x = 0
-                                els = [Transform(e.icon, size=(size, size)) for e in tgs.elemental if e.id != "Neutral"]
-                                els = [Transform(i, crop=(size/(len(els)-1)*els.index(i), 0, size/(len(els)-1), size), subpixel=True, xpos=(x + size/(len(els)-1)*els.index(i))) for i in els]
-                                f = Fixed(*els, xysize=(size, size))
+                            default me_icon = build_multi_elemental_icon()
                             vbox:
-                                add f align (.5, .1) # xcenter 230 ycenter 58
+                                add me_icon align (.5, .1) # xcenter 230 ycenter 58
                                 for skill in me:
                                     textbutton "{=text}{color=[black]}{size=-6}[skill.mn]":
                                         padding 0, 1
@@ -392,7 +387,7 @@ init: # screens:
                 align (0.99, 0)
                 textbutton "Terminate":
                     action SetField(be, "terminate", True)
-                    
+
 
         button:
             style_group "dropdown_gm"

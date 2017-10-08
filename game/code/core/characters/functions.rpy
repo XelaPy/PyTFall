@@ -1,4 +1,19 @@
 init -11 python:
+    def build_multi_elemental_icon(size=70, elements=None):
+        if elements is None: # Everything except "Neutral"
+            icons = [Transform(e.icon, size=(size, size)) for e in tgs.elemental if e.id != "Neutral"]
+        else:
+            icons = [Transform(e.icon, size=(size, size)) for e in elements]
+
+        xcsize = round_int(float(size)/(len(icons)))
+        fixed = Fixed(xysize=(size, size))
+        for index, icon in enumerate(icons):
+            crop = (absolute(index*xcsize), absolute(0), xcsize, size)
+            xpos = absolute(index*xcsize)
+            i = Transform(icon, crop=crop, subpixel=True, xpos=xpos)
+            fixed.add(i)
+        return fixed
+
     def calculate_elementals(char): # returns a dict of character elemental defences and attacks, based on elemental traits
         el_attacks = {}
         el_defence = {}
@@ -16,6 +31,7 @@ init -11 python:
         el_attacks = {x:y for x,y in el_attacks.items() if y!=0}
         el_defence = {x:y for x,y in el_defence.items() if y!=0}
         return el_attacks, el_defence
+
     def kill_char(char):
         # Attempts to remove a character from the game world.
         # This happens automatiaclly if char.health goes 0 or below.
