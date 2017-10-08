@@ -123,6 +123,12 @@ init -11 python:
             if not silent:
                 renpy.show_screen('message_screen', "This item cannot be equipped on a character of {} gender.".format(character.gender))
             return
+        elif item.type == "scroll":
+            battle_skill = store.battle_skills[item.add_be_spells[0]]
+            if battle_skill in character.magic_skills:
+                if not silent:
+                    renpy.show_screen('message_screen', "{} already knows this spell.".format(character.name))
+                return
         elif not item.usable:
             if not silent:
                 renpy.show_screen("message_screen", "This item cannot be used or equipped.")
@@ -227,7 +233,7 @@ init -11 python:
     def equipment_access(character, item=None, silent=False, allowed_to_equip=True):
         # Here we determine if a character would be willing to give MC access to her equipment:
         # Like if MC asked this character to equip or unequip an item.
-        # We return True of access is granted!
+        # We return True if access is granted!
         #
         # with allowed_to_equip=True (default) check whether we are allowed to equip the item,
         # with allowed_to_equip=False, check whether we are allowed to *un*equip
