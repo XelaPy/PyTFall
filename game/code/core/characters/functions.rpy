@@ -578,17 +578,6 @@ init -11 python:
 
         return client
 
-    def create_arena_girls():
-        rgirls = store.rchars.keys()
-        for i in xrange(85):
-            if not rgirls: rgirls = store.rchars.keys()
-            if rgirls:
-                rgirl = rgirls.pop()
-                arena_girl = build_rc(id=rgirl, patterns="Warrior")
-                arena_girl.arena_willing = True
-                arena_girl.arena_active = False # Should prolly be moved to preparation?
-                arena_girl.status = "free"
-
     def copy_char(char):
         """Due to some sh!tty coding on my part, just a simple deepcopy/copy will not do :(
 

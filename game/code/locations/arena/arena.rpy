@@ -297,7 +297,7 @@ init -9 python:
 
         def update_dogfights(self):
             """
-            Attempts to fill dogfights if there are teams availible for a fight.
+            Attempts to fill dogfights if there are teams available for a fight.
             Takes care of busy and injured fighters, making sure that they and their teams don't make the cut.
             """
             # 1v1
@@ -782,14 +782,14 @@ init -9 python:
                 self.king = char
 
             # Setting up some decent fighters:
-            power_levels = [random.uniform(.2, .8) for i in range(6)]
-            power_levels.extend([random.uniform(.4, 1.2) for i in range(6)])
-            power_levels.extend([random.uniform(.8, 1.8) for i in range(8)])
+            power_levels = [random.uniform(.2, .8) for i in range(10)]
+            power_levels.extend([random.uniform(.4, 1.2) for i in range(10)])
+            power_levels.extend([random.uniform(.8, 1.8) for i in range(15)])
             power_levels.extend([random.uniform(1.5, 2.3) for i in range(20)])
-            power_levels.extend([random.uniform(1.8, 2.6) for i in range(10)])
+            power_levels.extend([random.uniform(1.8, 2.6) for i in range(20)])
             power_levels.extend([random.uniform(2.3, 3.5) for i in range(20)])
             power_levels.extend([random.uniform(3.0, 4.5) for i in range(20)])
-            power_levels.extend([random.uniform(3.8, 5.2) for i in range(10)])
+            power_levels.extend([random.uniform(3.8, 5.2) for i in range(20)])
             for tier in power_levels:
                 if _candidates:
                     fighter = _candidates.pop()
@@ -799,11 +799,13 @@ init -9 python:
                 else:
                     fighter = build_rc(patterns="Warrior", tier=tier,
                                        equip_to_tier=True, spells_to_tier=True)
+                    fighter.set_status("free")
                     candidates.append(fighter)
 
                 fighter.arena_rep = randint(int(tier*9000), int(tier*11000))
                 fighter.arena_permit = True
-                fighter.arena_active = True
+                fighter.arena_ready = True
+                # fighter.arena_active = True
 
             # Populate the reputation ladder:
             candidates.sort(key=attrgetter("arena_rep"))
@@ -820,7 +822,9 @@ init -9 python:
 
             for team in self.lineup_1v1:
                 if not team:
-                    team.add(temp.pop())
+                    f = temp.pop()
+                    f.arena_active = True
+                    team.add(f)
 
             # 2v2 Ladder lineup:
             if self.king:
@@ -833,7 +837,9 @@ init -9 python:
             for team in self.lineup_2v2:
                 team.name = get_team_name()
                 while len(team) < 2:
-                    team.add(temp.pop())
+                    f = temp.pop()
+                    f.arena_active = True
+                    team.add(f)
 
             # 3v3 Ladder lineup:
             if self.king:
@@ -846,7 +852,9 @@ init -9 python:
             for team in self.lineup_3v3:
                 team.name = get_team_name()
                 while len(team) < 3:
-                    team.add(temp.pop())
+                    f = temp.pop()
+                    f.arena_active = True
+                    team.add(f)
 
         # -------------------------- ChainFights vs Mobs ------------------------>
         def update_cf(self):
