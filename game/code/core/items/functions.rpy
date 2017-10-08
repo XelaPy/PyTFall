@@ -97,7 +97,7 @@ init -11 python:
                         renpy.show_screen("message_screen", "This item has been used recently by {}, it cannot be used again for one turn.".format(character.name))
                 return
 
-        # elif item.slot == 'misc':
+        # elif item.slot == 'misc': # TODO: why is this disabled, exactly? miscblock is a legit thing
             # if item.id in character.miscblock:
                 # if not silent:
                     # renpy.show_screen("message_screen", "This item has been already used by {}, and cannot be used again.".format(character.name))
@@ -123,7 +123,7 @@ init -11 python:
             if not silent:
                 renpy.show_screen('message_screen', "This item cannot be equipped on a character of {} gender.".format(character.gender))
             return
-        elif item.type == "scroll":
+        elif item.type == "scroll": # prevents using scroll if it gives already known spell
             battle_skill = store.battle_skills[item.add_be_spells[0]]
             if battle_skill in character.magic_skills:
                 if not silent:
