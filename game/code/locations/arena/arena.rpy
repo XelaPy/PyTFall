@@ -742,12 +742,12 @@ init -9 python:
                         self.teams_3v3.append(a_team)
 
         def load_special_arena_fighters(self):
+            fighters = []
             tagdb = store.tagdb
             tags_dict = store.tags_dict
 
             img_db = {}
             path_db = {}
-
             for fn in renpy.list_files():
                 if "content/new_npcs/arena" in fn and fn.lower().endswith(IMAGE_EXTENSIONS):
                     split = fn.split("/")
@@ -757,26 +757,6 @@ init -9 python:
 
             for id, images in img_db.items():
                 path = path_db[id]
-                if "assassins" in path:
-                    pass
-                elif "healers" in path:
-                    pass
-                elif "knights" in path:
-                    pass
-                elif "mages" in path:
-                    pass
-                elif "maids" in path:
-                    pass
-                elif "shooters" in path:
-                    pass
-                elif "warriors" in path:
-                    pass
-                else:
-                    pass
-
-                rg = rChar()
-                rg.id = id
-                rg._path_to_imgfolder = path
                 for fn in images:
                     rp_path = "/".join([path, fn])
                     tags = fn.split("-")
@@ -793,6 +773,61 @@ init -9 python:
                     # Adding filenames to girls id:
                     tagdb.tagmap.setdefault(id, set()).add(fn)
 
+                elements = [traits["Neutral"]]
+                random_traits = ["Courageous", "Aggressive", "Vicious"]
+                if "assassins" in path:
+                    base = [traits["Assassin"]]
+                elif "healers" in path:
+                    base = [traits["Healer"]]
+                    if dice(25):
+                        base.append(traits["Mage"])
+                    elements = [traits["Light"]]
+                elif "knights" in path:
+                    base = [traits["Knight"]]
+                    if dice(25):
+                        base.append(traits["Assassin"])
+                    if dice(25):
+                        base.append(traits["Mage"])
+                elif "mages" in path:
+                    base = [traits["Mage"]]
+                    elements = tgs.elemental
+                elif "maids" in path:
+                    base = [traits["Warrior"]]
+                    if dice(25): # ???
+                        base.append(traits["Maid"])
+                elif "shooters" in path:
+                    base = [traits["Shooter"]]
+                    if dice(25):
+                        base.append(traits["Assassin"])
+                    if dice(25):
+                        base.append(traits["Mage"])
+                elif "warriors" in path:
+                    base = [traits["Warrior"]]
+                else:
+                    base = [traits["Warrior"]]
+
+                rg = Char()
+                rg._path_to_imgfolder = path
+                rg.id = id
+                rg.name = get_first_name()
+                rg.fullname = " ".join([rg.name, get_last_name()])
+                rg.nickname = rg.name
+
+                for t in random.sample(base, min(2, len(base))):
+                    rg.traits.basetraits.add(t)
+                    rg.apply_trait(t)
+
+                for e in random.sample(elements, max(1, len(elements)-randint(0, 7))):
+                    rg.apply_trait(e)
+
+                random_traits = [traits[t] for t in random_traits]
+                for e in random.sample(random_traits, max(1, randint(1, len(random_traits)))):
+                    rg.apply_trait(e)
+
+                rg.init()
+                fighters.append(rg)
+
+            return fighters
             # print(img_db)
 
         def setup_arena(self):
@@ -801,8 +836,6 @@ init -9 python:
             """
             # Team formations!!!: -------------------------------------------------------------->
             self.load_special_presets()
-
-            self.load_special_arena_fighters()
 
             # Loading rest of Arena Combatants:
             candidates = self.get_arena_candidates()
@@ -814,6 +847,8 @@ init -9 python:
                     fighter = copy.deepcopy(fighter)
                     self.arena_fighters.append(fighter)
                     candidates.append(fighter)
+
+            candidates.extend(self.load_special_arena_fighters())
 
             _candidates = shallowcopy(candidates)
             shuffle(_candidates)
@@ -844,11 +879,11 @@ init -9 python:
             power_levels = [random.uniform(.2, .8) for i in range(10)]
             power_levels.extend([random.uniform(.4, 1.2) for i in range(10)])
             power_levels.extend([random.uniform(.8, 1.8) for i in range(15)])
-            power_levels.extend([random.uniform(1.5, 2.3) for i in range(20)])
-            power_levels.extend([random.uniform(1.8, 2.6) for i in range(20)])
-            power_levels.extend([random.uniform(2.3, 3.5) for i in range(20)])
-            power_levels.extend([random.uniform(3.0, 4.5) for i in range(20)])
-            power_levels.extend([random.uniform(3.8, 5.2) for i in range(20)])
+            power_levels.extend([random.uniform(1.5, 2.3) for i in range(15)])
+            power_levels.extend([random.uniform(1.8, 2.6) for i in range(15)])
+            power_levels.extend([random.uniform(2.3, 3.5) for i in range(15)])
+            power_levels.extend([random.uniform(3.0, 4.5) for i in range(15)])
+            power_levels.extend([random.uniform(3.8, 5.2) for i in range(15)])
             # print("POWER LEVELS: {}".format(len(power_levels)))
             for tier in power_levels:
                 if _candidates:
