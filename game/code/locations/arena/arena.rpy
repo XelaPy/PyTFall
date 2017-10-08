@@ -149,17 +149,15 @@ init -9 python:
                            "Warrior" in c.occupations and
                            c.status != "slave" and c not in hero.chars and
                            c not in interactions_chars]
-            arena_candidates = []
-            # First pass, unique girls...
+            unique = []
+            rand = []
             for char in arena_ready:
-                if char.__class__ == Char:
-                    arena_candidates.append(char)
-            # Second pass, random girls:
-            for char in arena_ready:
-                if char.__class__ == rChar:
-                    arena_candidates.append(char)
+                if isinstance(char, rChar):
+                    rand.append(char)
+                elif char.__class__ == Char:
+                    unique.append(char)
 
-            return arena_candidates
+            return unique + rand
 
         def get_lineups_fighters(self, lineup="all"):
             """
