@@ -799,6 +799,7 @@ init -9 python:
                 else:
                     fighter = build_rc(patterns="Warrior", tier=tier,
                                        equip_to_tier=True, spells_to_tier=True)
+                    fighter.set_status("free")
                     candidates.append(fighter)
 
                 fighter.arena_rep = randint(int(tier*9000), int(tier*11000))
