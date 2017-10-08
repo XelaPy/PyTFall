@@ -741,13 +741,24 @@ init -9 python:
                     if teamsize == 3:
                         self.teams_3v3.append(a_team)
 
+        def load_special_arena_fighters(self):
+            img_db = {}
+            for fn in renpy.list_files():
+                if "content/new_npcs/arena" in fn and fn.lower().endswith(IMAGE_EXTENSIONS):
+                    split = fn.split("/")
+                    id = split[-2]
+                    img_db.setdefault(id, []).append(fn)
+            # print(img_db)
+
         def setup_arena(self):
             """
             Initial Arena Setup, this will be improved and prolly split several times and I should prolly call it init() as in other classes...
             """
             # Team formations!!!: -------------------------------------------------------------->
             self.load_special_presets()
-            
+
+            self.load_special_arena_fighters()
+
             # Loading rest of Arena Combatants:
             candidates = self.get_arena_candidates()
             # This is also a suspect, TODO: Check if this needs updating to new basetraits format
@@ -762,7 +773,7 @@ init -9 python:
             _candidates = shallowcopy(candidates)
             shuffle(_candidates)
 
-            print("CANDIDATES: {}".format(len(_candidates)))
+            # print("CANDIDATES: {}".format(len(_candidates)))
 
             # Add da King!
             if not self.king:
@@ -793,7 +804,7 @@ init -9 python:
             power_levels.extend([random.uniform(2.3, 3.5) for i in range(20)])
             power_levels.extend([random.uniform(3.0, 4.5) for i in range(20)])
             power_levels.extend([random.uniform(3.8, 5.2) for i in range(20)])
-            print("POWER LEVELS: {}".format(len(power_levels)))
+            # print("POWER LEVELS: {}".format(len(power_levels)))
             for tier in power_levels:
                 if _candidates:
                     fighter = _candidates.pop()
@@ -803,7 +814,7 @@ init -9 python:
                 else:
                     fighter = build_rc(patterns="Warrior", tier=tier,
                                        equip_to_tier=True, spells_to_tier=True)
-                    print("Created Arena RG: {}".format(fighter.name))
+                    # print("Created Arena RG: {}".format(fighter.name))
                     fighter.set_status("free")
                     candidates.append(fighter)
 
