@@ -806,7 +806,7 @@ init -9 python:
                 else:
                     base = [traits["Warrior"]]
 
-                rg = Char()
+                rg = NPC()
                 rg._path_to_imgfolder = path
                 rg.id = id
                 rg.name = get_first_name()
