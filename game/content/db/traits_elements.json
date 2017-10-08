@@ -50,7 +50,7 @@
     "icon": "content/gfx/interface/images/elements/ice.png",
     "elemental": true,
     "el_damage": {"ice": 0.25, "fire": -0.25},
-    "el_defence": {"ice": 0.15, "water": 0.15, "earth": -0.3},
+    "el_defence": {"ice": 0.15, "earth": 0.15, "electricity": -0.3},
     "font_color": "lightblue"
     },
     {
