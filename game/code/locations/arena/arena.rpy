@@ -647,6 +647,14 @@ init -9 python:
             self.start_matchfight(battle_setup)
 
         # -------------------------- Setup Methods -------------------------------->
+        def update_ladder(self):
+            # Update top 100 ladder:
+            candidates = self.get_arena_fighters(include_hero_girls=True)
+            candidates.append(hero)
+            candidates.sort(key=attrgetter("arena_rep"))
+            candidates.reverse()
+            self.ladder = candidates[:len(self.ladder)]
+
         def load_special_team_presets(self):
             json_fighters = store.json_fighters
             teams = json.load(renpy.file("content/db/arena_teams.json"))
@@ -755,7 +763,6 @@ init -9 python:
             self.load_special_team_presets()
             self.arena_fighters.update(store.male_fighters)
             self.arena_fighters.update(store.female_fighters)
-            male_fighters, female_fighters, json_fighters
 
             # Loading rest of Arena Combatants:
             candidates = store.male_fighters.values() + store.female_fighters.values()
@@ -815,8 +822,7 @@ init -9 python:
                 # fighter.arena_active = True
 
             # Populate the reputation ladder:
-            candidates.sort(key=attrgetter("arena_rep"))
-            self.ladder = candidates[:len(self.ladder)]
+            self.update_ladder()
 
             # Populate tournament ladders:
             # 1v1 Ladder lineup:
@@ -1495,10 +1501,6 @@ init -9 python:
             txt = "".join([txt, "\n %d unofficial dogfights took place yesterday!"%df_count])
 
             # Update top 100 ladder:
-            candidates = self.get_arena_fighters(include_hero_girls=True)
-            candidates.append(hero)
-            candidates.sort(key=attrgetter("arena_rep"))
-            for i in xrange(min(100, len(candidates))):
-                self.ladder[i] = candidates.pop()
+            self.update_ladder()
 
             self.daily_report = txt
