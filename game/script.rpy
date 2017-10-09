@@ -223,16 +223,16 @@ label continue_with_start:
         tl.timer("Loading: Arena!")
         pytfall.arena = Arena()
 
-        for key in af_pics:
-            f = ArenaFighter()
-            f.name = key
-            f.img_db = af_pics[key]
-            f.init()
-            pytfall.arena.pure_arena_fighters[f.name] = f
+        # for key in af_pics:
+        #     f = ArenaFighter()
+        #     f.name = key
+        #     f.img_db = af_pics[key]
+        #     f.init()
+        #     pytfall.arena.pure_arena_fighters[f.name] = f
+        #
+        # del af_pics
 
-        del af_pics
-
-        pytfall.arena.pure_arena_fighters.update(load_arena_fighters())
+        # pytfall.arena.pure_arena_fighters.update(load_arena_fighters())
         pytfall.arena.setup_arena()
         pytfall.arena.update_matches()
         pytfall.arena.update_teams()
