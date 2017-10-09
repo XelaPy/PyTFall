@@ -417,8 +417,7 @@ init -11 python:
     def load_special_arena_fighters():
         male_fighters = {}
         female_fighters = {}
-        json_fighters = {} # TODO
-        fighters = []
+        json_fighters = {}
 
         tagdb = store.tagdb
         tags_dict = store.tags_dict
@@ -439,6 +438,12 @@ init -11 python:
                 img_db.setdefault(id, []).append(split[-1])
                 path_db[id] = "/".join(split[:-1])
                 gender_db[id] = "female"
+            elif "content/npc/arena_json_adjusted" in fn and fn.lower().endswith(IMAGE_EXTENSIONS):
+                split = fn.split("/")
+                id = split[-2]
+                img_db.setdefault(id, []).append(split[-1])
+                path_db[id] = "/".join(split[:-1])
+                gender_db[id] = None
 
         for id, images in img_db.items():
             path = path_db[id]
@@ -500,9 +505,14 @@ init -11 python:
                 fighter.gender == "female"
                 fighter.fullname = " ".join([fighter.name, get_last_name()])
                 fighter.nickname = fighter.name
-            else:
+                female_fighters[id] = fighter
+            elif gender == "male":
                 fighter.gender = "male"
                 fighter.name = fighter.fullname = fighter.nickname = id
+                male_fighters[id] = fighter
+            else: # None for JSON adjusted
+                fighter.id = id
+                json_fighters[id] = fighter
 
             for t in random.sample(base, min(2, len(base))):
                 fighter.traits.basetraits.add(t)
@@ -516,9 +526,8 @@ init -11 python:
                 fighter.apply_trait(e)
 
             fighter.init()
-            fighters.append(fighter)
 
-        return fighters
+        return male_fighters, female_fighters, json_fighters
 
     def load_arena_fighters():
         in_file = content_path("db/arena_fighters.json")

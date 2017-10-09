@@ -318,9 +318,9 @@ label dev_testing_menu_and_load_mc:
                 af_pics = mc_pics
                 del mc_pics
 
-                arena_fighters = load_special_arena_fighters()
-                af = choice([f for f in arena_fighters if f.gender == "male"])
-                arena_fighters.remove(af)
+                male_fighters, female_fighters, json_fighters = load_special_arena_fighters()
+                af = choice(male_fighters.values())
+                del male_fighters[af.id]
 
                 hero._path_to_imgfolder = af._path_to_imgfolder
                 hero.id = af.id
