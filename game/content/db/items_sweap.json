@@ -103,7 +103,7 @@
     "min": {"mp": 5},
     "delivery_bonus": {"magic": 50},
     "delivery_multiplier": {"magic": 0.1},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "pref_class":["Mage"]
     },
@@ -232,7 +232,7 @@
     "max": {"defence": 60},
     "mod": {"defence": 50},
     "evasion_bonus": 2,
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 4,
     "pref_class":["Any"]
     },
@@ -251,7 +251,7 @@
     "type": "tool",
     "max": {"magic": 50},
     "mod": {"magic": 25},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": [],
     "tier": 3,
     "pref_class":["Mage"]
@@ -382,7 +382,7 @@
     "max": {"defence": 300, "health": 50, "constitution": 40, "agility": -30, "charisma": 20},
     "mod": {"defence": 150, "agility": -35, "charisma": 10},
     "defence_multiplier": {"melee": 0.6, "ranged": 0.6},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 4,
     "pref_class":["Warrior"]
     },

@@ -60,7 +60,7 @@
     "mdestruct": false,
     "statmax": 90,
     "mod": {"vitality": -50, "agility": 1, "defence": 1},
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Maid Fairy",
@@ -185,7 +185,7 @@
     "mreusable": false,
     "mdestruct": true,
     "mod_skills": {"vaginal": [0, 0, 0, 0, 80], "anal": [0, 0, 0, 0, 40], "oral": [0, 0, 0, 0, 40], "sex": [0, 0, 0, 0, 40]},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Curious"],
     "badtraits": ["Lesbian", "Frigid"]
     },
@@ -206,7 +206,7 @@
     "mreusable": false,
     "mdestruct": true,
     "max": {"attack": 25, "defence": 15},
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Codex of Sappho",
@@ -225,7 +225,7 @@
     "mreusable": false,
     "mdestruct": true,
     "mod_skills": {"vaginal": [0, 0, 0, 0, 20], "anal": [0, 0, 0, 0, 10], "oral": [0, 0, 0, 0, 60], "sex": [0, 0, 0, 0, 60]},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Curious", "Lesbian", "Bisexual"],
     "badtraits": ["Frigid"]
     },
@@ -248,7 +248,7 @@
     "mod": {"character": -100, "disposition": -200},
     "mod_skills": {"anal": [0, 0, 0, 0, 20], "oral": [0, 0, 0, 0, 30], "bdsm": [0, 0, 0, 0, 20]},
     "max": {"character": -25},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Curious", "Masochist"]
     },
     {
@@ -268,7 +268,7 @@
     "mreusable": false,
     "mdestruct": true,
     "max": {"magic": 20, "mp": 20},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": []
     },
     {
@@ -289,7 +289,7 @@
     "mdestruct": true,
     "mod_skills": {"service": [0, 0, 0, 0, 60], "strip": [0, 0, 0, 0, 50]},
     "max": {"charisma": 20, "intelligence": 15, "character": 20},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Neat", "Curious"]
     },
     {
@@ -575,7 +575,7 @@
     "mreusable": true,
     "mdestruct": false,
     "mod": {"intelligence": 1, "mp": -5},
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Ancient Purse",
@@ -594,7 +594,7 @@
     "mreusable": true,
     "mdestruct": false,
     "mod": {"gold": 100},
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Anal Training Kit",

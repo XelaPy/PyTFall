@@ -66,7 +66,7 @@
     "cblock": 3,
     "max": {"mp": 200, "magic": 100},
     "mod": {"mp": 10000, "constitution": -35, "vitality": -60, "defence": -25, "magic": 100},
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Small Healing Potion",
@@ -137,7 +137,7 @@
     "max": {"health": 50},
     "mod": {"health": 10000, "constitution": 50, "vitality": 200, "defence": 10},
     "removeeffects": ["Injured", "Food Poisoning"],
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Small Potion of Serenity",
@@ -257,7 +257,7 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"mp": 100, "vitality": -100},
-    "locations": ["Exploration", "Fishing"]
+    "locations": ["Exploration", "Fishing", "Arena"]
     },
     {
     "id": "Aromatic Dust",
@@ -273,7 +273,7 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"vitality": 40, "health": -20, "mp": -20},
-    "locations": ["Exploration", "Fishing"]
+    "locations": ["Exploration", "Fishing", "Arena"]
     },
     {
     "id": "Cold Medicine",
@@ -490,7 +490,7 @@
     "cblock": 6,
     "mod": {"character": -50},
     "mod_skills": {"vaginal": [0, 0, 0.02, 0, 0], "anal": [0, 0, 0.02, 0, 0], "oral": [0, 0, 0.02, 0, 0], "group": [0, 0, 0.02, 0, 0], "bdsm": [0, 0, 0.02, 0, 0], "sex": [0, 0, 0.02, 0, 0]},
-    "locations": ["Exploration", "Fishing"],
+    "locations": ["Exploration", "Fishing", "Arena"],
     "goodtraits": ["Curious"],
     "addeffects": ["Horny"],
     "badtraits": ["Frigid"]
@@ -566,7 +566,7 @@
     "cblock": 5,
     "mod": {"health": 10000, "joy": -50, "vitality": -400},
     "removeeffects": ["Poisoned", "Down with Cold", "Injured", "Drunk", "Food Poisoning"],
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Leprechaun Pills",
@@ -582,7 +582,7 @@
     "slot": "consumable",
     "type": "permanent",
     "mod": {"luck": 5},
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Lolita Wand",
@@ -635,7 +635,7 @@
     "mod": {"joy": -40, "mp": -10000, "disposition": -50},
     "removetraits": ["Vicious", "Ill-mannered"],
     "addtraits": ["Virtuous", "Well-mannered"],
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Potion of the Fallen",
@@ -653,7 +653,7 @@
     "mod": {"joy": -40, "mp": -10000, "disposition": -50},
     "removetraits": ["Virtuous", "Well-mannered"],
     "addtraits": ["Vicious", "Ill-mannered"],
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Potion of the Sex Elemental",
@@ -671,7 +671,7 @@
     "mod": {"intelligence": -550, "magic": -550},
     "removetraits": ["Nerd", "Psychic", "Frigid", "Lesbian", "Smart"],
     "addtraits": ["Bisexual", "Nymphomaniac", "Stupid", "Open Minded"],
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Berserker Potion",
@@ -688,7 +688,7 @@
     "type": "permanent",
     "max": {"attack": 10, "defence": -10, "charisma": -10, "character": 10},
     "mod": {"attack": 10, "defence": -10, "charisma": -10, "character": 10},
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Elixir of Abstinence",
@@ -705,7 +705,7 @@
     "addtraits": ["Frigid"],
     "slot": "consumable",
     "type": "permanent",
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Brainwashing Oil",
@@ -758,7 +758,7 @@
     "mod": {"joy": -40},
     "addeffects": ["Down with Cold"],
     "addtraits": ["Psychic"],
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Liquid Magic",
@@ -774,7 +774,7 @@
     "slot": "consumable",
     "type": "permanent",
     "max": {"health": -20, "mp": 50, "magic": 50, "constitution": -20, "vitality": -20},
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Expensive Chocolates",
@@ -1145,7 +1145,7 @@
     "slot": "consumable",
     "type": "special",
     "jump_to_label": "special_items_flashing_extract",
-    "locations": ["Exploration"]
+    "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Regeneration Potion",

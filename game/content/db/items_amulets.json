@@ -52,7 +52,7 @@
     "mod": {"defence": -30, "constitution": 20},
     "mod_skills": {"bdsm": [0.01, 0.01, 0.02, 0, 0]},
     "addtraits": ["Masochist"],
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 2,
     "goodtraits": ["Curious"],
     "pref_class":["SIW"]
@@ -166,7 +166,7 @@
     "infinite": false,
     "slot": "amulet",
     "addtraits": ["Sexy Air"],
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Nymphomaniac"],
     "tier": 2,
     "badtraits": ["Frigid"],
@@ -225,7 +225,7 @@
     "max": {"defence": 15, "agility": 15},
     "mod": {"defence": 30},
     "tier": 2,
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "pref_class":["Warrior", "Assassin", "Shooter"]
     },
     {
@@ -367,7 +367,7 @@
     "mod": {"character": 30},
     "mod_skills": {"management": [0, 0, 0.1, 0, 0]},
     "tier": 4,
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "pref_class":["Manager"]
     },
     {
@@ -424,7 +424,7 @@
     "infinite": false,
     "slot": "amulet",
     "max": {"mp": 10, "magic": 5},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "addtraits": ["Air Focus"],
     "pref_class":["Mage"]
@@ -442,7 +442,7 @@
     "infinite": false,
     "slot": "amulet",
     "max": {"defence": 10, "magic": 5},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "addtraits": ["Earth Focus"],
     "pref_class":["Mage"]
@@ -460,7 +460,7 @@
     "infinite": false,
     "slot": "amulet",
     "max": {"magic": 25},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "addtraits": ["Light Focus"],
     "pref_class":["Mage"]
@@ -478,7 +478,7 @@
     "infinite": false,
     "slot": "amulet",
     "max": {"attack": 15, "mp": 15},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "addtraits": ["Fire Focus"],
     "pref_class":["Mage"]
@@ -496,7 +496,7 @@
     "infinite": false,
     "slot": "amulet",
     "max": {"charisma": 15, "constitution": 15},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "addtraits": ["Water Focus"],
     "pref_class":["Mage"]
@@ -514,7 +514,7 @@
     "infinite": false,
     "slot": "amulet",
     "max": {"agility": 25},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "addtraits": ["Water Focus"],
     "pref_class":["Mage"]
@@ -532,7 +532,7 @@
     "infinite": false,
     "slot": "amulet",
     "max": {"defence": 25},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "addtraits": ["Ice Focus"],
     "pref_class":["Mage"]

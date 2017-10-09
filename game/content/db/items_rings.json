@@ -85,7 +85,7 @@
     "infinite": false,
     "slot": "ring",
     "mod_skills": {"vaginal": [0.02, 0, 0.01, 0, 0], "group": [0.02, 0, 0.01, 0, 0], "anal": [0.02, 0, 0.01, 0, 0]},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "badtraits": ["Frigid"],
     "tier": 1,
     "pref_class":["SIW"]
@@ -103,7 +103,7 @@
     "infinite": false,
     "slot": "ring",
     "mod_skills": {"strip": [0.04, 0, 0.03, 0, 0], "group": [0.04, 0, 0.03, 0, 0], "service": [0.04, 0, 0.03, 0, 0]},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Curious"],
     "tier": 2,
     "pref_class":["SIW"]
@@ -141,7 +141,7 @@
     "mod_skills": {"strip": [0, 0, 0.02, 0, 0], "management": [0, 0, 0.05, 0, 0]},
     "max": {"charisma": 60},
     "mod": {"charisma": 40},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 2,
     "pref_class":["SIW", "Manager"]
     },
@@ -159,7 +159,7 @@
     "slot": "ring",
     "max": {"charisma": 90, "joy": 20},
     "mod": {"charisma": 60},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "pref_class":["SIW"]
     },
@@ -194,7 +194,7 @@
     "slot": "ring",
     "mod_skills": {"refinement": [0.08, 0.04, 0.1, 0, 0], "teaching": [0.02, 0.01, 0.06, 0, 0], "management": [0.01, 0.01, 0.05, 0, 0]},
     "mod": {"intelligence": 5},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 2,
     "pref_class":["SIW", "Manager"]
     },
@@ -212,7 +212,7 @@
     "slot": "ring",
     "mod_skills": {"refinement": [0.08, 0, 0.1, 0, 0], "management": [0, 0, 0.01, 0, 0]},
     "mod": {"charisma": 15},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "pref_class":["SIW", "Manager"]
     },
@@ -246,7 +246,7 @@
     "infinite": false,
     "slot": "ring",
     "mod_skills": {"vaginal": [0.02, 0.02, 0, 0, 0], "group": [0.02, 0.02, 0, 0, 0], "anal": [0.02, 0.02, 0, 0, 0], "oral": [0.02, 0.02, 0, 0, 0], "bdsm": [0.02, 0.02, 0, 0, 0], "sex": [0.02, 0.02, 0, 0, 0]},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "pref_class":["SIW"]
     },
@@ -357,7 +357,7 @@
     "slot": "ring",
     "max": {"intelligence": 30},
     "mod": {"intelligence": 10},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "pref_class":["Mage"]
     },
@@ -481,7 +481,7 @@
     "infinite": false,
     "slot": "ring",
     "removetraits": ["Aggressive"],
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "pref_class":["Any"]
     },
@@ -517,7 +517,7 @@
     "slot": "ring",
     "max": {"joy": 30, "magic": 90, "mp": 100},
     "mod": {"magic": 20, "constitution": -60},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "pref_class":["Mage"]
     },
@@ -554,7 +554,7 @@
     "slot": "ring",
     "max": {"attack": 50, "defence": -30, "charisma": -30, "character": 50},
     "mod": {"character": 70},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Vicious"],
     "tier": 4,
     "pref_class":["Warrior", "Assassin", "Shooter"]
@@ -610,7 +610,7 @@
     "infinite": false,
     "slot": "ring",
     "max": {"character": -80, "intelligence": -80},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 1,
     "pref_class":["SIW"]
     },
@@ -689,7 +689,7 @@
     "infinite": false,
     "slot": "ring",
     "max": {"attack": 5, "mp": 5},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "addtraits": ["Minor Fire Focus"],
     "tier": 1,
     "pref_class":["Mage"]
@@ -707,7 +707,7 @@
     "infinite": false,
     "slot": "ring",
     "max": {"mp": 10},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "addtraits": ["Minor Air Focus"],
     "tier": 1,
     "pref_class":["Mage"]
@@ -725,7 +725,7 @@
     "infinite": false,
     "slot": "ring",
     "max": {"defence": 10},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "addtraits": ["Minor Ice Focus"],
     "tier": 1,
     "pref_class":["Mage"]
@@ -743,7 +743,7 @@
     "infinite": false,
     "slot": "ring",
     "max": {"magic": 10},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "addtraits": ["Minor Darkness Focus"],
     "tier": 1,
     "pref_class":["Mage"]
@@ -761,7 +761,7 @@
     "infinite": false,
     "slot": "ring",
     "max": {"health": 10},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "addtraits": ["Minor Earth Focus"],
     "tier": 1,
     "pref_class":["Mage"]
@@ -779,7 +779,7 @@
     "infinite": false,
     "slot": "ring",
     "max": {"charisma": 5, "constitution": 5},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "addtraits": ["Minor Water Focus"],
     "tier": 1,
     "pref_class":["Mage"]
@@ -797,7 +797,7 @@
     "infinite": false,
     "slot": "ring",
     "max": {"agility": 10},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "addtraits": ["Minor Electricity Focus"],
     "tier": 1,
     "pref_class":["Mage"]
@@ -815,7 +815,7 @@
     "infinite": false,
     "slot": "ring",
     "max": {"vitality": 10},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "addtraits": ["Minor Light Focus"],
     "tier": 1,
     "pref_class":["Mage"]
