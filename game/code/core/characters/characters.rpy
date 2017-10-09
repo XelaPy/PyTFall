@@ -1563,6 +1563,9 @@ init -9 python:
         FULLSKILLS = set(skill + "skill" for skill in SKILLS)
         GEN_OCCS = set(["SIW", "Warrior", "Server", "Specialist"])
         STATUS = set(["slave", "free"])
+
+        MOOD_TAGS = set(["angry", "confident", "defiant", "ecstatic", "happy", "indifferent", "provocative", "sad", "scared", "shy", "tired", "uncertain"])
+        UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS = ["zoom_fast", "zoom_slow", "test_case"]
         """Base Character class for PyTFall.
         """
         def __init__(self, arena=False, inventory=False, effects=False, is_worker=True):
@@ -4357,8 +4360,6 @@ init -9 python:
                 # 'r8': dict(id=8, name=("Rank 8: Tayu", "(Legendary)"), price=50000, ref=250, exp=800000)
             # }
         RANKS = {}
-        MOOD_TAGS = set(["angry", "confident", "defiant", "ecstatic", "happy", "indifferent", "provocative", "sad", "scared", "shy", "tired", "uncertain"])
-        UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS = ["zoom_fast", "zoom_slow", "test_case"]
         def __init__(self):
             super(Char, self).__init__(arena=True, inventory=True, effects=True)
             # Game mechanics assets
