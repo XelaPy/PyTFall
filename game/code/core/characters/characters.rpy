@@ -1948,17 +1948,286 @@ init -9 python:
                 raise Exception("get_sprite_size got unknown type for resizing!")
             return resize
 
-        # def has_image(self, *tags):
-        #     """
-        #     Returns True if image is found.
-        #     """
-        #     return True
-        #
-        # def show(self, what, resize=(None, None), cache=True):
-        #     if what != self.img:
-        #         what = self.img
-        #
-        #     return ProportionalScale(what, resize[0], resize[1])
+        ### Displaying images
+        @property
+        def path_to_imgfolder(self):
+            if isinstance(self, rChar):
+                return rchars[self.id]["_path_to_imgfolder"]
+            else:
+                return self._path_to_imgfolder
+
+        def _portrait(self, st, at):
+            if self.flag("fixed_portrait"):
+                return self.flag("fixed_portrait"), None
+            else:
+                return self.show("portrait", self.get_mood_tag(), type="first_default", add_mood=False, cache=True, resize=(120, 120)), None
+
+        def override_portrait(self, *args, **kwargs):
+            kwargs["resize"] = kwargs.get("resize", (120, 120))
+            kwargs["cache"] = kwargs.get("cache", True)
+            if self.has_image(*args, **kwargs): # if we have the needed portrait, we just show it
+                self.set_flag("fixed_portrait", self.show(*args, **kwargs))
+            elif "confident" in args: # if not...
+                if self.has_image("portrait", "happy"): # then we replace some portraits with similar ones
+                    self.set_flag("fixed_portrait", self.show("portrait", "happy", **kwargs))
+                elif self.has_image("portrait", "indifferent"):
+                    self.set_flag("fixed_portrait", self.show("portrait", "indifferent", **kwargs))
+            elif "suggestive" in args:
+                if self.has_image("portrait", "shy"):
+                    self.set_flag("fixed_portrait", self.show("portrait", "shy", **kwargs))
+                elif self.has_image("portrait", "happy"):
+                    self.set_flag("fixed_portrait", self.show("portrait", "happy", **kwargs))
+            elif "ecstatic" in args:
+                if self.has_image("portrait", "happy"):
+                    self.set_flag("fixed_portrait", self.show("portrait", "happy", **kwargs))
+                elif self.set_flag("fixed_portrait", self.show("portrait", "shy")):
+                    self.set_flag("fixed_portrait", self.show("portrait", "shy", **kwargs))
+            elif "shy" in args:
+                if self.has_image("portrait", "uncertain"):
+                    self.set_flag("fixed_portrait", self.show("portrait", "uncertain", **kwargs))
+            elif "uncertain" in args:
+                if self.has_image("portrait", "shy"):
+                    self.set_flag("fixed_portrait", self.show("portrait", "shy", **kwargs))
+            else: # most portraits will be replaced by indifferent
+                if self.has_image("portrait", "indifferent"):
+                    self.set_flag("fixed_portrait", self.show("portrait", "indifferent", **kwargs))
+
+        def show_portrait_overlay(self, s, mode="normal"):
+            self.say_screen_portrait_overlay_mode = s
+
+            if not s in self.UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS:
+                interactions_portraits_overlay.change(s, mode)
+
+        def hide_portrait_overlay(self):
+            interactions_portraits_overlay.change("default")
+            self.say_screen_portrait_overlay_mode = None
+
+        def restore_portrait(self):
+            self.say_screen_portrait_overlay_mode = None
+            self.del_flag("fixed_portrait")
+
+        def get_mood_tag(self):
+            """
+            This should return a tag that describe characters mood.
+            We do not have a proper mood flag system at the moment so this is currently determined by joy and
+            should be improved in the future.
+            """
+            # tags = list()
+            # if self.fatigue < 50:
+                # return "tired"
+            # if self.health < 15:
+                # return "hurt"
+            if self.joy > 75:
+                return "happy"
+            elif self.joy > 40:
+                return "indifferent"
+            else:
+                return "sad"
+
+        def select_image(self, *tags, **kwargs):
+            '''Returns the path to an image with the supplied tags or "".
+            '''
+            tagset = set(tags)
+            exclude = kwargs.get("exclude", None)
+
+            # search for images
+            imgset = tagdb.get_imgset_with_all_tags(tagset)
+            if exclude:
+                imgset = tagdb.remove_excluded_images(imgset, exclude)
+
+            # randomly select an image
+            if imgset:
+                return random.sample(imgset, 1)[0]
+            else:
+                return ""
+
+        def has_image(self, *tags, **kwargs):
+            """
+            Returns True if image is found.
+            exclude k/w argument (to exclude undesired tags) is expected to be a list.
+            """
+            tags = list(tags)
+            tags.append(self.id)
+            exclude = kwargs.get("exclude", None)
+
+            # search for images
+            if exclude:
+                imgset = tagdb.get_imgset_with_all_tags(tags)
+                imgset = tagdb.remove_excluded_images(imgset, exclude)
+            else:
+                imgset = tagdb.get_imgset_with_all_tags(tags)
+
+            return bool(imgset)
+
+        def show(self, *tags, **kwargs):
+            '''Returns an image with the supplied tags.
+
+            Under normal type of images lookup (default):
+            First tag is considered to be most important.
+            If no image with all tags is found,
+            game will look for a combination of first and any other tag from second to last.
+
+            Valid keyword arguments:
+                resize = (maxwidth, maxheight)
+                    Both dimensions are required
+                default = any object (recommended: a renpy image)
+                    If default is set and no image with the supplied tags could
+                    be found, the value of default is returned and a warning is
+                    printed to "devlog.txt".
+                cache = load image/tags to cache (can be used in screens language directly)
+                type = type of image lookup order (normal by default)
+                types:
+                     - normal = normal search behaviour, try all tags first, then first tag + one of each tags taken from the end of taglist
+                     - any = will try to find an image with any of the tags chosen at random
+                     - first_default = will use first tag as a default instead of a profile and only than switch to profile
+                     - reduce = try all tags first, if that fails, pop the last tag and try without it. Repeat until no tags remain and fall back to profile or default.
+                add_mood = Automatically adds proper mood tag. This will not work if a mood tag was specified on request OR this is set to False
+            '''
+            maxw, maxh = kwargs.get("resize", (None, None))
+            cache = kwargs.get("cache", False)
+            label_cache = kwargs.get("label_cache", False)
+            exclude = kwargs.get("exclude", None)
+            type = kwargs.get("type", "normal")
+            default = kwargs.get("default", None)
+
+            if "-" in tags[0]:
+                _path = "/".join([self.path_to_imgfolder, tags[0]])
+                if renpy.loadable(_path):
+                    return ProportionalScale(_path, maxw, maxh)
+                else:
+                    return ProportionalScale("content/gfx/interface/images/no_image.png", maxw, maxh)
+
+            add_mood = kwargs.get("add_mood", True) # Mood will never be checked in auto-mode when that is not sensible
+            if set(tags).intersection(self.MOOD_TAGS):
+                add_mood = False
+
+            pure_tags = list(tags)
+            tags = list(tags)
+            if add_mood:
+                mood_tag = self.get_mood_tag()
+                tags.append(mood_tag)
+            original_tags = tags[:]
+            imgpath = ""
+
+            if not any([maxw, maxh]):
+                raise Exception("Width or Height were not provided to an Image when calling .show method!\n Character id: {}; Action: {}; Tags: {}; Last Label: {}.".format(self.id, str(self.action), ", ".join(tags), str(last_label)))
+
+            if label_cache:
+                for entry in self.img_cache:
+                    if entry[0] == tags and entry[1] == last_label:
+                        return ProportionalScale(entry[2], maxw, maxh)
+
+            if cache:
+                for entry in self.cache:
+                    if entry[0] == tags:
+                         return ProportionalScale(entry[1], maxw, maxh)
+
+            # Select Image (set imgpath)
+            if type in ["normal", "first_default", "reduce"]:
+                if add_mood:
+                    imgpath = self.select_image(self.id, *tags, exclude=exclude)
+                if not imgpath:
+                    imgpath = self.select_image(self.id, *pure_tags, exclude=exclude)
+
+                if type in ["normal", "first_default"]:
+                    if not imgpath and len(pure_tags) > 1:
+                        tags = pure_tags[:]
+                        main_tag = tags.pop(0)
+                        while tags and not imgpath:
+                            descriptor_tag = tags.pop()
+
+                            # We will try mood tag on the last lookup as well, it can do no harm here:
+                            if not imgpath and add_mood:
+                                imgpath = self.select_image(main_tag, descriptor_tag, self.id, mood_tag, exclude=exclude)
+                            if not imgpath:
+                                imgpath = self.select_image(main_tag, descriptor_tag, self.id, exclude=exclude)
+                        tags = original_tags[:]
+
+                        if type == "first_default" and not imgpath: # In case we need to try first tag as default (instead of profile/default) and failed to find a path.
+                            if add_mood:
+                                imgpath = self.select_image(main_tag, self.id, mood_tag, exclude=exclude)
+                            else:
+                                imgpath = self.select_image(main_tag, self.id, exclude=exclude)
+
+                elif type == "reduce":
+                    if not imgpath:
+                        tags = pure_tags[:]
+                        while tags and not imgpath:
+                            # if len(tags) == 1: # We will try mood tag on the last lookup as well, it can do no harm here: # Resulted in Exceptions bacause mood_tag is not set properly... removed for now.
+                                # imgpath = self.select_image(self.id, tags[0], mood_tag, exclude=exclude)
+                            if not imgpath:
+                                imgpath = self.select_image(self.id, *tags, exclude=exclude)
+                            tags.pop()
+
+                        tags = original_tags[:]
+
+            elif type == "any":
+                tags = pure_tags[:]
+                shuffle(tags)
+                # Try with the mood first:
+                if add_mood:
+                    while tags and not imgpath:
+                        tag = tags.pop()
+                        imgpath = self.select_image(self.id, tag, mood_tag, exclude=exclude)
+                    tags = original_tags[:]
+                # Then try 'any' behavior without the mood:
+                if not imgpath:
+                    tags = pure_tags[:]
+                    shuffle(tags)
+                    while tags and not imgpath:
+                        tag = tags.pop()
+                        imgpath = self.select_image(self.id, tag, exclude=exclude)
+                    tags = original_tags[:]
+
+            if imgpath == "":
+                msg = "could not find image with tags %s"
+                if not default:
+                    # New rule (Default Battle Sprites):
+                    if "battle_sprite" in pure_tags:
+                        force_battle_sprite = True
+                    else:
+                        if add_mood:
+                            imgpath = self.select_image(self.id, 'profile', mood_tag)
+                        if not imgpath:
+                            imgpath = self.select_image(self.id, 'profile')
+                else:
+                    devlog.warning(str(msg % sorted(tags)))
+                    return default
+
+            # If we got here without being able to find an image ("profile" lookup failed is the only option):
+            if "force_battle_sprite" in locals(): # New rule (Default Battle Sprites):
+                imgpath = "content/gfx/images/" + "default_{}_battle_sprite.png".format(self.gender)
+            elif not imgpath:
+                devlog.warning(str("Total failure while looking for image with %s tags!!!" % tags))
+                imgpath = "content/gfx/interface/images/no_image.png"
+            else: # We have an image, time to convert it to full path.
+                imgpath = "/".join([self.path_to_imgfolder, imgpath])
+
+            if label_cache:
+                self.img_cache.append([tags, last_label, imgpath])
+
+            if cache:
+                self.cache.append([tags, imgpath])
+
+            return ProportionalScale(imgpath, maxw, maxh)
+
+        def get_img_from_cache(self, label):
+            """
+            Returns imgpath!!! from cache based on the label provided.
+            """
+            for entry in self.img_cache:
+                if entry[1] == label:
+                    return entry[2]
+
+            return ""
+
+        def get_vnsprite(self, mood=("indifferent")):
+            """
+            Returns VN sprite based on characters height.
+            Useful for random events that use NV sprites, heigth in unique events can be set manually.
+            ***This is mirrored in galleries testmode, this method is not acutally used.
+            """
+            return self.show("vnsprite", resize=self.get_sprite_size())
 
         # AP + Training ------------------------------------------------------------->
         def restore_ap(self):
@@ -4305,287 +4574,6 @@ init -9 python:
             elif self.disposition > 900:
                 return True
             return False
-
-        ### Displaying images
-        @property
-        def path_to_imgfolder(self):
-            if isinstance(self, rChar):
-                return rchars[self.id]["_path_to_imgfolder"]
-            else:
-                return self._path_to_imgfolder
-
-        def _portrait(self, st, at):
-            if self.flag("fixed_portrait"):
-                return self.flag("fixed_portrait"), None
-            else:
-                return self.show("portrait", self.get_mood_tag(), type="first_default", add_mood=False, cache=True, resize=(120, 120)), None
-
-        def override_portrait(self, *args, **kwargs):
-            kwargs["resize"] = kwargs.get("resize", (120, 120))
-            kwargs["cache"] = kwargs.get("cache", True)
-            if self.has_image(*args, **kwargs): # if we have the needed portrait, we just show it
-                self.set_flag("fixed_portrait", self.show(*args, **kwargs))
-            elif "confident" in args: # if not...
-                if self.has_image("portrait", "happy"): # then we replace some portraits with similar ones
-                    self.set_flag("fixed_portrait", self.show("portrait", "happy", **kwargs))
-                elif self.has_image("portrait", "indifferent"):
-                    self.set_flag("fixed_portrait", self.show("portrait", "indifferent", **kwargs))
-            elif "suggestive" in args:
-                if self.has_image("portrait", "shy"):
-                    self.set_flag("fixed_portrait", self.show("portrait", "shy", **kwargs))
-                elif self.has_image("portrait", "happy"):
-                    self.set_flag("fixed_portrait", self.show("portrait", "happy", **kwargs))
-            elif "ecstatic" in args:
-                if self.has_image("portrait", "happy"):
-                    self.set_flag("fixed_portrait", self.show("portrait", "happy", **kwargs))
-                elif self.set_flag("fixed_portrait", self.show("portrait", "shy")):
-                    self.set_flag("fixed_portrait", self.show("portrait", "shy", **kwargs))
-            elif "shy" in args:
-                if self.has_image("portrait", "uncertain"):
-                    self.set_flag("fixed_portrait", self.show("portrait", "uncertain", **kwargs))
-            elif "uncertain" in args:
-                if self.has_image("portrait", "shy"):
-                    self.set_flag("fixed_portrait", self.show("portrait", "shy", **kwargs))
-            else: # most portraits will be replaced by indifferent
-                if self.has_image("portrait", "indifferent"):
-                    self.set_flag("fixed_portrait", self.show("portrait", "indifferent", **kwargs))
-
-        def show_portrait_overlay(self, s, mode="normal"):
-            self.say_screen_portrait_overlay_mode = s
-
-            if not s in self.UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS:
-                interactions_portraits_overlay.change(s, mode)
-
-        def hide_portrait_overlay(self):
-            interactions_portraits_overlay.change("default")
-            self.say_screen_portrait_overlay_mode = None
-
-        def restore_portrait(self):
-            self.say_screen_portrait_overlay_mode = None
-            self.del_flag("fixed_portrait")
-
-        def get_mood_tag(self):
-            """
-            This should return a tag that describe characters mood.
-            We do not have a proper mood flag system at the moment so this is currently determined by joy and
-            should be improved in the future.
-            """
-            # tags = list()
-            # if self.fatigue < 50:
-                # return "tired"
-            # if self.health < 15:
-                # return "hurt"
-            if self.joy > 75:
-                return "happy"
-            elif self.joy > 40:
-                return "indifferent"
-            else:
-                return "sad"
-
-        def select_image(self, *tags, **kwargs):
-            '''Returns the path to an image with the supplied tags or "".
-            '''
-            tagset = set(tags)
-            exclude = kwargs.get("exclude", None)
-
-            # search for images
-            imgset = tagdb.get_imgset_with_all_tags(tagset)
-            if exclude:
-                imgset = tagdb.remove_excluded_images(imgset, exclude)
-
-            # randomly select an image
-            if imgset:
-                return random.sample(imgset, 1)[0]
-            else:
-                return ""
-
-        def has_image(self, *tags, **kwargs):
-            """
-            Returns True if image is found.
-            exclude k/w argument (to exclude undesired tags) is expected to be a list.
-            """
-            tags = list(tags)
-            tags.append(self.id)
-            exclude = kwargs.get("exclude", None)
-
-            # search for images
-            if exclude:
-                imgset = tagdb.get_imgset_with_all_tags(tags)
-                imgset = tagdb.remove_excluded_images(imgset, exclude)
-            else:
-                imgset = tagdb.get_imgset_with_all_tags(tags)
-
-            return bool(imgset)
-
-        def show(self, *tags, **kwargs):
-            '''Returns an image with the supplied tags.
-
-            Under normal type of images lookup (default):
-            First tag is considered to be most important.
-            If no image with all tags is found,
-            game will look for a combination of first and any other tag from second to last.
-
-            Valid keyword arguments:
-                resize = (maxwidth, maxheight)
-                    Both dimensions are required
-                default = any object (recommended: a renpy image)
-                    If default is set and no image with the supplied tags could
-                    be found, the value of default is returned and a warning is
-                    printed to "devlog.txt".
-                cache = load image/tags to cache (can be used in screens language directly)
-                type = type of image lookup order (normal by default)
-                types:
-                     - normal = normal search behaviour, try all tags first, then first tag + one of each tags taken from the end of taglist
-                     - any = will try to find an image with any of the tags chosen at random
-                     - first_default = will use first tag as a default instead of a profile and only than switch to profile
-                     - reduce = try all tags first, if that fails, pop the last tag and try without it. Repeat until no tags remain and fall back to profile or default.
-                add_mood = Automatically adds proper mood tag. This will not work if a mood tag was specified on request OR this is set to False
-            '''
-            maxw, maxh = kwargs.get("resize", (None, None))
-            cache = kwargs.get("cache", False)
-            label_cache = kwargs.get("label_cache", False)
-            exclude = kwargs.get("exclude", None)
-            type = kwargs.get("type", "normal")
-            default = kwargs.get("default", None)
-
-            if "-" in tags[0]:
-                _path = "/".join([self.path_to_imgfolder, tags[0]])
-                if renpy.loadable(_path):
-                    return ProportionalScale(_path, maxw, maxh)
-                else:
-                    return ProportionalScale("content/gfx/interface/images/no_image.png", maxw, maxh)
-
-            add_mood = kwargs.get("add_mood", True) # Mood will never be checked in auto-mode when that is not sensible
-            if set(tags).intersection(self.MOOD_TAGS):
-                add_mood = False
-
-            pure_tags = list(tags)
-            tags = list(tags)
-            if add_mood:
-                mood_tag = self.get_mood_tag()
-                tags.append(mood_tag)
-            original_tags = tags[:]
-            imgpath = ""
-
-            if not any([maxw, maxh]):
-                raise Exception("Width or Height were not provided to an Image when calling .show method!\n Character id: {}; Action: {}; Tags: {}; Last Label: {}.".format(self.id, str(self.action), ", ".join(tags), str(last_label)))
-
-            if label_cache:
-                for entry in self.img_cache:
-                    if entry[0] == tags and entry[1] == last_label:
-                        return ProportionalScale(entry[2], maxw, maxh)
-
-            if cache:
-                for entry in self.cache:
-                    if entry[0] == tags:
-                         return ProportionalScale(entry[1], maxw, maxh)
-
-            # Select Image (set imgpath)
-            if type in ["normal", "first_default", "reduce"]:
-                if add_mood:
-                    imgpath = self.select_image(self.id, *tags, exclude=exclude)
-                if not imgpath:
-                    imgpath = self.select_image(self.id, *pure_tags, exclude=exclude)
-
-                if type in ["normal", "first_default"]:
-                    if not imgpath and len(pure_tags) > 1:
-                        tags = pure_tags[:]
-                        main_tag = tags.pop(0)
-                        while tags and not imgpath:
-                            descriptor_tag = tags.pop()
-
-                            # We will try mood tag on the last lookup as well, it can do no harm here:
-                            if not imgpath and add_mood:
-                                imgpath = self.select_image(main_tag, descriptor_tag, self.id, mood_tag, exclude=exclude)
-                            if not imgpath:
-                                imgpath = self.select_image(main_tag, descriptor_tag, self.id, exclude=exclude)
-                        tags = original_tags[:]
-
-                        if type == "first_default" and not imgpath: # In case we need to try first tag as default (instead of profile/default) and failed to find a path.
-                            if add_mood:
-                                imgpath = self.select_image(main_tag, self.id, mood_tag, exclude=exclude)
-                            else:
-                                imgpath = self.select_image(main_tag, self.id, exclude=exclude)
-
-                elif type == "reduce":
-                    if not imgpath:
-                        tags = pure_tags[:]
-                        while tags and not imgpath:
-                            # if len(tags) == 1: # We will try mood tag on the last lookup as well, it can do no harm here: # Resulted in Exceptions bacause mood_tag is not set properly... removed for now.
-                                # imgpath = self.select_image(self.id, tags[0], mood_tag, exclude=exclude)
-                            if not imgpath:
-                                imgpath = self.select_image(self.id, *tags, exclude=exclude)
-                            tags.pop()
-
-                        tags = original_tags[:]
-
-            elif type == "any":
-                tags = pure_tags[:]
-                shuffle(tags)
-                # Try with the mood first:
-                if add_mood:
-                    while tags and not imgpath:
-                        tag = tags.pop()
-                        imgpath = self.select_image(self.id, tag, mood_tag, exclude=exclude)
-                    tags = original_tags[:]
-                # Then try 'any' behavior without the mood:
-                if not imgpath:
-                    tags = pure_tags[:]
-                    shuffle(tags)
-                    while tags and not imgpath:
-                        tag = tags.pop()
-                        imgpath = self.select_image(self.id, tag, exclude=exclude)
-                    tags = original_tags[:]
-
-            if imgpath == "":
-                msg = "could not find image with tags %s"
-                if not default:
-                    # New rule (Default Battle Sprites):
-                    if "battle_sprite" in pure_tags:
-                        force_battle_sprite = True
-                    else:
-                        if add_mood:
-                            imgpath = self.select_image(self.id, 'profile', mood_tag)
-                        if not imgpath:
-                            imgpath = self.select_image(self.id, 'profile')
-                else:
-                    devlog.warning(str(msg % sorted(tags)))
-                    return default
-
-            # If we got here without being able to find an image ("profile" lookup failed is the only option):
-            if "force_battle_sprite" in locals(): # New rule (Default Battle Sprites):
-                imgpath = "content/gfx/images/" + "default_{}_battle_sprite.png".format(self.gender)
-            elif not imgpath:
-                devlog.warning(str("Total failure while looking for image with %s tags!!!" % tags))
-                imgpath = "content/gfx/interface/images/no_image.png"
-            else: # We have an image, time to convert it to full path.
-                imgpath = "/".join([self.path_to_imgfolder, imgpath])
-
-            if label_cache:
-                self.img_cache.append([tags, last_label, imgpath])
-
-            if cache:
-                self.cache.append([tags, imgpath])
-
-            return ProportionalScale(imgpath, maxw, maxh)
-
-        def get_img_from_cache(self, label):
-            """
-            Returns imgpath!!! from cache based on the label provided.
-            """
-            for entry in self.img_cache:
-                if entry[1] == label:
-                    return entry[2]
-
-            return ""
-
-        def get_vnsprite(self, mood=("indifferent")):
-            """
-            Returns VN sprite based on characters height.
-            Useful for random events that use NV sprites, heigth in unique events can be set manually.
-            ***This is mirrored in galleries testmode, this method is not acutally used.
-            """
-            return self.show("vnsprite", resize=self.get_sprite_size())
 
         ### Next Day Methods
         def restore(self):
