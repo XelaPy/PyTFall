@@ -324,7 +324,7 @@ label dev_testing_menu_and_load_mc:
 
                 hero._path_to_imgfolder = af._path_to_imgfolder
                 hero.id = af.id
-                hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(120, 120)))
+                hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", exclude=["indoors"], resize=(120, 120)))
                 hero.restore_ap()
                 hero.log_stats()
     else:
