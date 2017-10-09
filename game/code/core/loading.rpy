@@ -418,6 +418,10 @@ init -11 python:
         male_fighters = {}
         female_fighters = {}
         json_fighters = {}
+        json_data_raw = json.load(renpy.file("content/db/arena_fighters.json"))
+        json_data = {}
+        for i in json_data_raw:
+            json_data[i["name"]] = i["basetraits"]
 
         tagdb = store.tagdb
         tags_dict = store.tags_dict
@@ -443,7 +447,7 @@ init -11 python:
                 id = split[-2]
                 img_db.setdefault(id, []).append(split[-1])
                 path_db[id] = "/".join(split[:-1])
-                gender_db[id] = None
+                gender_db[id] = "JSON"
 
         for id, images in img_db.items():
             path = path_db[id]
@@ -466,7 +470,9 @@ init -11 python:
 
             elements = [traits["Neutral"]]
             random_traits = ["Courageous", "Aggressive", "Vicious"]
-            if "assassins" in path:
+            if gender == "JSON":
+                base = [traits[t] for t in json_data[id]]
+            elif "assassins" in path:
                 base = [traits["Assassin"]]
             elif "healers" in path:
                 base = [traits["Healer"]]
@@ -510,8 +516,9 @@ init -11 python:
                 fighter.gender = "male"
                 fighter.name = fighter.fullname = fighter.nickname = id
                 male_fighters[id] = fighter
-            else: # None for JSON adjusted
+            else: # JSON adjusted
                 fighter.id = id
+                fighter.name = fighter.fullname = fighter.nickname = id
                 json_fighters[id] = fighter
 
             for t in random.sample(base, min(2, len(base))):
