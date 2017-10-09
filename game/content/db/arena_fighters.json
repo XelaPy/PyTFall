@@ -1,62 +1,50 @@
 [
 {
 "name": "Uesugi Kenshin",
-"level": 50,
 "basetraits": ["Knight"]
 },
 {
 "name": "Uesugi Torako",
-"level": 50,
 "basetraits": ["Assassin", "Mage"]
 },
 {
 "name": "Uesugi Katsuko",
-"level": 50,
 "basetraits": ["Warrior"]
 },
 {
 "name": "Masou Shizuka",
-"level": 70,
 "basetraits": ["Mage"]
 },
 {
 "name": "Maria Custard",
-"level": 70,
 "basetraits": ["Shooter"]
 },
 {
 "name": "EVA-Beatrice",
-"level": 70,
 "basetraits": ["Mage"]
 },
 {
 "name": "Siesta 410",
-"level": 80,
 "basetraits": ["Mage"]
 },
 {
 "name": "Siesta 45",
-"level": 80,
 "basetraits": ["Healer"]
 },
 {
 "name": "Shishio Makoto",
-"level": 100,
 "basetraits": ["Assassin"]
 },
 {
 "name": "Sion Eltnam Atlasia",
-"level": 90,
 "basetraits": ["Mage"]
 },
 {
 "name": "Yumizuka Satsuki",
-"level": 90,
 "basetraits": ["Mage"]
 },
 {
 "name": "Riesbyfe Stridberg",
-"level": 90,
 "basetraits": ["Knight", "Warrior"]
 }
 ]
