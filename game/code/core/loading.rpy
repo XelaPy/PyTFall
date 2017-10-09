@@ -54,24 +54,6 @@ init -11 python:
             rn = json.load(f)
         return random.sample(rn, amount)
 
-    def load_mc_images():
-        dir = content_path("npc/arena_males")
-        dirlist = os.listdir(dir)
-        content = OrderedDict()
-
-        for folder in dirlist:
-            content[folder] = dict()
-            for file in os.listdir('/'.join([dir, folder])):
-                tag = file.split(" ")[0]
-                path = '/'.join(["content/gfx/sprites/mc", folder, file])
-                if tag in content[folder]:
-                    content[folder][tag].append(path)
-                else:
-                    content[folder][tag] = list()
-                    content[folder][tag].append(path)
-
-        return content
-
     def load_characters(path, cls):
         """Loads a Full character from JSON file.
 

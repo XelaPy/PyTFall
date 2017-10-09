@@ -300,12 +300,6 @@ label dev_testing_menu_and_load_mc:
         python:
             if not hasattr(store, "neow"):
                 renpy.music.stop()
-                mc_pics = load_mc_images()
-                picbase = choice(mc_pics.keys())
-                hero.img_db = mc_pics[picbase]
-                del mc_pics[picbase]
-                af_pics = mc_pics
-                del mc_pics
 
                 male_fighters, female_fighters, json_fighters = load_special_arena_fighters()
                 af = choice(male_fighters.values())
