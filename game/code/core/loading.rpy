@@ -55,7 +55,7 @@ init -11 python:
         return random.sample(rn, amount)
 
     def load_mc_images():
-        dir = content_path("gfx/sprites/mc")
+        dir = content_path("npc/arena_males")
         dirlist = os.listdir(dir)
         content = OrderedDict()
 
@@ -413,6 +413,112 @@ init -11 python:
                                     tagdb.tagmap.setdefault(folder, set()).add(fn)
 
         return random_girls
+
+    def load_special_arena_fighters():
+        male_fighters = {}
+        female_fighters = {}
+        json_fighters = {} # TODO
+        fighters = []
+
+        tagdb = store.tagdb
+        tags_dict = store.tags_dict
+
+        img_db = {}
+        path_db = {}
+        gender_db = {}
+        for fn in renpy.list_files():
+            if "content/npc/arena_males" in fn and fn.lower().endswith(IMAGE_EXTENSIONS):
+                split = fn.split("/")
+                id = split[-2]
+                img_db.setdefault(id, []).append(split[-1])
+                path_db[id] = "/".join(split[:-1])
+                gender_db[id] = "male"
+            elif "content/npc/arena_females" in fn and fn.lower().endswith(IMAGE_EXTENSIONS):
+                split = fn.split("/")
+                id = split[-2]
+                img_db.setdefault(id, []).append(split[-1])
+                path_db[id] = "/".join(split[:-1])
+                gender_db[id] = "female"
+
+        for id, images in img_db.items():
+            path = path_db[id]
+            gender = gender_db[id]
+            for fn in images:
+                rp_path = "/".join([path, fn])
+                tags = fn.split("-")
+                # TODO: REMOVE TRY BEFORE BUILDING THE GAME! MAY SLOW THINGS DOWN!
+                try:
+                    del tags[0]
+                    tags[-1] = tags[-1].split(".")[0]
+                except IndexError:
+                    raise Exception("Invalid file path for image: %s" % rp_path)
+                for tag in tags:
+                    if tag not in tags_dict:
+                        raise Exception("Unknown image tag: %s, path: %s" % (tag, rp_path))
+                    tagdb.tagmap[tags_dict[tag]].add(fn)
+                # Adding filenames to girls id:
+                tagdb.tagmap.setdefault(id, set()).add(fn)
+
+            elements = [traits["Neutral"]]
+            random_traits = ["Courageous", "Aggressive", "Vicious"]
+            if "assassins" in path:
+                base = [traits["Assassin"]]
+            elif "healers" in path:
+                base = [traits["Healer"]]
+                if dice(25):
+                    base.append(traits["Mage"])
+                elements = [traits["Light"]]
+            elif "knights" in path:
+                base = [traits["Knight"]]
+                if dice(25):
+                    base.append(traits["Assassin"])
+                if dice(25):
+                    base.append(traits["Mage"])
+            elif "mages" in path:
+                base = [traits["Mage"]]
+                elements = tgs.elemental
+            elif "maids" in path:
+                base = [traits["Warrior"]]
+                if dice(25): # ???
+                    base.append(traits["Maid"])
+            elif "shooters" in path:
+                base = [traits["Shooter"]]
+                if dice(25):
+                    base.append(traits["Assassin"])
+                if dice(25):
+                    base.append(traits["Mage"])
+            elif "warriors" in path:
+                base = [traits["Warrior"]]
+            else:
+                base = [traits["Warrior"]]
+
+            fighter = NPC()
+            fighter._path_to_imgfolder = path
+            fighter.id = id
+            if gender == "female":
+                fighter.name = get_first_name()
+                fighter.gender == "female"
+                fighter.fullname = " ".join([fighter.name, get_last_name()])
+                fighter.nickname = fighter.name
+            else:
+                fighter.gender = "male"
+                fighter.name = fighter.fullname = fighter.nickname = id
+
+            for t in random.sample(base, min(2, len(base))):
+                fighter.traits.basetraits.add(t)
+                fighter.apply_trait(t)
+
+            for e in random.sample(elements, max(1, len(elements)-randint(0, 7))):
+                fighter.apply_trait(e)
+
+            random_traits = [traits[t] for t in random_traits]
+            for e in random.sample(random_traits, max(1, randint(1, len(random_traits)))):
+                fighter.apply_trait(e)
+
+            fighter.init()
+            fighters.append(fighter)
+
+        return fighters
 
     def load_arena_fighters():
         in_file = content_path("db/arena_fighters.json")

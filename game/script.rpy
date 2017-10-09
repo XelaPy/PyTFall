@@ -166,7 +166,7 @@
             tagdb.tagmap[tag] = set()
         tl.timer("Loading: All Characters!")
         chars = load_characters("chars", Char)
-        npcs = load_characters("new_npcs", NPC)
+        npcs = load_characters("npc", NPC)
         # Trying to load crazy characters:
         crazy_chars = load_crazy_characters()
         chars.update(crazy_chars)
@@ -317,6 +317,13 @@ label dev_testing_menu_and_load_mc:
                 del mc_pics[picbase]
                 af_pics = mc_pics
                 del mc_pics
+
+                arena_fighters = load_special_arena_fighters()
+                af = choice([f for f in arena_fighters if f.gender == "male"])
+                arena_fighters.remove(af)
+
+                hero._path_to_imgfolder = af._path_to_imgfolder
+                hero.id = af.id
                 hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(120, 120)))
                 hero.restore_ap()
                 hero.log_stats()

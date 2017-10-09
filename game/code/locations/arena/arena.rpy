@@ -745,92 +745,93 @@ init -9 python:
                         self.teams_3v3.append(a_team)
 
         def load_special_arena_fighters(self):
-            fighters = []
-            tagdb = store.tagdb
-            tags_dict = store.tags_dict
-
-            img_db = {}
-            path_db = {}
-            for fn in renpy.list_files():
-                if "content/new_npcs/arena" in fn and fn.lower().endswith(IMAGE_EXTENSIONS):
-                    split = fn.split("/")
-                    id = split[-2]
-                    img_db.setdefault(id, []).append(split[-1])
-                    path_db[id] = "/".join(split[:-1])
-
-            for id, images in img_db.items():
-                path = path_db[id]
-                for fn in images:
-                    rp_path = "/".join([path, fn])
-                    tags = fn.split("-")
-                    # TODO: REMOVE TRY BEFORE BUILDING THE GAME! MAY SLOW THINGS DOWN!
-                    try:
-                        del tags[0]
-                        tags[-1] = tags[-1].split(".")[0]
-                    except IndexError:
-                        raise Exception("Invalid file path for image: %s" % rp_path)
-                    for tag in tags:
-                        if tag not in tags_dict:
-                            raise Exception("Unknown image tag: %s, path: %s" % (tag, rp_path))
-                        tagdb.tagmap[tags_dict[tag]].add(fn)
-                    # Adding filenames to girls id:
-                    tagdb.tagmap.setdefault(id, set()).add(fn)
-
-                elements = [traits["Neutral"]]
-                random_traits = ["Courageous", "Aggressive", "Vicious"]
-                if "assassins" in path:
-                    base = [traits["Assassin"]]
-                elif "healers" in path:
-                    base = [traits["Healer"]]
-                    if dice(25):
-                        base.append(traits["Mage"])
-                    elements = [traits["Light"]]
-                elif "knights" in path:
-                    base = [traits["Knight"]]
-                    if dice(25):
-                        base.append(traits["Assassin"])
-                    if dice(25):
-                        base.append(traits["Mage"])
-                elif "mages" in path:
-                    base = [traits["Mage"]]
-                    elements = tgs.elemental
-                elif "maids" in path:
-                    base = [traits["Warrior"]]
-                    if dice(25): # ???
-                        base.append(traits["Maid"])
-                elif "shooters" in path:
-                    base = [traits["Shooter"]]
-                    if dice(25):
-                        base.append(traits["Assassin"])
-                    if dice(25):
-                        base.append(traits["Mage"])
-                elif "warriors" in path:
-                    base = [traits["Warrior"]]
-                else:
-                    base = [traits["Warrior"]]
-
-                rg = NPC()
-                rg._path_to_imgfolder = path
-                rg.id = id
-                rg.name = get_first_name()
-                rg.fullname = " ".join([rg.name, get_last_name()])
-                rg.nickname = rg.name
-
-                for t in random.sample(base, min(2, len(base))):
-                    rg.traits.basetraits.add(t)
-                    rg.apply_trait(t)
-
-                for e in random.sample(elements, max(1, len(elements)-randint(0, 7))):
-                    rg.apply_trait(e)
-
-                random_traits = [traits[t] for t in random_traits]
-                for e in random.sample(random_traits, max(1, randint(1, len(random_traits)))):
-                    rg.apply_trait(e)
-
-                rg.init()
-                fighters.append(rg)
-
-            return fighters
+            return [] # TODO
+            # fighters = []
+            # tagdb = store.tagdb
+            # tags_dict = store.tags_dict
+            #
+            # img_db = {}
+            # path_db = {}
+            # for fn in renpy.list_files():
+            #     if "content/new_npcs/arena" in fn and fn.lower().endswith(IMAGE_EXTENSIONS):
+            #         split = fn.split("/")
+            #         id = split[-2]
+            #         img_db.setdefault(id, []).append(split[-1])
+            #         path_db[id] = "/".join(split[:-1])
+            #
+            # for id, images in img_db.items():
+            #     path = path_db[id]
+            #     for fn in images:
+            #         rp_path = "/".join([path, fn])
+            #         tags = fn.split("-")
+            #         # TODO: REMOVE TRY BEFORE BUILDING THE GAME! MAY SLOW THINGS DOWN!
+            #         try:
+            #             del tags[0]
+            #             tags[-1] = tags[-1].split(".")[0]
+            #         except IndexError:
+            #             raise Exception("Invalid file path for image: %s" % rp_path)
+            #         for tag in tags:
+            #             if tag not in tags_dict:
+            #                 raise Exception("Unknown image tag: %s, path: %s" % (tag, rp_path))
+            #             tagdb.tagmap[tags_dict[tag]].add(fn)
+            #         # Adding filenames to girls id:
+            #         tagdb.tagmap.setdefault(id, set()).add(fn)
+            #
+            #     elements = [traits["Neutral"]]
+            #     random_traits = ["Courageous", "Aggressive", "Vicious"]
+            #     if "assassins" in path:
+            #         base = [traits["Assassin"]]
+            #     elif "healers" in path:
+            #         base = [traits["Healer"]]
+            #         if dice(25):
+            #             base.append(traits["Mage"])
+            #         elements = [traits["Light"]]
+            #     elif "knights" in path:
+            #         base = [traits["Knight"]]
+            #         if dice(25):
+            #             base.append(traits["Assassin"])
+            #         if dice(25):
+            #             base.append(traits["Mage"])
+            #     elif "mages" in path:
+            #         base = [traits["Mage"]]
+            #         elements = tgs.elemental
+            #     elif "maids" in path:
+            #         base = [traits["Warrior"]]
+            #         if dice(25): # ???
+            #             base.append(traits["Maid"])
+            #     elif "shooters" in path:
+            #         base = [traits["Shooter"]]
+            #         if dice(25):
+            #             base.append(traits["Assassin"])
+            #         if dice(25):
+            #             base.append(traits["Mage"])
+            #     elif "warriors" in path:
+            #         base = [traits["Warrior"]]
+            #     else:
+            #         base = [traits["Warrior"]]
+            #
+            #     rg = NPC()
+            #     rg._path_to_imgfolder = path
+            #     rg.id = id
+            #     rg.name = get_first_name()
+            #     rg.fullname = " ".join([rg.name, get_last_name()])
+            #     rg.nickname = rg.name
+            #
+            #     for t in random.sample(base, min(2, len(base))):
+            #         rg.traits.basetraits.add(t)
+            #         rg.apply_trait(t)
+            #
+            #     for e in random.sample(elements, max(1, len(elements)-randint(0, 7))):
+            #         rg.apply_trait(e)
+            #
+            #     random_traits = [traits[t] for t in random_traits]
+            #     for e in random.sample(random_traits, max(1, randint(1, len(random_traits)))):
+            #         rg.apply_trait(e)
+            #
+            #     rg.init()
+            #     fighters.append(rg)
+            #
+            # return fighters
             # print(img_db)
 
         def setup_arena(self):
