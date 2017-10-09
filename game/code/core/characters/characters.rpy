@@ -3770,67 +3770,6 @@ init -9 python:
                 self.log_stats()
 
 
-    class ArenaFighter(PytCharacter):
-        """
-        Base class for Custom Arena fighters.
-        """
-        def __init__(self):
-            super(ArenaFighter, self).__init__(arena=True, inventory=True, effects=True)
-
-            # Basic Images:
-            self.img_db = dict()
-            self.cache = list()
-
-            self.unique = True
-
-        # def show(self, tag, resize=(None, None), cache=True):
-        #     if tag == "battle":
-        #         tag = "combat"
-        #     if tag == "fighting":
-        #         tag = "combat"
-        #     if cache:
-        #         for entry in self.cache:
-        #             if entry[0] == tag:
-        #                 return ProportionalScale(entry[1], resize[0], resize[1])
-        #
-        #     if tag in self.img_db:
-        #         path = choice(self.img_db[tag])
-        #     else:
-        #         path = choice(self.img_db["battle_sprite"])
-        #
-        #     if cache:
-        #         self.cache.append([tag, path])
-        #
-        #     img = ProportionalScale(path, resize[0], resize[1])
-        #
-        #     return img
-
-        def restore_ap(self):
-            self.AP = self.baseAP + int(self.constitution / 20)
-
-        def init(self):
-            # Normalize character
-            if not self.fullname:
-                self.fullname = self.name
-            if not self.nickname:
-                self.nickname = self.name
-
-            self.set_status("free")
-
-            if not self.traits.basetraits:
-                self.traits.basetraits.add(traits["Warrior"])
-                self.apply_trait(traits["Warrior"])
-
-            self.arena_willing = True # Indicates the desire to fight in the Arena
-            self.arena_permit = True # Has a permit to fight in main events of the arena.
-            self.arena_active = True # Indicates that girl fights at Arena at the time.
-            if self.unique:
-                self.arena_active = False # Indicates that char fights at Arena at the time.
-
-            # add Character:
-            super(ArenaFighter, self).init()
-
-
     class Mob(PytCharacter):
         """
         I will use ArenaFighter for this until there is a reason not to...

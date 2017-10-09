@@ -76,7 +76,7 @@ init -9 python:
                 char.effects['Food Poisoning']['activation_count'] = 0
 
             # Same for Arena Fighters:
-            for fighter in pytfall.arena.arena_fighters:
+            for fighter in pytfall.arena.arena_fighters.values():
                 fighter.cache = list()
                 fighter.health = fighter.get_max("health")
                 fighter.mp = fighter.get_max("mp")

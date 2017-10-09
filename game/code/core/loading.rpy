@@ -529,43 +529,6 @@ init -11 python:
 
         return male_fighters, female_fighters, json_fighters
 
-    def load_arena_fighters():
-        in_file = content_path("db/arena_fighters.json")
-        with open(in_file) as f:
-            content = json.load(f)
-        jsstor.add("arena_fighters", content, in_file)
-        ac = dict()
-        for fighter in content:
-            f = ArenaFighter()
-            # statz:
-            for stat in ilists.battlestats:
-                f.stats.max[stat] = 500
-                f.stats.lvl_max[stat] = 500
-            for attr in fighter:
-                # Right now this works off stats so exp does almost nothing.
-                if attr == "stats":
-                    stats = fighter[attr]
-                elif attr == "exp":
-                    f.stats.exp + fighter[attr]
-                else:
-                    f.__dict__[attr] = fighter[attr]
-            for stat in stats:
-                f.mod_stat(stat, fighter["stats"][stat])
-            # Get da picz:
-            dir = content_path("npc/arena")
-            for file in os.listdir("/".join([dir, f.name])):
-                tag = file.split(" ")[0]
-                path = '/'.join([dir, f.name, file])
-                if tag in f.img_db:
-                    f.img_db[tag].append(path)
-                else:
-                    f.img_db[tag] = list()
-                    f.img_db[tag].append(path)
-
-            f.init()
-            ac[f.name] = f
-        return ac
-
     def load_mobs():
         in_file = content_path("db/mobs.json")
         mobs = dict()
