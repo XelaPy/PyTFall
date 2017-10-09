@@ -110,7 +110,8 @@ init -9 python:
 
             return fighters
 
-        def get_arena_fighters(self, include_hero_girls=False, include_af=True, exclude_matches=False):
+        def get_arena_fighters(self, include_hero_girls=False, include_af=True,
+                                     exclude_matches=False):
             '''
             Returns all fighters active at the arena.
             hero = true will include all girls in heros employment as well.
@@ -139,7 +140,7 @@ init -9 python:
 
             return fighters
 
-        def get_arena_candidates(self):
+        def get_arena_candidates_from_chars(self):
             '''
             Returns a list of all characters available/willing to fight in the Arena.
             Excludes all girls participating in girl_meets to avoid them being at multiple locations (this needs better handling)
@@ -265,7 +266,7 @@ init -9 python:
             If members are removed from teams directly, it is up to the respective method to find a replacement...
             '''
             if len(self.teams_2v2) < 30:
-                candidates = self.get_arena_candidates()
+                candidates = self.get_arena_candidates_from_chars()
                 inteams_2v2 = self.get_teams_fighters(teams="2v2")
                 templist = [fighter for fighter in candidates if fighter not in inteams_2v2]
                 shuffle(templist)
@@ -279,7 +280,7 @@ init -9 python:
                         self.teams_2v2.append(team)
 
             if len(self.teams_3v3) < 30:
-                candidates = self.get_arena_candidates()
+                candidates = self.get_arena_candidates_from_chars()
                 inteams_3v3 = self.get_teams_fighters(teams="3v3")
                 templist = [fighter for fighter in candidates if fighter not in inteams_3v3]
                 shuffle(templist)
@@ -300,7 +301,7 @@ init -9 python:
             """
             # 1v1
             if len(self.dogfights_1v1) < 20:
-                candidates = self.get_arena_candidates()
+                candidates = self.get_arena_candidates_from_chars()
                 lineups = self.get_lineups_fighters(lineup="1v1")
                 templist = [fighter for fighter in candidates if fighter not in lineups]
                 shuffle(templist)
@@ -838,7 +839,7 @@ init -9 python:
             self.load_special_presets()
 
             # Loading rest of Arena Combatants:
-            candidates = self.get_arena_candidates()
+            candidates = self.get_arena_candidates_from_chars()
             # This is also a suspect, TODO: Check if this needs updating to new basetraits format
             for fighter in self.pure_arena_fighters.values():
                 if fighter.unique and fighter.arena_active:
