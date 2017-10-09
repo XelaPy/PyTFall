@@ -361,7 +361,7 @@
     "max": {"defence": 15, "agility": 15},
     "mod": {"defence": 10, "agility": 10, "magic": -10},
     "evasion_bonus": 4,
-    "locations": ["Work Shop"],
+    "locations": ["Work Shop", "Arena"],
     "addeffects": ["Revealing Clothes"],
     "goodtraits": ["Manly"],
     "tier": 0,
@@ -384,7 +384,7 @@
     "max": {"defence": 40, "attack": 10, "agility": -15},
     "mod": {"defence": 45, "constitution": 5, "agility": -20, "magic": -40},
     "defence_bonus": {"melee": 20},
-    "locations": ["Work Shop"],
+    "locations": ["Work Shop", "Arena"],
     "tier": 1,
     "pref_class":["Warrior"]
     },
@@ -404,7 +404,7 @@
     "max": {"defence": 65, "attack": 5},
     "mod": {"magic": -30, "defence": 50},
     "defence_bonus": {"ranged": 20, "melee": 20},
-    "locations": ["Work Shop", "Exploration"],
+    "locations": ["Work Shop", "Exploration", "Arena"],
     "tier": 1,
     "pref_class":["Warrior", "Shooter"]
     },
@@ -425,7 +425,7 @@
     "max": {"defence": 70, "agility": 35},
     "mod": {"agility": 10, "defence": 60},
     "defence_bonus": {"ranged": 30, "melee": 30},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena", "Arena"],
     "tier": 2,
     "pref_class":["Warrior", "Shooter"]
     },
@@ -446,7 +446,7 @@
     "mod": {"agility": 10, "defence": 80},
     "defence_bonus": {"ranged": 40, "magic": 60},
     "evasion_bonus": 5,
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "pref_class":["Warrior", "Mage", "Shooter"]
     },
@@ -466,7 +466,7 @@
     "evasion_bonus": 6,
     "max": {"defence": 60, "agility": 25},
     "mod": {"attack": 15, "defence": 40, "character": 15, "agility": -20, "magic": -20},
-    "locations": ["Work Shop", "Exploration"],
+    "locations": ["Work Shop", "Exploration", "Arena"],
     "defence_bonus": {"ranged": 15, "melee": 15},
     "addeffects": ["Revealing Clothes"],
     "badtraits": ["Shy"],
@@ -539,7 +539,7 @@
     "evasion_bonus": 3,
     "addeffects": ["Revealing Clothes"],
     "defence_bonus": {"magic": 30, "melee": 30},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Not Human"],
     "tier": 4,
     "pref_class":["Warrior"]
@@ -562,7 +562,7 @@
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "defence_bonus": {"magic": 30, "melee": 30},
     "evasion_bonus": 3,
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 4
     },
     {
@@ -584,7 +584,7 @@
     "addeffects": ["Revealing Clothes"],
     "evasion_bonus": 5,
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Not Human"],
     "tier": 4,
     "pref_class":["Shooter"]
@@ -608,7 +608,7 @@
     "evasion_bonus": 1,
     "addeffects": ["Revealing Clothes"],
     "defence_bonus": {"magic": 60},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Not Human"],
     "tier": 4,
     "pref_class":["Mage"]
@@ -634,7 +634,7 @@
     "delivery_multiplier": {"status": 0.2},
     "defence_bonus": {"ranged": 15, "melee": 20},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
-    "locations": ["Exploration", "Ninja Shop"],
+    "locations": ["Exploration", "Ninja Shop", "Arena"],
     "goodtraits": [],
     "tier": 4,
     "pref_class":["Assassin"]
@@ -800,7 +800,7 @@
     "defence_multiplier": {"magic": 0.15},
     "delivery_multiplier": {"magic": 0.15},
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "dancing": [0.01, 0, 0.01, 0, 0]},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Alien"],
     "tier": 4,
     "pref_class":["Mage"]
@@ -823,7 +823,7 @@
     "mod": {"constitution": 30, "defence": 90, "agility": -20, "magic": -50},
     "defence_multiplier": {"melee": 0.3, "ranged": 0.3, "status": -0.5},
     "mod_skills": {"refinement": [0, 0, -0.3, 0, 0], "dancing": [0, 0, -0.3, 0, 0], "waiting": [0, 0, -0.3, 0, 0], "bartending": [0, 0, -0.3, 0, 0]},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "pref_class":["Warrior"]
     },
@@ -864,7 +864,7 @@
     "type": "armor",
     "max": {"mp": 30, "magic": 60, "agility": -40, "attack": -50, "defence": 60},
     "mod": {"magic": 40, "constitution": 15, "defence": 40, "attack": -15},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 2,
     "pref_class":["Mage"]
     },
@@ -884,7 +884,7 @@
     "max": {"charisma": -50},
     "mod": {"agility": -30, "attack": -40, "defence": -40},
     "mod_skills": {"strip": [0, 0, -0.5, 0, 0], "refinement": [0, 0, -0.5, 0, 0], "management": [0, 0, -0.5, 0, 0], "teaching": [0, 0, -0.5, 0, 0], "exploration": [0, 0, -0.5, 0, 0], "vaginal": [0.05, 0.05, 0.2, 0, 0], "group": [0.05, 0.05, 0.2, 0, 0], "anal": [0.05, 0.05, 0.2, 0, 0], "oral": [0.05, 0.05, 0.2, 0, 0], "sex": [0.05, 0.05, 0.2, 0, 0]},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Nymphomaniac"],
     "badtraits": ["Frigid"],
     "tier": 2,
@@ -908,7 +908,7 @@
     "mod_skills": {"strip": [0, 0, 0.01, 0, 0], "vaginal": [0, 0, 0.01, 0, 0], "group": [0, 0, 0.01, 0, 0], "anal": [0, 0, 0.01, 0, 0], "oral": [0, 0, 0.01, 0, 0], "bdsm": [0, 0, 0.01, 0, 0], "sex": [0, 0, 0.01, 0, 0]},
     "defence_multiplier": {"melee": 0.2, "ranged": 0.2, "magic": 0.1},
     "removetraits": ["Frigid"],
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "pref_class":["SIW"]
     },
@@ -929,7 +929,7 @@
     "mod": {"magic": 50, "charisma": 25, "character": 50},
     "addtraits": ["Psychic", "Sadist"],
     "mod_skills": {"service": [-0.01, -0.01, 0.03, 0, 0]},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Vicious"],
     "badtraits": ["Virtuous"],
     "tier": 4,

@@ -304,7 +304,7 @@
     "mod": {"agility": 25},
     "evasion_bonus": 2,
     "removetraits": ["Dawdler"],
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 4,
     "pref_class":["Assassin", "Shooter"]
     },
@@ -364,7 +364,7 @@
     "max": {"vitality": 5, "defence": 10},
     "mod": {"defence": 10},
     "defence_bonus": {"ranged": 10},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 0,
     "pref_class":["Warrior", "Mage", "Shooter"]
     },
@@ -386,7 +386,7 @@
     "mod": {"charisma": 15, "defence": 15},
     "defence_bonus": {"ranged": 5, "melee": 5},
     "mod_skills": {"exploration": [0.01, 0.01, 0.03, 0, 0], "management": [0.01, 0.01, 0.03, 0, 0], "refinement": [0.01, 0.01, 0.01, 0, 0]},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 2
     },
     {
@@ -405,7 +405,7 @@
     "evasion_bonus": -2,
     "max": {"defence": 10},
     "mod": {"defence": 10, "agility": -5},
-    "locations": ["Work Shop"],
+    "locations": ["Work Shop", "Arena"],
     "tier": 1,
     "pref_class":["Warrior"]
     },
@@ -426,7 +426,7 @@
     "max": {"defence": 15},
     "mod": {"defence": 15, "agility": -10},
     "defence_bonus": {"melee": 10},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena", "Arena"],
     "tier": 1,
     "pref_class":["Warrior"]
     },
@@ -446,7 +446,7 @@
     "max": {"defence": 20},
     "mod": {"defence": 20, "agility": 5},
     "defence_bonus": {"ranged": 10, "melee": 10},
-    "locations": ["Exploration", "Work Shop"],
+    "locations": ["Exploration", "Work Shop", "Arena"],
     "tier": 2,
     "pref_class":["Warrior", "Shooter"]
     },
@@ -467,7 +467,7 @@
     "max": {"defence": 30, "agility": 10},
     "mod": {"defence": 20, "agility": 10},
     "defence_bonus": {"ranged": 20, "melee": 20},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 2,
     "pref_class":["Warrior", "Shooter"]
     },
@@ -488,7 +488,7 @@
     "mod": {"defence": 25, "agility": 15},
     "evasion_bonus": 2,
     "defence_bonus": {"ranged": 25, "magic": 20, "melee": 5},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "pref_class":["Warrior", "Mage", "Shooter"]
     },
@@ -510,7 +510,7 @@
     "evasion_bonus": 2,
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
     "defence_bonus": {"magic": 20, "melee": 20},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Not Human"],
     "tier": 4,
     "pref_class":["Warrior"]
@@ -533,7 +533,7 @@
     "defence_bonus": {"magic": 20, "ranged": 20},
     "evasion_bonus": 3,
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Not Human"],
     "tier": 4,
     "pref_class":["Shooter"]
@@ -555,7 +555,7 @@
     "max": {"mp": 15, "magic": 5, "defence": 15, "agility": 15},
     "mod": {"defence": 5, "agility": 5, "luck": 10, "magic": 5},
     "defence_bonus": {"magic": 35},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Not Human"],
     "tier": 4,
     "pref_class":["Mage"]
@@ -579,7 +579,7 @@
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "dancing": [0.01, 0, 0.01, 0, 0]},
     "defence_multiplier": {"magic": 0.05},
     "delivery_multiplier": {"magic": 0.05},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Alien"],
     "tier": 4,
     "pref_class":["Mage"]
@@ -603,7 +603,7 @@
     "evasion_bonus": 4,
     "defence_multiplier": {"status": 0.01},
     "delivery_multiplier": {"status": 0.01},
-    "locations": ["Exploration", "Ninja Shop"],
+    "locations": ["Exploration", "Ninja Shop", "Arena"],
     "goodtraits": [],
     "tier": 4,
     "pref_class":["Assassin"]
@@ -643,7 +643,7 @@
     "type": "armor",
     "max": {"defence": 10, "vitality": 3},
     "mod": {"defence": 8, "agility": 2, "vitality": 2},
-    "locations": ["Work Shop"],
+    "locations": ["Work Shop", "Arena"],
     "tier": 0,
     "pref_class":["Warrior", "Mage", "Shooter"]
     },
@@ -663,7 +663,7 @@
     "max": {"defence": 15, "vitality": 25},
     "mod": {"defence": 10, "agility": 5},
     "mod_skills": {"exploration": [0.01, 0.01, 0.03, 0, 0]},
-    "locations": ["Work Shop"],
+    "locations": ["Work Shop", "Arena"],
     "tier": 2,
     "pref_class":["Any"]
     },

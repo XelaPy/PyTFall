@@ -53,7 +53,7 @@
     "type": "dress",
     "max": {"mp": 200, "magic": 70, "agility": 30, "luck": 20, "intelligence": 15, "health": 20},
     "mod": {"magic": 100, "agility": 40, "luck": 30, "intelligence": 20},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "goodtraits": ["Dandere"],
     "tier": 4,
     "pref_class":["Warrior", "Mage", "Shooter", "Assassin"]
@@ -97,7 +97,7 @@
     "max": {"defence": 15, "agility": 15},
     "mod": {"defence": 35, "agility": 20},
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "exploration": [0, 0, 0.02, 0, 0]},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "defence_bonus": {"ranged": 5, "magic": 15},
     "goodtraits": ["Not Human"],
     "tier": 3,
@@ -121,7 +121,7 @@
     "mod": {"charisma": 15, "defence": 20},
     "mod_skills": {"exploration": [0.01, 0.01, 0.03, 0, 0], "management": [0.01, 0.01, 0.03, 0, 0], "refinement": [0.01, 0.01, 0.01, 0, 0]},
     "defence_bonus": {"melee": 15},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "pref_class":["Warrior"]
     },
@@ -218,7 +218,7 @@
     "max": {"mp": 50, "vitality": -40, "agility": -10},
     "mod": {"magic": 5},
     "delivery_bonus": {"magic": 30},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 2,
     "pref_class":["Mage"]
     },
@@ -324,7 +324,7 @@
     "max": {"joy": 5, "mp": 10, "magic": 10, "defence": 15, "agility": 10},
     "mod": {"defence": 15, "magic": 20, "character": 5, "agility": -10, "attack": -10},
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "dancing": [0.01, 0, 0.01, 0, 0]},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "evasion_bonus": 1,
     "defence_multiplier": {"magic": 0.1, "ranged": 0.05},
     "delivery_multiplier": {"magic": 0.1},
@@ -350,7 +350,7 @@
     "mod": {"defence": 50},
     "defence_bonus": {"melee": 50},
     "defence_multiplier": {"melee": 0.1, "ranged": 0.15},
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "tier": 3,
     "pref_class":["Warrior"]
     },
@@ -390,7 +390,7 @@
     "infinite": false,
     "slot": "cape",
     "type": "armor",
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "addtraits": ["Ice Resistance"],
     "tier": 3,
     "pref_class":["Warrior", "Mage", "Shooter"]
@@ -408,7 +408,7 @@
     "infinite": false,
     "slot": "cape",
     "type": "armor",
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "addtraits": ["Darkness Resistance"],
     "tier": 3,
     "pref_class":["Warrior", "Mage", "Shooter"]
@@ -426,7 +426,7 @@
     "infinite": false,
     "slot": "cape",
     "type": "armor",
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "addtraits": ["Fire Resistance"],
     "tier": 3,
     "pref_class":["Warrior", "Mage", "Shooter"]
@@ -444,7 +444,7 @@
     "infinite": false,
     "slot": "cape",
     "type": "armor",
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "addtraits": ["Water Resistance"],
     "tier": 3,
     "pref_class":["Warrior", "Mage", "Shooter"]
@@ -462,7 +462,7 @@
     "infinite": false,
     "slot": "cape",
     "type": "armor",
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "addtraits": ["Earth Resistance"],
     "tier": 3,
     "pref_class":["Warrior", "Mage", "Shooter"]
@@ -480,7 +480,7 @@
     "infinite": false,
     "slot": "cape",
     "type": "armor",
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "addtraits": ["Light Resistance"],
     "tier": 3,
     "pref_class":["Warrior", "Mage", "Shooter"]
@@ -498,7 +498,7 @@
     "infinite": false,
     "slot": "cape",
     "type": "armor",
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "addtraits": ["Electricity Resistance"],
     "tier": 3,
     "pref_class":["Warrior", "Mage", "Shooter"]
@@ -516,7 +516,7 @@
     "infinite": false,
     "slot": "cape",
     "type": "armor",
-    "locations": ["Exploration"],
+    "locations": ["Exploration", "Arena"],
     "addtraits": ["Air Resistance"],
     "tier": 3,
     "pref_class":["Warrior", "Mage", "Shooter"]

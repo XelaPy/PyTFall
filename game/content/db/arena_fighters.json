@@ -1,91 +1,62 @@
 [
 {
 "name": "Uesugi Kenshin",
-"exp": 10000,
-"stats": {"attack": 120, "defence": 100, "magic": 20, "agility": 60, "luck": 10},
-"attack_skills": {"Sword Slash": 1},
-"unique": true
+"level": 50,
+"basetraits": ["Knight"]
 },
 {
 "name": "Uesugi Torako",
-"exp": 10000,
-"stats": {"attack": 50, "defence": 60, "magic": 80, "agility": 50, "luck": 10},
-"attack_skills": {"Fist Attack": 1},
-"magic_skills": {"Fire": 1},
-"unique": true
+"level": 50,
+"basetraits": ["Assassin", "Mage"]
 },
 {
 "name": "Uesugi Katsuko",
-"exp": 10000,
-"stats": {"attack": 75, "defence": 70, "magic": 20, "agility": 55, "luck": -10},
-"attack_skills": {"Sword Slash": 1},
-"unique": true
+"level": 50,
+"basetraits": ["Warrior"]
 },
 {
 "name": "Masou Shizuka",
-"exp": 10000,
-"stats": {"attack": 60, "defence": 70, "magic": 100, "agility": 60, "luck": 0},
-"attack_skills": {"Dagger Strike": 1},
-"magic_skills": {"Fire": 1, "Fira": 2, "Firaga": 1},
-"unique": true
+"level": 70,
+"basetraits": ["Mage"]
 },
 {
 "name": "Maria Custard",
-"exp": 10000,
-"stats": {"attack": 80, "defence": 50, "magic": 50, "agility": 50, "luck": 10},
-"attack_skills": {"Cannon Shot": 1},
-"unique": true
+"level": 70,
+"basetraits": ["Shooter"]
 },
 {
 "name": "EVA-Beatrice",
-"exp": 10000,
-"stats": {"attack": 50, "defence": 60, "magic": 90, "agility": 50, "luck": 10},
-"attack_skills": {"Blunt Strike": 1},
-"magic_skills": {"Aero": 2, "Fira": 1, "Firaga": 1, "Stonera": 1, "Stonega": 1},
-"unique": true
+"level": 70,
+"basetraits": ["Mage"]
 },
 {
 "name": "Siesta 410",
-"exp": 10000,
-"stats": {"attack": 40, "defence": 50, "magic": 60, "agility": 60, "luck": 20},
-"attack_skills": {"Fist Attack": 1},
-"magic_skills": {"Firaja": 1},
-"unique": true
+"level": 80,
+"basetraits": ["Mage"]
 },
 {
 "name": "Siesta 45",
-"exp": 10000,
-"stats": {"attack": 30, "defence": 45, "magic": 60, "agility": 60, "luck": 30},
-"attack_skills": {"Fist Attack": 1},
-"magic_skills": {"Firaja": 1},
-"unique": true
+"level": 80,
+"basetraits": ["Healer"]
 },
 {
 "name": "Shishio Makoto",
-"exp": 10000,
-"stats": {"attack": 135, "defence": 100, "magic": 30, "agility": 70, "luck": 50},
-"attack_skills": {"Sword Slash": 1},
-"unique": true
+"level": 100,
+"basetraits": ["Assassin"]
 },
 {
 "name": "Sion Eltnam Atlasia",
-"exp": 10000,
-"stats": {"attack": 65, "defence": 40, "magic": 20, "agility": 55, "luck": -15},
-"attack_skills": {"Sword Slash": 1},
-"unique": true
+"level": 90,
+"basetraits": ["Mage"]
 },
 {
 "name": "Yumizuka Satsuki",
-"exp": 10000,
-"stats": {"attack": 50, "defence": 30, "magic": 20, "agility": 55, "luck": -15},
-"attack_skills": {"Sword Slash": 1},
-"unique": true
+"level": 90,
+"basetraits": ["Mage"]
 },
 {
 "name": "Riesbyfe Stridberg",
-"exp": 10000,
-"stats": {"attack": 65, "defence": 40, "magic": 20, "agility": 55, "luck": -15},
-"attack_skills": {"Sword Slash": 1},
-"unique": true
+"level": 90,
+"basetraits": ["Knight", "Warrior"]
 }
 ]
