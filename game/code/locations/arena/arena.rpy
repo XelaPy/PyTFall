@@ -36,9 +36,12 @@ init -9 python:
             # ----------------------------->
             self.king = None
 
+            # Old Style Arena fighters are loaded here, I do not believe that
+            # This is accessed after Arena is setup at the beginning of the game.
             self.pure_arena_fighters = dict() # Neow :)
 
-            self.arena_fighters = list() # A list of Arena Fighters loaded into the game and actively participating in the Arena.
+            # A list of Arena Fighters loaded into the game and actively participating in the Arena.
+            self.arena_fighters = list()
             self.teams_2v2 = list()
             self.teams_3v3 = list()
 
@@ -261,8 +264,7 @@ init -9 python:
 
         # -------------------------- Update Methods ---------------------------------------------->
         def update_teams(self):
-            '''
-            Makes sure that there are enough teams for Arena to function properly.
+            '''Makes sure that there are enough teams for Arena to function properly.
             If members are removed from teams directly, it is up to the respective method to find a replacement...
             '''
             if len(self.teams_2v2) < 30:
