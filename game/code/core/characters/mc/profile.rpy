@@ -65,11 +65,11 @@ init:
         key "mousedown_3" action Return(['control', 'return'])
 
         # HERO SPRITE ====================================>
-        add Transform(hero.show("sprofile", resize=(550, 550)), alpha=0.97) align(0.65, 0.9)
+        add Transform(hero.show("profile", resize=(550, 550)), alpha=.97) align .65, .9
 
         # BASE FRAME 2 "bottom layer" and portrait ====================================>
         add "content/gfx/frame/h_profile.png"
-        add hero.show("portrait", "indoors", resize=(100, 100)) pos (64, 8) # portrait should be between "Base Frame 2" and "Base Frame 1" :Gismo
+        add hero.show("cportrait", resize=(100, 100)) pos (64, 8) # portrait should be between "Base Frame 2" and "Base Frame 1" :Gismo
 
         # BATTLE STATS ====================================>
         fixed:
