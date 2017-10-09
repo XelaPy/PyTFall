@@ -762,7 +762,7 @@ init -9 python:
                     self.arena_fighters.append(fighter)
                     candidates.append(fighter)
 
-            candidates.extend(self.load_special_arena_fighters())
+            # candidates.extend(self.load_special_arena_fighters())
 
             _candidates = shallowcopy(candidates)
             shuffle(_candidates)

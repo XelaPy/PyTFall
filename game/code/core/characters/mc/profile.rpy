@@ -69,7 +69,7 @@ init:
 
         # BASE FRAME 2 "bottom layer" and portrait ====================================>
         add "content/gfx/frame/h_profile.png"
-        add hero.show("cportrait", resize=(100, 100)) pos (64, 8) # portrait should be between "Base Frame 2" and "Base Frame 1" :Gismo
+        add hero.show("everyday", resize=(100, 100)) pos (64, 8) # portrait should be between "Base Frame 2" and "Base Frame 1" :Gismo
 
         # BATTLE STATS ====================================>
         fixed:
