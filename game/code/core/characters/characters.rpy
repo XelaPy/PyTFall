@@ -1948,17 +1948,17 @@ init -9 python:
                 raise Exception("get_sprite_size got unknown type for resizing!")
             return resize
 
-        def has_image(self, *tags):
-            """
-            Returns True if image is found.
-            """
-            return True
-
-        def show(self, what, resize=(None, None), cache=True):
-            if what != self.img:
-                what = self.img
-
-            return ProportionalScale(what, resize[0], resize[1])
+        # def has_image(self, *tags):
+        #     """
+        #     Returns True if image is found.
+        #     """
+        #     return True
+        #
+        # def show(self, what, resize=(None, None), cache=True):
+        #     if what != self.img:
+        #         what = self.img
+        #
+        #     return ProportionalScale(what, resize[0], resize[1])
 
         # AP + Training ------------------------------------------------------------->
         def restore_ap(self):
@@ -3511,27 +3511,27 @@ init -9 python:
 
             self.unique = True
 
-        def show(self, tag, resize=(None, None), cache=True):
-            if tag == "battle":
-                tag = "combat"
-            if tag == "fighting":
-                tag = "combat"
-            if cache:
-                for entry in self.cache:
-                    if entry[0] == tag:
-                        return ProportionalScale(entry[1], resize[0], resize[1])
-
-            if tag in self.img_db:
-                path = choice(self.img_db[tag])
-            else:
-                path = choice(self.img_db["battle_sprite"])
-
-            if cache:
-                self.cache.append([tag, path])
-
-            img = ProportionalScale(path, resize[0], resize[1])
-
-            return img
+        # def show(self, tag, resize=(None, None), cache=True):
+        #     if tag == "battle":
+        #         tag = "combat"
+        #     if tag == "fighting":
+        #         tag = "combat"
+        #     if cache:
+        #         for entry in self.cache:
+        #             if entry[0] == tag:
+        #                 return ProportionalScale(entry[1], resize[0], resize[1])
+        #
+        #     if tag in self.img_db:
+        #         path = choice(self.img_db[tag])
+        #     else:
+        #         path = choice(self.img_db["battle_sprite"])
+        #
+        #     if cache:
+        #         self.cache.append([tag, path])
+        #
+        #     img = ProportionalScale(path, resize[0], resize[1])
+        #
+        #     return img
 
         def restore_ap(self):
             self.AP = self.baseAP + int(self.constitution / 20)
@@ -3579,6 +3579,12 @@ init -9 python:
             if webm_spites:
                 return webm_spites["idle"][1]
             return get_size(self.besprite)
+
+        def has_image(self, *tags):
+            """
+            Returns True if image is found.
+            """
+            return True
 
         def show(self, what, resize=(None, None), cache=True):
             if what in ["battle", "fighting"]:
@@ -3727,37 +3733,37 @@ init -9 python:
 
         # ----------------------------------------------------------------------------------
         # Show to mimic girls method behaviour:
-        def has_image(self, *tags):
-            """
-            Returns True if image is found.
-            """
-            return True
+        # def has_image(self, *tags):
+        #     """
+        #     Returns True if image is found.
+        #     """
+        #     return True
 
-        def show(self, tag, resize=(None, None), cache=True):
-            if tag == "battle":
-                tag = "combat"
-            if tag == "fighting":
-                tag = "combat"
-            if tag == "cportrait":
-                tag = "cportrait"
-            if tag == "sprofile":
-                tag = "sprofile"
-            if cache:
-                for entry in self.cache:
-                    if entry[0] == tag:
-                        return ProportionalScale(entry[1], resize[0], resize[1])
-
-            if tag in self.img_db:
-                path = choice(self.img_db[tag])
-            else:
-                path = choice(self.img_db["battle_sprite"])
-
-            if cache:
-                self.cache.append([tag, path])
-
-            img = ProportionalScale(path, resize[0], resize[1])
-
-            return img
+        # def show(self, tag, resize=(None, None), cache=True):
+        #     if tag == "battle":
+        #         tag = "combat"
+        #     if tag == "fighting":
+        #         tag = "combat"
+        #     if tag == "cportrait":
+        #         tag = "cportrait"
+        #     if tag == "sprofile":
+        #         tag = "sprofile"
+        #     if cache:
+        #         for entry in self.cache:
+        #             if entry[0] == tag:
+        #                 return ProportionalScale(entry[1], resize[0], resize[1])
+        #
+        #     if tag in self.img_db:
+        #         path = choice(self.img_db[tag])
+        #     else:
+        #         path = choice(self.img_db["battle_sprite"])
+        #
+        #     if cache:
+        #         self.cache.append([tag, path])
+        #
+        #     img = ProportionalScale(path, resize[0], resize[1])
+        #
+        #     return img
 
         # ----------------------------------------------------------------------------------
         # Next Day:
