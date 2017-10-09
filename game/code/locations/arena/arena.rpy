@@ -36,12 +36,8 @@ init -9 python:
             # ----------------------------->
             self.king = None
 
-            # Old Style Arena fighters are loaded here, I do not believe that
-            # This is accessed after Arena is setup at the beginning of the game.
-            self.pure_arena_fighters = dict() # Neow :)
-
             # A list of Arena Fighters loaded into the game and actively participating in the Arena.
-            self.arena_fighters = list()
+            self.arena_fighters = {}
             self.teams_2v2 = list()
             self.teams_3v3 = list()
 
@@ -133,9 +129,7 @@ init -9 python:
                         fighters.append(fighter)
 
             if include_af:
-                # This is not a good solution since some of the fighters are doubles...
-                for fighter in self.arena_fighters:
-                    fighters.append(fighter)
+                fighters.extend(self.arena_fighters.values())
 
             if exclude_matches:
                 busy_in_matches = self.get_matches_fighters()
@@ -653,21 +647,26 @@ init -9 python:
             self.start_matchfight(battle_setup)
 
         # -------------------------- Setup Methods -------------------------------->
-        def load_special_presets(self):
-            # Arena Teams Special presets: TODO: Update it!
-            in_file = content_path("db/arena_teams.json")
-            with open(in_file) as f:
-                teams = json.load(f)
+        def load_special_team_presets(self):
+            json_fighters = store.json_fighters
+            teams = json.load(renpy.file("content/db/arena_teams.json"))
             for team in teams:
-                team = teams[teams.index(team)]
+                members = team["members"]
+                name = team["name"]
+                lineups = team.get("lineups", False)
+                tiers = team.get("tiers", [])
+                if not tiers:
+                    for m in members:
+                        tiers.append(random.uniform(.3, 1.8))
                 teamsize = len(team["members"])
+
                 if teamsize > 3:
                     raise Exception("Arena Teams are not allowed to include more than 3 members!")
                 if teamsize == 1 and not team["lineups"]:
-                    raise Exception("Single member teams are only available for lineups!" \
-                                    "Adjust data.xml files if you just wish girls to participate in the Arena!")
-                a_team = Team(name=team["name"], max_size=teamsize)
-                for member in team["members"]:
+                    raise Exception("Single member teams are only available for lineups!")
+
+                a_team = Team(name=name, max_size=teamsize)
+                for index, member in enumerate(members):
                     if member == "random_girl":
                         member = build_rc(patterns="Warrior")
                         member.status = "free"
@@ -676,31 +675,27 @@ init -9 python:
                         member.arena_active = True
                         a_team.add(member)
                     elif member in chars:
-                        if chars[member] in hero.chars:
-                            hero.remove_char(chars[member])
-                        if chars[member] in self.get_teams_fighters(teams="2v2"):
+                        member = chars[member]
+                        if member in hero.chars:
+                            hero.remove_char(member)
+                        if member in self.get_teams_fighters(teams="2v2"):
                             raise Exception("You've added unique character %s" \
                                             " to 2v2 Arena teams twice!" % chars[member].name)
-                        if chars[member] in self.get_teams_fighters(teams="3v3"):
+                        if member in self.get_teams_fighters(teams="3v3"):
                             raise Exception("You've added unique character %s to 3v3 Arena teams more than once!" % chars[member].name)
-                        a_team.add(chars[member])
-                    elif member in pytfall.arena.pure_arena_fighters:
-                        member = pytfall.arena.pure_arena_fighters[member]
-                        if member.unique:
-                            if member in self.get_teams_fighters(teams="2v2"):
-                                raise Exception("You've added an unique Arena" \
-                                                " Fighter %s to 2v2 Arena teams twice!" % member.name)
-                            if member in self.get_teams_fighters(teams="3v3"):
-                                raise Exception("You've added an unique" \
-                                    " Arena Fighter %s to 3v3 Arena teams more than once!" % member.name)
-                            member.arena_active = True
-                            self.arena_fighters.append(member)
-                            a_team.add(member)
-                        else:
-                            af = copy.deepcopy(member)
-                            self.arena_fighters.append(af)
-                            a_team.add(af)
-                    # TODO: Check is this is still valid code (member in rchars)
+                        a_team.add(member)
+                    elif member in json_fighters:
+                        member = json_fighters[member]
+                        if member in self.get_teams_fighters(teams="2v2"):
+                            raise Exception("You've added an unique Arena" \
+                                            " Fighter %s to 2v2 Arena teams twice!" % member.name)
+                        if member in self.get_teams_fighters(teams="3v3"):
+                            raise Exception("You've added an unique" \
+                                " Arena Fighter %s to 3v3 Arena teams more than once!" % member.name)
+                        member.arena_active = True
+                        member.arena_permit = True
+                        self.arena_fighters[member.id] = member
+                        a_team.add(member)
                     elif member in rchars:
                         build_rc(id=member, patterns="Warrior")
                         member.status = "free"
@@ -710,34 +705,42 @@ init -9 python:
                         a_team.add(member)
                     else:
                         raise Exception("Team Fighter %s is of unknown origin!" % member)
-                if team["lineups"]:
+
+                    tier = tiers[index]
+                    tier_up_to(member, tier)
+                    give_tiered_items(member, equip=True)
+                    give_tiered_magic_skills(member)
+                    member.set_status("free")
+                    member.arena_rep = randint(int(tier*9000), int(tier*11000))
+
+                if lineups:
                     if teamsize == 1:
-                        if team["lineups"] == 1:
+                        if lineups == 1:
                             raise Exception("Number one spot for 1v1 ladder (lineup) is reserved by the game!")
-                        if not self.lineup_1v1[team["lineups"]-1]:
-                            self.lineup_1v1[team["lineups"]-1] = a_team
+                        if not self.lineup_1v1[lineups-1]:
+                            self.lineup_1v1[lineups-1] = a_team
                         else:
                             raise Exception("Team %s failed to take place %d in 1v1" \
                                             "lineups is already taken by another team (%s), check your arena_teams.json" \
                                             "file." % (a_team.name, team["lineups"], self.lineup_1v1[team["lineups"]-1].name))
                     if teamsize == 2:
-                        if not self.lineup_2v2[team["lineups"]-1]:
-                            self.lineup_2v2[team["lineups"]-1] = a_team
+                        if not self.lineup_2v2[lineups-1]:
+                            self.lineup_2v2[lineups-1] = a_team
                             self.teams_2v2.append(a_team)
                         else:
                             raise Exception("Team %s failed to take place %d " \
                                 "in 2v2 lineups is already taken by another team (%s), " \
                                 "check your arena_teams.json file."%(a_team.name,
-                                team["lineups"], self.lineup_2v2[team["lineups"]-1].name))
+                                team["lineups"], self.lineup_2v2[lineups-1].name))
                     if teamsize == 3:
-                        if not self.lineup_3v3[team["lineups"]-1]:
-                            self.lineup_3v3[team["lineups"]-1] = a_team
+                        if not self.lineup_3v3[lineups-1]:
+                            self.lineup_3v3[lineups-1] = a_team
                             self.teams_3v3.append(a_team)
                         else:
                             raise Exception("Team %s failed to take place %d in" \
                             " 3v3 lineups is already taken by another team (%s), " \
-                            "check your arena_teams.json file."%(a_team.name, team["lineups"],
-                            self.lineup_3v3[team["lineups"]-1].name))
+                            "check your arena_teams.json file."%(a_team.name, lineups,
+                            self.lineup_3v3[lineups-1].name))
                 else:
                     if teamsize == 2:
                         self.teams_2v2.append(a_team)
@@ -749,22 +752,16 @@ init -9 python:
             Initial Arena Setup, this will be improved and prolly split several times and I should prolly call it init() as in other classes...
             """
             # Team formations!!!: -------------------------------------------------------------->
-            # self.load_special_presets()
+            self.load_special_team_presets()
+            self.arena_fighters.update(store.male_fighters)
+            self.arena_fighters.update(store.female_fighters)
+            male_fighters, female_fighters, json_fighters
 
             # Loading rest of Arena Combatants:
-            candidates = self.get_arena_candidates_from_chars()
-            # This is also a suspect, TODO: Check if this needs updating to new basetraits format
-            for fighter in self.pure_arena_fighters.values():
-                if fighter.unique and fighter.arena_active:
-                    pass
-                else:
-                    fighter = copy.deepcopy(fighter)
-                    self.arena_fighters.append(fighter)
-                    candidates.append(fighter)
+            candidates = store.male_fighters.values() + store.female_fighters.values()
+            candidates.extend(self.get_arena_candidates_from_chars())
 
-            # candidates.extend(self.load_special_arena_fighters())
-
-            _candidates = shallowcopy(candidates)
+            _candidates = candidates[:]
             shuffle(_candidates)
 
             # print("CANDIDATES: {}".format(len(_candidates)))
