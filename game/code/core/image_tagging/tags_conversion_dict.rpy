@@ -6,7 +6,6 @@ init -999 python:
     'sx': 'sex',
     'bs': 'battle_sprite',
     'po': 'portrait',
-    'cp': 'cportrait',
     'qs': 'vnsprite', # Used to be quest
 
     # Nude/SFW Subtags:
