@@ -59,8 +59,8 @@ init -9 python:
             self.chain_fights = {f["id"]: f for f in load_json("chainfights.json")}
             self.chain_fights_order = list(f["id"] for f in sorted(self.chain_fights.values(), key=itemgetter("level")))
 
-            self.arena_rewards = load_json("arena_rewards.json")
-            self.arena_rewards = {v["id"]: v for v in self.arena_rewards}
+            # self.arena_rewards = load_json("arena_rewards.json")
+            # self.arena_rewards = {v["id"]: v for v in self.arena_rewards}
             self.cf_mob = None
             self.cf_bonus = False
             self.cf_bonus_awarded = False
@@ -1168,6 +1168,7 @@ init -9 python:
                     self.cf_rewards = list()
                     for key in self.cf_setup["reward"]:
                         for __ in range(self.cf_setup["reward"][key]):
+                            # TODO NO MORE ARENA REWARDS!
                             item_str = choice(self.arena_rewards[key]["items"].keys())
                             self.cf_rewards.append(items[item_str])
 
