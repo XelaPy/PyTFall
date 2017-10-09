@@ -838,7 +838,7 @@ init -9 python:
             Initial Arena Setup, this will be improved and prolly split several times and I should prolly call it init() as in other classes...
             """
             # Team formations!!!: -------------------------------------------------------------->
-            self.load_special_presets()
+            # self.load_special_presets()
 
             # Loading rest of Arena Combatants:
             candidates = self.get_arena_candidates_from_chars()
