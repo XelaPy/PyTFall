@@ -1,17 +1,5 @@
 label mc_setup:
-    $ mc_pics = load_mc_images()
-    # We set the first dict to serve as MCs image base:
-    $ hero.img_db = mc_pics[mc_pics.keys()[0]]
-
-    # male_fighters, female_fighters, json_fighters = load_special_arena_fighters()
-    # af = choice(male_fighters.values())
-    # del male_fighters[af.id]
-    #
-    # hero._path_to_imgfolder = af._path_to_imgfolder
-    # hero.id = af.id
-    # hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(120, 120)))
-    # hero.restore_ap()
-    # hero.log_stats()
+    $ male_fighters, female_fighters, json_fighters = load_special_arena_fighters()
 
     call build_mc_stories
 
@@ -27,26 +15,15 @@ label mc_setup:
         if result[0] == "control":
             if result[1] == "build_mc":
                 python:
-                    for key in mc_pics.keys():
-                        if mc_pics[key] == hero.img_db:
-                            del mc_pics[key]
-
-                $ af_pics = mc_pics # Mooore AFs :)
-
-                # python:
-                $ del mc_pics
-                    # del total_points
-                    # del mc_class
-                    # del mc_stats
-                    # del mc_max
-                    # del mc_lvl_max
-
-                $ hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(120, 120)))
-
+                    af = result[2]
+                    del male_fighters[af.id]
+                    hero._path_to_imgfolder = af._path_to_imgfolder
+                    hero.id = af.id
+                    hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(120, 120)))
+                    hero.restore_ap()
+                    hero.log_stats()
                 if hasattr(renpy.store, "neow"):
                     $ del neow
-                $ hero.restore_ap()
-                $ hero.log_stats()
                 jump mc_setup_end
 
         elif result[0] == "rename":
@@ -65,162 +42,26 @@ label mc_setup:
                 if len(n):
                     $ hero.fullname = n
 
-            # elif result[0] == "adjust_stat":
-                # stat = result[2]
-                # if result[1] == "+":
-                    # if total_points:
-                        # if mc_stats[stat] < min(mc_max[stat], mc_lvl_max[stat]):
-                            # mc_stats[stat] += 1
-                            # total_points -= 1
-                        # else:
-                            # renpy.call_screen("message_screen", "You cannot increase %s over the maxumum allowed!"%stat)
-                # elif result[1] == "-":
-                    # if stat == "luck":
-                        # if mc_stats[stat] > 0:
-                            # mc_stats[stat] -= 1
-                            # total_points += 1
-                        # else:
-                            # renpy.call_screen("message_screen", "It cannot go lower than this!")
-                    # else:
-                        # if not hasattr(renpy.store, "neow"):
-                            # neow = copy.copy(mc_stats)
-                        # if mc_stats[stat] > min(neow[stat], round(hero.stats.min[stat] + min(mc_max[stat], mc_lvl_max[stat])*0.6)):
-                            # mc_stats[stat] -= 1
-                            # total_points += 1
-                        # else:
-                            # renpy.call_screen("message_screen", "It cannot go lower than this!")
-
-            # elif result[0] == "change_class":
-                # mc_class = result[1]
-                # total_points = 0
-                # if result[1] == "Warrior":
-                    # mc_max = {
-                    # 'libido': 100,
-                    # 'constitution': 60,
-                    # 'reputation': 100,
-                    # 'health': 100,
-                    # 'fame': 100,
-                    # 'alignment': 1000,
-                    # 'vitality': 300,
-                    # 'intelligence': 100,
-                    # 'charisma': 60,
-                    # 'sex': 170,
-
-                    # 'luck': 50,
-
-                    # 'attack': 70,
-                    # 'magic': 50,
-                    # 'defence': 60,
-                    # 'agility': 55,
-                    # 'mp': 40}
-
-                    # mc_lvl_max = {
-                    # 'libido': 100,
-                    # 'constitution': 40,
-                    # 'reputation': 100,
-                    # 'health': 200,
-                    # 'fame': 100,
-                    # 'alignment': 1000,
-                    # 'vitality': 300,
-                    # 'intelligence': 60,
-                    # 'charisma': 35,
-                    # 'sex': 120,
-
-                    # 'luck': 50,
-
-                    # 'attack': 50,
-                    # 'magic': 35,
-                    # 'defence': 40,
-                    # 'agility': 45,
-                    # 'mp': 30}
-
-                    # mc_stats = {
-                    # 'constitution': 30,
-                    # 'intelligence': 10,
-                    # 'charisma': 10,
-                    # 'sex': 30,
-
-                    # 'luck': 10,
-
-                    # 'attack': 40,
-                    # 'magic': 25,
-                    # 'defence': 30,
-                    # 'agility': 35}
-
-                # if result[1] == "Casanova":
-                    # mc_max = {
-                    # 'libido': 100,
-                    # 'constitution': 50,
-                    # 'reputation': 100,
-                    # 'health': 100,
-                    # 'fame': 100,
-                    # 'alignment': 1000,
-                    # 'vitality': 300,
-                    # 'intelligence': 100,
-                    # 'charisma': 80,
-                    # 'sex': 250,
-
-                    # 'luck': 50,
-
-                    # 'attack': 50,
-                    # 'magic': 40,
-                    # 'defence': 50,
-                    # 'agility': 45,
-                    # 'mp': 30}
-
-                    # mc_lvl_max = {
-                    # 'libido': 100,
-                    # 'constitution': 30,
-                    # 'reputation': 100,
-                    # 'health': 200,
-                    # 'fame': 100,
-                    # 'alignment': 1000,
-                    # 'vitality': 300,
-                    # 'intelligence': 60,
-                    # 'charisma': 60,
-                    # 'sex': 200,
-
-                    # 'luck': 50,
-
-                    # 'attack': 40,
-                    # 'magic': 25,
-                    # 'defence': 30,
-                    # 'agility': 35,
-                    # 'mp': 30}
-
-                    # mc_stats = {
-                    # 'constitution': 20,
-                    # 'intelligence': 10,
-                    # 'charisma': 35,
-                    # 'sex': 45,
-
-                    # 'luck': 10,
-
-                    # 'attack': 25,
-                    # 'magic': 20,
-                    # 'defence': 20,
-                    # 'agility': 20}
-
 label build_mc:
     # We build the MC here. First we get the classes player picked in the choices screen and add those to MC:
     python:
         temp = set()
         bt1 = mc_stories[main_story][sub_story].get("class", None) or mc_stories[main_story].get("class", None)
         bt2 = mc_stories[main_story]["MC"][sub_story][mc_story][mc_substory].get("class", None) or mc_stories[main_story]["MC"][sub_story][mc_story].get("class", None)
-
         for t in [bt1, bt2]:
             if t:
                 temp.add(t)
-
 
     python:
         for t in temp:
             hero.traits.basetraits.add(traits[t])
             hero.apply_trait(traits[t])
+
     # Now that we have our setup, max out all fixed max stats and set all normal stats to 35% of their maximum:
     python:
         for s in ['constitution', 'intelligence', 'charisma', 'attack', 'magic', 'defence', 'agility']:
             setattr(hero, s, int(round(hero.get_max(s)*0.35)))
+
     python:
         for s in ["health", "mp", "vitality"]:
             setattr(hero, s, hero.get_max(s))
@@ -273,18 +114,18 @@ label mc_setup_end:
 init: # MC Setup Screens:
     screen mc_setup():
 
-        default sprites = mc_pics.keys()
+        default sprites = male_fighters.values()
         default index = 0
         default left_index = -1
         default right_index = 1
 
         # Rename and Start buttons + Classes are now here as well!!!:
-        if all([hero.img_db, (hasattr(store, "mc_substory") and store.mc_substory)]):
+        if all([(hasattr(store, "mc_substory") and store.mc_substory)]):
             textbutton "{size=40}{color=[white]}{font=fonts/TisaOTB.otf}Start Game" at fade_in_out():
                 background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=1)
                 hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
                 align (0.46, 0.93)
-                action [Stop("music"), Return(["control", "build_mc"])]
+                action [Stop("music"), Return(["control", "build_mc", sprites[index]])]
         vbox:
             # align (0.37, 0.10)
             pos (365, 68)
@@ -343,54 +184,51 @@ init: # MC Setup Screens:
         # text ("{size=80}{font=fonts/earthkid.ttf}PyTFall") antialias True vertical True align (0.51, 0.65)
 
         # MC Sprites:
-        if hasattr(store, "mc_pics"):
-            hbox:
-                spacing 4
-                align (0.463, 0.75)
-                $ img = ProportionalScale("content/gfx/interface/buttons/blue_arrow_left.png", 40, 40)
-                imagebutton:
-                    idle img
-                    hover im.MatrixColor(img, im.matrix.brightness(0.20))
-                    activate_sound "content/sfx/sound/sys/hover_2.wav"
-                    action [SetScreenVariable("index", (index - 1) % len(sprites)),
-                               SetScreenVariable("left_index", (left_index - 1) % len(sprites)),
-                               SetScreenVariable("right_index", (right_index - 1) % len(sprites)),
-                               SetField(hero, "img_db", mc_pics[sprites[(index - 1) % len(sprites)]])]
-                $ img = ProportionalScale("content/gfx/interface/buttons/blue_arrow_right.png", 40, 40)
-                textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[white]}Select your appearance":
-                    background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
-                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
-                    xpadding 12
-                    ypadding 8
-                imagebutton:
-                    idle img
-                    hover im.MatrixColor(img, im.matrix.brightness(0.20))
-                    activate_sound "content/sfx/sound/sys/hover_2.wav"
-                    action [SetScreenVariable("index", (index + 1) % len(sprites)),
-                               SetScreenVariable("left_index", (left_index + 1) % len(sprites)),
-                               SetScreenVariable("right_index", (right_index + 1) % len(sprites)),
-                               SetField(hero, "img_db", mc_pics[sprites[(index + 1) % len(sprites)]])]
+        hbox:
+            spacing 4
+            align (0.463, 0.75)
+            $ img = ProportionalScale("content/gfx/interface/buttons/blue_arrow_left.png", 40, 40)
+            imagebutton:
+                idle img
+                hover im.MatrixColor(img, im.matrix.brightness(0.20))
+                activate_sound "content/sfx/sound/sys/hover_2.wav"
+                action [SetScreenVariable("index", (index - 1) % len(sprites)),
+                        SetScreenVariable("left_index", (left_index - 1) % len(sprites)),
+                        SetScreenVariable("right_index", (right_index - 1) % len(sprites))]
+            $ img = ProportionalScale("content/gfx/interface/buttons/blue_arrow_right.png", 40, 40)
+            textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[white]}Select your appearance":
+                background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
+                hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
+                xpadding 12
+                ypadding 8
+            imagebutton:
+                idle img
+                hover im.MatrixColor(img, im.matrix.brightness(0.20))
+                activate_sound "content/sfx/sound/sys/hover_2.wav"
+                action [SetScreenVariable("index", (index + 1) % len(sprites)),
+                        SetScreenVariable("left_index", (left_index + 1) % len(sprites)),
+                        SetScreenVariable("right_index", (right_index + 1) % len(sprites))]
+        frame:
+            align .328, .53
+            xysize (160, 220)
+            background Frame("content/gfx/frame/MC_bg3.png", 40, 40)
+            add im.Sepia(sprites[left_index].show("battle_sprite", resize=(140, 190))) align .5, .4
+        frame:
+            align .586, .53
+            xysize (160, 220)
+            background Frame("content/gfx/frame/MC_bg3.png", 40, 40)
+            add im.Sepia(sprites[right_index].show("battle_sprite", resize=(140, 190))) align .5, .4
+        frame:
+            align .457, .36
+            xysize (160, 220)
+            background Frame("content/gfx/frame/MC_bg3.png", 40, 40)
+            add sprites[index].show("battle_sprite", resize=(150, 200)) align .5, .4
             frame:
-                align (0.328, 0.53)
-                xysize (160, 220)
-                background Frame("content/gfx/frame/MC_bg3.png", 40, 40)
-                add im.Sepia(ProportionalScale(mc_pics[sprites[left_index]]["battle_sprite"][0], 140, 190)) align (0.5, 0.4)
-            frame:
-                align (0.586, 0.53)
-                xysize (160, 220)
-                background Frame("content/gfx/frame/MC_bg3.png", 40, 40)
-                add im.Sepia(ProportionalScale(mc_pics[sprites[right_index]]["battle_sprite"][0], 140, 190)) align (0.5, 0.4)
-            frame:
-                align (0.457, 0.36)
-                xysize (160, 220)
-                background Frame("content/gfx/frame/MC_bg3.png", 40, 40)
-                add ProportionalScale(mc_pics[sprites[index]]["battle_sprite"][0], 150, 200) align (0.5, 0.4)
-                frame:
-                    align (0.995, -0.74)
-                    xoffset 45
-                    anchor (1, 1)
-                    background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                    add ProportionalScale(mc_pics[sprites[index]]["portrait"][0], 100, 100)
+                align .995, -.74
+                xoffset 45
+                anchor (1, 1)
+                background Frame("content/gfx/frame/MC_bg.png", 10, 10)
+                add sprites[index].show("portrait", resize=(100, 100))
 
         # Stats: @ Review, disabled for now! or forever?
         # if hasattr(store, "mc_stats") and hasattr(store, "total_points"):
