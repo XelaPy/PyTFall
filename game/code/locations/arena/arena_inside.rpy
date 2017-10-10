@@ -1050,7 +1050,7 @@ init: # ChainFights vs Mobs:
         modal True
 
         default rolled = False
-        
+
         add "bg mc_setup"
 
         # Bonus Roll: ===========================================================================>>>
@@ -1087,26 +1087,15 @@ init: # ChainFights vs Mobs:
         vbox:
             align .2, .5
             spacing 10
-            hbox:
-                xalign 0
-                spacing 10
-                add Solid(red, xysize=(20, 20))
-                text "Restore HP" style "garamond" color red yoffset -4
-            hbox:
-                xalign 0
-                spacing 10
-                add Solid(blue, xysize=(20, 20))
-                text "Restore MP" style "garamond" color blue yoffset -4
-            hbox:
-                xalign 0
-                spacing 10
-                add Solid(green, xysize=(20, 20))
-                text "Restore HP/MP" style "garamond" color green yoffset -4
-            hbox:
-                xalign 0
-                spacing 10
-                add Solid(grey, xysize=(20, 20))
-                text "Bupkis Award!" style "garamond" color grey yoffset -4
+            for color, text in [(red, "Restore HP"),
+                                (blue, "Restore MP"),
+                                (green, "Restore HP/MP"),
+                                (grey, "Bupkis Award!")]:
+                hbox:
+                    xalign 0
+                    spacing 10
+                    add Solid(color, xysize=(20, 20))
+                    text text style "garamond" color red yoffset -4
 
     screen confirm_chainfight():
         zorder 2
