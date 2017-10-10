@@ -910,34 +910,54 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=F
         $ traits = calculate_elementals(trait)
         fixed:
             align al
-            xysize 190, 450
+            xysize 450, 190
             frame:
                 background Frame("content/gfx/frame/p_frame52.png", 10, 10)
                 padding 10, 5
                 has vbox style_prefix "proper_stats" spacing 1
-                if traits[0]:
-                    label (u"Magic Damage:") text_size 18 text_color goldenrod text_bold True xalign .45
-                    for element in traits[0]:
-                        frame:
-                            xysize 170, 20
-                            if traits[0][element] < 0:
-                                text element size 15 color red align .0, .5
-                                label str(traits[0][element])+" %" text_size 15 text_color red align 1.0, .5
+                hbox:
+                    frame:
+                        xysize 80, 20
+                        text "element" size 15 color goldenrod align .0, .5
+                    frame:
+                        xysize 60, 20
+                        text "damage" size 15 color goldenrod align .5, .5
+                    frame:
+                        xysize 60, 20
+                        text "defense" size 15 color goldenrod align .5, .5
+                hbox:
+                    vbox:
+                        for element in traits[2]:
+                            frame:
+                                xysize 80, 20
+                                text element size 15 color goldenrod align .0, .5
+                    vbox:
+                        for element in traits[2]:
+                            if element in traits[0].keys():
+                                frame:
+                                    xysize 60, 20
+                                    if traits[0][element] < 0:
+                                        label str(traits[0][element])+" %" text_size 15 text_color red align 1.0, .5
+                                    else:
+                                        label str(traits[0][element])+" %" text_size 15 text_color lime align 1.0, .5
                             else:
-                                text element size 15 color green align .0, .5
-                                label str(traits[0][element])+" %" text_size 15 text_color green align 1.0, .5
-                if traits[1]:
-                    label (u"Magic Defence:") text_size 18 text_color goldenrod text_bold True xalign .45
-                    for element in traits[1]:
-                        frame:
-                            xysize 170, 20
-                            if traits[1][element] < 0:
-                                text element size 15 color red align .0, .5
-                                label str(traits[1][element])+" %" text_size 15 text_color red align 1.0, .5
+                                frame:
+                                    xysize 60, 20
+                                    label "0 %" text_size 15 text_color lime align 1.0, .5
+                    vbox:
+                        for element in traits[2]:
+                            if element in traits[1].keys():
+                                frame:
+                                    xysize 60, 20
+                                    if traits[1][element] < 0:
+                                        label str(traits[1][element])+" %" text_size 15 text_color red align 1.0, .5
+                                    else:
+                                        label str(traits[1][element])+" %" text_size 15 text_color lime align 1.0, .5
                             else:
-                                text element size 15 color green align .0, .5
-                                label str(traits[1][element])+" %" text_size 15 text_color green align 1.0, .5
-                                
+                                frame:
+                                    xysize 60, 20
+                                    label "0 %" text_size 15 text_color lime align 1.0, .5
+
                 if not(traits[0]) and not(traits[1]):
                     label ("-elements overlapped each other-") text_size 14 text_color goldenrod text_bold True xalign .45
             imagebutton:

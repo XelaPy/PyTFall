@@ -17,6 +17,7 @@ init -11 python:
     def calculate_elementals(char): # returns a dict of character elemental defences and attacks, based on elemental traits
         el_attacks = {}
         el_defence = {}
+        el_keys = []
         for trait in char.elements:
             for element in trait.el_damage:
                 if element in el_attacks:
@@ -30,7 +31,8 @@ init -11 python:
                     el_defence[element] = int(trait.el_defence[element]*100)
         el_attacks = {x:y for x,y in el_attacks.items() if y!=0}
         el_defence = {x:y for x,y in el_defence.items() if y!=0}
-        return el_attacks, el_defence
+        el_keys = el_attacks.keys() + list(set(el_defence.keys()) - set(el_attacks.keys()))
+        return el_attacks, el_defence, el_keys
 
     def kill_char(char):
         # Attempts to remove a character from the game world.
