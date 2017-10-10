@@ -1050,11 +1050,7 @@ init: # ChainFights vs Mobs:
         modal True
 
         default rolled = False
-        default bonus = False
-
-        if rolled:
-            timer 2.0 action Return()
-
+        
         add "bg mc_setup"
 
         # Bonus Roll: ===========================================================================>>>
@@ -1077,6 +1073,7 @@ init: # ChainFights vs Mobs:
                 color red
                 size 35
         else:
+            timer 2.0 action Return()
             if rolled == "HP":
                 text "Bonus Roll: HP" pos (200, 200) style "black_serpent" color red size 30
             elif rolled == "MP":
