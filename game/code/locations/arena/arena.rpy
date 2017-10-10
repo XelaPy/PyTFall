@@ -226,6 +226,8 @@ init -9 python:
                         if team in self.dogfights_3v3:
                             self.dogfights_3v3.remove(team)
 
+            restore_battle_stats(fighter)
+
         def check_if_team_ready_for_dogfight(self, unit):
             """
             Checks if a team/fighter is ready for dogfight by eliminating them on grounds of health, scheduled matches, presense in other dogfights or lack of AP.
@@ -1203,7 +1205,6 @@ init -9 python:
 
                 for member in team:
                     member.arena_rep -= max(50, (team.get_rep()/30))
-                    restore_battle_stats(member)
                     self.remove_team_from_dogfights(member)
 
                 renpy.call_screen("arena_aftermatch", hero.team, team, "Victory")
@@ -1229,7 +1230,6 @@ init -9 python:
                                 member.add_money(statdict[stat], reason="Arena")
                             else:
                                 member.mod_stat(stat, statdict[stat])
-                    restore_battle_stats(member)
                     self.remove_team_from_dogfights(member)
 
                 for member in hero.team:
@@ -1295,7 +1295,6 @@ init -9 python:
 
                 for member in team:
                     member.arena_rep -= max(50, (hero.team.get_rep()/20))
-                    restore_battle_stats(member)
                     self.remove_team_from_dogfights(member)
 
                 renpy.call_screen("arena_aftermatch", hero.team, team, "Victory")
@@ -1323,7 +1322,6 @@ init -9 python:
                                 member.arena_rep += statdict[stat]
                             else:
                                 member.mod_stat(stat, statdict[stat])
-                    restore_battle_stats(member)
                     self.remove_team_from_dogfights(member)
 
                 for member in hero.team:
