@@ -756,8 +756,8 @@ init -9 python:
                         self.teams_3v3.append(a_team)
 
         def setup_arena(self):
-            """
-            Initial Arena Setup, this will be improved and prolly split several times and I should prolly call it init() as in other classes...
+            """Initial Arena Setup, this will be improved and prolly split several
+            times and I should prolly call it init() as in other classes...
             """
             # Team formations!!!: -------------------------------------------------------------->
             self.load_special_team_presets()
