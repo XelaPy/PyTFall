@@ -3,15 +3,15 @@ label mc_setup:
     # We set the first dict to serve as MCs image base:
     $ hero.img_db = mc_pics[mc_pics.keys()[0]]
 
-    male_fighters, female_fighters, json_fighters = load_special_arena_fighters()
-    af = choice(male_fighters.values())
-    del male_fighters[af.id]
-
-    hero._path_to_imgfolder = af._path_to_imgfolder
-    hero.id = af.id
-    hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(120, 120)))
-    hero.restore_ap()
-    hero.log_stats()
+    # male_fighters, female_fighters, json_fighters = load_special_arena_fighters()
+    # af = choice(male_fighters.values())
+    # del male_fighters[af.id]
+    #
+    # hero._path_to_imgfolder = af._path_to_imgfolder
+    # hero.id = af.id
+    # hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(120, 120)))
+    # hero.restore_ap()
+    # hero.log_stats()
 
     call build_mc_stories
 
