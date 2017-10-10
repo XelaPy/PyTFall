@@ -60,7 +60,6 @@ init -9 python:
             self.cf_mob = None
             self.cf_bonus = False
             self.cf_bonus_awarded = False
-            self.cf_multi = 0
             self.cf_setup = None
             self.cf_count = 0
             self.cf_rewards = list()
@@ -917,13 +916,16 @@ init -9 python:
 
 
             # Picking an opponent(s):
-            if self.cf_count == 7: # Boss!
-                self.cf_multi += self.cf_setup["multiplier"][2]
-                self.cf_mob = build_mob(self.cf_setup["boss"], level=self.cf_setup["level"] + randrange(20, 30))
+            base_level = self.cf_setup["level"]
+            new_level = base_level + base_level*(.1*self.cf_count)
+            new_level = round_int(new_level)
+            if self.cf_count == 5: # Boss!
+                new_level = round_int(new_level*1.1) # 10% extra for the Boss!
+                self.cf_mob = build_mob(self.cf_setup["boss"], level=new_level)
             else: # Nub!
-                self.cf_multi += self.cf_setup["multiplier"][1]
-                self.cf_mob = build_mob(choice(self.cf_setup["mobs"]), level=self.cf_setup["level"] + self.cf_count)
-            self.mob_power = 100 # TODO: FIGURE OUT WHAT THIS DOES...
+                self.cf_mob = build_mob(choice(self.cf_setup["mobs"]), level=new_level)
+
+            self.mob_power = new_level
 
             luck = 0
             # Get team luck:
@@ -1011,11 +1013,14 @@ init -9 python:
             """
             Bridge to battle engine + rewards/penalties.
             """
-            team = Team(max_size=3)
+            team = Team(max_size=len(hero.team))
             # Add the same amount of mobs as there characters on the MCs team:
             team.add(self.cf_mob)
-            while len(team) < len(hero.team):
-                team.add(build_mob(choice(self.cf_setup["mobs"]), level=self.cf_setup["level"] + self.cf_count))
+
+            for i in range(len(hero.team)-1):
+                mob = choice(self.cf_setup["mobs"])
+                mob = build_mob(mob, level=self.mob_power)
+                team.add(mob)
 
             renpy.music.stop(channel="world")
             renpy.play(choice(["content/sfx/sound/world/arena/prepare.mp3", "content/sfx/sound/world/arena/new_opp.mp3"]))
@@ -1067,7 +1072,7 @@ init -9 python:
 
                 self.cf_count += 1
 
-                if self.cf_count > 7:
+                if self.cf_count > 5:
                     # self.award = choice(list(item for item in items.values() if item.price > 4000))
                     # Misunderatood Dark's intent for rewards...
                     # reward_pool = {}
