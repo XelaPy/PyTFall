@@ -1008,6 +1008,31 @@ init -10 python:
             return getattr(self.container, self.name, None) == self.value
 
 
+    @renpy.pure
+    class SetScreenVariableC(Action, FieldEquality):
+        """
+        Allows us to use a func to update a screen variable
+        """
+
+        identity_fields = []
+        equality_fields = []
+
+        def __init__(self, name, callable, **kwargs):
+            self.name = name
+            self.callable = callable
+            self.kwargs = kwargs
+
+        def __call__(self):
+
+            cs = renpy.current_screen()
+
+            if cs is None:
+                return
+
+            cs.scope[self.name] = self.callable(**self.kwargs)
+            renpy.restart_interaction()
+
+
     # Menu extensions:
     class MenuExtensionAction(Action):
         def __init__(self, actions, extra_action=None):

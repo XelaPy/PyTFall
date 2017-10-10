@@ -28,6 +28,56 @@ init -999 python:
         def get_length_for_rating(size, rating):
             return 7 + int(size*rating)
 
+    class ArenaBarMinigame(renpy.Displayable):
+        def __init__(self, d, length_multiplier, change_max, interval, **properties):
+            super(ArenaBarMinigame, self).__init__(**properties)
+            # Slider:
+            self.slider = im.Twocolor("content/gfx/interface/bars/thvslider_thumb.png",
+                                        store.white, store.red)
+            self.length_multiplier = length_multiplier
+
+            # Bar:
+            vbox = VBox()
+            white = renpy.displayable("content/gfx/interface/bars/testbar.png")
+            white = Transform(white, size=(40, d["white"] * length_multiplier))
+            vbox.add(white)
+            for i in d:
+                if i != "white":
+                    what = im.Twocolor(renpy.displayable("content/gfx/interface/bars/testbar.png"),
+                                        getattr(store, i), getattr(store, i))
+                    what = Transform(what, size=(40, d[i]*length_multiplier))
+                    vbox.add(what)
+            vbox.add(white)
+            self.vbox = vbox
+
+            # Tracking:
+            self.next_st = 0
+            self.change = 1
+            self.interval = interval
+            self.slider_y = 0
+            self.change_max = change_max
+            self.value = 0
+            self.update = True
+
+        def render(self, width, height, st, at):
+            render = renpy.Render(width, height)
+            render.place(self.vbox)
+
+            if self.value == self.change_max:
+                self.change = -1
+            if self.value == 0:
+                self.change = 1
+
+            if self.update and st >= self.next_st:
+                self.value += self.change
+                self.next_st += self.interval
+
+            pos = (30, round_int(self.value * self.length_multiplier))
+            what = Transform(self.slider, pos=pos)
+            render.place(what)
+
+            renpy.redraw(self, 0)
+            return render
 
     class HitlerKaputt(renpy.Displayable):
         def __init__(self, displayable, crops, neg_range=(-8, -1), pos_range=(1, 8), **kwargs):

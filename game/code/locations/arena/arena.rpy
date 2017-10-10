@@ -58,8 +58,6 @@ init -9 python:
             # self.arena_rewards = load_json("arena_rewards.json")
             # self.arena_rewards = {v["id"]: v for v in self.arena_rewards}
             self.cf_mob = None
-            self.cf_bonus = False
-            self.cf_bonus_awarded = False
             self.cf_setup = None
             self.cf_count = 0
             self.cf_rewards = list()
@@ -944,10 +942,7 @@ init -9 python:
                 if dice(25 + luck*0.5):
                     bonus = True
 
-            # if bonus:
-            if True:
-                self.cf_bonus = True
-                self.cf_bonus_awarded = False
+            if bonus:
                 d = OrderedDict()
                 # Color: range (int) pares =======>>>
                 full = 1
@@ -999,15 +994,8 @@ init -9 python:
                         d[i] = c[i]
                 d["white"] = c["white"] / 2
                 # Pass the dict to the award method:
-                self.d = d
                 renpy.music.play("content/sfx/sound/events/bonus.mp3")
-
-            # if not bonus:
-            #     d = None
-            # else:
-            #     renpy.call_screen("arena_minigame", 50, 0.01, 6, d)
-            renpy.hide_screen("arena_inside")
-            renpy.call_screen("arena_minigame", 50, 0.01, 6, d)
+                renpy.call_screen("arena_minigame", 50, 0.01, 6, d)
 
             renpy.show_screen("confirm_chainfight")
 
@@ -1117,49 +1105,42 @@ init -9 python:
                     member.combat_stats = "K.O."
                 jump("arena_inside")
 
-        def award_cf_bonus(self):
+        def award_cf_bonus(self, udd, d):
             # Award the bonuses:
-            if not self.cf_bonus_awarded:
-                d = self.d
-                v = self.cf_bonus
-                result = None
-                # And lastly, mutating to a bonus: range pair, pairs dict :)
-                bonus = dict()
-                bonus["bupkis"] = (0, d["white"])
-                level = d["white"]
-                newlevel = level + d["red"]
-                bonus["HP"] = (level, newlevel)
-                level = newlevel
-                newlevel = newlevel + d["blue"]
-                bonus["MP"] = (level, newlevel)
-                level = newlevel
-                newlevel = newlevel + d["green"]
-                bonus["Restore"] = (level, newlevel)
-                level = newlevel
-                newlevel = newlevel + d["white"]
-                bonus["bupkis_2"] = (level, newlevel)
+            value = udd.value
+            result = None
+            # And lastly, mutating to a bonus: range pair, pairs dict :)
+            bonus = dict()
+            bonus["bupkis"] = (0, d["white"])
+            level = d["white"]
+            newlevel = level + d["red"]
+            bonus["HP"] = (level, newlevel)
+            level = newlevel
+            newlevel = newlevel + d["blue"]
+            bonus["MP"] = (level, newlevel)
+            level = newlevel
+            newlevel = newlevel + d["green"]
+            bonus["Restore"] = (level, newlevel)
+            level = newlevel
+            newlevel = newlevel + d["white"]
+            bonus["bupkis_2"] = (level, newlevel)
 
+            for i in bonus:
+                if bonus[i][0] <= value <= bonus[i][1]:
+                    result = i
+                    break
 
-                for i in bonus:
-                    if bonus[i][0] <= v <= bonus[i][1]:
-                        result = i
-                        break
-
-                if result == "HP":
-                    for member in hero.team:
-                        member.health = member.get_max("health")
-                elif result == "MP":
-                    for member in hero.team:
-                        member.mp = member.get_max("mp")
-                elif result == "Restore":
-                    for member in hero.team:
-                        member.health = member.get_max("health")
-                        member.mp = member.get_max("mp")
-
-                self.cf_bonus = result
-                self.cf_bonus_awarded = True
-
-            return self.cf_bonus
+            if result == "HP":
+                for member in hero.team:
+                    member.health = member.get_max("health")
+            elif result == "MP":
+                for member in hero.team:
+                    member.mp = member.get_max("mp")
+            elif result == "Restore":
+                for member in hero.team:
+                    member.health = member.get_max("health")
+                    member.mp = member.get_max("mp")
+            return result
 
         # -------------------------- Battle/Next Day ------------------------------->
         def auto_resolve_combat(self, off_team, def_team, type="dog_fight"):

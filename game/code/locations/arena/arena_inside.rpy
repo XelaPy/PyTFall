@@ -1045,89 +1045,71 @@ init: # ChainFights vs Mobs:
         else:
             timer 0.5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
 
-    python:
-        pass
-
     screen arena_minigame(maxval, interval, length_multiplier, d):
         zorder 2
         modal True
 
-        default reverse = False
         default rolled = False
-        default value = 0
-        default run = True
-        default step = 2
+        default bonus = False
 
         if rolled:
-            timer 1.0 action Return()
+            timer 2.0 action Return()
 
         add "bg mc_setup"
 
         # Bonus Roll: ===========================================================================>>>
-        if pytfall.arena.cf_bonus:
-            if run:
-                $ change = -1 if reverse else 1
-                timer interval repeat True:
-                    action [SetScreenVariable("value", value + change),
-                            If(value == maxval, true=SetScreenVariable("reverse", True)),
-                            If(value == 0, true=SetScreenVariable("reverse", False))]
+        default my_udd = ArenaBarMinigame(d, length_multiplier, maxval, interval)
+        add my_udd pos (70, 250)
+        textbutton "Freeze":
+            xalign .5 ypos 500
+            text_color blue
+            style "basic_button"
+            sensitive my_udd.update
+            action [SetField(my_udd, "update", False),
+                    SetScreenVariableC("rolled", pytfall.arena.award_cf_bonus,
+                        udd=my_udd, d=d)]
 
-
-            # Slider:
-            default slider = im.Twocolor("content/gfx/interface/bars/thvslider_thumb.png", white, red)
-            add slider pos(110, 245 + value * length_multiplier)
-
-            # Bar:
-            vbox:
-                pos (70, 250)
-                add im.Scale("content/gfx/interface/bars/testbar.png", 40, d["white"] * length_multiplier)
-                for i in d:
-                    if i != "white":
-                        add im.Twocolor(im.Scale("content/gfx/interface/bars/testbar.png", 40, d[i] * length_multiplier), store.__dict__[i], store.__dict__[i])
-                add im.Scale("content/gfx/interface/bars/testbar.png", 40, d["white"] * length_multiplier)
-
-
-            if not rolled:
-                text "Bonus Roll":
-                    pos (150, 200)
-                    style "arena_header_text"
-                    color red
-                    size 35
+        # Results:
+        if not rolled:
+            text "Bonus Roll":
+                pos (150, 200)
+                style "arena_header_text"
+                color red
+                size 35
+        else:
+            if rolled == "HP":
+                text "Bonus Roll: HP" pos (200, 200) style "black_serpent" color red size 30
+            elif rolled == "MP":
+                text "Bonus Roll: MP" pos (200, 200) style "black_serpent" color blue size 30
+            elif rolled == "Restore":
+                text "Bonus Roll: Full!" pos (200, 200) style "black_serpent" color green size 30
             else:
-                # Do the calculations, flag is set in the class so it is done once:
-                $ bonus = pytfall.arena.award_cf_bonus()
-                if bonus == "HP":
-                    text "Bonus Roll: HP" pos (200, 200) style "black_serpent" color red size 30
-                elif bonus == "MP":
-                    text "Bonus Roll: MP" pos (200, 200) style "black_serpent" color blue size 30
-                elif bonus == "Restore":
-                    text "Bonus Roll: Full!" pos (200, 200) style "black_serpent" color green size 30
-                else:
-                    text "Bonus Roll: Bupkis" pos (200, 200) style "black_serpent" color white size 30
+                text "Bonus Roll: Bupkis" pos (200, 200) style "black_serpent" color white size 30
 
-            vbox:
-                align .2, .5
+        # Legenda:
+        vbox:
+            align .2, .5
+            spacing 10
+            hbox:
+                xalign 0
                 spacing 10
-                hbox:
-                    xalign 0
-                    spacing 10
-                    add Solid(red, xysize=(20, 20))
-                    text "Restore HP" style "garamond" color red yoffset -4
-                hbox:
-                    xalign 0
-                    spacing 10
-                    add Solid(blue, xysize=(20, 20))
-                    text "Restore MP" style "garamond" color blue yoffset -4
-                hbox:
-                    xalign 0
-                    spacing 10
-                    add Solid(green, xysize=(20, 20))
-                    text "Restore HP/MP" style "garamond" color green yoffset -4
-                hbox:
-                    xalign 0
-                    spacing 10
-                    add Solid(grey, xysize=(20, 20))
-                    text "Bupkis Award!" style "garamond" color grey yoffset -4
+                add Solid(red, xysize=(20, 20))
+                text "Restore HP" style "garamond" color red yoffset -4
+            hbox:
+                xalign 0
+                spacing 10
+                add Solid(blue, xysize=(20, 20))
+                text "Restore MP" style "garamond" color blue yoffset -4
+            hbox:
+                xalign 0
+                spacing 10
+                add Solid(green, xysize=(20, 20))
+                text "Restore HP/MP" style "garamond" color green yoffset -4
+            hbox:
+                xalign 0
+                spacing 10
+                add Solid(grey, xysize=(20, 20))
+                text "Bupkis Award!" style "garamond" color grey yoffset -4
 
     screen confirm_chainfight():
         zorder 2
