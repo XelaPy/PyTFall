@@ -1118,7 +1118,7 @@ init: # ChainFights vs Mobs:
             add pytfall.arena.cf_mob.show("battle_sprite", resize=(200, 200)) at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7) align .65, .5
 
             # Title Text and Boss name if appropriate:
-            if pytfall.arena.cf_count == 7:
+            if pytfall.arena.cf_count == 5:
                 text "Boss Fight!":
                     align .5, .01
                     at fade_in_out(t1=1.5, t2=1.5)

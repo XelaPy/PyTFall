@@ -35,7 +35,7 @@ init -999 python:
     config.keymap['panic_screen'] = ['q', 'Q']
     config.underlay.append(renpy.Keymap(panic_screen=show_panic_screen_func))
 
-init -1000 python hide:
+init -999 python hide:
     ## Should we enable the use of developer tools? This should be
     ## set to False before the game is released, so the user can't
     ## cheat using developer tools.
@@ -43,8 +43,9 @@ init -1000 python hide:
     config.debug = True
 
 define config.window_icon = "content/gfx/interface/icons/win_icon.png"
-    
+
 init -5 python hide:
+    config.console_history_size = 50
     ## This controls the title of the window, when Ren'Py is
     ## running in a window.
     config.window_title = "%s %s" % (config.name, config.version)
