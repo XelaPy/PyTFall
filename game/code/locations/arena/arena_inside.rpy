@@ -1045,7 +1045,7 @@ init: # ChainFights vs Mobs:
         else:
             timer 0.5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
 
-    screen arena_minigame(range, interval, length_multiplier, d):
+    screen arena_minigame(maxval, interval, length_multiplier, d):
         zorder 2
         modal True
 
@@ -1063,18 +1063,11 @@ init: # ChainFights vs Mobs:
         # Bonus Roll: ===========================================================================>>>
         if pytfall.arena.cf_bonus:
             if run:
-                if reverse:
-                    if value == 0:
-                        $ reverse = False
-                        timer interval action SetScreenVariable("value", value + step) repeat True
-                    else:
-                        timer interval action SetScreenVariable("value", value - step) repeat True
-                else:
-                    if value == range:
-                        $ reverse = True
-                        timer interval action SetScreenVariable("value", value - step) repeat True
-                    else:
-                        timer interval action SetScreenVariable("value", value + step) repeat True
+                $ change = -1 if reverse else 1
+                timer interval repeat True:
+                    action [SetScreenVariable("value", value + change),
+                            If(value == maxval, true=SetScreenVariable("reverse", True)),
+                            If(value == 0, true=SetScreenVariable("reverse", False))]
 
             python:
                 y_w = 0

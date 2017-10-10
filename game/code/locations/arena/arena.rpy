@@ -1002,10 +1002,11 @@ init -9 python:
                 self.d = d
                 renpy.music.play("content/sfx/sound/events/bonus.mp3")
 
-            if not bonus:
-                d = None
-            else:
-                renpy.call_screen("arena_minigame", 50, 0.01, 6, d)
+            # if not bonus:
+            #     d = None
+            # else:
+            #     renpy.call_screen("arena_minigame", 50, 0.01, 6, d)
+            renpy.call_screen("arena_minigame", 50, 0.01, 6, d)
 
             renpy.show_screen("confirm_chainfight")
 
