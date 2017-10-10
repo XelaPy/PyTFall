@@ -1006,6 +1006,7 @@ init -9 python:
             #     d = None
             # else:
             #     renpy.call_screen("arena_minigame", 50, 0.01, 6, d)
+            renpy.hide_screen("arena_inside")
             renpy.call_screen("arena_minigame", 50, 0.01, 6, d)
 
             renpy.show_screen("confirm_chainfight")

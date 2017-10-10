@@ -1045,6 +1045,9 @@ init: # ChainFights vs Mobs:
         else:
             timer 0.5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
 
+    python:
+        pass
+
     screen arena_minigame(maxval, interval, length_multiplier, d):
         zorder 2
         modal True
@@ -1069,18 +1072,12 @@ init: # ChainFights vs Mobs:
                             If(value == maxval, true=SetScreenVariable("reverse", True)),
                             If(value == 0, true=SetScreenVariable("reverse", False))]
 
-            python:
-                y_w = 0
-                y_r = d["white"] * length_multiplier
-                y_b = d["blue"] + y_r
-                y_g = d["green"] + y_b
-                y_w2 = y_g + d["white"]
 
-            frame:
-                background Frame(im.Twocolor("content/gfx/interface/bars/thvslider_thumb.png", white, red), 0, 0)
-                xysize(4, 4)
-                pos(110, 245 + value * length_multiplier)
+            # Slider:
+            default slider = im.Twocolor("content/gfx/interface/bars/thvslider_thumb.png", white, red)
+            add slider pos(110, 245 + value * length_multiplier)
 
+            # Bar:
             vbox:
                 pos (70, 250)
                 add im.Scale("content/gfx/interface/bars/testbar.png", 40, d["white"] * length_multiplier)
@@ -1089,21 +1086,6 @@ init: # ChainFights vs Mobs:
                         add im.Twocolor(im.Scale("content/gfx/interface/bars/testbar.png", 40, d[i] * length_multiplier), store.__dict__[i], store.__dict__[i])
                 add im.Scale("content/gfx/interface/bars/testbar.png", 40, d["white"] * length_multiplier)
 
-            # vbox:
-                # pos (90, 250)
-                # # box_reverse True
-                # frame:
-                    # background Frame(white, 0, 0)
-                    # xysize(20, (d["white"]) * length_multiplier)
-                # for i in d:
-                    # if i != "white":
-                        # frame:
-                            # # background Frame(store.__dict__[i], 0, 0)
-                            # background im.Twocolor(im.Scale("content/gfx/interface/bars/testbar.png", 20, d[i] * length_multiplier), white, store.__dict__[i])
-                            # xysize(20, d[i] * length_multiplier)
-                # frame:
-                    # background Frame(white, 0, 0)
-                    # xysize(20, (d["white"]) * length_multiplier)
 
             if not rolled:
                 text "Bonus Roll":
@@ -1124,69 +1106,28 @@ init: # ChainFights vs Mobs:
                     text "Bonus Roll: Bupkis" pos (200, 200) style "black_serpent" color white size 30
 
             vbox:
-                align (0.2, 0.5)
+                align .2, .5
                 spacing 10
                 hbox:
                     xalign 0
                     spacing 10
-                    frame:
-                        background Frame(red, 0, 0)
-                        xysize(1, 1)
-                    text "{color=[red]}Restore HP" xalign 0.5 style "garamond"
+                    add Solid(red, xysize=(20, 20))
+                    text "Restore HP" style "garamond" color red yoffset -4
                 hbox:
                     xalign 0
                     spacing 10
-                    frame:
-                        background Frame(blue, 0, 0)
-                        xysize(1, 1)
-                    text "{color=[blue]}Restore MP" xalign 0.5 style "garamond"
+                    add Solid(blue, xysize=(20, 20))
+                    text "Restore MP" style "garamond" color blue yoffset -4
                 hbox:
                     xalign 0
                     spacing 10
-                    frame:
-                        background Frame(green, 0, 0)
-                        xysize(1, 1)
-                    text "{color=[green]}Restore HP/MP" xalign 0.5 style "garamond"
+                    add Solid(green, xysize=(20, 20))
+                    text "Restore HP/MP" style "garamond" color green yoffset -4
                 hbox:
                     xalign 0
                     spacing 10
-                    frame:
-                        background Frame(grey, 0, 0)
-                        xysize(1, 1)
-                    text "{color=[grey]}Bupkis Award!" xalign 0.5 style "garamond"
-
-                if run:
-                    textbutton "{color=[blue]}Freeze":
-                        style "basic_button"
-                        action SetScreenVariable("run", False), SetScreenVariable("rolled", True), SetField(pytfall.arena, "cf_bonus", value)
-
-                # if config.developer:
-                    # python:
-                        # d = pytfall.arena.d
-                        # v = value
-                        # result = None
-                        # # And lastly, mutating to a bonus: range pair, pairs dict :)
-                        # bonus = dict()
-                        # bonus["bupkis"] = (0, d["white"])
-                        # level = d["white"]
-                        # newlevel = level + d["red"]
-                        # bonus["HP"] = (level, newlevel)
-                        # level = newlevel
-                        # newlevel = newlevel + d["blue"]
-                        # bonus["MP"] = (level, newlevel)
-                        # level = newlevel
-                        # newlevel = newlevel + d["green"]
-                        # bonus["restore"] = (level, newlevel)
-                        # level = newlevel
-                        # newlevel = newlevel + d["white"]
-                        # bonus["bupkis_2"] = (level, newlevel)
-                        # # raise Exception, bonus
-
-                        # for i in bonus:
-                            # if bonus[i][0] <= v <= bonus[i][1]:
-                                # result = i
-                                # break
-                    # text "Value: [v], Reward: [result]"
+                    add Solid(grey, xysize=(20, 20))
+                    text "Bupkis Award!" style "garamond" color grey yoffset -4
 
     screen confirm_chainfight():
         zorder 2
