@@ -1063,26 +1063,27 @@ init -9 python:
                 self.cf_count += 1
 
                 if self.cf_count > 5:
-                    # self.award = choice(list(item for item in items.values() if item.price > 4000))
-                    # Misunderatood Dark's intent for rewards...
-                    # reward_pool = {}
-                    # for key in self.cf_setup["reward"]:
-                        # for entry in self.arena_rewards[key]["items"]:
-                            # reward_pool[entry] = self.arena_rewards[key]["items"][entry]
-                    # self.cf_rewards = list()
-                    # for key in reward_pool:
-                        # if dice(reward_pool[key] + hero.luck/2):
-                            # self.cf_rewards.append(items[key])
-
                     self.cf_rewards = list()
-                    for key in self.cf_setup["reward"]:
-                        for __ in range(self.cf_setup["reward"][key]):
-                            # TODO NO MORE ARENA REWARDS!
-                            item_str = choice(self.arena_rewards[key]["items"].keys())
-                            self.cf_rewards.append(items[item_str])
+                    tier = self.mob_power/20.0
+                    temp = [i for i in items.values() if "Arena" in i.locations and i.tier <= tier]
+                    arena_items = dict()
+                    for i in temp:
+                        arena_items.setdefault(i.tier, []).append(i)
 
-                    for reward in self.cf_rewards:
-                        hero.inventory.append(reward)
+                    amount = 2
+                    amount += min(round_int(hero.arena_rep/15000.0), 3)
+
+                    for tier in sorted(arena_items.keys(), reverse=True):
+                        pool = arena_items[tier]
+                        temp = min(len(pool), amount)
+                        amount -= temp
+                        self.cf_rewards.extend(random.sample(pool, temp))
+                        if not amount:
+                            break
+
+                    for i in self.cf_rewards:
+                        hero.inventory.append(i)
+
                     self.cf_mob = None
                     self.cf_setup = None
                     self.cf_count = 0
