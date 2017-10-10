@@ -149,40 +149,6 @@ init: # MC Setup Screens:
                 align (0.0, 0.10)
                 action Show("char_rename", char=hero)
 
-        # Base Traits (Classes):
-        python:
-            try:
-                temp = mc_stories[main_story][sub_story].get("class", None)
-            except:
-                temp = None
-            try:
-                if temp is None:
-                    temp = mc_stories[main_story].get("class", None)
-            except:
-                temp = None
-        # if temp:
-            # textbutton "[temp]":
-                # align .32, .06
-                # action NullAction()
-
-        python:
-            try:
-                temp = mc_stories[main_story]["MC"][sub_story][mc_story][mc_substory].get("class", None)
-            except:
-                temp = None
-            try:
-                if temp is None:
-                    temp = mc_stories[main_story]["MC"][sub_story][mc_story].get("class", None)
-            except:
-                temp = None
-        # if temp:
-            # textbutton "[temp]":
-                # align .42, .17
-                # action NullAction()
-
-        # Text:
-        # text ("{size=80}{font=fonts/earthkid.ttf}PyTFall") antialias True vertical True align (0.51, 0.65)
-
         # MC Sprites:
         hbox:
             spacing 4
@@ -223,12 +189,10 @@ init: # MC Setup Screens:
             xysize (160, 220)
             background Frame("content/gfx/frame/MC_bg3.png", 40, 40)
             add sprites[index].show("battle_sprite", resize=(150, 200)) align .5, .4
-            frame:
-                align .995, -.74
-                xoffset 45
-                anchor (1, 1)
-                background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                add sprites[index].show("portrait", resize=(100, 100))
+        frame:
+            pos 713, 37
+            background Frame("content/gfx/frame/MC_bg.png", 10, 10)
+            add sprites[index].show("portrait", resize=(100, 100))
 
         # Stats: @ Review, disabled for now! or forever?
         # if hasattr(store, "mc_stats") and hasattr(store, "total_points"):
