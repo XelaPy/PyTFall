@@ -248,6 +248,10 @@ label continue_with_start:
         call testing
 
     $ jsstor.finish()
+    python in _console:
+        stdio_lines = []
+        stderr_lines = []
+        console.history = []
     jump mainscreen
 
 label dev_testing_menu_and_load_mc:
