@@ -999,7 +999,7 @@ init -9 python:
 
             renpy.show_screen("confirm_chainfight")
 
-        def start_chainfight(self):
+        def execute_chainfight(self):
             """
             Bridge to battle engine + rewards/penalties.
             """
@@ -1093,7 +1093,6 @@ init -9 python:
                     renpy.call_screen("arena_aftermatch", hero.team, team, "Victory")
                     self.setup_chainfight()
                     return
-
             else: # Player lost -->
                 self.cf_mob = None
                 self.cf_setup = None

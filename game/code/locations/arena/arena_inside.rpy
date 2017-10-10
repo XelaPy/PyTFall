@@ -45,7 +45,7 @@ label arena_inside:
             elif result[1] == "start_chainfight":
                 $ pytfall.arena.check_before_chainfight()
             elif result[1] == "chainfight":
-                $ pytfall.arena.start_chainfight()
+                $ pytfall.arena.execute_chainfight()
 
 label arena_inside_end:
     stop world fadeout 1.5
