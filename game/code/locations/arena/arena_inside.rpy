@@ -1143,12 +1143,16 @@ init: # ChainFights vs Mobs:
             align(0.5, 0.9)
             textbutton "{color=[blue]}Give Up :( ":
                 style "basic_button"
-                action [Hide("arena_inside"), Hide("chain_fight"), Hide("confirm_chainfight"), SetField(pytfall.arena, "cf_count", 0),
-                           SetField(pytfall.arena, "cf_mob", None), SetField(pytfall.arena, "cf_setup", None), SetField(pytfall.arena, "cf_bonus", False),
-                           Stop("music"), Jump("arena_inside")]
+                action [Hide("arena_inside"), Hide("chain_fight"), Hide("confirm_chainfight"),
+                        SetField(pytfall.arena, "cf_count", 0),
+                        SetField(pytfall.arena, "cf_mob", None),
+                        SetField(pytfall.arena, "cf_setup", None),
+                        Stop("music"), Jump("arena_inside")]
             textbutton "{color=[red]}Fight!!!":
                 style "basic_button"
-                action [Hide("arena_inside"), Hide("chain_fight"), Hide("confirm_chainfight"), SetField(pytfall.arena, "cf_bonus", False), Return(["challenge", "chainfight"])]
+                action [Hide("arena_inside"), Hide("chain_fight"),
+                        Hide("confirm_chainfight"),
+                        Return(["challenge", "chainfight"])]
 
     screen arena_finished_chainfight(w_team):
         zorder  3
