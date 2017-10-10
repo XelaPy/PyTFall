@@ -336,7 +336,6 @@ init: # Main Screens:
                                 has hbox # xysize (690, 150)
 
                                 # Day of the fight:
-
                                 fixed:
                                     xoffset 15
                                     xysize (100, 100)
@@ -386,14 +385,23 @@ init: # Main Screens:
                                 # Waiting for the challenge or been challenged by former:
                                 frame:
                                     style "arena_channenge_frame"
+                                    $ team = lineup[1]
+                                    $ name = team[0].nickname if len(team) == 1 else team.name
+                                    $ size = 15 if len(name) > 15 else 25
+                                    $ level = team.get_level()
                                     frame:
                                         align .5, .0
-                                        padding 5, 3
+                                        padding 5, 1
                                         background Frame("content/gfx/frame/rank_frame.png", 5, 5)
-                                        $ name = lineup[1][0].nickname if len(lineup[1]) == 1 else lineup[1].name
-                                        label "[name]" align .5, .5 text_size 20 text_style "proper_stats_text" text_color gold:
-                                            if len(name) > 15:
-                                                text_size 15
+                                        if not lineup[0]:
+                                            $ text = "[name] {color=[red]}([level])"
+                                        else:
+                                            $ text = "[name]"
+                                        text text:
+                                            align .5, .0
+                                            size size
+                                            style "proper_stats_text"
+                                            color gold
                                     hbox:
                                         spacing 3
                                         align 0.5, 1.0
@@ -555,6 +563,7 @@ init: # Main Screens:
                     for team in container:
                         frame:
                             style_group "content"
+                            padding 5, 3
                             xalign .5
                             xysize (695, 150)
                             background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
@@ -568,21 +577,25 @@ init: # Main Screens:
 
                             frame:
                                 style "arena_channenge_frame"
+                                $ name = team[0].nickname if len(team) == 1 else team.name
+                                $ size = 15 if len(name) > 15 else 25
+                                $ level = team.get_level()
                                 frame:
                                     align .5, .0
-                                    padding 5, 3
+                                    padding 5, 1
                                     background Frame("content/gfx/frame/rank_frame.png", 5, 5)
-                                    $ name = team[0].nickname if len(team) == 1 else team.name
-                                    label ("[name]") align .5, .5 text_size 25 text_style "proper_stats_text" text_color gold:
-                                        if len(name) > 15:
-                                            text_size 15
+                                    text ("[name] {color=[red]}([level])"):
+                                        align .5, .0
+                                        size size
+                                        style "proper_stats_text"
+                                        color gold
                                 hbox:
                                     spacing 3
                                     align 0.5, 1.0
                                     for fighter in team:
                                         frame:
                                             padding 2, 2
-                                            background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+                                            background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
                                             add fighter.show("portrait", resize=(60, 60))
 
                 vbar value YScrollValue("vp_dogfights")
