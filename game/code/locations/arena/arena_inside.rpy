@@ -78,11 +78,18 @@ init: # Main Screens:
         # Start match button:
         if day in hero.fighting_days:
             button:
-                align (0.97, 0.5)
-                xysize (200, 40)
+                align .5, .28
+                # xysize (200, 40)
+                ypadding 15
+                left_padding 15
+                right_padding 40
                 style "right_wood_button"
                 action Return(["challenge", "start_match"])
-                text "Start Match!" style "wood_text" xalign(0.4) size 20
+                text "Start Match!":
+                    font "fonts/badaboom.ttf"
+                    size 20
+                    color ivory
+                    hover_color crimson
 
         # Kickass sign:
         frame:
