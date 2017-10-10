@@ -961,7 +961,7 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=F
                 if not(traits[0]) and not(traits[1]):
                     label ("-elements overlapped each other-") text_size 14 text_color goldenrod text_bold True xalign .45
             imagebutton:
-                align 0.99, .01
+                align 0.465, .01
                 xysize 22, 22
                 idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
                 hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
