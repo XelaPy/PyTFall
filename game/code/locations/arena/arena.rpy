@@ -289,63 +289,54 @@ init -9 python:
 
         def update_dogfights(self):
             """
-            Attempts to fill dogfights if there are teams available for a fight.
-            Takes care of busy and injured fighters, making sure that they and their teams don't make the cut.
+            Just populates dogfights, no more checking for anything...
             """
             # 1v1
             if len(self.dogfights_1v1) < 20:
-                candidates = self.get_arena_candidates_from_chars()
-                lineups = self.get_lineups_fighters(lineup="1v1")
-                templist = [fighter for fighter in candidates if fighter not in lineups]
-                shuffle(templist)
+                dogfighters = list(chain.from_iterable(t.members for t in self.dogfights_1v1))
+                candidates = [f for f in self.arena_fighters.values() if f not in dogfighters]
+                candidates = random.sample(self.arena_fighters.values(), 20)
+                chars_fighters = self.get_arena_candidates_from_chars()
+                chars_fighters = [f for f in chars_fighters if f not in dogfighters]
+                candidates.extend(chars_fighters)
 
-                for __ in xrange(randint(10, 20)):
-                    if templist:
-                        team = Team(max_size=1)
-                        team.add(templist.pop())
-                        self.dogfights_1v1.append(team)
-
-            busy_teams = set()
-            for team in self.dogfights_1v1:
-                for fighter in team:
-                    if day in fighter.fighting_days:
-                        busy_teams.add(team)
-            for team in busy_teams:
-                self.dogfights_1v1.remove(team)
+                shuffle(candidates)
+                for i in range(randint(10, 20)):
+                    team = Team(max_size=1)
+                    team.add(candidates.pop())
+                    self.dogfights_1v1.append(team)
 
             # 2v2
-            if len(self.dogfights_2v2) < 10:
-                templist = [team for team in self.teams_2v2 if team not in self.lineup_2v2]
-                shuffle(templist)
+            if len(self.dogfights_2v2) < 15:
+                candidates = [team for team in self.teams_2v2 if team not in self.dogfights_2v2]
+                shuffle(candidates)
+                for i in range(randint(8, 15)):
+                    if candidates:
+                        self.dogfights_2v2.append(candidates.pop())
 
-                for __ in xrange(randint(8, 15)):
-                    if templist:
-                        self.dogfights_2v2.append(templist.pop())
-
-            busy_teams = set()
-            for team in self.dogfights_2v2:
-                for fighter in team:
-                    if day in fighter.fighting_days:
-                        busy_teams.add(team)
-            for team in busy_teams:
-                self.dogfights_2v2.remove(team)
+            # busy_teams = set()
+            # for team in self.dogfights_2v2:
+            #     for fighter in team:
+            #         if day in fighter.fighting_days:
+            #             busy_teams.add(team)
+            # for team in busy_teams:
+            #     self.dogfights_2v2.remove(team)
 
             # 3v3
-            if len(self.dogfights_3v3) < 10:
-                templist = [team for team in self.teams_3v3 if team not in self.lineup_3v3]
-                shuffle(templist)
+            if len(self.dogfights_3v3) < 15:
+                candidates = [team for team in self.teams_3v3 if team not in self.dogfights_3v3]
+                shuffle(candidates)
+                for i in xrange(randint(8, 15)):
+                    if candidates:
+                        self.dogfights_3v3.append(candidates.pop())
 
-                for __ in xrange(randint(8, 15)):
-                    if templist:
-                        self.dogfights_3v3.append(templist.pop())
-
-            busy_teams = set()
-            for team in self.dogfights_3v3:
-                for fighter in team:
-                    if day in fighter.fighting_days:
-                        busy_teams.add(team)
-            for team in busy_teams:
-                self.dogfights_3v3.remove(team)
+            # busy_teams = set()
+            # for team in self.dogfights_3v3:
+            #     for fighter in team:
+            #         if day in fighter.fighting_days:
+            #             busy_teams.add(team)
+            # for team in busy_teams:
+            #     self.dogfights_3v3.remove(team)
 
         def update_matches(self):
             # 1vs1:
@@ -549,22 +540,16 @@ init -9 python:
                     renpy.call_screen("message_screen", "%s does not have enough Action Points for a fight (2 required)!"%member.name)
                     return
 
-            ht_strength = 0 # hero team*
-            opfor_strength = 0 # opposing forces*
-            for member in hero.team:
-                for stat in ilists.battlestats[2:]:
-                    ht_strength += getattr(member, stat)
-            for member in team:
-                for stat in ilists.battlestats[2:]:
-                    opfor_strength += getattr(member, stat)
-            if opfor_strength > ht_strength * 1.6:
+            hlvl = hero.team.get_level()
+            elvl = team.get_level()
+            if elvl > hlvl * 1.5:
                 if len(team) == 1:
-                    team.leader.say("You're not not worth my time, go train some!")
+                    team.leader.say("You're not worth my time, go train some!")
                     return
                 else:
-                    team.leader.say("You guys need to grow some before challenging the likes of us!")
+                    team.leader.say("You guys need to grow up before challenging the likes of us!")
                     return
-            if opfor_strength * 1.6 < ht_strength:
+            if elvl * 1.5 < hlvl:
                 if len(team) == 1:
                     team.leader.say("I'll am not feeling up to it... really!")
                     return
@@ -1218,6 +1203,7 @@ init -9 python:
 
                 for member in team:
                     member.arena_rep -= max(50, (team.get_rep()/30))
+                    restore_battle_stats(member)
                     self.remove_team_from_dogfights(member)
 
                 renpy.call_screen("arena_aftermatch", hero.team, team, "Victory")
@@ -1243,6 +1229,7 @@ init -9 python:
                                 member.add_money(statdict[stat], reason="Arena")
                             else:
                                 member.mod_stat(stat, statdict[stat])
+                    restore_battle_stats(member)
                     self.remove_team_from_dogfights(member)
 
                 for member in hero.team:
@@ -1308,6 +1295,7 @@ init -9 python:
 
                 for member in team:
                     member.arena_rep -= max(50, (hero.team.get_rep()/20))
+                    restore_battle_stats(member)
                     self.remove_team_from_dogfights(member)
 
                 renpy.call_screen("arena_aftermatch", hero.team, team, "Victory")
@@ -1335,6 +1323,7 @@ init -9 python:
                                 member.arena_rep += statdict[stat]
                             else:
                                 member.mod_stat(stat, statdict[stat])
+                    restore_battle_stats(member)
                     self.remove_team_from_dogfights(member)
 
                 for member in hero.team:

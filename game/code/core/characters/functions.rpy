@@ -1,4 +1,8 @@
 init -11 python:
+    def restore_battle_stats(char):
+        for stat in ["health", "mp", "vitality"]:
+            char.mod_stat(stat, char.get_max(stat))
+
     def build_multi_elemental_icon(size=70, elements=None):
         if elements is None: # Everything except "Neutral"
             icons = [Transform(e.icon, size=(size, size)) for e in tgs.elemental if e.id != "Neutral"]
