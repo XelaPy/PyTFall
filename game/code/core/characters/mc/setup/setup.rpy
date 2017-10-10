@@ -194,54 +194,6 @@ init: # MC Setup Screens:
             background Frame("content/gfx/frame/MC_bg.png", 10, 10)
             add sprites[index].show("portrait", resize=(100, 100))
 
-        # Stats: @ Review, disabled for now! or forever?
-        # if hasattr(store, "mc_stats") and hasattr(store, "total_points"):
-            # frame:
-                # background Frame(Transform("content/gfx/frame/MC_bg.png", alpha=1), 30, 30)
-                # xanchor 1.0
-                # pos (1280, 10)
-                # vbox:
-                    # spacing 4
-                    # xysize (438, 250)
-                    # text ("{font=fonts/DeadSecretary.ttf}{size=22}attributes") xalign 0.5 yalign 0.4
-                    # vbox:
-                        # xalign 0.5
-                        # spacing 4
-                        # for stat in mc_stats:
-                            # hbox:
-                                # hbox:
-                                    # hbox:
-                                        # xminimum 340
-                                        # xmaximum 340
-                                        # xanchor -0.06
-                                        # xfill True
-                                        # text ("{font=fonts/agrevue.ttf}{size=17}%s"%stat.capitalize())
-                                    # hbox:
-                                        # xminimum 100
-                                        # xmaximum 100
-                                        # xanchor -0.3
-                                        # xfill True
-                                        # text ("{=myriadpro_reg}{size=17}%d I %d"%(mc_stats[stat], min(mc_max[stat], mc_lvl_max[stat])))
-
-                                # # Buttons:
-                                # #hbox:
-                                    # #spacing 4
-                                    # #xanchor 0.2
-                                    # #$ img = ProportionalScale("content/gfx/interface/buttons/blue_arrow_left.png", 15, 15)
-                                    # #imagebutton:
-                                        # #idle img
-                                        # #hover im.MatrixColor(img, im.matrix.brightness(0.20))
-                                        # #activate_sound "content/sfx/sound/sys/hover_2.wav"
-                                        # #action Return(["adjust_stat", "-", stat])
-
-                                    # #$ img = ProportionalScale("content/gfx/interface/buttons/blue_arrow_right.png", 15, 15)
-                                    # #imagebutton:
-                                        # #idle img
-                                        # #hover im.MatrixColor(img, im.matrix.brightness(0.20))
-                                        # #activate_sound "content/sfx/sound/sys/hover_2.wav"
-                                        # #action Return(["adjust_stat", "+", stat])
-
-
         ### Background Story ###
         add "content/gfx/interface/images/story1.png" align (0.002, 0.09)
 
@@ -257,7 +209,8 @@ init: # MC Setup Screens:
             pos (30, 65)
             spacing 17
             $ ac_list = [Hide("mc_stories"), Hide("mc_sub_stories"), Hide("mc_sub_texts"),
-                              SetVariable("sub_story", None), SetVariable("mc_story", None), SetVariable("mc_substory", None)]
+                         SetVariable("sub_story", None), SetVariable("mc_story", None),
+                         SetVariable("mc_substory", None)]
             for branch in mc_stories:
                 $ img = im.Scale(mc_stories[branch]["img"], 50, 50, align=(0.5, 0.5))
                 button: ## Merchant ##
