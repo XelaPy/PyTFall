@@ -914,7 +914,6 @@ init -9 python:
                 self.cf_setup = self.chain_fights[result]
                 self.result = None
 
-
             # Picking an opponent(s):
             base_level = self.cf_setup["level"]
             new_level = base_level + base_level*(.1*self.cf_count)
@@ -945,7 +944,8 @@ init -9 python:
                 if dice(25 + luck*0.5):
                     bonus = True
 
-            if bonus:
+            # if bonus:
+            if True:
                 self.cf_bonus = True
                 self.cf_bonus_awarded = False
                 d = OrderedDict()
