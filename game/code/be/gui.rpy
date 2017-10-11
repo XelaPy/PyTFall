@@ -249,7 +249,7 @@ init: # screens:
                             xysize 140, 320
                             default me_icon = build_multi_elemental_icon()
                             vbox:
-                                add me_icon align (.5, .1) # xcenter 230 ycenter 58
+                                add ProportionalScale("content/gfx/interface/images/elements/multi.png", 70, 70) align (.5, .1) # xcenter 230 ycenter 58
                                 for skill in me:
                                     textbutton "{=text}{color=[black]}{size=-6}[skill.mn]":
                                         padding 0, 1

@@ -937,26 +937,26 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=F
                                 frame:
                                     xysize 60, 20
                                     if traits[0][element] < 0:
-                                        label str(traits[0][element])+" %" text_size 15 text_color red align 1.0, .5
+                                        label str(traits[0][element])+" %" text_size 15 text_color red align 1.0, .5 text_outlines [(2, "#000000", 0, 0)]
                                     else:
-                                        label str(traits[0][element])+" %" text_size 15 text_color lime align 1.0, .5
+                                        label str(traits[0][element])+" %" text_size 15 text_color lime align 1.0, .5 text_outlines [(2, "#000000", 0, 0)]
                             else:
                                 frame:
                                     xysize 60, 20
-                                    label "0 %" text_size 15 text_color lime align 1.0, .5
+                                    label "0 %" text_size 15 text_color lime align 1.0, .5 text_outlines [(2, "#000000", 0, 0)]
                     vbox:
                         for element in traits[2]:
                             if element in traits[1].keys():
                                 frame:
                                     xysize 60, 20
                                     if traits[1][element] < 0:
-                                        label str(traits[1][element])+" %" text_size 15 text_color red align 1.0, .5
+                                        label str(traits[1][element])+" %" text_size 15 text_color red align 1.0, .5 text_outlines [(2, "#000000", 0, 0)]
                                     else:
-                                        label str(traits[1][element])+" %" text_size 15 text_color lime align 1.0, .5
+                                        label str(traits[1][element])+" %" text_size 15 text_color lime align 1.0, .5 text_outlines [(2, "#000000", 0, 0)]
                             else:
                                 frame:
                                     xysize 60, 20
-                                    label "0 %" text_size 15 text_color lime align 1.0, .5
+                                    label "0 %" text_size 15 text_color lime align 1.0, .5 text_outlines [(2, "#000000", 0, 0)]
 
                 if not(traits[0]) and not(traits[1]):
                     label ("-elements overlapped each other-") text_size 14 text_color goldenrod text_bold True xalign .45
