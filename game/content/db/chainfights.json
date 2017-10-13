@@ -7,11 +7,25 @@
 	"boss_name": "The Great One"
 	},
 	{
+	"id": "Once Lived Ones",
+	"level": 15,
+	"mobs": ["Undead Rat", "Skeleton", "Skeleton Warrior", "Will-o-wisp"],
+	"boss": "Spectre",
+	"boss_name": "Holy Ghost"
+	},
+	{
 	"id": "Amazon Tribe",
 	"level": 20,
 	"mobs": ["Amazon Thief", "Amazon Archer", "Amazon Warrior"],
 	"boss": "Lamia",
 	"boss_name": "Amazon Princess"
+	},
+	{
+	"id": "Wolves Pack",
+	"level": 25,
+	"mobs": ["Wolf", "Black Wolf", "Link Wolf"],
+	"boss": "Feonix",
+	"boss_name": "Alpha"
 	},
 	{
 	"id": "Abominations",
@@ -35,6 +49,13 @@
 	"boss_name": "Shooting Star"
 	},
 	{
+	"id": "Monster Girls",
+	"level": 55,
+	"mobs": ["Weregirl", "Horny Medusa", "Minotauress", "Beargirl", "Naiad"],
+	"boss": "Insect Queen",
+	"boss_name": "Poisonous Sting"
+	},
+	{
 	"id": "Earthlings",
 	"level": 60,
 	"mobs": ["Mud Elemental", "Earth Elemental", "Lava Elemental"],
@@ -49,6 +70,13 @@
 	"boss_name": "Tireless Hunter"
 	},
 	{
+	"id": "Forces of Nature",
+	"level": 75,
+	"mobs": ["Wild Dryad", "Druid", "Forest Fairy", "Flytrap"],
+	"boss": "Poison Ivy",
+	"boss_name": "Forest Lady"
+	},
+	{
 	"id": "Rogue Shinobi",
 	"level": 80,
 	"mobs": ["Warrior", "Archer", "Soldier", "Barbarian", "Assassin"],
@@ -56,10 +84,17 @@
 	"boss_name": "The Shadow of A Shadow"
 	},
 	{
+	"id": "Elemental Spirits",
+	"level": 85,
+	"mobs": ["Wind Spirit", "Water Spirit", "Fire Spirit", "Barbarian", "Assassin"],
+	"boss": "Quick Silver",
+	"boss_name": "Anti Elemental"
+	},
+	{
 	"id": "Divine Champions",
 	"level": 90,
 	"mobs": ["Angel", "Heaven Guardian", "Archangel", "Flaming Fox"],
-	"boss": "Spectre",
+	"boss": "Seraph",
 	"boss_name": "Holy Spirit"
 	},
 	{
@@ -68,6 +103,20 @@
 	"mobs": ["Succubus", "Mare", "Lilith", "Horny Succubus"],
 	"boss": "Night Mare",
 	"boss_name": "The Lust"
+	},
+	{
+	"id": "Icebound",
+	"level": 105,
+	"mobs": ["Frost Giant", "Ice Maiden", "Ice Golem", "Frozen Heart"],
+	"boss": "Winter Queen",
+	"boss_name": "Eternal Winter"
+	},
+	{
+	"id": "Corpse Party",
+	"level": 110,
+	"mobs": ["Phantasm", "Undead Unicorn", "Lesser Vampire", "Shadowman"],
+	"boss": "Undead Cemetery",
+	"boss_name": "Awakened Mass"
 	},
 	{
 	"id": "Slime Time",
