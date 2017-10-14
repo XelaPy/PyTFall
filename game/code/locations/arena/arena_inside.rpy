@@ -127,7 +127,7 @@ init: # Main Screens:
                     textbutton "{size=20}{color=[black]}Bestiary":
                         action Return(["show", "bestiary"])
                         hovered tt.Action("Info about known enemies")
-                    textbutton "{size=20}{color=[black]}Survival!":
+                    textbutton "{size=20}{color=[black]}Survival":
                         action Return(["challenge", "start_chainfight"])
                         hovered tt.Action("Unranked fights vs beasts and monsters")
 
@@ -1058,36 +1058,99 @@ init: # Main Screens:
 
 init: # ChainFights vs Mobs:
     screen chain_fight():
-        zorder 1
-
-        add "content/gfx/bg/locations/arena_bestiary.jpg"
-
         if not pytfall.arena.cf_mob:
-            text "Choose your Fight!":
-                style "arena_header_text"
-                align (0.5, 0.1)
-                size 50
-
-            vbox:
-                style "menu"
-                spacing 1
-                align (0.5, 0.55)
-                for setup in pytfall.arena.chain_fights_order:
-                    button:
-                        style "menu_choice_button_blue"
-                        action [SetField(pytfall.arena, "result", setup), Return("Bupkis")]
-
-                        text "[setup]" style "menu_choice"
-
+            frame:
+                background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+                at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
+                style_group "content"
+                pos (280, 0)
+                xysize (721, 720)
+                has vbox
                 button:
-                    style "menu_choice_button"
-                    action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
+                    style_group "basic"
+                    action SetField(pytfall.arena, "result", "break"), Return("Bupkis")
+                    minimum(50, 30)
+                    align (0.5, 0.9995)
+                    text  "Close"
+                viewport:
+                    scrollbars "vertical"
+                    xysize (721, 700)
+                    draggable True
+                    mousewheel True
+                    child_size (700, 5000)
+                    has vbox spacing 5
+                    for setup in pytfall.arena.chain_fights_order:
+                        frame:
+                            xysize (695, 60)
+                            background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
+                            padding 1, 1
+                            # has hbox spacing 5
+                            hbox:
+                                yalign 0.5
+                                frame:
+                                    yalign 0.5
+                                    xysize (350, 45)
+                                    background Frame("content/gfx/frame/rank_frame.png", 5, 5)
+                                    text("[setup]") align .5, .5 size 25 style "proper_stats_text" color gold
+                                frame:
+                                    yalign 0.5
+                                    xysize (45, 45)
+                                    background Frame ("content/gfx/frame/rank_frame.png", 5, 5)
+                                    $ portrait = ProportionalScale(mobs[pytfall.arena.chain_fights[setup]["boss"]]["portrait"], 36, 36)
+                                    add portrait:
+                                        align (.5, .5)
+                                frame:
+                                    yalign 0.5
+                                    xysize (100, 45)
+                                    background Frame("content/gfx/frame/rank_frame.png", 5, 5)
+                                    $ lvl = pytfall.arena.chain_fights[setup]["level"]
+                                    
+                                    text("Lvl [lvl]") align .5, .5 size 25 style "proper_stats_text" color gold
+                                button:
+                                    xfill True
+                                    ysize 60
+                                    background None
+                                    action [SetField(pytfall.arena, "result", setup), Return("Bupkis")]
+                                    align (.5, .5)
+                                    text "Challenge!" size 40 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf" outlines [(2, "#3a3a3a", 0, 0)]
 
-                    text "Back" style "menu_choice"
-
-                key "mousedown_3" action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
+                                    # button:
+                                        # text "Fight!"
+                                        # action [SetField(pytfall.arena, "result", setup), Return("Bupkis")]
         else:
             timer 0.5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
+        key "mousedown_3" action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
+    
+        # zorder 1
+
+        # add "content/gfx/bg/locations/arena_bestiary.jpg"
+
+        # if not pytfall.arena.cf_mob:
+            # text "Choose your Fight!":
+                # style "arena_header_text"
+                # align (0.5, 0.1)
+                # size 50
+
+            # vbox:
+                # style "menu"
+                # spacing 1
+                # align (0.5, 0.55)
+                # for setup in pytfall.arena.chain_fights_order:
+                    # button:
+                        # style "menu_choice_button_blue"
+                        # action [SetField(pytfall.arena, "result", setup), Return("Bupkis")]
+
+                        # text "[setup]" style "menu_choice"
+
+                # button:
+                    # style "menu_choice_button"
+                    # action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
+
+                    # text "Back" style "menu_choice"
+
+                # key "mousedown_3" action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
+        # else:
+            # timer 0.5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
 
     screen arena_minigame(maxval, interval, length_multiplier, d):
         zorder 2

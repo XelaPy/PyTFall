@@ -52,7 +52,7 @@ init -9 python:
             self.result = None
 
             # Chanfighting:
-            self.chain_fights = {f["id"]: f for f in load_json("chainfights.json")}
+            self.chain_fights = {f["id"]: f for f in load_json("arena_chainfights.json")}
             self.chain_fights_order = list(f["id"] for f in sorted(self.chain_fights.values(), key=itemgetter("level")))
 
             # self.arena_rewards = load_json("arena_rewards.json")
@@ -864,8 +864,8 @@ init -9 python:
             renpy.predict_screen("confirm_chainfight")
 
             for member in hero.team:
-                if member.AP < 3:
-                    renpy.call_screen("message_screen", "%s does not have enough Action Points to start a chain fight (3 AP required)!"%member.name)
+                if member.AP < 2:
+                    renpy.call_screen("message_screen", "%s does not have enough Action Points to start a chain fight (2 AP required)!"%member.name)
                     return
                 if member.status == "slave":
                     renpy.call_screen("message_screen", "%s is a Slave forbidden from participation in Combat!"%member.name)
@@ -873,7 +873,7 @@ init -9 python:
 
             # If we got this far, we can safely take AP off teammembers:
             for member in hero.team:
-                member.AP -= 3
+                member.AP -= 2
 
             self.cf_count = 1
 
