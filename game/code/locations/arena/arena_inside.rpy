@@ -522,6 +522,16 @@ init: # Main Screens:
                                 xfill True
                             if fighter:
                                 frame:
+                                    background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+                                    padding 2, 2
+                                    add fighter.show("portrait", resize=(40, 40))
+                                    yalign .5
+                                frame:
+                                    align (0.5, 0.5)
+                                    xsize 100
+                                    background Frame("content/gfx/frame/rank_frame.png", 5, 5)
+                                    text("Lvl [fighter.level]") align .5, .5 size 25 style "proper_stats_text" color gold
+                                frame:
                                     xfill True
                                     align (0.5, 0.5)
                                     background Frame("content/gfx/frame/rank_frame.png", 5, 5)
