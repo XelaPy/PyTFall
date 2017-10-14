@@ -71,7 +71,7 @@ init: # Main Screens:
         hover_background Frame("content/gfx/frame/p_frame4.png", 10, 10)
 
     screen arena_inside():
-
+        default tt = Tooltip("Get your ass kicked in our Arena!")
         #use top_stripe(True)
         add "content/gfx/bg/be/battle_arena_1.jpg"  xpos 100 ypos 35
 
@@ -97,7 +97,8 @@ init: # Main Screens:
             ypos 39
             background Frame("content/gfx/frame/Mc_bg.png", 10, 10)
             xysize (725, 120)
-            text "Get your ass kicked in our Arena!" align .5, .5 font "fonts/badaboom.ttf" color crimson size 45
+            # text "Get your ass kicked in our Arena!" align .5, .5 font "fonts/badaboom.ttf" color crimson size 45
+            text (u"{=stats_text}{color=[crimson]}{size=25}%s" % tt.value) outlines [(2, "#000000", 0, 0)] align .5, .5
 
         # LEFT FRAME:
         # Buttons:
@@ -125,8 +126,10 @@ init: # Main Screens:
                     spacing 5
                     textbutton "{size=20}{color=[black]}Bestiary":
                         action Return(["show", "bestiary"])
+                        hovered tt.Action("Info about known enemies")
                     textbutton "{size=20}{color=[black]}Survival!":
                         action Return(["challenge", "start_chainfight"])
+                        hovered tt.Action("Unranked fights vs beasts and monsters")
 
             # Ladders (Just Info):
             frame:
@@ -145,10 +148,13 @@ init: # Main Screens:
                     spacing 5
                     textbutton "{size=20}{color=[black]}1v1":
                         action Show("arena_lineups", transition=dissolve, container=pytfall.arena.lineup_1v1)
+                        hovered tt.Action("Best 1v1 fighters")
                     textbutton "{size=20}{color=[black]}2v2":
                         action Show("arena_lineups", transition=dissolve, container=pytfall.arena.lineup_2v2)
+                        hovered tt.Action("Best 2v2 teams")
                     textbutton "{size=20}{color=[black]}3v3":
                         action Show("arena_lineups", transition=dissolve, container=pytfall.arena.lineup_3v3)
+                        hovered tt.Action("Best 3v3 teams")
 
             # Official matches:
             frame:
@@ -167,10 +173,13 @@ init: # Main Screens:
                     style_group "basic"
                     textbutton "{size=20}{color=[black]}1v1":
                         action Show("arena_matches", container=pytfall.arena.matches_1v1, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.png", 100, 100))
+                        hovered tt.Action("Ranked fights 1v1")
                     textbutton "{size=20}{color=[black]}2v2":
                         action Show("arena_matches", container=pytfall.arena.matches_2v2, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.png", 100, 100))
+                        hovered tt.Action("Ranked team fights 2v2")
                     textbutton "{size=20}{color=[black]}3v3":
                         action Show("arena_matches", container=pytfall.arena.matches_3v3, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.png", 100, 100))
+                        hovered tt.Action("Ranked team fights 3v3")
 
             # Dogfights:
             frame:
@@ -189,10 +198,13 @@ init: # Main Screens:
                     spacing 5
                     textbutton "{size=20}{color=[black]}1v1":
                         action Show("arena_dogfights", transition=dissolve, container=pytfall.arena.dogfights_1v1)
+                        hovered tt.Action("Unranked fights 1v1")
                     textbutton "{size=20}{color=[black]}2v2":
                         action Show("arena_dogfights", transition=dissolve, container=pytfall.arena.dogfights_2v2)
+                        hovered tt.Action("Unranked team fights 2v2")
                     textbutton "{size=20}{color=[black]}3v3":
                         action Show("arena_dogfights", transition=dissolve, container=pytfall.arena.dogfights_3v3)
+                        hovered tt.Action("Unranked team fights 3v3")
 
         # RIGHT FRAME::
         # Hero stats + Some Buttons:
@@ -297,9 +309,11 @@ init: # Main Screens:
                     textbutton "Show Daily Report":
                         xalign 0.5
                         action Show("arena_report")
+                        hovered tt.Action("Recent arena events")
                     textbutton "Reputation Ladder":
                         xalign 0.5
                         action Show("arena_rep_ladder")
+                        hovered tt.Action("Top fighters with highest reputation")
 
         use top_stripe(True)
 
@@ -358,7 +372,12 @@ init: # Main Screens:
                                     button:
                                         style "arena_channenge_button"
                                         action Return(["challenge", "match", lineup])
-                                        text "Challenge!" size 40 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf"
+                                        vbox:
+                                            align (.5, .5)
+                                            $ team = lineup[1]
+                                            $ level = team.get_level()
+                                            text "Challenge!" size 40 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf"
+                                            text "Enemy level: [level]" size 30 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf" outlines [(1, "#3a3a3a", 0, 0)]
                                 # Or we show the team that challenged:
                                 else:
                                     frame:
@@ -388,15 +407,11 @@ init: # Main Screens:
                                     $ team = lineup[1]
                                     $ name = team[0].nickname if len(team) == 1 else team.name
                                     $ size = 15 if len(name) > 15 else 25
-                                    $ level = team.get_level()
                                     frame:
                                         align .5, .0
                                         padding 5, 1
                                         background Frame("content/gfx/frame/rank_frame.png", 5, 5)
-                                        if not lineup[0]:
-                                            $ text = "[name] {color=[red]}([level])"
-                                        else:
-                                            $ text = "[name]"
+                                        $ text = "[name]"
                                         text text:
                                             align .5, .0
                                             size size
@@ -455,6 +470,12 @@ init: # Main Screens:
                                     text_size 30
                                     align .5, .5
                             if team:
+                                frame:
+                                    align (0.5, 0.6)
+                                    xysize (100, 45)
+                                    background Frame("content/gfx/frame/rank_frame.png", 5, 5)
+                                    $ lvl = team.get_level
+                                    text("Lvl [team[0].level]") align .5, .5 size 25 style "proper_stats_text" color gold
                                 $ name = team[0].nickname if len(team) == 1 else team.name
                                 hbox:
                                     yoffset 1
@@ -469,11 +490,8 @@ init: # Main Screens:
                                             add fighter.show("portrait", resize=(45, 45), cache=True)
                                 null width 12
                                 frame:
-                                    yalign .5
-                                    margin 0, 0
-                                    padding 3, 1
-                                    yoffset 2
-                                    xsize 450
+                                    align (0.5, 0.5)
+                                    xfill True
                                     background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                     label "[name]" align .5, .5 text_size 25 text_style "proper_stats_text" text_color gold:
                                         if len(name) > 15:
@@ -581,7 +599,11 @@ init: # Main Screens:
                             button:
                                 style "arena_channenge_button"
                                 action Return(["challenge", "dogfights", team])
-                                text "Challenge!" size 40 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf" outlines [(1, "#3a3a3a", 0, 0)]
+                                $ level = team.get_level()
+                                vbox:
+                                    align (.5, .5)
+                                    text "Challenge!" size 40 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf" outlines [(2, "#3a3a3a", 0, 0)]
+                                    text "Enemy level: [level]" size 30 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf" outlines [(1, "#3a3a3a", 0, 0)]
 
                             add ProportionalScale("content/gfx/interface/images/vs_1.png", 130, 130) yalign .5
 
@@ -589,12 +611,11 @@ init: # Main Screens:
                                 style "arena_channenge_frame"
                                 $ name = team[0].nickname if len(team) == 1 else team.name
                                 $ size = 15 if len(name) > 15 else 25
-                                $ level = team.get_level()
                                 frame:
                                     align .5, .0
                                     padding 5, 1
                                     background Frame("content/gfx/frame/rank_frame.png", 5, 5)
-                                    text ("[name] {color=[red]}([level])"):
+                                    text ("[name] {color=[red]}"):
                                         align .5, .0
                                         size size
                                         style "proper_stats_text"
