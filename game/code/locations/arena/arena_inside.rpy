@@ -603,7 +603,7 @@ init: # Main Screens:
                             has hbox xalign .5
                             button:
                                 style "arena_channenge_button"
-                                action Return(["challenge", "dogfights", team])
+                                action Hide("arena_dogfights"), Return(["challenge", "dogfights", team])
                                 $ level = team.get_level()
                                 vbox:
                                     align (.5, .5)

@@ -571,10 +571,6 @@ init -9 python:
             renpy.hide_screen("arena_2v2_dogfights")
             renpy.hide_screen("arena_3v3_dogfights")
 
-            team.leader.say("You seriously believe that you've got a chance?")
-            hero.say(choice(["Talk is cheap!", "Defend yourself!"]))
-            team.leader.say("Bring it!")
-
             self.start_dogfight(team)
 
         def match_challenge(self, n=False):
