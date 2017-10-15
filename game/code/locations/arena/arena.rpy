@@ -1023,10 +1023,6 @@ init -9 python:
                     if member not in battle.corpses:
                         statdict = {}
                         statdict["gold"] = max(randint(35, 50), int(self.mob_power*0.6))
-                        statdict["attack"] = randint(0, 1)
-                        statdict["defence"] = randint(0, 1)
-                        statdict["agility"] = randint(0, 1)
-                        statdict["magic"] = randint(0, 1)
                         statdict["Arena Rep"] = int(self.mob_power*0.5)
                         exp = max(randint(6, 12), int(self.mob_power*0.1))
                         statdict["exp"] = adjust_exp(member, exp)
@@ -1179,10 +1175,6 @@ init -9 python:
                     if member not in battle.corpses:
                         statdict = dict()
                         statdict["gold"] = int(max(250, 200*(float(team.get_level()) / hero.team.get_level())*1.8))
-                        statdict["attack"] = randint(0, 2)
-                        statdict["defence"] = randint(0, 2)
-                        statdict["agility"] = randint(0, 2)
-                        statdict["magic"] = randint(0, 2)
                         if dice(team.get_level()):
                             statdict["fame"] = randint(0, 1)
                             statdict["reputation"] = randint(0, 1)
@@ -1213,10 +1205,6 @@ init -9 python:
                     if member not in battle.corpses:
                         statdict = dict()
                         statdict["gold"] = int(max(50, 50*(float(team.get_level()) / hero.team.get_level())))
-                        statdict["attack"] = randint(0, 2)
-                        statdict["defence"] = randint(0, 2)
-                        statdict["agility"] = randint(0, 2)
-                        statdict["magic"] = randint(0, 2)
                         statdict["Arena Rep"] = max(50, (hero.team.get_rep()/30))
                         exp = 50 * (team.get_level() / hero.team.get_level())
                         statdict["exp"] = adjust_exp(member, exp)
@@ -1269,10 +1257,6 @@ init -9 python:
                     if member not in battle.corpses:
                         statdict = {}
                         statdict["gold"] = int(max(1000, 850*(float(team.get_level()) / hero.team.get_level())))
-                        statdict["attack"] = randint(0, 2)
-                        statdict["defence"] = randint(0, 2)
-                        statdict["agility"] = randint(0, 2)
-                        statdict["magic"] = randint(0, 2)
                         statdict["Arena Rep"] = max(50, (team.get_rep()/20))
                         if dice(team.get_level()):
                             statdict["fame"] = randint(0, 2)
@@ -1305,10 +1289,6 @@ init -9 python:
                     if member not in battle.corpses:
                         statdict = {}
                         statdict["gold"] = max(500, 500*(float(team.get_level()) / hero.team.get_level()))
-                        statdict["attack"] = randint(1, 3)
-                        statdict["defence"] = randint(1, 3)
-                        statdict["agility"] = randint(1, 3)
-                        statdict["magic"] = randint(1, 3)
                         statdict["Arena Rep"] = max(50, (team.get_rep()/20))
                         exp = 50 * (float(team.get_level()) / hero.team.get_level())
                         statdict["exp"] = adjust_exp(member, exp)

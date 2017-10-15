@@ -917,8 +917,6 @@ init: # Main Screens:
                 align (0.5, 0.5)
                 at simple_zoom_from_to_with_easein(start_val=50.0, end_val=1.0, t=2.0)
 
-        # timer 10 action Function(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])
-
         frame:
             background Null()
             xsize 95
