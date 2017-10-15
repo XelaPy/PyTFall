@@ -355,17 +355,17 @@ init: # Main Screens:
                                     xysize (100, 100)
                                     align (.5, .5)
                                     vbox:
-                                        frame:
-                                            background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
-                                            label "Day:":
-                                                align .5, .5
-                                                text_color goldenrod
-                                                text_size 20
-                                        null height 10
-                                        label "[lineup[2]]":
+                                        label "Day:":
                                             align .5, .5
                                             text_color goldenrod
-                                            text_size 25
+                                            text_size 20
+                                        null height 10
+                                        frame:
+                                            background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
+                                            label "[lineup[2]]":
+                                                align .5, .5
+                                                text_color goldenrod
+                                                text_size 25
 
                                 # Challenge button:
                                 if not lineup[0]:
@@ -427,13 +427,13 @@ init: # Main Screens:
                                                 add fighter.show("portrait", resize=(60, 60))
 
                 vbar value YScrollValue("vp_matches")
-
             button:
                 style_group "basic"
                 action Hide("arena_matches")
                 minimum(50, 30)
                 align (0.5, 0.9995)
-                text  "OK"
+                text  "Close"
+        key "mousedown_3" action Hide("arena_matches")
 
     screen arena_lineups(container): # Ladders
         modal True
@@ -504,7 +504,8 @@ init: # Main Screens:
                 action Hide("arena_lineups")
                 minimum(50, 30)
                 align (0.5, 0.9995)
-                text  "OK"
+                text  "Close"
+        key "mousedown_3" action Hide("arena_lineups")
 
     screen arena_rep_ladder():
         modal True
@@ -566,7 +567,8 @@ init: # Main Screens:
                 action Hide("arena_rep_ladder")
                 minimum(50, 30)
                 align (0.5, 0.9995)
-                text  "OK"
+                text  "Close"
+        key "mousedown_3" action Hide("arena_rep_ladder")
 
     screen arena_dogfights(container={}):
         modal True
@@ -636,7 +638,8 @@ init: # Main Screens:
                 action Hide("arena_dogfights")
                 minimum(50, 30)
                 align (0.5, 0.9995)
-                text  "OK"
+                text  "Close"
+        key "mousedown_3" action Hide("arena_dogfights")
 
     screen arena_bestiary():
         default in_focus_mob = False
@@ -884,7 +887,8 @@ init: # Main Screens:
             pos (1233, 670)
             idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
             hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
-            action Return(["show", "arena"])
+            action Return(["show", "arena"]) 
+        key "mousedown_3" action Return(["show", "arena"])
 
     screen arena_aftermatch(w_team, l_team, condition):
         modal True
@@ -1036,7 +1040,8 @@ init: # Main Screens:
                 action Hide("arena_report")
                 minimum(50, 30)
                 align (0.5, 0.9)
-                text  "OK" # TODO: possibly will require align changes when arena log is full
+                text  "Close" # TODO: possibly will require align changes when arena log is full
+        key "mousedown_3" action Hide("arena_report")
 
     screen arena_stats(member): #TODO: is it even used right now? I don't see it
         hbox at arena_stats_slide:
@@ -1058,6 +1063,7 @@ init: # Main Screens:
 
 init: # ChainFights vs Mobs:
     screen chain_fight():
+        modal True
         if not pytfall.arena.cf_mob:
             frame:
                 background Frame("content/gfx/frame/p_frame52.png", 10, 10)
@@ -1066,22 +1072,18 @@ init: # ChainFights vs Mobs:
                 pos (280, 154)
                 xysize (721, 580)
                 has vbox
-                button:
-                    style_group "basic"
-                    action SetField(pytfall.arena, "result", "break"), Return("Bupkis")
-                    minimum(50, 30)
-                    align (0.5, 0.9995)
-                    text  "Close"
                 viewport:
                     scrollbars "vertical"
-                    xysize (721, 700)
+                    maximum (710, 515)
                     draggable True
                     mousewheel True
                     child_size (700, 5000)
                     has vbox spacing 5
+                    $ i = -1
                     for setup in pytfall.arena.chain_fights_order:
+                        $ i+= 1
                         frame:
-                            xysize (695, 60)
+                            xysize (695, 55)
                             background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
                             padding 1, 1
                             # has hbox spacing 5
@@ -1096,8 +1098,7 @@ init: # ChainFights vs Mobs:
                                     yalign 0.5
                                     xysize (45, 45)
                                     background Frame ("content/gfx/frame/rank_frame.png", 5, 5)
-                                    $ portrait = ProportionalScale(mobs[pytfall.arena.chain_fights[setup]["boss"]]["portrait"], 36, 36)
-                                    add portrait:
+                                    add pytfall.arena.chain_fights_order_portraits[i]:
                                         align (.5, .5)
                                 frame:
                                     yalign 0.5
@@ -1113,10 +1114,13 @@ init: # ChainFights vs Mobs:
                                     action [SetField(pytfall.arena, "result", setup), Return("Bupkis")]
                                     align (.5, .5)
                                     text "Fight!" size 40 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf" outlines [(2, "#3a3a3a", 0, 0)]
-
-                                    # button:
-                                        # text "Fight!"
-                                        # action [SetField(pytfall.arena, "result", setup), Return("Bupkis")]
+                null height 5
+                button:
+                    style_group "basic"
+                    action SetField(pytfall.arena, "result", "break"), Return("Bupkis")
+                    minimum(50, 30)
+                    align (0.5, 0.9995)
+                    text  "Close"
         else:
             timer 0.5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
         key "mousedown_3" action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]

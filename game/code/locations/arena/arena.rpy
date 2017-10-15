@@ -54,6 +54,9 @@ init -9 python:
             # Chanfighting:
             self.chain_fights = {f["id"]: f for f in load_json("arena_chainfights.json")}
             self.chain_fights_order = list(f["id"] for f in sorted(self.chain_fights.values(), key=itemgetter("level")))
+            self.chain_fights_order_portraits = []
+            for i in self.chain_fights_order:
+                self.chain_fights_order_portraits.append(ProportionalScale(mobs[self.chain_fights[i]["boss"]]["portrait"], 36, 36))
 
             # self.arena_rewards = load_json("arena_rewards.json")
             # self.arena_rewards = {v["id"]: v for v in self.arena_rewards}
