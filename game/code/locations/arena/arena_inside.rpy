@@ -354,14 +354,17 @@ init: # Main Screens:
                                     xoffset 15
                                     xysize (100, 100)
                                     align (.5, .5)
-                                    vbox:
-                                        label "Day:":
-                                            align .5, .5
-                                            text_color goldenrod
-                                            text_size 20
-                                        null height 10
-                                        frame:
-                                            background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
+                                    frame:
+                                        background Frame(Transform("content/gfx/frame/rank_frame.png", alpha=1.0), 10, 10)
+                                        xsize 80
+                                        vbox:
+                                            xalign .5
+                                            label "Day:":
+                                                align .5, .5
+                                                text_color goldenrod
+                                                text_size 20
+                                            null height 10
+
                                             label "[lineup[2]]":
                                                 align .5, .5
                                                 text_color goldenrod
