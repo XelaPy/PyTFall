@@ -615,13 +615,13 @@ init -9 python:
                     renpy.call_screen("message_screen", "%s is a slave and slaves are not allowed to fight in the Arena under the penalty of death to both slave and the owner!"%member.name)
                     return
             for member in hero.team:
-                if member.AP < 3:
+                if member.AP < 2:
                     renpy.call_screen("message_screen", "%s does not have enough Action Points for a fight (3 required)!"%member.name)
                     return
 
             # If we got this far, we can safely take AP off teammembers:
             for member in hero.team:
-                member.AP -= 3
+                member.AP -= 2
 
             renpy.hide_screen("arena_inside")
             renpy.hide_screen("arena_1v1_fights")
@@ -885,14 +885,14 @@ init -9 python:
             """
             # Case: First battle:
             if not pytfall.arena.cf_mob:
-                renpy.hide_screen("arena_inside")
+                # renpy.hide_screen("arena_inside")
                 renpy.call_screen("chain_fight")
 
                 result = self.result
 
                 if result == "break":
                     self.result = None
-                    hero.AP += 3
+                    hero.AP += 2
                     renpy.show_screen("arena_inside")
                     return
 

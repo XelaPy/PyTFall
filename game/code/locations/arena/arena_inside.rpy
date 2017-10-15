@@ -1063,8 +1063,8 @@ init: # ChainFights vs Mobs:
                 background Frame("content/gfx/frame/p_frame52.png", 10, 10)
                 at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
                 style_group "content"
-                pos (280, 0)
-                xysize (721, 720)
+                pos (280, 154)
+                xysize (721, 580)
                 has vbox
                 button:
                     style_group "basic"
@@ -1112,7 +1112,7 @@ init: # ChainFights vs Mobs:
                                     background None
                                     action [SetField(pytfall.arena, "result", setup), Return("Bupkis")]
                                     align (.5, .5)
-                                    text "Challenge!" size 40 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf" outlines [(2, "#3a3a3a", 0, 0)]
+                                    text "Fight!" size 40 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf" outlines [(2, "#3a3a3a", 0, 0)]
 
                                     # button:
                                         # text "Fight!"
