@@ -1215,17 +1215,17 @@ init: # ChainFights vs Mobs:
         zorder 2
         modal True
 
-        add "bg mc_setup"
+        add "content/gfx/bg/be/battle_arena_1.jpg"
 
         if pytfall.arena.cf_count and pytfall.arena.cf_mob:
 
             # Fight Number:
-            text "Fight #[pytfall.arena.cf_count], proceed?":
-                at move_from_to_pos_with_ease(start_pos=(640, -100), end_pos=(640, 150), t=0.7)
+            text "Round  [pytfall.arena.cf_count]":
+                at move_from_to_pos_with_ease(start_pos=(560, -100), end_pos=(560, 150), t=0.7)
                 italic True
-                color darkred
+                color red
                 style "arena_header_text"
-                size 35
+                size 45
 
             # Opposing Sprites:
             add hero.show("battle_sprite", resize=(200, 200)) at slide(so1=(-600, 0), t1=0.7, eo2=(-1300, 0), t2=0.7) align .35, .5
@@ -1253,21 +1253,25 @@ init: # ChainFights vs Mobs:
                     size 80
 
         hbox at slide(so1=(0, 700), t1=0.7, so2=(0, 700), t2=0.7):
+            style_prefix "wood"
             spacing 40
             align(0.5, 0.9)
-            textbutton "{color=[blue]}Give Up :( ":
-                style "basic_button"
+            button:
+                text "Give Up" size 25 color goldenrod outlines [(1, "#000000", 0, 0)]
+                xysize (180, 60)
                 action [Hide("arena_inside"), Hide("chain_fight"), Hide("confirm_chainfight"),
                         SetField(pytfall.arena, "cf_count", 0),
                         SetField(pytfall.arena, "cf_mob", None),
                         SetField(pytfall.arena, "cf_setup", None),
                         Stop("music"), Jump("arena_inside")]
-            textbutton "{color=[red]}Fight!!!":
-                style "basic_button"
+            button:
+                text "Fight" size 25 color goldenrod outlines [(1, "#000000", 0, 0)]
+                xysize (180, 60)
                 action [Hide("arena_inside"), Hide("chain_fight"),
                         Hide("confirm_chainfight"),
                         Return(["challenge", "chainfight"])]
 
+                        
     screen arena_finished_chainfight(w_team):
         zorder  3
         modal True
