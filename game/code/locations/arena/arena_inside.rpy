@@ -987,15 +987,15 @@ init: # Main Screens:
             frame:
                 at fade_from_to_with_easeout(start_val=.0, end_val=1.0, t=.9, wait=0)
                 background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                add im.Sepia(winner.show('fighting', resize=(200, 200), cache=True))
+                add im.Sepia(winner.show('battle_sprite', resize=(200, 200), cache=True))
                 align .2, .2
         else:
             frame:
                 at fade_from_to_with_easeout(start_val=.0, end_val=1.0, t=.9, wait=0)
                 background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                add winner.show("fighting", resize=(200, 200), cache=True)
+                add winner.show("battle_sprite", resize=(200, 200), cache=True)
                 align .2, .2
-
+            null height 20
             if hero.team == w_team: # Show only if we won...
                 frame:
                     style_group "proper_stats"
@@ -1015,9 +1015,15 @@ init: # Main Screens:
 
         # Looser Details Display on the left:
         if loser.combat_stats == "K.O.":
-            add im.Sepia(loser.show("fighting", resize=(200, 200), cache=True)) align (0.2, 0.2)
+            frame:
+                background Frame("content/gfx/frame/MC_bg.png", 10, 10)
+                add im.Sepia(loser.show("battle_sprite", resize=(200, 200), cache=True))
+                align (0.8, 0.2)
         else:
-            add loser.show("fighting", resize=(200, 200), cache=True) align (0.8, 0.2)
+            frame:
+                background Frame("content/gfx/frame/MC_bg.png", 10, 10)
+                add loser.show("battle_sprite", resize=(200, 200), cache=True)
+                align (0.8, 0.2)
 
         add "content/gfx/frame/h1.png"
 
@@ -1237,9 +1243,10 @@ init: # ChainFights vs Mobs:
                     style "arena_header_text"
                     size 80
                 text pytfall.arena.cf_setup["boss_name"]:
-                    align .65, .4
+                    align .5, .75
                     at fade_in_out(t1=1.5, t2=1.5)
-                    size 25
+                    size 40
+                    outlines [(2, "#000000", 0, 0)]
                     color crimson
                     style "garamond"
             else:
