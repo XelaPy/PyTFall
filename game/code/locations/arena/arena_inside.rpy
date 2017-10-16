@@ -1283,10 +1283,14 @@ init: # ChainFights vs Mobs:
 
         timer 9.0 action [Hide("arena_finished_chainfight"), Hide("arena_inside"), Hide("chain_fight"), Hide("confirm_chainfight"), SetField(pytfall.arena, "cf_count", 0), Jump("arena_inside")]
 
-        add "bg mc_setup"
+        add "content/gfx/bg/be/battle_arena_1.jpg"
 
-        add "arena_victory":
+        text "Victory!":
             at move_from_to_align_with_linear(start_align=(.5, .3), end_align=(.5, .03), t=2.2)
+            italic True
+            color red
+            style "arena_header_text"
+            size 75
 
         vbox:
             at fade_from_to_with_easeout(start_val=.0, end_val=1.0, t=.9)
@@ -1321,13 +1325,13 @@ init: # ChainFights vs Mobs:
 
         vbox:
             at arena_stats_slide
-            pos (275, 405)
+            pos (500, 405)
             spacing 1
             if not isinstance(w_team[0].combat_stats, basestring):
                 for stat in w_team[0].combat_stats:
                     fixed:
                         xysize (170, 18)
-                        text stat.capitalize() xalign .03 style "dropdown_gm2_button_text" color red
-                        text str(w_team[0].combat_stats[stat]) xalign .97 style "dropdown_gm2_button_text" color crimson
+                        text stat.capitalize() xalign .03 style "dropdown_gm2_button_text" color red size 25
+                        text str(w_team[0].combat_stats[stat]) xalign .97 style "dropdown_gm2_button_text" color crimson size 25
             else:
                 text("{size=+20}{color=[red]}K.O.")

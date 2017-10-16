@@ -1070,6 +1070,7 @@ init -9 python:
                     self.cf_setup = None
                     self.cf_count = 0
                     self.award = None
+                    renpy.play("content/sfx/sound/world/win_screen.mp3", channel="music")
                     renpy.show_screen("arena_finished_chainfight", hero.team)
                     return
                 else:
