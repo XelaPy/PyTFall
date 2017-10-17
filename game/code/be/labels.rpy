@@ -92,7 +92,7 @@ label test_be_logical:
         mob = build_mob(id="Goblin Shaman", level=120)
         mob.front_row = True
         mob.apply_trait("Fire")
-        mob.controller = BE_AI(mob)
+        mob.controller = Complex_BE_AI(mob)
         if len(enemy_team) != 3:
             enemy_team.add(mob)
         mob = build_mob(id="Goblin Archer", level=100)

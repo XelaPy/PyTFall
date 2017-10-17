@@ -222,13 +222,13 @@ label frog_deathfight:
     ax "Well, I hope that you're ready! Best of luck!"
     $ enemy_team = Team(name="Enemy Team", max_size=3)
     $ mob = build_mob("Goblin Warrior", level=80)
-    $ mob.controller = BE_AI(mob)
+    $ mob.controller = Complex_BE_AI(mob)
     $ enemy_team.add(mob)
 
     python:
         for i in xrange(2):
             mob = build_mob("Goblin Archer", level=60)
-            mob.controller = BE_AI(mob)
+            mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
 
     $ result = run_default_be(enemy_team, background="content/gfx/bg/be/battle_arena_1.jpg", slaves=True, prebattle=False, death=False)

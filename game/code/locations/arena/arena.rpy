@@ -545,19 +545,19 @@ init -9 python:
 
             hlvl = hero.team.get_level()
             elvl = team.get_level()
-            if elvl > hlvl * 1.5:
+            if elvl > hlvl * 2:
                 if len(team) == 1:
-                    team.leader.say("You're not worth my time, go train some!")
+                    team.leader.say("You're not worth my time, go train some.")
                     return
                 else:
-                    team.leader.say("You guys need to grow up before challenging the likes of us!")
+                    team.leader.say("You guys need to grow up before challenging the likes of us.")
                     return
-            if elvl * 1.5 < hlvl:
+            if elvl * 2 < hlvl:
                 if len(team) == 1:
-                    team.leader.say("I'll am not feeling up to it... really!")
+                    team.leader.say("I am not feeling up to it... really!")
                     return
                 else:
-                    team.leader.say("We are not looking for a fight outside of our league!")
+                    team.leader.say("We are not looking for a fight outside of our league.")
                     return
 
             # If we got this far, we can safely take AP off teammembers:
@@ -1005,7 +1005,7 @@ init -9 python:
             renpy.music.play(choice(ilists.battle_tracks), fadein=1.5)
 
             for mob in team:
-                mob.controller = BE_AI(mob)
+                mob.controller = Complex_BE_AI(mob)
 
             global battle
             battle = BE_Core(ImageReference("chainfights"))
@@ -1157,7 +1157,7 @@ init -9 python:
             renpy.music.play(choice(ilists.battle_tracks), fadein=1.5)
 
             for member in team:
-                member.controller = BE_AI(member)
+                member.controller = Complex_BE_AI(member)
 
             global battle
             battle = BE_Core(ImageReference("bg battle_dogfights_1"))
@@ -1235,7 +1235,7 @@ init -9 python:
             renpy.music.play(choice(ilists.battle_tracks), fadein=1.5)
 
             for member in team:
-                member.controller = BE_AI(member)
+                member.controller = Complex_BE_AI(member)
 
             global battle
             battle = BE_Core(ImageReference("bg battle_arena_1"))

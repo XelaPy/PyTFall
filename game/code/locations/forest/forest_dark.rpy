@@ -152,7 +152,7 @@ label city_dark_forest_hideout_fight:
         for i in range(3):
             mob_id = choice(["Samurai", "Warrior", "Archer", "Soldier", "Barbarian", "Orc", "Infantryman", "Thug", "Mercenary", "Dark Elf Archer"])
             mob = build_mob(id=mob_id, level=levels)
-            mob.controller = BE_AI(mob)
+            mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
     $ place = interactions_pick_background_for_fight("forest")
     $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=True)
@@ -176,7 +176,7 @@ label city_dark_forest_fight:
             for i in range(randint(2, 3)):
                 mob_id = choice(["Alkaline Slime", "Slime", "Acid Slime"])
                 mob = build_mob(id=mob_id, level=levels)
-                mob.controller = BE_AI(mob)
+                mob.controller = Complex_BE_AI(mob)
                 enemy_team.add(mob)
     elif mob == "were":
         "A hungry shapeshifters want a piece of you."
@@ -184,7 +184,7 @@ label city_dark_forest_fight:
             for i in range(randint(2, 3)):
                 mob_id = choice(["Werecat", "Werewolf", "Weregirl"])
                 mob = build_mob(id=mob_id, level=levels)
-                mob.controller = BE_AI(mob)
+                mob.controller = Complex_BE_AI(mob)
                 enemy_team.add(mob)
     elif mob == "harpy":
         "A flock of wild harpies attempts to protects their territory."
@@ -192,7 +192,7 @@ label city_dark_forest_fight:
             for i in range(randint(2, 3)):
                 mob_id = choice(["Harpy", "Vixen"])
                 mob = build_mob(id=mob_id, level=levels)
-                mob.controller = BE_AI(mob)
+                mob.controller = Complex_BE_AI(mob)
                 enemy_team.add(mob)
     elif mob == "goblin":
         "You find yourself surrounded by a group of goblins."
@@ -200,7 +200,7 @@ label city_dark_forest_fight:
             for i in range(3):
                 mob_id = choice(["Goblin", "Goblin Archer", "Goblin Warrior", "Goblin Shaman"])
                 mob = build_mob(id=mob_id, level=levels)
-                mob.controller = BE_AI(mob)
+                mob.controller = Complex_BE_AI(mob)
                 enemy_team.add(mob)
     elif mob == "wolf":
         "A pack of wolves picks you for dinner."
@@ -208,14 +208,14 @@ label city_dark_forest_fight:
             for i in range(3):
                 mob_id = choice(["Wolf", "Black Wolf"])
                 mob = build_mob(id=mob_id, level=levels)
-                mob.controller = BE_AI(mob)
+                mob.controller = Complex_BE_AI(mob)
                 enemy_team.add(mob)
     elif mob == "bear":
         "You disturbed an angry bear."
         python:
             mob_id = choice(["Bear", "Beargirl"])
             mob = build_mob(id=mob_id, level=levels)
-            mob.controller = BE_AI(mob)
+            mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
     elif mob == "druid":
         "Forest fanatics attempt to sacrifice you in the name of «mother nature» or something like that."
@@ -223,7 +223,7 @@ label city_dark_forest_fight:
             for i in range(randint(2, 3)):
                 mob_id = choice(["Druid", "Wild Dryad"])
                 mob = build_mob(id=mob_id, level=levels)
-                mob.controller = BE_AI(mob)
+                mob.controller = Complex_BE_AI(mob)
                 enemy_team.add(mob)
     elif mob == "rat":
         "A pack of foul-smelling rats picks you for dinner."
@@ -231,7 +231,7 @@ label city_dark_forest_fight:
             for i in range(randint(2, 3)):
                 mob_id = "Undead Rat"
                 mob = build_mob(id=mob_id, level=levels)
-                mob.controller = BE_AI(mob)
+                mob.controller = Complex_BE_AI(mob)
                 enemy_team.add(mob)
     elif mob == "rat":
         "A pack of foul-smelling rats picks you for dinner."
@@ -239,7 +239,7 @@ label city_dark_forest_fight:
             for i in range(3):
                 mob_id = choice(["Skeleton", "Skeleton Warrior"])
                 mob = build_mob(id=mob_id, level=levels)
-                mob.controller = BE_AI(mob)
+                mob.controller = Complex_BE_AI(mob)
                 enemy_team.add(mob)
     else:
         "You encountered a small group of aggressive giant butterflies."
@@ -247,7 +247,7 @@ label city_dark_forest_fight:
             for i in range(randint(2, 3)):
                 mob_id = "Black Butterfly"
                 mob = build_mob(id=mob_id, level=levels)
-                mob.controller = BE_AI(mob)
+                mob.controller = Complex_BE_AI(mob)
                 enemy_team.add(mob)
     $ place = interactions_pick_background_for_fight("forest")
     $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=True)

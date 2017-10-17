@@ -205,7 +205,7 @@ label city_beach_monsters_fight:
         for i in range(randint(2, 3)):
             mob = build_mob(id="Skyfish", level=randint(5, 15))
             mob.front_row = True
-            mob.controller = BE_AI(mob)
+            mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
         back = interactions_pick_background_for_fight("beach")
         result = run_default_be(enemy_team, background=back)

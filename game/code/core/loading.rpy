@@ -449,8 +449,8 @@ init -11 python:
                     tagdb.tagmap[tags_dict[tag]].add(fn)
                 # Adding filenames to girls id:
                 tagdb.tagmap.setdefault(id, set()).add(fn)
-
-            elements = [traits["Neutral"]]
+            el = list(i.id for i in tgs.elemental)
+            elements = []
             random_traits = ["Courageous", "Aggressive", "Vicious"]
             if gender == "JSON":
                 base = [traits[t] for t in json_data[id]]
@@ -458,33 +458,38 @@ init -11 python:
                 base = [traits["Assassin"]]
             elif "healers" in path:
                 base = [traits["Healer"]]
-                if dice(25):
-                    base.append(traits["Mage"])
+                base.append(traits["Mage"])
                 elements = [traits["Light"]]
+                if dice(50):
+                    elements.append(traits["Water"])
+                if dice(50):
+                    elements.append(traits["Air"])
             elif "knights" in path:
                 base = [traits["Knight"]]
                 if dice(25):
                     base.append(traits["Assassin"])
                 if dice(25):
                     base.append(traits["Mage"])
+                    elements = [traits[random.choice(el)]]
             elif "mages" in path:
                 base = [traits["Mage"]]
-                elements = tgs.elemental
+                elements = [traits[random.choice(el)]]
             elif "maids" in path:
                 base = [traits["Warrior"]]
-                if dice(25): # ???
-                    base.append(traits["Maid"])
+                base.append(traits["Maid"])
             elif "shooters" in path:
                 base = [traits["Shooter"]]
                 if dice(25):
                     base.append(traits["Assassin"])
                 if dice(25):
                     base.append(traits["Mage"])
+                    elements = [traits[random.choice(el)]]
             elif "warriors" in path:
                 base = [traits["Warrior"]]
             else:
                 base = [traits["Warrior"]]
-
+            if not elements:
+                elements = [traits["Neutral"]]
             fighter = NPC()
             fighter._path_to_imgfolder = path
             fighter.id = id

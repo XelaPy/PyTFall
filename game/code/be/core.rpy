@@ -1911,10 +1911,10 @@ init -1 python: # Core classes:
             if healing_skills and dice(70):
                 for skill in healing_skills:
                     targets = skill.get_targets(source=self.source)
-                    for a in targets:
-                        if a.health < a.get_max("health")*.5:
+                    for t in targets:
+                        if t.health < t.get_max("health")*0.5:
                             skill.source = self.source
-                            targets = targets if "all" in skill.type else a
+                            targets = targets if "all" in skill.type else t
                             skill(ai=True, t=targets)
                             return
 
@@ -1923,7 +1923,7 @@ init -1 python: # Core classes:
                     targets = skill.get_targets(source=self.source)
                     if targets:
                         skill.source = self.source
-                        targets = targets if "all" in skill.type else a
+                        targets = targets if "all" in skill.type else random.choice(targets)
                         skill(ai=True, t=targets)
                         return
 
@@ -1940,7 +1940,7 @@ init -1 python: # Core classes:
                     if not attack_skills or dice(chance):
                         skill.source = self.source
                         targets = skill.get_targets()
-                        targets = targets if "all" in skill.type else a
+                        targets = targets if "all" in skill.type else random.choice(targets)
                         skill(ai=True, t=targets)
                         return
 
