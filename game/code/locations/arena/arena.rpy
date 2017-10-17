@@ -58,8 +58,6 @@ init -9 python:
             for i in self.chain_fights_order:
                 self.chain_fights_order_portraits.append(ProportionalScale(mobs[self.chain_fights[i]["boss"]]["portrait"], 36, 36))
 
-            # self.arena_rewards = load_json("arena_rewards.json")
-            # self.arena_rewards = {v["id"]: v for v in self.arena_rewards}
             self.cf_mob = None
             self.cf_setup = None
             self.cf_count = 0
@@ -831,7 +829,8 @@ init -9 python:
             shuffle(temp)
 
             for team in self.lineup_2v2:
-                team.name = get_team_name()
+                if not team.name:
+                    team.name = get_team_name()
                 while len(team) < 2:
                     f = temp.pop()
                     f.arena_active = True
@@ -846,7 +845,8 @@ init -9 python:
             shuffle(temp)
 
             for team in self.lineup_3v3:
-                team.name = get_team_name()
+                if not team.name:
+                    team.name = get_team_name()
                 while len(team) < 3:
                     f = temp.pop()
                     f.arena_active = True
@@ -1011,7 +1011,7 @@ init -9 python:
             battle = BE_Core(ImageReference("chainfights"))
             battle.teams.append(hero.team)
             battle.teams.append(team)
-
+            exp_result = exp_reward(hero.team, team)
             battle.start_battle()
 
             renpy.music.stop(fadeout=1.0)
@@ -1022,11 +1022,9 @@ init -9 python:
                 for member in hero.team:
                     # Awards:
                     if member not in battle.corpses:
-                        statdict = {}
-                        statdict["gold"] = max(randint(35, 50), int(self.mob_power*0.6))
-                        statdict["Arena Rep"] = int(self.mob_power*0.5)
-                        exp = max(randint(6, 12), int(self.mob_power*0.1))
-                        statdict["exp"] = adjust_exp(member, exp)
+                        statdict = {} # no gold for mobs, and only little bit of reputation. because they give items, unlike all other modes
+                        statdict["Arena Rep"] = max(int(self.mob_power*0.2), 1)
+                        statdict["exp"] = exp_result
                         for stat in statdict:
                             if stat == "exp":
                                 member.exp += statdict[stat]
@@ -1165,7 +1163,8 @@ init -9 python:
             battle = BE_Core(ImageReference("bg battle_dogfights_1"))
             battle.teams.append(hero.team)
             battle.teams.append(team)
-
+            exp_result = exp_reward(hero.team, team)
+            exp_result_reversed = exp_reward(team, hero.team)
             battle.start_battle()
 
             renpy.music.stop(fadeout=1.0)
@@ -1174,14 +1173,13 @@ init -9 python:
                 # Awards:
                 for member in hero.team:
                     if member not in battle.corpses:
-                        statdict = dict()
-                        statdict["gold"] = int(max(250, 200*(float(team.get_level()) / hero.team.get_level())*1.8))
+                        statdict = dict() # very small amount of arena reputation, but nice gold reward for dogfights
+                        statdict["gold"] = int(max(500, 1000*(float(team.get_level()) / hero.team.get_level())))
                         if dice(team.get_level()):
                             statdict["fame"] = randint(0, 1)
                             statdict["reputation"] = randint(0, 1)
-                        statdict["Arena Rep"] = max(50, (team.get_rep()/30))
-                        exp = 50 * (team.get_level() / hero.team.get_level())
-                        statdict["exp"] = adjust_exp(member, exp)
+                        statdict["Arena Rep"] = min(50, (team.get_rep()/50))
+                        statdict["exp"] = exp_result
                         for stat in statdict:
                             if stat == "exp":
                                 member.exp += statdict[stat]
@@ -1197,6 +1195,7 @@ init -9 python:
 
                 for member in team:
                     member.arena_rep -= max(50, (team.get_rep()/30))
+                    member.exp += max(10, int(exp_result_reversed*.3))
                     self.remove_team_from_dogfights(member)
 
                 renpy.call_screen("arena_aftermatch", hero.team, team, "Victory")
@@ -1206,9 +1205,7 @@ init -9 python:
                     if member not in battle.corpses:
                         statdict = dict()
                         statdict["gold"] = int(max(50, 50*(float(team.get_level()) / hero.team.get_level())))
-                        statdict["Arena Rep"] = max(50, (hero.team.get_rep()/30))
-                        exp = 50 * (team.get_level() / hero.team.get_level())
-                        statdict["exp"] = adjust_exp(member, exp)
+                        statdict["exp"] = exp_result_reversed
                         for stat in statdict:
                             if stat == "exp":
                                 member.exp += statdict[stat]
@@ -1222,9 +1219,8 @@ init -9 python:
 
                 for member in hero.team:
                     member.combat_stats = "K.O."
+                    member.exp += max(10, int(exp_result*.3))
                     member.arena_rep -= max(50, (hero.team.get_rep()/30))
-
-                team.leader.say("Told you... No chance at all! :) ")
 
             jump("arena_inside")
 
@@ -1245,7 +1241,8 @@ init -9 python:
             battle = BE_Core(ImageReference("bg battle_arena_1"))
             battle.teams.append(hero.team)
             battle.teams.append(team)
-
+            exp_result = exp_reward(hero.team, team)
+            exp_result_reversed = exp_reward(team, hero.team)
             battle.start_battle()
 
             renpy.music.stop(fadeout = 1.0)
@@ -1256,14 +1253,13 @@ init -9 python:
                 for member in hero.team:
                     # Awards:
                     if member not in battle.corpses:
-                        statdict = {}
-                        statdict["gold"] = int(max(1000, 850*(float(team.get_level()) / hero.team.get_level())))
-                        statdict["Arena Rep"] = max(50, (team.get_rep()/20))
+                        statdict = {} # less gold, but more reputation
+                        statdict["gold"] = int(max(200, 250*(float(team.get_level()) / hero.team.get_level())))
+                        statdict["Arena Rep"] = max(50, (team.get_rep()/10))
                         if dice(team.get_level()):
                             statdict["fame"] = randint(0, 2)
                             statdict["reputation"] = randint(0, 2)
-                        exp = 50 * (float(team.get_level()) / hero.team.get_level())
-                        statdict["exp"] = adjust_exp(member, exp)
+                        statdict["exp"] = exp_result
                         for stat in statdict:
                             if stat == "exp":
                                 member.exp += statdict[stat]
@@ -1279,6 +1275,7 @@ init -9 python:
 
                 for member in team:
                     member.arena_rep -= max(50, (hero.team.get_rep()/20))
+                    member.exp += max(10, int(exp_result_reversed*.3))
                     self.remove_team_from_dogfights(member)
 
                 renpy.call_screen("arena_aftermatch", hero.team, team, "Victory")
@@ -1289,10 +1286,9 @@ init -9 python:
                 for member in team:
                     if member not in battle.corpses:
                         statdict = {}
-                        statdict["gold"] = max(500, 500*(float(team.get_level()) / hero.team.get_level()))
+                        statdict["gold"] = int(max(200, 250*(float(hero.team.get_level() / team.get_level()))))
                         statdict["Arena Rep"] = max(50, (team.get_rep()/20))
-                        exp = 50 * (float(team.get_level()) / hero.team.get_level())
-                        statdict["exp"] = adjust_exp(member, exp)
+                        statdict["exp"] = exp_result_reversed
                         for stat in statdict:
                             if stat == "exp":
                                 member.exp += statdict[stat]
@@ -1306,9 +1302,8 @@ init -9 python:
 
                 for member in hero.team:
                     member.arena_rep -= max(50, (team.get_rep()/20))
+                    member.exp += max(10, int(exp_result*.3))
                     member.combat_stats = "K.O."
-
-                team.leader.say("Told you... No chance at all! :) ")
 
             setup[0] = Team(max_size=len(setup[0]))
             setup[1] = Team(max_size=len(setup[1]))

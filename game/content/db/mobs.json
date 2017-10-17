@@ -35,7 +35,7 @@
     {
         "name": "Alkaline Slime",
         "desc": "A liquid form of life based on organic alkalis.",
-        "front_row": 100,
+        "front_row": 1,
         "battle_sprite": "content/npc/mobs/b.png",
         "portrait": "content/npc/mobs/b1.png",
         "race": "Slime",

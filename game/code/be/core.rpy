@@ -1972,9 +1972,9 @@ init -1 python: # Core classes:
         for i in enemies:
             mob_level += i.level  # sum of enemies levels
             if hasattr(i, "min_lvl"):
-                min_exp += i.min_lvl  # min exp level, based on min_lvl field
+                min_exp += i.min_lvl+i.level*10  # min exp level, based on min_lvl field
             else:
-                min_exp += 250 # most likely enemies without min_lvl are characters, let it be 250 for them
+                min_exp += 500 # most likely enemies without min_lvl are characters, let it be 250 for them
         if mob_level <= 0:
             mob_level = 1
         if min_exp <= 0:
