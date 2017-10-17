@@ -130,11 +130,7 @@ init -997: # Transforms:
         repeat
 
     transform arena_stats_slide:
-        parallel:
-            move_from_to_offset_with_ease(start_offset=(0, 0), end_offset=(0, -200), t=8.0)
-        parallel:
-            4.0
-            fade_from_to(t=4)
+        move_from_to_offset_with_ease(start_offset=(0, 0), end_offset=(0, -200), t=8.0)
 
     transform elements:
         subpixel True

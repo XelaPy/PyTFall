@@ -897,7 +897,7 @@ init: # Main Screens:
         modal True
         zorder 2
 
-        on "show" action If(condition=="Victory", true=Play("music", "content/sfx/sound/world/win_screen.mp3"))
+        on "show" action If(condition=="Victory", true=Play("music", "content/sfx/music/world/win_screen.mp3"))
 
         default winner = w_team[0]
         default loser = l_team[0]
@@ -1169,14 +1169,21 @@ init: # ChainFights vs Mobs:
 
         default rolled = False
 
-        add "bg mc_setup"
+        add "content/gfx/bg/be/battle_arena_1.jpg"
+        text "Special Bonus Time!":
+            align (.5, .1)
+            italic True
+            color red
+            style "arena_header_text"
+            size 75
 
         # Bonus Roll: ===========================================================================>>>
         default my_udd = ArenaBarMinigame(d, length_multiplier, maxval, interval)
-        add my_udd pos (70, 250)
-        textbutton "Freeze":
+        add my_udd pos (200, 250)
+        textbutton "Stop!":
             xalign .5 ypos 500
-            text_color blue
+            xsize 100
+            text_color black
             style "basic_button"
             sensitive my_udd.update
             action [SetField(my_udd, "update", False),
@@ -1193,27 +1200,30 @@ init: # ChainFights vs Mobs:
         else:
             timer 2.0 action Return()
             if rolled == "HP":
-                text "Bonus Roll: HP" pos (200, 200) style "black_serpent" color red size 30
+                text "Bonus Roll: HP" pos (200, 200) style "arena_header_text" color red size 30 align (.5, .2)
             elif rolled == "MP":
-                text "Bonus Roll: MP" pos (200, 200) style "black_serpent" color blue size 30
+                text "Bonus Roll: MP" pos (200, 200) style "arena_header_text" color blue size 30 align (.5, .2)
             elif rolled == "Restore":
-                text "Bonus Roll: Full!" pos (200, 200) style "black_serpent" color green size 30
+                text "Bonus Roll: Vitality" pos (200, 200) style "arena_header_text" color green size 30 align (.5, .2)
             else:
-                text "Bonus Roll: Bupkis" pos (200, 200) style "black_serpent" color white size 30
+                text "Bonus Roll: Nothing" pos (200, 200) style "arena_header_text" color white size 30 align (.5, .2)
 
         # Legenda:
-        vbox:
-            align .2, .5
-            spacing 10
-            for color, text in [(red, "Restore HP"),
-                                (blue, "Restore MP"),
-                                (green, "Restore HP/MP"),
-                                (grey, "Bupkis Award!")]:
-                hbox:
-                    xalign 0
-                    spacing 10
-                    add Solid(color, xysize=(20, 20))
-                    text text style "garamond" color red yoffset -4
+        frame:
+            align (.8, .6)
+            background Frame("content/gfx/frame/p_frame4.png", 10, 10)
+            padding (10, 10)
+            vbox:
+                spacing 10
+                for color, text in [(red, "Restore HP"),
+                                    (blue, "Restore MP"),
+                                    (green, "Restore Vitality"),
+                                    (grey, "Nothing...")]:
+                    hbox:
+                        xalign 0
+                        spacing 10
+                        add Solid(color, xysize=(20, 20))
+                        text text style "garamond" color goldenrod yoffset -4
 
     screen confirm_chainfight():
         zorder 2
@@ -1318,14 +1328,14 @@ init: # ChainFights vs Mobs:
 
         # Chars + Stats
         frame:
-            at fade_from_to_with_easeout(start_val=.0, end_val=1.0, t=.9, wait=0)
+            at fade_from_to_with_easeout(start_val=0, end_val=1.0, t=.9, wait=0)
             background Frame("content/gfx/frame/MC_bg.png", 10, 10)
             add hero.show("battle", resize=(426, 376), cache=True)
             align .1, .5
 
         vbox:
             at arena_stats_slide
-            pos (500, 405)
+            pos (600, 405)
             spacing 1
             if not isinstance(w_team[0].combat_stats, basestring):
                 for stat in w_team[0].combat_stats:

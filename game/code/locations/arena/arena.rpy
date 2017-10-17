@@ -917,8 +917,6 @@ init -9 python:
             luck = luck / len(hero.team)
 
             # Bonus:
-            if config.developer:
-                bonus = True
             bonus = False
 
             if self.cf_count == 7:
@@ -927,23 +925,26 @@ init -9 python:
             else:
                 if dice(25 + luck*0.5):
                     bonus = True
-
+            # if config.developer:
+                # bonus = True
             if bonus:
                 d = OrderedDict()
                 # Color: range (int) pares =======>>>
-                full = 1
+                full = 4
                 hp = 2
                 mp = 3
 
                 health= 0
                 magic_points = 0
+                vit = 0
                 for member in hero.team:
                     health = health + member.health
                     magic_points = magic_points + member.mp
+                    vit = vit + member.vitality
 
                 # Luck mod:
                 if dice(luck):
-                    full += 1
+                    full += 4
                 if dice(luck):
                     hp += 2
                 if dice(luck):
@@ -958,9 +959,9 @@ init -9 python:
                     mp += 2
                 if magic_points / len(hero.team) < 20:
                     mp += 3
-                if (magic_points + health) / len(hero.team) < 130:
+                if vit / len(hero.team) < 100:
                     full += 1
-                if (magic_points + health) / len(hero.team) < 70:
+                if vit / len(hero.team) < 50:
                     full += 2
 
                 # Attempt to stabilize the bar:
@@ -968,7 +969,7 @@ init -9 python:
                     hp += 1
                 d["red"] = hp # HP
                 d["blue"] = mp # MP
-                d["green"] = full # Restore Both
+                d["green"] = full # Restore vitality
                 d["white"] = 50 - sum(d.values()) # Bupkis
                 c = copy.copy(d)
 
@@ -980,7 +981,7 @@ init -9 python:
                         d[i] = c[i]
                 d["white"] = c["white"] / 2
                 # Pass the dict to the award method:
-                renpy.music.play("content/sfx/sound/events/bonus.mp3")
+                renpy.play("win_screen.mp3", channel="world")
                 renpy.call_screen("arena_minigame", 50, 0.01, 6, d)
 
             renpy.show_screen("confirm_chainfight")
@@ -1070,7 +1071,7 @@ init -9 python:
                     self.cf_setup = None
                     self.cf_count = 0
                     self.award = None
-                    renpy.play("content/sfx/sound/world/win_screen.mp3", channel="music")
+                    renpy.play("win_screen.mp3", channel="world")
                     renpy.show_screen("arena_finished_chainfight", hero.team)
                     return
                 else:
@@ -1121,8 +1122,7 @@ init -9 python:
                     member.mp = member.get_max("mp")
             elif result == "Restore":
                 for member in hero.team:
-                    member.health = member.get_max("health")
-                    member.mp = member.get_max("mp")
+                    member.vitality = member.get_max("vitality")
             return result
 
         # -------------------------- Battle/Next Day ------------------------------->
