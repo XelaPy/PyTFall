@@ -112,7 +112,6 @@ init -5 python hide:
             labels = list()
         labels.append("after_load")
         labels.append("save_screen")
-        labels.append("work_in_arena")
         labels.append("work_in_slavemarket")
         if not name.startswith("_") and name not in labels:
             store.last_label = name

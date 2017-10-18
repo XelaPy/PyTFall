@@ -111,7 +111,6 @@ label arena_outside:
     python:
         # Build the actions
         if pytfall.world_actions.location("arena_outside"):
-            pytfall.world_actions.work(Iff(global_flag_complex("visited_arena")))
             pytfall.world_actions.add("xeona", "Find Xeona", Jump("find_xeona"))
             pytfall.world_actions.add("arena", "Enter Arena", Return(["control", "enter_arena"]))
             pytfall.world_actions.meet_girls()
@@ -139,9 +138,6 @@ label arena_outside:
                 $ hs()
                 $ jump("arena_inside")
                 
-            elif result[1] == "work":
-                call work_in_arena from _call_work_in_arena
-                
             if result[1] == 'return':
                 $ loop = False
                 
@@ -150,28 +146,6 @@ label arena_outside:
     $ renpy.music.stop(channel="gamemusic")                
     hide screen arena_outside
     jump city
-    
-label work_in_arena:
-    $ wage = randint(5, 12) + hero.attack/7 + hero.defence/7 + hero.agility/7 + hero.magic/7 + hero.level * 5
-    $ if dice(hero.luck*0.1): wage += hero.level * 5
-    if dice(0.5 + hero.luck*0.1):
-        $ hero.agility += 1
-        $ hero.defence += 1
-        $ hero.attack += 1
-        $ hero.constitution += 1
-    $ hero.exp += hero.adjust_exp(randint(1, 3))    
-    $ hero.add_money(wage, reason="Job")
-    
-    $ renpy.show("_tag", what=Text("%d" % wage, style="back_serpent", color=gold, size=40, bold=True), at_list=[found_cash(150, 600, 2)])
-    
-    if hero.take_ap(1):
-        if dice(50):
-            $ renpy.say("", choice(["You cleaned blood off the floors in the training area.", "Pay is crap, but it's still money.", "You helped out by carrying some weapons around!"]))
-        else:
-            $ hero.say(choice(["What a shitty job.", "There's has to be better way to make money."]))
-    $ global_flags.set_flag("keep_playing_music")
-    
-    return
     
 label find_xeona:
     define ax = Character('Xeona', color=ivory, show_two_window=True)
