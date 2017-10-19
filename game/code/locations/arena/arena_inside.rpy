@@ -338,7 +338,8 @@ init: # Main Screens:
                     has vbox spacing 5
 
                     # for lineup in pytfall.arena.matches_3v3:
-                    for lineup in container:
+                    $ temp = sorted(container, key=itemgetter(2))
+                    for lineup in temp:
                         if lineup[1]:
                             frame:
                                 style_group "content"
@@ -452,7 +453,8 @@ init: # Main Screens:
             side "c r":
                 pos (5, 5)
                 maximum (710, 515)
-                viewport id "arena_lineups":
+                viewport:
+                    id "arena_lineups"
                     draggable True
                     mousewheel True
                     child_size (700, 5000)
@@ -890,7 +892,7 @@ init: # Main Screens:
             pos (1233, 670)
             idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
             hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
-            action Return(["show", "arena"]) 
+            action Return(["show", "arena"])
         key "mousedown_3" action Return(["show", "arena"])
 
     screen arena_aftermatch(w_team, l_team, condition):
@@ -1112,7 +1114,7 @@ init: # ChainFights vs Mobs:
                                     xysize (100, 45)
                                     background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                     $ lvl = pytfall.arena.chain_fights[setup]["level"]
-                                    
+
                                     text("Lvl [lvl]") align .5, .5 size 25 style "proper_stats_text" color gold
                                 button:
                                     xfill True
@@ -1131,7 +1133,7 @@ init: # ChainFights vs Mobs:
         else:
             timer 0.5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
         key "mousedown_3" action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
-    
+
         # zorder 1
 
         # add "content/gfx/bg/locations/arena_bestiary.jpg"
@@ -1286,7 +1288,6 @@ init: # ChainFights vs Mobs:
                         Hide("confirm_chainfight"),
                         Return(["challenge", "chainfight"])]
 
-                        
     screen arena_finished_chainfight(w_team):
         zorder  3
         modal True
