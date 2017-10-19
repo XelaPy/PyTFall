@@ -552,7 +552,7 @@ label load_battle_skills:
         P2P_Skill(u"Fireball", menu_pos=0.5, attributes=["magic", "fire"], effect=50, multiplier=1.3, mp_cost=30, range=4, piercing=True,
                 desc="Launches an exploding fireball.", tier=1,
                 projectile_effects={"gfx": "fire_6", "sfx": "content/sfx/sound/be/fire7.mp3", "duration": 1.0},
-                main_effect={"gfx": Transform("fire_6_1", zoom=1), "sfx": None, "duration": 1.2, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
+                main_effect={"gfx": Transform("fire_6_1", zoom=1), "sfx": None, "duration": 2.2, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
                 attacker_effects={"gfx": "fire_2", "sfx": "default"},
                 target_sprite_damage_effect={"gfx": "burning_with_shake", "initial_pause": 0.1, "duration": 0.7},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 0.1, "duration": 0.5},
@@ -560,7 +560,7 @@ label load_battle_skills:
         P2P_Skill(u"Self-Division", menu_pos=0.5, attributes=["magic", "fire"], effect=50, multiplier=1.2, mp_cost=1, range=4, piercing=True, # should be unavailable for player, made specially for a boss
                 desc="Launches an exploding fireball filled with twisted energy at one enemy.", mob_only=True,
                 projectile_effects={"gfx": "Blazing_Star_fireball_webm", "sfx": "content/sfx/sound/be/fire7.mp3", "duration": 0.667},
-                main_effect={"gfx": Transform("fire_6_1", zoom=1), "sfx": None, "duration": 1.2, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
+                main_effect={"gfx": "fire_6_1", "sfx": None, "duration": 1.2, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
                 target_sprite_damage_effect={"gfx": "burning_with_shake", "initial_pause": 0.1, "duration": 0.7},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 0.1, "duration": 0.5},
                 dodge_effect={"initial_pause": .1})
