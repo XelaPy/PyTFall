@@ -846,6 +846,7 @@ init -9 python:
                 for lu in self.lineup_3v3:
                     if not lu:
                         lu.add(self.king)
+                        break
             temp = candidates[:60]
             if self.king in temp:
                 temp.remove(self.king)
