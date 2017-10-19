@@ -1887,18 +1887,19 @@ init -1 python: # Core classes:
             super(Complex_BE_AI, self).__init__(source=source)
 
         def __call__(self):
-            skills = self.get_availible_skills()
-            if not skills:
-                BE_Skip(source=self.source)()
+            skip = BE_Skip(source=self.source)
+            temp = self.get_availible_skills()
+            if not temp:
+                skip()
                 return
 
             # Split skills in containers:
-            attack_skills = [s for s in skills if s.kind == "assault"]
-            healing_skills = [s for s in skills if s.kind == "healing"]
-            buffs = [s for s in skills if s.kind == "buffs"]
-            revival_skills = [s for s in skills if s.kind == "revival"]
+            skills = {}
+            for s in temp:
+                skills.setdefault(s.kind, []).append(s)
 
             # Reviving first:
+            revival_skills = skills.get("revival", None)
             if revival_skills and dice(50):
                 for skill in revival_skills:
                     targets = skill.get_targets(source=self.source)
@@ -1908,6 +1909,7 @@ init -1 python: # Core classes:
                         skill(ai=True, t=targets)
                         return
 
+            healing_skills = skills.get("healing", None)
             if healing_skills and dice(70):
                 for skill in healing_skills:
                     targets = skill.get_targets(source=self.source)
@@ -1918,6 +1920,7 @@ init -1 python: # Core classes:
                             skill(ai=True, t=targets)
                             return
 
+            buffs = skills.get("buffs", None)
             if buffs and dice(10):
                 for skill in buffs:
                     targets = skill.get_targets(source=self.source)
@@ -1927,6 +1930,7 @@ init -1 python: # Core classes:
                         skill(ai=True, t=targets)
                         return
 
+            attack_skills = skills.get("assault", None)
             if attack_skills:
                 # Sort skills by menu_pos:
                 attack_skills.sort(key=attrgetter("menu_pos"))
@@ -1945,19 +1949,20 @@ init -1 python: # Core classes:
                         return
 
             # In case we did not pick any specific skill:
-            BE_Skip(source=self.source)()
-
-
-    def get_char_with_lowest_attr(chars, attr="hp"):
-        chars.sort(key=attrgetter(attr))
-        return chars[0]
+            skip()
 
 
     class Slave_BE_AI(BE_AI): # for slaves involved in combat, skips every turn since they are not allowed to fight.
         def __init__(self, source):
             super(Slave_BE_AI, self).__init__(source=source)
+
         def __call__(self):
             Slave_BE_Skip(source=self.source)()
+
+
+    def get_char_with_lowest_attr(chars, attr="hp"):
+        chars.sort(key=attrgetter(attr))
+        return chars[0]
 
     def exp_reward(team, enemies): # calculates exp reward after a battle
         team_level = 0

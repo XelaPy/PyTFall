@@ -700,7 +700,6 @@ init -9 python:
                     tier_up_to(member, tier)
                     give_tiered_items(member, equip=True)
                     give_tiered_magic_skills(member)
-
                     member.arena_rep = randint(int(tier*9000), int(tier*11000))
 
                 if lineups:
