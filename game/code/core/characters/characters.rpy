@@ -197,7 +197,16 @@ init -9 python:
                 notify("Impossible to join the same team twice")
 
             if len(self._members) >= self.max_size:
-                notify("{} team cannot have more than {} teammembers!".format(self.name, self.max_size))
+                temp = []
+                t = "{} team cannot have more than {} team members!".format(self.name, self.max_size)
+                temp.append(t)
+                t = [m.name for m in self._members]
+                temp.append("Members: {}".format(", ".join(t)))
+                t = "Adding: {}".format(member.name)
+                temp.append(t)
+                temp = "\n".join(temp)
+                raise Exception(temp)
+                notify(temp)
             else:
                 if not self.free and not self.leader:
                     self._leader = member

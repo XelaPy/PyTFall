@@ -646,8 +646,8 @@ init -9 python:
                 tiers = team.get("tiers", [])
                 if not tiers:
                     for m in members:
-                        tiers.append(random.uniform(.3, 1.8))
-                teamsize = len(team["members"])
+                        tiers.append(random.uniform(.8, 1.2))
+                teamsize = len(members)
 
                 if teamsize > 3:
                     raise Exception("Arena Teams are not allowed to include more than 3 members!")
@@ -656,13 +656,12 @@ init -9 python:
 
                 a_team = Team(name=name, max_size=teamsize)
                 for index, member in enumerate(members):
-                    if member == "random_girl":
+                    if member == "random_char":
                         member = build_rc(patterns="Warrior")
                         member.status = "free"
                         member.location = "arena"
                         member.arena_permit = True
                         member.arena_active = True
-                        a_team.add(member)
                     elif member in chars:
                         member = chars[member]
                         if member in hero.chars:
@@ -672,7 +671,6 @@ init -9 python:
                                             " to 2v2 Arena teams twice!" % chars[member].name)
                         if member in self.get_teams_fighters(teams="3v3"):
                             raise Exception("You've added unique character %s to 3v3 Arena teams more than once!" % chars[member].name)
-                        a_team.add(member)
                     elif member in json_fighters:
                         member = json_fighters[member]
                         if member in self.get_teams_fighters(teams="2v2"):
@@ -684,14 +682,12 @@ init -9 python:
                         member.arena_active = True
                         member.arena_permit = True
                         self.arena_fighters[member.id] = member
-                        a_team.add(member)
                     elif member in rchars:
                         build_rc(id=member, patterns="Warrior")
                         member.status = "free"
                         member.location = "arena"
                         member.arena_permit = True
                         member.arena_active = True
-                        a_team.add(member)
                     else:
                         raise Exception("Team Fighter %s is of unknown origin!" % member)
 
@@ -701,6 +697,8 @@ init -9 python:
                     give_tiered_items(member, equip=True)
                     give_tiered_magic_skills(member)
                     member.arena_rep = randint(int(tier*9000), int(tier*11000))
+
+                    a_team.add(member)
 
                 if lineups:
                     if teamsize == 1:
@@ -826,7 +824,10 @@ init -9 python:
 
             # 2v2 Ladder lineup:
             if self.king:
-                self.lineup_2v2[0].add(self.king)
+                for lu in self.lineup_2v2:
+                    if not lu:
+                        lu.add(self.king)
+                        break
             temp = candidates[:50]
             if self.king in temp:
                 temp.remove(self.king)
@@ -842,7 +843,9 @@ init -9 python:
 
             # 3v3 Ladder lineup:
             if self.king:
-                self.lineup_3v3[randint(1, 3)].add(self.king)
+                for lu in self.lineup_3v3:
+                    if not lu:
+                        lu.add(self.king)
             temp = candidates[:60]
             if self.king in temp:
                 temp.remove(self.king)

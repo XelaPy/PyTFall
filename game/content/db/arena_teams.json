@@ -2,31 +2,31 @@
 {
 "name": "Kathtom Duo",
 "members": ["Masou Shizuka", "Maria Custard"],
-"tiers": [8, 8],
+"tiers": [4, 4],
 "lineups": 2
 },
 {
 "name": "Team Uesugi",
 "members": ["Uesugi Kenshin", "Uesugi Torako", "Uesugi Katsuko"],
-"tiers": [6, 8, 7],
+"tiers": [4, 6, 5],
 "lineups": false
 },
 {
 "name": "Reign of New Beatrice",
 "members": ["EVA-Beatrice", "Siesta 410", "Siesta 45"],
-"tiers": [6, 7, 5],
+"tiers": [4, 5, 3],
 "lineups": false
 },
 {
 "name": "Shishio Makoto",
 "members": ["Shishio Makoto"],
-"tiers": [8],
+"tiers": [5],
 "lineups": 2
 },
 {
 "name": "Afterschool Alleyway Alliance",
 "members": ["Yumizuka Satsuki", "Sion Eltnam Atlasia", "Riesbyfe Stridberg"],
-"tiers": [9, 8, 7],
+"tiers": [6, 5, 4],
 "lineups": 2
 }
 ]
