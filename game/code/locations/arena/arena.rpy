@@ -696,10 +696,11 @@ init -9 python:
                         raise Exception("Team Fighter %s is of unknown origin!" % member)
 
                     tier = tiers[index]
+                    member.set_status("free")
                     tier_up_to(member, tier)
                     give_tiered_items(member, equip=True)
                     give_tiered_magic_skills(member)
-                    member.set_status("free")
+
                     member.arena_rep = randint(int(tier*9000), int(tier*11000))
 
                 if lineups:
@@ -748,6 +749,10 @@ init -9 python:
             # Loading rest of Arena Combatants:
             candidates = store.male_fighters.values() + store.female_fighters.values()
             candidates.extend(self.get_arena_candidates_from_chars())
+
+            # Bad place to put this, but for now:
+            for c in candidates:
+                c.set_status("free")
 
             _candidates = candidates[:]
             shuffle(_candidates)

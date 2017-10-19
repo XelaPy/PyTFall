@@ -356,6 +356,8 @@ init -11 python:
             except:
                 raise Exception(char.name, char.__class__)
         if char.status == "slave" and gen_occ == "Warrior":
+            problem = (char.name, char.__class__)
+            devlog.warning("Giving tiered items to a Warrior Slave failed: {}".format(problem))
             return
         # See if we can get a perfect occupation:
         if occ is None:
