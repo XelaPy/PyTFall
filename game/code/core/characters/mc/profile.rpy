@@ -448,7 +448,7 @@ init:
                 text "Finance" style "pb_button_text"
                 hovered tt.Action("Show finances log")
             button:
-                action Hide("show_trait_info"), If(hero.friends | hero.lovers, true=[SetScreenVariable("lframe_display", "friends"), With(dissolve)])
+                action Hide("show_trait_info"), [SetScreenVariable("lframe_display", "friends"), With(dissolve)]
                 text "Friends" style "pb_button_text"
                 hovered tt.Action("Show friends list")
 

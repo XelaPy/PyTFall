@@ -256,22 +256,6 @@ label char_equip_loop:
                 unequip_slot = None
                 item_direction = None
 
-        elif result[0] == "auto_discard": # TODO: remove
-            python:
-                if isinstance(eqtarget, PytGroup):
-                    for c in eqtarget.lst:
-                        # Check if we are allowed to access inventory and act:
-                        if equipment_access(c, silent=True):
-                            c.auto_discard()
-
-                elif equipment_access(eqtarget, silent=False) and eqtarget != hero:
-                    eqtarget.auto_discard()
-
-                focusitem = None
-                selectedslot = None
-                unequip_slot = None
-                item_direction = None
-
         elif result[0] == 'con':
             if result[1] == 'return':
                 python:
@@ -481,11 +465,11 @@ screen char_equip_left_frame(tt, stats_display):
                 xsize 100
                 action SetScreenVariable("stats_display", "stats"), With(dissolve)
                 text "Stats" style "pb_button_text" yoffset 2
-            button:
-                xsize 100
-                action SetScreenVariable("stats_display", "pro"), With(dissolve)
-                text "Skills" style "pb_button_text" yoffset 2
-
+            # button:    TODO: skills button showed nothign at all for all chars, so I disabled it for now
+                # xsize 100
+                # action SetScreenVariable("stats_display", "pro"), With(dissolve)
+                # text "Skills" style "pb_button_text" yoffset 2
+            
         # Stats/Skills:
         vbox:
             yfill True
@@ -809,11 +793,6 @@ screen char_equip_right_frame(tt):
                 action SelectedIf(inv_source != hero), SensitiveIf(eqtarget != hero), If(eqtarget != hero, true=[SetVariable("inv_source", eqtarget), Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter), Return(['con', 'return']), With(dissolve)])
                 hovered tt.Action("Equip from [eqtarget.nickname]'s Inventory")
                 text "Girl" style "pb_button_text"
-        button: # TODO: remove
-            xalign 0.5
-            xysize (110, 30)
-            action If(eqtarget != hero, true=Return(["auto_discard"]))
-            text "Auto discard" style "pb_button_text"
 
     # Auto-Equip/Item Transfer Buttons and Paging: ================>
     frame:
@@ -879,6 +858,7 @@ screen char_equip_right_frame(tt):
         hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
         action Return(['control', 'return'])
         hovered tt.Action("Return to previous screen!")
+    key "mousedown_3" action Return(['control', 'return'])
 
 screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="content", mc_mode=False, tt=None):
 
@@ -1306,7 +1286,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                 button:
                                     xysize (90, 30)
                                     action SelectedIf(eqsave[i] and any(eqtarget.eqsave[i].values())), ToggleDict(eqsave, i), With(dissolve)
-                                    hovered tt.Action("Save [eqtarget.nickname]'s equipment state")
+                                    hovered tt.Action("Show/hide equipment state if it's saved")
                                     text "Outfit %d" % (i + 1) style "pb_button_text"
                                 button:
                                     align (0.5, 0.5)
