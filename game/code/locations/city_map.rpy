@@ -81,7 +81,7 @@ screen city_screen():
         fixed:
             xysize (164, 78)
             pos (1111, 321)
-            text (u"[tt.value]") style "TisaOTMolxm" size 24 align (0.5, 0.5)
+            text (u"[tt.value]") style "TisaOTMolxm" size 19 align (0.5, 0.5)
             
     # Right frame:
     ### ----> Top buttons <---- ###
@@ -91,27 +91,27 @@ screen city_screen():
         imagebutton:
             idle im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40)
             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40), im.matrix.brightness(0.15))
-            hovered tt.Action("Quest Journal!")
+            hovered tt.Action("Quest Journal")
             action ShowMenu("quest_log")
         imagebutton:
             idle im.Scale("content/gfx/interface/buttons/MS.png", 38, 37)
             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png", 38, 37), im.matrix.brightness(0.15))
             action (Hide(renpy.current_screen().tag), Function(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
-            hovered tt.Action("Return to Main Screen!")
+            hovered tt.Action("Return to Main Screen")
         imagebutton:
             idle im.Scale("content/gfx/interface/buttons/profile.png", 35, 40)
             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/profile.png", 35, 40), im.matrix.brightness(0.15))
             action [SetField(pytfall.hp, "came_from", last_label), Hide(renpy.current_screen().tag), Jump("hero_profile")]
-            hovered tt.Action("View Hero Profile!")
+            hovered tt.Action("View Hero Profile")
         imagebutton:
             idle im.Scale("content/gfx/interface/buttons/save.png", 40, 40)
             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/save.png", 40, 40), im.matrix.brightness(0.15))
-            hovered tt.Action("QuickSave!")
+            hovered tt.Action("QuickSave")
             action QuickSave()
         imagebutton:
             idle im.Scale("content/gfx/interface/buttons/load.png", 38, 40)
             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/load.png", 38, 40), im.matrix.brightness(0.15))
-            hovered tt.Action("QuickLoad!")
+            hovered tt.Action("QuickLoad")
             action QuickLoad()
     
     ### ----> Mid buttons <---- ###

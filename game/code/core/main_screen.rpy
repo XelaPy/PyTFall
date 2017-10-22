@@ -73,7 +73,7 @@ label mainscreen:
 screen mainscreen():
 
     # Tooltip related:
-    default tt = Tooltip("Welcome to PyTFall!\nHave a nice game!!!")
+    default tt = Tooltip("")
 
     # Main pic:
     add im.Scale("content/gfx/bg/bg085_rsz.jpg", config.screen_width, config.screen_height-40) at fade_from_to(0.0, 1.0, 2.0) ypos 40

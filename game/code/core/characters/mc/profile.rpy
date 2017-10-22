@@ -438,17 +438,19 @@ init:
             button:
                 action Hide("show_trait_info"), Show("hero_team", transition=dissolve)#, With(dissolve)
                 text "Team" style "pb_button_text"
-                hovered tt.Action("Show [hero.team.name]!")#, With(dissolve)
+                hovered tt.Action("Show [hero.team.name]")#, With(dissolve)
             button:
                 action Hide("show_trait_info"), Return(['hero', 'equip'])#, With(dissolve)
                 text "Equipment" style "pb_button_text"
-                hovered tt.Action("Take a look at your inventory.")
+                hovered tt.Action("Take a look at your inventory")
             button:
                 action Hide("show_trait_info"), Show("finances", None, hero, mode="main")#, With(dissolve)
                 text "Finance" style "pb_button_text"
+                hovered tt.Action("Show finances log")
             button:
                 action Hide("show_trait_info"), If(hero.friends | hero.lovers, true=[SetScreenVariable("lframe_display", "friends"), With(dissolve)])
                 text "Friends" style "pb_button_text"
+                hovered tt.Action("Show friends list")
 
         # AP ====================================>
         frame:
@@ -527,7 +529,7 @@ init:
                     action Return(['hero', 'equip'])
                 if renpy.get_screen('hero_equip') and not hero.inventory.male_filter:
                     textbutton "Male Filter":
-                        hovered tt.Action("Filter out all items suitible for only girls.")
+                        hovered tt.Action("Filter out all items suitable for only girls.")
                         action Return(['hero', 'male_filter'])
                 if renpy.get_screen('hero_equip') and hero.inventory.male_filter:
                     textbutton "Unisex Filter":

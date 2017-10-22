@@ -161,7 +161,7 @@ screen char_profile():
         action Hide("show_trait_info")
 
     if girls:
-        default tt = Tooltip("[char.desc]")
+        default tt = Tooltip("")
     else:
         default tt = Tooltip("Manage your girls here!!!")
     default stats_display = "main"
@@ -178,7 +178,7 @@ screen char_profile():
                 align (0.496, 0.184) #0.487, 0.164
                 yfill True
                 ymaximum 514 #569
-                if check_lovers(char, hero) or "Exhibitionist" in char.traits:
+                if check_lovers(char, hero) or "Exhibitionist" in char.traits: # in these cases we are less strict with NSFW pictures
                     python:
                         frame_image = im.Scale("content/gfx/frame/MC_bg3.png", 1, 1)
                         img = char.show('profile', resize=(600, 514), cache=True)
@@ -211,7 +211,7 @@ screen char_profile():
                     else:
                         action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Function(gm.start_int, char, img=char.show("girlmeets", exclude=["nude", "revealing", "lingerie", "swimsuit"], resize=gm.img_size))], false=NullAction())
 
-                    hovered tt.action("Interact with [char.nickname]!")
+                    hovered tt.action("{=library_book_header_main}{color=[goldenrod]}{size=17}Click to interact with [char.nickname]{/=}{/color}{/size}\n[char.desc]")
 
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
@@ -267,7 +267,7 @@ screen char_profile():
                     ycenter 65
                     idle img
                     hover img
-                    hovered tt.Action("{=library_book_header_main}{color=[blue]}{size=17}%s{/=}{/color}{/size}"%trait.id + "\n" + trait.desc)
+                    hovered tt.Action("{=library_book_header_main}{color=[goldenrod]}{size=17}%s{/=}{/color}{/size}"%trait.id + "\n" + trait.desc)
                     action Show("show_trait_info", trait=trait.id, place="main_trait", tt=tt)
                 align (.0, .0)
                 xysize (330, 126)
@@ -365,19 +365,23 @@ screen char_profile():
                     yalign 0.5
                     action SetScreenVariable("stats_display", "main"), With(dissolve)
                     text "Main" size 15
+                    hovered tt.action("Show main info")
                 button:
                     yalign 0.5
                     action SetScreenVariable("stats_display", "stats"), With(dissolve)
                     text "Stats" size 15
+                    hovered tt.action("Show stats")
                 button:
                     yalign 0.5
                     action SetScreenVariable("stats_display", "pro_stats"), With(dissolve)
                     text "Pro Stats" size 15
+                    hovered tt.action("Show special stats")
                 if config.developer:
                     button:
                         yalign 0.5
                         action SetScreenVariable("stats_display", "skillstest"), With(dissolve)
                         text "S" size 15
+                        hovered tt.action("Show skills (dev mode only)")
 
             null height 15
             vbox:
@@ -399,6 +403,7 @@ screen char_profile():
                             xysize (106, 40)
                             yoffset -4
                             action Show("char_rename", char=char)
+                            hovered tt.action("Rename [char.name] (renaming is limited for free girls)")
                             
                     if len(char.fullname) >= 17:
                         null height 2

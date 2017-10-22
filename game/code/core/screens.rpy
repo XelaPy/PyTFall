@@ -557,14 +557,6 @@ init: # Items:
         # Hotkeys:
         if show_return_button and not get_screens("girl_interactions", "building_management_leftframe_businesses_mode"):
             key "mousedown_3" action return_action
-        if renpy.current_screen().tag not in ["girl_interactions", "hero_profile", "quest_log", "dungeon"]:
-            if global_flags.flag("visited_arena"):
-                key "a" action [Function(hs), Jump("arena_inside")]
-            if global_flags.flag("visited_city_beach"):
-                key "c" action [Function(hs), Function(global_flags.del_flag, "keep_playing_music"), Jump("city_beach_cafe")]
-            key "g" action [Function(hs), Function(global_flags.del_flag, "keep_playing_music"), Jump("general_store")]
-            key "m" action [Function(hs), Function(global_flags.del_flag, "keep_playing_music"), Jump("mainscreen")]
-            key "j" action ShowMenu("quest_log")
 
         # Top Stripe Frame:
         add "content/gfx/frame/top_stripe.png"
@@ -595,6 +587,7 @@ init: # Items:
                             If(_preferences.mute["music"] or _preferences.mute["sfx"],
                             true=[Preference("sound mute", "disable"), Preference("music mute", "disable")],
                             false=[Preference("sound mute", "enable"), Preference("music mute", "enable")])]
+                    hovered tt.Action("Mute All")
 
             # Left HBox: ======================================================>>>>>>
             # Add to and remove from Team Button.
@@ -606,13 +599,13 @@ init: # Items:
                             idle im.Scale("content/gfx/interface/buttons/RG.png" , 36, 40)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/RG.png", 36, 40), im.matrix.brightness(.15))
                             action Function(hero.team.remove, char)
-                            hovered tt.Action("Remove [char.nickname] from player team!")
+                            hovered tt.Action("Remove [char.nickname] from player team")
                     else:
                         imagebutton:
                             idle im.Scale("content/gfx/interface/buttons/AG.png" , 36, 40)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/AG.png", 36, 40), im.matrix.brightness(.15))
                             action Function(hero.team.add, char)
-                            hovered tt.Action("Add [char.nickname] to player team!")
+                            hovered tt.Action("Add [char.nickname] to player team")
 
             # AP Frame/Next Day button:
             if any([renpy.current_screen().tag == "next_day", hero.AP == 0]) and renpy.current_screen().tag not in ["mainscreen", "girl_interactions"] and not show_team_status:
@@ -636,13 +629,13 @@ init: # Items:
                     textbutton "{size=20}{color=[ivory]}{b}F":
                         yalign .5
                         action Jump("fonts")
-                        hovered tt.Action("View availible Fonts!")
+                        hovered tt.Action("View available Fonts")
 
                 if renpy.current_screen().tag not in ["quest_log"]:
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40), im.matrix.brightness(0.25))
-                        hovered tt.Action("Quest Journal!")
+                        hovered tt.Action("Quest Journal")
                         action ShowMenu("quest_log")
 
                 if renpy.current_screen().tag == "mainscreen":
@@ -650,48 +643,48 @@ init: # Items:
                         idle im.Scale("content/gfx/interface/buttons/preference.png", 39, 40)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/preference.png", 39, 40), im.matrix.brightness(0.25))
                         action Show("s_menu", transition=dissolve)
-                        hovered tt.Action("Game Preferences!")
+                        hovered tt.Action("Game Preferences")
 
                 if renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "dungeon"] and show_lead_away_buttons:
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37), im.matrix.brightness(0.25))
                         action (Hide(renpy.current_screen().tag), Function(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
-                        hovered tt.Action("Return to Main Screen!")
+                        hovered tt.Action("Return to Main Screen")
 
                 if renpy.current_screen().tag in ["char_profile", "char_equip"] and char.action != "Exploring":
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(0.25))
                         action Return(["jump", "item_transfer"])
-                        hovered tt.Action("Transfer items between MC and and [char.nickname]!")
+                        hovered tt.Action("Transfer items between MC and and [char.nickname]")
 
-                if renpy.get_screen("hero_profile") and hero.location == ap:
+                if renpy.get_screen("hero_profile") and hero.location == ap: # TODO: 1) we never show this button cuz we don't show top stripe in hero profile  2) it doesn't work anyway even we do show it!
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(0.25))
                         action Return(["item", "transfer"])
-                        hovered tt.Action("Leave your crap at your place (Inside of a safe chest)!")
+                        hovered tt.Action("Leave your crap at your place (Inside of a safe chest)")
 
                 if renpy.current_screen().tag not in ["hero_profile", "girl_interactions", "quest_log"] and show_lead_away_buttons:
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/profile.png", 35, 40)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/profile.png", 35, 40), im.matrix.brightness(0.25))
                         action [SetField(pytfall.hp, "came_from", last_label), Hide(renpy.current_screen().tag), Jump("hero_profile")]
-                        hovered tt.Action("View Hero Profile!")
+                        hovered tt.Action("View Hero Profile")
 
                 null width 10
 
                 imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/save.png" , 40, 40)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/save.png" , 40, 40), im.matrix.brightness(0.25))
-                        hovered tt.Action("QuickSave!")
+                        hovered tt.Action("QuickSave")
                         action QuickSave()
 
                 imagebutton:
                     idle im.Scale("content/gfx/interface/buttons/load.png" , 38, 40)
                     hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/load.png" , 38, 40), im.matrix.brightness(0.25))
-                    hovered tt.Action("QuickLoad!")
+                    hovered tt.Action("QuickLoad")
                     action QuickLoad()
 
             if show_return_button:
@@ -700,7 +693,7 @@ init: # Items:
                     idle im.Scale("content/gfx/interface/buttons/close.png", 35, 35)
                     hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 35, 35), im.matrix.brightness(0.25))
                     action return_action
-                    hovered tt.Action("Return to previous screen!")
+                    hovered tt.Action("Return to previous screen")
 
             if show_team_status:
                 hbox:
@@ -746,6 +739,21 @@ init: # Items:
                                 left_gutter 0
                                 right_gutter 0
                                 xysize (102, 14)
+        if renpy.current_screen().tag == "mainscreen":
+            frame:
+                background None
+                align(0.5, 0.997)
+                xysize (750, 100)
+                text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(0.5, 0.5)
+                
+        elif renpy.current_screen().tag == "char_profile":
+            frame:
+                background None
+                pos 332, 622
+                xpadding 10
+                xysize (951, 100)
+                has hbox spacing 1
+                text (u"{=content_text}{color=[ivory]}%s" % tt.value)
 
     screen message_screen(msg, size=(500, 300), use_return=False):
         modal True
