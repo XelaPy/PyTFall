@@ -1334,7 +1334,7 @@ init -9 python:
 
             # Warning the player of a scheduled arena match:
             if day+1 in hero.fighting_days:
-                txt = "{color=[cyan]}You have a scheduled Arena match today! Don't you dare chickening out :) \n\n{/color}"
+                txt = "{color=[red]}You have a scheduled Arena match today! Don't you dare chickening out :) \n\n{/color}"
                 # txt = "You have a scheduled Arena match today! Don't you dare chickening out :) \n\n"
 
             # Running the matches:
@@ -1345,8 +1345,6 @@ init -9 python:
                         match_result = self.auto_resolve_combat(setup[0], setup[1], "match")
                         txt = "".join([txt, "%s has defeated %s in a one on one fight. "%(match_result[0][0].name, match_result[1][0].name)])
                         txt = "".join([txt, choice(["It was quite a show! \n", "\n", "Amazing performance! \n", "Crowd never stopped cheering! \n", "\n"])])
-                    elif setup[1]:
-                        txt = "".join([txt, "%s remained unchallenged until the day of the fight... \n"%setup[1].leader.name])
                     setup[0] = Team(max_size=1)
                     setup[1] = Team(max_size=1)
 
@@ -1356,8 +1354,6 @@ init -9 python:
                         match_result = self.auto_resolve_combat(setup[0], setup[1], "match")
                         txt = "".join([txt, "%s team has defeated %s in an official match. "%(match_result[0].name, match_result[1].name)])
                         txt = "".join([txt, choice(["It was quite a show! \n", "\n", "Amazing performance! \n", "Crowd never stopped cheering! \n", "\n", "Team's leader %s got most of the credit! \n"%match_result[0].leader.name])])
-                    elif setup[1]:
-                        txt = "".join([txt, "%s remained unchallenged until the day of the fight... \n"%setup[0].name])
                     setup[0] = Team(max_size=2)
                     setup[1] = Team(max_size=2)
 
@@ -1367,8 +1363,6 @@ init -9 python:
                         match_result = self.auto_resolve_combat(setup[0], setup[1], "match")
                         txt = "".join([txt, "%s team has defeated %s in an official match. "%(match_result[0].name, match_result[1].name)])
                         txt = "".join([txt, choice(["It was quite a show! \n", "\n", "Amazing performance! \n", "Crowd never stopped cheering! \n", "\n", "Team's leader %s got most of the credit! \n"%match_result[0].leader.name])])
-                    elif setup[1]:
-                        txt = "".join([txt, "%s remained unchallenged until the day of the fight... \n"%setup[0].name])
                     setup[0] = Team(max_size=3)
                     setup[1] = Team(max_size=3)
 

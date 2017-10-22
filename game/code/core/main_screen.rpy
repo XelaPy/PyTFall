@@ -141,9 +141,9 @@ screen mainscreen():
     showif pytfall.ms_text and pytfall.todays_first_view:
         frame:
             pos (500, 95)
-            xysize (500, 500)
-            background Frame(Transform(("content/gfx/frame/arena_d.png"), alpha=0.7), 30, 30)
-            text "%s"%pytfall.ms_text align (0.5, 0.5) style "content_text" color ivory
+            xysize (500, 200)
+            background Frame("content/gfx/frame/settings1.png", 10, 10)
+            text "%s"%pytfall.ms_text align (0.5, 0.2) style "content_text" color goldenrod size 19
             timer 15 action ToggleField(pytfall, "todays_first_view")
 
     # Tooltip related:
