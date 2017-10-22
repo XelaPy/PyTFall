@@ -390,7 +390,7 @@ init: # Screens:
             xalign .5
             xpadding 10
             xysize (310, 200)
-            text (u"{=content_text}{size=20}{color=[ivory]}%s" % tt.value) yalign 0.02 size 14
+            text (u"{=content_text}{size=20}{color=[goldenrod]}%s" % tt.value) yalign 0.02 size 14
 
         # Manager?
         if isinstance(building, UpgradableBuilding):
@@ -1131,7 +1131,7 @@ init: # Screens:
                 xpadding 13
                 ypadding 15
                 has vbox
-                text (u"{color=[ivory]}%s" % tt.value) outlines [(1, "#424242", 0, 0)]
+                text (u"{color=[goldenrod]}%s" % tt.value) outlines [(1, "#424242", 0, 0)]
 
             # Controls themselves ---------------------------------->
             vbox:
@@ -1218,7 +1218,7 @@ init: # Screens:
                 xpadding 13
                 ypadding 15
                 has vbox
-                text (u"{color=[ivory]}%s" % tt.value) outlines [(1, "#424242", 0, 0)]
+                text (u"{color=[goldenrod]}%s" % tt.value) outlines [(1, "#424242", 0, 0)]
 
             # Buttons themselves ---------------------------------->
             hbox:
