@@ -620,7 +620,7 @@ init -9 python:
             """
             if index in self._a: self._a.pop(index)
 
-        def slave_market(self, store, tt_text, button="Go Shopping", null_button="No Slaves", buy_button="Purchase", buy_tt="You can buy this great girl for the sum of %s Gold!",
+        def slave_market(self, store, tt_text, button="Buy Slaves", null_button="No Slaves", buy_button="Purchase", buy_tt="You can buy this great girl for the sum of %s Gold!",
                          index="slave_market"):
             """
             Adds the default "Go Shopping" slave market action.

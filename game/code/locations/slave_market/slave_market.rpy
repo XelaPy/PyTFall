@@ -411,7 +411,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     xalign .5
                     style_group "proper_stats"
                     spacing 1
-                    for trait in list(t for t in store.girl.traits if not any([t.basetrait])):
+                    for trait in list(t for t in store.girl.traits if not any([t.basetrait, t.race, t.elemental])):
                         if not trait.hidden:
                             frame:
                                 xysize (195, 25)
