@@ -88,7 +88,8 @@
     "blocks": ["Ill-mannered"],
     "mod_skills": {"refinement": [0.2, 0.1, 0.08], "bdsm": [-0.07, -0.02, -0.06]},
     "character_trait": true,
-    "client": true
+    "client": true,
+    "market": true
     },
     {
     "id": "Ill-mannered",
@@ -96,6 +97,7 @@
     "blocks": ["Well-mannered"],
     "mod_skills": {"refinement": [-0.2, -0.1, -0.08], "bdsm": [0.07, 0.02, 0.06]},
     "character_trait": true,
-    "client": true
+    "client": true,
+    "market": true
     }
     ]

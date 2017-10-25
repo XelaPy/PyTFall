@@ -8,7 +8,8 @@
     "mod_stats": {"charisma": [1, 1], "agility": [-1, 1]},
     "mod_skills": {"strip": [-0.1, 0, 0.2], "dancing": [-0.1, 0, -0.1]},
     "evasion_bonus": [-10, -10, 1],
-    "breasts": true
+    "breasts": true,
+    "market": true
     },
     {
     "id": "Big Boobs",
@@ -19,14 +20,16 @@
     "mod_stats": {"charisma": [1, 2], "agility": [-1, 2]},
     "mod_skills": {"strip": [-0.05, 0, 0.1]},
     "evasion_bonus": [-5, -5, 1],
-    "breasts": true
+    "breasts": true,
+    "market": true
     },
     {
     "id": "Average Boobs",
     "desc": "Her boobs are not too big and not too small. Any classy guy will say that this is the ideal size.",
     "blocks": ["Abnormally Large Boobs", "Big Boobs", "Small Boobs"],
     "mod_stats": {"charisma": [1, 3]},
-    "breasts": true
+    "breasts": true,
+    "market": true
     },
     {
     "id": "Small Boobs",
@@ -37,14 +40,16 @@
     "mod_stats": {"charisma": [-2, 2], "agility": [1, 2]},
     "mod_skills": {"strip": [-0.2, 0, -0.1], "dancing": [0.05, 0, 0.05]},
     "breasts": true,
-    "evasion_bonus": [5, 5, 1]
+    "evasion_bonus": [5, 5, 1],
+    "market": true
     },
     {
     "id": "Not Human",
     "desc": "This girl doesn't look like a normal human being.",
     "mod": {"upkeep": 10},
     "mod_skills": {"strip": [0, 0, 0.03], "refinement": [-0.03, -0.03, 0.03]},
-    "permanent": true
+    "permanent": true,
+    "market": true
     },
    {
     "id": "Long Legs",
@@ -52,21 +57,24 @@
     "max": {"charisma": 5},
     "mod_stats": {"charisma": [1, 3], "agility": [1, 3]},
     "mod_skills": {"strip": [0, 0, 0.02], "dancing": [0, 0, 0.01]},
-    "permanent": true
+    "permanent": true,
+    "market": true
     },
    {
     "id": "Great Arse",
     "desc": "She has a really nice arse.",
     "max": {"charisma": 5},
     "mod_skills": {"strip": [0, 0, 0.02], "anal": [0.01, 0, 0.01], "service": [-0.05, 0, -0.05]},
-    "permanent": true
+    "permanent": true,
+    "market": true
     },
    {
     "id": "Flat Ass",
     "desc": "Her posterior isn't really anything special. Not much to grope or slap whatsoever.",
     "max": {"charisma": -5, "agility": 5},
     "mod_skills": {"strip": [0, 0, -0.02], "service": [0.02, 0, 0.02]},
-    "permanent": true
+    "permanent": true,
+    "market": true
     },
    {
     "id": "Strange Eyes",
@@ -74,7 +82,8 @@
     "mod_stats": {"charisma": [-3, 3]},
     "max": {"charisma": 10},
     "mod_skills": {"refinement": [0, 0, 0.01]},
-    "permanent": true
+    "permanent": true,
+    "market": true
     },
     {
     "id": "Lolita",
@@ -86,7 +95,8 @@
     "mod_ap": 1,
     "body": true,
     "delivery_multiplier": {"melee": -0.5},
-    "evasion_bonus": [2, 2, 1]
+    "evasion_bonus": [2, 2, 1],
+    "market": true
     },
     {
     "id": "Slim",
@@ -94,7 +104,8 @@
     "blocks": ["Lolita", "Chubby", "Athletic", "Manly"],
     "mod_stats": {"constitution": [-1, 1], "charisma": [1, 1]},
     "max": {"vitality": -25, "charisma": 15},
-    "body": true
+    "body": true,
+    "market": true
     },
     {
     "id": "Chubby",
@@ -103,7 +114,8 @@
     "mod_stats": {"constitution": [1, 2], "agility": [-2, 1]},
     "max": {"health": 25},
     "body": true,
-    "evasion_bonus": [-5, -5, 1]
+    "evasion_bonus": [-5, -5, 1],
+    "market": true
     },
     {
     "id": "Athletic",
@@ -113,7 +125,8 @@
     "mod_stats": {"constitution": [1, 2], "agility": [1, 2]},
     "max": {"health": 25, "vitality": 50},
     "body": true,
-    "evasion_bonus": [4, 4, 1]
+    "evasion_bonus": [4, 4, 1],
+    "market": true
     },
    {
     "id": "Manly",
@@ -125,7 +138,8 @@
     "mod_skills": {"service": [-0.02, 0, -0.03], "strip": [0, 0, -0.06], "waiting": [-0.01, 0, -0.02]},
     "delivery_multiplier": {"melee": 0.25},
     "body": true,
-    "evasion_bonus": [-5, -5, 1]
+    "evasion_bonus": [-5, -5, 1],
+    "market": true
     },
     {
     "id": "Artificial Body",
@@ -136,7 +150,8 @@
     "permanent": true,
     "client": true,
     "el_defence": {"healing": 0.3, "poison": 0.35},
-    "defence_bonus": {"melee":[20, 100, 20], "ranged":[20, 100, 20]}
+    "defence_bonus": {"melee":[20, 100, 20], "ranged":[20, 100, 20]},
+    "market": true
     },
     {
     "id": "Scars",
@@ -145,7 +160,8 @@
     "mod_stats": {"constitution": [1, 3]},
     "max": {"charisma": -5},
     "mod_skills": {"strip": [0, 0, -0.1]},
-    "permanent": true
+    "permanent": true,
+    "market": true
     },
     {
     "id": "Half-Sister",
@@ -163,7 +179,8 @@
     "max": {"magic": 20, "attack": 10, "defence": 10, "constitution": 15},
     "mod_skills": {"refinement": [-0.01, -0.06, 0.02], "service": [0, -0.03, -0.01]},
     "permanent": true,
-    "defence_bonus": {"magic":[100, 500, 50], "status":[100, 500, 50]}
+    "defence_bonus": {"magic":[100, 500, 50], "status":[100, 500, 50]},
+    "market": true
     },
    {
     "id": "Bad Eyesight",
@@ -172,14 +189,16 @@
     "mod_stats": {"attack": [-4, 1], "intelligence": [1, 2]},
     "max": {"agility": -5, "intelligence": 10, "attack": -15, "defence": -15},
     "delivery_multiplier": {"ranged": -0.25},
-    "mod_skills": {"refinement": [0, 0, 0.01]}
+    "mod_skills": {"refinement": [0, 0, 0.01]},
+    "market": true
     },
    {
     "id": "Lactation",
     "desc": "She's capable to produce milk.",
     "mod": {"upkeep": 5},
     "effects": ["Lactation"],
-    "max": {"vitality": -20, "health": -10}
+    "max": {"vitality": -20, "health": -10},
+    "market": true
     },
    {
     "id": "Flexible",
@@ -187,25 +206,29 @@
     "mod_stats": {"agility": [1, 2], "defence": [-1, 1]},
     "max": {"agility": 15, "defence": -15, "vitality": -15},
     "mod_skills": {"vaginal": [0.01, 0.01, 0.01], "anal": [0.01, 0.01, 0.01], "sex": [0.01, 0.01, 0.01], "oral": [0.01, 0.01, 0.01]},
-    "MC_trait": true
+    "MC_trait": true,
+    "market": true
     },
    {
     "id": "Left-Handed",
     "desc": "Items in right hand are not very effective, but items in left hand are more effective than usual.",
-    "permanent": true
+    "permanent": true,
+    "market": true
     },
    {
     "id": "Stupid",
     "blocks": ["Smart"],
     "desc": "The difference between stupidity and genius is that genius has its limits.",
     "max": {"vitality": 20, "mp": -20},
-    "effects": ["Silly"]
+    "effects": ["Silly"],
+    "market": true
     },
    {
     "id": "Smart",
     "blocks": ["Stupid"],
     "desc": "Being smart creates more questions than answers.",
     "max": {"intelligence": 20},
-    "effects": ["Intelligent"]
+    "effects": ["Intelligent"],
+    "market": true
     }
 ]

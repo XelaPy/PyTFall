@@ -371,6 +371,7 @@ init -9 python:
             self.character_trait = False
             self.sexual = False
             self.client = False
+            self.market = False
 
             # Elemental:
             self.font_color = None

@@ -227,13 +227,15 @@
     "id": "Virgin",
     "desc": "This girl has never had sex before.",
     "mod_skills": {"vaginal": [-0.4, 0.05, -0.5]},
-    "virginity": true
+    "virginity": true,
+    "market": true
     },
     {
     "id": "MILF",
     "desc": "This woman has had children before.",
     "mod_skills": {"vaginal": [0.01, 0, 0.01]},
-    "virginity": true
+    "virginity": true,
+    "market": true
     },
     {
     "id": "Open Minded",

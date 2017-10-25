@@ -399,7 +399,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
             background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=0.98), 10, 10)
             has vbox align (0.5, 0.5)
             null height 5
-            label (u"{size=20}{color=[ivory]}{b}Traits:") xalign .5 text_outlines [(2, "#424242", 0, 0)]
+            label (u"{size=20}{color=[ivory]}{b}Visible Traits") xalign .5 text_outlines [(2, "#424242", 0, 0)]
             null height 5
             frame:
                 left_padding 15
@@ -411,7 +411,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     xalign .5
                     style_group "proper_stats"
                     spacing 1
-                    for trait in list(t for t in store.girl.traits if not any([t.basetrait, t.race, t.elemental])):
+                    for trait in list(t for t in store.girl.traits if any([t.market])):
                         if not trait.hidden:
                             frame:
                                 xysize (195, 25)
@@ -460,7 +460,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     textbutton "Back":
                         xsize 150
                         action Hide("slave_shopping", transition=Dissolve(1.0))
-                        hovered tt.Action("All Done!")
+                        hovered tt.Action("Exit Market")
 
                 null width 10
 
