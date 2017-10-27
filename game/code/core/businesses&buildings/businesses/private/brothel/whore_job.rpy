@@ -20,7 +20,7 @@ init -5 python:
                Calculates only once per turn, in the very beginning.
             """
             effectiveness = 0
-             # effects always work
+            # effects always work
             if worker.effects['Food Poisoning']['active']:
                 log.append("%s suffers from Food Poisoning, and is very far from her top shape." % worker.name)
                 effectiveness -= 50
@@ -100,21 +100,6 @@ init -5 python:
                 elif trait == "Lactation":
                     log.append("Sometimes customers are happy to swallow liquids too. As in the case of %s's milk which is produced more than usual today." % worker.name)
                     effectiveness += 25
-            return effectiveness
-
-        def effectiveness(self, worker, difficulty, log):
-            """Checking effectiveness specifically for whore job.
-
-            difficulty is used to counter worker's tier.
-            100 is considered a score where worker does the task with acceptable performance.
-            """
-            if worker.occupations.intersection(self.occupations):
-                effectiveness = 50
-            else:
-                effectiveness = 0
-            # 25 points for difference between difficulty/tier:
-            diff = difficulty - worker.tier
-            effectiveness += diff*25
             return effectiveness
 
         def calculate_disposition_level(self, worker): # calculating the needed level of disposition; since it's whoring we talking about, values are really close to max, or even higher than max in some cases, making it impossible

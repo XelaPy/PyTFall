@@ -103,18 +103,6 @@ init -5 python:
                     effectiveness += 10
             return effectiveness
 
-        def effectiveness(self, worker, difficulty, log):
-            """
-            difficulty is used to counter worker tier.
-            100 is considered a score where worker does the task with acceptable performance.
-            """
-            base_effectiveness = super(BarJob, self).effectiveness(worker, difficulty, log)
-
-            # Do whatever has to be done for the job:
-            effectiveness = base_effectiveness + 0
-
-            return effectiveness
-
         def calculate_disposition_level(self, worker):
             """
             calculating the needed level of disposition;

@@ -71,7 +71,7 @@ init -5 python:
             job.settle_workers_disposition(worker, log)
 
             difficulty = building.tier
-            effectiveness = job.effectiveness(worker, difficulty, log)
+            effectiveness = job.effectiveness(worker, difficulty, log, False)
 
             # job.payout_mod() # TODO
             job.acts(worker=worker, client=client, building=building, log=log, effectiveness=effectiveness)

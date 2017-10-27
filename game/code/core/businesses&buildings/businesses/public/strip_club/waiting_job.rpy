@@ -108,7 +108,6 @@ init -5 python:
                     effectiveness += 15
             return effectiveness
 
-
         def club_task(self):
             """
             Solve the job as a waitress.
