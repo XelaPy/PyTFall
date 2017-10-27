@@ -659,13 +659,6 @@ init: # Items:
                         action Return(["jump", "item_transfer"])
                         hovered tt.Action("Transfer items between MC and and [char.nickname]")
 
-                if renpy.get_screen("hero_profile") and hero.location == ap: # TODO: 1) we never show this button cuz we don't show top stripe in hero profile  2) it doesn't work anyway even we do show it!
-                    imagebutton:
-                        idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
-                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(0.25))
-                        action Return(["item", "transfer"])
-                        hovered tt.Action("Leave your crap at your place (Inside of a safe chest)")
-
                 if renpy.current_screen().tag not in ["hero_profile", "girl_interactions", "quest_log"] and show_lead_away_buttons:
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/profile.png", 35, 40)
@@ -745,7 +738,7 @@ init: # Items:
                 align(0.5, 0.997)
                 xysize (750, 100)
                 text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(0.5, 0.5)
-                
+
         elif renpy.current_screen().tag == "char_profile":
             frame:
                 background None
@@ -777,7 +770,7 @@ init: # Items:
                 textbutton "Ok" action If(use_return, true=Return(), false=Hide("message_screen")) minimum(120, 30) xalign 0.5 style "yesno_button"
         key "K_RETURN" action If(use_return, true=Return(), false=Hide("message_screen"))
         key "K_ESCAPE" action If(use_return, true=Return(), false=Hide("message_screen"))
-               
+
     screen display_disposition(tag, d, size, x, y, t):
         tag tag
         text "[d]" font "fonts/rubius.ttf" size size color crimson at found_cash(x, y, t)
