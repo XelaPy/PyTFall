@@ -39,6 +39,7 @@ init -5 python:
         def request_room(self, client, worker):
             """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms available...
             """
+            # TODO If the above docstring is true, and this is never called if there are no rooms, while do we request shit?
             with self.res.request() as request:
                 yield request
 
@@ -48,24 +49,19 @@ init -5 python:
 
                 # This line will make sure code halts here until run_job ran it's course...
                 yield self.env.timeout(self.time)
-                self.run_job(client, worker)
+                result = self.run_job(client, worker)
 
-                # Action (Job) ran it's course and client is leaving...
+                # TODO Conditioned off the result of the job, adjust this line:
+                temp = "{}: {} and {} did their thing!".format(self.env.now, set_font_color(worker.name, "pink"), client.name)
+                self.log(temp)
                 temp = "{}: {} leaves the {}.".format(self.env.now, client.name, self.name)
                 self.log(temp)
                 # client.flag("jobs_busy").interrupt()
             client.del_flag("jobs_busy")
 
         def run_job(self, client, worker):
-            """Waits for self.time delay and calls the job...
+            """Handles the job and job report.
             """
-            if config.debug:
-                temp = "{}: Debug: {} Building Resource in use!".format(self.env.now, set_font_color(self.res.count, "red"))
-                self.log(temp)
-
-            temp = "{}: {} and {} did their thing!".format(self.env.now, set_font_color(worker.name, "pink"), client.name)
-            self.log(temp)
-
             # Visit counter:
             client.up_counter("got_serviced_by" + worker.id)
             # Execute the job:
