@@ -962,7 +962,7 @@ init: # Items:
             has vbox
 
             for building in hero.buildings:
-                if isinstance(building, UpgradableBuilding) and building.habitable:
+                if isinstance(building, UpgradableBuilding) or building.habitable:
                     textbutton "[building.name]":
                         action SelectedIf(char.home==building), SetField(char, "home", building), Hide("set_home_dropdown")
             textbutton "Streets":

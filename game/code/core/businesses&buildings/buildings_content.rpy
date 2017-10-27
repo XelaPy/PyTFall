@@ -205,22 +205,25 @@ init -9 python:
 
 
     class Apartment(BaseBuilding):
-        """Useless class really, but I may require to check for this during interation in the future."""
-        #
-        # Do we want to remove this to completely replace it with the Training Dungeon?
-        # *Alex: Nope, this will be at some point expanded into a Harem-like structure with it's own bonuses. Player may want to get an apartment but never a TD (Like CW for example :D )
+        """Useless class really, but I may require to check for this during interaction in the future."""
+        # TODO: Should all of this be updated to the new system? We have too many classes doing a very, very similar thing...
         def __init__(self):
             super(Apartment, self).__init__()
             # Once again, for the Items transfer:
+            self.habitable = True
             self.status = "slave"
             self.given_items = dict()
 
             # We'll add inventory here at Dark's request.
             self.inventory = Inventory(15)
 
-        # Mimicing the show method expected from character classes for items transfer:
+        def init(self):
+            self.nickname = self.fullname = self.name = self.id
+
+        # Mimicking the show method expected from character classes for items transfer:
         def show(self, *tags, **kwargs):
-            return ProportionalScale(self.img, 205, 205)
+            size = kwargs.get("resize", (205, 205))
+            return ProportionalScale(self.img, size[0], size[1])
 
 
     class School(BaseBuilding):

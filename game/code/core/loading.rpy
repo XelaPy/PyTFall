@@ -687,13 +687,14 @@ label load_resources:
         buildings = dict()
         ap = Apartment()
         ap.id = "Studio Apartment"
-        ap.name = ap.id
         ap.desc = "Buy this Apartment to live in for an Extra AP point per day!"
         ap.img = "content/gfx/bg/buildings/apartment_1.jpg"
         ap.rooms = 1
         ap.maxrooms = 1
         ap.price = 10000
+        ap.init()
         buildings[ap.id] = ap
+        hero.buildings.append(ap)
 
         jail = CityJail()
         jail.id = "City Jail"

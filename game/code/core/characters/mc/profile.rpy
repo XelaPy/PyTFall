@@ -18,7 +18,11 @@ label hero_profile:
         # To kill input error during team renaming:
         if not result:
             pass
-
+        elif result[0] == "item":
+            if result[1] == "transfer":
+                hide screen hero_profile
+                $ items_transfer([hero, hero.location])
+                show screen hero_profile
         elif result[0] == 'control':
             if result[1] == 'return':
                 $ pytfall.hp.show_item_info = False
@@ -30,27 +34,19 @@ label hero_profile:
                 $ hero.inventory.male_filter = False
                 $ hero.inventory.apply_filter('all')
 
-                # Taking care of Ren'Pys annoying reserves... <-- Prolly obsolete after I rewrote the last label func.
-                if pytfall.hp.came_from.startswith("_"):
-                    jump mainscreen
-                else:
-                    jump expression pytfall.hp.came_from
-
+                jump expression pytfall.hp.came_from
         elif result[0] == "dropdown":
             if result[1] == "loc":
                 $ renpy.show_screen("set_location_dropdown", hero, pos=renpy.get_mouse_pos())
             elif result[1] == "home":
                 $ renpy.show_screen("set_home_dropdown", hero, pos=renpy.get_mouse_pos())
-
         elif result[0] == 'hero':
             if result[1] == 'equip':
                 $ came_to_equip_from = "hero_profile"
                 $ eqtarget = hero
                 jump char_equip
-
         elif result[0] == "remove_from_team":
             $ hero.team.remove(result[1])
-
         elif result[0] == "rename_team":
             if result[1] == "set_name":
                 $ hero.team.name = renpy.call_screen("ht_input")
@@ -124,11 +120,11 @@ init:
             text (u"[hero.name]") style "TisaOTMol" size 28  xalign 0.492 ypos 5
             hbox:
                 spacing 1
-                if (hero.level) <10:
+                if (hero.level) < 10:
                     pos (89, 11)
-                elif (hero.level) <100:
+                elif (hero.level) < 100:
                     pos (86, 11)
-                elif (hero.level) <10000:
+                elif (hero.level) < 10000:
                     pos (77, 11)
                 else:
                     pos (73, 11)
@@ -238,7 +234,6 @@ init:
                                 # action NullAction()
                                 # hovered tt.Action("%s" % e.desc)
                     # add ProportionalScale("content/gfx/interface/images/elements/hover.png", 90, 90) pos (105, 10)
-
             elif lframe_display == "friends":
                 # FRIEND LIST ====================================>
                 null height 26
@@ -487,6 +482,14 @@ init:
                 xfill True
                 add "content/gfx/interface/images/exp_b.png" ypos 2 xalign 0.8
                 text "[hero.exp]/[hero.goal]" style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
+
+        # Items Transfer to Home Location Inventory:
+        if hasattr(hero.location, "inventory"):
+            imagebutton:
+                idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
+                hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(.25))
+                action Return(["item", "transfer"])
+                hovered tt.Action("Leave your crap at your place (Inside of a safe chest)")
 
     screen hero_equip(): # This is not used any longer...?
         modal True
