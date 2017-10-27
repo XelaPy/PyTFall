@@ -47,7 +47,8 @@ init -5 python:
                 self.log(temp)
 
                 # This line will make sure code halts here until run_job ran it's course...
-                yield self.env.process(self.run_job(client, worker))
+                yield self.env.timeout(self.time)
+                self.run_job(client, worker)
 
                 # Action (Job) ran it's course and client is leaving...
                 temp = "{}: {} leaves the {}.".format(self.env.now, client.name, self.name)
@@ -58,7 +59,6 @@ init -5 python:
         def run_job(self, client, worker):
             """Waits for self.time delay and calls the job...
             """
-            yield self.env.timeout(self.time)
             if config.debug:
                 temp = "{}: Debug: {} Building Resource in use!".format(self.env.now, set_font_color(self.res.count, "red"))
                 self.log(temp)
