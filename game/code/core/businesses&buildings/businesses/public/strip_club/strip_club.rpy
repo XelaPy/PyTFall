@@ -133,7 +133,7 @@ init -5 python:
             log.append("\n")
 
             difficulty = loc.tier
-            effectiveness = job.effectiveness(worker, difficulty, None, False)
+            effectiveness = job.effectiveness(worker, difficulty, log)
             if config.debug:
                 log.append("Debug: Her effectiveness: {}! (difficulty: {}, Tier: {})".format(effectiveness, difficulty, worker.tier))
 

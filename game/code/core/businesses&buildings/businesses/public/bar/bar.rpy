@@ -130,7 +130,7 @@ init -5 python:
             log.append("\n")
 
             difficulty = self.instance.tier
-            effectiveness = job.effectiveness(w, difficulty, None, False)
+            effectiveness = job.effectiveness(worker, difficulty, log)
             if config.debug:
                 log.append("Debug: Her effectiveness: {}! (difficulty: {}, worker tier: {})".format(effectiveness, difficulty, worker.tier))
 
