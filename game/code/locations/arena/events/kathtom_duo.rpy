@@ -8,12 +8,6 @@ label maria_tulip_1_event(event):
     scene bg arena_outside
     $ m = store.json_fighters["Maria Custard"].say
     $ s = store.json_fighters["Masou Shizuka"].say
-
-    # define maria_c = Character("Maria Custard", show_two_window=True)
-    # define shizuka = Character('Masou Shizuka',
-                # window_left_padding=160,
-                # show_side_image= im.Scale("content/npc/arena/Masou Shizuka/portrait 0.png",150,150, xalign=0.0, yalign=1.0, show_two_window=True))
-    
     
     "You walked around the arena quarters, when you saw a girl with an unusual weapon." 
     "She was going in your direction, so you decided to approach her and satisfy your curiosity."
