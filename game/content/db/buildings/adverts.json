@@ -7,35 +7,35 @@
     },
     {
         "name": "Flyers",
-        "desc": "Hire someone to handout flyers in the city. You will pay fee for this service each day",
-        "upkeep": 30,
+        "desc": "Hire someone to handout flyers in the city.",
+        "upkeep": 100,
         "fame": [0, 1]
     },
     {
         "name": "Magazine",
-        "desc": "Put an advertisement in local 'Playdude' magazine. Target your audience for a modest fee. Will cost you an amount of gold each day",
-        "upkeep": 50,
+        "desc": "Put an advertisement in local 'Playdude' magazine. Target your audience for a modest fee.",
+        "upkeep": 500,
         "fame": [2, 3]
     },
     {
         "name": "Billboard",
-        "desc": "Get some pro's to put a large billboard on the road to city. Upkeep and rent will cost you a daily fee",
-        "upkeep": 100,
+        "desc": "Get some pro's to put a large billboard on the road to city. Upkeep and rent will cost you a daily fee.",
+        "upkeep": 300,
         "fame": [0, 2]
     },
     {
         "name": "Girl",
-        "desc": "Hire a pretty girl to attact clients into your buildings. This will cost you 50 once and 150 a day.",
+        "desc": "Hire a pretty girl to attract clients into your buildings.",
         "price": 50,
-        "upkeep": 150,
+        "upkeep": 200,
         "fame": [0, 1],
         "reputation": [0, 2]
     },
     {
         "name": "Celebrity",
-        "desc": "Pay a celebrity to come into your building and publicly endorse it! You will pay 5000 once and 1000 a day to keep her.",
+        "desc": "Pay a celebrity to come into your building and publicly endorse it!",
         "price": 5000,
-        "fame": [50, 100],
-        "reputation": [50, 100]
+        "fame": [25, 50],
+        "reputation": [25, 50]
     }
 ]

@@ -57,7 +57,7 @@ screen items_transfer(it_members):
             text "[rc.traits.base_to_string] ---- [rc.action]" align (0.92, 0.5) style "content_text" color ivory size 20
             
         use exit_button(size=(35, 35), align=(1.0, .5))
-        
+    key "mousedown_3" action Return(['control', 'return'])
     # Members + Items
     for scr_var, fc, xalign in [("lc", lc, .0), ("rc", rc, 1.0)]: # Focused characters...
         vbox:

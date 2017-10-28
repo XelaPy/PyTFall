@@ -1169,7 +1169,7 @@ init: # Screens:
 
                 null height 30
                 button:
-                    xysize (120, 100)
+                    xysize (200, 32)
                     xalign 0.5
                     action Return(['maintenance', "rename_building"])
                     hovered tt.Action("Give new name to your Building!")
@@ -1194,6 +1194,7 @@ init: # Screens:
                 minimum(50, 30)
                 align (0.5, 0.97)
                 text  "OK"
+            key "mousedown_3" action Hide("building_maintenance")
 
     screen building_adverts():
         modal True
@@ -1260,6 +1261,7 @@ init: # Screens:
                 minimum(50, 30)
                 align (0.5, 0.97)
                 text  "OK"
+        key "mousedown_3" action Hide("building_adverts")
 
     screen building_finances():
         modal True
