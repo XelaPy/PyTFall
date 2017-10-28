@@ -738,6 +738,13 @@ init: # Items:
                 align(0.5, 0.997)
                 xysize (750, 100)
                 text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(0.5, 0.5)
+        elif renpy.current_screen().tag == "building_management":
+            frame:
+                pos (960, 300)
+                background None
+                xpadding 10
+                xysize (310, 200)
+                text (u"{=content_text}{size=20}{color=[goldenrod]}%s" % tt.value) yalign 0.02 size 14
 
         elif renpy.current_screen().tag == "char_profile":
             frame:

@@ -258,7 +258,7 @@ init: # Screens:
         key "mousedown_4" action SetScreenVariable("bm_mid_frame_mode", "building"), Return(["control", "right"])
         key "mousedown_5" action Return(["control", "left"])
 
-        default tt = Tooltip("Manage your Buildings here.")
+        default tt = Tooltip("")
 
         if hero.upgradable_buildings:
 
@@ -312,43 +312,43 @@ init: # Screens:
                     button:
                         xysize (135, 40)
                         action Show("building_adverts")
-                        hovered tt.action('Advertise this building to attract more and better customers.')
+                        hovered tt.action('Advertise this building to attract more and better customers')
                         text "Advertise"
                 if len(building.get_girls()) > 0:
                     button:
                         xysize (135, 40)
                         action Return(['building', "items_transfer"])
-                        hovered tt.action('Transfer items between characters in this building!')
+                        hovered tt.action('Transfer items between characters in this building')
                         text "Transfer Items"
                 else:
                     button:
                         xysize (135, 40)
                         action NullAction()
-                        hovered tt.action('Transfer items between characters in this building!')
+                        hovered tt.action('Transfer items between characters in this building')
                         text "Transfer Items"
                 if isinstance(building, DirtyBuilding):
                     button:
                         xysize (135, 40)
                         action Show("building_maintenance")
-                        hovered tt.action('Perform maintenance of this building.')
+                        hovered tt.action('Perform maintenance of this building')
                         text "Maintenance"
                 else:
                     button:
                         xysize (135, 40)
                         action NullAction()
-                        hovered tt.action('Perform maintenance of this building.')
+                        hovered tt.action('Perform maintenance of this building')
                         text "Maintenance"
             vbox:
                 spacing 5
                 button:
                     xysize (135, 40)
                     action SetField(hero, "location", building)
-                    hovered tt.action('Place MC in this building!')
+                    hovered tt.action('Place [hero.name] in this building')
                     text "Settle MC"
                 button:
                     xysize (135, 40)
                     action Show("finances", None, building, mode="logical")
-                    hovered tt.action('Show Finance log.')
+                    hovered tt.action('Show finance log for this building')
                     text "Finance Log"
                 button:
                     xysize (135, 40)
