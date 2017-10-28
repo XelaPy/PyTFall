@@ -424,8 +424,12 @@ init:
         # BUTTONS and UI elements on the "top layer" ====================================>
         hbox:
             style_group "pb"
-            spacing 3
-            pos (492, 9)
+            if hasattr(hero.location, "inventory"):
+                spacing 2
+                pos (462, 9)
+            else:
+                spacing 3
+                pos (492, 9)
             button:
                 action SetScreenVariable("lframe_display", "status"), With(dissolve)
                 text "Status" style "pb_button_text"
@@ -446,6 +450,12 @@ init:
                 action Hide("show_trait_info"), [SetScreenVariable("lframe_display", "friends"), With(dissolve)]
                 text "Friends" style "pb_button_text"
                 hovered tt.Action("Show friends list")
+            # Items Transfer to Home Location Inventory:
+            if hasattr(hero.location, "inventory"):
+                button:
+                    action Return(["item", "transfer"])
+                    text "Storage" style "pb_button_text"
+                    hovered tt.Action("Open the location storage to leave or take items")
 
         # AP ====================================>
         frame:
@@ -482,14 +492,6 @@ init:
                 xfill True
                 add "content/gfx/interface/images/exp_b.png" ypos 2 xalign 0.8
                 text "[hero.exp]/[hero.goal]" style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
-
-        # Items Transfer to Home Location Inventory:
-        if hasattr(hero.location, "inventory"):
-            imagebutton:
-                idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
-                hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(.25))
-                action Return(["item", "transfer"])
-                hovered tt.Action("Leave your crap at your place (Inside of a safe chest)")
 
     screen hero_equip(): # This is not used any longer...?
         modal True
