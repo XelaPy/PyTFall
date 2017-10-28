@@ -49,7 +49,7 @@ label hero_profile:
             $ hero.team.remove(result[1])
         elif result[0] == "rename_team":
             if result[1] == "set_name":
-                $ hero.team.name = renpy.call_screen("ht_input")
+                $ hero.team.name = renpy.call_screen("pyt_input", hero.team.name, "Enter Team Name", 20, (350, 200))
 
 init:
     screen hero_profile():
@@ -182,7 +182,7 @@ init:
                             size 15
                         else:
                             size 16
-                    hovered tt.Action("Change MCs Home/Location.")
+                    hovered tt.Action("Left click to change [hero.name]'s current location. Right click to select his home location to rest at night.")
 
                 null height 3
 
@@ -575,7 +575,7 @@ init:
                 spacing 20
                 align(0.5, 0.5)
                 label "{color=#F5F5DC}{size=28}Enter your team name:" xalign 0.5
-                input default "Player Team" length 20 xalign 0.5 style "content_label_text" color "#CDAD00" size 22
+                input default hero.team.name length 20 xalign 0.5 style "content_label_text" color "#CDAD00" size 22
 
     screen hero_team():
         zorder 1

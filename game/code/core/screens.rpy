@@ -778,7 +778,7 @@ init: # Items:
 
     screen pyt_input(default="", text="", length=20, size=(350, 150)):
         use keymap_override
-        modal False
+        modal True
         zorder 10
 
         fixed:
@@ -810,6 +810,7 @@ init: # Items:
                     xalign .5
                     action Return(renpy.get_widget("pyt_input", "text_input").content)
         key "input_enter" action Return(renpy.get_widget("pyt_input", "text_input").content)
+        key "mousedown_3" action Return (default)
 
     screen exit_button(size=(35, 35), align=(1.0, 0.0), action=Return(['control', 'return'])):
         $ img = im.Scale("content/gfx/interface/buttons/close.png" , size[0], size[1])
