@@ -91,7 +91,9 @@ init -5 python hide:
             some_dict["gold"] = hero.gold
             some_dict["buildings"] = len(hero.buildings)
             try:
-                some_dict["portrait"] = hero.img_db["portrait"][:].pop()
+                img = hero.select_image(hero.id, "portrait")
+                path = "/".join([hero.path_to_imgfolder, img])
+                some_dict["portrait"] = path
             except:
                 pass
     config.save_json_callbacks = [simple_save_dict]
