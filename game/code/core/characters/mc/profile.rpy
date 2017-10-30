@@ -245,7 +245,9 @@ init:
                     xalign 0.5
                     has vbox spacing 4 xfill True
                     $ temp = sorted(list(hero.friends | hero.lovers), key=attrgetter("name"))
+                    $ temp = list(i for i in temp if i not in hero.chars)
                     for char in temp:
+                        $ not_escaped = char not in pytfall.ra
                         frame:
                             background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.6), 5, 5)
                             top_padding 10
@@ -263,8 +265,9 @@ init:
                                 ymargin 0
                                 align (0.5, 0.5)
                                 style "basic_choice2_button"
-                                action NullAction()
                                 add char.show("portrait", resize=(120, 120), cache=True) align (0.5, 0.5)
+                                action [Hide("hero_profile"), With(dissolve), Function(gm.start_gm, char, exit="hero_profile", bg="main_street", img=char.show("girlmeets", "outdoors", "urban", exclude=["swimsuit", "indoor", "wildness", "suburb", "beach", "pool", "onsen", "nature"], label_cache=True, resize=(300, 400), type="reduce"))]
+
                             text "{=TisaOTMolxm}[char.nickname]" align (0.5, 1.0) yoffset 5 xmaximum 190
                             if char in hero.lovers:
                                 add ProportionalScale("content/gfx/interface/images/love.png", 35, 35) xalign 0.5
@@ -449,7 +452,7 @@ init:
             button:
                 action Hide("show_trait_info"), [SetScreenVariable("lframe_display", "friends"), With(dissolve)]
                 text "Friends" style "pb_button_text"
-                hovered tt.Action("Show friends list")
+                hovered tt.Action("Show the list friends and lovers who don't work for [hero.name], allowing to find them immediately when needed")
             # Items Transfer to Home Location Inventory:
             if hasattr(hero.location, "inventory"):
                 button:
