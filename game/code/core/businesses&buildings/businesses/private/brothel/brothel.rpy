@@ -74,9 +74,10 @@ init -5 python:
             effectiveness = job.effectiveness(worker, difficulty, log, False)
 
             # job.payout_mod() # TODO
-            job.acts(worker=worker, client=client, building=building, log=log, effectiveness=effectiveness)
+            result = job.acts(worker=worker, client=client, building=building, log=log, effectiveness=effectiveness)
             log.after_job()
             NextDayEvents.append(log)
 
             # We return the char to the nd list:
             self.instance.available_workers.insert(0, worker)
+            return result

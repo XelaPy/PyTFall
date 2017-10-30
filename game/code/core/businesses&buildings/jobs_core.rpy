@@ -207,6 +207,9 @@
             self.id = "Base Job"
             self.type = None # Is this still at all useful? Feels like a simple version of self.occupations
 
+            # Payout per single client, this is passed to Economy class and modified if needs be.
+            self.per_client_payout = 5
+
             # Traits/Job-types associated with this job:
             self.occupations = list() # General Strings likes SIW, Warrior, Server...
             self.occupation_traits = list() # Corresponding traits...

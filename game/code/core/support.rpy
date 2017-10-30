@@ -13,6 +13,7 @@ init -9 python:
                     # del self.maps[key]["attr"]
             self.map_pattern = "content/gfx/bg/locations/map_buttons/gismo/"
             self.maps = OnScreenMap()
+            self.economy = Economy()
 
             # GUI
             self.it = None  # Items Transfer
@@ -161,6 +162,7 @@ init -9 python:
             self.difficulty = difficulty
             for i in self.__dict__[difficulty]:
                 setattr(self, i, self.__dict__[difficulty][i])
+
 
     class ListHandler(_object):
         # Most of this class is obsolete at this point of development
@@ -337,6 +339,25 @@ init -9 python:
                     break
             else:
                 notify("Could not find location: {} in map: {} to lock.".format(map, loc))
+
+
+    class Economy(_object):
+        """Core class that hold and modifies data about global economy.
+
+        At first it will deal with income from jobs and it's global mods.
+        In the future, plan is to make it more dynamic and eventful.
+        """
+        def __init__(self):
+            self.state = 1.0 # Modifier for default economy state
+
+        def get_clients_pay(self, job):
+            if isinstance(job, basestring):
+                job = store.simple_jobs[job]
+
+            payout = job.per_client_payout
+            payout *= self.state
+
+            return payout
 
 
     # Menu extensions:

@@ -102,7 +102,11 @@ init -5 python:
                     effectiveness += 25
             return effectiveness
 
-        def calculate_disposition_level(self, worker): # calculating the needed level of disposition; since it's whoring we talking about, values are really close to max, or even higher than max in some cases, making it impossible
+        def calculate_disposition_level(self, worker):
+            """calculating the needed level of disposition;
+            since it's whoring we talking about, values are really close to max,
+            or even higher than max in some cases, making it impossible
+            """
             sub = check_submissivity(worker)
             if "Shy" in worker.traits:
                 disposition = 900 + 50 * sub
@@ -138,7 +142,8 @@ init -5 python:
                 disposition += 50
             return disposition
 
-        def settle_workers_disposition(self, worker, log): # handles penalties in case of wrong job
+        def settle_workers_disposition(self, worker, log):
+            # handles penalties in case of wrong job
             if not("Prostitute" in worker.traits):
                 sub = check_submissivity(worker)
                 if worker.status != 'slave':
@@ -236,8 +241,6 @@ init -5 python:
                                                          'He asked for some playtime with her vagina.\n']))
                 # Virgin trait check:
                 self.take_virginity(worker, log.loc, log)
-
-
             # Anal Sex Act
             elif client.act == 'anal':
                 kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"], resize=size, type="reduce", add_mood=False)
@@ -274,7 +277,6 @@ init -5 python:
                     log.append(choice(['He took her in the ass right there and then. \n',
                                                           'He got his dose of it. \n',
                                                           'And so he took her in her butt. \n']))
-
             # Various job acts
             elif client.act == 'blowjob':
                 kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"], resize=size, type="reduce", add_mood=False)
@@ -354,7 +356,6 @@ init -5 python:
                     log.append(choice(['Client was in mood for some oral sex. \n', 'Client was in the mood for a blowjob. \n', 'He asked her to lick his dick. \n']))
                     oralmod = 1 if dice(20) else 0
                     log.img = worker.show("bc blowjob", **kwargs)
-
             # Lesbian Act
             elif client.act == 'lesbian':
                 log.append("%s hired her for some hot girl on girl action. " % client.name)
@@ -681,10 +682,8 @@ init -5 python:
                         sexmod = 1 if dice(20) else 0
                     log.img = worker.show("gay", **kwargs)
                     # Last fallback!
-
             else:
                 log.append("Whore Job\n\nMissed All acts!\n\n")
-
                 log.img = worker.show("sex", **kwargs)
 
             if effectiveness >= 75:
@@ -791,6 +790,8 @@ init -5 python:
 
             log.loc.fin.log_logical_income(1000000, "!!!!!!") # TODO: wtf is this?
 
+            return effectiveness
+
         @staticmethod
         def get_act(worker, tags):
             acts = list()
@@ -810,7 +811,8 @@ init -5 python:
             return act
 
         @staticmethod
-        def take_virginity(worker, loc, log): # let's just assume (for now) that dildos are too small to take virginity, otherwise it becomes too complicated in terms of girls control :)
+        def take_virginity(worker, loc, log):
+            # let's just assume (for now) that dildos are too small to take virginity, otherwise it becomes too complicated in terms of girls control :)
             if traits["Virgin"] in worker.traits and not (worker.effects['Chastity']['active']):
                 tips = 100 + worker.charisma * 3 # TODO Slave/Free payouts
                 log.append("\n{color=[pink]}%s lost her virginity!{/color} Customer thought that was super hot and left a tip of {color=[gold]}%d Gold{/color} for the girl.\n\n"%(worker.nickname, tips))
