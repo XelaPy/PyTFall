@@ -657,7 +657,7 @@ init: # Items:
                         idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(0.25))
                         action Return(["jump", "item_transfer"])
-                        hovered tt.Action("Transfer items between MC and and [char.nickname]")
+                        hovered tt.Action("Transfer items between [hero.name] and and [char.nickname]")
 
                 if renpy.current_screen().tag not in ["hero_profile", "girl_interactions", "quest_log"] and show_lead_away_buttons:
                     imagebutton:

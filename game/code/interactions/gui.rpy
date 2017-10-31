@@ -372,17 +372,20 @@ screen girl_interactions():
             else:
                 add gm.img
 
-        if config.developer:
-            null width 15
+        # if config.developer:
+            # null width 15
 
-            vbox:
-                null height 60
-                text "{color=[white]}Mode: [gm.mode]"
-                text "{color=[white]}Label: [gm.jump_cache]"
-                text ("{color=[white]}Girl.AP: [gm.char.AP] / %s"%gm.char.get_ap())
-                text "{color=[white]}Points: [gm.gm_points]"
+            # vbox:
+                # null height 60
+                # text "{color=[white]}Mode: [gm.mode]"
+                # text "{color=[white]}Label: [gm.jump_cache]"
+                # text ("{color=[white]}Girl.AP: [gm.char.AP] / %s"%gm.char.get_ap())
+                # text "{color=[white]}Points: [gm.gm_points]"
+                
+        
 
     # Actions
+        
     if gm.show_menu:
         use location_actions("girl_meets", gm.char, pos=(1180, 315), anchor=(1.0, 0.5), style="main_screen_3")
 
@@ -449,7 +452,7 @@ screen girl_interactions():
                     style "main_screen_3_button"
                     text_style "library_book_header_sub"
                     text_color ivory
-
+    key "mousedown_3" action Return(["control", "back"])
     use top_stripe(False)
 
 screen girl_interactions_old:
