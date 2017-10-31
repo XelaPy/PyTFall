@@ -266,7 +266,8 @@ init:
                                 align (0.5, 0.5)
                                 style "basic_choice2_button"
                                 add char.show("portrait", resize=(120, 120), cache=True) align (0.5, 0.5)
-                                action [Hide("hero_profile"), With(dissolve), Function(gm.start_gm, char, exit="hero_profile", bg="main_street", img=char.show("girlmeets", "outdoors", "urban", exclude=["swimsuit", "indoor", "wildness", "suburb", "beach", "pool", "onsen", "nature"], label_cache=True, resize=(300, 400), type="reduce"))]
+                                action [Hide("hero_profile"), With(dissolve), Function(friends_list_gms, char)]
+                                hovered tt.Action("Click to meet [char.name] in the city")
 
                             text "{=TisaOTMolxm}[char.nickname]" align (0.5, 1.0) yoffset 5 xmaximum 190
                             if char in hero.lovers:
