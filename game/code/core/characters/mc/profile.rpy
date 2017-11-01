@@ -636,7 +636,7 @@ init:
                             idle Transform(img, alpha=0.9)
                             hover Transform(img, alpha=1.05)
                             insensitive im.Sepia(img)
-                            action If(hasattr(member, "front_row"), true=[ToggleField(member, "front_row"), tt.Action("")])
+                            action If(hasattr(member, "front_row"), true=[ToggleField(member, "front_row"), tt.Action("Row has been changed!")])
                             if member.front_row:
                                 hovered tt.Action("Toggle between rows in battle, currently selected front row")
                             else:
