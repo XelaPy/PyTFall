@@ -344,7 +344,7 @@ init: # Screens:
                     xysize (135, 40)
                     action SetField(hero, "location", building)
                     hovered tt.action('Place [hero.name] in this building')
-                    text "Settle MC"
+                    text "Settle"
                 button:
                     xysize (135, 40)
                     action Show("finances", None, building, mode="logical")

@@ -604,7 +604,7 @@ init: # Items:
                         imagebutton:
                             idle im.Scale("content/gfx/interface/buttons/AG.png" , 36, 40)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/AG.png", 36, 40), im.matrix.brightness(.15))
-                            action Function(hero.team.add, char)
+                            action If(len(hero.team) < 3, true=Function(hero.team.add, char), false=Show("message_screen", msg="Team cannot have more than three members"))
                             hovered tt.Action("Add [char.nickname] to player team")
 
             # AP Frame/Next Day button:
