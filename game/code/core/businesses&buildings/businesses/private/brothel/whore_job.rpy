@@ -788,8 +788,6 @@ init -5 python:
                 log.append("\n%s feels like she learned something! \n"%worker.name)
                 worker.logws("joy", 1)
 
-            log.loc.fin.log_logical_income(1000000, "!!!!!!") # TODO: wtf is this?
-
             return effectiveness
 
         @staticmethod
@@ -810,12 +808,12 @@ init -5 python:
 
             return act
 
-        @staticmethod
-        def take_virginity(worker, loc, log):
+        def take_virginity(self, worker, loc, log):
             # let's just assume (for now) that dildos are too small to take virginity, otherwise it becomes too complicated in terms of girls control :)
             if traits["Virgin"] in worker.traits and not (worker.effects['Chastity']['active']):
                 tips = 100 + worker.charisma * 3 # TODO Slave/Free payouts
                 log.append("\n{color=[pink]}%s lost her virginity!{/color} Customer thought that was super hot and left a tip of {color=[gold]}%d Gold{/color} for the girl.\n\n"%(worker.nickname, tips))
                 worker.remove_trait(traits["Virgin"])
-                worker.mod_flag("jobs_tips", tips)
-                loc.fin.log_logical_income(tips, "WhoreJob")
+                if tips:
+                    worker.mod_flag("jobs_tips", tips)
+                    loc.fin.log_logical_income(tips, self.id + " Tips")

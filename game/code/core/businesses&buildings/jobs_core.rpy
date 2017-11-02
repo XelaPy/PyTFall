@@ -34,7 +34,9 @@
         be kept in check because older parts of code still just create this
         object at the end of their lifetime.
         """
-        def __init__(self, type='', txt='', img='', char=None, charmod=None, loc=None, locmod=None, red_flag=False, green_flag=False, team=None, job=None, **kwargs):
+        def __init__(self, type='', txt='', img='', char=None, charmod=None,
+                     loc=None, locmod=None, red_flag=False, green_flag=False,
+                     team=None, job=None, **kwargs):
             super(NDEvent, self).__init__(txt)
 
             self.job = job
@@ -166,15 +168,19 @@
                 self.charmod.update(self.char.stats_skills)
                 self.char.stats_skills = {}
                 self.reset_workers_flags(self.char)
-                self.char.fin.log_logical_income(self.earned, fin_source)
+                if self.earned:
+                    self.char.fin.log_logical_income(self.earned, fin_source)
             elif self.team:
+                earned = round_int(self.earned/float(len(self.team)))
                 for char in self.team:
                     self.update_char_data(char)
                     self.team_charmod[char] = char.stats_skills.copy()
                     char.stats_skills = {}
                     self.reset_workers_flags(char)
-                    # char.fin.log_logical_income(self.earned, fin_source) # TODO How should we handle this for teams?
-
+                    # TODO How should we handle this for teams?
+                    # For now just an even spread...
+                    if earned:
+                        char.fin.log_logical_income(earned, fin_source)
 
             # Location related:
             if self.loc and hasattr(self.loc, "fin"):

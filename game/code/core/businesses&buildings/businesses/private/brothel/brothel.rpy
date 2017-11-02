@@ -73,7 +73,9 @@ init -5 python:
             difficulty = building.tier
             effectiveness = job.effectiveness(worker, difficulty, log, False)
 
-            # job.payout_mod() # TODO
+            earned = pytfall.economy.get_clients_pay(job)
+            log.earned += earned
+
             result = job.acts(worker=worker, client=client, building=building, log=log, effectiveness=effectiveness)
             log.after_job()
             NextDayEvents.append(log)

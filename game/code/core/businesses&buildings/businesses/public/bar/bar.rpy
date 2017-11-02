@@ -184,8 +184,9 @@ init -5 python:
 
             # log the tips
             # self.log_income(tips)
-            worker.mod_flag("jobs_tips", tips)
-            loc.fin.log_logical_income(tips, "WhoreJob")
+            if tips:
+                worker.mod_flag("jobs_tips", tips)
+                loc.fin.log_logical_income(tips, job.id + " Tips")
 
             self.active_workers.remove(worker)
             temp = "{}: {} is done with the job in {} for the day!".format(self.env.now,
