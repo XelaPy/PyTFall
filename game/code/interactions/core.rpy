@@ -398,3 +398,26 @@ init -1 python:
             Functions the jump.
             """
             gm.jump(self.label, free=self.free, allow_unique=self.allow_unique, **self.kwargs)
+            
+    def friends_list_gms(char): # handles GMs started from hero friends list
+        locations_list = []
+        if char.has_image("girlmeets", "beach"):
+            locations_list.append("beach")
+        if char.has_image("girlmeets", "urban") or char.has_image("girlmeets", "suburb"):
+            locations_list.append("urban") 
+        if char.has_image("girlmeets", "suburb"):
+            locations_list.append("suburb") 
+        if char.has_image("girlmeets", "nature"):
+            locations_list.append("nature")
+        if locations_list:
+            tag = random.choice(locations_list)
+        if tag == "beach":
+            bg = "city_beach_cafe"
+        elif tag == "urban":
+            bg = "main_street"
+        elif tag == "suburb":
+            bg = "beach_rest"
+        else:
+            bg = "city_park"
+        
+        gm.start_gm(char, exit="hero_profile", img=char.show("girlmeets", tag, label_cache=True, resize=(300, 400), type="reduce"), bg=bg)

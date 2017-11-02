@@ -4209,7 +4209,7 @@ init -9 python:
                         self.mod_stat(stat, self.guard_relay[event]["stats"][stat])
 
             # -------------------->
-            txt += "MC Report:\n\n"
+            txt += "Hero Report:\n\n"
 
             if self.location == "Streets":
                 self.health -= randint(1, 2)

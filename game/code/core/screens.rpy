@@ -604,7 +604,7 @@ init: # Items:
                         imagebutton:
                             idle im.Scale("content/gfx/interface/buttons/AG.png" , 36, 40)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/AG.png", 36, 40), im.matrix.brightness(.15))
-                            action Function(hero.team.add, char)
+                            action If(len(hero.team) < 3, true=Function(hero.team.add, char), false=Show("message_screen", msg="Team cannot have more than three members"))
                             hovered tt.Action("Add [char.nickname] to player team")
 
             # AP Frame/Next Day button:
@@ -657,7 +657,7 @@ init: # Items:
                         idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(0.25))
                         action Return(["jump", "item_transfer"])
-                        hovered tt.Action("Transfer items between MC and and [char.nickname]")
+                        hovered tt.Action("Transfer items between [hero.name] and and [char.nickname]")
 
                 if renpy.current_screen().tag not in ["hero_profile", "girl_interactions", "quest_log"] and show_lead_away_buttons:
                     imagebutton:

@@ -245,7 +245,9 @@ init:
                     xalign 0.5
                     has vbox spacing 4 xfill True
                     $ temp = sorted(list(hero.friends | hero.lovers), key=attrgetter("name"))
+                    $ temp = list(i for i in temp if i not in hero.chars)
                     for char in temp:
+                        $ not_escaped = char not in pytfall.ra
                         frame:
                             background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.6), 5, 5)
                             top_padding 10
@@ -263,8 +265,10 @@ init:
                                 ymargin 0
                                 align (0.5, 0.5)
                                 style "basic_choice2_button"
-                                action NullAction()
                                 add char.show("portrait", resize=(120, 120), cache=True) align (0.5, 0.5)
+                                action [Hide("hero_profile"), With(dissolve), Function(friends_list_gms, char)]
+                                hovered tt.Action("Click to meet [char.name] in the city")
+
                             text "{=TisaOTMolxm}[char.nickname]" align (0.5, 1.0) yoffset 5 xmaximum 190
                             if char in hero.lovers:
                                 add ProportionalScale("content/gfx/interface/images/love.png", 35, 35) xalign 0.5
@@ -449,7 +453,7 @@ init:
             button:
                 action Hide("show_trait_info"), [SetScreenVariable("lframe_display", "friends"), With(dissolve)]
                 text "Friends" style "pb_button_text"
-                hovered tt.Action("Show friends list")
+                hovered tt.Action("Show the list friends and lovers who don't work for [hero.name], allowing to find them immediately when needed")
             # Items Transfer to Home Location Inventory:
             if hasattr(hero.location, "inventory"):
                 button:
@@ -583,7 +587,7 @@ init:
 
         key "mousedown_3" action Hide("hero_team"), With(dissolve)
 
-        default tt = Tooltip("Welcome to MC profile screen!")
+        default tt = Tooltip("")
         add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
 
         # Hero team ====================================>
@@ -602,7 +606,7 @@ init:
                     idle im.Scale("content/gfx/interface/buttons/edit.png", 24, 30)
                     hover im.Scale("content/gfx/interface/buttons/edit_h.png", 24, 30)
                     action Return(["rename_team", "set_name"]), With(dissolve)
-                    hovered tt.Action("Rename Heroes team!")
+                    hovered tt.Action("Rename the team")
 
             for member in hero.team:
                 $ img = member.show("portrait", resize=(120, 120), cache=True)
@@ -619,7 +623,7 @@ init:
                             idle img
                             hover img
                             selected_idle Transform(img, alpha=1.05)
-                            action NullAction()
+                            action None
 
                         python:
                             if member.front_row:
@@ -632,7 +636,11 @@ init:
                             idle Transform(img, alpha=0.9)
                             hover Transform(img, alpha=1.05)
                             insensitive im.Sepia(img)
-                            action If(member.status != "slave", true=ToggleField(member, "front_row"))
+                            action If(hasattr(member, "front_row"), true=[ToggleField(member, "front_row"), tt.Action("Row has been changed!")])
+                            if member.front_row:
+                                hovered tt.Action("Toggle between rows in battle, currently selected front row")
+                            else:
+                                hovered tt.Action("Toggle between rows in battle, currently selected back row")
 
                     # Name/Status:
                     frame:
@@ -650,7 +658,7 @@ init:
                                     idle ProportionalScale("content/gfx/interface/buttons/close4.png", 24, 30)
                                     hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 24, 30)
                                     action Return(["remove_from_team", member])
-                                    hovered tt.Action("Remove %s for %s!"%(member.nickname, hero.team.name))
+                                    hovered tt.Action("Remove %s from %s"%(member.nickname, hero.team.name))
 
                         # HP:
                         fixed:
@@ -700,6 +708,13 @@ init:
                 xsize 120
                 action Hide("hero_team"), With(dissolve)
                 text "Close" style "pb_button_text"
+                hovered tt.Action("Close team screen")
+        hbox:
+            spacing 1
+            pos (621, 602)
+            xysize (657, 114)
+            yfill True
+            text (u"{=content_text}{color=#ecc88a}%s" % tt.value) size 18
 
     screen hero_finances():
         modal True
