@@ -358,7 +358,7 @@ init -9 python:
             payout *= difficulty
             payout *= self.state
 
-            return round_int(payout)
+            return payout
 
 
     # Menu extensions:
