@@ -64,7 +64,8 @@ init -5 python:
             """
             # Visit counter:
             client.up_counter("got_serviced_by" + worker.id)
-            # Execute the job:
+
+            # Execute the job/log results/handle finances and etc.:
             job, building = self.job, self.instance
             log = NDEvent(job=job, char=worker, loc=building, business=self)
             worker.jobpoints -= 100
@@ -73,7 +74,7 @@ init -5 python:
             difficulty = building.tier
             effectiveness = job.effectiveness(worker, difficulty, log, False)
 
-            earned = pytfall.economy.get_clients_pay(job)
+            earned = pytfall.economy.get_clients_pay(job, difficulty)
             log.earned += earned
 
             result = job.acts(worker=worker, client=client, building=building, log=log, effectiveness=effectiveness)

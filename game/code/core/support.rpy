@@ -350,14 +350,15 @@ init -9 python:
         def __init__(self):
             self.state = 1.0 # Modifier for default economy state
 
-        def get_clients_pay(self, job):
+        def get_clients_pay(self, job, difficulty=1):
             if isinstance(job, basestring):
                 job = store.simple_jobs[job]
 
             payout = job.per_client_payout
+            payout *= difficulty
             payout *= self.state
 
-            return payout
+            return round_int(payout)
 
 
     # Menu extensions:
