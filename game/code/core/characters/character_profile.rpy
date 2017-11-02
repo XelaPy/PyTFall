@@ -806,22 +806,22 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=F
                             frame:
                                 xysize 170, 20
                                 if value < 0:
-                                    text stat.title() size 15 color red align .0, .5
-                                    label str(value) text_size 15 text_color red align 1.0, .5
+                                    text stat.title() size 15 color red align .0, .5 outlines [(2, "#000000", 0, 0)]
+                                    label str(value) text_size 15 text_color red align 1.0, .5 text_outlines [(2, "#000000", 0, 0)]
                                 else:
-                                    text stat.title() size 15 color green align .0, .5
-                                    label "+" + str(value) text_size 15 text_color green align 1.0, .5
+                                    text stat.title() size 15 color lime align .0, .5 outlines [(2, "#000000", 0, 0)]
+                                    label "+" + str(value) text_size 15 text_color lime align 1.0, .5 text_outlines [(2, "#000000", 0, 0)]
                     if trait_info.min:
                         label (u"Min:") text_size 20 text_color goldenrod text_bold True xalign .45
                         for stat, value in trait_info.min.iteritems():
                             frame:
                                 xysize 170, 20
                                 if value < 0:
-                                    text stat.title() size 15 color red align .0, .5
-                                    label str(value) text_size 15 text_color red align 1.0, .5
+                                    text stat.title() size 15 color red align .0, .5 outlines [(2, "#000000", 0, 0)]
+                                    label str(value) text_size 15 text_color red align 1.0, .5 text_outlines [(2, "#000000", 0, 0)]
                                 else:
-                                    text stat.title() size 15 color green align .0, .5
-                                    label "+" + str(value) text_size 15 text_color green align 1.0, .5
+                                    text stat.title() size 15 color lime align .0, .5 outlines [(2, "#000000", 0, 0)]
+                                    label "+" + str(value) text_size 15 text_color lime align 1.0, .5 text_outlines [(2, "#000000", 0, 0)]
                     if trait_info.mod_stats:
                         label (u"Bonus:") text_size 20 text_color goldenrod text_bold True xalign .45
                         for i in trait_info.mod_stats:
@@ -829,27 +829,27 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=F
                                 xysize 170, 20
                                 if str(i) != "disposition":
                                     if (trait_info.mod_stats[i])[0] < 0:
-                                        text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0]) + " every " + str((trait_info.mod_stats[i])[1]) + " lvl") align .5, .5 size 15 color red text_align .5
+                                        text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0]) + " every " + str((trait_info.mod_stats[i])[1]) + " lvl") align .5, .5 size 15 color red text_align .5 outlines [(2, "#000000", 0, 0)]
                                     else:
-                                        text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0]) + " every " + str((trait_info.mod_stats[i])[1]) + " lvl") align .5, .5 size 15 color green text_align .5
+                                        text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0]) + " every " + str((trait_info.mod_stats[i])[1]) + " lvl") align .5, .5 size 15 color lime text_align .5 outlines [(2, "#000000", 0, 0)]
                                 else:
                                     if (trait_info.mod_stats[i])[0] < 0:
-                                        text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color red text_align .5
+                                        text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color red text_align .5 outlines [(2, "#000000", 0, 0)]
                                     else:
-                                        text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color green text_align .5
+                                        text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color lime text_align .5 outlines [(2, "#000000", 0, 0)]
                     if trait_info.effects:
                         label (u"Effects:") text_size 20 text_color goldenrod text_bold True xalign .45
                         for i in trait_info.effects:
                             frame:
                                 xysize 170, 20
-                                text (str(i).title()) size 15 color yellow align .5, .5 text_align .5
+                                text (str(i).title()) size 15 color yellow align .5, .5 text_align .5 outlines [(2, "#000000", 0, 0)]
 
                     if trait_info.mod_skills:
                         label (u"Skills:") text_size 20 text_color goldenrod text_bold True xalign .45
                         for skill, data in trait_info.mod_skills.iteritems():
                             frame:
                                 xysize 170, 20
-                                text str(skill).title() size 15 color yellowgreen align .0, .5
+                                text str(skill).title() size 15 color yellowgreen align .0, .5 outlines [(2, "#000000", 0, 0)]
 
                                 $ img_path = "content/gfx/interface/icons/skills_icons/"
                                 default PS = ProportionalScale
@@ -882,15 +882,15 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=F
                                     $ output += " +" + str(trait_info.mod_ap)
                                 else:
                                     $ output += str(trait_info.mod_ap)
-                                text (output) align .5, .5 size 15 color yellowgreen text_align .5
+                                text (output) align .5, .5 size 15 color yellowgreen text_align .5 outlines [(2, "#000000", 0, 0)]
 
                         if hasattr(trait_info, "evasion_bonus"):
                             frame:
                                 xysize 170, 20
                                 if trait_info.evasion_bonus[1] < 0:
-                                    text ("Evasion -") size 15 color yellowgreen align .5, .5 text_align .5
+                                    text ("Evasion -") size 15 color yellowgreen align .5, .5 text_align .5 outlines [(2, "#000000", 0, 0)]
                                 elif trait_info.evasion_bonus[1] > 0:
-                                    text ("Evasion +") size 15 color yellowgreen align .5, .5 text_align .5
+                                    text ("Evasion +") size 15 color yellowgreen align .5, .5 text_align .5 outlines [(2, "#000000", 0, 0)]
                         if hasattr(trait_info, "delivery_multiplier"):
                             for i in trait_info.delivery_multiplier:
                                 frame:
@@ -900,9 +900,9 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=F
                                         $ output += "+"
                                     else:
                                         $ output += "-"
-                                    text (output) align .5, .5 size 15 color yellowgreen text_align .5
+                                    text (output) align .5, .5 size 15 color yellowgreen text_align .5 outlines [(2, "#000000", 0, 0)]
                 else:
-                    label ("-no direct effects-") text_size 15 text_color goldenrod text_bold True xalign .45
+                    label ("-no direct effects-") text_size 15 text_color goldenrod text_bold True xalign .45 text_outlines [(2, "#000000", 0, 0)]
 
             imagebutton:
                 align 0.99, .01
