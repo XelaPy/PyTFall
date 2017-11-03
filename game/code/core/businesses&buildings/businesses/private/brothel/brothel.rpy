@@ -82,7 +82,7 @@ init -5 python:
                 # TODO Matron job is not ready, finish it and continue here.
                 temp = "{} leaves the {} refusing to pay for the inadequate service {} provided.".format(client.name, self.name, worker.name)
                 self.log(temp)
-            log.earned += int_round(earned)
+            log.earned += round_int(earned)
 
             result = job.acts(worker=worker, client=client, building=building, log=log, effectiveness=effectiveness)
             log.after_job()

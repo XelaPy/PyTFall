@@ -107,7 +107,7 @@ label next_day_effects_check:  # all traits and effects which require some unusu
                     elif not ("Frigid" in i.traits) and locked_dice(30) and i.joy > 50:
                         i.enable_effect("Horny")
     return
-    
+
 label special_auto_save: # since built-in autosave works like shit, I use normal saves to save in auto slots
     if not "special_save_number" in globals():
         $ special_save_number = 1
@@ -118,7 +118,7 @@ label special_auto_save: # since built-in autosave works like shit, I use normal
     if special_save_number > 6:
         $ special_save_number = 1
     return
-    
+
 label next_day:
     call next_day_effects_check
     scene bg profile_2
@@ -184,6 +184,16 @@ label next_day_calculations:
     # Ren'Py script:
     $ nd_buildings = list(b for b in hero.buildings if isinstance(b, UpgradableBuilding))
 
+    python hide: # Figure out what managers can do for us.
+        for b in nd_buildings:
+            # We can calculate manager effectiveness once, so we don't have to do
+            # expensive calculations 10 000 000 times:
+            if b.manager:
+                job = simple_jobs["Manager"]
+                difficulty = b.tier
+                b.manager_effectiveness = job.effectiveness(b.manager,
+                                                    difficulty, None, False)
+
     # $ ndr_chars2 = list(c for c in hero.chars if not can_do_work(c)) # Revice this for characters who are set to work till the drop???
     $ tl.timer("Rest (1)")
     python:
@@ -200,6 +210,7 @@ label next_day_calculations:
         $ building = nd_buildings.pop()
         $ building.run_nd()
         $ building.next_day()
+
 
     $ tl.timer("Buildings", nested=False)
         ################## Building events END ##################
@@ -256,6 +267,12 @@ label next_day_calculations:
         $ resting_char = ndr_chars.pop()
         $ resting_char.action(resting_char) # <--- Looks odd and off?
     $ tl.timer("Rest (2)")
+
+    python hide:
+        # Done after buildings resets in next day because we may allow
+        # inter-building actions later.
+        for b in nd_buildings:
+            building.manager_effectiveness = 0
 
     python:
         ################## Searching events End ####################

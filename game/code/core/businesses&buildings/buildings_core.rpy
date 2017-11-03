@@ -438,6 +438,7 @@ init -10 python:
 
             # Chars:
             self.manager = None
+            self.manager_effectiveness = 0
             self.all_residents = list() # All characters presently reside in this building.
             self.all_workers = list() # All workers presently assigned to work in this building.
             self.available_workers = list() # This is built and used during the next day.
