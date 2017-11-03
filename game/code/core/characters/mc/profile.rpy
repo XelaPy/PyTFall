@@ -53,6 +53,8 @@ label hero_profile:
 
 init:
     screen hero_profile():
+        on "hide":
+            action Hide("show_trait_info")
 
         default tt = Tooltip("")
         default lframe_display = "status"
