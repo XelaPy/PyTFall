@@ -174,29 +174,39 @@ screen chars_list(source=None):
                 mousewheel True
                 has vbox xsize 253
                 null height 5
-                label "Filters:" xalign 0.5 text_size 35 text_color white
+                label "Filters:" xalign 0.5 text_size 35 text_color goldenrod text_outlines [(1, "#000000", 0, 0)]
                 hbox:
                     box_wrap True
                     button:
                         xalign 0.5
                         style_group "basic"
-                        action ToggleSetMembership(selected_filters, 'Status')
-                        text "Status" hover_color red
+                        action ToggleSetMembership(selected_filters, 'Site')
+                        text "Site" hover_color brown size 18
+                        xpadding 6
                     button:
                         xalign 0.5
                         style_group "basic"
-                        action ToggleSetMembership(selected_filters, 'Site')
-                        text "Site" hover_color brown
+                        action ToggleSetMembership(selected_filters, 'Status')
+                        text "Status" hover_color green size 18
+                        xpadding 6
                     button:
                         xalign 0.5
                         style_group "basic"
                         action ToggleSetMembership(selected_filters, 'Action')
-                        text "Action" hover_color blue
+                        text "Action" hover_color blue size 18
+                        xpadding 6
                     button:
                         xalign 0.5
                         style_group "basic"
                         action ToggleSetMembership(selected_filters, 'Class')
-                        text "Class" hover_color purple
+                        text "Class" hover_color purple size 18
+                        xpadding 6
+                button:
+                    xalign 0.5
+                    yalign 1.0
+                    style_group "basic"
+                    action source.clear
+                    text "Reset"
 
                 null height 20
                 hbox:
@@ -205,30 +215,29 @@ screen chars_list(source=None):
                     if "Status" in selected_filters:
                         for f in status_filters:
                             button:
+                                xsize 125
                                 action ModFilterSet(source, "status_filters", f)
-                                text "[f]" hover_color red
+                                text f.capitalize() hover_color green
                     if "Site" in selected_filters:
                         for f in location_filters:
                             button:
+                                xsize 125
                                 action ModFilterSet(source, "location_filters", f)
-                                text "[f]" hover_color brown
+                                text "[f]" hover_color brown:
+                                    if len(str(f)) > 12:
+                                        size 10
                     if "Action" in selected_filters:
                         for f in action_filters:
                             button:
+                                xsize 125
                                 action ModFilterSet(source, "action_filters", f)
                                 text "[f]" hover_color blue
                     if "Class" in selected_filters:
                         for f in class_filters:
                             button:
+                                xsize 125
                                 action ModFilterSet(source, "class_filters", f)
                                 text "[f]" hover_color purple
-                null height 20
-                button:
-                    xalign 0.5
-                    yalign 1.0
-                    style_group "basic"
-                    action source.clear
-                    text "Reset"
                 # for block_name, filters in source.display_filters:
                     # label ("{=della_respira}{b}[block_name]:") xalign 0
                     # for item_1, item_2 in izip_longest(fillvalue=None, *[iter(filters)]*2):
