@@ -998,7 +998,7 @@ screen girl_control():
             xpadding 13
             ypadding 15
             has vbox
-            text (u"{color=[ivory]}%s" % tt.value) outlines [(1, "#424242", 0, 0)]
+            text ("%s" % tt.value) color white size 18
 
         frame:
             background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.7), 10, 10)
@@ -1011,7 +1011,7 @@ screen girl_control():
                 xysize (150, 33)
                 align (0.5, 0.05)
                 action ToggleDict(char.autocontrol, "Tips")
-                hovered tt.action("Allow workers to keep their tips!")
+                hovered tt.action("Allow workers to keep their tips")
                 text "Tips:" align (0.0, 0.5)
                 if isinstance(char.autocontrol["Tips"], list):
                     add cb_some_checked align (1.0, 0.5)
@@ -1020,7 +1020,7 @@ screen girl_control():
                 else:
                     add cd_unchecked align (1.0, 0.5)
 
-            fixed:
+            fixed: # TODO: what it does, exactly? with no tooltips I don't even know, so I can't add said tooltips -_-
                 align (0.5, 1.0)
                 xysize (200, 30)
                 hbox:
@@ -1047,7 +1047,7 @@ screen girl_control():
                         xysize (200, 32)
                         style_group "basic"
                         action Return(["dropdown", "loc", char])
-                        hovered tt.Action("Choose a location for %s to work at!" % char.nickname)
+                        hovered tt.Action("Choose a location for %s to work at" % char.nickname)
 
                         if len(str(char.location)) > 18:
                             text "[char.location]" size 15
@@ -1061,7 +1061,7 @@ screen girl_control():
                         xysize (200, 32)
                         style_group "basic"
                         action Return(["dropdown", "action", char])
-                        hovered tt.Action("Choose a task for %s to do!" % char.nickname)
+                        hovered tt.Action("Choose a task for %s to do" % char.nickname)
                         if len(str(char.action)) > 18:
                             text "[char.action]" size 15
 
@@ -1076,9 +1076,10 @@ screen girl_control():
                     text "{size=15}Action: Hiding"
             null height 30
             button:
-                action If(char.status not in ("slave", "various"), true=ToggleField(char, "front_row"))
+                action If(char.status not in ("various"), true=ToggleField(char, "front_row"))
                 xysize (200, 32)
                 text "Front Row" align (0.0, 0.5)
+                hovered tt.Action("Select the row in battle")
                 if isinstance(char.front_row, list):
                     add cb_some_checked align (1.0, 0.5)
                 elif char.front_row:
@@ -1090,6 +1091,7 @@ screen girl_control():
                 action ToggleDict(char.autocontrol, "Rest")
                 xysize (200, 32)
                 text "Auto Rest" align (0.0, 0.5)
+                hovered tt.Action("Allow to rest automatically when she needs it")
                 if isinstance(char.autocontrol['Rest'], list):
                     add cb_some_checked align (1.0, 0.5)
                 elif char.autocontrol['Rest']:
@@ -1098,10 +1100,11 @@ screen girl_control():
                     add cd_unchecked align (1.0, 0.5)
 
             # Autobuy:
-            button:
-                action  If(char.status not in ("slave", "various") and char.disposition > 950, true=ToggleField(char, "autobuy"))
+            button: # used to work for free chars only; I don't believe free chars should agree to stop spending gold, no matter disposition
+                action  If(char.status == "slave", true=ToggleField(char, "autobuy"))
                 xysize (200, 32)
                 text "Auto Buy" align (0.0, 0.5)
+                hovered tt.Action("Can only be disabled for slaves, allows to buy items she likes, if she has enough money")
                 if isinstance(char.autobuy, list):
                     add cb_some_checked align (1.0, 0.5)
                 elif char.autobuy:
@@ -1114,6 +1117,7 @@ screen girl_control():
                 xysize (200, 32)
                 action If(char.status == "slave" or char.disposition > 850, true=ToggleField(char, "autoequip"))
                 text "Auto Equip" align (0.0, 0.5)
+                hovered tt.Action("Requires a slave or high disposition, allows to equip the best items automatically (results may very)")
                 if isinstance(char.autoequip, list):
                     add cb_some_checked align (1.0, 0.5)
                 elif char.autoequip:
@@ -1180,6 +1184,8 @@ screen girl_control():
             minimum(50, 30)
             align (0.5, 0.95)
             text  "OK"
+            
+    key "mousedown_3" action Hide("girl_control")
 
 screen confirm_girl_sale():
     modal True
