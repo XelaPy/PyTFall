@@ -54,9 +54,7 @@ screen chars_list(source=None):
     default max_page = len(source.sorted)/page_size
     default page = min(chars_list_last_page_viewed, max_page)
 
-    # Keybinds:
-    key "mousedown_4" action If(page < max_page, true=SetScreenVariable("page", page+1), false=NullAction())
-    key "mousedown_5" action If(page > 0, true=SetScreenVariable("page", page-1), false=NullAction())
+
 
     python:
         charz_lists = []
@@ -320,5 +318,9 @@ screen chars_list(source=None):
         textbutton "-->":
             sensitive page < max_page
             action SetScreenVariable("page", page+1)
+            
+    # Keybinds:
+    key "mousedown_4" action If(page < max_page, true=SetScreenVariable("page", page+1), false=NullAction())
+    key "mousedown_5" action If(page > 0, true=SetScreenVariable("page", page-1), false=NullAction())
 
     $ store.chars_list_last_page_viewed = page # At Darks Request!
