@@ -75,14 +75,21 @@ init -5 python:
             effectiveness = job.effectiveness(worker, difficulty, log, False)
 
             earned = pytfall.economy.get_clients_pay(job, difficulty)
+            me = building.manager_effectiveness
             if effectiveness <= 33: # Worker sucked so much, client just doesn't pay.
                 temp = "{} leaves the {} refusing to pay for the inadequate service {} provided.".format(client.name, self.name, worker.name)
-                self.log(temp)
-            elif effectiveness <= 90: # Worker sucked but situation may be salvageable by Manager
-                # TODO Matron job is not ready, finish it and continue here.
+                log.append(temp)
+                earned = 0
+            elif effectiveness <= 90: # Worker sucked but situation may be salvageable by Manager.
+                temp = "Due to inadequate service provided by {} client refuses to pay the full price.".format(worker.name)
+                log.append(temp)
+                if me >= 150:
+                    pass
                 temp = "{} leaves the {} refusing to pay for the inadequate service {} provided.".format(client.name, self.name, worker.name)
                 self.log(temp)
-            log.earned += round_int(earned)
+
+            if earned:
+                log.earned += round_int(earned)
 
             result = job.acts(worker=worker, client=client, building=building, log=log, effectiveness=effectiveness)
             log.after_job()
