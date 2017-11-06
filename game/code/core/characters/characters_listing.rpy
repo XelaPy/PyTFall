@@ -68,7 +68,11 @@ screen chars_list(source=None):
         xysize 1010, 670
 
         if charz_lists:
+            if page > len(source.sorted)/page_size:
+                $ page = len(source.sorted)/page_size
             $ charz_list = charz_lists[page]
+           
+            
             hbox:
                 style_group "content"
                 spacing 14
@@ -310,6 +314,7 @@ screen chars_list(source=None):
             sensitive page > 0
             action SetScreenVariable("page", page-1)
         $ temp = page+1
+        $ max_page = len(source.sorted)/page_size
         textbutton "[temp]":
             action NullAction()
         textbutton "-->":
