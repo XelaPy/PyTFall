@@ -74,6 +74,8 @@ init -5 python:
             difficulty = building.tier
             effectiveness = job.effectiveness(worker, difficulty, log, False)
 
+            result = job.acts(worker=worker, client=client, building=building, log=log, effectiveness=effectiveness)
+
             earned = pytfall.economy.get_clients_pay(job, difficulty)
             me = building.manager_effectiveness
             if effectiveness <= 33: # Worker sucked so much, client just doesn't pay.
@@ -83,15 +85,37 @@ init -5 python:
             elif effectiveness <= 90: # Worker sucked but situation may be salvageable by Manager.
                 temp = "Due to inadequate service provided by {} client refuses to pay the full price.".format(worker.name)
                 log.append(temp)
-                if me >= 150:
-                    pass
-                temp = "{} leaves the {} refusing to pay for the inadequate service {} provided.".format(client.name, self.name, worker.name)
-                self.log(temp)
+                if me >= 90:
+                    temp = "You skilled manager {} intervened and straitened things out.".format(building.manager.name)
+                    if me >= 150 and dice(85):
+                        temp += " Client was so pleased for the attention and ended up paying full price."
+                        log.append(temp)
+                        earned *= .75
+                    elif dice(75):
+                        temp += " Client agreed to pay three quarters of the price."
+                        log.append(temp)
+                        earned *= .75
+                    else:
+                        earned *= .5
+            elif effectiveness <= 150:
+                temp = "Client is very happy with {} service and pays the full price.".format(worker.name)
+                log.append(temp)
+            else:
+                temp = "Client is ecstatic! {} service was beyond any expectations. +10% to pauout!".format(worker.name)
+                log.append(temp)
+                earned *= 1.1
+
+            if me >= 120 and dice(50):
+                temp = "Your manager paid some extra attention to client. +20% to pauout!"
+                log.append(temp)
+                earned *= 1.2
 
             if earned:
-                log.earned += round_int(earned)
+                earned = round_int(earned)
+                temp = "You've earned {} Gold!".format(earned)
+                log.append(temp)
+                log.earned += earned
 
-            result = job.acts(worker=worker, client=client, building=building, log=log, effectiveness=effectiveness)
             log.after_job()
             NextDayEvents.append(log)
 
