@@ -209,7 +209,7 @@ screen chars_list(source=None):
                     xalign 0.5
                     yalign 1.0
                     style_group "basic"
-                    action source.clear
+                    action source.clear, renpy.restart_interaction
                     text "Reset"
 
                 null height 20
