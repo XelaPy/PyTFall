@@ -98,13 +98,13 @@ screen mainscreen():
             spacing 15
             textbutton "Chars":
                 action Stop("world"), Hide("mainscreen"), Jump("chars_list")
-                hovered tt.Action("A list of all of your workers!")
+                hovered tt.Action("A list of all of your workers")
             textbutton "Buildings":
                 action Return(["building_management"])
-                hovered tt.Action("Manage your Properties and Businesses!")
+                hovered tt.Action("Manage here your properties and businesses")
             textbutton "Go to the City":
                 action Return(["city"])
-                hovered tt.Action('Explore the city.\nIf you are lucky, you may even find something interesting to do there!')
+                hovered tt.Action('Explore the city')
 
             null height 50
 

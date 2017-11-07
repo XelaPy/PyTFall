@@ -550,7 +550,6 @@ init: # Items:
             timer autohide action Hide("quest_notifications")
 
     screen top_stripe(show_return_button=True, return_button_action=None, show_lead_away_buttons=True, show_team_status=False):
-
         default tt = Tooltip("")
         default return_action = Return(['control', 'return']) if return_button_action is None else return_button_action
 
@@ -754,6 +753,12 @@ init: # Items:
                 xysize (951, 100)
                 has hbox spacing 1
                 text (u"{=content_text}{color=[ivory]}%s" % tt.value)
+        elif renpy.current_screen().tag == "chars_list":
+            frame:
+                background None
+                align(0.1, 1.0)
+                xysize (946, 65)
+                text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(0.5, 0.5)
 
     screen message_screen(msg, size=(500, 300), use_return=False):
         modal True

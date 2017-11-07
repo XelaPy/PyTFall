@@ -53,6 +53,7 @@ screen chars_list(source=None):
     default page_size = 10
     default max_page = len(source.sorted)/page_size
     default page = min(chars_list_last_page_viewed, max_page)
+    default tt = Tooltip("")
 
 
 
@@ -86,6 +87,7 @@ screen chars_list(source=None):
                         hover_background Frame(Transform(img, alpha=.9), 10 ,10)
                         xysize (470, 115)
                         action Return(['choice', c])
+                        hovered tt.Action('Show character profile')
 
                         # Girl Image:
                         frame:
@@ -128,6 +130,7 @@ screen chars_list(source=None):
                                         add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (0.5, 0.5)
                                     else:
                                         add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (0.5, 0.5)
+                                    hovered tt.Action('Select the character')
 
                             vbox:
                                 yalign 0.98
@@ -152,10 +155,12 @@ screen chars_list(source=None):
                                         if c.status == "slave":
                                             alternate Return(["dropdown", "home", c])
                                         text "{image=content/gfx/interface/icons/move15.png}Location: [c.location]"
+                                        hovered tt.Action('Select location')
                                     button:
                                         style_group "ddlist"
                                         action Return(["dropdown", "action", c])
                                         text "{image=content/gfx/interface/icons/move15.png}Action: [c.action]"
+                                        hovered tt.Action('Select action')
                                 else:
                                     text "{size=15}Location: Unknown"
                                     text "{size=15}Action: Hiding"
@@ -183,32 +188,37 @@ screen chars_list(source=None):
                         xalign 0.5
                         style_group "basic"
                         action ToggleSetMembership(selected_filters, 'Site')
-                        text "Site" color brown size 18 outlines [(1, "#000000", 0, 0)]
+                        text "Site" color brown size 18 outlines [(1, "#3a3a3a", 0, 0)]
                         xpadding 6
+                        hovered tt.Action('Toggle location filters')
                     button:
                         xalign 0.5
                         style_group "basic"
                         action ToggleSetMembership(selected_filters, 'Status')
-                        text "Status" color green size 18 outlines [(1, "#000000", 0, 0)]
+                        text "Status" color green size 18 outlines [(1, "#3a3a3a", 0, 0)]
                         xpadding 6
+                        hovered tt.Action('Toggle status filters')
                     button:
                         xalign 0.5
                         style_group "basic"
                         action ToggleSetMembership(selected_filters, 'Action')
-                        text "Action" color darkblue size 18 outlines [(1, "#000000", 0, 0)]
+                        text "Action" color darkblue size 18 outlines [(1, "#3a3a3a", 0, 0)]
                         xpadding 6
+                        hovered tt.Action('Toggle action filters')
                     button:
                         xalign 0.5
                         style_group "basic"
                         action ToggleSetMembership(selected_filters, 'Class')
-                        text "Class" color purple size 18 outlines [(1, "#000000", 0, 0)]
+                        text "Class" color purple size 18 outlines [(1, "#3a3a3a", 0, 0)]
                         xpadding 6
+                        hovered tt.Action('Toggle class filters')
                 button:
                     xalign 0.5
                     yalign 1.0
                     style_group "basic"
                     action source.clear, renpy.restart_interaction
                     text "Reset"
+                    hovered tt.Action('Reset all filters')
 
                 null height 20
                 hbox:
@@ -220,6 +230,7 @@ screen chars_list(source=None):
                                 xsize 125
                                 action ModFilterSet(source, "status_filters", f)
                                 text f.capitalize() color green
+                                hovered tt.Action('Toggle the filter')
                     if "Site" in selected_filters:
                         for f in location_filters:
                             button:
@@ -228,18 +239,21 @@ screen chars_list(source=None):
                                 text "[f]" color brown:
                                     if len(str(f)) > 12:
                                         size 10
+                                hovered tt.Action('Toggle the filter')
                     if "Action" in selected_filters:
                         for f in action_filters:
                             button:
                                 xsize 125
                                 action ModFilterSet(source, "action_filters", f)
                                 text "[f]" color darkblue
+                                hovered tt.Action('Toggle the filter')
                     if "Class" in selected_filters:
                         for f in class_filters:
                             button:
                                 xsize 125
                                 action ModFilterSet(source, "class_filters", f)
                                 text "[f]" color purple
+                                hovered tt.Action('Toggle the filter')
                 # for block_name, filters in source.display_filters:
                     # label ("{=della_respira}{b}[block_name]:") xalign 0
                     # for item_1, item_2 in izip_longest(fillvalue=None, *[iter(filters)]*2):
@@ -271,14 +285,17 @@ screen chars_list(source=None):
                         else:
                             action SetVariable("the_chosen", the_chosen.union(chars_on_page))
                         text "These"
+                        hovered tt.Action('Select all currently visible characters')
                     button: # every of currently filtered, also in next tabs
                         xysize (66, 40)
                         action If(set(source.sorted).difference(the_chosen), [SetVariable("the_chosen", set(source.sorted))])
                         text "All"
+                        hovered tt.Action('Select all characters')
                     button: # deselect all
                         xysize (66, 40)
                         action If(len(the_chosen), [SetVariable("the_chosen", set())])
                         text "None"
+                        hovered tt.Action('Unselect everyone')
             # Mass action Buttons ====================================>
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
@@ -292,16 +309,17 @@ screen chars_list(source=None):
                         xysize (150, 40)
                         action If(len(the_chosen), [Show("girl_control")])
                         text "Girl Control"
+                        hovered tt.Action('Set desired behavior for group')
                     button:
                         xysize (150, 40)
                         action If(len(the_chosen), [Hide("chars_list"), With(dissolve), SetVariable("eqtarget", None), Jump('char_equip')])
                         text "Equipment"
+                        hovered tt.Action('Manage group equipment')
                     button:
                         xysize (150, 40)
                         action If(len(the_chosen), [Hide("chars_list"), With(dissolve), Jump('girl_training')])
                         text "Training"
-
-    use top_stripe(True)
+                        hovered tt.Action('Manage group training')
 
     # Two buttons that used to be in top-stripe:
     hbox:
@@ -311,6 +329,7 @@ screen chars_list(source=None):
         textbutton "<--":
             sensitive page > 0
             action SetScreenVariable("page", page-1)
+            hovered tt.Action('Previous page')
         $ temp = page+1
         $ max_page = len(source.sorted)/page_size
         textbutton "[temp]":
@@ -318,9 +337,19 @@ screen chars_list(source=None):
         textbutton "-->":
             sensitive page < max_page
             action SetScreenVariable("page", page+1)
+            hovered tt.Action('Next page')
             
     # Keybinds:
     key "mousedown_4" action If(page < max_page, true=SetScreenVariable("page", page+1), false=NullAction())
     key "mousedown_5" action If(page > 0, true=SetScreenVariable("page", page-1), false=NullAction())
 
     $ store.chars_list_last_page_viewed = page # At Darks Request!
+    
+    frame:
+        background Frame("content/gfx/frame/window_frame1.png", 10, 10)
+        align(0.09, 1.0)
+        xysize (950, 65)
+        text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(0.5, 0.5)
+        
+
+    use top_stripe(True)
