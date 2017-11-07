@@ -1,38 +1,76 @@
 init -10 python:
-    def payout(job, effectiveness, difficulty, building, business, worker, client, log):
+    def payout(job, effectiveness, difficulty, building, business, worker, clients, log):
+        # TODO Might be an idea to account for client level in the future as well!
         # Calculates payout for jobs based of effectiveness and other modifications.
         # Writes to log accordingly.
+
         earned = pytfall.economy.get_clients_pay(job, difficulty)
+
+        if isinstance(clients, (set, list, tuple)):
+            if len(clients) > 1:
+                plural = True
+                client_name = "clients"
+                earned *= len(clients) # Make sure we adjust the payout to the actual number of clients served.
+            else:
+                plural = False
+                client_name = "client"
+        else:
+            plural = False
+            client_name = clients.name
+
         me = building.manager_effectiveness
         if effectiveness <= 33: # Worker sucked so much, client just doesn't pay.
-            temp = "{} leaves the {} refusing to pay for the inadequate service {} provided.".format(client.name, business.name, worker.name)
+            if plural:
+                temp = "Clients leave the {} refusing to pay for the inadequate service {} provided.".format(
+                                business.name, worker.name)
+            else:
+                temp = "{} leaves the {} refusing to pay for the inadequate service {} provided.".format(
+                                client_name.capitalize(), business.name, worker.name)
             log.append(temp)
             earned = 0
         elif effectiveness <= 90: # Worker sucked but situation may be salvageable by Manager.
-            temp = "Due to inadequate service provided by {} client refuses to pay the full price.".format(worker.name)
+            if plural:
+                temp = "Due to inadequate service provided by {} clients refuse to pay the full price.".format(worker.name)
+            else:
+                temp = "Due to inadequate service provided by {} client refuses to pay the full price.".format(worker.name)
             log.append(temp)
             if me >= 90:
                 temp = "You skilled manager {} intervened and straitened things out.".format(building.manager.name)
                 if me >= 150 and dice(85):
-                    temp += " Client was so pleased for the attention and ended up paying full price."
+                    if plural:
+                        temp += " Client were so pleased for the attention and ended up paying full price."
+                    else:
+                        temp += " Client was so pleased for the attention and ended up paying full price."
                     log.append(temp)
                     earned *= .75
                 elif dice(75):
-                    temp += " Client agreed to pay three quarters of the price."
+                    if plural:
+                        temp += " Clients agree to pay three quarters of the price."
+                    else:
+                        temp += " Client agreed to pay three quarters of the price."
                     log.append(temp)
                     earned *= .75
                 else:
                     earned *= .5
         elif effectiveness <= 150:
-            temp = "Client is very happy with {} service and pays the full price.".format(worker.name)
+            if plural:
+                temp = "Clients are very happy with {} service and pay the full price.".format(worker.name)
+            else:
+                temp = "Client is very happy with {} service and pays the full price.".format(worker.name)
             log.append(temp)
         else:
-            temp = "Client is ecstatic! {} service was beyond any expectations. +10% to pauout!".format(worker.name)
+            if plural:
+                temp = "Clients are ecstatic! {} service was beyond any expectations. +10% to payout!".format(worker.name)
+            else:
+                temp = "Client is ecstatic! {} service was beyond any expectations. +10% to payout!".format(worker.name)
             log.append(temp)
             earned *= 1.1
 
         if me >= 120 and dice(50):
-            temp = "Your manager paid some extra attention to client. +20% to pauout!"
+            if plural:
+                temp = "Your manager paid some extra attention to clients. +20% to payout!"
+            else:
+                temp = "Your manager paid some extra attention to the client. +20% to payout!"
             log.append(temp)
             earned *= 1.2
 
