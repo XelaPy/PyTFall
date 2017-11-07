@@ -141,7 +141,7 @@ init -5 python:
             max_clients = 5 # Come up with a good way to figure out how many clients a worker can serve!
             tips = 0 # Tips the worker is going to get!
 
-            while worker.AP and self.res.count:
+            while worker.AP and self.res.count: # TODO Looks like a fail close to the end of env.now?
                 yield self.env.timeout(self.time) # This is a single shift a worker can take for cost of 1 AP.
 
                 # Account for clients that left...
@@ -166,10 +166,6 @@ init -5 python:
                 elif effectiveness > 100:
                     tips += randint(1, 3) * self.instance.tier
 
-                temp = "{}: {} gets {} in tips from {} clients!".format(self.env.now,
-                                                worker.name, tips, self.res.count)
-                self.log(temp)
-
             # Once the worker is done, we run the job and create the event:
             if clients:
                 if config.debug:
@@ -178,6 +174,9 @@ init -5 python:
                 job.strip(worker, clients, loc, log)
 
                 earned = payout(job, effectiveness, difficulty, building, business, worker, clients, log)
+                temp = "{}: {} earns {} by serving {} clients!".format(self.env.now,
+                                                worker.name, earned, self.res.count)
+                self.log(temp)
 
                 # Create the job report and settle!
                 log.after_job()
@@ -188,6 +187,9 @@ init -5 python:
 
             # log the tips:
             if tips:
+                temp = "{}: {} gets {} in tips from {} clients!".format(self.env.now,
+                                                worker.name, tips, self.res.count)
+                self.log(temp)
                 worker.mod_flag("jobs_tips", tips)
                 loc.fin.log_logical_income(tips, job.id + " Tips")
 
