@@ -137,7 +137,7 @@ init -5 python:
             if config.debug:
                 log.append("Debug: Her effectiveness: {}! (difficulty: {}, Tier: {})".format(effectiveness, difficulty, worker.tier))
 
-            clients = set() # list of clients this worker is severing
+            clients = set() # list of clients this worker is serving
             max_clients = 5 # Come up with a good way to figure out how many clients a worker can serve!
             tips = 0 # Tips the worker is going to get!
 
@@ -176,6 +176,8 @@ init -5 python:
                     temp = "{}: Logging {} for {}!".format(self.env.now, self.name, worker.name)
                     self.log(temp)
                 job.strip(worker, clients, loc, log)
+
+                earned = payout(job, effectiveness, difficulty, building, business, worker, clients, log)
 
                 # Create the job report and settle!
                 log.after_job()
