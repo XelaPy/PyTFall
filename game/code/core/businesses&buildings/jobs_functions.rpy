@@ -1,4 +1,49 @@
 init -10 python:
+    def payout(job, effectiveness, difficulty, building, business, worker, client, log):
+        # Calculates payout for jobs based of effectiveness and other modifications.
+        # Writes to log accordingly.
+        earned = pytfall.economy.get_clients_pay(job, difficulty)
+        me = building.manager_effectiveness
+        if effectiveness <= 33: # Worker sucked so much, client just doesn't pay.
+            temp = "{} leaves the {} refusing to pay for the inadequate service {} provided.".format(client.name, business.name, worker.name)
+            log.append(temp)
+            earned = 0
+        elif effectiveness <= 90: # Worker sucked but situation may be salvageable by Manager.
+            temp = "Due to inadequate service provided by {} client refuses to pay the full price.".format(worker.name)
+            log.append(temp)
+            if me >= 90:
+                temp = "You skilled manager {} intervened and straitened things out.".format(building.manager.name)
+                if me >= 150 and dice(85):
+                    temp += " Client was so pleased for the attention and ended up paying full price."
+                    log.append(temp)
+                    earned *= .75
+                elif dice(75):
+                    temp += " Client agreed to pay three quarters of the price."
+                    log.append(temp)
+                    earned *= .75
+                else:
+                    earned *= .5
+        elif effectiveness <= 150:
+            temp = "Client is very happy with {} service and pays the full price.".format(worker.name)
+            log.append(temp)
+        else:
+            temp = "Client is ecstatic! {} service was beyond any expectations. +10% to pauout!".format(worker.name)
+            log.append(temp)
+            earned *= 1.1
+
+        if me >= 120 and dice(50):
+            temp = "Your manager paid some extra attention to client. +20% to pauout!"
+            log.append(temp)
+            earned *= 1.2
+
+        if earned:
+            earned = round_int(earned)
+            temp = "You've earned {} Gold!".format(earned)
+            log.append(temp)
+            log.earned += earned
+
+        return earned
+
     def vp_or_fixed(workers, show_args, show_kwargs, xmax=820):
         """This will create a sidescrolling displayable to show off all portraits/images in team efforts if they don't fit on the screen in a straight line.
 
