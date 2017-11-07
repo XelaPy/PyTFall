@@ -3,10 +3,14 @@ init -10 python:
         # TODO Might be an idea to account for client level in the future as well!
         # Calculates payout for jobs based of effectiveness and other modifications.
         # Writes to log accordingly.
+
+        earned = pytfall.economy.get_clients_pay(job, difficulty)
+
         if isinstance(clients, (set, list, tuple)):
             if len(clients) > 1:
                 plural = True
                 client_name = "clients"
+                earned *= len(clients) # Make sure we adjust the payout to the actual number of clients served.
             else:
                 plural = False
                 client_name = "client"
@@ -14,7 +18,6 @@ init -10 python:
             plural = False
             client_name = clients.name
 
-        earned = pytfall.economy.get_clients_pay(job, difficulty)
         me = building.manager_effectiveness
         if effectiveness <= 33: # Worker sucked so much, client just doesn't pay.
             if plural:
