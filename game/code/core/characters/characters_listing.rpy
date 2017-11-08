@@ -52,7 +52,15 @@ screen chars_list(source=None):
 
     default page_size = 10
     default max_page = len(source.sorted)/page_size
+    if len(source.sorted)%page_size == 0 and max_page !=0:
+        $ max_page = len(source.sorted)/page_size - 1
+    else:
+        $ max_page = len(source.sorted)/page_size
     default page = min(chars_list_last_page_viewed, max_page)
+    if page > max_page:
+        $ page = max_page
+    if chars_list_last_page_viewed > max_page:
+        $ chars_list_last_page_viewed = max_page
     default tt = Tooltip("")
 
 
@@ -66,9 +74,12 @@ screen chars_list(source=None):
         pos 5, 70
         xysize 1010, 670
 
+        if len(source.sorted)%page_size == 0 and max_page !=0:
+            $ max_page = len(source.sorted)/page_size - 1
+        else:
+            $ max_page = len(source.sorted)/page_size
+        
         if charz_lists:
-            if page > len(source.sorted)/page_size:
-                $ page = len(source.sorted)/page_size
             $ charz_list = charz_lists[page]
            
             
@@ -347,9 +358,13 @@ screen chars_list(source=None):
             action SetScreenVariable("page", page-1)
             hovered tt.Action('Previous page')
         $ temp = page+1
-        $ max_page = len(source.sorted)/page_size
         textbutton "[temp]":
             action NullAction()
+        # if len(source.sorted)%page_size == 0 and max_page !=0:
+            # $ max_page = len(source.sorted)/page_size - 1
+        # else:
+            # $ max_page = len(source.sorted)/page_size
+            
         textbutton "-->":
             sensitive page < max_page
             action SetScreenVariable("page", page+1)
