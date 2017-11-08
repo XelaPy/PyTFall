@@ -320,6 +320,22 @@ screen chars_list(source=None):
                         action If(len(the_chosen), [Hide("chars_list"), With(dissolve), Jump('girl_training')])
                         text "Training"
                         hovered tt.Action('Manage group training')
+            
+    # Keybinds:
+    key "mousedown_4" action If(page < max_page, true=SetScreenVariable("page", page+1), false=NullAction())
+    key "mousedown_5" action If(page > 0, true=SetScreenVariable("page", page-1), false=NullAction())
+
+    $ store.chars_list_last_page_viewed = page # At Darks Request!
+    
+    frame:
+        background Frame("content/gfx/frame/window_frame1.png", 10, 10)
+        align(0.09, 1.0)
+        xysize (950, 65)
+        text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(0.5, 0.5)
+        
+
+    use top_stripe(True)
+    
 
     # Two buttons that used to be in top-stripe:
     hbox:
@@ -338,18 +354,3 @@ screen chars_list(source=None):
             sensitive page < max_page
             action SetScreenVariable("page", page+1)
             hovered tt.Action('Next page')
-            
-    # Keybinds:
-    key "mousedown_4" action If(page < max_page, true=SetScreenVariable("page", page+1), false=NullAction())
-    key "mousedown_5" action If(page > 0, true=SetScreenVariable("page", page-1), false=NullAction())
-
-    $ store.chars_list_last_page_viewed = page # At Darks Request!
-    
-    frame:
-        background Frame("content/gfx/frame/window_frame1.png", 10, 10)
-        align(0.09, 1.0)
-        xysize (950, 65)
-        text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(0.5, 0.5)
-        
-
-    use top_stripe(True)
