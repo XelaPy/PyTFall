@@ -52,7 +52,7 @@ screen chars_list(source=None):
 
     default page_size = 10
     default max_page = len(source.sorted)/page_size
-    if len(source.sorted)%page_size == 0 and max_page !=0:
+    if len(source.sorted)%page_size == 0:
         $ max_page = len(source.sorted)/page_size - 1
     else:
         $ max_page = len(source.sorted)/page_size
