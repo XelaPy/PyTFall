@@ -61,6 +61,7 @@ screen chars_list(source=None):
         $ page = max_page
     if chars_list_last_page_viewed > max_page:
         $ chars_list_last_page_viewed = max_page
+
     default tt = Tooltip("")
 
 
@@ -78,6 +79,8 @@ screen chars_list(source=None):
             $ max_page = len(source.sorted)/page_size - 1
         else:
             $ max_page = len(source.sorted)/page_size
+        if page < 0:
+            $ page = 0
         
         if charz_lists:
             $ charz_list = charz_lists[page]
@@ -256,7 +259,10 @@ screen chars_list(source=None):
                             button:
                                 xsize 125
                                 action ModFilterSet(source, "action_filters", f)
-                                text "[f]" color darkblue
+                                $ t = str(f)
+                                if t.endswith(" job") or t.endswith(" Job"):
+                                    $ t = t[:-4]
+                                text "[t]" color darkblue
                                 hovered tt.Action('Toggle the filter')
                     if "Class" in selected_filters:
                         for f in class_filters:
