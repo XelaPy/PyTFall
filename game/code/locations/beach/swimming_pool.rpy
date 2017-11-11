@@ -17,12 +17,13 @@ label swimming_pool:
     if not global_flags.flag('visited_swimming_pool'):
         $ global_flags.set_flag('visited_swimming_pool')
         $ block_say = True
-        show npc trainer with dissolve
-        "Welcome to the swimming pool!"
-        "It's not free, but we don't have sea monsters and big waves here, so it's perfect for a novice swimmer!"
-        "We also provide swimming lessons at a reasonable price. Feel free to ask anytime!"
+        show expression npcs["Henry_beach"].get_vnsprite() as henry
+        $ h = npcs["Henry_beach"].say
+        h "Welcome to the swimming pool!"
+        h "It's not free, but we don't have sea monsters and big waves here, so it's perfect for a novice swimmer!"
+        h "We also provide swimming lessons at a reasonable price. Feel free to ask anytime!"
         $ block_say = False
-        hide npc trainer with dissolve
+        hide henry
     show screen swimming_pool
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")

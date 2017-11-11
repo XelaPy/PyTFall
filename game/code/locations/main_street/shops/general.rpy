@@ -9,18 +9,20 @@ label general_store:
     
     scene bg general_store
     with dissolve
-    
-    show npc shop_yukiko_novel
+
+    show expression npcs["Yukiko_shop"].get_vnsprite() as npc
+    $ y = npcs["Yukiko_shop"].say
+    # show npc shop_yukiko_novel
     with dissolve
     
     if global_flags.flag('visited_general_store'):
-        "Welcome Back!"
+        y "Welcome Back!"
 
     else:
         $ global_flags.set_flag('visited_general_store')
-        "Welcome to PyTFall's General Store!"
-        "Here you can buy all sorts of items!"
-        "Please take a look at our selection: "
+        y "Welcome to PyTFall's General Store!"
+        y "Here you can buy all sorts of items!"
+        y "Please take a look at our selection: "
     python:
         pytfall.world_quests.run_quests("auto")
         pytfall.world_events.run_events("auto")

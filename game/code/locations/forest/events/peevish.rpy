@@ -19,8 +19,8 @@ label peevish_meeting:
     play sound "content/sfx/sound/events/get.mp3" fadein 1.0
         
     $ renpy.pause(5.0, hard=True)
-    
-    show npc peevish
+
+    show expression npcs["Peevish"].get_vnsprite() as peevish
     with dissolve
     
     play world "irish.mp3" fadein 2.0
@@ -31,7 +31,7 @@ label peevish_meeting:
     
     p "I am the great and powerful Peevish McSpud!"
     
-    $ p = Character("Peevish", color=lawngreen, what_color=lawngreen, show_two_window=True)
+    $ p = npcs["Peevish"].say
     
     menu:
         "Old crone? That witch looks young and kinda hot?":
@@ -43,12 +43,12 @@ label peevish_meeting:
             extend " Well... almost... I wish that I had that damn pile of gold under the rainbow..."
             p "But the rest of me is 100%% you mother-frecker! Just wait till I come down there!" #not swearing on purpose?
             
-    hide npc peevish
+    hide peevish
     hide bg forest_entrance
     show bg forest_entrance
     with dissolve
     
-    show npc peevish:
+    show expression npcs["Peevish"].get_vnsprite() as peevish:
         pos (0.4, 0.2)
         linear 1.0 pos (0.4, 0.3)
         linear 1.0 pos (0.4, 0.2)
@@ -65,7 +65,7 @@ label peevish_meeting:
     menu:
         "Earth and Water magic? You? Don't make me laugh!":
             p "Hah? A sceptic, I see?"
-            hide npc
+            hide peevish
             with dissolve
             
             show expression Image("content/events/peevish/tsunami.png") as tsunami:
@@ -94,7 +94,7 @@ label peevish_meeting:
                 alpha 1.0
                 linear 10 alpha 0.0
                 
-            show npc peevish
+            show expression npcs["Peevish"].get_vnsprite() as peevish
             with dissolve
             
             p "Damn it to hell! There goes another potential customer :("
@@ -112,11 +112,11 @@ label peevish_meeting:
 
 
 label peevish_menu:
-    
-    $ p = Character("Peevish", color=lawngreen, what_color=lawngreen, show_two_window=True)
+
+    $ p = npcs["Peevish"].say
     
     hide screen forest_entrance
-    show npc peevish:
+    show expression npcs["Peevish"].get_vnsprite() as peevish:
         pos (0.4, 0.2)
         linear 1.0 pos (0.4, 0.3)
         linear 1.0 pos (0.4, 0.2)
@@ -155,7 +155,7 @@ label peevish_menu:
                         p "Hehe! Awesome, it's a deal then!"
                         extend " Stand back for a bit!!!"
                         
-                        hide npc
+                        hide peevish
                         play sound "content/sfx/sound/events/get.mp3" fadein 1.0
                         show expression Image("content/gfx/images/magic.png") as magic:
                             yalign .5 subpixel True
@@ -181,7 +181,7 @@ label peevish_menu:
                         with dissolve
                         $ renpy.pause(3.0, hard=True)
                         hide magic
-                        show npc peevish:
+                        show expression npcs["Peevish"].get_vnsprite() as peevish:
                             pos (0.4, 0.2)
                             linear 1.0 pos (0.4, 0.3)
                             linear 1.0 pos (0.4, 0.2)

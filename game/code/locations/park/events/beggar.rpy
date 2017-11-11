@@ -6,10 +6,10 @@ init -1 python:
 
 label meet_beggar_event(event):
 
-    $ beggar = Character('Beggar', color="#c8ffc8", show_two_window=True)
+    $ beggar = npcs["beggar"].say
 
     'You see a girl who comes close to you.'
-    show npc beggar_girl_novel
+    show expression npcs["beggar"].show("indifferent", resize=(600, 700)) as npc
     with dissolve
 
     $ beggar(choice(['Hello, mister! Please, could you spare some coin for hungry beggar?',
@@ -29,7 +29,7 @@ label meet_beggar_event(event):
 
         'Go buy some food. (-5 gold)':
             if hero.take_money(5, reason="Charity"):
-                show npc beggar_girl_smile_novel
+                show expression npcs["beggar"].show("happy", resize=(600, 700)) as npc
                 with dissolve
                 beggar 'Thanks! ^_^'
             else:

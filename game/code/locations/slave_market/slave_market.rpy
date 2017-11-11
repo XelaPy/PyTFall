@@ -34,7 +34,7 @@ label slave_market:
         "And bring out some decent slaves to shop!"
 
         hide slave_market_slaves with fade
-        show npc blue with dissolve
+        show expression npcs["Blue_slavemarket"].get_vnsprite() as blue with dissolve
 
         $ g = Character("?????", color=blue, show_two_window=True)
 
@@ -49,15 +49,15 @@ label slave_market:
                 jump omg_stfu_blue
         g "My name is Irma but apperently that's too hard to remember... so everyone calls me Blue. Original isn't it?"
 
-        $ g = Character("Blue", color=blue, show_two_window=True)
+        $ g = npcs["Blue_slavemarket"].say
 
         g "We usually try to prevent customers from seeing anything they might find unpleasant."
         g "But that weasel Stan is always trying to push 'unfinished' products."
         g "I mean what's the point? Reputation is much more important!"
 
-        $ s = Character("Stan", show_two_window=True)
+        $ s = npcs["Stan_slavemarket"].say
 
-        show npc2 stan at mid_left with dissolve
+        show expression npcs["Stan_slavemarket"].get_vnsprite() as stan at mid_left with dissolve
 
         s "Hey, hey there!"
         s "Is there anyone here talking about me?"
@@ -68,8 +68,8 @@ label slave_market:
         s "I am going to get some measure of todays lots and what we can get for them!"
         s "Don't bother our prospective clients and go play with your slaves while {color=[red]}I{/color} take care of real work! <Smirks>"
 
-        hide npc2 stan with dissolve
-        show npc blue at center with move
+        hide stan with dissolve
+        show expression npcs["Blue_slavemarket"].get_vnsprite() as blue at center with move
 
         g "That damn baboon only thinks about money! No sence of duty or love for the craft!"
         g "You see it too, don't you?"
@@ -79,7 +79,7 @@ label slave_market:
         g "Goodbye!"
         
     label omg_stfu_blue:
-        hide npc blue
+        hide blue
         with dissolve
         show bg slave_market
 
@@ -166,9 +166,9 @@ label work_in_slavemarket:
     return
 
 label blue_menu:
-    $ g = Character("Blue", color=blue, show_two_window=True)
+    $ g = npcs["Blue_slavemarket"].say
     scene bg slave_market with fade
-    show npc blue with dissolve
+    show expression npcs["Blue_slavemarket"].get_vnsprite() as blue with dissolve
     g "[hero.nickname]!"
     g "Welcome back to our fine establishment!"
     $ loop = True

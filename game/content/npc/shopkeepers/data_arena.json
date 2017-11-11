@@ -1,0 +1,51 @@
+[
+    {
+        "id": "Xeona_arena",
+        "name": "Xeona",
+        "desc": "A veteran arena fighter. She helps other contestants and offers combat training.",
+        "origin": "PytFall",
+        
+		"race": "Human",
+        "location": "city",
+        "status": "free",
+        "gold": 1500,
+
+        "color": "ivory",
+        "what_color": "white",
+
+        "stats": {
+            "charisma": 50,
+            "constitution": 80,
+            "luck": 30,
+            "character": 80,
+            "intelligence": 40,
+            "attack": 80,
+            "magic": 15,
+            "defence": 70,
+            "agility": 50,
+            "mp": 30
+        },
+        "skills": {
+
+        },
+        "btraits": [
+            
+        ],
+        "blocked_traits": [
+            
+        ],
+        "traits": [
+            "Virgin",
+            "Average Boobs",
+            "Long Legs",
+            "Slim",
+            "Kuudere",
+            "Human"
+        ],
+        "attack_skills": {
+            "Sword Slash": 1
+        },
+        "magic_skills": {
+        }
+    }
+]

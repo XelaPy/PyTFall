@@ -1,0 +1,62 @@
+[
+    {
+        "id": "Chloe_cafe",
+        "name": "Chloe",
+        "fullname": "Chloe Alanato",
+        "desc": "A local cafe waitress.",
+        "origin": "PyTFall",
+        
+        "base_race": "Human",
+        "gender": "female",
+        "race": "Human",
+        "location": "city",
+        "status": "free",
+        "gold": 2000,
+        
+        "color": "white",
+        "what_color": "white",
+        
+        "level": 3,
+        "basetraits": ["Warrior"]
+    },
+    {
+        "id": "Mel_cafe",
+        "name": "Mel",
+        "fullname": "Melissandre El Ktmndd Ed Tmdtr Et Dmdrr",
+        "desc": "A local cafe waitress.",
+        "origin": "PyTFall",
+
+        "base_race": "Human",
+        "gender": "female",
+        "race": "Human",
+        "location": "city",
+        "status": "free",
+        "gold": 12000,
+
+        "color": "white",
+        "what_color": "white",
+
+        "level": 3,
+        "basetraits": ["Warrior"]
+    },
+    {
+        "id": "Monica_cafe",
+        "name": "Monica",
+        "fullname": "Monica",
+        "desc": "A local cafe waitress.",
+        "origin": "PyTFall",
+
+        "base_race": "Human",
+        "gender": "female",
+        "race": "Human",
+        "location": "city",
+        "status": "free",
+        "gold": 200,
+
+        "color": "white",
+        "what_color": "white",
+
+        "level": 3,
+        "basetraits": ["Warrior"]
+    }
+]

@@ -1,0 +1,42 @@
+[
+    {
+        "id": "Blue_slavemarket",
+        "name": "Blue",
+        "fullname": "Irma Fukushima",
+        "desc": "A local slave trainer and trader. She runs PyTFall's slave market.",
+        "origin": "PyTFall",
+        
+        "base_race": "Human",
+        "gender": "female",
+        "race": "Human",
+        "location": "city",
+        "status": "free",
+        "gold": 2000,
+        
+        "color": "blue",
+        "what_color": "white",
+        
+        "level": 3,
+        "basetraits": ["Warrior"]
+    },
+    {
+        "id": "Stan_slavemarket",
+        "name": "Stan",
+        "fullname": "Stan",
+        "desc": "A local slave trader.",
+        "origin": "PyTFall",
+
+        "base_race": "Human",
+        "gender": "male",
+        "race": "Human",
+        "location": "city",
+        "status": "free",
+        "gold": 12000,
+
+        "color": "white",
+        "what_color": "white",
+
+        "level": 3,
+        "basetraits": ["Warrior"]
+    }
+]

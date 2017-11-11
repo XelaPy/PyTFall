@@ -1,0 +1,66 @@
+[
+    {
+        "id": "Aine",
+        "name": "Aine",
+        "fullname": "Aine McSpud",
+        "desc": "A cute Leprechaun living in the park. She teaches Dark and Light magic",
+        "origin": "PyTFall",
+        
+        "base_race": "Elf",
+        "gender": "female",
+        "race": "Leprechaun",
+        "location": "city",
+        "status": "free",
+        "gold": 1000,
+        
+        "color": "green",
+        "what_color": "azure",
+        
+        "level": 55,
+        "basetraits": ["Mage"],
+        
+        "stats": {
+            "charisma": 70,
+            "constitution": 30,
+            "luck": 85,
+            "character": 75,
+            "intelligence": 75,
+            "attack": 10,
+            "magic": 90,
+            "defence": 35,
+            "agility": 40
+        },
+        
+        "skills": {
+            "cleaning": 20,
+            "management": 600,
+            "teaching": 2000,
+            "exploration": 1000
+        },
+        "blocked_traits": [
+        
+        ],
+        "ab_traits": [
+        
+        ],
+        
+        "traits": [
+            "Dark",
+            "Light",
+            "Average Boobs",
+            "Dandere",
+            "Slim"
+        ],
+        "attack_skills": [
+            "Blunt Strike"
+        ],
+        "magic_skills": [
+            "Holyda",
+            "Holyja",
+            "Star Light",
+            "Darkga",
+            "Darkja",
+            "Black Hole"
+        ]
+    }
+]

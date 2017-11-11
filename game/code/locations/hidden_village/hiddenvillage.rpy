@@ -81,10 +81,10 @@ label hidden_village_shop: # ninja shop logic
     
     scene bg workshop
     with dissolve
-    show npc ninja_assistant
+    show expression npcs["Ren_hidden_village"].get_vnsprite() as ren
     with dissolve
     $ hidden_village_shop = ItemShop("Ninja Tools Shop", 18, ["Ninja Shop"], gold=1000, sells=["armor", "dagger", "fists", "rod", "claws", "sword", "bow", "amulet", "smallweapon", "restore", "dress"], sell_margin=0.85, buy_margin=3.0)
-    $ r = Character("Ren", color=red, what_color=orange, show_two_window=True)
+    $ r = npcs["Ren_hidden_village"].say
     
     if global_flags.flag('hidden_village_shop_first_enter'):
         r "Hey, [hero.name]. Need something?"
@@ -93,6 +93,7 @@ label hidden_village_shop: # ninja shop logic
         $ global_flags.set_flag('hidden_village_shop_first_enter')
         r "Hm? Ah, heard about you."
         extend " Welcome to my Tools Shop."
+        $ r = npcs["Ren_hidden_village"].say
         r "I'm Ren. We sell ninja stuff here."
         r "If we are interested, I can sell you some leftovers. Of course it won't be cheap for an outsider like you."
         r "But you won't find these things anywhere else, so it is worth it."
