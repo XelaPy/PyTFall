@@ -193,8 +193,8 @@ label frog1_event_abby_2:
 label frog_event_arena:
     hide screen arena_outside
     "You find Xeona to ask about the eye."
-    define ax = Character('Xeona', color=ivory, show_two_window=True)
-    show npc xeona
+    $ ax = npcs["Xeona_arena"].say
+    show expression npcs["Xeona_arena"].get_vnsprite() as xeona
     with dissolve
 
     ax "An eye of the goblin champion you say?"
@@ -214,8 +214,8 @@ label frog_event_arena:
 
 label frog_deathfight:
     hide screen arena_outside
-    define ax = Character('Xeona', color=ivory, show_two_window=True)
-    show npc xeona
+    $ ax = npcs["Xeona_arena"].say
+    show expression npcs["Xeona_arena"].get_vnsprite() as xeona
     with dissolve
     stop world
 
@@ -240,8 +240,8 @@ label frog_deathfight:
     else:
         jump game_over
 
-    scene bg arena_quarters
-    show npc xeona
+    scene bg arena_outside
+    show expression npcs["Xeona_arena"].get_vnsprite() as xeona
     with dissolve
 
     ax "Great Fight! I was rooting for you! I am sure getting to the eye will be no problem."
