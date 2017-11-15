@@ -5,10 +5,10 @@ init python:
 
 label aine_menu:
 
-    $ a = Character("Aine", color=green, what_color=azure, show_two_window=True)
+    $ a = npcs["Aine"].say
 
     hide screen city_park
-    show npc aine:
+    show expression npcs["Aine"].get_vnsprite() as aine:
         pos (.4, .2)
         linear 1.0 pos (.4, .3)
         linear 1.0 pos (.4, .2)
@@ -23,7 +23,7 @@ label aine_menu:
 
         menu:
             "A leprechaun? In the park?":
-                a "How Rude! I go wherever I please and I can take of myself!"
+                a "How Rude! I go wherever I please and I can take care of myself!"
                 a "Not mentioning that this is a really nice place and very few people can see me!"
             "I've met one of your kind already, someone called Peevish.":
                 a "That rude, good for nothing, useless excuse for a brother... well, you don't get to choose family..."
@@ -65,7 +65,7 @@ label aine_menu:
                     if hero.take_money(spell[1][0], reason="Spells"):
                         a "Just take a long breath and let the magic flow through you!"
 
-                        hide npc
+                        hide aine
                         play sound "content/sfx/sound/events/go_for_it.mp3" fadein 1.0
                         show expression im.Twocolor("content/gfx/images/magic.png", green, green) as magic:
                             yalign .5 subpixel True
@@ -92,7 +92,7 @@ label aine_menu:
                         $ renpy.pause(3.0, hard=True)
                         hide magic
 
-                        show npc aine:
+                        show expression npcs["Aine"].get_vnsprite() as aine:
                             pos (0.4, 0.2)
                             linear 1.0 pos (0.4, 0.3)
                             linear 1.0 pos (0.4, 0.2)

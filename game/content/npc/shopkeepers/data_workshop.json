@@ -1,0 +1,22 @@
+[
+    {
+        "id": "Katia_workshop",
+        "name": "Katia",
+        "fullname": "Katia Simmons",
+        "desc": "A local buisness woman. She runs PyTFall's workshop, selling weapons and armors.",
+        "origin": "PyTFall",
+        
+        "base_race": "Human",
+        "gender": "female",
+        "race": "Human",
+        "location": "city",
+        "status": "free",
+        "gold": 4000,
+        
+        "color": "brown",
+        "what_color": "brown",
+        
+        "level": 23,
+        "basetraits": ["Warrior"]
+    }
+]

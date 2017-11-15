@@ -9,8 +9,8 @@ init python:
     register_event("smc_1", locations=["slave_market_club"], priority=100, start_day=5, dice=100, max_runs=1, trigger_type="auto")
     
 label smc_1(event):
-    $ g = Character("Blue", color=blue, show_two_window=True)
-    show npc blue_side at right
+    $ g = npcs["Blue_slavemarket"].say
+    show expression npcs["Blue_slavemarket"].get_vnsprite() as blue at right
     with dissolve
     g "Oh [hero.name]! Come join us, we're about to test a new gadget!"
     g "Recently delivered from Abby's Crossing! Our tech capital!"
@@ -89,7 +89,7 @@ label smc_1(event):
     $ renpy.pause(18.0, hard=True)
     hide smc
     with moveouttop
-    show npc blue
+    show expression npcs["Blue_slavemistress"].get_vnsprite() as blue
     g "Now wasn't that fun?"
     g "I could bet you my whip that sales will go over the roof today even without that damn weasel!"
     g "Well, see you around and remember that this is the best quality Slave Market in the town!"

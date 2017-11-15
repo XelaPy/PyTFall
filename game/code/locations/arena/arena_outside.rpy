@@ -14,9 +14,9 @@ label arena_outside:
     # Texts: ---------------------------------------------------------->
     if not global_flags.flag("visited_arena"):
         $ global_flags.set_flag("visited_arena")
-        define ax = Character('Xeona', color=ivory, show_two_window=True)
+        $ ax = npcs["Xeona_arena"].say
         'You see a pretty, and confident girl approaching you.'
-        show npc xeona
+        show expression npcs["Xeona_arena"].get_vnsprite() as xeona
         with dissolve
         
         if "Warrior" in hero.occupations:
@@ -97,7 +97,7 @@ label arena_outside:
                 "I know all I need to...":
                     ax "If you ever fall on hard times we always have some work that needs to be done."
                     ax "See you around!"
-                    hide npc xeona
+                    hide xeona
                     with dissolve
                     $ a_skip = True
                     
@@ -148,8 +148,8 @@ label arena_outside:
     jump city
     
 label find_xeona:
-    define ax = Character('Xeona', color=ivory, show_two_window=True)
-    show npc xeona
+    $ ax = npcs["Xeona_arena"].say
+    show expression npcs["Xeona_arena"].get_vnsprite() as xeona
     with dissolve
     
     ax "Hi again! Is there something you want?"
@@ -246,7 +246,7 @@ label find_xeona:
                 ax "Goodbye :)"
                 $ a_skip = False
                 
-    hide npc xeona
+    hide xeona
     with dissolve
     $ del a_skip
     

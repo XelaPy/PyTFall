@@ -11,16 +11,17 @@ label workshop:
     scene bg workshop
     with dissolve
     
-    show npc workshop_assistant
+    show expression npcs["Katia_workshop"].get_vnsprite() as katia
+    $ k = npcs["Katia_workshop"].say
     with dissolve
     
     if global_flags.flag('visited_workshop'):
         "Welcome Back!"
     else:
         $ global_flags.set_flag('visited_workshop')
-        "Welcome to PyTFall's Workshop!"
-        "Best place to go for Weapons and Armor!"
-        "Please take a look at our selection: "
+        k "Welcome to PyTFall's Workshop!"
+        k "Best place to go for Weapons and Armor!"
+        k "Please take a look at our selection: "
     
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")

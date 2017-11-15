@@ -15,18 +15,21 @@ label cafe:
     
     if global_flags.flag("waitress_chosen_today") != day:
 
-        $ cafe_waitress_who = (choice(["npc cafe_mel_novel", "npc cafe_monica_novel", "npc cafe_chloe_novel"]))
+        $ cafe_waitress_who = npcs[(choice(["Mel_cafe", "Monica_cafe", "Chloe_cafe"]))]
+        $ w = cafe_waitress_who.say
+        # $ cafe_waitress_who = (choice(["npc cafe_mel_novel", "npc cafe_monica_novel", "npc cafe_chloe_novel"]))
         $ global_flags.set_flag("waitress_chosen_today", value=day)
         
-    $ renpy.show(cafe_waitress_who, at_list=[left])
+    # $ renpy.show(cafe_waitress_who, at_list=[left])
+    show expression cafe_waitress_who.get_vnsprite() as npc
     with dissolve
 
     if global_flags.flag('visited_cafe'):
-        "Welcome back! Do you want a table?"
+        w "Welcome back! Do you want a table?"
     else:
         $ global_flags.set_flag('visited_cafe')
         $ hero.set_flag("health_bonus_from_eating_in_cafe", value=0)
-        "Welcome to the Cafe!"
+        w "Welcome to the Cafe!"
         "Here you can buy food and tasty beverages!"
     $ inviting_character = hero
     if dice(30) and len(hero.team)>1 and hero.flag("ate_in_cafe") != day: # the chance for a member of MC team to invite team

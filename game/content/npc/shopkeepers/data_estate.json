@@ -1,0 +1,22 @@
+[
+    {
+        "id": "Rose_estate",
+        "name": "Rose",
+        "fullname": "Rose Salvadore",
+        "desc": "A local buisness woman. She runs PyTFall's real estate agency.",
+        "origin": "PyTFall",
+        
+        "base_race": "Human",
+        "gender": "female",
+        "race": "Human",
+        "location": "city",
+        "status": "free",
+        "gold": 2000,
+        
+        "color": "rosybrown",
+        "what_color": "rosybrown",
+        
+        "level": 3,
+        "basetraits": ["Warrior"]
+    }
+]

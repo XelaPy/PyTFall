@@ -5,11 +5,11 @@ init python:
         register_event("angelica_menu", locations=["mages_tower"], simple_conditions=["global_flags.flag('mt_counter') > 3"], priority=100, start_day=1, jump=True, dice=80, max_runs=1)
     
 label angelica_menu:
-    
-    $ a = Character("Angelica", color=blue, what_color=cornflowerblue, show_two_window=True)
+
+    $ a = npcs["Angelica_mage_tower"].say
     
     hide screen mages_tower
-    show npc angelica
+    show expression npcs["Angelica_mage_tower"].get_vnsprite() as angelica
     with dissolve
     
     if not global_flags.flag("met_angelica"):
@@ -68,7 +68,7 @@ label angelica_menu:
                     if hero.take_money(spell[1][0], reason="Spells"):
                         a "Magic is knowledge and knowledge is power!"
                         
-                        hide npc
+                        hide angelica
                         play sound "content/sfx/sound/events/go_for_it.mp3" fadein 1.0
                         show expression im.Twocolor("content/gfx/images/magic.png", "#74BBFB", "#7DF9FF") as magic:
                             yalign .5 subpixel True
@@ -95,7 +95,7 @@ label angelica_menu:
                         $ renpy.pause(3.0, hard=True)
                         hide magic
                         
-                        show npc angelica
+                        show expression npcs["Angelica_mage_tower"].get_vnsprite() as angelica
                         with dissolve
                         
                         $ spell = spell[0]

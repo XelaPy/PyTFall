@@ -14,7 +14,7 @@ label realtor_agency:
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
 
-    $ g = Character("{color=[rosybrown]}Rose", color=rosybrown, show_two_window=True)
+    $ g = npcs["Rose_estate"].say
 
     if not global_flags.has_flag("visited_ra"):
 
@@ -30,7 +30,7 @@ label realtor_agency:
         nvl_ra "Blouse and skirt that she wore was well fitted, and stick really tightly to her body emphasizing her breasts and hips."
         nvl_ra "The black stockings that she was wearing also matched her perfectly, underlining her beautiful legs. The finishing touch was her shoes with little, cute roses on the toes, that you almost didn't notice."
 
-        show npc rose at right with dissolve
+        show expression npcs["Rose_estate"].get_vnsprite() as rose at right with dissolve
 
         g "Welcome to Rose Real Estates."
         extend " My name is Rose. I'm the owner and the realtor."
@@ -40,7 +40,7 @@ label realtor_agency:
 
     else:
         "Room is still bright and filled with the same sweet scent."
-        show npc rose
+        show expression npcs["Rose_estate"].get_vnsprite() as rose
 
 
     # Added the next three lines to disable this feature without crashing the game   --fenec250

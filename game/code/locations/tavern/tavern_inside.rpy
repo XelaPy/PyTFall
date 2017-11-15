@@ -1,4 +1,3 @@
-define tavern_rita = Character('Rita', color=honeydew, show_two_window=True)
 
 label tavern_town:
     if not "tavern_inside" in ilists.world_music:
@@ -13,13 +12,15 @@ label tavern_town:
 
     $ tavern_dizzy = False
 
+    $ tavern_rita = npcs["Rita_tavern"].say
+
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
 
 
     $ tavern_event_list = []
     if hero.flag("fought_in_tavern") == day: # after a brawl tavern will be unavailable until the next turn
-        show npc tavern_rita_novel
+        show expression npcs["Rita_tavern"].get_vnsprite() as npc
         with dissolve
         tavern_rita "I'm sorry, we are closed for maintenance. Please return tomorrow."
         jump city
@@ -27,7 +28,7 @@ label tavern_town:
     if not global_flags.flag('visited_tavern'):
         $ global_flags.set_flag('visited_tavern')
         $ city_tavern_dice_bet = 5 # default dice bet
-        show npc tavern_rita_novel
+        show expression npcs["Rita_tavern"].get_vnsprite() as npc
         with dissolve
         tavern_rita "Oh, hello! Welcome to our tavern! We will always have a seat for you! *wink*"
         hide npc
@@ -283,7 +284,7 @@ label city_tavern_thugs_fight: # fight with random thugs in the brawl mode
 
 label city_tavern_shopping: # tavern shop with alcohol, available in all modes except brawl
     hide drunkards with dissolve
-    show npc tavern_rita_novel
+    show expression npcs["Rita_tavern"].get_vnsprite() as npc
     with dissolve
     tavern_rita "Do you want something?"
     python:
@@ -304,7 +305,7 @@ label city_tavern_shopping: # tavern shop with alcohol, available in all modes e
 
     $ global_flags.del_flag("keep_playing_music")
     hide screen shopping
-    hide npc tavern_rita_novel
+    hide npc
     with dissolve
     jump city_tavern_menu
 

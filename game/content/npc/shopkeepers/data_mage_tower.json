@@ -1,0 +1,66 @@
+[
+    {
+        "id": "Angelica_mage_tower",
+        "name": "Angelica",
+        "fullname": "Angelica The Sage",
+        "desc": "A powerful mage established in PyTFall's mage tower.",
+        "origin": "PyTFall",
+        
+        "base_race": "Human",
+        "gender": "female",
+        "race": "Human",
+        "location": "city",
+        "status": "free",
+        "gold": 5000,
+        
+        "color": "blue",
+        "what_color": "cornflowerblue",
+        
+        "level": 55,
+        "basetraits": ["Mage"],
+        
+        "stats": {
+            "charisma": 70,
+            "constitution": 50,
+            "luck": 25,
+            "character": 75,
+            "intelligence": 75,
+            "attack": 20,
+            "magic": 90,
+            "defence": 55,
+            "agility": 60
+        },
+        
+        "skills": {
+            "cleaning": 20,
+            "management": 600,
+            "teaching": 2000
+        },
+        "blocked_traits": [
+        
+        ],
+        "ab_traits": [
+        
+        ],
+        
+        "traits": [
+            "Ice",
+            "Thunder",
+            "Average Boobs",
+            "Slim"
+        ],
+        "attack_skills": [
+            "Blunt Strike"
+        ],
+        "magic_skills": [
+            "Thundaga",
+            "Thundaja",
+            "Blizzarga",
+            "Blizzarja",
+            "Zero Prism",
+            "Hailstorm",
+            "Ion Blast",
+            "Full Discharge"
+        ]
+    }
+]
