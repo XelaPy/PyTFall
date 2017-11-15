@@ -1,6 +1,3 @@
-init:
-    image back_tower = "content/gfx/bg/tower.png"
-
 label hiddenvillage_entrance:
     $ gm.enter_location(limited_location=True)
     $ coords = [[.2, .25], [.55, .2], [.8, .18]]
@@ -21,12 +18,6 @@ label hiddenvillage_entrance:
         $ global_flags.set_flag('visited_hidden_village')
 
     scene bg hiddenvillage_entrance
-    show back_tower:
-        xpos 39
-        ypos 123
-        anchor (0.5, 1.0)
-        alpha .8
-    with dissolve
     show screen hiddenvillage_entrance
     
     $ pytfall.world_quests.run_quests("auto")
