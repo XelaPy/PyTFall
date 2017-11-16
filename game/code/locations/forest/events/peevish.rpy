@@ -1,5 +1,5 @@
 init python:
-    register_event("peevish_meeting", locations=["forest_entrance"], simple_conditions=["hero.magic > 50"],  priority=500, start_day=1, jump=True, dice=100, max_runs=1)
+    register_event("peevish_meeting", locations=["forest_entrance"], simple_conditions=["hero.magic >= 50"],  priority=500, start_day=1, jump=True, dice=100, max_runs=1)
     
 label peevish_meeting:
     $ p = Character("???", color=lawngreen, what_color=lawngreen, show_two_window=True)

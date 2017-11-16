@@ -1,6 +1,6 @@
 init python:
     register_event("aine_menu", locations=["city_park"],
-        simple_conditions=["global_flags.flag('met_peevish')", "hero.magic > 40"],
+        simple_conditions=["global_flags.flag('met_peevish')", "hero.magic >= 100"],
         priority=100, start_day=1, jump=True, dice=100, max_runs=1)
 
 label aine_menu:
@@ -10,7 +10,7 @@ label aine_menu:
     hide screen city_park
     show expression npcs["Aine"].get_vnsprite() as aine:
         pos (.4, .2)
-        linear 1.0 pos (.4, .3)
+        linear 1.0 pos (.4, .25)
         linear 1.0 pos (.4, .2)
         repeat
     with dissolve
@@ -94,7 +94,7 @@ label aine_menu:
 
                         show expression npcs["Aine"].get_vnsprite() as aine:
                             pos (0.4, 0.2)
-                            linear 1.0 pos (0.4, 0.3)
+                            linear 1.0 pos (0.4, 0.25)
                             linear 1.0 pos (0.4, 0.2)
                             repeat
 
