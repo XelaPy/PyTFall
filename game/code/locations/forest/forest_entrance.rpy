@@ -11,7 +11,6 @@ label forest_entrance:
     python:
         # Build the actions
         if pytfall.world_actions.location("forest_entrance"):
-            pytfall.world_actions.add("peevish", "Find Peevish", Jump("peevish_menu"), condition=Iff(global_flag_complex("met_peevish")))
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
@@ -43,7 +42,6 @@ label forest_entrance:
             $ renpy.music.stop(channel="world")
             $ jump(result[1])
             
-            
 screen forest_entrance():
     use top_stripe(True)
     
@@ -74,3 +72,11 @@ screen forest_entrance():
             idle (img_deep_forest)
             hover (im.MatrixColor(img_deep_forest, im.matrix.brightness(0.15)))
             action [Hide("forest_entrance"), Function(global_flags.set_flag, "keep_playing_music"), Jump("forest_dark"), With(dissolve)]
+            
+        if global_flags.has_flag("met_peevish"):
+            $ img_peev_shop= ProportionalScale("content/gfx/interface/icons/peevish.png", 75, 75)
+            imagebutton:
+                pos(100, 100)
+                idle (img_peev_shop)
+                hover (im.MatrixColor(img_peev_shop, im.matrix.brightness(0.15)))
+                action [Hide("forest_entrance"), Jump("peevish_menu"), With(dissolve)]

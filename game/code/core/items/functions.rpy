@@ -324,9 +324,7 @@ label shop_control:
                             shop.gold += item_price
                 else:
                     $ focus = None
-                    $ renpy.say("", choice(["Not enought money!",
-                                                         "No freebees I fear...",
-                                                         "You'll need more money for this purchase"]))
+                    $ renpy.say("", choice(["Not enought money.", "No freebees.", "You'll need more money for this purchase"]))
                 $ amount = 1
                 $ focus = False
 
@@ -335,7 +333,7 @@ label shop_control:
                     jump shop_control
                 elif shop != pytfall.general_store and (not shop.locations.intersection(focus.locations) or focus.type.lower() not in shop.sells):
                     $ focus = None
-                    $ renpy.say("", "I will not buy this item from you!")
+                    $ renpy.say("", "This shop doesn't buy such things.")
                 else:
                     $ result = bool(shop.gold - (item_price*amount) >= 0)
                     if result:
@@ -348,7 +346,7 @@ label shop_control:
                                 shop.inventory.append(focus)
                     else:
                         $ focus = None
-                        $ renpy.say("", "This is a bit more than I can pay!")
+                        $ renpy.say("", "The shop doesn't have enough money.")
                     $ amount = 1
                     $ focus = None
 

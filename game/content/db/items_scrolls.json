@@ -139,14 +139,15 @@
     "icon": "content/items/scrolls/water.png",
     "price": 50,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Water"]
+    "add_be_spells": ["Water"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Watera Scroll",
@@ -154,14 +155,15 @@
     "icon": "content/items/scrolls/watera.png",
     "price": 100,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Watera"]
+    "add_be_spells": ["Watera"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Waterga Scroll",
@@ -169,14 +171,15 @@
     "icon": "content/items/scrolls/waterga.png",
     "price": 150,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Waterga"]
+    "add_be_spells": ["Waterga"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Waterja Scroll",
@@ -184,49 +187,52 @@
     "icon": "content/items/scrolls/waterja.png",
     "price": 200,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
+    "badness": 80,
+    "eqchance": 40,
+    "hidden": false,
+    "infinite": true,
+    "slot": "consumable",
+    "type": "scroll",
+    "add_be_spells": ["Waterja"],
+    "locations": ["Peevish Shop"]
+    },
+    {
+    "id": "Last Drop Scroll",
+    "desc": "This scroll contains the arcane formula of Last Drop spell.",
+    "icon": "content/items/scrolls/last_drop.png",
+    "price": 250,
+    "sex": "unisex",
+    "chance": 80,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Waterja"]
+    "add_be_spells": ["Last Drop"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Geyser Scroll",
     "desc": "This scroll contains the arcane formula of Geyser spell.",
     "icon": "content/items/scrolls/geyser.png",
-    "price": 250,
+    "price": 300,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 50,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Geyser"]
+    "add_be_spells": ["Geyser"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Heavy Rain Scroll",
     "desc": "This scroll contains the arcane formula of Heavy Rain spell.",
     "icon": "content/items/scrolls/heavy_rain.png",
-    "price": 300,
-    "sex": "unisex",
-    "chance": 30,
-    "badness": 80,
-    "eqchance": 40,
-    "hidden": false,
-    "infinite": false,
-    "slot": "consumable",
-    "type": "scroll",
-    "add_be_spells": ["Heavy Rain"]
-    },
-    {
-    "id": "High Tide Scroll",
-    "desc": "This scroll contains the arcane formula of High Tide spell.",
-    "icon": "content/items/scrolls/high_tide.png",
     "price": 350,
     "sex": "unisex",
     "chance": 30,
@@ -236,7 +242,24 @@
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["High Tide"]
+    "add_be_spells": ["Heavy Rain"],
+    "locations": ["Peevish Shop"]
+    },
+    {
+    "id": "High Tide Scroll",
+    "desc": "This scroll contains the arcane formula of High Tide spell.",
+    "icon": "content/items/scrolls/high_tide.png",
+    "price": 400,
+    "sex": "unisex",
+    "chance": 10,
+    "badness": 80,
+    "eqchance": 40,
+    "hidden": false,
+    "infinite": false,
+    "slot": "consumable",
+    "type": "scroll",
+    "add_be_spells": ["High Tide"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Blizzard Scroll",
@@ -244,14 +267,15 @@
     "icon": "content/items/scrolls/blizzard.png",
     "price": 50,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Blizzard"]
+    "add_be_spells": ["Blizzard"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Blizzara Scroll",
@@ -259,14 +283,15 @@
     "icon": "content/items/scrolls/blizzara.png",
     "price": 100,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Blizzara"]
+    "add_be_spells": ["Blizzara"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Blizzarga Scroll",
@@ -274,14 +299,15 @@
     "icon": "content/items/scrolls/blizzarga.png",
     "price": 150,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Blizzarga"]
+    "add_be_spells": ["Blizzarga"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Blizzarja Scroll",
@@ -289,14 +315,15 @@
     "icon": "content/items/scrolls/blizzarja.png",
     "price": 200,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Blizzarja"]
+    "add_be_spells": ["Blizzarja"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Ice Blast Scroll",
@@ -304,14 +331,15 @@
     "icon": "content/items/scrolls/ice_blast.png",
     "price": 250,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 80,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Ice Blast"]
+    "add_be_spells": ["Ice Blast"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Zero Prism Scroll",
@@ -319,14 +347,15 @@
     "icon": "content/items/scrolls/zero_prism.png",
     "price": 300,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 60,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Zero Prism"]
+    "add_be_spells": ["Zero Prism"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Ice Shards Scroll",
@@ -334,14 +363,15 @@
     "icon": "content/items/scrolls/ice_shards.png",
     "price": 350,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 40,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Ice Shards"]
+    "add_be_spells": ["Ice Shards"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Hailstorm Scroll",
@@ -349,14 +379,15 @@
     "icon": "content/items/scrolls/hailstorm.png",
     "price": 400,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 20,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Hailstorm"]
+    "add_be_spells": ["Hailstorm"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Ice Storm Scroll",
@@ -364,14 +395,15 @@
     "icon": "content/items/scrolls/ice_storm.png",
     "price": 450,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 10,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Ice Storm"]
+    "add_be_spells": ["Ice Storm"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Stone Scroll",
@@ -379,14 +411,15 @@
     "icon": "content/items/scrolls/stone.png",
     "price": 50,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Stone"]
+    "add_be_spells": ["Stone"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Stonera Scroll",
@@ -394,14 +427,15 @@
     "icon": "content/items/scrolls/stonera.png",
     "price": 100,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Stonera"]
+    "add_be_spells": ["Stonera"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Stonega Scroll",
@@ -409,14 +443,15 @@
     "icon": "content/items/scrolls/stonega.png",
     "price": 150,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Stonega"]
+    "add_be_spells": ["Stonega"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Stoneja Scroll",
@@ -424,14 +459,15 @@
     "icon": "content/items/scrolls/stoneja.png",
     "price": 200,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Stoneja"]
+    "add_be_spells": ["Stoneja"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Breach Scroll",
@@ -439,14 +475,15 @@
     "icon": "content/items/scrolls/breach.png",
     "price": 250,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 70,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Breach"]
+    "add_be_spells": ["Breach"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Transmutation Scroll",
@@ -454,14 +491,15 @@
     "icon": "content/items/scrolls/transmutation.png",
     "price": 300,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 50,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Transmutation"]
+    "add_be_spells": ["Transmutation"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Rift Line Scroll",
@@ -476,7 +514,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Rift Line"]
+    "add_be_spells": ["Rift Line"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Fist of Bethel Scroll",
@@ -484,14 +523,15 @@
     "icon": "content/items/scrolls/fist_bethel.png",
     "price": 400,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 10,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Fist of Bethel"]
+    "add_be_spells": ["Fist of Bethel"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Aero Scroll",
