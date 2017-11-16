@@ -4,9 +4,9 @@
 label special_items_slime_bottle:
     scene bg h_profile with dissolve
     menu:
-        "It's an old bottle with unknown, thick liquid inside. Do you want to open it?"
+        "It's an old bottle with unknown, thick substance inside. Do you want to open it?"
         "Yes":
-            "The seal is durable, but eventually it gives up, and pressurized fluid breaks out."
+            "The seal is durable, but eventually, it gives up, and pressurized liquid is released."
             # TODO: May require adjustment for release after all systems are normalized:
             $ level = locked_random("randint", max(hero.level, 5), hero.level+6+round_int(hero.level/10))
             $ new_slime = build_rc(id="Slime", level=level, patterns=["Warrior", "Server"])
@@ -22,25 +22,27 @@ label special_items_slime_bottle:
                 "The liquid quickly took the form of a girl."
                 show expression spr at center with dissolve
                 if new_slime.status == "free":
-                    new_slime.say "Finally someone opened it! Thanks a lot!"
-                    new_slime.say "They promised me to smuggle me in the city, but something went gone wrong, and I was trapped there for months!"
+                    new_slime.say "Finally, someone opened it! Thanks a lot!"
+                    new_slime.say "They promised me to smuggle me into the city, but something must have gone wrong!"
+                    new_slime.say "I thought that I'd die in that bottle."
                     new_slime.say "All I wanted is a steady job and a roof over my head..."
                     menu:
                         "Propose to work for you":
                             new_slime.say "Gladly!"
                             $ hero.add_char(new_slime)
-                            "Looks like you have a new worker."
+                            "It looks like you have a new worker."
                         "Leave her be":
                             "Thanks again, [hero.name]."
                             hide expression spr with dissolve
                             "She leaves."
                 else:
-                    new_slime.say "Oh, hello. Are you my new owner? I was told I will be transported to a new owner inside this bottle."
+                    new_slime.say "Hello. Are you my new owner? I was stored in that bottle for transport."
                     menu:
                         "Yes":
                             new_slime.say "It's a pleasure to serve you."
+                            new_slime.say "It was very uncomfortable to be trapped in that small container for so long."
                             $ hero.add_char(new_slime)
-                            "Looks like you have a new slave."
+                            "It looks like you have a new slave."
                         "No":
                             $ new_slime.override_portrait("portrait", "sad")
                             new_slime.say "Oh, this is bad... What should I do now? I guess I'll try to find my old master then..."
@@ -49,7 +51,7 @@ label special_items_slime_bottle:
                                     $ new_slime.override_portrait("portrait", "happy")
                                     $ hero.add_char(new_slime)
                                     new_slime.say "Of course! It's a pleasure to serve you."
-                                    "Looks like you have a new slave."
+                                    "You have a new slave."
                                 "Leave her be":
                                     hide expression spr with dissolve
                                     "She leaves."
@@ -58,7 +60,7 @@ label special_items_slime_bottle:
                 "The liquid quickly took the form of a girl."
                 show expression spr at center with dissolve
                 new_slime.say "AAAAGHHHHHH!"
-                "She attack you!"
+                "She attacks you!"
 
                 $ new_slime.front_row = True
                 $ enemy_team = Team(name="Enemy Team", max_size=3)
