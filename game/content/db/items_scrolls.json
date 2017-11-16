@@ -284,7 +284,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Blizzard"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Blizzara Scroll",
@@ -300,7 +300,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Blizzara"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Blizzarga Scroll",
@@ -316,7 +316,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Blizzarga"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Blizzarja Scroll",
@@ -332,7 +332,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Blizzarja"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Ice Blast Scroll",
@@ -348,7 +348,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Ice Blast"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Zero Prism Scroll",
@@ -364,7 +364,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Zero Prism"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Ice Shards Scroll",
@@ -380,7 +380,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Ice Shards"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Hailstorm Scroll",
@@ -396,7 +396,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Hailstorm"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Ice Storm Scroll",
@@ -412,7 +412,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Ice Storm"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Stone Scroll",
@@ -692,14 +692,15 @@
     "icon": "content/items/scrolls/thunder.png",
     "price": 50,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Thunder"]
+    "add_be_spells": ["Thunder"],
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Thundara Scroll",
@@ -707,14 +708,15 @@
     "icon": "content/items/scrolls/thundara.png",
     "price": 100,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Thundara"]
+    "add_be_spells": ["Thundara"],
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Thundaga Scroll",
@@ -722,14 +724,15 @@
     "icon": "content/items/scrolls/thundaga.png",
     "price": 150,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Thundaga"]
+    "add_be_spells": ["Thundaga"],
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Thundaja Scroll",
@@ -737,14 +740,15 @@
     "icon": "content/items/scrolls/thundaja.png",
     "price": 200,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Thundaja"]
+    "add_be_spells": ["Thundaja"],
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Ion Blast Scroll",
@@ -752,14 +756,15 @@
     "icon": "content/items/scrolls/ion_blast.png",
     "price": 250,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 80,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Ion Blast"]
+    "add_be_spells": ["Ion Blast"],
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Electromagnetism Scroll",
@@ -767,14 +772,15 @@
     "icon": "content/items/scrolls/electromagnetism.png",
     "price": 300,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 60,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Electromagnetism"]
+    "add_be_spells": ["Electromagnetism"],
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Thunderstorm Scroll",
@@ -782,14 +788,15 @@
     "icon": "content/items/scrolls/thunderstorm.png",
     "price": 350,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 40,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Thunderstorm"]
+    "add_be_spells": ["Thunderstorm"],
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Ion Storm Scroll",
@@ -797,29 +804,15 @@
     "icon": "content/items/scrolls/ion_storm.png",
     "price": 400,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 20,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Ion Storm"]
-    },
-    {
-    "id": "Ion Storm Scroll",
-    "desc": "This scroll contains the arcane formula of Ion Storm spell.",
-    "icon": "content/items/scrolls/ion_storm.png",
-    "price": 400,
-    "sex": "unisex",
-    "chance": 30,
-    "badness": 80,
-    "eqchance": 40,
-    "hidden": false,
-    "infinite": false,
-    "slot": "consumable",
-    "type": "scroll",
-    "add_be_spells": ["Ion Storm"]
+    "add_be_spells": ["Ion Storm"],
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Full Discharge Scroll",
@@ -827,14 +820,15 @@
     "icon": "content/items/scrolls/full_discharge.png",
     "price": 500,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 5,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Full Discharge"]
+    "add_be_spells": ["Full Discharge"],
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Thunderstorm Front Scroll",
@@ -842,14 +836,15 @@
     "icon": "content/items/scrolls/thunderstorm_front.png",
     "price": 450,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 10,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Thunderstorm Front"]
+    "add_be_spells": ["Thunderstorm Front"],
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Holy Scroll",

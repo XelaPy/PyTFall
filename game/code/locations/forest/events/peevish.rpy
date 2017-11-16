@@ -104,6 +104,7 @@ label peevish_menu:
         p "Sure wish you weren't such a wuss..."
         extend " Now you can get the hell out of here!"
         $ global_flags.set_flag("revealed_aine_location")
+    hide peevish with dissolve
     $ global_flags.set_flag("keep_playing_music")
     jump forest_entrance
 
