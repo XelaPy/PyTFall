@@ -331,7 +331,7 @@ label shop_control:
             elif purchasing_dir == 'sell':
                 if not can_sell(focus, silent=False):
                     jump shop_control
-                elif shop != pytfall.general_store and (not shop.locations.intersection(focus.locations) or focus.type.lower() not in shop.sells):
+                elif shop != pytfall.general_store and focus.type.lower() not in shop.sells:
                     $ focus = None
                     $ renpy.say("", "This shop doesn't buy such things.")
                 else:
