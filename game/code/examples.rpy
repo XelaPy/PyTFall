@@ -115,8 +115,8 @@ label examples:
     # Narrator will just display the text. Not from a name of any particular character.
 
     "Note that all the good stuff is written as comments in examples.rpy file and you will not be able to see it from the game!"
-    "There is also a very good tutorial availible if you download Ren'Py SDK kit (less than 30 MB and does not require instalation)!"
-    "You should get SDK if you want to develop content for PyTFall. It's not really a 'MUST HAVE' but it's most definetly a should have :)'"
+    "There is also an excellent tutorial available if you download Ren'Py SDK kit (less than 30 MB and does not require installation)!"
+    "You should get SDK if you want to develop content for PyTFall. It's not a 'MUST HAVE' but it's most definitely a should have :)'"
     "There will be a great demonstration tutorial there of what the engine is capable of! This shows similar things but those that are more relevant to {color=[red]}PyTFall{/color}!"
     # {color=[red]}Text{/color} changes something about text styling! You can use a lot here... like {b}Text{/b} will write text in bold!
     # You can check all properties by googling RenPy + Text + Style + Properties
@@ -125,15 +125,15 @@ label examples:
 
     python:
         # Python code, any amount of lines.
-        # Identation is always important, no matter what script is in use.
+        # Indentation is always important, no matter what script is in use.
         # Everything in Python is an object, we can pass those objects around and assign them to anything we like.
         # Every character in the game has a predefined Character property that can be used to display text lines in characters name and auto-display characters portraits.
         # So lets define a few that we're going to work with:
         mc = hero.say # every character has a say attribute as previously stated. We can use it to define sayers quickly.
-    "We've just defined an mc (Main Character) Sayer in the file!"
+    "We've just defined Main Character Sayer in the file!"
 
     mc "Yey! Now I can talk!"
-    mc "CW's Naruto pack needs to be installed in order to proceed from this point!"
+    mc "Naruto pack needs to be installed to proceed from this point!"
 
     $ h = chars["Hinata"].say
     # char is a container (a dictionary) that holds all characters in the game. That's also made for convinience. Characters can be retrieved by girls ids we defined in their data files.
@@ -155,7 +155,7 @@ label examples:
 
     "(It makes more sense if you read the file and not just the game :) )"
 
-    "Ok... so now, once we've established talking... lets try some Sprites!"
+    "Ok... so now, once we've established talking. Let's try some Sprites!"
     "We do not use internal image tagging system that Ren'Py comes with for image tracking, that doesn't mean however that we cannot make use of default Ren'Py statements!"
 
     # So lets declare (assign) some images as well:
@@ -175,7 +175,7 @@ label examples:
         with: is used to apply transision (kinda special effect), in this example it's a dissolve.
         """
 
-    h "I am going to move to the left now! Once again, one line of code! Doesn't really get simpler than this..."
+    h "I am going to move to the left now! Once again, one line of code! It doesn't get simpler than this..."
     show expression hi at left with move
 
     h "Sakura?"
@@ -197,14 +197,14 @@ label examples:
     "It's easier than it looks... especially if you try it yourself a couple of times!"
     hide temp
 
-    "Lets shuffle them a bit!"
+    "Let's shuffle them a bit!"
     show expression hi at center with move
     show expression si at left with move
     show expression ti at right with move
 
     s "Stop doing that!"
 
-    "Well... that's it for the basics. Lets go to the good stuff!"
+    "Well... that's it for the basics. Let's get to the good stuff!"
 
     jump examples_2
     # Jump means jump to a label. It does exactly what it sounds like.
@@ -219,13 +219,13 @@ label examples_2:
 
     show bg cafe
 
-    "Cafe in the center of PyTFall!"
-    "Normally you can shop here, but for now we're just going to hang out."
+    "Café in the center of PyTFall!"
+    "Normally you can shop here, but for now, we're just going to hang out."
 
-    "Lets bring one of the girls in!"
+    "Let's bring in one of the girls!"
     show expression ti at center with dissolve
 
-    t "Lets play a simple game!"
+    t "Let's play a simple game!"
     show expression ti at right with move
 
     t "I'll think of a number from 1 to 5. You'll have to guess which one it is! "
@@ -248,8 +248,8 @@ label examples_2:
     show bg city_park with dissolve
     show expression ti at center with dissolve
 
-    t "Finally some fresh air! That black void and dusty cafe sure sucked!"
-    t "Lets see if other girls are around..."
+    t "Finally some fresh air! That black void and dusty café sure sucked!"
+    t "Let's see if other girls are still around."
     extend " SAKURA!?!?"
     extend " HINATA!?!?"
 
@@ -257,7 +257,7 @@ label examples_2:
     show expression si at right with dissolve
     s "Here we are!"
 
-    "This concludes this intro. All possibilities Ren'Py & PyTFall offer are too broad to be explained in one tutorail. There will be other soon, maybe even examples from the game itself!"
+    "This concludes this intro. All possibilities Ren'Py & PyTFall offer are too broad to be explained in one tutorial. There will be other soon, maybe even examples from the game itself!"
 
     # It is always a good idea to get rid of the variable once we're done with them:
     python:
@@ -271,7 +271,7 @@ label examples_2:
 
 
     jump mainscreen
-    # Mainscreen has it's own scene statement so it will clear sprites and backgroud we left here!
+    # Mainscreen has it's own scene statement so it will clear sprites and background we left here!
 
 label simple_numbers_game:
     $ n = randrange(1, 6)
