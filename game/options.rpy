@@ -80,7 +80,7 @@ init -5 python hide:
     renpy.config.autosave_on_choice = False
 
     # causes a really odd crash otherwise:
-    config.screenshot_callback = None
+    # config.screenshot_callback = None
 
     # Lets see if we can establish json callback:
     def simple_save_dict(some_dict):
