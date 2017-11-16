@@ -4,7 +4,6 @@ label city_park:
     python:
         # Build the actions
         if pytfall.world_actions.location("city_park"):
-            pytfall.world_actions.add("aine", "Find Aine", [Hide("city_park", transition=dissolve), Jump("aine_menu")], condition=Iff(global_flag_complex("met_aine")))
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
@@ -65,3 +64,11 @@ screen city_park():
 
                 use rg_lightbutton(img=entry.show("girlmeets", "outdoors", "nature", "urban", exclude=["swimsuit", "wildness", "indoors", "stage", "beach", "pool", "onsen", "indoor"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
                         
+    if not gm.show_girls:
+        if global_flags.has_flag("met_aine"):
+            $ img_aine_shop= ProportionalScale("content/gfx/interface/icons/aine.png", 75, 75)
+            imagebutton:
+                pos(1090, 340)
+                idle (img_aine_shop)
+                hover (im.MatrixColor(img_aine_shop, im.matrix.brightness(0.15)))
+                action [Hide("city_park"), Jump("aine_menu"), With(dissolve)]
