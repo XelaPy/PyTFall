@@ -271,7 +271,7 @@ label examples_2:
 
 
     jump mainscreen
-    # Mainscreen has it's own scene statement so it will clear sprites and backgroud we left here!
+    # Mainscreen has it's own scene statement so it will clear sprites and background we left here!
 
 label simple_numbers_game:
     $ n = randrange(1, 6)
