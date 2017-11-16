@@ -31,7 +31,7 @@ label witches_hut:
         extend " Welcome to my Potion Shop!"
         w "I am Abby, the Witch, both Cool and Wicked."
         w "You'll never know what you run into here!"
-        w "Oh! And I also know a few decent Fire and Air spells if you're interested!"
+        w "Oh, and I also know a few decent {color=[orangered]}Fire{/color} and {color=[lime]}Air{/color} spells if you're interested."
         w "Check out the best home brew in the realm"
         extend " and some other great items in stock!"
     
@@ -71,9 +71,6 @@ label witch_menu:
     
     $ w = npcs["Abby_the_witch"].say
     
-    $ witch_fire_spells = {"Fire": [3000], "Fira": [6000], "Firaga": [10000], "Firaja": [30000]}
-    $ witch_air_spells = {"Aero": [3000], "Aerora": [6000], "Aeroga": [10000], "Aeroja": [30000]}
-    
     $ loop = True
     while loop:
         menu:
@@ -81,63 +78,24 @@ label witch_menu:
             "Abby The Witch Main":
                 $ pass
             "Ask her to teach magic spells!":
-                if len(hero.team) > 1:
-                    w "Who will it be?"
-                    call screen character_pick_screen
-                    $ char = _return
-                else:
-                    $ char = hero
-                    
-                call screen magic_purchase_screen(witch_fire_spells, orange, witch_air_spells, white)
-                $ spell = _return
-                
-                if spell == "Nothing":
-                    w "Got anything else in mind?"
-                else:
-                    if hero.take_money(spell[1][0], reason="Spells"):
-                        w "Sweet!!"
-                        extend " Just stand back and relax."
-                        
-                        hide npc
-                        play sound "content/sfx/sound/events/go_for_it.mp3" fadein 1.0
-                        show expression im.Twocolor("content/gfx/images/magic.png", crimson, crimson) as magic:
-                            yalign .5 subpixel True
-                    
-                            parallel:
-                                xalign .5
-                                linear 3.0 xalign .75
-                                linear 6.0 xalign .25
-                                linear 3.0 xalign .5
-                                repeat
-                    
-                            parallel:
-                                alpha 1.0 zoom 1.0
-                                linear .75 alpha .5 zoom .9
-                                linear .75 alpha 1.0 zoom 1.0
-                                repeat
-                    
-                            parallel:
-                                rotate 0
-                                linear 5 rotate 360
-                                repeat
-                    
-                        with dissolve
-                        $ renpy.pause(3.0, hard=True)
-                        hide magic
-                        
-                        show expression npcs["Abby_the_witch"].get_vnsprite() as npc
-                        with dissolve
-                        
-                        $ spell = spell[0]
-                        $ char.magic_skills.append(spell)
-                        
-                        w "Congrats on your new skillz!"
-                        
-                        "[char.nickname] learned [spell]!!!"
-                        $ del spell
-                        
-                    else:
-                        w "Not enought cash I fear... we've all been there."
+                w "Sweet!"
+                python:
+                    witch_spells_shop = ItemShop("Witch Spells Shop", 18, ["Witch Spells Shop"], gold=5000, sells=["scroll"], sell_margin=0.25, buy_margin=5.0)
+                    focus = False
+                    item_price = 0
+                    filter = "all"
+                    amount = 1
+                    shop = pytfall.witch_spells_shop
+                    shop.inventory.apply_filter(filter)
+                    char = hero
+                    char.inventory.set_page_size(18)
+                    char.inventory.apply_filter(filter)
+                show screen shopping(left_ref=hero, right_ref=shop)
+                with dissolve
+                call shop_control
+                hide screen shopping
+                with dissolve
+                w "Let me know if you need anything else."
                         
             "Ask her to train you!":
                 if len(hero.team) > 1:

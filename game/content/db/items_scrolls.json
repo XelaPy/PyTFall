@@ -4,14 +4,15 @@
     "icon": "content/items/scrolls/fire.png",
     "price": 50,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Fire"]
+    "add_be_spells": ["Fire"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Fira Scroll",
@@ -19,14 +20,15 @@
     "icon": "content/items/scrolls/fira.png",
     "price": 100,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Fira"]
+    "add_be_spells": ["Fira"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Firaga Scroll",
@@ -34,14 +36,15 @@
     "icon": "content/items/scrolls/firaga.png",
     "price": 150,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Firaga"]
+    "add_be_spells": ["Firaga"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Firaja Scroll",
@@ -49,14 +52,15 @@
     "icon": "content/items/scrolls/firaja.png",
     "price": 200,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Firaja"]
+    "add_be_spells": ["Firaja"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Fireball Scroll",
@@ -64,14 +68,15 @@
     "icon": "content/items/scrolls/fireball.png",
     "price": 250,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 80,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Fireball"]
+    "add_be_spells": ["Fireball"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Solar Flash Scroll",
@@ -79,14 +84,15 @@
     "icon": "content/items/scrolls/solar_flash.png",
     "price": 300,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 60,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Solar Flash"]
+    "add_be_spells": ["Solar Flash"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Meteor Scroll",
@@ -94,14 +100,15 @@
     "icon": "content/items/scrolls/meteor.png",
     "price": 300,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 40,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Meteor"]
+    "add_be_spells": ["Meteor"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Flame Vortex Scroll",
@@ -109,14 +116,15 @@
     "icon": "content/items/scrolls/flame_vortex.png",
     "price": 500,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 20,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Flame Vortex"]
+    "add_be_spells": ["Flame Vortex"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Cataclysm Scroll",
@@ -124,14 +132,15 @@
     "icon": "content/items/scrolls/cataclysm.png",
     "price": 350,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 10,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Cataclysm"]
+    "add_be_spells": ["Cataclysm"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Water Scroll",
@@ -539,14 +548,15 @@
     "icon": "content/items/scrolls/aero.png",
     "price": 50,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Aero"]
+    "add_be_spells": ["Aero"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Aerora Scroll",
@@ -554,14 +564,15 @@
     "icon": "content/items/scrolls/aerora.png",
     "price": 100,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Aerora"]
+    "add_be_spells": ["Aerora"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Aeroga Scroll",
@@ -569,14 +580,15 @@
     "icon": "content/items/scrolls/aeroga.png",
     "price": 150,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Aeroga"]
+    "add_be_spells": ["Aeroga"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Aeroja Scroll",
@@ -584,14 +596,15 @@
     "icon": "content/items/scrolls/aeroja.png",
     "price": 200,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Aeroja"]
+    "add_be_spells": ["Aeroja"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Pressure Scroll",
@@ -599,14 +612,15 @@
     "icon": "content/items/scrolls/pressure.png",
     "price": 250,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 80,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Pressure"]
+    "add_be_spells": ["Pressure"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Air Blast Scroll",
@@ -614,14 +628,15 @@
     "icon": "content/items/scrolls/air_blast.png",
     "price": 300,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 60,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Air Blast"]
+    "add_be_spells": ["Air Blast"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Vortex Scroll",
@@ -629,14 +644,15 @@
     "icon": "content/items/scrolls/vortex.png",
     "price": 350,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 40,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Vortex"]
+    "add_be_spells": ["Vortex"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Tornado Scroll",
@@ -644,14 +660,15 @@
     "icon": "content/items/scrolls/tornado.png",
     "price": 400,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 10,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Tornado"]
+    "add_be_spells": ["Tornado"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Northern Flow Scroll",
@@ -659,14 +676,15 @@
     "icon": "content/items/scrolls/northern_flow.png",
     "price": 500,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 20,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Northern Flow"]
+    "add_be_spells": ["Northern Flow"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Thunder Scroll",

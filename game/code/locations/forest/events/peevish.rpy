@@ -55,7 +55,7 @@ label peevish_meeting:
     
     p "Haha, you're a lot uglier from this angle!"
     p "But you're in luck today! Since you can see me, you aren't entirely hopeless..."
-    extend " and I just happen to teach {color=[tan]}Earth{/color} nd {color=[blue]}Water{/color} magic!"
+    extend " and I just happen to teach {color=[tan]}Earth{/color} and {color=[blue]}Water{/color} magic!"
     p "Normally I wouldn't bother with a shitty pipsqueak like you, but my greatness requires a good pile of {color=[gold]}gold{/color} to become a real genuine and authentic leprechaun."
     p "I could use a rainbow too..."
     p "Well, don't expect it to be cheap!"
@@ -97,7 +97,7 @@ label peevish_menu:
     hide screen shopping
     with dissolve
     
-    p "Come back when you have more Gold!"
+    p "Come back when you have more {color=[gold]}gold{/color}!"
     if not global_flags.has_flag("revealed_aine_location"):
         p "Oh! Before I forget!"
         p "I have a goodie, goodie sis that usually hangs around the park area. She is magical too so you might not be able to see her until you train up a bit..."
