@@ -13,7 +13,7 @@ label mages_tower:
     python:
         # Build the actions
         if pytfall.world_actions.location("mages_tower"):
-            pytfall.world_actions.add("angelica", "Find Angelica", Jump("angelica_menu"), condition=Iff(global_flag_complex("met_angelica")))
+            pytfall.world_actions.add("angelica", "Find Angelica", Jump("angelica_meet"), condition=Iff(global_flag_complex("met_angelica")))
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
@@ -26,7 +26,7 @@ label mages_tower:
         $ global_flags.set_flag('visited_mages_tower')
         "Real mages, other practitioners of Arcane Arts and some plain weirdos hang around here."
         "Try not to get yourself blown up :)"
-    if not global_flags.flag("met_angella"):
+    if not global_flags.flag("met_angelica"):
         if not global_flags.flag('mt_counter'):
             $ global_flags.set_flag('mt_counter', 1)
         else:    

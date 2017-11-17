@@ -548,6 +548,52 @@ init: # Items:
 
         if autohide:
             timer autohide action Hide("quest_notifications")
+            
+    screen character_pick_screen: # screen to select someone from the MC team, TODO: could use chars names
+        hbox:
+            spacing 25
+            align (.5, .5)
+            for l in hero.team:
+                $ char_profile_img = l.show('portrait', resize=(101, 101), cache=True)
+                $ img = "content/gfx/frame/ink_box.png"
+                vbox:
+                    spacing 1
+                    xsize 102
+                    imagebutton:
+                        background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+                        idle (char_profile_img)
+                        hover (im.MatrixColor(char_profile_img, im.matrix.brightness(0.15)))
+                        action Return(l)
+                        align 0, .5
+                        xysize (102, 102)
+                    bar:
+                        right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
+                        left_bar im.Scale("content/gfx/interface/bars/hp2.png", 102, 14)
+                        value l.health
+                        range l.get_max("health")
+                        thumb None
+                        left_gutter 0
+                        right_gutter 0
+                        xysize (102, 14)
+                    bar:
+                        right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
+                        left_bar im.Scale("content/gfx/interface/bars/mp2.png", 102, 14)
+                        value l.mp
+                        range l.get_max("mp")
+                        thumb None
+                        left_gutter 0
+                        right_gutter 0
+                        xysize (102, 14)
+                    bar:
+                        right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
+                        left_bar im.Scale("content/gfx/interface/bars/vitality2.png", 102, 14)
+                        value l.vitality
+                        range l.get_max("vitality")
+                        thumb None
+                        left_gutter 0
+                        right_gutter 0
+                        xysize (102, 14)
+            
 
     screen top_stripe(show_return_button=True, return_button_action=None, show_lead_away_buttons=True, show_team_status=False):
         default tt = Tooltip("")

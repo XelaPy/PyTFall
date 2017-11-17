@@ -852,14 +852,15 @@
     "icon": "content/items/scrolls/holy.png",
     "price": 50,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Holy"]
+    "add_be_spells": ["Holy"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Holyra Scroll",
@@ -867,14 +868,15 @@
     "icon": "content/items/scrolls/holyra.png",
     "price": 100,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Holyra"]
+    "add_be_spells": ["Holyra"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Holyda Scroll",
@@ -882,14 +884,15 @@
     "icon": "content/items/scrolls/holyda.png",
     "price": 150,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Holyda"]
+    "add_be_spells": ["Holyda"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Holyja Scroll",
@@ -897,14 +900,15 @@
     "icon": "content/items/scrolls/holyja.png",
     "price": 200,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Holyja"]
+    "add_be_spells": ["Holyja"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Star Light Scroll",
@@ -912,14 +916,15 @@
     "icon": "content/items/scrolls/star_light.png",
     "price": 250,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 80,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Star Light"]
+    "add_be_spells": ["Star Light"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Photon Blade Scroll",
@@ -927,14 +932,15 @@
     "icon": "content/items/scrolls/photon_blade.png",
     "price": 300,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 60,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Photon Blade"]
+    "add_be_spells": ["Photon Blade"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Forced Dawn Scroll",
@@ -942,14 +948,15 @@
     "icon": "content/items/scrolls/forced_dawn.png",
     "price": 350,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 40,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Forced Dawn"]
+    "add_be_spells": ["Forced Dawn"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Holy Blast Scroll",
@@ -957,14 +964,15 @@
     "icon": "content/items/scrolls/holy_blast.png",
     "price": 400,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 20,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Holy Blast"]
+    "add_be_spells": ["Holy Blast"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Dark Scroll",
@@ -972,14 +980,15 @@
     "icon": "content/items/scrolls/dark.png",
     "price": 50,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Dark"]
+    "add_be_spells": ["Dark"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Darkra Scroll",
@@ -987,14 +996,15 @@
     "icon": "content/items/scrolls/darkra.png",
     "price": 100,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Darkra"]
+    "add_be_spells": ["Darkra"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Darkga Scroll",
@@ -1002,14 +1012,15 @@
     "icon": "content/items/scrolls/darkga.png",
     "price": 150,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Darkga"]
+    "add_be_spells": ["Darkga"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Darkja Scroll",
@@ -1017,14 +1028,15 @@
     "icon": "content/items/scrolls/darkja.png",
     "price": 200,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 100,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
-    "infinite": false,
+    "infinite": true,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Darkja"]
+    "add_be_spells": ["Darkja"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Eternal Gluttony Scroll",
@@ -1032,14 +1044,15 @@
     "icon": "content/items/scrolls/eternal_gluttony.png",
     "price": 250,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 80,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Eternal Gluttony"]
+    "add_be_spells": ["Eternal Gluttony"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Black Hole Scroll",
@@ -1047,44 +1060,47 @@
     "icon": "content/items/scrolls/black_hole.png",
     "price": 300,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 60,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Black Hole"]
+    "add_be_spells": ["Black Hole"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Dominion Scroll",
     "desc": "This scroll contains the arcane formula of Dominion spell.",
     "icon": "content/items/scrolls/dominion.png",
-    "price": 350,
+    "price": 500,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 20,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Dominion"]
+    "add_be_spells": ["Dominion"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Other Light Scroll",
     "desc": "This scroll contains the arcane formula of Other Light spell.",
     "icon": "content/items/scrolls/other_light.png",
-    "price": 500,
+    "price": 350,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 40,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Other Light"]
+    "add_be_spells": ["Other Light"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Life Wind Scroll",
