@@ -76,6 +76,9 @@ label angelica_add_alignment:
         $ character = _return
     else:
         $ character = hero
+    if not character:
+        a "Ok then."
+        jump angelica_menu
         
     $ elements = list(el for el in traits.values() if el.elemental and el != traits["Neutral"] and el not in character.traits)
     if len(elements) <= 0:
@@ -106,6 +109,9 @@ label angelica_remove_alignment:
         $ character = _return
     else:
         $ character = hero
+    if not character:
+        a "Ok then."
+        jump angelica_menu
         
     if not "Neutral" in character.traits:
         call screen alignment_removal_choice(character)

@@ -549,51 +549,78 @@ init: # Items:
         if autohide:
             timer autohide action Hide("quest_notifications")
             
-    screen character_pick_screen: # screen to select someone from the MC team, TODO: could use chars names
-        hbox:
-            spacing 25
+    screen character_pick_screen: # screen to select someone from the MC team
+        key "mousedown_3" action Return(False)
+        frame:
             align (.5, .5)
-            for l in hero.team:
-                $ char_profile_img = l.show('portrait', resize=(101, 101), cache=True)
-                $ img = "content/gfx/frame/ink_box.png"
-                vbox:
-                    spacing 1
-                    xsize 102
-                    imagebutton:
-                        background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-                        idle (char_profile_img)
-                        hover (im.MatrixColor(char_profile_img, im.matrix.brightness(0.15)))
-                        action Return(l)
-                        align 0, .5
-                        xysize (102, 102)
-                    bar:
-                        right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
-                        left_bar im.Scale("content/gfx/interface/bars/hp2.png", 102, 14)
-                        value l.health
-                        range l.get_max("health")
-                        thumb None
-                        left_gutter 0
-                        right_gutter 0
-                        xysize (102, 14)
-                    bar:
-                        right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
-                        left_bar im.Scale("content/gfx/interface/bars/mp2.png", 102, 14)
-                        value l.mp
-                        range l.get_max("mp")
-                        thumb None
-                        left_gutter 0
-                        right_gutter 0
-                        xysize (102, 14)
-                    bar:
-                        right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
-                        left_bar im.Scale("content/gfx/interface/bars/vitality2.png", 102, 14)
-                        value l.vitality
-                        range l.get_max("vitality")
-                        thumb None
-                        left_gutter 0
-                        right_gutter 0
-                        xysize (102, 14)
-            
+            xsize 450
+            ysize 310
+            padding(2, 2)
+            background Frame("content/gfx/frame/frame_dec_1.png")
+            label "Select a character" align (0.5, 0.08) text_color "#DAA520" text_size 18 
+            hbox:
+                spacing 45
+                align (.5, .4)
+                for l in hero.team:
+                    $ char_profile_img = l.show('portrait', resize=(101, 101), cache=True)
+                    $ img = "content/gfx/frame/ink_box.png"
+                    vbox:
+                        spacing 1
+                        xsize 102
+                        imagebutton:
+                            xalign .5
+                            background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+                            idle (char_profile_img)
+                            hover (im.MatrixColor(char_profile_img, im.matrix.brightness(0.15)))
+                            action Return(l)
+                            xysize (102, 102)
+                        bar:
+                            xalign .5
+                            right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
+                            left_bar im.Scale("content/gfx/interface/bars/hp2.png", 102, 14)
+                            value l.health
+                            range l.get_max("health")
+                            thumb None
+                            left_gutter 0
+                            right_gutter 0
+                            xysize (102, 14)
+                        bar:
+                            xalign .5
+                            right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
+                            left_bar im.Scale("content/gfx/interface/bars/mp2.png", 102, 14)
+                            value l.mp
+                            range l.get_max("mp")
+                            thumb None
+                            left_gutter 0
+                            right_gutter 0
+                            xysize (102, 14)
+                        bar:
+                            xalign .5
+                            right_bar im.Scale("content/gfx/interface/bars/empty_bar2.png", 102, 14)
+                            left_bar im.Scale("content/gfx/interface/bars/vitality2.png", 102, 14)
+                            value l.vitality
+                            range l.get_max("vitality")
+                            thumb None
+                            left_gutter 0
+                            right_gutter 0
+                            xysize (102, 14)
+                        frame:
+                            xalign .5
+                            xsize 102
+                            ysize 30
+                            padding(2, 2)
+                            background Frame("content/gfx/frame/gm_frame.png")
+                            $ name = l.name[:8]
+                            label "[name]" align (0.5, 0.5) text_color "#DAA520" text_size 16 
+                            
+            vbox:
+                style_group "wood"
+                align (.5, 0.9)
+                button:
+                    xysize (102, 40)
+                    yalign 0.5
+                    action Return(False)
+                    text "Cancel" size 15 color goldenrod
 
     screen top_stripe(show_return_button=True, return_button_action=None, show_lead_away_buttons=True, show_team_status=False):
         default tt = Tooltip("")
