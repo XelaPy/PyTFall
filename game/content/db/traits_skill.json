@@ -106,5 +106,12 @@
     "character_trait": true,
     "client": false,
     "market": false
+    },
+    {
+    "id": "Abby Training",
+    "desc": "Every turn this character spends 1 AP to increase magic stats. Speak to Abby to disable it.",
+    "character_trait": true,
+    "client": false,
+    "market": false
     }
     ]

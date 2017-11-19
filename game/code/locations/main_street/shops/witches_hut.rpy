@@ -1,6 +1,4 @@
 label witches_hut:
-    
-    # Music related:
     if not "shops" in ilists.world_music:
         $ ilists.world_music["shops"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("shops")]
     if not global_flags.has_flag("keep_playing_music"):
@@ -87,6 +85,54 @@ label witches_hut_shopping_spells:
     w "Let me know if you need anything else."
     jump witch_menu
 
+label witch_training:
+    if not global_flags.has_flag("witches_training_explained"):
+        w "I will train magic, intelligence and restore some MP."
+        w "I can also guarantee you agility will go up if you pay attention in class!"
+        extend " That however does not often happen for reasons unknown..."
+        w "Yeap! I am That good!"
+        $ global_flags.set_flag("witches_training_explained")
+    else:
+        w "You know the deal!"
+        
+    if len(hero.team) > 1:
+        call screen character_pick_screen
+        $ char = _return
+    else:
+        $ char = hero
+        
+    if not char:
+        jump witch_menu
+    $ loop = True
+    
+    while loop:
+        menu:
+            "About training sessions":
+                "You can arrange for daily training sessions at cost of 1 AP and 500 gold pare day, plus 500 gold per 5 levels."
+                "It will be automatically terminated if you lack the gold to continue."
+                "Sessions can be arranged with multiple trainers at the same day. But you'd be running a risk of not leaving AP to do anything else."
+            "About Abby training":
+                w "I will train magic, intelligence and restore some MP."
+                w "I can also guarantee you agility will go up if you pay attention in class!"
+                extend " That however does not often happen for reasons unknown..."
+                w "Yeap! I am That good!"
+            "{color=[green]}Setup sessions for [char.name]{/color}" if not char.has_flag("train_with_witch"):
+                $ char.set_flag("train_with_witch")
+                $ char.apply_trait(traits["Abby Training"])
+                $ training_price = char.get_training_price()
+                w "I will take [training_price] gold per day. Be sure to use my training only on wicked stuff!"
+            "{color=[red]}Cancel sessions for [char.name]{/color}" if char.flag("train_with_witch"):
+                $ char.del_flag("train_with_witch")
+                $ char.remove_trait(traits["Abby Training"])
+                w "Maybe next time then?"
+            "Pick another character" if len(hero.team) > 1:
+                call screen character_pick_screen
+                if _return:
+                    $ char = _return
+            "Do Nothing":
+                $ loop = False
+    jump witch_menu
+    
 label witch_talking_menu:
     $ loop = True
     while loop:
@@ -94,68 +140,11 @@ label witch_talking_menu:
             w "What do you want?"
             "Abby The Witch Main":
                 $ pass
-            "Ask her to train you": # TODO: NPCs training will need some upgrades
-                if len(hero.team) > 1:
-                    w "Who gets a lesson from a wicked witch today?"
-                    call screen character_pick_screen
-                    $ char = _return
-                else:
-                    $ char = hero
-                    
-                if not global_flags.has_flag("witches_training_explained"):    
-                    w "I will train magic, intelligence and restore some MP."
-                    w "I can also guarantee you agility will go up if you pay attention in class!"
-                    extend " That however does not often happen for reasons unknown..."
-                    w "It will cost you 1000 (+1000 per 5 levels) Gold per training session"
-                    extend " and the effects will be instantenious!"
-                    w "Yeap! I am That good!"
-                    $ global_flags.set_flag("witches_training_explained")
-                else:
-                    w "You know the deal!"
-                    
-                $ training_price = char.get_training_price()    
-                menu:
-                    "Pay [training_price] Gold" if hero.AP > 0:
-                        if hero.take_money(training_price, "Training"):
-                            $ char.AP -= 1
-                            $ char.auto_training("train_with_witch")
-                            w "All done! Be sure to use your new powers only on wicked stuff! :)"
-                        else:
-                            w "Errr, you can't really pay me, can you?"
-                            w "Maybe next time then?"
-                        
-                    "Maybe next time...":
-                        $ pass
-                $ del training_price
-
-            "Schedule training sessions":
-                if not global_flags.has_flag("training_sessions_explained"):
-                    "Here you can arrange for daily training sessions at cost of 1AP and 1000 (+1000 per 5 levels) Gold per day."
-                    "This will be automatically terminated if you lack the gold to continue."
-                    "Sessions can be arranged with multiple trainers at the same day"
-                    extend " however you'd be running a risk of not leaving AP to do anything else!"
-                    $ global_flags.set_flag("training_sessions_explained")
-                
-                if len(hero.team) > 1:
-                    "Pick a character!"
-                    call screen character_pick_screen
-                    $ char = _return
-                else:
-                    $ char = hero
-                    
-                menu:
-                    "Setup sessions" if not char.has_flag("train_with_witch"):
-                        $ char.set_flag("train_with_witch")
-                    "Cancel sessions" if char.flag("train_with_witch"):
-                        $ char.del_flag("train_with_witch")
-                    "Do Nothing...":
-                        $ pass
             "Nevermind":
                 $ loop = False
             "Leave the shop":
                 $ loop = False
                 jump forest_entrance
-                
     jump witch_menu
 
 screen witch_shop:
@@ -179,6 +168,11 @@ screen witch_shop:
                 yalign 0.5
                 action [Hide("witch_shop"), Jump("witches_hut_shopping_spells")]
                 text "Spells" size 15
+            button:
+                xysize (150, 40)
+                yalign 0.5
+                action [Hide("witch_shop"), Jump("witch_training")]
+                text "Training" size 15
             button:
                 xysize (150, 40)
                 yalign 0.5

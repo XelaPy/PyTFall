@@ -170,7 +170,7 @@ label find_xeona:
     jump xeona_menu
     
 label xeona_training:
-    if not global_flags.has_flag("xeona_training_explained"):    
+    if not global_flags.has_flag("xeona_training_explained"):
         ax "I train battle skills."
         ax "Don't expect to learn any magic, but I can teach you how to fight on level with any silly mage!"
         ax "Due to my the nature of training, there is always a chance of your constitution increasing as well."
