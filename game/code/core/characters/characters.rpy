@@ -4012,6 +4012,7 @@ init -9 python:
                     else:
                        txt +=  "\nNot enought funds to train with Aine. Auto-Training will be disabled!"
                        self.del_flag("train_with_aine")
+                       self.remove_trait(traits["Aine Training"])
                 else:
                     txt += "\nNot enough AP left in reserve to train with Aine. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
 
@@ -4764,7 +4765,7 @@ init -9 python:
                                 else:
                                     txt +=  "\nNot enought funds to train with Aine. Auto-Training will be disabled!"
                                     self.del_flag("train_with_aine")
-
+                                    self.remove_trait(traits["Aine Training"])
                             else:
                                 txt += "\nNot enough AP left in reserve to train with Aine. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
 

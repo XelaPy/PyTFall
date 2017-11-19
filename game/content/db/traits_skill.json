@@ -113,5 +113,12 @@
     "character_trait": true,
     "client": false,
     "market": false
+    },
+    {
+    "id": "Aine Training",
+    "desc": "Every turn this character spends 1 AP to increase social stats. Speak to Aine to disable it.",
+    "character_trait": true,
+    "client": false,
+    "market": false
     }
     ]
