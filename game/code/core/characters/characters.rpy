@@ -2289,7 +2289,7 @@ init -9 python:
             self.exp += self.adjust_exp(randint(20, max(25, self.luck)))
 
             if kind == "train_with_witch":
-                self.magic += randint(1, 2)
+                self.magic += randint(1, 3)
                 self.intelligence += randint(1, 2)
                 self.mp += randint(7, 15)
 
@@ -2297,25 +2297,25 @@ init -9 python:
                     self.agility += 1
 
             if kind == "train_with_aine":
-                self.charisma += randint(1, 2)
-                self.vitality += randint(40, 100)
+                self.charisma += randint(1, 3)
+                self.vitality += randint(10, 20)
                 if dice(max(10, self.luck)):
                     self.reputation += 1
                     self.fame += 1
-                if dice(0.5 + self.luck*0.05):
+                if dice(1 + self.luck*0.05):
                     self.luck += randint(1, 2)
 
             if kind == "train_with_xeona":
-                self.attack += 1
-                self.defence += 1
+                self.attack += randint(1, 2)
+                self.defence += randint(1, 2)
                 if dice(50):
                     self.agility += 1
-                    self.health += randint(10, 20)
+                self.health += randint(10, 20)
                 if dice(25 + max(5, int(self.luck/3))):
                     self.constitution += randint(1, 2)
 
         def get_training_price(self):
-            return 1000 + 1000 * (self.level/5)
+            return 500 + 500 * (self.level/5)
 
         # Logging and updating daily stats change on next day:
         def log_stats(self):
@@ -4023,6 +4023,7 @@ init -9 python:
                     else:
                        txt +=  "\nNot enought funds to train with Xeona. Auto-Training will be disabled!"
                        self.del_flag("train_with_xeona")
+                       self.remove_trait(traits["Xeona Training"])
                 else:
                     txt += "\nNot enough AP left in reserve to train with Xeona. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
             return txt
@@ -4775,6 +4776,7 @@ init -9 python:
 
                                 else:
                                     txt +=  "\nNot enought funds to train with Xeona. Auto-Training will be disabled!"
+                                    self.remove_trait(traits["Xeona Training"])
                                     self.del_flag("train_with_xeona")
 
                             else:

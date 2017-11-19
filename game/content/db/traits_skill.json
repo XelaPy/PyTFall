@@ -99,5 +99,12 @@
     "character_trait": true,
     "client": true,
     "market": true
+    },
+    {
+    "id": "Xeona Training",
+    "desc": "Every turn this character spends 1 AP to increase combat stats. Speak to Xeona to disable it.",
+    "character_trait": true,
+    "client": false,
+    "market": false
     }
     ]
