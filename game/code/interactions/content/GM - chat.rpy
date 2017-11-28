@@ -35,7 +35,7 @@ label interactions_smalltalk:
         else:
             $ narrator(choice(["It's all a little bit stiff.", "There's some reservation though...", "It's hard to find common ground.", "But it was somewhat forced."]))
     else:
-        $ narrator(choice(["Looks like there's a good amount of mistrust between you.", "But it was difficult for both of you.", "Sadly, [char.p] was not very interested in chatting with you.", "It was clearly uncomfortable for [char.op] to speak to you.", "[char.pC] was suspicious of you the entire time and never let [char.op] guard down."]))
+        $ narrator(choice(["It looks like there's a good amount of mistrust between you.", "But it was difficult for both of you.", "Sadly, [char.p] was not very interested in chatting with you.", "It was clearly uncomfortable for [char.op] to speak to you.", "[char.pC] was suspicious of you the entire time and never let [char.op] guard down."]))
     if char.disposition <= -250:
         $ char.disposition += randint(1, 3)
     if char.disposition <= 0:
@@ -571,7 +571,7 @@ label interactions_interests:
                 $ char.disposition += randint(2, 6)
         $ line = rts(char, {
         "Exhibitionist": ["[char.pC] tells you pretty hot stories about [char.op] exhibitionistic adventures in a local park."],
-        "Athletic": ["You discuss beach volleyball which became quite popular among local girls lately.", "You discuss places for swimming. Looks like most girls prefer beaches to pools because it's free."],
+        "Athletic": ["You discuss beach volleyball which became quite popular among local girls lately.", "You discuss places for swimming. It looks like most girls prefer beaches to pools because it's free."],
         "Manly": ["[char.pC] gives you a lecture on how to build your muscles properly. You feel a bit offended, but keep your cool.", "[char.pC] casually remarks that you should exercise more often, and gives you some advice."],
         "Chubby": ["You have a lively discussion about your favourite local bakeries and pastry shops.", "Your conversation turns toward cooking, and [char.p] shares some of her recipes. They are all pretty high in calories..."],
         "Slim": ["You compliment [char.op] figure, and the conversation quickly turns toward healthy lifestyle. Ugh.", "[char.pC] brags about [char.op] metabolism, allowing [char.op] to eat sweets and not get fat. You envy her."],
@@ -582,7 +582,7 @@ label interactions_interests:
         "Lolita": ["[char.pC] complains about how hard it is to find adult clothes for [char.op] figure. You're trying to take [char.op] away from this sensitive topic.", "[char.pC] tells you funny stories about disappointed (and imprisoned) paedophiles confused by [char.op] body size. What a strange topic."],
         "Strange Eyes": ["[char.pC] notices how you look at [char.op] unusual eyes. Embarrassed, [char.p] refuses to look at you or discuss anything."],
         "Great Arse": ["You try to keep it to small talk, trying not to think about [char.op] gorgeous butt and what would you do if you were behind [char.op]."],
-        "Long Legs": ["During your small conversation you can't help but glance at [char.op] long legs. Looks like [char.p] is used to it and doesn't care much."],
+        "Long Legs": ["During your small conversation you can't help but glance at [char.op] long legs. It looks like [char.p] is used to it and doesn't care much."],
         "Abnormally Large Boobs": ["You vaguely remember your conversation, paying most of your attention to [char.op] amazing chest.", "[char.pC] complains about high costs for the purchase of new bra. It appears that the fabric is not strong enough to withstand such loads. Without knowing what reaction [char.p] expected, you keep your poker face."],
         "Big Boobs": ["[char.pC] complains how a big chest spoils the posture. You sympathize with [char.op], very convincingly and almost sincerely."],
         "Small Boobs": ["[char.pC] starts a conversation about irrelevance of chest size. You carefully assent, trying to not piss [char.op] off."],
@@ -596,17 +596,17 @@ label interactions_interests:
         "Darkness": ["Your conversation turns to magic, and [char.p] enthusiastically tells you the intricacies of dealing with the power of darkness."],
         "Nerd": ["You discuss new books in local stores and libraries.", "Somehow your conversation comes to board games, and [char.p] enthusiastically explains to you the intricate rules of one of them."],
         "Psychic": ["It's difficult to participate in the conversation when your interlocutor knows your words in advance. [char.pC] seems to enjoy teasing you, however.", "[char.pC] complains about headaches, dizziness and other neural disorders that are common for psychics."],
-        "Optimist": ["Looks like [char.p] is in a good mood. Laughing and joking during your conversation, [char.p] quickly turns it into a humorous one.", "You exchange your freshest anecdotes."],
-        "Pessimist": ["Looks like [char.p]'s not in the mood. Your conversation is pretty gloomy, though you managed to cheer [char.op] up a bit."],
+        "Optimist": ["It looks like [char.p] is in a good mood. Laughing and joking during your conversation, [char.p] quickly turns it into a humorous one.", "You exchange your freshest anecdotes."],
+        "Pessimist": ["It looks like [char.p]'s not in the mood. Your conversation is pretty gloomy, though you managed to cheer [char.op] up a bit."],
         "Serious": ["You have a very serious conversation about local politics and taxes. You feel squeezed like a lemon.", "[char.pC] gives you a lecture about the importance of planning for the future. You heroically hold back a yawn."],
         "Extremely Jealous": ["[char.pC] inquires about your relationships with other girls. You carefully dispel [char.op] concern, trying not to make definitive statements."],
         "Virtuous": ["[char.pC] tells about [char.op] volunteer work. It's nice, but a bit boring."],
         "Vicious": ["[char.pC] gossips with obvious pleasure about [char.op] acquaintance's misfortunes."],
-        "Dawdler": ["You have a lazy, indolent discussion. Looks like [char.p]'s half asleep.", "[char.pC] pensively tells you about [char.op] recent dreams. You begin to feel drowsy."],
+        "Dawdler": ["You have a lazy, indolent discussion. It looks like [char.p]'s half asleep.", "[char.pC] pensively tells you about [char.op] recent dreams. You begin to feel drowsy."],
         "Clumsy": ["You talk about misfortunes caused by [char.op] clumsiness. You heroically hold back a smile and comfort [char.op] instead."],
         "Nymphomaniac": ["An innocent conversation turns into the discussion about sexual positions. [char.pC]'s really into this stuff.", "[char.pC] passionately talks about [char.op] recent sexual adventures. Wow."],
         "Heavy Drinker": ["You discuss various types of alcohol, sharing your drinking experience."],
-        "Always Hungry": ["You talk about food for some time. Looks like [char.p] can continue it for hours, so you carefully interrupt the conversation."],
+        "Always Hungry": ["You talk about food for some time. It looks like [char.p] can continue it for hours, so you carefully interrupt the conversation."],
         "Curious": ["You exchange the latest news and gossip. [char.pC] really knows a lot about it."],
         "cgo('Warrior')": ["You discuss the recent fights at the arena and their participants.", "You discuss a variety of fighting styles."],
         "cgo('Caster')": ["[char.pC] enthusiastically talks about mysteries of arcane arts.", "You discuss [char.op] magical studies."],

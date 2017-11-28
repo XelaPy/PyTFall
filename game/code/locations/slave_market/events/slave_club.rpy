@@ -5,9 +5,9 @@ init python:
             image = 'content/events/slave_club/' + fname
             renpy.image(tag, ProportionalScale(image, config.screen_width,
                         config.screen_height))
-            
+
     register_event("smc_1", locations=["slave_market_club"], priority=100, start_day=5, dice=100, max_runs=1, trigger_type="auto")
-    
+
 label smc_1(event):
     $ g = npcs["Blue_slavemarket"].say
     show expression npcs["Blue_slavemarket"].get_vnsprite() as blue at right
@@ -31,7 +31,7 @@ label smc_1(event):
             pause 0.2
             "..."
             return
-            
+
     show smc power_on
     with dissolve
     play events "events/machine_up.mp3"
@@ -42,11 +42,11 @@ label smc_1(event):
     show smc getting_bored
     with dissolve
     play events2 "female/uhm.mp3"
-    g "But what is this? Looks like she's getting bored! I've trained her well and something this simple isn't much of a challenge at all!"
+    g "But what is this? It looks like she's getting bored! I've trained her well and something this simple isn't much of a challenge at all!"
     g "So... let us try another setting?!"
     menu:
         g "[hero.name]?"
-        "Increase the speed on the console!":
+        "Increase the speed of the console!":
             $ pass
     show smc speed_up
     with dissolve
@@ -56,7 +56,7 @@ label smc_1(event):
     with dissolve
     g "She sure looks like she's enjoying this!"
     g "Yet... we got to make the girl cum, don't we?"
-    g "And she's one of my personal project so she wont go down this easily!"
+    g "And she's one of my personal projects so she won't go down this easily!"
     menu:
         g "Would you mind?"
         "Push it all the way!":
@@ -94,5 +94,3 @@ label smc_1(event):
     g "I could bet you my whip that sales will go over the roof today even without that damn weasel!"
     g "Well, see you around and remember that this is the best quality Slave Market in the town!"
     return
-    
-        

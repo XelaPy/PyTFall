@@ -3,17 +3,17 @@ label witches_hut:
         $ ilists.world_music["shops"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("shops")]
     if not global_flags.has_flag("keep_playing_music"):
         play world choice(ilists.world_music["shops"]) fadein 1.5
-    
+
     hide screen forest_entrance
-    
+
     scene bg witches_hut
     with dissolve
-    
+
     show expression npcs["Abby_the_witch"].get_vnsprite() as npc
     with dissolve
-    
+
     $ w = npcs["Abby_the_witch"].say
-    
+
     if global_flags.flag('visited_witches_hut'):
         w "Welcome Back!"
     else:
@@ -25,16 +25,16 @@ label witches_hut:
         $ w = npcs["Abby_the_witch"].say
         w "Oh, and I also know a few decent {color=[orangered]}Fire{/color} and {color=[lime]}Air{/color} spells if you're interested."
         w "Check out the best home brew in the realm and some other great items in stock!"
-    
+
     $ pytfall.world_quests.run_quests("auto")
-    $ pytfall.world_events.run_events("auto") 
+    $ pytfall.world_events.run_events("auto")
 
 label witch_menu:
     show screen witch_shop
     with dissolve
     while 1:
         $ result = ui.interact()
-    
+
 label witches_hut_shopping:
     w "Sweet!"
     python:
@@ -50,16 +50,16 @@ label witches_hut_shopping:
         char.inventory.apply_filter(filter)
 
     show screen shopping(left_ref=hero, right_ref=shop)
-    
+
     with dissolve
     call shop_control
-                    
+
     $ global_flags.del_flag("keep_playing_music")
     hide screen shopping
     with dissolve
     w "Let me know if you need anything else."
     jump witch_menu
-    
+
 label witches_hut_shopping_spells:
     w "Sweet!"
     python:
@@ -76,9 +76,9 @@ label witches_hut_shopping_spells:
 
     show screen shopping(left_ref=hero, right_ref=shop)
     with dissolve
-    $ pytfall.world_events.run_events("auto") 
+    $ pytfall.world_events.run_events("auto")
     call shop_control
-                    
+
     $ global_flags.del_flag("keep_playing_music")
     hide screen shopping
     with dissolve
@@ -94,21 +94,21 @@ label witch_training:
         $ global_flags.set_flag("witches_training_explained")
     else:
         w "You know the deal!"
-        
+
     if len(hero.team) > 1:
         call screen character_pick_screen
         $ char = _return
     else:
         $ char = hero
-        
+
     if not char:
         jump witch_menu
     $ loop = True
-    
+
     while loop:
         menu:
             "About training sessions":
-                "You can arrange for daily training sessions at cost of 1 AP and 500 gold pare day, plus 500 gold per 5 levels."
+                "You can arrange for daily training sessions at the cost of 1 AP and 500 gold pare day, plus 500 gold per 5 levels."
                 "It will be automatically terminated if you lack the gold to continue."
                 "Sessions can be arranged with multiple trainers at the same day. But you'd be running a risk of not leaving AP to do anything else."
             "About Abby training":
@@ -132,7 +132,7 @@ label witch_training:
             "Do Nothing":
                 $ loop = False
     jump witch_menu
-    
+
 label witch_talking_menu:
     $ loop = True
     while loop:

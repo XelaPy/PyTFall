@@ -5,7 +5,7 @@ label forest_dark:
         # Build the actions
         if pytfall.world_actions.location("forest_entrance"):
             pytfall.world_actions.finish()
-    
+
 label forest_dark_continue:
     if forest_bg_change:
         $ background_number_list = list(i for i in range(1, 7) if i != background_number)
@@ -22,15 +22,15 @@ label forest_dark_continue:
     if not global_flags.has_flag("keep_playing_music"):
         play world choice(ilists.world_music["forest_entrance"])
     $ global_flags.del_flag("keep_playing_music")
-    
+
     if not hero.flag('visited_deep_forest'):
         $ hero.set_flag('visited_deep_forest')
         $ block_say = True
         "You step away from the city walls and go deep into the forest. It's not safe here, better to be on guard."
         $ block_say = False
-    
+
     show screen city_dark_forest
-    
+
     while 1:
         $ result = ui.interact()
         if result in hero.team:
@@ -41,7 +41,7 @@ label forest_dark_continue:
             $ forest_bg_change = False
             hide screen city_dark_forest
             jump char_equip
-            
+
 screen city_dark_forest():
     use top_stripe(False, None, False, True)
     frame:
@@ -69,13 +69,13 @@ screen city_dark_forest():
                 yalign 0.5
                 action [Hide("city_dark_forest"), Jump("forest_entrance"), With(dissolve)]
                 text "Leave" size 15
-                
+
 label city_dark_forest_explore:
     if not(take_team_ap(1)):
         if len(hero.team) > 1:
-            "Unfortunately your team is too tired at the moment. Maybe another time."
+            "Unfortunately, your team is too tired at the moment. Maybe another time."
         else:
-            "Unfortunately you are too tired at the moment. Maybe another time."
+            "Unfortunately, you are too tired at the moment. Maybe another time."
         $ global_flags.set_flag("keep_playing_music")
         jump forest_dark_continue
     else:
@@ -88,7 +88,7 @@ label city_dark_forest_explore:
         else:
             $ hero.set_flag("dark_forest_met_bandits", value=day)
             jump city_dark_forest_hideout
-    
+
 label city_dark_forest_rest:
     $ hero.set_flag("dark_forest_rested_today", value=day)
     $ forest_bg_change = False
@@ -103,7 +103,7 @@ label city_dark_forest_rest:
             i.health += int(i.get_max("health")*0.05)
             i.mp += int(i.get_max("mp")*0.2)
     jump forest_dark_continue
-    
+
 label city_dark_forest_hideout:
     hide screen city_dark_forest
     scene bg forest_hideout
@@ -111,9 +111,9 @@ label city_dark_forest_hideout:
     $ forest_bg_change = False
     menu:
         "You found bandits hideout inside an old abandoned castle."
-        
+
         "Attack them":
-            "You carefully approach the hideout when a group of bandits attack you."
+            "You carefully approach the hideout when a group of bandits attacks you."
         "Leave them be":
             show screen city_dark_forest
             $ global_flags.set_flag("keep_playing_music")
@@ -132,7 +132,7 @@ label city_dark_forest_hideout:
     show screen city_dark_forest
     scene bg forest_hideout
     with dissolve
-    "After killing all the bandits you found stash with loot."
+    "After killing all bandits, you found stash with loot."
     call give_to_mc_item_reward(type="loot", price=300)
     if locked_dice(50):
         call give_to_mc_item_reward(type="loot", price=300)
@@ -179,7 +179,7 @@ label city_dark_forest_fight:
                 mob.controller = Complex_BE_AI(mob)
                 enemy_team.add(mob)
     elif mob == "were":
-        "A hungry shapeshifters want a piece of you."
+        "Hungry shapeshifters want a piece of you."
         python:
             for i in range(randint(2, 3)):
                 mob_id = choice(["Werecat", "Werewolf", "Weregirl"])
@@ -187,7 +187,7 @@ label city_dark_forest_fight:
                 mob.controller = Complex_BE_AI(mob)
                 enemy_team.add(mob)
     elif mob == "harpy":
-        "A flock of wild harpies attempts to protects their territory."
+        "A flock of wild harpies attempts to protect their territory."
         python:
             for i in range(randint(2, 3)):
                 mob_id = choice(["Harpy", "Vixen"])
@@ -262,7 +262,7 @@ label city_dark_forest_fight:
         jump forest_dark_continue
     else:
         jump game_over
-        
+
 label dark_forest_girl_meet:
     $ hero.set_flag("dark_forest_met_girl", value=day)
     $ choices = list(i for i in chars.values() if i.location == "city" and i not in hero.chars and not i.arena_active and i not in gm.get_all_girls()) #TODO: will we even have arena_active eventually?
@@ -285,7 +285,7 @@ label dark_forest_girl_meet:
         $ character.hide_portrait_overlay()
         $ global_flags.set_flag("keep_playing_music")
         jump forest_dark_continue
-        
+
 label city_dark_forest_river:
     play world "forest_lake.ogg"
     $ global_flags.set_flag("keep_playing_music")
@@ -293,7 +293,7 @@ label city_dark_forest_river:
     $ forest_bg_change = False
     scene bg forest_lake
     with dissolve
-    "You found a river. Fresh clean water restores some of your vitality."
+    "You found a river. Fresh, clean water restores some of your vitality."
     python:
         for i in hero.team:
             i.vitality += int(i.get_max("vitality")*0.5)

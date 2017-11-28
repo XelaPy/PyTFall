@@ -46,7 +46,7 @@ screen city_tavern_show_status(d_1, d_2): # additional screen, shows all info re
                 else:
                     text (" ") xalign 0.98 style "stats_value_text" color gold
                 xalign 0.5
-                
+
     frame:
         xalign 0.5
         yalign 0.05
@@ -88,11 +88,11 @@ label city_tavern_play_dice: # starting the dice game
     elif hero.gold < city_tavern_dice_bet:
         "Sadly, you don't have enough money to make a bet."
         jump city_tavern_menu
-        
+
     hide drunkards with dissolve
     $ city_tavern_current_dice_bet = city_tavern_dice_bet # current bet may increase after every victory
-    
-    
+
+
 label city_tavern_play_dice_another_round: # additional rounds continue from here
     $ player_passed = False # becomes true once player passed, after that he cannot throw dices any longer
     $ ai_passed = False # same for the opponent
@@ -115,7 +115,7 @@ label city_tavern_play_show_dice:
     pause 0.4
     $ d_1 = sum(dice_1) # we use separate values to delay calculation and thus numbers update until dices alt is finished
     $ d_2 = sum(dice_2)
-    show screen city_tavern_show_status(d_1, d_2) 
+    show screen city_tavern_show_status(d_1, d_2)
     with dissolve
     if sum(dice_1) == 21:
         $ ai_passed = True
@@ -147,7 +147,7 @@ label city_tavern_play_show_dice:
         else:
             if hero.gold >= city_tavern_current_dice_bet*2:
                 menu:
-                    "You won! You can take your money right now or double your bet if you feeling lucky."
+                    "You won! You can take your money right now or double your bet if you are feeling lucky."
                     "Take the money":
                         $ hero.add_money(city_tavern_current_dice_bet, reason="Tavern")
                     "Double the bet":
@@ -166,7 +166,7 @@ label city_tavern_play_show_dice:
         show screen city_tavern_dicing()
         while 1:
             $ result = ui.interact()
-            
+
 label city_tavern_throw_dice:
     if not(player_passed):
         $ dice_2.append(throw_a_normal_dice())
@@ -206,7 +206,7 @@ screen city_tavern_dicing(): # dice game controls menu
                 yalign 0.5
                 action [Jump("city_tavern_dices_give_up")]
                 text "Give up" size 15
-                
+
 label city_tavern_dices_give_up:
     $ hero.take_money(city_tavern_current_dice_bet, reason="Tavern")
     hide screen city_tavern_dicing

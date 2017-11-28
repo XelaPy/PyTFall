@@ -406,7 +406,7 @@ label interactions_after_good_sex: # after very good sex
     elif ct("Tsundere"):
         $ rc("I-I was... C-cute? ...S-Shut up! One more word and I'll kill you!", "You made me cum so many times, it's kind of frustrating...", "Hu-hmph! Don't get a big head just 'cause you did it right once!", "H-hmph! Just because you're a little good doesn't make you the best in the world!", "I-it's not like you've got good technique or anything! Don't get so full of yourself!")
     elif ct("Dandere"):
-        $ rc("If you do it like that, anyone would go crazy...", "Mn... You did good...", "...Looks like we're a good match.", "We're quite compatible, you and I." "I came way too many times... Haa...", "D-do I also have such a shameful erotic face?", "Whew... I came so much... I surprised myself...")
+        $ rc("If you do it like that, anyone would go crazy...", "Mn... You did good...", "...It looks like we're a good match.", "We're quite compatible, you and I." "I came way too many times... Haa...", "D-do I also have such a shameful erotic face?", "Whew... I came so much... I surprised myself...")
     elif ct("Kuudere"):
         $ rc("You're really good... I came right away...", "...Please don't look at me. At least for now.", "Yeah, I knew you were the type who gets things done.", "Wh-what? Y-you know just where I like it...?", "Uuu... It did feel amazing... but... I thought you were gonna rip me apart...")
     elif ct("Imouto"):
@@ -649,7 +649,7 @@ label interactions_seen_mast_propose:
 label interactions_seen_mast:
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
-        $ rc("What is it? I want to get back to what I was doing...", "Looks like I've been caught touching myself.")
+        $ rc("What is it? I want to get back to what I was doing...", "It looks like I've been caught touching myself.")
     elif ct("Shy"):
         $ rc("Hyah!? I-I'm sorry! I'll wipe it off right away...!", "I-I... what an embarrassing thing to do...")
     elif ct("Imouto"):

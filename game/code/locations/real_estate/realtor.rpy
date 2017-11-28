@@ -20,12 +20,12 @@ label realtor_agency:
 
         $ nvl_ra = Character(None, kind=nvl)
         nvl_ra "After entering the real-estate office the first thing that hit you was the brightness."
-        nvl_ra "It was far brighter then the outside world. Your eyes quickly adapted and you noticed the source of the light."
+        nvl_ra "It was far brighter than the outside world. Your eyes quickly adapted and you noticed the source of the light."
         nvl_ra "This medium size room, without windows, probably was a part of a bigger apartment, have been highly illuminated with a large chandelier, hanging from the ceiling over the central part of the room and a standing lamp near the desk."
         nvl_ra "On the left side, there were two couches opposing each other separated with a coffee table."
         extend " On the right side, there was a cupboard and a door that probably leading further inside the house."
         nvl_ra "In the middle, under the chandelier was standing a desk with a single chair. There were also multiple painting hanging on the walls."
-        nvl_ra "But that all have been showed into the background when you noticed the owner."
+        nvl_ra "But that all escaped your mind the moment you noticed the owner."
         nvl_ra "She was a mature type woman with glasses, that surely wasn't ashamed of her female attributes."
         nvl_ra "Blouse and skirt that she wore was well fitted, and stick really tightly to her body emphasizing her breasts and hips."
         nvl_ra "The black stockings that she was wearing also matched her perfectly, underlining her beautiful legs. The finishing touch was her shoes with little, cute roses on the toes, that you almost didn't notice."
@@ -39,7 +39,7 @@ label realtor_agency:
         $ global_flags.set_flag("visited_ra")
 
     else:
-        "Room is still bright and filled with the same sweet scent."
+        "The room is still bright and filled with the same sweet scent."
         show expression npcs["Rose_estate"].get_vnsprite() as rose
 
 

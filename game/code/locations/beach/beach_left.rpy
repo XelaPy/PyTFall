@@ -7,34 +7,34 @@ label city_beach_left:
     if not global_flags.has_flag("keep_playing_music"):
         play world choice(ilists.world_music["beach_main"])
     $ global_flags.del_flag("keep_playing_music")
-    
+
     python:
         # Build the actions
         if pytfall.world_actions.location("city_beach_left"):
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
-    
+
     scene bg city_beach_left
     show screen city_beach_left
-    
+
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
-        
+
     while 1:
 
         $ result = ui.interact()
 
         if result[0] == 'jump':
             $ gm.start_gm(result[1])
-        
+
         if result[0] == 'control':
             if result[1] == 'return':
                 $ global_flags.set_flag("keep_playing_music")
                 hide screen city_beach_left
                 jump city_beach
-                
-                
+
+
 screen city_beach_left():
 
     use top_stripe(True)
@@ -46,44 +46,44 @@ screen city_beach_left():
             idle (img)
             hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
             action [Hide("city_beach_left"), Jump("city_beach_cafe_main")]
-            
+
         $img = im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80)
         imagebutton:
             align (0.99, 0.5)
             idle (img)
             hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-            action [Hide("city_beach_left"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_beach")]    
-        
+            action [Hide("city_beach_left"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_beach")]
+
         $ img_beach_fish = ProportionalScale("content/gfx/interface/icons/beach_fishing.png", 90, 90)
         imagebutton:
             pos(960, 400)
             idle (img_beach_fish)
             hover (im.MatrixColor(img_beach_fish, im.matrix.brightness(0.15)))
             action [Hide("city_beach_left"), Jump("fishing_logic"), With(dissolve)]
-            
-            
+
+
         $ img_beach_swim = ProportionalScale("content/gfx/interface/icons/beach_resting.png", 90, 90)
         imagebutton:
             pos(400, 545)
             idle (img_beach_swim)
             hover (im.MatrixColor(img_beach_swim, im.matrix.brightness(0.15)))
             action [Hide("city_beach_left"), Jump("city_beach_rest")]
-    
+
     use location_actions("city_beach_left")
-    
+
     if gm.show_girls:
-    
+
         add "content/gfx/images/bg_gradient.png" yalign 0.45
-        
+
         $ j = 0
-            
+
         for entry in gm.display_girls():
             hbox:
                 align (coords[j])
                 $ j += 1
                 if not entry.flag("beach_left_tags") or entry.flag("beach_left_tags")[0] < day:
-                    $beach_left_tags_list = []  
-                    # main set                        
+                    $beach_left_tags_list = []
+                    # main set
                     if entry.has_image("girlmeets","beach"):
                         $beach_left_tags_list.append(("girlmeets","beach"))
                     if entry.has_image("girlmeets","swimsuit","simple bg"):
@@ -95,14 +95,14 @@ screen city_beach_left():
                         if entry.has_image("girlmeets","outdoors"):
                             $beach_left_tags_list.append(("girlmeets","outdoors"))
                         if entry.has_image("girlmeets","simple bg"):
-                            $beach_left_tags_list.append(("girlmeets","simple bg"))    
-                    # giveup  
+                            $beach_left_tags_list.append(("girlmeets","simple bg"))
+                    # giveup
                     if not beach_left_tags_list:
-                        $beach_left_tags_list.append(("girlmeets"))   
-                
+                        $beach_left_tags_list.append(("girlmeets"))
+
                     $ entry.set_flag("beach_left_tags", (day, choice(beach_left_tags_list)))
-            
-                use rg_lightbutton(img=entry.show(*entry.flag("beach_left_tags")[1], exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
+
+                use rg_lightbutton(img=entry.show(*entry.flag("beach_left_tags")[1], exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
 
 screen city_beach_fishing():
     frame:
@@ -137,14 +137,14 @@ screen city_beach_fishing():
                 action [Hide("swimmong_pool_swim"), Show("swimming_pool"), With(dissolve)]
                 text "Leave" size 15
 
-                
+
 label city_beach_rest:
     show bg beach_rest with dissolve
     if hero.flag("rest_at_beach") == day:
         "You already relaxed at the beach today. Doing it again will lead to sunburns."
         jump city_beach_left
     $ hero.set_flag("rest_at_beach", value=day)
-    
+
     python:
         picture = []
         if len(hero.team) > 1:
@@ -167,39 +167,39 @@ label city_beach_rest:
                         picture.append(member.show("swimsuit", "simple bg", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
                     elif member.has_image("swimsuit", "no bg", exclude=["sex", "stripping"]):
                         picture.append(member.show("swimsuit", "simple bg", exclude=["sex", "stripping"], type="reduce", resize=(600, 600)))
-                        
+
     if len(picture) == 1:
         show expression picture[0] at truecenter as temp1
-        with dissolve 
+        with dissolve
     elif len(picture) == 2:
         show expression picture[0] at center_left as temp1
         show expression picture[1] at center_right as temp2
         with dissolve
-        
+
     if len(hero.team) > 1:
         "You're relaxing at the beach with your team."
     else:
         "You're relaxing at the beach."
-        
+
     $ members = list(x for x in hero.team if (x != hero and x.effects['Horny']['active'] and (check_lovers(x, hero) or x.disposition >= 500) and interactions_silent_check_for_bad_stuff(x)))
     if members:
-        $ char = choice(members) 
+        $ char = choice(members)
         hide temp1
         hide temp2
         # Further goes example of running sex scene from anywhere, DO NOT DELETE until it will be implemented elsewhere
         # $ sex_scene_location = "beach"
         # $ interactions_run_gm_anywhere(char, exit="city_beach_left", background="beach_rest", custom=True)
-        
+
         # # Setup all the required globals:
         # python:
             # picture_before_sex = False
             # sex_scene_location = "beach"
-        
+
         # hide temp1
         # hide temp2
         # show screen girl_interactions
         # with dissolve
-        
+
         # jump interactions_sex_scene_begins
 
         show expression member.show("sex", "beach", exclude=["2c anal", "2c vaginal", "gay", "living", "group", "pool", "stage", "dungeon", "onsen"], type="reduce", resize=(600, 600)) at truecenter with dissolve
@@ -207,14 +207,14 @@ label city_beach_rest:
         $ member.sex += 1
         $ hero.sex += 1
         $ member.disposition += 3
-    
+
     python:
-        for member in hero.team:        
+        for member in hero.team:
             member.vitality += randint(10, 15)
             if member != hero:
                 member.disposition += 1
     jump city_beach_left
-                
+
 label fishing_logic_mor_dialogue:
     $ m = npcs["Mor"].say
     show expression npcs["Mor"].get_vnsprite() as npc
@@ -224,7 +224,7 @@ label fishing_logic_mor_dialogue:
         "Fishing Requests" if pytfall.world_quests.check_stage("Fishery") != 1:
             if hero.flag("mor_fish_quest") != day: # no more than one quest per day
                 if hero.get_skill("fishing") < 10:
-                    m "Yeah, I have special requests sometimes, but you need learn something about fishing for a start. Practice a bit, ok?"
+                    m "Yeah, I have special requests sometimes, but you need to learn something about fishing for a start. Practice a bit, ok?"
                     jump Mor_dialogue_usual
                 else:
                     if hero.flag("mor_fish_dice") != day: # no rerolling quest after asking again at the same day
@@ -258,7 +258,7 @@ label fishing_logic_mor_dialogue:
             jump Mor_dialogue_usual
         "Ask about fishing":
             m "Oh, it's very simple. You only need a fishing rod and good eyes."
-            m "Of course you also can try diving to find something good in the water, but trust me, it won't be easy."
+            m "Of course, you also can try diving to find something good in the water, but trust me, it won't be easy."
             jump Mor_dialogue_usual
         "Ask about fishing skill":
             m "Your catch is as good as your fishing skills. Practice makes perfect, so be sure to fish a lot if want something valuable!"
@@ -274,18 +274,18 @@ label fishing_logic_mor_dialogue:
         "That's all for now":
             m "Okey, buy!"
             hide npc with dissolve
-            
+
 label fishing_logic:
     # during fishing itself only practical part of skill could be improved; theoretical part will be available via items and asking fishermen in tavern
     $ m = npcs["Mor"].say
     scene bg fishing_bg with dissolve
-    
+
     if not global_flags.flag('visited_fish_city_beach'):
         $ create_quest("Fishery")
         show expression npcs["Mor"].get_vnsprite() as npc
         with dissolve
         "A small boy fishes on the pier. Noticing you, he puts his fishing rod on the ground and approaches."
-        m "Hey there, stranger! Looks like it's your first time here. Would you like to buy a Fishing Pole?"
+        m "Hey there, stranger! It looks like it's your first time here. Would you like to buy a Fishing Pole?"
         m "We offer a discount for newbies, so it's only 250 coins!"
         menu Mor_dialogue:
             "Who are you?":
@@ -302,14 +302,14 @@ label fishing_logic:
         hide npc with dissolve
     menu:
         "What do you want to do?"
-        
+
         "Find Mor":
             jump fishing_logic_mor_dialogue
         "Try Fishing (-1 AP)":
             $ pass
         "Nothing":
             jump city_beach_left
-            
+
     if not has_items("Fishing Pole", [hero]):
         "You don't have a fishing rode at the moment. Try to get one from local shops."
         jump city_beach_left
@@ -335,9 +335,9 @@ label fishing_logic:
                     $ fishing_attempts = 5
                 "Don't use baits":
                     $ fishing_attempts = 2
-                    
+
         $ hero.AP -= 1
-        
+
         while fishing_attempts > 0:
             $ fishing_attempts -= 1
             python:
@@ -355,7 +355,7 @@ label fishing_logic:
                 else:
                     $ hero.add_item(item)
                     $ our_image = ProportionalScale(item.icon, 150, 150)
-                
+
                 show expression our_image at truecenter with dissolve
                 $ hero.say("I caught %s!" % item.id)
                 hide expression our_image with dissolve

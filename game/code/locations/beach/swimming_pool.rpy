@@ -5,7 +5,7 @@ label swimming_pool:
     if not global_flags.has_flag("keep_playing_music"):
         play world choice(ilists.world_music["swimming_pool"])
     $ global_flags.del_flag("keep_playing_music")
-    
+
     python:
         if pytfall.world_actions.location("swimming_pool"):
             pytfall.world_actions.meet_girls()
@@ -13,7 +13,7 @@ label swimming_pool:
             pytfall.world_actions.finish()
     scene bg swimming_pool
     with dissolve
-   
+
     if not global_flags.flag('visited_swimming_pool'):
         $ global_flags.set_flag('visited_swimming_pool')
         $ block_say = True
@@ -29,16 +29,16 @@ label swimming_pool:
     $ pytfall.world_events.run_events("auto")
     while 1:
         $ result = ui.interact()
-        
+
         if result[0] == 'jump':
             $ gm.start_gm(result[1])
-        
+
         if result[0] == 'control':
             if result[1] == 'return':
                 hide screen swimming_pool
                 jump city_beach
-                
-                
+
+
 screen swimming_pool():
     use top_stripe(True)
 
@@ -48,7 +48,7 @@ screen swimming_pool():
         idle (img)
         hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
         action [Hide("swimming_pool"), Jump("city_beach")]
-    
+
     use location_actions("swimming_pool")
     $ img_swim_pool = ProportionalScale("content/gfx/interface/icons/sp_swimming.png", 90, 90)
     imagebutton:
@@ -56,18 +56,18 @@ screen swimming_pool():
         idle (img_swim_pool)
         hover (im.MatrixColor(img_swim_pool, im.matrix.brightness(0.15)))
         action [Hide("swimming_pool"), Show("swimmong_pool_swim"), With(dissolve)]
-    
+
     if gm.show_girls:
-    
+
         add "content/gfx/images/bg_gradient.png" yalign 0.45
-        
+
         hbox:
             align(0.5, 0.3)
             spacing 70
-            
+
             for entry in gm.display_girls():
-                use rg_lightbutton(img=entry.show("sfw", "swimsuit", "pool", exclude=["beach"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry]) 
-                
+                use rg_lightbutton(img=entry.show("sfw", "swimsuit", "pool", exclude=["beach"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+
 screen swimmong_pool_swim():
     frame:
         xalign 0.95
@@ -100,7 +100,7 @@ screen swimmong_pool_swim():
                 yalign 0.5
                 action [Hide("swimmong_pool_swim"), Show("swimming_pool"), With(dissolve)]
                 text "Leave" size 15
-                
+
 label single_swim_pool:
     if hero.vitality < 20 or hero.AP <= 0:
         "You are too tired at the moment."
@@ -114,7 +114,7 @@ label single_swim_pool:
     else:
         "You don't have enough gold."
     jump swimming_pool
-    
+
 label instructor_swim_pool:
     if hero.vitality < 20 or hero.AP <= 0:
         "You are too tired at the moment."
@@ -128,15 +128,15 @@ label instructor_swim_pool:
     else:
         "You don't have enough gold."
     jump swimming_pool
-        
+
 label hero_swimming_pool_skill_checks:
     $ hero.AP -= 1
     if hero.get_skill("swimming") < 20:
         if locked_dice(60):
-            "You barely stay afloat. Clearly more practice is needed."
+            "You barely stay afloat. Clearly, more practice is needed."
             $ hero.swimming += randint(1,2)
         else:
-            "You barely stay afloat. At some point you lose you cool and start drowning, but the swimming instructor immediately come to your aid."
+            "You can barely stay afloat. After a while, you lose your cool and start drowning, but the swimming instructor immediately comes to your aid."
             $ hero.swimming += 1
             $ hero.health -= 5
         $ hero.vitality -= randint (25, 35)
@@ -156,7 +156,7 @@ label hero_swimming_pool_skill_checks:
         $ hero.mod_stat("constitution", 1)
         "Swimming was good for you, you became a bit more enduring."
     return
-    
+
 label instructor_swimming_pool_skill_checks:
     $ hero.AP -= 1
     if hero.get_skill("swimming") < 20:

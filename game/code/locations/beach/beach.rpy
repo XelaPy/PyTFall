@@ -1,7 +1,7 @@
 label city_beach:
     $ gm.enter_location(goodtraits=["Energetic", "Exhibitionist"], badtraits=["Scars", "Undead", "Furry", "Monster", "Not Human"], curious_priority=False)
     $ coords = [[.14, .65], [.42, .6], [.85, .45]]
-        
+
     # Music related:
     if not "beach_main" in ilists.world_music:
         $ ilists.world_music["beach_main"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("beach_main")]
@@ -24,8 +24,8 @@ label city_beach:
         $ global_flags.set_flag('visited_city_beach')
         $ block_say = True
         "Welcome to the beach!"
-        "Sand, sun and girls in bikinis, what else did you expect?"
-        "Oh, we might have a kraken hiding somewhere as well :)"
+        "Sand, sun, and girls in bikinis, what else did you expect?"
+        "Oh, we might have a Kraken hiding somewhere as well :)"
         $ block_say = False
 
     $ pytfall.world_quests.run_quests("auto")
@@ -122,8 +122,8 @@ label city_beach_swimming_checks:
     if not global_flags.flag('swam_city_beach'):
         $ global_flags.set_flag('swam_city_beach')
         $ hero.set_flag("constitution_bonus_from_swimming_at_beach", value=0)
-        "The water is quite warm all year round, but it can be pretty dangerous for a novice swimmers due to big waves and sea monsters."
-        "Those who are not confident in their abilities prefer the local swimming pool, although it's not free unlike the sea."
+        "The water is quite warm all year round, but it can be pretty dangerous for novice swimmers due to big waves and sea monsters."
+        "Those who are not confident in their abilities prefer the local swimming pool, although it's not free, unlike the sea."
         "In general, the swimming skill will increase faster in the ocean, unless you drown immediately due to low skill."
         scene bg open_sea
         with dissolve
@@ -161,19 +161,19 @@ label hero_ocean_skill_checks:
                     jump city_beach_monsters_fight
     if hero.get_skill("swimming") < 50:
         if locked_dice(50):
-            $ narrator ("You trying to swim, but strong tide keeps you away {color=[red]}(no bonus to swimming skill this time){/color}.")
+            $ narrator ("You try to swim, but strong tide keeps you away {color=[red]}(no bonus to swimming skill this time){/color}.")
         else:
             scene bg ocean_underwater with dissolve
-            "Waves are pretty big today. You trying to fight them, but they quickly win, sending you under the water."
+            "Waves are pretty big today. You try fighting them, but quickly lose, pulling you under the water."
             $ narrator ("Nearly drowned, you get out of the ocean {color=[red]}(-25% health){/color}.")
             $ hero.health -= int(hero.get_max("health")*0.25) # we don't allow MC to do it unless his health is more than 50%, so it's fine to take 25% due to low skill
             $ hero.swimming += randint(1, 2)
         $ hero.vitality -= randint (40, 50)
     elif hero.get_skill("swimming") < 100:
-        "You trying to swim, but rapid underwater currents make it very difficult for a novice swimmer."
+        "You try to swim, but rapid underwater currents make it very difficult for a novice swimmer."
         if locked_dice(30):
             scene bg ocean_underwater with dissolve
-            "Waves are pretty big today. You trying to fight them, but they win, sending you under the water."
+            "Waves are pretty big today. You try to fight them, but they win, sending you under the water."
             $ narrator ("Nearly drowned, you get out of the ocean {color=[red]}(-20% health){/color}.")
             $ hero.health -= int(hero.get_max("health")*0.2)
         $ hero.swimming += randint(3, 5)
@@ -182,7 +182,7 @@ label hero_ocean_skill_checks:
         "You cautiously swim in the ocean, trying to stay close to the shore just in case."
         if locked_dice(10):
             scene bg ocean_underwater with dissolve
-            "Waves are pretty big today. You trying to fight them, but eventually they win, sending you under the water."
+            "Waves are pretty big today. You try to fight them, but eventually, they win, sending you under the water."
             $ narrator ("Nearly drowned, you get out of the ocean {color=[red]}(-15% health){/color}.")
             $ hero.health -= int(hero.get_max("health")*0.15)
         $ hero.swimming += randint(4, 8)
@@ -276,7 +276,7 @@ label city_beach_diving_checks:
     while hero.vitality > 10:
         if not renpy.get_screen("diving_progress_bar"):
             hide screen hidden_area
-            "You've ran out of air! (health -10)"
+            "You've run out of air! (health -10)"
             $ hero.health -= 10
             jump city_beach
 
@@ -287,7 +287,7 @@ label city_beach_diving_checks:
 
         if result == "All out of Air!":
             hide screen hidden_area
-            "You've ran out of air! {color=[red]}(health -10)"
+            "You've run out of air! {color=[red]}(health -10)"
             $ hero.health -= 10
             jump city_beach
         elif result == "Swim Out":

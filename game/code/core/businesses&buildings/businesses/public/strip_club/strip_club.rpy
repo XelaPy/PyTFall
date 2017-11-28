@@ -141,7 +141,7 @@ init -5 python:
             max_clients = 5 # Come up with a good way to figure out how many clients a worker can serve!
             tips = 0 # Tips the worker is going to get!
 
-            while worker.AP and self.res.count: # TODO Looks like a fail close to the end of env.now?
+            while worker.AP and self.res.count: # TODO It looks like a fail close to the end of env.now?
                 yield self.env.timeout(self.time) # This is a single shift a worker can take for cost of 1 AP.
 
                 # Account for clients that left...

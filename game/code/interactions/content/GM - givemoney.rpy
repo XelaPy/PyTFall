@@ -4,15 +4,15 @@ label interactions_giftmoney:
     else:
         "You already did it recently, she does not want to abuse your generosity."
         jump girl_interactions
-        
+
     $ temp = renpy.input("You proposed to help her with money. You have {} G.".format(hero.gold), allow="1234567890")
-        
+
     if not temp:
         "You changed your mind."
         jump girl_interactions
     else:
         $ temp = int(temp)
-            
+
     if temp == 0:
         "You changed your mind."
         $ del temp
@@ -31,7 +31,7 @@ label interactions_giftmoney:
         $ char.add_money(temp, reason="Charity")
         "You gave her [temp] G."
         if round(char.gold/temp) <= 1:
-            "She enthusiastically accepts money. Looks like it's a huge sum for her."
+            "She enthusiastically accepts money. It looks like it's a considerable sum for her."
             $ a = 20
             $ b = 50
             $ hero.exp += randint(10, 20)
@@ -84,7 +84,7 @@ label interactions_askmoney:
                 $ char.disposition -= randint (20, 40)
                 $ del temp
         else:
-            "But looks like she needs money more than you."
+            "But it looks like she needs money more than you."
             call interactions_girl_is_too_poor_to_give_money
             $ char.disposition -= randint (10, 20)
             jump girl_interactions
@@ -92,8 +92,8 @@ label interactions_askmoney:
         "But she doesn't know you well enough yet."
         $ interactions_girl_disp_is_too_low_to_give_money()
         $ char.disposition -= randint (5, 15)
-    jump girl_interactions    
-    
+    jump girl_interactions
+
 label interactions_give_money:
     python:
         try:
@@ -111,7 +111,7 @@ label interactions_give_money:
     else:
         "You don't have that amount of gold."
     jump girl_interactions
-    
+
 label interactions_take_money:
     python:
         try:
@@ -158,7 +158,7 @@ label interactions_not_enough_gold:
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
     return
-    
+
 label interactions_enough_gold:
     $ char.override_portrait("portrait", "happy")
     $ char.show_portrait_overlay("note", "reset")
@@ -187,7 +187,7 @@ label interactions_enough_gold:
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
     return
-    
+
 label interactions_recently_gave_money:
     $ char.override_portrait("portrait", "indifferent")
     $ char.show_portrait_overlay("sweat", "reset")
@@ -216,7 +216,7 @@ label interactions_recently_gave_money:
     $ char.hide_portrait_overlay()
     $ char.restore_portrait()
     return
-    
+
 label interactions_girl_is_too_poor_to_give_money:
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
@@ -243,7 +243,7 @@ label interactions_girl_is_too_poor_to_give_money:
         $ rc("I cannot help you, sorry. Maybe another time.")
     $ char.restore_portrait()
     return
-    
+
 init python:
     def interactions_girl_disp_is_too_low_to_give_money(): # also used for refusing to give access to items
         char.override_portrait("portrait", "indifferent")
@@ -271,7 +271,7 @@ init python:
             rc("I think this is not a good idea.", "Why should I do it?")
         char.restore_portrait()
         return
-    
+
     def interactions_character_doesnt_want_bad_item():
         char.override_portrait("portrait", "indifferent")
         char.show_portrait_overlay("sweat", "reset")
@@ -300,7 +300,7 @@ init python:
         char.hide_portrait_overlay()
         char.restore_portrait()
         return
-        
+
     def interactions_character_doesnt_want_to_equip_item():
         char.override_portrait("portrait", "indifferent")
         if ct("Impersonal"):

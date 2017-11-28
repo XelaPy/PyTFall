@@ -1,6 +1,6 @@
 label interactions_clever:
     if (day - char.flag("gm_praise_day")) > 0 or char.flag("gm_praise_day") == 0:
-        "You trying to compliment her intelligence."
+        "You are trying to compliment her intelligence."
         $ interactions_check_for_bad_stuff(char)
         $ char.set_flag("gm_praise_day", value=day)
         $ inter_praise = 0
@@ -9,7 +9,7 @@ label interactions_clever:
         $ int_differ = mean - char.intelligence
         if int_differ >= 0:
             $ inter_praise += 1
-      
+
         $ characters = [hero, char]
         $ char_with_the_highest_stat = max(characters, key=attrgetter("intelligence")) # we check who has higher stat
         if char_with_the_highest_stat != char:
@@ -19,7 +19,7 @@ label interactions_clever:
         $ stat_with_min_value = min(statsmore.iteritems(), key=itemgetter(1))[0] # we check if the stat is a min stat
         if stat_with_min_value == "intelligence":
             $ inter_praise += 1
-            
+
         $ del stats
         $ del mean
         $ del int_differ
@@ -27,9 +27,9 @@ label interactions_clever:
         $ del char_with_the_highest_stat
         $ del statsmore
         $ del stat_with_min_value
-        
+
         if inter_praise == 3:
-            "She looks very happy."
+            "She looks excited."
             $ hero.exp += randint(1, 10)
         elif inter_praise == 2:
             "She looks happy."
@@ -59,10 +59,10 @@ label interactions_clever:
         "You already complimented her recently, so she's not impressed."
         call praise_nope
         jump girl_interactions
-        
+
 label interactions_strong:
     if (day - char.flag("gm_praise_day")) > 0 or char.flag("gm_praise_day") == 0:
-        "You trying to compliment her physique."
+        "You are trying to compliment her physique."
         $ interactions_check_for_bad_stuff(char)
         $ char.set_flag("gm_praise_day", value=day)
         $ inter_praise = 0
@@ -71,7 +71,7 @@ label interactions_strong:
         $ int_differ = mean - char.constitution
         if int_differ >= 0:
             $ inter_praise += 1
-      
+
         $ characters = [hero, char]
         $ char_with_the_highest_stat = max(characters, key=attrgetter("constitution")) # we check who has higher stat
         if char_with_the_highest_stat != char:
@@ -81,7 +81,7 @@ label interactions_strong:
         $ stat_with_min_value = min(statsmore.iteritems(), key=itemgetter(1))[0] # we check if the stat is a min stat
         if stat_with_min_value == "constitution":
             $ inter_praise += 1
-            
+
         $ del stats
         $ del mean
         $ del int_differ
@@ -91,7 +91,7 @@ label interactions_strong:
         $ del stat_with_min_value
 
         if inter_praise == 3:
-            "She looks very happy."
+            "She looks pleased.."
             $ hero.exp += randint(1, 10)
         elif inter_praise == 2:
             "She looks happy"
@@ -102,7 +102,7 @@ label interactions_strong:
             "She's not impressed at all."
             call praise_nope
             jump girl_interactions
-            
+
         if char.disposition < 250:
             if char.character*2 > hero.get_skill("refinement"): # refinement tries to overcome character's stubbornness
                 $ char.disposition += (randint (5, 10))*inter_praise
@@ -124,7 +124,7 @@ label interactions_strong:
         jump girl_interactions
 label interactions_cute:
     if (day - char.flag("gm_praise_day")) > 0 or char.flag("gm_praise_day") == 0:
-        "You trying to compliment her appearance."
+        "You are trying to compliment her appearance."
         $ interactions_check_for_bad_stuff(char)
         $ char.set_flag("gm_praise_day", value=day)
         $ inter_praise = 0
@@ -133,7 +133,7 @@ label interactions_cute:
         $ int_differ = mean - char.charisma
         if int_differ >= 0:
             $ inter_praise += 1
-      
+
         $ characters = [hero, char]
         $ char_with_the_highest_stat = max(characters, key=attrgetter("charisma")) # we check who has higher stat
         if char_with_the_highest_stat != char:
@@ -151,7 +151,7 @@ label interactions_cute:
         $ del char_with_the_highest_stat
         $ del statsmore
         $ del stat_with_min_value
-            
+
         if inter_praise == 3:
             "She looks very happy."
             $ hero.exp += randint(1, 10)
@@ -176,7 +176,7 @@ label interactions_cute:
                 $ char.joy += randint (10, 20)
             else:
                 $ char.joy += randint (15, 20)
-        
+
         call praise_yes
         $ del inter_praise
         jump girl_interactions
@@ -184,9 +184,9 @@ label interactions_cute:
         "You already complimented her recently, so she's not impressed."
         call praise_nope
         jump girl_interactions
-        
-label praise_nope:     
-    $ char.override_portrait("portrait", "indifferent") 
+
+label praise_nope:
+    $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
         $ rc("Does that usually work?", "Bigmouth.", "...What do you want?", "...You talk too much.", "<[char.pC] completely ignores you>", "...and?")
     elif ct("Shy") and dice(50):
@@ -211,9 +211,9 @@ label praise_nope:
         $ rc("Sorry, not interested.", "How many girls have you said that to today?", "...I'm sorry, did you say something?", "That doesn't sound sincere at all.", "You don't have to say things you don't mean.", "Too bad. I'm not going to fall for that.", "What is it? I don't get what you mean.", "Well... guess so. <unimpressed>", "You don't sound as if you mean it.")
     $ char.restore_portrait()
     return
-    
+
 label praise_yes:
-    $ char.override_portrait("portrait", "happy") 
+    $ char.override_portrait("portrait", "happy")
     if ct("Impersonal"):
         $ rc("There's no need to state the obvious.", "I... see. *[char.p] looks happier than before*", "I thank you.")
     elif ct("Shy") and dice(30):
@@ -273,13 +273,12 @@ label praise_yes:
     #    elif ct("Kuudere"):
     #        $ rc("...Perv.", "Shut up. That's disgusting.")
     #    elif ct("Bokukko"):
-    #        $ rc("D-don't stare! It's totally embarrassing...", "Wh-why are you looking at me with such perverted eyes...")    
+    #        $ rc("D-don't stare! It's totally embarrassing...", "Wh-why are you looking at me with such perverted eyes...")
     #    elif ct("Ane"):
     #        $ rc("That's no good, you'll dampen the mood like that.")
     #    elif ct("Dandere"):
     #        $ rc("...Pervert.", "Weirdo...", "...annoying.", "...Shut up.", "Not for you.")
     #    else:
-    #        $ rc("What are you looking at, you idiot.", "I'll shut that annoying mouth of yours, physically.", "That was really kinky.", "What? Stop staring.", "*sigh*... Okay, that's enough...", "That was a bit over the top for a compliment.", "What are you saying, geez!", "Get lost, pervert!", "Hey, look at my eyes not my chest. OK?", "You're annoying...")    
-    #       
+    #        $ rc("What are you looking at, you idiot.", "I'll shut that annoying mouth of yours, physically.", "That was really kinky.", "What? Stop staring.", "*sigh*... Okay, that's enough...", "That was a bit over the top for a compliment.", "What are you saying, geez!", "Get lost, pervert!", "Hey, look at my eyes not my chest. OK?", "You're annoying...")
+    #
     #jump girl_interactions
-    

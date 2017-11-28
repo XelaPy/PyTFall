@@ -91,7 +91,7 @@ init -5 python:
                     log.append("Every customer wants different things, which is quite confusing for psychics like %s when so many people watching her." % worker.name)
                     effectiveness -= 20
                 elif trait == "Manly":
-                    log.append("Looks like %s is a bit too muscular for this job, intimidating some customers." % worker.name)
+                    log.append("It looks like %s is a bit too muscular for this job, intimidating some customers." % worker.name)
                     effectiveness -= 25
                 elif trait == "Artificial Body":
                     log.append("Sadly, customers figured out that her body is a construct and booed %s off the stage." % worker.name)

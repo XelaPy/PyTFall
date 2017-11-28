@@ -134,7 +134,7 @@ label interactions_kiss:
             $ rc("I'm afraid I must inform you of your utter lack of common sense. Hmph!", "You are so... disgusting!", "You pervy little scamp! Not in a million years!")
         elif ct("Kuudere"):
             $ char.override_portrait("portrait", "angry")
-            $ rc("...Perv. Stay away from me, got it?", "...Looks like I'll have to teach you about this little thing called reality.", "O-of course the answer is no!")
+            $ rc("...Perv. Stay away from me, got it?", "...It looks like I'll have to teach you about this little thing called reality.", "O-of course the answer is no!")
         elif ct("Kamidere"):
             $ char.override_portrait("portrait", "angry")
             $ rc("Wh-who do you think you are!?", "W-what? Of course I'm against that!", "The meaning of 'not knowing your place' must be referring to this, eh...?")

@@ -2,7 +2,7 @@
 label city_tavern_play_poker: # additional rounds continue from here
     if not global_flags.flag('played_poker_in_tavern'):
         $ global_flags.set_flag('played_poker_in_tavern')
-        "The goal of the game is to get a better hand than opponent. The best hand is all five dice showing the same value, and the worst scoring one is one pair. In case of draw wins the one with higher overall dice value. Optionally, after initial throw you and your opponent can choose one dice to throw again in hopes to get a better hand."
+        "The goal of the game is to get a better hand than the opponent. The best hand is all five dice showing the same value, and the worst scoring one is one pair. In case of draw wins the one with higher overall dice value. Optionally, after initial throw you and your opponent can choose one dice to throw again in hopes to get a better hand."
     if hero.effects['Drunk']['active']: # dizzy screen does not look good with dices animation...
         "You are too drunk for games at the moment."
         jump city_tavern_menu
@@ -161,7 +161,7 @@ label city_tavern_show_poker_shuffle:
     elif dice_poker_decide_winner(dice_1, dice_2) == 2:
         if hero.gold >= city_tavern_current_dice_bet*2:
             menu:
-                "You won! You can take your money right now or double your bet if you feeling lucky."
+                "You won! You can take your money right now or double your bet if you are feeling lucky."
                 "Take the money":
                     $ hero.add_money(city_tavern_current_dice_bet, reason="Tavern")
                 "Double the bet":

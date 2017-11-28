@@ -10,7 +10,7 @@ label interactions_badgift:
     elif ct("Kuudere"):
         $ rc("Just this? Don't expect any thanks.", "And what should I do with this... thing?", "You know, someone like me has no use for this.", "Oh? I thought you knew me better than that.", "Is this a gift? Oh...", "Is this some kind of mean joke?")
     elif ct("Yandere"):
-        $ rc("What were you thinking? This is awful!", "This is absolute junk. I'm offended.", "Ugh...that's such a stupid gift.", "Looks like your gifts are as desirable as you are right now.")
+        $ rc("What were you thinking? This is awful!", "This is absolute junk. I'm offended.", "Ugh...that's such a stupid gift.", "It looks like your gifts are as desirable as you are right now.")
     elif ct("Dandere"):
         $ rc("I don't want it.", "Oh. I guess I'll take it.", "..? <[char.p] does not look any happier>", "This is a pretty terrible gift, isn't it?", "This item gives me a terrible feeling. I'll have to dispose of it.")
     elif ct("Ane"):

@@ -71,7 +71,7 @@ label special_items_slime_bottle:
                     jump game_over
                 else:
                     scene bg h_profile
-                    "You managed to beat her. Her liquid body quickly decays. Looks like she spent way too much time in that bottle..."
+                    "You managed to beat her. Her liquid body quickly decays. It looks like she spent way too much time in that bottle..."
                     $ new_slime.health = 0
                     python:
                         for member in hero.team:

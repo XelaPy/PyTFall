@@ -82,7 +82,7 @@ label angelica_add_alignment:
         
     $ elements = list(el for el in traits.values() if el.elemental and el != traits["Neutral"] and el not in character.traits)
     if len(elements) <= 0:
-        a "Oh. Looks like you already have them all. It's not wise, maybe you should remove a few?"
+        a "Oh. It looks like you already have them all. It's not wise, maybe you should remove a few?"
     else:
         call screen alignment_choice(character)
         $ alignment = _return

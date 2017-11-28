@@ -266,15 +266,15 @@ init -11 python:
     def interactions_check_for_minor_bad_stuff(char_name): # we check minor issues when character might refuse to do something based on dice
         if (not("Pessimist" in char_name.traits) and char_name.joy <= 25) or (("Pessimist" in char_name.traits) and char_name.joy < 10):
             if dice(hero.charisma-char.character) and dice(80):
-                narrator(choice(["Looks like she is in a bad mood, however you managed to cheer her up."]))
+                narrator(choice(["It looks like she is in a bad mood, however you managed to cheer her up."]))
                 char_name.disposition += 1
                 char_name.joy += randint(3, 6)
             else:
-                narrator(choice(["Looks like she is in a bad mood today and not does not want to do anything."]))
+                narrator(choice(["It looks like she is in a bad mood today and not does not want to do anything."]))
                 renpy.jump ("girl_interactions")
         elif char_name.effects["Down with Cold"]['active']: #if she's ill, there is a chance that she will disagree to chat
             if dice(hero.charisma-char.character) and dice(80):
-                narrator(choice(["Looks like she is not feeling well today, however you managed to cheer her up a bit."]))
+                narrator(choice(["It looks like she is not feeling well today, however you managed to cheer her up a bit."]))
                 char_name.disposition += 2
                 char_name.joy += randint(1, 5)
             else:
@@ -523,7 +523,7 @@ init -11 python:
                 elif "Dandere" in character.traits:
                     lines = ["Want to fight? We'll make you regret it.", "Let's end this quickly, [mc_ref]. We have many other things to do.", "Of course we'll win.", "This will be over before you know it.", "If something bad happens to the enemy, don't blame me."]
                 elif "Tsundere" in character.traits:
-                    lines = ["Well-well. Looks like we have some new targets, [mc_ref] ♪", "Hmph! You're about 100 years too early to defeat us!", "We won't go easy on you!", "There's no way you could win!", "[mc_ref], you can stay back if you wish. I'll show you how it's done.", "I won't just defeat you, I'm gonna shatter you!"]
+                    lines = ["Well-well. It looks like we have some new targets, [mc_ref] ♪", "Hmph! You're about 100 years too early to defeat us!", "We won't go easy on you!", "There's no way you could win!", "[mc_ref], you can stay back if you wish. I'll show you how it's done.", "I won't just defeat you, I'm gonna shatter you!"]
                 elif "Kuudere" in character.traits:
                     lines = ["Oh, you dare to stand against us?", "Fine, we accept your challenge. Let's go, [mc_ref].", "Don't worry, [mc_ref]. This battle will be over soon enough.", "Are you prepared to know our power?", "You picked a fight with the wrong girl."]
                 elif "Kamidere" in character.traits:

@@ -157,9 +157,9 @@ label academy_town:
         "A tall humanoid with glowing eyes and booming voice greets you at the entrance."
         e "{b}Welcome to the archive, [hero.name].{/b}"
         $ npcs["Eleven"].override_portrait("portrait", "confident")
-        e "{b}Please keep silence to not disturb other visitors.{/b}"
+        e "{b}Please keep silence and do not disturb other visitors.{/b}"
         $ npcs["Eleven"].override_portrait("portrait", "indifferent")
-        "Many years ago academy archives were entrusted to him, and since then not a single document was lost. During the last war he single handedly destroyed all threats, preserving the whole building intact."
+        "Many years ago academy archives were entrusted to him, and since then not a single document was lost. During the last war, he single-handedly destroyed all threats, preserving the whole building intact."
         "He also always knows the name of his interlocutor, even if they never met before. This particular trait made him infamous in the city."
         hide npc with dissolve
 
@@ -197,7 +197,7 @@ label library_eleven_dialogue:
             show expression npcs["Eleven"].get_vnsprite() as npc
             with golem_change_back
             $ npcs["Eleven"].override_portrait("portrait", "confident")
-            e "{b}This unit and the city appreciate you services. Keep it up, [hero.name]. Here is your reward, [money] coins.{/b}"
+            e "{b}This unit and the city appreciate your services. Keep it up, [hero.name]. Here is your reward, [money] coins.{/b}"
             $ hero.remove_item("Rebels Leaflet", has_items("Rebels Leaflet", [hero]))
             $ hero.add_money(money, reason="Items")
             jump eleven_menu
@@ -209,7 +209,7 @@ label library_eleven_dialogue:
             jump eleven_menu
         "Ask about him":
             e "{b}This unit was found and activated during excavations in Crossgate city among other units classified amount of time ago. It was eleventh, so it was called Eleven.{/b}"
-            e "{b}After classified amount of time it was bought by Pytfall's government and given the position of Archive Watcher. As the Watcher, this unit is a government official able to enforce rules using any necessary means.{/b}"
+            e "{b}After some time, it was bought by PyTFall's government and given the position of Archive Watcher. As the Watcher, this unit is a government official able to enforce rules using any necessary means.{/b}"
             e "{b}Later it was given the order to join military, but this unit is incapable to rewrite core directives once they were set. Therefore it serves as the Archive Watcher to this day.{/b}"
             $ npcs["Eleven"].override_portrait("portrait", "confident")
             e "{b}All other information is classified for civilians.{/b}"
@@ -218,13 +218,13 @@ label library_eleven_dialogue:
         "Ask about the archive":
             e "{b}You are free to read all books presenting here. Do not attempt to damage them or take them out of the building.{/b}"
             $ npcs["Eleven"].override_portrait("portrait", "confident")
-            e "{b}Currently some books are seized by the government for examination. Please refrain from further questions.{/b}"
+            e "{b}Currently, some books are seized by the government for examination. Please refrain from further questions.{/b}"
             $ npcs["Eleven"].override_portrait("portrait", "indifferent")
             jump eleven_menu
         "Ask about job":
             e "{b}I am authorized to buy books to expand the archive collection. The archive doesn't need common books, but you may bring any unusual and rare ones.{/b}"
             $ npcs["Eleven"].override_portrait("portrait", "confident")
-            e "{b}More importantly, I was entrust with the task to clear the city from forbidden propaganda. After the war, lot of leaflets made by rebels left in the city. I am authorized to pay for any prohibited leaflets, which will be destroyed soon after that.{/b}"
+            e "{b}More importantly, I was entrusted with the task to clear the city from forbidden propaganda. After the war, a lot of leaflets made by rebels left in the city. I am authorized to pay for any prohibited leaflets, which will be destroyed soon after that.{/b}"
             "At these words his eyes flash brightly, and you can sense his hostility - not towards you, but towards the rebels."
             $ npcs["Eleven"].override_portrait("portrait", "angry")
             e "{b}But do handle them with care. One you find one, bring it to me immediately. Otherwise you can be suspected of treason.{/b}"
@@ -245,10 +245,10 @@ screen academy_town():
     use location_actions("academy_town")
 
     if gm.show_girls:
-    
+
         add "content/gfx/images/bg_gradient.png" yalign 0.45
         $ j = 0
-        
+
         for entry in gm.display_girls():
             hbox:
                 align (coords[j])

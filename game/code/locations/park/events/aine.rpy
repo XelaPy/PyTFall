@@ -38,7 +38,7 @@ label aine_menu_return:
     with dissolve
     while 1:
         $ result = ui.interact()
-    
+
 label aine_shop:
     a "Of course!"
     python:
@@ -59,32 +59,32 @@ label aine_shop:
     with dissolve
     a " Come back with more gold!"
     jump aine_menu_return
-    
+
 label aine_training:
     if not global_flags.has_flag("aine_training_explained"):
         a "Well dear, I can teach you manners and proper care so to increase your charisma."
         a "Being thought by a leprechaun Princess has it's perks!"
         a "You vitality will be boosted and your fame and reputation may also increase."
-        extend " Due to my magical nature, there is a really small chance that you will get luckier in your life endeavours!!!"
+        extend " Due to my magical nature, there is a really small chance that you will get luckier in your life endeavors!!!"
         a "That I dare say is a truly rare feat!"
         $ global_flags.set_flag("aine_training_explained")
     else:
         a "Let's see what I can do, dear."
-        
+
     if len(hero.team) > 1:
         call screen character_pick_screen
         $ char = _return
     else:
         $ char = hero
-        
+
     if not char:
         jump aine_menu_return
     $ loop = True
-    
+
     while loop:
         menu:
             "About training sessions":
-                "You can arrange for daily training sessions at cost of 1 AP and 500 gold pare day, plus 500 gold per 5 levels."
+                "You can arrange for daily training sessions at the cost of 1 AP and 500 gold pare day, plus 500 gold per 5 levels."
                 "It will be automatically terminated if you lack the gold to continue."
                 "Sessions can be arranged with multiple trainers at the same day. But you'd be running a risk of not leaving AP to do anything else."
             "About Aine training":
@@ -92,7 +92,7 @@ label aine_training:
                 a "It will cost you 1000 (+1000 per 5 levels) Gold per training session."
                 a "Being thought by a leprechaun Princess has it's perks!"
                 a "You vitality will be boosted and your fame and reputation may also increase."
-                extend " Due to my magical nature, there is a really small chance that you will get luckier in your life endeavours!!!"
+                extend " Due to my magical nature, there is a really small chance that you will get luckier in your life endeavors!!!"
                 a "That I dare say is a truly rare feat!"
             "{color=[green]}Setup sessions for [char.name]{/color}" if not char.has_flag("train_with_aine"):
                 $ char.set_flag("train_with_aine")
@@ -110,14 +110,14 @@ label aine_training:
             "Do Nothing":
                 $ loop = False
     jump aine_menu_return
-    
-    
+
+
 label aine_goodbye:
     a "Good luck!"
     $ global_flags.set_flag("keep_playing_music")
     hide aine with dissolve
     jump city_park
-    
+
 screen aine_screen:
     frame:
         xalign 0.95

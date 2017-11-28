@@ -15,7 +15,7 @@ label interactions_harrasment_after_battle: # after MC provoked a free character
                         $ g = round(g*0.1)
                     $ char.take_money(g)
                     $ hero.add_money(g)
-                    "In her pockets you found [g] G. Lucky!"
+                    "In her pockets, you found [g] G. Lucky!"
             "Search her for items.":
                 # We unequip all of the inventory first:
                 python:
@@ -26,7 +26,7 @@ label interactions_harrasment_after_battle: # after MC provoked a free character
                         del temp
                     if pool:
                         temp = choice(pool)
-                
+
                 if hasattr(store, "temp"):
                     "On [char.op] person, you found [temp.id]!"
                     $ transfer_items(char, hero, temp, amount=1, silent=True, force=True)
@@ -46,26 +46,26 @@ label interactions_harrasment_after_battle: # after MC provoked a free character
                                 member.disposition -= randint(100, 200)
             "Nothing":
                 $ pass
-        "You quickly leave before someone will see you."
+        "You quickly leave before someone sees you."
     else:
-        "Your fight drew attention of the City Guards, you quickly leave before they will see you."
-        
+        "Your fight drew the attention of the City Guards. You quickly leave before they see you."
+
     if char not in hero.chars:
         $ gm.remove_girl(char)
     $ char.set_flag("_day_countdown_interactions_blowoff", 5)
     jump girl_interactions_end
-                
+
 label interactions_escalation: # character was provoked to attack MC
     $ gm.set_img("battle", "confident", "angry", exclude=["happy", "suggestive"], type="first_default")
     call interactions_provoked_character_line
     hide screen girl_interactions
     $ back = interactions_pick_background_for_fight(gm.label_cache)
-        
+
     python:
         enemy_team = Team(name="Enemy Team")
         enemy_team.add(char)
         result = run_default_be(enemy_team, background=back)
-        
+
     if result == True:
         python:
             for member in hero.team:
@@ -122,18 +122,18 @@ label interactions_insult:
             $ char.set_flag("_day_countdown_interactions_blowoff", (2+sub))
             jump girl_interactions_end
     jump girl_interactions
-        
-    
+
+
 label interactions_provoked_character_line:
     $ char.override_portrait("portrait", "angry")
     if ct("Impersonal"):
         $ rc("I now regard you as my enemy, and I will put you down by force.", "Understood... Let us discuss this matter with our fists.", "I don't want this to be a big deal. So let's just do it as quickly as possible.", "I will erase you.")
     elif ct("Imouto"):
-        $ rc("I have to hit you, or I won't be able calm myself!", "I'm toootally gonna make you cry!", "Ahaha, time to pound your face in!", "I-I'm going to make you accept your punishment!") 
+        $ rc("I have to hit you, or I won't be able calm myself!", "I'm toootally gonna make you cry!", "Ahaha, time to pound your face in!", "I-I'm going to make you accept your punishment!")
     elif ct("Dandere"):
         $ rc("I'll make you regret to have angered me.", "You're ugly on the inside... Let's end this quickly.", "Seems like I have no choice but to restrain you physically.", "I'm selling a fist to the face. Please purchase one.")
     elif ct("Tsundere"):
-        $ rc("You insolent prick... I'll beat you here and now!", "Fufhn! I challenge you!", "Today's the day you stop getting away with this!", "Looks like I have no choice but... to do this!"),
+        $ rc("You insolent prick... I'll beat you here and now!", "Fufhn! I challenge you!", "Today's the day you stop getting away with this!", "It looks like I have no choice but... to do this!"),
     elif ct("Kuudere"):
         $ rc("Feel my anger with every bone in your body!", "You've got guts, but it won't keep you in one piece!", "I'll accept your challenge... And I'll acknowledge that you have some courage.", "Hmph. It's too late for regrets... Nothing's going to stop me now!")
     elif ct("Kamidere"):
@@ -141,14 +141,14 @@ label interactions_provoked_character_line:
     elif ct("Bokukko"):
         $ rc("So, I'm seriously angry now!", "Ok, I'm gonna hit you now. Just once. Well, I guess I'll smack you two or three more times after that. We clear?", "Hey, can I hit you? It's okay, right? Hey, hey!", "Lemme borrow that mug of yours real quick. 'Cause I'm gonna turn it into my personal punching bag.", "I kinda wanna deck you one. Don't move, 'kay?")
     elif ct("Ane"):
-        $ rc("Looks like you're never going to shape up unless I punish you...", "Just give me a moment please, it'll all end soon.", "I don't usually approve of this sort of thing, but I can't take it anymore!", "Please choose. Sit quietly and get hit, or struggle and get hit.")
+        $ rc("It looks like you're never going to shape up unless I punish you...", "Just give me a moment please, it'll all end soon.", "I don't usually approve of this sort of thing, but I can't take it anymore!", "Please choose. Sit quietly and get hit, or struggle and get hit.")
     elif ct("Yandere"):
         $ rc("You... have a shadow of death hanging over you...", "I'll pay you back in pain!", "Very well. I'll make it so you won't even be able to stand!", "You're at the end of your rope I'll wager.")
     else:
         $ rc("Geez, now I'm pissed!", "Geez, I will never forgive you!", "I can't deal with this. I want to hit you so bad I can't stop myself!", "Since it's come down to this, I'll have to use force!", "I didn't want to have to fight... but it seems like there's no other choice.")
     $ char.restore_portrait()
     return
-    
+
 label interactions_fight_won:
     $ char.override_portrait("portrait", "confident")
     if ct("Impersonal"):
@@ -173,7 +173,7 @@ label interactions_fight_won:
         $ rc("That was your best?", "Now you know the difference between us.", "Not much of a challenge.")
     $ char.restore_portrait()
     return
- 
+
 label interactions_fight_lost:
     $ char.override_portrait("portrait", "angry")
     if ct("Impersonal"):
@@ -198,7 +198,7 @@ label interactions_fight_lost:
         $ rc("Kuh, damn, you got me...", "Ugh, what the hell... geez...", "Kuh... You're... pretty good...", "But how... could I... ugh...")
     $ char.restore_portrait()
     return
-    
+
 label interactions_character_apology:
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
@@ -206,7 +206,7 @@ label interactions_character_apology:
     elif ct("Shy") and dice(50):
         $ rc("Um... I-I... I-I'm s-sor...ry...", "I-I'm so sorry... How could I...")
     elif ct("Imouto"):
-        $ rc("I'm sowweeeeee, forgive meeeeee...", "I'm sorry, I'm sorry, I'm sorry!") 
+        $ rc("I'm sowweeeeee, forgive meeeeee...", "I'm sorry, I'm sorry, I'm sorry!")
     elif ct("Dandere"):
         $ rc("...My bad. Forgive me.", "...Sorry about that.")
     elif ct("Tsundere"):
@@ -234,7 +234,7 @@ label interactions_got_insulted:
         elif ct("Shy") and dice(50):
             $ rc("Th-That's terrible! It's way too much!", "Th-that's... so cruel of you to say...", "N-no way... you're horrible...", "T-That's not true!")
         elif ct("Imouto"):
-            $ rc("Hah! Y-You think that kind of abuse will have any effect on m-me?", "I'm so pissed off!", "I-I... I'm not like that!", "LA LA I CAN'T HEAR YOU!") 
+            $ rc("Hah! Y-You think that kind of abuse will have any effect on m-me?", "I'm so pissed off!", "I-I... I'm not like that!", "LA LA I CAN'T HEAR YOU!")
         elif ct("Dandere"):
             $ rc("...Are you trying to make me angry?", "...Are you teasing me?", "Do you want me to hate you that much?", "All bark and no bite. As they say.", "Was that meant to be an insult just now? How rude.")
         elif ct("Tsundere"):
@@ -258,7 +258,7 @@ label interactions_got_insulted:
         elif ct("Shy") and dice(50):
             $ rc("Th-That's terrible...", "Th-that's... so cruel of you to say...", "N-no way... you're horrible...", "T-That's not true!")
         elif ct("Imouto"):
-            $ rc("Hah! Y-You think that kind of abuse will have any effect on m-me?", "I-I... I'm not like that!", "Ugh... *sniff* *sniff*") 
+            $ rc("Hah! Y-You think that kind of abuse will have any effect on m-me?", "I-I... I'm not like that!", "Ugh... *sniff* *sniff*")
         elif ct("Dandere"):
             $ rc("...Are you trying to make me angry?", "...Are you teasing me?", "Do you hate me that much?", "Was that meant to be an insult just now? How rude.")
         elif ct("Tsundere"):
@@ -277,7 +277,7 @@ label interactions_got_insulted:
             $ rc("Th-that's a terrible thing to say!", "Wh-why would you say that, that's so cruel...", "What's your problem? Saying that out of nowhere.")
     $ char.restore_portrait()
     return
-    
+
 label interactions_demand_apology:
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
@@ -285,7 +285,7 @@ label interactions_demand_apology:
     elif ct("Shy") and dice(50):
         $ rc("Please apologize...", "Isn't there... something you want to apologize about first?")
     elif ct("Imouto"):
-        $ rc("Umm, if you grovel in the dirt for me, I'll forgive you...", "I might consider forgiving you if you grovel pitifully.") 
+        $ rc("Umm, if you grovel in the dirt for me, I'll forgive you...", "I might consider forgiving you if you grovel pitifully.")
     elif ct("Dandere"):
         $ rc("I'll forgive you if you apologize.", "Is it impossible for you to give an apology?", "...You should know that I haven't forgiven you just yet.")
     elif ct("Tsundere"):
@@ -304,13 +304,13 @@ label interactions_demand_apology:
         $ rc("Start apologizing, please! I'll let you know when it's enough.", "Hey, isn't there something you need to apologize for first...?")
     $ char.restore_portrait()
     return
-    
+
 label interactions_apology_accepted:
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
         $ rc("I understand. However, do not think that this will happen another time.", "...Never again, okay?")
     elif ct("Imouto"):
-        $ rc("...If you say you'll never do it again, then... Alright...", "Fine, fine, I'll forgive you...", "Hrmm... just this once, okay?") 
+        $ rc("...If you say you'll never do it again, then... Alright...", "Fine, fine, I'll forgive you...", "Hrmm... just this once, okay?")
     elif ct("Dandere"):
         $ rc("...I don't really mind.", "I suppose I could...", "...Please do not do it again.")
     elif ct("Tsundere"):
@@ -329,13 +329,13 @@ label interactions_apology_accepted:
         $ rc("It's okay, I'll forgive you this time.", "...Just this once. Got it?", "...Alright, I'll put my trust in you one more time.")
     $ char.restore_portrait()
     return
-    
+
 label interactions_apology_denied:
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
         $ rc("Forgiving you is not something I am capable of.", "I won't forgive you...")
     elif ct("Imouto"):
-        $ rc("I-I'll never forgive you...!", "I'll never forgive you!", "Aaahhh... can't hear a thing...") 
+        $ rc("I-I'll never forgive you...!", "I'll never forgive you!", "Aaahhh... can't hear a thing...")
     elif ct("Dandere"):
         $ rc("I'll never forgive you. Ever.", "I will never forgive you.", "I will definitely not forgive you.")
     elif ct("Tsundere"):
@@ -354,7 +354,7 @@ label interactions_apology_denied:
         $ rc("I'm not going to forgive you, ever!", "I'll never forgive you, you got that?", "Sorry...I can't trust you just yet.")
     $ char.restore_portrait()
     return
-    
+
 label interactions_broken_promise:
     $ char.override_portrait("portrait", "sad")
     if ct("Impersonal"):
@@ -362,7 +362,7 @@ label interactions_broken_promise:
     elif ct("Shy") and dice(50):
         $ rc("It's okay, I'm sure you have your priorities too, right...? But still...", "It's fine... I didn't think you'd show up anyway.")
     elif ct("Imouto"):
-        $ rc("I was so lonely, all by myself...", "...I even waited for you.") 
+        $ rc("I was so lonely, all by myself...", "...I even waited for you.")
     elif ct("Dandere"):
         $ rc("I was waiting forever...", "You promised...", "It seems I have been thoroughly fooled.")
     elif ct("Tsundere"):
@@ -381,7 +381,7 @@ label interactions_broken_promise:
         $ rc("That's no good. You have to keep your promises...", "Jeez, how come you never came!")
     $ char.restore_portrait()
     return
-    
+
 label interactions_got_insulted_hdisp:
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
@@ -389,7 +389,7 @@ label interactions_got_insulted_hdisp:
     elif ct("Shy") and dice(50):
         $ rc("Ah... Eh... Aah! This is a joke... Right?", "Umm... Ah! Th-that was funny, wasn't it?")
     elif ct("Imouto"):
-        $ rc("Ufufu, I'm not falling for that joke!", "Haha, what are you talking about?") 
+        $ rc("Ufufu, I'm not falling for that joke!", "Haha, what are you talking about?")
     elif ct("Dandere"):
         $ rc("Not funny.", "I will overlook it this time, but that's harassment, you know?")
     elif ct("Tsundere"):
@@ -408,7 +408,7 @@ label interactions_got_insulted_hdisp:
         $ rc("Come on, knock it off with the jokes!", "Jeez, stop playing around.")
     $ char.restore_portrait()
     return
-    
+
 label interactions_got_insulted_slave:
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
@@ -416,7 +416,7 @@ label interactions_got_insulted_slave:
     elif ct("Shy") and dice(50):
         $ rc("Eh... S-sorry... W-what's this about? D-did I upset you somehow?", "P-please don't be mad at me...")
     elif ct("Imouto"):
-        $ rc("Wha? Stop calling me that, [char.mc_ref]! Or I'm g-gonna cry!", "You big meanie... *sniff*") 
+        $ rc("Wha? Stop calling me that, [char.mc_ref]! Or I'm g-gonna cry!", "You big meanie... *sniff*")
     elif ct("Dandere"):
         $ rc("...Understood. May I return to my duties now, [char.mc_ref]?", "What's the point of insulting your own properly, [char.mc_ref]? I don't understand.")
     elif ct("Tsundere"):
@@ -435,7 +435,7 @@ label interactions_got_insulted_slave:
         $ rc("*sigh* If abusing me makes you feel better, then it can't be helped...", "That was uncalled for, [char.mc_ref]. Seriously...")
     $ char.restore_portrait()
     return
-    
+
 label interactions_lover_end:
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
@@ -443,7 +443,7 @@ label interactions_lover_end:
     elif ct("Shy") and dice(50):
         $ rc("I'm sorry... I can't bring myself to like you anymore...", "Um... Let's break up... I can't keep this up...", "I'm sorry ... I can't love you from my heart... We should break up.")
     elif ct("Imouto"):
-        $ rc("Um, you know... Maybe we should go our separate ways...?", "If you don't love someone, you should break up with them, right? So anyway, could we break up?", "Hey, I kinda wanna stop dating you...") 
+        $ rc("Um, you know... Maybe we should go our separate ways...?", "If you don't love someone, you should break up with them, right? So anyway, could we break up?", "Hey, I kinda wanna stop dating you...")
     elif ct("Dandere"):
         $ rc("My patience with you has come to an end. Our association ends here.", "Let's break up already... It'll definitely be for the best.", "We should break up. I'm no longer in love with you.")
     elif ct("Tsundere"):
@@ -462,7 +462,7 @@ label interactions_lover_end:
         $ rc("Jeez, I don't want to date someone I can't stand.", "I can't think of you as my number one anymore. We are done...", "I don't think this is working out. Let's break up.", "I've been thinking a lot lately... I think things would be better off if we broke up.")
     $ char.restore_portrait()
     return
-    
+
 label interactions_lover_end_mc:
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
@@ -470,7 +470,7 @@ label interactions_lover_end_mc:
     elif ct("Shy") and dice(50):
         $ rc("You're... right... Yes, thank you for everything until now...", "I'm sorry... I... I guess I was a failure of a woman...", "I'm sorry... I'm so worthless...", "I-if you hate me, then you should've just said it straight...", "...I see. Thanks for everything...", "...I understand. But, please, don't forget about me...")
     elif ct("Imouto"):
-        $ rc("I-I won't be lonely... I'll be fine, so...", "I'm sorry... I was too immature... I'm sorry...", "I see... Still, it was fun while it lasted...") 
+        $ rc("I-I won't be lonely... I'll be fine, so...", "I'm sorry... I was too immature... I'm sorry...", "I see... Still, it was fun while it lasted...")
     elif ct("Dandere"):
         $ rc("Is that so... I apologize for having been such an imperfect woman...", "Certainly, let us both see the end of this limitless futility.", "Is that so... I guess it couldn't be helped... That makes us strangers now.")
     elif ct("Tsundere"):
@@ -489,7 +489,7 @@ label interactions_lover_end_mc:
         $ rc("What a shame, I'd thought it would have worked out better... It really is a shame...", "...If you say it has to be like that, then it can't helped...", "I understand... Thank you for having loved me...")
     $ char.restore_portrait()
     return
-    
+
 label interactions_lover_end_refuse:
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
@@ -497,7 +497,7 @@ label interactions_lover_end_refuse:
     elif ct("Shy") and dice(50):
         $ rc("N-Never! I'll do anything... I'll love you even more...!", "I'm afraid we cannot be separated. We are bound by fate after all...", "Huh? ...Y-you must be really tired, let's take it easy for now, okay?", "...Sorry, there's no way I could give you up.", "I'll do better, I promise... so... I'm sorry... I'm so pathetic...", "I... I don't want that! Please, don't leave me...")
     elif ct("Imouto"):
-        $ rc("Eh? Why? I still love you lots, you know?", "Oh you, always with the jokes ♪ You're just testing my love, right? You big meanie! ♪", "Abso. Lutely. Not! I'm not letting you go! We'll always be together!") 
+        $ rc("Eh? Why? I still love you lots, you know?", "Oh you, always with the jokes ♪ You're just testing my love, right? You big meanie! ♪", "Abso. Lutely. Not! I'm not letting you go! We'll always be together!")
     elif ct("Dandere"):
         $ rc("I am terribly sorry. I did not show you enough affection, did I?", "Don't even try. I never want to leave you.", "That's impossible. We're gonna be together forever.")
     elif ct("Tsundere"):
@@ -516,7 +516,7 @@ label interactions_lover_end_refuse:
         $ rc("Come on, knock it off with the jokes!", "Jeez, stop playing around.", "Huh? No way, you're mine, after all.")
     $ char.restore_portrait()
     return
-    
+
 label interactions_relover:
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
@@ -524,7 +524,7 @@ label interactions_relover:
     elif ct("Shy") and dice(50):
         $ rc("I... I can't go on without you... So please, let me date you again.", "I know it's selfish of me... But...I just can't forget about you...")
     elif ct("Imouto"):
-        $ rc("...D-don't you think it's about time we... went back to how we were before?", "Hey... I... want to get back together.", "Umm... Seems like I'm still in love with you... So, can we get back together...?") 
+        $ rc("...D-don't you think it's about time we... went back to how we were before?", "Hey... I... want to get back together.", "Umm... Seems like I'm still in love with you... So, can we get back together...?")
     elif ct("Dandere"):
         $ rc("I just can't forget about you... Do you want to try starting over?","Would it be possible for us to fix what we had?", "Be with me again. ...I need you.")
     elif ct("Tsundere"):
@@ -543,7 +543,7 @@ label interactions_relover:
         $ rc("Hey, could we maybe... see if we can work things out again?", "If we were to be together again, I'd... No... Please, one more time, be with me!")
     $ char.restore_portrait()
     return
-    
+
 label interactions_yandere_attack:
     $ char.override_portrait("portrait", "indifferent")
     $ rc("Ufufu... If I had done this from the very start, I would have avoided all of those painful memories...", "Let's love each other again in the afterlife...", "Huhuhuh... You didn't think you could betray me and get off scott free, did you...? Come on... say something for yourself... come ooon...!", "Huhuhuh... I wonder how warm it would be to bathe in your blood...?", "If you won't belong to me... Then you won't... belong to anyone...", "Everything is your fault. Yours... YOUUUUUURS! ! !", "Pft... kuku... Ahaha... Ahahaha... HAH HAH HAH HAH HAH!!", "Hahah... I just figured out how we can be together forever...", "Hey... If you're reborn... Be sure to find me again... okay...", "Ah, hahahahahahahaha... diediediediediediediediediediedie DIE!!", "You're not good enough to live in this world. So I'll erase you. Bye-bye.")
