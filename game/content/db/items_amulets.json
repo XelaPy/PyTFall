@@ -1,7 +1,7 @@
 [
     {
     "id": "Bauble Necklace",
-    "desc": "This necklace is basically some semi-precious stones on a string. It's pretty, but it's not the kind of jewelry you write home about.",
+    "desc": "A few semi-precious stones on a string. Pretty, but not the kind of jewelry you write home about.",
     "icon": "content/items/amulet/bn.png",
     "price": 15,
     "sex": "female",
@@ -20,7 +20,7 @@
     },
     {
     "id": "Leash",
-    "desc": "This length of rope attached to a leather collar isn't just an effective physical restraint: it's an humiliating punishment. In many ways, a woman wearing this is at the complete mercy of whoever is holding it.",
+    "desc": "This length of rope attached to a leather collar isn't just an effective physical restraint: it's a humiliating punishment. In many ways, a woman wearing this is at the complete mercy of whoever is holding it.",
     "icon": "content/items/amulet/l.png",
     "price": 95,
     "sex": "female",
@@ -102,7 +102,7 @@
     },
     {
     "id": "Pet Collar",
-    "desc": "This human-sized pet collar with engraved brass name-tag isn't exactly the peak of elegance, but some would find it cute, and yet other would find it sexy, in the right circumstances.",
+    "desc": "A human-sized pet collar with engraved brass name-tag isn't exactly the peak of elegance, but some would find it cute, and yet others would find it sexy, in the right circumstances.",
     "icon": "content/items/amulet/pc.png",
     "price": 60,
     "sex": "female",
@@ -123,7 +123,7 @@
     },
     {
     "id": "Silver Necklace",
-    "desc": "This is a slender silver necklace. It's subtle, but definitely elegant.",
+    "desc": "A silver necklace, subtle and elegant.",
     "icon": "content/items/amulet/sn.png",
     "price": 75,
     "sex": "female",
@@ -143,7 +143,7 @@
     },
     {
     "id": "Spiked Collar",
-    "desc": "This thick black leather collar is studded with shiny spikes. It looks like something you'd put on a dog, but it also looks quite intimidating.",
+    "desc": "A thick black leather collar studded with shiny spikes. It looks like something you'd put on a dog, but also quite intimidating.",
     "icon": "content/items/amulet/spc.png",
     "price": 50,
     "sex": "female",
@@ -163,7 +163,7 @@
     },
     {
     "id": "Aromatic Pendant",
-    "desc": "This pendant is spreading around a light aphrodisiac that has an effect of both men and women.",
+    "desc": "This pendant is spreading around a light aphrodisiac which affects men and women alike.",
     "icon": "content/items/amulet/ap.png",
     "price": 400,
     "sex": "female",
@@ -203,7 +203,7 @@
     },
     {
     "id": "Minor Reflector",
-    "desc": "These amulets are mostly used when training novices to prevent them from injuring themselves.",
+    "desc": "These amulets are widely used during training to prevent injuries.",
     "icon": "content/items/amulet/mr.png",
     "price": 150,
     "sex": "unisex",
@@ -315,7 +315,7 @@
     },
     {
     "id": "Victory Charm",
-    "desc": "In some countries there is a tradition to give these charms to soldiers departing for war. Naturally, they can't guarantee victory, but they increase self-confidence.",
+    "desc": "In some countries, there is a tradition to give such charms to soldiers departing for war. Naturally, they can't guarantee victory, but they boost self-confidence.",
     "icon": "content/items/amulet/vc.png",
     "price": 800,
     "sex": "female",
@@ -414,7 +414,7 @@
     },
     {
     "id": "Spectacles",
-    "desc": "A device for vision correction.",
+    "desc": "A device for correction of vision.",
     "icon": "content/items/amulet/spectacles.png",
     "price": 150,
     "sex": "unisex",
@@ -473,7 +473,7 @@
     },
     {
     "id": "Morning Charm",
-    "desc": "A small artificial star glows behind the charm glass.",
+    "desc": "A small artificial star glows behind the charm's glass.",
     "icon": "content/items/amulet/light.png",
     "price": 750,
     "sex": "unisex",
@@ -492,7 +492,7 @@
     },
     {
     "id": "Fiery Charm",
-    "desc": "Monstrous fire burning inside. The charm is quite hot, but not enough to get burned.",
+    "desc": "Monstrous fire is burning inside. The charm is quite hot, but not enough to get burned.",
     "icon": "content/items/amulet/fire.png",
     "price": 750,
     "sex": "unisex",
@@ -549,7 +549,7 @@
     },
     {
     "id": "Ice Charm",
-    "desc": "Miniature snow storm rages inside the charm. From time to time a few snowflakes overcome the barrier, quickly melting in the air.",
+    "desc": "A miniature snowstorm rages inside the charm. From time to time a few snowflakes overcome the barrier, quickly melting in the air.",
     "icon": "content/items/amulet/ice.png",
     "price": 750,
     "sex": "unisex",
