@@ -1,7 +1,7 @@
 [
     {
     "id": "Slippers",
-    "desc": "It's dangerous to walk in urban areas without shoes, you could easily get hurt.",
+    "desc": "It's dangerous to walk without shoes, you can get hurt.",
     "icon": "content/items/feet/s.png",
     "price": 5,
     "sex": "unisex",
@@ -161,7 +161,7 @@
     },
     {
     "id": "Kung Fu Shoes",
-    "desc": "These slim, lightweight cloth shoes are ideal for practicing martial arts, and are pretty dang comfortable everyday wear too.",
+    "desc": "These slim, lightweight cloth shoes are ideal for practicing martial arts and are pretty dang comfortable everyday wear too.",
     "icon": "content/items/feet/kfs.png",
     "price": 150,
     "sex": "female",
@@ -225,7 +225,7 @@
     },
     {
     "id": "Dancer Slippers",
-    "desc": "These custom-made silk slippers are often worn by female dancers while performing. They come with several colorful ribbons that can be tied to the shins and lower legs.",
+    "desc": "These custom-made silk slippers are often worn by female dancers while performing. They come with several colorful ribbons that can be tied to the shins.",
     "icon": "content/items/feet/ds.png",
     "price": 400,
     "sex": "female",
@@ -247,7 +247,7 @@
     },
     {
     "id": "Glass Shoes",
-    "desc": "These extravagant shoes are a wonder of glass-blowing talent, and are a favorite of foot lovers everywhere. Somehow they remind their wearer of their hopes and dreams.",
+    "desc": "These extravagant shoes are a wonder of glass-blowing talent and are a favorite of feet lovers everywhere.",
     "icon": "content/items/feet/gs.png",
     "price": 650,
     "sex": "female",
@@ -350,7 +350,7 @@
     },
     {
     "id": "Tanned Leather Boots",
-    "desc": "Boots made of elastic tanned leather provide relatively strong protection and mobility.",
+    "desc": "Boots of elastic tanned leather provide relatively strong protection and mobility.",
     "icon": "content/items/feet/tlb.png",
     "price": 90,
     "sex": "unisex",
@@ -370,7 +370,7 @@
     },
     {
     "id": "Mercenary Boots",
-    "desc": "A pair of custom made boots. High-quality leather gets the job done despite general fanciness.",
+    "desc": "A pair of custom-made boots. High-quality leather gets the job done despite general fanciness.",
     "icon": "content/items/feet/merc.png",
     "price": 320,
     "sex": "male",
@@ -452,7 +452,7 @@
     },
     {
     "id": "Mithril Boots",
-    "desc": "These durable and lightweight boots are incredibly rare and expensive not only because of the material used, but also because the technology of its processing is lost in the centuries.",
+    "desc": "These durable and lightweight boots are incredibly rare and expensive not only because of the material used but also because the technology of its processing is lost in the centuries.",
     "icon": "content/items/feet/mitb.png",
     "price": 400,
     "sex": "unisex",
@@ -473,7 +473,7 @@
     },
     {
     "id": "Draconic Leather Boots",
-    "desc": "Truly a masterpiece among feet protection. Although there are more durable copies made of the rarer species of dragons, by the law they all belong to nobility.",
+    "desc": "Truly a masterpiece of feet protection. Although there are more durable copies made of the rarer species of dragons, by the law they all belong to the nobility.",
     "icon": "content/items/feet/dlb.png",
     "price": 550,
     "sex": "unisex",
@@ -586,7 +586,7 @@
     },
     {
     "id": "Ninja Boots",
-    "desc": "Part of the ninja outfit, extremely light and flexible. Only a few copies exist outside of their villages as smuggling them is very dangerous.",
+    "desc": "A part of the ninja outfit, extremely light and flexible. Only a few copies exist outside of their villages as smuggling them is very dangerous.",
     "icon": "content/items/feet/nib.png",
     "price": 1000,
     "sex": "female",
@@ -630,7 +630,7 @@
     },
     {
     "id": "Imperial Leather Boots",
-    "desc": "Good boots during march, not an unimportant thing for the soldier. The Empire took care of high quality for this price category.",
+    "desc": "Good boots during a march, not an unimportant thing for the soldier. The Empire took care of high quality in this price category.",
     "icon": "content/items/else/imperial/ilb1.png",
     "price": 100,
     "sex": "male",

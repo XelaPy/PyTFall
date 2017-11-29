@@ -22,7 +22,7 @@
     },
     {
     "id": "Crystal Staff",
-    "desc": "This long wooden staff is clearly the tool of a wizard. One end bears a fist-sized translucent crystal; it serve as a focus for arcane energy, but it also adds extra power to its wielder's spells.",
+    "desc": "A tool for a wizard. One end bears a fist-sized translucent crystal; it serves as a focus for arcane energy, but it also adds extra power to its wielder's spells.",
     "icon": "content/items/sweapon/crs.png",
     "price": 200,
     "sex": "unisex",
@@ -43,7 +43,7 @@
     },
     {
     "id": "Icicle Staff",
-    "desc": "Like the name says, it’s an Icicle. Made more firm and lighter with magic, it is used as a staff but also successfully as a walking cane.",
+    "desc": "Made more firm and lighter with magic, this icicle is used as a staff but also successful as a walking cane.",
     "icon": "content/items/sweapon/ic.png",
     "price": 550,
     "sex": "unisex",
@@ -64,7 +64,7 @@
     },
     {
     "id": "Archmage Staff",
-    "desc": "This deceptively simple staff is woven with such powerful enchantments that a mage of any talent can instantly detect its true nature just by touching it. It is bursting at the seams with arcane energy that almost begs to be unleashed.",
+    "desc": "This staff is woven with such powerful enchantments that a mage of any talent can instantly detect its true nature just by touching it.",
     "icon": "content/items/sweapon/as.png",
     "price": 1000,
     "sex": "unisex",
@@ -87,7 +87,7 @@
     },
     {
     "id": "Rune Staff",
-    "desc": "This staff is constantly drawing energy from other planes of existence and channels it to its wielder.",
+    "desc": "This staff constantly draws energy from other planes of existence and channels it to its wielder.",
     "icon": "content/items/sweapon/rus.png",
     "price": 3000,
     "sex": "unisex",
@@ -132,7 +132,7 @@
     },
     {
     "id": "Courtesan Dagger",
-    "desc": "Widely used in the past by female assassins to infiltrate the intimate chambers of the target, now they serve mainly for simple seduction.",
+    "desc": "Widely used in the past by female assassins, now they serve mainly for seduction.",
     "icon": "content/items/sweapon/cd.png",
     "price": 400,
     "sex": "female",
@@ -155,7 +155,7 @@
     },
     {
     "id": "Jeweled Poignard",
-    "desc": "A finely crafted dagger, inlaid with silver and bearing a precious stone on its hilt. It's almost jewellery.",
+    "desc": "A finely crafted dagger inlaid with silver and bearing a precious stone on its hilt. It's almost jewelry.",
     "icon": "content/items/sweapon/jp.png",
     "price": 450,
     "sex": "unisex",
@@ -197,7 +197,7 @@
     },
     {
     "id": "Spray with Acid",
-    "desc": "Hardly useful for attack, it provides solid protective capabilities. Anyone will think twice before attacking a girl with such a thing in her handbag.",
+    "desc": "Hardly useful for attacking, it provides solid protective capabilities. Anyone will think twice before attacking a girl with such a thing in her handbag.",
     "icon": "content/items/sweapon/swa.png",
     "price": 500,
     "sex": "female",
@@ -218,7 +218,7 @@
     },
     {
     "id": "Spirit-Defender",
-    "desc": "This little magical creature assist during combat by intercepting part of the attacks.",
+    "desc": "This little magical creature assists during combat by intercepting part of the attacks.",
     "icon": "content/items/sweapon/sd.png",
     "price": 1200,
     "sex": "unisex",
@@ -344,7 +344,7 @@
     },
     {
     "id": "Imperial Shield",
-    "desc": "A standard shield which is given to recruits in Imperial army.",
+    "desc": "A standard shield which is given to recruits in the Imperial army.",
     "icon": "content/items/else/imperial/ish1.png",
     "price": 150,
     "sex": "male",

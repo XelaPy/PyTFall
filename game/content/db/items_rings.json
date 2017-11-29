@@ -383,7 +383,7 @@
     },
     {
     "id": "Ring of Recklessness",
-    "desc": "Bearers of this ring immediately gets rid of any fears, gaining courage bordering on insanity and increasing the power of all spells and attacks.",
+    "desc": "Bearers of this ring immediately get rid of any fears, gaining courage bordering on insanity and increasing the power of all spells and attacks.",
     "icon": "content/items/ring/rrec.png",
     "price": 1500,
     "sex": "female",
@@ -669,7 +669,7 @@
     },
     {
     "id": "Emerald Ribbon",
-    "desc": "Well shaped emerald in a golden ring. Ideal accessory for young ladies.",
+    "desc": "A well shaped emerald in a golden ring. Ideal accessory for young ladies.",
     "icon": "content/items/ring/er.png",
     "price": 220,
     "sex": "female",
@@ -715,7 +715,7 @@
     },
     {
     "id": "Flame Ring",
-    "desc": "The ring shimmers with red light, but in fact it's only slightly warm.",
+    "desc": "The ring shimmers with red light, but in fact, it's only slightly warm.",
     "icon": "content/items/ring/fire.png",
     "price": 500,
     "sex": "unisex",
@@ -829,7 +829,7 @@
     },
     {
     "id": "Discharge Ring",
-    "desc": "The ring softly hums on the verge of audibility. The gem is dim, but miniature lightnings are shining around it.",
+    "desc": "The ring softly hums on the verge of audibility. The gem is dim, but miniature lightning is shining around it.",
     "icon": "content/items/ring/ele.png",
     "price": 500,
     "sex": "unisex",
