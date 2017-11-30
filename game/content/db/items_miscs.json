@@ -23,7 +23,7 @@
     },
     {
     "id": "Military Training Dummy",
-    "desc": "Such dummies are often used for training new recruits. However, unlike a real opponent, this thing is not fighting back, so you can't learn everything by beating it.",
+    "desc": "These dummies are often used for training recruits. It doesn't fight back, so you can't learn everything by beating it.",
     "icon": "content/items/misc/mtd.png",
     "price": 800,
     "sex": "unisex",
@@ -130,7 +130,7 @@
     },
     {
     "id": "Cat",
-    "desc": "This is a common cat. It's the ideal pet if you're looking for a cute and fluffy animal that believes you exist solely for its amusement.",
+    "desc": "A common cat. It's the ideal pet if you're looking for a cute and fluffy animal that believes you exist solely for its amusement.",
     "icon": "content/items/misc/cat.png",
     "price": 200,
     "sex": "unisex",
@@ -150,7 +150,7 @@
     },
     {
     "id": "Guard Dog",
-    "desc": "This large dog has been bred and trained to watch over and protect its owner (up to 90 vitality and character, every day).",
+    "desc": "This large dog has been bred and trained to watch over and protect its owner.",
     "icon": "content/items/misc/dog.png",
     "price": 350,
     "sex": "unisex",
@@ -170,7 +170,7 @@
     },
     {
     "id": "Codex of Eros",
-    "desc": "The scented pages of this wonderfully-illustrated old book offers detailed instructions on how to make sex between a man and a woman more enjoyable. Many of the techniques in there are more than a little fancy, but they're presented in a way that makes them easy to understand.",
+    "desc": "The scented pages of this wonderfully-illustrated old book offer detailed instructions on how to make sex between a man and a woman more enjoyable. Many of the techniques in there are more than a little fancy, but they're presented in a way that makes them easy to understand.",
     "icon": "content/items/misc/ce.png",
     "price": 2400,
     "sex": "unisex",
@@ -560,7 +560,7 @@
     },
     {
     "id": "Magic Chess",
-    "desc": "This chess set is able to play with the owner even without an opponent. It stimulates mental activity, making the owner smarter over time, but requires magic energy to function.",
+    "desc": "This chess set is able to play with the owner even without an opponent. It stimulates mental activity, making the owner smarter over time, but requires magical energy to work.",
     "icon": "content/items/misc/mc.png",
     "price": 800,
     "sex": "unisex",
@@ -659,7 +659,7 @@
     },
     {
     "id": "Personal Memory Storage",
-    "desc": "All memories of countless former owners are stored inside, giving almost unquenchable source of experience.",
+    "desc": "All memories of countless former owners are stored inside, giving an almost unquenchable source of experience.",
     "icon": "content/items/misc/mem.png",
     "price": 1000,
     "sex": "unisex",

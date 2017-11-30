@@ -53,7 +53,7 @@
     },
    {
     "id": "Long Legs",
-    "desc": "The legs on this girl go all the way to heaven.",
+    "desc": "The legs of this girl go all the way to heaven.",
     "max": {"charisma": 5},
     "mod_stats": {"charisma": [1, 3], "agility": [1, 3]},
     "mod_skills": {"strip": [0, 0, 0.02], "dancing": [0, 0, 0.01]},
@@ -143,7 +143,7 @@
     },
     {
     "id": "Artificial Body",
-    "desc": "This girl's body is not alive or real, it is a machine or has been created with magic (healing spells and poisons are not very effective).",
+    "desc": "This girl's body is not alive or real, it is a machine or has been created with magic (healing spells and poisons are less effective).",
     "mod": {"upkeep": 15},
     "min": {"constitution": 5, "defence": 15},
     "max": {"constitution": 10, "defence": 15, "health": 25, "vitality": 25},
@@ -165,7 +165,7 @@
     },
     {
     "id": "Half-Sister",
-    "desc": "This girl has one parent in common with you. In childhood you spent a lot of time together.",
+    "desc": "This girl has one parent in common with you. In childhood, you spent a lot of time together.",
     "effects": ["Sibling"],
     "mod_stats": {"disposition": [200, 1]},
     "permanent": true,
@@ -173,7 +173,7 @@
     },
    {
     "id": "Alien",
-    "desc": "This girl has come from a distant dimension with very different laws of physics, magic and society (+magic and status defence).",
+    "desc": "This girl has come from a distant dimension with very different laws of physics, magic, and society (+magic and status defence).",
     "mod": {"upkeep": 50},
     "mod_stats": {"magic": [-3, 1], "constitution": [-2, 2]},
     "max": {"magic": 20, "attack": 10, "defence": 10, "constitution": 15},
@@ -202,7 +202,7 @@
     },
    {
     "id": "Flexible",
-    "desc": "An ability to bend her body in many different ways.",
+    "desc": "Has an ability to bend body in many different ways.",
     "mod_stats": {"agility": [1, 2], "defence": [-1, 1]},
     "max": {"agility": 15, "defence": -15, "vitality": -15},
     "mod_skills": {"vaginal": [0.01, 0.01, 0.01], "anal": [0.01, 0.01, 0.01], "sex": [0.01, 0.01, 0.01], "oral": [0.01, 0.01, 0.01]},
@@ -211,7 +211,7 @@
     },
    {
     "id": "Left-Handed",
-    "desc": "Items in right hand are not very effective, but items in left hand are more effective than usual.",
+    "desc": "Items in the right hand are not very effective, but items in the left hand are more effective than usual.",
     "permanent": true,
     "market": true
     },

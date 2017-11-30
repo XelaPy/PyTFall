@@ -1,7 +1,7 @@
 [
     {
     "id": "Worn Clothes",
-    "desc": "These clothes have seen a better days...",
+    "desc": "These clothes have seen better days...",
     "icon": "content/items/body/wc.png",
     "price": 30,
     "sex": "unisex",
@@ -40,7 +40,7 @@
     },
     {
     "id": "Linen Dress",
-    "desc": "This light, inexpensive dress cut of common fabric was designed with talent and an expert eye for enhancing the female form. It's not fancy, but it's enough to make a poor girl feel pretty.",
+    "desc": "A light inexpensive dress. Not fancy, but good enough to make a poor girl feel pretty.",
     "icon": "content/items/body/ld.png",
     "price": 140,
     "sex": "female",
@@ -60,7 +60,7 @@
     },
     {
     "id": "Bourgeoise Gown",
-    "desc": "Stylish, yet affordable, this type of gown is commonly worn by merchant's wives and other such well-to-do middle class ladies.",
+    "desc": "Stylish yet affordable, this type of gown is commonly worn by merchant's wives and other such well-to-do middle-class ladies.",
     "icon": "content/items/body/bog.png",
     "price": 300,
     "sex": "female",
@@ -163,7 +163,7 @@
     },
     {
     "id": "Brothel Gown",
-    "desc": "This respectable-looking gown holds an enticing secret: parts of it are separately detachable, allowing unrestricted access to the wearer's breasts, ass and genitals. It's perfect for the girl who needs to go from presentable to slutty in the blink of an eye.",
+    "desc": "This respectable-looking gown holds an enticing secret: parts of it are separately detachable, allowing unrestricted access to the wearer's breasts, ass and genitals. Perfect when you need to go from presentable to slutty in the blink of an eye.",
     "icon": "content/items/body/bg.png",
     "price": 750,
     "sex": "female",
@@ -205,7 +205,7 @@
     },
     {
     "id": "Noble Gown",
-    "desc": "This type of magnificent, elaborate gown is exclusively worn by ladies of the upper class, because they're the only ones who can afford it. It's made for showing off and looking pretty, but not so much for agility or ease of motion.",
+    "desc": "This type of magnificent, elaborate gown is exclusively worn by ladies of the upper class because others can't afford it. It's made for showing off and looking pretty, but not so much for agility or ease of motion.",
     "icon": "content/items/body/ng.png",
     "price": 2000,
     "sex": "female",
@@ -225,7 +225,7 @@
     },
     {
     "id": "Gemstone Dress",
-    "desc": "This opulent silk dress is covered in dozens of precious gems, making its wearer look like a sexy walking treasure hoard.",
+    "desc": "This opulent silk dress is covered in dozens of small precious gems, making its wearer look like a sexy walking treasure hoard.",
     "icon": "content/items/body/gd.png",
     "price": 3500,
     "sex": "female",
@@ -287,7 +287,7 @@
     },
     {
     "id": "Viny-patterned Corset",
-    "desc": "Piece of the wardrobe created solely to make the waist look thinner. Sewn from green linen and padded with silk. For better visual effect, embroidered with slimming floral motif in the front. At top and bottom, finished with white lace and decorated with small taffeta ribbons. Beautifully underlining the wearers breasts and hips.",
+    "desc": "A piece of the wardrobe created solely to make the waist look thinner. Sewn from green linen and padded with silk, beautifully underlining the wearer's breasts and hips.",
     "icon": "content/items/body/vc.png",
     "price": 800,
     "sex": "female",
@@ -307,7 +307,7 @@
     },
     {
     "id": "Snow-knit Gown",
-    "desc": "If the girl wearing this gown isn’t shaking, you can be assured that she is hot more ways than one!",
+    "desc": "If a girl wearing this gown isn’t shaking, you can be assured that she is hot in more ways than one.",
     "icon": "content/items/body/sg.png",
     "price": 1500,
     "sex": "female",
@@ -327,7 +327,7 @@
     },
     {
     "id": "Leather Armor",
-    "desc": "This suit of boiled leather isn't too resistant, but is quite light and inexpensive. A favorite of militiamen everywhere.",
+    "desc": "This suit of boiled leather isn't too resistant but is quite light and inexpensive. A favorite of militiamen everywhere.",
     "icon": "content/items/body/la.png",
     "price": 150,
     "sex": "unisex",
@@ -410,7 +410,7 @@
     },
     {
     "id": "Mithril Armor",
-    "desc": "This durable and lightweight armor is incredibly rare and expensive not only because of the material used, but also because the technology of its processing is lost in the centuries.",
+    "desc": "This durable and lightweight armor is incredibly rare and expensive, not only due to the rare material but also because the technology of its processing is lost in the centuries.",
     "icon": "content/items/body/ma.png",
     "price": 1500,
     "sex": "unisex",
@@ -431,7 +431,7 @@
     },
     {
     "id": "Draconic Leather Armor",
-    "desc": "Truly a masterpiece among body protection. Although there are more durable copies made of the rarer species of dragons, by the law they all belong to nobility.",
+    "desc": "Truly a masterpiece of body protection. Although there are more durable copies made of the rarer species of dragons, by the law they all belong to the nobility.",
     "icon": "content/items/body/dla.png",
     "price": 3000,
     "sex": "unisex",
@@ -452,7 +452,7 @@
     },
     {
     "id": "Armor of the Battlemaiden",
-    "desc": "This suit of steel armor has been modified to expose small areas of a female wearer's anatomy, including cleavage, navel and thighs. The protection it offers is lessened, of course, but some say the distraction effect is worth it.",
+    "desc": "This suit of steel armor has been modified to expose small areas of a female wearer's anatomy, including cleavage, navel, and thighs. The protection it offers is lessened, of course, but some say the distraction effect is worth it.",
     "icon": "content/items/body/aotb.png",
     "price": 1000,
     "sex": "female",
@@ -497,7 +497,7 @@
     },
     {
     "id": "Short Kimono",
-    "desc": "Kimonos are considered to be elegant and sexy in some remote countries. Anyway, this shortened version is sexy all right.",
+    "desc": "Kimonos are considered to be elegant and sexy in some remote countries. This shortened one is sexy all right.",
     "icon": "content/items/body/sk.png",
     "price": 1500,
     "sex": "female",
@@ -546,7 +546,7 @@
     },
     {
     "id": "Elven Brigantine",
-    "desc": "Comfortable and light warrior armor from soft leather and an unknown metal. Male versions are much rarer than females ones due to sex ratio in elven settlements.",
+    "desc": "Comfortable and light warrior armor from soft leather and an unknown metal. Male versions are much rarer than females ones due to gender ratio in elven settlements.",
     "icon": "content/items/body/elb.png",
     "price": 2500,
     "sex": "male",
@@ -615,7 +615,7 @@
     },
     {
     "id": "Kunoichi Outfit",
-    "desc": "Part of the ninja outfit, light, flexible and sexy. Only a few copies exist outside of their villages as smuggling these is very dangerous.",
+    "desc": "Part of the ninja outfit, light, flexible and sexy. Only a few copies exist outside of their villages as smuggling them is very dangerous.",
     "icon": "content/items/body/ko.png",
     "price": 2600,
     "sex": "female",
@@ -641,7 +641,7 @@
     },
     {
     "id": "Kunoichi Suit",
-    "desc": "This lighter version of the ninja outfit is designed for missions based on seduction.",
+    "desc": "A light ninja outfit designed for missions based on seduction.",
     "icon": "content/items/body/kd.png",
     "price": 2800,
     "sex": "female",
@@ -690,7 +690,7 @@
     },
     {
     "id": "Sailor Uniform",
-    "desc": "A typical uniform worn by local schoolgirls.",
+    "desc": "A typical uniform wearable by local schoolgirls.",
     "icon": "content/items/body/sail.png",
     "price": 400,
     "sex": "female",
@@ -712,7 +712,7 @@
     },
     {
     "id": "School Uniform",
-    "desc": "A typical uniform worn by local schoolgirls.",
+    "desc": "A typical uniform wearable by local schoolgirls.",
     "icon": "content/items/body/sail1.png",
     "price": 450,
     "sex": "female",
@@ -829,7 +829,7 @@
     },
     {
     "id": "Mage Mantle",
-    "desc": "This simple mantle, commonly worn by apprentice mages, is woven with minor enchantments that protect magic-users from their own spells, allowing them to put in just a little more juice without putting themselves in danger. It also slightly increases their endurance, in case they do bite off more than they can chew.",
+    "desc": "A simple mantle weaved with minor enchantments to protect magic-users from their own spells, allowing them to put in just a little more juice without putting themselves in danger. It also slightly increases their endurance, in case they do bite off more than they can chew.",
     "icon": "content/items/body/mm.png",
     "price": 500,
     "sex": "unisex",
@@ -849,7 +849,7 @@
     },
     {
     "id": "Starlit Robes",
-    "desc": "These heavy robes are embroidered with images of various constellations and generate a matrix of astral energy around their wearer. This energy can be used to empower spells and form magical shields.",
+    "desc": "These heavy robes are embroidered with images of various constellations and generate a matrix of astral energy around their wearer.",
     "icon": "content/items/body/str.png",
     "price": 1250,
     "sex": "unisex",
@@ -892,7 +892,7 @@
     },
     {
     "id": "Succubus' Wardress",
-    "desc": "Mostly composed of thin leather, this otherworldly elegant suit of &quot;armor&quot; worn to battle by infernal temptresses seems to be more lingerie than protection. It carries a powerful warding enchantment that makes it stronger than most mundane armors.",
+    "desc": "This otherworldly elegant suit of armor carries a powerful warding enchantment that makes it stronger than most mundane armors.",
     "icon": "content/items/body/sw.png",
     "price": 4000,
     "sex": "female",
@@ -937,7 +937,7 @@
     },
     {
     "id": "Casual Clothes",
-    "desc": "There is a law prohibiting people to appear naked in some parts of the city, so you'd better stick to your clothes, even if it's cheap and old fashioned.",
+    "desc": "There is a law prohibiting people to appear naked in some parts of the city, so you'd better stick to your clothes, even if it's cheap and old-fashioned.",
     "icon": "content/items/body/cc.png",
     "price": 90,
     "sex": "male",
@@ -955,7 +955,7 @@
     },
     {
     "id": "Armored Casual Clothes",
-    "desc": "Normal clothes enforced with leather, providing additional defence for very little cost.",
+    "desc": "A normal clothes enforced with leather, providing additional defense for a little cost.",
     "icon": "content/items/body/cc1.png",
     "price": 90,
     "sex": "male",
@@ -972,7 +972,7 @@
     },
     {
     "id": "Artisan Outfit",
-    "desc": "Stylish but simple, such clothes are usually worn by artisans, craftsmen and other representatives of the middle class.",
+    "desc": "Stylish but simple clothes usually worn by artisans, craftsmen and other representatives of the middle class.",
     "icon": "content/items/body/ao.png",
     "price": 500,
     "sex": "male",
@@ -991,7 +991,7 @@
     },
     {
     "id": "Elite Artisan Outfit",
-    "desc": "Upgraded version of Artisan Outfit enforced with very stylish armored fabric.",
+    "desc": "An upgraded version of Artisan Outfit enforced with stylish armored fabric.",
     "icon": "content/items/body/ao1.png",
     "price": 500,
     "sex": "male",
@@ -1009,7 +1009,7 @@
     },
     {
     "id": "Leather Jacket",
-    "desc": "An expensive compromise between stylish looks and protective properties. Perfect for bdsm activities, but terrible for warm seasons.",
+    "desc": "An expensive compromise between stylish looks and protective properties. Perfect for BDSM activities, but terrible for warm seasons.",
     "icon": "content/items/body/sj.png",
     "price": 1300,
     "sex": "male",
@@ -1028,7 +1028,7 @@
     },
     {
     "id": "Altered Leather Jacket",
-    "desc": "A better-designed version of Leather Jacket, it's more comfortable and stylish, and also takes care of the aeration problem common for leather clothes.",
+    "desc": "A better-designed version of Leather Jacket, it's more comfortable and stylish, and also takes care of the aeration problem common to leather clothes.",
     "icon": "content/items/body/sj1.png",
     "price": 1300,
     "sex": "male",
@@ -1046,7 +1046,7 @@
     },
     {
     "id": "Mercenary Clothes",
-    "desc": "Silver, chains and leather - that's how mercenaries are supposed to look according to young noblemen. Even though they are far from reality, thanks to them these clothes already came into fashion.",
+    "desc": "Silver, chains, and leather - that's how mercenaries are supposed to look according to young noblemen. Even though they are far from reality, thanks to them these clothes already came into fashion.",
     "icon": "content/items/body/mc.png",
     "price": 2000,
     "sex": "male",
@@ -1087,7 +1087,7 @@
     },
     {
     "id": "Kilt",
-    "desc": "Piece of cloth covering your most important parts. Beware, in some cultures wearing this is an invitation for indecent acts between men!",
+    "desc": "A piece of cloth for covering your most important parts. Beware, in some cultures wearing this is an invitation for indecent acts between men!",
     "icon": "content/items/body/lk.png",
     "price": 500,
     "sex": "male",
@@ -1105,7 +1105,7 @@
     },
     {
     "id": "Imperial Armor",
-    "desc": "This piece of metal and skin is far from an ideal. Nevertheless it is the basic armor of Imperial soldiers. Lowest durability, but quite comfortable and does not constrain movement much. The Empire doesn't bear responsibility if you die earlier.",
+    "desc": "A basic armor of Imperial soldiers. Lowest durability, but quite comfortable and does not constrain movement much. The Empire doesn't bear responsibility if you die earlier.",
     "icon": "content/items/else/imperial/iba2.png",
     "price": 280,
     "sex": "male",
@@ -1123,7 +1123,7 @@
     },
     {
     "id": "Female Casual Clothes",
-    "desc": "There is a law prohibiting people to appear naked in some parts of the city, so you'd better stick to your clothes, even if it's cheap and old fashioned.",
+    "desc": "There is a law prohibiting people to appear naked in some parts of the city, so you'd better stick to your clothes, even if it's cheap and old-fashioned.",
     "icon": "content/items/body/ccf1.png",
     "price": 20,
     "sex": "female",

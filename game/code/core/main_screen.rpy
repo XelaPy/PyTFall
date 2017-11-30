@@ -131,8 +131,6 @@ screen mainscreen():
                 action Hide("mainscreen"), Jump("test_be_logical")
             textbutton "Peak Into SE":
                 action Show("se_debugger")
-            textbutton "Free Test":
-                action Hide("mainscreen"), Jump("frog_deathfight")
             textbutton "Examples":
                 action [Hide("mainscreen"), Jump("examples")]
             textbutton "Test MD":

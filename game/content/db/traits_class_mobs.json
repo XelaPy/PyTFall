@@ -113,7 +113,7 @@
         "occupations": [
             "Warrior"
         ],
-        "desc": "This creature has magic in it's blood, flesh and soul.",
+        "desc": "This creature has magic in its blood, flesh, and soul.",
         "basetrait": true,
         "mob_only": true,
         "defence_multiplier": {"magic":0.4},

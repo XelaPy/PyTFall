@@ -1,7 +1,7 @@
 [
     {
     "id": "Leather Cape",
-    "desc": "A humble cloak of oily leather, well suited to the rigors of the road.",
+    "desc": "A simple cloak of oily leather, suited for the rigors of the road.",
     "icon": "content/items/cape/lc.png",
     "price": 30,
     "sex": "unisex",
@@ -20,7 +20,7 @@
     },
     {
     "id": "Mantle of the Healer",
-    "desc": "These mantles are mainly used by acolyte healers. They provide additional spirit energy for good deeds, and they are heavy as hell.",
+    "desc": "These mantles are mainly used by acolyte healers. They provide additional spirit energy for good deeds.",
     "icon": "content/items/cape/mh.png",
     "price": 140,
     "sex": "unisex",
@@ -105,7 +105,7 @@
     },
     {
     "id": "Mercenary Cape",
-    "desc": "A fancy and conspicuous custom made cape from high-quality leather and raven feathers.",
+    "desc": "A fancy and conspicuous cape made from high-quality leather and raven feathers.",
     "icon": "content/items/cape/merc.png",
     "price": 400,
     "sex": "male",
@@ -127,7 +127,7 @@
     },
     {
     "id": "Linen Capelet",
-    "desc": "Simple piece of fabric to warn up cold shoulders in unpleasant weather.",
+    "desc": "A simple piece of fabric to warm up cold shoulders in unpleasant weather.",
     "icon": "content/items/cape/lcl.png",
     "price": 90,
     "sex": "female",
@@ -184,7 +184,7 @@
     },
     {
     "id": "Witch's Cloak",
-    "desc": "This cloak considerably helps in sorcery, but its appearance is quite poor.",
+    "desc": "This cloak considerably helps in sorcery but looks unpleasantly.",
     "icon": "content/items/cape/wc.png",
     "price": 400,
     "sex": "female",
@@ -334,7 +334,7 @@
     },
     {
     "id": "Armoured Cape",
-    "desc": "A heavily armoured, rigid, quite weighty cape. Widely used by City Guards officers on patrols outside city walls, it could be quickly unzipped when running speed is needed.",
+    "desc": "A heavily armored, rigid, quite weighty cape. Widely used by City Guards officers on patrols outside city walls, it could be quickly unzipped when running speed is needed.",
     "icon": "content/items/cape/arm.png",
     "price": 950,
     "sex": "unisex",
@@ -379,7 +379,7 @@
     },
     {
     "id": "Frost Cape",
-    "desc": "The cape glitters and softly crunches, as if it was frozen, but at the same time feels pretty warm.",
+    "desc": "The cape glitters and softly crunches as if it was frozen, but at the same time feels pretty warm.",
     "icon": "content/items/cape/frost.png",
     "price": 900,
     "sex": "unisex",
@@ -415,7 +415,7 @@
     },
     {
     "id": "Fireproof Cape",
-    "desc": "The heavy, dense cloth effectively wards off both magical and natural fire.",
+    "desc": "The heavy, dense cape wards off magical and natural fire alike.",
     "icon": "content/items/cape/fire.png",
     "price": 900,
     "sex": "unisex",
@@ -433,7 +433,7 @@
     },
     {
     "id": "Snowstorm Cape",
-    "desc": "The cape enchantment effectively protects from water based attacks by turning water into soft snow.",
+    "desc": "The cape enchantment effectively protects from water-based attacks by turning water into soft snow.",
     "icon": "content/items/cape/water.png",
     "price": 900,
     "sex": "unisex",
@@ -505,7 +505,7 @@
     },
     {
     "id": "Stillness Cape",
-    "desc": "The wind dies down around the cape, and the air itself becomes somewhat heavy.",
+    "desc": "The wind dies down around the cape, and even the air becomes heavy.",
     "icon": "content/items/cape/wind.png",
     "price": 900,
     "sex": "unisex",

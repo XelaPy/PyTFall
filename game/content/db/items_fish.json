@@ -1,7 +1,7 @@
 [
     {
     "id": "Anchovy",
-    "desc": "A small, common forage fish.",
+    "desc": "A small forage fish. Very common.",
     "icon": "content/items/fish/anchovy.png",
     "price": 3,
     "chance": 90,
@@ -31,7 +31,7 @@
     },
     {
     "id": "Elephantfish",
-    "desc": "A big fish with an ability to generate weak electric fields that allow it to sense environment.",
+    "desc": "A big fish with an ability to generate weak electric fields that allow it to sense the environment.",
     "icon": "content/items/fish/elephant.png",
     "price": 20,
     "chance": 20,
@@ -41,7 +41,7 @@
     },
     {
     "id": "Flying Fish",
-    "desc": "An exotic fish capable to make powerful leaps out of water into air to evade predators.",
+    "desc": "An exotic fish capable of making powerful leaps to evade predators.",
     "icon": "content/items/fish/flying_fish.png",
     "price": 15,
     "chance": 40,
@@ -51,7 +51,7 @@
     },
     {
     "id": "Koi Carp",
-    "desc": "A widespread partially domesticated fish often used for decorative purposes.",
+    "desc": "A partially domesticated fish. Often used for decorative purposes.",
     "icon": "content/items/fish/carp.png",
     "price": 5,
     "chance": 80,
@@ -111,7 +111,7 @@
     },
     {
     "id": "Stinky Boot",
-    "desc": "Someone threw it away long time ago. You probably should do the same.",
+    "desc": "Someone threw it away a long time ago. You probably should do the same.",
     "icon": "content/items/fish/boot.png",
     "price": 0,
     "chance": 90,
@@ -141,7 +141,7 @@
     },
     {
     "id": "Octopus",
-    "desc": "A predatory mollusc with four pairs of arms, is eaten in some cultures.",
+    "desc": "A predatory mollusk with four pairs of arms.",
     "icon": "content/items/fish/octopus.png",
     "price": 30,
     "chance": 30,
@@ -181,7 +181,7 @@
     },
     {
     "id": "Red Snapper",
-    "desc": "A massive plankton-feeding fish popular among fishermen.",
+    "desc": "A massive plankton-feeding fish.",
     "icon": "content/items/fish/snapper.png",
     "price": 70,
     "chance": 35,
@@ -201,7 +201,7 @@
     },
     {
     "id": "Betta Fish",
-    "desc": "A small, but very territorial omnivorous fish",
+    "desc": "A small, but very territorial omnivorous fish.",
     "icon": "content/items/fish/betta.png",
     "price": 25,
     "chance": 60,
@@ -211,7 +211,7 @@
     },
     {
     "id": "Undead Fish",
-    "desc": "Anything that once lived and died can be raised as undead. Fortunately, these creatures immediately break apart and die forever once extracted from water.",
+    "desc": "Anything that lived and died can be raised as undead. Fortunately, these creatures immediately break apart and die forever once they leave the water.",
     "icon": "content/items/fish/undead.png",
     "price": 1,
     "chance": 90,

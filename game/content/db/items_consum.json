@@ -17,7 +17,7 @@
     },
     {
     "id": "Mana Potion",
-    "desc": "This tasteless liquid seems to contain a lot of flowing, swirling points of light. It can be absorbed to considerably recharge one's magical energy.",
+    "desc": "This tasteless liquid contains flowing, swirling sparkles of light. It can be absorbed to considerably recharge one's magical energy.",
     "icon": "content/items/cons/mp.png",
     "price": 200,
     "sex": "unisex",
@@ -34,7 +34,7 @@
     },
     {
     "id": "Great Mana Potion",
-    "desc": "Cold liquid in this vial produces a faint jingle. It contains enough power to greatly restore one's magical energy and to completely suppress the sense of taste for several minutes.",
+    "desc": "The cold liquid in this vial produces a faint jingle. It contains enough power to greatly restore magical energy and to completely suppress the sense of taste for several minutes.",
     "icon": "content/items/cons/gmp.png",
     "price": 400,
     "sex": "unisex",
@@ -51,7 +51,7 @@
     },
     {
     "id": "Ultimate Mana Potion",
-    "desc": "They say many of the greatest magicians in history have earned their fame thanks to this weightless salty substance from another world. When consumed it temporarily fills every corner of the body with magic energy. Effects lasts for a day.",
+    "desc": "They say many of the greatest magicians in history have earned their fame thanks to this weightless salty substance from another world. When consumed it temporarily fills every corner of the body with magic energy. Effects last for a few days.",
     "icon": "content/items/cons/ump.png",
     "price": 1000,
     "sex": "unisex",
@@ -62,15 +62,15 @@
     "infinite": false,
     "slot": "consumable",
     "type": "restore",
-    "ctemp": 1,
-    "cblock": 3,
+    "ctemp": 5,
+    "cblock": 5,
     "max": {"mp": 200, "magic": 100},
     "mod": {"mp": 10000, "constitution": -35, "vitality": -60, "defence": -25, "magic": 100},
     "locations": ["Exploration", "Arena"]
     },
     {
     "id": "Small Healing Potion",
-    "desc": "This simple potion, which tastes like strawberries, draws on the body's natural healing ability to cure your wounds.",
+    "desc": "This simple potion with strawberries flavor draws on the body's natural healing ability to cure your wounds.",
     "icon": "content/items/cons/shp.png",
     "price": 150,
     "sex": "unisex",
@@ -87,7 +87,7 @@
     },
     {
     "id": "Healing Potion",
-    "desc": "This potent herbal concoction is used as standard battlefield medicine by many armies around the world. It won't be enough to send a dying soldier back to the frontlines, but at least he'll be able to walk himself back to camp.",
+    "desc": "This potent herbal concoction is used as standard battlefield medicine by many armies. It won't be enough to send a dying soldier back to the frontlines, but at least he'll be able to walk himself back to camp.",
     "icon": "content/items/cons/hp.png",
     "price": 250,
     "sex": "unisex",
@@ -121,7 +121,7 @@
     },
     {
     "id": "Ultimate Healing Potion",
-    "desc": "The legacy of an ancient civilization, this warm liquid with negative viscosity is able to save the drinker even on the brink of death. It temporarily creates a duplicate of all the vital organs, saving from immediate death and increasing survival.Effects lasts for a day.",
+    "desc": "The legacy of an ancient civilization, this warm liquid with negative viscosity is able to save the drinker even on the brink of death. It temporarily creates a duplicate of all the vital organs, saving from immediate death and increasing survival. Effects last for a few days.",
     "icon": "content/items/cons/uhp.png",
     "price": 1200,
     "sex": "unisex",
@@ -132,8 +132,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "restore",
-    "ctemp": 1,
-    "cblock": 3,
+    "ctemp": 5,
+    "cblock": 5,
     "max": {"health": 50},
     "mod": {"health": 10000, "constitution": 50, "vitality": 200, "defence": 10},
     "removeeffects": ["Injured", "Food Poisoning"],
@@ -229,7 +229,7 @@
     },
     {
     "id": "Antidote",
-    "desc": "The contents of this tube emits a putrid smell, but ingestion in case of toxication may save your life.",
+    "desc": "The contents of this tube emit a putrid smell, but ingestion in case of toxication may save your life.",
     "icon": "content/items/cons/antidot.png",
     "price": 800,
     "sex": "unisex",
@@ -245,7 +245,7 @@
     },
     {
     "id": "Mana Powder",
-    "desc": "A vial with ground Mana Crystal. It can quickly restore magic energy anytime you need it, but at the price of vitality.",
+    "desc": "A vial with ground Mana Crystal. It can quickly restore magic energy anytime you need it but at the price of vitality.",
     "icon": "content/items/cons/mpow.png",
     "price": 800,
     "sex": "unisex",
@@ -277,7 +277,7 @@
     },
     {
     "id": "Cold Medicine",
-    "desc": "This bottle contains cheap medication for the most common lung diseases.",
+    "desc": "A bottle of cheap medication for the most common lung diseases.",
     "icon": "content/items/cons/mc.png",
     "price": 35,
     "sex": "unisex",
@@ -385,8 +385,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "upgrade",
-    "ctemp": 9,
-    "cblock": 9,
+    "ctemp": 14,
+    "cblock": 7,
     "mod_skills": {"anal": [0.15, 0.15, 0.1, 0, 0], "group": [0, 0, 0.04, 0, 0]},
     "locations": ["Witches Hut"],
     "goodtraits": ["Nymphomaniac"],
@@ -394,7 +394,7 @@
     },
     {
     "id": "Cheap Perfume",
-    "desc": "This inexpensive perfume is best used in moderation.",
+    "desc": "This inexpensive perfume better to use in moderation.",
     "icon": "content/items/cons/cp.png",
     "price": 20,
     "sex": "female",
@@ -437,7 +437,7 @@
     },
     {
     "id": "Quality Perfume",
-    "desc": "This delicate fragrance brightens the mood and attracts attention without making itself too obvious. Definitely a classy smell.",
+    "desc": "This delicate fragrance brightens the mood and attracts attention. Definitely a classy smell.",
     "icon": "content/items/cons/qp.png",
     "price": 150,
     "sex": "female",
@@ -475,7 +475,7 @@
     },
     {
     "id": "Succubus Milk",
-    "desc": "Freshly squeezed from the breasts of a succubus, this thin sweet milk causes its drinker to feel overpowering arousal. This does not damage the victim's precious soul, though it does make her more vulnerable to temptation.",
+    "desc": "This thin sweet milk causes its drinker to feel overpowering arousal. This does not damage the victim's precious soul, though it does make her more vulnerable to temptation.",
     "icon": "content/items/cons/sm.png",
     "price": 500,
     "sex": "female",
@@ -552,7 +552,7 @@
     },
     {
     "id": "Elixir of Ultimate Regeneration",
-    "desc": "Created by a master alchemist, this mighty potion instantly causes the drinker's body to regenerate all lost limbs, heal all physical wounds and cure all illnesses. The process is extremely exhausting physiologically and may require a convalescence period.",
+    "desc": "Created by a master alchemist, this mighty potion instantly heals all physical wounds and cures all illnesses. The process is extremely exhausting and may require a convalescence period.",
     "icon": "content/items/cons/eur.png",
     "price": 4000,
     "sex": "unisex",
@@ -692,7 +692,7 @@
     },
     {
     "id": "Elixir of Abstinence",
-    "desc": "This vial contains an extract of rare herbs, seriously decreasing the body's need for sex.",
+    "desc": "This vial contains an extract of rare herbs, considerably decreasing the body's need for sex.",
     "icon": "content/items/cons/es.png",
     "price": 500,
     "sex": "female",
@@ -743,7 +743,7 @@
     },
     {
     "id": "Virus of Telepathy",
-    "desc": "This syringe contains a rare form of a virus. Being inject into the body, it creates a colony in the brain giving the ability to read others' thoughts. Although the process is far from harmless...",
+    "desc": "This syringe contains a rare form of a virus. Upon injecting it gives the ability to read thoughts. However, the process is far from harmless.",
     "icon": "content/items/cons/vt.png",
     "price": 1000,
     "sex": "female",
@@ -1069,7 +1069,7 @@
     },
     {
     "id": "Empty Extractor",
-    "desc": "A device from ancient times, capable to extract, store and inject personal experience. This particular exemplar is empty.",
+    "desc": "A device from ancient times, capable to extract, store and inject personal experience. This particular device is empty.",
     "icon": "content/items/cons/reg_2.png",
     "price": 200,
     "sex": "unisex",
@@ -1085,7 +1085,7 @@
     },
     {
     "id": "Full Extractor",
-    "desc": "A device from ancient times, capable to extract, store and inject personal experience. This particular exemplar is full of it.",
+    "desc": "A device from ancient times, capable to extract, store and inject personal experience. This particular device is full of energy.",
     "icon": "content/items/cons/reg_1.png",
     "price": 400,
     "sex": "unisex",
@@ -1101,7 +1101,7 @@
     },
     {
     "id": "Golden Luck",
-    "desc": "A small rare talisman capable to bestow luck. Quite uplifting.",
+    "desc": "A small rare talisman capable to bestow good luck.",
     "icon": "content/items/cons/gl.png",
     "price": 500,
     "sex": "unisex",
@@ -1133,7 +1133,7 @@
     },
     {
     "id": "Flashing Extract",
-    "desc": "A bottle of glowing, sparkling fluid. Increases the amount of action points by 1. Can be used only once.",
+    "desc": "A bottle of glowing, sparkling fluid. Increases the number of action points by 1. Can be used only once.",
     "icon": "content/items/cons/ap.png",
     "price": 2000,
     "sex": "unisex",
@@ -1149,7 +1149,7 @@
     },
     {
     "id": "Regeneration Potion",
-    "desc": "A bottle of viscous liquid smelling of lemon. Restores 10 hp every day.",
+    "desc": "A bottle of viscous liquid. Restores 10 health points every day.",
     "icon": "content/items/cons/reg.png",
     "price": 250,
     "sex": "unisex",
@@ -1166,7 +1166,7 @@
     },
     {
     "id": "Herbal Extract",
-    "desc": "A mixture of natural ingredients capable to heal body through its own inner resources. Can be used more often than traditional medicines, but requires vitality to work.",
+    "desc": "A mixture of natural ingredients capable to heal the body through its inner resources. Can be used more often than traditional medicine, but consumes vitality.",
     "icon": "content/items/cons/he.png",
     "price": 150,
     "sex": "unisex",
@@ -1199,7 +1199,7 @@
     },
     {
     "id": "Bottle of Milk",
-    "desc": "A bottle of refreshing and delicious milk. There is no dairy cattle around the city, so it comes from an unusual source.",
+    "desc": "A bottle of refreshing and delicious milk. There are no dairy cattle around the city, so it comes from an unusual source.",
     "icon": "content/items/cons/milk.png",
     "price": 20,
     "sex": "unisex",
@@ -1216,7 +1216,7 @@
     },
     {
     "id": "Red Wine",
-    "desc": "An aged wine made from dark-colored grape.",
+    "desc": "An aged wine made from the dark-colored grape.",
     "icon": "content/items/cons/rwine.png",
     "price": 18,
     "sex": "unisex",

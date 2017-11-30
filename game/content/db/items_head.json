@@ -118,7 +118,7 @@
     },
     {
     "id": "Catkin headgear",
-    "desc": "Adhering strictly to the head, it dark and mono-colored design focuses on exposing and bringing out the wearers face to the foreground. This headgear is a real life saver, on a bad hair day for all lovely ladies out there.",
+    "desc": "This headgear is a real lifesaver, on a bad hair day for all lovely ladies out there.",
     "icon": "content/items/head/ch.png",
     "price": 110,
     "sex": "female",
@@ -137,7 +137,7 @@
     },
     {
     "id": "General Helmet",
-    "desc": "This replica of the Dragon Cult Army is now available to all military enthusiasms and collectors but also for people that want to terrify their enemies in combat.",
+    "desc": "This replica of the Dragon Cult Army is now available to all military enthusiasts and collectors, and also for people that want to terrify their enemies in combat.",
     "icon": "content/items/head/gen.png",
     "price": 800,
     "sex": "unisex",
@@ -156,7 +156,7 @@
     },
     {
     "id": "Officer Helmet",
-    "desc": "A replica of the Dragon Cult Army officer. Much lighter from the general option, this helmet gives a wider view field. More heavier then the scrub helmet gives more protection to the face and horns inform about the rank.",
+    "desc": "A replica of the Dragon Cult officer's helmet. Horns inform about the rank.",
     "icon": "content/items/head/oh.png",
     "price": 600,
     "sex": "unisex",
@@ -175,7 +175,7 @@
     },
     {
     "id": "Private Helmet",
-    "desc": "The lightest of the Dragon Cult Army replicas. Originally was wore by infantry. It basic job was to protect the soldiers head from strikes from sides and back. It weight was perfect for long marches.",
+    "desc": "The lightest of the Dragon Cult Army replicas. Originally was wore by infantry. Its basic job was to protect the soldiers head from strikes from sides and back.",
     "icon": "content/items/head/pri.png",
     "price": 400,
     "sex": "unisex",
@@ -194,7 +194,7 @@
     },
     {
     "id": "Recon Helmet",
-    "desc": "With the high number of exploration teams hunting down wolves in the woods around the city, this kind of headgear got really easy to obtain. Providing decent defense in combat likewise protection from rain and snow, made it all scouts favorite.",
+    "desc": "With the high number of exploration teams hunting down wolves in the woods around the city, this kind of headgear got really easy to obtain. Provides decent defense in combat and protection from rain and snow, making it all scouts favorite.",
     "icon": "content/items/head/recon.png",
     "price": 350,
     "sex": "unisex",
@@ -215,7 +215,7 @@
     },
     {
     "id": "Joy Hat",
-    "desc": "Urban legends tell us about the Master Joker. His victims couldn't even breath, let alone fight, due to uncontrollable laughter. Presumably he died or left the city during the war, leaving these hats as a reminder about the power of joy.",
+    "desc": "Urban legends tell us about the Master Joker. His victims couldn't even breath, let alone fight, due to uncontrollable laughter. Presumably, he died or left the city during the war, leaving these hats as a reminder about the power of joy.",
     "icon": "content/items/head/joy_hat.png",
     "price": 500,
     "sex": "female",
@@ -237,7 +237,7 @@
     },
     {
     "id": "The All-Seeing Hat",
-    "desc": "Really good hat for all those magic wielding explorers. Boosting not only the users natural magic powers but also awareness.",
+    "desc": "This enchanted hat with boosts the users natural magic powers and awareness.",
     "icon": "content/items/head/magic_hat.png",
     "price": 900,
     "sex": "female",
@@ -257,7 +257,7 @@
     },
     {
     "id": "Seashell Hat",
-    "desc": "Wearing it you feel safe and comfy just like at home. Don’t know who or what lived inside before, maybe a hermit crab or something else but you don’t care. Now this shell is YOURS! ALL YOURS! BUAHAHAHA!!",
+    "desc": "Wearing this hat (?) makes you feel safe and comfy like at home.",
     "icon": "content/items/head/seashell_hat.png",
     "price": 1000,
     "sex": "unisex",
@@ -354,7 +354,7 @@
     },
     {
     "id": "White Turban",
-    "desc": "Headwear from a far away land. It get popularized by a slave broker called Lurker in this parts of the world.",
+    "desc": "Headwear from a far away land. It got popularized by a slave broker called Lurker.",
     "icon": "content/items/head/turban.png",
     "price": 450,
     "sex": "male",
@@ -392,7 +392,7 @@
     },
     {
     "id": "Imperial Leather Helmet",
-    "desc": "This helmet offers the wearer weak protection to the vital areas of the head. Everything, than it can draw your attention it is the frightening style.",
+    "desc": "This helmet offers the wearer weak protection to the vital areas of the head.",
     "icon": "content/items/else/imperial/ilh1.png",
     "price": 230,
     "sex": "male",
@@ -431,7 +431,7 @@
     },
     {
     "id": "Bonnet",
-    "desc": "A brimless headcovering worn to keep the hair tidy.",
+    "desc": "A brimless head-covering for keeping the hair tidy.",
     "icon": "content/items/head/bon.png",
     "price": 170,
     "sex": "female",
@@ -514,7 +514,7 @@
     },
     {
     "id": "Ancient Helmet",
-    "desc": "A fancy foreign helmet. Despite its age it still provides solid protection.",
+    "desc": "A fancy foreign helmet. Despite its age, it still provides solid protection.",
     "icon": "content/items/head/sm.png",
     "price": 500,
     "sex": "unisex",

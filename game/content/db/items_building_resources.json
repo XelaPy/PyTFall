@@ -61,7 +61,7 @@
     },
     {
     "id": "Velvet",
-    "desc": "A type of woven tufted fabric in which the cut threads are evenly distributed, with a short dense pile, giving it a distinctive feel.",
+    "desc": "A type of woven tufted fabric with evenly distributed threads, giving it a distinctive feel.",
     "icon": "content/items/building_resources/velvet.png",
     "price": 130,
     "sex": "unisex",
@@ -136,7 +136,7 @@
     },
     {
     "id": "Canvas",
-    "desc": "An extremely durable plain-woven fabric used for making items for which sturdiness is required.",
+    "desc": "An extremely durable plain-woven fabric used for making items when sturdiness is required.",
     "icon": "content/items/building_resources/canvas.png",
     "price": 40,
     "sex": "unisex",
@@ -166,7 +166,7 @@
     },
     {
     "id": "Steel",
-    "desc": "An alloy of iron carbon with high tensile strength.",
+    "desc": "An alloy of iron-carbon with high tensile strength.",
     "icon": "content/items/building_resources/steel.png",
     "price": 110,
     "sex": "unisex",
