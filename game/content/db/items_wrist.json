@@ -83,7 +83,7 @@
     },
     {
     "id": "Mail Gloves",
-    "desc": "Mail gloves combine mobility and durability, but are complicated and expensive to manufacture.",
+    "desc": "Mail gloves combine mobility and durability but are complicated and expensive to manufacture.",
     "icon": "content/items/wrist/mag.png",
     "price": 300,
     "sex": "unisex",
@@ -103,7 +103,7 @@
     },
     {
     "id": "Mithril Gloves",
-    "desc": "These durable and lightweight gloves are incredibly rare and expensive not only because of the material used, but also because the technology of its processing is lost in the centuries.",
+    "desc": "These durable and lightweight gloves are incredibly rare and expensive not only because of the material used but also because the technology of its processing is lost in the centuries.",
     "icon": "content/items/wrist/mig.png",
     "price": 400,
     "sex": "unisex",
@@ -124,7 +124,7 @@
     },
     {
     "id": "Draconic Leather Gloves",
-    "desc": "Truly a masterpiece among hand protection. Although there are more durable copies made of the rarer species of dragons, by the law they all belong to nobility.",
+    "desc": "Truly a masterpiece of hand protection. Although there are more durable copies made of the rarer species of dragons, by the law they all belong to the nobility.",
     "icon": "content/items/wrist/drag.png",
     "price": 550,
     "sex": "unisex",
@@ -166,7 +166,7 @@
     },
     {
     "id": "Cleaning Gloves",
-    "desc": "Maybe they aren’t pretty, but they are chemically-resistant to harsh detergents, acids, solvents, alcohols and alkalis.",
+    "desc": "Maybe they aren’t pretty, but they are chemically-resistant to harsh detergents, acids, solvents, alcohols, and alkalis.",
     "icon": "content/items/wrist/cg.png",
     "price": 140,
     "sex": "female",
@@ -207,7 +207,7 @@
     },
     {
     "id": "Thief Gloves",
-    "desc": "Despite their names, these cursed gloves does not help to stealing or lockpicking. Instead, they make the owner greedier both materially and spiritually.",
+    "desc": "Despite their names, these cursed gloves do not help to steal. Instead, they make the owner greedier both materially and spiritually.",
     "icon": "content/items/wrist/tg.png",
     "price": 200,
     "sex": "unisex",
@@ -326,7 +326,7 @@
     },
     {
     "id": "Devil Arms",
-    "desc": "These living gloves are named after the carnivorous plant they are made from. This plant is dangerous enough to attack with even without weapons, but they tend to dull the senses of the owner.",
+    "desc": "These living gloves are named after the carnivorous plant they are made from. Tend to dull the senses of the owner, but are very dangerous for the opponent.",
     "icon": "content/items/wrist/da.png",
     "price": 1300,
     "sex": "female",
@@ -387,7 +387,7 @@
     },
     {
     "id": "Black Leather Gloves",
-    "desc": "These gloves are made of a very fine leather dyed a deep black.",
+    "desc": "A pair of gloves of fine deep black leather.",
     "icon": "content/items/wrist/blg.png",
     "price": 150,
     "sex": "female",
@@ -578,7 +578,7 @@
     },
     {
     "id": "Ninja Gloves",
-    "desc": "Part of the ninja outfit, extremely light and flexible. Only a few copies exist outside of their villages as smuggling them is very dangerous.",
+    "desc": "A part of the ninja outfit, extremely light and flexible. Only a few copies exist outside of their villages as smuggling them is very dangerous.",
     "icon": "content/items/wrist/nig.png",
     "price": 1000,
     "sex": "female",

@@ -69,7 +69,7 @@
   {
     "id": 4,
     "name": "House in the City",
-    "desc": "A Beautiful house inside city limits",
+    "desc": "A beautiful house inside city limits.",
     "price": 75000,
     "rooms": 4,
     "maxrooms": 10,
@@ -94,7 +94,7 @@
   {
     "id": 5,
     "name": "Mansion on the Main Road",
-    "desc": "Large mansion in the City Center",
+    "desc": "A large mansion in the city center.",
     "price": 175000,
     "rooms": 3,
     "maxrooms": 25,
@@ -148,7 +148,7 @@
   {
     "id": 7,
     "name": "Central Palace",
-    "desc": "Possibly the most beautiful and spectacular building in the city. You'll never cease asking yourself how you managed to come this far!",
+    "desc": "Possibly the most beautiful and spectacular building in the city. You'll never cease asking yourself how you managed to come this far.",
     "price": 1000000,
     "rooms": 7,
     "maxrooms": 100,
