@@ -47,7 +47,7 @@ label slave_market:
                 extend " ... but I guess that since you had to witness that, I'll let this slide."
             "Omg stfu I just need to test something!" if config.developer:
                 jump omg_stfu_blue
-        g "My name is Irma, but apperently that's too hard to remember... so everyone calls me Blue. Original isn't it?"
+        g "My name is Irma, but apparently, that's too hard to remember... so everyone calls me Blue. Original isn't it?"
 
         $ g = npcs["Blue_slavemarket"].say
 
@@ -64,17 +64,17 @@ label slave_market:
         s "Just the cool things I assume!?"
         g "What the hell are you talking about? Those slaves were a disgrace to our good rep!"
         s "Temper, temper my dear... the quality of those slaves are your problem."
-        s "Keeping the cash flowing, gold rolling so Mr. Big is satisfied, is mine!"
+        s "Keeping the cash flowing, gold rolling, so Mr. Big is satisfied, is mine!"
         s "I am going to get some measure of today's lots and what we can get for them!"
-        s "Don't bother our prospective clients and go play with your slaves while {color=[red]}I{/color} take care of real work! <Smirks>"
+        s "Don't bother our prospective clients and play with your slaves while {color=[red]}I{/color} take care of real work! <Smirks>"
 
         hide stan with dissolve
         show expression npcs["Blue_slavemarket"].get_vnsprite() as blue at center with move
 
         g "That damn baboon only thinks about money! No sense of duty or love for the craft!"
         g "You see it too, don't you?"
-        g "In any case, if you're looking to whip some slave into shape or get a fair deal on one. Come find me, I'll set you up!"
-        g "Ah, visit our club as well, we do presentations and you can do 'some sampling' if you have the Gold."
+        g "In any case, if you're looking to whip some slave into shape or get a fair deal on one. Find me. I'll set you up!"
+        g "Ah, visit our club as well, we do presentations, and you can do 'some sampling' if you have the Gold."
         g "You won't be disappointed!"
         g "Goodbye!"
 
@@ -189,7 +189,7 @@ label blue_menu:
                     if pytfall.sm.blue_girls:
                         $ var = plural("girl", len(pytfall.sm.blue_girls))
                         g "I am currently training [var] girls for you."
-                        g "Don't worry, they'll all be ready as promised."
+                        g "Don't worry. They'll all be ready as promised."
                     else:
                         g "I'll train anyone, without fail! Just send them my way!"
             "That will be all":

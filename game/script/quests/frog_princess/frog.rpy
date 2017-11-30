@@ -55,14 +55,14 @@ label start_frog_event:
                 "Poke the frog with a stick.":
                     jump frog1_event_poke
                 "Try to snatch the crown":
-                    "You quickly grab the crown before the frog realises you intentions!"
+                    "You quickly grab the crown before the frog realizes your intentions!"
                     $ hero.add_item("Gilded Crown")
                     hide frog
                     play events "events/clap.mp3"
                     show expression HitlerKaputt("frog", 50) as death
                     pause 1.5
-                    "As soon as the crown is separated from the frog, its body disappears with a soft clap..."
-                    "But on the bright side the crown is yours now, and local merchants will give you some gold for it."
+                    "As soon as the crown is of the frogs head, its body disappears with a soft clap..."
+                    "But on the bright side, the crown is yours now, and local merchants will give you some gold for it."
                     $ pytfall.world_quests.get("Frog Princess!").finish_in_label("You've retrieved the frog's crown. Possibly killing the frog.")
                     $ pytfall.world_events.kill_event("show_frog")
                     hide death
@@ -87,24 +87,24 @@ label frog1_event_poke:
 
     menu:
         "Listen.":
-            f1 "Once I was a beautiful princess. Few years ago I was travelling through this woods to wed my beloved in PyTFall. On my travel I met and older women that turned me into this creature. Please could you help a maiden in distress? "
+            f1 "Once I was a beautiful princess. A few years ago I was traveling through this woods to wed my beloved in PyTFall. On my travel, I met an older woman that turned me into this creature. Please, could you help a maiden in distress? "
             $ i = True
             while i:
                 menu:
                     "Ask about groom":
                         f1 "We met shortly after the event. He wanted to see his bride as soon as possible, so he came to meet me halfway."
                         f1 "Not knowing what happened to me I spoke first. He thought that I was hiding behind the frog, trying to trick him. But when he realized the truth, he broke on his knees crying."
-                        f1 "Then I realized what have happened to me. We sworn to each other that we would be strong and find a solution."
-                        f1 "Because of this curse I am enable to leave the forest, so for the first few weeks he came to see me every day."
-                        f1 "But weeks grew into months and he started to come less frequently. After five months he stopped visiting me and I didn’t saw him ever since…"
+                        f1 "Then I realized what had happened to me. We sworn to each other that we would be strong and find a solution."
+                        f1 "Because of this curse, I am unable to leave the forest, so for the first few weeks, he came to see me every day."
+                        f1 "But weeks grew into months, and he started to come less frequently. After five months he stopped visiting me, and I didn’t saw him ever since…"
                     "Ask about older women":
-                        f1 "I can’t tell you much about her. Only thing that I remember about her, was that she approached me on the road mumbling something and blown some sparkly dust in my face."
+                        f1 "I can’t tell you much about her. The only thing that I remember about her, was that she approached me on the road mumbling something and blew some sparkly dust in my face."
                     "Ask about Frog Princess":
                         f1 "So you would like to know more about me. Sure I will tell you. Once I was a maiden of incomparable beauty."
                         f1 "Being  the first daughter of Eastern Yatta Clan I had many admirers. But I fell in love with a merchants son."
-                        f1 "I planned my escape carefully. On a starless I slipped out my father castle to be with my beloved. On the way I met that older woman."
+                        f1 "I planned my escape carefully. On a starless night, I slipped out my father castle to be with my beloved and met that old crow on my way there."
                     "Promise her that you will find a way to break this spell.":
-                        "You promised her that you would try to find a solution. But do you know someone that use magic and brew potions that would be able to help you?"
+                        "You promised her that you would try to find a solution. But do you know someone who uses magic and brews potions?"
                         $ global_flags.set_flag("agreed_to_help_frog")
                         $ pytfall.world_events.kill_event("show_frog")
                         $ i = False
@@ -117,7 +117,7 @@ label frog1_event_poke:
                         $ pytfall.world_events.kill_event("show_frog")
                         $ i = False
         "Run!":
-            "You turned around and run towards the city, screaming like a little bitch."
+            "You turn around and run towards the city, screaming like a little bitch."
             $ pytfall.world_quests.get("Frog Princess!").finish_in_label("You've rejected the Frog Princess Quest! It's further fate is unknown.")
             $ pytfall.world_events.kill_event("show_frog")
     $ global_flags.set_flag("keep_playing_music")
@@ -138,7 +138,7 @@ label frog1_event_abby:
     menu:
         w "How about it?"
         "Pay her." if hero.gold >= 1000:
-            w "I should have the answer soon. Come see me in few days."
+            w "I should have the answer soon. Visit me in few days."
             $ pytfall.world_quests.get("Frog Princess!").next_in_label("For a hefty sum of 1000 Gold Abby the witch promised to look into the frog matter. You should visit her again in a few days.")
             $ hero.take_money(1000, reason="Events")
             if config.debug:
@@ -174,8 +174,8 @@ label frog1_event_abby_2:
         $ menu_extensions.add_extension("Abby The Witch Main", ("Ask about the frog (again)", Jump("frog1_event_abby_2"), "day > {}".format(day)))
 
     else:
-        w "I found a solution. A rare magic potion should do the trick but that's not the hard part..."
-        extend " I need another 10 000 gold to buy the necessary ingredients but the real trick will be getting a goblin champion eye."
+        w "I found a solution. A rare magic potion should do the trick, but that's not the hard part..."
+        extend " I need another 10 000 gold to buy the necessary ingredients, but the real trick will be getting a goblin champion eye."
 
         menu:
             "I will get you the money and the eye...":
@@ -200,9 +200,9 @@ label frog_event_arena:
     ax "An eye of the goblin champion you say?"
     ax "I sure hope it's not some weird fetish you're into..."
     ax "It can be arranged I suppose, as you may know, dampening field prevents fatal blows in the Arena, often even to Monsters but a proper DeathMatch can be arranged."
-    ax "Come back in three days and make certain you are well equipped, you may even consider bringing a couple of friends along with you."
-    ax "A real G-Champ will be bloody hard to kill and in deathmatch you'll die as well if your party is wiped out."
-    ax "Also don't expect him to be along even if you are, people will expect a vicious fight, deathmatches are rare enough so it's best to make it look good!"
+    ax "Come back in three days and make certain you are well equipped. You may even consider bringing a couple of friends along with you."
+    ax "A real G-Champ will be bloody hard to kill, and in deathmatch, you'll die as well if your party is wiped out."
+    ax "Also, don't expect him to be along even if you are, people will expect a vicious fight, deathmatches are rare enough, so it's best to make it look good!"
     $ hero.take_ap(1)
     $ pytfall.world_quests.get("Frog Princess!").next_in_label("Xeona agreed to set up a match per your request but you've been warned that it is a {color=[red]}very{/color} dangerous endeavour and it would be a good idea to bring some backup!")
     if config.debug:
@@ -260,17 +260,17 @@ label frog1_event_abby_3:
     w "I heard you got the base ingredient. "
     extend "I heard it was one hell of a fight in the Arena!"
     extend " ... too bad I've missed it."
-    w "Anyway, prepared the potion so I only need the eye from you (takes the eye)."
+    w "Anyway, prepared the potion, so I only need the eye from you (takes the eye)."
     w "And don't worry about the 10000 Gold, I was only joking, most of these ingredients grow right outside my hut..."
     "Three minutes have passed..."
-    w "Here is the potion. Now listen. To undo the spell, have the frog to drink the potion and after that you have to kiss."
+    w "Here is the potion. Now listen. To undo the spell, have the frog to drink the potion and kiss it after it does."
     extend " She should transform right away. It's that simple. If a normal kiss won't work try a more passionate one. Good luck!"
-    "You get a little corked vial, filled with a glowing green liquid called the potion of unfrogging. You rushed in a hurry form the Witches Hut."
+    "You get a little, corked vial, filled with a glowing green liquid called the potion of unfrogging. You rushed in a hurry form the Witches Hut."
     $ pytfall.world_quests.get("Frog Princess!").next_in_label("Finally you have the potion! Talk to the frog again!")
     $ renpy.music.stop(channel="world", fadeout=1)
     scene bg forest_entrance at truecenter
 
-    hero.say "Damn, that blasted frog isn't around... Maybe I should comeback tomorrow."
+    hero.say "Damn, that blasted frog isn't around... Maybe I should come back tomorrow."
     $ menu_extensions.remove_extension("Abby The Witch Main", "Give her the eye")
 
     $ register_event_in_label("show_frog_final", locations=["forest_entrance"], trigger_type="auto", restore_priority=1, priority=300, start_day=day, jump=True, dice=100, max_runs=100)

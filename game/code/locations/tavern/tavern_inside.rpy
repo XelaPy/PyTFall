@@ -101,7 +101,7 @@ label city_tavern_choose_label:
         "500 G" if hero.level >= 200:
             $ city_tavern_dice_bet = 500
     jump city_tavern_menu
-        
+
 screen city_tavern_inside():
     use top_stripe(True)
     frame:
@@ -159,7 +159,7 @@ label tavern_relax:
     hide drunkards with dissolve
     if len(hero.team) < 2:
         $ hero.set_flag("rest_in_tavern", value = day)
-        "You relax for awhile, but there is not much to do here. Perhaps if would be less boring if you wouldn't be alone..."
+        "You relax for awhile, but there isn't much to do here. Perhaps it would be more fun if you weren't along."
         $ hero.vitality += 5
     else:
         if hero.take_money(randint(30, 50), reason="Tavern"):
