@@ -89,7 +89,7 @@ label witch_training:
     if not global_flags.has_flag("witches_training_explained"):
         w "I will train magic, intelligence and restore some MP."
         w "I can also guarantee you agility will go up if you pay attention in class!"
-        extend " That however does not often happen for reasons unknown..."
+        extend " That, however, is rare."
         w "Yeap! I am That good!"
         $ global_flags.set_flag("witches_training_explained")
     else:
@@ -108,9 +108,7 @@ label witch_training:
     while loop:
         menu:
             "About training sessions":
-                "You can arrange for daily training sessions at the cost of 1 AP and 500 gold pare day, plus 500 gold per 5 levels."
-                "It will be automatically terminated if you lack the gold to continue."
-                "Sessions can be arranged with multiple trainers at the same day. But you'd be running a risk of not leaving AP to do anything else."
+                call about_personal_training
             "About Abby training":
                 w "I will train magic, intelligence and restore some MP."
                 w "I can also guarantee you agility will go up if you pay attention in class!"

@@ -1,5 +1,5 @@
 label tailor_store:
-    
+
     # Music related:
     if not "shops" in ilists.world_music:
         $ ilists.world_music["shops"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("shops")]
@@ -7,12 +7,12 @@ label tailor_store:
         play world choice(ilists.world_music["shops"]) fadein 1.5
 
     hide screen main_street
-    
+
     scene bg tailor_store
     with dissolve
-    
+
     $ t = npcs["Kayo_Sudou"].say
-        
+
     if global_flags.flag('visited_tailor_store'):
         show expression npcs["Kayo_Sudou"].get_vnsprite() as npc
         with dissolve
@@ -20,23 +20,23 @@ label tailor_store:
 
     else:
         $global_flags.set_flag('visited_tailor_store')
-            
-        "You entered the shop. The shelves are filled with colourful silks and some exquisite dresses are displayed on the mannequins. Noticing your arrival, a tailor lady comes in from the back room and approaches you."
- 
+
+        "You entered the shop. The shelves are filled with colorful silks, and some exquisite dresses are displayed on the mannequins. Noticing your arrival, a tailor lady comes in from the back room and approaches you."
+
         show expression npcs["Kayo_Sudou"].get_vnsprite() as npc
         with dissolve
-        
+
         t "Oh, a new customer! Welcome to my store."
         t "I'm honored to present you our wares. All pieces you see were acquired from the most renowned merchants. "
         t "But If you have any special requests, just tell me. I'm sure I will be able to help you."
-        
+
 label tailor_menu: # after she said her lines but before we show menu controls, to return here when needed
     show screen tailor_shop
     with dissolve
     while 1:
         $ result = ui.interact()
 
-    
+
 label tailor_store_shopping:
     python:
         focus = False
@@ -52,13 +52,13 @@ label tailor_store_shopping:
     show screen shopping(left_ref=hero, right_ref=shop)
     with dissolve
     call shop_control from _call_shop_control_4
-    
-    $ global_flags.del_flag("keep_playing_music") 
+
+    $ global_flags.del_flag("keep_playing_music")
 
     hide screen shopping
     with dissolve
     jump tailor_menu
-            
+
 screen shopkeeper_items_upgrades(upgrades_list):
     modal True
     frame:
@@ -112,7 +112,7 @@ screen shopkeeper_items_upgrades(upgrades_list):
 label tailor_special_order:
     if npcs["Kayo_Sudou"].has_flag("tailor_special_order"):
         if day - npcs["Kayo_Sudou"].flag("tailor_special_order")[0] < 3:
-            t "I'm very sorry, your order is not ready yet. Please come later."
+            t "I'm very sorry. Your order is not ready yet. Please come back later."
         else:
             $ item = npcs["Kayo_Sudou"].flag("tailor_special_order")[1]
             t "Yes, your order is ready. *she gives you [item]*"
@@ -121,9 +121,9 @@ label tailor_special_order:
             t "Ask anytime if you need anything else!"
             $ npcs["Kayo_Sudou"].del_flag("tailor_special_order")
     else:
-        t "For a small price I can upgrade your clothes to better versions. What would you like to order?"
+        t "For a small price, I can upgrade your clothes to better versions. What would you like to order?"
         $ upgrade_list = list(i for i in items_upgrades if i["location"] == "Tailor")
-        
+
         $ result = renpy.call_screen("shopkeeper_items_upgrades", upgrade_list)
         # t "[result]"
         if result == -1:
@@ -140,7 +140,7 @@ label tailor_special_order:
                 t "I'm sorry, but you don't have that much gold."
             $ del our_list
     jump tailor_menu
-    
+
 screen tailor_shop:
     frame:
         xalign 0.95

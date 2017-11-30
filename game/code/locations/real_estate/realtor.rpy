@@ -19,11 +19,11 @@ label realtor_agency:
     if not global_flags.has_flag("visited_ra"):
 
         $ nvl_ra = Character(None, kind=nvl)
-        nvl_ra "After entering the real-estate office the first thing that hit you was the brightness."
+        nvl_ra "After entering the real-estate office, the first thing that hit you was the brightness."
         nvl_ra "It was far brighter than the outside world. Your eyes quickly adapted and you noticed the source of the light."
         nvl_ra "This medium size room, without windows, probably was a part of a bigger apartment, have been highly illuminated with a large chandelier, hanging from the ceiling over the central part of the room and a standing lamp near the desk."
         nvl_ra "On the left side, there were two couches opposing each other separated with a coffee table."
-        extend " On the right side, there was a cupboard and a door that probably leading further inside the house."
+        extend " On the right side, there was a cupboard and a door that is probably leading further inside the house."
         nvl_ra "In the middle, under the chandelier was standing a desk with a single chair. There were also multiple painting hanging on the walls."
         nvl_ra "But that all escaped your mind the moment you noticed the owner."
         nvl_ra "She was a mature type woman with glasses, that surely wasn't ashamed of her female attributes."

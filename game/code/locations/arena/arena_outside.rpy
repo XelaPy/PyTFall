@@ -192,9 +192,7 @@ label xeona_training:
     while loop:
         menu:
             "About training sessions":
-                "You can arrange for daily training sessions at the cost of 1 AP and 500 gold pare day, plus 500 gold per 5 levels."
-                "It will be automatically terminated if you lack the gold to continue."
-                "Sessions can be arranged with multiple trainers at the same day. But you'd be running a risk of not leaving AP to do anything else."
+                call about_personal_training
             "About Xeona training":
                 ax "I train battle skills."
                 ax "Don't expect to learn any magic, but I can teach you how to fight on level with any silly mage!"
