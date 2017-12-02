@@ -1,6 +1,10 @@
 init python:
     def dummy_interaction_restart(*args, **kwargs):
         renpy.restart_interaction()
+    
+    def dev_mode_switch():
+        config.developer = not(config.developer)
+        config.debug = not(config.debug)
 
 ################### Specialized ####################
 init: # Items:
@@ -1341,7 +1345,8 @@ init: # Settings:
                             ypadding 8
                             style_group "dropdown_gm2"
                             has vbox align (0.5, 0.5)
-                            textbutton _("Joystick...") action Preference("joystick") xsize 150 text_size 16
+                            textbutton _("Gamepad") action SensitiveIf(GamepadExists()), GamepadCalibrate() xsize 150 text_size 16
+                            
 
                     # Middle column...
                     frame:
@@ -1455,6 +1460,22 @@ init: # Settings:
                                 textbutton _("Test"):
                                     action Play("sound", config.sample_sound)
                                     style "soundtest_button"
+                        frame:
+                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
+                            xsize 194
+                            ypadding 10
+                            style_group "smenu"
+                            has vbox align (0.5, 0.5)
+                            button:
+                                xsize 164
+                                yalign 0.5
+                                action Function(dev_mode_switch)
+                                text "Debug Mode" size 18 align (0.5, 0.5):
+                                    if config.developer:
+                                        color green
+                                    else:
+                                        color red
+ 
 
             elif s_menu == "Game":
                 frame:
