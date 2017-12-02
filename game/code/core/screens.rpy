@@ -1186,7 +1186,7 @@ init: # Items:
                         unhovered SetField(config, "mouse", None)
 
         if show_exit_button:
-            textbutton "All Done":
+            textbutton "Close":
                 align show_exit_button
                 action Return(False)
 
