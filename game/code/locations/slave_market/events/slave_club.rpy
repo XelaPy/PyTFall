@@ -6,19 +6,20 @@ init python:
             renpy.image(tag, ProportionalScale(image, config.screen_width,
                         config.screen_height))
 
-    register_event("smc_1", locations=["slave_market_club"], priority=100, start_day=5, dice=100, max_runs=1, trigger_type="auto")
+    register_event("smc_1", locations=["slave_market_club"], priority=100,
+                    start_day=5, dice=100, max_runs=1, trigger_type="auto")
 
 label smc_1(event):
     $ g = npcs["Blue_slavemarket"].say
     show expression npcs["Blue_slavemarket"].get_vnsprite() as blue at right
     with dissolve
-    g "Oh [hero.name]! Come join us, we're about to test a new gadget!"
+    g "Oh [hero.name]! Join us. We're about to test a new gadget!"
     g "Recently delivered from Abby's Crossing! Our tech capital!"
     g "Take a look:"
     show smc initial at left
     with fade
-    g "Nice isn't it?"
-    g "Crowd seems to be loving it!"
+    g "Isn't it nice?"
+    g "The crowd seems to be loving it!"
     menu:
         g "How about we turn this baby on? Would you do us the honours?"
         "Let's do this!":
@@ -42,7 +43,7 @@ label smc_1(event):
     show smc getting_bored
     with dissolve
     play events2 "female/uhm.mp3"
-    g "But what is this? It looks like she's getting bored! I've trained her well and something this simple isn't much of a challenge at all!"
+    g "But what is this? It looks like she's getting bored! I've trained her well, and something this simple isn't much of a challenge at all!"
     g "So... let us try another setting?!"
     menu:
         g "[hero.name]?"
@@ -65,7 +66,7 @@ label smc_1(event):
     with dissolve
     play events2 "female/ooohyeah.mp3"
     g "This is superb! JUST LOOK AT HER GO!"
-    g "Lets do a countdown!"
+    g "Let's do a countdown!"
     "10"
     "9"
     show smc speed_max

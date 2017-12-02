@@ -72,7 +72,7 @@
     }, {
         "id": "Red Rose",
         "icon": "content/items/gift/rr.png",
-        "desc": "A single red rose is worth a lot to a girl.",
+        "desc": "A single red rose means a lot to a girl.",
         "price": 150,
         "slot": "gift",
         "chance": 40,
@@ -92,7 +92,7 @@
     {
         "id": "Pumpkin Candy",
         "icon": "content/items/gift/pc.png",
-        "desc": "No, it doesn't taste like an evil pumpkin. Just looks like one.",
+        "desc": "No, it doesn't taste like an evil pumpkin. Only looks like one.",
         "price": 20,
         "slot": "gift",
         "chance": 80,
@@ -184,7 +184,7 @@
     {
         "id": "Gold Pendant",
         "icon": "content/items/gift/gp.png",
-        "desc": "A finely crafted heart pendant that hangs on a fine golden chain.",
+        "desc": "A finely crafted heart pendant with a golden chain.",
         "price": 45,
         "slot": "gift",
         "chance": 80,
@@ -348,7 +348,7 @@
     }, {
         "id": "Exotic Perfume",
         "icon": "content/items/gift/ep.png",
-        "desc": "A decorated bottle of quality perfume for special cases.",
+        "desc": "A decorated bottle of quality perfume.",
         "price": 85,
         "slot": "gift",
         "chance": 40,
@@ -462,7 +462,7 @@
     {
         "id": "Bath Boat",
         "icon": "content/items/gift/bab.png",
-        "desc": "A cute tiny boat made of natural wood. Can serve as a mobile soap dish.",
+        "desc": "A cute tiny wooden boat. Can be used as a mobile soap dish.",
         "price": 30,
         "slot": "gift",
         "chance": 80,
@@ -480,7 +480,7 @@
     }, {
         "id": "Bubble Bath",
         "icon": "content/items/gift/bb.png",
-        "desc": "A bottle of special liquid soap that ensures that you have as many bubbles as possible.",
+        "desc": "A bottle of special liquid soap that ensures you have as many bubbles as possible.",
         "price": 105,
         "slot": "gift",
         "chance": 70,
@@ -516,7 +516,7 @@
     }, {
         "id": "Floating Candles",
         "icon": "content/items/gift/flc.png",
-        "desc": "A bit exotic and not entirely safe bath toy.",
+        "desc": "A bit exotic but not completely safe bath toy.",
         "price": 200,
         "slot": "gift",
         "chance": 100,
@@ -534,7 +534,7 @@
     }, {
         "id": "Bath Salts",
         "icon": "content/items/gift/sms.png",
-        "desc": "A bottle of water-soluble minerals that are added to water to be used for bathing. They are said to improve cleaning and enhance the enjoyment of bathing.",
+        "desc": "A bottle of water-soluble minerals. They are said to improve cleaning and enhance the enjoyment of bathing.",
         "price": 140,
         "slot": "gift",
         "chance": 40,
@@ -572,7 +572,7 @@
     }, {
         "id": "Candy Box",
         "icon": "content/items/gift/cb.png",
-        "desc": "A heart shaped candy box.",
+        "desc": "A heart-shaped candy box.",
         "price": 35,
         "slot": "gift",
         "chance": 70,
@@ -629,7 +629,7 @@
     }, {
         "id": "Fruit basket",
         "icon": "content/items/gift/frb.png",
-        "desc": "A big cuit basket full of fruits and fruit candies.",
+        "desc": "A cute basket filled with fruits and candies.",
         "price": 200,
         "slot": "gift",
         "chance": 40,
@@ -743,7 +743,7 @@
     {
         "id": "Aromatic Candle",
         "icon": "content/items/gift/ac.png",
-        "desc": "Only a few people actually use them, but they look good as part of a house interior.",
+        "desc": "Not many people use them, but they look good as part of a house interior.",
         "price": 35,
         "slot": "gift",
         "chance": 80,
@@ -761,7 +761,7 @@
     }, {
         "id": "Houseplant",
         "icon": "content/items/gift/hp.png",
-        "desc": "Not very romantic, but it won't wither any time soon unless you forget to water it.",
+        "desc": "Not very romantic, but it won't wither anytime soon unless you forget to water it.",
         "price": 40,
         "slot": "gift",
         "chance": 70,
@@ -797,7 +797,7 @@
     }, {
         "id": "Bottled Ship",
         "icon": "content/items/gift/bs.png",
-        "desc": "A bottle with a huge ship inside. One can wonder how do they make these things.",
+        "desc": "A bottle with a ship inside.",
         "price": 150,
         "slot": "gift",
         "chance": 100,
@@ -815,7 +815,7 @@
     }, {
         "id": "Bonsai",
         "icon": "content/items/gift/b.png",
-        "desc": "A miniature tree grown in container.",
+        "desc": "A miniature tree in a container.",
         "price": 180,
         "slot": "gift",
         "chance": 40,
@@ -854,7 +854,7 @@
     }, {
         "id": "Red Bow-Knot",
         "icon": "content/items/gift/rbk.png",
-        "desc": "A huge red silken bow-knot. Most people have no idea how and where to use it, but at least it looks pretty.",
+        "desc": "A huge red silken bow-knot. Most people have no idea how and when to use it, but at least it looks pretty.",
         "price": 15,
         "slot": "gift",
         "chance": 70,
@@ -928,7 +928,7 @@
     {
         "id": "Rosebuds",
         "icon": "content/items/gift/r.png",
-        "desc": "A big pile of rosebuds. They fade quickly, but also don't have any thorns.",
+        "desc": "A big pile of rosebuds. They fade quickly but also don't have any thorns.",
         "price": 25,
         "slot": "gift",
         "chance": 75,
@@ -940,7 +940,7 @@
     }, {
         "id": "Key to Heart",
         "icon": "content/items/gift/kth.png",
-        "desc": "This thing doesn't really open anything. But girls do not need to know that.",
+        "desc": "It doesn't really open anything. But girls don't need to know it.",
         "price": 100,
         "slot": "gift",
         "chance": 65,
@@ -964,7 +964,7 @@
     }, {
         "id": "Love Coins",
         "icon": "content/items/gift/lc.png",
-        "desc": "A bug of fake silvered coins with engraved hearts. A great gift as long as one doesn't try to use these coins in a shop.",
+        "desc": "A bag of fake silvered coins with engraved hearts. A great gift as long as one doesn't try to use these coins in a shop.",
         "price": 200,
         "slot": "gift",
         "chance": 40,
@@ -990,7 +990,7 @@
     }, {
         "id": "Unusual Present",
         "icon": "content/items/gift/unp.png",
-        "desc": "A decent present. You don't know what's inside, but it's safe to assume that this gift will be very pleasant to anyone.",
+        "desc": "A decent present. You don't know what's inside, but it's safe to assume this gift will be pleasant to anyone.",
         "price": 500,
         "slot": "gift",
         "chance": 20,

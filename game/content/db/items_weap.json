@@ -235,7 +235,7 @@
     },
     {
     "id": "Crystal Wand",
-    "desc": "This wand carry an ice crystal capable of storing and releasing magical energy, but is also durable enough to smash someone in the face if needed.",
+    "desc": "This wand carries an ice crystal capable of storing and releasing magical energy but is also durable enough to smash someone in the face if needed.",
     "icon": "content/items/weapon/cw.png",
     "price": 300,
     "sex": "unisex",
@@ -257,7 +257,7 @@
     },
     {
     "id": "Replica Sword",
-    "desc": "This imitation of some legendary sword or other is basically no good in a fight and bears little resemblance to a weapon one would actually wield in battle. If you're into that sort of thing, it looks kind of cool. If you're not, it looks kind of silly.",
+    "desc": "This imitation of a legendary sword is no good in a fight and bears little resemblance to a weapon one would actually wield in battle. If you're into that sort of thing, it looks kind of cool. If you're not, it looks kind of silly.",
     "icon": "content/items/weapon/rs.png",
     "price": 300,
     "sex": "unisex",
@@ -404,7 +404,7 @@
     },
     {
     "id": "Arcane Stuff",
-    "desc": "A heavy, long staff made of several types of enchanted wood, capable to channel heat energy.",
+    "desc": "A heavy, long staff made of several types of enchanted wood, capable to channel magical energy.",
     "icon": "content/items/weapon/ac.png",
     "price": 450,
     "sex": "unisex",
@@ -425,7 +425,7 @@
     },
     {
     "id": "Short Sword",
-    "desc": "This robust stabbing sword is quite effective for its size. It can be concealed to some degree, but it's too large to be completely camouflaged.",
+    "desc": "This robust stabbing sword is quite effective for its size. It can be concealed to some degree, but it's too large to be completely hidden.",
     "icon": "content/items/weapon/ss.png",
     "price": 150,
     "sex": "unisex",
@@ -465,7 +465,7 @@
     },
     {
     "id": "Imperial Short Sword",
-    "desc": "A standard short sword which is given to recruits in Imperial army. Being covered with a shield, you can be quite dangerous opponent.",
+    "desc": "A standard short sword which is given to recruits in the Imperial army. Being covered with a shield, you can be quite a dangerous opponent.",
     "icon": "content/items/else/imperial/iss2.png",
     "price": 250,
     "sex": "unisex",
@@ -506,7 +506,7 @@
     },
     {
     "id": "Ceremonial Sabre",
-    "desc": "More a work of art than a weapon, this magnificent sabre is still sharp and deadly.",
+    "desc": "More a work of art than a weapon, this magnificent saber is still sharp and deadly.",
     "icon": "content/items/weapon/cs.png",
     "price": 700,
     "sex": "unisex",
@@ -528,7 +528,7 @@
     },
     {
     "id": "Icy Sword",
-    "desc": "Big, firm, sharp piece of ice, shaped with magic to be used as a blade. Long term usage without wearing gloves can cause frostbites.",
+    "desc": "Big, firm, sharp piece of ice, shaped with magic to be used as a blade. Long-term usage without wearing gloves can cause frostbites.",
     "icon": "content/items/weapon/is.png",
     "price": 550,
     "sex": "unisex",
@@ -549,7 +549,7 @@
     },
     {
     "id": "Exotic Head Chopper",
-    "desc": "A huge sword from an far away land. Primarily used for public beheadings do to it's size and weight.",
+    "desc": "A huge sword from a faraway land. Primarily used for public beheadings due to its size and weight.",
     "icon": "content/items/weapon/ec1.png",
     "price": 850,
     "sex": "unisex",
@@ -635,7 +635,7 @@
     },
     {
     "id": "Angelic Blade",
-    "desc": "Such blades are usually worn by angels who came to this world with some missions. Sometimes they die at the hand of demonic creatures, sometimes they are losing their weapons.",
+    "desc": "These blades are usually worn by angels who came to this world with some missions.",
     "icon": "content/items/weapon/anb.png",
     "price": 2500,
     "sex": "unisex",
@@ -684,7 +684,7 @@
     },
     {
     "id": "Excalibur",
-    "desc": "This divine blade has the ability to sever space itself. But it also has a mind of its own unfortunately, and you have to be a damn hero to withstand its character and manners.",
+    "desc": "This divine blade has the ability to sever space itself. But it also has a mind of its own, and you have to be a damn hero to withstand its character and manners.",
     "icon": "content/items/weapon/excalibur.png",
     "price": 6000,
     "sex": "unisex",
@@ -728,7 +728,7 @@
     },
     {
     "id": "Elven Rapier",
-    "desc": "Light, flexible blade with elegant decorations on the hilt for pinpoint, but fatal strikes and easy evasion manoeuvres.",
+    "desc": "Light, flexible blade with elegant decorations on the hilt for pinpoint, but fatal strikes and easy evasion maneuvers.",
     "icon": "content/items/weapon/er.png",
     "price": 1000,
     "sex": "unisex",
@@ -774,7 +774,7 @@
     },
     {
     "id": "Scythe of Death",
-    "desc": "No one, except Death himself, is able to wield the real Scythe, but these scythes, which were created by some long forgotten cult worshipping the god of death many centuries ago, are as close to the original as is possible for weapons created by mortals.",
+    "desc": "No one, except Death himself, is able to wield the real Scythe, but these scythes, created by some long forgotten cult, are as close to the original as possible for weapons created by mortals.",
     "icon": "content/items/weapon/sod.png",
     "price": 4000,
     "sex": "unisex",
@@ -796,7 +796,7 @@
     },
     {
     "id": "Wooden Club",
-    "desc": "A simplest weapon for the simplest minds.",
+    "desc": "A simple weapon for the simple minds.",
     "icon": "content/items/weapon/wc.png",
     "price": 10,
     "sex": "unisex",
@@ -816,7 +816,7 @@
     },
     {
     "id": "Mallet",
-    "desc": "A piece of stump on a stick made from a magical tree. Slow and heavy, but it sure can deliver a punch.",
+    "desc": "A piece of a stump on a stick made from a magical tree. Slow and heavy, but it sure can deliver a punch.",
     "icon": "content/items/weapon/ma.png",
     "price": 450,
     "sex": "unisex",
@@ -836,7 +836,7 @@
     },
     {
     "id": "Pitchfork",
-    "desc": "This farming tool is iconic and popular weapon of the peasant revolts worldwide.",
+    "desc": "This farming tool is a popular weapon of the peasant revolts worldwide.",
     "icon": "content/items/weapon/pf.png",
     "price": 75,
     "sex": "unisex",
@@ -856,7 +856,7 @@
     },
     {
     "id": "Woodcutting Axe",
-    "desc": "This axe is a fine example of the use of peacetime agricultural tools as weapons. Equally at home felling trees or adversaries, the axe evokes a fearsome picture of the woodsman at war.",
+    "desc": "This axe is a fine example of the use of peacetime agricultural tools as weapons. Equally, at home felling trees or adversaries, the axe evokes a fearsome picture of the woodsman at war.",
     "icon": "content/items/weapon/wa.png",
     "price": 150,
     "sex": "unisex",
@@ -876,7 +876,7 @@
     },
     {
     "id": "War Axe",
-    "desc": "A military axe with a curved hardwood shaft and a single-bladed forged head with sharp tempered edge.",
+    "desc": "A military axe with a curved hardwood shaft and a single-bladed forged head with a sharp-tempered edge.",
     "icon": "content/items/weapon/wr.png",
     "price": 225,
     "sex": "unisex",
@@ -896,7 +896,7 @@
     },
     {
     "id": "Great Axe",
-    "desc": "We have yet to see the scaly monster that can hold up to this wicked axe when wielded by an expert - and to hunt dragons you better be! Capable of powerful attacks due to it's size ans weight, but one wrong swing can leave the wielder wide open for counter-attack.",
+    "desc": "Capable of powerful attacks due to its size and weight, but one wrong swing can leave the wielder wide open for a counter-attack.",
     "icon": "content/items/weapon/ga.png",
     "price": 600,
     "sex": "unisex",
@@ -1065,7 +1065,7 @@
     },
     {
     "id": "Angelic Bow",
-    "desc": "This magnificent bow shoots arrows of pure light which are able to pursue the target.",
+    "desc": "This magnificent bow shoots arrows of pure light.",
     "icon": "content/items/weapon/ab.png",
     "price": 2000,
     "sex": "unisex",
@@ -1089,7 +1089,7 @@
     },
     {
     "id": "Demonic Bow",
-    "desc": "Arrows from this bow are attacking not only the body but also the soul of the target, and there is no armor that can completely protect from them.",
+    "desc": "Arrows from this bow are damaging not only the body but also the soul of the target.",
     "icon": "content/items/weapon/db.png",
     "price": 3000,
     "sex": "unisex",
@@ -1113,7 +1113,7 @@
     },
     {
     "id": "Hand Fan",
-    "desc": "A small pretty fan for cooling yourself.",
+    "desc": "A small pretty fan for cooling.",
     "icon": "content/items/weapon/fan.png",
     "price": 100,
     "sex": "female",
@@ -1133,7 +1133,7 @@
     },
     {
     "id": "Fancy Hand Fan",
-    "desc": "An elegant fan made of finewood.",
+    "desc": "An elegant fan made of fine wood.",
     "icon": "content/items/weapon/hf.png",
     "price": 250,
     "sex": "female",

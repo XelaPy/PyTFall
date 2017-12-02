@@ -11,9 +11,9 @@ label city_events_thugs_robbery:
     show expression npcs["street_thug"].get_vnsprite() as npc with dissolve
     $ t = npcs["street_thug"].say
     t "A word, my friend!"
-    t "These streets are unsafe, if you know what I mean. But I can ensure your safety. 200 G per week. The price is pretty reasonable, right?"
+    t "These streets are unsafe if you know what I mean. But I can ensure your safety. 200 G per week. The price is pretty reasonable, right?"
     if hero.gold < 200:
-        "Unfortunately, you don't have so much money."
+        "Unfortunately, you don't have enough money."
         t "Hard times, eh... Well, there you go then."
         "He tosses you a few coins."
         t "My mother always told me to help those in need, heh. See ya."
@@ -135,7 +135,7 @@ label city_events_thugs_robbery_attack:
 label city_events_thugs_robbery_attack_lost:
     scene expression "bg " + scr
     $ renpy.scene(layer="screens")
-    "After beating you they took some gold and disappeared before City Guards arrived."
+    "After beating you, they took some gold and disappeared before City Guards arrived."
     jump expression scr
 
 label city_events_thugs_robbery_attack_win:

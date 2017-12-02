@@ -23,13 +23,13 @@ label aine_menu:
 
         menu:
             "A leprechaun? In the park?":
-                a "How Rude! I go wherever I please and I can take care of myself!"
+                a "How Rude! I go wherever I please, and I can take care of myself!"
                 a "Not mentioning that this is a really nice place and very few people can see me!"
             "I've met someone called Peevish...":
                 a "That rude, good for nothing, useless excuse for a brother... well, you don't get to choose family..."
 
         a "I can teach you {color=[lightblue]}Ice{/color} and {color=[yellow]}Electricity{/color} spells if you're interested,"
-        extend " it will cost you but you'll never have to hear a word about no pile of gold from me."
+        extend " it will cost you, but you'll never have to hear a word about no pile of gold from me."
     else:
         a "Hello again. How are you today?"
 
@@ -62,11 +62,7 @@ label aine_shop:
 
 label aine_training:
     if not global_flags.has_flag("aine_training_explained"):
-        a "Well dear, I can teach you manners and proper care so to increase your charisma."
-        a "Being thought by a leprechaun Princess has it's perks!"
-        a "You vitality will be boosted and your fame and reputation may also increase."
-        extend " Due to my magical nature, there is a really small chance that you will get luckier in your life endeavors!!!"
-        a "That I dare say is a truly rare feat!"
+        call about_aine_personal_training
         $ global_flags.set_flag("aine_training_explained")
     else:
         a "Let's see what I can do, dear."
@@ -84,16 +80,9 @@ label aine_training:
     while loop:
         menu:
             "About training sessions":
-                "You can arrange for daily training sessions at the cost of 1 AP and 500 gold pare day, plus 500 gold per 5 levels."
-                "It will be automatically terminated if you lack the gold to continue."
-                "Sessions can be arranged with multiple trainers at the same day. But you'd be running a risk of not leaving AP to do anything else."
+                call about_personal_training
             "About Aine training":
-                a "Well dear, I can teach you manners and proper care so to increase your charisma."
-                a "It will cost you 1000 (+1000 per 5 levels) Gold per training session."
-                a "Being thought by a leprechaun Princess has it's perks!"
-                a "You vitality will be boosted and your fame and reputation may also increase."
-                extend " Due to my magical nature, there is a really small chance that you will get luckier in your life endeavors!!!"
-                a "That I dare say is a truly rare feat!"
+                call about_aine_personal_training
             "{color=[green]}Setup sessions for [char.name]{/color}" if not char.has_flag("train_with_aine"):
                 $ char.set_flag("train_with_aine")
                 $ char.apply_trait(traits["Aine Training"])
@@ -111,6 +100,19 @@ label aine_training:
                 $ loop = False
     jump aine_menu_return
 
+label about_personal_training:
+    "You can arrange for daily training sessions at the cost of 1 AP and 500 gold pare day, plus 500 gold per 5 levels."
+    "It will be automatically terminated if you lack the gold to continue."
+    "Sessions can be arranged with multiple trainers on the same day. But you'd be running a risk of not leaving AP to do anything else."
+    return
+
+label about_aine_personal_training:
+    a "Well dear, I can teach you manners and proper care so to increase your charisma."
+    a "Being thought by a leprechaun Princess has its perks!"
+    a "Your vitality will be boosted, and your fame and reputation may also increase."
+    extend " Due to my magical nature, there is a tiny chance that you will get luckier in your life endeavors!!!"
+    a "That I dare say is a truly rare feat!"
+    return
 
 label aine_goodbye:
     a "Good luck!"

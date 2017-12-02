@@ -218,7 +218,7 @@
     },
     {
         "name": "Warrior",
-        "desc": "A common warrior, quite skilled in close combat.",
+        "desc": "An ordinary warrior skilled in close combat.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/h.png",
         "portrait": "content/npc/mobs/h1.png",
@@ -248,7 +248,7 @@
     },
     {
         "name": "Archer",
-        "desc": "A common archer, quite skilled in ranged combat.",
+        "desc": "An ordinary archer skilled in ranged combat.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/i.png",
         "portrait": "content/npc/mobs/i1.png",
@@ -368,7 +368,7 @@
     },
     {
         "name": "Amazon Thief",
-        "desc": "Amazons Thieves steal newborn girls to raise more amazons.",
+        "desc": "Amazons Thieves steal newborn girls to raise more Amazons.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/m.png",
         "portrait": "content/npc/mobs/m1.png",
@@ -398,7 +398,7 @@
     },
     {
         "name": "Amazon Warrior",
-        "desc": "Amazons Warriors protect amazon tribes from unwanted guests, also known as men.",
+        "desc": "Amazons Warriors protect Amazon tribes from unwanted guests, also known as men.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/n.png",
         "portrait": "content/npc/mobs/n1.png",
@@ -428,7 +428,7 @@
     },
     {
         "name": "Amazon Archer",
-        "desc": "Amazons Archers provide fresh male animals as a food for amazon tribes.",
+        "desc": "Amazons Archers provide fresh male animals as a food for Amazon tribes.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/o.png",
         "portrait": "content/npc/mobs/o1.png",
@@ -548,7 +548,7 @@
     },
     {
         "name": "Undead Werecat",
-        "desc": "A victim of two curses at once.",
+        "desc": "A victim of two curses.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/s.png",
         "portrait": "content/npc/mobs/s1.png",
@@ -578,7 +578,7 @@
     },
     {
         "name": "Harpy",
-        "desc": "Harpies are known for their love to seduce travellers in order to breed, and protected by the law in many countries unless they attack first.",
+        "desc": "Harpies are known for their love to seduce travelers in order to breed. They are protected by the law in many countries unless they attack first.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/t.png",
         "portrait": "content/npc/mobs/t1.png",
@@ -608,7 +608,7 @@
     },
     {
         "name": "Vixen",
-        "desc": "Vixens kidnap men from villages and small towns in order to breed, and are protected by the law in some countries where the presence of women in politics is low.",
+        "desc": "Vixens kidnap men from villages and small towns in order to breed and are protected by the law in some countries where the presence of women in politics is low.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/u.png",
         "portrait": "content/npc/mobs/u1.png",
@@ -638,7 +638,7 @@
     },
     {
         "name": "Hag",
-        "desc": "Hags attack men in big cities and rape them on the spot in order to breed. In some cities they replace brothels and have to pay usual brothel taxes.",
+        "desc": "Wild hags attack men in big cities and rape them on the spot in order to breed. In some cities, they replace brothels and have to pay usual brothel taxes.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/v.png",
         "portrait": "content/npc/mobs/v1.png",
@@ -788,7 +788,7 @@
     },
     {
         "name": "Ogre",
-        "desc": "A massive muscular creature. Its main diet are goblins, however his vision is too poor to distinguish them from humans.",
+        "desc": "A massive muscular creature. Its main diet is goblins, however, its vision is too poor to distinguish them from humans.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/aa.png",
         "portrait": "content/npc/mobs/aa1.png",
@@ -848,7 +848,7 @@
     },
     {
         "name": "Undine",
-        "desc": "A water based lifeform consisting entirely of females. Ponds with non-aggressive undines are equally popular among men and lesbians.",
+        "desc": "A water-based lifeform consisting entirely of females. Ponds with non-aggressive undines are equally popular among men and lesbians.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/ac.png",
         "portrait": "content/npc/mobs/ac1.png",
@@ -908,7 +908,7 @@
     },
     {
         "name": "Energized Undine",
-        "desc": "A subspecies of undine with ability to accumulate electric charge thanks to its unusual chemical composition.",
+        "desc": "A subspecies of undine with an ability to accumulate electric charge thanks to its unusual chemical composition.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/ae.png",
         "portrait": "content/npc/mobs/ae1.png",
@@ -1088,7 +1088,7 @@
     },
     {
         "name": "Stone Eater",
-        "desc": "A rare stones eating creature with granitic skin and diamond teeth.",
+        "desc": "A rare stone eating creature with granitic skin and diamond teeth.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/ak.png",
         "portrait": "content/npc/mobs/ak1.png",
@@ -1118,7 +1118,7 @@
     },
     {
         "name": "Angel",
-        "desc": "A messenger of the heavens. They are usually peaceful, however they attack you if you violate one of the sacred rules known only to angels themselves.",
+        "desc": "A messenger of the heavens. They are usually peaceful, however, they attack you if you violate one of the sacred rules known only to angels themselves.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/al.png",
         "portrait": "content/npc/mobs/al1.png",
@@ -1148,7 +1148,7 @@
     },
     {
         "name": "Archangel",
-        "desc": "A high-ranked messenger of the heavens. They coordinate the actions of angels and personally involved only in very important battles.",
+        "desc": "A high-ranked messenger of the heavens. They coordinate the actions of lower angels.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/am.png",
         "portrait": "content/npc/mobs/am1.png",
@@ -1268,7 +1268,7 @@
     },
     {
         "name": "Gazer",
-        "desc": "A widespread plant with small magic abilities. The eye is used for aiming spells.",
+        "desc": "A widespread plant with minor magical abilities. The eye is used for casting spells.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/gaz.png",
         "portrait": "content/npc/mobs/gaz1.png",
@@ -1447,7 +1447,7 @@
     },
     {
         "name": "Arachna",
-        "desc": "A female arachnid. They always devour their partners after mating, which led to their rapid extermination by other races.",
+        "desc": "A female arachnid. They always devour their partners after mating.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/ara.png",
         "portrait": "content/npc/mobs/ara1.png",
@@ -1627,7 +1627,7 @@
     },
     {
         "name": "Mare",
-        "desc": "A demon of lust. They are actually reasonable enough to try and seduce victim for a start. But they still attack if rejected.",
+        "desc": "A demon of lust. They are reasonable enough to try seducing first. But they still attack if rejected.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/ay.png",
         "portrait": "content/npc/mobs/ay1.png",
@@ -1657,7 +1657,7 @@
     },
     {
         "name": "Lilith",
-        "desc": "A high demon of lust. Smart, seductive and treacherous, they are rarely engage in combat.",
+        "desc": "A high demon of lust. Smart, seductive and treacherous, they are rarely engaged in combat.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/az.png",
         "portrait": "content/npc/mobs/az1.png",
@@ -1717,7 +1717,7 @@
     },
     {
         "name": "Oni",
-        "desc": "A weird creature from ancient legends of distant lands. Initially they have not existed, but the potential of faith of many generations eventually gave them life.",
+        "desc": "A weird creature from ancient legends of distant lands. Initially, they have not existed, but the potential of faith of many generations eventually gave them life.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/oni.png",
         "portrait": "content/npc/mobs/oni1.png",
@@ -1777,7 +1777,7 @@
     },
     {
         "name": "Night Mare",
-        "desc": "A demon of lust that can only feed on hardcore bdsm actions. Very powerful and very popular in certain circles.",
+        "desc": "A demon of lust that can only feed on hardcore BDSM actions. Very powerful and very popular in certain circles.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/bb.png",
         "portrait": "content/npc/mobs/bb1.png",
@@ -1807,7 +1807,7 @@
     },
     {
         "name": "Wolf",
-        "desc": "Wolves might not have magic or special training, but they are predators and excellent instinctive hunters.",
+        "desc": "Wolves do not have magic or special training, but they are predators and excellent instinctive hunters.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/bc.png",
         "portrait": "content/npc/mobs/bc1.png",
@@ -1927,7 +1927,7 @@
     },
     {
         "name": "Feonix",
-        "desc": "A subspecies of wolf with considerable magic powers.",
+        "desc": "A subspecies of a wolf with considerable magical powers.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/bg.png",
         "portrait": "content/npc/mobs/bg1.png",
@@ -1957,7 +1957,7 @@
     },
     {
         "name": "Link Wolf",
-        "desc": "A rare intelligent subspecies of wolf with basic healing abilities.",
+        "desc": "A rare intelligent subspecies of a wolf with basic healing abilities.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/bh.png",
         "portrait": "content/npc/mobs/bh1.png",
@@ -2107,7 +2107,7 @@
     },
     {
         "name": "Undead Rat",
-        "desc": "Rats are commonly used as mount animals by pixies. However, magic of their masters sometimes returns them back to life a few years after death.",
+        "desc": "Rats are commonly used as mount animals by pixies. However, the magic of their masters sometimes returns them back to life a few years after death.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/urat.png",
         "portrait": "content/npc/mobs/urat1.png",
@@ -2227,7 +2227,7 @@
     },
     {
         "name": "Phantasm",
-        "desc": "Wandering without a purpose remnants of someone's soul.",
+        "desc": "Wandering remnants of someone's soul.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/bn.png",
         "portrait": "content/npc/mobs/bn1.png",
@@ -2287,7 +2287,7 @@
     },
     {
         "name": "Tundra Wolf",
-        "desc": "Life in tundra is harsh. Tundra wolves are smarter and bigger than forest ones.",
+        "desc": "Life in the tundra is harsh. Tundra wolves are smarter and bigger than forest ones.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/bp.png",
         "portrait": "content/npc/mobs/bp1.png",
@@ -2467,7 +2467,7 @@
     },
     {
         "name": "Ice Golem",
-        "desc": "Animated humanoid made of ice.",
+        "desc": "An animated humanoid made of ice.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/bu.png",
         "portrait": "content/npc/mobs/bu1.png",
@@ -2527,7 +2527,7 @@
     },
     {
         "name": "Devil Rat",
-        "desc": "As long as there is a food, rats can survive almost anywhere. Even in the Hell.",
+        "desc": "As long as there is food, rats can survive almost anywhere. Even in the Hell.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/bz.png",
         "portrait": "content/npc/mobs/bz1.png",
@@ -2647,7 +2647,7 @@
     },
     {
         "name": "Minotaur",
-        "desc": "These tall and muscular bull-like creatures presumably were made by the Ancients to protect their cities from wild animals and monsters. They can still be encountered in sufficient quantities near ancient ruins.",
+        "desc": "These tall and muscular bull-like creatures presumably were made by the Ancients to protect their cities from wild animals and monsters. They can still be encountered near ancient ruins.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/min.png",
         "portrait": "content/npc/mobs/min1.png",
@@ -2737,7 +2737,7 @@
     },
     {
         "name": "Mimicess",
-        "desc": "Mimics pretend to be a treasure chest in order to capture unwary travellers and drag them inside for mating.",
+        "desc": "Female mimics pretend to be a treasure chest in order to capture unwary travellers and drag them inside for mating.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/cf.png",
         "portrait": "content/npc/mobs/cf1.png",
@@ -2827,7 +2827,7 @@
     },
     {
         "name": "Will-o-wisp",
-        "desc": "A fading remnant of someone's soul with basic magical abilities.",
+        "desc": "A fading remnant of a soul with basic magical abilities.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/ww.png",
         "portrait": "content/npc/mobs/ww.png",
@@ -2917,7 +2917,7 @@
     },
     {
         "name": "Fire Spirit",
-        "desc": "A soul enveloped in never fading flames.",
+        "desc": "A soul enveloped in never-fading flames.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/fir.png",
         "portrait": "content/npc/mobs/fir1.png",
@@ -3067,7 +3067,7 @@
     },
     {
         "name": "Malicious Stone",
-        "desc": "It's just a stone. But for some reason you cannot move on until you break it into small pieces.",
+        "desc": "It's just a stone. But for some reason, you cannot move on until you break it into small pieces.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/ck.png",
         "portrait": "content/npc/mobs/ck1.png",
@@ -3097,7 +3097,7 @@
     },
     {
         "name": "Ogress",
-        "desc": "A massive muscular creature unfamiliar with the concept of bra.",
+        "desc": "A massive muscular creature unfamiliar with the concept of a bra.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/cl.png",
         "portrait": "content/npc/mobs/cl1.png",
@@ -3127,7 +3127,7 @@
     },
     {
         "name": "Satyress",
-        "desc": "A goat-like creature, frisky and playful. They often abuse alcohol and drugs, attacking people in a deranged state.",
+        "desc": "A goat-like creature, frisky and playful.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/cm.png",
         "portrait": "content/npc/mobs/cm1.png",
@@ -3187,7 +3187,7 @@
     },
     {
         "name": "Boros",
-        "desc": "A hulking, clumsy beast inhabiting warmer regions.",
+        "desc": "A hulking, clumsy beast inhabiting warm regions.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/co.png",
         "portrait": "content/npc/mobs/co1.png",
@@ -3247,7 +3247,7 @@
     },
     {
         "name": "Griffin",
-        "desc": "A flying predator feeding on cattle. Killed off by farmers, they've been driven to verge of extinction.",
+        "desc": "A flying predator feeding on cattle. Killed off by farmers, they've been driven to the verge of extinction.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/cp.png",
         "portrait": "content/npc/mobs/cp1.png",
@@ -3337,7 +3337,7 @@
     },
     {
         "name": "Foggy Knight",
-        "desc": "A set of heavy armour filled with milky fog, which quickly dispels after destruction of the armour.",
+        "desc": "A set of heavy armor filled with milky fog, which quickly dispels after the destruction of the armor.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/fog.png",
         "portrait": "content/npc/mobs/fog1.png",
@@ -3427,7 +3427,7 @@
     },
     {
         "name": "Undead Cemetery",
-        "desc": "Woven together remains of multiple dead beings.",
+        "desc": "Remains of multiple dead beings, woven together and animated by dark magic.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/cu.png",
         "portrait": "content/npc/mobs/cu1.png",
@@ -3457,7 +3457,7 @@
     },
     {
         "name": "Deathling",
-        "desc": "An ex elemental of Darkness, now just a distorted, twisted reflection of the Grim Reaper.",
+        "desc": "An ex-elemental of Darkness, now just a distorted, twisted reflection of the Grim Reaper.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/dea.png",
         "portrait": "content/npc/mobs/dea1.png",
@@ -3487,7 +3487,7 @@
     },
     {
         "name": "Quick Silver",
-        "desc": "A moving mixture of several elements, immune to almost any magic.",
+        "desc": "A moving mixture of several elements, immune to most types of magic.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/cv.png",
         "portrait": "content/npc/mobs/cv1.png",
@@ -3667,7 +3667,7 @@
     },
     {
         "name": "Flame Spirit",
-        "desc": "The living embodiment of the element of Fire.",
+        "desc": "A living embodiment of the element of Fire.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/db.png",
         "portrait": "content/npc/mobs/db1.png",
@@ -3697,7 +3697,7 @@
     },
     {
         "name": "Thunder Spirit",
-        "desc": "The living embodiment of the element of Electricity.",
+        "desc": "A living embodiment of the element of Electricity.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/dc.png",
         "portrait": "content/npc/mobs/dc1.png",
@@ -3727,7 +3727,7 @@
     },
     {
         "name": "Dark Spirit",
-        "desc": "The living embodiment of the element of Darkness.",
+        "desc": "A living embodiment of the element of Darkness.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/dd.png",
         "portrait": "content/npc/mobs/dd1.png",
@@ -3757,7 +3757,7 @@
     },
     {
         "name": "Aqueous Spirit",
-        "desc": "The living embodiment of the element of Water.",
+        "desc": "A living embodiment of the element of Water.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/de.png",
         "portrait": "content/npc/mobs/de1.png",
@@ -3787,7 +3787,7 @@
     },
     {
         "name": "Storm Spirit",
-        "desc": "The living embodiment of the element of Air.",
+        "desc": "A living embodiment of the element of Air.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/df.png",
         "portrait": "content/npc/mobs/df1.png",
@@ -3817,7 +3817,7 @@
     },
     {
         "name": "Naga Archer",
-        "desc": "A half-snake, half-woman. Because of the unusual structure of the body they are experiencing certain difficulties during mating.",
+        "desc": "A half-snake, half-woman. Because of the unusual structure of the body, they are experiencing certain difficulties during mating.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/dg.png",
         "portrait": "content/npc/mobs/dg1.png",
@@ -3907,7 +3907,7 @@
     },
     {
         "name": "Black Butterfly",
-        "desc": "A widespread scavenger. Silent, fast and voracious, they almost completely replaced crows in most areas.",
+        "desc": "A widespread scavenger. Silent, fast and voracious, they completely replaced crows in some areas.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/dh.png",
         "portrait": "content/npc/mobs/dh1.png",
@@ -3997,7 +3997,7 @@
     },
     {
         "name": "Lust",
-        "desc": "An artificially created succubus. She doesn't need to eat and breath, but raping is mandatory for her survival.",
+        "desc": "An artificially created succubus. She doesn't need food and water, but raping is mandatory for her survival.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/dj.png",
         "portrait": "content/npc/mobs/dj1.png",
@@ -4087,7 +4087,7 @@
     },
     {
         "name": "Titan",
-        "desc": "They say some Ancients turned themselves into these creatures in order to survive upcoming climate change.",
+        "desc": "They say some Ancients turned themselves into these creatures in order to survive after climate changes.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/dm.png",
         "portrait": "content/npc/mobs/dm1.png",
@@ -4267,7 +4267,7 @@
     },
     {
         "name": "Beargirl",
-        "desc": "Most beargirls do not realize that they are not average bears, and behave accordingly.",
+        "desc": "Most beargirls do not realize that they are not average bears and behave accordingly.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/ds.png",
         "portrait": "content/npc/mobs/ds1.png",
@@ -4327,7 +4327,7 @@
     },
     {
         "name": "Sky Jellyfish",
-        "desc": "A flying creature with multiple inseminating tentacles, capable to generate electricity to paralyse its victims before raping them.",
+        "desc": "A flying creature with multiple inseminating tentacles, capable to generate electricity to paralyze victims before raping them.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/jellyfish.png",
         "portrait": "content/npc/mobs/jellyfish1.png",
@@ -4356,7 +4356,7 @@
     },
     {
         "name": "Cannon Turtle",
-        "desc": "This creature able to shoot large stones from a cavity in its shell.",
+        "desc": "This creature is able to shoot large stones from a cavity in its shell.",
         "front_row": 0,
         "battle_sprite": "content/npc/mobs/du.png",
         "portrait": "content/npc/mobs/du1.png",
@@ -4386,7 +4386,7 @@
     },
     {
         "name": "Bemoth",
-        "desc": "A massive herbivorous with sturdy exoskeleton, designed by evolution to defend the creature from farmers while it devours their crops.",
+        "desc": "A massive herbivorous with a sturdy exoskeleton, designed by evolution to defend the creature from farmers while it devours their crops.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/beh.png",
         "portrait": "content/npc/mobs/beh1.png",
@@ -4446,7 +4446,7 @@
     },
     {
         "name": "Blazing Star",
-        "desc": "Searing flame burns endlessly around a bright red miniature star.",
+        "desc": "The searing flame burns endlessly around a bright red miniature star.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/bl_star.png",
         "portrait": "content/npc/mobs/bl_star.png",
@@ -4566,7 +4566,7 @@
     },
     {
         "name": "Insect Queen",
-        "desc": "Queens control all lesser insects within large area. Some of them are friendly, but most see strangers only as food.",
+        "desc": "Queens control all lesser insects within a large area. Some of them are friendly, but most see strangers only as food.",
         "front_row": 1,
         "battle_sprite": "content/npc/mobs/fb.png",
         "portrait": "content/npc/mobs/fb1.png",

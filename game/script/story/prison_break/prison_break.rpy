@@ -44,11 +44,12 @@ screen prison_break_controls(): # control buttons screen
                     yalign 0.5
                     action [Hide("prison_break_controls"), Jump("storyi_treat_wounds")]
                     text "Heal" size 15
-            button:
-                xysize (120, 40)
-                yalign 0.5
-                action [Hide("prison_break_controls"), Jump("storyi_bossroom")]
-                text "Test Boss" size 15
+            if storyi_prison_location == 5 and not hero.has_flag("defeated_boss_1"):
+                button:
+                    xysize (120, 40)
+                    yalign 0.5
+                    action [Hide("prison_break_controls"), Jump("storyi_bossroom")]
+                    text "Go Up" size 15
             if storyi_prison_location in treasures:
                 button:
                     xysize (120, 40)
@@ -58,7 +59,7 @@ screen prison_break_controls(): # control buttons screen
             button:
                 xysize (120, 40)
                 yalign 0.5
-                action [Hide("prison_break_controls"), Jump("mainscreen")]
+                action [Hide("prison_break_controls"), Jump("forest_dark")]
                 text "Exit" size 15
 
 label storyi_bossroom:
@@ -98,14 +99,14 @@ label storyi_bossroom:
     "There is a tiny red star in the gem on the ceiling."
     show sinister_star:
         linear 2.0 zoom 0.5
-    extend " One of the weapons used during the war, it wakes up, disturbed by your presence."
+    extend " It wakes up, disturbed by your presence."
     show sinister_star:
         linear 8 ypos 375 zoom 1.5
-    "The air temperature rises rapidly. At the full power it rumored to be capable to burn down a city street in the blink of an eye."
+    "The air temperature rises rapidly."
     show bg story p3 with sflash
     show sinister_star:
         linear 4 zoom 2.5
-    extend " It has to be taken down before it awakens completely."
+    extend " You prepare for a fight!"
     python:
         enemy_team = Team(name="Enemy Team", max_size=3)
         your_team = Team(name="Your Team", max_size=3)
@@ -125,6 +126,7 @@ label storyi_bossroom:
         anchor (0.5, 0.5)
         zoom 1.0
         alpha 1.0
+    $ hero.set_flag("defeated_boss_1")
     "The star loses its strength, and the air temperature drops."
     hide sinister_star with dissolve
     extend " You pick it up and put in your pocket."
@@ -132,7 +134,7 @@ label storyi_bossroom:
     stop events2
     call storyi_show_bg
     play world "Theme2.ogg" fadein 2.0 loop
-    "You return to the ground floor. It's time to home."
+    "You return to the ground floor."
     show screen prison_break_controls
     jump storyi_gui_loop
 
@@ -237,7 +239,7 @@ label storyi_treat_wounds:
     $ del j
     jump storyi_gui_loop
 
-label storyi_start: # beginning point of the dungeon; TODO: change expression below to suit quest
+label storyi_start: # beginning point of the dungeon;
     $ treasures = [1, 3, 7, 10, 11, 13]
     $ enemies = ["Skeleton", "Skeleton Warrior", "Will-o-wisp"]
     $ fight_chance = 100
@@ -254,6 +256,11 @@ label storyi_start: # beginning point of the dungeon; TODO: change expression be
     $ storyi_treat_wounds_count = 5
     $ storyi_prison_stage = 1
     $ storyi_prison_location = 6
+    if not hero.has_flag("been_in_old_ruins"):
+        $ hero.set_flag("been_in_old_ruins")
+        hero.say "I've found the ruins of a tower near the city."
+        hero.say "It may be not safe here, but I bet there is something valuable deep inside!"
+        "You can enter and exit the ruins at any point, but it will consume your AP."
     show screen prison_break_controls
 
 label storyi_gui_loop: # the gui loop; we jump here every time we need to show controlling gui
