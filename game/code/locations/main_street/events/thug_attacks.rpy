@@ -68,7 +68,7 @@ label city_events_thugs_robbery:
 label city_events_thugs_robbery_win:
     show bg street_alley
     show expression npcs["street_thug"].get_vnsprite() as npc with dissolve
-    t "Nice moves! Fair enough, [hero.name], my guys won't bother you any longer. See ya."
+    t "Nice moves! Fair enough, [hero.name]. My guys won't bother you any longer. See ya."
     $ pytfall.world_events.kill_event("city_events_thugs_robbery_attack")
     $ pytfall.world_events.kill_event("city_events_thugs_robbery")
     "He walks away."

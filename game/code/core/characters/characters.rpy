@@ -1930,7 +1930,7 @@ init -9 python:
             return self.stats.goal
 
         # -------------------------------------------------------------------------------->
-        # Show to mimic girls method behaviour:
+        # Show to mimic girls method behavior:
         @property
         def besprite_size(self):
             return get_size(self.besprite)
@@ -2090,7 +2090,7 @@ init -9 python:
                 cache = load image/tags to cache (can be used in screens language directly)
                 type = type of image lookup order (normal by default)
                 types:
-                     - normal = normal search behaviour, try all tags first, then first tag + one of each tags taken from the end of taglist
+                     - normal = normal search behavior, try all tags first, then first tag + one of each tags taken from the end of taglist
                      - any = will try to find an image with any of the tags chosen at random
                      - first_default = will use first tag as a default instead of a profile and only than switch to profile
                      - reduce = try all tags first, if that fails, pop the last tag and try without it. Repeat until no tags remain and fall back to profile or default.
@@ -3953,7 +3953,7 @@ init -9 python:
                 raise Exception, "This char (ID: %s) is not in service to the player!!!" % self.id
 
         # ----------------------------------------------------------------------------------
-        # Show to mimic girls method behaviour:
+        # Show to mimic girls method behavior:
         # def has_image(self, *tags):
         #     """
         #     Returns True if image is found.

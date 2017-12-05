@@ -65,7 +65,7 @@ label training_event_no_gold:
 ###### j7
 label training_reward_praise:
     
-    "You praise [char.name] for her good behaviour."
+    "You praise [char.name] for her good behavior."
     
     $ gm_job()
     jump girl_interactions
@@ -74,7 +74,7 @@ label training_reward_praise:
 ###### j8
 label training_reward_treat:
     
-    "You treat [char.name] for her good behaviour."
+    "You treat [char.name] for her good behavior."
     
     $ gm_job()
     jump girl_interactions
@@ -83,7 +83,7 @@ label training_reward_treat:
 ###### j9
 label training_reward_pleasure:
     
-    "You sexually pleasure [char.name] for her good behaviour."
+    "You sexually pleasure [char.name] for her good behavior."
     
     if gm_job.does_obey:
         "She responds brilliantly."
@@ -95,7 +95,7 @@ label training_reward_pleasure:
 ###### j10
 label training_punishment_scold:
     
-    "You scold [char.name] for her bad behaviour."
+    "You scold [char.name] for her bad behavior."
     
     $ gm_job()
     jump girl_interactions
@@ -104,7 +104,7 @@ label training_punishment_scold:
 ###### j11
 label training_punishment_beat:
     
-    "You beat [char.name] for her bad behaviour."
+    "You beat [char.name] for her bad behavior."
     
     $ gm_job()
     jump girl_interactions
@@ -113,7 +113,7 @@ label training_punishment_beat:
 ###### j12
 label training_punishment_rape:
     
-    "You rape [char.name] for her bad behaviour."
+    "You rape [char.name] for her bad behavior."
     
     $ gm_job()
     jump girl_interactions

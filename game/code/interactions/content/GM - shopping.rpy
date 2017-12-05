@@ -21,7 +21,7 @@ label interactions_shopping:
         $global_flags.set_flag('visited_tailor_store')
         "Welcome to my store!"
         "Just the best clothing you'll ever see! "
-        "Check out our latest collection, your girl will love it: "
+        "Check out our latest collection. Your girl will love it: "
 
     python:
         focus = False

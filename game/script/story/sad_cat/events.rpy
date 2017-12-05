@@ -28,7 +28,7 @@ label found_sad_cat_1:
             $ pytfall.world_events.kill_event("found_sad_cat_1")
     $ global_flags.set_flag("keep_playing_music")
     jump main_street
-    
+
 label found_sad_cat_2:
     hide screen main_street
     scene bg street_alley
@@ -39,7 +39,7 @@ label found_sad_cat_2:
     if not(fish):
         hero.say "This cat again. Sorry, I have nothing for you."
     else:
-        hero.say "This cat again. I have some fish, maybe it will like it?"
+        hero.say "This cat again. I have some fish. Maybe it will like it?"
         menu:
             "Give some fish to the cat":
                 hide temp
@@ -62,7 +62,7 @@ label found_sad_cat_2:
                 $ pytfall.world_events.kill_event("found_sad_cat_2")
     $ global_flags.set_flag("keep_playing_music")
     jump main_street
-    
+
 label found_sad_cat_3:
     hide screen main_street
     scene bg street_alley
@@ -96,7 +96,7 @@ label found_sad_cat_3:
                 $ pytfall.world_events.kill_event("found_sad_cat_3")
     $ global_flags.set_flag("keep_playing_music")
     jump main_street
-            
+
 label found_sad_cat_4:
     if "cat_event_day" in globals():
         if day - cat_event_day >2:
@@ -114,7 +114,7 @@ label found_sad_cat_4:
         with dissolve
         $ npcs["sad_cat"].override_portrait("portrait", "in pain")
         cat.say "Meow..."
-        hero.say "It's badly hurt. Those wounds are very deep, they won't heal on their own."
+        hero.say "It's badly hurt. Those wounds are very deep. They won't heal on their own."
         $ fish = list(i for i in hero.inventory if i.id in ["Small Healing Potion", "Healing Potion", "Great Healing Potion", "Ultimate Healing Potion"])
         if fish:
             hero.say "I can heal it with healing potion..."
@@ -160,5 +160,5 @@ label found_sad_cat_4:
     $ global_flags.set_flag("keep_playing_music")
     $ npcs["sad_cat"].restore_portrait()
     jump main_street
-    
+
     # $ fish = list(i for i in items.values() if "Fishing" in i.locations and i.type == "fish" and 3 <= i.price <= hero.get_skill("fishing"))

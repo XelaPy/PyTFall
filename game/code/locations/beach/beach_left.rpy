@@ -232,7 +232,7 @@ label fishing_logic_mor_dialogue:
                         $ mor_fish = random.choice(fish)
                         $ mor_quantity = locked_random("randint", 3, 10)
                         $ hero.set_flag("mor_fish_dice", value = day)
-                    m "I need some [mor_fish.id], about [mor_quantity] should be enough. Think you can handle it?"
+                    m "I need some [mor_fish.id]. About [mor_quantity] should be enough. Think you can handle it?"
                     menu:
                         "Yes":
                             m "Awesome!"
@@ -248,7 +248,7 @@ label fishing_logic_mor_dialogue:
         "Bring the Fish" if pytfall.world_quests.check_stage("Fishery") == 1 and has_items(mor_fish, [hero]) >= mor_quantity:
             $ hero.remove_item(mor_fish, mor_quantity)
             $ price = mor_fish.price * mor_quantity + randint(2, 8)
-            m "Magnificent. Here is your reward, [price] coins. It's much more than any city merchant can give you, trust me."
+            m "Magnificent. Take your reward, [price] coins. It's much more than any city merchant can give you, trust me."
             $ finish_quest("Fishery", "You brought required fish to Mor and got your reward.", "complete")
             jump Mor_dialogue_usual
         "Buy a Fishing Pole (250G)" if hero.gold >= 250:
@@ -262,17 +262,17 @@ label fishing_logic_mor_dialogue:
             jump Mor_dialogue_usual
         "Ask about fishing skill":
             m "Your catch is as good as your fishing skills. Practice makes perfect, so be sure to fish a lot if want something valuable!"
-            m "You won't catch anything useful at first, but don't let it to discourage you."
+            m "You won't catch anything useful at first, but don't let it discourage you."
             m "Besides, my dad sometimes drinks in the tavern with his friends, you can ask them for some tips."
             jump Mor_dialogue_usual
         "Ask about bites":
-            m "You don't have to use bites, fishing poles already have simple artificial baits attached. But they help a lot."
+            m "You don't have to use bites. Fishing poles already have simple artificial bait attached. But the real thing can help a lot."
             m "They give more attempts than usual, and the chance to catch something good is higher."
             m "But the better bait, the higher skill it requires. You won't be able to use it if your skill is too low."
             m "The General Shop sells them sometimes. But really good bites are not so easy to find."
             jump Mor_dialogue_usual
         "That's all for now":
-            m "Okey, buy!"
+            m "Okay. Bye!"
             hide npc with dissolve
 
 label fishing_logic:
@@ -289,7 +289,7 @@ label fishing_logic:
         m "We offer a discount for newbies, so it's only 250 coins!"
         menu Mor_dialogue:
             "Who are you?":
-                m "Me? I'm Mor. I'm helping my father, he's a fisherman. He usually takes a boat to catch more fish, and I stay here."
+                m "Me? I'm Mor. I'm helping my father. He's a fisherman. He usually takes a boat to catch more fish, and I stay here."
                 jump Mor_dialogue
             "Buy the Pole" if hero.gold >= 250:
                 $ hero.take_money(250, reason="Items")

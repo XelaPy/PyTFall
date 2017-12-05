@@ -21,7 +21,7 @@ label smc_1(event):
     g "Isn't it nice?"
     g "The crowd seems to be loving it!"
     menu:
-        g "How about we turn this baby on? Would you do us the honours?"
+        g "How about we turn this baby on? Would you do us the honors?"
         "Let's do this!":
             $ pass
         "I am not really into this...":
@@ -57,7 +57,7 @@ label smc_1(event):
     with dissolve
     g "She sure looks like she's enjoying this!"
     g "Yet... we got to make the girl cum, don't we?"
-    g "And she's one of my personal projects so she won't go down this easily!"
+    g "And she's one of my personal projects, so she won't go down this easily!"
     menu:
         g "Would you mind?"
         "Push it all the way!":

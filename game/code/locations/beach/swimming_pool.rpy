@@ -154,7 +154,7 @@ label hero_swimming_pool_skill_checks:
         $ hero.vitality -= randint (10, 15)
     if locked_dice(75) and hero.get_skill("swimming") >= 50 and hero.constitution < hero.get_max("constitution"):
         $ hero.mod_stat("constitution", 1)
-        "Swimming was good for you, you became a bit more enduring."
+        "Swimming did you good (constitution+)."
     return
 
 label instructor_swimming_pool_skill_checks:

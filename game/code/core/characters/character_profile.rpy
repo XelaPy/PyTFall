@@ -613,7 +613,7 @@ screen char_profile():
                     button:
                         xysize (150, 40)
                         action Hide("show_trait_info"), If(not_escaped, true=Show("girl_control"))
-                        hovered tt.action('Set desired behaviour for [char.nickname].')
+                        hovered tt.action('Set desired behavior for [char.nickname].')
                         text "Girl Control"
                     button:
                         xysize (150, 40)
@@ -992,7 +992,7 @@ screen girl_control():
         xysize(343, 675)
 
         # Tooltip Related:
-        default tt = Tooltip("Adjust your girls behaviour here.")
+        default tt = Tooltip("Adjust your girls behavior here.")
         frame:
             background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
             align(0.5, 0.88)

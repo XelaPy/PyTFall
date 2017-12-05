@@ -26,8 +26,8 @@ label maria_tulip_1_event(event):
 
             "So... what's the deal with that weapon of yours?":
                 m "That's Tulip Cannon, my own invention. <looks proudly>"
-                m "It's fueled with a compound made primarily from Hirara Alloy, which helps the projectile to acquire a better muzzle velocity."
-                m "The PytFall representatives allowed me to test the new non-lethal ammunition in the city arena. \nIt seems to be working most of the time, it's so exciting!!"
+                m "It's fueled by a compound made primarily from Hirara Alloy, which helps the projectile to acquire a better muzzle velocity."
+                m "The PytFall representatives allowed me to test the new non-lethal ammunition in the city arena. \nIt seems to be working most of the time. It's so exciting!"
                 $ menuM_skip = True
             "<don't bother her anymore>":
                 hide npc

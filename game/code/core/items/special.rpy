@@ -160,7 +160,7 @@ label special_items_one_for_all:
     with dissolve
 
     menu:
-        "Using this item will kill [eqtarget.name] on spot. Continue?"
+        "Using this item will kill [eqtarget.name] on the spot. Continue?"
         "Yes":
             $ pass
         "No":

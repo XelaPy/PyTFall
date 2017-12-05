@@ -9,7 +9,7 @@ PY2 = sys.version_info[0] == 2
 
 
 if PY2:  # NOQA
-    # Python 2.x does not report exception chains.  To emulate the behaviour of
+    # Python 2.x does not report exception chains.  To emulate the behavior of
     # Python 3 traceback.format_exception and traceback.print_exception are
     # overwritten with the custom functions.  The original functions
     # are stored in _format_exception and _print_exception.

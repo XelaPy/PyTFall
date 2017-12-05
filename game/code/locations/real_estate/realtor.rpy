@@ -28,7 +28,7 @@ label realtor_agency:
         nvl_ra "But that all escaped your mind the moment you noticed the owner."
         nvl_ra "She was a mature type woman with glasses, that surely wasn't ashamed of her female attributes."
         nvl_ra "Blouse and skirt that she wore was well fitted, and stick really tightly to her body emphasizing her breasts and hips."
-        nvl_ra "The black stockings that she was wearing also matched her perfectly, underlining her beautiful legs. The finishing touch was her shoes with little, cute roses on the toes, that you almost didn't notice."
+        nvl_ra "The black stockings that she was wearing also matched her perfectly, underlining her beautiful legs. The finishing touch was her shoes with little, cute roses on the toes that you almost didn't notice."
 
         show expression npcs["Rose_estate"].get_vnsprite() as rose at right with dissolve
 

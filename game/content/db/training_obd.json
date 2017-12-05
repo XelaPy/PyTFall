@@ -104,7 +104,7 @@
     {
     "id": "Reward",
     "image": "schools/Obedience/ob (22).jpg",
-    "desc": "Reward the girl for good behaviour.",
+    "desc": "Reward the girl for good behavior.",
     "status": ["slave"],
     "options": {
                 "Praise": {
@@ -149,12 +149,12 @@
     {
     "id": "Punishment",
     "image": "schools/Obedience/ob (30).jpg",
-    "desc": "Punish the girl for bad behaviour.",
+    "desc": "Punish the girl for bad behavior.",
     "status": ["slave"],
     "options": {
                 "Scold": {
                 "image": "schools/XXX/xxx (16).jpg",
-                "desc": "Scold the girl about her bad behaviour.",
+                "desc": "Scold the girl about her bad behavior.",
                 "scale": "neg",
                 "based": ["character"],
                 "primary": {"mod": {"joy": [-1, -1, -2], "disposition": -20},

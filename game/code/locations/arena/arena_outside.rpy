@@ -22,7 +22,7 @@ label arena_outside:
         show expression npcs["Xeona_arena"].get_vnsprite() as xeona
         with dissolve
         ax "I've never seen you before. What brings you here?"
-        ax "Lust for blood? or Fame? Power? Respect?"
+        ax "Lust for blood? Fame? Power? Or Respect?"
         ax "Oh well, is there anything you'd like to know about this place?"
         jump xeona_talking
 
@@ -86,7 +86,7 @@ label xeona_talking:
             ax "Well?"
             "Tell me about Arena":
                 ax "The arena, other than our sex industry, is the biggest source of entertainment for locals and tourists alike."
-                ax "Many warriors come here to test their mettle against all challengers. Mages come to test their wisdom and training against all kinds of foe. Though most come"
+                ax "Many warriors come here to test their mettle against all challengers. Mages come to test their wisdom and training against all kinds of a foe. Though most come"
                 extend " just to unwind and see some kickass battles."
                 ax "The arena is consists of two sections, one for the {color=[green]}matches{/color} and one for {color=[green]}dogfights{/color}."
                 ax "Both pay well, especially if you please the crowd."
@@ -115,12 +115,12 @@ label xeona_talking:
                 elif hero.arena_rep >= 2500:
                     ax "You've managed to improve your reputation, but you're not there yet :)"
                 else:
-                    ax "With the amount of reputation you have? No chance in hell!!!"
+                    ax "With the amount of rep you have? No chance in hell!!!"
 
             "What's an 'arena permit'?" if heard_about_arena and not hero.arena_permit:
                 ax "An arena permit is something you get to pay a lot of Gold for when you've managed to gain enough reputation."
                 ax "Then you can fight in official matches and take your place in the ladders."
-                ax "Seems simple enough doesn't it?"
+                ax "Seems simple enough, doesn't it?"
 
             "How do I gain arena reputation?" if heard_about_arena:
                 ax "By fighting and winning obviously."
@@ -134,8 +134,8 @@ label xeona_talking:
 
             "Official matches and ladders?" if heard_about_arena:
                 ax "Oh, those are the real thing! If you win, you get to be on the official ladders of fame and glory!"
-                ax "All gladiators who seek recognition try to get on them. few succeed."
-                ax "It's a great honour to be listed in any of the ladders. If you have the skills and tools required you should give it a go."
+                ax "All gladiators who seek recognition try to get on them. Few succeed."
+                ax "It's a great honor to be listed in any of the ladders. If you have the skills and tools required you should give it a go."
                 ax "These types of matches are scheduled in advance. The loser goes down one position, and the winner gains a position."
                 ax "As you've probably figured out, you can lose your place in the ladder without actually losing a fight."
                 ax "But that's the incentive to keep fighting everyone, I suppose."
@@ -149,7 +149,7 @@ label xeona_talking:
             "Wanna go on a date with me?" if not arena_date:
                 $ arena_date = True
                 ax "Well, PyTFall's arena is a place of great... Wait... What?"
-                ax "Go find some floozy in the park! Why me all of a sudden?"
+                ax "Find some floozy in the park! Why me all of a sudden?"
                 ax "Oh wait, you were kidding. Right?"
 
             "Talk about weather":

@@ -412,7 +412,7 @@ label interactions_got_insulted_hdisp:
 label interactions_got_insulted_slave:
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
-        $ rc("Huh? If I did something wrong, please tell me immediately, [char.mc_ref].", "Is there something wrong with my behaviour? Please clarify.")
+        $ rc("Huh? If I did something wrong, please tell me immediately, [char.mc_ref].", "Is there something wrong with my behavior? Please clarify.")
     elif ct("Shy") and dice(50):
         $ rc("Eh... S-sorry... W-what's this about? D-did I upset you somehow?", "P-please don't be mad at me...")
     elif ct("Imouto"):

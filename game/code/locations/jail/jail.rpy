@@ -31,7 +31,7 @@ label city_jail:
     if not global_flags.flag('visited_city_jail'):
         $ global_flags.set_flag('visited_city_jail')
         "The city jail..."
-        "Temporary home of miscreants and law breakers."
+        "Temporary home of miscreants and lawbreakers."
         "Not to mention an occasional escaped slave."
 
     show screen city_jail

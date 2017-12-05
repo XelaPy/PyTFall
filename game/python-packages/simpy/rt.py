@@ -21,7 +21,7 @@ class RealtimeEnvironment(Environment):
     1.5 seconds.
 
     The :meth:`step()` method will raise a :exc:`RuntimeError` if a time step
-    took too long to compute. This behaviour can be disabled by setting
+    took too long to compute. This behavior can be disabled by setting
     *strict* to ``False``.
 
     """

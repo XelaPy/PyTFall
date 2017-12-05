@@ -702,9 +702,9 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
     if current_action == "mast":
         $ get_single_sex_picture(char, act="masturbation", location=sex_scene_location, hidden_partner=True)
         if sub > 0:
-            "She leisurely pleasures herself for awhile, seductively glancing at you."
+            "She leisurely pleasures herself for a while, seductively glancing at you."
         elif sub < 0:
-            "She diligently pleasures herself for awhile until you tell her to stop."
+            "She diligently pleasures herself for a while until you tell her to stop."
         else:
             "She pleasures herself briefly, hesitantly avoiding your glance."
         if dice(40):
@@ -991,7 +991,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             elif "sitting" in image_tags:
                 extend " She sits on your lap while you prepare your dick for going inside her."
             else:
-                extend " You enter her pussy and you two begin to move."
+                extend " You enter her pussy, and you two begin to move."
         call interaction_sex_scene_check_skill_acts
 
     elif current_action == "anal":
@@ -1130,7 +1130,7 @@ label interaction_sex_scene_check_skill_jobs: # skill level check for one side a
             if sub > 0:
                 "At the last moment, she pulls away, covering herself with your thick liquid."
             elif sub < 0:
-                "At the last moment you take it away from her chest, covering her body with your thick liquid."
+                "At the last moment, you take it away from her chest, covering her body with your thick liquid."
             else:
                 "At the last moment, she asked you to take it away from her chest to cover her body with your thick liquid."
     elif current_action == "blow":
@@ -1159,7 +1159,7 @@ label interaction_sex_scene_check_skill_jobs: # skill level check for one side a
             if sub > 0:
                 "At the last moment, she pulls it out, covering herself with your thick liquid."
             elif sub < 0:
-                "At the last moment you pull it out from her mouth, covering her body with your thick liquid."
+                "At the last moment, you pull it out from her mouth, covering her body with your thick liquid."
             else:
                 "She asked you to pull it out from her mouth at the last moment to cover her body with your thick liquid."
     if skill_for_checking >= 4000:
@@ -1204,13 +1204,13 @@ label interaction_sex_scene_check_skill_acts: # skill level check for two sides 
             "Her movements were pretty good. Nothing extraordinary, but it wasn't half bad either."
             $ char.joy += randint(0, 1)
         elif skill_for_checking >= 200:
-            "It took some time and effort on her part, her pussy could use some training."
+            "It took some time and effort on her part. Her pussy could use some training."
             $ char.vitality -= randint(5, 10)
         elif skill_for_checking >= 50:
             "It looks like [char.name] barely knows what she's doing. Still, it's difficult to screw up such a simple task, so eventually, she got the job done."
             $ char.vitality -= randint(10, 15)
         else:
-            "Her moves were clumsy and untimely, and her pussy was too dry. Sadly, she was unable to properly satisfy you."
+            "Her moves were clumsy and untimely, and her pussy was too dry. Sadly, she was unable to satisfy you adequately."
             $ char.joy -= randint(2, 4)
             $ char.vitality -= randint(10, 15)
     elif current_action == "anal":
@@ -1227,7 +1227,7 @@ label interaction_sex_scene_check_skill_acts: # skill level check for two sides 
             "Her movements were pretty good. Nothing extraordinary, but it wasn't half bad either."
             $ char.joy += randint(0, 1)
         elif skill_for_checking >= 200:
-            "It took some time and effort on her part, her anus could use some training."
+            "It took some time and effort on her part. Her anus could use some training."
             $ char.vitality -= randint(5, 10)
         elif skill_for_checking >= 50:
             "It looks like [char.name] barely knows what she's doing. Still, it's difficult to screw up such a simple task, so eventually, she got the job done."
@@ -1261,7 +1261,7 @@ label interaction_sex_scene_check_skill_acts: # skill level check for two sides 
         if male_skill_for_checking >= 1000:
             extend " You did your best to make her cum, but it brought more pain than pleasure judging by her expression."
         else:
-            " She is not in the mood anymore, your efforts to make her cum were in vain."
+            " She is not in the mood anymore. Your efforts to make her cum were in vain."
 
     if "after sex" in image_tags:
         $ cum_count += 1

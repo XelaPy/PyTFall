@@ -94,11 +94,11 @@ label frog1_event_poke:
                     "Ask about groom":
                         f1 "We met shortly after the event. He wanted to see his bride as soon as possible, so he came to meet me halfway."
                         f1 "Not knowing what happened to me I spoke first. He thought that I was hiding behind the frog, trying to trick him. But when he realized the truth, he broke on his knees crying."
-                        f1 "Then I realized what had happened to me. We sworn to each other that we would be strong and find a solution."
+                        f1 "Then I realized what had happened to me. We swore to each other that we would be strong and find a solution."
                         f1 "Because of this curse, I am unable to leave the forest, so for the first few weeks, he came to see me every day."
                         f1 "But weeks grew into months, and he started to come less frequently. After five months he stopped visiting me, and I didn’t saw him ever since…"
                     "Ask about older women":
-                        f1 "I can’t tell you much about her. The only thing that I remember about her, was that she approached me on the road mumbling something and blew some sparkly dust in my face."
+                        f1 "I can’t tell you much about her. The only thing that I remember about her is that she approached me on the road mumbling something and blew some sparkly dust in my face."
                     "Ask about Frog Princess":
                         f1 "So you would like to know more about me. Sure I will tell you. Once I was a maiden of incomparable beauty."
                         f1 "Being  the first daughter of Eastern Yatta Clan I had many admirers. But I fell in love with a merchants son."
@@ -111,7 +111,7 @@ label frog1_event_poke:
                         $ hero.take_ap(1)
                         $ pytfall.world_quests.get("Frog Princess!").next_in_label("You've met a talking frog who claims to be a princess! She asked you to help restore her original form.", manual=True)
                         $ menu_extensions.add_extension("Abby The Witch Main", ("Ask about the Frog", Jump("frog1_event_abby")))
-                    "Fuck this, I'm going home.":
+                    "Fuck this. I'm going home.":
                         "Not being interested in a talking frog tale you had left the forest."
                         $ pytfall.world_quests.get("Frog Princess!").finish_in_label("You've rejected the Frog Princess Quest! It's further fate is unknown.")
                         $ pytfall.world_events.kill_event("show_frog")
@@ -168,7 +168,7 @@ label frog1_event_abby_2:
 
     hero.say "Did you found anything?"
     if dice(50 + day/3):
-        w "Still going thru my books and scrolls. Come back later."
+        w "I am still going through my books and scrolls. Come back later."
 
         $ menu_extensions.remove_extension("Abby The Witch Main", "Ask about the frog (again)")
         $ menu_extensions.add_extension("Abby The Witch Main", ("Ask about the frog (again)", Jump("frog1_event_abby_2"), "day > {}".format(day)))
@@ -266,7 +266,7 @@ label frog1_event_abby_3:
     w "Here is the potion. Now listen. To undo the spell, have the frog to drink the potion and kiss it after it does."
     extend " She should transform right away. It's that simple. If a normal kiss won't work try a more passionate one. Good luck!"
     "You get a little, corked vial, filled with a glowing green liquid called the potion of unfrogging. You rushed in a hurry form the Witches Hut."
-    $ pytfall.world_quests.get("Frog Princess!").next_in_label("Finally you have the potion! Talk to the frog again!")
+    $ pytfall.world_quests.get("Frog Princess!").next_in_label("Finally, you have the potion! Talk to the frog again!")
     $ renpy.music.stop(channel="world", fadeout=1)
     scene bg forest_entrance at truecenter
 
@@ -279,22 +279,22 @@ label frog1_event_abby_3:
 
 label final_frog_event:
     hide screen forest_entrance
-    "Having a solution to the frog princess problem you enter the forest with confidence."
+    "Having a solution to the frog princes' problem you enter the forest with confidence."
     "Finding her wasn't really a problem, she was sitting on the same rock when you met for the first time."
 
     define f1 = Character("Frog", color=green, what_color=lawngreen, show_two_window=True)
 
     show frog
-    f1 "So why did you came today?"
+    f1 "So why did you come today?"
 
     menu:
         "I have found a method to break the spell.":
             f1 "My hero! Thanks a lot!"
-        "I know how to break the spell but it will cost you.":
+        "I know how to break the spell, but it will cost you.":
             f1 "I will do anything just help me. My father is a very rich and powerful man. He surely will pay you any sum when I safely return home."
     stop world
     play sound "script/quests/frog_princess/sfx/kiss_short.mp3"
-    "Frog drunk the potion and you gave it a quick kiss. Nothing happened. You need to be more passionate."
+    "Frog drunk the potion, and you gave it a quick kiss. Nothing happened. You need to be more passionate."
     menu:
         "French kiss":
             "You had French kissed a frog! (side note: frogs eat: flies, mosquitoes, moths, dragonflies, small snakes, mice, baby turtles and sometimes smaller frogs)."
@@ -309,14 +309,14 @@ label final_frog_event:
 
             show stranger
             define b = Character("Stranger", color=red, what_color=green, show_two_window=True)
-            b "Thanks dude. You really saved me. About that princess and gold..."
+            b "Thanks, dude. You really saved me. About that princess and gold..."
             $ pytfall.world_quests.get("Frog Princess!").finish_in_label("{color=[blue]}You've completed the Quest... but the whole thing was a scam...{/color}")
             extend " {color=[red]} It was all crap! Sorry, gotta go!"
             hide stranger
             with fade
-            "You had lost a lot of time, money, and had an intimate moment with a huge manfrog. But look at the bright side. Now you know that you shouldn't trust a talking frog."
-        "It's to disgusting":
-            "First kiss was disgusting enough, this is just too much for you. After dropping the frog you head back home thinking about what a crappy ordeal this was." # note to Xela, end quest.
+            "You had lost a lot of time, money, and had an intimate moment with a huge man-frog. But look at the bright side. Now you know that you shouldn't trust a talking frog."
+        "It's too disgusting":
+            "The first kiss was disgusting enough. This is just too much for you. After dropping the frog you head back home thinking about what a crappy ordeal this was."
             $ pytfall.world_quests.get("Frog Princess!").finish_in_label("You could not bring yourself to kiss the frog properly...")
             $ pytfall.world_events.kill_event("show_frog_final")
     jump forest_entrance

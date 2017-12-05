@@ -192,7 +192,7 @@ label library_eleven_dialogue:
             show expression npcs["Eleven"].show("battle", resize=(800, 600)) as npc
             with golem_change
             $ money = has_items("Rebels Leaflet", [hero])*50
-            "Without a single word, the golem immediately destroys leaflets right in your hands. Still warm ash falls to the floor."
+            "Without a single word, the golem destroys leaflets in your hands. Warm ash falls on the floor."
             hide npc
             show expression npcs["Eleven"].get_vnsprite() as npc
             with golem_change_back
@@ -212,7 +212,7 @@ label library_eleven_dialogue:
             e "{b}After some time, it was bought by PyTFall's government and given the position of Archive Watcher. As the Watcher, this unit is a government official able to enforce rules using any necessary means.{/b}"
             e "{b}Later it was given the order to join military, but this unit is incapable to rewrite core directives once they were set. Therefore it serves as the Archive Watcher to this day.{/b}"
             $ npcs["Eleven"].override_portrait("portrait", "confident")
-            e "{b}All other information is classified for civilians.{/b}"
+            e "{b}All further information is classified.{/b}"
             $ npcs["Eleven"].override_portrait("portrait", "indifferent")
             jump eleven_menu
         "Ask about the archive":
@@ -225,9 +225,9 @@ label library_eleven_dialogue:
             e "{b}I am authorized to buy books to expand the archive collection. The archive doesn't need common books, but you may bring any unusual and rare ones.{/b}"
             $ npcs["Eleven"].override_portrait("portrait", "confident")
             e "{b}More importantly, I was entrusted with the task to clear the city from forbidden propaganda. After the war, a lot of leaflets made by rebels left in the city. I am authorized to pay for any prohibited leaflets, which will be destroyed soon after that.{/b}"
-            "At these words his eyes flash brightly, and you can sense his hostility - not towards you, but towards the rebels."
+            "At these words, his eyes flash brightly, and you can sense his hostility - not towards you, but towards the rebels."
             $ npcs["Eleven"].override_portrait("portrait", "angry")
-            e "{b}But do handle them with care. One you find one, bring it to me immediately. Otherwise you can be suspected of treason.{/b}"
+            e "{b}Handle them with care. Once you find one, bring it to me immediately. Otherwise, you will be suspected of treason.{/b}"
             $ npcs["Eleven"].override_portrait("portrait", "indifferent")
             if not global_flags.flag('player_knows_about_eleven_jobs'):
                 $ global_flags.set_flag('player_knows_about_eleven_jobs')

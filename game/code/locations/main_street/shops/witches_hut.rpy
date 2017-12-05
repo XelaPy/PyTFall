@@ -112,7 +112,7 @@ label witch_training:
             "About Abby training":
                 w "I will train magic, intelligence and restore some MP."
                 w "I can also guarantee you agility will go up if you pay attention in class!"
-                extend " That however does not often happen for reasons unknown..."
+                extend " That, however, does not often happen for reasons unknown..."
                 w "Yeap! I am That good!"
             "{color=[green]}Setup sessions for [char.name]{/color}" if not char.has_flag("train_with_witch"):
                 $ char.set_flag("train_with_witch")

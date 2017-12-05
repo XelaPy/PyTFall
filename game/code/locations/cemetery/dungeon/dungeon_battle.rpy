@@ -75,7 +75,7 @@ label dungeon_battle(player, enemy):
 
     # Result
     if _return is "lose":
-        "Gameover"
+        "Game Over"
         $renpy.full_restart()
     elif _return is "win":
         "You won"

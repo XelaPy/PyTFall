@@ -249,7 +249,7 @@ label city_beach_diving_checks:
         $ global_flags.set_flag('diving_city_beach')
         "With high enough swimming skill you can try diving. Every action consumes your vitality, and the amount of oxygen is based on your swimming skill."
         "You cannot continue if your vitality is too low. The goal is to find invisible items hidden on the seabed."
-        "You can leave the sea anytime by pressing right mouse button, and you will lose some health if you don't leave before the oxygen is over."
+        "You can leave the sea anytime by clicking the right mouse button, and you will lose some health if you don't leave before the oxygen is over."
     if hero.AP <= 0:
         "You don't have Action Points at the moment. Try again tomorrow."
         jump city_beach
@@ -292,7 +292,7 @@ label city_beach_diving_checks:
             jump city_beach
         elif result == "Swim Out":
             hide screen hidden_area
-            "You return to the surface before you run our of air."
+            "You return to the surface before you run out of air."
             jump city_beach
 
         if isinstance(result, Item):
