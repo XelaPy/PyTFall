@@ -75,7 +75,7 @@ label storyi_bossroom:
         zoom 0.1
         alpha 0
         linear 1.5 alpha 1.0
-    "Finally you reach the throne room on top of the building. Some windows are broken, and the wind blows through."
+    "Finally, you reach the throne room on top of the building. Some windows are broken, and the wind blows through."
     menu:
         "If you continue, there won't be way back."
         "Continue":
@@ -234,7 +234,7 @@ label storyi_treat_wounds:
         else:
             "Unfortunately, you used all stored medicaments."
     else:
-        "Supplies are limited, it's not wise to waste them if your health is fine."
+        "Supplies are limited. It's not wise to waste them if your health is fine."
     show screen prison_break_controls
     $ del j
     jump storyi_gui_loop
@@ -346,13 +346,13 @@ label storyi_search_items:
         if dice(hero.luck + 100):
             call give_to_mc_item_reward(type="armor", price=1000)
     elif storyi_prison_location == 11:
-        "Among a heap of rusty blades you can see some usable weapons."
+        "Among a heap of rusty blades, you see some good weapons."
         call give_to_mc_item_reward(type="weapon", price=500)
         call give_to_mc_item_reward(type="weapon", price=700)
         if dice(hero.luck + 100):
             call give_to_mc_item_reward(type="weapon", price=1000)
     elif storyi_prison_location == 13:
-        "Most of the food was spoiled, but some is still edible."
+        "Most of the food is spoiled, but some of it is still edible."
         call give_to_mc_item_reward(type="food", price=500)
         call give_to_mc_item_reward(type="food", price=500)
         if dice(hero.luck + 100):
@@ -432,7 +432,7 @@ label storyi_map: # shows dungeon map and calls matrix to control it
             jump prison_storyi_event_prisonblock
     elif _return == "Infirmary":
         if storyi_prison_location == 3:
-            "The prison infirmary. They store there a huge amount of medical supplies."
+            "The prison infirmary. They store there a considerable amount of medical supplies."
             jump storyi_map
         elif storyi_prison_location <> 2:
             "You are too far to go there."
@@ -477,7 +477,7 @@ label storyi_map: # shows dungeon map and calls matrix to control it
             jump prison_storyi_event_dungentr
     elif _return == "Storage":
         if storyi_prison_location == 7:
-            "A small storage filled with old armor ans household accessories."
+            "A small storage filled with old armor and household accessories."
             jump storyi_map
         elif not(storyi_prison_location in [6, 5]):
             "You are too far to go there."
@@ -522,7 +522,7 @@ label storyi_map: # shows dungeon map and calls matrix to control it
             jump prison_storyi_event_wroom
     elif _return == "CRoom":
         if storyi_prison_location == 12:
-            "The dinning hall. Here slaves prepare food for guards and prisoners."
+            "The dining hall. Here slaves prepare food for guards and prisoners."
             jump storyi_map
         elif not(storyi_prison_location in [17, 13]):
             "You are too far to go there."
