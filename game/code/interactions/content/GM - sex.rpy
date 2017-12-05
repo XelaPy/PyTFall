@@ -67,7 +67,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
     elif char.vitality <= round(char.get_max("vitality")*0.25) or char.AP <= 0: # no sex with low vitality
         call interactions_refused_because_tired
         jump girl_interactions
-    $ price = 100 #a placeholder, the price should be close to whore job prices, which are calculated weirdly atm
+    $ price = 500 #a placeholder, the price should be close to whore job prices, which are calculated weirdly atm
 
     if check_friends(char, hero):
         $ price = round(price * 0.7)

@@ -84,8 +84,6 @@ init -11 python:
                         with open(in_file) as f:
                             ugirls = json.load(f)
 
-                        jsstor.add(path, ugirls, in_file)
-
                         # Apply the content of the file to the character:
                         for gd in ugirls: # We go over each dict one mainaining correct order of application:
 
@@ -362,7 +360,6 @@ init -11 python:
                         with open(in_file) as f:
                             rgirls = json.load(f)
 
-                        jsstor.add("randomgirls", rgirls, in_file)
                         for gd in rgirls:
                             # @Review: We will return dictionaries instead of blank instances of rGirl from now on!
                             # rg = rChar()
@@ -529,7 +526,6 @@ init -11 python:
         with open(in_file) as f:
             content = json.load(f)
 
-        jsstor.add("mobs", content, in_file)
         for mob in content:
             if "id" not in mob:
                 mob["id"] = mob["name"]
@@ -543,7 +539,6 @@ init -11 python:
         with open(in_file) as f:
             content = json.load(f)
 
-        jsstor.add("buildings", content, in_file)
         # Populate into brothel objects
         businesses = dict()
         for building in content:
@@ -562,7 +557,6 @@ init -11 python:
         with open(in_file) as f:
             content = json.load(f)
 
-        jsstor.add("tiles", content, in_file)
         tiles = {}
         for tile in content:
             t = Tile()
@@ -580,7 +574,6 @@ init -11 python:
         with open(in_file) as f:
             content = json.load(f)
 
-        jsstor.add("misc", content, in_file)
         return content
 
     def load_traits():
@@ -594,7 +587,6 @@ init -11 python:
                 in_file = content_path("".join(["db/", file]))
                 with open(in_file) as f:
                     content.extend(json.load(f))
-                jsstor.add("traits", content, in_file)
         traits = dict()
         for trait in content:
             t = Trait()
@@ -611,7 +603,6 @@ init -11 python:
                 in_file = content_path("".join(["db/", file]))
                 with open(in_file) as f:
                     content.extend(json.load(f))
-                jsstor.add("fg_areas", content, in_file)
         areas = dict()
         for area in content:
             a = FG_Area()
@@ -632,7 +623,6 @@ init -11 python:
                 in_file = content_path("".join(["db/", file]))
                 with open(in_file) as f:
                     content.extend(json.load(f))
-                jsstor.add("items", content, in_file)
 
         for item in content:
             iteminst = Item()
@@ -655,7 +645,6 @@ init -11 python:
                 in_file = content_path("".join(["db/", file]))
                 with open(in_file) as f:
                     content.extend(json.load(f))
-                jsstor.add("dungeon", content, in_file)
 
         return { d['id']: Dungeon(**d) for d in content }
 
@@ -672,7 +661,6 @@ init -11 python:
                 with open(in_file) as f:
                     unprocessed = json.load(f)
 
-                jsstor.add("gifts", unprocessed, in_file)
                 for key in unprocessed:
                     item = Item()
                     item.slot = "gift"

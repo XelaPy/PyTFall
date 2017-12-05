@@ -44,11 +44,12 @@ screen prison_break_controls(): # control buttons screen
                     yalign 0.5
                     action [Hide("prison_break_controls"), Jump("storyi_treat_wounds")]
                     text "Heal" size 15
-            button:
-                xysize (120, 40)
-                yalign 0.5
-                action [Hide("prison_break_controls"), Jump("storyi_bossroom")]
-                text "Test Boss" size 15
+            if storyi_prison_location == 5 and not hero.has_flag("defeated_boss_1"):
+                button:
+                    xysize (120, 40)
+                    yalign 0.5
+                    action [Hide("prison_break_controls"), Jump("storyi_bossroom")]
+                    text "Go Up" size 15
             if storyi_prison_location in treasures:
                 button:
                     xysize (120, 40)
@@ -58,7 +59,7 @@ screen prison_break_controls(): # control buttons screen
             button:
                 xysize (120, 40)
                 yalign 0.5
-                action [Hide("prison_break_controls"), Jump("mainscreen")]
+                action [Hide("prison_break_controls"), Jump("forest_dark")]
                 text "Exit" size 15
 
 label storyi_bossroom:
@@ -74,7 +75,7 @@ label storyi_bossroom:
         zoom 0.1
         alpha 0
         linear 1.5 alpha 1.0
-    "Finally, you reach the throne room on top of the building. Some windows are broken, and the wind blows through."
+    "Finally you reach the throne room on top of the building. Some windows are broken, and the wind blows through."
     menu:
         "If you continue, there won't be way back."
         "Continue":
@@ -98,14 +99,14 @@ label storyi_bossroom:
     "There is a tiny red star in the gem on the ceiling."
     show sinister_star:
         linear 2.0 zoom 0.5
-    extend " One of the weapons used during the war, it wakes up, disturbed by your presence."
+    extend " It wakes up, disturbed by your presence."
     show sinister_star:
         linear 8 ypos 375 zoom 1.5
-    "The air temperature rises rapidly. At the full power, it rumored to be capable of burning a city block in a blink of an eye."
+    "The air temperature rises rapidly."
     show bg story p3 with sflash
     show sinister_star:
         linear 4 zoom 2.5
-    extend " It has to be taken down before it awakens completely."
+    extend " You prepare for a fight!"
     python:
         enemy_team = Team(name="Enemy Team", max_size=3)
         your_team = Team(name="Your Team", max_size=3)
@@ -125,6 +126,7 @@ label storyi_bossroom:
         anchor (0.5, 0.5)
         zoom 1.0
         alpha 1.0
+    $ hero.set_flag("defeated_boss_1")
     "The star loses its strength, and the air temperature drops."
     hide sinister_star with dissolve
     extend " You pick it up and put in your pocket."
@@ -132,7 +134,7 @@ label storyi_bossroom:
     stop events2
     call storyi_show_bg
     play world "Theme2.ogg" fadein 2.0 loop
-    "You return to the ground floor. It's time to home."
+    "You return to the ground floor."
     show screen prison_break_controls
     jump storyi_gui_loop
 
@@ -147,7 +149,7 @@ label storyi_rest: # resting inside the dungeon; team may be attacked during the
     call storyi_show_bg
     if dice(fight_chance):
         hide screen prison_break_controls
-        "Enemies have ambushed you!"
+        "You have been ambushed by enemies!"
         jump storyi_randomfight
     show screen prison_break_controls
     jump storyi_gui_loop
@@ -232,12 +234,12 @@ label storyi_treat_wounds:
         else:
             "Unfortunately, you used all stored medicaments."
     else:
-        "Supplies are limited. It's not wise to waste them if your health is fine."
+        "Supplies are limited, it's not wise to waste them if your health is fine."
     show screen prison_break_controls
     $ del j
     jump storyi_gui_loop
 
-label storyi_start: # beginning point of the dungeon; TODO: change expression below to suit quest
+label storyi_start: # beginning point of the dungeon;
     $ treasures = [1, 3, 7, 10, 11, 13]
     $ enemies = ["Skeleton", "Skeleton Warrior", "Will-o-wisp"]
     $ fight_chance = 100
@@ -254,6 +256,11 @@ label storyi_start: # beginning point of the dungeon; TODO: change expression be
     $ storyi_treat_wounds_count = 5
     $ storyi_prison_stage = 1
     $ storyi_prison_location = 6
+    if not hero.has_flag("been_in_old_ruins"):
+        $ hero.set_flag("been_in_old_ruins")
+        hero.say "I've found the ruins of a tower near the city."
+        hero.say "It may be not safe here, but I bet there is something valuable deep inside!"
+        "You can enter and exit the ruins at any point, but it will consume your AP."
     show screen prison_break_controls
 
 label storyi_gui_loop: # the gui loop; we jump here every time we need to show controlling gui
@@ -339,13 +346,13 @@ label storyi_search_items:
         if dice(hero.luck + 100):
             call give_to_mc_item_reward(type="armor", price=1000)
     elif storyi_prison_location == 11:
-        "Among a heap of rusty blades, you see a couple of usable weapons."
+        "Among a heap of rusty blades you can see some usable weapons."
         call give_to_mc_item_reward(type="weapon", price=500)
         call give_to_mc_item_reward(type="weapon", price=700)
         if dice(hero.luck + 100):
             call give_to_mc_item_reward(type="weapon", price=1000)
     elif storyi_prison_location == 13:
-        "Most of the food was spoiled, but some of it is still edible."
+        "Most of the food was spoiled, but some is still edible."
         call give_to_mc_item_reward(type="food", price=500)
         call give_to_mc_item_reward(type="food", price=500)
         if dice(hero.luck + 100):
@@ -425,7 +432,7 @@ label storyi_map: # shows dungeon map and calls matrix to control it
             jump prison_storyi_event_prisonblock
     elif _return == "Infirmary":
         if storyi_prison_location == 3:
-            "The prison infirmary. They store there a considerable amount of medical supplies."
+            "The prison infirmary. They store there a huge amount of medical supplies."
             jump storyi_map
         elif storyi_prison_location <> 2:
             "You are too far to go there."
@@ -470,7 +477,7 @@ label storyi_map: # shows dungeon map and calls matrix to control it
             jump prison_storyi_event_dungentr
     elif _return == "Storage":
         if storyi_prison_location == 7:
-            "A small storage filled with old armor and household accessories."
+            "A small storage filled with old armor ans household accessories."
             jump storyi_map
         elif not(storyi_prison_location in [6, 5]):
             "You are too far to go there."
@@ -515,7 +522,7 @@ label storyi_map: # shows dungeon map and calls matrix to control it
             jump prison_storyi_event_wroom
     elif _return == "CRoom":
         if storyi_prison_location == 12:
-            "The dining hall. Here slaves prepare food for guards and prisoners."
+            "The dinning hall. Here slaves prepare food for guards and prisoners."
             jump storyi_map
         elif not(storyi_prison_location in [17, 13]):
             "You are too far to go there."

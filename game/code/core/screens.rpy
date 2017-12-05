@@ -1,6 +1,10 @@
 init python:
     def dummy_interaction_restart(*args, **kwargs):
         renpy.restart_interaction()
+    
+    def dev_mode_switch():
+        config.developer = not(config.developer)
+        config.debug = not(config.debug)
 
 ################### Specialized ####################
 init: # Items:
@@ -1186,7 +1190,7 @@ init: # Items:
                         unhovered SetField(config, "mouse", None)
 
         if show_exit_button:
-            textbutton "All Done":
+            textbutton "Close":
                 align show_exit_button
                 action Return(False)
 
@@ -1341,7 +1345,8 @@ init: # Settings:
                             ypadding 8
                             style_group "dropdown_gm2"
                             has vbox align (0.5, 0.5)
-                            textbutton _("Joystick...") action Preference("joystick") xsize 150 text_size 16
+                            textbutton _("Gamepad") action SensitiveIf(GamepadExists()), GamepadCalibrate() xsize 150 text_size 16
+                            
 
                     # Middle column...
                     frame:
@@ -1455,21 +1460,22 @@ init: # Settings:
                                 textbutton _("Test"):
                                     action Play("sound", config.sample_sound)
                                     style "soundtest_button"
-                        if config.developer:
-                            frame:
-                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
-                                #background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                                xsize 194
-                                ypadding 10
-                                #style_group "gm_nav"
-                                #style_group "dropdown_gm2"
-                                style_group "smenu"
-                                has vbox align (0.5, 0.5)
-                                button:
-                                    xsize 164
-                                    yalign 0.5
-                                    action SelectedIf(s_menu == "Settings"), Hide("s_menu"), Show("s_menu", s_menu="Debug"), With(dissolve) # SetScreenVariable("s_menu", "Settings")
-                                    text "Debug menu" size 18 align (0.5, 0.5) # style "mmenu_button_text"
+                        frame:
+                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
+                            xsize 194
+                            ypadding 10
+                            style_group "smenu"
+                            has vbox align (0.5, 0.5)
+                            button:
+                                xsize 164
+                                yalign 0.5
+                                action Function(dev_mode_switch)
+                                text "Debug Mode" size 18 align (0.5, 0.5):
+                                    if config.developer:
+                                        color green
+                                    else:
+                                        color red
+ 
 
             elif s_menu == "Game":
                 frame:
@@ -1625,84 +1631,6 @@ init: # Settings:
                                             text "Buildings: [json_info[buildings]]" style "TisaOTMol" ypos 0
 
                                     key "save_delete" action FileDelete(i)
-            elif s_menu == "Debug":
-                grid 3 1:
-                    align (0.5, 0.5)
-                    spacing 7
-                    frame:
-                        style_group "smenu"
-                        align (0.5, 0.5)
-                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
-                        xpadding 10
-                        ypadding 10
-                        #yfill True
-                        has vbox spacing 5
-                        frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                            xsize 194
-                            style_group "dropdown_gm2"
-                            has vbox align (0.5, 0.5)
-                            vbox:
-                                frame:
-                                    xsize 184
-                                    align (0.5, 0.5)
-                                    background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
-                                    text _("- Schema -") style "TisaOTMolxm"
-                                #xfill True
-                                #yfill True
-                                spacing 10
-                                align (0.5, 0.5)
-                                button:
-                                    #align (0, 0)
-                                    xysize (184, 32)
-                                    action ToggleField(jsstor, "action", true_value="validate", false_value="skip")
-                                    text "Validation:" align (0.0, 0.5) style "TisaOTMol" size 14
-                                    if jsstor.action == "skip":
-                                        add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
-                                    else:
-                                        add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
-                                button:
-                                    #align (0, 1)
-                                    xysize (184, 32)
-                                    text "Strict:" align (0.0, 0.5) style "TisaOTMol" size 14
-                                    action ToggleField(jsstor, "action", true_value="strict", false_value="validate")
-                                    if jsstor.action == "strict":
-                                        add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
-                                    elif jsstor.action == "validate":
-                                        add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
-                                    else:
-                                        add (im.Scale('content/gfx/interface/icons/checkbox_inactive.png', 25, 25)) align (1.0, 0.5)
-                                        sensitive False
-                    frame:
-                        style_group "smenu"
-                        align (0.5, 0.5)
-                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
-                        xpadding 10
-                        ypadding 10
-                        #yfill True
-                        has vbox spacing 5
-                        frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                            xsize 194
-                            ypadding 8
-                            style_group "dropdown_gm2"
-                            has vbox align (0.5, 0.5)
-
-                    frame:
-                        style_group "smenu"
-                        align (0.5, 0.5)
-                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
-                        xpadding 10
-                        ypadding 10
-                        #yfill True
-                        has vbox spacing 5
-                        frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                            xsize 194
-                            ypadding 8
-                            style_group "dropdown_gm2"
-                            has vbox align (0.5, 0.5)
-
         frame:
             # at fade_in_out(sv1=0.0, ev1=1.0, t1=1.0,
                                     # sv2=1.0, ev2=0.0, t2=1.0)
@@ -1725,16 +1653,10 @@ init: # Settings:
                     text "Save" style "TisaOTMol" size 26 align (0.5, 0.5)
                 elif s_menu == "Load":
                     text "Load" style "TisaOTMol" size 26 align (0.5, 0.5)
-                elif s_menu == "Debug":
-                    text "Debug" style "TisaOTMol" size 26 align (0.5, 0.5)
             button:
                 yalign 0.5
-                if s_menu != "Debug":
-                    action Hide("s_menu"), With(dissolve)
-                    text "Return" size 18 align (0.5, 0.5) # style "mmenu_button_text"
-                else:
-                    action Hide("s_menu"), Show("s_menu", s_menu="Settings"), With(dissolve), With(dissolve)
-                    text "Return" size 18 align (0.5, 0.5) # style "mmenu_button_text"
+                action Hide("s_menu"), With(dissolve)
+                text "Return" size 18 align (0.5, 0.5) # style "mmenu_button_text"
             button:
                 yalign 0.5
                 action SelectedIf(s_menu == "Settings"), Hide("s_menu"), Show("s_menu", s_menu="Settings"), With(dissolve) # SetScreenVariable("s_menu", "Settings")

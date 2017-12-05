@@ -10,9 +10,6 @@
         day = 1
         # difficulty = Difficulties()
 
-        # load json schemas for validation
-        jsstor.configure(timelog=tl)
-
         # Load random names selections for rGirls:
         tl.timer("Loading: Random Name Files")
         female_first_names = load_female_first_names(200)
@@ -247,7 +244,6 @@ label continue_with_start:
     if config.developer and renpy.has_label("testing"):
         call testing
 
-    $ jsstor.finish()
     python in _console:
         stdio_lines = []
         stderr_lines = []

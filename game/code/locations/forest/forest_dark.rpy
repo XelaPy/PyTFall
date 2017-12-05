@@ -64,6 +64,12 @@ screen city_dark_forest():
                 yalign 0.5
                 action [Hide("city_dark_forest"), Jump("city_dark_forest_rest"), With(dissolve), SensitiveIf(hero.flag("dark_forest_rested_today") != day)]
                 text "Rest" size 15
+            if hero.has_flag("found_old_ruins"):
+                button:
+                    xysize (120, 40)
+                    yalign 0.5
+                    action [Hide("city_dark_forest"), Jump("city_dark_forest_ruines_part"), With(dissolve)]
+                    text "Ruins" size 15
             button:
                 xysize (120, 40)
                 yalign 0.5
@@ -76,11 +82,16 @@ label city_dark_forest_explore:
             "Unfortunately, your team is too tired at the moment. Maybe another time."
         else:
             "Unfortunately, you are too tired at the moment. Maybe another time."
+        "Each member of your party should have at least 1 AP."
         $ global_flags.set_flag("keep_playing_music")
         jump forest_dark_continue
     else:
         if hero.flag("dark_forest_found_river") != day and hero.vitality < hero.get_max("vitality") and dice(35):
             jump city_dark_forest_river
+        elif not hero.has_flag("found_old_ruins") and day >= 10 and dice(50):
+            $ hero.set_flag("found_old_ruins")
+            hide screen city_dark_forest
+            jump storyi_start
         elif dice(20) and hero.flag("dark_forest_met_girl") != day:
             jump dark_forest_girl_meet
         elif dice(70) or hero.flag("dark_forest_met_bandits") == day:
@@ -88,6 +99,19 @@ label city_dark_forest_explore:
         else:
             $ hero.set_flag("dark_forest_met_bandits", value=day)
             jump city_dark_forest_hideout
+            
+label city_dark_forest_ruines_part:
+    if not(take_team_ap(2)):
+        if len(hero.team) > 1:
+            "Unfortunately, your team is too tired to explore dungeons. Maybe another time."
+        else:
+            "Unfortunately, you are too tired to explore dungeons. Maybe another time."
+        "Each member of your party should have at least 2 AP."
+        $ global_flags.set_flag("keep_playing_music")
+        jump forest_dark_continue
+    else:
+        hide screen city_dark_forest
+        jump storyi_start
 
 label city_dark_forest_rest:
     $ hero.set_flag("dark_forest_rested_today", value=day)
