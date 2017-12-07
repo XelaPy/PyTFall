@@ -1409,7 +1409,7 @@ init: # Settings:
 
                     # Right column...
                     frame:
-                        align (0.5, 0.5)
+                        align (0.5, 0.0)
                         background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
                         xpadding 10
                         ypadding 10
@@ -1418,11 +1418,13 @@ init: # Settings:
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
                             xsize 194
+                            
                             ypadding 8
                             style_group "dropdown_gm2"
                             has vbox align (0.5, 0.5)
                             frame:
                                 xsize 184
+
                                 align (0.5, 0.5)
                                 background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Mute -") style "TisaOTMolxm"
@@ -1460,21 +1462,21 @@ init: # Settings:
                                 textbutton _("Test"):
                                     action Play("sound", config.sample_sound)
                                     style "soundtest_button"
-                        frame:
-                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
-                            xsize 194
-                            ypadding 10
-                            style_group "smenu"
-                            has vbox align (0.5, 0.5)
-                            button:
-                                xsize 164
-                                yalign 0.5
-                                action Function(dev_mode_switch)
-                                text "Debug Mode" size 18 align (0.5, 0.5):
-                                    if config.developer:
-                                        color green
-                                    else:
-                                        color red
+                        # frame:
+                            # background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
+                            # xsize 194
+                            # ypadding 10
+                            # style_group "smenu"
+                            # has vbox align (0.5, 0.5)
+                            # button:
+                                # xsize 164
+                                # yalign 0.5
+                                # action Function(dev_mode_switch)
+                                # text "Debug Mode" size 18 align (0.5, 0.5):
+                                    # if config.developer:
+                                        # color green
+                                    # else:
+                                        # color red
  
 
             elif s_menu == "Game":
