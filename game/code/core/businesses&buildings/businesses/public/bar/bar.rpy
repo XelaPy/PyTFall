@@ -6,7 +6,9 @@ init -5 python:
         ID = "Bar"
         IMG = "content/buildings/upgrades/bar.jpg"
 
-        def __init__(self, name="Bar", instance=None, desc="Serve drinks and snacks to your customers!", img="content/buildings/upgrades/bar.jpg", build_effort=0, materials=None, in_slots=3, cost=500, **kwargs):
+        def __init__(self, name="Bar", instance=None, desc="Serve drinks and snacks to your customers!",
+                     img="content/buildings/upgrades/bar.jpg", build_effort=0, materials=None,
+                     in_slots=3, cost=500, **kwargs):
             super(Bar, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.jobs = set([simple_jobs["Bartending"]])
             self.workable = True
@@ -22,7 +24,7 @@ init -5 python:
             self.is_running = False
 
         def worker_control(self, worker):
-            temp = "{} comes out to do striptease in {}!".format(
+            temp = "{} comes out to tend bar in {}!".format(
                                                 worker.name, self.name)
             self.log(temp, True)
 
@@ -30,7 +32,7 @@ init -5 python:
             job, loc = self.job, self.instance
             log = NDEvent(job=job, char=worker, loc=loc, business=self)
 
-            log.append("{} is performing Strip Job!".format(worker.name))
+            log.append("{} is working the bar!".format(worker.name))
             log.append("\n")
 
             difficulty = loc.tier
@@ -74,7 +76,7 @@ init -5 python:
             # log the tips:
             tips = worker.flag("jobs_tips")
             if tips:
-                temp = "{} gets {} in tips for stripping!".format(worker.name, tips)
+                temp = "{} gets {} in tips in the bar!".format(worker.name, tips)
                 self.log(temp, True)
                 loc.fin.log_logical_income(tips, job.id + " Tips")
 
