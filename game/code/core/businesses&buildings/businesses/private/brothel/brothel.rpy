@@ -53,11 +53,21 @@ init -5 python:
                 yield self.env.timeout(self.time)
                 result = self.run_job(client, worker)
 
-                # TODO Conditioned off the result of the job, adjust this line:
-                temp = "{}: {} and {} did their thing!".format(self.env.now, set_font_color(worker.name, "pink"), client.name)
-                self.log(temp)
-                temp = "{}: {} leaves the {}.".format(self.env.now, client.name, self.name)
-                self.log(temp)
+                if result >= 150:
+                    line = "The service was excellent!"
+                elif result >= 100:
+                    line = "The service was good!"
+                elif result >= 50:
+                    line = "The service was 'meh'."
+                else:
+                    line = "The service was shit."
+                temp = "{} 'did' {}... {}".format(
+                            set_font_color(worker.name, "pink"),
+                            client.name,
+                            line)
+                self.log(temp, True)
+                temp = "{} leaves the {}.".format(client.name, self.name)
+                self.log(temp, True)
                 # client.flag("jobs_busy").interrupt()
             client.del_flag("jobs_busy")
 

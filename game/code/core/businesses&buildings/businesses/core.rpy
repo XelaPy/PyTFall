@@ -81,8 +81,10 @@ init -12 python:
             # SimPy and etc follows (L33t stuff :) ):
             return self.instance.env
 
-        def log(self, item):
+        def log(self, item, add_time=False):
             # Logs the text for next day event...
+            if add_time:
+                item = "{}: ".format(self.env.now) + item
             self.instance.nd_events_report.append(item)
 
         # Worker methods:
