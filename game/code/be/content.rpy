@@ -438,7 +438,9 @@ init python:
 
             for index, target in enumerate(targets):
                 aimpos = battle.get_cp(target, type="center")
-                renpy.show("launch" + str(index), what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=pause), Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+50)
+                renpy.show("launch" + str(index), what=missle,
+                        at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=pause),
+                        Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+50)
 
             renpy.pause(pause)
 
@@ -462,12 +464,16 @@ init python:
                 xo = aim.get("xo", 0)
                 yo = aim.get("yo", 0)
 
-                if self.main_effect.get("hflip", False) and battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]:
+                c0 = self.main_effect.get("hflip", False)
+                c1 = battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]
+                if c0 and c1:
                     gfx = Transform(gfx, xzoom=-1)
 
                 for index, target in enumerate(targets):
                     gfxtag = "attack" + str(index)
-                    renpy.show(gfxtag, what=gfx, at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)], zorder=target.besk["zorder"]+51)
+                    renpy.show(gfxtag, what=gfx,
+                        at_list=[Transform(pos=battle.get_cp(target, type=point, xo=xo, yo=yo), anchor=anchor)],
+                        zorder=target.besk["zorder"]+51)
 
         def hide_main_gfx(self, targets):
             for i in xrange(len(targets)):

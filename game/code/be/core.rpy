@@ -1636,7 +1636,10 @@ init -1 python: # Core classes:
                         renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos)], zorder=target.besk["zorder"])
 
         def time_target_damage_effect(self, targets, died, start):
-            default =  self.main_effect["duration"] * .75 # Used to be .2 but it is a better idea to show it after the attack gfx effects are finished if no value was specified directly.
+            # Used to be .2 but it is a better idea to show
+            # it after the attack gfx effects are finished
+            # if no value was specified directly.
+            default =  self.main_effect["duration"] * .75
             damage_effect_start = start + self.target_damage_effect.get("initial_pause", default)
 
             if damage_effect_start in self.timestamps:
@@ -1676,6 +1679,9 @@ init -1 python: # Core classes:
                         target.dmg_font = "red"
 
         def get_target_damage_effect_duration(self):
+            if self.target_damage_effect.get("duration", 0):
+                return self.target_damage_effect["duration"]
+
             type = self.target_damage_effect.get("gfx", "battle_bounce")
             if type == "battle_bounce":
                 delay = 1.5
