@@ -43,7 +43,7 @@ init -5 python:
             elif worker.effects['Revealing Clothes']['active']:
                 log.append("Her revealing clothes are perfect for her job!")
                 effectiveness += 40
-                
+
             if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
                 # This cannot work comparing strings to trait objects:
                 traits = list(i.id for i in worker.traits if i in ["Abnormally Large Boobs", "Small Boobs", "Scars", "Not Human", "Flat Ass", "Exhibitionist", "Sexy Air", "Clumsy", "Flexible", "Psychic", "Manly", "Artificial Body", "Lesbian", "Shy", "Aggressive", "Big Boobs", "Great Arse", "Long Legs", "Strange Eyes", "Natural Follower"])
@@ -213,11 +213,7 @@ init -5 python:
 
             return True
 
-        def strip(self, worker, clients, loc, log):
-            # Determine the amount of clients who seen this girl strip. We check if we can do len because if flag wasn't set during the business execution, we get False instead of a set.
-            len_clients = len(clients) if clients else 0
-
-            tippayout = worker.flag("jobs_" + self.id + "_tips") # TODO Adapt to SimPy loop!
+        def strip(self, worker, loc, log):
             skill = round(worker.get_skill("strip")*0.75 + worker.get_skill("dancing")*0.25) # TODO We can now interpolate this from base_stats/skills
             charisma = worker.charisma
 
@@ -292,10 +288,6 @@ init -5 python:
                 log.append("\n%s feels like she learned something! \n"%worker.name)
                 log.logws("joy", 1)
 
-            # Finances:
-            worker.mod_flag("jobs_tips", tippayout)
-            loc.fin.log_logical_income(tippayout, "StripJob")
-
             available = list()
             kwargs = dict(exclude=["sad", "angry", "in pain"], resize=(740, 685), type="first_default", add_mood=False)
             if worker.has_image("stripping", "stage", exclude=["sad", "angry", "in pain"]):
@@ -310,5 +302,3 @@ init -5 python:
                 log.img = worker.show("stripping", "indoors", **kwargs)
             else:
                 log.img = worker.show("stripping", **kwargs)
-
-            # self.kind = self.id # Check wtf this is TODO
