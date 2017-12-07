@@ -823,7 +823,6 @@ init -10 python:
                 # Jobs like the Club:
                 elif business.type == "public_service" and business.res.count < business.capacity:
                     self.env.process(business.client_control(client))
-                    business.add_worker()
                     visited += 1
                     client.set_flag("jobs_busy")
                     while client.flag("jobs_busy"):

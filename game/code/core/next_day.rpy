@@ -293,7 +293,7 @@ label next_day_calculations:
     python:
         for char in chars.values():
             for flag in char.flags.keys():
-                if flag.startswith("_ndr"):
+                if flag.startswith("ndd"):
                     char.del_flag(flag)
 
     return

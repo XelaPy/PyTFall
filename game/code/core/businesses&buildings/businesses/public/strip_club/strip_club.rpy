@@ -35,83 +35,128 @@ init -5 python:
             with self.res.request() as request:
                 yield request
 
-                # All is well and we create the event:
-                temp = "{}: {} enters the {}.".format(self.env.now, client.name, self.name)
                 self.clients.add(client)
-                self.log(temp)
+                temp = "{} enters the {}.".format(client.name, self.name)
+                self.log(temp, True)
+
+                dirt = 0
+                flag_name = "jobs_spent_in_{}".format(self.name)
+                du_to_spend_here = self.time*3 # 3 full terns
 
                 while not client.flag("jobs_ready_to_leave"):
-                    yield self.env.timeout(1)
+                    yield self.env.timeout(self.time)
 
-                # This stuff should be better conditioned later:
-                if self.instance.manager: # add more conditioning:
-                    cash = randint(2, 4)
-                else:
-                    cash = randint(1, 3)
-                dirt = randint(2, 3)
-                self.earned_cash += cash
-                self.log_income(cash)
+                    dirt += randint(2, 3) # Move to business_control?
+
+                    if client.flag("jobs_without_service") >= 10:
+                        break
+
+                    if client.flag(flag_name) >= du_to_spend_here:
+                        break
+
                 self.instance.dirt += dirt
 
-                temp = "{} exits the {} leaving {} Gold and {} Dirt behind.".format(
-                                        client.name, self.name, cash, dirt)
+                temp = "{} exits the {} leaving {} dirt behind.".format(
+                                        client.name, self.name, dirt)
                 self.log(temp, True)
                 self.clients.remove(client)
-
                 client.del_flag("jobs_busy")
 
         def add_worker(self):
-            if not self.active_workers or len(self.active_workers) < self.res.count/4:
-                workers = self.instance.available_workers
-                # Get all candidates:
-                job = self.job
-                ws = self.get_workers(job)
-                if ws:
-                    w = ws.pop()
-                    self.active_workers.add(w)
-                    workers.remove(w)
-                    self.env.process(self.worker_control(w))
+            workers = self.instance.available_workers
+            # Get all candidates:
+            job = self.job
+            ws = self.get_workers(job)
+            if ws:
+                w = ws.pop()
+                self.active_workers.add(w)
+                workers.remove(w)
+                self.env.process(self.worker_control(w))
 
         def business_control(self):
             """This runs the club as a SimPy process from start to the end.
+
+            I think that in case of a public business, we should handle serving the clients here.
             """
-            # See if there are any strip girls, that may be added to Resource at some point of the development:
+
             counter = 0
+            building = self.instance
+            tier = building.tier
+
             while 1:
+                every_5_du = not self.env.now % 5
+
+                # if every_5_du:
+                if True:
+                    max_clients_to_service = sum([w.flag("jobs_can_serve_clients") for w in self.active_workers])
+                    if len(self.clients) > max_clients_to_service:
+                        new_workers_required = max(1, (len(self.clients)-max_clients_to_service)/4)
+                        for i in range(new_workers_required):
+                            self.add_worker()
+                        max_clients_to_service = sum([w.flag("jobs_can_serve_clients") for w in self.active_workers])
+
+
                 yield self.env.timeout(self.time)
 
-                # Temp code: =====================================>>>
-                # TODO: Should be turned into Job Event.
-                if counter < 1 and self.env.now > 20:
-                    counter += 1
-                    for u in self.instance._upgrades:
-                        if u.__class__ == WarriorQuarters:
-                            process = u.request_action(building=self.instance, start_job=True, priority=True, any=False, action="patrol")[1]
-                            u.interrupt = process # New field to which we can bind a process that can be interrupted.
-                            break
+                # Could be flipped to a job Brawl event?:
+                if False:
+                    if counter < 1 and self.env.now > 20:
+                        counter += 1
+                        for u in self.instance._upgrades:
+                            if u.__class__ == WarriorQuarters:
+                                process = u.request_action(building=self.instance, start_job=True, priority=True, any=False, action="patrol")[1]
+                                u.interrupt = process # New field to which we can bind a process that can be interrupted.
+                                break
 
-                # testing interruption:
-                if "process" in locals() and (counter == 1 and self.env.now > 40):
-                    counter += 1
-                    process.interrupt("fight")
-                    self.env.process(u.intercept(interrupted=True))
-                #  =====================================>>>
+                    # testing interruption:
+                    if "process" in locals() and (counter == 1 and self.env.now > 40):
+                        counter += 1
+                        process.interrupt("fight")
+                        self.env.process(u.intercept(interrupted=True))
+                    #  =====================================>>>
 
-                # Handle the earnings:
-                # cash = self.res.count*len(self.active_workers)*randint(8, 12)
-                # self.earned_cash += cash # Maybe it's better to handle this on per client basis in their own methods? Depends on what modifiers we will use...
+                # Strip for clients (random worker is picked atm):
+                workers = list(self.active_workers)
+                if workers:
+                    w = workers.pop()
+                    can_service = w.flag("jobs_can_serve_clients")
+                else:
+                    w = None
+                    can_service = None
 
-                # Manage clients... We send clients on his/her way:
                 flag_name = "jobs_spent_in_{}".format(self.name)
                 for c in self.clients:
-                    c.mod_flag(flag_name, self.time)
-                    if c.flag(flag_name) >= self.time*2:
-                        c.set_flag("jobs_ready_to_leave")
+                    c.up_counter(flag_name, self.time)
+
+                    if can_service is None:
+                        c.up_counter("jobs_without_service", self.time)
+                    else:
+                        c.del_flag("jobs_without_service")
+                        can_service -= 1
+                        w.flag("jobs_clients_served").append(c)
+                        effectiveness = w.flag("jobs_effectiveness")
+                        if effectiveness >= 150:
+                            w.up_counter("jobs_tips", tier*randint(2, 3))
+                        if effectiveness >= 100:
+                            w.up_counter("jobs_tips", tier*randint(1, 2))
+
+                    if can_service == 0:
+                        if workers:
+                            w = workers.pop()
+                            can_service = w.flag("jobs_can_serve_clients")
+                        else:
+                            w = None
+                            can_service = None
 
                 if config.debug:
-                    temp = "{}: Debug: {} places are currently in use in {} | Total Cash earned so far: {}!".format(self.env.now, set_font_color(self.res.count, "red"), self.name, self.earned_cash)
-                    temp = temp + " {} Workers are currently on duty in {}!".format(set_font_color(len(self.active_workers), "red"), self.name)
-                    self.log(temp)
+                    temp = "Debug: {} places are currently in use in {} | Total Cash earned so far: {}!".format(
+                            set_font_color(self.res.count, "red"),
+                            self.name,
+                            self.earned_cash)
+                    temp = temp + " {} Workers are currently on duty in {}!".format(
+                            set_font_color(len(self.active_workers), "red"),
+                            self.name)
+                    self.log(temp, True)
 
                 if not self.all_workers and not self.active_workers:
                     break
@@ -122,9 +167,9 @@ init -5 python:
             self.instance.nd_ups.remove(self)
 
         def worker_control(self, worker):
-            temp = "{}: {} comes out to serve customers in {}!".format(self.env.now,
-                                                            worker.name, self.name)
-            self.log(temp)
+            temp = "{} comes out to do striptease in {}!".format(
+                                                worker.name, self.name)
+            self.log(temp, True)
 
             # We create the log object here! And start logging to it directly!
             job, loc = self.job, self.instance
@@ -135,38 +180,23 @@ init -5 python:
 
             difficulty = loc.tier
             effectiveness = job.effectiveness(worker, difficulty, log, False)
+            # Come up with a good way to figure out how many clients a worker can serve!
+            can_serve_clients = 5
             if config.debug:
-                log.append("Debug: Her effectiveness: {}! (difficulty: {}, Tier: {})".format(effectiveness, difficulty, worker.tier))
+                log.append("Debug: Her effectiveness: {}! (difficulty: {}, Tier: {})".format(
+                                effectiveness, difficulty, worker.tier))
 
-            clients = set() # list of clients this worker is serving
-            max_clients = 5 # Come up with a good way to figure out how many clients a worker can serve!
-            tips = 0 # Tips the worker is going to get!
+            worker.set_flag("jobs_effectiveness", effectiveness)
+            worker.set_flag("jobs_can_serve_clients", can_serve_clients)
+            # Must be a list in case of doubles:
+            worker.set_flag("jobs_clients_served", list())
 
-            while worker.AP and self.res.count: # TODO It looks like a fail close to the end of env.now?
-                yield self.env.timeout(self.time) # This is a single shift a worker can take for cost of 1 AP.
+            while worker.jobpoints > 0: #  and self.res.count:
+                yield self.env.timeout(self.time)
 
-                # Account for clients that left...
-                clients = {c for c in clients if c in self.clients} # There might be a better way to handle this!
-                if len(clients) < max_clients: # Find some clients for worker to take care of:
-                    temp = [c for c in self.clients if not c.flag("jobs_attended_by")]
-                    can_service = max_clients - len(clients)
-                    if len(temp) > can_service:
-                        temp = random.sample(temp, can_service)
-                    for client in temp:
-                        client.set_flag("jobs_attended_by", worker)
-                    clients = clients.union(temp)
+                worker.jobpoints -= 100
 
-                # Visit counter:
-                for client in self.clients:
-                    client.up_counter("got_serviced_by" + worker.id)
-
-                worker.AP -= 1
-
-                if effectiveness > 200:
-                    tips += randint(3, 5) * self.instance.tier
-                elif effectiveness > 100:
-                    tips += randint(1, 3) * self.instance.tier
-
+            clients = worker.flag("jobs_clients_served")
             # Once the worker is done, we run the job and create the event:
             if clients:
                 if config.debug:
@@ -174,7 +204,7 @@ init -5 python:
                     self.log(temp)
                 job.strip(worker, clients, loc, log)
 
-                earned = payout(job, effectiveness, difficulty, building, business, worker, clients, log)
+                earned = payout(job, effectiveness, difficulty, building, self, worker, clients, log)
                 temp = "{}: {} earns {} by serving {} clients!".format(self.env.now,
                                                 worker.name, earned, self.res.count)
                 self.log(temp)
@@ -187,14 +217,14 @@ init -5 python:
                 self.log(temp)
 
             # log the tips:
+            tips = worker.flag("jobs_tips")
             if tips:
-                temp = "{}: {} gets {} in tips from {} clients!".format(self.env.now,
-                                                worker.name, tips, self.res.count)
-                self.log(temp)
-                worker.mod_flag("jobs_tips", tips)
+                temp = "{} gets {} in tips for stripping!".format(worker.name, tips)
+                self.log(temp, True)
                 loc.fin.log_logical_income(tips, job.id + " Tips")
 
             self.active_workers.remove(worker)
-            temp = "{}: {} is done with the job in {} for the day!".format(self.env.now,
-                                        set_font_color(worker.name, "red"), self.name)
-            self.log(temp)
+            temp = "{} is done with the job in {} for the day!".format(
+                                set_font_color(worker.name, "red"),
+                                self.name)
+            self.log(temp, True)

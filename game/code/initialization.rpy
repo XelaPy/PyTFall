@@ -187,8 +187,8 @@ init -999 python:
         Now and count...
 
         PF Flags:
-        starts with "jobs": Reset internally in SimPy land!
-        starts with "_ndr": Deleted at the very end of next day logic!
+        starts with "jobs": Reset internally in SimPy land! Usually at the end of Env.
+        starts with "ndd": Deleted at the very end of next day logic!
         """
         def __init__(self):
             self.flags = dict()
