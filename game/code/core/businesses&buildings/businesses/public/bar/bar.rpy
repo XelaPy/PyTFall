@@ -56,7 +56,7 @@ init -5 python:
                 self.log(temp)
                 client.del_flag("jobs_busy")
 
-        def worker_control(self):
+        def add_worker(self):
             if not self.active_workers or len(self.active_workers) < self.res.count/4:
                 workers = self.instance.available_workers
                 # Get all candidates:
@@ -66,7 +66,7 @@ init -5 python:
                     w = ws.pop()
                     self.active_workers.add(w)
                     workers.remove(w)
-                    self.env.process(self.use_worker(w))
+                    self.env.process(self.worker_control(w))
 
         def business_control(self):
             """This runs the club as a SimPy process from start to the end.
@@ -117,7 +117,7 @@ init -5 python:
             self.log(temp)
             self.instance.nd_ups.remove(self)
 
-        def use_worker(self, worker):
+        def worker_control(self, worker):
             temp = "{}: {} comes out to serve customers in {}!".format(self.env.now,
                                                             worker.name, self.name)
             self.log(temp)

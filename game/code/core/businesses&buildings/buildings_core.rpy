@@ -18,24 +18,23 @@ init -10 python:
         run_nd():
             # Setups and starts the simulation.
             *Generates Clients if required.
-            *Builds workers list.
-            *Logs the init data to the building.
-            *Runs pre_day for all updates.
-            *Creates SimPy Envoronment and runs it (run_jobs being the main controlling process)
+            *Builds worker lists.
+            *Logs the init data to the building report.
+            *Runs pre_day for all businesses.
+            *Creates SimPy Environment and runs it (run_jobs being the main controlling process)
             *Runs the post_nd.
         building_manager():
             SimPy process that manages the building as a whole.
             # Main controller for all businesses.
             *Builds a list of all workable businesses.
-            *Starts business manager.
+            *Starts business_manager for each building.
         clients_manager():
-            SimPy Process that supplies clients to the businesses within the building when appropriate.
+            SimPy Process that supplies clients to the businesses within the building as required.
             *Adds a steady/conditioned stream of clients to the appropriate businesses and manages that stream:
             *Kicks clients if nothing could be arranged for them.
 
     BUSINESS:
         # Hold all data/methods required for business to operate.
-
         *Personal Service:
             - Finds best client match using update.get_workers()
             - Runs the job.
@@ -47,7 +46,7 @@ init -10 python:
             - May also have a continued, "automatic" service like Guard-patrol.
 
         TODO: all_occs should return a constant instead of creating a set every time they are called.
-        TODO: Businesses or Building should control clients that wish to remain for moar action.
+        TODO: Businesses or Building should control clients that wish to remain for more action.
         *workers = On duty characters.
         *habitabe/workable = self-explanotory.
         *clients = clients used locally (maybe useful only for the public service?)
@@ -66,34 +65,30 @@ init -10 python:
 
         *Personal Service:
             *find_best_match = finds a best client/worker combination.
-            *request_room:
+            *request_resource:
                 - requests a room for worker/client.
                 - adds a run_job process to Env
-                - logs it all to main log
+                - logs it all to building log
             *run_job:
-                TODO: This may not be required together with request...
                 - Waits for self.time delay
                 - Calls the job so it can form an NDEvent
-                - Manages workers
 
         *Public Service:
-            TODO: Concider that run_job/use_worker may not overlap in times which can cause lack of earnings/tips.
             *active_workers = Does this not simply double the normal workers? TODO: Find out.
             *request = plainly adds a client and keeps it in the business based on "ready_to_leave" flag set directly to the client.
-            *worker_control:
+            *add_worker:
                 # Adds workers to business to serve clients.
                 - Checks willingness to do the job.
                 - Adds workers as required.
-                - self.env.process(self.use_worker(worker)) Possible the most important part, this adds a process to Env.
-                - Removes from general instance workers list in order to reserve the worker for this business
+                - self.env.process(self.worker_control(worker)) Possible the most important part, this adds a process to Env.
+                - Removes worker from building in order to reserve her for this business
             *run_job:
                 # main method/SimPy event that manages the job from start to end.
                 - Runs for as long there are active workers
                 - Waits for self.time delay
                 - Manages clients in the business
-                - Calculates amount of earnings! Tips are being calced in use_worker!
                 TODO: Seems that atm this just calcs the earning and waits for delays, it should be restructured appropriately and possibly merged with other methods.
-            *use_worker:
+            *worker_control:
                 # Env Process, manages each individual worker.
                 - Runs while there are clients and worker has AP in self.time delays.
                 - Logs all active clients as flags to a worker.
@@ -106,6 +101,8 @@ init -10 python:
         of what character is doing what by direct binding and hosting loose
         functions.
     """
+
+
     class BaseBuilding(Location, Flags):
         """The super class for all Building logic.
         """
@@ -818,7 +815,7 @@ init -10 python:
 
                         # We bind the process to a flag and wait until it is interrupted:
                         visited += 1
-                        self.env.process(business.request_room(client, worker))
+                        self.env.process(business.request_resource(client, worker))
                         client.set_flag("jobs_busy")
                         while client.flag("jobs_busy"):
                             yield self.env.timeout(1)
@@ -826,7 +823,7 @@ init -10 python:
                 # Jobs like the Club:
                 elif business.type == "public_service" and business.res.count < business.capacity:
                     self.env.process(business.client_control(client))
-                    business.worker_control()
+                    business.add_worker()
                     visited += 1
                     client.set_flag("jobs_busy")
                     while client.flag("jobs_busy"):

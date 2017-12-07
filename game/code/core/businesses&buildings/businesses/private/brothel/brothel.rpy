@@ -36,7 +36,7 @@ init -5 python:
             self.log(temp)
             self.instance.nd_ups.remove(self)
 
-        def request_room(self, client, worker):
+        def request_resource(self, client, worker):
             """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms available...
 
             If the above docstring is true, and this is never called if there are no rooms, while do we request shit?

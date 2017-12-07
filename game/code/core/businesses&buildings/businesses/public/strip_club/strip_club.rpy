@@ -33,7 +33,7 @@ init -5 python:
             We add dirt here.
             """
             with self.res.request() as request:
-                yield request # TODO: WE PROLLY DO NOT NEED A SIMPY RESOURCE HERE...
+                yield request
 
                 # All is well and we create the event:
                 temp = "{}: {} enters the {}.".format(self.env.now, client.name, self.name)
@@ -53,13 +53,14 @@ init -5 python:
                 self.log_income(cash)
                 self.instance.dirt += dirt
 
-                temp = "{}: {} exits the {} leaving {} Gold and {} Dirt behind.".format(self.env.now,
-                                                                client.name, self.name, cash, dirt)
+                temp = "{} exits the {} leaving {} Gold and {} Dirt behind.".format(
+                                        client.name, self.name, cash, dirt)
+                self.log(temp, True)
                 self.clients.remove(client)
-                self.log(temp)
+
                 client.del_flag("jobs_busy")
 
-        def worker_control(self):
+        def add_worker(self):
             if not self.active_workers or len(self.active_workers) < self.res.count/4:
                 workers = self.instance.available_workers
                 # Get all candidates:
@@ -69,7 +70,7 @@ init -5 python:
                     w = ws.pop()
                     self.active_workers.add(w)
                     workers.remove(w)
-                    self.env.process(self.use_worker(w))
+                    self.env.process(self.worker_control(w))
 
         def business_control(self):
             """This runs the club as a SimPy process from start to the end.
@@ -120,7 +121,7 @@ init -5 python:
             self.log(temp)
             self.instance.nd_ups.remove(self)
 
-        def use_worker(self, worker):
+        def worker_control(self, worker):
             temp = "{}: {} comes out to serve customers in {}!".format(self.env.now,
                                                             worker.name, self.name)
             self.log(temp)
