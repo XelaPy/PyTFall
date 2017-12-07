@@ -20,7 +20,7 @@ init -5 python:
             self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
 
         def has_workers(self):
-            # Check if the building still has someone availbile to do the job.
+            # Check if the building still has someone available to do the job.
             # We just check this for
             return list(i for i in self.instance.available_workers if self.all_occs & i.occupations)
 
@@ -38,8 +38,10 @@ init -5 python:
 
         def request_room(self, client, worker):
             """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms available...
+
+            If the above docstring is true, and this is never called if there are no rooms, while do we request shit?
+            ==> This is likely capacity related. Should be working just fine.
             """
-            # TODO If the above docstring is true, and this is never called if there are no rooms, while do we request shit?
             with self.res.request() as request:
                 yield request
 

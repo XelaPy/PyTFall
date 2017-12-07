@@ -1,7 +1,7 @@
 init -9 python:
     #################################################################
     # UNIQUE BUILDING CLASSES
-    # The classes for actual buildings with the customisations they require.
+    # The classes for actual buildings with the customizations they require.
     #
     class CityJail(BaseBuilding):
         """

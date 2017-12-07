@@ -724,9 +724,9 @@ init -5 python:
 
             if effectiveness >= 190:
                 if client.gender == "male":
-                    log.append("The client was at the girls mercy. She brought him to the heavens and left there, unconscious due to sensory overload.")
+                    log.append("The client was at the girls mercy. She brought him to the heavens and remained there, unconscious from sensory overload.")
                 else:
-                    log.append("The client was at the girls mercy. She brought her to the heavens and left there, unconscious due to sensory overload.")
+                    log.append("The client was at the girls mercy. She brought her to the heavens and remained there, unconscious from sensory overload.")
                 log.logws("exp", randint(250, 500))
                 log.logloc("reputation", choice([0, 1]))
                 log.logws("joy", 3)

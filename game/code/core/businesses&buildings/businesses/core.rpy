@@ -387,7 +387,10 @@ init -12 python:
             We add dirt here.
             """
             with self.res.request() as request:
-                yield request # TODO: WE PROLLY DO NOT NEED A SIMPY RESOURCE HERE...
+                # WE PROLLY DO NOT NEED A SIMPY RESOURCE HERE...
+                # We can do without but this does not mess anything up.
+                # Simpy may be handing capacity here.
+                yield request
 
                 # All is well and we create the event:
                 temp = "{}: {} enters the {}.".format(self.env.now, client.name, self.name)
