@@ -1462,6 +1462,10 @@ init -1 python: # Core classes:
             self.timestamps[start] = renpy.curry(self.show_main_gfx)(battle, attacker, targets)
 
             pause = start + self.main_effect["duration"]
+            # Kind of a shitty way of trying to handle attacks that come
+            # With their own pauses in time_main_gfx method.
+            pause += getattr(self, "firing_effects", {}).get("duration", 0)
+            pause += getattr(self, "projectile_effects", {}).get("duration", 0)
 
             if pause in self.timestamps:
                 pause = pause + random.uniform(0.001, 0.002)
@@ -1679,16 +1683,21 @@ init -1 python: # Core classes:
                         target.dmg_font = "red"
 
         def get_target_damage_effect_duration(self):
-            if self.target_damage_effect.get("duration", 0):
-                return self.target_damage_effect["duration"]
-
             type = self.target_damage_effect.get("gfx", "battle_bounce")
             if type == "battle_bounce":
-                delay = 1.5
+                duration = 1.5
             else:
-                delay = 0
+                duration = 0
 
-            return delay
+            # Kind of a shitty way of trying to handle attacks that come
+            # With their own pauses in time_main_gfx method.
+            firing = hasattr(self, "firing_effects")
+            if hasattr(self, "firing_effects"):
+                duration += getattr(self, "firing_effects", {}).get("duration", 0)
+                duration += self.main_effect.get("duration")
+            duration += getattr(self, "projectile_effects", {}).get("duration", 0)
+
+            return duration
 
         def hide_target_damage_effect(self, targets, died):
             for index, target in enumerate(targets):

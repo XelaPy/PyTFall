@@ -555,7 +555,7 @@ label load_battle_skills:
                 main_effect={"gfx": Transform("fire_6_1", zoom=1), "sfx": None, "duration": 2.2, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
                 attacker_effects={"gfx": "fire_2", "sfx": "default"},
                 target_sprite_damage_effect={"gfx": "burning_with_shake", "initial_pause": 0.1, "duration": 0.7},
-                target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3, "duration": 2.5},
+                # target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3, "duration": 2.5},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 0.1, "duration": 0.5},
                 dodge_effect={"initial_pause": .1})
         P2P_Skill(u"Self-Division", menu_pos=0.5, attributes=["magic", "fire"], effect=50, multiplier=1.2, mp_cost=1, range=4, piercing=True, # should be unavailable for player, made specially for a boss
@@ -898,7 +898,7 @@ label load_battle_skills:
                 projectile_effects={"gfx": "ion_1", "sfx": "content/sfx/sound/be/ion_storm.mp3", "duration": 1.0},
                 main_effect={"gfx": Transform("ion", zoom=2.0), "sfx": None, "duration": 2.25, "aim": {"anchor": (0.5, 0.5), "xo": 0 ,"yo": 0}},
                 attacker_effects={"gfx": "orb", "sfx": "default"},
-                target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3, "duration": 2.5},
+                # target_damage_effect={"gfx": "battle_bounce", "initial_pause": 0.3, "duration": 2.5},
                 target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": 0.3, "duration": 1.4},
                 target_death_effect={"gfx": "hide", "initial_pause": 0.7, "duration": 0.01},
                 dodge_effect={"initial_pause": .1})
