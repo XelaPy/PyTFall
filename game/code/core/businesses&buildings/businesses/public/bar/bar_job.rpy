@@ -187,7 +187,7 @@ init -5 python:
                 log.append(choice(["%s is doing her shift as a barmaid." % worker.name, "%s gets busy with clients." % worker.fullname, "%s serves customers in the bar." % worker.nickname]))
             return True
 
-        def bar_task(self, worker, clients, loc, log):
+        def work_bar(self, worker, clients, loc, log):
 
             len_clients = len(clients)
 
@@ -198,19 +198,15 @@ init -5 python:
             if serviceskill > 2000:
                 log.logloc('reputation', choice([0, 1, 2]))
                 log.append("She was an excellent bartender, customers kept spending their money just for the pleasure of her company. \n")
-
             elif serviceskill >= 1000:
                 log.logloc('reputation', choice([0, 1]))
                 log.append("Customers were pleased with her company and kept asking for more booze. \n")
-
             elif serviceskill >= 500:
                 log.logloc('reputation', choice([0, 0, 0, 0, 0, 1]))
                 log.append("She was skillful enough not to mess anything up during her job. \n")
-
             elif serviceskill >= 100:
                 log.logloc('reputation', -1)
                 log.append("Her performance was rather poor and it most definitely has cost you income. \n")
-
             else:
                 log.logloc('reputation', -2)
                 log.append("She is a very unskilled bartender, this girl definitely needs training \n")
@@ -218,15 +214,12 @@ init -5 python:
             if charisma > 300:
                 log.logloc('fame', choice([0,1,1]))
                 log.append("Your girl was stunningly pretty, customers couldn't keep their eyes off her. \n")
-
             elif charisma > 150:
                 log.logloc('fame', choice([0,0,1]))
                 log.append("Your girl looked beautiful, this will not go unnoticed. \n")
-
             elif charisma > 45:
                 log.logloc('fame', choice([0, 0, 0, 1]))
                 log.append("Your girl was easy on the eyes, not bad for a bartender. \n")
-
             else:
                 log.logloc('fame', -2)
                 log.append("Customers did not appreciate a hag serving them. Consider sending this girl to a beauty school. \n")
@@ -239,26 +232,9 @@ init -5 python:
             log.logws('refinement', choice([0, 0, 0, 1]))
             log.logws('vitality', len_clients * -3)
 
-            # Integers:
-            # barfees = int(round(worker.earned_cash))
-            # tips = int(round(worker.flag("jobs_" + self.id + "_tips")))
-            #
-            # if tips:
-            #     log.append("She got %d in tips! " % tips)
-
             if worker.has_image("waitress", exclude=["sex"]):
                 log.img = worker.show("waitress", exclude=["sex"], resize=(740, 685))
             elif worker.has_image("maid", exclude=["sex"]):
                 log.img = worker.show("maid", exclude=["sex"], resize=(740, 685))
             else:
                 log.img = worker.show("profile", exclude=["sex", "nude"], resize=(740, 685))
-
-            # Finances:
-            # worker.fin.log_logical_income(barfees, "Barmaid")
-            # if tips:
-            #     worker.mod_flag("jobs_tips", tips)
-
-            # self.loc.fin.log_logical_income(tips, "Barmaid")
-            #
-            # self.apply_stats()
-            # self.finish_job()

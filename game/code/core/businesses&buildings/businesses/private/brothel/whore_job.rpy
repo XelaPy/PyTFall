@@ -195,7 +195,7 @@ init -5 python:
                 log.append(choice(["%s is doing her shift as a harlot." % worker.name, "%s gets busy with clients." % worker.fullname, "%s serves customers as a whore." % worker.nickname]))
             return True
 
-        def acts(self, worker, client, building, log, effectiveness):
+        def work_brothel(self, worker, client, building, log, effectiveness):
             # Pass the flags from occupation_checks:
             # log.append(worker.flag("jobs_whoreintro"))
             log.append("\n\n")

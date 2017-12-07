@@ -59,7 +59,7 @@ init -5 python:
                 if config.debug:
                     temp = "{}: Logging {} for {}!".format(self.env.now, self.name, worker.name)
                     self.log(temp)
-                job.strip(worker, loc, log)
+                job.work_bar(worker, clients, loc, log)
 
                 earned = payout(job, effectiveness, difficulty, building, self, worker, clients, log)
                 temp = "{}: {} earns {} by serving {} clients!".format(self.env.now,
