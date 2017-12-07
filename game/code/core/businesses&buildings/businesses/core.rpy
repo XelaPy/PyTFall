@@ -1,11 +1,5 @@
 init -12 python:
     #################################################################
-    """Thoughts:
-
-    - Here is the continuation of SimPy land, which starts at the main building and calls/activates methods from workable upgrades.
-    - It may be a good idea to create a Flags object here and pass it to the Jobs which create ND reports. It makes sense (at least) for the team jobs.
-    - This needs to get a lot more generic, especially newer addons.
-    """
     # BUILDING UPGRADE CLASSES:
     class Business(_object):
         """BaseClass for any building expansion! (aka Business)
