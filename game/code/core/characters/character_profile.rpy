@@ -403,7 +403,7 @@ screen char_profile():
                             yfill True
                             background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                             xysize (100, 30)
-                            text (u"{color=#CDAD00} Full name") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
+                            text (u"{color=#CDAD00} Full name:") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
                         textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[green]}Rename":
                             background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=0.8)
                             hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15))), alpha=1)

@@ -236,6 +236,35 @@ init:
                                 # action NullAction()
                                 # hovered tt.Action("%s" % e.desc)
                     # add ProportionalScale("content/gfx/interface/images/elements/hover.png", 90, 90) pos (105, 10)
+            elif lframe_display == "skills":
+                null height 26
+                viewport:
+                    scrollbars "vertical"
+                    xysize(200, 500)
+                    mousewheel True
+                    has vbox spacing 4 xfill True
+
+                    for skill in hero.stats.skills:
+                        $ skill_val = int(char.get_skill(skill))
+                        if skill_val >= 0:
+                            hbox:
+                                align (0.0, 0.9)
+                                xsize 180
+                                text "{}:".format(skill.capitalize()) style_suffix "value_text" color goldenrod xalign .0 size 13
+                                python:
+                                    temp = []
+                                    for i in range(skill_val//200):
+                                        temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
+                                    if len(temp) != 5:
+                                        if skill_val%200 >= 100:
+                                            temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
+                                    while len(temp) != 5:
+                                        temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
+                                hbox:
+                                    xalign 1.0
+                                    for i in temp:
+                                        add i 
+                
             elif lframe_display == "friends":
                 # FRIEND LIST ====================================>
                 null height 26
@@ -430,16 +459,16 @@ init:
         # BUTTONS and UI elements on the "top layer" ====================================>
         hbox:
             style_group "pb"
-            if hasattr(hero.location, "inventory"):
-                spacing 2
-                pos (462, 9)
-            else:
-                spacing 3
-                pos (492, 9)
+            spacing 2
+            pos (472, 9)
             button:
                 action SetScreenVariable("lframe_display", "status"), With(dissolve)
-                text "Status" style "pb_button_text"
+                text "Stats" style "pb_button_text"
                 hovered tt.Action("Show Hero Stats")
+            button:
+                action SetScreenVariable("lframe_display", "skills"), With(dissolve)
+                text "Skills" style "pb_button_text"
+                hovered tt.Action("Show Hero Skills")
             button:
                 action Hide("show_trait_info"), Show("hero_team", transition=dissolve)#, With(dissolve)
                 text "Team" style "pb_button_text"
