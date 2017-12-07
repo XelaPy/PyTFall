@@ -383,137 +383,18 @@ init -12 python:
             self.res = simpy.Resource(self.env, self.capacity)
 
         def client_control(self, client):
-            """Request for a spot for a client...
-
-            Clients pay for the service here.
-            We add dirt here.
-            """
-            with self.res.request() as request:
-                # WE PROLLY DO NOT NEED A SIMPY RESOURCE HERE...
-                # We can do without but this does not mess anything up.
-                # Simpy may be handing capacity here.
-                yield request
-
-                # All is well and we create the event:
-                temp = "{}: {} enters the {}.".format(self.env.now, client.name, self.name)
-                self.clients.add(client)
-                self.log(temp)
-
-                while not client.flag("jobs_ready_to_leave"):
-                    yield self.env.timeout(1)
-
-                # This stuff should be better conditioned later:
-                if self.instance.manager: # add more conditioning:
-                    cash = randint(2, 4)
-                else:
-                    cash = randint(1, 3)
-                dirt = randint(2, 3)
-                self.earned_cash += cash
-                self.log_income(cash)
-                self.instance.dirt += dirt
-
-                temp = "{}: {} exits the {} leaving {} Gold and {} Dirt behind.".format(self.env.now,
-                                                                client.name, self.name, cash, dirt)
-                self.clients.remove(client)
-                self.log(temp)
-                client.del_flag("jobs_busy")
+            raise Exception("client_control method must be implemented")
 
         def add_worker(self):
-            if not self.active_workers or len(self.active_workers) < self.res.count/4:
-                workers = self.instance.available_workers
-                # Get all candidates:
-                job = self.job
-                ws = self.get_workers(job)
-                if ws:
-                    w = ws.pop()
-                    self.active_workers.add(w)
-                    workers.remove(w)
-                    self.env.process(self.worker_control(w))
+            raise Exception("add_worker method must be implemented")
 
         def business_control(self):
             """This runs the club as a SimPy process from start to the end.
             """
-            # See if there are any strip girls, that may be added to Resource at some point of the development:
-            counter = 0
-            while 1:
-                yield self.env.timeout(self.time)
-                raise Exception("// core.business_control")
-
-                # Temp code: =====================================>>>
-                # TODO: Should be turned into Job Event.
-                if counter < 1 and self.env.now > 20:
-                    counter += 1
-                    for u in self.instance._upgrades:
-                        if u.__class__ == WarriorQuarters:
-                            process = u.request_action(building=self.instance, start_job=True, priority=True, any=False, action="patrol")[1]
-                            u.interrupt = process # New field to which we can bind a process that can be interrupted.
-                            break
-
-                # testing interruption:
-                if "process" in locals() and (counter == 1 and self.env.now > 40):
-                    counter += 1
-                    process.interrupt("fight")
-                    self.env.process(u.intercept(interrupted=True))
-                #  =====================================>>>
-
-                # Handle the earnings:
-                # cash = self.res.count*len(self.active_workers)*randint(8, 12)
-                # self.earned_cash += cash # Maybe it's better to handle this on per client basis in their own methods? Depends on what modifiers we will use...
-
-                # Manage clients... We send clients on his/her way:
-                flag_name = "jobs_spent_in_{}".format(self.name)
-                for c in self.clients:
-                    c.mod_flag(flag_name, self.time)
-                    if c.flag(flag_name) >= self.time*2:
-                        c.set_flag("jobs_ready_to_leave")
-
-                if config.debug:
-                    temp = "{}: Debug: {} places are currently in use in {} | Total Cash earned so far: {}!".format(self.env.now, set_font_color(self.res.count, "red"), self.name, self.earned_cash)
-                    temp = temp + " {} Workers are currently on duty in {}!".format(set_font_color(len(self.active_workers), "red"), self.name)
-                    self.log(temp)
-
-                if not self.all_workers and not self.active_workers:
-                    break
-
-            # We remove the business from nd if there are no more strippers to entertain:
-            temp = "There are no workers available in the {} so it is shutting down!".format(self.name)
-            self.log(temp)
-            self.instance.nd_ups.remove(self)
+            raise Exception("business_control method must be implemented")
 
         def worker_control(self, worker):
-            temp = "{}: {} comes out to serve customers in {}!".format(self.env.now,
-                                                            worker.name, self.name)
-            self.log(temp)
-            while worker.AP and self.res.count:
-                yield self.env.timeout(self.time) # This is a single shift a worker can take for cost of 1 AP.
-                worker.set_union("jobs_bar_clients", self.clients) # TODO: Maybe limit clients to worker routines?
-
-                # Visit counter:
-                for client in self.clients:
-                    client.up_counter("got_serviced_by" + worker.id)
-
-                worker.AP -= 1
-                tips = randint(1, 2) * self.res.count
-                self.log_income(tips)
-                worker.mod_flag("jobs_" + self.job.id + "_tips", tips)
-                temp = "{}: {} gets {} in tips from {} clients!".format(self.env.now,
-                                                worker.name, tips, self.res.count)
-                self.log(temp)
-
-            # Once the worker is done, we run the job and create the event:
-            if worker.flag("jobs_bar_clients"):
-                if config.debug:
-                    temp = "{}: Logging {} for {}!".format(self.env.now, self.name, worker.name)
-                    self.log(temp)
-                self.job(worker) # better bet to access Class directly...
-            else:
-                temp = "{}: There were no clients for {} to serve".format(self.env.now, worker.name)
-                self.log(temp)
-
-            self.active_workers.remove(worker)
-            temp = "{}: {} is done with the job in {} for the day!".format(self.env.now,
-                                        set_font_color(worker.name, "red"), self.name)
-            self.log(temp)
+            raise Exception("worker_control method must be implemented")
 
         def post_nd_reset(self):
             self.res = None

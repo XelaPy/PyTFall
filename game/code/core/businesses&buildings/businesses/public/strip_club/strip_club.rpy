@@ -164,7 +164,7 @@ init -5 python:
             # We remove the business from nd if there are no more strippers to entertain:
             temp = "There are no workers available in the {} so it is shutting down!".format(self.name)
             self.log(temp)
-            self.instance.nd_ups.remove(self)
+            building.nd_ups.remove(self)
 
         def worker_control(self, worker):
             temp = "{} comes out to do striptease in {}!".format(
