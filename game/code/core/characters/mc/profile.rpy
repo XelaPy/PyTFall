@@ -28,7 +28,6 @@ label hero_profile:
                 $ pytfall.hp.show_item_info = False
                 $ pytfall.hp.item = False
                 hide screen hero_profile
-                hide screen hero_equip
 
                 # Reset filters (prevents crap from happening in shops):
                 $ hero.inventory.male_filter = False
@@ -246,20 +245,21 @@ init:
 
                     for skill in hero.stats.skills:
                         $ skill_val = int(char.get_skill(skill))
-                        if skill_val >= 0:
+                        $ skill_limit = 1000 # <- the max skill level when we show 5 stars
+                        if skill_val >= 100:
                             hbox:
                                 align (0.0, 0.9)
                                 xsize 180
-                                text "{}:".format(skill.capitalize()) style_suffix "value_text" color goldenrod xalign .0 size 13
+                                text "{}:".format(skill.capitalize()) style_suffix "value_text" color gold xalign .0 size 12 yoffset 2
                                 python:
                                     temp = []
-                                    for i in range(skill_val//200):
-                                        temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
+                                    for i in range(skill_val//(int(skill_limit/5))):
+                                        temp.append(ProportionalScale("content/gfx/interface/icons/stars/star2.png", 18, 18))
                                     if len(temp) != 5:
-                                        if skill_val%200 >= 100:
-                                            temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
+                                        if skill_val%(int(skill_limit/5)) >= (int(skill_limit/10)):
+                                            temp.append(ProportionalScale("content/gfx/interface/icons/stars/star3.png", 18, 18))
                                     while len(temp) != 5:
-                                        temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
+                                        temp.append(ProportionalScale("content/gfx/interface/icons/stars/star1.png", 18, 18))
                                 hbox:
                                     xalign 1.0
                                     for i in temp:
@@ -527,90 +527,6 @@ init:
                 xfill True
                 add "content/gfx/interface/images/exp_b.png" ypos 2 xalign 0.8
                 text "[hero.exp]/[hero.goal]" style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
-
-    screen hero_equip(): # This is not used any longer...?
-        modal True
-        zorder 1
-        default tt = Tooltip(None)
-        # Useful keymappings (first time I try this in PyTFall):
-        if pytfall.hp.show_unequip_button():
-            key "mousedown_2" action Return(["item", "unequip"])
-        elif pytfall.hp.show_equip_button():
-            key "mousedown_2" action Return(["item", "equip"])
-        else:
-            key "mousedown_2" action NullAction()
-
-        key "mousedown_4" action Return(["hero", "next_page"])
-        key "mousedown_5" action Return(["hero", "prev_page"])
-
-        # Doll...
-        use eqdoll(char=hero)
-
-        # Inventory ------------------------------------------------------------>
-        vbox:
-            at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)
-            pos (394, 440)
-            spacing 3
-            hbox:
-                spacing 52
-                use paging(ref=hero.inventory, use_filter=True)
-                use items_inv(char=hero)
-
-            # Buttons:
-            frame:
-                background Frame("content/gfx/frame/p_frame2.png", 10, 10)
-                style_group "basic"
-                xpadding 10
-                ypadding 10
-                yanchor 60
-                has hbox
-                textbutton 'Close':
-                    hovered tt.Action("Take a look at your inventory.")
-                    action Return(['hero', 'equip'])
-                if renpy.get_screen('hero_equip') and not hero.inventory.male_filter:
-                    textbutton "Male Filter":
-                        hovered tt.Action("Filter out all items suitable for only girls.")
-                        action Return(['hero', 'male_filter'])
-                if renpy.get_screen('hero_equip') and hero.inventory.male_filter:
-                    textbutton "Unisex Filter":
-                        hovered tt.Action("Show all items.")
-                        action Return(['hero', 'unisex_filter'])
-                if pytfall.hp.show_equip_button():
-                    textbutton "Equip":
-                        hovered tt.Action("Equip this item.")
-                        action Return(['item', 'equip'])
-                if pytfall.hp.show_unequip_button():
-                    textbutton "Unequip":
-                        hovered tt.Action("Unequip this item.")
-                        action Return(['item', 'unequip'])
-
-        # Item Info ------------------------------------------------------------------------>
-        showif pytfall.hp.show_item_info:
-            frame:
-                at fade_in_out()
-                xalign 0.986
-                ypos 43
-                background Frame("content/gfx/frame/frame_dec_1.png", 30, 30)
-                xpadding 30
-                ypadding 30
-                xysize (555, 400)
-                use itemstats(item=pytfall.hp.item, size=(580, 350), style_group="content", mc_mode=True)
-
-    screen ht_input():
-        zorder 1
-        modal True
-
-        add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
-        frame:
-            background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.65), 10, 10)
-            style_group "content"
-            align(0.5, 0.5)
-            xysize (350, 150)
-            vbox:
-                spacing 20
-                align(0.5, 0.5)
-                label "{color=#F5F5DC}{size=28}Enter your team name:" xalign 0.5
-                input default hero.team.name length 20 xalign 0.5 style "content_label_text" color "#CDAD00" size 22
 
     screen hero_team():
         zorder 1

@@ -147,18 +147,6 @@ init: # Items:
 
         use exit_button
 
-    # Frame for item in girl inventory or a shop
-    screen itemframe(txt="", value=None, img=None):
-        frame:
-            background Frame("content/gfx/frame/24-1.png", 5, 5)
-            xysize (90, 90)
-            imagebutton:
-                align(0.0, 0.5)
-                idle img
-                hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
-                action Return(value)
-            text (txt) align(1.0, 1.0) style "content_text" size 20
-
     screen itemstats(item=None, size=(635, 380), style_group="content", mc_mode=False):
         if item:
             vbox:
@@ -341,31 +329,11 @@ init: # Items:
                         has viewport mousewheel True xysize (460, 100)
                         text '[item.desc]' style "TisaOTM" size 16 color gold
 
-    # Equipment slot frame (of an item)
-    screen equipment_slot(pos=(0.5, 0.5), name="", img=None, value=None):
-        frame:
-            style_group "content"
-            background Frame("content/gfx/frame/textbox_15.png", 5, 5)
-            pos pos
-            anchor (0.5, 0.5)
-            yanchor 0.5
-            xysize (90, 90)
-            text (name) align(0.5, 0.0) size 18 color ivory
-            imagebutton:
-                align(0.5, 1.0)
-                idle im.Scale(img, 70, 70)
-                hover (im.MatrixColor(im.Scale(img, 70, 70), im.matrix.brightness(0.15)))
-                action Return(value)
-
     # Inventory paging
     screen paging(path="content/gfx/interface/buttons/", use_filter=True, ref=None, xysize=(270, 60), root=None, align=(.5, .0)):
         frame:
-            if global_flags.flag("hero_equip"):
-                background Frame("content/gfx/frame/BG_choicebuttons.png", 10, 10)
-                ypadding 2
-            else:
-                background Frame("content/gfx/frame/frame_bg.png", 5, 5)
-                ypadding 15
+            background Frame("content/gfx/frame/BG_choicebuttons.png", 10, 10)
+            ypadding 15
 
             style_group "content"
             xpadding 15
@@ -691,7 +659,7 @@ init: # Items:
                     if renpy.current_screen().tag == "next_day":
                         action Return(['control', "next_day_local"])
                     else:
-                        action (hs, Function(global_flags.set_flag, "nd_music_play"), Hide("hero_equip"), Jump("next_day"))
+                        action (hs, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
                     text "Next Day"
             else:
                 add ProportionalScale("content/gfx/frame/frame_ap.png", 170, 50) align (0.5, 0.7)
@@ -1713,6 +1681,7 @@ screen panic_screen:
     use keymap_override
     key "q" action Hide("panic_screen")
     key "Q" action Hide("panic_screen")
+    
 screen give_exp_after_battle(group, exp = 0, money=0): # shows post-battle results; TODO after beta: make the animation to show exp gained post battle, not just the current one;
     modal True
     zorder 100
