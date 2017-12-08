@@ -246,20 +246,21 @@ init:
 
                     for skill in hero.stats.skills:
                         $ skill_val = int(char.get_skill(skill))
-                        if skill_val >= 0:
+                        $ skill_limit = 1000 # <- the max skill level when we show 5 stars
+                        if skill_val >= 100:
                             hbox:
                                 align (0.0, 0.9)
                                 xsize 180
-                                text "{}:".format(skill.capitalize()) style_suffix "value_text" color goldenrod xalign .0 size 13
+                                text "{}:".format(skill.capitalize()) style_suffix "value_text" color gold xalign .0 size 12 yoffset 2
                                 python:
                                     temp = []
-                                    for i in range(skill_val//200):
-                                        temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
+                                    for i in range(skill_val//(int(skill_limit/5))):
+                                        temp.append(ProportionalScale("content/gfx/interface/icons/stars/star2.png", 18, 18))
                                     if len(temp) != 5:
-                                        if skill_val%200 >= 100:
-                                            temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
+                                        if skill_val%(int(skill_limit/5)) >= (int(skill_limit/10)):
+                                            temp.append(ProportionalScale("content/gfx/interface/icons/stars/star3.png", 18, 18))
                                     while len(temp) != 5:
-                                        temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
+                                        temp.append(ProportionalScale("content/gfx/interface/icons/stars/star1.png", 18, 18))
                                 hbox:
                                     xalign 1.0
                                     for i in temp:

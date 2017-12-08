@@ -30,16 +30,16 @@ label build_mc_stories:
                                                        Assassin="content/gfx/interface/images/mc/assassin_m.png")
         mc_stories["Warrior"]["Warrior"] = {}
         mc_stories["Warrior"]["Warrior"]["class"] = "Warrior"
-        mc_stories["Warrior"]["Warrior"]["text"] = "He was a famous gladiator. Decades of fighting at the arena made him competent with almost every known weapon, and brought fame and wealth."
+        mc_stories["Warrior"]["Warrior"]["text"] = "He was a famous gladiator. Decades of fighting at the arena made him competent with almost every known weapon and brought fame and wealth."
         mc_stories["Warrior"]["Assassin"] = {}
         mc_stories["Warrior"]["Assassin"]["class"] = "Assassin"
-        mc_stories["Warrior"]["Assassin"]["text"] = "He was a deadly assassin. Not even royalties were safe from his blade, if the price was right of course."
+        mc_stories["Warrior"]["Assassin"]["text"] = "He was a deadly assassin. Not even royalties were safe from his blade if the price was right of course."
         mc_stories["Warrior"]["Shooter"] = {}
         mc_stories["Warrior"]["Shooter"]["class"] = "Shooter"
-        mc_stories["Warrior"]["Shooter"]["text"] = "He was a skilled marksman. For many years together with other rangers he hunted monsters and smugglers."
+        mc_stories["Warrior"]["Shooter"]["text"] = "He was a skilled marksman. For many years together with other rangers, he hunted monsters and smugglers."
         mc_stories["Warrior"]["Knight"] = {}
         mc_stories["Warrior"]["Knight"]["class"] = "Knight"
-        mc_stories["Warrior"]["Knight"]["text"] = "He was an experienced bodyguard. His skills secured him a place in high society, where he provided his serviced to royalties."
+        mc_stories["Warrior"]["Knight"]["text"] = "He was an experienced bodyguard. His skills secured him a place in high society, where he provided his service to royalties."
         
         mc_stories["Warrior"]["MC"] = {}
         for key in mc_stories["Warrior"]["choices"]:
