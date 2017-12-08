@@ -224,7 +224,6 @@ init -5 python:
 
             if worker.AP <= 0:
                 log.append(choice(["Nothing else happened during her shift.", "She didn't have the stamina for anything else today."]))
-
             else:
                 gbu = self.loc.get_upgrade_mod("guards")
                 if gbu == 3:
