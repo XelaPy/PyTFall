@@ -84,7 +84,6 @@ label char_equip:
 
     scene bg gallery3
 
-    $ global_flags.set_flag("hero_equip")
     $ renpy.retain_after_load()
     show screen char_equip
     if not "last_inv_filter" in globals():
@@ -290,7 +289,6 @@ label char_equip_loop:
 
 label char_equip_finish:
     hide screen char_equip
-    $ global_flags.del_flag("hero_equip")
 
     python:
         eqtarget.inventory.set_page_size(15)
