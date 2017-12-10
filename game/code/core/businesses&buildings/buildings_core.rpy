@@ -643,7 +643,7 @@ init -10 python:
             for w in self.all_workers:
                 self.convert_AP(w)
 
-            # Get businesses we wish SimPy to manage! # IMPORTANT! .manage_business method is expected.
+            # Get businesses we wish SimPy to manage! business_manager method is expected here. 
             self.nd_ups = list(up for up in self._upgrades if up.workable)
 
             # Clients:
@@ -711,16 +711,6 @@ init -10 python:
                 self.env.process(cleaners.business_control())
 
             while 1:
-                # if self.get_dirt() > self.get_max_dirt()*.9:
-                #     temp = "{}: The building is very dirty! Lets look for someone to clean it.".format(self.env.now)
-                #     temp = set_font_color(temp, "red")
-                #     self.log(temp)
-                #
-                # if cleaners:
-                # raise Exception("|")
-
-                # cleaners.xxxxxx()
-
                 yield self.env.timeout(100)
 
         def clients_dispatcher(self, end=100):

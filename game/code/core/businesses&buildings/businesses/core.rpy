@@ -521,13 +521,15 @@ init -12 python:
 
 
     class OnDemandBusiness(Business):
-        def __init__(self, name="On Demand Default", instance=None, desc="Does something on request!", img=None, build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
+        def __init__(self, name="On Demand Default", instance=None,
+                     desc="Does something on request!", img=None,
+                     build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
             img = Null() if img is None else img
             super(OnDemandBusiness, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
             self.capacity = in_slots
             self.type = "on_demand_service"
             self.jobs = set()
-            self.workable = False
+            self.workable = True
             self.active_workers = list()
             self.action = None # Action that is currently running! For example guard that are presently on patrol should still respond to act
                                           # of violence by the customers, even thought it may appear that they're busy (in code).
@@ -548,8 +550,11 @@ init -12 python:
         """Base class upgrade for businesses that just need to complete a task, like FG, crafting and etc.
         """
         # For lack of a better term... can't come up with a better name atm.
-        def __init__(self, name="Task Default", instance=None, desc="Completes given task!", img=None, build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
+        def __init__(self, name="Task Default", instance=None, desc="Completes given task!",
+                     img=None, build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
             img = Null() if img is None else img
-            super(TaskBusiness, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+            super(TaskBusiness, self).__init__(name=name, instance=instance, desc=desc,
+                                               img=img, build_effort=build_effort,
+                                               materials=materials, cost=cost, **kwargs)
 
             self.res = None #*Throws an error?
