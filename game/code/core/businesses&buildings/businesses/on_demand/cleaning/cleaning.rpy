@@ -37,7 +37,7 @@ init -5 python:
             job = simple_jobs["Cleaning"]
 
             # Pure cleaners, container is kept around for checking during all_on_deck scenarios
-            pure_cleaners = self.get_pure_cleaners(job, power_flag_name)
+            pure_cleaners = self.get_pure_workers(job, power_flag_name)
             all_cleaners = pure_cleaners.copy() # Everyone that cleaned for the report.
             cleaners = all_cleaners.copy() # cleaners on active duty
 
@@ -139,17 +139,17 @@ init -5 python:
 
                 yield self.env.timeout(1)
 
-        def get_pure_cleaners(self, job, power_flag_name):
-            cleaners = set(self.get_workers(job, amount=float("inf"),
+        def get_pure_workers(self, job, power_flag_name):
+            workers = set(self.get_workers(job, amount=float("inf"),
                            match_to_client=None, priority=True, any=False))
 
-            if cleaners:
+            if workers:
                 # Do Disposition checks:
-                job.settle_workers_disposition(cleaners, self)
+                job.settle_workers_disposition(workers, self)
                 # Do Effectiveness calculations:
-                self.calc_job_power(cleaners, job, power_flag_name)
+                self.calc_job_power(workers, job, power_flag_name)
 
-            return cleaners
+            return workers
 
         def all_on_deck(self, cleaners, job, power_flag_name):
             # calls everyone in the building to clean it
