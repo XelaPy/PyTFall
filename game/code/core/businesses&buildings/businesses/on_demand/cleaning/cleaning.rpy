@@ -151,18 +151,18 @@ init -5 python:
 
             return workers
 
-        def all_on_deck(self, cleaners, job, power_flag_name):
+        def all_on_deck(self, workers, job, power_flag_name):
             # calls everyone in the building to clean it
-            new_cleaners = self.get_workers(job, amount=float("inf"),
+            new_workers = self.get_workers(job, amount=float("inf"),
                             match_to_client=None, priority=True, any=True)
 
-            if new_cleaners:
+            if new_workers:
                 # Do Disposition checks:
-                job.settle_workers_disposition(new_cleaners, self, all_on_deck=True)
+                job.settle_workers_disposition(new_workers, self, all_on_deck=True)
                 # Do Effectiveness calculations:
-                self.calc_job_power(new_cleaners, job, power_flag_name)
+                self.calc_job_power(new_workers, job, power_flag_name)
 
-            return cleaners.union(new_cleaners)
+            return workers.union(new_workers)
 
         def calc_job_power(self, cleaners, job, power_flag_name, remove_from_available_workers=True):
             difficulty = self.instance.tier
