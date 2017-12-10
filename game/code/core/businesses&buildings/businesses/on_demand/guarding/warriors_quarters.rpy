@@ -14,16 +14,11 @@ init -5 python:
             self.jobs = set([simple_jobs["Guarding"]])
 
         def business_control(self):
-            """This checks if there are idle workers willing/ready to clean in the building.
-            Cleaning is always active, checked on every tick.
-            Cleaners are on call at all times.
-            Whenever dirt reaches 200, they start cleaning till it’s 0 or are on standby on idle otherwise.
-            If dirt reaches 600 (they cannot coop or there are simply no pure cleaners),
-            all “Service Types” that are free help out and they are released when dirt reaches 50 or below.
-            If dirt reaches 900, we check for auto-cleaning and do the “magical” thing if player has
-            the money and is willing to pay (there is a checkbox for that already).
-            If there is no auto-cleaning, we call all workers in the building to clean…
-            unless they just refuse that on some principal (trait checks)...
+            """Handles normally guarding as a process.
+            Basically we just wait for a combat even to occur or idle wait for it to happen.
+
+            Only characters who are set to Guard are used for this purpose. If an event requires more,
+            we get other workers involved in it as well.
             """
             building = self.instance
             make_nd_report_at = 0 # We build a report every 25 ticks but only if this is True!
@@ -42,84 +37,12 @@ init -5 python:
             cleaners = all_cleaners.copy() # cleaners on active duty
 
             while 1:
-                dirt = building.get_dirt()
-                if config.debug and not self.env.now % 5:
-                    temp = "{color=[red]}" + "DEBUG: {0:.2f} DIRT IN THE BUILDING!".format(dirt)
-                    self.log(temp, True)
 
-                if dirt >= 900:
-                    if building.auto_clean:
-                        price = building.get_cleaning_price()
-                        if hero.take_money(price):
-                            building.dirt = 0
-                            dirt = 0
-                            temp = "{}: {} Building was auto-cleaned!".format(self.env.now,
-                                                building.name)
-                            self.log(temp)
-
-                    if not using_all_workers and dirt:
-                        using_all_workers = True
-                        all_cleaners = self.all_on_deck(cleaners, job, power_flag_name)
-                        cleaners = all_cleaners.union(cleaners)
-
-                    if not make_nd_report_at and dirt:
-                        wlen = len(cleaners)
-                        make_nd_report_at = min(self.env.now+25, 100)
-                        if self.env and wlen:
-                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
-                                                set_font_color(wlen, "red"), building.name)
-                            self.log(temp)
-                elif dirt >= 600:
-                    if not using_all_workers:
-                        using_all_workers = True
-                        all_cleaners = self.all_on_deck(cleaners, job, power_flag_name)
-                        cleaners = all_cleaners.union(cleaners)
-
-                    if not make_nd_report_at:
-                        wlen = len(cleaners)
-                        make_nd_report_at = min(self.env.now+25, 100)
-                        if self.env and wlen:
-                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
-                                                set_font_color(wlen, "red"), building.name)
-                            self.log(temp)
-                elif dirt >= 200:
-                    if not make_nd_report_at:
-                        wlen = len(cleaners)
-                        make_nd_report_at = min(self.env.now+25, 100)
-                        if self.env and wlen:
-                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
-                                                set_font_color(wlen, "red"), building.name)
-                            self.log(temp)
-
-                # switch back to normal cleaners only
-                if dirt <= 200 and using_all_workers:
-                    using_all_workers = False
-                    for worker in cleaners.copy():
-                        if worker not in pure_cleaners:
-                            cleaners.remove(worker)
-                            self.instance.available_workers.insert(0, worker)
-
-                # Actually handle dirt cleaning:
-                if make_nd_report_at and building.dirt > 0:
-                    for w in cleaners.copy():
-                        value = w.flag(power_flag_name)
-                        dirt_cleaned += value
-                        building.clean(value)
-
-                        # Adjust JP and Remove the clear after running out of jobpoints:
-                        w.jobpoints -= 5
-                        if w.jobpoints <= 0:
-                            temp = "{}: {} is done cleaning for the day!".format(self.env.now,
-                                                set_font_color(w.nickname, "blue"))
-                            self.log(temp)
-                            cleaners.remove(w)
-
-                # Create actual report:
-                c0 = make_nd_report_at and dirt_cleaned
-                c1 = building.dirt <= 0 or self.env.now == make_nd_report_at
+                c0 = make_nd_report_at
+                c1 = self.env.now == make_nd_report_at
                 if c0 and c1:
                     if config.debug:
-                        temp = "{}: DEBUG! WRITING CLEANING REPORT! c0: {}, c1: {}".format(self.env.now,
+                        temp = "{}: DEBUG! WRITING Guarding REPORT! c0: {}, c1: {}".format(self.env.now,
                                             c0, c1)
                         self.log(temp)
                     self.write_nd_report(pure_cleaners, all_cleaners, -dirt_cleaned)
@@ -138,6 +61,48 @@ init -5 python:
                     all_cleaners = cleaners.copy()
 
                 yield self.env.timeout(1)
+
+        def get_pure_cleaners(self, job, power_flag_name):
+            cleaners = set(self.get_workers(job, amount=float("inf"),
+                           match_to_client=None, priority=True, any=False))
+
+            if cleaners:
+                # Do Disposition checks:
+                job.settle_workers_disposition(cleaners, self)
+                # Do Effectiveness calculations:
+                self.calc_job_power(cleaners, job, power_flag_name)
+
+            return cleaners
+
+        def all_on_deck(self, cleaners, job, power_flag_name):
+            # calls everyone in the building to clean it
+            new_cleaners = self.get_workers(job, amount=float("inf"),
+                            match_to_client=None, priority=True, any=True)
+
+            if new_cleaners:
+                # Do Disposition checks:
+                job.settle_workers_disposition(new_cleaners, self, all_on_deck=True)
+                # Do Effectiveness calculations:
+                self.calc_job_power(new_cleaners, job, power_flag_name)
+
+            return cleaners.union(new_cleaners)
+
+        def calc_job_power(self, cleaners, job, power_flag_name, remove_from_available_workers=True):
+            difficulty = self.instance.tier
+
+            for w in cleaners:
+                if not w.flag(power_flag_name):
+                    effectiveness_ratio = job.effectiveness(w, difficulty)
+                    if config.debug:
+                        devlog.info("Cleaning Job Effectiveness: {}: {}".format(w.nickname, effectiveness_ratio))
+                    # TODO It feels like this is handled in the effectiveness method already, kinda weird that it's done twice.
+                    value = -((3 + w.get_skill("service") * .025 + w.agility * .03) * effectiveness_ratio)
+                    w.set_flag(power_flag_name, value)
+
+                    # Remove from active workers:
+                    if remove_from_available_workers:
+                        self.instance.available_workers.remove(w)
+
 
         def request_action(self, building=None, start_job=True, priority=True, any=False, action=None):
             """This checks if there are idle workers willing/ready to do an action in the building.

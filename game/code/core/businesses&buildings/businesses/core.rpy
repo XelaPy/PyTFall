@@ -99,8 +99,8 @@ init -12 python:
         def get_workers(self, job, amount=1, match_to_client=None, priority=True, any=True):
             """Tries to find workers for any given job.
 
-            - Tries to get a perfect match where action == job first.
-            - Tries to get any match trying to match any occupation at all.
+            priority: Tries to get a perfect match where action == job first.
+            any: Tries to get any match trying to match any occupation at all.
 
             @param: match_to_client: Will try to find the a good match to client, expects a client (or any PytC instance with .likes set) object.
             """
