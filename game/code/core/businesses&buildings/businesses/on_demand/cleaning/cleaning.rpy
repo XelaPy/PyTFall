@@ -139,46 +139,6 @@ init -5 python:
 
                 yield self.env.timeout(1)
 
-        def get_pure_workers(self, job, power_flag_name):
-            workers = set(self.get_workers(job, amount=float("inf"),
-                           match_to_client=None, priority=True, any=False))
-
-            if workers:
-                # Do Disposition checks:
-                job.settle_workers_disposition(workers, self)
-                # Do Effectiveness calculations:
-                self.calc_job_power(workers, job, power_flag_name)
-
-            return workers
-
-        def all_on_deck(self, workers, job, power_flag_name):
-            # calls everyone in the building to clean it
-            new_workers = self.get_workers(job, amount=float("inf"),
-                            match_to_client=None, priority=True, any=True)
-
-            if new_workers:
-                # Do Disposition checks:
-                job.settle_workers_disposition(new_workers, self, all_on_deck=True)
-                # Do Effectiveness calculations:
-                self.calc_job_power(new_workers, job, power_flag_name)
-
-            return workers.union(new_workers)
-
-        def calc_job_power(self, workers, job, power_flag_name, remove_from_available_workers=True):
-            difficulty = self.instance.tier
-
-            for w in workers:
-                if not w.flag(power_flag_name):
-                    effectiveness_ratio = job.effectiveness(w, difficulty)
-                    if config.debug:
-                        devlog.info("{} Effectiveness: {}: {}".format(job.id, w.nickname, effectiveness_ratio))
-                    value = -(5 * effectiveness_ratio)
-                    w.set_flag(power_flag_name, value)
-
-                    # Remove from active workers:
-                    if remove_from_available_workers:
-                        self.instance.available_workers.remove(w)
-
         def write_nd_report(self, pure_cleaners, all_cleaners, dirt_cleaned):
             job, loc = self.job, self.instance
             log = NDEvent(job=job, loc=loc, team=all_cleaners, business=self)
