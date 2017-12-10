@@ -164,14 +164,15 @@ init -5 python:
 
             return workers.union(new_workers)
 
-        def calc_job_power(self, cleaners, job, power_flag_name, remove_from_available_workers=True):
+        def calc_job_power(self, workers, job, power_flag_name, remove_from_available_workers=True):
             difficulty = self.instance.tier
 
-            for w in cleaners:
+            for w in workers:
                 if not w.flag(power_flag_name):
                     effectiveness_ratio = job.effectiveness(w, difficulty)
                     if config.debug:
-                        devlog.info("Cleaning Job Effectiveness: {}: {}".format(w.nickname, effectiveness_ratio))
+                        devlog.info("{} Effectiveness: {}: {}".format(job.id, w.nickname, effectiveness_ratio))
+                    # This looks like we're doing it twice: TODO
                     value = -((3 + w.get_skill("service") * .025 + w.agility * .03) * effectiveness_ratio)
                     w.set_flag(power_flag_name, value)
 
