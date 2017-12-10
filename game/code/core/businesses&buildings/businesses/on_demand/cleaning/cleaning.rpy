@@ -172,8 +172,7 @@ init -5 python:
                     effectiveness_ratio = job.effectiveness(w, difficulty)
                     if config.debug:
                         devlog.info("{} Effectiveness: {}: {}".format(job.id, w.nickname, effectiveness_ratio))
-                    # This looks like we're doing it twice: TODO
-                    value = -((3 + w.get_skill("service") * .025 + w.agility * .03) * effectiveness_ratio)
+                    value = -(5 * effectiveness_ratio)
                     w.set_flag(power_flag_name, value)
 
                     # Remove from active workers:
