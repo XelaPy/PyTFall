@@ -44,8 +44,7 @@ init -5 python:
             while 1:
                 dirt = building.get_dirt()
                 if config.debug:
-                    temp = "{color=[red]}" + "{}: DEBUG: {0:.2f} DIRT IN THE BUILDING!".format(self.env.now,
-                                        dirt)
+                    temp = "{color=[red]}" + "DEBUG: {0:.2f} DIRT IN THE BUILDING!".format(dirt)
                     self.log(temp)
 
                 if dirt >= 900:
@@ -116,9 +115,9 @@ init -5 python:
                             cleaners.remove(w)
 
                 # Create actual report:
-                condition0 = make_nd_report_at and self.env.now == make_nd_report_at
-                condition1 = make_nd_report_at and building.dirt <= 0
-                if condition0 or condition1:
+                c0 = make_nd_report_at and dirt_cleaned
+                c1 = building.dirt <= 0 or self.env.now == make_nd_report_at
+                if c0 and c1:
                     if config.debug:
                         temp = "{}: DEBUG! WRITING CLEANING REPORT! c0: {}, c1: {}".format(self.env.now,
                                             condition0, condition1)
