@@ -643,7 +643,7 @@ init -10 python:
             for w in self.all_workers:
                 self.convert_AP(w)
 
-            # Get businesses we wish SimPy to manage! business_manager method is expected here. 
+            # Get businesses we wish SimPy to manage! business_manager method is expected here.
             self.nd_ups = list(up for up in self._upgrades if up.workable)
 
             # Clients:
@@ -699,16 +699,6 @@ init -10 python:
 
             if self.expects_clients:
                 self.env.process(self.clients_dispatcher(end=end))
-
-            for business in self._upgrades:
-                if business.__class__ == Cleaners: # Why not isinstance?
-                    cleaners = business
-                    break
-            else:
-                cleaners = None
-
-            if cleaners:
-                self.env.process(cleaners.business_control())
 
             while 1:
                 yield self.env.timeout(100)
