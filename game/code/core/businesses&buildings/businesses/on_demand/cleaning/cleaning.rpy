@@ -120,7 +120,7 @@ init -5 python:
                 if c0 and c1:
                     if config.debug:
                         temp = "{}: DEBUG! WRITING CLEANING REPORT! c0: {}, c1: {}".format(self.env.now,
-                                            condition0, condition1)
+                                            c0, c1)
                         self.log(temp)
                     self.write_nd_report(pure_cleaners, all_cleaners, -dirt_cleaned)
                     make_nd_report_at = 0
