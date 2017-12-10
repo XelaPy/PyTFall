@@ -44,7 +44,7 @@ init -5 python:
             while 1:
                 dirt = building.get_dirt()
                 if config.debug:
-                    temp = "{color=[red]}" + "{}: DEBUG: {} DIRT IN THE BUILDING!".format(self.env.now,
+                    temp = "{color=[red]}" + "{}: DEBUG: {0:.2f} DIRT IN THE BUILDING!".format(self.env.now,
                                         dirt)
                     self.log(temp)
 
@@ -215,6 +215,8 @@ init -5 python:
             else:
                 temp += "!"
             log.append(temp)
+
+            dirt_cleaned = int(dirt_cleaned)
 
             temp = "\nA total of {} dirt was cleaned.".format(set_font_color(dirt_cleaned, "red"))
             log.append(temp)

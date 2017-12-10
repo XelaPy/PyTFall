@@ -240,7 +240,7 @@ init -12 python:
                 yield self.env.timeout(100)
 
         # Business MainUpgrade related:
-        def add_upgrade(self, upgrade):
+        def add_business(self, upgrade):
             upgrade.instance = self
             self.main_upgrade = self.instance
             self.upgrades.append(upgrade)

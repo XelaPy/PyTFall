@@ -205,7 +205,7 @@ label building_management_loop:
             if result[1] == "build":
                 python:
                     temp = result[2]()
-                    building.add_upgrade(temp, main_upgrade=result[3])
+                    building.add_business(temp, main_upgrade=result[3])
                     del temp
 
         elif result[0] == "maintenance":
@@ -1100,7 +1100,7 @@ init: # Screens:
                                             add im.Scale(u.IMG, 120, 75) align .5, .5
                                         else:
                                             add Solid(black, xysize=(120, 75)) align .5, .5
-                                    textbutton "{size=15}Build" xalign .5 action Return(["upgrade", "build", u, bm_mid_frame_mode]), SensitiveIf(building.can_upgrade(u))
+                                    textbutton "{size=15}Build" xalign .5 action Return(["upgrade", "build", u, bm_mid_frame_mode]), SensitiveIf(building.eval_business_upgrade(u))
                 textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Back":
                     background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=0.8)
                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15))), alpha=1)

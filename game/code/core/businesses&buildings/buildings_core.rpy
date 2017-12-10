@@ -544,14 +544,14 @@ init -10 python:
             # adds the upgrade to in construction buildings:
             self.in_construction_upgrades.append(upgrade)
 
-        def can_upgrade(self, upgrade, build=False):
+        def eval_business_upgrade(self, upgrade, build=False):
             # Check if building has enough space to add this upgrade
 
             # If we want to build the upgrade as well (usually in testing scenarios):
             if build and config.debug: # This isn't really safe to use in the real game (should be moved to the end of a func if we need it)...
                 self.in_slots = self.in_slots + upgrade.IN_SLOTS
                 self.ex_slots = self.ex_slots + upgrade.EX_SLOTS
-                self.add_upgrade(upgrade)
+                self.add_business(upgrade)
 
             if self.in_slots_max - self.in_slots < upgrade.IN_SLOTS or self.ex_slots_max - self.ex_slots < upgrade.EX_SLOTS:
                 return
@@ -568,15 +568,15 @@ init -10 python:
 
             return True
 
-        def add_upgrade(self, upgrade, main_upgrade=None, normalize_jobs=True):
-            """Add upgrade to the building.
+        def add_business(self, upgrade, main_upgrade=None, normalize_jobs=True):
+            """Add business to the building.
             """
             if isinstance(upgrade, Business):
                 upgrade.instance = self
                 self._upgrades.append(upgrade)
             elif isinstance(upgrade, SubUpgrade):
-                # Find the correct SubUpgrade and rename the "upgrades" casue this is very confusing... Maybe Extension..??? TODO:
-                main_upgrade.add_upgrade(upgrade)
+                # Find the correct SubUpgrade and rename the "upgrades" cause this is very confusing... Maybe Extension..??? TODO:
+                main_upgrade.add_business(upgrade)
 
             if normalize_jobs:
                 self.normalize_jobs()
