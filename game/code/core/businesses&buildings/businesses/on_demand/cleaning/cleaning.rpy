@@ -43,9 +43,9 @@ init -5 python:
 
             while 1:
                 dirt = building.get_dirt()
-                if config.debug:
+                if config.debug and not self.env.now % 5:
                     temp = "{color=[red]}" + "DEBUG: {0:.2f} DIRT IN THE BUILDING!".format(dirt)
-                    self.log(temp)
+                    self.log(temp, True)
 
                 if dirt >= 900:
                     if building.auto_clean:
@@ -65,7 +65,7 @@ init -5 python:
                     if not make_nd_report_at and dirt:
                         wlen = len(cleaners)
                         make_nd_report_at = min(self.env.now+25, 100)
-                        if self.env:
+                        if self.env and wlen:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
                                                 set_font_color(wlen, "red"), building.name)
                             self.log(temp)
@@ -78,7 +78,7 @@ init -5 python:
                     if not make_nd_report_at:
                         wlen = len(cleaners)
                         make_nd_report_at = min(self.env.now+25, 100)
-                        if self.env:
+                        if self.env and wlen:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
                                                 set_font_color(wlen, "red"), building.name)
                             self.log(temp)
@@ -86,7 +86,7 @@ init -5 python:
                     if not make_nd_report_at:
                         wlen = len(cleaners)
                         make_nd_report_at = min(self.env.now+25, 100)
-                        if self.env:
+                        if self.env and wlen:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
                                                 set_font_color(wlen, "red"), building.name)
                             self.log(temp)
