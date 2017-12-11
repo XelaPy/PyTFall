@@ -230,7 +230,7 @@ screen dungeon_move(hotspots):
 
     # if dungeon.show_map:
     add dungeon.smallMap:
-        pos (900, 60)
+        pos (450, 50)
 
     if hotspots:
         imagemap:
@@ -347,7 +347,7 @@ label enter_dungeon:
 
     # Place a player position on a dungeon stage.
     # dx,dy means direction. If dy=1, it's down. If dx=-1, it's left.
-label dungeon_r:
+label enter_dungeon_r:
     while True:
         # Composite background images.
         scene
@@ -534,9 +534,8 @@ label dungeon_r:
                     mpos = renpy.get_mouse_pos()
                     
             elif _return in hero.team:
-                came_to_equip_from = "dungeon_r"
+                came_to_equip_from = "enter_dungeon_r"
                 eqtarget = _return
-                char = _return
                 global_flags.set_flag("keep_playing_music")
                 equipment_safe_mode = True
                 renpy.jump("char_equip")

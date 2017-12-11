@@ -269,7 +269,6 @@ label storyi_gui_loop: # the gui loop; we jump here every time we need to show c
         if result in hero.team:
             $ came_to_equip_from = "storyi_continue"
             $ eqtarget = result
-            $ char = result
             $ equipment_safe_mode = True
             jump char_equip
 
