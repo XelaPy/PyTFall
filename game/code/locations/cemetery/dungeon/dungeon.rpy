@@ -226,11 +226,11 @@ screen dungeon_move(hotspots):
         elif renpy.has_image(sw):
             add sw
 
-    use top_stripe(show_return_button=False)
+    use top_stripe(False, None, False, True)
 
-    if dungeon.show_map:
-        add dungeon.smallMap:
-            ypos 60
+    # if dungeon.show_map:
+    add dungeon.smallMap:
+        pos (900, 60)
 
     if hotspots:
         imagemap:
@@ -288,7 +288,7 @@ screen dungeon_move(hotspots):
                 # key "K_p" action Function(scrap.put, SCRAP_TEXT, str((pc['x'], pc['y'])))
                 # key "K_o" action Return(value="mpos")
                 # key "K_g" action SetField(dungeon, "show_map", "teleport")
-                # key "K_m" action ToggleField(dungeon, "show_map")
+        key "K_m" action ToggleField(dungeon, "show_map")
 
     if dungeon.can_move:
         key "K_KP2" action Return(value=2)
@@ -347,7 +347,7 @@ label enter_dungeon:
 
     # Place a player position on a dungeon stage.
     # dx,dy means direction. If dy=1, it's down. If dx=-1, it's left.
-
+label dungeon_r:
     while True:
         # Composite background images.
         scene
@@ -532,6 +532,14 @@ label enter_dungeon:
                     mpos = None
                 else:
                     mpos = renpy.get_mouse_pos()
+                    
+            elif _return in hero.team:
+                came_to_equip_from = "dungeon_r"
+                eqtarget = _return
+                char = _return
+                global_flags.set_flag("keep_playing_music")
+                equipment_safe_mode = True
+                renpy.jump("char_equip")
 
             if to:
                 if str(to) in dungeon.event:
@@ -551,6 +559,8 @@ label enter_dungeon:
                         break
                     else:
                         dungeon.function(**event)
+                        
+                        
 
             # do any expired timer events
             if dungeon.timer is not None:
