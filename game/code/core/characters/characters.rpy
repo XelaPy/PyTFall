@@ -3908,7 +3908,7 @@ init -9 python:
             """
             The buildings that can be cleaned.
             """
-            return [building for building in self.buildings if isinstance(building, DirtyBuilding)]
+            return [building for building in self.buildings if isinstance(building, BuildingStats)]
 
         @property
         def famous_buildings(self):

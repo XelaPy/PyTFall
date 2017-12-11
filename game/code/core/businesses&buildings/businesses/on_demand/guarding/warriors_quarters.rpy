@@ -14,16 +14,9 @@ init -5 python:
             self.jobs = set([simple_jobs["Guarding"]])
 
         def business_control(self):
-            """This checks if there are idle workers willing/ready to clean in the building.
-            Cleaning is always active, checked on every tick.
-            Cleaners are on call at all times.
-            Whenever dirt reaches 200, they start cleaning till it’s 0 or are on standby on idle otherwise.
-            If dirt reaches 600 (they cannot coop or there are simply no pure cleaners),
-            all “Service Types” that are free help out and they are released when dirt reaches 50 or below.
-            If dirt reaches 900, we check for auto-cleaning and do the “magical” thing if player has
-            the money and is willing to pay (there is a checkbox for that already).
-            If there is no auto-cleaning, we call all workers in the building to clean…
-            unless they just refuse that on some principal (trait checks)...
+            """We decided for this to work similarly (or the same as cleaning routines)
+
+            For now, goal is to get this to work reliably.
             """
             building = self.instance
             make_nd_report_at = 0 # We build a report every 25 ticks but only if this is True!

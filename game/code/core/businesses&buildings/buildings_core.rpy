@@ -3,12 +3,12 @@ init -10 python:
     # CORE BUILDING CLASSES
     # BaseBuilding = Base class, needed if no other.
     # FamousBuilding = Adds fame and reputation mechanics to the building.
-    # DirtyBuilding = Adds dirt and cleaning to the building.
+    # BuildingStats = Adds dirt and cleaning to the building.
     # UpgradableBuilding = Adds upgrades  to the building.
     #
     # Examples:
     # class CityJail(Building): <-- Just a building6
-    # class Brothel(UpgradableBuilding, DirtyBuilding, FamousBuilding): <-- A building will upgrade, dirt and fame mechanics.
+    # class Brothel(UpgradableBuilding, BuildingStats, FamousBuilding): <-- A building will upgrade, dirt and fame mechanics.
     #
     """Core order for SimPy jobs loop:2
     ***Needs update after restructuring/renaming.
@@ -280,47 +280,54 @@ init -10 python:
             self.rep += value
 
 
-    class DirtyBuilding(BaseBuilding):
+    class BuildingStats(BaseBuilding):
         """
-        A building that has Dirt and Cleaning mechanics.
+        A building that has stats (dirt/security) and underlying mechanics.
         """
 
-        DIRT_STATES = dict(Immaculate=(0, 10), Sterile=(10, 20), Spotless=(20, 30), Clean=(30, 40), Tidy=(40, 50), Messy=(50, 60), Dirty=(60, 70), Grimy=(70, 80), Filthy=(80, 90), Disgusting=(90, 100))
+        DIRT_STATES = dict(Immaculate=(0, 10), Sterile=(10, 20),
+                           Spotless=(20, 30), Clean=(30, 40),
+                           Tidy=(40, 50), Messy=(50, 60),
+                           Dirty=(60, 70), Grimy=(70, 80),
+                           Filthy=(80, 90), Disgusting=(90, 100))
 
         def __init__(self, *args, **kwargs):
             """
-            Creates a new DirtyBuilding.
+            Creates a new BuildingStats.
             sq_meters = The m^2 that each room takes up.
             """
-            super(DirtyBuilding, self).__init__(*args, **kwargs)
+            super(BuildingStats, self).__init__(*args, **kwargs)
 
-            self.dirt = 0
+            self.stats = {"dirt": 0, "threat": 0}
+            self.max_stats = {"dirt": 1000, "threat": 1000}
             self.auto_clean = False
             self.sq_meters = kwargs.pop("sq_meters", 0)
 
-        def get_max_dirt(self):
-            """
-            The total amount of dirt this building can have.
-
-            Simplefied for time time being...
-            """
-            # rooms = float(self.rooms) / self.maxrooms
-            return 1000 # int(self.sq_meters*0.8*rooms)
-
-        def get_dirt(self):
-            """
-            The amount of dirt this building has.
-            """
-            if self.dirt > self.get_max_dirt():
-                return self.get_max_dirt()
+        def __setattr__(self, key, value):
+            stats = self.__dict__.get("stats", {})
+            if key in stats:
+                max_stats = self.__dict__["max_stats"]
+                if value > max_stats[key]:
+                    stats[key] = max_stats[key]
+                elif value < 0:
+                    stats[key] = 0
+                else:
+                    stats[key] = value
             else:
-                return self.dirt
+                super(BuildingStats, self).__setattr__(key, value)
+
+        def __getattr__(self, item):
+            stats = self.__dict__.get("stats", {})
+            if item in stats:
+                return stats[item]
+            raise AttributeError("%s object has no attribute named %r" %
+                                (self.__class__.__name__, item))
 
         def get_cleaning_price(self):
             """
             How much it costs to clean this building.
             """
-            dirt = self.get_dirt()
+            dirt = self.dirt
             price = 10 + dirt + dirt
             return round_int(price)
 
@@ -330,7 +337,7 @@ init -10 python:
             """
             if self.dirt < 0:
                 self.dirt = 0
-            dirt = self.dirt * 100 / self.get_max_dirt()
+            dirt = self.dirt * 100 / self.max_stats["dirt"]
             if dirt > 100:
                 dirt = 100
 
@@ -346,7 +353,7 @@ init -10 python:
 
         def clean(self, value):
             result = self.dirt + value
-            maxdirt = self.get_max_dirt()
+            maxdirt = self.max_stats["dirt"]
             if result > maxdirt:
                 self.dirt = result
             elif result < 0:

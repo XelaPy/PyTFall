@@ -200,7 +200,7 @@ init python:
             """
             Auto cleans the building if needed.
             """
-            if isinstance(self.loc, DirtyBuilding):
+            if isinstance(self.loc, BuildingStats):
                 if self.loc.auto_clean and self.loc.get_dirt_percentage()[0] > 80:
                     price = self.loc.get_cleaning_price()
                     if hero.take_money(price, reason="Pro-Cleaning"):
@@ -215,7 +215,7 @@ init python:
             """
             Checks the dirt for the building and reports it.
             """
-            if isinstance(self.loc, DirtyBuilding):
+            if isinstance(self.loc, BuildingStats):
                 if self.loc.get_dirt_percentage()[0] > 80:
                     self.txt.append(choice(["Your building looks like a pigstall, fix this or keep losing your clients!",
                                                          "Your building is to dirty to do business!",

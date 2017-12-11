@@ -434,7 +434,7 @@ init -9 python:
             NextDayEvents.append(evt)
 
 
-    class TrainingDungeon(UpgradableBuilding, DirtyBuilding):
+    class TrainingDungeon(UpgradableBuilding, BuildingStats):
         """
         Building that represents the hero's dungeon to train girls in.
         Presently unused...
@@ -702,7 +702,7 @@ init -9 python:
             NextDayEvents.append(evt)
 
 
-    class Building(UpgradableBuilding, AdvertableBuilding, DirtyBuilding, FamousBuilding):
+    class Building(UpgradableBuilding, AdvertableBuilding, BuildingStats, FamousBuilding):
         """
         The building that represents Business Buildings.
         """

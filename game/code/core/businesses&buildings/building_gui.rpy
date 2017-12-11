@@ -326,7 +326,7 @@ init: # Screens:
                         action NullAction()
                         hovered tt.action('Transfer items between characters in this building')
                         text "Transfer Items"
-                if isinstance(building, DirtyBuilding):
+                if isinstance(building, BuildingStats):
                     button:
                         xysize (135, 40)
                         action Show("building_maintenance")
@@ -483,7 +483,7 @@ init: # Screens:
                 text "%s/1000" % building.security_rating xalign .98 style_suffix "value_text" yoffset 4
 
             # Dirt:
-            if isinstance(building, DirtyBuilding):
+            if isinstance(building, BuildingStats):
                 frame:
                     xysize (296, 27)
                     text "Dirt:" xalign 0.02 color ivory
@@ -1137,7 +1137,7 @@ init: # Screens:
             vbox:
                 style_group "basic"
                 align(0.55, 0.5)
-                if isinstance(building, DirtyBuilding):
+                if isinstance(building, BuildingStats):
                     button:
                         xysize(200, 32)
                         action Return(['maintenance', "clean"])
@@ -1147,7 +1147,7 @@ init: # Screens:
                     python:
                         price = 0
                         for i in hero.buildings:
-                            if isinstance(i, DirtyBuilding):
+                            if isinstance(i, BuildingStats):
                                 price = price + i.get_cleaning_price()
 
                     button:
