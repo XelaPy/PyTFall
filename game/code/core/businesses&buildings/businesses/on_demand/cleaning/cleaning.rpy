@@ -37,9 +37,9 @@ init -5 python:
             job = simple_jobs["Cleaning"]
 
             # Pure cleaners, container is kept around for checking during all_on_deck scenarios
-            pure_cleaners = self.get_pure_workers(job, power_flag_name)
-            all_cleaners = pure_cleaners.copy() # Everyone that cleaned for the report.
-            cleaners = all_cleaners.copy() # cleaners on active duty
+            pure_workers = self.get_pure_workers(job, power_flag_name)
+            all_workers = pure_workers.copy() # Everyone that cleaned for the report.
+            workers = all_workers.copy() # cleaners on active duty
 
             while 1:
                 dirt = building.dirt
@@ -59,11 +59,11 @@ init -5 python:
 
                     if not using_all_workers and dirt:
                         using_all_workers = True
-                        all_cleaners = self.all_on_deck(cleaners, job, power_flag_name)
-                        cleaners = all_cleaners.union(cleaners)
+                        all_workers = self.all_on_deck(workers, job, power_flag_name)
+                        workers = all_workers.union(workers)
 
                     if not make_nd_report_at and dirt:
-                        wlen = len(cleaners)
+                        wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env and wlen:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
@@ -72,11 +72,11 @@ init -5 python:
                 elif dirt >= 600:
                     if not using_all_workers:
                         using_all_workers = True
-                        all_cleaners = self.all_on_deck(cleaners, job, power_flag_name)
-                        cleaners = all_cleaners.union(cleaners)
+                        all_workers = self.all_on_deck(workers, job, power_flag_name)
+                        workers = all_workers.union(workers)
 
                     if not make_nd_report_at:
-                        wlen = len(cleaners)
+                        wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env and wlen:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
@@ -84,7 +84,7 @@ init -5 python:
                             self.log(temp)
                 elif dirt >= 200:
                     if not make_nd_report_at:
-                        wlen = len(cleaners)
+                        wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env and wlen:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
@@ -94,14 +94,14 @@ init -5 python:
                 # switch back to normal cleaners only
                 if dirt <= 200 and using_all_workers:
                     using_all_workers = False
-                    for worker in cleaners.copy():
-                        if worker not in pure_cleaners:
-                            cleaners.remove(worker)
+                    for worker in workers.copy():
+                        if worker not in pure_workers:
+                            workers.remove(worker)
                             self.instance.available_workers.insert(0, worker)
 
                 # Actually handle dirt cleaning:
                 if make_nd_report_at and building.dirt > 0:
-                    for w in cleaners.copy():
+                    for w in workers.copy():
                         value = w.flag(power_flag_name)
                         dirt_cleaned += value
                         building.clean(value)
@@ -112,7 +112,7 @@ init -5 python:
                             temp = "{}: {} is done cleaning for the day!".format(self.env.now,
                                                 set_font_color(w.nickname, "blue"))
                             self.log(temp)
-                            cleaners.remove(w)
+                            workers.remove(w)
 
                 # Create actual report:
                 c0 = make_nd_report_at and dirt_cleaned
@@ -122,54 +122,54 @@ init -5 python:
                         temp = "{}: DEBUG! WRITING CLEANING REPORT! c0: {}, c1: {}".format(self.env.now,
                                             c0, c1)
                         self.log(temp)
-                    self.write_nd_report(pure_cleaners, all_cleaners, -dirt_cleaned)
+                    self.write_nd_report(pure_workers, all_workers, -dirt_cleaned)
                     make_nd_report_at = 0
                     dirt_cleaned = 0
 
                     # Release none-pure cleaners:
                     if dirt < 600 and using_all_workers:
                         using_all_workers = False
-                        for worker in cleaners.copy():
-                            if worker not in pure_cleaners:
-                                cleaners.remove(worker)
+                        for worker in workers.copy():
+                            if worker not in pure_workers:
+                                workers.remove(worker)
                                 self.instance.available_workers.insert(0, worker)
 
                     # and finally update all cleaners container:
-                    all_cleaners = cleaners.copy()
+                    all_workers = workers.copy()
 
                 yield self.env.timeout(1)
 
-        def write_nd_report(self, pure_cleaners, all_cleaners, dirt_cleaned):
+        def write_nd_report(self, pure_workers, all_workers, dirt_cleaned):
             job, loc = self.job, self.instance
-            log = NDEvent(job=job, loc=loc, team=all_cleaners, business=self)
+            log = NDEvent(job=job, loc=loc, team=all_workers, business=self)
 
-            extra_cleaners = all_cleaners - pure_cleaners
+            extra_workers = all_workers - pure_workers
 
             temp = "{} Cleaning Report!\n".format(loc.name)
             log.append(temp)
 
-            wlen = len(all_cleaners)
+            wlen = len(all_workers)
             temp = "{} Workers cleaned the building today.".format(set_font_color(wlen, "red"))
             log.append(temp)
 
             log.img = Fixed(xysize=(820, 705))
             log.img.add(Transform(loc.img, size=(820, 705)))
-            vp = vp_or_fixed(all_cleaners, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (150, 150), "type": "any"})
+            vp = vp_or_fixed(all_workers, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (150, 150), "type": "any"})
             log.img.add(Transform(vp, align=(.5, .9)))
 
-            log.team = all_cleaners
+            log.team = all_workers
 
-            if extra_cleaners:
+            if extra_workers:
                 temp = "Dirt overwhelmed your building so extra staff was called to clean it! "
                 if len(extra_cleaners) > 1:
-                    temp += "{} were pulled off their duties to help out...".format(", ".join([w.nickname for w in extra_cleaners]))
+                    temp += "{} were pulled off their duties to help out...".format(", ".join([w.nickname for w in extra_workers]))
                 else:
-                    temp += "{} was pulled off ger duty to help out...".format(", ".join([w.nickname for w in extra_cleaners]))
+                    temp += "{} was pulled off ger duty to help out...".format(", ".join([w.nickname for w in extra_workers]))
                 log.append(temp)
 
-            cleaners = all_cleaners - extra_cleaners
-            temp = "{} worked hard keeping your business clean".format(", ".join([w.nickname for w in cleaners]))
-            if extra_cleaners:
+            workers = all_workers - extra_workers
+            temp = "{} worked hard keeping your business clean".format(", ".join([w.nickname for w in workers]))
+            if extra_workers:
                 temp += " as it is their direct job!"
             else:
                 temp += "!"

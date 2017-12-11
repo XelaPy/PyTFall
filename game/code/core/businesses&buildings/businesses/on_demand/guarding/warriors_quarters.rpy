@@ -20,115 +20,117 @@ init -5 python:
             """
             building = self.instance
             make_nd_report_at = 0 # We build a report every 25 ticks but only if this is True!
-            dirt_cleaned = 0 # We only do this for the ND report!
+            threat_cleared = 0 # We only do this for the ND report!
 
-            cleaning = False # set to true if there is active cleaning in process
+            guarding = False # set to true if there is active cleaning in process
             using_all_service_workers = False
             using_all_workers = False
 
-            power_flag_name = "ndd_cleaning_power"
-            job = simple_jobs["Cleaning"]
+            power_flag_name = "ndd_guarding_power"
+            job = simple_jobs["Guarding"]
 
-            # Pure cleaners, container is kept around for checking during all_on_deck scenarios
-            pure_cleaners = self.get_pure_workers(job, power_flag_name)
-            all_cleaners = pure_cleaners.copy() # Everyone that cleaned for the report.
-            cleaners = all_cleaners.copy() # cleaners on active duty
+            # Pure workers, container is kept around for checking during all_on_deck scenarios
+            pure_workers = self.get_pure_workers(job, power_flag_name)
+            all_workers = pure_workers.copy() # Everyone that cleaned for the report.
+            workers = all_workers.copy() # workers on active duty
 
             while 1:
-                dirt = building.get_dirt()
+                threat = building.threat
                 if config.debug and not self.env.now % 5:
-                    temp = "{color=[red]}" + "DEBUG: {0:.2f} DIRT IN THE BUILDING!".format(dirt)
+                    temp = "{color=[red]}" + "DEBUG: {0:.2f} Threat to THE BUILDING!".format(threat)
                     self.log(temp, True)
 
-                if dirt >= 900:
-                    if building.auto_clean:
-                        price = building.get_cleaning_price()
+                if threat >= 900:
+                    # if building.auto_clean:
+                    if True:
+                        # price = building.get_cleaning_price()
+                        price = 1000 # TODO Write a func to get penalty fee.
                         if hero.take_money(price):
-                            building.dirt = 0
-                            dirt = 0
-                            temp = "{}: {} Building was auto-cleaned!".format(self.env.now,
-                                                building.name)
-                            self.log(temp)
+                            building.threat = 0
+                            threat = 0
+                            temp = "{}: {} Police was called in!".format(building.name)
+                            # TODO: Damage reputation.
+                            self.log(temp, True)
 
-                    if not using_all_workers and dirt:
+                    if not using_all_workers and threat:
                         using_all_workers = True
-                        all_cleaners = self.all_on_deck(cleaners, job, power_flag_name)
-                        cleaners = all_cleaners.union(cleaners)
+                        all_workers = self.all_on_deck(workers, job, power_flag_name)
+                        workers = all_workers.union(workers)
 
-                    if not make_nd_report_at and dirt:
-                        wlen = len(cleaners)
+                    if not make_nd_report_at and threat:
+                        wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env and wlen:
-                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
+                            temp = "{}: {} Workers have started to guard {}!".format(self.env.now,
                                                 set_font_color(wlen, "red"), building.name)
                             self.log(temp)
-                elif dirt >= 600:
+                elif threat >= 600:
                     if not using_all_workers:
                         using_all_workers = True
-                        all_cleaners = self.all_on_deck(cleaners, job, power_flag_name)
-                        cleaners = all_cleaners.union(cleaners)
+                        all_workers = self.all_on_deck(workers, job, power_flag_name)
+                        workers = all_workers.union(workers)
 
                     if not make_nd_report_at:
-                        wlen = len(cleaners)
+                        wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env and wlen:
-                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
+                            temp = "{}: {} Workers have started to guard {}!".format(self.env.now,
                                                 set_font_color(wlen, "red"), building.name)
                             self.log(temp)
-                elif dirt >= 200:
+                elif threat >= 200:
                     if not make_nd_report_at:
-                        wlen = len(cleaners)
+                        wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env and wlen:
-                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
+                            temp = "{}: {} Workers have started to guard {}!".format(self.env.now,
                                                 set_font_color(wlen, "red"), building.name)
                             self.log(temp)
 
-                # switch back to normal cleaners only
-                if dirt <= 200 and using_all_workers:
+                # switch back to normal workers only
+                if threat <= 200 and using_all_workers:
                     using_all_workers = False
-                    for worker in cleaners.copy():
-                        if worker not in pure_cleaners:
-                            cleaners.remove(worker)
+                    for worker in workers.copy():
+                        if worker not in pure_workers:
+                            workers.remove(worker)
                             self.instance.available_workers.insert(0, worker)
 
-                # Actually handle dirt cleaning:
-                if make_nd_report_at and building.dirt > 0:
-                    for w in cleaners.copy():
+                # Actually handle threat cleared:
+                if make_nd_report_at and building.threat > 0:
+                    for w in workers.copy():
                         value = w.flag(power_flag_name)
-                        dirt_cleaned += value
+                        threat_cleared += value
                         building.clean(value)
 
                         # Adjust JP and Remove the clear after running out of jobpoints:
                         w.jobpoints -= 5
                         if w.jobpoints <= 0:
-                            temp = "{}: {} is done cleaning for the day!".format(self.env.now,
+                            temp = "{}: {} is done guarding for the day!".format(self.env.now,
                                                 set_font_color(w.nickname, "blue"))
                             self.log(temp)
-                            cleaners.remove(w)
+                            workers.remove(w)
 
                 # Create actual report:
-                c0 = make_nd_report_at and dirt_cleaned
-                c1 = building.dirt <= 0 or self.env.now == make_nd_report_at
+                c0 = make_nd_report_at and threat_cleared
+                c1 = building.threat <= 0 or self.env.now == make_nd_report_at
                 if c0 and c1:
                     if config.debug:
-                        temp = "{}: DEBUG! WRITING CLEANING REPORT! c0: {}, c1: {}".format(self.env.now,
+                        temp = "{}: DEBUG! WRITING GUARDING REPORT! c0: {}, c1: {}".format(self.env.now,
                                             c0, c1)
                         self.log(temp)
-                    self.write_nd_report(pure_cleaners, all_cleaners, -dirt_cleaned)
+                    self.write_nd_report(pure_workers, all_workers, -threat_cleared)
                     make_nd_report_at = 0
-                    dirt_cleaned = 0
+                    threat_cleared = 0
 
-                    # Release none-pure cleaners:
-                    if dirt < 600 and using_all_workers:
+                    # Release none-pure workers:
+                    if threat < 600 and using_all_workers:
                         using_all_workers = False
-                        for worker in cleaners.copy():
-                            if worker not in pure_cleaners:
-                                cleaners.remove(worker)
+                        for worker in workers.copy():
+                            if worker not in pure_workers:
+                                workers.remove(worker)
                                 self.instance.available_workers.insert(0, worker)
 
-                    # and finally update all cleaners container:
-                    all_cleaners = cleaners.copy()
+                    # and finally update all workers container:
+                    all_workers = workers.copy()
 
                 yield self.env.timeout(1)
 
@@ -232,7 +234,7 @@ init -5 python:
                 self.log(temp)
                 self.env.exit(False)
 
-        def write_nd_report(self, pure_guards, all_guards):
+        def write_nd_report(self, pure_guards, all_guards, threat_cleared):
             job, loc = self.job, self.instance
             log = NDEvent(job=job, loc=loc, team=pure_guards, business=self)
 
