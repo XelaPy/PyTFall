@@ -101,7 +101,7 @@ init -5 python:
                     for w in workers.copy():
                         value = w.flag(power_flag_name)
                         threat_cleared += value
-                        # building.threat -= value
+                        building.threat -= value
                         # building.clean(value)
 
                         # Adjust JP and Remove the clear after running out of jobpoints:
@@ -117,9 +117,8 @@ init -5 python:
                 c1 = building.threat <= 0 or self.env.now == make_nd_report_at
                 if c0 and c1:
                     if config.debug:
-                        temp = "{}: DEBUG! WRITING GUARDING REPORT! c0: {}, c1: {}".format(self.env.now,
-                                            c0, c1)
-                        self.log(temp)
+                        temp = "DEBUG! WRITING GUARDING REPORT! c0: {}, c1: {}".format(c0, c1)
+                        self.log(temp, True)
                     self.write_nd_report(pure_workers, all_workers, -threat_cleared)
                     make_nd_report_at = 0
                     threat_cleared = 0

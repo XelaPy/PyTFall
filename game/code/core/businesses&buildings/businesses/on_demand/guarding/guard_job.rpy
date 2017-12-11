@@ -7,8 +7,6 @@ init -5 python:
             self.id = "Guarding"
             self.type = "Combat"
 
-            self.event_type = "jobreport"
-
             # Traits/Job-types associated with this job:
             self.occupations = ["Warrior"] # General Strings likes SIW, Warrior, Server...
             self.occupation_traits = [traits["Warrior"], traits["Mage"], traits["Knight"], traits["Shooter"]] # Corresponding traits...
@@ -125,7 +123,7 @@ init -5 python:
             if all_on_deck:
                 # Make sure we make a note that these are not dedicated guards
                 temp = "{color=[red]}"
-                temp += "Clients in building got too unruly! All free workers are called as guards!{/color}"
+                temp += "Clients in building got too unruly! All free workers are called to serve as guards!{/color}"
                 log(temp, True)
             else:
                 # Make sure we make a note that these are not dedicated guards

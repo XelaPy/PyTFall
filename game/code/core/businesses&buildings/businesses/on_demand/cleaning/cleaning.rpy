@@ -161,7 +161,7 @@ init -5 python:
 
             if extra_workers:
                 temp = "Dirt overwhelmed your building so extra staff was called to clean it! "
-                if len(extra_cleaners) > 1:
+                if len(extra_workers) > 1:
                     temp += "{} were pulled off their duties to help out...".format(", ".join([w.nickname for w in extra_workers]))
                 else:
                     temp += "{} was pulled off her duty to help out...".format(", ".join([w.nickname for w in extra_workers]))
