@@ -130,7 +130,7 @@ init -5 python:
             else:
                 # Make sure we make a note that these are not dedicated guards
                 temp = "{color=[blue]}"
-                temp += "{}: Your guards are starting their shift!{/color}"
+                temp += "Your guards are starting their shift!{/color}"
                 log(temp, True)
 
             for worker in workers:
