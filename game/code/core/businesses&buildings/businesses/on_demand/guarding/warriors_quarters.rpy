@@ -30,7 +30,7 @@ init -5 python:
             job = simple_jobs["Guarding"]
 
             # Pure workers, container is kept around for checking during all_on_deck scenarios
-            pure_workers = self.get_pure_workers(job, power_flag_name)
+            pure_workers = self.get_pure_workers(job, power_flag_name, use_slaves=False)
             all_workers = pure_workers.copy() # Everyone that cleaned for the report.
             workers = all_workers.copy() # workers on active duty
 
@@ -54,7 +54,8 @@ init -5 python:
 
                     if not using_all_workers and threat:
                         using_all_workers = True
-                        all_workers = self.all_on_deck(workers, job, power_flag_name)
+                        all_workers = self.all_on_deck(workers, job,
+                                                power_flag_name, use_slaves=False)
                         workers = all_workers.union(workers)
 
                     if not make_nd_report_at and threat:
@@ -67,7 +68,8 @@ init -5 python:
                 elif threat >= 600:
                     if not using_all_workers:
                         using_all_workers = True
-                        all_workers = self.all_on_deck(workers, job, power_flag_name)
+                        all_workers = self.all_on_deck(workers, job,
+                                            power_flag_name, use_slaves=False)
                         workers = all_workers.union(workers)
 
                     if not make_nd_report_at:

@@ -548,9 +548,10 @@ init -12 python:
             self.interrupt = None # We can bind an active process here if it can be interrupted. I'ma an idiot... This needs to be reset.
             self.expects_clients = False # See Business.__init__
 
-        def get_pure_workers(self, job, power_flag_name):
+        def get_pure_workers(self, job, power_flag_name, use_slaves=True):
             workers = set(self.get_workers(job, amount=float("inf"),
-                           match_to_client=None, priority=True, any=False))
+                           match_to_client=None, priority=True,
+                           any=False, use_slaves=use_slaves))
 
             if workers:
                 # Do Disposition checks:
@@ -560,10 +561,11 @@ init -12 python:
 
             return workers
 
-        def all_on_deck(self, workers, job, power_flag_name):
+        def all_on_deck(self, workers, job, power_flag_name, use_slaves=True):
             # calls everyone in the building to clean it
             new_workers = self.get_workers(job, amount=float("inf"),
-                            match_to_client=None, priority=True, any=True)
+                            match_to_client=None, priority=True,
+                            any=True, use_slaves=use_slaves)
 
             if new_workers:
                 # Do Disposition checks:
