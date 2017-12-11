@@ -99,7 +99,8 @@ init -5 python:
                     for w in workers.copy():
                         value = w.flag(power_flag_name)
                         threat_cleared += value
-                        building.clean(value)
+                        # building.threat -= value
+                        # building.clean(value)
 
                         # Adjust JP and Remove the clear after running out of jobpoints:
                         w.jobpoints -= 5
@@ -133,6 +134,55 @@ init -5 python:
                     all_workers = workers.copy()
 
                 yield self.env.timeout(1)
+
+        def write_nd_report(self, pure_workers, all_workers, threat_cleared):
+            job, loc = self.job, self.instance
+            log = NDEvent(job=job, loc=loc, team=all_workers, business=self)
+
+            extra_workers = all_workers - pure_workers
+
+            temp = "{} Security Report!\n".format(loc.name)
+            log.append(temp)
+
+            wlen = len(all_workers)
+            temp = "{} Workers kept your businesses safe today.".format(set_font_color(wlen, "red"))
+            log.append(temp)
+
+            log.img = Fixed(xysize=(820, 705))
+            log.img.add(Transform(loc.img, size=(820, 705)))
+            vp = vp_or_fixed(all_workers, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
+            log.img.add(Transform(vp, align=(.5, .9)))
+
+            log.team = all_workers
+
+            if extra_workers:
+                temp = "Security threat became too high that non-combatant workers were called to mitigate it! "
+                if len(extra_workers) > 1:
+                    temp += "{} were pulled off their duties to help out...".format(", ".join([w.nickname for w in extra_workers]))
+                else:
+                    temp += "{} was pulled off her duty to help out...".format(", ".join([w.nickname for w in extra_workers]))
+                log.append(temp)
+
+            workers = all_workers - extra_workers
+            temp = "{} worked hard keeping your business safe".format(", ".join([w.nickname for w in workers]))
+            if extra_workers:
+                temp += " as it is their direct job!"
+            else:
+                temp += "!"
+            log.append(temp)
+
+            threat_cleared = int(threat_cleared)
+
+            temp = "\nA total of {} threat was removed.".format(set_font_color(threat_cleared, "red"))
+            log.append(temp)
+
+            # Stat mods
+            log.logloc('threat', threat_cleared)
+
+            log.event_type = "jobreport" # Come up with a new type for team reports?
+
+            log.after_job()
+            NextDayEvents.append(log)
 
         def intercept(self, opfor=None, interrupted=False):
             """This intercepts a bunch of aggressive clients and resolves the issue through combat or intimidation.
@@ -233,53 +283,3 @@ init -5 python:
                 temp = temp + set_font_color("....", "crimson")
                 self.log(temp)
                 self.env.exit(False)
-
-        def write_nd_report(self, pure_guards, all_guards, threat_cleared):
-            job, loc = self.job, self.instance
-            log = NDEvent(job=job, loc=loc, team=pure_guards, business=self)
-
-            pure_guards = set(pure_guards)
-            all_guards = set(all_guards)
-
-            extra_guards = all_guards - pure_guards
-
-            temp = "{} Security Report!\n".format(loc.name)
-            log.append(temp)
-
-            wlen = len(all_guards)
-            temp = "{} Workers kept your businesses safe today.".format(set_font_color(wlen, "red"))
-            log.append(temp)
-
-            log.img = Fixed(xysize=(820, 705))
-            log.img.add(Transform(loc.img, size=(820, 705)))
-            vp = vp_or_fixed(all_guards, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
-            log.img.add(Transform(vp, align=(.5, .9)))
-
-            log.team = all_guards
-
-            if extra_guards:
-                temp = "Security was lacking so your workers had to protect themselves! "
-                if len(extra_cleaners) > 1:
-                    temp += "{} were pulled off their duties to help out...".format(", ".join([w.nickname for w in extra_guards]))
-                else:
-                    temp += "{} was pulled off ger duty to help out...".format(", ".join([w.nickname for w in extra_guards]))
-                log.append(temp)
-
-            guards = all_guards - extra_guards
-            temp = "{} worked hard keeping your businesses secure".format(", ".join([w.nickname for w in guards]))
-            if extra_guards:
-                temp += " as per their job assignment!"
-            else:
-                temp += "!"
-            log.append(temp)
-
-            # temp = "\nA total of {} dirt was cleaned.".format(set_font_color(dirt_cleaned, "red"))
-            # log.append(temp)
-
-            # Stat mods
-            # log.logloc('dirt', dirt_cleaned)
-
-            log.event_type = "jobreport" # Come up with a new type for team reports?
-
-            log.after_job()
-            NextDayEvents.append(log)

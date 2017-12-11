@@ -141,14 +141,14 @@
                         char.mod_skill(key, value)
 
         def update_loc_data(self):
-            """Settles dirt, rep and fame for buildings."""
+            """Updates stats for the building."""
             for key, value in self.locmod.iteritems():
                 if key == 'fame':
                     self.loc.modfame(value)
-                elif key == 'dirt': # We Handle Dirt Directly now!
-                    pass # self.loc.clean(value)
                 elif key == 'reputation':
                     self.loc.modrep(value)
+                elif key in self.loc.stats: # We Handle Dirt/Security Directly now!
+                    pass # self.loc.clean(value)
                 else:
                     raise Exception("Stat: {} does not exits for Businesses".format(key))
 
