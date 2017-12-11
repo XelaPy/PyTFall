@@ -226,10 +226,11 @@ screen dungeon_move(hotspots):
         elif renpy.has_image(sw):
             add sw
 
-    use top_stripe(show_return_button=False)
+    use top_stripe(False, None, False, True)
 
-    if dungeon.show_map:
-        add dungeon.smallMap
+    # if dungeon.show_map:
+    add dungeon.smallMap:
+        pos (450, 50)
 
     if hotspots:
         imagemap:
@@ -244,21 +245,50 @@ screen dungeon_move(hotspots):
         key "mousedown_1" action Return(value="event_list")
 
     elif dungeon.can_move:
-        fixed style_group "move":
-            textbutton "↓" action Return(value=2) xcenter .2 ycenter .9
-            textbutton "←" action Return(value=4) xcenter .1 ycenter .8
-            textbutton "→" action Return(value=6) xcenter .3 ycenter .8
-            textbutton "<" action Return(value=7) xcenter .1 ycenter .9
-            textbutton "↑" action Return(value=8)  xcenter .2 ycenter .7
-            textbutton ">" action Return(value=9) xcenter .3 ycenter .9
+        button:
+            pos (190, 600)
+            xysize (50, 36) 
+            background "content/gfx/interface/buttons/blue_arrow_up.png"
+            hover_foreground Transform(im.MatrixColor("content/gfx/interface/buttons/blue_arrow_up.png", im.matrix.brightness(0.1)))
+            action Return(value=8)
+        button:
+            pos (190, 650)
+            xysize (50, 36) 
+            background "content/gfx/interface/buttons/blue_arrow_down.png"
+            hover_foreground Transform(im.MatrixColor("content/gfx/interface/buttons/blue_arrow_down.png", im.matrix.brightness(0.1)))
+            action Return(value=2)
+        button:
+            pos (150, 618)
+            xysize (36, 50) 
+            background "content/gfx/interface/buttons/blue_arrow_left.png"
+            hover_foreground Transform(im.MatrixColor("content/gfx/interface/buttons/blue_arrow_left.png", im.matrix.brightness(0.1)))
+            action Return(value=4)
+        button:
+            xysize (36, 50) 
+            pos (245, 618)
+            background "content/gfx/interface/buttons/blue_arrow_right.png"
+            hover_foreground Transform(im.MatrixColor("content/gfx/interface/buttons/blue_arrow_right.png", im.matrix.brightness(0.1)))
+            action Return(value=6)
+        button:
+            pos (114, 618)
+            xysize (36, 50) 
+            background "content/gfx/interface/buttons/blue_arrow_left.png"
+            hover_foreground Transform(im.MatrixColor("content/gfx/interface/buttons/blue_arrow_left.png", im.matrix.brightness(0.3)))
+            action Return(value=7)
+        button:
+            xysize (36, 50)
+            pos (281, 618)
+            background "content/gfx/interface/buttons/blue_arrow_right.png"
+            hover_foreground Transform(im.MatrixColor("content/gfx/interface/buttons/blue_arrow_right.png", im.matrix.brightness(0.3)))
+            action Return(value=9)
 
-            if config.developer:
-                textbutton "U" action Return(value="update map") xcenter .2 ycenter .8
-                key "K_u" action Return(value="update map")
-                key "K_p" action Function(scrap.put, SCRAP_TEXT, str((pc['x'], pc['y'])))
-                key "K_o" action Return(value="mpos")
-                key "K_g" action SetField(dungeon, "show_map", "teleport")
-                key "K_m" action ToggleField(dungeon, "show_map")
+            # if config.developer:
+                # textbutton "U" action Return(value="update map") xcenter .2 ycenter .8
+                # key "K_u" action Return(value="update map")
+                # key "K_p" action Function(scrap.put, SCRAP_TEXT, str((pc['x'], pc['y'])))
+                # key "K_o" action Return(value="mpos")
+                # key "K_g" action SetField(dungeon, "show_map", "teleport")
+        key "K_m" action ToggleField(dungeon, "show_map")
 
     if dungeon.can_move:
         key "K_KP2" action Return(value=2)
@@ -317,7 +347,7 @@ label enter_dungeon:
 
     # Place a player position on a dungeon stage.
     # dx,dy means direction. If dy=1, it's down. If dx=-1, it's left.
-
+label enter_dungeon_r:
     while True:
         # Composite background images.
         scene
@@ -502,6 +532,13 @@ label enter_dungeon:
                     mpos = None
                 else:
                     mpos = renpy.get_mouse_pos()
+                    
+            elif _return in hero.team:
+                came_to_equip_from = "enter_dungeon_r"
+                eqtarget = _return
+                global_flags.set_flag("keep_playing_music")
+                equipment_safe_mode = True
+                renpy.jump("char_equip")
 
             if to:
                 if str(to) in dungeon.event:
@@ -521,6 +558,8 @@ label enter_dungeon:
                         break
                     else:
                         dungeon.function(**event)
+                        
+                        
 
             # do any expired timer events
             if dungeon.timer is not None:

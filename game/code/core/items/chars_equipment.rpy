@@ -60,6 +60,11 @@ init python:
         return tempstr
 
 label char_equip:
+    if not char:
+        if eqtarget:
+            $ char = eqtarget
+        else:
+            $ char = hero # to definitely avoid ctds when eqtarget refuses to equip something and tells about it
     python:
         focusitem = None
         selectedslot = None

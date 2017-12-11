@@ -11,9 +11,9 @@ label forest_dark_continue:
         $ background_number_list = list(i for i in range(1, 7) if i != background_number)
         $ background_number = choice(background_number_list)
         $ forest_location = "content/gfx/bg/locations/forest_" + str(background_number) + ".jpg"
-        scene expression forest_location
     else:
         $ forest_bg_change = True
+    scene expression forest_location
     with dissolve
 
     # Music related:
