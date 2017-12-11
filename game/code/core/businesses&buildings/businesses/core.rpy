@@ -96,7 +96,8 @@ init -12 python:
         def action_priority_workers(self, job):
             return list(i for i in self.instance.available_workers if i.action == job)
 
-        def get_workers(self, job, amount=1, match_to_client=None, priority=True, any=True):
+        def get_workers(self, job, amount=1, match_to_client=None,
+                        priority=True, any=True, use_slaves=True):
             """Tries to find workers for any given job.
 
             priority: Tries to get a perfect match where action == job first.
@@ -108,6 +109,9 @@ init -12 python:
 
             if priority:
                 priorityw = self.action_priority_workers(job)
+                if not use_slaves:
+                    priorityw = [w for w in priorityw if w.status != "slave"]
+
                 shuffle(priorityw)
                 while len(workers) < amount and priorityw:
                     if match_to_client:
@@ -119,6 +123,9 @@ init -12 python:
 
             if any:
                 anyw = list(i for i in self.all_workers if i not in priorityw) if priority else self.all_workers[:]
+                if not use_slaves:
+                    anyw = [w for w in anyw if w.status != "slave"]
+
                 shuffle(anyw)
                 while len(workers) < amount and anyw:
                     if match_to_client:

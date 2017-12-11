@@ -116,63 +116,62 @@ init -5 python:
                     effectiveness -= 35
             return effectiveness
 
-        def settle_workers_disposition(self, cleaners, business, all_on_deck=False):
-            return
-            if not isinstance(cleaners, (set, list, tuple)):
-                cleaners = [cleaners]
+        def settle_workers_disposition(self, workers, business, all_on_deck=False):
+            if not isinstance(workers, (set, list, tuple)):
+                workers = [workers]
 
             log = business.log
 
             if all_on_deck:
-                # Make sure we make a note that these are not dedicated cleaners
+                # Make sure we make a note that these are not dedicated guards
                 temp = "{color=[red]}"
-                temp += "{}: Building got too dirty to work at! All free workers were called on cleaning duty!".format(business.env.now)
-                log(temp)
+                temp += "Clients in building got too unruly! All free workers are called as guards!{/color}"
+                log(temp, True)
             else:
-                # Make sure we make a note that these are not dedicated cleaners
+                # Make sure we make a note that these are not dedicated guards
                 temp = "{color=[blue]}"
-                temp += "{}: Your cleaners are starting their shift!".format(business.env.now)
-                log(temp)
+                temp += "{}: Your guards are starting their shift!{/color}"
+                log(temp, True)
 
-            for worker in cleaners:
-                if not("Maid" in worker.traits):
+            for worker in workers:
+                if not("Warrior" in worker.traits):
                     sub = check_submissivity(worker)
                     if worker.status != 'slave':
                         if sub < 0:
                             if dice(15):
                                 worker.logws('character', 1)
-                            log("%s is not very happy with her current job as a cleaner, but she will get the job done." % worker.name)
+                            log("%s doesn't enjoy working as guard, but she will get the job done." % worker.name)
                         elif sub == 0:
                             if dice(25):
                                 worker.logws('character', 1)
-                            log("%s serves customers as a cleaner, but, truth be told, she would prefer to do something else." % worker.nickname)
+                            log("%s serves customers as a guard, but she would prefer to do something else." % worker.nickname)
                         else:
                             if dice(35):
                                 worker.logws('character', 1)
-                            log("%s makes it clear that she wants another job before beginning the cleaning." % worker.name)
+                            log("%s makes it clear that she wants another job." % worker.name)
                         worker.logws("joy", -randint(3, 5))
                         worker.logws("disposition", -randint(5, 10))
                         worker.logws('vitality', -randint(2, 5)) # a small vitality penalty for wrong job
                     else:
                         if sub < 0:
                             if worker.disposition < self.calculate_disposition_level(worker):
-                                log("%s is a slave so no one really cares but, being forced to work as a cleaner, she's quite upset." % worker.name)
+                                log("%s is a slave so no one really cares but, being forced to work as a guard, she's quite upset." % worker.name)
                             else:
-                                log("%s will do as she is told, but doesn't mean that she'll be happy about her cleaning duties." % worker.name)
+                                log("%s will do as she's told, but this doesn't mean that she'll be happy about her guarding duties." % worker.name)
                             if dice(25):
                                 worker.logws('character', 1)
                         elif sub == 0:
                             if worker.disposition < self.calculate_disposition_level(worker):
-                                log("%s will do as you command, but she will hate every second of her cleaning shift..." % worker.name)
+                                log("%s will do as you command, but she will hate every second of being forced to work as a guard..." % worker.name)
                             else:
-                                log("%s was very displeased by her order to work as a cleaner, but didn't dare to refuse." % worker.name)
+                                log("%s was very displeased by her order to work as a guard, but didn't dare to refuse." % worker.name)
                             if dice(35):
                                 worker.logws('character', 1)
                         else:
                             if worker.disposition < self.calculate_disposition_level(worker):
-                                log("%s was very displeased by her order to work as a cleaner, and makes it clear for everyone before getting busy with clients." % worker.name)
+                                log("%s was very displeased by her order to work as a guard." % worker.name)
                             else:
-                                log("%s will do as you command and work as a cleaner, but not without a lot of grumbling and complaining." % worker.name)
+                                log("%s will do as you command and work as a guard, but not without a lot of grumbling and complaining." % worker.name)
                             if dice(45):
                                 worker.logws('character', 1)
                         if worker.disposition < self.calculate_disposition_level(worker):
