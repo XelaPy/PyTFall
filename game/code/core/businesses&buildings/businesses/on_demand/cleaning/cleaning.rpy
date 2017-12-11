@@ -42,7 +42,7 @@ init -5 python:
             cleaners = all_cleaners.copy() # cleaners on active duty
 
             while 1:
-                dirt = building.get_dirt()
+                dirt = building.dirt
                 if config.debug and not self.env.now % 5:
                     temp = "{color=[red]}" + "DEBUG: {0:.2f} DIRT IN THE BUILDING!".format(dirt)
                     self.log(temp, True)
