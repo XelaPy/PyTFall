@@ -23,7 +23,7 @@ init -1 python:
                 renpy.play(*sound)
 
             if not timer:
-                timer = max(float(len(arguments[1])) / 30.0, 0.5)
+                timer = max(float(len(arguments[1])) / 20.0, 0.5)
 
             self.said = arguments
             while len(self.said) != 4:
@@ -301,7 +301,6 @@ style move_button_text:
 
 label enter_dungeon:
     python:
-
         # Create a dungeon stage
         dungeon = dungeons['Mausoleum1']
         if hasattr(dungeon, "hero"):

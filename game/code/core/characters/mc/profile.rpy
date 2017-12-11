@@ -244,7 +244,7 @@ init:
                     has vbox spacing 4 xfill True
 
                     for skill in hero.stats.skills:
-                        $ skill_val = int(char.get_skill(skill))
+                        $ skill_val = int(hero.get_skill(skill))
                         $ skill_limit = 1000 # <- the max skill level when we show 5 stars
                         if skill_val >= 100:
                             hbox:
