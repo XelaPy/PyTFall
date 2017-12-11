@@ -1349,3 +1349,107 @@ class ServiceJob(Job):
                                     workermod['exp'] = workermod.get('exp', 0) +  randint(8, 15)
                                     workermod['vitality'] = workermod.get('vitality', 0) - randint(15, 20)
                                     worker.AP = 0
+
+GuardJob:
+def request_action(self, building=None, start_job=True, priority=True, any=False, action=None):
+    """This checks if there are idle workers willing/ready to do an action in the building.
+
+    This will also start the job by default.
+    Priority will call just the real warriors.
+    Any will also add everyone else who might be willing to act.
+
+    TODO: Once done, see if this can be generalized like the previous two upgrade types!
+    """
+    if not action:
+        raise Exception("Action Must Be provided to .request_action method!")
+
+    if not building:
+        building = self.instance
+
+    job = simple_jobs["Guarding"]
+    # dirt = building.get_dirt()
+    workers = self.get_workers(job, amount=10, priority=priority, any=any)
+    process = None
+    if not workers:
+        return False, process # No workers available
+    else:
+        # Might require optimization so we don't send all the warriors to once.
+        # Update worker lists:
+        if start_job:
+            if action == "patrol":
+                self.active_workers = workers[:]
+                self.instance.available_workers = list(i for i in self.instance.available_workers if i not in workers)
+                process = self.env.process(self.patrol(workers, building))
+        return True, process
+
+def patrol(self, workers, building):
+    """Patrolling the building...
+    IMPORTANT SIMPY SETUP EXPAMPLE!
+    """
+    workers_original = workers[:]
+    power_flag_name = "jobs_guard_power"
+    for w in workers:
+        # Set their defence capabilities as temp flag:
+        value = round((1 + w.defence * 0.025 + w.agility * 0.3), 2) # Is defence sound here? We don't have guarding still...
+        w.set_flag(power_flag_name, value)
+
+    wlen = len(workers)
+    if self.env:
+        t = self.env.now
+        temp = "{}: {} guards are going to patrol halls of {}!".format(self.env.now, set_font_color(wlen, "red"), building.name)
+        self.log(temp)
+
+    counter = 0 # counter for du, lets say that a single patrol run takes 20 du...
+
+    while (workers and counter <= 100) and self.env.now < 99:
+        # Job Points:
+        try:
+            flag_name = "_jobs_guard_points"
+            for w in workers[:]:
+                # if not w.flag(flag_name) or w.flag(flag_name) <= 0:
+                #     self.convert_AP(w, workers, flag_name)
+
+                # Cleaning itself:
+                if w in workers:
+                    w.mod_flag("_jobs_guard_points", 1) # 1 point per 1 dp? Is this reasonable...? Prolly, yeah.
+                    w.mod_flag("job_guard_points_spent", 1) # So we know what to do during the job event buildup and stats application.
+
+            if config.debug and self.env and not counter % 4:
+                wlen = len(workers)
+                # We run this once per 2 du and only for debug purposes.
+                temp = "{}: Debug: ".format(self.env.now)
+                temp = temp + " {} Guards are currently patrolling {}!".format(set_font_color(wlen, "red"), building.name)
+                temp = temp + set_font_color(" DU spent: {}!".format(counter), "blue")
+                self.log(temp)
+
+            # We may be running this outside of SimPy... not really? not in this scenario anyway...
+            if self.env:
+                yield self.env.timeout(1)
+            counter = counter + 1
+
+        except simpy.Interrupt as reason:
+            temp = "{}: Debug: ".format(self.env.now)
+            temp = temp + " {} Guards responding to an event ({}), patrol is halted in {}".format(set_font_color(wlen, "red"), reason.cause, building.name)
+            temp = temp + set_font_color("!!!!".format(counter), "crimson")
+            self.log(temp)
+
+            yield self.env.timeout(5)
+
+            temp = "{}: Debug: ".format(self.env.now)
+            temp = temp + " {} Guards finished their response to the event, back to patrolling {}".format(set_font_color(wlen, "red"), building.name)
+            temp = temp + set_font_color("....".format(counter), "crimson")
+            self.log(temp)
+
+    temp = "{}: Patrol of {} is now finished! Guards are falling back to their quarters!".format(self.env.now, building.name)
+    temp = set_font_color(temp, "red")
+    self.log(temp)
+
+    # Once the loop is broken:
+    # Restore the lists:
+    self.active_workers = list()
+    for w in workers:
+        self.instance.available_workers.append(w)
+
+    # Build the report:
+    self.write_nd_report(workers_original, workers)
+    # simple_jobs["Guarding"](workers_original, workers, building, action="patrol")
