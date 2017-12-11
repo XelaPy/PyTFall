@@ -31,7 +31,7 @@ init -5 python:
 
             # Pure workers, container is kept around for checking during all_on_deck scenarios
             pure_workers = self.get_pure_workers(job, power_flag_name, use_slaves=False)
-            all_workers = pure_workers.copy() # Everyone that cleaned for the report.
+            all_workers = pure_workers.copy() # Everyone that cleaned for the report
             workers = all_workers.copy() # workers on active duty
 
             while 1:
@@ -101,7 +101,7 @@ init -5 python:
                     for w in workers.copy():
                         value = w.flag(power_flag_name)
                         threat_cleared += value
-                        building.threat -= value
+                        building.threat += value
                         # building.clean(value)
 
                         # Adjust JP and Remove the clear after running out of jobpoints:

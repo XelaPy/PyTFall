@@ -575,14 +575,16 @@ init -12 python:
 
             return workers.union(new_workers)
 
-        def calc_job_power(self, workers, job, power_flag_name, remove_from_available_workers=True):
+        def calc_job_power(self, workers, job, power_flag_name,
+                                remove_from_available_workers=True):
             difficulty = self.instance.tier
 
             for w in workers:
                 if not w.flag(power_flag_name):
                     effectiveness_ratio = job.effectiveness(w, difficulty)
                     if config.debug:
-                        devlog.info("{} Effectiveness: {}: {}".format(job.id, w.nickname, effectiveness_ratio))
+                        devlog.info("{} Effectiveness: {}: {}".format(job.id,
+                                            w.nickname, effectiveness_ratio))
                     value = -(5 * effectiveness_ratio)
                     w.set_flag(power_flag_name, value)
 

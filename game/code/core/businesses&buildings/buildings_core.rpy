@@ -306,9 +306,9 @@ init -10 python:
         def __setattr__(self, key, value):
             stats = self.__dict__.get("stats", {})
             if key in stats:
-                max_stats = self.__dict__["max_stats"]
-                if value > max_stats[key]:
-                    stats[key] = max_stats[key]
+                max_val = self.__dict__["max_stats"][key]
+                if value > max_val:
+                    stats[key] = max_val
                 elif value < 0:
                     stats[key] = 0
                 else:
@@ -354,7 +354,7 @@ init -10 python:
         def clean(self, value):
             result = self.dirt + value
             self.dirt = result
-            if config.debug:
+            if config.debug and self.env:
                 devlog.info("{}: Clean Function: result: {}, self.dirt: {}".format(self.env.now, result, self.dirt))
 
 
