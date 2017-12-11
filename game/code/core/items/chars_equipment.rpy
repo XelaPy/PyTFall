@@ -463,10 +463,10 @@ screen char_equip_left_frame(tt, stats_display):
                 xsize 100
                 action SetScreenVariable("stats_display", "stats"), With(dissolve)
                 text "Stats" style "pb_button_text" yoffset 2
-            # button:    TODO: skills button showed nothign at all for all chars, so I disabled it for now
-                # xsize 100
-                # action SetScreenVariable("stats_display", "pro"), With(dissolve)
-                # text "Skills" style "pb_button_text" yoffset 2
+            button:
+                xsize 100
+                action SetScreenVariable("stats_display", "pro"), With(dissolve)
+                text "Skills" style "pb_button_text" yoffset 2
             
         # Stats/Skills:
         vbox:
@@ -556,8 +556,13 @@ screen char_equip_left_frame(tt, stats_display):
                     pos (4, 40)
                     ymaximum 460
                     has vbox style_prefix "proper_stats" spacing 1
-                    if getattr(focusitem, "mod_skills", {}):
-                        label (u"Pure Bonus:") text_size 20 text_color goldenrod text_bold True xalign .45
+                    if focusitem:
+                        text ("Skills Bonuses") size 20 color goldenrod bold True xalign .45
+                    else:
+                        vbox:
+                            xsize 208
+                            text ("Select an item to check its skills") size 18 color goldenrod bold True xalign .45 text_align .5
+
                     for skill, data in getattr(focusitem, "mod_skills", {}).iteritems():
                         frame:
                             xysize 208, 22
