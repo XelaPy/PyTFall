@@ -353,13 +353,7 @@ init -10 python:
 
         def clean(self, value):
             result = self.dirt + value
-            maxdirt = self.max_stats["dirt"]
-            if result > maxdirt:
-                self.dirt = result
-            elif result < 0:
-                self.dirt = 0
-            else:
-                self.dirt = result
+            self.dirt = result
             if config.debug:
                 devlog.info("{}: Clean Function: result: {}, self.dirt: {}".format(self.env.now, result, self.dirt))
 
@@ -752,9 +746,10 @@ init -10 python:
             # Visit counter:
             client.up_counter("visited_building" + str(self.id))
 
-            # Prepear data:
+            # Prepare data:
             # @Review: This is wrong as not every business deals with clients...
-            businesses = [b for b in self.nd_ups if not isinstance(b, TaskBusiness)]
+            businesses = [b for b in self.nd_ups if not isinstance(b, (TaskBusiness,
+                                                                       OnDemandBusiness))]
             shuffle(businesses)
 
             # TODO: Add Matron/Client-likes effects here and to client classes.

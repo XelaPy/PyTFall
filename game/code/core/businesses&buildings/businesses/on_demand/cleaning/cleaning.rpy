@@ -164,7 +164,7 @@ init -5 python:
                 if len(extra_cleaners) > 1:
                     temp += "{} were pulled off their duties to help out...".format(", ".join([w.nickname for w in extra_workers]))
                 else:
-                    temp += "{} was pulled off ger duty to help out...".format(", ".join([w.nickname for w in extra_workers]))
+                    temp += "{} was pulled off her duty to help out...".format(", ".join([w.nickname for w in extra_workers]))
                 log.append(temp)
 
             workers = all_workers - extra_workers
