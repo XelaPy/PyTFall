@@ -556,9 +556,7 @@ screen char_equip_left_frame(tt, stats_display):
                     pos (4, 40)
                     ymaximum 460
                     has vbox style_prefix "proper_stats" spacing 1
-                    if focusitem:
-                        text ("Skills Bonuses") size 20 color goldenrod bold True xalign .45
-                    else:
+                    if not focusitem:
                         vbox:
                             xsize 208
                             text ("Select an item to check its skills") size 18 color goldenrod bold True xalign .45 text_align .5
