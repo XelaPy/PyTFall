@@ -217,6 +217,8 @@ screen main_menu():
     # The background of the main menu.
 
     add "bg_main"
+    add "content/gfx/interface/logos/gibc.png"
+    
 
     # $ index = map_options.index(persistent.town_path)
     # button:
