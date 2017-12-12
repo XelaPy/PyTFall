@@ -249,37 +249,31 @@ screen dungeon_move(hotspots):
             pos (190, 600)
             xysize (50, 36) 
             background "content/gfx/interface/buttons/blue_arrow_up.png"
-            hover_foreground Transform(im.MatrixColor("content/gfx/interface/buttons/blue_arrow_up.png", im.matrix.brightness(0.1)))
             action Return(value=8)
         button:
             pos (190, 650)
             xysize (50, 36) 
             background "content/gfx/interface/buttons/blue_arrow_down.png"
-            hover_foreground Transform(im.MatrixColor("content/gfx/interface/buttons/blue_arrow_down.png", im.matrix.brightness(0.1)))
             action Return(value=2)
         button:
-            pos (150, 618)
+            pos (135, 605)
             xysize (36, 50) 
-            background "content/gfx/interface/buttons/blue_arrow_left.png"
-            hover_foreground Transform(im.MatrixColor("content/gfx/interface/buttons/blue_arrow_left.png", im.matrix.brightness(0.1)))
+            background "content/gfx/interface/buttons/blue_arrow_l.png"
             action Return(value=4)
         button:
             xysize (36, 50) 
-            pos (245, 618)
-            background "content/gfx/interface/buttons/blue_arrow_right.png"
-            hover_foreground Transform(im.MatrixColor("content/gfx/interface/buttons/blue_arrow_right.png", im.matrix.brightness(0.1)))
+            pos (245, 605)
+            background "content/gfx/interface/buttons/blue_arrow_r.png"
             action Return(value=6)
         button:
-            pos (114, 618)
+            pos (145, 660)
             xysize (36, 50) 
             background "content/gfx/interface/buttons/blue_arrow_left.png"
-            hover_foreground Transform(im.MatrixColor("content/gfx/interface/buttons/blue_arrow_left.png", im.matrix.brightness(0.3)))
             action Return(value=7)
         button:
             xysize (36, 50)
-            pos (281, 618)
+            pos (248, 660)
             background "content/gfx/interface/buttons/blue_arrow_right.png"
-            hover_foreground Transform(im.MatrixColor("content/gfx/interface/buttons/blue_arrow_right.png", im.matrix.brightness(0.3)))
             action Return(value=9)
 
             # if config.developer:
