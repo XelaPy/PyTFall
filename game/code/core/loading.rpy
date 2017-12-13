@@ -152,11 +152,6 @@ init -11 python:
                                     else:
                                         devlog.warning("%s trait is unknown for %s!" % (trait, gd["id"]))
 
-                            # Leveling up:
-                            if "level" in gd:
-                                initial_levelup(char, gd["level"])
-                                del gd["level"]
-
                             if "stats" in gd:
                                 for stat in gd["stats"]:
                                     if stat in char.STATS:
@@ -242,6 +237,12 @@ init -11 python:
                                         tagdb.tagmap.setdefault(folder, set()).add(fn)
 
                             char.init() # Normalize!
+
+                            # Leveling up:
+                            if "level" in gd:
+                                initial_levelup(char, gd["level"])
+                                del gd["level"]
+
                             content[char.id] = char
 
         return content

@@ -1270,6 +1270,7 @@ init -9 python:
                                 self.lvl_max[stat] +=1
                             if dice(val):
                                 self.max[stat] +=1
+                                
                 # Super Bonuses from Base Traits:
                 if hasattr(self.instance, "traits"):
                     traits = self.instance.traits.basetraits
