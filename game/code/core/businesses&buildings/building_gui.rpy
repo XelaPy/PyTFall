@@ -203,10 +203,9 @@ label building_management_loop:
         # Upgrades:
         elif result[0] == 'upgrade':
             if result[1] == "build":
-                python:
+                python hide:
                     temp = result[2]()
                     building.add_business(temp, main_upgrade=result[3])
-                    del temp
 
         elif result[0] == "maintenance":
             python:

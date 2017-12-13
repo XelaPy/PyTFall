@@ -249,22 +249,21 @@ init:
                         # We don't care about the skill if it's less than 10% of limit:
                         if skill_val/float(skill_limit) > .1:
                             hbox:
-                                align (0.0, 0.9)
+                                align .0, .9
                                 xsize 180
                                 text "{}:".format(skill.capitalize()) style_suffix "value_text" color gold xalign .0 size 12 yoffset 2
-                                python:
-                                    temp = []
-                                    for i in range(skill_val//(int(skill_limit/5))):
-                                        temp.append(ProportionalScale("content/gfx/interface/icons/stars/star2.png", 18, 18))
-                                    if len(temp) != 5:
-                                        if skill_val%(int(skill_limit/5)) >= (int(skill_limit/10)):
-                                            temp.append(ProportionalScale("content/gfx/interface/icons/stars/star3.png", 18, 18))
-                                    while len(temp) != 5:
-                                        temp.append(ProportionalScale("content/gfx/interface/icons/stars/star1.png", 18, 18))
                                 hbox:
                                     xalign 1.0
-                                    for i in temp:
-                                        add i
+                                    $ step = skill_limit/10.0
+                                    for i in range(5):
+                                        if (2*step) <= skill_val:
+                                            add Transform("content/gfx/interface/icons/stars/star2.png", size=(18, 18))
+                                            $ skill_val -= 2*step
+                                        elif step <= skill_val:
+                                            add Transform("content/gfx/interface/icons/stars/star3.png", size=(18, 18))
+                                            $ skill_val -= step
+                                        else:
+                                            add Transform("content/gfx/interface/icons/stars/star1.png", size=(18, 18))
 
             elif lframe_display == "friends":
                 # FRIEND LIST ====================================>

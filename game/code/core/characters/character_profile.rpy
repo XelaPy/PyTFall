@@ -603,20 +603,18 @@ screen char_profile():
                                             color gold
                                             xalign .0
                                             size 18
-                                        python:
-                                            temp = []
-                                            for i in range(skill_val//(int(skill_limit/5))):
-                                                temp.append(ProportionalScale("content/gfx/interface/icons/stars/star2.png", 22, 22))
-                                            if len(temp) != 5:
-                                                if skill_val%(int(skill_limit/5)) >= (int(skill_limit/10)):
-                                                    temp.append(ProportionalScale("content/gfx/interface/icons/stars/star3.png", 22, 22))
-                                            while len(temp) != 5:
-                                                temp.append(ProportionalScale("content/gfx/interface/icons/stars/star1.png", 22, 22))
                                         hbox:
-                                            yoffset 7
                                             xalign 1.0
-                                            for i in temp:
-                                                add i
+                                            $ step = skill_limit/10.0
+                                            for i in range(5):
+                                                if (2*step) <= skill_val:
+                                                    add Transform("content/gfx/interface/icons/stars/star2.png", size=(18, 18))
+                                                    $ skill_val -= 2*step
+                                                elif step <= skill_val:
+                                                    add Transform("content/gfx/interface/icons/stars/star3.png", size=(18, 18))
+                                                    $ skill_val -= step
+                                                else:
+                                                    add Transform("content/gfx/interface/icons/stars/star1.png", size=(18, 18))
 
         # Level, experience ====================================>
         fixed:

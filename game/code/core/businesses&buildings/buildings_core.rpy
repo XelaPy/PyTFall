@@ -572,7 +572,7 @@ init -10 python:
             return True
 
         def add_business(self, upgrade, main_upgrade=None, normalize_jobs=True):
-            """Add business to the building.
+            """Add business or major upgrade to the building.
             """
             if isinstance(upgrade, Business):
                 upgrade.instance = self
@@ -610,8 +610,7 @@ init -10 python:
 
         @property
         def habitable(self):
-            """
-            Returns True if this buildings has upgrades with free living space.
+            """Returns True if this buildings has upgrades with free living space.
             """
             return any(i.habitable for i in self._upgrades)
 
