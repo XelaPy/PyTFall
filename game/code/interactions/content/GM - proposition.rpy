@@ -297,7 +297,7 @@ label interactions_hire:
             mod_chance = heroskillz - girlskillz
 
             # if mod_chance in on heros side, we should increase girls disposition just because he asked:
-            if mod_chance > 50:
+            if mod_chance > 10:
                 char.disposition += randint(10, 15)
 
             if mod_chance > 500: mod_chance = 500
@@ -312,7 +312,7 @@ label interactions_hire:
             mod_chance = heroskillz - girlskillz
 
             # if mod_chance in on heros side, we should increase girls disposition just because he asked:
-            if mod_chance > 50:
+            if mod_chance > 10:
                 char.disposition += randint(10, 15)
 
             if mod_chance > 200: mod_chance = 200
@@ -327,7 +327,7 @@ label interactions_hire:
             mod_chance = heroskillz - girlskillz
 
             # if mod_chance in on heros side, we should increase girls disposition just because he asked:
-            if mod_chance > 50:
+            if mod_chance > 10:
                 char.disposition += randint(10, 15)
 
             if mod_chance > 400: mod_chance = 400
@@ -347,14 +347,15 @@ label interactions_hire:
             mod_chance = heroskillz - girlskillz
 
             # if mod_chance in on heros side, we should increase girls disposition just because he asked:
-            if mod_chance > 50:
+            if mod_chance > 10:
                 char.disposition += randint(10, 15)
 
             if mod_chance > 400: mod_chance = 400
 
     else:
         $ raise Exception, "Unknown occupation @ girl_interactions/hire"
-
+    "[heroskillz]"
+    "[girlskillz]"
     python:
        del girlskillz
        del heroskillz
@@ -366,10 +367,9 @@ label interactions_hire:
         $ del mod_chance
 
         menu:
-            # TODO: NEEDS TO BE UPDATED.
-            "Hire her as [char.occupation].":
-                $gm.remove_girl(char)
-                $hero.add_char(char)
+            "Hire her?":
+                $ gm.remove_girl(char)
+                $ hero.add_char(char)
                 hide screen girl_interactions
 
                 $ gm.see_greeting = True
