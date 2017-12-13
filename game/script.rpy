@@ -245,9 +245,10 @@ label continue_with_start:
         call testing
 
     python in _console:
-        stdio_lines = []
-        stderr_lines = []
-        console.history = []
+        if config.debug:
+            stdio_lines = []
+            stderr_lines = []
+            console.history = []
     jump mainscreen
 
 label dev_testing_menu_and_load_mc:
