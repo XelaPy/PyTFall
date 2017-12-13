@@ -152,24 +152,24 @@ init -11 python:
                                     else:
                                         devlog.warning("%s trait is unknown for %s!" % (trait, gd["id"]))
 
-                            if "stats" in gd:
-                                for stat in gd["stats"]:
-                                    if stat in char.STATS:
-                                        value = gd["stats"][stat]
-                                        if stat != "luck":
-                                            value = int(round(float(value)*char.get_max(stat))/100)
-                                        char.mod_stat(stat, value)
-                                    else:
-                                        devlog.warning("%s stat is unknown for %s!" % (stat, gd["id"]))
-                                del gd["stats"]
-
-                            if "skills" in gd:
-                                for skill, value in gd["skills"].items():
-                                    if char.stats.is_skill(skill):
-                                        char.stats.mod_full_skill(skill, value)
-                                    else:
-                                        devlog.warning("%s skill is unknown for %s!" % (skill, gd["id"]))
-                                del gd["skills"]
+                            # if "stats" in gd:
+                            #     for stat in gd["stats"]:
+                            #         if stat in char.STATS:
+                            #             value = gd["stats"][stat]
+                            #             if stat != "luck":
+                            #                 value = int(round(float(value)*char.get_max(stat))/100)
+                            #             char.mod_stat(stat, value)
+                            #         else:
+                            #             devlog.warning("%s stat is unknown for %s!" % (stat, gd["id"]))
+                            #     del gd["stats"]
+                            #
+                            # if "skills" in gd:
+                            #     for skill, value in gd["skills"].items():
+                            #         if char.stats.is_skill(skill):
+                            #             char.stats.mod_full_skill(skill, value)
+                            #         else:
+                            #             devlog.warning("%s skill is unknown for %s!" % (skill, gd["id"]))
+                            #     del gd["skills"]
 
                             if "default_attack_skill" in gd:
                                 skill = gd["default_attack_skill"]
@@ -178,7 +178,7 @@ init -11 python:
                                 else:
                                     devlog.warning("%s JSON Loading func tried to apply unknown default attack skill: %s!" % (gd["id"], skill))
 
-                            for key in ("magic_skills", "attack_skills"):
+                            for key in ("magic_skills"):
                                 if key in gd:
                                     # Skills can be either a list or a dict:
                                     if isinstance(gd[key], list):
