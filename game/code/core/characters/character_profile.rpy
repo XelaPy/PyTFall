@@ -411,7 +411,7 @@ screen char_profile():
                             yoffset -4
                             action Show("char_rename", char=char)
                             hovered tt.action("Rename [char.name] (renaming is limited for free girls)")
-                            
+
                     if len(char.fullname) >= 17:
                         null height 2
                     text "[char.fullname]" xalign .0 style "TisaOTM" color "#79CDCD":
@@ -480,7 +480,7 @@ screen char_profile():
                                     background f
                                     hover_background f_a
                                     hovered tt.action("[ele]")
-                                    
+
                     null height 4
 
                 elif stats_display == "stats":
@@ -583,7 +583,7 @@ screen char_profile():
                                         xpadding 7
                                         text "{}:".format(skill.capitalize())
                                         text "{true} <{action}, {training}>".format(true=skill_val, action=int(char.stats.skills[skill][0]), training=int(char.stats.skills[skill][1])) style_suffix "value_text"
-                                        
+
                 elif stats_display == "skillset":
                     frame:
                         style_suffix "main_frame"
@@ -592,12 +592,17 @@ screen char_profile():
                         vbox spacing 1:
                             for skill in char.stats.skills:
                                 $ skill_val = int(char.get_skill(skill))
-                                $ skill_limit = 1000 # <- the max skill level when we show 5 stars
-                                if skill_val >= 100:
+                                $ skill_limit = int(char.get_max_skill(skill))
+                                # We don't care about the skill if it's less than 10% of limit:
+                                if skill_val/float(skill_limit) > .1:
                                     hbox:
-                                        align (0.0, 0.9)
+                                        align .0, .9
                                         xsize 250
-                                        text "{}:".format(skill.capitalize()) style_suffix "value_text" color gold xalign .0 size 18 
+                                        text "{}:".format(skill.capitalize()):
+                                            style_suffix "value_text"
+                                            color gold
+                                            xalign .0
+                                            size 18
                                         python:
                                             temp = []
                                             for i in range(skill_val//(int(skill_limit/5))):
@@ -611,7 +616,7 @@ screen char_profile():
                                             yoffset 7
                                             xalign 1.0
                                             for i in temp:
-                                                add i 
+                                                add i
 
         # Level, experience ====================================>
         fixed:
@@ -811,7 +816,9 @@ screen char_profile():
 
     use top_stripe(True)
 
-screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=False): # TODO: upkeep made via mod field is not visible here; since upkeep is disabled atm, I dunno if it even should be made via mod or mod_stat
+screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=False):
+    # TODO: upkeep made via mod field is not visible here; since upkeep is disabled atm,
+    # I dunno if it even should be made via mod or mod_stat
     if place == "girl_trait":
         if trait != "Manly":
             $ al = (.69, .4)
@@ -946,7 +953,7 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=F
                 idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
                 hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
                 action Hide("show_trait_info")
-            
+
     else:
         $ traits = calculate_elementals(trait)
         fixed:
@@ -1220,7 +1227,7 @@ screen girl_control():
             minimum(50, 30)
             align (0.5, 0.95)
             text  "OK"
-            
+
     key "mousedown_3" action Hide("girl_control")
 
 screen confirm_girl_sale():
