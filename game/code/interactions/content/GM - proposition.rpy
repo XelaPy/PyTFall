@@ -274,86 +274,35 @@ label interactions_hire:
     if char.flag("quest_cannot_be_hired") == True:
         call interactions_refuses_to_be_hired
         jump girl_interactions
-    if cgo("Warrior"):
-        python:
-            # get skills relevant to occupation:
-            heroskillz = 0
-            girlskillz = 0
+        
+    python:
+        heroskillz = 0
+        girlskillz = 0
+        
+        mtraits = []
+        for t in char.traits:
+            if t.basetrait:
+                mtraits.append(t)
+        
+        for i in mtraits:
+            for s in i.base_stats:
+                heroskillz += getattr(hero, s)
+                girlskillz += getattr(char, s)
+                
+        heroskillz += hero.charisma
+        
+        if char.arena_willing and hero.arena_rep > char.arena_rep:
+            heroskillz += 100
+            
+        heroskillz *= (hero.tier+1)*.1 + 1
+        girlskillz *= (char.tier+1)*.1 + 1
+                
+        # and finally get the differense and make sure overwhelming difference will not allow a girl to join at -900 desposition :):
+        mod_chance = heroskillz - girlskillz
 
-            for stat in ilists.battlestats:
-                heroskillz += getattr(hero, stat)
-                girlskillz += getattr(char, stat)
+        if mod_chance > 700:
+            mod_chance = 700
 
-            # add charisma:
-            heroskillz += hero.charisma
-            girlskillz += char.charisma
-
-            # if girl wants to be in the arena and heros arena rep is a lot higher, we'll throw in another 100
-            if char.arena_willing and char.arena_rep > 0:
-                if hero.arena_rep > char.arena_rep * 5:
-                    heroskillz += 100
-
-            # and finally get the difference and make sure overwhelming difference will not allow a girl to join at -900 desposition :):
-            mod_chance = heroskillz - girlskillz
-
-            # if mod_chance in on heros side, we should increase girls disposition just because he asked:
-            if mod_chance > 10:
-                char.disposition += randint(10, 15)
-
-            if mod_chance > 500: mod_chance = 500
-
-    elif cgo("Server"):
-        python:
-            # get skills relevant to occupation:
-            heroskillz = hero.charisma * 3
-            girlskillz = char.charisma * 3
-
-            # and finally get the difference and make sure overwhelming difference will not allow a girl to join at -900 desposition :):
-            mod_chance = heroskillz - girlskillz
-
-            # if mod_chance in on heros side, we should increase girls disposition just because he asked:
-            if mod_chance > 10:
-                char.disposition += randint(10, 15)
-
-            if mod_chance > 200: mod_chance = 200
-
-    elif cgo("Specialist"):
-        python:
-            # get skills relevant to occupation:
-            heroskillz = hero.character * 4
-            girlskillz = char.character * 4
-
-            # and finally get the differense and make sure overwhelming difference will not allow a girl to join at -900 desposition :):
-            mod_chance = heroskillz - girlskillz
-
-            # if mod_chance in on heros side, we should increase girls disposition just because he asked:
-            if mod_chance > 10:
-                char.disposition += randint(10, 15)
-
-            if mod_chance > 400: mod_chance = 400
-
-    elif cgo("SIW"):
-        python:
-            # get skills relevant to occupation:
-            heroskillz = hero.charisma * 4
-            girlskillz = char.charisma * 4
-
-            # if girl wants to be in the arena and heros arena rep is a lot higher, we'll throw in another 100
-            if char.arena_willing and char.arena_rep > 0:
-                if hero.arena_rep > char.arena_rep * 5:
-                    heroskillz += 100
-
-            # and finally get the differense and make sure overwhelming difference will not allow a girl to join at -900 desposition :):
-            mod_chance = heroskillz - girlskillz
-
-            # if mod_chance in on heros side, we should increase girls disposition just because he asked:
-            if mod_chance > 10:
-                char.disposition += randint(10, 15)
-
-            if mod_chance > 400: mod_chance = 400
-
-    else:
-        $ raise Exception, "Unknown occupation @ girl_interactions/hire"
     "[heroskillz]"
     "[girlskillz]"
     python:
