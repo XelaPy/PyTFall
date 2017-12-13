@@ -1299,6 +1299,8 @@ init -9 python:
                 self.stats["mp"] = self.get_max("mp")
                 self.stats["vitality"] = self.get_max("vitality")
 
+                self.instance.update_tier_info()
+
         def apply_trait_statsmod(self, trait, reverse=False):
             """Applies "stats_mod" field on characters.
             """
@@ -4486,8 +4488,8 @@ init -9 python:
             self.say_screen_portrait = DynamicDisplayable(self._portrait)
             self.say_screen_portrait_overlay_mode = None
 
-            # We calc teir of a character... only for chars for now? Maybe for MC later?
-            self.update_tier_info()
+            # We calc tier of a character... only for chars for now? Maybe for MC later?
+            # self.update_tier_info()
 
             super(Char, self).init()
 
