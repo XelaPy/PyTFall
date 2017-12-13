@@ -488,8 +488,10 @@ init -10 python:
 
             self.total_clients = clients if clients > 0 else 0
 
-        def log(self, item):
-            # Logs the text to log...
+        def log(self, item, add_time=False):
+            # Logs the item (text) to the Building log...
+            if add_time and self.env:
+                item = "{}: ".format(self.env.now) + item
             self.nd_events_report.append(item)
             if config.debug and True:
                 devlog.info(item)
@@ -740,8 +742,19 @@ init -10 python:
             Once this method is terminated, client has completely left the building!
             """
             # Register the fact that client arrived at the building:
-            temp = '{}: {} arrives at the {}.'.format(self.env.now, client.name, self.name)
-            self.log(temp)
+            temp = '{} arrives at the {}.'.format(client.name, self.name)
+            self.log(temp, True)
+
+            if self.dirt >= 800:
+                yield self.env.timeout(1)
+                temp = "Your building is as clean a pig stall. {} storms right out.".format(client.name)
+                self.log(temp)
+                self.env.exit()
+            if self.threat >= 800:
+                yield self.env.timeout(1)
+                temp = "Your building is as safe as a warzone. {} runs away from it.".format(client.name)
+                self.log(temp)
+                self.env.exit()
 
             # Visit counter:
             client.up_counter("visited_building" + str(self.id))

@@ -28,6 +28,7 @@ init -999 python:
         def get_length_for_rating(size, rating):
             return 7 + int(size*rating)
 
+
     class ArenaBarMinigame(renpy.Displayable):
         def __init__(self, d, length_multiplier, change_max, interval, **properties):
             super(ArenaBarMinigame, self).__init__(**properties)
@@ -78,6 +79,7 @@ init -999 python:
 
             renpy.redraw(self, 0)
             return render
+
 
     class HitlerKaputt(renpy.Displayable):
         def __init__(self, displayable, crops, neg_range=(-8, -1), pos_range=(1, 8), **kwargs):
@@ -1074,6 +1076,7 @@ init -100 python: # Older factory designs:
                 return int(xpos), int(ypos), to + self.offset, self.image
             else:
                 return int(ypos), int(xpos), to + self.offset, self.image
+
 
     def SnowBlossom2(d,
                     count=10,
