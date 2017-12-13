@@ -238,10 +238,16 @@ init -11 python:
 
                             char.init() # Normalize!
 
-                            # Leveling up:
-                            if "level" in gd:
-                                initial_levelup(char, gd["level"])
-                                del gd["level"]
+                            # Tearing up:
+                            # if "level" in gd:
+                            #     initial_levelup(char, gd["level"])
+                            #     del gd["level"]
+                            if "tier" in gd:
+                                tier = gd["tier"]
+                                if isinstance(tier, dict):
+                                    tier_up_to(char, **tier)
+                                else:
+                                    tier_up_to(char, tier)
 
                             content[char.id] = char
 
