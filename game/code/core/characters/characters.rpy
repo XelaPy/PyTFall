@@ -20,6 +20,11 @@ init -9 python:
             self.upkeep = 0
             self.expected_accomodations = "poor"
 
+        def get_max_skill(self, skill, tier=None):
+            if tier is None:
+                tier = 1
+            return SKILLS_MAX[skill]*(tier*.1)
+
         def recalculate_tier(self):
             """
             I think we should attempt to figure out the tier based on
@@ -52,7 +57,7 @@ init -9 python:
                         max_p = default_points*weight_ratio
 
                         sp = self.get_skill(skill)
-                        sp_required = SKILLS_MAX[skill]*(target_tier*.1)
+                        sp_required = self.get_max_skill(skill, target_tier)
 
                         skill_bonus += min(sp*max_p/sp_required, max_p*1.1)
 
