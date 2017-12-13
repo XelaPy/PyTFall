@@ -255,7 +255,7 @@ label building_management_end:
 init: # Screens:
     screen building_management():
 
-        key "mousedown_4" action SetScreenVariable("bm_mid_frame_mode", "building"), Return(["control", "right"])
+        key "mousedown_4" action Return(["control", "right"])
         key "mousedown_5" action Return(["control", "left"])
 
         default tt = Tooltip("")
