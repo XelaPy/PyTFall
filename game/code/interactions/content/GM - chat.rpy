@@ -511,28 +511,14 @@ label interactions_aboutoccupation:
                 $ rc("I was taught the art of stealthy assassination.", "I'm an assassin. They never see me coming.", "I have had training to kill at any cost. So my methods are... concealed.")
         if cgo("Caster"):
             $ rc("I'm a magician.", "I have arcane energies at my command.", "I have a magical talent. It's very useful in many cases.")
-            if co("Battle Mage"):
-                $ rc("I prefer battle magic, myself.", "I have plenty experience in combat magic.", "And I know how to effectively use my gift on the battlefield.")
             if co("Healer"):
                 $ rc("I know a lot about healing magic.", "My job is to heal wounds.", "I'm a healer, my magic helps other people.")
         if cgo("SIW"):
             $ rc("I'm a fancy girl.", "I'm a merchant. And my merchandise is my beautiful body ♪", "I provide personal services. I mean very personal.", "I sell my love to those who need it.")
-            if co("Anal Prostitute"):
-                $ rc("Anal sex is my strong point.", "I love it in my poop chute.", "I've got an onion booty, it makes men cry. Haha.")
-            if co("Oral Prostitute"):
-                $ rc("Oral sex is my strong point.", "I'll give head until I'm dead.", "I can suck a golf ball through a garden hose.")
-            if co("Straight Prostitute"):
-                $ rc("Vaginal sex is my strong point.", "My pussy's made of gold.", "I can milk a cock with my vaginal muscles alone.")
-            if co("Mistress"):
-                $ rc("I prefer S&M, myself. Wanna try sometime? ♪", "Lick my boots worm!.", "I wanna tie you up and make you my bitch.")
             if co("Stripper"):
                 $ rc("I specialize in erotic dances.", "I'm undressing on stage, if you know what I mean.")
         if cgo("Server") and not(co("Stripper")):
             $ rc("I specialize in service industry.")
-            if co("Entertainer"):
-                $ rc("I entertain the public.", "I don't allow customers to get bored.")
-            if co("Dancer"):
-                $ rc("I specialize in art of dancing.", "I'm a pretty good dancer.")
             if co("Maid"):
                 $ rc("I perform menial tasks around the household.", "I'm a professional maid.")
         if co("Manager"):
