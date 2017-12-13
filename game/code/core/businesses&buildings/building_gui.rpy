@@ -216,7 +216,6 @@ label building_management_loop:
                     if hero.take_money(price, reason="Pro-Cleaning"):
                         building.fin.log_expense(price, "Pro-Cleaning")
                         building.dirt = 0
-
                     else:
                         renpy.show_screen("message_screen", "You do not have the required funds!")
 
@@ -225,7 +224,6 @@ label building_management_loop:
                         for i in hero.dirty_buildings:
                             i.fin.log_expense(i.get_cleaning_price(), "Pro-Cleaning")
                             i.dirt = 0
-
                     else:
                         renpy.show_screen("message_screen", "You do not have the required funds!")
 
@@ -238,7 +236,6 @@ label building_management_loop:
         elif result[0] == 'control':
             if result[1] == 'left':
                 $ index = (index - 1) % len(hero.upgradable_buildings)
-
             elif result[1] == 'right':
                 $ index = (index + 1) % len(hero.upgradable_buildings)
 
@@ -352,7 +349,7 @@ init: # Screens:
                     text "Finance Log"
                 button:
                     xysize (135, 40)
-                    action Return(["control", "sell"])
+                    action Return(["building", "sell"])
                     hovered tt.action('Get rid of this building')
                     text "Sell"
 
