@@ -488,8 +488,10 @@ init -10 python:
 
             self.total_clients = clients if clients > 0 else 0
 
-        def log(self, item):
-            # Logs the text to log...
+        def log(self, item, add_time=False):
+            # Logs the item (text) to the Building log...
+            if add_time and self.env:
+                item = "{}: ".format(self.env.now) + item
             self.nd_events_report.append(item)
             if config.debug and True:
                 devlog.info(item)

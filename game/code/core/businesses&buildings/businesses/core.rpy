@@ -77,9 +77,7 @@ init -12 python:
 
         def log(self, item, add_time=False):
             # Logs the text for next day event...
-            if add_time:
-                item = "{}: ".format(self.env.now) + item
-            self.instance.nd_events_report.append(item)
+            self.instance.log(item, add_time=add_time)
 
         # Worker methods:
         def has_workers(self, amount=1):
