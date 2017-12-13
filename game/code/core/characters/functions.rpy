@@ -726,7 +726,7 @@ init -11 python:
             for skill, weight in skills.items():
                 base_skills.add(skill)
                 weight_ratio = float(weight)/total_weight_points
-                sp = SKILLS_MAX[skill]*(tier*.1)
+                sp = char.get_max_skill(skill, tier)
                 weight_sp = weight_ratio*sp
                 biosed_sp = round_int(weight_sp*skill_bios())
 
