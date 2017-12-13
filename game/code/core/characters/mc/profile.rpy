@@ -245,8 +245,9 @@ init:
 
                     for skill in hero.stats.skills:
                         $ skill_val = int(hero.get_skill(skill))
-                        $ skill_limit = 1000 # <- the max skill level when we show 5 stars
-                        if skill_val >= 100:
+                        $ skill_limit = int(hero.get_max_skill(skill))
+                        # We don't care about the skill if it's less than 10% of limit:
+                        if skill_val/float(skill_limit) > .1:
                             hbox:
                                 align (0.0, 0.9)
                                 xsize 180
@@ -263,8 +264,8 @@ init:
                                 hbox:
                                     xalign 1.0
                                     for i in temp:
-                                        add i 
-                
+                                        add i
+
             elif lframe_display == "friends":
                 # FRIEND LIST ====================================>
                 null height 26
