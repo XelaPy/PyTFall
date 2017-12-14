@@ -112,7 +112,7 @@ init -5 python:
                 disposition = 900 + 50 * sub
             else:
                 disposition = 800 + 50 * sub
-            if "Open Minded" in worker.traits:  # really powerful trait
+            if "Open Minded" in worker.traits: # really powerful trait
                 disposition = disposition // 2
             if cgochar(worker, "SIW") or "Nymphomaniac" in worker.traits:
                 disposition -= 200

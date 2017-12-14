@@ -279,10 +279,9 @@
             return_ratio argument, when True, returns a multiplier of .1 to 2.0 instead...
             """
             ability = 0
-            if difficulty is None:
-                difficulty = worker.tier
-                if not difficulty:
-                    difficulty = 1 # Risking ZeroDev error otherwise
+
+            if not difficulty:
+                difficulty = 1 # Risking ZeroDev error otherwise
 
             matched_gen_occ = worker.occupations.intersection(self.occupations)
 
@@ -319,7 +318,7 @@
                     max_p = default_points*weight_ratio
 
                     sp = worker.get_skill(skill)
-                    sp_required = SKILLS_MAX[skill]*(difficulty*.1)
+                    sp_required = worker.get_max_skill(skill, difficulty)
 
                     total_skills += min(sp*max_p/sp_required, max_p*1.1)
 
