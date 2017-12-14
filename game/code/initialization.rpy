@@ -527,6 +527,8 @@ init:
     default block_say = False
     define PytPix = renpy.display.transition.Pixellate
 
+    default special_save_number = 1
+
 init 999 python:
     # ensure that all initialization debug messages have been written to disk
     devlogfile.flush()

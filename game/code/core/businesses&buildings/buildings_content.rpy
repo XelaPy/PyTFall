@@ -941,22 +941,17 @@ init -9 python:
 
             # Applies effects of adverticement:
             if self.can_advert:
-
                 for advert in self.adverts:
-
                     if advert['active']:
                         if 'fame' in advert:
                             modf = randint(*advert['fame'])
                             self.modfame(modf)
                             tmodfame = tmodfame + modf
-
                         if 'reputation' in advert:
                             modr = randint(*advert['reputation'])
                             self.modrep(modr)
                             tmodrep = tmodrep + modr
-
                         spentcash = spentcash + advert['upkeep']
-
                         if advert['name'] == 'Celebrity':
                             advert['active'] = False
                             txt.append("A celebrity came into your brothel, raising it's reputation by %d and fame by %d\n" % (modr,modf))
