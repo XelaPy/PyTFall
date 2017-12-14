@@ -709,7 +709,7 @@ init -9 python:
         def __init__(self, *args, **kwargs):
             """
             Creates a new Building.
-            maxrank = The maximum rank this brothel can achieve.
+            # maxrank = The maximum rank this brothel can achieve.
             """
             super(Building, self).__init__(*args, **kwargs)
 
@@ -720,7 +720,7 @@ init -9 python:
             self.stats_mod = {}
             self.nd_events_report = list()
 
-            self.maxrank = kwargs.pop("maxrank", 0)
+            # self.maxrank = kwargs.pop("maxrank", 0)
 
             self.baseclients = 2
             self.actions = [] # @unused

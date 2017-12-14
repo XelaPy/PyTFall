@@ -180,7 +180,8 @@ screen realtor_agency():
                                         frame:
                                             xysize 380, 24
                                             text "Max Rank:" yalign 0.5
-                                            label (u"%s" % (focus.maxrank)) align (1.0, 0.5)
+                                            # TODO Replace with Tiers
+                                            # label (u"%s" % (focus.maxrank)) align (1.0, 0.5)
 
                         null height 50
 

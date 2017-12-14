@@ -291,14 +291,14 @@ init -10 python:
         def __init__(self, *args, **kwargs):
             """
             Creates a new BuildingStats.
-            sq_meters = The m^2 that each room takes up.
+            # sq_meters = The m^2 that each room takes up.
             """
             super(BuildingStats, self).__init__(*args, **kwargs)
 
             self.stats = {"dirt": 0, "threat": 0}
             self.max_stats = {"dirt": 1000, "threat": 1000}
             self.auto_clean = False
-            self.sq_meters = kwargs.pop("sq_meters", 0)
+            # self.sq_meters = kwargs.pop("sq_meters", 0)
 
         def __setattr__(self, key, value):
             stats = self.__dict__.get("stats", {})
@@ -448,10 +448,12 @@ init -10 python:
 
             # SimPy and etc follows:
             self.env = None
-            self.maxrank = kwargs.pop("maxrank", 0) # @Useless property...
+            # self.maxrank = kwargs.pop("maxrank", 0) # @Useless property...
 
             self.logged_clients = False
-            self.total_clients = 0 # This is the amount of clients that will visit the brothel, this is set by get_client_count method.
+            # This is the amount of clients that will visit the brothel,
+            # this is set by get_client_count method.
+            self.total_clients = 0
             self.mod = 1
 
             self.fin = Finances(self)
@@ -519,7 +521,8 @@ init -10 python:
                 # We need to check if there are any slots for a worker are left:
                 if job in self.worker_slots_max:
                     # we get a list of all workers that are assigned for this job:
-                    temp = [w for w in self.all_workers if w.action == job or w.previousaction == job] # This isn't bulletproof... we prolly want to access building.manager here...
+                    temp = [w for w in self.all_workers if w.action == job or w.previousaction == job]
+                    # This isn't bulletproof... we prolly want to access building.manager here...
                     if len(temp) >= self.worker_slots_max[job]:
                         continue
                 if job.is_valid_for(char):

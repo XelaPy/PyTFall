@@ -5,19 +5,18 @@
     "desc": "Small, rundown building on the very outskirts of town.",
     "price": 5000,
     "rooms": 1,
-    "maxrooms": 2,
+    "in_slots_max": 2,
+    "ex_slots_max": 2,
     "fame": 0,
     "maxfame": 100,
     "rep": 0,
     "maxrep": 100,
-    "maxrank": 2,
+    "tier": 0,
     "mod": 1,
-    "sq_meters": 100,
     "adverts": ["Sign", "Flyers"],
-    
     "upgrade_slots": 2,
     "garden": 2,
-    
+
     "img": "content/buildings/oldshack.jpg"
   },
   {
@@ -33,13 +32,13 @@
     "maxrep": 120,
     "maxrank": 3,
     "mod": 1.2,
-    "sq_meters": 200, 
-    
+    "sq_meters": 200,
+
     "upgrade_slots": 2,
     "garden": 2,
     "mainhall": 1,
     "adverts": ["Sign", "Flyers", "Magazine"],
-    
+
     "img": "content/buildings/smallhouse.jpg"
   },
   {
@@ -55,15 +54,15 @@
     "maxrep": 150,
     "maxrank": 4,
     "mod": 1.4,
-    "sq_meters": 350, 
-    
+    "sq_meters": 350,
+
     "upgrade_slots": 3,
     "bar": 1,
     "garden": 2,
     "room_upgrades": 1,
     "mainhall": 1,
     "adverts": ["Sign", "Flyers", "Magazine", "Billboard"],
-    
+
     "img": "content/buildings/house1.jpg"
   },
   {
@@ -80,7 +79,7 @@
     "maxrank": 5,
     "mod": 1.6,
     "sq_meters": 500,
-    
+
     "upgrade_slots": 4,
     "garden": 1,
     "bar": 2,
@@ -88,7 +87,7 @@
     "room_upgrades": 1,
     "mainhall": 2,
     "adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl"],
-    
+
     "img": "content/buildings/house2.jpg"
   },
   {
@@ -105,7 +104,7 @@
     "maxrank": 6,
     "mod": 2,
     "sq_meters": 1000,
-    
+
     "upgrade_slots": 8,
     "garden": 2,
     "bar": 3,
@@ -114,8 +113,8 @@
     "mainhall": 2,
     "guards": 1,
     "adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl"],
-    
-    
+
+
     "img": "content/buildings/mansion.jpg"
   },
   {
@@ -132,7 +131,7 @@
     "maxrank": 7,
     "mod": 3,
     "sq_meters": 1800,
-    
+
     "upgrade_slots": 10,
     "garden": 3,
     "bar": 3,
@@ -141,8 +140,8 @@
     "mainhall": 2,
     "guards": 2,
     "adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
-    
-    
+
+
     "img": "content/buildings/palace.jpg"
   },
   {
@@ -159,7 +158,7 @@
     "maxrank": 8,
     "mod": 5,
     "sq_meters": 4000,
-    
+
     "upgrade_slots": 18,
     "garden": 3,
     "bar": 3,
@@ -168,7 +167,7 @@
     "mainhall": 3,
     "guards": 3,
     "adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
-    
+
     "img": "content/buildings/centralpalace.jpg"
   }
 ]
