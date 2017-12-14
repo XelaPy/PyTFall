@@ -131,6 +131,10 @@ init:
                     pos (73, 11)
                 label "{color=#CDAD00}Lvl" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
                 label "{color=#CDAD00}[hero.level]" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
+            hbox:
+                pos (84, 21)
+                label "{color=#CDAD00}Tier " text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
+                label "{color=#CDAD00}[hero.tier]" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
 
             if lframe_display == "status":
                 # STATS ====================================>
