@@ -484,6 +484,11 @@ init: # Screens:
                     xysize (296, 27)
                     text "Dirt:" xalign 0.02 color ivory
                     text "%s (%s %%)" % (building.get_dirt_percentage()[1], building.get_dirt_percentage()[0]) xalign .98 style_suffix "value_text" yoffset 4
+            if hasattr(building, "tier"):
+                frame:
+                    xysize (296, 27)
+                    text "Tier:" xalign 0.02 color ivory
+                    text "%s" % (building.tier) xalign .98 style_suffix "value_text" yoffset 4
 
             # Fame/Rep:
             if isinstance(building, FamousBuilding):
