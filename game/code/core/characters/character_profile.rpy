@@ -296,6 +296,13 @@ screen char_profile():
                         text_size 21
                     else:
                         text_size 18
+                        
+                label "Tier:  [char.tier]":
+                    text_color gold
+                    text_outlines [(2, "#424242", 0, 0)]
+                    pos 113, 77
+                    anchor 0, 1.0
+                    
             null height 5
             # Rank up for prostitutes:
             # TODO: Adapt ranks to new skills code!
