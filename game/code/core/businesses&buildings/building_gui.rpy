@@ -139,17 +139,17 @@ label building_management_loop:
                         result[2]._members.remove(i)
 
         elif result[0] == "building":
-            if result[1] == 'buyroom':
-                python:
-                    if building.rooms < building.maxrooms:
-                        if hero.take_money(building.get_room_price(), reason="Building"):
-                            building.modrooms(1)
-                        else:
-                            renpy.call_screen('message_screen', "Not enough funds to buy new room!")
-                    else:
-                        renpy.call_screen('message_screen', "No more rooms can be added to this building!")
+            # if result[1] == 'buyroom':
+            #     python:
+            #         if building.rooms < building.maxrooms:
+            #             if hero.take_money(building.get_room_price(), reason="Building"):
+            #                 building.modrooms(1)
+            #             else:
+            #                 renpy.call_screen('message_screen', "Not enough funds to buy new room!")
+            #         else:
+            #             renpy.call_screen('message_screen', "No more rooms can be added to this building!")
 
-            elif result[1] == 'items_transfer':
+            if result[1] == 'items_transfer':
                 python:
                     it_members = list(w for w in hero.chars if w.location == building)
                     if hero.location == building:

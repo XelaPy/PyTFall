@@ -789,12 +789,12 @@ init -9 python:
             # ND Report
             self.logged_clients = False
 
-        def free_rooms(self):
-            """
-            Returns amount of free rooms, considering Guard Quarters for Warriors if those are active.
-            @Review: Updated:
-            """
-            return 0
+        # def free_rooms(self):
+        #     """
+        #     Returns amount of free rooms, considering Guard Quarters for Warriors if those are active.
+        #     @Review: Updated:
+        #     """
+        #     return 0
 
         def get_clients(self):
             """

@@ -261,9 +261,15 @@ init -12 python:
 
 
     class PrivateBusiness(Business):
-        def __init__(self, name="Private Business", instance=None, desc="Client is always right!?!", img=None, build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
+        def __init__(self, name="Private Business", instance=None, desc="Client is always right!?!",
+                     img=None, build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
+
             img = Null() if img is None else img
-            super(PrivateBusiness, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+
+            super(PrivateBusiness, self).__init__(name=name, instance=instance,
+                            desc=desc, img=img, build_effort=build_effort,
+                            materials=materials, cost=cost, **kwargs)
+                            
             self.capacity = in_slots
             self.type = "personal_service"
             self.jobs = set()

@@ -106,7 +106,8 @@ init -10 python:
     class BaseBuilding(Location, Flags):
         """The super class for all Building logic.
         """
-        def __init__(self, id=None, name=None, desc=None, price=1, minrooms=0, maxrooms=1, roomprice=250, mod=1, **kwargs):
+        def __init__(self, id=None, name=None, desc=None, price=1, minrooms=0,
+                     maxrooms=1, roomprice=250, mod=1, **kwargs):
             """
             Creates a new building.
             id = The id of the building.
@@ -133,26 +134,26 @@ init -10 python:
             self.highlighted = False
 
             # Rooms
-            self.rooms = minrooms
-            self.minrooms = minrooms
-            self.maxrooms = maxrooms
-            self.roomprice = roomprice
+            # self.rooms = minrooms
+            # self.minrooms = minrooms
+            # self.maxrooms = maxrooms
+            # self.roomprice = roomprice
             self.mod = mod
 
-            # Security
+            # Security:
             self.security_rating = 0
             self.security_presence = 0
 
-            self.tier = 3
+            self.tier = 0
 
             # ND Report
             self.txt = ""
 
-        def free_rooms(self):
-            """
-            The amount of rooms that aren't being used.
-            """
-            return self.rooms - len(self.get_girls())
+        # def free_rooms(self):
+        #     """
+        #     The amount of rooms that aren't being used.
+        #     """
+        #     return self.rooms - len(self.get_girls())
 
         def remove_char(self, char):
             # Removes the char from the building.
@@ -205,17 +206,17 @@ init -10 python:
             else:
                 return [girl for girl in g if (occupation in girl.occupations) != nott]
 
-        def modrooms(self, value):
-            """
-            Modifies the amount of rooms the dungeon has.
-            value = The amount to modify by.
-            """
-            if value > 0:
-                if self.rooms + value > self.maxrooms: self.rooms = self.maxrooms
-                else: self.rooms += value
-
-            elif self.rooms + value < self.minrooms: self.rooms = self.minrooms
-            else: self.rooms -= value
+        # def modrooms(self, value):
+        #     """
+        #     Modifies the amount of rooms the dungeon has.
+        #     value = The amount to modify by.
+        #     """
+        #     if value > 0:
+        #         if self.rooms + value > self.maxrooms: self.rooms = self.maxrooms
+        #         else: self.rooms += value
+        #
+        #     elif self.rooms + value < self.minrooms: self.rooms = self.minrooms
+        #     else: self.rooms -= value
 
         def security_mult(self):
             """

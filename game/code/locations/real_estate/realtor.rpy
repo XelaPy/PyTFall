@@ -162,10 +162,10 @@ screen realtor_agency():
                                         xysize 380, 24
                                         text "{color=[gold]}Price:" yalign 0.5
                                         label (u"{color=[gold]}%d"%(focus.price)) align (1.0, 0.5)
-                                    frame:
-                                        xysize 380, 24
-                                        text "Rooms:" yalign 0.5
-                                        label (u"{color=[ivory]}%s/%s" % (focus.rooms, focus.maxrooms)) align (1.0, 0.5)
+                                    # frame:
+                                    #     xysize 380, 24
+                                    #     text "Rooms:" yalign 0.5
+                                    #     label (u"{color=[ivory]}%s/%s" % (focus.rooms, focus.maxrooms)) align (1.0, 0.5)
                                     if isinstance(focus, FamousBuilding):
                                         frame:
                                             xysize 380, 24
