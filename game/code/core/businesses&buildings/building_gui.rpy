@@ -484,6 +484,13 @@ init: # Screens:
                     xysize (296, 27)
                     text "Dirt:" xalign 0.02 color ivory
                     text "%s (%s %%)" % (building.get_dirt_percentage()[1], building.get_dirt_percentage()[0]) xalign .98 style_suffix "value_text" yoffset 4
+                frame:
+                    xysize (296, 27)
+                    text "Threat:" xalign 0.02 color ivory
+                    text "%s %%" % (building.threat * 100 / building.max_stats["threat"]):
+                        xalign .98
+                        style_suffix "value_text"
+                        yoffset 4
             if hasattr(building, "tier"):
                 frame:
                     xysize (296, 27)
