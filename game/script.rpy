@@ -134,8 +134,9 @@
         del temp
 
         tl.timer("Loading: Businesses", nested=False)
-        adverts = load_json("buildings/adverts.json")
-        businesses = load_businesses(adverts)
+        # TODO Get rid of this... adverts
+        adverts = json.load(renpy.file("content/db/buildings/adverts.json"))
+        businesses = load_buildings()
 
         tl.timer("Loading: Training", nested=False)
         schools = load_schools()

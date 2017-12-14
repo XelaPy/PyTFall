@@ -540,23 +540,21 @@ init -11 python:
             mobs[mob["id"]] = mob
         return mobs
 
-    def load_businesses(adverts):
+    def load_buildings():
         # Load json content
-        in_file = content_path('db/buildings.json')
-        with open(in_file) as f:
-            content = json.load(f)
-
-        # Populate into brothel objects
-        businesses = dict()
-        for building in content:
+        buildings_data = json.load(renpy.file("content/db/buildings/buildings.json"))
+        adverts_data = json.load(renpy.file("content/db/buildings/adverts.json"))
+        # Populate into brothel objects:
+        buildings = dict()
+        for building in buildings_data:
             b = Building()
             for attr, entry in building.iteritems():
                 if attr == "adverts":
-                    b.add_adverts([adv for adv in adverts if adv['name'] in entry])
+                    b.add_adverts([adv for adv in adverts_data if adv['name'] in entry])
                 else:
-                    b.__dict__[attr] = entry
-            businesses[b.id] = b
-        return businesses
+                    setattr(b, attr, entry)
+            buildings[b.id] = b
+        return buildings
 
     def load_tiles():
         # Load json content

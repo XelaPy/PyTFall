@@ -952,7 +952,7 @@ init -9 python:
 
                         if 'reputation' in advert:
                             modr = randint(*advert['reputation'])
-                            self.modreputation(modr)
+                            self.modrep(modr)
                             tmodrep = tmodrep + modr
 
                         spentcash = spentcash + advert['upkeep']
