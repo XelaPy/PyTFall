@@ -1270,7 +1270,7 @@ init -9 python:
                                 self.lvl_max[stat] +=1
                             if dice(val):
                                 self.max[stat] +=1
-                                
+
                 # Super Bonuses from Base Traits:
                 if hasattr(self.instance, "traits"):
                     traits = self.instance.traits.basetraits
@@ -4450,8 +4450,7 @@ init -9 python:
 
             # Battle and Magic skills:
             if not self.attack_skills:
-                default = store.battle_skills["Fist Attack"]
-                self.attack_skills.append(default)
+                self.attack_skills.append(self.default_attack_skill)
 
             # FOUR BASE TRAITS THAT EVERY GIRL SHOULD HAVE AT LEAST ONE OF:
             if not list(t for t in self.traits if t.personality):
