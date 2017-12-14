@@ -169,6 +169,7 @@ init -11 python:
             gtt_kwargs = {}
         if stt_kwargs is None:
             stt_kwargs = {}
+
         rg = rChar()
         Stats = rg.STATS
         Skills = rg.stats.skills.keys()
@@ -185,26 +186,37 @@ init -11 python:
         # rg.id = id
 
         # Elements:
-        if "elements" in data:
-            for key in data["elements"]:
-                if dice(data["elements"][key]):
-                    if key not in traits:
-                        key = key.split(" ")[0]
-                    if key not in traits:
-                        devlog.warning("Element (*Split with ' '): {} for random girl with id: {} is not a valid element for this game!".format(str(key), str(id)))
-                        continue
-                    rg.apply_trait(traits[key])
+        # if "elements" in data:
+        #     for key, value in data["elements"]:
+        #         if dice(value):
+        #             if key not in traits:
+        #                 key = key.split(" ")[0]
+        #             if key not in traits:
+        #                 devlog.warning("Element (*Split with ' '): {} for random girl with id: {} is not a valid element for this game!".format(str(key), str(id)))
+        #                 continue
+        #             rg.apply_trait(traits[key])
+
+        # Blocking traits:
+        for key in ("blocked_traits", "ab_traits"):
+            if key in data:
+                _traits  = set()
+                for t in data[key]:
+                    if t in store.traits:
+                        _traits.add(store.traits[t])
+                    else:
+                        devlog.warning("%s trait is unknown for %s (In %s)!" % (t, id, key))
+                setattr(rg.traits, key, _traits)
 
         # Traits next:
         if "random_traits" in data:
-            for trait in data["random_traits"]:
-                chance = trait[1]
-                trait = trait[0]
+            for item in data["random_traits"]:
+                trait, chance = item
                 if dice(chance):
                     if trait in traits:
                         rg.apply_trait(traits[trait])
                     else:
-                        devlog.warning("Trait: {} for random girl with id: {} is not a valid trait for this game!".format(str(trait), str(id))) # Added str() call to avoid cp850 encoding
+                        # Added str() call to avoid cp850 encoding
+                        devlog.warning("Trait: {} for random girl with id: {} is not a valid trait for this game!".format(str(trait), str(id)))
 
         # Names/Origin:
         if not name:
@@ -221,18 +233,23 @@ init -11 python:
 
         if "origin" not in data:
             rg.origin = choice(["Alkion", "PyTFall", "Crossgate"])
+        else:
+            origin = data["origin"]
+            if isinstance(origin, basestring):
+                origin = [origin]
+            rg.origin = choice(origin)
 
         # Status next:
-        if "force_status" in data:
-            if data["force_status"]:
-                rg.status = data["force_status"]
-            else:
-                rg.status = choice(["slave", "free"])
+        # if "force_status" in data:
+        #     if data["force_status"]:
+        #         rg.status = data["force_status"]
+        #     else:
+        #         rg.status = choice(["slave", "free"])
 
         # Location if forced:
-        if "force_location" in data:
-            if data["force_location"]:
-                rg.location = data["force_location"]
+        # if "force_location" in data:
+        #     if data["force_location"]:
+        #         rg.location = data["force_location"]
 
         # BASE TRAITS:
         basetraits = []
@@ -250,62 +267,62 @@ init -11 python:
                 rg.apply_trait(t)
 
         # Battle and Magic skills:
-        if "battle_skills" in data:
-            d = data["battle_skills"]
-            if d in store.battle_skills:
-                rg.attack_skills.append(store.battle_skills[d])
+        if "default_attack_skill" in data:
+            skill = data["default_attack_skill"]
+            if skill in store.battle_skills:
+                rg.default_attack_skill = store.battle_skills[skill]
             else:
-                devlog.warning(str("%s Random Girl tried to apply unknown battle skill: %s!" % (id, d)))
+                devlog.warning(str("%s Random Girl tried to apply unknown battle skill: %s!" % (id, skill)))
 
         if "magic_skills" in data:
             d = data["magic_skills"]
-            for skill in d:
-                if dice(skill[1]):
-                    if skill[0] in store.battle_skills:
-                        rg.magic_skills.append(store.battle_skills[skill[0]])
+            for skill, chance in d:
+                if dice(chance):
+                    if skill in store.battle_skills:
+                        rg.magic_skills.append(store.battle_skills[skill])
                     else:
-                        devlog.warning(str("%s Random Girl tried to apply unknown battle skill: %s!" % (id, skill[0])))
+                        devlog.warning(str("%s Random Girl tried to apply unknown battle skill: %s!" % (id, skill)))
 
         # SKILLS:
-        if "random_skills" in data:
-            d = data["random_skills"]
-            for key in d:
-                if key.lower() in Skills:
-                    value = randint(d[key][0], d[key][1])
-                    rg.stats.mod_full_skill(key)
-                else:
-                    devlog.warning(str("Skill: %s for random girl with id: %s is invalid! "%(key, id)))
-
-        # STATS:
-        if "random_stats" in data:
-            d = data["random_stats"]
-            for key in d:
-                if key in Stats:
-                    if key != "luck":
-                        value = randint(d[key][0], d[key][1])
-                        value = int(round(float(value)*100 / rg.get_max(key)))
-                        rg.mod_stat(key, value)
-                    elif key == "luck":
-                        rg.mod_stat(key, randint(d[key][0], d[key][1]))
-                else:
-                    devlog.warning(str("Stat: %s for random girl with id: %s is invalid! " % (key, id)))
+        # if "random_skills" in data:
+        #     d = data["random_skills"]
+        #     for key in d:
+        #         if key.lower() in Skills:
+        #             value = randint(d[key][0], d[key][1])
+        #             rg.stats.mod_full_skill(key)
+        #         else:
+        #             devlog.warning(str("Skill: %s for random girl with id: %s is invalid! "%(key, id)))
+        #
+        # # STATS:
+        # if "random_stats" in data:
+        #     d = data["random_stats"]
+        #     for key in d:
+        #         if key in Stats:
+        #             if key != "luck":
+        #                 value = randint(d[key][0], d[key][1])
+        #                 value = int(round(float(value)*100 / rg.get_max(key)))
+        #                 rg.mod_stat(key, value)
+        #             elif key == "luck":
+        #                 rg.mod_stat(key, randint(d[key][0], d[key][1]))
+        #         else:
+        #             devlog.warning(str("Stat: %s for random girl with id: %s is invalid! " % (key, id)))
 
         # Normalizing if not all stats were supplied:
-        for stat in Stats:
-            if stat not in rg.stats.FIXED_MAX and getattr(rg, stat) == 0:
-                setattr(rg, stat, randint(10, 25))
+        # for stat in Stats:
+        #     if stat not in rg.stats.FIXED_MAX and getattr(rg, stat) == 0:
+        #         setattr(rg, stat, randint(10, 25))
 
         # Rest of the expected data:
-        for i in ("origin", "gold", "desc", "height", "full_race"):
+        for i in ("gold", "desc", "height", "full_race"):
             if i in data:
                 setattr(rg, i, data[i])
 
-        if "race" in data:
-            trait = data["race"]
-            if trait in traits:
-                rg.apply_trait(traits[trait])
-            else:
-                devlog.warning("%s is not a valid race (build_rc)!" % (trait))
+        # if "race" in data:
+        #     trait = data["race"]
+        #     if trait in traits:
+        #         rg.apply_trait(traits[trait])
+        #     else:
+        #         devlog.warning("%s is not a valid race (build_rc)!" % (trait))
 
         # Colors in say screen:
         for key in ("color", "what_color"):
