@@ -726,8 +726,8 @@ init -9 python:
             self.actions = [] # @unused
 
             # Upgrades
-            self.used_upgrade_slots = 0
-            self.upgrade_slots = 3
+            # self.used_upgrade_slots = 0
+            # self.upgrade_slots = 3
 
             # self.upgrades['bar'] =  {
                 # '1': {'id': 1, 'active': False, 'available': False, 'price': 500, 'name': 'Bar', 'desc': 'Serve drinks and snacks to your customers! ',
