@@ -106,17 +106,13 @@ init -10 python:
     class BaseBuilding(Location, Flags):
         """The super class for all Building logic.
         """
-        def __init__(self, id=None, name=None, desc=None, price=1, minrooms=0,
-                     maxrooms=1, roomprice=250, mod=1, **kwargs):
+        def __init__(self, id=None, name=None, desc=None, price=100, mod=1, **kwargs):
             """
             Creates a new building.
             id = The id of the building.
             name = The name of the building.
             desc = The description of the building.
             price = The price of the building.
-            minrooms = The minimum amount of rooms the building can have.
-            maxrooms = The maximum amount of rooms the building can have.
-            roomprice = The amount each room costs.
             mod = The modifier for the building.
             **kwargs = Excess arguments.
             """
@@ -416,13 +412,18 @@ init -10 python:
 
             # And new style upgrades:
             self.in_slots = 0 # Interior Slots
-            self.in_slots_max = 100
+            self.in_slots_max = kwargs.pop("in_slots_max", 100)
             self.ex_slots = 0 # Exterior Slots
-            self.ex_slots_max = 100
-            self.worker_slots_max = {} # We keep maximum amounts of workers of specific types that this business can hold in this dict.
-            # They are kept as k/v pairs of Job(): amount. If absent for any job availible at the building, we assume that worker can be added endlessly.
+            self.ex_slots_max = kwargs.pop("ex_slots_max", 100)
 
-            if hasattr(self, "building_jobs"): # BAD Code?, right now all jobs are kept in .jobs attribute... if this is not a useful distinction, we remove this and just work with the jobs set.
+            # We keep maximum amounts of workers of specific types that this business can hold in this dict.
+            # They are kept as k/v pairs of Job(): amount.
+            # If absent for any job available at the building, we assume that worker can be added endlessly.
+            self.worker_slots_max = {}
+
+            # BAD Code?, right now all jobs are kept in .jobs attribute...
+            # if this is not a useful distinction, we remove this and just work with the jobs set.
+            if hasattr(self, "building_jobs"):
                 self.building_jobs = self.building_jobs.union(self.building_jobs)
 
             if kwargs.get("needs_management", False):
@@ -508,9 +509,9 @@ init -10 python:
                 self.jobs = self.jobs.union(up.jobs)
 
         def get_valid_jobs(self, char):
-            """Returns a list of jobs availible for the building that the character might be willing to do.
+            """Returns a list of jobs available for the building that the character might be willing to do.
 
-            Returns an empty list if no jobs is availible for the character.
+            Returns an empty list if no jobs is available for the character.
             """
             jobs = []
 
