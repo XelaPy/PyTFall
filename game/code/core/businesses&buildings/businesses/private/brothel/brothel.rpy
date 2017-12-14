@@ -6,10 +6,11 @@ init -5 python:
         ID = "Brothel"
         IMG = "content/buildings/upgrades/room.jpg"
         def __init__(self, name="Brothel", instance=None, desc="Rooms to freck in!",
-                     img="content/buildings/upgrades/room.jpg", build_effort=0, materials=None,
-                     in_slots=2, cost=500, **kwargs):
-            super(BrothelBlock, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
-            self.capacity = in_slots
+                     img="content/buildings/upgrades/room.jpg", **kwargs):
+
+            super(BrothelBlock, self).__init__(name=name, instance=instance,
+                        desc=desc, img=img, **kwargs)
+
             self.type = "personal_service"
             self.jobs = set([simple_jobs["Whore Job"]])
             self.workable = True

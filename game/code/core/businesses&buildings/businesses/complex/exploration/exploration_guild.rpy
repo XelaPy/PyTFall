@@ -279,13 +279,20 @@ init -6 python:
 
 
     class ExplorationGuild(TaskBusiness):
+        
         COMPATIBILITY = []
         MATERIALS = {"Wood": 70, "Bricks": 50, "Glass": 5}
         COST = 10000
         ID = "ExplorationGuild"
         IMG = "content/gfx/bg/buildings/Chorrol_Fighters_Guild.png"
-        def __init__(self, name="Exploration Guild", instance=None, desc="Travel to exotic places, meet new monsters and people... and take their shit!", img="content/gfx/bg/buildings/Chorrol_Fighters_Guild.png", build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
-            super(ExplorationGuild, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
+
+        def __init__(self, name="Exploration Guild", instance=None,
+                    desc="Travel to exotic places, meet new monsters and people... and take their shit!",
+                    img="content/gfx/bg/buildings/Chorrol_Fighters_Guild.png",
+                    **kwargs):
+
+            super(ExplorationGuild, self).__init__(name=name, instance=instance,
+                        desc=desc, **kwargs)
 
             # Global Values that have effects on the whole business.
             self.teams = list() # List to hold all the teams formed in this guild. We should add at least one team or the guild will be useless...

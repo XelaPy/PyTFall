@@ -4,16 +4,25 @@
     "name": "Old Shack",
     "desc": "Small, rundown building on the very outskirts of town.",
     "price": 5000,
+
     "in_slots_max": 4,
     "ex_slots_max": 0,
+
     "fame": 0,
     "maxfame": 100,
     "rep": 0,
     "maxrep": 100,
+
     "tier": 0,
     "mod": 1,
+
     "adverts": ["Sign", "Flyers"],
-    "img": "content/buildings/oldshack.jpg"
+    "img": "content/buildings/oldshack.jpg",
+
+    "build_businesses": [{"class": "BrothelBlock",
+                        "kwargs": {"capacity": 2,
+                                   "in_slots": 2,
+                                   "desc": "Small private rooms that'll 'do the trick'!"}}]
   },
   {
     "id": 2,

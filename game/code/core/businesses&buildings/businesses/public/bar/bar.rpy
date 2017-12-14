@@ -14,7 +14,6 @@ init -5 python:
             self.workable = True
             self.type = "public_service"
 
-            self.capacity = in_slots
             self.active_workers = set() # On duty Bartenders.
             self.clients = set() # Clients at the bar.
 

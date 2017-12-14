@@ -7,10 +7,10 @@ init -5 python:
         IMG = "content/buildings/upgrades/cleaners.jpg"
         def __init__(self, name="Cleaning Block", instance=None, desc="Until it shines!",
                      img="content/buildings/upgrades/cleaners.jpg", build_effort=0,
-                     materials=None, in_slots=0, cost=0, **kwargs):
+                     materials=None, in_slots=0, **kwargs):
             super(Cleaners, self).__init__(name=name, instance=instance,
                   desc=desc, img=img, build_effort=build_effort,
-                  materials=materials, cost=cost, **kwargs)
+                  materials=materials, **kwargs)
             self.jobs = set([simple_jobs["Cleaning"]])
 
         def business_control(self):

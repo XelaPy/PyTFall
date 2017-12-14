@@ -548,11 +548,17 @@ init -11 python:
         buildings = dict()
         for building in buildings_data:
             b = Building()
-            for attr, entry in building.iteritems():
-                if attr == "adverts":
-                    b.add_adverts([adv for adv in adverts_data if adv['name'] in entry])
+            for key, value in building.iteritems():
+                if key == "adverts":
+                    b.add_adverts([adv for adv in adverts_data if adv['name'] in value])
+                elif key == "build_businesses":
+                    for business_data in value:
+                        cls = getattr(store, business_data["class"])
+                        kwargs = business_data.get("kwargs", {})
+                        business = cls(**kwargs)
+                        b.add_business(business)
                 else:
-                    setattr(b, attr, entry)
+                    setattr(b, key, value)
             buildings[b.id] = b
         return buildings
 

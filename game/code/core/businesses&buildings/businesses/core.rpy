@@ -5,37 +5,36 @@ init -12 python:
         """BaseClass for any building expansion! (aka Business)
         """
         MATERIALS = {}
-        COST = 0 # in Gold.
         CONSTRUCTION_EFFORT = 0
         IN_SLOTS = 1
         EX_SLOTS = 1
-        COST = 100
+        COST = 100 # in Gold.
 
-        def __init__(self, name="", instance=None, desc="", img="", build_effort=0,
-                     materials=None, in_slots=1, ex_slots=0, cost=0, **kwargs):
+        def __init__(self, name="", instance=None, desc="", img="",
+                     expands_capacity=True, **kwargs):
             self.name = name # name, a string.
             self.instance = instance # Building this upgrade belongs to.
             self.desc = desc # description, a string.
 
-            # Weird code... we prolly set img somewhere in child classes prior to running this method. I need to normalize how we handle images for upgrades.
-            if not hasattr(self, "img"):
-                self.img = img # Ren'Py path leading the an image, a string.
-            if not hasattr(self, "cost"):
-                self.cost = cost
+            self.img = img
 
-            self.jobs = set() # Jobs this upgrade can add. *We add job instances here!  # It may be a good idea to turn this into a direct job assignment instead of a set...
+            # Jobs this upgrade can add. *We add job instances here!
+            # It may be a good idea to turn this into a direct job assignment instead of a set...
+            self.jobs = set()
             self.workers = set() # List of on duty characters.
 
-            self._rep = 0
+            # self._rep = 0
 
             self.show = True # Display to the player...
 
             self.habitable = False
             self.workable = False
-            self.active = True # If not active, business is not executed and is considered "dead", we run "inactive" method with a corresponding simpy process in this case.
+            # If not active, business is not executed and is considered "dead",
+            # we run "inactive" method with a corresponding simpy process in this case.
+            self.active = True
 
-            self.in_slots = in_slots
-            self.ex_slots = ex_slots
+            self.in_slots = kwargs.pop("in_slots", 0)
+            self.ex_slots = kwargs.pop("ex_slots", 0)
 
             self.clients = set() # Local clients, this is used during next day and reset on when that ends.
 
@@ -44,11 +43,23 @@ init -12 python:
             self.allowed_upgrades = kwargs.get("allowed_upgrades", list())
             self.in_construction_upgrades = list()
             self.upgrades = list()
-            self.expects_clients = True # If False, no clients are expected. If all businesses in the building have this set to false, no client stream will be generated at all.
+            # If False, no clients are expected.
+            # If all businesses in the building have this set to false, no client stream will be generated at all.
+            self.expects_clients = True
+
+            # This means that we can add capacity to this business.
+            self.capacity = kwargs.pop("capacity", 1)
+            self.expands_capacity = kwargs.pop("expands_capacity", True)
 
         def get_client_count(self):
             # Returns amount of clients we expect to come here.
-            return 2 + int(self._rep*0.01*len(self.all_workers))
+            return self.capacity
+
+        def expand_capacity(self, value=1):
+            self.capacity += 1
+
+            self.in_slots += 1
+            self.instance.in_slots += 1
 
         @property
         def job(self):
@@ -236,7 +247,6 @@ init -12 python:
             self.log(temp)
             yield self.env.timeout(100)
 
-        # @Review: From MainUpgrade class which seemed useless to me...
         # SimPy:
         def business_control(self):
             """SimPy business controller.
@@ -261,16 +271,15 @@ init -12 python:
 
 
     class PrivateBusiness(Business):
-        def __init__(self, name="Private Business", instance=None, desc="Client is always right!?!",
-                     img=None, build_effort=0, materials=None, in_slots=2, cost=500, **kwargs):
+        def __init__(self, name="Private Business", instance=None,
+                     desc="Client is always right!?!",
+                     img=None, **kwargs):
 
             img = Null() if img is None else img
 
             super(PrivateBusiness, self).__init__(name=name, instance=instance,
-                            desc=desc, img=img, build_effort=build_effort,
-                            materials=materials, cost=cost, **kwargs)
-                            
-            self.capacity = in_slots
+                            desc=desc, img=img, **kwargs)
+
             self.type = "personal_service"
             self.jobs = set()
             self.workable = True
@@ -279,11 +288,6 @@ init -12 python:
             self.res = None # Restored before every job...
             self.time = 5 # Same
             self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
-
-        def get_client_count(self):
-            # Returns amount of workers we expect to come here.
-            # We may not use this at all and handle everything on level of the main building instead!
-            return round_int(2 + self._rep*0.01*max(len(self.all_workers), self.capacity))
 
         def has_workers(self):
             # Check if the building still has someone availbile to do the job.
@@ -358,17 +362,16 @@ init -12 python:
         """
         def __init__(self, name="Public Default", instance=None,
                      desc="Client is always right!?!", img=None,
-                     build_effort=0, materials=None, in_slots=3,
-                     cost=500, **kwargs):
+                     **kwargs):
+
             img = Null() if img is None else img
+
             super(PublicBusiness, self).__init__(name=name, instance=instance,
-                            desc=desc, img=img, build_effort=build_effort,
-                            materials=materials, cost=cost, **kwargs)
+                            desc=desc, img=img, **kwargs)
             self.jobs = set() # Job bound to this update.
             self.workable = True
             self.type = "public_service"
 
-            self.capacity = in_slots
             self.active_workers = set() # On duty Workers.
             self.clients = set() # Clients.
 
@@ -378,10 +381,6 @@ init -12 python:
             self.is_running = False # Active/Inactive.
 
             self.earned_cash = 0 # Cash earned (total)
-
-        def get_client_count(self):
-            # Returns amount of clients we expect to come here.
-            return round_int(3 + self._rep*0.05*max(len(self.all_workers), self.capacity))
 
         def pre_nd(self):
             # Whatever we need to do at start of Next Day calculations.
@@ -534,10 +533,13 @@ init -12 python:
     class OnDemandBusiness(Business):
         def __init__(self, name="On Demand Default", instance=None,
                      desc="Does something on request!", img=None,
-                     build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
+                     **kwargs):
+
             img = Null() if img is None else img
-            super(OnDemandBusiness, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, materials=materials, cost=cost, **kwargs)
-            self.capacity = in_slots
+
+            super(OnDemandBusiness, self).__init__(name=name, instance=instance,
+                        desc=desc, img=img, **kwargs)
+
             self.type = "on_demand_service"
             self.jobs = set()
             self.workable = True
@@ -605,11 +607,12 @@ init -12 python:
         """Base class upgrade for businesses that just need to complete a task, like FG, crafting and etc.
         """
         # For lack of a better term... can't come up with a better name atm.
-        def __init__(self, name="Task Default", instance=None, desc="Completes given task!",
-                     img=None, build_effort=0, materials=None, in_slots=0, cost=0, **kwargs):
+        def __init__(self, name="Task Default", desc="Completes given task!",
+                     img=None, **kwargs):
+
             img = Null() if img is None else img
+
             super(TaskBusiness, self).__init__(name=name, instance=instance, desc=desc,
-                                               img=img, build_effort=build_effort,
-                                               materials=materials, cost=cost, **kwargs)
+                                               img=img, **kwargs)
 
             self.res = None #*Throws an error?
