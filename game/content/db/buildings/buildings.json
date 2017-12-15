@@ -1,149 +1,278 @@
-[
-  {
-    "id": 1,
-    "name": "Old Shack",
-    "desc": "Small, rundown building on the very outskirts of town.",
-    "price": 5000,
+[{
+		"id": 1,
+		"name": "Old Shack",
+		"desc": "Small, rundown building on the very outskirts of town.",
+		"price": 5000,
 
-    "in_slots_max": 4,
-    "ex_slots_max": 0,
+		"in_slots_max": 4,
+		"ex_slots_max": 0,
 
-    "fame": 0,
-    "maxfame": 100,
-    "rep": 0,
-    "maxrep": 100,
+		"fame": 0,
+		"maxfame": 100,
+		"rep": 0,
+		"maxrep": 100,
 
-    "tier": 0,
-    "mod": 1,
+		"tier": 0,
+		"mod": 1,
 
-    "adverts": ["Sign", "Flyers"],
-    "img": "content/buildings/oldshack.jpg",
+		"adverts": ["Sign", "Flyers"],
+		"img": "content/buildings/oldshack.jpg",
 
-    "build_businesses": [{"class": "BrothelBlock",
-                        "kwargs": {"capacity": 2,
-                                   "in_slots": 2,
-                                   "desc": "Small private rooms that'll 'do the trick'!"}}],
-    "allowed_businesses": ["StripClub", "Cleaners"]
-  },
-  {
-    "id": 2,
-    "name": "Small house on Outskirts",
-    "desc": "Small house away from the city. Might not look like much, but it's not likely to scare away costumers.",
-    "price": 15000,
+		"build_businesses": [{
+				"class": "BrothelBlock",
+				"kwargs": {
+					"capacity": 2,
+					"in_slots": 2,
+					"desc": "Small, private rooms that'll 'do the trick'!"
+				}
+			},
+			{
+				"class": "Cleaners"
+			}
+		],
+		"allowed_businesses": ["BrothelBlock", "Cleaners", "WarriorQuarters"]
+	},
+	{
+		"id": 2,
+		"name": "Small house on Outskirts",
+		"desc": "Small house away from the city. Might not look like much, but it's not likely to scare away costumers.",
+		"price": 15000,
 
-    "in_slots_max": 6,
-    "ex_slots_max": 2,
+		"in_slots_max": 8,
+		"ex_slots_max": 2,
 
-    "fame": 0,
-    "maxfame": 150,
-    "rep": 0,
-    "maxrep": 120,
+		"fame": 0,
+		"maxfame": 150,
+		"rep": 0,
+		"maxrep": 120,
 
-    "mod": 1.2,
-    "tier": 1,
+		"mod": 1.2,
+		"tier": 1,
 
-    "adverts": ["Sign", "Flyers", "Magazine"],
-    "img": "content/buildings/smallhouse.jpg",
+		"adverts": ["Sign", "Flyers", "Magazine"],
+		"img": "content/buildings/smallhouse.jpg",
 
-    "build_businesses": [{"class": "BrothelBlock",
-                        "kwargs": {"capacity": 4,
-                                   "in_slots": 4,
-                                   "desc": "Small private rooms that'll 'do the trick'!"}}]
-  },
-  {
-    "id": 3,
-    "name": "House on Outskirts",
-    "desc": "A nice building away from the city. Costumer traffic is not very good though.",
-    "price": 25000,
-    "in_slots_max": 8,
-    "ex_slots_max": 8,
-    "fame": 0,
-    "maxfame": 150,
-    "rep": 0,
-    "maxrep": 150,
-    "tier": 2,
-    "mod": 1.4,
-    "adverts": ["Sign", "Flyers", "Magazine", "Billboard"],
-    "img": "content/buildings/house1.jpg"
-  },
-  {
-    "id": 4,
-    "name": "House in the City",
-    "desc": "A beautiful house inside city limits.",
-    "price": 75000,
+		"build_businesses": [{
+				"class": "BrothelBlock",
+				"kwargs": {
+					"capacity": 4,
+					"in_slots": 4,
+					"desc": "Small, private rooms that'll 'do the trick'!"
+				}
+			},
+			{
+				"class": "Cleaners"
+			}
+		],
+		"allowed_businesses": ["BrothelBlock", "StripClub", "Cleaners", "WarriorQuarters"]
+	},
+	{
+		"id": 3,
+		"name": "House on Outskirts",
+		"desc": "A nice building away from the city. Setup your business as you see fit!",
+		"price": 25000,
 
-    "in_slots_max": 12,
-    "ex_slots_max": 4,
+		"in_slots_max": 12,
+		"ex_slots_max": 8,
 
-    "fame": 0,
-    "maxfame": 200,
-    "rep": 0,
-    "maxrep": 150,
+		"fame": 0,
+		"maxfame": 150,
+		"rep": 0,
+		"maxrep": 150,
 
-    "tier": 4,
-    "mod": 1.6,
+		"tier": 2,
+		"mod": 1.4,
 
-    "adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl"],
-    "img": "content/buildings/house2.jpg"
-  },
-  {
-    "id": 5,
-    "name": "Mansion on the Main Road",
-    "desc": "A large mansion in the city center.",
-    "price": 175000,
+		"adverts": ["Sign", "Flyers", "Magazine", "Billboard"],
+		"img": "content/buildings/house1.jpg",
 
-    "in_slots_max": 25,
-    "ex_slots_max": 10,
+		"build_businesses": [{
+				"class": "Cleaners"
+			},
+			{
+				"class": "WarriorQuarters"
+			}
+		],
+		"allowed_businesses": ["BrothelBlock", "StripClub", "Bar", "Cleaners", "WarriorQuarters"]
+	},
+	{
+		"id": 4,
+		"name": "House in the City",
+		"desc": "A beautiful house inside city limits.",
+		"price": 75000,
 
-    "fame": 50,
-    "maxfame": 300,
-    "rep": 0,
-    "maxrep": 300,
+		"in_slots_max": 20,
+		"ex_slots_max": 4,
 
-    "tier": 5,
-    "mod": 2,
+		"fame": 0,
+		"maxfame": 200,
+		"rep": 0,
+		"maxrep": 150,
 
-    "adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl"],
-    "img": "content/buildings/mansion.jpg"
-  },
-  {
-    "id": 6,
-    "name": "Palace on the Main Road",
-    "desc": "It is a freaking Palace!!!",
-    "price": 500000,
+		"tier": 4,
+		"mod": 1.6,
 
-    "in_slots_max": 45,
-    "ex_slots_max": 25,
+		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl"],
+		"img": "content/buildings/house2.jpg",
 
-    "fame": 100,
-    "maxfame": 500,
-    "rep": 0,
-    "maxrep": 500,
+		"build_businesses": [{
+				"class": "BrothelBlock",
+				"kwargs": {
+					"capacity": 5,
+					"in_slots": 5,
+					"desc": "Small, private rooms that'll 'do the trick'!"
+				}
+			},
+			{
+				"class": "StripClub",
+				"kwargs": {
+					"capacity": 5,
+					"in_slots": 5,
+					"desc": "Entance your clients with exotic dancers!"
+				}
+			},
+			{
+				"class": "Cleaners"
+			},
+			{
+				"class": "WarriorQuarters"
+			}
+		],
+		"allowed_businesses": ["BrothelBlock", "StripClub", "Bar", "Cleaners", "WarriorQuarters"]
+	},
+	{
+		"id": 5,
+		"name": "Mansion on the Main Road",
+		"desc": "A large mansion in the city center.",
+		"price": 175000,
 
-    "tier": 6,
-    "mod": 3,
+		"in_slots_max": 25,
+		"ex_slots_max": 10,
 
-    "adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
-    "img": "content/buildings/palace.jpg"
-  },
-  {
-    "id": 7,
-    "name": "Central Palace",
-    "desc": "Possibly the most beautiful and spectacular building in the city. You'll never cease asking yourself how you managed to come this far.",
-    "price": 1000000,
+		"fame": 50,
+		"maxfame": 300,
+		"rep": 0,
+		"maxrep": 300,
 
-    "in_slots_max": 100,
-    "ex_slots_max": 40,
+		"tier": 5,
+		"mod": 2,
 
-    "fame": 200,
-    "maxfame": 1000,
-    "rep": 0,
-    "maxrep": 1000,
+		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl"],
+		"img": "content/buildings/mansion.jpg",
 
-    "tier": 8,
-    "mod": 5,
+		"build_businesses": [{
+				"class": "BrothelBlock",
+				"kwargs": {
+					"capacity": 5,
+					"in_slots": 5,
+					"desc": "Small, private rooms that'll 'do the trick'!"
+				}
+			},
+			{
+				"class": "StripClub",
+				"kwargs": {
+					"capacity": 5,
+					"in_slots": 5,
+					"desc": "Entance your clients with exotic dancers!"
+				}
+			},
+			{
+				"class": "Cleaners"
+			},
+			{
+				"class": "WarriorQuarters"
+			}
+		],
+		"allowed_businesses": ["BrothelBlock", "StripClub", "Bar", "Cleaners", "WarriorQuarters"]
+	},
+	{
+		"id": 6,
+		"name": "Palace on the Main Road",
+		"desc": "It is a freaking Palace!!!",
+		"price": 500000,
 
-    "adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
-    "img": "content/buildings/centralpalace.jpg"
-  }
+		"in_slots_max": 45,
+		"ex_slots_max": 25,
+
+		"fame": 100,
+		"maxfame": 500,
+		"rep": 0,
+		"maxrep": 500,
+
+		"tier": 6,
+		"mod": 3,
+
+		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
+		"img": "content/buildings/palace.jpg",
+
+		"build_businesses": [{
+				"class": "BrothelBlock",
+				"kwargs": {
+					"capacity": 5,
+					"in_slots": 5,
+					"desc": "Small, private rooms that'll 'do the trick'!"
+				}
+			},
+			{
+				"class": "StripClub",
+				"kwargs": {
+					"capacity": 5,
+					"in_slots": 5,
+					"desc": "Entance your clients with exotic dancers!"
+				}
+			},
+			{
+				"class": "Cleaners"
+			},
+			{
+				"class": "WarriorQuarters"
+			}
+		],
+		"allowed_businesses": ["BrothelBlock", "StripClub", "Bar", "Cleaners", "WarriorQuarters"]
+	},
+	{
+		"id": 7,
+		"name": "Central Palace",
+		"desc": "Possibly the most beautiful and spectacular building in the city. You'll never cease asking yourself how you managed to come this far.",
+		"price": 1000000,
+
+		"in_slots_max": 100,
+		"ex_slots_max": 40,
+
+		"fame": 200,
+		"maxfame": 1000,
+		"rep": 0,
+		"maxrep": 1000,
+
+		"tier": 8,
+		"mod": 5,
+
+		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
+		"img": "content/buildings/centralpalace.jpg",
+
+		"build_businesses": [{
+				"class": "BrothelBlock",
+				"kwargs": {
+					"capacity": 5,
+					"in_slots": 5,
+					"desc": "Small, private rooms that'll 'do the trick'!"
+				}
+			},
+			{
+				"class": "StripClub",
+				"kwargs": {
+					"capacity": 5,
+					"in_slots": 5,
+					"desc": "Entance your clients with exotic dancers!"
+				}
+			},
+			{
+				"class": "Cleaners"
+			},
+			{
+				"class": "WarriorQuarters"
+			}
+		],
+		"allowed_businesses": ["BrothelBlock", "StripClub", "Bar", "Cleaners", "WarriorQuarters"]
+	}
 ]
