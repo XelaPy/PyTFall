@@ -10,7 +10,7 @@ init -10 python:
     # class CityJail(Building): <-- Just a building6
     # class Brothel(UpgradableBuilding, BuildingStats, FamousBuilding): <-- A building will upgrade, dirt and fame mechanics.
     #
-    """Core order for SimPy jobs loop:2
+    """Core order for SimPy jobs loop:
     ***Needs update after restructuring/renaming.
 
     BUILDING:
@@ -559,8 +559,6 @@ init -10 python:
 
             # If we want to build the upgrade as well (usually in testing scenarios):
             if build and config.debug: # This isn't really safe to use in the real game (should be moved to the end of a func if we need it)...
-                self.in_slots = self.in_slots + upgrade.IN_SLOTS
-                self.ex_slots = self.ex_slots + upgrade.EX_SLOTS
                 self.add_business(upgrade)
 
             if self.in_slots_max - self.in_slots < upgrade.IN_SLOTS or self.ex_slots_max - self.ex_slots < upgrade.EX_SLOTS:
@@ -586,13 +584,18 @@ init -10 python:
 
             business.instance = self
             self._businesses.append(business)
+            self._businesses.sort(key=attrgetter("SORTING_ORDER"), reverse=True)
 
             if normalize_jobs:
                 self.normalize_jobs()
 
         def add_upgrade(self, upgrade):
+            self.in_slots += upgrade.in_slots
+            self.ex_slots += upgrade.ex_slots
+
             upgrade.instance = self
             self._upgrades.append(upgrade)
+            self._upgrades.sort(key=attrgetter("SORTING_ORDER"), reverse=True)
 
         def all_possible_extensions(self):
             # Returns a list of all possible extensions (businesses and upgrades)
@@ -601,14 +604,17 @@ init -10 python:
         def all_extensions(self):
             return self._businesses + self._upgrades
 
-        def has_extension(self, extension_class, include_business_upgrades=False):
+        def has_extension(self, extension, include_business_upgrades=False):
+            if not inspect.isclass(extension):
+                extension = extension.__class__
+
             for ex in self.all_extensions():
-                if isinstance(ex, extension_class):
+                if isinstance(ex, extension):
                     return True
 
             if include_business_upgrades:
                 for ex in self.all_extensions():
-                    if ex.has_extension(extension_class):
+                    if ex.has_extension(extension):
                         return True
 
             return False

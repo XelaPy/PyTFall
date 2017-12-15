@@ -2,6 +2,7 @@ init -999 python:
     ##################### Import Modules #####################
     import os
     import sys
+    import inspect
     import re
     import pygame
     import time
