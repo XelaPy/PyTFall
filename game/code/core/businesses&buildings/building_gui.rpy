@@ -373,11 +373,11 @@ init: # Screens:
                         has vbox xysize (130, 40)
                         text "Outdoor Slots:" size 10 color yellow xalign .5
                         text "%d/%d" % (building.ex_slots, building.ex_slots_max) color beige size 12 xalign .5 style_suffix "value_text"
-                frame:
-                    xysize (145, 40)
-                    xalign .5
-                    # has vbox
-                    text "Construction" size 10 color yellow align .5, .5
+                # frame:
+                #     xysize (145, 40)
+                #     xalign .5
+                #     # has vbox
+                #     text "Construction" size 10 color yellow align .5, .5
                     # text "%d/%d" % (building.ex_slots, building.ex_slots_max) color beige size 12 xalign .5 style_suffix "value_text"
 
         # Tooltip related:
@@ -521,7 +521,7 @@ init: # Screens:
                 vbox:
                     ypos 55
                     xalign 0.5
-                    for u in building._upgrades:
+                    for u in building.all_extensions():
                         frame:
                             xalign .6
                             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
@@ -1031,8 +1031,8 @@ init: # Screens:
             else: # TODO: This needs an extra variable and better conditioning...
                 vbox:
                     xsize 630
-                    for u in bm_mid_frame_mode.allowed_upgrades:
-                        if building._has_upgrade(u):
+                    for u in bm_mid_frame_mode.all_possible_extensions():
+                        if building.has_extension(u):
                             frame:
                                 xalign .5
                                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
@@ -1059,7 +1059,6 @@ init: # Screens:
                                             add im.Scale(u.IMG, 120, 75) align .5, .5
                                         else:
                                             add Solid(black, xysize=(120, 75)) align .5, .5
-
                         else:
                             frame:
                                 xalign .5

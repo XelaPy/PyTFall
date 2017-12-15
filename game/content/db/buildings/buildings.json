@@ -22,25 +22,33 @@
     "build_businesses": [{"class": "BrothelBlock",
                         "kwargs": {"capacity": 2,
                                    "in_slots": 2,
-                                   "desc": "Small private rooms that'll 'do the trick'!"}}]
+                                   "desc": "Small private rooms that'll 'do the trick'!"}}],
+    "allowed_businesses": ["StripClub", "Cleaners"]
   },
   {
     "id": 2,
     "name": "Small house on Outskirts",
     "desc": "Small house away from the city. Might not look like much, but it's not likely to scare away costumers.",
     "price": 15000,
+
     "in_slots_max": 6,
     "ex_slots_max": 2,
+
     "fame": 0,
     "maxfame": 150,
     "rep": 0,
     "maxrep": 120,
+
     "mod": 1.2,
     "tier": 1,
-    "upgrade_slots": 2,
-    "adverts": ["Sign", "Flyers", "Magazine"],
 
-    "img": "content/buildings/smallhouse.jpg"
+    "adverts": ["Sign", "Flyers", "Magazine"],
+    "img": "content/buildings/smallhouse.jpg",
+
+    "build_businesses": [{"class": "BrothelBlock",
+                        "kwargs": {"capacity": 4,
+                                   "in_slots": 4,
+                                   "desc": "Small private rooms that'll 'do the trick'!"}}]
   },
   {
     "id": 3,

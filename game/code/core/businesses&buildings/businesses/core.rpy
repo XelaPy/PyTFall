@@ -261,7 +261,12 @@ init -12 python:
             upgrade.building = self.instance
             self.upgrades.append(upgrade)
 
-        def has_upgrade(self, upgrade_class):
+        def all_possible_extensions(self):
+            # Named this was to conform to GUI (same as for Buildings)
+            return self.allowed_upgrades
+
+        def has_extension(self, upgrade_class):
+            # Named this was to conform to GUI (same as for Buildings)
             return upgrade_class in [u.__class__ for u in self.upgrades]
 
         def check_upgrade_compatibility(self, upgrade):

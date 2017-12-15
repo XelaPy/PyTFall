@@ -566,7 +566,7 @@ init -10 python:
             if self.in_slots_max - self.in_slots < upgrade.IN_SLOTS or self.ex_slots_max - self.ex_slots < upgrade.EX_SLOTS:
                 return
 
-            if self._has_upgrade(upgrade):
+            if self.has_extension(upgrade):
                 return
 
             if hero.gold < upgrade.COST:
@@ -591,14 +591,22 @@ init -10 python:
             upgrade.instance = self
             self._upgrades.append(upgrade)
 
-        def _has_upgrade(self, upgrade):
-            # Checks if there is already this type of an upgrade:
-            if list(up for up in self._upgrades if up.__class__ == upgrade):
-                return True
+        def all_possible_extensions(self):
+            # Returns a list of all possible extensions (businesses and upgrades)
+            return self.allowed_businesses + self.allowed_upgrades
 
-            for up in self._upgrades:
-                if up.has_upgrade(upgrade):
+        def all_extensions(self):
+            return self._businesses + self._upgrades
+
+        def has_extension(self, extension_class, include_business_upgrades=False):
+            for ex in self.all_extensions():
+                if isinstance(ex, extension_class):
                     return True
+
+            if include_business_upgrades:
+                for ex in self.all_extensions():
+                    if ex.has_extension(extension_class):
+                        return True
 
             return False
 

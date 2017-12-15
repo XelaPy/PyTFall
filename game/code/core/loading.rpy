@@ -557,6 +557,10 @@ init -11 python:
                         kwargs = business_data.get("kwargs", {})
                         business = cls(**kwargs)
                         b.add_business(business)
+                elif key == "allowed_businesses":
+                    for business in value:
+                        business = getattr(store, business)
+                        b.allowed_businesses.append(business)
                 else:
                     setattr(b, key, value)
             buildings[b.id] = b
