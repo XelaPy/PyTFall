@@ -456,7 +456,7 @@ init -12 python:
                 if False:
                     if counter < 1 and self.env.now > 20:
                         counter += 1
-                        for u in self.instance._upgrades:
+                        for u in self.instance._businesses:
                             if u.__class__ == WarriorQuarters:
                                 process = u.request_action(building=self.instance, start_job=True, priority=True, any=False, action="patrol")[1]
                                 u.interrupt = process # New field to which we can bind a process that can be interrupted.
