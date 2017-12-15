@@ -1032,7 +1032,7 @@ init: # Screens:
                 vbox:
                     xsize 630
                     for u in bm_mid_frame_mode.all_possible_extensions():
-                        if building.has_extension(u):
+                        if bm_mid_frame_mode.has_extension(u):
                             frame:
                                 xalign .5
                                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)

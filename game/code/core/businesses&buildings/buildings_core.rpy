@@ -581,6 +581,9 @@ init -10 python:
         def add_business(self, business, normalize_jobs=True):
             """Add business to the building.
             """
+            self.in_slots += business.in_slots
+            self.ex_slots += business.ex_slots
+
             business.instance = self
             self._businesses.append(business)
 
