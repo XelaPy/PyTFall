@@ -81,13 +81,13 @@ init -9 python:
 
             total_points = level_points + stats_skills_points
 
-            devlog.info("Name: {}, total tier points for Teir {}: {} (lvl: {}, st/sk=total: {}/{}==>{})".format(self.name,
-                                                                                                        int(target_tier),
-                                                                                                        round(total_points),
-                                                                                                        round(level_points),
-                                                                                                        round(stat_bonus),
-                                                                                                        round(skill_bonus),
-                                                                                                        round(stats_skills_points)))
+            # devlog.info("Name: {}, total tier points for Teir {}: {} (lvl: {}, st/sk=total: {}/{}==>{})".format(self.name,
+            #                                                                                             int(target_tier),
+            #                                                                                             round(total_points),
+            #                                                                                             round(level_points),
+            #                                                                                             round(stat_bonus),
+            #                                                                                             round(skill_bonus),
+            #                                                                                             round(stats_skills_points)))
 
             if total_points >= 100:
                 self.tier += 1 # we tier up and return True!
