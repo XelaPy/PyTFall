@@ -561,13 +561,13 @@ init -10 python:
             if build and config.debug: # This isn't really safe to use in the real game (should be moved to the end of a func if we need it)...
                 self.add_business(upgrade)
 
-            if self.in_slots_max - self.in_slots < upgrade.IN_SLOTS or self.ex_slots_max - self.ex_slots < upgrade.EX_SLOTS:
+            if (self.in_slots_max - self.in_slots) < upgrade.in_slots or (self.ex_slots_max - self.ex_slots) < upgrade.ex_slots:
                 return
 
             if self.has_extension(upgrade):
                 return
 
-            if hero.gold < upgrade.COST:
+            if hero.gold < upgrade.cost:
                 return
 
             for i, a in upgrade.MATERIALS.iteritems():

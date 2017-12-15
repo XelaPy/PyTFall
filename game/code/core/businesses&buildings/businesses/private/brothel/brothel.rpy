@@ -3,7 +3,6 @@ init -5 python:
         SORTING_ORDER = 5
         COMPATIBILITY = []
         MATERIALS = {"Wood": 70, "Bricks": 30, "Glass": 5}
-        COST = 10000
         ID = "Brothel"
         IMG = "content/buildings/upgrades/room.jpg"
         def __init__(self, name="Brothel", instance=None, desc="Rooms to freck in!",

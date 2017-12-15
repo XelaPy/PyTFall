@@ -282,7 +282,6 @@ init -6 python:
         SORTING_ORDER = 10
         COMPATIBILITY = []
         MATERIALS = {"Wood": 70, "Bricks": 50, "Glass": 5}
-        COST = 10000
         ID = "ExplorationGuild"
         IMG = "content/gfx/bg/buildings/Chorrol_Fighters_Guild.png"
 

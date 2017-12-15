@@ -54,7 +54,6 @@ init -3 python:
     class Aquarium(BusinessUpgrade):
         COMPATIBILITY = [StripClub]
         MATERIALS = {"Glass": 10, "Wood": 5}
-        COST = 2500
         ID = "Aquarium"
         IMG = "content/buildings/upgrades/aquarium_nq.jpg"
         def __init__(self, name="Aquarium", instance=None,

@@ -4,12 +4,9 @@ init -12 python:
     class Business(_object):
         """BaseClass for any building expansion! (aka Business)
         """
+        ID = "Business"
         SORTING_ORDER = 0
         MATERIALS = {}
-        CONSTRUCTION_EFFORT = 0
-        IN_SLOTS = 1
-        EX_SLOTS = 1
-        COST = 100 # in Gold.
 
         def __init__(self, name="", instance=None, desc="", img="",
                      expands_capacity=True, **kwargs):
@@ -34,6 +31,7 @@ init -12 python:
             # we run "inactive" method with a corresponding simpy process in this case.
             self.active = True
 
+            self.cost = kwargs.pop("cost", 0)
             self.in_slots = kwargs.pop("in_slots", 0)
             self.ex_slots = kwargs.pop("ex_slots", 0)
 
