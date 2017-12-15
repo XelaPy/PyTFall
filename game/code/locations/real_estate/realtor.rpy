@@ -102,7 +102,7 @@ screen realtor_agency():
                             xfill True
                             xysize (395, 320)
                             frame:
-                                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 5, 5)
+                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 5, 5)
                                 xysize (395, 320)
                                 null height 15
                                 vbox:
@@ -162,10 +162,14 @@ screen realtor_agency():
                                         xysize 380, 24
                                         text "{color=[gold]}Price:" yalign 0.5
                                         label (u"{color=[gold]}%d"%(focus.price)) align (1.0, 0.5)
-                                    # frame:
-                                    #     xysize 380, 24
-                                    #     text "Rooms:" yalign 0.5
-                                    #     label (u"{color=[ivory]}%s/%s" % (focus.rooms, focus.maxrooms)) align (1.0, 0.5)
+                                    frame:
+                                        xysize 380, 24
+                                        text "Interior Space:" yalign 0.5
+                                        label (u"{color=[ivory]}%s/%s" % (focus.in_slots, focus.in_slots_max)) align (1.0, 0.5)
+                                    frame:
+                                        xysize 380, 24
+                                        text "Exterior Space:" yalign 0.5
+                                        label (u"{color=[ivory]}%s/%s" % (focus.ex_slots, focus.ex_slots_max)) align (1.0, 0.5)
                                     if isinstance(focus, FamousBuilding):
                                         frame:
                                             xysize 380, 24
@@ -175,13 +179,11 @@ screen realtor_agency():
                                             xysize 380, 24
                                             text "Reputation:" yalign 0.5
                                             label (u"%s/%s" % (focus.rep, focus.maxrep)) align (1.0, 0.5)
-
                                     if isinstance(focus, Building):
                                         frame:
                                             xysize 380, 24
-                                            text "Max Rank:" yalign 0.5
-                                            # TODO Replace with Tiers
-                                            # label (u"%s" % (focus.maxrank)) align (1.0, 0.5)
+                                            text "Level:" yalign 0.5
+                                            label (u"%s" % (focus.tier)) align (1.0, .5)
 
                         null height 50
 
