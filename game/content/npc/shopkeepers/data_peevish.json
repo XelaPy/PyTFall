@@ -6,9 +6,9 @@
         "desc": "A strange Leprechaun living in the forest. He teaches Water and Earth magic.",
         "origin": "PyTFall",
         
-        "base_race": "Elf",
+        "race": "Elf",
         "gender": "male",
-        "race": "Leprechaun",
+        "full_race": "Leprechaun",
         "location": "city",
         "status": "free",
         "gold": 1000,
