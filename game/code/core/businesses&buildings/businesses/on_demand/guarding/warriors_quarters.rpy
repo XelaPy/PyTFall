@@ -1,5 +1,6 @@
 init -5 python:
     class WarriorQuarters(OnDemandBusiness):
+        SORTING_ORDER = 2
         COMPATIBILITY = []
         MATERIALS = {"Wood": 15, "Bricks": 30, "Glass": 3}
         COST = 2500

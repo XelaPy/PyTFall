@@ -1,6 +1,7 @@
 init -5 python:
     class Bar(PublicBusiness):
         COMPATIBILITY = []
+        SORTING_ORDER = 4
         MATERIALS = {"Wood": 50, "Bricks": 30, "Glass": 5}
         COST = 5000
         ID = "Bar"

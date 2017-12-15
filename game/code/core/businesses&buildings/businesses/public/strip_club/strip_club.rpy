@@ -1,6 +1,7 @@
 init -5 python:
     class StripClub(PublicBusiness):
         COMPATIBILITY = []
+        SORTING_ORDER = 4
         MATERIALS = {"Wood": 30, "Bricks": 50, "Glass": 10}
         COST = 8000
         ID = "Strip Club"

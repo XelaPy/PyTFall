@@ -4,6 +4,7 @@ init -12 python:
     class Business(_object):
         """BaseClass for any building expansion! (aka Business)
         """
+        SORTING_ORDER = 0
         MATERIALS = {}
         CONSTRUCTION_EFFORT = 0
         IN_SLOTS = 1
@@ -277,6 +278,7 @@ init -12 python:
 
 
     class PrivateBusiness(Business):
+        SORTING_ORDER = 3
         def __init__(self, name="Private Business", instance=None,
                      desc="Client is always right!?!",
                      img=None, **kwargs):
@@ -360,6 +362,7 @@ init -12 python:
 
 
     class PublicBusiness(Business):
+        SORTING_ORDER = 2
         """Public Business Upgrade.
 
         This usually assumes the following:
@@ -537,6 +540,7 @@ init -12 python:
 
 
     class OnDemandBusiness(Business):
+        SORTING_ORDER = 2
         def __init__(self, name="On Demand Default", instance=None,
                      desc="Does something on request!", img=None,
                      **kwargs):
@@ -610,6 +614,7 @@ init -12 python:
 
 
     class TaskBusiness(Business):
+        SORTING_ORDER = 6
         """Base class upgrade for businesses that just need to complete a task, like FG, crafting and etc.
         """
         # For lack of a better term... can't come up with a better name atm.

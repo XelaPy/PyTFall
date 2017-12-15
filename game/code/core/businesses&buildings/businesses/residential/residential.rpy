@@ -1,6 +1,7 @@
 init -6 python:
     # Provides living space, not sure if this or the building should be bound as home locations!
     class SlaveQuarters(Business):
+        SORTING_ORDER = 0
         def __init__(self, name="Slave Quarters", instance=None,
                      desc="Place for slaves to live in!",
                      img="content/buildings/upgrades/guard_qt.jpg",

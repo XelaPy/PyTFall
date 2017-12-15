@@ -279,7 +279,7 @@ init -6 python:
 
 
     class ExplorationGuild(TaskBusiness):
-        
+        SORTING_ORDER = 10
         COMPATIBILITY = []
         MATERIALS = {"Wood": 70, "Bricks": 50, "Glass": 5}
         COST = 10000

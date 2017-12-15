@@ -1,7 +1,8 @@
 init -3 python:
     # Sub Upgrades:     # ==========================>>>
     class BusinessUpgrade(_object):
-        #@Review: Ingerited from building upgrade before, not sure why.
+        SORTING_ORDER = 0
+        #@Review: Inherited from building upgrade before, not sure why.
         """Usually suggests an expansion to a business upgrade that modifies some of it's workflow/properties/jobs!
 
         I want to code a skeleton for this atm.

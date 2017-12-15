@@ -1,5 +1,6 @@
 init -5 python:
     class BrothelBlock(PrivateBusiness):
+        SORTING_ORDER = 5
         COMPATIBILITY = []
         MATERIALS = {"Wood": 70, "Bricks": 30, "Glass": 5}
         COST = 10000

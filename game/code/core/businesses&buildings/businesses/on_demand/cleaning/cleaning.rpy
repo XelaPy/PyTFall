@@ -1,5 +1,6 @@
 init -5 python:
     class Cleaners(OnDemandBusiness):
+        SORTING_ORDER = 1
         COMPATIBILITY = []
         MATERIALS = {"Wood": 2, "Bricks": 2}
         COST = 500
