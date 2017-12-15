@@ -5,9 +5,9 @@
         "desc": "Ancient golem put in charge of Pytfall's archives.",
         "origin": "PyTFall",
         
-        "base_race": "Android",
+        "race": "Android",
         "gender": "male",
-        "race": "Golem",
+        "full_race": "Golem",
         "height": "tall",
         "location": "city",
         "status": "free",

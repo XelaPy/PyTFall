@@ -6,9 +6,9 @@
         "desc": "A cute Leprechaun living in the park. She teaches Dark and Light magic",
         "origin": "PyTFall",
         
-        "base_race": "Elf",
+        "race": "Elf",
         "gender": "female",
-        "race": "Leprechaun",
+        "full_race": "Leprechaun",
         "location": "city",
         "status": "free",
         "gold": 1000,
@@ -45,7 +45,7 @@
         ],
         
         "traits": [
-            "Dark",
+            "Darkness",
             "Light",
             "Average Boobs",
             "Dandere",

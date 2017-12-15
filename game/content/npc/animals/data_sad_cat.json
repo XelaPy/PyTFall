@@ -8,7 +8,8 @@
         
         "base_race": "Furry",
         "gender": "male",
-        "race": "Animal",
+        "race": "Furry",
+        "full_race": "Cat",
         "location": "city",
         "status": "free",
         "gold": 0
