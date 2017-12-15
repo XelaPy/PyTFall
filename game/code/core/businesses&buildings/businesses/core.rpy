@@ -43,6 +43,7 @@ init -12 python:
             self.allowed_upgrades = kwargs.get("allowed_upgrades", list())
             self.in_construction_upgrades = list()
             self.upgrades = list()
+
             # If False, no clients are expected.
             # If all businesses in the building have this set to false, no client stream will be generated at all.
             self.expects_clients = True
@@ -255,16 +256,16 @@ init -12 python:
                 yield self.env.timeout(100)
 
         # Business MainUpgrade related:
-        def add_business(self, upgrade):
+        def add_upgrade(self, upgrade):
             upgrade.instance = self
-            self.main_upgrade = self.instance
+            upgrade.building = self.instance
             self.upgrades.append(upgrade)
 
         def has_upgrade(self, upgrade_class):
             return upgrade_class in [u.__class__ for u in self.upgrades]
 
         def check_upgrade_compatibility(self, upgrade):
-            return self.__class__ in upgrade.COMPATIBILITY
+            return self.__class__ in upgrade.COMPATIBILITY # How is this different from allowed?
 
         def check_upgrade_allowance(self, upgrade):
             return upgrade.__class__ in self.allowed_upgrades
