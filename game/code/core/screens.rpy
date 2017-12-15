@@ -688,6 +688,7 @@ init: # Items:
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/preference.png", 39, 40), im.matrix.brightness(0.25))
                         action Show("s_menu", transition=dissolve)
                         hovered tt.Action("Game Preferences")
+                    key "mousedown_3" action Show("s_menu", transition=dissolve)
 
                 if renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "dungeon"] and show_lead_away_buttons:
                     imagebutton:
