@@ -1,29 +1,37 @@
 init -12 python:
     #################################################################
     # BUILDING UPGRADE CLASSES:
-    class Business(_object):
+    class CoreExtension(_object):
         """BaseClass for any building expansion! (aka Business)
         """
-        ID = "Business"
+
+        ID = "Extension"
         SORTING_ORDER = 0
         MATERIALS = {}
 
-        def __init__(self, name="", instance=None, desc="", img="",
-                     expands_capacity=True, **kwargs):
-            self.name = name # name, a string.
-            self.building = instance # Building this upgrade belongs to.
-            self.desc = desc # description, a string.
+        def __init__(self, name="Extension", desc="Base Extension.", img=ImageReference("no_image"),
+                     expands_capacity=False, **kwargs):
 
+            self.name = name # name, a string.
+            self.building = None # Building this upgrade belongs to.
+            self.desc = desc # description, a string.
             self.img = img
+
+
+    class Business(CoreExtension):
+        """BaseClass for any building expansion! (aka Business)
+        """
+        ID = "Business"
+        def __init__(self, name="", desc="Business", img=ImageReference("no_image"),
+                     expands_capacity=True, **kwargs):
+
+            super(Business, self).__init__(name=name,
+                        desc=desc, img=img, **kwargs)
 
             # Jobs this upgrade can add. *We add job instances here!
             # It may be a good idea to turn this into a direct job assignment instead of a set...
             self.jobs = set()
             self.workers = set() # List of on duty characters.
-
-            # self._rep = 0
-
-            self.show = True # Display to the player...
 
             self.habitable = False
             self.workable = False
@@ -303,13 +311,13 @@ init -12 python:
 
     class PrivateBusiness(Business):
         SORTING_ORDER = 3
-        def __init__(self, name="Private Business", instance=None,
+        def __init__(self, name="Private Business",
                      desc="Client is always right!?!",
                      img=None, **kwargs):
 
             img = Null() if img is None else img
 
-            super(PrivateBusiness, self).__init__(name=name, instance=instance,
+            super(PrivateBusiness, self).__init__(name=name,
                             desc=desc, img=img, **kwargs)
 
             self.type = "personal_service"
@@ -393,13 +401,13 @@ init -12 python:
         - Clients are handled in one general pool.
         - Workers randomly serve them.
         """
-        def __init__(self, name="Public Default", instance=None,
+        def __init__(self, name="Public Default",
                      desc="Client is always right!?!", img=None,
                      **kwargs):
 
             img = Null() if img is None else img
 
-            super(PublicBusiness, self).__init__(name=name, instance=instance,
+            super(PublicBusiness, self).__init__(name=name,
                             desc=desc, img=img, **kwargs)
             self.jobs = set() # Job bound to this update.
             self.workable = True
@@ -565,13 +573,13 @@ init -12 python:
 
     class OnDemandBusiness(Business):
         SORTING_ORDER = 2
-        def __init__(self, name="On Demand Default", instance=None,
+        def __init__(self, name="On Demand Default",
                      desc="Does something on request!", img=None,
                      **kwargs):
 
             img = Null() if img is None else img
 
-            super(OnDemandBusiness, self).__init__(name=name, instance=instance,
+            super(OnDemandBusiness, self).__init__(name=name,
                         desc=desc, img=img, **kwargs)
 
             self.type = "on_demand_service"
@@ -649,7 +657,7 @@ init -12 python:
 
             img = Null() if img is None else img
 
-            super(TaskBusiness, self).__init__(name=name, instance=instance, desc=desc,
+            super(TaskBusiness, self).__init__(name=name, desc=desc,
                                                img=img, **kwargs)
 
             self.res = None #*Throws an error?

@@ -1,7 +1,9 @@
 # ANIMATION
 init:
+    image no_image = "content/gfx/interface/images/no_image.png"
+
     image bg_main = "content/gfx/bg/main.jpg"
-    
+
     image eyes:
         zoom 0.7
         additive 1.0
@@ -87,7 +89,7 @@ init:
         "content/gfx/animations/main_menu/eyes/eyes40.png"
         pause 0.4
         repeat
-    
+
     image logo:
         subpixel True
         additive 0.1
@@ -109,11 +111,11 @@ init:
         "content/gfx/animations/main_menu/logo/logo5.png"
         pause 0.3
         repeat
-    
+
     image fog:
         "content/gfx/animations/main_menu/fog1.png"
         pos (15, 20)
-    
+
     image mm_fire = "content/gfx/animations/main_menu/fire1.png"
        # additive 1.0
        # pause 0.6
@@ -124,10 +126,10 @@ init:
        # additive 1.0
        # pause 0.6
        # repeat
-    
+
     image mm_clouds = "content/gfx/animations/main_menu/cloud1.png"
     image mm_cloudstest = im.Scale("content/gfx/animations/main_menu/cloud1.png", 287, 263)
-    
+
     image save:
         zoom 0.4
         additive 1.0
@@ -157,7 +159,7 @@ init:
         "content/gfx/animations/main_menu/settings/save12.png"
         pause 0.2
         repeat
-    
+
     image slo:
         zoom 0.9
         additive 1.0
@@ -179,7 +181,7 @@ init:
         "content/gfx/animations/main_menu/settings/slo8.png"
         pause 0.2
         repeat
-        
+
     # Interactions module:
     # Portrait overlays (for enhancing emotions):
     image angry_pulse = "content/gfx/animations/interactions/angry.png"
@@ -190,7 +192,7 @@ init:
     image music_note = "content/gfx/animations/interactions/note.png"
     image shy_blush = "content/gfx/animations/interactions/blush.png"
     image hearts_rise = FilmStrip('content/gfx/animations/interactions/hearts.png', (168, 157), (10, 3), 0.07, loop=True)
-    
+
     image hearts_flow:
         subpixel True
         anchor (.5, 1.0)
@@ -227,7 +229,7 @@ init:
         "content/gfx/animations/interactions/hearts/heart15.png"
         pause 0.07
         repeat
-        
+
     image fire_element_be_viewport = ProportionalScale("content/gfx/interface/images/elements/small_fire.png", 15, 15)
     image water_element_be_viewport = ProportionalScale("content/gfx/interface/images/elements/small_water.png", 15, 15)
     image earth_element_be_viewport = ProportionalScale("content/gfx/interface/images/elements/small_earth.png", 15, 15)
@@ -239,7 +241,7 @@ init:
     image healing_be_viewport = ProportionalScale("content/gfx/interface/images/elements/healing.png", 13, 13)
     image poison_be_viewport = ProportionalScale("content/gfx/interface/images/elements/poison.png", 15, 15)
     image physical_be_viewport = ProportionalScale("content/gfx/interface/images/elements/physical.png", 15, 15)
-    
+
     image fire_element_be_size20 = ProportionalScale("content/gfx/interface/images/elements/small_fire.png", 20, 20)
     image water_element_be_size20 = ProportionalScale("content/gfx/interface/images/elements/small_water.png", 20, 20)
     image earth_element_be_size20 = ProportionalScale("content/gfx/interface/images/elements/small_earth.png", 20, 20)

@@ -285,12 +285,12 @@ init -6 python:
         ID = "ExplorationGuild"
         IMG = "content/gfx/bg/buildings/Chorrol_Fighters_Guild.png"
 
-        def __init__(self, name="Exploration Guild", instance=None,
+        def __init__(self, name="Exploration Guild",
                     desc="Travel to exotic places, meet new monsters and people... and take their shit!",
                     img="content/gfx/bg/buildings/Chorrol_Fighters_Guild.png",
                     **kwargs):
 
-            super(ExplorationGuild, self).__init__(name=name, instance=instance,
+            super(ExplorationGuild, self).__init__(name=name,
                         desc=desc, **kwargs)
 
             # Global Values that have effects on the whole business.
