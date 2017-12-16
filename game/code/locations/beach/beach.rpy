@@ -307,7 +307,7 @@ label city_beach_diving_checks:
             $ hero.say("There is nothing there.")
 
         $ hero.vitality -= randint(10, 20)
-
+    $ setattr(config, "mouse", None)
     hide screen hidden_area
     hide screen diving_progress_bar
     "You're too tired to continue!"

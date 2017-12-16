@@ -263,7 +263,7 @@ label library_read_matrix:
         $ lib_books = create_lib_books()
 
     call screen poly_matrix("code/locations/library/coordinates.json", show_exit_button=(1.0, 1.0))
-
+    $ setattr(config, "mouse", None)
     if not _return:
         $ del lib_books
         jump academy_town

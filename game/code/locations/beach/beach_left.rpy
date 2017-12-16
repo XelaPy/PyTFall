@@ -349,6 +349,7 @@ label fishing_logic:
                 $ hero.say("There is no suitable fish at the moment.")
             else:
                 $ item = renpy.call_screen("fishing_area", fish_list)
+                $ setattr(config, "mouse", None)
                 if item == "Stop Fishing":
                     "You got tired of fishing and returned to the beach."
                     jump city_beach_left
