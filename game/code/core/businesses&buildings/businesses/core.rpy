@@ -32,7 +32,7 @@ init -12 python:
             self.active = True
 
             self.cost = kwargs.pop("cost", 0)
-            self.in_slots = kwargs.pop("in_slots", 0)
+            self.in_slots = kwargs.pop("in_slots", 2)
             self.ex_slots = kwargs.pop("ex_slots", 0)
 
             self.clients = set() # Local clients, this is used during next day and reset on when that ends.
@@ -48,18 +48,44 @@ init -12 python:
             self.expects_clients = True
 
             # This means that we can add capacity to this business.
-            self.capacity = kwargs.pop("capacity", 1)
+            self.capacity = kwargs.pop("capacity", 2)
             self.expands_capacity = kwargs.pop("expands_capacity", True)
+            self.exp_cap_in_slots = kwargs.pop("exp_cap_in_slots", 1)
+            self.exp_cap_ex_slots = kwargs.pop("exp_cap_ex_slots", 0)
+            self._exp_cap_cost = kwargs.pop("exp_cap_cost", 100)
 
         def get_client_count(self):
             # Returns amount of clients we expect to come here.
             return self.capacity
 
-        def expand_capacity(self, value=1):
-            self.capacity += 1
+        @property
+        def exp_cap_cost(self):
+            building = self.instance
+            return self._exp_cap_cost * (building.tier or 1)
 
-            self.in_slots += 1
-            self.instance.in_slots += 1
+        def can_extend_capacity(self):
+            building = self.instance
+
+            if not self.expands_capacity:
+                return False
+            if (building.in_slots + self.exp_cap_in_slots) > building.in_slots_max:
+                return False
+            if (building.ex_slots + self.exp_cap_ex_slots) > building.ex_slots_max:
+                return False
+            if hero.gold < self.exp_cap_cost:
+                return False
+
+            return True
+
+        def expand_capacity(self, value=1):
+            self.in_slots += self.exp_cap_in_slots
+            self.instance.in_slots += self.exp_cap_in_slots
+            self.ex_slots += self.exp_cap_ex_slots
+            self.instance.ex_slots += self.exp_cap_ex_slots
+
+            hero.take_money(self.exp_cap_cost, "Upgrading Business")
+
+            self.capacity += 1
 
         @property
         def job(self):
@@ -561,6 +587,8 @@ init -12 python:
             self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
             self.interrupt = None # We can bind an active process here if it can be interrupted. I'ma an idiot... This needs to be reset.
             self.expects_clients = False # See Business.__init__
+
+            self.expands_capacity = False
 
         def get_pure_workers(self, job, power_flag_name, use_slaves=True):
             workers = set(self.get_workers(job, amount=float("inf"),

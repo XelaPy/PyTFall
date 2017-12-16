@@ -570,7 +570,6 @@ init: # Screens:
                 padding 12, 12
                 margin 0, 0
                 has vbox spacing 1
-
                 # Slots:
                 frame:
                     xysize (290, 27)
@@ -583,7 +582,52 @@ init: # Screens:
                     text "Ext Slots:" xalign .02 color ivory
                     text "[bm_mid_frame_mode.ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
 
+            if bm_mid_frame_mode.expands_capacity:
+                null height 5
+                frame:
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                    style_group "proper_stats"
+                    xsize 310
+                    padding 12, 12
+                    margin 0, 0
+                    has vbox spacing 1
+                    frame:
+                        xysize (290, 27)
+                        xalign .5
+                        text "Capacity:" xalign .02 color ivory
+                        text "[bm_mid_frame_mode.capacity]"  xalign .98 style_suffix "value_text" yoffset 4
+                    null height 1
+                    frame:
+                        xysize (290, 27)
+                        xalign .5
+                        text "In Slots Required:" xalign .02 color ivory
+                        text "[bm_mid_frame_mode.exp_cap_in_slots]"  xalign .98 style_suffix "value_text" yoffset 4
+                    frame:
+                        xysize (290, 27)
+                        xalign .5
+                        text "Ext Slots Required:" xalign .02 color ivory
+                        text "[bm_mid_frame_mode.exp_cap_ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
+                    frame:
+                        xysize (290, 27)
+                        xalign .5
+                        text "Cost:" xalign .02 color ivory
+                        text "[bm_mid_frame_mode.exp_cap_cost]"  xalign .98 style_suffix "value_text" yoffset 4
+                    null height 1
+                    textbutton "Expand Capacity":
+                        xalign .5
+                        if bm_mid_frame_mode.can_extend_capacity():
+                            action [Function(bm_mid_frame_mode.expand_capacity),
+                                    Play("audio", "content/sfx/sound/world/purchase_1.ogg")]
+                            hovered tt.action("Add more space to this business!")
+                        else:
+                            action NullAction()
+                            hovered tt.action("Can't add more space to this business at this time!")
+
+
         if isinstance(bm_mid_frame_mode, ExplorationGuild):
+            use building_management_leftframe_exploration_guild_mode
+
+    screen building_management_leftframe_exploration_guild_mode:
             if bm_exploration_view_mode == "log":
                 default focused_area_index = 0
                 $ temp = sorted([a for a in fg_areas.values() if a.main and a.unlocked])
