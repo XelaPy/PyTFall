@@ -29,7 +29,7 @@ init -5 python:
             self.log(temp, True)
 
             # We create the log object here! And start logging to it directly!
-            job, loc = self.job, self.instance
+            job, loc = self.job, building
             log = NDEvent(job=job, char=worker, loc=loc, business=self)
 
             log.append("{} is performing Strip Job!".format(worker.name))

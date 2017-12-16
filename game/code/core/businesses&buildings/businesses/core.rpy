@@ -11,7 +11,7 @@ init -12 python:
         def __init__(self, name="", instance=None, desc="", img="",
                      expands_capacity=True, **kwargs):
             self.name = name # name, a string.
-            self.instance = instance # Building this upgrade belongs to.
+            self.building = instance # Building this upgrade belongs to.
             self.desc = desc # description, a string.
 
             self.img = img
@@ -60,11 +60,11 @@ init -12 python:
 
         @property
         def exp_cap_cost(self):
-            building = self.instance
+            building = self.building
             return self._exp_cap_cost * (building.tier or 1)
 
         def can_extend_capacity(self):
-            building = self.instance
+            building = self.building
 
             if not self.expands_capacity:
                 return False
@@ -79,9 +79,9 @@ init -12 python:
 
         def expand_capacity(self, value=1):
             self.in_slots += self.exp_cap_in_slots
-            self.instance.in_slots += self.exp_cap_in_slots
+            self.building.in_slots += self.exp_cap_in_slots
             self.ex_slots += self.exp_cap_ex_slots
-            self.instance.ex_slots += self.exp_cap_ex_slots
+            self.building.ex_slots += self.exp_cap_ex_slots
 
             hero.take_money(self.exp_cap_cost, "Upgrading Business")
 
@@ -110,11 +110,11 @@ init -12 python:
         @property
         def env(self):
             # SimPy and etc follows (L33t stuff :) ):
-            return self.instance.env
+            return self.building.env
 
         def log(self, item, add_time=False):
             # Logs the text for next day event...
-            self.instance.log(item, add_time=add_time)
+            self.building.log(item, add_time=add_time)
 
         # Worker methods:
         def has_workers(self, amount=1):
@@ -126,10 +126,10 @@ init -12 python:
             # This may be a poor way of doing it because different upgrades could have workers with the same job assigned to them.
             # Basically what is needed is to allow setting a business to a worker as well as the general building if required...
             # And this doesn't work? workers are never populated???
-            return list(i for i in self.instance.available_workers if self.all_occs & i.occupations)
+            return list(i for i in self.building.available_workers if self.all_occs & i.occupations)
 
         def action_priority_workers(self, job):
-            return list(i for i in self.instance.available_workers if i.action == job)
+            return list(i for i in self.building.available_workers if i.action == job)
 
         def get_workers(self, job, amount=1, match_to_client=None,
                         priority=True, any=True, use_slaves=True):
@@ -216,8 +216,8 @@ init -12 python:
                     self.log(temp)
                 return True
             else:
-                if worker in self.instance.available_workers:
-                    self.instance.available_workers.remove(worker)
+                if worker in self.building.available_workers:
+                    self.building.available_workers.remove(worker)
 
                 if config.debug:
                     temp = set_font_color('{}: Debug: {} worker (Occupations: {}) with action: {} refuses to do {}.'.format(self.env.now, worker.nickname, ", ".join(list(str(t) for t in worker.occupations)), worker.action, job.id), "red")
@@ -237,14 +237,14 @@ init -12 python:
             if can_do_work(worker):
                 return True
             else:
-                if worker in self.instance.available_workers:
-                    self.instance.available_workers.remove(worker)
+                if worker in building.available_workers:
+                    building.available_workers.remove(worker)
                 temp = set_font_color('{}: {} is done working for the day.'.format(self.env.now, worker.name), "aliceblue")
                 self.log(temp)
                 return False
 
         def convert_AP(self, worker):
-            self.instance.convert_AP(worker)
+            building.convert_AP(worker)
 
         # Runs before ND calcs stats for this building.
         def pre_nd(self):
@@ -262,7 +262,7 @@ init -12 python:
             # Plainly logs income to the main building finances.
             if not reason:
                 reason = self.name
-            self.instance.fin.log_logical_income(amount, reason)
+            building.fin.log_logical_income(amount, reason)
 
         def post_nd_reset(self):
             # Resets all flags and variables after next day calculations are finished.
@@ -282,8 +282,8 @@ init -12 python:
 
         # Business MainUpgrade related:
         def add_upgrade(self, upgrade):
-            upgrade.instance = self
-            upgrade.building = self.instance
+            upgrade.building = self
+            upgrade.building = building
             self.upgrades.append(upgrade)
 
         def all_possible_extensions(self):
@@ -324,7 +324,7 @@ init -12 python:
         def has_workers(self):
             # Check if the building still has someone availbile to do the job.
             # We just check this for
-            return list(i for i in self.instance.available_workers if self.all_occs & i.occupations)
+            return list(i for i in building.available_workers if self.all_occs & i.occupations)
 
         def pre_nd(self):
             self.res = simpy.Resource(self.env, self.capacity)
@@ -339,7 +339,7 @@ init -12 python:
             # We remove the business from nd if there are no more strippers to entertain:
             temp = "There are no workers available in the {} so it is shutting down!".format(self.name)
             self.log(temp)
-            self.instance.nd_ups.remove(self)
+            building.nd_ups.remove(self)
 
         def request_resource(self, client, char):
             """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms available...
@@ -378,7 +378,7 @@ init -12 python:
             self.job(char, client)
 
             # We return the char to the nd list:
-            self.instance.available_workers.insert(0, char)
+            building.available_workers.insert(0, char)
 
         def post_nd_reset(self):
             self.res = None
@@ -445,7 +445,7 @@ init -12 python:
                     if client.flag(flag_name) >= du_to_spend_here:
                         break
 
-                self.instance.dirt += dirt
+                building.dirt += dirt
 
                 temp = "{} exits the {} leaving {} dirt behind.".format(
                                         client.name, self.name, dirt)
@@ -454,7 +454,7 @@ init -12 python:
                 client.del_flag("jobs_busy")
 
         def add_worker(self):
-            workers = self.instance.available_workers
+            workers = building.available_workers
             # Get all candidates:
             job = self.job
             ws = self.get_workers(job)
@@ -468,7 +468,7 @@ init -12 python:
             """This runs the club as a SimPy process from start to the end.
             """
             counter = 0
-            building = self.instance
+            building = building
             tier = building.tier
 
             while 1:
@@ -489,9 +489,9 @@ init -12 python:
                 if False:
                     if counter < 1 and self.env.now > 20:
                         counter += 1
-                        for u in self.instance._businesses:
+                        for u in building._businesses:
                             if u.__class__ == WarriorQuarters:
-                                process = u.request_action(building=self.instance, start_job=True, priority=True, any=False, action="patrol")[1]
+                                process = u.request_action(building=building, start_job=True, priority=True, any=False, action="patrol")[1]
                                 u.interrupt = process # New field to which we can bind a process that can be interrupted.
                                 break
 
@@ -619,7 +619,7 @@ init -12 python:
 
         def calc_job_power(self, workers, job, power_flag_name,
                                 remove_from_available_workers=True):
-            difficulty = self.instance.tier
+            difficulty = building.tier
 
             for w in workers:
                 if not w.flag(power_flag_name):
@@ -632,7 +632,7 @@ init -12 python:
 
                     # Remove from active workers:
                     if remove_from_available_workers:
-                        self.instance.available_workers.remove(w)
+                        building.available_workers.remove(w)
 
         def post_nd_reset(self):
             # Resets all flags and variables after next day calculations are finished.

@@ -18,7 +18,7 @@ init -5 python:
 
             For now, goal is to get this to work reliably.
             """
-            building = self.instance
+            building = building
             make_nd_report_at = 0 # We build a report every 25 ticks but only if this is True!
             threat_cleared = 0 # We only do this for the ND report!
 
@@ -94,7 +94,7 @@ init -5 python:
                     for worker in workers.copy():
                         if worker not in pure_workers:
                             workers.remove(worker)
-                            self.instance.available_workers.insert(0, worker)
+                            building.available_workers.insert(0, worker)
 
                 # Actually handle threat cleared:
                 if make_nd_report_at and building.threat > 0:
@@ -129,7 +129,7 @@ init -5 python:
                         for worker in workers.copy():
                             if worker not in pure_workers:
                                 workers.remove(worker)
-                                self.instance.available_workers.insert(0, worker)
+                                building.available_workers.insert(0, worker)
 
                     # and finally update all workers container:
                     all_workers = workers.copy()
@@ -137,7 +137,7 @@ init -5 python:
                 yield self.env.timeout(1)
 
         def write_nd_report(self, pure_workers, all_workers, threat_cleared):
-            job, loc = self.job, self.instance
+            job, loc = self.job, building
             log = NDEvent(job=job, loc=loc, team=all_workers, business=self)
 
             extra_workers = all_workers - pure_workers
@@ -265,7 +265,7 @@ init -5 python:
             flag = Flags()
             flag.set_flag("result", battle.winner == defence_team)
             flag.set_flag("opfor", opfor)
-            job(defenders, defenders, self.instance, action="intercept", flag=flag)
+            job(defenders, defenders, building, action="intercept", flag=flag)
 
             # decided to add report in debug mode after all :)
             if config.debug:

@@ -1,10 +1,35 @@
 init -3 python:
     # Sub Upgrades:     # ==========================>>>
-    class BusinessUpgrade(_object):
+    class BBUpgrade(_object):
+        """Building or Business Upgrade core class.
+        In case we need one...
+        """
+        def __init__(self, *args, **kwargs):
+            self.main_upgrade = None
+
+
+    class BuildingUpgrade(BBUpgrade):
         SORTING_ORDER = 0
         #@Review: Inherited from building upgrade before, not sure why.
-        """Usually suggests an expansion to a business upgrade that modifies some of it's workflow/properties/jobs!
+        """Usually suggests an expansion to a building that modifies some of it's workflow/properties/jobs!
+        """
+        COMPATIBILITY = []
+        def __init__(self, *args, **kwargs):
+            self.main_upgrade = None
 
+        @property
+        def img(self):
+            return self.IMG
+
+        @property
+        def cost(self):
+            return self.COST
+
+
+    class BusinessUpgrade(BBUpgrade):
+        SORTING_ORDER = 0
+        #@Review: Inherited from building upgrade before, not sure why.
+        """Usually suggests an expansion to a business that modifies some of it's workflow/properties/jobs!
         I want to code a skeleton for this atm.
         """
         COMPATIBILITY = []
@@ -20,7 +45,7 @@ init -3 python:
             return self.COST
 
 
-    class Garden(BusinessUpgrade):
+    class Garden(BuildingUpgrade):
         def __init__(self, name="Garden", instance=None, desc="Relax!",
                     img="content/buildings/upgrades/garden.jpg", build_effort=0,
                     materials=None, in_slots=0, ex_slots=2, cost=500, **kwargs):
@@ -29,7 +54,7 @@ init -3 python:
                             cost=cost, **kwargs)
 
 
-    class MainHall(BusinessUpgrade):
+    class MainHall(BuildingUpgrade):
         def __init__(self, name="Main Hall", instance=None, desc="Reception!",
                      img="content/buildings/upgrades/main_hall.jpg", build_effort=0,
                      materials=None, in_slots=0, ex_slots=2, cost=500, **kwargs):

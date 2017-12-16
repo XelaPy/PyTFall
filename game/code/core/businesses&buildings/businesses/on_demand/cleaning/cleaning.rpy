@@ -25,7 +25,7 @@ init -5 python:
             If there is no auto-cleaning, we call all workers in the building to clean…
             unless they just refuse that on some principal (trait checks)...
             """
-            building = self.instance
+            building = building
             make_nd_report_at = 0 # We build a report every 25 ticks but only if this is True!
             dirt_cleaned = 0 # We only do this for the ND report!
 
@@ -97,7 +97,7 @@ init -5 python:
                     for worker in workers.copy():
                         if worker not in pure_workers:
                             workers.remove(worker)
-                            self.instance.available_workers.insert(0, worker)
+                            building.available_workers.insert(0, worker)
 
                 # Actually handle dirt cleaning:
                 if make_nd_report_at and building.dirt > 0:
@@ -132,7 +132,7 @@ init -5 python:
                         for worker in workers.copy():
                             if worker not in pure_workers:
                                 workers.remove(worker)
-                                self.instance.available_workers.insert(0, worker)
+                                building.available_workers.insert(0, worker)
 
                     # and finally update all cleaners container:
                     all_workers = workers.copy()
@@ -140,7 +140,7 @@ init -5 python:
                 yield self.env.timeout(1)
 
         def write_nd_report(self, pure_workers, all_workers, dirt_cleaned):
-            job, loc = self.job, self.instance
+            job, loc = self.job, building
             log = NDEvent(job=job, loc=loc, team=all_workers, business=self)
 
             extra_workers = all_workers - pure_workers

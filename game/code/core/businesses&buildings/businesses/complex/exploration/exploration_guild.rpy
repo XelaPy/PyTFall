@@ -236,7 +236,7 @@ init -6 python:
                                       char=self.team[0],
                                       team=self.team,
                                       charmod={},
-                                      loc=self.guild.instance,
+                                      loc=self.guild.building,
                                       locmod={},
                                       green_flag=self.flag_green,
                                       red_flag=self.flag_red)

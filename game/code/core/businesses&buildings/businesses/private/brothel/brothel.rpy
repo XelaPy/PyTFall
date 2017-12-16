@@ -23,7 +23,7 @@ init -5 python:
         def has_workers(self):
             # Check if the building still has someone available to do the job.
             # We just check this for
-            return list(i for i in self.instance.available_workers if self.all_occs & i.occupations)
+            return list(i for i in building.available_workers if self.all_occs & i.occupations)
 
         def business_control(self):
             while 1:
@@ -35,7 +35,7 @@ init -5 python:
             # We remove the business from nd if there are no more strippers to entertain:
             temp = "There are no workers available in the {} so it is shutting down!".format(self.name)
             self.log(temp)
-            self.instance.nd_ups.remove(self)
+            building.nd_ups.remove(self)
 
         def request_resource(self, client, worker):
             """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms available...
@@ -79,7 +79,7 @@ init -5 python:
             client.up_counter("got_serviced_by" + worker.id)
 
             # Execute the job/log results/handle finances and etc.:
-            job, building = self.job, self.instance
+            job, building = self.job, building
             log = NDEvent(job=job, char=worker, loc=building, business=self)
             worker.jobpoints -= 100
             job.settle_workers_disposition(worker, log)
@@ -95,5 +95,5 @@ init -5 python:
             NextDayEvents.append(log)
 
             # We return the char to the nd list:
-            self.instance.available_workers.insert(0, worker)
+            building.available_workers.insert(0, worker)
             return result

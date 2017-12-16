@@ -94,7 +94,7 @@ init -10 python:
                 - Logs all active clients as flags to a worker.
                 - Logs tips to the worker.
                 - Runs the Job once AP had been exhausted or there are no more clients availible.
-                - Removes the worker from active workers # TODO: Might be a good idea to move the worker back to self.instance_workers in case update simply ran out of clients.
+                - Removes the worker from active workers # TODO: Might be a good idea to move the worker back to building_workers in case update simply ran out of clients.
 
     Job:
         Has been completely restructured to server as an object to keep track
@@ -582,7 +582,7 @@ init -10 python:
             self.in_slots += business.in_slots
             self.ex_slots += business.ex_slots
 
-            business.instance = self
+            business.building = self
             self._businesses.append(business)
             self._businesses.sort(key=attrgetter("SORTING_ORDER"), reverse=True)
 
@@ -593,7 +593,7 @@ init -10 python:
             self.in_slots += upgrade.in_slots
             self.ex_slots += upgrade.ex_slots
 
-            upgrade.instance = self
+            upgrade.building = self
             self._upgrades.append(upgrade)
             self._upgrades.sort(key=attrgetter("SORTING_ORDER"), reverse=True)
 
