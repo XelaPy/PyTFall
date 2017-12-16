@@ -217,9 +217,13 @@ screen main_menu():
     # The background of the main menu.
 
     add "bg_main"
-    add "content/gfx/interface/logos/gibc.png"
     
-
+    button:
+        background "content/gfx/interface/logos/gibc.png"
+        hover_background im.MatrixColor("content/gfx/interface/logos/gibc.png", im.matrix.brightness(0.10))
+        action OpenURL('https://mega.nz/#!mxAw0Q5b!F-4-An4oK5TbB9BO5e-M0Elslolrim6t3UxBdGolj-8')
+        focus_mask True
+        xysize(350, 342)
     # $ index = map_options.index(persistent.town_path)
     # button:
         # xalign 0
@@ -324,7 +328,7 @@ screen credits():
     zorder 1
     modal True
     frame:
-        background Transform(Frame("content/gfx/frame/frame_dec_1.png", 20, 20), alpha=0.7)
+        background Transform(Frame("content/gfx/frame/frame_dec_1.png", 20, 20), alpha=0.9)
         pos(10, 120)
         xysize (900, 580)
         style_group "mmenu"
