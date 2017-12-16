@@ -13,10 +13,9 @@
         "status": "free",
         "gold": 2000,
         
-        "color": "blue",
-        "what_color": "white",
+        "color": "aliceblue",
+        "what_color": "aliceblue",
         
-        "level": 3,
         "basetraits": ["Warrior"]
     },
     {
@@ -36,7 +35,6 @@
         "color": "white",
         "what_color": "white",
 
-        "level": 3,
-        "basetraits": ["Warrior"]
+        "basetraits": ["Manager"]
     }
 ]

@@ -13,35 +13,7 @@
         "status": "free",
         "gold": 100,
         
-        "level": 30,
-        "basetraits": ["Warrior"],
+        "basetraits": ["Warrior"]
         
-        "stats": {
-            "charisma": 10,
-            "constitution": 80,
-            "luck": 20,
-            "character": 75,
-            "intelligence": 25,
-            "attack": 80,
-            "magic": 10,
-            "defence": 85,
-            "agility": 30
-        },
-        "blocked_traits": [
-        
-        ],
-        "ab_traits": [
-        
-        ],
-        
-        "traits": [
-
-        ],
-        "attack_skills": [
-            "Sword Slash"
-        ],
-        "magic_skills": [
-
-        ]
     }
 ]

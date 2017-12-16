@@ -16,7 +16,6 @@
         "color": "white",
         "what_color": "white",
         
-        "level": 3,
-        "basetraits": ["Mage"]
+        "basetraits": ["Manager"]
     }
 ]

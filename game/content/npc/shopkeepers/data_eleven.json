@@ -15,19 +15,6 @@
         "color": "palevioletred",
         "what_color": "palevioletred",
         
-        "level": 100,
-        "basetraits": ["Mage"],
-
-        "blocked_traits": [
-        
-        ],
-        "ab_traits": [
-        
-        ],
-        
-
-        "attack_skills": [
-            "Blunt Strike"
-        ]
+        "basetraits": ["Mage"]
     }
 ]

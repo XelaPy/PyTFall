@@ -13,11 +13,10 @@
         "status": "free",
         "gold": 2000,
         
-        "color": "white",
-        "what_color": "white",
+        "color": "violet",
+        "what_color": "violet",
         
-        "level": 3,
-        "basetraits": ["Warrior"]
+        "basetraits": ["Maid"]
     },
     {
         "id": "Mel_cafe",
@@ -33,11 +32,10 @@
         "status": "free",
         "gold": 12000,
 
-        "color": "white",
-        "what_color": "white",
+        "color": "yellow",
+        "what_color": "yellow",
 
-        "level": 3,
-        "basetraits": ["Warrior"]
+        "basetraits": ["Maid"]
     },
     {
         "id": "Monica_cafe",
@@ -53,10 +51,9 @@
         "status": "free",
         "gold": 200,
 
-        "color": "white",
-        "what_color": "white",
+        "color": "aliceblue",
+        "what_color": "aliceblue",
 
-        "level": 3,
-        "basetraits": ["Warrior"]
+        "basetraits": ["Maid"]
     }
 ]

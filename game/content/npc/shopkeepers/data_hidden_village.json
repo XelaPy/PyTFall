@@ -5,7 +5,7 @@
         "desc": "One of the kunoichi of the hidden village. She owns the ninja shop.",
         "origin": "Naruto",
         
-		"race": "Human",
+        "race": "Human",
         "location": "city",
         "status": "free",
         "gold": 1500,
@@ -13,27 +13,6 @@
         "color": "red",
         "what_color": "orange",
 
-        "stats": {
-            "charisma": 50,
-            "constitution": 30,
-            "luck": 30,
-            "character": 80,
-            "intelligence": 40,
-            "attack": 30,
-            "magic": 65,
-            "defence": 40,
-            "agility": 30,
-            "mp": 60
-        },
-        "skills": {
-
-        },
-        "btraits": [
-            
-        ],
-        "blocked_traits": [
-            
-        ],
         "traits": [
             "Virgin",
             "Average Boobs",
@@ -41,11 +20,6 @@
             "Slim",
             "Kuudere",
             "Human"
-        ],
-        "attack_skills": {
-            "FistAttack": 1
-        },
-        "magic_skills": {
-        }
+        ]
     }
 ]

@@ -36,7 +36,7 @@ label slave_market:
         hide slave_market_slaves with fade
         show expression npcs["Blue_slavemarket"].get_vnsprite() as blue with dissolve
 
-        $ g = Character("?????", color=blue, show_two_window=True)
+        $ g = Character("?????", color=aliceblue, show_two_window=True)
 
         menu:
             g "Hah? And who might you be?!"

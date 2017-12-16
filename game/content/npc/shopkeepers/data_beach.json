@@ -14,19 +14,6 @@
         "status": "free",
         "gold": 1000,
         
-        "level": 5,
-        "basetraits": ["Warrior"],
-
-        "blocked_traits": [
-        
-        ],
-        "ab_traits": [
-        
-        ],
-        
-
-        "attack_skills": [
-            "Blunt Strike"
-        ]
+        "basetraits": ["Manager"]
     }
 ]

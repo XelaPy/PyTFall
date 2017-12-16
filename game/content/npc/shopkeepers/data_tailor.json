@@ -13,10 +13,9 @@
         "status": "free",
         "gold": 2000,
         
-        "color": "darkorange",
-        "what_color": "darkorange",
+        "color": "orange",
+        "what_color": "orange",
         
-        "level": 30,
-        "basetraits": ["Mage"]
+        "basetraits": ["Manager"]
     }
 ]

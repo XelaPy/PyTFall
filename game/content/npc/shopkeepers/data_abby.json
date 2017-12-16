@@ -16,52 +16,15 @@
         "color": "orange",
         "what_color": "yellow",
         
-        "level": 55,
         "basetraits": ["Mage"],
-        
-        "stats": {
-            "charisma": 70,
-            "constitution": 50,
-            "luck": 25,
-            "character": 75,
-            "intelligence": 75,
-            "attack": 20,
-            "magic": 90,
-            "defence": 55,
-            "agility": 60
-        },
-        
-        "skills": {
-            "cleaning": 20,
-            "management": 600,
-            "teaching": 2000,
-            "exploration": 1000
-        },
-        "blocked_traits": [
-        
-        ],
-        "ab_traits": [
-        
-        ],
         
         "traits": [
             "Fire",
             "Darkness",
             "Bokukko",
             "Average Boobs",
-            "Dandere",
+            "Deredere",
             "Slim"
-        ],
-        "attack_skills": [
-            "Blunt Strike"
-        ],
-        "magic_skills": [
-            "Firaga",
-            "Firaja",
-            "Fireball",
-            "Solar Flash",
-            "Darkra",
-            "Black Hole"
         ]
     }
 ]

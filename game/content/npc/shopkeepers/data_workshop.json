@@ -13,10 +13,9 @@
         "status": "free",
         "gold": 4000,
         
-        "color": "brown",
-        "what_color": "brown",
+        "color": "rosybrown",
+        "what_color": "rosybrown",
         
-        "level": 23,
         "basetraits": ["Warrior"]
     }
 ]

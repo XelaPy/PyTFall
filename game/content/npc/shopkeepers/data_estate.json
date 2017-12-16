@@ -16,7 +16,6 @@
         "color": "rosybrown",
         "what_color": "rosybrown",
         
-        "level": 3,
-        "basetraits": ["Warrior"]
+        "basetraits": ["Manager"]
     }
 ]
