@@ -88,6 +88,7 @@ init -6 python:
                             if c == char:
                                 t.remove(char)
 
+
     class ExplorationTracker(Job):
         # Added inheritance for Job so we can use the required methods.
         """The class that stores data for an exploration job.

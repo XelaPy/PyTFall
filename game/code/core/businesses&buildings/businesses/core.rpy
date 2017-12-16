@@ -9,62 +9,25 @@ init -12 python:
         SORTING_ORDER = 0
         MATERIALS = {}
 
-        def __init__(self, name="Extension", desc="Base Extension.", img=ImageReference("no_image"),
-                     expands_capacity=False, **kwargs):
+        def __init__(self, name="Extension", desc="Base Extension.",
+                     img=ImageReference("no_image"),
+                     **kwargs):
 
             self.name = name # name, a string.
             self.building = None # Building this upgrade belongs to.
             self.desc = desc # description, a string.
             self.img = img
 
-
-    class Business(CoreExtension):
-        """BaseClass for any building expansion! (aka Business)
-        """
-        ID = "Business"
-        def __init__(self, name="", desc="Business", img=ImageReference("no_image"),
-                     expands_capacity=True, **kwargs):
-
-            super(Business, self).__init__(name=name,
-                        desc=desc, img=img, **kwargs)
-
-            # Jobs this upgrade can add. *We add job instances here!
-            # It may be a good idea to turn this into a direct job assignment instead of a set...
-            self.jobs = set()
-            self.workers = set() # List of on duty characters.
-
-            self.habitable = False
-            self.workable = False
-            # If not active, business is not executed and is considered "dead",
-            # we run "inactive" method with a corresponding simpy process in this case.
-            self.active = True
-
-            self.cost = kwargs.pop("cost", 0)
+            self.cost = kwargs.pop("cost", 100)
             self.in_slots = kwargs.pop("in_slots", 2)
             self.ex_slots = kwargs.pop("ex_slots", 0)
 
-            self.clients = set() # Local clients, this is used during next day and reset on when that ends.
-
-            # @Review: From Business class which seemed useless to me...
-            self.blocked_upgrades = kwargs.get("blocked_upgrades", list())
-            self.allowed_upgrades = kwargs.get("allowed_upgrades", list())
-            self.in_construction_upgrades = list()
-            self.upgrades = list()
-
-            # If False, no clients are expected.
-            # If all businesses in the building have this set to false, no client stream will be generated at all.
-            self.expects_clients = True
-
             # This means that we can add capacity to this business.
-            self.capacity = kwargs.pop("capacity", 2)
-            self.expands_capacity = kwargs.pop("expands_capacity", True)
+            self.capacity = kwargs.get("capacity", 1)
+            self.expands_capacity = kwargs.get("expands_capacity", False)
             self.exp_cap_in_slots = kwargs.pop("exp_cap_in_slots", 1)
             self.exp_cap_ex_slots = kwargs.pop("exp_cap_ex_slots", 0)
             self._exp_cap_cost = kwargs.pop("exp_cap_cost", 100)
-
-        def get_client_count(self):
-            # Returns amount of clients we expect to come here.
-            return self.capacity
 
         @property
         def exp_cap_cost(self):
@@ -94,6 +57,49 @@ init -12 python:
             hero.take_money(self.exp_cap_cost, "Upgrading Business")
 
             self.capacity += 1
+
+
+    class Business(CoreExtension):
+        """BaseClass for any building expansion! (aka Business)
+        """
+        ID = "Business"
+        def __init__(self, name="", desc="Business",
+                     img=ImageReference("no_image"),
+                     **kwargs):
+
+            super(Business, self).__init__(name=name,
+                        desc=desc, img=img, **kwargs)
+
+            # Jobs this upgrade can add. *We add job instances here!
+            # It may be a good idea to turn this into a direct job assignment instead of a set...
+            self.jobs = set()
+            self.workers = set() # List of on duty characters.
+
+            self.habitable = False
+            self.workable = False
+            # If not active, business is not executed and is considered "dead",
+            # we run "inactive" method with a corresponding simpy process in this case.
+            self.active = True
+
+            self.clients = set() # Local clients, this is used during next day and reset on when that ends.
+
+            # @Review: From Business class which seemed useless to me...
+            self.blocked_upgrades = kwargs.get("blocked_upgrades", list())
+            self.allowed_upgrades = kwargs.get("allowed_upgrades", list())
+            self.in_construction_upgrades = list()
+            self.upgrades = list()
+
+            # If False, no clients are expected.
+            # If all businesses in the building have this set to false, no client stream will be generated at all.
+            self.expects_clients = True
+
+            # This means that we can add capacity to this business.
+            self.capacity = kwargs.pop("capacity", 2)
+            self.expands_capacity = kwargs.pop("expands_capacity", True)
+
+        def get_client_count(self):
+            # Returns amount of clients we expect to come here.
+            return self.capacity
 
         @property
         def job(self):

@@ -1,11 +1,13 @@
 init -3 python:
     # Sub Upgrades:     # ==========================>>>
-    class BBUpgrade(_object):
+    class BBUpgrade(CoreExtension):
         """Building or Business Upgrade core class.
         In case we need one...
         """
         def __init__(self, *args, **kwargs):
-            self.main_upgrade = None
+
+            super(BBUpgrade, self).__init__(name=name,
+                        desc=desc, img=img, **kwargs)
 
 
     class BuildingUpgrade(BBUpgrade):
@@ -15,15 +17,7 @@ init -3 python:
         """
         COMPATIBILITY = []
         def __init__(self, *args, **kwargs):
-            self.main_upgrade = None
-
-        @property
-        def img(self):
-            return self.IMG
-
-        @property
-        def cost(self):
-            return self.COST
+            pass
 
 
     class BusinessUpgrade(BBUpgrade):
@@ -34,55 +28,46 @@ init -3 python:
         """
         COMPATIBILITY = []
         def __init__(self, *args, **kwargs):
-            self.main_upgrade = None
-
-        @property
-        def img(self):
-            return self.IMG
-
-        @property
-        def cost(self):
-            return self.COST
+            self.business = None
 
 
     class Garden(BuildingUpgrade):
-        def __init__(self, name="Garden", instance=None, desc="Relax!",
-                    img="content/buildings/upgrades/garden.jpg", build_effort=0,
-                    materials=None, in_slots=0, ex_slots=2, cost=500, **kwargs):
-            super(Garden, self).__init__(name=name, instance=instance, desc=desc,
-                            img=img, build_effort=build_effort, materials=materials,
-                            cost=cost, **kwargs)
+        def __init__(self, name="Garden", desc="Nice, green place to relax!",
+                    img="content/buildings/upgrades/garden.jpg",
+                    **kwargs):
+
+            super(Garden, self).__init__(name=name, desc=desc,
+                                         img=img, **kwargs)
 
 
     class MainHall(BuildingUpgrade):
-        def __init__(self, name="Main Hall", instance=None, desc="Reception!",
-                     img="content/buildings/upgrades/main_hall.jpg", build_effort=0,
-                     materials=None, in_slots=0, ex_slots=2, cost=500, **kwargs):
-            super(MainHall, self).__init__(name=name, instance=instance, desc=desc,
-                    img=img, build_effort=build_effort, materials=materials,
-                    cost=cost, **kwargs)
+        def __init__(self, name="Main Hall", desc="Reception for your customers!",
+                     img="content/buildings/upgrades/main_hall.jpg", **kwargs):
+
+            super(MainHall, self).__init__(name=name, desc=desc,
+                    img=img, **kwargs)
 
 
     class CatWalk(BusinessUpgrade):
-        COMPATIBILITY = [StripClub]
-        MATERIALS = {"Wood": 10, "Bricks": 30, "Glass": 2}
-        COST = 1000
+        # For Strip Club
         ID = "Cat Walk"
-        IMG = "content/buildings/upgrades/catwalk_0.jpg"
-        def __init__(self, name="Cat Walk", instance=None,
-                desc="Good way to show off your strippers!", build_effort=0,
-                materials=None, in_slots=2, **kwargs):
-            super(CatWalk, self).__init__(name=name, instance=instance, desc=desc,
+        def __init__(self, name="Cat Walk",
+                     desc="Good way to show off your strippers!",
+                     img="content/buildings/upgrades/catwalk_0.jpg",
+                     **kwargs):
+
+            super(CatWalk, self).__init__(name=name, desc=desc,
                 build_effort=build_effort, materials=materials, **kwargs)
 
 
     class Aquarium(BusinessUpgrade):
-        COMPATIBILITY = [StripClub]
+        # For Bar, Strip Club.
         MATERIALS = {"Glass": 10, "Wood": 5}
         ID = "Aquarium"
-        IMG = "content/buildings/upgrades/aquarium_nq.jpg"
-        def __init__(self, name="Aquarium", instance=None,
-            desc="Enhance the entertainment experience of your clients!",
-            build_effort=0, materials=None, in_slots=4, **kwargs):
-            super(Aquarium, self).__init__(name=name, instance=instance,
-            desc=desc, build_effort=build_effort, materials=materials, **kwargs)
+        def __init__(self, name="Aquarium",
+                     desc="Enhance the entertainment experience of your clients!",
+                     img="content/buildings/upgrades/aquarium_nq.jpg",
+                     **kwargs):
+
+            super(Aquarium, self).__init__(name=name,
+                        desc=desc, **kwargs)
