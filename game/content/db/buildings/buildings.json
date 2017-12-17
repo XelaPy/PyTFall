@@ -274,5 +274,95 @@
 			}
 		],
 		"allowed_businesses": ["BrothelBlock", "StripClub", "Bar", "Cleaners", "WarriorQuarters"]
+	},
+	{
+		"id": 8,
+		"name": "Simple Slave Quarters.",
+		"desc": "Old rundown building...",
+		"price": 2000,
+
+		"in_slots_max": 6,
+		"ex_slots_max": 0,
+
+		"fame": 0,
+		"maxfame": 0,
+		"rep": 0,
+		"maxrep": 0,
+
+		"tier": 1,
+		"mod": 1,
+
+		"adverts": [],
+		"img": "content/buildings/slave_quaters.jpg",
+
+		"build_businesses": [{
+			"class": "SlaveQuarters",
+			"kwargs": {
+				"capacity": 2,
+				"in_slots": 2,
+				"desc": "Home for slaves to live in."
+			}
+		}],
+		"allowed_businesses": []
+	},
+	{
+		"id": 9,
+		"name": "Medium Slave Quarters.",
+		"desc": "Medium sized, old rundown building...",
+		"price": 10000,
+
+		"in_slots_max": 18,
+		"ex_slots_max": 0,
+
+		"fame": 0,
+		"maxfame": 0,
+		"rep": 0,
+		"maxrep": 0,
+
+		"tier": 1,
+		"mod": 1,
+
+		"adverts": [],
+		"img": "content/buildings/slave_quaters.jpg",
+
+		"build_businesses": [{
+			"class": "SlaveQuarters",
+			"kwargs": {
+				"capacity": 5,
+				"in_slots": 5,
+				"desc": "Home for slaves to live in."
+			}
+		}],
+		"allowed_businesses": []
+	},
+	{
+		"id": 10,
+		"name": "Large Slave Quarters.",
+		"desc": "Huge, old rundown building...",
+		"price": 200000,
+
+		"in_slots_max": 80,
+		"ex_slots_max": 0,
+
+		"fame": 0,
+		"maxfame": 0,
+		"rep": 0,
+		"maxrep": 0,
+
+		"tier": 5,
+		"mod": 1,
+
+		"adverts": [],
+		"img": "content/buildings/slave_quaters.jpg",
+
+		"build_businesses": [{
+			"class": "SlaveQuarters",
+			"kwargs": {
+				"capacity": 10,
+				"in_slots": 10,
+				"desc": "Home for slaves to live in."
+			}
+		}],
+		"allowed_businesses": []
 	}
 ]
