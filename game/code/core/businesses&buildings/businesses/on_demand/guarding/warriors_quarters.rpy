@@ -9,8 +9,7 @@ init -5 python:
                      img="content/buildings/upgrades/guard_qt.jpg", build_effort=0,
                      materials=None, in_slots=2, ex_slots=1, cost=500, **kwargs):
             super(WarriorQuarters, self).__init__(name=name, instance=instance, desc=desc,
-                                                  img=img, build_effort=build_effort,
-                                                  materials=materials, cost=cost, **kwargs)
+                                                  img=img, **kwargs)
             self.jobs = set([simple_jobs["Guarding"]])
 
         def business_control(self):
