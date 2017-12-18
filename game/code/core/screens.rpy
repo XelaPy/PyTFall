@@ -1,7 +1,7 @@
 init python:
     def dummy_interaction_restart(*args, **kwargs):
         renpy.restart_interaction()
-    
+
     def dev_mode_switch():
         config.developer = not(config.developer)
         config.debug = not(config.debug)
@@ -520,7 +520,7 @@ init: # Items:
 
         if autohide:
             timer autohide action Hide("quest_notifications")
-            
+
     screen character_pick_screen: # screen to select someone from the MC team
         key "mousedown_3" action Return(False)
         frame:
@@ -529,7 +529,7 @@ init: # Items:
             ysize 310
             padding(2, 2)
             background Frame("content/gfx/frame/frame_dec_1.png")
-            label "Select a character" align (0.5, 0.08) text_color "#DAA520" text_size 18 
+            label "Select a character" align (0.5, 0.08) text_color "#DAA520" text_size 18
             hbox:
                 spacing 45
                 align (.5, .4)
@@ -583,8 +583,8 @@ init: # Items:
                             padding(2, 2)
                             background Frame("content/gfx/frame/gm_frame.png")
                             $ name = l.name[:8]
-                            label "[name]" align (0.5, 0.5) text_color "#DAA520" text_size 16 
-                            
+                            label "[name]" align (0.5, 0.5) text_color "#DAA520" text_size 16
+
             vbox:
                 style_group "wood"
                 align (.5, 0.9)
@@ -599,7 +599,9 @@ init: # Items:
         default return_action = Return(['control', 'return']) if return_button_action is None else return_button_action
 
         # Hotkeys:
-        if show_return_button and not get_screens("girl_interactions", "building_management_leftframe_businesses_mode"):
+        if show_return_button and not get_screens("girl_interactions",
+                                                  "building_management_leftframe_businesses_mode",
+                                                  "chars_list"):
             key "mousedown_3" action return_action
 
         # Top Stripe Frame:
@@ -1315,7 +1317,7 @@ init: # Settings:
                             style_group "dropdown_gm2"
                             has vbox align (0.5, 0.5)
                             textbutton _("Gamepad") action SensitiveIf(GamepadExists()), GamepadCalibrate() xsize 150 text_size 16
-                            
+
 
                     # Middle column...
                     frame:
@@ -1387,7 +1389,7 @@ init: # Settings:
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
                             xsize 194
-                            
+
                             ypadding 8
                             style_group "dropdown_gm2"
                             has vbox align (0.5, 0.5)
@@ -1446,7 +1448,7 @@ init: # Settings:
                                         # color green
                                     # else:
                                         # color red
- 
+
 
             elif s_menu == "Game":
                 frame:
@@ -1682,7 +1684,7 @@ screen panic_screen:
     use keymap_override
     key "q" action Hide("panic_screen")
     key "Q" action Hide("panic_screen")
-    
+
 screen give_exp_after_battle(group, exp = 0, money=0): # shows post-battle results; TODO after beta: make the animation to show exp gained post battle, not just the current one;
     modal True
     zorder 100

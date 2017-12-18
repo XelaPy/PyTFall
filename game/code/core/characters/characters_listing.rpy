@@ -50,6 +50,8 @@ label chars_list:
 
 screen chars_list(source=None):
 
+    key "mousedown_3" action Return(['control', 'return'])
+
     default page_size = 10
     default max_page = len(source.sorted)/page_size
     if len(source.sorted)%page_size == 0:
@@ -63,8 +65,6 @@ screen chars_list(source=None):
         $ chars_list_last_page_viewed = max_page
 
     default tt = Tooltip("")
-
-
 
     python:
         charz_lists = []
@@ -81,11 +81,11 @@ screen chars_list(source=None):
             $ max_page = len(source.sorted)/page_size
         if page < 0:
             $ page = 0
-        
+
         if charz_lists:
             $ charz_list = charz_lists[page]
-           
-            
+
+
             hbox:
                 style_group "content"
                 spacing 14
@@ -167,6 +167,7 @@ screen chars_list(source=None):
                                         style_group "ddlist"
                                         action Return(["dropdown", "loc", c])
                                         if c.status == "slave":
+
                                             alternate Return(["dropdown", "home", c])
                                         text "{image=content/gfx/interface/icons/move15.png}Location: [c.location]"
                                         hovered tt.Action('Select location')
@@ -337,22 +338,20 @@ screen chars_list(source=None):
                         action If(len(the_chosen), [Hide("chars_list"), With(dissolve), Jump('girl_training')])
                         text "Training"
                         hovered tt.Action('Manage group training')
-            
+
     # Keybinds:
     key "mousedown_4" action If(page < max_page, true=SetScreenVariable("page", page+1), false=NullAction())
     key "mousedown_5" action If(page > 0, true=SetScreenVariable("page", page-1), false=NullAction())
 
     $ store.chars_list_last_page_viewed = page # At Darks Request!
-    
+
     frame:
         background Frame("content/gfx/frame/window_frame1.png", 10, 10)
         align(0.09, 1.0)
         xysize (950, 65)
         text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(0.5, 0.5)
-        
 
     use top_stripe(True)
-    
 
     # Two buttons that used to be in top-stripe:
     hbox:
@@ -370,7 +369,7 @@ screen chars_list(source=None):
             # $ max_page = len(source.sorted)/page_size - 1
         # else:
             # $ max_page = len(source.sorted)/page_size
-            
+
         textbutton "-->":
             sensitive page < max_page
             action SetScreenVariable("page", page+1)
