@@ -582,7 +582,7 @@ init: # Screens:
                     text "Ext Slots:" xalign .02 color ivory
                     text "[bm_mid_frame_mode.ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
 
-            $ c0 = not isinstance(bm_mid_frame_mode, Building)
+            $ c0 = isinstance(bm_mid_frame_mode, CoreExtension)
             if c0 and bm_mid_frame_mode.expands_capacity:
                 null height 5
                 frame:
