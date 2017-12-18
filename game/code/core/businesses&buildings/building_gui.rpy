@@ -582,7 +582,8 @@ init: # Screens:
                     text "Ext Slots:" xalign .02 color ivory
                     text "[bm_mid_frame_mode.ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
 
-            if bm_mid_frame_mode.expands_capacity:
+            $ c0 = not isinstance(bm_mid_frame_mode, Building)
+            if c0 and bm_mid_frame_mode.expands_capacity:
                 null height 5
                 frame:
                     background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
