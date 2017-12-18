@@ -1124,7 +1124,7 @@ init: # Screens:
                                     frame:
                                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                                         has hbox xysize 135, 40
-                                        text "Gold: [u.COST]" align .5, .5 style "stats_text" size 20 color gold
+                                        text "Gold: [u.cost]" align .5, .5 style "stats_text" size 20 color gold
                                     # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
                                     for r in sorted(u.MATERIALS):
                                         $ r = items[r]

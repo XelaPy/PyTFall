@@ -549,7 +549,7 @@ init -10 python:
                 pass
 
             # Cash...
-            hero.take_money(upgrade.COST, "Building Upgrades")
+            hero.take_money(upgrade.cost, "Building Upgrades")
 
             # adds the upgrade to in construction buildings:
             self.in_construction_upgrades.append(upgrade)
