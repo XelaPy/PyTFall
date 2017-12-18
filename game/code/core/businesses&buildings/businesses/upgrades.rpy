@@ -17,7 +17,9 @@ init -3 python:
         """
         COMPATIBILITY = []
         def __init__(self, *args, **kwargs):
-            pass
+
+            super(BuildingUpgrade, self).__init__(name=name,
+                        desc=desc, img=img, **kwargs)
 
 
     class BusinessUpgrade(BBUpgrade):
@@ -28,6 +30,9 @@ init -3 python:
         """
         COMPATIBILITY = []
         def __init__(self, *args, **kwargs):
+            super(BusinessUpgrade, self).__init__(name=name,
+                        desc=desc, img=img, **kwargs)
+
             self.business = None
 
 
