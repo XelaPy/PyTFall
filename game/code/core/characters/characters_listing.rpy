@@ -167,7 +167,6 @@ screen chars_list(source=None):
                                         style_group "ddlist"
                                         action Return(["dropdown", "loc", c])
                                         if c.status == "slave":
-
                                             alternate Return(["dropdown", "home", c])
                                         text "{image=content/gfx/interface/icons/move15.png}Location: [c.location]"
                                         hovered tt.Action('Select location')

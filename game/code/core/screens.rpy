@@ -601,7 +601,8 @@ init: # Items:
         # Hotkeys:
         if show_return_button and not get_screens("girl_interactions",
                                                   "building_management_leftframe_businesses_mode",
-                                                  "chars_list"):
+                                                  "chars_list",
+                                                  "char_profile"):
             key "mousedown_3" action return_action
 
         # Top Stripe Frame:

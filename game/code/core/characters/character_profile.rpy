@@ -49,6 +49,8 @@ label char_profile:
                     python:
                         if result[1] == "loc":
                             renpy.show_screen("set_location_dropdown", result[2], pos=renpy.get_mouse_pos())
+                        elif result[1] == "home":
+                            renpy.show_screen("set_home_dropdown", result[2], pos=renpy.get_mouse_pos())
                         elif result[1] == "action":
                             renpy.show_screen("set_action_dropdown", result[2], pos=renpy.get_mouse_pos())
 
@@ -156,6 +158,7 @@ screen char_profile():
 
     key "mousedown_4" action Return(["control", "right"])
     key "mousedown_5" action Return(["control", "left"])
+    key "mousedown_3" action Return(['control', 'return'])
 
     on "hide":
         action Hide("show_trait_info")
@@ -296,13 +299,13 @@ screen char_profile():
                         text_size 21
                     else:
                         text_size 18
-                        
+
                 label "Tier:  [char.tier]":
                     text_color gold
                     text_outlines [(2, "#424242", 0, 0)]
                     pos 113, 77
                     anchor 0, 1.0
-                    
+
             null height 5
             # Rank up for prostitutes:
             # TODO: Adapt ranks to new skills code!
@@ -338,6 +341,8 @@ screen char_profile():
                     button:
                         style_group "ddlist"
                         action Return(["dropdown", "loc", char])
+                        if char.status == "slave":
+                            alternate Return(["dropdown", "home", char])
                         hovered tt.Action("Choose a location for %s to work at!" % char.nickname)
                         text "{image=content/gfx/interface/icons/move15.png}Location: [char.location]":
                             if len(str(char.location)) > 18:
