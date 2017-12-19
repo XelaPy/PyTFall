@@ -313,6 +313,8 @@ label dev_testing_menu_and_load_mc:
                 hero.log_stats()
     else:
         call mc_setup
+    if hero.name.lower() == "DarkTl":
+        $ hero.gold += 888888888
     jump continue_with_start
 
 label after_load:
