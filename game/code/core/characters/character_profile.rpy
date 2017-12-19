@@ -880,16 +880,22 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=F
                         for i in trait_info.mod_stats:
                             frame:
                                 xysize 170, 20
-                                if str(i) != "disposition":
+                                if str(i) not in ["disposition", "upkeep"]:
                                     if (trait_info.mod_stats[i])[0] < 0:
                                         text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0]) + " every " + str((trait_info.mod_stats[i])[1]) + " lvl") align .5, .5 size 15 color red text_align .5 outlines [(1, "#000000", 0, 0)]
                                     else:
                                         text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0]) + " every " + str((trait_info.mod_stats[i])[1]) + " lvl") align .5, .5 size 15 color lime text_align .5 outlines [(1, "#000000", 0, 0)]
                                 else:
-                                    if (trait_info.mod_stats[i])[0] < 0:
-                                        text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color red text_align .5 outlines [(1, "#000000", 0, 0)]
+                                    if str(i) == "disposition":
+                                        if (trait_info.mod_stats[i])[0] < 0:
+                                            text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color red text_align .5 outlines [(1, "#000000", 0, 0)]
+                                        else:
+                                            text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color lime text_align .5 outlines [(1, "#000000", 0, 0)]
                                     else:
-                                        text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color lime text_align .5 outlines [(1, "#000000", 0, 0)]
+                                        if (trait_info.mod_stats[i])[0] < 0:
+                                            text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color lime text_align .5 outlines [(1, "#000000", 0, 0)]
+                                        else:
+                                            text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color red text_align .5 outlines [(1, "#000000", 0, 0)]
                     if trait_info.effects:
                         label (u"Effects:") text_size 20 text_color goldenrod text_bold True xalign .45
                         for i in trait_info.effects:
