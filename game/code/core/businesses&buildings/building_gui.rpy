@@ -288,6 +288,9 @@ init: # Screens:
                     use building_management_rightframe_building_mode
                 else: # Upgrade mode:
                     use building_management_rightframe_businesses_mode
+                    
+        else:
+            label "You don't own any buildings yet" text_size 50 text_color ivory align .5, .5
 
         use top_stripe(True)
         if not bm_mid_frame_mode == "building":
