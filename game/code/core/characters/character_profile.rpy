@@ -553,13 +553,6 @@ screen char_profile():
                                 xpadding 7
                                 text "{color=#79CDCD}Market Price:"
                                 text (u"%s"%(char.fin.get_price())) xalign 1.0 style_suffix "value_text"
-                        if traits['Prostitute'] in char.occupations:
-                            frame:
-                                xoffset 4
-                                xysize (270, 27)
-                                xpadding 7
-                                text "{color=#79CDCD}Work Price:"
-                                text (u"%s"%(char.fin.get_whore_price())) xalign 1.0 style_suffix "value_text"
 
                 ##############################################################################
                 # Stats 2 (pro)

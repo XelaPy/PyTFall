@@ -984,24 +984,6 @@ init -9 python:
             else:
                 return 0
 
-        def get_whore_price(self):
-            """
-            Workprice for girls working as whores.
-            """
-            # TODO: To be revised after skills are added!
-            char = self.instance
-
-            # if char.rank < 4:
-                # bp = 10 * char.rank # Base Price
-            # elif char.rank < 7 :
-                # bp = 15 * char.rank
-            # else:
-                # bp = 20 * char.rank
-            # sp = char.charisma/2 + char.refinement/3 + char.reputation/4 + char.fame/4 # Stats Price
-            # ssp = (char.anal + char.normalsex + char.blowjob + char.lesbian)/4*(1+(char.rank*0.1)) # Sex Stats Price
-
-            return 100 # int(bp + sp + ssp)
-
         def next_day(self):
             self.game_main_income_log[day] = self.todays_main_income_log.copy()
             self.game_main_expense_log[day] = self.todays_main_expense_log.copy()

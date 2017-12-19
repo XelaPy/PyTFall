@@ -2047,12 +2047,6 @@ init -9 python:
             time = float(self.jail_cache[self.girl][0])
             return int(base * (0.75 - (0.125 * time)))
 
-        def get_whore_price(self):
-            """
-            Return the whore cost for the girl.
-            """
-            return self.girl.fin.get_whore_price()
-
         def get_upkeep(self):
             """
             Return the upkeep cost for the girl.
