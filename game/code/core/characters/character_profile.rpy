@@ -820,8 +820,6 @@ screen char_profile():
     use top_stripe(True)
 
 screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=False):
-    # TODO: upkeep made via mod field is not visible here; since upkeep is disabled atm,
-    # I dunno if it even should be made via mod or mod_stat
     if place == "girl_trait":
         if trait != "Manly":
             $ al = (.69, .4)
