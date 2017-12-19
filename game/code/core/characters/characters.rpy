@@ -965,15 +965,19 @@ init -9 python:
 
         def get_upkeep(self):
             char = self.instance
-            upkeep = 0
-            # for i in char.traits:
-                # upkeep += i.upkeep
             
             if char.status == 'slave':
-                if "Dedicated" in char.traits:
-                    upkeep = 25 + char.tier*100 + char.level*10
+                if hasattr(char, "upkeep"):
+                    upkeep = char.upkeep
                 else:
-                    upkeep = 50 + char.tier*100 + char.level*10
+                    upkeep = 0
+                    
+                upkeep *= char.tier+1
+
+                if "Dedicated" in char.traits:
+                    upkeep += 25 + char.tier*100 + char.level*2
+                else:
+                    upkeep += 50 + char.tier*100 + char.level*5
                     
                 return max(20, upkeep)
                 
