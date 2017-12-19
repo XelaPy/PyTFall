@@ -3,13 +3,15 @@ init -5 python:
         SORTING_ORDER = 2
         COMPATIBILITY = []
         MATERIALS = {"Wood": 15, "Bricks": 30, "Glass": 3}
+        COST = 300
         ID = "Warrior Quarters"
         IMG = "content/buildings/upgrades/guard_qt.jpg"
         def __init__(self, name="Warrior Quarters", instance=None, desc="Place for Guards!",
-                     img="content/buildings/upgrades/guard_qt.jpg", build_effort=0,
-                     materials=None, in_slots=2, ex_slots=1, cost=500, **kwargs):
+                     img="content/buildings/upgrades/guard_qt.jpg", **kwargs):
+
             super(WarriorQuarters, self).__init__(name=name, instance=instance, desc=desc,
                                                   img=img, **kwargs)
+
             self.jobs = set([simple_jobs["Guarding"]])
 
         def business_control(self):

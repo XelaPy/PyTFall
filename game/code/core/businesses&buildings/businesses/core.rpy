@@ -5,9 +5,15 @@ init -12 python:
         """BaseClass for any building expansion! (aka Business)
         """
 
+        # Class attributes serve as default, they are fed to a method of UpgradableBuilding
+        # adjusted and displayed to the player. In most of the cases, Extension will be created
+        # using these:
         ID = "Extension"
         SORTING_ORDER = 0
         MATERIALS = {}
+        COST = 100
+        IN_SLOTS = 2
+        EX_SLOTS = 0
 
         def __init__(self, name="Extension", desc="Base Extension.",
                      img=ImageReference("no_image"),

@@ -539,7 +539,7 @@ init -10 python:
             return True
 
         def check_space(self, upgrade):
-            # Checks if the main building has enought space to add this upgrade:
+            # Checks if the main building has enough space to add this upgrade:
             return True
 
         def start_construction(self, upgrade):
@@ -554,25 +554,43 @@ init -10 python:
             # adds the upgrade to in construction buildings:
             self.in_construction_upgrades.append(upgrade)
 
-        def eval_business_upgrade(self, upgrade, build=False):
-            # Check if building has enough space to add this upgrade
+        def get_extension_price(self, extension_class):
+            # We figure out what it would take to add this extension (building or business)
+            # using it's class attributes to figure out the cost and the materials required.
+            tier = self.tier or 1
 
-            # If we want to build the upgrade as well (usually in testing scenarios):
-            if build and config.debug: # This isn't really safe to use in the real game (should be moved to the end of a func if we need it)...
-                self.add_business(upgrade)
+            cost = extension_class.COST * tier
 
-            if (self.in_slots_max - self.in_slots) < upgrade.in_slots or (self.ex_slots_max - self.ex_slots) < upgrade.ex_slots:
-                return
+            materials = extension_class.MATERIALS
+            for k, v in materials.items():
+                materials[k] = round_int(v*tier)
+
+            in_slots = extension_class.IN_SLOTS * max(1, round_int(tier*.5))
+            ex_slots = extension_class.EX_SLOTS * max(1, round_int(tier*.5))
+
+            return cost, materials, in_slots, ex_slots
+
+        def eval_extension_build(self, extension_class, price=None):
+            # If price is not None, we expect a tuple with requirements to build
+            # Check if we can build an upgrade:
+
+            if price is None:
+                cost, materials, in_slots, ex_slots = self.get_extension_price(extension_class)
+            else:
+                cost, materials, in_slots, ex_slots = price
+
+            if (self.in_slots_max - self.in_slots) < in_slots or (self.ex_slots_max - self.ex_slots) < ex_slots:
+                return False
 
             if self.has_extension(upgrade):
-                return
+                return False
 
-            if hero.gold < upgrade.cost:
-                return
+            if hero.gold < cost:
+                return False
 
-            for i, a in upgrade.MATERIALS.iteritems():
+            for i, a in materials.iteritems():
                 if hero.inventory[i] < a:
-                    return
+                    return False
 
             return True
 

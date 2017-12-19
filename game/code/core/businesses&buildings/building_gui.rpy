@@ -1110,6 +1110,8 @@ init: # Screens:
                                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                                 has fixed xysize 500, 150
 
+                                $ cost, materials, in_slots, ex_slots = building.get_extension_price(u)
+
                                 frame:
                                     align .3, 0
                                     background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
@@ -1124,9 +1126,9 @@ init: # Screens:
                                     frame:
                                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                                         has hbox xysize 135, 40
-                                        text "Gold: [u.cost]" align .5, .5 style "stats_text" size 20 color gold
+                                        text "Gold: [cost]" align .5, .5 style "stats_text" size 20 color gold
                                     # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
-                                    for r in sorted(u.MATERIALS):
+                                    for r in sorted(materials):
                                         $ r = items[r]
                                         frame:
                                             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
@@ -1152,7 +1154,12 @@ init: # Screens:
                                             add im.Scale(u.IMG, 120, 75) align .5, .5
                                         else:
                                             add Solid(black, xysize=(120, 75)) align .5, .5
-                                    textbutton "{size=15}Build" xalign .5 action Return(["upgrade", "build", u, bm_mid_frame_mode]), SensitiveIf(building.eval_business_upgrade(u))
+                                    textbutton "{size=15}Build":
+                                        xalign .5
+                                        action [Return(["upgrade", "build", u, bm_mid_frame_mode]),
+                                                SensitiveIf(building.eval_extension_build(u,
+                                                            price=(cost, materials, in_slots, ex_slots)))]
+
                 textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Back":
                     background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=0.8)
                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15))), alpha=1)
