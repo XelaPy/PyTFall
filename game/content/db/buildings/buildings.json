@@ -2,6 +2,7 @@
 		"id": 1,
 		"name": "Old Shack",
 		"desc": "Small, rundown building on the very outskirts of town.",
+		"location": "Flee Bottom",
 		"price": 5000,
 
 		"in_slots_max": 4,
@@ -36,6 +37,7 @@
 		"id": 2,
 		"name": "Small house on Outskirts",
 		"desc": "Small house away from the city. Might not look like much, but it's not likely to scare away costumers.",
+		"location": "Flee Bottom",
 		"price": 15000,
 
 		"in_slots_max": 8,
@@ -70,6 +72,7 @@
 		"id": 3,
 		"name": "House on Outskirts",
 		"desc": "A nice building away from the city. Setup your business as you see fit!",
+		"location": "Flee Bottom",
 		"price": 25000,
 
 		"in_slots_max": 12,
@@ -99,6 +102,7 @@
 		"id": 4,
 		"name": "House in the City",
 		"desc": "A beautiful house inside city limits.",
+		"location": "Midtown",
 		"price": 75000,
 
 		"in_slots_max": 20,
@@ -144,6 +148,7 @@
 		"id": 5,
 		"name": "Mansion on the Main Road",
 		"desc": "A large mansion in the city center.",
+		"location": "Midtown",
 		"price": 175000,
 
 		"in_slots_max": 25,
@@ -189,6 +194,7 @@
 		"id": 6,
 		"name": "Palace on the Main Road",
 		"desc": "It is a freaking Palace!!!",
+		"location": "Richford",
 		"price": 500000,
 
 		"in_slots_max": 45,
@@ -234,6 +240,7 @@
 		"id": 7,
 		"name": "Central Palace",
 		"desc": "Possibly the most beautiful and spectacular building in the city. You'll never cease asking yourself how you managed to come this far.",
+		"location": "Richford",
 		"price": 1000000,
 
 		"in_slots_max": 100,
@@ -279,6 +286,7 @@
 		"id": 8,
 		"name": "Simple Slave Quarters.",
 		"desc": "Old rundown building...",
+		"location": "Flee Bottom",
 		"price": 2000,
 
 		"in_slots_max": 6,
@@ -309,6 +317,7 @@
 		"id": 9,
 		"name": "Medium Slave Quarters.",
 		"desc": "Medium sized, old rundown building...",
+		"location": "Flee Bottom",
 		"price": 10000,
 
 		"in_slots_max": 18,
@@ -339,6 +348,7 @@
 		"id": 10,
 		"name": "Large Slave Quarters.",
 		"desc": "Huge, old rundown building...",
+		"location": "Midtown",
 		"price": 200000,
 
 		"in_slots_max": 80,
