@@ -93,29 +93,6 @@ label char_profile:
                             else:
                                 jump char_profile_end
 
-                    # elif result[1] == 'buyrank':
-                        # # Should prolly move this to the Girl method at some point:
-                        # # TODO: Update to skills (Refinement!)
-                        # # No Longer in use!!!
-                        # python:
-                            # targetrank = char.rank + 1
-                            # maxrank = max(b.maxrank for b in hero.brothels)
-                            # if targetrank > 3 and char.status == "slave":
-                                # renpy.call_screen('message_screen', "Slave Girls cannot be pushed past rank 3!")
-                            # elif targetrank > maxrank:
-                                # renpy.call_screen('message_screen', "You do not currently own any brothels to justify ranking a prostitute to Rank %d" % targetrank)
-                            # else:
-                                # rankinfo = char.wranks['r%d' % targetrank]
-
-                                # if char.exp >= rankinfo['exp']:
-                                    # if char.refinement >= rankinfo['ref']:
-                                        # if hero.take_money(rankinfo['price'], reason="Prositute Ranks"):
-                                            # char.rank += 1
-                                            # char.stats.max['refinement'] += 15
-
-                            # del maxrank
-                            # del targetrank
-
                 elif result[0] == "rename":
                     if result[1] == "name":
                         $ n = renpy.call_screen("pyt_input", char.name, "Enter Name", 20)
@@ -163,10 +140,7 @@ screen char_profile():
     on "hide":
         action Hide("show_trait_info")
 
-    if girls:
-        default tt = Tooltip("")
-    else:
-        default tt = Tooltip("Manage your girls here!!!")
+    default tt = Tooltip("")
     default stats_display = "main"
 
     $ not_escaped = char not in pytfall.ra
@@ -689,7 +663,6 @@ screen char_profile():
             # AP ====================================>
             frame:
                 xalign 0.5
-                # ypos 160
                 xysize (300, 90)
                 background ProportionalScale("content/gfx/frame/frame_ap.png", 300, 100)
                 label ("[char.AP]"):
@@ -1070,7 +1043,7 @@ screen girl_control():
                 else:
                     add cd_unchecked align (1.0, 0.5)
 
-            fixed: # TODO: what it does, exactly? with no tooltips I don't even know, so I can't add said tooltips -_-
+            fixed: # TODO: what it does, exactly? wage percentage? is it even used/needed?
                 align (0.5, 1.0)
                 xysize (200, 30)
                 hbox:
@@ -1269,6 +1242,9 @@ screen confirm_girl_sale():
                     action Hide("confirm_girl_sale")
                 textbutton "Yes":
                     action Return(['control', 'fire'])
+                    
+    key "K_RETURN" action Return(['control', 'fire'])
+    key "K_ESCAPE" action Hide("confirm_girl_sale")
 
 screen finances(obj, mode="logical"):
     modal True
@@ -1683,3 +1659,7 @@ screen finances(obj, mode="logical"):
                     elif fin_mode == "main":
                         action SetScreenVariable('fin_mode', "logical")
                         text "Performance"
+                        
+    key "K_RETURN" action Hide('finances')
+    key "K_ESCAPE" action Hide('finances')
+    key "mouseup_3" action Hide('finances')
