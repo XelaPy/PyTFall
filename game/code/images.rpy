@@ -117,15 +117,6 @@ init:
         pos (15, 20)
 
     image mm_fire = "content/gfx/animations/main_menu/fire1.png"
-       # additive 1.0
-       # pause 0.6
-       # "content/gfx/animations/main_menu/fire2.png"
-       # additive 1.0
-       # pause 0.6
-       # "content/gfx/animations/main_menu/fire3.png"
-       # additive 1.0
-       # pause 0.6
-       # repeat
 
     image mm_clouds = "content/gfx/animations/main_menu/cloud1.png"
     image mm_cloudstest = im.Scale("content/gfx/animations/main_menu/cloud1.png", 287, 263)
