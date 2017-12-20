@@ -561,7 +561,7 @@ init -10 python:
 
             cost = extension_class.COST * tier
 
-            materials = extension_class.MATERIALS
+            materials = extension_class.MATERIALS.copy()
             for k, v in materials.items():
                 materials[k] = round_int(v*tier)
 
