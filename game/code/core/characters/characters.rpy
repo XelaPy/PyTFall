@@ -123,7 +123,7 @@ init -9 python:
             wage = wage + wage*self.tier*.5
 
             if "Dedicated" in self.traits: # the trait decreases wage, this check should remain after revising! - DarkTl
-                wage = wage*0.65
+                wage = wage*0.75
 
             # Normalize:
             wage = int(round(wage))
@@ -387,11 +387,6 @@ init -9 python:
             self.el_defence = dict()
             self.el_special = dict()
 
-            # Weaponfocus:                not used, as far as I know, so should be deleted?
-            self.we_damage = dict()
-            self.we_defence = dict()
-            self.we_special = dict()
-
             # Base mods on init:
             self.init_mod = dict() # Mod value setting
             self.init_lvlmax = dict() # Mod value setting
@@ -433,9 +428,6 @@ init -9 python:
             self.blocked_traits = set()  # Blocked traits
 
             self.basetraits = set() # A set with basetraits (2 maximum)
-
-            # if not hasattr(self, "be_skills"):
-                # raise Exception("Meow~")
 
         def __getattr__(self, item):
             raise AttributeError("%s object has no attribute named %r" %
@@ -696,11 +688,6 @@ init -9 python:
             # Remove resisting elements and attacks:
             for i in trait.resist:
                 self.instance.resist.remove(i)
-                # We need to check if one of the traits still may apply resistance:
-                # for t in self:
-                    # if i in t.resist:
-                        # self.instance.resist.append(i)
-                        # break
 
             # We add the Neutral element if there are no elements left at all...
             if not self.instance.elements:
@@ -2455,23 +2442,6 @@ init -9 python:
                 self.miscitems[item] = item.mtemp
                 self.inventory.remove(item)
 
-            # elif item.slot == 'belt':
-                # if not self.eqslots['belt']:
-                    # self.eqslots['belt'] = item
-                    # self.inventory.remove(item)
-                # elif not self.eqslots['belt1']:
-                    # self.eqslots['belt1'] = item
-                    # self.inventory.remove(item)
-                # elif not self.eqslots['belt2']:
-                    # self.eqslots['belt2'] = item
-                    # self.inventory.remove(item)
-                # else:
-                    # self.inventory.append(self.eqslots['belt'])
-                    # self.eqslots['belt2'] = self.eqslots['belt1']
-                    # self.eqslots['belt1'] = self.eqslots['belt0']
-                    # self.eqslots['belt'] = item
-                    # self.inventory.remove(item)
-
             elif item.slot == 'ring':
                 if not self.eqslots['ring']:
                     self.eqslots['ring'] = item
@@ -2502,13 +2472,7 @@ init -9 python:
                 self.eqslots['misc'] = None
                 del(self.miscitems[item])
                 self.inventory.append(item)
-            # This prolly has to be rewritten!
-            # elif item.slot == 'belt':
-                # for entry in [self.eqslots['belt'], self.eqslots['belt1'], self.eqslots['belt2']]:
-                    # if entry == item:
-                        # self.inventory.append(item)
-                        # entry = None
-                        # return
+
             elif item.slot == 'ring':
                 if slot:
                     self.eqslots[slot] = None
@@ -3135,18 +3099,7 @@ init -9 python:
                     if direction and self.effects[effect]['active']:
                         self.disable_effect(effect)
 
-                # for effect in item.addeffects + item.removeeffects:
-                #     if (effect in item.addeffects and direction) or (effect in item.removeeffects and not direction):
-                #         condition = not self.effects[effect]['active']
-                #         func = self.enable_effect
-                #     else:
-                #         condition = self.effects[effect]['active']
-                #         func = self.disable_effect
-                #     if condition:
-                #         func(effect)
-
             # Jump away from equipment screen if appropriate:
-            # if direction and getattr(store, "dummy", None):
             if getattr(store, "eqtarget", None) is self:
                 if item.jump_to_label:
                     renpy.scene(layer="screens") # hides all screens
@@ -3491,12 +3444,14 @@ init -9 python:
         def apply_effects(self, effect):
             '''Called on next day, applies effects'''
             if effect == "Poisoned":
-                self.effects['Poisoned']['duration'] += 1 # TODO: improve poison logic
+                self.effects['Poisoned']['duration'] += 1
                 self.effects['Poisoned']['penalty'] += self.effects['Poisoned']['duration'] * 5
                 if self.health > self.effects['Poisoned']['penalty']:
                     self.health -= self.effects['Poisoned']['penalty']
                 else:
                     self.health = 1
+                if self.effects['Poisoned']['duration'] > 10:
+                    self.disable_effect('Poisoned')
 
             elif effect == "Unstable":
                 unstable = self.effects['Unstable']
@@ -3599,7 +3554,7 @@ init -9 python:
             elif effect == "Exhausted":
                 self.vitality -= int(self.get_max("vitality")*0.2)
 
-            elif effect == "Lactation": # TO DO: maybe add milking job, like in WM? with much more milk outcome than this effect has
+            elif effect == "Lactation": # TO DO: add milking activiies, to use this fetish more widely
                 if self.health >= 30 and self.vitality >= 30:
                     if self.status == "slave" or check_lovers(self, hero):
                         if "Small Boobs" in self.traits:
@@ -4237,7 +4192,7 @@ init -9 python:
             # Game mechanics assets
             self.gender = 'female'
             self.race = ""
-            # Compability with crazy mod:
+            # Compability with crazy mod: # TODO: Compability doesn't exist anymore, should be removed
             self.desc = ""
             self.status = "slave"
             self._location = "slavemarket"
@@ -4336,7 +4291,7 @@ init -9 python:
             if self.location == "slavemarket":
                 set_location(self, pytfall.sm)
             """
-            # Slaves cannot be Warriors? # This is not reasonable... Slaves are just not allowed to do combat...
+            # Slaves cannot be Warriors? # This is not reasonable... Slaves are just not allowed to do combat... TODO: it IS not reasonable as long as we don't have support for giving freedom; it's just a waste of character
             # if self.status == "slave" and "Warrior" in self.occupations:
                 # self.status = "free"
             """
@@ -4344,7 +4299,7 @@ init -9 python:
             if self.status == "slave" and (self.location == "city" or not self.location):
                 set_location(self, pytfall.sm)
 
-            # TODO: Fix city string to be an object.
+            # TODO: Fix city string to be an object - is it safe? if character.location == existing location, then she only can be found in this location
             if self.status == "free" and self.location == pytfall.sm:
                 set_location(self, "city")
 
@@ -4400,9 +4355,6 @@ init -9 python:
 
             self.say_screen_portrait = DynamicDisplayable(self._portrait)
             self.say_screen_portrait_overlay_mode = None
-
-            # We calc tier of a character... only for chars for now? Maybe for MC later?
-            # self.update_tier_info()
 
             super(Char, self).init()
 
@@ -4508,12 +4460,7 @@ init -9 python:
 
                     elif self.location == "Own Dwelling":
                         flag_red = True
-                        txt += "\nShe is taking a day off on your pay. She may manage to gain some skills and a bit of experience but it's not the right way to handle your business.\n\n"
-
-                        for stat in self.STATS: # --- Resources hungry?
-                            if stat != "luck":
-                                if dice(7):
-                                    self.mod_stat(stat, 1)
+                        txt += "\nShe is taking a day off on your pay. She may manage to gain a bit of experience but it's not the right way to handle your business.\n\n"
 
                         self.exp += self.adjust_exp(randint(10, 50))
                         self.health += randint(1, 5)
@@ -4559,9 +4506,9 @@ init -9 python:
 
                             else:
                                 self.joy -= 20
-                                self.disposition -= 50
+                                self.disposition -= randint(25, 50)
                                 self.health -= 10
-                                self.vitality -= 100
+                                self.vitality -= 25
                                 txt += "\nYou've failed to provide even the most basic needs for your slave. This will end badly... \n"
 
                     # Wages and tips:
@@ -4729,8 +4676,8 @@ init -9 python:
                         self.check_resting()
 
                         # Unhappiness and related:
-                        if self.joy <= 30:
-                            txt += "\n\nThis girl is unhappy :( "
+                        if self.joy <= 25:
+                            txt += "\n\nThis girl is unhappy!"
                             self.img = self.show("profile", "sad", resize=(500, 600))
                             self.days_unhappy += 1
 
@@ -4795,7 +4742,7 @@ init -9 python:
                 # TODO:
                     # This is temporary code, better and more reasonable system is needed, especially if we want different characters to befriend each other.
                 if self.disposition < -200: # until we'll have means to deal with chars with very low disposition (aka slave training), negative disposition will slowly increase
-                    self.disposition += randint(5, 15)
+                    self.disposition += randint(2, 5)
                 if self.disposition < -150 and hero in self.friends:
                     txt += "\n {} is no longer friends with you...".format(self.nickname)
                     end_friends(self, hero)
