@@ -553,13 +553,6 @@ screen char_profile():
                                 xpadding 7
                                 text "{color=#79CDCD}Market Price:"
                                 text (u"%s"%(char.fin.get_price())) xalign 1.0 style_suffix "value_text"
-                        if traits['Prostitute'] in char.occupations:
-                            frame:
-                                xoffset 4
-                                xysize (270, 27)
-                                xpadding 7
-                                text "{color=#79CDCD}Work Price:"
-                                text (u"%s"%(char.fin.get_whore_price())) xalign 1.0 style_suffix "value_text"
 
                 ##############################################################################
                 # Stats 2 (pro)
@@ -827,8 +820,6 @@ screen char_profile():
     use top_stripe(True)
 
 screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=False):
-    # TODO: upkeep made via mod field is not visible here; since upkeep is disabled atm,
-    # I dunno if it even should be made via mod or mod_stat
     if place == "girl_trait":
         if trait != "Manly":
             $ al = (.69, .4)
@@ -880,16 +871,22 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=F
                         for i in trait_info.mod_stats:
                             frame:
                                 xysize 170, 20
-                                if str(i) != "disposition":
+                                if str(i) not in ["disposition", "upkeep"]:
                                     if (trait_info.mod_stats[i])[0] < 0:
                                         text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0]) + " every " + str((trait_info.mod_stats[i])[1]) + " lvl") align .5, .5 size 15 color red text_align .5 outlines [(1, "#000000", 0, 0)]
                                     else:
                                         text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0]) + " every " + str((trait_info.mod_stats[i])[1]) + " lvl") align .5, .5 size 15 color lime text_align .5 outlines [(1, "#000000", 0, 0)]
                                 else:
-                                    if (trait_info.mod_stats[i])[0] < 0:
-                                        text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color red text_align .5 outlines [(1, "#000000", 0, 0)]
+                                    if str(i) == "disposition":
+                                        if (trait_info.mod_stats[i])[0] < 0:
+                                            text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color red text_align .5 outlines [(1, "#000000", 0, 0)]
+                                        else:
+                                            text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color lime text_align .5 outlines [(1, "#000000", 0, 0)]
                                     else:
-                                        text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color lime text_align .5 outlines [(1, "#000000", 0, 0)]
+                                        if (trait_info.mod_stats[i])[0] < 0:
+                                            text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color lime text_align .5 outlines [(1, "#000000", 0, 0)]
+                                        else:
+                                            text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color red text_align .5 outlines [(1, "#000000", 0, 0)]
                     if trait_info.effects:
                         label (u"Effects:") text_size 20 text_color goldenrod text_bold True xalign .45
                         for i in trait_info.effects:

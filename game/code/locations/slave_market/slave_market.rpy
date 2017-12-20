@@ -419,7 +419,10 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                                     background Null()
                                     xysize (195, 25)
                                     action NullAction()
-                                    text trait.id idle_color bisque size 19 align .5, .5 hover_color crimson
+                                    if len(trait.id) < 15:
+                                        text trait.id idle_color bisque size 18 align .5, .5 hover_color crimson text_align .5
+                                    else:
+                                        text trait.id idle_color bisque size 15 align .5, .5 hover_color crimson text_align .5
                                     hovered tt.Action(trait.desc)
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
 

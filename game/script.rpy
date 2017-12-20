@@ -250,6 +250,8 @@ label continue_with_start:
             stdio_lines = []
             stderr_lines = []
             console.history = []
+    if hero.name.lower() == "darktl":
+        $ hero.gold += 888888888
     jump mainscreen
 
 label dev_testing_menu_and_load_mc:

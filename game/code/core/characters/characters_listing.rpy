@@ -50,6 +50,9 @@ label chars_list:
 
 screen chars_list(source=None):
 
+    if len(source.sorted) == 0:
+        label "You don't have any workers" text_size 40 text_color ivory align .34, .2
+
     key "mousedown_3" action Return(['control', 'return'])
 
     default page_size = 10

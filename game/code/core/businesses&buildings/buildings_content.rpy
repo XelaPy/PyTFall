@@ -66,12 +66,6 @@ init -9 python:
             # In case of non-slave girl, use 3000 as base price
             return (self.worker.fin.get_price() or 3000) / 2
 
-        def get_whore_price(self):
-            """
-            Return the whore cost for the girl.
-            """
-            return self.worker.fin.get_whore_price()
-
         def get_upkeep(self):
             """
             Return the upkeep cost for the girl.

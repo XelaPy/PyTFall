@@ -96,7 +96,7 @@ screen mainscreen():
             xalign 0.5
             ypos 305
             spacing 15
-            textbutton "Chars":
+            textbutton "Characters":
                 action Stop("world"), Hide("mainscreen"), Jump("chars_list")
                 hovered tt.Action("A list of all of your workers")
             textbutton "Buildings":

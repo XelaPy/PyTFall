@@ -954,122 +954,35 @@ init -9 python:
             return char.action not in ["Rest", "AutoRest"] or (char.location != "Streets" and not in_training_location(char))
 
         def get_price(self):
-            # TODO: To be revised after skills are added!
             char = self.instance
-            # if char.status == 'slave':
-                # if 'Prostitute' in char.basetraits:
-                    # bp = 3000 # Base Price
-                    # sp = 2 * (char.charisma + char.reputation + char.fame + char.constitution + char.character) + 3 * char.refinement
-                    # ssp = 2 * (char.anal + char.normalsex + char.blowjob + char.lesbian) # Sex Price
-                    # if sp > 1200:
-                        # sp = sp * 1.2
-                    # if ssp > 850:
-                        # ssp = ssp * 1.4
-                    # price = bp + sp + ssp
-                    # return int(price)
-                # elif 'Stripper' in char.basetraits:
-                    # bp = 3900 # Base Price
-                    # sp = 2 * (char.charisma + char.reputation + char.fame + char.constitution + char.character) + 3 * char.refinement
-                    # ssp = 2 * 4 * (char.strip) # Sex Price
-                    # if sp > 1200:
-                        # sp = sp * 1.2
-                    # if ssp > 850:
-                        # ssp = ssp * 1.4
-                    # price = bp + sp + ssp
-                    # return int(price)
-                # elif 'Server' in char.occupations:
-                    # bp = 3500 # Base Price
-                    # sp = 2 * (char.charisma + char.reputation + char.fame + char.constitution + char.character) + 3 * char.refinement
-                    # ssp = 2 * 4 * (char.service) # Sex Price
-                    # if sp > 1200:
-                        # sp = sp * 1.2
-                    # if ssp > 850:
-                        # ssp = ssp * 1.4
-                    # price = bp + sp + ssp
-                    # return int(price)
-                # else:
-                    # bp = 3000 # Base Price
-                    # sp = 0
-                    # for stat in char.stats:
-                        # if stat not in ["disposition", "joy", "health", "vitality"]: #, "mood"
-                            # sp += getattr(char, stat)
+            
+            price = 1000 + char.tier*1000 + char.level*100
+            
+            if char.status == 'free':
+                price *= 2 # in case if we'll even need that for free ones, 2 times more
 
-                    # if sp > 1200:
-                        # sp = sp * 1.2
-
-                    # price = bp + sp
-                    # return int(price)
-
-            # else:
-                # devlog.warning("get_price for {} was ran even though character is free !".format(char.id))
-            return 1000
+            return price
 
         def get_upkeep(self):
-            # TODO: To be revised after skills are added!
             char = self.instance
-
+            
             if char.status == 'slave':
-                return 50
+                if hasattr(char, "upkeep"):
+                    upkeep = char.upkeep
+                else:
+                    upkeep = 0
+                    
+                upkeep *= char.tier+1
+
+                if "Dedicated" in char.traits:
+                    upkeep += 25 + char.tier*100 + char.level*2
+                else:
+                    upkeep += 50 + char.tier*100 + char.level*5
+                    
+                return max(20, upkeep)
+                
             else:
                 return 0
-            # if char.status == 'slave':
-                # if 'Prostitute' in char.basetraits:
-                    # bu = 20 * char.rank
-                    # su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
-                    # ssu = char.anal/8 + char.normalsex/8 + char.blowjob/8 + char.lesbian/8
-
-                    # return int(bu + su + ssu + char.upkeep)
-
-                # elif traits['Stripper'] in char.occupations:
-                    # bu = 3 * char.strip
-                    # su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
-
-                    # return int(bu + su + char.upkeep)
-
-                # elif 'Server' in char.occupations:
-                    # bu = 3 * char.service
-                    # su = char.charisma/10 + char.refinement*1.5 + char.constitution/5 + char.reputation/2 + char.fame/2 # Stats Upkeep
-
-                    # return int(bu + su + char.upkeep)
-
-                # else:
-                    # bu = 20
-                    # su = 0 # Stats Upkeep
-                    # for stat in char.stats:
-                        # if stat not in ["disposition", "joy", "health", "vitality", "mood"]:
-                            # su += getattr(char, stat)
-
-                    # return int(bu + su + char.upkeep)
-
-            # elif char.status == 'free':
-                # return char.upkeep
-
-            # else: # This is for any unknown types
-                # bu = 50
-                # su = 0 # Stats Upkeep
-                # for stat in char.stats:
-                    # if stat not in ["disposition", "joy", "health", "vitality", "mood"]:
-                        # su += getattr(char, stat)
-
-                # return int(bu + su + char.upkeep)
-
-        def get_whore_price(self):
-            """
-            Workprice for girls working as whores.
-            """
-            # TODO: To be revised after skills are added!
-            char = self.instance
-
-            # if char.rank < 4:
-                # bp = 10 * char.rank # Base Price
-            # elif char.rank < 7 :
-                # bp = 15 * char.rank
-            # else:
-                # bp = 20 * char.rank
-            # sp = char.charisma/2 + char.refinement/3 + char.reputation/4 + char.fame/4 # Stats Price
-            # ssp = (char.anal + char.normalsex + char.blowjob + char.lesbian)/4*(1+(char.rank*0.1)) # Sex Stats Price
-
-            return 100 # int(bp + sp + ssp)
 
         def next_day(self):
             self.game_main_income_log[day] = self.todays_main_income_log.copy()
