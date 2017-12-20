@@ -15,7 +15,7 @@ label witches_hut:
     $ w = npcs["Abby_the_witch"].say
 
     if global_flags.flag('visited_witches_hut'):
-        w "Welcome Back!"
+        w "Welcome back!"
     else:
         $ w = Character("???", color=orange, what_color=yellow, show_two_window=True)
         $ global_flags.set_flag('visited_witches_hut')

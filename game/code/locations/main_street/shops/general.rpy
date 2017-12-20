@@ -16,7 +16,7 @@ label general_store:
     with dissolve
     
     if global_flags.flag('visited_general_store'):
-        y "Welcome Back!"
+        y "Welcome back!"
 
     else:
         $ global_flags.set_flag('visited_general_store')

@@ -16,7 +16,7 @@ label workshop:
     with dissolve
 
     if global_flags.flag('visited_workshop'):
-        "Welcome Back!"
+        "Welcome back!"
     else:
         $ global_flags.set_flag('visited_workshop')
         k "Welcome to PyTFall's Workshop!"

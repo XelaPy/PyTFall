@@ -880,6 +880,8 @@ init: # Items:
             idle img
             hover im.MatrixColor(img, im.matrix.brightness(0.25))
             action action
+        key "mousedown_3" action action
+        key "K_ESCAPE" action action
 
     screen dropdown(pos):
         # Trying to create a drop down screen with choices of actions:
@@ -901,7 +903,7 @@ init: # Items:
             anchor (xval, yval)
             has vbox
 
-            transclude # Doesn't work as expected, no style passing to other screens, no modal, bull shit of a statement basically at this stage :(
+            transclude # Doesn't work as expected, no style passing to other screens, no modal, bull shit of a statement basically at this stage :(  TODO: is it still true in modern renpy?
 
     screen set_action_dropdown(char, pos=()):
         # Trying to create a drop down screen with choices of actions:
@@ -958,6 +960,8 @@ init: # Items:
 
             textbutton "Close":
                 action [Hide("set_action_dropdown")]
+                
+        key "K_ESCAPE" action [Hide("set_action_dropdown")]
 
     screen set_location_dropdown(char, pos=()):
         # Trying to create a drop down screen with choices of actions:
@@ -1002,6 +1006,8 @@ init: # Items:
 
             textbutton "Close":
                 action Hide("set_location_dropdown")
+                
+        key "K_ESCAPE" action Hide("set_location_dropdown")
 
     screen set_home_dropdown(char, pos=()):
         # Trying to create a drop down screen with choices of actions:
@@ -1031,6 +1037,8 @@ init: # Items:
                 action SetField(char, "home", locations["Streets"]), Hide("set_home_dropdown")
             textbutton "Close":
                 action Hide("set_home_dropdown")
+                
+        key "K_ESCAPE" action Hide("set_home_dropdown")
 
     screen char_rename(char=None):
         modal True
@@ -1090,7 +1098,8 @@ init: # Items:
                     text "Back" size 16 color goldenrod
                     action Hide("char_rename")
                     padding (10, 10)
-
+                    
+        key "K_ESCAPE" action Hide("char_rename")
 
     screen poly_matrix(in_file, show_exit_button=False, cursor="content/gfx/interface/icons/zoom_glass.png", xoff=20, yoff=20, hidden=[]):
         # If a tuple with coordinates is provided instead of False for show_exit_button, exit button will be placed there.
@@ -1510,28 +1519,6 @@ init: # Settings:
                             textbutton _("Enable") action SetField(persistent, "auto_saves", True) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("Creates autosave every time you leave the next day screen. Can be slow, disable if it bothers you.")
                             textbutton _("Disable") action SetField(persistent, "auto_saves", False) xsize 150 xalign 0.5 text_size 16 hovered tt.Action("Creates autosave every time you leave the next day screen. Can be slow, disable if it bothers you.")
 
-                        # frame:
-                            # background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                            # xsize 194
-                            # ypadding 10
-                            # style_group "dropdown_gm2"
-                            # has vbox align (0.5, 0.5)
-                            # frame:
-                                # xsize 184
-                                # align (0.5, 0.5)
-                                # background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
-                                # text _("- Text Speed -") style "TisaOTMolxm"
-                            # null height 8
-                            # bar value Preference("text speed") align (0.5, 0.5)
-
-                        # frame:
-                            # background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
-                            # xsize 194
-                            # ypadding 8
-                            # style_group "dropdown_gm2"
-                            # has vbox align (0.5, 0.5)
-                            # textbutton _("Joystick...") action Preference("joystick") xsize 150 text_size 16
-
             elif s_menu in ("Save", "Load"):
                 vbox:
                     yfill True
@@ -1606,8 +1593,6 @@ init: # Settings:
 
                                     key "save_delete" action FileDelete(i)
         frame:
-            # at fade_in_out(sv1=0.0, ev1=1.0, t1=1.0,
-                                    # sv2=1.0, ev2=0.0, t2=1.0)
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
             align (0.765, 0.505)
             xysize (150, 409)
@@ -1737,3 +1722,6 @@ screen give_exp_after_battle(group, exp = 0, money=0): # shows post-battle resul
             yalign 0.5
             action [Hide("give_exp_after_battle")]
             text "OK" size 15
+            
+    key "K_ESCAPE" action [Hide("give_exp_after_battle")]
+    key "K_RETURN" action [Hide("give_exp_after_battle")]

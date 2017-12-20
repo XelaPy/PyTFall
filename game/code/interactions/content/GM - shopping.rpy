@@ -14,7 +14,7 @@ label interactions_shopping:
 
 
     if global_flags.flag('visited_tailor_store'):
-        "Welcome Back!"
+        "Welcome back!"
         "Ah with one of your ladies. Let see what they'd like! "
 
     else:
