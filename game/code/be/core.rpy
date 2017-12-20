@@ -1980,10 +1980,8 @@ init -1 python: # Core classes:
         return chars[0]
 
     def exp_reward(team, enemies): # calculates exp reward after a battle
-        team_level = 0
-        for i in team:
-            if hasattr(i, "level"): # a countermeasure in case if there will be exotic party members
-                team_level += i.level # sum of all party members levels
+        team_level = team.get_level()
+
         if team_level <= 0:
             team_level = 1
 
