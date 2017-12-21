@@ -3,12 +3,25 @@
         "id": "-PyTFall Educators-",
         "image": "content/schools/school.jpg",
         "primary": [
+            2,
+            3,
+            2,
             1,
+            2,
+            3,
+            4,
+            2,
+            3,
+            2,
+            1,
+            2,
+            3,
+            4
+        ],
+        "secondary": [
             1,
             1,
             0,
-            1,
-            1,
             1,
             1,
             1,
@@ -16,11 +29,6 @@
             1,
             1,
             2,
-            0
-        ],
-        "secondary": [
-            0,
-            0,
             0,
             1,
             1,
@@ -28,26 +36,18 @@
             1,
             1,
             1,
-            0,
-            0,
-            0,
             1,
             1,
             1,
-            1,
-            0,
-            0,
-            0,
-            0,
             0,
             2
         ],
         "skillPrimary": [
-            1,
+            2,
             7
         ],
         "skillSecondary": [
-            0,
+            1,
             4
         ],
         "options": {
@@ -84,7 +84,7 @@
                 ]
             },
             "Leadership": {
-                "desc": "This course focuses on training management and character. May also improve teaching.",
+                "desc": "This course focuses on training management and character.",
                 "image": "Leader/",
                 "imageMode": "normal",
                 "imageTags": [
@@ -101,30 +101,11 @@
                     "management"
                 ],
                 "secondary": [
-                    "teaching"
-                ]
-            },
-            "BDSM": {
-                "desc": "This course focuses on training bdsm skill. May also improve other sex skills.",
-                "image": "BDSM/",
-                "imageTags": [
-                    "bdsm",
-                    "restrained"
-                ],
-                "noImageTags": [
-                    "group"
-                ],
-                "primary": [
-                    "bdsm"
-                ],
-                "secondary": [
-                    "anal",
-                    "oral",
-                    "vaginal"
+                    
                 ]
             },
             "Self-defence": {
-                "desc": "This course focuses on training defence. May also improve constitution and intelligence.",
+                "desc": "This course focuses on training defence and security. May also improve constitution and intelligence.",
                 "image": "Combat/",
                 "imageTags": [
                     "battle",
@@ -137,7 +118,8 @@
                     "rest"
                 ],
                 "primary": [
-                    "defence"
+                    "defence",
+                    "security"
                 ],
                 "secondary": [
                     "constitution",
@@ -145,7 +127,7 @@
                 ]
             },
             "Kunoichi": {
-                "desc": "This course focuses on training attack and agility. May also improve explorations and sex skill.",
+                "desc": "This course focuses on training attack and agility. May also improve sex skill and security.",
                 "image": "Kunoichi/",
                 "imageTags": [
                     "ninja",
@@ -157,25 +139,12 @@
                     "agility"
                 ],
                 "secondary": [
-                    "exploration", "sex"
+                    "security", "sex"
                 ]
             },
-            "Dance": {
-                "desc": "This course focuses on training dancing skill. May also improve agility and striptease.",
-                "image": "Dance/",
-                "imageTags": [
-                    "dancing"
-                ],
-                "primary": [
-                    "dancing"
-                ],
-                "secondary": [
-                    "agility",
-                    "strip"
-                ]
-            },
+
             "Striptease": {
-                "desc": "This course focuses on training striptease skill. May also improve agility and dancing.",
+                "desc": "This course focuses on training striptease skill. May also improve agility.",
                 "image": "Strip/",
                 "imageTags": [
                     "stripping"
@@ -204,7 +173,7 @@
                 ]
             },
             "Maid": {
-                "desc": "This course focuses on service and cleanings kills. May also improve waiting.",
+                "desc": "This course focuses on service and cleanings kills. May also improve waiting and bartending.",
                 "image": "Service/",
                 "imageTags": [
                     "sfw",
@@ -217,7 +186,8 @@
                     "cleaning"
                 ],
                 "secondary": [
-                    "waiting"
+                    "waiting",
+                    "bartending"
                 ]
             },
             "Oral Sex": {
@@ -265,7 +235,7 @@
                 ]
             },
             "Vaginal Sex": {
-                "desc": "This course focuses on training vaginal sex skills. May also improve group and general sex.",
+                "desc": "This course focuses on training vaginal sex skills. May also improve sex.",
                 "image": "Vaginal/",
                 "imageMode": "any",
                 "imageTags": [
@@ -285,7 +255,7 @@
                     "vaginal"
                 ],
                 "secondary": [
-                    "group", "sex"
+                    "sex"
                 ]
             },
             "Maid": {
@@ -303,27 +273,6 @@
                 ],
                 "secondary": [
                     "service"
-                ]
-            },
-            "Group Sex": {
-                "desc": "This course focuses on training all sex skills at once except BDSM.",
-                "image": "Group/",
-                "imageMode": "any",
-                "imageTags": [
-                    "group"
-                ],
-                "noImageTags": [
-                    "bdsm",
-                    "grouprape",
-                    "rape"
-                ],
-                "primary": [
-                    "group", "sex"
-                ],
-                "secondary": [
-                    "anal",
-                    "oral",
-                    "vaginal"
                 ]
             }
         }
