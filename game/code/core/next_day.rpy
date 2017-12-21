@@ -112,9 +112,9 @@ label special_auto_save: # since built-in autosave works like shit, I use normal
     python hide:
         temp = "auto-" + str(special_save_number)
         renpy.save(temp)
-        special_save_number += 1
-        if special_save_number > 6:
-            special_save_number = 1
+    $ special_save_number += 1
+    if special_save_number > 6:
+        $ special_save_number = 1
     return
 
 label next_day:
