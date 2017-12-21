@@ -405,7 +405,7 @@
     "type": "amulet",
     "max": {"character": 5},
     "mod": {"character": 50},
-    "mod_skills": {"exploration": [0, 0, 0.01, 0, 0]},
+    "mod_skills": {"security": [0, 0, 0.01, 0, 0]},
     "locations": ["Exploration", "Tailor Store"],
     "evasion_bonus": 1,
     "tier": 0,

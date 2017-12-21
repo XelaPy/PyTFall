@@ -18,14 +18,14 @@
     "id": "Adventurous",
     "desc": "This girl loves adventures.",
     "blocks": ["Homebody"],
-    "mod_skills": {"exploration": [0.05, 0.05, 0.05], "service": [-0.05, -0.05, -0.05]},
+    "mod_skills": {"security": [0.05, 0.05, 0.05], "service": [-0.05, -0.05, -0.05]},
     "character_trait": true
     },
     {
     "id": "Homebody",
     "desc": "Who needs adventures when you have a warm house, a tasty food, and a good book?",
     "blocks": ["Adventurous"],
-    "mod_skills": {"exploration": [-0.05, -0.05, -0.05], "service": [0.05, 0.05, 0.05]},
+    "mod_skills": {"security": [-0.05, -0.05, -0.05], "service": [0.05, 0.05, 0.05]},
     "character_trait": true
     },
     {

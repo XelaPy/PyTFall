@@ -23,7 +23,7 @@
     "blocks": ["Coward"],
     "mod_stats": {"character": [1, 1]},
     "max": {"character": 5},
-    "mod_skills": {"bdsm": [0.01, 0, 0.03], "exploration": [0.05, 0, 0.06]},
+    "mod_skills": {"bdsm": [0.01, 0, 0.03], "security": [0.05, 0, 0.06]},
     "character_trait": true,
     "evasion_bonus": [-5, -5, 1],
     "client": true
@@ -34,7 +34,7 @@
     "blocks": ["Courageous"],
     "mod_stats": {"character": [-1, 1]},
     "max": {"character": -5},
-    "mod_skills": {"bdsm": [-0.01, 0, -0.03], "exploration": [-0.05, 0, -0.06]},
+    "mod_skills": {"bdsm": [-0.01, 0, -0.03], "security": [-0.05, 0, -0.06]},
     "character_trait": true,
     "evasion_bonus": [1, 2, 10],
     "client": true

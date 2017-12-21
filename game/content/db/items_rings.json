@@ -13,7 +13,7 @@
     "slot": "ring",
     "type": "ring",
     "mod": {"intelligence": -50, "character": 50},
-    "mod_skills": {"vaginal": [0.01, 0, 0.01, 0, 0], "group": [0.01, 0, 0.01, 0, 0], "exploration": [0.01, 0, 0.01, 0, 0]},
+    "mod_skills": {"vaginal": [0.01, 0, 0.01, 0, 0], "group": [0.01, 0, 0.01, 0, 0], "security": [0.01, 0, 0.01, 0, 0]},
     "damage_multiplier": 0.01,
     "locations": ["Witches Hut", "Exploration"],
     "tier": 2,
