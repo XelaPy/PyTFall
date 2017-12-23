@@ -1354,5 +1354,23 @@
     "type": "special",
     "jump_to_label": "special_items_cleaning_cloud",
     "locations": ["Witches Hut", "Exploration"]
+    },
+    {
+    "id": "Milk Pills",
+    "desc": "Special pills for stimulating lactation. The exact effect depends on the boobs size.",
+    "icon": "content/items/cons/milk_pills.png",
+    "price": 500,
+    "sex": "female",
+    "chance": 35,
+    "badness": 50,
+    "eqchance": 0,
+    "hidden": false,
+    "infinite": false,
+    "slot": "consumable",
+    "type": "permanent",
+    "max": {"health": -10},
+    "mod": {"vitality": -25},
+    "addtraits": ["Lactation"],
+    "locations": ["Witches Hut"]
     }
   ]
