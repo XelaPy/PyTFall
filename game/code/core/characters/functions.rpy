@@ -758,7 +758,7 @@ init -11 python:
                 weight_sp = weight_ratio*sp
                 biosed_sp = round_int(weight_sp*stat_bios())
 
-                char.mod_skill(skill, biosed_sp)
+                char.mod_stat(stat, biosed_sp)
 
         # Now that we're done with baseskills, we can play with other stats/skills a little bit
         for stat in char.stats.stats:
