@@ -1052,24 +1052,6 @@ init: # Main Screens:
                 text  "Close" # TODO: possibly will require align changes when arena log is full
         key "mousedown_3" action Hide("arena_report")
 
-    screen arena_stats(member): #TODO: is it even used right now? I don't see it
-        hbox at arena_stats_slide:
-            align (1.0, 1.0)
-            if not isinstance(member.combat_stats, basestring):
-                vbox:
-                    spacing 1
-                    xmaximum 100
-                    xminimum 100
-                    xfill True
-                    for stat in member.combat_stats:
-                        text("{size=-5}{=della_respira}{color=[red]}%s:"%(stat.capitalize()))
-                vbox:
-                    spacing 1
-                    for stat in member.combat_stats:
-                        text("{size=-5}{color=[red]}%s"%(member.combat_stats[stat]))
-            else:
-                text("{size=+20}{color=[red]}K.O.")
-
 init: # ChainFights vs Mobs:
     screen chain_fight():
         modal True
