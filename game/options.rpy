@@ -44,9 +44,6 @@ init -999 python hide:
 
 define config.window_icon = "content/gfx/interface/icons/win_icon.png"
 
-init: # Rollback related:
-    $ _rollback = False
-
 init -5 python hide:
     config.console_history_size = 50
     ## This controls the title of the window, when Ren'Py is
@@ -61,6 +58,11 @@ init -5 python hide:
         config.keymap['game_menu'] = []
     # Fixing path:
     config.reject_backslash = False
+
+    # disabling rollback as not being compatible with games nature
+    config.rollback_enabled = False
+    config.hard_rollback_limit = 0
+    config.rollback_length = 1
 
     # Game may bug out on saving, in such case, comment should be removed
     # config.use_cpickle = False
