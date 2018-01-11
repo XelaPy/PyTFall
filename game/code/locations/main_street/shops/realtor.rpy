@@ -161,7 +161,11 @@ screen realtor_agency():
                                     frame:
                                         xysize 380, 24
                                         text "{color=[gold]}Price:" yalign 0.5
-                                        label (u"{color=[gold]}%d"%(focus.price)) align (1.0, 0.5)
+                                        label "{color=[gold]}[focus.price]" align (1.0, 0.5)
+                                    frame:
+                                        xysize 380, 24
+                                        text "{color=[ivory]}Quarter:" yalign 0.5
+                                        label "{color=[ivory]}[focus.location]" align (1.0, 0.5)
                                     frame:
                                         xysize 380, 24
                                         text "Interior Space:" yalign 0.5
