@@ -35,11 +35,12 @@ init -20 python:
 
     def set_location(actor, loc):
         """
-        This plainy forces a location on an actor.
+        This plainly forces a location on an actor.
         """
         actor.location = loc
         if isinstance(loc, Location):
             loc.add(actor)
+
 
     class Location(_object):
         """
@@ -47,8 +48,11 @@ init -20 python:
         This simply holds references to actors that are present @ the location.
         If a location is not a member of this class, it is desirable for it to have a similar setup or to be added to change_location() function manually.
         """
-        def __init__(self):
-            self.id = self.__class__
+        def __init__(self, id=None):
+            if id is None:
+                self.id = self.__class__
+            else:
+                self.id = id
             self.actors = set()
 
         def __str__(self):
@@ -64,13 +68,37 @@ init -20 python:
             self.actors.remove(actor)
 
 
-    class Streets(Location):
+    class CityLoc(Location):
+        """This used to be 'city' string.
+        They will partake in interactions.
+        """
+        def __init__(self):
+            super(CityLoc, self).__init__(id="City")
+
+
+    class HabitableLocation(Location):
+        """Location where actors can live and modifier for health and items recovery.
+        Other Habitable locations can be buildings which mimic this functionality or may inherit from it in the future.
+        """
+        def __init__(self, id="Livable Location", daily_modifier=.1):
+            super(HabitableLocation, self).__init__(id=id)
+
+            self._habitable = True
+            self.daily_modifier = daily_modifier
+
+        @property
+        def habitabe(self):
+            # Property as this is used in building to the same purpose,
+            # we may need to
+            return self._habitable
+
+
+    class Streets(HabitableLocation):
         """
         Dummy location for actors that have no place to live...
         """
         def __init__(self):
-            super(Streets, self).__init__()
-            self.id = "Streets"
+            super(Streets, self).__init__(id="Streets", daily_modifier=-.1)
 
 
     class Apartments(Location):
