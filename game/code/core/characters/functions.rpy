@@ -1,4 +1,16 @@
 init -11 python:
+    def mod_by_max(char, stat, value, prevent_death=True):
+        """Modifies a stat by a float multiplier based of it's max value.
+
+        prevent_death will not allow health to go below 0.
+        """
+        value = round_int(char.get_max(stat)*value)
+        
+        if prevent_death and stat == "health" and (char.health + value <= 0):
+            char.health = 1
+        else:
+            char.mod_stat(stat, value)
+
     def restore_battle_stats(char):
         for stat in ["health", "mp", "vitality"]:
             char.mod_stat(stat, char.get_max(stat))
