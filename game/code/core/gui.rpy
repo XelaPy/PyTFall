@@ -116,17 +116,19 @@ init -1 python:
             return filter_key in self.active_filters[filter_group]
 
 
-    class SlaveMarket(Location):
+    class SlaveMarket(HabitableLocation):
         """
         Class for populating and running of the slave market.
+
+        TODO: (Refactor)
+        Use actors container from Location class and
         """
-        def __init__(self, type = None):
+        def __init__(self, type=None):
             """
             Creates a new SlaveMarket.
-            type = type girls predominatly present in the market. Not used.
+            type = type girls predominantly present in the market. Not used.
             """
-            super(SlaveMarket, self).__init__()
-            self.id = "PyTFall Slavemarket"
+            super(SlaveMarket, self).__init__(id="PyTFall Slavemarket")
             self.type = [] if type is None else type
 
             self.girl = None

@@ -18,6 +18,9 @@ init -9 python:
             # GUI
             self.it = None  # Items Transfer
             self.sm = SlaveMarket()
+            # Also place in locations container!
+            store.locations[self.sm.id] = self.sm
+
             self.hp = GuiHeroProfile()
 
             # Exploration

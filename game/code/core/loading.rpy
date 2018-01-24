@@ -204,7 +204,8 @@ init -11 python:
                                             color = ivory
                                     char.say_style[key] = color
 
-                            for key in ("name", "nickname", "fullname", "origin", "gold", "desc", "location", "status", "height", "full_race"):
+                            # Note: Location is later normalized in init method.
+                            for key in ("name", "nickname", "fullname", "origin", "gold", "desc", "status", "location", "height", "full_race"):
                                 if key in ["name", "nickname", "fullname"] and key in gd:
                                     if len(gd[key]) > 20:
                                         temp = gd[key][0:20]

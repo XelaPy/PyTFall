@@ -942,9 +942,9 @@ init -9 python:
 
         def get_price(self):
             char = self.instance
-            
+
             price = 1000 + char.tier*1000 + char.level*100
-            
+
             if char.status == 'free':
                 price *= 2 # in case if we'll even need that for free ones, 2 times more
 
@@ -952,22 +952,22 @@ init -9 python:
 
         def get_upkeep(self):
             char = self.instance
-            
+
             if char.status == 'slave':
                 if hasattr(char, "upkeep"):
                     upkeep = char.upkeep
                 else:
                     upkeep = 0
-                    
+
                 upkeep *= char.tier+1
 
                 if "Dedicated" in char.traits:
                     upkeep += 25 + char.tier*100 + char.level*2
                 else:
                     upkeep += 50 + char.tier*100 + char.level*5
-                    
+
                 return max(20, upkeep)
-                
+
             else:
                 return 0
 
@@ -4264,7 +4264,8 @@ init -9 python:
             self.fin = Finances(self)
 
         def init(self):
-            # Normalize girls
+            """Normalizes after __init__"""
+
             # Names:
             if not self.name:
                 self.name = self.id
@@ -4273,8 +4274,8 @@ init -9 python:
             if not self.nickname:
                 self.nickname = self.name
 
-            # Class | Status normalization:
-            if not self.traits.basetraits: # TODO: Just until all chars have proper JSONs...
+            # Base Class | Status normalization:
+            if not self.traits.basetraits:
                 pattern = create_traits_base(self.GEN_OCCS)
                 for i in pattern:
                     self.traits.basetraits.add(i)
@@ -4290,21 +4291,19 @@ init -9 python:
             # SM string --> object
             if self.location == "slavemarket":
                 set_location(self, pytfall.sm)
-            """
-            # Slaves cannot be Warriors? # This is not reasonable... Slaves are just not allowed to do combat... TODO: it IS not reasonable as long as we don't have support for giving freedom; it's just a waste of character
-            # if self.status == "slave" and "Warrior" in self.occupations:
-                # self.status = "free"
-            """
+            if self.location == "city":
+                set_location(self, store.locations["City"])
+
             # Make sure all slaves that were not supplied custom locations string, find themselves in the SM
-            if self.status == "slave" and (self.location == "city" or not self.location):
+            if self.status == "slave" and (str(self.location) == "City" or not self.location):
                 set_location(self, pytfall.sm)
 
-            # TODO: Fix city string to be an object - is it safe? if character.location == existing location, then she only can be found in this location
+            # if character.location == existing location, then she only can be found in this location
             if self.status == "free" and self.location == pytfall.sm:
-                set_location(self, "city")
+                set_location(self, store.locations["City"])
 
             # Home settings:
-            if self.status == "slave" and self.location == pytfall.sm:
+            if self.location == pytfall.sm:
                 self.home = pytfall.sm
             if self.status == "free":
                 if not self.home:

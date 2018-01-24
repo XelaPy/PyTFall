@@ -10,6 +10,9 @@
         day = 1
         # difficulty = Difficulties()
 
+        # We need it here cause
+        locations = dict()
+
         # Load random names selections for rGirls:
         tl.timer("Loading: Random Name Files")
         female_first_names = load_female_first_names(200)
@@ -32,8 +35,6 @@
         menu_extensions["Xeona Main"] = []
         tl.timer("Loading: Menu Extensions")
 
-
-    $ locations = dict()
     python hide:
         # Create locations:
         for loc in (Apartments, Streets, CityLoc):
