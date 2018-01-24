@@ -22,7 +22,9 @@ init -20 python:
             return
 
         if isinstance(actor.location, basestring):
-            devlog.warn("%s has a string location: %s"%(actor.name, actor.location)) # TODO: why do we care about string location? it means they are tied to specific location, and it works properly
+            # TODO: why do we care about string location?
+            # it means they are tied to specific location, and it works properly
+            devlog.warn("%s has a string location: %s"%(actor.name, actor.location))
         elif actor.location and hasattr(actor.location, "remove"):
             try:
                 actor.location.remove(actor)
@@ -101,11 +103,10 @@ init -20 python:
             super(Streets, self).__init__(id="Streets", daily_modifier=-.1)
 
 
-    class Apartments(Location):
+    class Apartments(HabitableLocation):
         """
         Another Dummy Location, this one is used for free characters that have a place to live of their own.
         This maybe replaced later by actual apartments for every character.
         """
         def __init__(self):
-            super(Apartments, self).__init__()
-            self.id = "City Apartment"
+            super(Apartments, self).__init__(id="City Apartment", daily_modifier=.1)
