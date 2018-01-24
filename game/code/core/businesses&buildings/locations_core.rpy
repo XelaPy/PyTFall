@@ -2,10 +2,19 @@ init python:
     """
     These are used to track current location of any actor and some other object in the game.
     Assumption we make here is that no actor can be at two places at once.
+
+    Above is unclear... idea is to have home location and work location so we have knowledge about
+    where characters live and modifiers for next_day restoration calculations.
+    Work is where they "work", all chars must have home location of some sort, even if it's afterlife
+    or streets :) Work can be omitted, we don't have a dummy location for that atm so None can be used.
+
+    change location functions just change the "current" location of the character.
+    More often that not, it doesn't matter much and is mostly there for use in future codebase.
     """
 
 init -20 python:
     # Core Logic:
+    # It does feel like actors container is reliable in this context.
     def change_location(actor, loc):
         """
         All actors have (or should have) a location property.

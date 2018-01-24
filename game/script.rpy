@@ -32,14 +32,15 @@
         menu_extensions["Xeona Main"] = []
         tl.timer("Loading: Menu Extensions")
 
-        # Create locations:
-        locations = dict()
-        temp = Apartments()
-        locations[temp.id] = temp
-        temp = Streets()
-        locations[temp.id] = temp
-        del temp
 
+    $ locations = dict()
+    python hide:
+        # Create locations:
+        for loc in (Apartments, Streets, CityLoc):
+            loc = loc()
+            locations[loc.id] = loc
+
+    python:
         # Load all game elements:
         tl.timer("Loading: Traits")
         traits = load_traits()
