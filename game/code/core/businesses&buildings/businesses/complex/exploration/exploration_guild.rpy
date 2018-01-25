@@ -640,6 +640,8 @@ init -6 python:
                     for c in area.chars:
                         # Uniques (Or prebuilt Randoms)!
                         # 0 Chance atm.
+
+                        # String location? TODO
                         if c in chars and dice(area.girls[c] + tracker.day*0.1 - 1000) and g.location == "se":
                             tracker.captured_char = None # chars[g] # TODO: Properly create the rchar...
                             self.env.exit("captured char")

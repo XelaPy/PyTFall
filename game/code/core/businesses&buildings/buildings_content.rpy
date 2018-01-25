@@ -335,6 +335,7 @@ init -9 python:
             evtlist = []
             char = None
 
+            # TODO Why is this not self? Does this even work?
             girls = [girl for girl in hero.chars if girl.location == self.name]
 
             if not girls:

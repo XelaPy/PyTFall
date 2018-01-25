@@ -4089,39 +4089,25 @@ init -9 python:
             # -------------------->
             txt += "Hero Report:\n\n"
 
-            if self.location == "Streets":
-                self.health -= randint(1, 2)
+            # Home location nd mods:
+            loc = self.home
+            mod = loc.daily_modifier
+
+            if mod > 0:
+                txt += "You've comfortably spent a night."
+                # if self.AP > 0:
+                #     txt += "\nYou've had some Action Points left from the day so you've tried to improve yourself to the very best of your ability to do so! \n" # probably a bad idea, there are already many ways to increase stats
+                #     for ap in xrange(self.AP):
+                #         for stat in self.STATS:
+                #             if stat not in ["luck", "alignment", "vitality"]:
+                #                 if dice(1 + int(round(self.luck/20.0))):
+                #                         self.mod_stat(stat, 1)
+            elif mod < 0:
                 flag_red = True
                 txt += "{color=[red]}You should find some shelter for the night... it's not healthy to sleep outside.{/color}\n"
 
-            # If in own dungeon
-            elif self.location == TrainingDungeon.NAME:
-                txt += "You've spent a night at your training dungeon."
-
-                if self.AP > 0:
-                    txt += "\nYou've had some Action Points left from the day so you've tried to improve yourself to the very best of your ability to do so! \n" # probably a bad idea, there are already many ways to increase stats
-                    for ap in xrange(self.AP):
-                        self.health += randint(5, 10)
-                        self.vitality += randint(20, 35)
-                        self.mp += randint(5, 10)
-                        for stat in self.STATS:
-                            if stat not in ["luck", "alignment", "vitality"]:
-                                if dice(1 + int(round(self.luck/20.0))):
-                                        self.mod_stat(stat, 1)
-
-            else:
-                txt += "You've comfortably spent a night under the roof of your dwelling."
-
-                if self.AP > 0:
-                    txt += "\nYou've had some Action Points left from the day so you've tried to improve yourself to the very best of your ability to do so! \n" # probably a bad idea, there are already many ways to increase stats
-                    for ap in xrange(self.AP):
-                        self.health += randint(5, 10)
-                        self.vitality += randint(35, 50)
-                        self.mp += randint(5, 10)
-                        for stat in self.STATS:
-                            if stat not in ["luck", "alignment", "vitality"]:
-                                if dice(1 + int(round(self.luck/20.0))):
-                                        self.mod_stat(stat, 1)
+            for stat in ("health", "mp", "vitality"):
+                mod_by_max(self, stat, mod)
 
             # Training with NPCs --------------------------------------->
             txt += self.nd_auto_train()
