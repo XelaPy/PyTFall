@@ -4422,12 +4422,11 @@ init -9 python:
                 # Settle wages:
                 self.fin.settle_wage()
 
-                # If escaped
+                # If escaped:
                 if self in pytfall.ra:
                     self.health -= randint(3, 5)
                     txt += "\n{color=[red]}This girl has escaped! Assign guards to search for her or do so yourself.{/color}\n\n"
                     flag_red = True
-
                 else:
                     # Front text
                     if not self.flag("daysemployed"):
@@ -4438,27 +4437,29 @@ init -9 python:
 
                     self.up_counter("daysemployed")
 
-                    if self.location == "Streets" and self.status == "slave":
-                        self.health -= randint(3, 5)
-                        txt += "\n{color=[red]}This girl is a slave and curretly has no shelter! Find a place for her to live.{/color}\n\n"
-                        flag_red = True
+                    # Home location nd mods:
+                    loc = self.home
+                    mod = loc.daily_modifier
 
-                    elif self.location == "Own Dwelling":
-                        flag_red = True
-                        txt += "\nShe is taking a day off on your pay. She may manage to gain a bit of experience but it's not the right way to handle your business.\n\n"
-
-                        self.exp += self.adjust_exp(randint(10, 50))
-                        self.health += randint(1, 5)
-                        self.vitality += randint(5, 50)
-                        self.mp += randint(1, 7)
-
-                    elif self.action == "Exploring":
+                    if self.action == "Exploring": # TODO This can't be right? This is prolly set to the exploration log object.
                         txt += "\n{color=[green]}She is currently on the exploration run!{/color}\n"
-
                     else:
-                        self.health += randint(1, 3)
-                        self.vitality += randint(5, 10)
-                        self.mp += randint(1, 3)
+                        if mod > 0:
+                            txt += "She has comfortably spent a night."
+                            # if self.AP > 0:
+                                  ## probably a bad idea, there are already many ways to increase stats
+                            #     txt += "\nYou've had some Action Points left from the day so you've tried to improve yourself to the very best of your ability to do so! \n"
+                            #     for ap in xrange(self.AP):
+                            #         for stat in self.STATS:
+                            #             if stat not in ["luck", "alignment", "vitality"]:
+                            #                 if dice(1 + int(round(self.luck/20.0))):
+                            #                         self.mod_stat(stat, 1)
+                        elif mod < 0:
+                            flag_red = True
+                            txt += "{color=[red]}You should find some shelter for your worker... it's not healthy to sleep outside.{/color}\n"
+
+                        for stat in ("health", "mp", "vitality"):
+                            mod_by_max(self, stat, mod)
 
                     # Finances:
                     # Upkeep:
@@ -4698,7 +4699,7 @@ init -9 python:
                                         flag_red = True
                                         self.health = 1
 
-                # Effects
+                # Effects:
                 if self.effects['Poisoned']['active']:
                     txt += "\n{color=[red]}This girl is suffering from the effects of Poison!{/color}\n"
                     flag_red = True
