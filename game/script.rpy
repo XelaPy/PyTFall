@@ -222,6 +222,7 @@ label continue_with_start:
     python:
         tl.timer("Loading: Arena!")
         pytfall.arena = Arena()
+        locations[pytfall.arena.id] = pytfall.arena
         pytfall.arena.setup_arena()
         pytfall.arena.update_matches()
         pytfall.arena.update_teams()

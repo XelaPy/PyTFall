@@ -1,12 +1,13 @@
 init -9 python:
     # ========================= Arena and related ===========================>>>
-    class Arena(_object):
+    class Arena(Location):
         """
         First prototype of Arena, will take care of most related logic and might have to be split in the future.
         @Note to myself: This code needs to be updated post-Alpha release to account for Arena Fighters and restructured for further use in the game!
         -------------------------->
         """
         def __init__(self):
+            uper(Arena, self).__init__(id="Arena")
             # self.1v1 = list() # Tracking the 1v1 fights.
             # self.teams = list() # Tracking the team fights.
 
@@ -768,6 +769,7 @@ init -9 python:
                     char = build_rc(tier=7, tier_kwargs=tier_kwargs,
                                     equip_to_tier=True, spells_to_tier=True)
                     char.location = "city"
+                    char.action = "Arena Combat"
                     candidates.append(char)
 
                 char.arena_rep = randint(79000, 81000)
