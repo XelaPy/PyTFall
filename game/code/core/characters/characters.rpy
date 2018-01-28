@@ -4037,19 +4037,22 @@ init -9 python:
                         confiscate = all_properties.pop()
                         if isinstance(confiscate, Building): # TODO: This may need to be revised.
                             price = confiscate.price
+                            if self.home == confiscate:
+                                self.home = locations["Streets"]
                             if self.location == confiscate:
-                                self.location = hero
-                            for char in self.chars:
-                                if char.location == confiscate:
-                                    char.location = hero
-                                    char.action = None
+                                set_location(self, None)
                             self.remove_brothel(confiscate)
+                            retire_chars_from_location(self.chars, confiscate)
                         elif isinstance(confiscate, Char):
                             price = confiscate.fin.get_price()
                             hero.remove_char(confiscate)
-                            confiscate.location = 'slavemarket'
                             if confiscate in self.team:
                                 self.team.remove(confiscate)
+                            # locations:
+                            confiscate.home = pytfall.sm
+                            confiscate.workplace = None
+                            confiscate.action = None
+                            set_location(confiscate, char.home)
 
                         txt += choice(["\n%s has been confiscated for a price of %s of the original value. " % (confiscate.name, multiplier),
                                                "\nThose sobs took %s from you! " % confiscate.name,
