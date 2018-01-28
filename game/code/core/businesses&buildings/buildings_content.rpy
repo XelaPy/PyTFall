@@ -111,11 +111,13 @@ init -9 python:
                     self.index = 0
                     self.worker = None
 
+                # TODO Set location using function and don't forget about action and home.
                 if set_location:
                     if schools[TrainingDungeon.NAME] in hero.buildings:
                         girl.location = schools[TrainingDungeon.NAME]
                     else:
                         girl.location = locations["Streets"]
+
 
         def set_girl(self, girl):
             """
