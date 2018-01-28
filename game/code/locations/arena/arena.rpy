@@ -659,10 +659,6 @@ init -9 python:
                 for index, member in enumerate(members):
                     if member == "random_char":
                         member = build_rc(patterns="Warrior")
-                        member.status = "free"
-                        member.location = "arena"
-                        member.arena_permit = True
-                        member.arena_active = True
                     elif member in chars:
                         member = chars[member]
                         if member in hero.chars:
@@ -680,20 +676,20 @@ init -9 python:
                         if member in self.get_teams_fighters(teams="3v3"):
                             raise Exception("You've added an unique" \
                                 " Arena Fighter %s to 3v3 Arena teams more than once!" % member.name)
-                        member.arena_active = True
-                        member.arena_permit = True
                         self.arena_fighters[member.id] = member
                     elif member in rchars:
                         build_rc(id=member, patterns="Warrior")
-                        member.status = "free"
-                        member.location = "arena"
-                        member.arena_permit = True
-                        member.arena_active = True
                     else:
                         raise Exception("Team Fighter %s is of unknown origin!" % member)
 
-                    tier = tiers[index]
                     member.set_status("free")
+                    member.arena_active = True
+                    member.arena_permit = True
+                    member.home = locations["City Apartment"]
+                    set_location(member, self)
+                    member.action = "Arena Combat"
+
+                    tier = tiers[index]
                     tier_up_to(member, tier)
                     give_tiered_items(member, equip=True)
                     give_tiered_magic_skills(member)
@@ -768,13 +764,16 @@ init -9 python:
                 else:
                     char = build_rc(tier=7, tier_kwargs=tier_kwargs,
                                     equip_to_tier=True, spells_to_tier=True)
-                    char.location = "city"
-                    char.action = "Arena Combat"
                     candidates.append(char)
 
-                char.arena_rep = randint(79000, 81000)
-                char.arena_permit = True
+                char.set_status("free")
                 char.arena_active = True
+                char.arena_permit = True
+                char.home = locations["City Apartment"]
+                set_location(char, self)
+                char.action = "Arena Combat"
+
+                char.arena_rep = randint(79000, 81000)
                 candidates.remove(char)
                 self.king = char
 
