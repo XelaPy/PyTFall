@@ -115,7 +115,7 @@ init -9 python:
                     if schools[TrainingDungeon.NAME] in hero.buildings:
                         girl.location = schools[TrainingDungeon.NAME]
                     else:
-                        girl.location = hero
+                        girl.location = locations["Streets"]
 
         def set_girl(self, girl):
             """
