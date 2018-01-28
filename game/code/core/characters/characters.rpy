@@ -4672,18 +4672,24 @@ init -9 python:
                                 self.days_unhappy -= 1
 
                         if self.days_unhappy > 7 and self.status != "slave":
-                            txt += "{color=[red]}She has left your employment cause you do not give a rats ass about how she feels!{/color}"
+                            txt += "{color=[red]}She has left your employment because you do not give a rats ass about how she feels!{/color}"
                             flag_red = True
                             hero.remove_char(self)
-                            self.location = "city"
+                            char.home = locations["City Apartment"]
+                            char.workplace = None
+                            char.action = None
+                            set_location(char, locations["City"])
 
-                        if self.disposition < -500:
+                        elif self.disposition < -500:
                             if self.status != "slave":
-                                txt += "{color=[red]}She has left your employment cause she no longer trusts or respects you!{/color}"
+                                txt += "{color=[red]}She has left your employment because she no longer trusts or respects you!{/color}"
                                 flag_red = True
                                 self.img = self.show("profile", "sad", resize=(500, 600))
                                 hero.remove_char(self)
-                                self.location = "city"
+                                char.home = locations["City Apartment"]
+                                char.workplace = None
+                                char.action = None
+                                set_location(char, locations["City"])
 
                             else:
                                 if self.days_unhappy > 7:
