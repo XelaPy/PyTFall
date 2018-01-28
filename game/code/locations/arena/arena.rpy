@@ -7,7 +7,7 @@ init -9 python:
         -------------------------->
         """
         def __init__(self):
-            uper(Arena, self).__init__(id="Arena")
+            super(Arena, self).__init__(id="Arena")
             # self.1v1 = list() # Tracking the 1v1 fights.
             # self.teams = list() # Tracking the team fights.
 
