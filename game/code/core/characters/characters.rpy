@@ -1240,7 +1240,7 @@ init -9 python:
         def _mod_raw_skill(self, key, value, from__setattr__=True):
             """Modifies a skill.
 
-            # DEVNOTE: THIS SHOULD NOT BE CALLED DIRECTLY! ASSUMES INPUT FROM PytCharcter.__setattr__
+            # DEVNOTE: THIS SHOULD NOT BE CALLED DIRECTLY! ASSUMES INPUT FROM PytCharacter.__setattr__
             # DEVNOTE: New arg attempts to correct that...
 
             Do we get the most needlessly complicated skills system award? :)

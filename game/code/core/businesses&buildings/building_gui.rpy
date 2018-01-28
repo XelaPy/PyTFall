@@ -191,17 +191,7 @@ label building_management_loop:
                         if hero.location == building:
                             set_location(hero, hero.home)
 
-                        for c in hero.chars:
-                            if c.home == building:
-                                if c.status == "slave":
-                                    c.home = locations["Streets"]
-                                else: # Weird case for free chars...
-                                    c.home = location["City Apartment"]
-                            if c.workplace == building:
-                                c.workplace = None
-                                c.action = None
-                            if c.location == building:
-                                set_location(c, c.home)
+                        retire_chars_from_location(hero.chars, building)
 
                         hero.add_money(price, reason="Property")
                         hero.remove_building(building)

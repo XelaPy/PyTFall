@@ -1,4 +1,20 @@
 init -11 python:
+    def retire_chars_from_location(chars, loc):
+        if isinstance(chars, PytCharacter):
+            chars = [chars]
+
+        for c in chars:
+            if c.home == loc:
+                if c.status == "slave":
+                    c.home = locations["Streets"]
+                else: # Weird case for free chars...
+                    c.home = location["City Apartment"]
+            if c.workplace == loc:
+                c.workplace = None
+                c.action = None
+            if c.location == loc:
+                set_location(c, c.home)
+
     def mod_by_max(char, stat, value, prevent_death=True):
         """Modifies a stat by a float multiplier based of it's max value.
 
