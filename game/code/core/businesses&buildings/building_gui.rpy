@@ -183,13 +183,25 @@ label building_management_loop:
                     if renpy.call_screen("yesno_prompt",
                                          message="Are you sure you wish to sell %s for %d Gold?" % (building.name, price),
                                          yes_action=Return(True), no_action=Return(False)):
+                        # TODO: Search for another good locations?
+                        if hero.home == building:
+                            hero.home = locations["Streets"]
+                        if hero.workplace == building:
+                            hero.workplace = None
                         if hero.location == building:
-                            hero.location = hero
+                            set_location(hero, hero.home)
 
-                        for girl in hero.chars:
-                            if girl.location == building:
-                                girl.location = hero
-                                girl.action = None
+                        for c in hero.chars:
+                            if c.home == building:
+                                if c.status == "slave":
+                                    c.home = locations["Streets"]
+                                else: # Weird case for free chars...
+                                    c.home = location["City Apartment"]
+                            if c.workplace == building:
+                                c.workplace = None
+                                c.action = None
+                            if c.location == building:
+                                set_location(c, c.home)
 
                         hero.add_money(price, reason="Property")
                         hero.remove_building(building)
@@ -288,7 +300,7 @@ init: # Screens:
                     use building_management_rightframe_building_mode
                 else: # Upgrade mode:
                     use building_management_rightframe_businesses_mode
-                    
+
         else:
             label "You don't own any buildings" text_size 50 text_color ivory align .5, .5
 
