@@ -69,10 +69,10 @@ label char_profile:
                                              no_action=Return(False)):
                             if char.status == 'slave':
                                 $ hero.add_money(int(char.fin.get_price()*0.8), reason="SlaveTrade")
-                                char.home = pytfall.sm
-                                char.workplace = None
-                                char.action = None
-                                set_location(char, char.home)
+                                $ char.home = pytfall.sm
+                                $ char.workplace = None
+                                $ char.action = None
+                                $ set_location(char, char.home)
                             else:
                                 if char.disposition >= 0:
                                     if char.disposition >= 500:
@@ -84,10 +84,10 @@ label char_profile:
                                     $ block_say = True
                                     call interactions_bad_goodbye
                                     $ block_say = False
-                                char.home = locations["City Apartment"]
-                                char.workplace = None
-                                char.action = None
-                                set_location(char, locations["City"])
+                                $ char.home = locations["City Apartment"]
+                                $ char.workplace = None
+                                $ char.action = None
+                                $ set_location(char, locations["City"])
                             python:
                                 hero.remove_char(char)
                                 index = girls.index(char) # Index is not set otherwise???
