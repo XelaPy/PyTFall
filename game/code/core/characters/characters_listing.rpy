@@ -376,3 +376,74 @@ screen chars_list(source=None):
             sensitive page < max_page
             action SetScreenVariable("page", page+1)
             hovered tt.Action('Next page')
+
+
+style chars_debug_text:
+    size 10
+
+screen chars_debug():
+    zorder 100
+    modal True
+
+    style_prefix "chars_debug"
+
+    add black
+    vbox:
+        hbox:
+            spacing 1
+            ysize 20
+            fixed:
+                xysize 80, 20
+                text "Name" color red bold 1
+            fixed:
+                xysize 50, 20
+                text "Status" color green bold 1
+            fixed:
+                xysize 80, 20
+                text "Location" color blue bold 1
+            fixed:
+                xysize 80, 20
+                text "Home" color blue bold 1
+            fixed:
+                xysize 80, 20
+                text "Work" color blue bold 1
+            fixed:
+                xysize 80, 20
+                text "Action" color orange bold 1
+        viewport:
+            xysize 1280, 700
+            child_size 1280, 10000
+            draggable 1 mousewheel 1
+            has vbox
+            for char in chars.values():
+                hbox:
+                    spacing 1
+                    fixed:
+                        xysize 80, 20
+                        text "[char.name]" color red
+                    fixed:
+                        xysize 50, 20
+                        text "[char.status]" color green
+                    fixed:
+                        xysize 80, 20
+                        text "[char.location]" color blue:
+                            if len(str(char.location)) > 12:
+                                size 6
+                    fixed:
+                        xysize 80, 20
+                        text "[char.home]" color blue:
+                            if len(str(char.home)) > 12:
+                                size 6
+                    fixed:
+                        xysize 80, 20
+                        text "[char.workplace]" color blue:
+                            if len(str(char.workplace)) > 12:
+                                size 6
+                    fixed:
+                        xysize 80, 20
+                        text "[char.action]" color orange
+
+
+    textbutton "X":
+        align 1.0, .0
+        action Hide("chars_debug")
