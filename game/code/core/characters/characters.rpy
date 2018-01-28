@@ -3628,6 +3628,9 @@ init -9 python:
             if not self.say:
                 self.update_sayer()
 
+            if not self.origin:
+                self.origin = choice(["Alkion", "PyTFall", "Crossgate"])
+
             # Stats log:
             self.log_stats()
             self.restore_ap()

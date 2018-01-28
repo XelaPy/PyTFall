@@ -385,6 +385,10 @@ screen chars_debug():
     zorder 100
     modal True
 
+    default all_chars = [chars.values(), pytfall.arena.arena_fighters.values()]
+    default all_chars_str = ["chars", "arena"]
+    default shown_chars = [all_chars[0]]
+
     style_prefix "chars_debug"
 
     add black
@@ -395,6 +399,9 @@ screen chars_debug():
             fixed:
                 xysize 80, 20
                 text "Name" color red bold 1
+            fixed:
+                xysize 80, 20
+                text "Origin" color crimson bold 1
             fixed:
                 xysize 50, 20
                 text "Status" color green bold 1
@@ -410,17 +417,21 @@ screen chars_debug():
             fixed:
                 xysize 80, 20
                 text "Action" color orange bold 1
+
         viewport:
             xysize 1280, 700
             child_size 1280, 10000
             draggable 1 mousewheel 1
             has vbox
-            for char in chars.values():
+            for char in list(sorted(chain.from_iterable(shown_chars), key=attrgetter("name"))):
                 hbox:
                     spacing 1
                     fixed:
                         xysize 80, 20
                         text "[char.name]" color red
+                    fixed:
+                        xysize 80, 20
+                        text "[char.origin]" color crimson
                     fixed:
                         xysize 50, 20
                         text "[char.status]" color green
@@ -444,6 +455,17 @@ screen chars_debug():
                         text "[char.action]" color orange
 
 
-    textbutton "X":
+    hbox:
         align 1.0, .0
-        action Hide("chars_debug")
+        for index, container in enumerate(all_chars):
+            $ name = all_chars_str[index]
+            if container in shown_chars:
+                textbutton "[name]":
+                    text_color green
+                    action Function(shown_chars.remove, container)
+            else:
+                textbutton "[name]":
+                    text_color red
+                    action Function(shown_chars.append, container)
+        textbutton "X":
+            action Hide("chars_debug")

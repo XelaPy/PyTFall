@@ -797,13 +797,16 @@ init -9 python:
                     fighter = build_rc(patterns="Warrior", tier=tier,
                                        equip_to_tier=True, spells_to_tier=True)
                     # print("Created Arena RG: {}".format(fighter.name))
-                    fighter.set_status("free")
                     candidates.append(fighter)
 
-                fighter.arena_rep = randint(int(tier*9000), int(tier*11000))
+                fighter.set_status("free")
+                fighter.arena_active = True
                 fighter.arena_permit = True
-                fighter.arena_willing = True
-                # fighter.arena_active = True
+                fighter.home = locations["City Apartment"]
+                set_location(fighter, self)
+                fighter.action = "Arena Combat"
+
+                fighter.arena_rep = randint(int(tier*9000), int(tier*11000))
 
             # Populate the reputation ladder:
             self.update_ladder()
