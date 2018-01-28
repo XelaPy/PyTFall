@@ -5,7 +5,7 @@ init -11 python:
         prevent_death will not allow health to go below 0.
         """
         value = round_int(char.get_max(stat)*value)
-        
+
         if prevent_death and stat == "health" and (char.health + value <= 0):
             char.health = 1
         else:

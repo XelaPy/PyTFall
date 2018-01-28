@@ -64,11 +64,15 @@ label char_profile:
                         else:
                             $ message = "Are you sure that you wish to fire {}?".format(char.name)
                         if renpy.call_screen("yesno_prompt",
-                                                        message=message,
-                                                        yes_action=Return(True), no_action=Return(False)):
+                                             message=message,
+                                             yes_action=Return(True),
+                                             no_action=Return(False)):
                             if char.status == 'slave':
                                 $ hero.add_money(int(char.fin.get_price()*0.8), reason="SlaveTrade")
-                                $ char.location = 'slavemarket'
+                                char.home = pytfall.sm
+                                char.workplace = None
+                                char.action = None
+                                set_location(char, char.home)
                             else:
                                 if char.disposition >= 0:
                                     if char.disposition >= 500:
@@ -80,7 +84,10 @@ label char_profile:
                                     $ block_say = True
                                     call interactions_bad_goodbye
                                     $ block_say = False
-                                $ char.location = 'city'
+                                char.home = locations["City Apartment"]
+                                char.workplace = None
+                                char.action = None
+                                set_location(char, locations["City"])
                             python:
                                 hero.remove_char(char)
                                 index = girls.index(char) # Index is not set otherwise???
@@ -1242,7 +1249,7 @@ screen confirm_girl_sale():
                     action Hide("confirm_girl_sale")
                 textbutton "Yes":
                     action Return(['control', 'fire'])
-                    
+
     key "K_RETURN" action Return(['control', 'fire'])
     key "K_ESCAPE" action Hide("confirm_girl_sale")
 
@@ -1659,7 +1666,7 @@ screen finances(obj, mode="logical"):
                     elif fin_mode == "main":
                         action SetScreenVariable('fin_mode', "logical")
                         text "Performance"
-                        
+
     key "K_RETURN" action Hide('finances')
     key "K_ESCAPE" action Hide('finances')
     key "mouseup_3" action Hide('finances')
