@@ -65,6 +65,7 @@ init -20 python:
                 self.id = self.__class__
             else:
                 self.id = id
+            self.actors = set() # TODO Check how this transfers to SlaveMarket...
 
         def __str__(self):
             if hasattr(self, "name"):

@@ -1798,9 +1798,9 @@ init -9 python:
             homes.
             """
             if isinstance(self._home, HabitableLocation):
-                self._home.remove(self)
+                self._home.inhabitants.remove(self)
             if isinstance(value, HabitableLocation):
-                self._home.add(self)
+                value.inhabitants.add(self)
             self._home = value
 
         # Alternative Method for modding first layer of stats:
