@@ -172,7 +172,9 @@ init -11 python:
 
         return mob
 
-    def build_rc(id=None, name=None, last_name=None, patterns=None, specific_patterns=None,
+    def build_rc(id=None, name=None, last_name=None, patterns=None,
+                 specific_patterns=None, set_locations=True,
+                 set_status="free",
                  tier=0, tier_kwargs=None, add_to_gameworld=True,
                  equip_to_tier=False, gtt_kwargs=None,
                  spells_to_tier=False, stt_kwargs=None):
@@ -268,16 +270,21 @@ init -11 python:
             rg.origin = choice(origin)
 
         # Status next:
-        # if "force_status" in data:
-        #     if data["force_status"]:
-        #         rg.status = data["force_status"]
-        #     else:
-        #         rg.status = choice(["slave", "free"])
+        if set_status is False:
+            pass
+        elif set_status is not True:
+            rg.set_status(set_status)
+        else:
+            rg.set_status(choice(["free", "slave"]))
 
-        # Location if forced:
-        # if "force_location" in data:
-        #     if data["force_location"]:
-        #         rg.location = data["force_location"]
+        # Locations:
+        if set_locations:
+            if rg.status == "slave":
+                rg.home = locations["PyTFall Slavemarket"]
+                set_location(rg, rg.home)
+            else:
+                rg.home = locations["City Apartment"]
+                set_location(rg, locations["City"])
 
         # BASE TRAITS:
         basetraits = []
