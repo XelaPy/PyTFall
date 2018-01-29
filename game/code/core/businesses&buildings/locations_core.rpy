@@ -43,16 +43,15 @@ init -20 python:
                 devlog.warn("%s is not in %s (but has it as its location)"%(actor.name, str(actor.location)))
 
         actor.location = loc
-        if isinstance(loc, Location):
-            loc.add(actor)
+        # if isinstance(loc, Location):
+        #     loc.add(actor)
 
     def set_location(actor, loc):
-        """
-        This plainly forces a location on an actor.
+        """This plainly forces a location on an actor.
         """
         actor.location = loc
-        if isinstance(loc, Location):
-            loc.add(actor)
+        # if isinstance(loc, Location):
+        #     loc.add(actor)
 
 
     class Location(_object):
