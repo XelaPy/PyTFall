@@ -1792,6 +1792,15 @@ init -9 python:
             return self._home
         @home.setter
         def home(self, value):
+            """Home setter needs to add/remove actors from their living place.
+
+            Checking for vacancies should be handle at functions that are setting
+            homes.
+            """
+            if isinstance(self._home, HabitableLocation):
+                self._home.remove(self)
+            if isinstance(value, HabitableLocation):
+                self._home.add(self)
             self._home = value
 
         # Alternative Method for modding first layer of stats:

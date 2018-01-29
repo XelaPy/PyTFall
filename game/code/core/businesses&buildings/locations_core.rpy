@@ -65,7 +65,6 @@ init -20 python:
                 self.id = self.__class__
             else:
                 self.id = id
-            self.actors = set()
 
         def __str__(self):
             if hasattr(self, "name"):
@@ -97,6 +96,7 @@ init -20 python:
 
             self._habitable = True
             self.rooms = rooms
+            self.inhabitants = set()
             self.daily_modifier = daily_modifier
 
         @property
@@ -111,7 +111,7 @@ init -20 python:
             if not self.habitabe:
                 return 0
 
-            rooms = self.rooms - len(self.actors)
+            rooms = self.rooms - len(self.inhabitants)
             if rooms < 0:
                 rooms = 0
             return rooms
