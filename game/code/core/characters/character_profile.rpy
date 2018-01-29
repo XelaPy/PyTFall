@@ -86,7 +86,7 @@ label char_profile:
                                     call interactions_bad_goodbye
                                     $ block_say = False
                                 python:
-                                    char.home = locations["City Apartment"]
+                                    char.home = locations["City Apartments"]
                                     char.workplace = None
                                     char.action = None
                                     set_location(char, locations["City"])

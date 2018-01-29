@@ -116,18 +116,26 @@ screen set_home_dropdown(char, pos=()):
         xval = 1.0 if x > config.screen_width/2 else .0
         yval = 1.0 if y > config.screen_height/2 else .0
 
+    default habitable_locations = [b for b in hero.buildings if b.habitable] + [locations["Streets"]]
+
     frame:
         style_prefix "dropdown_gm"
         pos (x, y)
         anchor (xval, yval)
         has vbox
 
-        for building in hero.buildings:
-            if isinstance(building, UpgradableBuilding) or building.habitable:
-                textbutton "[building.name]":
-                    action SelectedIf(char.home==building), SetField(char, "home", building), Hide("set_home_dropdown")
-        textbutton "Streets":
-            action SetField(char, "home", locations["Streets"]), Hide("set_home_dropdown")
+        for loc in habitable_locations:
+            textbutton "[loc.id]":
+                selected char.home == loc
+                action SetField(char, "home", loc), Hide("set_home_dropdown")
+        # for building in hero.buildings:
+        #     if isinstance(building, UpgradableBuilding) or building.habitable:
+        #         textbutton "[building.name]":
+        #             selected char.home == building
+        #             action SetField(char, "home", building), Hide("set_home_dropdown")
+        # textbutton "Streets":
+        #     selected char.home == locations["Streets"]
+        #     action SetField(char, "home", ), Hide("set_home_dropdown")
         textbutton "Close":
             action Hide("set_home_dropdown")
 
