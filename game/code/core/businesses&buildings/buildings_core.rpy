@@ -631,6 +631,22 @@ init -10 python:
             return any(i.habitable for i in self._businesses)
 
         @property
+        def habitabe(self):
+            return any(i.habitable for i in self._businesses)
+
+        @property
+        def vacancies(self):
+            # check if there is place to live in this building.
+            if not self.habitabe:
+                return 0
+
+            # TODO Left off here, add rooms based on businesses!
+            rooms = self.rooms - len(self.inhabitants)
+            if rooms < 0:
+                rooms = 0
+            return rooms
+
+        @property
         def workable(self):
             """Returns True if this building has upgrades that are businesses.
             """
