@@ -8,7 +8,7 @@ init -11 python:
                 if c.status == "slave":
                     c.home = locations["Streets"]
                 else: # Weird case for free chars...
-                    c.home = location["City Apartment"]
+                    c.home = location["City Apartments"]
             if c.workplace == loc:
                 c.workplace = None
                 c.action = None
@@ -283,7 +283,7 @@ init -11 python:
                 rg.home = locations["PyTFall Slavemarket"]
                 set_location(rg, rg.home)
             else:
-                rg.home = locations["City Apartment"]
+                rg.home = locations["City Apartments"]
                 set_location(rg, locations["City"])
 
         # BASE TRAITS:

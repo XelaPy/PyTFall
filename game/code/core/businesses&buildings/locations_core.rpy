@@ -12,6 +12,8 @@ init python:
     More often that not, it doesn't matter much and is mostly there for use in future codebase.
     """
 
+    # TODO IMPORTANT! Check if we remove actors from containers when we reassign locations!
+
 init -20 python:
     # Core Logic:
     # It does feel like actors container is reliable in this context.
@@ -41,16 +43,15 @@ init -20 python:
                 devlog.warn("%s is not in %s (but has it as its location)"%(actor.name, str(actor.location)))
 
         actor.location = loc
-        if isinstance(loc, Location):
-            loc.add(actor)
+        # if isinstance(loc, Location):
+        #     loc.add(actor)
 
     def set_location(actor, loc):
-        """
-        This plainly forces a location on an actor.
+        """This plainly forces a location on an actor.
         """
         actor.location = loc
-        if isinstance(loc, Location):
-            loc.add(actor)
+        # if isinstance(loc, Location):
+        #     loc.add(actor)
 
 
     class Location(_object):
@@ -64,7 +65,7 @@ init -20 python:
                 self.id = self.__class__
             else:
                 self.id = id
-            self.actors = set()
+            self.actors = set() # TODO Check how this transfers to SlaveMarket...
 
         def __str__(self):
             if hasattr(self, "name"):
@@ -91,10 +92,12 @@ init -20 python:
         """Location where actors can live and modifier for health and items recovery.
         Other Habitable locations can be buildings which mimic this functionality or may inherit from it in the future.
         """
-        def __init__(self, id="Livable Location", daily_modifier=.1):
+        def __init__(self, id="Livable Location", daily_modifier=.1, rooms=1):
             super(HabitableLocation, self).__init__(id=id)
 
             self._habitable = True
+            self.rooms = rooms
+            self.inhabitants = set()
             self.daily_modifier = daily_modifier
 
         @property
@@ -103,13 +106,24 @@ init -20 python:
             # we may need to
             return self._habitable
 
+        @property
+        def vacancies(self):
+            # check if there is place to live in this building.
+            if not self.habitabe:
+                return 0
+
+            rooms = self.rooms - len(self.inhabitants)
+            if rooms < 0:
+                rooms = 0
+            return rooms
+
 
     class Streets(HabitableLocation):
         """
         Dummy location for actors that have no place to live...
         """
         def __init__(self):
-            super(Streets, self).__init__(id="Streets", daily_modifier=-.1)
+            super(Streets, self).__init__(id="Streets", daily_modifier=-.1, rooms=float("inf"))
 
 
     class Apartments(HabitableLocation):
@@ -118,4 +132,4 @@ init -20 python:
         This maybe replaced later by actual apartments for every character.
         """
         def __init__(self):
-            super(Apartments, self).__init__(id="City Apartment", daily_modifier=.1)
+            super(Apartments, self).__init__(id="City Apartments", daily_modifier=.1, rooms=float("inf"))

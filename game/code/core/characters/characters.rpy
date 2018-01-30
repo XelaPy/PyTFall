@@ -1792,6 +1792,15 @@ init -9 python:
             return self._home
         @home.setter
         def home(self, value):
+            """Home setter needs to add/remove actors from their living place.
+
+            Checking for vacancies should be handle at functions that are setting
+            homes.
+            """
+            if isinstance(self._home, HabitableLocation):
+                self._home.inhabitants.remove(self)
+            if isinstance(value, HabitableLocation):
+                value.inhabitants.add(self)
             self._home = value
 
         # Alternative Method for modding first layer of stats:
@@ -4299,7 +4308,7 @@ init -9 python:
                 self.home = pytfall.sm
             if self.status == "free":
                 if not self.home:
-                    self.home = locations["City Apartment"]
+                    self.home = locations["City Apartments"]
 
             # Wagemod:
             if self.status == 'slave':
@@ -4681,7 +4690,7 @@ init -9 python:
                             txt += "{color=[red]}She has left your employment because you do not give a rats ass about how she feels!{/color}"
                             flag_red = True
                             hero.remove_char(self)
-                            char.home = locations["City Apartment"]
+                            char.home = locations["City Apartments"]
                             char.workplace = None
                             char.action = None
                             set_location(char, locations["City"])
@@ -4692,7 +4701,7 @@ init -9 python:
                                 flag_red = True
                                 self.img = self.show("profile", "sad", resize=(500, 600))
                                 hero.remove_char(self)
-                                char.home = locations["City Apartment"]
+                                char.home = locations["City Apartments"]
                                 char.workplace = None
                                 char.action = None
                                 set_location(char, locations["City"])

@@ -685,7 +685,7 @@ init -9 python:
                     member.set_status("free")
                     member.arena_active = True
                     member.arena_permit = True
-                    member.home = locations["City Apartment"]
+                    member.home = locations["City Apartments"]
                     set_location(member, self)
                     member.action = "Arena Combat"
 
@@ -769,7 +769,7 @@ init -9 python:
                 char.set_status("free")
                 char.arena_active = True
                 char.arena_permit = True
-                char.home = locations["City Apartment"]
+                char.home = locations["City Apartments"]
                 set_location(char, self)
                 char.action = "Arena Combat"
 
@@ -802,7 +802,7 @@ init -9 python:
                 fighter.set_status("free")
                 fighter.arena_active = True
                 fighter.arena_permit = True
-                fighter.home = locations["City Apartment"]
+                fighter.home = locations["City Apartments"]
                 set_location(fighter, self)
                 fighter.action = "Arena Combat"
 
