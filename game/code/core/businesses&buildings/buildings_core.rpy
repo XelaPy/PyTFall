@@ -263,13 +263,11 @@ init -10 python:
                            Dirty=(60, 70), Grimy=(70, 80),
                            Filthy=(80, 90), Disgusting=(90, 100))
 
-        def __init__(self, *args, **kwargs):
+        def __init__(self):
             """
             Creates a new BuildingStats.
             # sq_meters = The m^2 that each room takes up.
             """
-            super(BuildingStats, self).__init__(*args, **kwargs)
-
             self.stats = {"dirt": 0, "threat": 0}
             self.max_stats = {"dirt": 1000, "threat": 1000}
             self.auto_clean = False
