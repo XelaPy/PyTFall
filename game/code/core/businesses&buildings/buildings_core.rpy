@@ -625,13 +625,8 @@ init -10 python:
             worker.AP = 0
 
         @property
-        def habitable(self):
-            """Returns True if this buildings has upgrades with free living space.
-            """
-            return any(i.habitable for i in self._businesses)
-
-        @property
         def habitabe(self):
+            # Overloads property of Location core class to serve the building.
             return any(i.habitable for i in self._businesses)
 
         @property
@@ -640,8 +635,9 @@ init -10 python:
             if not self.habitabe:
                 return 0
 
-            # TODO Left off here, add rooms based on businesses!
-            rooms = self.rooms - len(self.inhabitants)
+            habitable = [i.habitable for i in self._businesses]
+            capacity = sum(i.capacity for i in habitable)
+            rooms = capacity - len(self.inhabitants)
             if rooms < 0:
                 rooms = 0
             return rooms
