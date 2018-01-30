@@ -252,7 +252,7 @@ init -10 python:
             self.rep += value
 
 
-    class BuildingStats(BaseBuilding):
+    class BuildingStats(_object):
         """
         A building that has stats (dirt/security) and underlying mechanics.
         """
@@ -328,7 +328,7 @@ init -10 python:
                 devlog.info("{}: Clean Function: result: {}, self.dirt: {}".format(self.env.now, result, self.dirt))
 
 
-    class AdvertableBuilding(BaseBuilding):
+    class AdvertableBuilding(_object):
         def add_adverts(self, adverts):
             self._adverts = adverts
 
@@ -341,6 +341,7 @@ init -10 python:
 
                 if not 'upkeep' in adv:
                     adv['upkeep'] = 0
+
         @property
         def adverts(self):
             return self._adverts
