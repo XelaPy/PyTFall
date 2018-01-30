@@ -103,12 +103,13 @@ init -10 python:
     """
 
 
-    class BaseBuilding(Location, Flags):
+    class BaseBuilding(HabitableLocation, Flags):
         """The super class for all Building logic.
         """
-        def __init__(self, id=None, name=None, desc=None, price=100, mod=1, **kwargs):
-            """
-            Creates a new building.
+        def __init__(self, id=None, name=None, desc=None,
+                     price=100, mod=1, **kwargs):
+            """Creates a new building.
+
             id = The id of the building.
             name = The name of the building.
             desc = The description of the building.
@@ -121,19 +122,16 @@ init -10 python:
             self.name = name
             self.desc = desc
             self.price = price
+
             self.jobs = set()
             self.building_jobs = set()
 
-            # Flagging
+            # Flagging:
             self.flag_red = False
             self.flag_green = False
             self.highlighted = False
 
             # Rooms
-            # self.rooms = minrooms
-            # self.minrooms = minrooms
-            # self.maxrooms = maxrooms
-            # self.roomprice = roomprice
             self.mod = mod
 
             # Security:
@@ -145,19 +143,13 @@ init -10 python:
             # ND Report
             self.txt = ""
 
-        # def free_rooms(self):
-        #     """
-        #     The amount of rooms that aren't being used.
-        #     """
-        #     return self.rooms - len(self.get_girls())
-
-        def remove_char(self, char):
-            # Removes the char from the building.
-            if char in self.all_residents:
-                self.all_residents.remove(char)
-            if char in self.all_workers:
-                self.all_workers.remove(char)
-            char.action = None
+        # def remove_char(self, char):
+        #     # Removes the char from the building.
+        #     if char in self.all_residents:
+        #         self.all_residents.remove(char)
+        #     if char in self.all_workers:
+        #         self.all_workers.remove(char)
+        #     char.action = None
 
         def get_workers(self):
             # I may want better handing for this...
@@ -173,6 +165,7 @@ init -10 python:
 
             Note: undefined is used as an alternative to None, as a girl can have no action.
             """
+            # TODO This is still in play in some places, but feels outdated.
             # Get all girls
             if action is undefined:
                 g = [girl for girl in hero.chars if girl.location is self]
@@ -201,24 +194,6 @@ init -10 python:
             # Only get girls with specific occupation
             else:
                 return [girl for girl in g if (occupation in girl.occupations) != nott]
-
-        # def modrooms(self, value):
-        #     """
-        #     Modifies the amount of rooms the dungeon has.
-        #     value = The amount to modify by.
-        #     """
-        #     if value > 0:
-        #         if self.rooms + value > self.maxrooms: self.rooms = self.maxrooms
-        #         else: self.rooms += value
-        #
-        #     elif self.rooms + value < self.minrooms: self.rooms = self.minrooms
-        #     else: self.rooms -= value
-
-        def security_mult(self):
-            """
-            Get the multiplier caused by security presence.
-            """
-            return float(self.security_rating) / 1000.0
 
 
     class FamousBuilding(BaseBuilding):

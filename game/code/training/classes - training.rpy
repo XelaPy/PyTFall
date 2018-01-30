@@ -2124,7 +2124,8 @@ init -9 python:
             1 = low chance
             2 = high chance
             """
-            return (random.random() * (2 - location.security_mult())) * modifier
+            # Handled differently now.
+            return 1 # (random.random() * (2 - location.security_mult())) * modifier
 
         def next_day(self):
             """
