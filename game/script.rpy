@@ -40,6 +40,8 @@
         for loc in (Apartments, Streets, CityLoc):
             loc = loc()
             locations[loc.id] = loc
+        loc = HabitableLocation(id="After Life", daily_modifier=.0, rooms=float("inf"))
+        locations[loc.id] = loc
 
     python:
         # Load all game elements:

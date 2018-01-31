@@ -6,19 +6,19 @@ label graveyard_town:
     if not global_flags.has_flag("keep_playing_music"):
         play world choice(ilists.world_music["cemetery"]) fadein 0.5
     $ global_flags.del_flag("keep_playing_music")
-    
+
 
     python:
         # Build the actions
         if pytfall.world_actions.location("graveyard_town"):
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.finish()
-            
+
     scene bg graveyard_town
     with dissolve
     show screen graveyard_town
     $ number=0
-        
+
     while 1:
 
         $ result = ui.interact()
@@ -31,9 +31,9 @@ label graveyard_town:
                 $ renpy.music.stop(channel="world")
                 hide screen graveyard_town
                 jump city
-                
+
 label show_dead_list:
-    $ dead_list = list(i for i in chars.values() if i.location == "After Life") # list of dead characters
+    $ dead_list = list(locations["After Life"].inhabitants) # list of dead characters
     if dead_list:
         $ random.shuffle(dead_list) # randomizing list every time the screen opens
         show screen cemetry_list_of_dead_chars (dead_list, number)
@@ -43,7 +43,7 @@ label show_dead_list:
     else:
         "You look around, but all tombstones are old and worn out. Nothing interesting."
         jump graveyard_town
-        
+
 label show_dead_list_without_shuffle:
     show screen cemetry_list_of_dead_chars (dead_list, number)
     while 1:
@@ -82,7 +82,7 @@ screen cemetry_list_of_dead_chars (dead_list, number): # the list should not be 
                 background Frame("content/gfx/frame/namebox3.png")
                 xsize 160
                 text ("[character.level] lvl") xalign 0.5 style "stats_value_text" color silver
-                
+
     $ img = "content/gfx/interface/buttons/next.png"
     $ img1 = im.Flip("content/gfx/interface/buttons/next.png", horizontal=True)
     imagebutton:
@@ -95,7 +95,7 @@ screen cemetry_list_of_dead_chars (dead_list, number): # the list should not be 
         idle (img)
         hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
         action [Jump("cemetery_next_char")]
-        
+
     vbox:
         style_group "wood"
         align (0.9, 0.9)
@@ -104,27 +104,27 @@ screen cemetry_list_of_dead_chars (dead_list, number): # the list should not be 
             yalign 0.5
             action [Hide("cemetry_list_of_dead_chars"), Jump("graveyard_town")]
             text "Exit" size 15
-            
+
 label cemetery_prev_char:
     if number > 0:
         $ number -= 1
     else:
         $ number = len(dead_list)-1
     jump show_dead_list_without_shuffle
-        
+
 label cemetery_next_char:
     if number < len(dead_list)-1:
         $ number += 1
     else:
         $ number = 0
     jump show_dead_list_without_shuffle
-    
+
 screen graveyard_town():
 
     use top_stripe(True)
-    
+
     use location_actions("graveyard_town")
-    
+
     if not gm.show_girls:
         $ img_cemetery = ProportionalScale("content/gfx/interface/icons/cemetery.png", 80, 80)
         $ img_mausoleum = ProportionalScale("content/gfx/interface/icons/mausoleum.png", 80, 80)
@@ -140,10 +140,10 @@ screen graveyard_town():
             action [Hide("graveyard_town"), Jump("enter_dungeon")]
 
     if gm.show_girls:
-    
+
         add "content/gfx/images/bg_gradient.png" yalign 0.45
         $ j = 0
-        
+
         for entry in gm.display_girls():
             hbox:
                 align (coords[j])

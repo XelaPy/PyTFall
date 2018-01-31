@@ -301,7 +301,7 @@ label char_equip_finish:
 
         # eqtarget.inventory.female_filter = False
         # hero.inventory.female_filter = False
-        if eqtarget.location == "After Life":
+        if eqtarget.location == locations["After Life"]:
             renpy.show_screen("message_screen", "Either your 'awesome' item handling or my 'brilliant' programming killed %s..." % eqtarget.fullname)
             jump("mainscreen")
 
@@ -472,7 +472,7 @@ screen char_equip_left_frame(tt, stats_display):
                 xsize 100
                 action SetScreenVariable("stats_display", "pro"), With(dissolve)
                 text "Skills" style "pb_button_text" yoffset 2
-            
+
         # Stats/Skills:
         vbox:
             yfill True
@@ -1200,7 +1200,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                 $ temp += '*Multiplies status defence.\n'
                             else:
                                 $ temp += '*Reduces status defence.\n'
-                            
+
                     if hasattr(item, "delivery_bonus"):
                         if "magic" in item.delivery_bonus.keys():
                             if item.delivery_bonus["magic"] > 0:

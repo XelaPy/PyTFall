@@ -68,8 +68,11 @@ init -11 python:
 
     def kill_char(char):
         # Attempts to remove a character from the game world.
-        # This happens automatiaclly if char.health goes 0 or below.
-        char._location = "After Life"
+        # This happens automatically if char.health goes 0 or below.
+        char.home = locations["After Life"]
+        set_location(char, char.home)
+        char.action = None
+        char.workplace = None
         char.alive = False
         if char in hero.chars:
             hero.corpses.append(char)
