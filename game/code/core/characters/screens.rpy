@@ -128,14 +128,6 @@ screen set_home_dropdown(char, pos=()):
             textbutton "[loc]":
                 selected char.home == loc
                 action SetField(char, "home", loc), Hide("set_home_dropdown")
-        # for building in hero.buildings:
-        #     if isinstance(building, UpgradableBuilding) or building.habitable:
-        #         textbutton "[building.name]":
-        #             selected char.home == building
-        #             action SetField(char, "home", building), Hide("set_home_dropdown")
-        # textbutton "Streets":
-        #     selected char.home == locations["Streets"]
-        #     action SetField(char, "home", ), Hide("set_home_dropdown")
         textbutton "Close":
             action Hide("set_home_dropdown")
 
