@@ -125,7 +125,7 @@ screen set_home_dropdown(char, pos=()):
         has vbox
 
         for loc in habitable_locations:
-            textbutton "[loc.id]":
+            textbutton "[loc]":
                 selected char.home == loc
                 action SetField(char, "home", loc), Hide("set_home_dropdown")
         # for building in hero.buildings:

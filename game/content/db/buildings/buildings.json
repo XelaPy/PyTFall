@@ -284,7 +284,7 @@
 	},
 	{
 		"id": 8,
-		"name": "Simple Slave Quarters.",
+		"name": "Simple Slave Quarters",
 		"desc": "Old rundown building...",
 		"location": "Flee Bottom",
 		"price": 2000,
@@ -315,7 +315,7 @@
 	},
 	{
 		"id": 9,
-		"name": "Medium Slave Quarters.",
+		"name": "Medium Slave Quarters",
 		"desc": "Medium sized, old rundown building...",
 		"location": "Flee Bottom",
 		"price": 10000,
@@ -346,7 +346,7 @@
 	},
 	{
 		"id": 10,
-		"name": "Large Slave Quarters.",
+		"name": "Large Slave Quarters",
 		"desc": "Huge, old rundown building...",
 		"location": "Midtown",
 		"price": 200000,

@@ -142,13 +142,10 @@ init -10 python:
             # ND Report
             self.txt = ""
 
-        # def remove_char(self, char):
-        #     # Removes the char from the building.
-        #     if char in self.all_residents:
-        #         self.all_residents.remove(char)
-        #     if char in self.all_workers:
-        #         self.all_workers.remove(char)
-        #     char.action = None
+        def __str__(self):
+            if self.name:
+                return str(self.name)
+            return super(BaseBuilding, self).__str__()
 
         def get_workers(self):
             # I may want better handing for this...
