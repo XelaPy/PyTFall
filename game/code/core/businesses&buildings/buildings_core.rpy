@@ -270,7 +270,6 @@ init -10 python:
             self.stats = {"dirt": 0, "threat": 0}
             self.max_stats = {"dirt": 1000, "threat": 1000}
             self.auto_clean = False
-            # self.sq_meters = kwargs.pop("sq_meters", 0)
 
         def __setattr__(self, key, value):
             stats = self.__dict__.get("stats", {})

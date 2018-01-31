@@ -710,6 +710,7 @@ init -9 python:
             # maxrank = The maximum rank this brothel can achieve.
             """
             super(Building, self).__init__(*args, **kwargs)
+            BuildingStats.__init__(self)
 
             self.fin = Finances(self)
 
