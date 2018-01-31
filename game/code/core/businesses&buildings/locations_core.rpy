@@ -101,7 +101,7 @@ init -20 python:
             self.daily_modifier = daily_modifier
 
         @property
-        def habitabe(self):
+        def habitable(self):
             # Property as this is used in building to the same purpose,
             # we may need to
             return self._habitable
