@@ -117,8 +117,7 @@ init -10 python:
             mod = The modifier for the building.
             **kwargs = Excess arguments.
             """
-            super(BaseBuilding, self).__init__()
-            self.id = id
+            super(BaseBuilding, self).__init__(id=id)
             self.name = name
             self.desc = desc
             self.price = price
