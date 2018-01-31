@@ -203,10 +203,9 @@ init -9 python:
     class Apartment(BaseBuilding):
         """Useless class really, but I may require to check for this during interaction in the future."""
         # TODO: Should all of this be updated to the new system? We have too many classes doing a very, very similar thing...
-        def __init__(self):
-            super(Apartment, self).__init__()
+        def __init__(self, id="", **kwargs):
+            super(Apartment, self).__init__(id=id, **kwargs)
             # Once again, for the Items transfer:
-            self.habitable = True
             self.status = "slave"
             self.given_items = dict()
 

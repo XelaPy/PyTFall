@@ -48,7 +48,7 @@ init -10 python:
         TODO: all_occs should return a constant instead of creating a set every time they are called.
         TODO: Businesses or Building should control clients that wish to remain for more action.
         *workers = On duty characters.
-        *habitabe/workable = self-explanotory.
+        *habitable/workable = self-explanotory.
         *clients = clients used locally (maybe useful only for the public service?)
         *capacity = cap of the building such as amount of rooms/workspace.
         *jobs = only for businesses
@@ -624,14 +624,14 @@ init -10 python:
             worker.AP = 0
 
         @property
-        def habitabe(self):
+        def habitable(self):
             # Overloads property of Location core class to serve the building.
             return any(i.habitable for i in self._businesses)
 
         @property
         def vacancies(self):
             # check if there is place to live in this building.
-            if not self.habitabe:
+            if not self.habitable:
                 return 0
 
             habitable = [i.habitable for i in self._businesses]

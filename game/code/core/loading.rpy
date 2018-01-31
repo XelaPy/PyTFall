@@ -689,12 +689,10 @@ label load_resources:
     python:
         # Scripted Buildings:
         buildings = dict()
-        ap = Apartment()
-        ap.id = "Studio Apartment"
+        ap = Apartment(id="Studio Apartment")
         ap.desc = "Buy this Apartment to live in for an Extra AP point per day!"
         ap.img = "content/gfx/bg/buildings/apartment_1.jpg"
         ap.rooms = 1
-        ap.maxrooms = 1
         ap.price = 10000
         ap.init()
         buildings[ap.id] = ap

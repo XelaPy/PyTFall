@@ -109,7 +109,7 @@ init -20 python:
         @property
         def vacancies(self):
             # check if there is place to live in this building.
-            if not self.habitabe:
+            if not self.habitable:
                 return 0
 
             rooms = self.rooms - len(self.inhabitants)
