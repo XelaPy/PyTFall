@@ -116,7 +116,7 @@ screen set_home_dropdown(char, pos=()):
         xval = 1.0 if x > config.screen_width/2 else .0
         yval = 1.0 if y > config.screen_height/2 else .0
 
-    default habitable_locations = [b for b in hero.buildings if b.habitable] + [locations["Streets"]]
+    default habitable_locations = [b for b in hero.buildings if (b.habitable and b.vacancies)] + [locations["Streets"]]
 
     frame:
         style_prefix "dropdown_gm"

@@ -701,7 +701,7 @@ init -9 python:
             NextDayEvents.append(evt)
 
 
-    class Building(UpgradableBuilding, AdvertableBuilding, BuildingStats, FamousBuilding):
+    class Building(UpgradableBuilding, AdvertableBuilding, FamousBuilding, BuildingStats):
         """
         The building that represents Business Buildings.
         """

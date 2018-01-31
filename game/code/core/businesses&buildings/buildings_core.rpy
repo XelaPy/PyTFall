@@ -636,7 +636,7 @@ init -10 python:
                 return 0
 
             habitable = [i.habitable for i in self._businesses]
-            capacity = sum(i.capacity for i in habitable)
+            capacity = sum([i.capacity for i in habitable])
             rooms = capacity - len(self.inhabitants)
             if rooms < 0:
                 rooms = 0
