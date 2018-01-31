@@ -633,7 +633,7 @@ init -10 python:
             if not self.habitable:
                 return 0
 
-            habitable = [i.habitable for i in self._businesses]
+            habitable = [i for i in self._businesses if i.habitable]
             capacity = sum([i.capacity for i in habitable])
             rooms = capacity - len(self.inhabitants)
             if rooms < 0:

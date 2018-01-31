@@ -8,3 +8,4 @@ init -6 python:
                      **kwargs):
             super(SlaveQuarters, self).__init__(name=name,
                   desc=desc, img=img, **kwargs)
+            self.habitable = True
