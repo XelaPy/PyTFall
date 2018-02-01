@@ -290,7 +290,7 @@ screen char_profile():
                     anchor 0, 1.0
 
             null height 13
-            
+
             # Stats/Info ====================================>
             fixed:
                 xanchor -0.01
@@ -302,7 +302,7 @@ screen char_profile():
                         if char.status == "slave":
                             alternate Return(["dropdown", "home", char])
                         hovered tt.Action("Choose a location for %s to work at!" % char.nickname)
-                        text "{image=content/gfx/interface/icons/move15.png}Location: [char.location]":
+                        text "{image=button_circle_green}Location: [char.location]":
                             if len(str(char.location)) > 18:
                                 size 15
                             else:

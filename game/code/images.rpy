@@ -1,5 +1,9 @@
 # ANIMATION
 init:
+    image button_circle_green:
+        "content/gfx/interface/icons/move15.png"
+        yoffset 6
+
     image no_image = "content/gfx/interface/images/no_image.png"
 
     image bg_main = "content/gfx/bg/main.jpg"
