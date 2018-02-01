@@ -34,7 +34,7 @@ label chars_list:
                 if result[1] == 'return':
                     break
             elif result[0] == "dropdown":
-                if result[1] == "loc":
+                if result[1] == "workplace":
                     renpy.show_screen("set_workplace_dropdown", result[2], pos=renpy.get_mouse_pos())
                 elif result[1] == "home":
                     renpy.show_screen("set_home_dropdown", result[2], pos=renpy.get_mouse_pos())
@@ -87,7 +87,6 @@ screen chars_list(source=None):
 
         if charz_lists:
             $ charz_list = charz_lists[page]
-
 
             hbox:
                 style_group "content"
@@ -166,18 +165,61 @@ screen chars_list(source=None):
 
                                 null height 2
                                 if c not in pytfall.ra:
-                                    button:
-                                        style_group "ddlist"
-                                        action Return(["dropdown", "loc", c])
-                                        if c.status == "slave":
-                                            alternate Return(["dropdown", "home", c])
-                                        text "{image=content/gfx/interface/icons/move15.png}Location: [c.location]"
-                                        hovered tt.Action('Select location')
+                                    if not c.flag("last_chars_list_geet_icon"):
+                                        $ c.set_flag("last_chars_list_geet_icon", "work")
+                                    if c.status == "free" and c.flag("last_chars_list_geet_icon") != "work":
+                                        $ c.set_flag("last_chars_list_geet_icon", "work")
+
+                                    if c.flag("last_chars_list_geet_icon") == "home":
+                                        button:
+                                            style_group "ddlist"
+                                            if c.status == "slave":
+                                                action Return(["dropdown", "home", c])
+                                                hovered tt.Action("Choose a place for %s to live at!" % c.nickname)
+                                            else: # Can't set home for free cs, they decide it on their own.
+                                                action NullAction()
+                                                hovered tt.Action("%s is free and decides on where to live at!" % c.nickname)
+                                            alternate [Function(c.set_flag, "last_chars_list_geet_icon", "work"),
+                                                       Return(["dropdown", "workplace", c])]
+                                            text "{image=button_circle_green}Home: [c.home]":
+                                                if len(str(c.location)) > 18:
+                                                    size 15
+                                                else:
+                                                    size 18
+                                    elif c.flag("last_chars_list_geet_icon") == "work":
+                                        button:
+                                            style_group "ddlist"
+                                            action Return(["dropdown", "workplace", c])
+                                            if c.status == "slave":
+                                                alternate [Function(c.set_flag, "last_chars_list_geet_icon", "home"),
+                                                           Return(["dropdown", "home", c])]
+                                            hovered tt.Action("Choose a place for %s to work at!" % c.nickname)
+                                            text "{image=button_circle_green}Work: [c.workplace]":
+                                                if len(str(c.location)) > 18:
+                                                    size 15
+                                                else:
+                                                    size 18
                                     button:
                                         style_group "ddlist"
                                         action Return(["dropdown", "action", c])
-                                        text "{image=content/gfx/interface/icons/move15.png}Action: [c.action]"
-                                        hovered tt.Action('Select action')
+                                        hovered tt.Action("Choose a task for %s to do!" % c.nickname)
+                                        text "{image=button_circle_green}Action: [c.action]":
+                                            if c.action is not None and len(str(c.action)) > 18:
+                                                size 15
+                                            else:
+                                                size 18
+                                    # button:
+                                    #     style_group "ddlist"
+                                    #     action Return(["dropdown", "loc", c])
+                                    #     if c.status == "slave":
+                                    #         alternate Return(["dropdown", "home", c])
+                                    #     text "{image=content/gfx/interface/icons/move15.png}Location: [c.location]"
+                                    #     hovered tt.Action('Select location')
+                                    # button:
+                                    #     style_group "ddlist"
+                                    #     action Return(["dropdown", "action", c])
+                                    #     text "{image=content/gfx/interface/icons/move15.png}Action: [c.action]"
+                                    #     hovered tt.Action('Select action')
                                 else:
                                     text "{size=15}Location: Unknown"
                                     text "{size=15}Action: Hiding"
