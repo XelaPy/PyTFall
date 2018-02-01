@@ -24,7 +24,8 @@ screen set_action_dropdown(char, pos=()):
             for i in jobs:
                 textbutton "[i.id]":
                     # Without Equipping for the job!
-                    action [Function(set_char_to_work, char, char.location, i), Hide("set_action_dropdown")]
+                    action [Function(set_char_to_work, char, char.location, i),
+                            Hide("set_action_dropdown")]
 
         # Other buildings
         elif hasattr(char.location, "actions"):
@@ -35,12 +36,16 @@ screen set_action_dropdown(char, pos=()):
                             action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
                 elif entry == "Take Course":
                     textbutton "[entry]":
-                        action [Hide("set_action_dropdown"), Hide("charslist"), Hide("char_profile"), # Hide the dropdown screen, the chars list and char profile screens
+                        action [Hide("set_action_dropdown"), Hide("charslist"), Hide("char_profile"),
                                 SetField(store, "char", char, True), # Ensure that the global var char is set to the current char
                                 Jump("char_training")] # Jump to the training screen
                 else:
                     textbutton "[entry]":
-                            action [SetField(char, "action", entry), Function(equip_for, char, entry), If(char_is_training(char), true=Function(stop_training, char)), Hide("set_action_dropdown")]
+                            action [SetField(char, "action", entry),
+                                    Function(equip_for, char, entry),
+                                    If(char_is_training(char),
+                                       true=Function(stop_training, char)),
+                                    Hide("set_action_dropdown")]
 
         # Prevent none action in schools
         if not hasattr(char.location, "is_school") or not char.location.is_school:

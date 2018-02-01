@@ -289,33 +289,8 @@ screen char_profile():
                     pos 113, 77
                     anchor 0, 1.0
 
-            null height 5
-            # Rank up for prostitutes:
-            # TODO: Adapt ranks to new skills code!
-            # @Review: Will not be used until further notice!
-            # if traits['Prostitute'] in char.occupations:
-                # frame:
-                    # xanchor -0.01
-                    # xysize(313, 47)
-                    # background Frame("content/gfx/frame/rank_frame.png", 10, 10)
-                    # text ('%s:'%char.wranks['r%s'%char.rank]['name'][0]) align(0.1, 0.2) color ivory size 16
-                    # text ('%s'%char.wranks['r%s'%char.rank]['name'][1]) align(0.5, 0.96) color ivory size 16
-                    # if char.rank < 8:
-                        # $ rankinfo = char.wranks['r%d' % (char.rank+1)]
-                        # imagebutton:
-                            # align (0.95, 0.5)
-                            # hover "rank_up"
-                            # if char.refinement >=rankinfo['ref'] and char.exp >= rankinfo['exp']:
-                                # idle "rank_up"
-                                # action Return(['girl', 'buyrank'])
-                                # hovered tt.Action("Increase this girl's Rank. Rank is one of the most important things for a girl in a brothel to have. \nTo achieve next rank your girl requires: %d of Refinement, %d of Experience and a sum of %d gold."%(rankinfo['ref'], rankinfo['exp'], rankinfo['price']))
-                            # else:
-                                # idle im.Sepia("content/gfx/animations/rank_up/1.png")
-                                # action NullAction()
-                                # hovered tt.Action("[char.nickname] does not meet the requirements for a rank up.\nRank is one of the most important things for a girl in a brothel to have. \nTo achieve next rank your girl requires: %d of Refinement, %d of Experience and a sum of %d gold."%(rankinfo['ref'], rankinfo['exp'], rankinfo['price']))
-
-            null height 8
-
+            null height 13
+            
             # Stats/Info ====================================>
             fixed:
                 xanchor -0.01
@@ -613,7 +588,6 @@ screen char_profile():
             text("{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[char.level]") pos(106, 7)
             text("{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[char.exp]") pos(190, 7)
             text("{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[char.goal]") pos(190, 27)
-
 
         # Right frame ====================================>
         frame:
