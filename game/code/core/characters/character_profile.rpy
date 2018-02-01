@@ -33,7 +33,6 @@ label char_profile:
                                 jump char_profile_end
                     else:
                         $ renpy.show_screen("message_screen", "This girl has run away!")
-
                 elif result[0] != "control":
                     $ renpy.show_screen("message_screen", "This girl has run away!")
 
@@ -44,16 +43,14 @@ label char_profile:
                         hide screen char_profile
                         $ items_transfer([hero, char])
                         show screen char_profile
-
                 elif result[0] == "dropdown":
                     python:
-                        if result[1] == "loc":
-                            renpy.show_screen("set_location_dropdown", result[2], pos=renpy.get_mouse_pos())
+                        if result[1] == "workplace":
+                            renpy.show_screen("set_workplace_dropdown", result[2], pos=renpy.get_mouse_pos())
                         elif result[1] == "home":
                             renpy.show_screen("set_home_dropdown", result[2], pos=renpy.get_mouse_pos())
                         elif result[1] == "action":
                             renpy.show_screen("set_action_dropdown", result[2], pos=renpy.get_mouse_pos())
-
                 elif result[0] == "girl":
                     if result[1] == "gallery":
                         $ gallery = PytGallery(char)
@@ -101,7 +98,6 @@ label char_profile:
                                 $ char = girls[index]
                             else:
                                 jump char_profile_end
-
                 elif result[0] == "rename":
                     if result[1] == "name":
                         $ n = renpy.call_screen("pyt_input", char.name, "Enter Name", 20)
@@ -298,11 +294,22 @@ screen char_profile():
                 vbox:
                     button:
                         style_group "ddlist"
-                        action Return(["dropdown", "loc", char])
                         if char.status == "slave":
-                            alternate Return(["dropdown", "home", char])
-                        hovered tt.Action("Choose a location for %s to work at!" % char.nickname)
-                        text "{image=button_circle_green}Location: [char.location]":
+                            action Return(["dropdown", "home", char])
+                            hovered tt.Action("Choose a place for %s to live at!" % char.nickname)
+                        else: # Can't set home for free chars, they decide it on their own.
+                            action NullAction()
+                            hovered tt.Action("%s is free and decides on where to live at!" % char.nickname)
+                        text "{image=button_circle_green}Home: [char.home]":
+                            if len(str(char.location)) > 18:
+                                size 15
+                            else:
+                                size 18
+                    button:
+                        style_group "ddlist"
+                        action Return(["dropdown", "workplace", char])
+                        hovered tt.Action("Choose a place for %s to work at!" % char.nickname)
+                        text "{image=button_circle_green}Work: [char.workplace]":
                             if len(str(char.location)) > 18:
                                 size 15
                             else:
@@ -311,7 +318,7 @@ screen char_profile():
                         style_group "ddlist"
                         action Return(["dropdown", "action", char])
                         hovered tt.Action("Choose a task for %s to do!" % char.nickname)
-                        text "{image=content/gfx/interface/icons/move15.png}Action: [char.action]":
+                        text "{image=button_circle_green}Action: [char.action]":
                             if char.action is not None and len(str(char.action)) > 18:
                                 size 15
                             else:

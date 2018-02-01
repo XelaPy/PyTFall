@@ -61,7 +61,7 @@ screen set_action_dropdown(char, pos=()):
 
     key "K_ESCAPE" action [Hide("set_action_dropdown")]
 
-screen set_location_dropdown(char, pos=()):
+screen set_workplace_dropdown(char, pos=()):
     # Trying to create a drop down screen with choices of actions:
     zorder 3
     modal True
@@ -75,37 +75,38 @@ screen set_location_dropdown(char, pos=()):
         xval = 1.0 if x > config.screen_width/2 else .0
         yval = 1.0 if y > config.screen_height/2 else .0
 
+    python:
+        workable_buildings = []
+        for b in hero.buildings:
+            if isinstance(b, UpgradableBuilding) and b.workable:
+                workable_buildings.append(b)
+
     frame:
         style_prefix "dropdown_gm"
         pos (x, y)
         anchor (xval, yval)
         has vbox
-        # Updating to new code: *Ugly code atm, TODO: Fix IT!
-        for building in hero.buildings:
-            if isinstance(building, UpgradableBuilding):
-                if char.action in building.jobs:
-                    $ can_keep_action = True
-                else:
-                    $ can_keep_action = False
-                if can_keep_action:
-                    textbutton "[building.name]":
-                        action [SelectedIf(char.location==building), If(char_is_training(char),
-                                true=Function(stop_training, char)), Function(change_location, char, building),
-                                Hide("set_location_dropdown")]
-                else:
-                    textbutton "[building.name]":
-                        action [SelectedIf(char.location==building), SetField(char, "action", None),
-                                If(char_is_training(char), true=Function(stop_training, char)),
-                                Function(change_location, char, building),
-                                Hide("set_location_dropdown")]
-
-        textbutton "Home":
-            action [If(char_is_training(char), true=Function(stop_training, char)), Function(change_location, char, char.home), Hide("set_location_dropdown")]
-
+        for building in workable_buildings:
+            if char.action in building.jobs:
+                $ can_keep_action = True
+            else:
+                $ can_keep_action = False
+            textbutton "[building.name]":
+                selected char.workplace == building
+                action [If(char_is_training(char), true=Function(stop_training, char)),
+                        If(not can_keep_action, true=SetField(char, "action", None)),
+                        SetField(char, "workplace", building),
+                        Hide("set_workplace_dropdown")]
+        textbutton "None":
+            selected char.workplace is None
+            action [If(char_is_training(char), true=Function(stop_training, char)),
+                    SetField(char, "workplace", None),
+                    SetField(char, "action", None),
+                    Hide("set_workplace_dropdown")]
         textbutton "Close":
-            action Hide("set_location_dropdown")
+            action Hide("set_workplace_dropdown")
 
-    key "K_ESCAPE" action Hide("set_location_dropdown")
+    key "K_ESCAPE" action Hide("set_workplace_dropdown")
 
 screen set_home_dropdown(char, pos=()):
     # Trying to create a drop down screen with choices of actions:
