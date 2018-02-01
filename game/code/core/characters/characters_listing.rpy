@@ -182,7 +182,7 @@ screen chars_list(source=None):
                                             alternate [Function(c.set_flag, "last_chars_list_geet_icon", "work"),
                                                        Return(["dropdown", "workplace", c])]
                                             text "{image=button_circle_green}Home: [c.home]":
-                                                if len(str(c.location)) > 18:
+                                                if len(str(c.home)) > 18:
                                                     size 15
                                                 else:
                                                     size 18
@@ -195,7 +195,7 @@ screen chars_list(source=None):
                                                            Return(["dropdown", "home", c])]
                                             hovered tt.Action("Choose a place for %s to work at!" % c.nickname)
                                             text "{image=button_circle_green}Work: [c.workplace]":
-                                                if len(str(c.location)) > 18:
+                                                if len(str(c.workplace)) > 18:
                                                     size 15
                                                 else:
                                                     size 18

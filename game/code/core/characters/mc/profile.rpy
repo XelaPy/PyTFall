@@ -35,7 +35,7 @@ label hero_profile:
 
                 jump expression pytfall.hp.came_from
         elif result[0] == "dropdown":
-            if result[1] == "loc": # TODO Seems useless for the MC! >>>>
+            if result[1] == "loc": # TODO Seems useless for the MC! >>>
                 $ renpy.show_screen("set_workplace_dropdown", hero, pos=renpy.get_mouse_pos())
             elif result[1] == "home":
                 $ renpy.show_screen("set_home_dropdown", hero, pos=renpy.get_mouse_pos())
@@ -178,16 +178,26 @@ init:
                 null height 5
 
                 # LOCATION ====================================>
+                # No point in Work here...?
                 button:
                     style_group "ddlist"
-                    action Return(["dropdown", "loc"])
-                    alternate Return(["dropdown", "home"])
-                    text "{image=content/gfx/interface/icons/move15.png}Location:\n       [hero.location]":
-                        if len(str(hero.location)) > 18:
+                    action Return(["dropdown", "home"])
+                    hovered tt.Action("Choose a place to live at!")
+                    text "{image=button_circle_green}Home:\n     [hero.home]":
+                        if len(str(hero.home)) > 18:
                             size 15
                         else:
-                            size 16
-                    hovered tt.Action("Left click to change [hero.name]'s current location. Right click to select his home location to rest at night.")
+                            size 18
+                # button:
+                #     style_group "ddlist"
+                #     action Return(["dropdown", "loc"])
+                #     alternate Return(["dropdown", "home"])
+                #     text "{image=content/gfx/interface/icons/move15.png}Location:\n       [hero.location]":
+                #         if len(str(hero.location)) > 18:
+                #             size 15
+                #         else:
+                #             size 16
+                #     hovered tt.Action("Left click to change [hero.name]'s current location. Right click to select his home location to rest at night.")
 
                 null height 3
 

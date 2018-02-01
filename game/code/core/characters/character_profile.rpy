@@ -301,7 +301,7 @@ screen char_profile():
                             action NullAction()
                             hovered tt.Action("%s is free and decides on where to live at!" % char.nickname)
                         text "{image=button_circle_green}Home: [char.home]":
-                            if len(str(char.location)) > 18:
+                            if len(str(char.home)) > 18:
                                 size 15
                             else:
                                 size 18
@@ -310,7 +310,7 @@ screen char_profile():
                         action Return(["dropdown", "workplace", char])
                         hovered tt.Action("Choose a place for %s to work at!" % char.nickname)
                         text "{image=button_circle_green}Work: [char.workplace]":
-                            if len(str(char.location)) > 18:
+                            if len(str(char.workplace)) > 18:
                                 size 15
                             else:
                                 size 18
