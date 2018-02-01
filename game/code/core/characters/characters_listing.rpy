@@ -208,18 +208,6 @@ screen chars_list(source=None):
                                                 size 15
                                             else:
                                                 size 18
-                                    # button:
-                                    #     style_group "ddlist"
-                                    #     action Return(["dropdown", "loc", c])
-                                    #     if c.status == "slave":
-                                    #         alternate Return(["dropdown", "home", c])
-                                    #     text "{image=content/gfx/interface/icons/move15.png}Location: [c.location]"
-                                    #     hovered tt.Action('Select location')
-                                    # button:
-                                    #     style_group "ddlist"
-                                    #     action Return(["dropdown", "action", c])
-                                    #     text "{image=content/gfx/interface/icons/move15.png}Action: [c.action]"
-                                    #     hovered tt.Action('Select action')
                                 else:
                                     text "{size=15}Location: Unknown"
                                     text "{size=15}Action: Hiding"
