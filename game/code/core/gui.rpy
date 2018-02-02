@@ -137,21 +137,26 @@ init -1 python:
             self.blue_girls = dict() # Girls (SE captured) blue is training for you.
             self.restock_day = locked_random("randint", 2, 3)
 
-        def get_girls(self):
+        def get_random_slaves(self):
             """
-            Generates a random list of girls.
+            Searches for chars to add to the slavemarket.
             """
-            candidates = list(self.actors)
+            candidates = list()
+            for c in chars.values():
+                if c in hero.chars:
+                    continue
+                if c.home == self:
+                    candidates.append(c)
+            # candidates = list(self.actors)
             shuffle(candidates)
             sglist = list()
-            uniques = 0
-            randoms = 0
-            for girl in candidates:
-                if girl.__class__ == Char and uniques < 5:
-                    sglist.append(girl)
+            uniques = randoms = 0
+            for c in candidates:
+                if c.__class__ == Char and uniques < 5:
+                    sglist.append(c)
                     uniques += 1
-                if girl.__class__ == rChar and randoms < 5:
-                    sglist.append(girl)
+                if c.__class__ == rChar and randoms < 5:
+                    sglist.append(c)
                     randoms += 1
             shuffle(sglist)
             return sglist
@@ -167,7 +172,7 @@ init -1 python:
             """
             Populates the list of girls that are available.
             """
-            chars_list = self.get_girls()
+            chars_list = self.get_random_slaves()
             self.chars_list = list()
             for i in range(randint(6, 8)):
                 if chars_list:

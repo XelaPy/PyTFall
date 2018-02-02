@@ -315,7 +315,7 @@ init: # Screens:
                         action Show("building_adverts")
                         hovered tt.action('Advertise this building to attract more and better customers')
                         text "Advertise"
-                if len(building.get_girls()) > 0:
+                if building.get_all_chars():
                     button:
                         xysize (135, 40)
                         action Return(['building', "items_transfer"])

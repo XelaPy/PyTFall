@@ -152,6 +152,21 @@ init -10 python:
             # Returns a list of all chars in heros service that have their workplaces set to this building.
             return [c for c in hero.chars if c.workplace==self and c.is_available]
 
+        def get_all_chars(self):
+            all_chars = set()
+
+            for c in hero.chars:
+                if not c.is_available:
+                    continue
+                if c.home == self:
+                    all_chars.add(c)
+                    continue
+                if c.workplace == self:
+                    all_chars.add(c)
+
+            return all_chars
+
+
         def get_girls(self, action=undefined, occupation=undefined, nott=False):
             """
             The girls that are in this location.
