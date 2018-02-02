@@ -488,7 +488,7 @@ init -12 python:
             """This runs the club as a SimPy process from start to the end.
             """
             counter = 0
-            building = building
+            building = self.building
             tier = building.tier
 
             while 1:
