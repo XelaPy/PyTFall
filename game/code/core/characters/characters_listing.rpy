@@ -10,6 +10,7 @@ init:
 label chars_list:
     scene bg gallery
     # Check if we're the screen was loaded or not:
+    # TODO Update locations filter to host work and home instead of location.
     if not renpy.get_screen("chars_list"):
         python:
             char_lists_filters = CharsSortingForGui(sorting_for_chars_list)

@@ -1053,7 +1053,8 @@ screen girl_control():
         # BE Row, Job controls + Auto-Buy/Equip
         vbox:
             style_group "basic"
-            align (0.55, 0.5)
+            align (.55, .5)
+            # TODO Update location ==> Home/Work when assigning to group.
             if isinstance(char, PytGroup):
                 if char not in pytfall.ra:
                     button:

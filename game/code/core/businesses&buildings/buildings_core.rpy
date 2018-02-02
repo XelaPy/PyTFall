@@ -679,7 +679,10 @@ init -10 python:
 
             # All workers and workable businesses:
             # The last check may not be good enought, may need rewriting. TODO
-            self.available_workers = list(c for c in self.all_workers if c.location == self and c.action in self.jobs)
+            self.available_workers = list(c for c in self.all_workers if
+                                          c.is_available and
+                                          c.workplace == self and
+                                          c.action in self.jobs)
             for w in self.all_workers:
                 self.convert_AP(w)
 

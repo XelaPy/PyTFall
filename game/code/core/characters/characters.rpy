@@ -911,8 +911,8 @@ init -9 python:
                         if hero.take_money(amount, reason="Wages"):
                             self.add_money(amount, reason="Wages")
                             self.log_logical_expense(amount, "Wages")
-                            if isinstance(char.location, Building):
-                                char.location.fin.log_logical_expense(amount, "Wages")
+                            if isinstance(char.workplace, Building):
+                                char.workplace.fin.log_logical_expense(amount, "Wages")
                             if char.disposition < 700:
                                 char.disposition += int(round((char.wagemod-100)*0.1))
                             char.joy += int(round((char.wagemod-100)*0.1))
@@ -922,22 +922,23 @@ init -9 python:
                         if hero.take_money(amount, reason="Wages"):
                             self.log_logical_expense(amount, "Wages")
                             self.add_money(amount, reason="Wages")
-                            if isinstance(char.location, Building):
-                                char.location.fin.log_logical_expense(amount, "Wages")
+                            if isinstance(char.workplace, Building):
+                                char.workplace.fin.log_logical_expense(amount, "Wages")
 
                 else:
                     amount = int(char.expected_wage*0.01*(char.wagemod))
                     if hero.take_money(amount, reason="Wages"):
                         self.add_money(amount, reason="Wages")
                         self.log_logical_expense(amount, "Wages")
-                        if isinstance(char.location, Building):
-                            char.location.fin.log_logical_expense(amount, "Wages")
+                        if isinstance(char.workplace, Building):
+                            char.workplace.fin.log_logical_expense(amount, "Wages")
                         if char.disposition < 700:
                             char.disposition += int(round((char.wagemod)*0.2))
                         char.joy += int(round((char.wagemod)*0.2))
 
         def wage_conditions(self):
             char = self.instance
+            # TODO Check this whole method
             return char.action not in ["Rest", "AutoRest"] or (char.location != "Streets" and not in_training_location(char))
 
         def get_price(self):
