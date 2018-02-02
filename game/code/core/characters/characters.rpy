@@ -4109,7 +4109,7 @@ init -9 python:
             try:
                 mod = loc.daily_modifier
             except:
-                raise Exception("Home location without daily_modifier field was set.")
+                raise Exception("Home location without daily_modifier field was set. ({})".format(loc))
 
             if mod > 0:
                 txt += "You've comfortably spent a night."

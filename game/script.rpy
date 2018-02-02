@@ -257,6 +257,10 @@ label continue_with_start:
             console.history = []
     if hero.name.lower() == "darktl":
         $ hero.gold += 888888888
+    # last minute checks:
+    if not hero.home:
+        $ hero.home = locations["Streets"]
+
     jump mainscreen
 
 label dev_testing_menu_and_load_mc:
