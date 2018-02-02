@@ -210,10 +210,6 @@
         tl.timer("Loading: GirlsMeets", nested=False)
         gm = GirlsMeets()
 
-        tl.timer("Loading: Populating SlaveMarket", nested=False)
-        pytfall.sm.populate_chars_list()
-        tl.timer("Loading: Populating SlaveMarket")
-
         items_upgrades = json.load(renpy.file("content/db/upgrades.json"))
 
     # Loading apartments/guilds:
@@ -260,6 +256,11 @@ label continue_with_start:
     # last minute checks:
     if not hero.home:
         $ hero.home = locations["Streets"]
+
+    python:
+        tl.timer("Loading: Populating SlaveMarket", nested=False)
+        pytfall.sm.populate_chars_list()
+        tl.timer("Loading: Populating SlaveMarket")
 
     jump mainscreen
 
