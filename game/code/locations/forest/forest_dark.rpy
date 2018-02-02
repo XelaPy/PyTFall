@@ -99,7 +99,7 @@ label city_dark_forest_explore:
         else:
             $ hero.set_flag("dark_forest_met_bandits", value=day)
             jump city_dark_forest_hideout
-            
+
 label city_dark_forest_ruines_part:
     if not(take_team_ap(2)):
         if len(hero.team) > 1:
@@ -289,7 +289,12 @@ label city_dark_forest_fight:
 
 label dark_forest_girl_meet:
     $ hero.set_flag("dark_forest_met_girl", value=day)
-    $ choices = list(i for i in chars.values() if i.location == "city" and i not in hero.chars and not i.arena_active and i not in gm.get_all_girls()) #TODO: will we even have arena_active eventually?
+    python:
+        choices = list(i for i in chars.values() if
+                       str(i.location) == "City" and
+                       i not in hero.chars and
+                       not i.arena_active and
+                       i not in gm.get_all_girls()) #TODO: will we even have arena_active eventually?
     $ badtraits = ["Homebody", "Indifferent", "Coward"]
     $ choices = list(i for i in choices if not any(trait in badtraits for trait in i.traits))
     if choices:
