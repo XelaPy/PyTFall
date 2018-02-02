@@ -302,7 +302,7 @@ label char_equip_finish:
         # eqtarget.inventory.female_filter = False
         # hero.inventory.female_filter = False
         if eqtarget.location == locations["After Life"]:
-            renpy.show_screen("message_screen", "Either your 'awesome' item handling or my 'brilliant' programming killed %s..." % eqtarget.fullname)
+            renpy.show_screen("message_screen", "Either your 'awesome' item handling or my 'brilliant' programming have killed %s..." % eqtarget.fullname)
             jump("mainscreen")
 
     python:
@@ -693,7 +693,7 @@ screen char_equip_right_frame(tt):
                     else:
                         classes = "MC baseclasses are still AFK :("
 
-                t = "{vspace=17}Classes: [classes]\nLocation: [eqtarget.location]\nAction: [eqtarget.action]{/color}"
+                t = "{vspace=17}Classes: [classes]\nWork: [eqtarget.workplace]\nAction: [eqtarget.action]{/color}"
             else:
                 t = "{vspace=17}[eqtarget.name]{/color}"
 

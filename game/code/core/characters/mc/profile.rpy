@@ -21,7 +21,7 @@ label hero_profile:
         elif result[0] == "item":
             if result[1] == "transfer":
                 hide screen hero_profile
-                $ items_transfer([hero, hero.location])
+                $ items_transfer([hero, hero.home])
                 show screen hero_profile
         elif result[0] == 'control':
             if result[1] == 'return':
@@ -490,7 +490,7 @@ init:
                 text "Friends" style "pb_button_text"
                 hovered tt.Action("Show the list friends and lovers who don't work for [hero.name], allowing to find them immediately when needed")
             # Items Transfer to Home Location Inventory:
-            if hasattr(hero.location, "inventory"):
+            if hasattr(hero.home, "inventory"):
                 button:
                     action Return(["item", "transfer"])
                     text "Storage" style "pb_button_text"

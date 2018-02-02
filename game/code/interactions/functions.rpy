@@ -34,12 +34,12 @@ init -11 python:
                 return "bg wildness"
         else:
             return "bg girl_room"
-            
-                
+
+
     def throw_a_normal_dice(): # throwing a classic dice
         i = locked_random("randint", 1, 6)
         return i
-        
+
     def dice_poker_calculate(dice_list): # check combinations for dice poker and calculate relative scores based on them
         counter = collections.Counter(dice_list)
         if len(counter) == 1:
@@ -52,7 +52,7 @@ init -11 python:
         elif len(counter) == 3:
             if 3 in counter.values(): # three dice showing the same value
                 return ["Three-of-a-Kind", 3]
-            else: 
+            else:
                 return ["Two Pairs", 2] # two pairs of dice showing the same value
         elif len(counter) == 4: # one pair
             return ["One Pair", 1]
@@ -67,14 +67,14 @@ init -11 python:
                 if len(result) == 5:
                     return ["Five High Straight", 4] # dice showing values from 1 through 5, inclusive
         return ["Nothing", 0] # all checks failed, no combinations
-        
+
     def dice_poker_ai_decision(dice_1, dice_2): # handles ai logic in poker
         counter = collections.Counter(dice_1)
-        
+
         if len(counter) == 1: # Five-of-a-Kind
         # if ai wins, no throws are needed; if ai loses, nothing can be done anyway since you need at least 5 throws to get a better hand
             return 0
-            
+
         if len(counter) == 2: # two groups of the same number
             if 4 in counter.values(): # Four-of-a-Kind; at this point it won't hurt to try getting Five-of-a-Kind
                 result_1 = list(k for k, v in counter.iteritems() if v == 1) # we find the single left dice value
@@ -87,9 +87,9 @@ init -11 python:
                     i = min(counter.keys())
                     result = dice_1.index(i) + 1
                     return result
-                    
+
         # here we check Straights, since they are more important than combinations below
-        
+
         checking_list = [2, 3, 4, 5, 6]
         result = result_1 = []
         for i in dice_1:
@@ -97,7 +97,7 @@ init -11 python:
                 result.append(i)
         if len(result) == 5: # Six High Straight; at this point it's guaranteed win or lose, since Full House will need 4 throws at least
             return 0
-                
+
         checking_list = [1, 2, 3, 4, 5]
         result = result_1 = []
         for i in dice_1:
@@ -110,9 +110,9 @@ init -11 python:
                 i = min(counter.keys())
                 result = dice_1.index(i) + 1
                 return result
-        
+
         # if we are here, it means no Straights exist, but now we should check if just one throw can change it
-        
+
         checking_list = [2, 3, 4, 5, 6]
         result = result_1 = []
         for i in dice_1:
@@ -125,7 +125,7 @@ init -11 python:
                     checking_list.remove(i)
             result = dice_1.index(result_1[0]) + 1
             return result
-            
+
         checking_list = [1, 2, 3, 4, 5]
         result = result_1 = []
         for i in dice_1:
@@ -138,27 +138,27 @@ init -11 python:
                     checking_list.remove(i)
             result = dice_1.index(result_1[0]) + 1
             return result
-                    
+
         # if we are here, no Straights are available, so we continue with other combinations
-                    
+
         if len(counter) == 3:  # either Three-of-a-Kind or Two Pairs, it doesn't matter for ai, it just throws a single dice
             result_1 = list(k for k, v in counter.iteritems() if v == 1)
             random.shuffle(result_1)
             result = dice_1.index(result_1[0]) + 1
             return result
-            
+
         if len(counter) == 4: # one pair; we already checked for High Straight combinations, so it only can be improved by making it Three-of-a-Kind
             result_1 = list(k for k, v in counter.iteritems() if v == 1)
             random.shuffle(result_1)
             result = dice_1.index(result_1[0]) + 1
             return result
 
-                
+
         # if we are here, there is no combinations at all; so ai just throws a dice with min value
         result_1 = min(dice_1)
         result = dice_1.index(result_1[0]) + 1
         return result
-            
+
     def dice_poker_decide_winner(dice_1, dice_2): # returns 1 if dice_1 is winner, 2 if dice_2 is winner, 0 if it's a draw
         score_1 = dice_poker_calculate(dice_1)[1]
         score_2 = dice_poker_calculate(dice_2)[1]
@@ -172,7 +172,7 @@ init -11 python:
             elif sum(dice_2) > sum(dice_1):
                 return 2
             else: return 0
-        
+
     def check_if_should_throw_dice(own_dice, other_dice, other_passed): # check how close an enemy to the victory, and based on it either throw (true) or don't (false) dice
         if own_dice >= 21 or other_dice > 21:
             return False
@@ -195,7 +195,7 @@ init -11 python:
                 return True
             else:
                 return False
-                
+
     # Interactions (Girlsmeets Helper Functions):
     def interactions_set_repeating_lines_limit(c): # returns the number of character "patience", ie how many repeating lines she's willing to listen in addition to default value
         if check_lovers(c, hero):
@@ -210,7 +210,7 @@ init -11 python:
         elif "Ill-mannered" in c.traits:
             patience -= locked_random("randint", 0, 1)
         return patience
-        
+
     def interactions_drinking_outside_of_inventory(character, count): # allows to raise activation count and become drunk without using real items
         character.effects['Drunk']['activation_count'] += count
         if character.effects['Drunk']['activation_count'] >= 35 and not character.effects['Drunk']['active']:
@@ -218,7 +218,7 @@ init -11 python:
         elif character.effects['Drunk']['active'] and character.AP > 0 and not character.effects['Drinker']['active']:
             character.AP -= 1
         return
-        
+
     def interactions_flag_count_checker(char_name, char_flag): # this function is used to check how many times a certain interaction was used during the current turn; every interaction should have a unique flag name and call this function after every use
         global day
         if not(char_name.flag(char_flag)) or char_name.flag(char_flag)["day"] != day:
@@ -468,24 +468,30 @@ init -11 python:
     # Other:
     def find_les_partners():
         """
-        Returns a set with if any partner(s) is availible and willing at the location.
+        Returns a set with if any partner(s) is available and willing at the location.
         (lesbian action)
         *We can move this to GM class and have this run once instead of twice! (menu + label)
         """
+        char = store.char
+
         # First get a set of all girls at the same location as the current character:
         partners = set()
         for i in chars.values():
-            if i.location == char.location:
+            if char == i:
+                continue
+            if set([i.home, i.workplace]).intersection([char.home, char.workplace]):
                 partners.add(i)
 
-        # Next figure out if disposition of possible partners towards MC is high enough for them to agree and/or they are lovers of char.
+        # Next figure out if disposition of possible partners towards MC is
+        # high enough for them to agree and/or they are lovers of char.
         willing_partners = set()
         for i in partners:
-            if char != i: # @review: (Alex) make sure we do not pick the girl to fuck herself...
-                # @review: (Alex) vitality is a fixed stat but it's best to check health as a percentage of it's max (60%+), 25 can feel like near death for some characters.
-                if (check_lovers(i, hero) or check_lovers(char, i)) and not (i.vitality < 25 or i.health < i.get_max("health")*0.6) and not (i.disposition <= -50): # Last check is too make sure partner doesn't dislike the MC.
-                    willing_partners.add(i)
-        # @review: (Alex) renamed the function. We are returning all choices, nit just the one partner.
+            lovers = (check_lovers(i, hero) or check_lovers(char, i))
+            stats = (i.vitality < 25 or i.health < i.get_max("health")*0.6)
+            disposition = (i.disposition <= -50)
+            if lovers and not stats and not disposition:
+                willing_partners.add(i)
+
         return willing_partners
 
     def interactions_run_gm_anywhere(char, exit, background, custom=False):
@@ -497,7 +503,7 @@ init -11 python:
         """
         if not isinstance(char, Char):
             char = chars[char]
-        
+
         if custom:
             gm.start("custom", char, char.get_vnsprite(), exit, background)
         elif chars[char].status == "slave" or not char.is_available:

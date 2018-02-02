@@ -22,7 +22,7 @@ init python:
             if setup == "ALL":
                 container = hero.chars
             else:
-                container = [g for g in hero.chars if g.location == setup] # TODO: Should prolly be flipped to .workplace?
+                container = [g for g in hero.chars if setup in (char.home, char.workplace)]
 
             for char in container:
                 cat = 0

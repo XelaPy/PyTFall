@@ -12,24 +12,25 @@ screen set_action_dropdown(char, pos=()):
         xval = 1.0 if x > config.screen_width/2 else .0
         yval = 1.0 if y > config.screen_height/2 else .0
 
+    # TODO Seems off and absurdly complicated for the task. Review!
     frame:
         style_prefix "dropdown_gm"
         pos (x, y)
         anchor (xval, yval)
         has vbox
 
-        if isinstance(char.location, UpgradableBuilding):
+        if isinstance(char.workplace, UpgradableBuilding):
             # Jobs:
-            $ jobs = char.location.get_valid_jobs(char)
+            $ jobs = char.workplace.get_valid_jobs(char)
             for i in jobs:
                 textbutton "[i.id]":
                     # Without Equipping for the job!
-                    action [Function(set_char_to_work, char, char.location, i),
+                    action [Function(set_char_to_work, char, char.workplace, i),
                             Hide("set_action_dropdown")]
 
         # Other buildings
-        elif hasattr(char.location, "actions"):
-            for entry in char.location.actions:
+        elif hasattr(char.workplace, "actions"):
+            for entry in char.workplace.actions:
                 if entry == "Guard":
                     if char.status not in ("slave", "various") and ("Warrior" in char.occupations or char.disposition <= 950):
                         textbutton "[entry]":
