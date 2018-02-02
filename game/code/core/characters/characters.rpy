@@ -4106,7 +4106,10 @@ init -9 python:
 
             # Home location nd mods:
             loc = self.home
-            mod = loc.daily_modifier
+            try:
+                mod = loc.daily_modifier
+            except:
+                raise Exception("Home location without daily_modifier field was set.")
 
             if mod > 0:
                 txt += "You've comfortably spent a night."
