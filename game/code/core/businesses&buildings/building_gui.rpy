@@ -27,11 +27,13 @@ init python:
             """
             self.reset_callable = reset_callable
             self.target_container = container
-            self.sorted = list() # list(girl for girl in hero.chars if girl.action != "Exploring")
+            self.sorted = list()
             self.status_filters = set()
             self.action_filters = set()
             self.class_filters = set()
             self.location_filters = set()
+            self.home_filters = set()
+            self.work_filters = set()
 
             self.sorting_order = None
 
@@ -41,6 +43,8 @@ init python:
             self.action_filters = set()
             self.class_filters = set()
             self.location_filters = set()
+            self.home_filters = set()
+            self.work_filters = set()
 
         def update(self, container):
             self.sorted = container
@@ -59,6 +63,10 @@ init python:
                 filtered = [c for c in filtered if c.traits.basetraits.intersection(self.class_filters)]
             if self.location_filters:
                 filtered = [c for c in filtered if c.location in self.location_filters]
+            if self.home_filters:
+                filtered = [c for c in filtered if c.home in self.home_filters]
+            if self.work_filters:
+                filtered = [c for c in filtered if c.workplace in self.work_filters]
 
             # Sorting:
             if self.sorting_order == "alphabetical":

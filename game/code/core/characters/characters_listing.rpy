@@ -15,9 +15,11 @@ label chars_list:
         python:
             char_lists_filters = CharsSortingForGui(sorting_for_chars_list)
             char_lists_filters.filter()
-            # We create the filters only from those that our chars actually have... not need for gibberish:
+
             status_filters = set([c.status for c in hero.chars])
-            location_filters = set([c.location for c in hero.chars])
+            # location_filters = set([c.location for c in hero.chars])
+            home_filters = set([c.home for c in hero.chars])
+            work_filters = set([c.workplace for c in hero.chars])
             action_filters = set([c.action for c in hero.chars])
             class_filters = set([bt for c in hero.chars for bt in c.traits.basetraits])
             selected_filters = set()
@@ -86,6 +88,7 @@ screen chars_list(source=None):
         if page < 0:
             $ page = 0
 
+        # Chars:
         if charz_lists:
             $ charz_list = charz_lists[page]
 
@@ -213,8 +216,9 @@ screen chars_list(source=None):
                                     text "{size=15}Location: Unknown"
                                     text "{size=15}Action: Hiding"
 
+    # Filters:
     frame:
-        background Frame(Transform("content/gfx/frame/p_frame2.png", alpha=0.55), 10 ,10)
+        background Frame(Transform("content/gfx/frame/p_frame2.png", alpha=.55), 10 ,10)
         style_prefix "content"
         xmargin 0
         left_padding 10
@@ -229,46 +233,42 @@ screen chars_list(source=None):
                 mousewheel True
                 has vbox xsize 253
                 null height 5
-                label "Filters:" xalign 0.5 text_size 35 text_color goldenrod text_outlines [(1, "#000000", 0, 0)]
+                label "Filters:":
+                    xalign .5
+                    text_size 35
+                    text_color goldenrod
+                    text_outlines [(1, "#000000", 0, 0)]
                 hbox:
                     box_wrap True
+                    # button:
+                    #     xalign .5
+                    #     style_group "basic"
+                    #     action ToggleSetMembership(selected_filters, 'Site')
+                    #     text "Site" color brown size 18 outlines [(1, "#3a3a3a", 0, 0)]
+                    #     xpadding 6
+                    #     hovered tt.Action('Toggle location filters')
+                    for f, c, t in [('Home', brown, 'Toggle home filters'),
+                                    ('Work', brown, 'Toggle workplace filters'),
+                                    ("Status", green, 'Toggle status filters'),
+                                    ("Action", darkblue, 'Toggle action filters'),
+                                    ('Class', purple, 'Toggle class filters')]:
+                        button:
+                            xalign .5
+                            style_group "basic"
+                            action ToggleSetMembership(selected_filters, f)
+                            text f color c size 18 outlines [(1, "#3a3a3a", 0, 0)]
+                            xpadding 6
+                            hovered tt.Action(t)
                     button:
-                        xalign 0.5
+                        xalign .5
+                        yalign 1.0
                         style_group "basic"
-                        action ToggleSetMembership(selected_filters, 'Site')
-                        text "Site" color brown size 18 outlines [(1, "#3a3a3a", 0, 0)]
-                        xpadding 6
-                        hovered tt.Action('Toggle location filters')
-                    button:
-                        xalign 0.5
-                        style_group "basic"
-                        action ToggleSetMembership(selected_filters, 'Status')
-                        text "Status" color green size 18 outlines [(1, "#3a3a3a", 0, 0)]
-                        xpadding 6
-                        hovered tt.Action('Toggle status filters')
-                    button:
-                        xalign 0.5
-                        style_group "basic"
-                        action ToggleSetMembership(selected_filters, 'Action')
-                        text "Action" color darkblue size 18 outlines [(1, "#3a3a3a", 0, 0)]
-                        xpadding 6
-                        hovered tt.Action('Toggle action filters')
-                    button:
-                        xalign 0.5
-                        style_group "basic"
-                        action ToggleSetMembership(selected_filters, 'Class')
-                        text "Class" color purple size 18 outlines [(1, "#3a3a3a", 0, 0)]
-                        xpadding 6
-                        hovered tt.Action('Toggle class filters')
-                button:
-                    xalign 0.5
-                    yalign 1.0
-                    style_group "basic"
-                    action source.clear, renpy.restart_interaction
-                    text "Reset"
-                    hovered tt.Action('Reset all filters')
+                        action source.clear, renpy.restart_interaction
+                        text "Reset"
+                        hovered tt.Action('Reset all filters')
 
                 null height 20
+
                 hbox:
                     box_wrap True
                     style_group "basic"
@@ -279,11 +279,20 @@ screen chars_list(source=None):
                                 action ModFilterSet(source, "status_filters", f)
                                 text f.capitalize() color green
                                 hovered tt.Action('Toggle the filter')
-                    if "Site" in selected_filters:
-                        for f in location_filters:
+                    if "Home" in selected_filters:
+                        for f in home_filters:
                             button:
                                 xsize 125
-                                action ModFilterSet(source, "location_filters", f)
+                                action ModFilterSet(source, "home_filters", f)
+                                text "[f]" color brown:
+                                    if len(str(f)) > 12:
+                                        size 10
+                                hovered tt.Action('Toggle the filter')
+                    if "Work" in selected_filters:
+                        for f in work_filters:
+                            button:
+                                xsize 125
+                                action ModFilterSet(source, "work_filters", f)
                                 text "[f]" color brown:
                                     if len(str(f)) > 12:
                                         size 10
@@ -294,7 +303,7 @@ screen chars_list(source=None):
                                 xsize 125
                                 action ModFilterSet(source, "action_filters", f)
                                 $ t = str(f)
-                                if t.endswith(" job") or t.endswith(" Job"):
+                                if t.lower().endswith(" job"):
                                     $ t = t[:-4]
                                 text "[t]" color darkblue
                                 hovered tt.Action('Toggle the filter')
