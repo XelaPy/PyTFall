@@ -287,33 +287,40 @@ screen char_profile():
 
             null height 13
 
-            # Stats/Info ====================================>
+            # Locations/Action Buttons and Stats/Info ====================================>
             fixed:
                 xanchor -0.01
                 xysize (300, 60)
                 vbox:
-                    button:
-                        style_group "ddlist"
-                        if char.status == "slave":
-                            action Return(["dropdown", "home", char])
-                            hovered tt.Action("Choose a place for %s to live at!" % char.nickname)
-                        else: # Can't set home for free chars, they decide it on their own.
+                    if getattr(char.location, "is_school", False):
+                        button:
+                            style_group "ddlist"
                             action NullAction()
-                            hovered tt.Action("%s is free and decides on where to live at!" % char.nickname)
-                        text "{image=button_circle_green}Home: [char.home]":
-                            if len(str(char.home)) > 18:
-                                size 15
-                            else:
-                                size 18
-                    button:
-                        style_group "ddlist"
-                        action Return(["dropdown", "workplace", char])
-                        hovered tt.Action("Choose a place for %s to work at!" % char.nickname)
-                        text "{image=button_circle_green}Work: [char.workplace]":
-                            if len(str(char.workplace)) > 18:
-                                size 15
-                            else:
-                                size 18
+                            hovered tt.Action("%s is in training!" % char.nickname)
+                            text "{image=button_circle_green}Location: School"
+                    else:
+                        button:
+                            style_group "ddlist"
+                            if char.status == "slave":
+                                action Return(["dropdown", "home", char])
+                                hovered tt.Action("Choose a place for %s to live at!" % char.nickname)
+                            else: # Can't set home for free chars, they decide it on their own.
+                                action NullAction()
+                                hovered tt.Action("%s is free and decides on where to live at!" % char.nickname)
+                            text "{image=button_circle_green}Home: [char.home]":
+                                if len(str(char.home)) > 18:
+                                    size 15
+                                else:
+                                    size 18
+                        button:
+                            style_group "ddlist"
+                            action Return(["dropdown", "workplace", char])
+                            hovered tt.Action("Choose a place for %s to work at!" % char.nickname)
+                            text "{image=button_circle_green}Work: [char.workplace]":
+                                if len(str(char.workplace)) > 18:
+                                    size 15
+                                else:
+                                    size 18
                     button:
                         style_group "ddlist"
                         action Return(["dropdown", "action", char])
