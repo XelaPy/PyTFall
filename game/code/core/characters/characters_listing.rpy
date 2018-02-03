@@ -10,7 +10,6 @@ init:
 label chars_list:
     scene bg gallery
     # Check if we're the screen was loaded or not:
-    # TODO Update locations filter to host work and home instead of location.
     if not renpy.get_screen("chars_list"):
         python:
             char_lists_filters = CharsSortingForGui(sorting_for_chars_list)
@@ -109,7 +108,7 @@ screen chars_list(source=None):
                         action Return(['choice', c])
                         hovered tt.Action('Show character profile')
 
-                        # Girl Image:
+                        # Image:
                         frame:
                             background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
                             padding 0, 0
@@ -147,9 +146,9 @@ screen chars_list(source=None):
                                         ypos 11
                                     action ToggleSetMembership(the_chosen, c)
                                     if c in the_chosen:
-                                        add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (0.5, 0.5)
+                                        add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align .5, .5
                                     else:
-                                        add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (0.5, 0.5)
+                                        add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align .5, .5
                                     hovered tt.Action('Select the character')
 
                             vbox:
@@ -174,35 +173,42 @@ screen chars_list(source=None):
                                     if c.status == "free" and c.flag("last_chars_list_geet_icon") != "work":
                                         $ c.set_flag("last_chars_list_geet_icon", "work")
 
-                                    if c.flag("last_chars_list_geet_icon") == "home":
+                                    if getattr(c.location, "is_school", False):
                                         button:
                                             style_group "ddlist"
-                                            if c.status == "slave":
-                                                action Return(["dropdown", "home", c])
-                                                hovered tt.Action("Choose a place for %s to live at!" % c.nickname)
-                                            else: # Can't set home for free cs, they decide it on their own.
-                                                action NullAction()
-                                                hovered tt.Action("%s is free and decides on where to live at!" % c.nickname)
-                                            alternate [Function(c.set_flag, "last_chars_list_geet_icon", "work"),
-                                                       Return(["dropdown", "workplace", c])]
-                                            text "{image=button_circle_green}Home: [c.home]":
-                                                if len(str(c.home)) > 18:
-                                                    size 15
-                                                else:
-                                                    size 18
-                                    elif c.flag("last_chars_list_geet_icon") == "work":
-                                        button:
-                                            style_group "ddlist"
-                                            action Return(["dropdown", "workplace", c])
-                                            if c.status == "slave":
-                                                alternate [Function(c.set_flag, "last_chars_list_geet_icon", "home"),
-                                                           Return(["dropdown", "home", c])]
-                                            hovered tt.Action("Choose a place for %s to work at!" % c.nickname)
-                                            text "{image=button_circle_green}Work: [c.workplace]":
-                                                if len(str(c.workplace)) > 18:
-                                                    size 15
-                                                else:
-                                                    size 18
+                                            action NullAction()
+                                            hovered tt.Action("%s is in training!" % c.nickname)
+                                            text "{image=button_circle_green}Location: School"
+                                    else:
+                                        if c.flag("last_chars_list_geet_icon") == "home":
+                                            button:
+                                                style_group "ddlist"
+                                                if c.status == "slave":
+                                                    action Return(["dropdown", "home", c])
+                                                    hovered tt.Action("Choose a place for %s to live at!" % c.nickname)
+                                                else: # Can't set home for free cs, they decide it on their own.
+                                                    action NullAction()
+                                                    hovered tt.Action("%s is free and decides on where to live at!" % c.nickname)
+                                                alternate [Function(c.set_flag, "last_chars_list_geet_icon", "work"),
+                                                           Return(["dropdown", "workplace", c])]
+                                                text "{image=button_circle_green}Home: [c.home]":
+                                                    if len(str(c.home)) > 18:
+                                                        size 15
+                                                    else:
+                                                        size 18
+                                        elif c.flag("last_chars_list_geet_icon") == "work":
+                                            button:
+                                                style_group "ddlist"
+                                                action Return(["dropdown", "workplace", c])
+                                                if c.status == "slave":
+                                                    alternate [Function(c.set_flag, "last_chars_list_geet_icon", "home"),
+                                                               Return(["dropdown", "home", c])]
+                                                hovered tt.Action("Choose a place for %s to work at!" % c.nickname)
+                                                text "{image=button_circle_green}Work: [c.workplace]":
+                                                    if len(str(c.workplace)) > 18:
+                                                        size 15
+                                                    else:
+                                                        size 18
                                     button:
                                         style_group "ddlist"
                                         action Return(["dropdown", "action", c])
@@ -240,13 +246,6 @@ screen chars_list(source=None):
                     text_outlines [(1, "#000000", 0, 0)]
                 hbox:
                     box_wrap True
-                    # button:
-                    #     xalign .5
-                    #     style_group "basic"
-                    #     action ToggleSetMembership(selected_filters, 'Site')
-                    #     text "Site" color brown size 18 outlines [(1, "#3a3a3a", 0, 0)]
-                    #     xpadding 6
-                    #     hovered tt.Action('Toggle location filters')
                     for f, c, t in [('Home', brown, 'Toggle home filters'),
                                     ('Work', brown, 'Toggle workplace filters'),
                                     ("Status", green, 'Toggle status filters'),

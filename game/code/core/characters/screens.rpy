@@ -12,50 +12,36 @@ screen set_action_dropdown(char, pos=()):
         xval = 1.0 if x > config.screen_width/2 else .0
         yval = 1.0 if y > config.screen_height/2 else .0
 
-    # TODO Seems off and absurdly complicated for the task. Review!
     frame:
         style_prefix "dropdown_gm"
         pos (x, y)
         anchor (xval, yval)
         has vbox
 
-        if isinstance(char.workplace, UpgradableBuilding):
-            # Jobs:
+        if getattr(char.location, "is_school", True):
+            textbutton "Change Course":
+                action [Hide("set_action_dropdown"),
+                        Hide("charslist"),
+                        Hide("char_profile"),
+                        SetField(store, "char", char, True),
+                        Jump("girl_training")]
+            textbutton "Stop Course":
+                action [SetField(char, "location", None),
+                        SetField(char, "workplace", None),
+                        SetField(char, "action", None),
+                        Hide("set_action_dropdown")]
+        elif isinstance(char.workplace, UpgradableBuilding):
             $ jobs = char.workplace.get_valid_jobs(char)
             for i in jobs:
                 textbutton "[i.id]":
-                    # Without Equipping for the job!
                     action [Function(set_char_to_work, char, char.workplace, i),
                             Hide("set_action_dropdown")]
-
-        # Other buildings
-        elif hasattr(char.workplace, "actions"):
-            for entry in char.workplace.actions:
-                if entry == "Guard":
-                    if char.status not in ("slave", "various") and ("Warrior" in char.occupations or char.disposition <= 950):
-                        textbutton "[entry]":
-                            action [SetField(char, "action", entry), Function(equip_for, char, entry), Hide("set_action_dropdown")]
-                elif entry == "Take Course":
-                    textbutton "[entry]":
-                        action [Hide("set_action_dropdown"), Hide("charslist"), Hide("char_profile"),
-                                SetField(store, "char", char, True), # Ensure that the global var char is set to the current char
-                                Jump("char_training")] # Jump to the training screen
-                else:
-                    textbutton "[entry]":
-                            action [SetField(char, "action", entry),
-                                    Function(equip_for, char, entry),
-                                    If(char_is_training(char),
-                                       true=Function(stop_training, char)),
-                                    Hide("set_action_dropdown")]
-
-        # Prevent none action in schools
-        if not hasattr(char.location, "is_school") or not char.location.is_school:
             textbutton "None":
-                action [SetField(char, "action", None), If(char_is_training(char), true=Function(stop_training, char)), Hide("set_action_dropdown")]
-
-        textbutton "Rest":
-            # TODO: Temporary way to set action to Rest, this needs to be rewritten completely.
-            action [SetField(char, "action", Rest()), Hide("set_action_dropdown")]
+                action [SetField(char, "action", None),
+                        If(char_is_training(char), true=Function(stop_training, char)),
+                        Hide("set_action_dropdown")]
+            textbutton "Rest":
+                action [SetField(char, "action", Rest()), Hide("set_action_dropdown")]
 
         textbutton "Close":
             action [Hide("set_action_dropdown")]
