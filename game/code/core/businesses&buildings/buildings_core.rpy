@@ -45,8 +45,6 @@ init -10 python:
             - Includes some form of "on demand" service, like cleaning or guarding (defending).
             - May also have a continued, "automatic" service like Guard-patrol.
 
-        TODO: all_occs should return a constant instead of creating a set every time they are called.
-        TODO: Businesses or Building should control clients that wish to remain for more action.
         *workers = On duty characters.
         *habitable/workable = self-explanotory.
         *clients = clients used locally (maybe useful only for the public service?)
@@ -60,7 +58,7 @@ init -10 python:
         # This may be obsolete after refactoring... to be rewritten or deleted after a steady system is in place.
         SimPy Land:
             *res = Resource
-            *time = cycle TODO: Prolly should be controled by the manager
+            *time = cycle
             *is_running = May be useless
 
         *Personal Service:
@@ -74,7 +72,7 @@ init -10 python:
                 - Calls the job so it can form an NDEvent
 
         *Public Service:
-            *active_workers = Does this not simply double the normal workers? TODO: Find out.
+            *active_workers = Does this not simply double the normal workers?
             *request = plainly adds a client and keeps it in the business based on "ready_to_leave" flag set directly to the client.
             *add_worker:
                 # Adds workers to business to serve clients.
@@ -87,14 +85,13 @@ init -10 python:
                 - Runs for as long there are active workers
                 - Waits for self.time delay
                 - Manages clients in the business
-                TODO: Seems that atm this just calcs the earning and waits for delays, it should be restructured appropriately and possibly merged with other methods.
             *worker_control:
                 # Env Process, manages each individual worker.
                 - Runs while there are clients and worker has AP in self.time delays.
                 - Logs all active clients as flags to a worker.
                 - Logs tips to the worker.
                 - Runs the Job once AP had been exhausted or there are no more clients availible.
-                - Removes the worker from active workers # TODO: Might be a good idea to move the worker back to building_workers in case update simply ran out of clients.
+                - Removes the worker from active workers
 
     Job:
         Has been completely restructured to server as an object to keep track
@@ -175,8 +172,8 @@ init -10 python:
             nott = Whether to negate the selection.
 
             Note: undefined is used as an alternative to None, as a girl can have no action.
+            Used by School, should be refactored out of all modern code now.
             """
-            # TODO This is still in play in some places, but feels outdated.
             # Get all girls
             if action is undefined:
                 g = [girl for girl in hero.chars if girl.location is self]
@@ -198,7 +195,6 @@ init -10 python:
                 return g
 
             # Only get girls that (don't) match occupation list
-            # TODO: NOT SURE IF THIS IS CORRECT AFTER THE REVIEW!
             elif isinstance(occupation, (list,tuple)):
                 return [girl for girl in g if [tr for tr in girl.occupations if tr in occupation] != nott]
 
