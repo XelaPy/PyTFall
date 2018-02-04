@@ -674,7 +674,6 @@ init -10 python:
             self.log("--- Testing {} Building ---".format(set_font_color(self.name, "lawngreen")))
 
             # All workers and workable businesses:
-            # The last check may not be good enought, may need rewriting. TODO
             self.available_workers = list(c for c in self.all_workers if
                                           c.is_available and
                                           c.workplace == self and
@@ -689,7 +688,7 @@ init -10 python:
             tl.timer("Generating clients")
             self.get_client_count(write_to_nd=True)
             clnts = self.total_clients
-            # TODO: Generate and add regulars!
+            # TODO B&B-clients: Generate and add regulars!
             # ALSO: We at the moment randomly pick a business for a client to like, that may need to be adjusted.
             if self.available_workers and len(self.all_clients) < clnts:
                 if self.nd_ups:
@@ -723,9 +722,9 @@ init -10 python:
             self.post_nd_reset()
 
         def building_manager(self, end=100):
-            """This is the main proccess that manages everything that is happening in the building!
+            """This is the main process that manages everything that is happening in the building!
             """
-            # TODO: Improve the function and add possibilities for "Rush hours"
+            # TODO B&B-clients: Improve the function and add possibilities for "Rush hours"
             for u in self.nd_ups:
                 # Trigger all public businesses:
                 if not u.active: # building is not active:
@@ -745,7 +744,7 @@ init -10 python:
         def clients_dispatcher(self, end=100):
             """This method provides stream of clients to the building following it's own algorithm.
             """
-            # TODO: This can plainly be done better... i ii iii
+            # TODO B&B-clients: This can plainly be done better... i ii iii
             i = 0
             ii = 0
             if self.clients and len(self.clients) > 60:
@@ -801,7 +800,6 @@ init -10 python:
                                                                        OnDemandBusiness))]
             shuffle(businesses)
 
-            # TODO: Add Matron/Client-likes effects here and to client classes.
             fav_business = client.likes.intersection(self._businesses)
 
             if not fav_business: # Case where clients fav business was removed from the building, client to react appropriately.

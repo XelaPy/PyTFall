@@ -62,33 +62,6 @@ init -9 python:
 
 init -6 python:
     # ======================= (Simulated) Exploration code =====================>>>
-    # Temporary I'll Put Exploration code here:
-    def launch_exploration_run(team, area, guild):
-        #### NO LONGER IN USE ####
-        # Making sure that the team can explore the area.
-        # Ask if player wants to send the team exploring:
-        # I think this needs to be moved somewhere... it's a good fit for the class:
-        if not renpy.call_screen("yesno_prompt",
-                                 message="Are you sure that you wish to send %s exploring %s?" % (team.name, area.name),
-                                 yes_action=Return(True),
-                                 no_action=Return(False)):
-            return
-
-        for char in team:
-            char.action = "Exploring" # We effectively remove char from the game so this is prolly ok.
-            char.set_flag("loc_backup", char.location)
-            if char in hero.team:
-                hero.team.remove(char)
-
-            # TODO: Remove char from every possible team setup in any of the buildings?!?
-            for t in guild.teams:
-                if t != team:
-                    for char in team:
-                        for c in t:
-                            if c == char:
-                                t.remove(char)
-
-
     class ExplorationTracker(Job):
         # Added inheritance for Job so we can use the required methods.
         """The class that stores data for an exploration job.
