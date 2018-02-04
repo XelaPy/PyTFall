@@ -767,7 +767,7 @@ init -9 python:
 
                 self.logged_clients = True
 
-            #TODO: Add girl's customer-magnet traits.
+            #TODO B&B-clients: Add girl's customer-magnet traits.
             if no_clients:
                 return 0
 
@@ -787,13 +787,12 @@ init -9 python:
             If name is given, the returning customer with that name is returned
             by this method. A NameError will be raised if the given name is not
             associated with a returning customer.
-            @ Review: TODO: Move this to a function?
             """
             if name:
                 raise NotImplementedError("Returning customers are not implemented yet")
 
             # determine gender of random customer
-            gender = choice(['male', 'male', 'male', 'male', "male", 'female', "female"])
+            gender = choice(["male"]*5 + ['female']*2)
 
             # determine caste of random customer
             if self.rep < 50: caste = choice(['Peasant', 'Merchant'])
@@ -844,15 +843,15 @@ init -9 python:
                             advert['active'] = False
                             txt.append("A celebrity came into your brothel, raising it's reputation by %d and fame by %d\n" % (modr, modf))
 
-            txt.append("In total you got a bill of %d Gold in advertising fees, reputation was increased through advertising by %d, fame by %d." % (spentcash, tmodfame, tmodrep))
+                txt.append("In total you got a bill of %d Gold in advertising fees, reputation was increased through advertising by %d, fame by %d." % (spentcash, tmodfame, tmodrep))
 
-            if spentcash and not hero.take_money(spentcash, reason="Building Ads"):
-                rep_hit = max(10, spentcash/10)
-                self.modrep(-rep_hit)
-                txt.append("{color=[red]}And yet, you did not have enough money to pay your advertisers! They rook it out on you by promoting %s as a shitty dump...{/color}" % self.name)
-                self.flag_red = True
+                if spentcash and not hero.take_money(spentcash, reason="Building Ads"):
+                    rep_hit = max(10, spentcash/10)
+                    self.modrep(-rep_hit)
+                    txt.append("{color=[red]}And yet, you did not have enough money to pay your advertisers! They took it out on you by promoting %s as a shitty dump...{/color}" % self.name)
+                    self.flag_red = True
 
-            self.fin.log_expense(spentcash, "Ads")
+                self.fin.log_expense(spentcash, "Ads")
 
             evt = NDEvent()
             evt.type = type
