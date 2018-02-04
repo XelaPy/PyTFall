@@ -1499,6 +1499,7 @@ init -9 python:
             self.height = "average"
             self.full_race = ""
             self.gender = "female"
+            self.origin = ""
 
             self.AP = 3
             self.baseAP = 3
