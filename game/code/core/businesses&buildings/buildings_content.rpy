@@ -710,25 +710,14 @@ init -9 python:
 
             self.fin = Finances(self)
 
-            # Stat mod dict:
-            # Should be used for recording and displaying information only
             self.stats_mod = {}
             self.nd_events_report = list()
-
-            # self.maxrank = kwargs.pop("maxrank", 0)
 
             self.baseclients = 2
             self.actions = [] # @unused
 
             # ND Report
             self.logged_clients = False
-
-        # def free_rooms(self):
-        #     """
-        #     Returns amount of free rooms, considering Guard Quarters for Warriors if those are active.
-        #     @Review: Updated:
-        #     """
-        #     return 0
 
         def get_clients(self):
             """
