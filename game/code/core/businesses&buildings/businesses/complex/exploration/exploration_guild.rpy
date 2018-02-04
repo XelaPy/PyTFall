@@ -89,7 +89,7 @@ init -6 python:
 
             # We do this because this data needs to be tracked separately and area object can only be updated once team has returned.
             # There is a good chance that some of these data must be updated in real time.
-            # TODO: Keep this confined to copy of an area? Feels weird and useless to copy all of these properties.
+            # TODO se: Keep this confined to copy of an area? Feels weird and useless to copy all of these properties.
             self.obj_area = area # Original Area Object so we don't have to go looking for it :)
             # And we add team to the true area object so we can have access to all teams in the area!
             self.area = deepcopy(area)
@@ -97,7 +97,7 @@ init -6 python:
             self.guild = guild # Guild this tracker was initiated from...
 
             self.mobs = self.area.mobs
-            self.risk = self.area.risk or 50 # TODO: Remove 50 after testing and interface adjustments.
+            self.risk = self.area.risk or 50 # TODO se: Remove 50 after testing and interface adjustments.
             self.cash_limit = self.area.cash_limit
             self.items_limit = self.area.items_limit
             self.hazard = self.area.hazard

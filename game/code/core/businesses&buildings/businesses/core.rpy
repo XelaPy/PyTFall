@@ -213,16 +213,6 @@ init -12 python:
                 worker = workers.pop()
             return worker
 
-        def requires_workers(self, amount=1):
-            # TODO: Get rid of this?
-            """Returns True if this upgrade requires a Worker to run this job.
-
-            Example: Building
-            Strip Club on the other hand may nor require one or one would be requested later.
-            It may be a better bet to come up with request_worker method that evaluates the same earlier, we'll see.
-            """
-            return False
-
         def check_worker_willing(self, worker, job):
             """Checks if the worker is willing to do the job.
 
