@@ -45,12 +45,12 @@ init -5 python:
                     # if building.auto_clean:
                     if True:
                         # price = building.get_cleaning_price()
-                        price = 1000 # TODO Write a func to get penalty fee.
+                        price = 1000 # TODO bb: Write a func to get penalty fee.
                         if hero.take_money(price):
                             building.threat = 0
                             threat = 0
                             temp = "{}: {} Police was called in!".format(building.name)
-                            # TODO: Damage reputation.
+                            # TODO bb: Damage reputation.
                             self.log(temp, True)
 
                     if not using_all_workers and threat:

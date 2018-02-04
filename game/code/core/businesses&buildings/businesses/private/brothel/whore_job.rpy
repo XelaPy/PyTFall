@@ -852,7 +852,7 @@ init -5 python:
         def take_virginity(self, worker, loc, log):
             # let's just assume (for now) that dildos are too small to take virginity, otherwise it becomes too complicated in terms of girls control :)
             if traits["Virgin"] in worker.traits and not (worker.effects['Chastity']['active']):
-                tips = 100 + worker.charisma * 3 # TODO Slave/Free payouts
+                tips = 100 + worker.charisma * 3
                 log.append("\n{color=[pink]}%s lost her virginity!{/color} Customer thought that was super hot and left a tip of {color=[gold]}%d Gold{/color} for the girl.\n\n" % (worker.nickname, tips))
                 worker.remove_trait(traits["Virgin"])
                 if tips:
