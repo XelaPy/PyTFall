@@ -4222,7 +4222,6 @@ init -9 python:
 
             self.nickname = ""
             self.fullname = ""
-            self.origin = ""
 
             # Relays for game mechanics
             # courseid = specific course id girl is currently taking -- DEPRECATED: Training now uses flags
