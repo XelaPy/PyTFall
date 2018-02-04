@@ -812,7 +812,6 @@ init -9 python:
         def next_day(self):
             """
             Solves the next day logic for the Building.
-            TODO: Split this over parent classes!
             """
             # Local vars
             type = 'buildingreport'
