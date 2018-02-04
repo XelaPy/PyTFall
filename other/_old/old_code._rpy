@@ -62,6 +62,43 @@ Old Upgrades from Building.__init__
     # Guard events delimiters
     # self.guardevents = dict(prostituteattackedevents = 0, barbrawlevents = 0)
 
+Old code from Building next_day, dealt with (old) security rating and upgrades.
+# Taking care of security rating:
+# Without logging for now
+# TODO: Move to WarriorQuarters!
+# if self.upgrades['mainhall']['2']['active']: self.security_rating -= self.get_clients()
+# elif self.upgrades['mainhall']['1']['active']: self.security_rating -= self.get_clients() * 2
+self.security_rating -= self.total_clients * 3
+if self.security_rating < 0: self.security_rating = 0
+
+security_power = 0
+guardslist = self.get_girls("Guard")
+
+for guard in guardslist:
+    security_power += (guard.attack + guard.defence + guard.magic) / 3
+
+self.security_rating += int(security_power * ((self.security_presence/10)+1))
+if self.security_rating < 0: self.security_rating = 0
+if self.security_rating > 1000: self.security_rating = 1000
+
+txt.append("Security Rating in now %d out of 1000, you currently have %d guards on duty with security presence of %d %%. \n\n"% (self.security_rating, len(guardslist), self.security_presence))
+
+# Effects from upgrades:
+# TODO: Upgrade to new style!
+# if self.upgrades['mainhall']['3']['active']:
+    # txt += "Statue in your main hall spreads mystical energy, your brothel will soon be known through out the whole word! \n"
+    # self.modfame(1)
+    # tmodrep += 1
+    # self.modrep(1)
+    # tmodfame += 1
+
+# if self.upgrades['mainhall']['2']['active']:
+    # txt += "Clients loved having a reception where they could enquire about girls, prices and possibilities. \n"
+    # repinc = choice([0, 0, 1])
+    # self.modrep(repinc)
+
+    
+
 class SmartTrackerOld(_list):
     """
     Basically a smart list that tracks anything that can be added by items and events/game.

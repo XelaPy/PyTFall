@@ -819,7 +819,6 @@ init -9 python:
             type = 'buildingreport'
             img = self.img
 
-            # txt = self.txt # We no longer store any data previous to the reports list and use vbox + interation instead of one huge text.
             txt = self.nd_events_report
 
             evtlist = []
@@ -828,64 +827,29 @@ init -9 python:
             tmodfame = 0 # Total of fame, same rules.
             spentcash = 0
 
-            # Taking care of security rating:
-            # Without logging for now
-            # TODO: Move to WarriorQuarters!
-            # if self.upgrades['mainhall']['2']['active']: self.security_rating -= self.get_clients()
-            # elif self.upgrades['mainhall']['1']['active']: self.security_rating -= self.get_clients() * 2
-            self.security_rating -= self.total_clients * 3
-            if self.security_rating < 0: self.security_rating = 0
-
-            security_power = 0
-            guardslist = self.get_girls("Guard")
-
-            for guard in guardslist:
-                security_power += (guard.attack + guard.defence + guard.magic) / 3
-
-            self.security_rating += int(security_power * ((self.security_presence/10)+1))
-            if self.security_rating < 0: self.security_rating = 0
-            if self.security_rating > 1000: self.security_rating = 1000
-
-            txt.append("Security Rating in now %d out of 1000, you currently have %d guards on duty with security presence of %d %%. \n\n"% (self.security_rating, len(guardslist), self.security_presence))
-
-            # Effects from upgrades:
-            # TODO: Upgrade to new style!
-            # if self.upgrades['mainhall']['3']['active']:
-                # txt += "Statue in your main hall streads mystical energy, your brothel will soon be known throught out the whole word! \n"
-                # self.modfame(1)
-                # tmodrep += 1
-                # self.modrep(1)
-                # tmodfame += 1
-
-            # if self.upgrades['mainhall']['2']['active']:
-                # txt += "Clients loved having a reception where they could enquire about girls, prices and possibilieties. \n"
-                # repinc = choice([0, 0, 1])
-                # self.modrep(repinc)
-
-            # Applies effects of adverticement:
+            # Applies effects of advertisements:
             if self.can_advert:
                 for advert in self.adverts:
                     if advert['active']:
                         if 'fame' in advert:
                             modf = randint(*advert['fame'])
                             self.modfame(modf)
-                            tmodfame = tmodfame + modf
+                            tmodfame += modf
                         if 'reputation' in advert:
                             modr = randint(*advert['reputation'])
                             self.modrep(modr)
-                            tmodrep = tmodrep + modr
+                            tmodrep += modr
                         spentcash = spentcash + advert['upkeep']
                         if advert['name'] == 'Celebrity':
                             advert['active'] = False
-                            txt.append("A celebrity came into your brothel, raising it's reputation by %d and fame by %d\n" % (modr,modf))
-
+                            txt.append("A celebrity came into your brothel, raising it's reputation by %d and fame by %d\n" % (modr, modf))
 
             txt.append("In total you got a bill of %d Gold in advertising fees, reputation was increased through advertising by %d, fame by %d." % (spentcash, tmodfame, tmodrep))
 
             if spentcash and not hero.take_money(spentcash, reason="Building Ads"):
                 rep_hit = max(10, spentcash/10)
                 self.modrep(-rep_hit)
-                txt.append("{color=[red]}And yet, you did not have enought money to pay your advertisers! They rook it out on you by promoting %s as a shitty dump...{/color}" % self.name)
+                txt.append("{color=[red]}And yet, you did not have enough money to pay your advertisers! They rook it out on you by promoting %s as a shitty dump...{/color}" % self.name)
                 self.flag_red = True
 
             self.fin.log_expense(spentcash, "Ads")
@@ -899,15 +863,7 @@ init -9 python:
             evt.txt = txt
             NextDayEvents.append(evt)
 
-            # Resetting all logs and relays:
-            # Relay resets:
-            # for key in self.servicer:
-                # self.servicer[key] = False
-
-            # Reset
-            # self.guardevents = dict(prostituteattackedevents = 0, barbrawlevents = 0)
             self.nd_events_report = list()
-            self.txt = ""
             self.logged_clients = False
 
         def nd_log_income(self):
