@@ -191,7 +191,6 @@ label building_management_loop:
                     if renpy.call_screen("yesno_prompt",
                                          message="Are you sure you wish to sell %s for %d Gold?" % (building.name, price),
                                          yes_action=Return(True), no_action=Return(False)):
-                        # TODO: Search for another good locations?
                         if hero.home == building:
                             hero.home = locations["Streets"]
                         if hero.workplace == building:
@@ -1086,7 +1085,7 @@ init: # Screens:
                                             # add i.show("portrait", resize=(38, 38), cache=1)
                                     # add gfxframes + "small_port_empty.png"
 
-            else: # TODO: This needs an extra variable and better conditioning...
+            else:
                 vbox:
                     xsize 630
                     for u in bm_mid_frame_mode.all_possible_extensions():

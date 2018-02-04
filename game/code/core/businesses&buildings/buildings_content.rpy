@@ -8,20 +8,20 @@ init -9 python:
         The jail where escaped slaves can turn up. May do other things later.
         """
 
-        # TODO: Needs recoding!
+        # TODO lt: Needs recoding!
 
         def __init__(self):
             super(CityJail, self).__init__()
             self.worker = None
             self.index = 0
-            self.workers_list = list()
+            self.workers_list = list() # Absurd name, prolly due to mass renaming...
             self.auto_sell_captured = False # Do we auto-sell SE captured slaves?
 
-        def __contains__(self, girl):
+        def __contains__(self, char):
             """
             Checks whether a girl has runaway.
             """
-            return girl in self.workers_list
+            return char in self.workers_list
 
         def add_prisoner(self, girl, flag=None):
             """
@@ -43,8 +43,7 @@ init -9 python:
                     self.index = 0
 
         def buy_girl(self):
-            """
-            Buys an escaped girl from the jail.
+            """Buys an escaped girl from the jail.
             """
             if hero.take_ap(1):
                 if hero.take_money(self.get_price(), reason="Slave Repurchase"):
@@ -93,31 +92,31 @@ init -9 python:
             self.index = (self.index-1) % len(self.workers_list)
             self.worker = self.workers_list[self.index]
 
-        def remove_prisoner(self, girl, set_location=True):
+        def remove_prisoner(self, char, set_location=True):
             """
-            Returns a girl to the player.
-            girl = The girl to return.
+            Returns an actor to the player.
+            char = The char to return.
             """
-            if girl in self:
-                girl.del_flag("sentence_type")
-                girl.del_flag("days_in_jail")
-                self.workers_list.remove(girl)
+            if char in self:
+                char.del_flag("sentence_type")
+                char.del_flag("days_in_jail")
+                self.workers_list.remove(char)
 
                 if self.workers_list:
                     self.index %= len(self.workers_list)
                     self.worker = self.workers_list[self.index]
-
                 else:
                     self.index = 0
                     self.worker = None
 
-                # TODO Set location using function and don't forget about action and home.
                 if set_location:
                     if schools[TrainingDungeon.NAME] in hero.buildings:
-                        girl.location = schools[TrainingDungeon.NAME]
+                        char.location = schools[TrainingDungeon.NAME]
+                        char.home = schools[TrainingDungeon.NAME]
                     else:
-                        girl.location = locations["Streets"]
-
+                        char.home = locations["Streets"]
+                        char.action = None
+                        char.workplace = None
 
         def set_girl(self, girl):
             """
@@ -143,8 +142,9 @@ init -9 python:
                     renpy.play("content/sfx/sound/world/purchase_1.ogg")
                 hero.add_money(1500 - self.get_fees4captured(girl), "SlaveTrade")
                 self.remove_prisoner(girl)
-                girl.location = None
-                # TODO: What do we do with the girl sold? Let her fall into the void or become availible in SM after a while.
+                girl.location = pytfall.sm
+                girl.home = pytfall.sm
+                girl.action = None
             else:
                 renpy.call_screen('message_screen', "You don't have enough AP left for this action!")
 
@@ -158,7 +158,7 @@ init -9 python:
                     i.mod_flag("days_in_jail")
                     if self.auto_sell_captured:
                         # Auto-selloff through flag set in SE module
-                        # TODO: Implement the button in SE!
+                        # TODO se: Implement the button in SE!
                         self.sell_captured(auto=True)
                         pytfall.temp_text.append("Jail keepers sold off: {color=[red]}%s{/color}!" % i.name)
                     if i.flag("days_in_jail") > 20:
@@ -202,14 +202,11 @@ init -9 python:
 
     class Apartment(BaseBuilding):
         """Useless class really, but I may require to check for this during interaction in the future."""
-        # TODO: Should all of this be updated to the new system? We have too many classes doing a very, very similar thing...
         def __init__(self, id="", **kwargs):
             super(Apartment, self).__init__(id=id, **kwargs)
             # Once again, for the Items transfer:
             self.status = "slave"
             self.given_items = dict()
-
-            # We'll add inventory here at Dark's request.
             self.inventory = Inventory(15)
 
         def init(self):
@@ -338,14 +335,13 @@ init -9 python:
             evtlist = []
             char = None
 
-            # TODO Why is this not self? Does this even work?
             girls = [girl for girl in hero.chars if girl.location == self.name]
 
             if not girls:
-                txt += "Exellent courses are availible today! Remember our Motto: Education is Gold! \n"
+                txt += "Excellent courses are available today! Remember our Motto: Education is Gold! \n"
 
             else:
-                txt += choice(["You currently have %d girls training with us! \n" % len(girls), "Exellent courses are availible today! Remember our Motto: Education is Gold! \n"])
+                txt += choice(["You currently have %d girls training with us! \n" % len(girls), "Excellent courses are available today! Remember our Motto: Education is Gold! \n"])
 
             # Add courses
             tempval = len(self.courses)
@@ -723,67 +719,6 @@ init -9 python:
 
             self.baseclients = 2
             self.actions = [] # @unused
-
-            # Upgrades
-            # self.used_upgrade_slots = 0
-            # self.upgrade_slots = 3
-
-            # self.upgrades['bar'] =  {
-                # '1': {'id': 1, 'active': False, 'available': False, 'price': 500, 'name': 'Bar', 'desc': 'Serve drinks and snacks to your customers! ',
-                      # 'img': 'content/buildings/upgrades/bar.jpg'},
-                # '2': {'id': 2, 'active': False, 'available': False, 'price': 200, 'name': 'Draught Beer', 'desc': 'Chilled brew served in cold glassware, like a nectar from gods themselves. ',
-                      # 'img': 'content/buildings/upgrades/beer.jpg'},
-                # '3': {'id': 3, 'active': False, 'available': False, 'price': 300, 'name': 'Tapas', 'desc': 'Tasty snacks that are just perfect with cold draught beer. ',
-                      # 'img': 'content/buildings/upgrades/tapas.jpg'}
-                # }
-
-            # self.upgrades['garden'] = {
-                # '1': {'id': 1, 'active': False, 'available': False, 'price': 150, 'name': 'Flowerbeds', 'desc': 'Live Flowers for your girls to improve the grim designs of work in brothel. ',
-                      # 'img': 'content/buildings/upgrades/flowers.jpg'},
-                # '2': {'id': 2, 'active': False, 'available': False, 'price': 500, 'name': 'Garden', 'desc': 'Beautiful garden to relax in for your girls and customers. Will have positive effect on Rest and Costumer Satisfaction',
-                      # 'img': 'content/buildings/upgrades/garden.jpg'},
-                # '3': {'id': 3, 'active': False, 'available': False, 'price': 1000, 'name': 'Landscape Design', 'desc': 'Create a landscape filled with the most beautiful flora for amusement and enjoyment of your girls and customers alike!',
-                      # 'img': 'content/buildings/upgrades/landscape.jpg'}
-                # }
-
-            # self.upgrades['room_upgrades'] = {
-                # '1': {'id': 1, 'active': False, 'available': False, 'price': 400, 'name': 'Improved Interior', 'desc': "Every room in brothel will be decorated in proper fashion! (+1/10 of the price for every room in the brothel)",
-                      # 'img': 'content/buildings/upgrades/room.jpg', "room_dependant": True, "room_upgrade": 40},
-                # '2': {'id': 2, 'active': False, 'available': False, 'price': 800, 'name': 'Luxury Rooms', 'desc': "Room design farther improved to provide the best atmosphere imaginable! (+1/10 of the price for every room in the brothel)",
-                      # 'img': 'content/buildings/upgrades/luxury_room.jpg', "room_dependant": True, "room_upgrade": 40},
-                # '3': {'id': 3, 'active': False, 'available': False, 'price': 2000, 'name': 'VIP Rooms', 'desc': "Bit of an overkill if you ask me. Royalty would not look out of place in one of these rooms! (+1/10 of the price for every room in the brothel)",
-                      # 'img': 'content/buildings/upgrades/vip_room.jpg', "room_dependant": True, "room_upgrade": 120}
-                # }
-
-            # self.upgrades['guards'] = {
-                # '1': {'id': 1, 'active': False, 'available': False, 'price': 1000, 'name': 'Guard Quarters', 'desc': "Comforable locale for warriors guarding the building. (5 girls max)",
-                      # 'img': 'content/buildings/upgrades/guard_qt.jpg', "security_bonus": 30},
-                # '2': {'id': 2, 'active': False, 'available': False, 'price': 1500, 'name': 'Training Quarters', 'desc': "Place for your guards to improve their skills when there is nothing else to do. ",
-                      # 'img': 'content/buildings/upgrades/training_qt.jpg', "security_bonus": 25},
-                # '3': {'id': 3, 'active': False, 'available': False, 'price': 2000, 'name': 'Sparring Quarters', 'desc': "Your guards can harness their skills by safely fighting one another. ",
-                      # 'img': 'content/buildings/upgrades/sparring_qt.jpg', "security_bonus": 25}
-                # }
-
-            # self.upgrades['stripclub'] = {
-                # '1': {'id': 1, 'active': False, 'available': False, 'price': 1000, 'name': 'Strip Club', 'desc': 'Skilled and beautiful Strippers are the key to filling your Club and Bar with Costumers! ',
-                      # 'img': 'content/buildings/upgrades/strip_club.jpg'},
-                # '2': {'id': 2, 'active': False, 'available': False, 'price': 700, 'name': 'Large Podium', 'desc': 'Equip your club with a better podium for your girls to dance on! ',
-                      # 'img': 'content/buildings/upgrades/podium.jpg'},
-                # '3': {'id': 3, 'active': False, 'available': False, 'price': 2000, 'name': 'Golden Cages', 'desc': 'Girls now can strip inside golden cages, truly a show to behold! ',
-                      # 'img': 'content/buildings/upgrades/golden_cage.jpg'}
-                # }
-
-            # self.upgrades['mainhall'] = {
-                # '1': {'id': 1, 'active': False, 'available': False, 'price': 500, 'name': 'Main Hall', 'desc': 'All customers will have to go through this beautiful hall! This can increase reputation, customer satisfaction as well as improve security. ',
-                      # 'img': 'content/buildings/upgrades/main_hall.jpg', "security_bonus": 30, "whore_mult": 0.1},
-                # '2': {'id': 2, 'active': False, 'available': False, 'price': 700, 'name': 'Reception', 'desc': 'Reception to improve income and customer satisfaction through good organization and service. ',
-                      # 'img': 'content/buildings/upgrades/reception.jpg', "security_bonus": 50, "whore_mult": 0.1},
-                # '3': {'id': 3, 'active': False, 'available': False, 'price': 1000, 'name': 'Statue of Sex Goddess', 'desc': 'Great way to improve fame and income of your brothel! ',
-                      # 'img': 'content/buildings/upgrades/statue_sexgoddess.jpg', "whore_mult": 0.2}
-                # }
-
-            # Guard events delimiters
-            # self.guardevents = dict(prostituteattackedevents = 0, barbrawlevents = 0)
 
             # ND Report
             self.logged_clients = False
