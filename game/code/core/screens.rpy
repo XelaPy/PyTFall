@@ -811,28 +811,6 @@ init:
         key "mousedown_3" action action
         key "K_ESCAPE" action action
 
-    screen dropdown(pos):
-        # Trying to create a drop down screen with choices of actions:
-        zorder 3
-        modal True
-
-        key "mousedown_4" action NullAction()
-        key "mousedown_5" action NullAction()
-
-        # Get mouse coords:
-        python:
-            x, y = pos
-            xval = 1.0 if x > config.screen_width/2 else .0
-            yval = 1.0 if y > config.screen_height/2 else .0
-
-        frame:
-            style_prefix "dropdown_gm"
-            pos (x, y)
-            anchor (xval, yval)
-            has vbox
-
-            transclude # Doesn't work as expected, no style passing to other screens, no modal, bull shit of a statement basically at this stage :(  TODO: is it still true in modern renpy?
-
     screen poly_matrix(in_file, show_exit_button=False, cursor="content/gfx/interface/icons/zoom_glass.png", xoff=20, yoff=20, hidden=[]):
         # If a tuple with coordinates is provided instead of False for show_exit_button, exit button will be placed there.
 

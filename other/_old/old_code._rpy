@@ -1,4 +1,27 @@
 # Old Code that may not be immidiatly useful any longer but can still be used for referencing or in future development.
+
+screen dropdown(pos):
+    # Trying to create a drop down screen with choices of actions:
+    zorder 3
+    modal True
+
+    key "mousedown_4" action NullAction()
+    key "mousedown_5" action NullAction()
+
+    # Get mouse coords:
+    python:
+        x, y = pos
+        xval = 1.0 if x > config.screen_width/2 else .0
+        yval = 1.0 if y > config.screen_height/2 else .0
+
+    frame:
+        style_prefix "dropdown_gm"
+        pos (x, y)
+        anchor (xval, yval)
+        has vbox
+
+        transclude # Doesn't work as expected, no style passing to other screens, no modal, bull shit of a statement basically at this stage :(  TODO: is it still true in modern renpy?
+
 init python:
 Old Upgrades from Building.__init__
     # Upgrades
@@ -97,7 +120,7 @@ txt.append("Security Rating in now %d out of 1000, you currently have %d guards 
     # repinc = choice([0, 0, 1])
     # self.modrep(repinc)
 
-    
+
 
 class SmartTrackerOld(_list):
     """
