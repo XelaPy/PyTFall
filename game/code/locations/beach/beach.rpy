@@ -105,7 +105,7 @@ screen city_beach_swim():
                 yalign 0.5
                 action [Hide("city_beach_swim"), Jump("city_beach_swimming_checks")]
                 text "Swim" size 15
-            if hero.get_skill("swimming") >= -100: # TODO: FOR TESTING! do not forget to change back to >= 100
+            if hero.get_skill("swimming") >= 100:
                 button:
                     xysize (120, 40)
                     yalign 0.5

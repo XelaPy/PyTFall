@@ -4,7 +4,7 @@
 #  1 - shopping - shopping
 ###### j1
 label interactions_shopping:
-    # TODO: Get rid of this or update it to modern PyTFall!
+    # TODO items/interactions lt: Get rid of this or update it to modern PyTFall!
     #copied from tailor shop
     #then modified for own use
     hide screen girl_interactions

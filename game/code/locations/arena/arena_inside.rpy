@@ -1049,7 +1049,7 @@ init: # Main Screens:
                 action Hide("arena_report")
                 minimum(50, 30)
                 align (0.5, 0.9)
-                text  "Close" # TODO: possibly will require align changes when arena log is full
+                text  "Close" # TODO gui: possibly will require align changes when arena log is full
         key "mousedown_3" action Hide("arena_report")
 
 init: # ChainFights vs Mobs:

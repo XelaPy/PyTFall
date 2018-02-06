@@ -737,19 +737,6 @@ label interactions_refused:
     $ char.restore_portrait()
     jump girl_interactions
 
-
-# changing occupation
-label interactions_occupation:
-    # TODO: Remove this from the game completely??? Dark: yeap, it's too easy to do it via small talk
-    # This must be rewritten after new systems are in place and stable, present code is useless:
-    menu:
-        "Ask her to switch to:"
-        "Just kidding":
-            python:
-                char.AP += 1
-                hero.AP += 1
-
-    jump girl_interactions
 # testing stuff
 label interactions_disp:
     $ char.disposition += 250
