@@ -8,8 +8,8 @@ label special_items_slime_bottle:
         "Yes":
             "The seal is durable, but eventually, it gives up, and pressurized liquid is released."
             # TODO: May require adjustment for release after all systems are normalized:
-            $ level = locked_random("randint", max(hero.level, 5), hero.level+6+round_int(hero.level/10))
-            $ new_slime = build_rc(id="Slime", level=level, patterns=["Warrior", "Server"])
+            $ tier = locked_random("uniform", max(hero.tier, .5), hero.tier+.7)
+            $ new_slime = build_rc(id="Slime", tier=tier, patterns=["Warrior", "Server"])
             if locked_dice(80):
                 $ new_slime.set_status("free")
             else:
@@ -71,7 +71,7 @@ label special_items_slime_bottle:
                     jump game_over
                 else:
                     scene bg h_profile
-                    "You managed to beat her. Her liquid body quickly decays. It looks like she spent way too much time in that bottle..."
+                    "You managed to beat her. Her liquid body quickly decays. It looks like she spent way too long in captivity and lost her mind..."
                     $ new_slime.health = 0
                     python:
                         for member in hero.team:

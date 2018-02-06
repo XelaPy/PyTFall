@@ -224,7 +224,6 @@ init -11 python:
                                     if check_image_extension(fn):
                                         rp_path = "/".join(["content/{}".format(path), packfolder, folder, fn])
                                         tags = fn.split("-")
-                                        # TODO: REMOVE TRY BEFORE BUILDING THE GAME! MAY SLOW THINGS DOWN!
                                         try:
                                             del tags[0]
                                             tags[-1] = tags[-1].split(".")[0]
@@ -386,7 +385,6 @@ init -11 python:
                                 if check_image_extension(fn):
                                     rp_path = "/".join(["content/rchars", packfolder, folder, fn])
                                     tags = fn.split("-")
-                                    # TODO: REMOVE TRY BEFORE BUILDING THE GAME! MAY SLOW THINGS DOWN!
                                     try:
                                         del tags[0]
                                         tags[-1] = tags[-1].split(".")[0]
@@ -442,7 +440,6 @@ init -11 python:
             for fn in images:
                 rp_path = "/".join([path, fn])
                 tags = fn.split("-")
-                # TODO: REMOVE TRY BEFORE BUILDING THE GAME! MAY SLOW THINGS DOWN!
                 try:
                     del tags[0]
                     tags[-1] = tags[-1].split(".")[0]
