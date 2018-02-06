@@ -129,7 +129,7 @@ label next_day:
             call next_day_calculations
             $ counter -= 1
 
-    # Prepearing to display ND.
+    # Preparing to display ND.
     ####### - - - - - #######
     # Sort data for summary reports:
     $ ndactive, ndresting, ndevents = sort_for_nd_summary()
@@ -151,7 +151,7 @@ label next_day:
     $ girls = None
     hide screen next_day
 
-    if persistent.auto_saves: # TODO: is it the best possible place for autosave? maybe not?
+    if persistent.auto_saves: # TODO autosaves: is it the best possible place for autosave? maybe not?
         call special_auto_save
 
     jump mainscreen
@@ -328,7 +328,7 @@ label next_day_controls:
                     building = result[2]
                     order = {"buildingreport": 1, "jobreport": 2}
                     FilteredList = sorted([e for e in NextDayEvents if e.loc == building and e.type in order], key=lambda e: order[e.type])
-                    # TODO: There should always be the buiding report availible per design. Check NSUB to figure out what happned to default.
+                    # TODO gui: There should always be the building report available per design. Check NSUB to figure out what happened to default.
 
                 elif result[1] == "fighters_guild":
                     order = {"fg_report": 1, "exploration_report": 2, "fg_job": 3}

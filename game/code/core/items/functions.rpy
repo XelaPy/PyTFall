@@ -25,7 +25,7 @@ init -11 python:
         char.equip(item)
 
     def equip_for(girl, jobtype):
-        # TODO: Must be updated to work with new base-traits and jobs system.
+        # TODO items: Must be updated to work with new base-traits and jobs system.
         # Also, iirc, we now have better way of figuring this out with basetraits/occupations.
         if girl.autoequip:
             if jobtype == "Guard":
@@ -97,7 +97,8 @@ init -11 python:
                         renpy.show_screen("message_screen", "This item has been used recently by {}, it cannot be used again for one turn.".format(character.name))
                 return
 
-        # elif item.slot == 'misc': # TODO: why is this disabled, exactly? miscblock is a legit thing
+        # TODO items: why is this disabled, exactly? miscblock is a legit thing
+        # elif item.slot == 'misc':
             # if item.id in character.miscblock:
                 # if not silent:
                     # renpy.show_screen("message_screen", "This item has been already used by {}, and cannot be used again.".format(character.name))

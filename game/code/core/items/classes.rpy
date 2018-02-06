@@ -33,7 +33,6 @@ init -9 python:
             self.price = 0
             self.sex = 'unisex'
             self.unique = "" # Should be girls id in case of unique item.
-            self.bg_color = "" # only value atm is dark, otherwise brighter background will be used; TODO: remove that stuff completely since now we have one universal background
             self.statmax = False
             self.skillmax = False
             self.infinite = False

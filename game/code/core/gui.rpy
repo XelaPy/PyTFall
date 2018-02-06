@@ -25,7 +25,7 @@ init -1 python:
         """
         Class for populating and running of the slave market.
 
-        TODO: (Refactor)
+        TODO sm/lt: (Refactor)
         Use actors container from Location class and
         """
         def __init__(self, type=None):

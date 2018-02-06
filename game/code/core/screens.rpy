@@ -69,18 +69,13 @@ init:
                     if equipment and active_mode:
                         # Frame background:
                         img = im.Sepia(equipment.icon) if is_multiple_pytgroup else equipment.icon
-                        # Old dark/light frame codes, to be removed at review.
-                        if equipment.bg_color == "dark":
-                            bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
-                        else:
-                            bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
+                        bg = im.Scale("content/gfx/frame/frame_it2.png", *frame_size)
                         equipment = [equipment, slot]
                     else:
                         bg = im.Scale(im.Twocolor("content/gfx/frame/frame_it2.png", grey, black), *frame_size)
                         key = "ring" if slot.startswith("ring") else slot
                         img = blank
                 frame:
-
                     background bg
                     pos (equipSlotsPositions[slot][1]+ (0 if not isinstance(char, dict) or equipSlotsPositions[slot][1] < 0.5 else -0.619), equipSlotsPositions[slot][2])
                     xysize (frame_size[0], frame_size[1])
@@ -1382,7 +1377,7 @@ screen panic_screen:
     key "q" action Hide("panic_screen")
     key "Q" action Hide("panic_screen")
 
-screen give_exp_after_battle(group, exp = 0, money=0): # shows post-battle results; TODO after beta: make the animation to show exp gained post battle, not just the current one;
+screen give_exp_after_battle(group, exp = 0, money=0): # shows post-battle results; TODO lt (after Beta): make the animation to show exp gained post battle, not just the current one;
     modal True
     zorder 100
     frame:

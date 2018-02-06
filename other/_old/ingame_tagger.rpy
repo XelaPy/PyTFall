@@ -16,12 +16,12 @@ label tagger:
         imagespage = 0
         tagz = set()
         oldtagz = set()
-        
+
     python:
         renpy.show_screen("tagger")
         renpy.with_statement(dissolve)
-        
-    python:    
+
+    python:
         while 1:
             result = ui.interact()
             if not isinstance(result, list):
@@ -37,7 +37,7 @@ label tagger:
                 tagz = tagdb.get_tags_per_path(result[1])
                 oldtagz = tagz.copy()
                 pic = result[1]
-                
+
             if result[0] == "tagchar":
                 if result[1] == "show":
                     renpy.show_screen("pick_tagchar", renpy.get_mouse_pos())
@@ -50,7 +50,7 @@ label tagger:
                         images.sort()
                         images = [images[i:i+40] for i in range(0, len(images), 40)]
                         imagespage = 0
-                        
+
             if result[0] == "images":
                 if result[1] == "next":
                     try:
@@ -62,7 +62,7 @@ label tagger:
                         imagespage = (imagespage - 1) % len(images)
                     except ZeroDevisionError:
                         pass
-                    
+
             if result[0] == "tags":
                 if result[1] == "json_to_fn":
                     if renpy.call_screen("yesno_prompt", message="This will convert any loaded json tags into filenames!\n\n Are you Sure?", yes_action=Return(True), no_action=Return(False)):
@@ -98,28 +98,28 @@ label tagger:
                             oldfilename = f.split(os.sep)[-1]
                             if oldfilename.split("-")[:-1] == fn.split("-")[:-1]:
                                 continue
-                            else:    
+                            else:
                                 newdir = f.replace(oldfilename, fn)
                                 os.rename(f, newdir)
                         del alltagz
                         del nums
                         del inverted
-                        renpy.show_screen("message_screen", "Please check devlog.txt for any errors during the process!!")  
+                        renpy.show_screen("message_screen", "Please check devlog.txt for any errors during the process!!")
             if result[0] == "control":
                 if result[1] == "return":
                     break
-                
+
     hide screen tagger
     with dissolve
     jump mainscreen
-    
+
 screen pick_tagchar(pos=()):
     zorder 3
     modal True
-    
+
     key "mousedown_4" action NullAction()
     key "mousedown_5" action NullAction()
-    
+
     python:
         x, y = pos
         if x > 1000:
@@ -150,7 +150,7 @@ screen pick_tagchar(pos=()):
 screen tagger():
     # on "show" action Hide("debugTools")
     # on "hide" action Show("debugTools")
-    
+
     # images:
     hbox:
         xysize (150, 45)
@@ -190,10 +190,10 @@ screen tagger():
                            # text ["{size=15}[fn]"]
                         #textbutton "{size=15}[fn]":
                             action If(img==pic, false=Return(["update_pic", img]))
-        
+
     # Tagz:
     vbox:
-        ysize config.screen_height
+        ysize config.screen_height 
         box_wrap True
         pos (155, 0)
         for tag in alltags:
@@ -205,11 +205,11 @@ screen tagger():
                 textbutton "[tag]":
                     style "white_cry_button"
                     action Function(tagz.add, tag)
-        
+
     # Picture:
     if pic:
         add ProportionalScale(pic, 500, 500) align(1.0, 0)
-        
+
     # Controls:
     vbox:
         align (1.0, 1.0)
@@ -220,6 +220,3 @@ screen tagger():
         textbutton "{color=[red]}JSON --> FN":
             action Return(["tags", "json_to_fn"])
     use exit_button
-        
-    
-        
