@@ -190,8 +190,6 @@
             self.log = []
 
         def reset_workers_flags(self, char):
-            # I am not sure this is still needed after refactoring, will check after refactoring is done
-            # TODO: Just what it sais above!
             for flag in char.flags.keys():
                 if flag.startswith("jobs"):
                     char.del_flag(flag)
