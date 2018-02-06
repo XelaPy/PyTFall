@@ -159,7 +159,7 @@ init -1 python:
                 elif 'access' in self.access_condition[tostr] and self.access_condition[tostr]['access']:
                     return
                 else:
-                    # TODO: check for condition(s), key..? (requires inventory)
+                    # TODO dungeon: check for condition(s), key..? (requires inventory)
                     self.play(self.sound['locked'], condition=not is_spawn, channel="sound")
                     return "access denied"
 
@@ -247,27 +247,27 @@ screen dungeon_move(hotspots):
     elif dungeon.can_move:
         button:
             pos (190, 600)
-            xysize (50, 36) 
+            xysize (50, 36)
             background "content/gfx/interface/buttons/blue_arrow_up.png"
             action Return(value=8)
         button:
             pos (190, 650)
-            xysize (50, 36) 
+            xysize (50, 36)
             background "content/gfx/interface/buttons/blue_arrow_down.png"
             action Return(value=2)
         button:
             pos (135, 605)
-            xysize (36, 50) 
+            xysize (36, 50)
             background "content/gfx/interface/buttons/blue_arrow_l.png"
             action Return(value=4)
         button:
-            xysize (36, 50) 
+            xysize (36, 50)
             pos (245, 605)
             background "content/gfx/interface/buttons/blue_arrow_r.png"
             action Return(value=6)
         button:
             pos (145, 660)
-            xysize (36, 50) 
+            xysize (36, 50)
             background "content/gfx/interface/buttons/blue_arrow_left.png"
             action Return(value=7)
         button:
@@ -526,7 +526,7 @@ label enter_dungeon_r:
                     mpos = None
                 else:
                     mpos = renpy.get_mouse_pos()
-                    
+
             elif _return in hero.team:
                 came_to_equip_from = "enter_dungeon_r"
                 eqtarget = _return
@@ -552,8 +552,8 @@ label enter_dungeon_r:
                         break
                     else:
                         dungeon.function(**event)
-                        
-                        
+
+
 
             # do any expired timer events
             if dungeon.timer is not None:
@@ -566,4 +566,3 @@ label enter_dungeon_r:
                                 dungeon.function(**event)
                         else:
                             dungeon.timer = t - current_time
-

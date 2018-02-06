@@ -107,14 +107,3 @@ label peevish_menu:
     hide peevish with dissolve
     $ global_flags.set_flag("keep_playing_music")
     jump forest_entrance
-
-screen character_pick_screen(): # TODO: is it even needed? unlikely!
-    frame:
-        style_group "dropdown_gm"
-        ypos 300
-        xpos (config.screen_width - 100)
-        xanchor 1.0
-        has vbox
-        for member in hero.team:
-            textbutton "[member.nickname]":
-                action If(member.status != "slave", Return(member))
