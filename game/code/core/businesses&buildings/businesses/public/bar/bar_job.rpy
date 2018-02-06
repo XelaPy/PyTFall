@@ -194,7 +194,7 @@ init -5 python:
             serviceskill = worker.get_skill("bartending")
             charisma = worker.charisma
 
-            # Skill checks, TODO: This should prolly die or be moved to another place?
+            # Skill checks, TODO jobs: This should prolly die or be moved to another place?
             if serviceskill > 2000:
                 log.logloc('reputation', choice([0, 1, 2]))
                 log.append("She was an excellent bartender, customers kept spending their money just for the pleasure of her company. \n")

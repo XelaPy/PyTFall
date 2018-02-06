@@ -7,7 +7,6 @@ label special_items_slime_bottle:
         "It's an old bottle with unknown, thick substance inside. Do you want to open it?"
         "Yes":
             "The seal is durable, but eventually, it gives up, and pressurized liquid is released."
-            # TODO: May require adjustment for release after all systems are normalized:
             $ tier = locked_random("uniform", max(hero.tier, .5), hero.tier+.7)
             $ new_slime = build_rc(id="Slime", tier=tier, patterns=["Warrior", "Server"])
             if locked_dice(80):

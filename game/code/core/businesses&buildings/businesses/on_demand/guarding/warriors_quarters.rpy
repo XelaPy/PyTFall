@@ -191,12 +191,13 @@ init -5 python:
 
             opfor = opposition forces
 
-            TODO:
+            TODO simpy-guarding:
             - This needs to gather the forces.
             - Return the result and put a hold on the business process if interception had failed.
             - Work with clients instead of props I am planning to use for testing.
             - Check if previous guard action was interrupted and act (look for defenders/restore older process) accordingly.
             """
+            # TODO simpy-brawl: If in play for beta, update to modern code!
             job = simple_jobs["Guarding"]
             opfor = list() if opfor is None else opfor
 
@@ -217,14 +218,13 @@ init -5 python:
                 # If there are no defenders, we're screwed:
                 temp = "{}: Noone was able to intercept attack event in {}".format(self.env.now, building.name)
                 self.log(temp)
-                self.env.exit(False) # TODO: Maybe more options than False and None?
+                self.env.exit(False)
             else:
                 temp = "{}: {} Guards are intercepting attack event in {}".format(self.env.now, set_font_color(len(defenders), "red"), building.name)
                 self.log(temp)
 
-            # TODO: This should prolly be a function!
             # Prepare the teams:
-            enemy_team = Team(name="Enemy Team", max_size=5) # TODO: max_size should be len(opfor)
+            enemy_team = Team(name="Enemy Team", max_size=5)
             mob = build_mob(id="Goblin Shaman", level=30)
             mob.front_row = True
             mob.apply_trait("Fire")
@@ -259,7 +259,6 @@ init -5 python:
                 for i in active_workers_backup:
                     if can_do_work(i, check_ap=False): # Check if we're still ok to work...
                         self.active_workers.append(i)
-                        # TODO: Actual workers list should be here as well, not just the general one...
 
             # Build a Job report:
             # Create flag object first to pass data to the Job:

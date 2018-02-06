@@ -177,8 +177,6 @@
                     self.team_charmod[char] = char.stats_skills.copy()
                     char.stats_skills = {}
                     self.reset_workers_flags(char)
-                    # TODO How should we handle this for teams?
-                    # For now just an even spread...
                     if earned:
                         char.fin.log_logical_income(earned, fin_source)
 

@@ -214,10 +214,10 @@ init -5 python:
             return True
 
         def work_strip_club(self, worker, loc, log):
-            skill = round(worker.get_skill("strip")*.75 + worker.get_skill("dancing")*.25) # TODO We can now interpolate this from base_stats/skills
+            skill = round(worker.get_skill("strip")*.75 + worker.get_skill("dancing")*.25) # TODO jobs: We can now interpolate this from base_stats/skills
             charisma = worker.charisma
 
-            # TODO: This should prolly die:
+            # TODO jobs: This should prolly die:
             if charisma >= 1500:
                 log.append("%s supernal loveliness instantly captivated audiences. " %worker.name)
                 log.logws("joy", 1)
