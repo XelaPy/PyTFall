@@ -404,7 +404,6 @@ init -11 python:
         equip: Run auto_equip function after we're done.
         """
         tier = max(min(round_int(char.tier*.5), 4), 0)
-        # TODO: Update to char.occupation once that is implemented:
         if gen_occ is None:
             try:
                 gen_occ = choice(char.gen_occs)
@@ -466,7 +465,7 @@ init -11 python:
             elif "Server" in char.gen_occs:
                 purpose = "Service"
             elif "Specialist" in char.gen_occs:
-                purpose = "???" # TODO Not implemented yet
+                purpose = "???" # TODO items: Not implemented yet
             char.equip_for(purpose)
 
     def give_tiered_magic_skills(char, amount="auto", support_amount="auto"):

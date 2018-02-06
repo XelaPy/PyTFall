@@ -1,4 +1,100 @@
-# Old Code that may not be immidiatly useful any longer but can still be used for referencing or in future development.
+# Old Code that may not be immediately useful any longer but can still be used for referencing or in future development.
+
+class GuiGirlsList(_object):
+    """
+    Used for sorting girls in the list and maybe in profile screen in the future.
+    """
+    STATUS_GROUP = 'status'
+    OCCUPATION_GROUP = 'occupation'
+    ACTION_GROUP = 'action'
+    BUILDING_GROUP = 'building'
+
+    def __init__(self):
+        self.sorted = list(girl for girl in hero.chars if girl.action != "Exploring")
+        self.init_display_filters()
+        self.init_active_filters()
+
+        self.page = 0
+        self.total_pages = 1
+
+    def init_display_filters(self):
+        self.display_filters = [
+            ('Status', [
+                ['Free', self.STATUS_GROUP, 'free'],
+                ['Slaves', self.STATUS_GROUP, 'slave'],
+                ["Run away", self.ACTION_GROUP, RunawayManager.ACTION] # Put here as "status" makes more sense then "job"
+            ]),
+            ('Current job', [ # TODO: This filter no longer makes any sense, action are now jobs:
+                ['None', self.ACTION_GROUP, None],
+                ['Whore', self.ACTION_GROUP, 'Whore'],
+                ['Guard', self.ACTION_GROUP, 'Guard'],
+                ['Server', self.ACTION_GROUP, 'Server'],
+            ]),
+            ('Courses', [
+                [course_name, self.ACTION_GROUP, course_action] for course_name, course_action in get_all_courses()
+            ]),
+            ('Occupation', [
+                ['Prostitutes', self.OCCUPATION_GROUP, traits['Prostitute']],
+                ['Strippers', self.OCCUPATION_GROUP, traits['Stripper']],
+                ['Warriors', self.OCCUPATION_GROUP, 'Warrior'],
+                ['Service Girls', self.OCCUPATION_GROUP, 'Server'],
+            ]),
+            ('Buildings', [
+                [building.name, self.BUILDING_GROUP, building] for building in list(b for b in hero.buildings if b.__class__ != Apartment)
+            ]),
+        ]
+
+    def init_active_filters(self):
+        self.active_filters = {
+            self.STATUS_GROUP: set(),
+            self.OCCUPATION_GROUP: set(),
+            self.BUILDING_GROUP: set(),
+            self.ACTION_GROUP: set(),
+        }
+
+    def clear(self):
+        self.sorted = copy.copy(hero.chars)
+        self.init_active_filters()
+        renpy.restart_interaction()
+
+    def add_filter(self, group, item):
+        if item not in self.active_filters[group]:
+            self.active_filters[group] = set([item])
+        else:
+            self.active_filters[group].remove(item)
+
+    def sort_by_status(self, girl_list):
+        for status in self.active_filters[self.STATUS_GROUP]:
+            girl_list = list(girl for girl in girl_list if girl.status == status)
+        return girl_list
+
+    def sort_by_occupation(self, girl_list):
+        for occupation in self.active_filters[self.OCCUPATION_GROUP]:
+            girl_list = list(girl for girl in girl_list if occupation in girl.occupations)
+        return girl_list
+
+    def sort_by_action(self, girl_list):
+        for action in self.active_filters[self.ACTION_GROUP]:
+            girl_list = list(girl for girl in girl_list if girl.action == action)
+        return girl_list
+
+    def sort_by_brothel(self, girl_list):
+        for building in self.active_filters[self.BUILDING_GROUP]:
+            girl_list = list(girl for girl in girl_list if girl.location == building)
+        return girl_list
+
+    def get_sorted(self):
+        return self.sort_by_brothel(
+            self.sort_by_occupation(
+                self.sort_by_action(
+                    self.sort_by_status(self.sorted)
+                )
+            )
+        )
+
+    def get_focus(self, filter_group, filter_key):
+        return filter_key in self.active_filters[filter_group]
+
 
 screen dropdown(pos):
     # Trying to create a drop down screen with choices of actions:
