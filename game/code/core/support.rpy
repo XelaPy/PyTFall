@@ -45,7 +45,7 @@ init -9 python:
             self.show_text = False
             self.todays_first_view = True
 
-        def init_shops(self): # possible TODO: it doesn't support adding shops after starting a new game, it may be inconvenient in the future
+        def init_shops(self):
             # Shops:
             self.shops = ['General Store', 'Cafe', 'Work Shop', 'Witches Hut', 'Tailor Store', 'Tavern', 'Ninja Shop', 'Peevish Shop', 'Witch Spells Shop', 'Aine Shop', 'Angelica Shop']
             self.general_store = GeneralStore('General Store', 18, ['General Store'], sell_margin=0.7)
@@ -59,6 +59,7 @@ init -9 python:
             self.witch_spells_shop = ItemShop("Witch Spells Shop", 18, ["Witch Spells Shop"], gold=5000, sells=["scroll"], sell_margin=1, buy_margin=5.0) # for scrolls
             self.aine_shop = ItemShop("Aine Shop", 18, ["Aine Shop"], gold=5000, sells=["scroll"], sell_margin=1, buy_margin=5.0)
             self.angelica_shop = ItemShop("Angelica Shop", 18, ["Angelica Shop"], gold=5000, sells=["scroll"], sell_margin=1, buy_margin=5.0)
+            
         # World AI ----------------------------->
         @staticmethod
         def restore_all_chars():
