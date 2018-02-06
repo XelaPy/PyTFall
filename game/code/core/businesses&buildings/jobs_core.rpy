@@ -243,8 +243,6 @@
             if not isinstance(worker, PytGroup):
                 if worker.disposition >= self.calculate_disposition_level(worker):
                     return True
-                # TODO: Devnote, this may be too strics and all_occs should be used instead...
-                # if [t for t in self.all_occs if t in worker.occupations]:
                 if set(self.occupation_traits).intersection(worker.traits):
                     return True
             return False

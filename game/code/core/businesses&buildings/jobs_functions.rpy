@@ -1,6 +1,6 @@
 init -10 python:
     def payout(job, effectiveness, difficulty, building, business, worker, clients, log):
-        # TODO Might be an idea to account for client level in the future as well!
+        # TODO jobs payouts: Might be an idea to account for client level in the future as well!
         # Calculates payout for jobs based of effectiveness and other modifications.
         # Writes to log accordingly.
 
@@ -123,7 +123,7 @@ init -10 python:
     def can_do_work(c, check_ap=True, log=None):
         """Checks whether the character is injured/tired/has AP and sets her/him to auto rest.
 
-        AP check is optional here, with True as default, there are cases where char might still have job points even though AP is 0. TODO: report about issues with health/vitality/etc somewhere in the next day report
+        AP check is optional and if True, also checks for jobpoints.
         """
         if c.health < c.get_max("health")*.25:
             if log:
