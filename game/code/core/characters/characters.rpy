@@ -899,10 +899,11 @@ init -9 python:
             Called during next day method per each individual girl.
             Right now being used for Businesses only, all FG profit goes directly into MC's pockets.
             """
+            # TODO wages: NEEDS TO BE RECODED!
             char = self.instance
 
             if self.wage_conditions():
-                total_wage = sum(self.todays_logical_income_log.values()) # TODO NEEDS TO BE RECODED!
+                total_wage = sum(self.todays_logical_income_log.values())
                 hero.add_money(total_wage, reason="Businesses")
 
                 if char.status != "slave":
@@ -938,7 +939,7 @@ init -9 python:
 
         def wage_conditions(self):
             char = self.instance
-            # TODO Check this whole method
+            # TODO wages: Check this whole method
             return char.action not in ["Rest", "AutoRest"] or (char.location != "Streets" and not in_training_location(char))
 
         def get_price(self):
@@ -4049,7 +4050,9 @@ init -9 python:
                     while total_debt and all_properties:
                         multiplier = choice([0.4, 0.5, 0.6])
                         confiscate = all_properties.pop()
-                        if isinstance(confiscate, Building): # TODO: This may need to be revised.
+                        # TODO taxes: This may need to be revised.
+                        # Also as part of the above, account for businesses and upgrades.
+                        if isinstance(confiscate, Building):
                             price = confiscate.price
                             if self.home == confiscate:
                                 self.home = locations["Streets"]
@@ -4198,7 +4201,6 @@ init -9 python:
             # Game mechanics assets
             self.gender = 'female'
             self.race = ""
-            # Compability with crazy mod: # TODO: Compability doesn't exist anymore, should be removed
             self.desc = ""
             self.status = "slave"
             self._location = "slavemarket"
@@ -4247,8 +4249,8 @@ init -9 python:
             self.init_traits = list() # List of traits to be enabled on game startup (should be deleted in init method)
 
             # Autocontrol of girls action (during the next day mostly)
-            # TODO: Enable/Fix (to work with new skills/traits) this!
-            # TODO: (Move to a separate instance???)
+            # TODO lt: Enable/Fix (to work with new skills/traits) this!
+            # TODO lt: (Move to a separate instance???)
             self.autocontrol = {
             "Rest": True,
             "Tips": False,
@@ -4452,7 +4454,9 @@ init -9 python:
                         txt += "{} has started working for you today! ".format(set_font_color(self.fullname, "green"))
 
                     else:
-                        txt += "{} has been working for you for {} {}. ".format(set_font_color(self.nickname, "green"), self.flag("daysemployed"), plural("day", self.flag("daysemployed")))
+                        txt += "{} has been working for you for {} {}. ".format(set_font_color(self.nickname, "green"),
+                                                                                self.flag("daysemployed"),
+                                                                                plural("day", self.flag("daysemployed")))
 
                     self.up_counter("daysemployed")
 
@@ -4460,7 +4464,8 @@ init -9 python:
                     loc = self.home
                     mod = loc.daily_modifier
 
-                    if self.action == "Exploring": # TODO This can't be right? This is prolly set to the exploration log object.
+                    # TODO se/Char.nd(): This can't be right? This is prolly set to the exploration log object.
+                    if self.action == "Exploring":
                         txt += "\n{color=[green]}She is currently on the exploration run!{/color}\n"
                     else:
                         if mod > 0:
@@ -4521,7 +4526,8 @@ init -9 python:
                         wage = self.expected_wage
                         got_paid = self.fin.todays_main_income_log.get("Wages", 0) + self.fin.todays_main_income_log.get("Arena", 0)
                         income = sum(self.fin.todays_logical_income_log.values())
-                        # tips = sum(val for val in self.fin.todays_main_income_log["tips"].values()) # TODO: This is now settled elsewhere...
+                        # TODO tips, Char.nd?: This is now settled elsewhere...
+                        # tips = sum(val for val in self.fin.todays_main_income_log["tips"].values())
                         tips = 0
 
                         # Wages:
@@ -4572,7 +4578,8 @@ init -9 python:
                         wage = self.expected_wage
                         got_paid = self.fin.todays_main_income_log.get("Wages", 0)
                         income = sum(val for val in self.fin.todays_logical_income_log.values())
-                        # tips = sum(val for val in self.fin.todays_income_log["tips"].values()) TODO This is now settled elsewhere.
+                        # TODO tips: This is now settled elsewhere.
+                        # tips = sum(val for val in self.fin.todays_income_log["tips"].values())
                         tips = 0
 
                         # Wages:
@@ -4750,8 +4757,8 @@ init -9 python:
                     flag_red = True
                     txt += "\n\n  {color=[red]}Please note that she is not really doing anything productive!{/color}\n"
 
-                # TODO:
-                    # This is temporary code, better and more reasonable system is needed, especially if we want different characters to befriend each other.
+                # TODO lovers/friends system:
+                # This is temporary code, better and more reasonable system is needed, especially if we want different characters to befriend each other.
                 if self.disposition < -200: # until we'll have means to deal with chars with very low disposition (aka slave training), negative disposition will slowly increase
                     self.disposition += randint(2, 5)
                 if self.disposition < -150 and hero in self.friends:
@@ -4882,86 +4889,6 @@ init -9 python:
 
             chance.append(item.eqchance)
             return chance
-
-        def auto_discard(self, slots=None):
-            """
-            This function is to prevent that chars accumulate too many items in inventory. In particular
-            multiple copies. Given items will not be discarded. TODO: looks like it's not used anymore thus not needed?
-            """
-
-            weighted = {}
-            slotmax = {}
-            slotcount = {}
-
-            for k in slots if slots else self.eqslots:
-                if k == "ring1" or k == "ring2":
-                    continue
-                weighted[k] = []
-                slotmax[k] = 10
-                slotcount[k] = 0
-
-            # maybe these could be a consequence of a selected class?
-            target_stats = set()
-            target_skills = set()
-            exclude_on_skills = set()
-            exclude_on_stats = set()
-
-            most_weights = self.stats.eval_inventory(self.inventory, weighted, target_stats, target_skills,
-                                                     exclude_on_skills, exclude_on_stats,
-                                                     chance_func=self.keep_chance, min_value=-1000000000,
-                                                     upto_skill_limit=True)
-            returns = []
-            for slot, picks in weighted.iteritems():
-
-                if not picks:
-                    continue
-
-                # prefilter items
-                selected = []
-                last_resort = []
-
-                # create averages for items, and count items per slot.
-                for r in picks:
-                    # devlog.warn("[%s/%s]: %s" % (r[1].slot, r[1].id, str(r[0])))
-
-                    som = sum(r[0])
-
-                    # impute with weights of 50 for items that have less weights
-                    som += 50 * (len(r[0]) - most_weights[slot])
-
-                    r[0] = som/most_weights[slot]
-                    selected.append(r)
-                    slotcount[slot] += self.inventory[r[1]]
-
-
-                for weight, item in sorted(selected, key=lambda x: x[0], reverse=False):
-
-                    while slotcount[slot] > slotmax[slot] and item in self.inventory.items:
-
-                        if item.id in self.given_items and self.inventory[item] <= self.given_items[item.id]:
-                            break
-
-                        if self.inventory[item] == 1: # first only remove dups
-                            last_resort.append(item)
-                            break
-
-                        self.inventory.remove(item)
-                        returns.append(item.id)
-                        slotcount[slot] -= 1
-
-                    if slotcount[slot] <= slotmax[slot]:
-                        break
-                else:
-                    # if we still have items above treshold also remove some of the last items (non dups)
-                    for item in last_resort:
-                        self.inventory.remove(item)
-                        returns.append(item.id)
-                        slotcount[slot] -= 1
-
-                        if slotcount[slot] <= slotmax[slot]:
-                            break
-
-            return returns
 
 
     class rChar(Char):

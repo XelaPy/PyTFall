@@ -1040,7 +1040,9 @@ screen girl_control():
                 else:
                     add cd_unchecked align (1.0, 0.5)
 
-            fixed: # TODO: what it does, exactly? wage percentage? is it even used/needed?
+            # Wagemod, basically it allows you to pay more/less to your workers,
+            # effecting disposition.
+            fixed:
                 align (0.5, 1.0)
                 xysize (200, 30)
                 hbox:
@@ -1061,7 +1063,7 @@ screen girl_control():
         vbox:
             style_group "basic"
             align (.55, .5)
-            # TODO Update location ==> Home/Work when assigning to group.
+            # TODO gui/char groups: Update location ==> Home/Work when assigning to group.
             if isinstance(char, PytGroup):
                 if char not in pytfall.ra:
                     button:
@@ -1146,7 +1148,7 @@ screen girl_control():
                 else:
                     add cd_unchecked align (1.0, 0.5)
             # ------------------------------------------------------------------------------------------------------------------------------------->>>
-            # TODO: If we ever restore this, char actions are not Jobs!
+            # TODO lt: If we ever restore this, char actions are not Jobs!
             # Disabled until Beta release
             # if char.action in ["Server", "SIW"]:
                 # null height 10

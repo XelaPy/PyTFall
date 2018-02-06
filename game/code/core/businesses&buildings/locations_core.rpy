@@ -12,8 +12,6 @@ init python:
     More often that not, it doesn't matter much and is mostly there for use in future codebase.
     """
 
-    # TODO IMPORTANT! Check if we remove actors from containers when we reassign locations!
-
 init -20 python:
     # Core Logic:
     # It does feel like actors container is reliable in this context.
@@ -33,9 +31,9 @@ init -20 python:
             return
 
         if isinstance(actor.location, basestring):
-            # TODO: why do we care about string location?
-            # it means they are tied to specific location, and it works properly
-            devlog.warn("%s has a string location: %s"%(actor.name, actor.location))
+            # We still allow string location by design, but we may get rid of those one day as well.
+            if config.debug:
+                devlog.warn("%s has a string location: %s"%(actor.name, actor.location))
         elif actor.location and hasattr(actor.location, "remove"):
             try:
                 actor.location.remove(actor)
@@ -65,7 +63,7 @@ init -20 python:
                 self.id = self.__class__
             else:
                 self.id = id
-            self.actors = set() # TODO Check how this transfers to SlaveMarket...
+            self.actors = set() # TODO sm: Check how this transfers to SlaveMarket...
 
         def __str__(self):
             if hasattr(self, "name"):
