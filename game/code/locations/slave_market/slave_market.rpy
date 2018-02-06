@@ -501,6 +501,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
     use top_stripe(show_return_button=True, return_button_action=Hide("slave_shopping"), show_lead_away_buttons=False)
 
 screen se_captured_retrieval(pos=(900, 300)):
+    # Not Used atm.
     zorder 3
     modal True
 
@@ -520,8 +521,5 @@ screen se_captured_retrieval(pos=(900, 300)):
             if global_flags.flag("blue_cg"):
                 textbutton "Train with Blue!":
                     action Function(jail.retrieve_captured, direction="Blue"), Hide("se_captured_retrieval")
-            # if schools[TrainingDungeon.NAME] in hero.buildings:  #TODO: ONLY IF THERE ARE FREE ROOMS AVAILIBLE
-            #     textbutton "To the Dungeons!":
-            #         action Function(jail.retrieve_captured, direction="STinTD"), Hide("se_captured_retrieval")
             textbutton "Close":
                 action Hide("se_captured_retrieval")

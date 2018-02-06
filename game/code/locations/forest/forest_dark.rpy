@@ -294,7 +294,7 @@ label dark_forest_girl_meet:
                        str(i.location) == "City" and
                        i not in hero.chars and
                        not i.arena_active and
-                       i not in gm.get_all_girls()) #TODO: will we even have arena_active eventually?
+                       i not in gm.get_all_girls()) #TODO interactions: will we even have arena_active eventually?
     $ badtraits = ["Homebody", "Indifferent", "Coward"]
     $ choices = list(i for i in choices if not any(trait in badtraits for trait in i.traits))
     if choices:

@@ -435,7 +435,7 @@ init -9 python:
             """
             if isinstance(girl, list):
                 return any(self.can_train(g, hero, one_off_only) for g in girl)
-            # TODO: May not be upgraded to modern code properly:
+            # TODO lt training: May not be upgraded to modern code properly:
             # f self.jobs is not None and girl.occupation not in self.jobs: return False
             if self.jobs is not None and girl.occupations.intersection(self.jobs): return False
             if self.status is not None and  girl.status not in self.status: return False
@@ -1741,7 +1741,8 @@ init -9 python:
             if not self.chars_list:
                 renpy.hide_screen("slave_shopping")
 
-        def can_escape(self, girl, location, guards=None, girlmod=None, pos_traits=None, neg_traits=["Restrained"], use_be=True, simulate=True, be_kwargs=None):
+        def can_escape(self, girl, location, guards=None, girlmod=None, pos_traits=None,
+                       neg_traits=["Restrained"], use_be=True, simulate=True, be_kwargs=None):
             """
             Calculates whether a girl can the location.
             girl = The girl check.
@@ -1754,6 +1755,8 @@ init -9 python:
             simulate = Whether to simulate the battle or use the BE.
             be_kwargs = Keyword arguments to pass to the BE.
             """
+            # This requires revision to be used in the future!
+
             # Ensure stats in girlmod
             if girlmod:
                 if "health" not in girlmod: girlmod["health"] = 0
@@ -1978,7 +1981,7 @@ init -9 python:
 
                     else:
                         # Fight!
-                        # TODO (Alex) Check out what this is/does:
+                        # TODO lt training (Alex) Check out what this is/does:
                         result, dead = start_battle(guards, [girl], pt_ai=pt_ai, **be_kwargs)
 
                         exp = (girl.attack + girl.defence + girl.agility + girl.magic) / 10

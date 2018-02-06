@@ -138,7 +138,6 @@
         del temp
 
         tl.timer("Loading: Businesses", nested=False)
-        # TODO Get rid of this... adverts
         adverts = json.load(renpy.file("content/db/buildings/adverts.json"))
         businesses = load_buildings()
 
