@@ -898,46 +898,39 @@ init -9 python:
             Settle wages between chars and player.
             Called during next day method per each individual girl.
             """
-            # TODO wages: NEEDS TO BE RECODED!
             char = self.instance
 
-            if self.wage_conditions():
-                total_wage = sum(self.todays_logical_income_log.values())
-                hero.add_money(total_wage, reason="Businesses")
+            total_wage = sum(self.todays_logical_income_log.values())
+            hero.add_money(total_wage, reason="Businesses")
 
-                if char.status != "slave":
-                    if char.wagemod >= 100:
-                        amount = int(char.expected_wage + int(round(char.expected_wage*.01*(char.wagemod-100))))
-                        if hero.take_money(amount, reason="Wages"):
-                            self.add_money(amount, reason="Wages")
-                            self.log_logical_expense(amount, "Wages")
-                            if isinstance(char.workplace, Building):
-                                char.workplace.fin.log_logical_expense(amount, "Wages")
-                            if char.disposition < 700:
-                                char.disposition += int(round((char.wagemod-100)*.1))
-                            char.joy += int(round((char.wagemod-100)*.1))
-                    elif char.wagemod < 100:
-                        amount = int(char.expected_wage - int(round(char.expected_wage*.01*(100-char.wagemod))))
-                        if hero.take_money(amount, reason="Wages"):
-                            self.log_logical_expense(amount, "Wages")
-                            self.add_money(amount, reason="Wages")
-                            if isinstance(char.workplace, Building):
-                                char.workplace.fin.log_logical_expense(amount, "Wages")
-                else:
-                    amount = int(char.expected_wage*.01*(char.wagemod))
+            if char.status != "slave":
+                if char.wagemod >= 100:
+                    amount = int(char.expected_wage + int(round(char.expected_wage*.01*(char.wagemod-100))))
                     if hero.take_money(amount, reason="Wages"):
                         self.add_money(amount, reason="Wages")
                         self.log_logical_expense(amount, "Wages")
                         if isinstance(char.workplace, Building):
                             char.workplace.fin.log_logical_expense(amount, "Wages")
                         if char.disposition < 700:
-                            char.disposition += int(round((char.wagemod)*.2))
-                        char.joy += int(round((char.wagemod)*.2))
-
-        def wage_conditions(self):
-            char = self.instance
-            # TODO wages: Check this whole method
-            return char.action not in ["Rest", "AutoRest"] or (char.location != "Streets" and not in_training_location(char))
+                            char.disposition += int(round((char.wagemod-100)*.1))
+                        char.joy += int(round((char.wagemod-100)*.1))
+                elif char.wagemod < 100:
+                    amount = int(char.expected_wage - int(round(char.expected_wage*.01*(100-char.wagemod))))
+                    if hero.take_money(amount, reason="Wages"):
+                        self.log_logical_expense(amount, "Wages")
+                        self.add_money(amount, reason="Wages")
+                        if isinstance(char.workplace, Building):
+                            char.workplace.fin.log_logical_expense(amount, "Wages")
+            else:
+                amount = int(char.expected_wage*.01*(char.wagemod))
+                if hero.take_money(amount, reason="Wages"):
+                    self.add_money(amount, reason="Wages")
+                    self.log_logical_expense(amount, "Wages")
+                    if isinstance(char.workplace, Building):
+                        char.workplace.fin.log_logical_expense(amount, "Wages")
+                    if char.disposition < 700:
+                        char.disposition += int(round((char.wagemod)*.2))
+                    char.joy += int(round((char.wagemod)*.2))
 
         def get_price(self):
             char = self.instance
