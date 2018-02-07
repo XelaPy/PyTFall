@@ -122,8 +122,8 @@ init -9 python:
             # Each tier increases wage by 50% without stacking:
             wage = wage + wage*self.tier*.5
 
-            if "Dedicated" in self.traits: # the trait decreases wage, this check should remain after revising! - DarkTl
-                wage = wage*0.75
+            if "Dedicated" in self.traits:
+                wage = wage*.75
 
             # Normalize:
             wage = int(round(wage))
@@ -897,7 +897,6 @@ init -9 python:
             """
             Settle wages between chars and player.
             Called during next day method per each individual girl.
-            Right now being used for Businesses only, all FG profit goes directly into MC's pockets.
             """
             # TODO wages: NEEDS TO BE RECODED!
             char = self.instance
@@ -908,34 +907,32 @@ init -9 python:
 
                 if char.status != "slave":
                     if char.wagemod >= 100:
-                        amount = int(char.expected_wage + int(round(char.expected_wage*0.01*(char.wagemod-100))))
+                        amount = int(char.expected_wage + int(round(char.expected_wage*.01*(char.wagemod-100))))
                         if hero.take_money(amount, reason="Wages"):
                             self.add_money(amount, reason="Wages")
                             self.log_logical_expense(amount, "Wages")
                             if isinstance(char.workplace, Building):
                                 char.workplace.fin.log_logical_expense(amount, "Wages")
                             if char.disposition < 700:
-                                char.disposition += int(round((char.wagemod-100)*0.1))
-                            char.joy += int(round((char.wagemod-100)*0.1))
-
+                                char.disposition += int(round((char.wagemod-100)*.1))
+                            char.joy += int(round((char.wagemod-100)*.1))
                     elif char.wagemod < 100:
-                        amount = int(char.expected_wage - int(round(char.expected_wage*0.01*(100-char.wagemod))))
+                        amount = int(char.expected_wage - int(round(char.expected_wage*.01*(100-char.wagemod))))
                         if hero.take_money(amount, reason="Wages"):
                             self.log_logical_expense(amount, "Wages")
                             self.add_money(amount, reason="Wages")
                             if isinstance(char.workplace, Building):
                                 char.workplace.fin.log_logical_expense(amount, "Wages")
-
                 else:
-                    amount = int(char.expected_wage*0.01*(char.wagemod))
+                    amount = int(char.expected_wage*.01*(char.wagemod))
                     if hero.take_money(amount, reason="Wages"):
                         self.add_money(amount, reason="Wages")
                         self.log_logical_expense(amount, "Wages")
                         if isinstance(char.workplace, Building):
                             char.workplace.fin.log_logical_expense(amount, "Wages")
                         if char.disposition < 700:
-                            char.disposition += int(round((char.wagemod)*0.2))
-                        char.joy += int(round((char.wagemod)*0.2))
+                            char.disposition += int(round((char.wagemod)*.2))
+                        char.joy += int(round((char.wagemod)*.2))
 
         def wage_conditions(self):
             char = self.instance

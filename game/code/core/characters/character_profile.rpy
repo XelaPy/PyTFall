@@ -1021,40 +1021,40 @@ screen girl_control():
             text ("%s" % tt.value) color white size 18
 
         frame:
-            background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.7), 10, 10)
-            align (0.6, 0.08)
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.7), 10, 10)
+            align .6, .08
             xpadding 10
             ypadding 10
-            xysize (225, 120)
+            xysize 225, 120
             button:
                 style_group "basic"
-                xysize (150, 33)
-                align (0.5, 0.05)
+                xysize 150, 33
+                align .5, .05
                 action ToggleDict(char.autocontrol, "Tips")
                 hovered tt.action("Allow workers to keep their tips")
-                text "Tips:" align (0.0, 0.5)
+                text "Tips:" align .0, .5
                 if isinstance(char.autocontrol["Tips"], list):
-                    add cb_some_checked align (1.0, 0.5)
+                    add cb_some_checked align 1.0, .5
                 elif char.autocontrol['Tips']:
-                    add cb_checked align (1.0, 0.5)
+                    add cb_checked align 1.0, .5
                 else:
-                    add cd_unchecked align (1.0, 0.5)
+                    add cd_unchecked align 1.0, .5
 
             # Wagemod, basically it allows you to pay more/less to your workers,
             # effecting disposition.
             fixed:
-                align (0.5, 1.0)
-                xysize (200, 30)
+                align .5, 1.0
+                xysize 200, 30
                 hbox:
-                    align (0.5, 0.0)
+                    align .5, .0
                     vbox:
                         xmaximum 130
                         xfill True
-                        text (u"{color=[ivory]}Wage percentage:") outlines [(1, "#424242", 0, 0)]
+                        text (u"Wage percentage:") outlines [(1, "#424242", 0, 0)] color ivory
                     vbox:
-                        text "{color=[ivory]}[char.wagemod]%" outlines [(1, "#424242", 0, 0)]
+                        text "[char.wagemod]%" outlines [(1, "#424242", 0, 0)] color ivory
                 bar:
-                    align (0.5, 1.0)
+                    align .5, 1.0
                     value FieldValue(char, 'wagemod', 200, max_is_zero=False, style='scrollbar', offset=0, step=1)
                     xmaximum 150
                     thumb 'content/gfx/interface/icons/move15.png'
