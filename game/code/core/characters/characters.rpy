@@ -959,7 +959,6 @@ init -9 python:
                     upkeep += 50 + char.tier*100 + char.level*5
 
                 return max(20, upkeep)
-
             else:
                 return 0
 
@@ -4479,37 +4478,36 @@ init -9 python:
                     # Upkeep:
                     if in_training_location(self):
                         txt += "Upkeep is included in price of the class your girl's taking. \n"
-
                     elif self.action == "Exploring":
                         pass
-
                     else:
+                        # The whole upkeep thing feels weird, penalties to slaves are severe...
                         amount = self.fin.get_upkeep()
 
                         if amount < 0:
                             txt += "She actually managed to save you some money ({color=[gold]}%d Gold{/color}) instead of requiring upkeep! Very convenient! \n" % (-amount)
-                            hero.add_money(-amount, reason="Girls Upkeep")
-
-                        elif hero.take_money(amount, reason="Slave Upkeep"):
+                            hero.add_money(-amount, reason="Workers Upkeep")
+                        elif hero.take_money(amount, reason="Workers Upkeep"):
                             self.fin.log_logical_expense(amount, "Upkeep")
-
-                            if hasattr(self.location, "fin"):
-                                self.location.fin.log_logical_expense(amount, "Girls Upkeep")
-
+                            if hasattr(self.workplace, "fin"):
+                                self.location.fin.log_logical_expense(amount, "Workers Upkeep")
                             txt += "You paid {color=[gold]}%d Gold{/color} for her upkeep. \n" % amount
-
                         else:
                             if self.status != "slave":
                                 self.joy -= randint(3, 5)
                                 self.disposition -= randint(5, 10)
                                 txt += "\nYou failed to pay her upkeep, she's a bit cross with your because of that... \n"
-
                             else:
                                 self.joy -= 20
                                 self.disposition -= randint(25, 50)
                                 self.health -= 10
                                 self.vitality -= 25
                                 txt += "\nYou've failed to provide even the most basic needs for your slave. This will end badly... \n"
+
+                    # This whole routine is basically fucked and done twice or more. Gotta do a whole check of all related parts tomorrow.
+                    wage = self.expected_wage
+                    got_paid = round_int(wage/100.0*self.wagemod)
+
 
                     # Wages and tips:
                     if self.status != 'slave':
@@ -4521,49 +4519,48 @@ init -9 python:
                         tips = 0
 
                         # Wages:
-                        if self.fin.wage_conditions():
-                            txt += choice(["She expects to be compensated for her services ( %d Gold). "%wage, "She expects to be payed a wage of %d Gold. "%wage])
+                        txt += choice(["She expects to be compensated for her services ( %d Gold). " % wage,
+                                       "She expects to be paid a wage of %d Gold. " % wage])
 
-                            if got_paid == wage:
-                                txt += "And she got exactly that in wages! "
-                                img = "profile"
+                        if got_paid == wage:
+                            txt += "And she got exactly that in wages! "
+                            img = "profile"
+                        elif got_paid > wage:
+                            txt += choice(["You've payed her more than that (%d Gold)! "%got_paid, "She got %d Gold for her services. "%got_paid])
+                            img = self.show("profile", "happy", resize=(500, 600))
+                        elif got_paid < wage:
+                            txt += choice(["She has received less than expected... (%d Gold) You should really pay your girls a fair wage if you expect them to be happy and loyal."%got_paid,
+                                           "She got less than that in wages! (%d Gold)"%got_paid])
+                            img = self.show("profile", "angry", resize=(500, 600))
+                            self.disposition -= int(round((wage - got_paid)*0.1))
+                            self.joy -= int(round((wage - got_paid)*0.05))
 
-                            elif got_paid > wage:
-                                txt += choice(["You've payed her more than that (%d Gold)! "%got_paid, "She got %d Gold for her services. "%got_paid])
-                                img = self.show("profile", "happy", resize=(500, 600))
+                        txt += "\n"
 
-                            elif got_paid < wage:
-                                txt += choice(["She has received less than expected... (%d Gold) You should really pay your girls a fair wage if you expect them to be happy and loyal."%got_paid,
-                                               "She got less than that in wages! (%d Gold)"%got_paid])
-                                img = self.show("profile", "angry", resize=(500, 600))
-                                self.disposition -= int(round((wage - got_paid)*0.1))
-                                self.joy -= int(round((wage - got_paid)*0.05))
+                        # Tips:
+                        if tips:
+                            txt += choice(["Total tips earned: %d Gold. " % tips,
+                                           "%s got %d Gold in tips. " % (self.nickname, tips)])
 
-                            txt += "\n"
+                            if self.autocontrol["Tips"]:
+                                txt += choice(["As per agreement, your girl gets to keep all her tips! This is a very good motivator. ",
+                                               "She's happy to keep it. "])
+                                self.add_money(tips, reason="Tips")
+                                self.fin.log_logical_expense(tips, "Tips")
+                                factor = float(tips) / wage
 
-                            # Tips:
-                            if tips:
-                                txt += choice(["Total tips earned: %d Gold. " % tips, "%s got %d Gold in tips. " % (self.nickname, tips)])
+                                self.disposition += int(round(factor * 5))
+                                self.joy += int(round(factor * 2))
 
-                                if self.autocontrol["Tips"]:
-                                    txt += choice(["As per agreement, your girl gets to keep all her tips! This is a very good motivator. ", "She's happy to keep it. "])
-                                    self.add_money(tips, reason="Tips")
-                                    self.fin.log_logical_expense(tips, "Tips")
-                                    factor = float(tips) / wage
+                                if got_paid < wage and got_paid + tips >= wage:
+                                    txt += "That made up for the difference between the wage she expected and what she's received, so you can expect her not to be cross with you. "
+                                    # Recover from disposition/joy hits from paying to little:
+                                    self.disposition += int(round((wage - got_paid)*0.1))
+                                    self.joy += int(round((wage - got_paid)*0.05))
 
-                                    self.disposition += int(round(factor * 5))
-                                    self.joy += int(round(factor * 2))
-
-                                    if got_paid < wage and got_paid + tips >= wage:
-                                        txt += "That made up for the difference between the wage she expected and what she's received, so you can expect her not to be cross with you. "
-                                        # Recover from disposition/joy hits from paying to little:
-                                        self.disposition += int(round((wage - got_paid)*0.1))
-                                        self.joy += int(round((wage - got_paid)*0.05))
-
-                                else:
-                                    txt += choice(["You take all of her tips for yourself. ", "You keep all of it. "])
-                                    hero.add_money(tips, reason="Girls Tips")
-
+                            else:
+                                txt += choice(["You take all of her tips for yourself. ", "You keep all of it. "])
+                                hero.add_money(tips, reason="Girls Tips")
                     else:
                         wage = self.expected_wage
                         got_paid = self.fin.todays_main_income_log.get("Wages", 0)
@@ -4573,37 +4570,37 @@ init -9 python:
                         tips = 0
 
                         # Wages:
-                        if self.fin.wage_conditions():
-                            txt += choice(["Being a slave, she doesn't expect to get paid. ", "Slaves don't get paid. "])
+                        txt += choice(["Being a slave, she doesn't expect to get paid. ",
+                                       "Slaves don't get paid. "])
 
-                            if got_paid:
-                                txt += "Yet, you've paid her and she's very grateful! "
-                                img = self.show("profile", "happy", resize=(500, 600))
+                        if got_paid:
+                            txt += "Yet, you've paid her and she's very grateful! "
+                            img = self.show("profile", "happy", resize=(500, 600))
 
-                                factor = float(got_paid) / wage
-                                self.disposition += int(round(factor * 10))
-                                self.joy += int(round(factor * 3))
+                            factor = float(got_paid) / wage
+                            self.disposition += round_int(factor * 10)
+                            self.joy += round_int(factor * 3)
 
-                            txt += "\n"
+                        txt += "\n"
 
-                            # Tips:
-                            if tips:
-                                txt += choice(["Total tips earned: %d Gold! " % tips, "%s got %d Gold in tips! " % (self.nickname, tips)])
+                        # Tips:
+                        if tips:
+                            txt += choice(["Total tips earned: %d Gold! " % tips,
+                                           "%s got %d Gold in tips! " % (self.nickname, tips)])
 
-                                if self.autocontrol["Tips"]:
-                                    txt += choice(["As per agreement, your girl gets to keep all her tips! This is a very good motivator. ", "She's happy to keep it. "])
-                                    self.add_money(tips, reason="Tips")
-                                    factor = float(tips) / wage
+                            if self.autocontrol["Tips"]:
+                                txt += choice(["As per agreement, your girl gets to keep all her tips! This is a very good motivator. ", "She's happy to keep it. "])
+                                self.add_money(tips, reason="Tips")
+                                factor = float(tips) / wage
 
-                                    self.disposition += int(round(factor * 5))
-                                    self.joy += int(round(factor * 2))
-
-                                else:
-                                    txt += choice(["You take all of her tips for yourself. ", "You keep all of it. "])
-                                    hero.add_money(tips, reason="Girls Tips")
+                                self.disposition += int(round(factor * 5))
+                                self.joy += int(round(factor * 2))
+                            else:
+                                txt += choice(["You take all of her tips for yourself. ",
+                                               "You keep all of it. "])
+                                hero.add_money(tips, reason="Tips")
 
                     # ----------------------------------------------------------------->
-
                     # The bit from here on will be disabled during exploration and other multi-day activities:
 
                     # Training with NPCs ---------------------------------------------->
