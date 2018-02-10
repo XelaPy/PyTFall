@@ -4425,28 +4425,24 @@ init -9 python:
             if self in hero.chars:
                 # Local vars
                 img = 'profile'
-                txt = ''
+                txt = []
                 flag_red = False
                 flag_green = False
-
-                # Settle wages:
-                self.fin.settle_wage()
 
                 # If escaped:
                 if self in pytfall.ra:
                     self.health -= randint(3, 5)
-                    txt += "\n{color=[red]}This girl has escaped! Assign guards to search for her or do so yourself.{/color}\n\n"
+                    txt.append("\n{color=[red]}This girl has escaped! Assign guards to search for her or do so yourself.{/color}\n\n")
                     flag_red = True
                 else:
-                    # Front text
+                    # Front text (Days employed)
                     days = set_font_color(self.fullname, "green")
                     if not self.flag("daysemployed"):
-                        txt += "{} has started working for you today! ".format(days)
+                        txt.append("{} has started working for you today! ".format(days))
                     else:
-                        txt += "{} has been working for you for {} {}. ".format(days,
+                        txt.append("{} has been working for you for {} {}. ".format(days,
                                                                                 self.flag("daysemployed"),
-                                                                                plural("day", self.flag("daysemployed")))
-
+                                                                                plural("day", self.flag("daysemployed"))))
                     self.up_counter("daysemployed")
 
                     # Home location nd mods:
@@ -4455,21 +4451,13 @@ init -9 python:
 
                     # TODO se/Char.nd(): This can't be right? This is prolly set to the exploration log object.
                     if self.action == "Exploring":
-                        txt += "\n{color=[green]}She is currently on the exploration run!{/color}\n"
+                        txt.append("\n{color=[green]}She is currently on the exploration run!{/color}\n")
                     else:
                         if mod > 0:
-                            txt += "She has comfortably spent a night."
-                            # if self.AP > 0:
-                                  ## probably a bad idea, there are already many ways to increase stats
-                            #     txt += "\nYou've had some Action Points left from the day so you've tried to improve yourself to the very best of your ability to do so! \n"
-                            #     for ap in xrange(self.AP):
-                            #         for stat in self.STATS:
-                            #             if stat not in ["luck", "alignment", "vitality"]:
-                            #                 if dice(1 + int(round(self.luck/20.0))):
-                            #                         self.mod_stat(stat, 1)
+                            txt.append("She has comfortably spent a night.")
                         elif mod < 0:
                             flag_red = True
-                            txt += "{color=[red]}You should find some shelter for your worker... it's not healthy to sleep outside.{/color}\n"
+                            txt.append("{color=[red]}You should find some shelter for your worker... it's not healthy to sleep outside.{/color}\n")
 
                         for stat in ("health", "mp", "vitality"):
                             mod_by_max(self, stat, mod)
@@ -4505,6 +4493,9 @@ init -9 python:
                                 txt += "\nYou've failed to provide even the most basic needs for your slave. This will end badly... \n"
 
                     # This whole routine is basically fucked and done twice or more. Gotta do a whole check of all related parts tomorrow.
+                    # Settle wages:
+                    self.fin.settle_wage()
+
                     wage = self.expected_wage
                     got_paid = round_int(wage/100.0*self.wagemod)
 
