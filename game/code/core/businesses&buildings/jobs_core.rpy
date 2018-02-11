@@ -24,7 +24,7 @@
         MONEY:
         During jobs, we log cash that players gets to self.earned
         Cash that workers may get during the job:
-        worker.mod_flag("jobs_tips", value) # tips
+        worker.mod_flag("_jobs_tips", value) # tips
         worker.mod_flag("jobs_earned", value) # Normal stuff other than tips?
         worker.mod_flag("jobs_earned_dishonestly", value) # Stole a wallet from client?
 

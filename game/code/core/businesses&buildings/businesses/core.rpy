@@ -533,9 +533,9 @@ init -12 python:
                         w.flag("jobs_clients_served").append(c)
                         effectiveness = w.flag("jobs_effectiveness")
                         if effectiveness >= 150:
-                            w.up_counter("jobs_tips", tier*randint(2, 3))
+                            w.up_counter("_jobs_tips", tier*randint(2, 3))
                         if effectiveness >= 100:
-                            w.up_counter("jobs_tips", tier*randint(1, 2))
+                            w.up_counter("_jobs_tips", tier*randint(1, 2))
 
                     if can_service == 0:
                         if workers:

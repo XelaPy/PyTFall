@@ -903,9 +903,9 @@ init -9 python:
 
             # total_wage = sum(self.todays_logical_income_log.values())
             # hero.add_money(total_wage, reason="Businesses")
-            txt.append("\n\n")
+            txt.append("\n")
 
-            wage = round_int(self.expected_wage/100.0*self.wagemod)
+            wage = round_int(char.expected_wage/100.0*char.wagemod)
             if wage and hero.take_money(wage, reason="Wages"):
                 self.add_money(wage, reason="Wages")
                 self.log_logical_expense(wage, "Wages") # Is this correct?
@@ -916,12 +916,12 @@ init -9 python:
                 got_paid = True
 
             if char.status != "slave":
-                diff = self.wagemod-100
+                diff = char.wagemod-100
                 dismod = .4
                 joymod = .2
             else:
-                diff = self.wagemod
-                mod = .5
+                diff = char.wagemod
+                dismod = .5
                 joymod = .3
 
             if wage and not got_paid:
@@ -929,28 +929,30 @@ init -9 python:
                 txt.append(temp)
             else:
                 if char.status != "slave":
-                    temp = choice(["She expects to be compensated for her services ( %d Gold). " % self.expected_wage,
-                                   "She expects to be paid a wage of %d Gold. " % self.expected_wage])
+                    temp = choice(["She expects to be compensated for her services ( %d Gold). " % char.expected_wage,
+                                   "She expects to be paid a wage of %d Gold. " % char.expected_wage])
                 else:
                     temp = choice(["Being a slave, she doesn't expect to get paid. ",
                                    "Slaves don't get paid. "])
                 txt.append(temp)
 
                 if diff == 0:
-                    txt += "And she got exactly that in wages! "
+                    txt.append("And she got exactly that in wages! ")
                     img = "profile"
                 elif diff > 0:
-                    txt += choice(["You've paid her %d% more than that! " % diff,
-                                   "She got %d% more for her services. " % diff])
-                    img = self.show("profile", "happy", resize=(500, 600))
-                    self.disposition += round_int(diff*dismod)
-                    self.joy += round_int(diff*joymod)
+                    temp = choice(["You've paid her {}% more than that! ".format(diff),
+                                   "She got {}% more for her services. ".format(diff)])
+                    txt.append(temp)
+                    img = char.show("profile", "happy", resize=(500, 600))
+                    char.disposition += round_int(diff*dismod)
+                    char.joy += round_int(diff*joymod)
                 elif diff < 0:
-                    txt += choice(["She has received %d% less... You should really pay your girls a fair wage if you expect them to be happy and loyal." % diff,
-                                   "She got %d% less than that! " % diff])
-                    img = self.show("profile", "angry", resize=(500, 600))
-                    self.disposition -= round_int(diff*dismod)
-                    self.joy -= round_int(diff*joymod)
+                    temp = choice(["She has received {}% less... You should really pay your girls a fair wage if you expect them to be happy and loyal.".format(diff),
+                                   "She got {}% less than that! ".format(diff)])
+                    txt.append(temp)
+                    img = char.show("profile", "angry", resize=(500, 600))
+                    char.disposition -= round_int(diff*dismod)
+                    char.joy -= round_int(diff*joymod)
                 txt.append("\n")
 
             return img
@@ -1496,7 +1498,9 @@ init -9 python:
         GEN_OCCS = set(["SIW", "Warrior", "Server", "Specialist"])
         STATUS = set(["slave", "free"])
 
-        MOOD_TAGS = set(["angry", "confident", "defiant", "ecstatic", "happy", "indifferent", "provocative", "sad", "scared", "shy", "tired", "uncertain"])
+        MOOD_TAGS = set(["angry", "confident", "defiant", "ecstatic", "happy",
+                         "indifferent", "provocative", "sad", "scared", "shy",
+                         "tired", "uncertain"])
         UNIQUE_SAY_SCREEN_PORTRAIT_OVERLAYS = ["zoom_fast", "zoom_slow", "test_case"]
         """Base Character class for PyTFall.
         """
@@ -4487,7 +4491,7 @@ init -9 python:
                 # Finances:
                 # Upkeep:
                 if in_training_location(self):
-                    txt += "Upkeep is included in price of the class your girl's taking. \n"
+                    txt.append("Upkeep is included in price of the class your girl's taking. \n")
                 elif self.action == "Exploring":
                     pass
                 else:
@@ -4495,70 +4499,52 @@ init -9 python:
                     amount = self.fin.get_upkeep()
 
                     if amount < 0:
-                        txt += "She actually managed to save you some money ({color=[gold]}%d Gold{/color}) instead of requiring upkeep! Very convenient! \n" % (-amount)
+                        txt.append("She actually managed to save you some money ({color=[gold]}%d Gold{/color}) instead of requiring upkeep! Very convenient! \n" % (-amount))
                         hero.add_money(-amount, reason="Workers Upkeep")
                     elif hero.take_money(amount, reason="Workers Upkeep"):
                         self.fin.log_logical_expense(amount, "Upkeep")
                         if hasattr(self.workplace, "fin"):
                             self.location.fin.log_logical_expense(amount, "Workers Upkeep")
-                        txt += "You paid {color=[gold]}%d Gold{/color} for her upkeep. \n" % amount
+                        txt.append("You paid {color=[gold]}%d Gold{/color} for her upkeep. \n" % amount)
                     else:
                         if self.status != "slave":
                             self.joy -= randint(3, 5)
                             self.disposition -= randint(5, 10)
-                            txt += "\nYou failed to pay her upkeep, she's a bit cross with your because of that... \n"
+                            txt.append("\nYou failed to pay her upkeep, she's a bit cross with your because of that... \n")
                         else:
                             self.joy -= 20
                             self.disposition -= randint(25, 50)
                             self.health -= 10
                             self.vitality -= 25
-                            txt += "\nYou've failed to provide even the most basic needs for your slave. This will end badly... \n"
+                            txt.append("\nYou've failed to provide even the most basic needs for your slave. This will end badly... \n")
 
                 # This whole routine is basically fucked and done twice or more. Gotta do a whole check of all related parts tomorrow.
                 # Settle wages:
                 img = self.fin.settle_wage(txt, img)
 
-                tips = 0
-                # Tips:
-                if self.status != 'slave':
-                    if tips:
-                        txt += choice(["Total tips earned: %d Gold. " % tips,
-                                       "%s got %d Gold in tips. " % (self.nickname, tips)])
-                        if self.autocontrol["Tips"]:
-                            txt += choice(["As per agreement, your girl gets to keep all her tips! This is a very good motivator. ",
-                                           "She's happy to keep it. "])
-                            self.add_money(tips, reason="Tips")
-                            self.fin.log_logical_expense(tips, "Tips")
-                            factor = float(tips) / wage
+                tips = self.flag("_jobs_tips")
+                if tips:
+                    temp = choice(["Total tips earned: %d Gold. " % tips,
+                                   "%s got %d Gold in tips. " % (self.nickname, tips)])
+                    txt.append(temp)
 
-                            self.disposition += int(round(factor * 5))
-                            self.joy += int(round(factor * 2))
+                    if self.autocontrol["Tips"]:
+                        temp = choice(["As per agreement, your girl gets to keep all her tips! This is a very good motivator. ",
+                                       "She's happy to keep it. "])
+                        txt.append(temp)
 
-                            if got_paid < wage and got_paid + tips >= wage:
-                                txt += "That made up for the difference between the wage she expected and what she's received, so you can expect her not to be cross with you. "
-                                # Recover from disposition/joy hits from paying to little:
-                                self.disposition += int(round((wage - got_paid)*0.1))
-                                self.joy += int(round((wage - got_paid)*0.05))
-                        else:
-                            txt += choice(["You take all of her tips for yourself. ", "You keep all of it. "])
-                            hero.add_money(tips, reason="Girls Tips")
-                else:
-                    # Tips:
-                    if tips:
-                        txt += choice(["Total tips earned: %d Gold! " % tips,
-                                       "%s got %d Gold in tips! " % (self.nickname, tips)])
+                        self.add_money(tips, reason="Tips")
+                        self.fin.log_logical_expense(tips, "Tips")
+                        if isinstance(self.workplace, Building):
+                            self.workplace.fin.log_logical_expense(tips, "Tips")
 
-                        if self.autocontrol["Tips"]:
-                            txt += choice(["As per agreement, your girl gets to keep all her tips! This is a very good motivator. ", "She's happy to keep it. "])
-                            self.add_money(tips, reason="Tips")
-                            factor = float(tips) / wage
-
-                            self.disposition += int(round(factor * 5))
-                            self.joy += int(round(factor * 2))
-                        else:
-                            txt += choice(["You take all of her tips for yourself. ",
-                                           "You keep all of it. "])
-                            hero.add_money(tips, reason="Tips")
+                        self.disposition += (1 + round_int(tips*.05))
+                        self.joy += (1 + round_int(tips*.025))
+                    else:
+                        temp = choice(["You take all of her tips for yourself. ",
+                                       "You keep all of it. "])
+                        txt.append(temp)
+                        hero.add_money(tips, reason="Worker Tips")
 
                 # ----------------------------------------------------------------->
                 # The bit from here on will be disabled during exploration and other multi-day activities:
@@ -4571,63 +4557,63 @@ init -9 python:
                             if hero.take_money(self.get_training_price(), "Training"):
                                 self.auto_training("train_with_witch")
                                 self.reservedAP += 1
-                                txt += "\nSuccessfully completed scheduled training with Abby the Witch!"
-
+                                txt.append("\nSuccessfully completed scheduled training with Abby the Witch!")
                             else:
-                                txt +=  "\nNot enought funds to train with Abby the Witch. Auto-Training will be disabled!"
+                                txt.append("\nNot enought funds to train with Abby the Witch. Auto-Training will be disabled!")
                                 self.del_flag("train_with_witch")
                                 self.remove_trait(traits["Abby Training"])
                         else:
-                            txt += "\nNot enough AP left in reserve to train with Abby the Witch. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
+                            txt.append("\nNot enough AP left in reserve to train with Abby the Witch. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!")
 
                     if self.flag("train_with_aine"):
                         if self.get_free_ap():
                             if hero.take_money(self.get_training_price(), "Training"):
                                 self.auto_training("train_with_aine")
                                 self.reservedAP += 1
-                                txt += "\nSuccessfully completed scheduled training with Aine!"
-
+                                txt.append("\nSuccessfully completed scheduled training with Aine!")
                             else:
-                                txt +=  "\nNot enought funds to train with Aine. Auto-Training will be disabled!"
+                                txt.append("\nNot enought funds to train with Aine. Auto-Training will be disabled!")
                                 self.del_flag("train_with_aine")
                                 self.remove_trait(traits["Aine Training"])
                         else:
-                            txt += "\nNot enough AP left in reserve to train with Aine. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
+                            txt.append("\nNot enough AP left in reserve to train with Aine. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!")
 
                     if self.flag("train_with_xeona"):
                         if self.get_free_ap():
                             if hero.take_money(self.get_training_price(), "Training"):
                                 self.auto_training("train_with_xeona")
                                 self.reservedAP += 1
-                                txt += "\nSuccessfully completed scheduled combat training with Xeona!"
-
+                                txt.append("\nSuccessfully completed scheduled combat training with Xeona!")
                             else:
-                                txt +=  "\nNot enought funds to train with Xeona. Auto-Training will be disabled!"
+                                txt.append("\nNot enought funds to train with Xeona. Auto-Training will be disabled!")
                                 self.remove_trait(traits["Xeona Training"])
                                 self.del_flag("train_with_xeona")
-
                         else:
-                            txt += "\nNot enough AP left in reserve to train with Xeona. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
+                            txt.append("\nNot enough AP left in reserve to train with Xeona. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!")
 
                     # Shopping (For now will not cost AP):
-                    if all([self.action in [None, "AutoRest", "Rest"], self.autobuy, self.flag("day_since_shopping") > 5, self.gold > 1000, self.status != "slave"]):
+                    if all([self.action in [None, "AutoRest", "Rest"],
+                            self.autobuy, self.flag("day_since_shopping") > 5,
+                            self.gold > 1000, self.status != "slave"]):
                         self.set_flag("day_since_shopping", 1)
 
-                        txt += choice(["\n\n%s decided to go on a shopping tour :)\n" % self.nickname,
+                        temp = choice(["\n\n%s decided to go on a shopping tour :)\n" % self.nickname,
                                        "\n\n%s went to town to relax, take her mind of things and maybe even do some shopping!\n" % self.nickname])
+                        txt.append(temp)
 
                         result = self.auto_buy(amount=randint(3, 7))
 
                         if result:
-                            txt += choice(["{color=[green]}She bought {color=[blue]}%s %s{/color} for herself. This brightend her mood a bit!{/color}\n\n"%(", ".join(result), plural("item",len(result))),
+                            temp = choice(["{color=[green]}She bought {color=[blue]}%s %s{/color} for herself. This brightend her mood a bit!{/color}\n\n"%(", ".join(result), plural("item",len(result))),
                                            "{color=[green]}She got her hands on {color=[blue]}%s %s{/color}! She's definetly in better mood because of that!{/color}\n\n"%(", ".join(result),
                                                                                                                                                                            plural("item", len(result)))])
-
+                            txt.append(temp)
                             flag_green = True
                             self.joy += 5 * len(result)
-
                         else:
-                            txt += choice(["But she ended up not doing much else than windowshopping...\n\n", "But she could not find what she was looking for...\n\n"])
+                            temp = choice(["But she ended up not doing much else than windowshopping...\n\n",
+                                           "But she could not find what she was looking for...\n\n"])
+                            txt.append(temp)
 
                     # --------------------------------->>>
 
@@ -4636,16 +4622,15 @@ init -9 python:
 
                     # Unhappiness and related:
                     if self.joy <= 25:
-                        txt += "\n\nThis girl is unhappy!"
+                        txt.append("\n\nThis girl is unhappy!")
                         self.img = self.show("profile", "sad", resize=(500, 600))
                         self.days_unhappy += 1
-
                     else:
                         if self.days_unhappy - 1 >= 0:
                             self.days_unhappy -= 1
 
                     if self.days_unhappy > 7 and self.status != "slave":
-                        txt += "{color=[red]}She has left your employment because you do not give a rats ass about how she feels!{/color}"
+                        txt.append("{color=[red]}She has left your employment because you do not give a rats ass about how she feels!{/color}")
                         flag_red = True
                         hero.remove_char(self)
                         char.home = locations["City Apartments"]
@@ -4655,7 +4640,7 @@ init -9 python:
 
                     elif self.disposition < -500:
                         if self.status != "slave":
-                            txt += "{color=[red]}She has left your employment because she no longer trusts or respects you!{/color}"
+                            txt.append("{color=[red]}She has left your employment because she no longer trusts or respects you!{/color}")
                             flag_red = True
                             self.img = self.show("profile", "sad", resize=(500, 600))
                             hero.remove_char(self)
@@ -4663,33 +4648,29 @@ init -9 python:
                             char.workplace = None
                             char.action = None
                             set_location(char, locations["City"])
-
                         else:
                             if self.days_unhappy > 7:
                                 if dice(50):
-                                    txt += "\n\n{color=[red]}Took her own life because she could no longer live as your slave!{/color}"
+                                    txt.append("\n\n{color=[red]}Took her own life because she could no longer live as your slave!{/color}")
                                     self.img = self.show("profile", "sad", resize=(500, 600))
                                     flag_red = True
                                     self.health = 0
-
                                 else:
-                                    txt += "\n\n{color=[red]}Tried to take her own life because she could no longer live as your slave!{/color}"
+                                    txt.append("\n\n{color=[red]}Tried to take her own life because she could no longer live as your slave!{/color}")
                                     self.img = self.show("profile", "sad", resize=(500, 600))
                                     flag_red = True
                                     self.health = 1
 
             # Effects:
             if self.effects['Poisoned']['active']:
-                txt += "\n{color=[red]}This girl is suffering from the effects of Poison!{/color}\n"
+                txt.append("\n{color=[red]}This girl is suffering from the effects of Poison!{/color}\n")
                 flag_red = True
-
             if all([not self.autobuy, self.status != "slave", self.disposition < 950]):
                 self.autobuy = True
-                txt += "She will go shopping whenever it may please here from now on!\n"
-
+                txt.append("She will go shopping whenever it may please here from now on!\n")
             if all([self.status != "slave", self.disposition < 850, not self.autoequip]):
                 self.autoequip = True
-                txt += "She will be handling her own equipment from now on!\n"
+                txt.append("She will be handling her own equipment from now on!\n")
 
             # Here we change girl mod from local stat gathering to total daily change:
             girlmod = dict()
@@ -4702,23 +4683,23 @@ init -9 python:
             # I've added another check to make sure this doesn't happen if a girl is in FG as there is always something to do there:
             if not self.action:
                 flag_red = True
-                txt += "\n\n  {color=[red]}Please note that she is not really doing anything productive!{/color}\n"
+                txt.append("\n\n  {color=[red]}Please note that she is not really doing anything productive!{/color}\n")
 
             # TODO lovers/friends system:
             # This is temporary code, better and more reasonable system is needed, especially if we want different characters to befriend each other.
             if self.disposition < -200: # until we'll have means to deal with chars with very low disposition (aka slave training), negative disposition will slowly increase
                 self.disposition += randint(2, 5)
             if self.disposition < -150 and hero in self.friends:
-                txt += "\n {} is no longer friends with you...".format(self.nickname)
+                txt.append("\n {} is no longer friends with you...".format(self.nickname))
                 end_friends(self, hero)
             if self.disposition > 400 and not(hero in self.friends):
-                txt += "\n {} became pretty close to you.".format(self.nickname)
+                txt.append("\n {} became pretty close to you.".format(self.nickname))
                 set_friends(self, hero)
             if self.disposition < 500 and hero in self.lovers:
-                txt += "\n {} and you are no longer lovers...".format(self.nickname)
+                txt.append("\n {} and you are no longer lovers...".format(self.nickname))
                 end_lovers(self, hero)
 
-            txt += "{color=[green]}\n\n%s{/color}" % "\n".join(self.txt)
+            txt.append("{color=[green]}\n\n%s{/color}" % "\n".join(self.txt))
 
             # Create the event:
             evt = NDEvent()

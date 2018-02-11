@@ -73,7 +73,7 @@ init -5 python:
                 self.log(temp)
 
             # log the tips:
-            tips = worker.flag("jobs_tips")
+            tips = worker.flag("_jobs_tips")
             if tips:
                 temp = "{} gets {} in tips in the bar!".format(worker.name, tips)
                 self.log(temp, True)
