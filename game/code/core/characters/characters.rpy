@@ -893,44 +893,67 @@ init -9 python:
         # ================================>
         # Rest
 
-        def settle_wage(self):
+        def settle_wage(self, txt, img):
             """
-            Settle wages between chars and player.
+            Settle wages between player and chars.
             Called during next day method per each individual girl.
             """
             char = self.instance
+            got_paid = False
 
-            total_wage = sum(self.todays_logical_income_log.values())
-            hero.add_money(total_wage, reason="Businesses")
+            # total_wage = sum(self.todays_logical_income_log.values())
+            # hero.add_money(total_wage, reason="Businesses")
+            txt.append("\n\n")
+
+            wage = round_int(self.expected_wage/100.0*self.wagemod)
+            if wage and hero.take_money(wage, reason="Wages"):
+                self.add_money(wage, reason="Wages")
+                self.log_logical_expense(wage, "Wages") # Is this correct?
+                if isinstance(char.workplace, Building):
+                    char.workplace.fin.log_logical_expense(wage, "Wages")
+                if config.debug:
+                    txt.append("DEBUG: You paid {} in wages!\n".format(wage))
+                got_paid = True
 
             if char.status != "slave":
-                if char.wagemod >= 100:
-                    amount = int(char.expected_wage + int(round(char.expected_wage*.01*(char.wagemod-100))))
-                    if hero.take_money(amount, reason="Wages"):
-                        self.add_money(amount, reason="Wages")
-                        self.log_logical_expense(amount, "Wages")
-                        if isinstance(char.workplace, Building):
-                            char.workplace.fin.log_logical_expense(amount, "Wages")
-                        if char.disposition < 700:
-                            char.disposition += int(round((char.wagemod-100)*.1))
-                        char.joy += int(round((char.wagemod-100)*.1))
-                elif char.wagemod < 100:
-                    amount = int(char.expected_wage - int(round(char.expected_wage*.01*(100-char.wagemod))))
-                    if hero.take_money(amount, reason="Wages"):
-                        self.log_logical_expense(amount, "Wages")
-                        self.add_money(amount, reason="Wages")
-                        if isinstance(char.workplace, Building):
-                            char.workplace.fin.log_logical_expense(amount, "Wages")
+                diff = self.wagemod-100
+                dismod = .4
+                joymod = .2
             else:
-                amount = int(char.expected_wage*.01*(char.wagemod))
-                if hero.take_money(amount, reason="Wages"):
-                    self.add_money(amount, reason="Wages")
-                    self.log_logical_expense(amount, "Wages")
-                    if isinstance(char.workplace, Building):
-                        char.workplace.fin.log_logical_expense(amount, "Wages")
-                    if char.disposition < 700:
-                        char.disposition += int(round((char.wagemod)*.2))
-                    char.joy += int(round((char.wagemod)*.2))
+                diff = self.wagemod
+                mod = .5
+                joymod = .3
+
+            if wage and not got_paid:
+                temp = "You failed to pay her promised wage..."
+                txt.append(temp)
+            else:
+                if char.status != "slave":
+                    temp = choice(["She expects to be compensated for her services ( %d Gold). " % self.expected_wage,
+                                   "She expects to be paid a wage of %d Gold. " % self.expected_wage])
+                else:
+                    temp = choice(["Being a slave, she doesn't expect to get paid. ",
+                                   "Slaves don't get paid. "])
+                txt.append(temp)
+
+                if diff == 0:
+                    txt += "And she got exactly that in wages! "
+                    img = "profile"
+                elif diff > 0:
+                    txt += choice(["You've paid her %d% more than that! " % diff,
+                                   "She got %d% more for her services. " % diff])
+                    img = self.show("profile", "happy", resize=(500, 600))
+                    self.disposition += round_int(diff*dismod)
+                    self.joy += round_int(diff*joymod)
+                elif diff < 0:
+                    txt += choice(["She has received %d% less... You should really pay your girls a fair wage if you expect them to be happy and loyal." % diff,
+                                   "She got %d% less than that! " % diff])
+                    img = self.show("profile", "angry", resize=(500, 600))
+                    self.disposition -= round_int(diff*dismod)
+                    self.joy -= round_int(diff*joymod)
+                txt.append("\n")
+
+            return img
 
         def get_price(self):
             char = self.instance
@@ -4422,372 +4445,318 @@ init -9 python:
             return "".join(txt)
 
         def next_day(self):
-            if self in hero.chars:
-                # Local vars
-                img = 'profile'
-                txt = []
-                flag_red = False
-                flag_green = False
+            # Local vars
+            img = 'profile'
+            txt = []
+            flag_red = False
+            flag_green = False
 
-                # If escaped:
-                if self in pytfall.ra:
-                    self.health -= randint(3, 5)
-                    txt.append("\n{color=[red]}This girl has escaped! Assign guards to search for her or do so yourself.{/color}\n\n")
-                    flag_red = True
+            # If escaped:
+            if self in pytfall.ra:
+                self.health -= randint(3, 5)
+                txt.append("\n{color=[red]}This girl has escaped! Assign guards to search for her or do so yourself.{/color}\n\n")
+                flag_red = True
+            else:
+                # Front text (Days employed)
+                days = set_font_color(self.fullname, "green")
+                if not self.flag("daysemployed"):
+                    txt.append("{} has started working for you today! ".format(days))
                 else:
-                    # Front text (Days employed)
-                    days = set_font_color(self.fullname, "green")
-                    if not self.flag("daysemployed"):
-                        txt.append("{} has started working for you today! ".format(days))
+                    txt.append("{} has been working for you for {} {}. ".format(days,
+                                                                            self.flag("daysemployed"),
+                                                                            plural("day", self.flag("daysemployed"))))
+                self.up_counter("daysemployed")
+
+                # Home location nd mods:
+                loc = self.home
+                mod = loc.daily_modifier
+
+                # TODO se/Char.nd(): This can't be right? This is prolly set to the exploration log object.
+                if self.action == "Exploring":
+                    txt.append("\n{color=[green]}She is currently on the exploration run!{/color}\n")
+                else:
+                    if mod > 0:
+                        txt.append("She has comfortably spent a night.")
+                    elif mod < 0:
+                        flag_red = True
+                        txt.append("{color=[red]}You should find some shelter for your worker... it's not healthy to sleep outside.{/color}\n")
+
+                    for stat in ("health", "mp", "vitality"):
+                        mod_by_max(self, stat, mod)
+
+                # Finances:
+                # Upkeep:
+                if in_training_location(self):
+                    txt += "Upkeep is included in price of the class your girl's taking. \n"
+                elif self.action == "Exploring":
+                    pass
+                else:
+                    # The whole upkeep thing feels weird, penalties to slaves are severe...
+                    amount = self.fin.get_upkeep()
+
+                    if amount < 0:
+                        txt += "She actually managed to save you some money ({color=[gold]}%d Gold{/color}) instead of requiring upkeep! Very convenient! \n" % (-amount)
+                        hero.add_money(-amount, reason="Workers Upkeep")
+                    elif hero.take_money(amount, reason="Workers Upkeep"):
+                        self.fin.log_logical_expense(amount, "Upkeep")
+                        if hasattr(self.workplace, "fin"):
+                            self.location.fin.log_logical_expense(amount, "Workers Upkeep")
+                        txt += "You paid {color=[gold]}%d Gold{/color} for her upkeep. \n" % amount
                     else:
-                        txt.append("{} has been working for you for {} {}. ".format(days,
-                                                                                self.flag("daysemployed"),
-                                                                                plural("day", self.flag("daysemployed"))))
-                    self.up_counter("daysemployed")
-
-                    # Home location nd mods:
-                    loc = self.home
-                    mod = loc.daily_modifier
-
-                    # TODO se/Char.nd(): This can't be right? This is prolly set to the exploration log object.
-                    if self.action == "Exploring":
-                        txt.append("\n{color=[green]}She is currently on the exploration run!{/color}\n")
-                    else:
-                        if mod > 0:
-                            txt.append("She has comfortably spent a night.")
-                        elif mod < 0:
-                            flag_red = True
-                            txt.append("{color=[red]}You should find some shelter for your worker... it's not healthy to sleep outside.{/color}\n")
-
-                        for stat in ("health", "mp", "vitality"):
-                            mod_by_max(self, stat, mod)
-
-                    # Finances:
-                    # Upkeep:
-                    if in_training_location(self):
-                        txt += "Upkeep is included in price of the class your girl's taking. \n"
-                    elif self.action == "Exploring":
-                        pass
-                    else:
-                        # The whole upkeep thing feels weird, penalties to slaves are severe...
-                        amount = self.fin.get_upkeep()
-
-                        if amount < 0:
-                            txt += "She actually managed to save you some money ({color=[gold]}%d Gold{/color}) instead of requiring upkeep! Very convenient! \n" % (-amount)
-                            hero.add_money(-amount, reason="Workers Upkeep")
-                        elif hero.take_money(amount, reason="Workers Upkeep"):
-                            self.fin.log_logical_expense(amount, "Upkeep")
-                            if hasattr(self.workplace, "fin"):
-                                self.location.fin.log_logical_expense(amount, "Workers Upkeep")
-                            txt += "You paid {color=[gold]}%d Gold{/color} for her upkeep. \n" % amount
+                        if self.status != "slave":
+                            self.joy -= randint(3, 5)
+                            self.disposition -= randint(5, 10)
+                            txt += "\nYou failed to pay her upkeep, she's a bit cross with your because of that... \n"
                         else:
-                            if self.status != "slave":
-                                self.joy -= randint(3, 5)
-                                self.disposition -= randint(5, 10)
-                                txt += "\nYou failed to pay her upkeep, she's a bit cross with your because of that... \n"
-                            else:
-                                self.joy -= 20
-                                self.disposition -= randint(25, 50)
-                                self.health -= 10
-                                self.vitality -= 25
-                                txt += "\nYou've failed to provide even the most basic needs for your slave. This will end badly... \n"
+                            self.joy -= 20
+                            self.disposition -= randint(25, 50)
+                            self.health -= 10
+                            self.vitality -= 25
+                            txt += "\nYou've failed to provide even the most basic needs for your slave. This will end badly... \n"
 
-                    # This whole routine is basically fucked and done twice or more. Gotta do a whole check of all related parts tomorrow.
-                    # Settle wages:
-                    self.fin.settle_wage()
+                # This whole routine is basically fucked and done twice or more. Gotta do a whole check of all related parts tomorrow.
+                # Settle wages:
+                img = self.fin.settle_wage(txt, img)
 
-                    wage = self.expected_wage
-                    got_paid = round_int(wage/100.0*self.wagemod)
+                tips = 0
+                # Tips:
+                if self.status != 'slave':
+                    if tips:
+                        txt += choice(["Total tips earned: %d Gold. " % tips,
+                                       "%s got %d Gold in tips. " % (self.nickname, tips)])
+                        if self.autocontrol["Tips"]:
+                            txt += choice(["As per agreement, your girl gets to keep all her tips! This is a very good motivator. ",
+                                           "She's happy to keep it. "])
+                            self.add_money(tips, reason="Tips")
+                            self.fin.log_logical_expense(tips, "Tips")
+                            factor = float(tips) / wage
 
+                            self.disposition += int(round(factor * 5))
+                            self.joy += int(round(factor * 2))
 
-                    # Wages and tips:
-                    if self.status != 'slave':
-                        wage = self.expected_wage
-                        got_paid = self.fin.todays_main_income_log.get("Wages", 0) + self.fin.todays_main_income_log.get("Arena", 0)
-                        income = sum(self.fin.todays_logical_income_log.values())
-                        # TODO tips, Char.nd?: This is now settled elsewhere...
-                        # tips = sum(val for val in self.fin.todays_main_income_log["tips"].values())
-                        tips = 0
+                            if got_paid < wage and got_paid + tips >= wage:
+                                txt += "That made up for the difference between the wage she expected and what she's received, so you can expect her not to be cross with you. "
+                                # Recover from disposition/joy hits from paying to little:
+                                self.disposition += int(round((wage - got_paid)*0.1))
+                                self.joy += int(round((wage - got_paid)*0.05))
+                        else:
+                            txt += choice(["You take all of her tips for yourself. ", "You keep all of it. "])
+                            hero.add_money(tips, reason="Girls Tips")
+                else:
+                    # Tips:
+                    if tips:
+                        txt += choice(["Total tips earned: %d Gold! " % tips,
+                                       "%s got %d Gold in tips! " % (self.nickname, tips)])
 
-                        # Wages:
-                        txt += choice(["She expects to be compensated for her services ( %d Gold). " % wage,
-                                       "She expects to be paid a wage of %d Gold. " % wage])
+                        if self.autocontrol["Tips"]:
+                            txt += choice(["As per agreement, your girl gets to keep all her tips! This is a very good motivator. ", "She's happy to keep it. "])
+                            self.add_money(tips, reason="Tips")
+                            factor = float(tips) / wage
 
-                        if got_paid == wage:
-                            txt += "And she got exactly that in wages! "
-                            img = "profile"
-                        elif got_paid > wage:
-                            txt += choice(["You've payed her more than that (%d Gold)! "%got_paid, "She got %d Gold for her services. "%got_paid])
-                            img = self.show("profile", "happy", resize=(500, 600))
-                        elif got_paid < wage:
-                            txt += choice(["She has received less than expected... (%d Gold) You should really pay your girls a fair wage if you expect them to be happy and loyal."%got_paid,
-                                           "She got less than that in wages! (%d Gold)"%got_paid])
-                            img = self.show("profile", "angry", resize=(500, 600))
-                            self.disposition -= int(round((wage - got_paid)*0.1))
-                            self.joy -= int(round((wage - got_paid)*0.05))
+                            self.disposition += int(round(factor * 5))
+                            self.joy += int(round(factor * 2))
+                        else:
+                            txt += choice(["You take all of her tips for yourself. ",
+                                           "You keep all of it. "])
+                            hero.add_money(tips, reason="Tips")
 
-                        txt += "\n"
+                # ----------------------------------------------------------------->
+                # The bit from here on will be disabled during exploration and other multi-day activities:
 
-                        # Tips:
-                        if tips:
-                            txt += choice(["Total tips earned: %d Gold. " % tips,
-                                           "%s got %d Gold in tips. " % (self.nickname, tips)])
+                # Training with NPCs ---------------------------------------------->
+                if not self.action == "Exploring":
 
-                            if self.autocontrol["Tips"]:
-                                txt += choice(["As per agreement, your girl gets to keep all her tips! This is a very good motivator. ",
-                                               "She's happy to keep it. "])
-                                self.add_money(tips, reason="Tips")
-                                self.fin.log_logical_expense(tips, "Tips")
-                                factor = float(tips) / wage
-
-                                self.disposition += int(round(factor * 5))
-                                self.joy += int(round(factor * 2))
-
-                                if got_paid < wage and got_paid + tips >= wage:
-                                    txt += "That made up for the difference between the wage she expected and what she's received, so you can expect her not to be cross with you. "
-                                    # Recover from disposition/joy hits from paying to little:
-                                    self.disposition += int(round((wage - got_paid)*0.1))
-                                    self.joy += int(round((wage - got_paid)*0.05))
+                    if self.flag("train_with_witch"):
+                        if self.get_free_ap():
+                            if hero.take_money(self.get_training_price(), "Training"):
+                                self.auto_training("train_with_witch")
+                                self.reservedAP += 1
+                                txt += "\nSuccessfully completed scheduled training with Abby the Witch!"
 
                             else:
-                                txt += choice(["You take all of her tips for yourself. ", "You keep all of it. "])
-                                hero.add_money(tips, reason="Girls Tips")
+                                txt +=  "\nNot enought funds to train with Abby the Witch. Auto-Training will be disabled!"
+                                self.del_flag("train_with_witch")
+                                self.remove_trait(traits["Abby Training"])
+                        else:
+                            txt += "\nNot enough AP left in reserve to train with Abby the Witch. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
+
+                    if self.flag("train_with_aine"):
+                        if self.get_free_ap():
+                            if hero.take_money(self.get_training_price(), "Training"):
+                                self.auto_training("train_with_aine")
+                                self.reservedAP += 1
+                                txt += "\nSuccessfully completed scheduled training with Aine!"
+
+                            else:
+                                txt +=  "\nNot enought funds to train with Aine. Auto-Training will be disabled!"
+                                self.del_flag("train_with_aine")
+                                self.remove_trait(traits["Aine Training"])
+                        else:
+                            txt += "\nNot enough AP left in reserve to train with Aine. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
+
+                    if self.flag("train_with_xeona"):
+                        if self.get_free_ap():
+                            if hero.take_money(self.get_training_price(), "Training"):
+                                self.auto_training("train_with_xeona")
+                                self.reservedAP += 1
+                                txt += "\nSuccessfully completed scheduled combat training with Xeona!"
+
+                            else:
+                                txt +=  "\nNot enought funds to train with Xeona. Auto-Training will be disabled!"
+                                self.remove_trait(traits["Xeona Training"])
+                                self.del_flag("train_with_xeona")
+
+                        else:
+                            txt += "\nNot enough AP left in reserve to train with Xeona. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
+
+                    # Shopping (For now will not cost AP):
+                    if all([self.action in [None, "AutoRest", "Rest"], self.autobuy, self.flag("day_since_shopping") > 5, self.gold > 1000, self.status != "slave"]):
+                        self.set_flag("day_since_shopping", 1)
+
+                        txt += choice(["\n\n%s decided to go on a shopping tour :)\n" % self.nickname,
+                                       "\n\n%s went to town to relax, take her mind of things and maybe even do some shopping!\n" % self.nickname])
+
+                        result = self.auto_buy(amount=randint(3, 7))
+
+                        if result:
+                            txt += choice(["{color=[green]}She bought {color=[blue]}%s %s{/color} for herself. This brightend her mood a bit!{/color}\n\n"%(", ".join(result), plural("item",len(result))),
+                                           "{color=[green]}She got her hands on {color=[blue]}%s %s{/color}! She's definetly in better mood because of that!{/color}\n\n"%(", ".join(result),
+                                                                                                                                                                           plural("item", len(result)))])
+
+                            flag_green = True
+                            self.joy += 5 * len(result)
+
+                        else:
+                            txt += choice(["But she ended up not doing much else than windowshopping...\n\n", "But she could not find what she was looking for...\n\n"])
+
+                    # --------------------------------->>>
+
+                    self.restore()
+                    self.check_resting()
+
+                    # Unhappiness and related:
+                    if self.joy <= 25:
+                        txt += "\n\nThis girl is unhappy!"
+                        self.img = self.show("profile", "sad", resize=(500, 600))
+                        self.days_unhappy += 1
+
                     else:
-                        wage = self.expected_wage
-                        got_paid = self.fin.todays_main_income_log.get("Wages", 0)
-                        income = sum(val for val in self.fin.todays_logical_income_log.values())
-                        # TODO tips: This is now settled elsewhere.
-                        # tips = sum(val for val in self.fin.todays_income_log["tips"].values())
-                        tips = 0
+                        if self.days_unhappy - 1 >= 0:
+                            self.days_unhappy -= 1
 
-                        # Wages:
-                        txt += choice(["Being a slave, she doesn't expect to get paid. ",
-                                       "Slaves don't get paid. "])
+                    if self.days_unhappy > 7 and self.status != "slave":
+                        txt += "{color=[red]}She has left your employment because you do not give a rats ass about how she feels!{/color}"
+                        flag_red = True
+                        hero.remove_char(self)
+                        char.home = locations["City Apartments"]
+                        char.workplace = None
+                        char.action = None
+                        set_location(char, locations["City"])
 
-                        if got_paid:
-                            txt += "Yet, you've paid her and she's very grateful! "
-                            img = self.show("profile", "happy", resize=(500, 600))
-
-                            factor = float(got_paid) / wage
-                            self.disposition += round_int(factor * 10)
-                            self.joy += round_int(factor * 3)
-
-                        txt += "\n"
-
-                        # Tips:
-                        if tips:
-                            txt += choice(["Total tips earned: %d Gold! " % tips,
-                                           "%s got %d Gold in tips! " % (self.nickname, tips)])
-
-                            if self.autocontrol["Tips"]:
-                                txt += choice(["As per agreement, your girl gets to keep all her tips! This is a very good motivator. ", "She's happy to keep it. "])
-                                self.add_money(tips, reason="Tips")
-                                factor = float(tips) / wage
-
-                                self.disposition += int(round(factor * 5))
-                                self.joy += int(round(factor * 2))
-                            else:
-                                txt += choice(["You take all of her tips for yourself. ",
-                                               "You keep all of it. "])
-                                hero.add_money(tips, reason="Tips")
-
-                    # ----------------------------------------------------------------->
-                    # The bit from here on will be disabled during exploration and other multi-day activities:
-
-                    # Training with NPCs ---------------------------------------------->
-                    if not self.action == "Exploring":
-
-                        if self.flag("train_with_witch"):
-                            if self.get_free_ap():
-                                if hero.take_money(self.get_training_price(), "Training"):
-                                    self.auto_training("train_with_witch")
-                                    self.reservedAP += 1
-                                    txt += "\nSuccessfully completed scheduled training with Abby the Witch!"
-
-                                else:
-                                    txt +=  "\nNot enought funds to train with Abby the Witch. Auto-Training will be disabled!"
-                                    self.del_flag("train_with_witch")
-                                    self.remove_trait(traits["Abby Training"])
-                            else:
-                                txt += "\nNot enough AP left in reserve to train with Abby the Witch. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
-
-                        if self.flag("train_with_aine"):
-                            if self.get_free_ap():
-                                if hero.take_money(self.get_training_price(), "Training"):
-                                    self.auto_training("train_with_aine")
-                                    self.reservedAP += 1
-                                    txt += "\nSuccessfully completed scheduled training with Aine!"
-
-                                else:
-                                    txt +=  "\nNot enought funds to train with Aine. Auto-Training will be disabled!"
-                                    self.del_flag("train_with_aine")
-                                    self.remove_trait(traits["Aine Training"])
-                            else:
-                                txt += "\nNot enough AP left in reserve to train with Aine. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
-
-                        if self.flag("train_with_xeona"):
-                            if self.get_free_ap():
-                                if hero.take_money(self.get_training_price(), "Training"):
-                                    self.auto_training("train_with_xeona")
-                                    self.reservedAP += 1
-                                    txt += "\nSuccessfully completed scheduled combat training with Xeona!"
-
-                                else:
-                                    txt +=  "\nNot enought funds to train with Xeona. Auto-Training will be disabled!"
-                                    self.remove_trait(traits["Xeona Training"])
-                                    self.del_flag("train_with_xeona")
-
-                            else:
-                                txt += "\nNot enough AP left in reserve to train with Xeona. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
-
-                        # Shopping (For now will not cost AP):
-                        if all([self.action in [None, "AutoRest", "Rest"], self.autobuy, self.flag("day_since_shopping") > 5, self.gold > 1000, self.status != "slave"]):
-                            self.set_flag("day_since_shopping", 1)
-
-                            txt += choice(["\n\n%s decided to go on a shopping tour :)\n" % self.nickname,
-                                           "\n\n%s went to town to relax, take her mind of things and maybe even do some shopping!\n" % self.nickname])
-
-                            result = self.auto_buy(amount=randint(3, 7))
-
-                            if result:
-                                txt += choice(["{color=[green]}She bought {color=[blue]}%s %s{/color} for herself. This brightend her mood a bit!{/color}\n\n"%(", ".join(result), plural("item",len(result))),
-                                               "{color=[green]}She got her hands on {color=[blue]}%s %s{/color}! She's definetly in better mood because of that!{/color}\n\n"%(", ".join(result),
-                                                                                                                                                                               plural("item", len(result)))])
-
-                                flag_green = True
-                                self.joy += 5 * len(result)
-
-                            else:
-                                txt += choice(["But she ended up not doing much else than windowshopping...\n\n", "But she could not find what she was looking for...\n\n"])
-
-                        # --------------------------------->>>
-
-                        self.restore()
-                        self.check_resting()
-
-                        # Unhappiness and related:
-                        if self.joy <= 25:
-                            txt += "\n\nThis girl is unhappy!"
+                    elif self.disposition < -500:
+                        if self.status != "slave":
+                            txt += "{color=[red]}She has left your employment because she no longer trusts or respects you!{/color}"
+                            flag_red = True
                             self.img = self.show("profile", "sad", resize=(500, 600))
-                            self.days_unhappy += 1
-
-                        else:
-                            if self.days_unhappy - 1 >= 0:
-                                self.days_unhappy -= 1
-
-                        if self.days_unhappy > 7 and self.status != "slave":
-                            txt += "{color=[red]}She has left your employment because you do not give a rats ass about how she feels!{/color}"
-                            flag_red = True
                             hero.remove_char(self)
                             char.home = locations["City Apartments"]
                             char.workplace = None
                             char.action = None
                             set_location(char, locations["City"])
 
-                        elif self.disposition < -500:
-                            if self.status != "slave":
-                                txt += "{color=[red]}She has left your employment because she no longer trusts or respects you!{/color}"
-                                flag_red = True
-                                self.img = self.show("profile", "sad", resize=(500, 600))
-                                hero.remove_char(self)
-                                char.home = locations["City Apartments"]
-                                char.workplace = None
-                                char.action = None
-                                set_location(char, locations["City"])
+                        else:
+                            if self.days_unhappy > 7:
+                                if dice(50):
+                                    txt += "\n\n{color=[red]}Took her own life because she could no longer live as your slave!{/color}"
+                                    self.img = self.show("profile", "sad", resize=(500, 600))
+                                    flag_red = True
+                                    self.health = 0
 
-                            else:
-                                if self.days_unhappy > 7:
-                                    if dice(50):
-                                        txt += "\n\n{color=[red]}Took her own life because she could no longer live as your slave!{/color}"
-                                        self.img = self.show("profile", "sad", resize=(500, 600))
-                                        flag_red = True
-                                        self.health = 0
+                                else:
+                                    txt += "\n\n{color=[red]}Tried to take her own life because she could no longer live as your slave!{/color}"
+                                    self.img = self.show("profile", "sad", resize=(500, 600))
+                                    flag_red = True
+                                    self.health = 1
 
-                                    else:
-                                        txt += "\n\n{color=[red]}Tried to take her own life because she could no longer live as your slave!{/color}"
-                                        self.img = self.show("profile", "sad", resize=(500, 600))
-                                        flag_red = True
-                                        self.health = 1
+            # Effects:
+            if self.effects['Poisoned']['active']:
+                txt += "\n{color=[red]}This girl is suffering from the effects of Poison!{/color}\n"
+                flag_red = True
 
-                # Effects:
-                if self.effects['Poisoned']['active']:
-                    txt += "\n{color=[red]}This girl is suffering from the effects of Poison!{/color}\n"
-                    flag_red = True
+            if all([not self.autobuy, self.status != "slave", self.disposition < 950]):
+                self.autobuy = True
+                txt += "She will go shopping whenever it may please here from now on!\n"
 
-                if all([not self.autobuy, self.status != "slave", self.disposition < 950]):
-                    self.autobuy = True
-                    txt += "She will go shopping whenever it may please here from now on!\n"
+            if all([self.status != "slave", self.disposition < 850, not self.autoequip]):
+                self.autoequip = True
+                txt += "She will be handling her own equipment from now on!\n"
 
-                if all([self.status != "slave", self.disposition < 850, not self.autoequip]):
-                    self.autoequip = True
-                    txt += "She will be handling her own equipment from now on!\n"
+            # Here we change girl mod from local stat gathering to total daily change:
+            girlmod = dict()
+            for stat in self.stats.log:
+                if stat == "exp": girlmod[stat] = self.exp - self.stats.log[stat]
+                elif stat == "level": girlmod[stat] = self.level - self.stats.log[stat]
+                else: girlmod[stat] = self.stats[stat] - self.stats.log[stat]
 
-                # Here we change girl mod from local stat gathering to total daily change:
-                girlmod = dict()
-                for stat in self.stats.log:
-                    if stat == "exp": girlmod[stat] = self.exp - self.stats.log[stat]
-                    elif stat == "level": girlmod[stat] = self.level - self.stats.log[stat]
-                    else: girlmod[stat] = self.stats[stat] - self.stats.log[stat]
+            # Prolly a good idea to throw a red flag if she is not doing anything:
+            # I've added another check to make sure this doesn't happen if a girl is in FG as there is always something to do there:
+            if not self.action:
+                flag_red = True
+                txt += "\n\n  {color=[red]}Please note that she is not really doing anything productive!{/color}\n"
 
-                # Prolly a good idea to throw a red flag if she is not doing anything:
-                # I've added another check to make sure this doesn't happen if a girl is in FG as there is always something to do there:
-                if not self.action:
-                    flag_red = True
-                    txt += "\n\n  {color=[red]}Please note that she is not really doing anything productive!{/color}\n"
+            # TODO lovers/friends system:
+            # This is temporary code, better and more reasonable system is needed, especially if we want different characters to befriend each other.
+            if self.disposition < -200: # until we'll have means to deal with chars with very low disposition (aka slave training), negative disposition will slowly increase
+                self.disposition += randint(2, 5)
+            if self.disposition < -150 and hero in self.friends:
+                txt += "\n {} is no longer friends with you...".format(self.nickname)
+                end_friends(self, hero)
+            if self.disposition > 400 and not(hero in self.friends):
+                txt += "\n {} became pretty close to you.".format(self.nickname)
+                set_friends(self, hero)
+            if self.disposition < 500 and hero in self.lovers:
+                txt += "\n {} and you are no longer lovers...".format(self.nickname)
+                end_lovers(self, hero)
 
-                # TODO lovers/friends system:
-                # This is temporary code, better and more reasonable system is needed, especially if we want different characters to befriend each other.
-                if self.disposition < -200: # until we'll have means to deal with chars with very low disposition (aka slave training), negative disposition will slowly increase
-                    self.disposition += randint(2, 5)
-                if self.disposition < -150 and hero in self.friends:
-                    txt += "\n {} is no longer friends with you...".format(self.nickname)
-                    end_friends(self, hero)
-                if self.disposition > 400 and not(hero in self.friends):
-                    txt += "\n {} became pretty close to you.".format(self.nickname)
-                    set_friends(self, hero)
-                if self.disposition < 500 and hero in self.lovers:
-                    txt += "\n {} and you are no longer lovers...".format(self.nickname)
-                    end_lovers(self, hero)
+            txt += "{color=[green]}\n\n%s{/color}" % "\n".join(self.txt)
 
-                txt += "{color=[green]}\n\n%s{/color}" % "\n".join(self.txt)
+            # Create the event:
+            evt = NDEvent()
+            evt.red_flag = flag_red
+            evt.charmod = girlmod
+            evt.type = 'girlndreport'
+            evt.char = self
+            evt.img = img
+            evt.txt = txt
+            NextDayEvents.append(evt)
 
-                # Create the event:
-                evt = NDEvent()
-                evt.red_flag = flag_red
-                evt.charmod = girlmod
-                evt.type = 'girlndreport'
-                evt.char = self
-                evt.img = img
-                evt.txt = txt
-                NextDayEvents.append(evt)
+            # Finances related:
+            self.fin.next_day()
 
-                # Finances related:
-                self.fin.next_day()
+            # Resets and Counters:
+            self.restore_ap()
+            self.reservedAP = 0
+            self.item_counter()
+            self.txt = list()
+            self.img_cache = list()
+            self.cache = list()
+            self.set_flag("day_since_shopping", self.flag("day_since_shopping") + 1)
 
-                # Resets and Counters:
-                self.restore_ap()
-                self.reservedAP = 0
-                self.item_counter()
-                self.txt = list()
-                self.img_cache = list()
-                self.cache = list()
-                self.set_flag("day_since_shopping", self.flag("day_since_shopping") + 1)
+            self.effects['Food Poisoning']['activation_count'] = 0
+            self.guard_relay = {
+                                "bar_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
+                                "whore_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
+                                "club_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
+                                }
 
-                self.effects['Food Poisoning']['activation_count'] = 0
-                self.guard_relay = {
-                                    "bar_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
-                                    "whore_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
-                                    "club_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
-                                    }
+            # Reset relays that use the RelayProxy.
+            for p in pytRelayProxyStore:
+                p.reset(self)
 
-                # Reset relays that use the RelayProxy.
-                for p in pytRelayProxyStore:
-                    p.reset(self)
-
-                # And Finally, we run the parent next_day() method that should hold things that are native to all of it's children!
-                super(Char, self).next_day()
-            else:
-                super(Char, self).next_day()
+            # And Finally, we run the parent next_day() method that should hold things that are native to all of it's children!
+            super(Char, self).next_day()
+            # else:
+            #     super(Char, self).next_day()
 
         def keep_chance(self, item):
             """
