@@ -917,12 +917,12 @@ init -9 python:
 
             if char.status != "slave":
                 diff = char.wagemod-100
-                dismod = .4
-                joymod = .2
+                dismod = .09
+                joymod = .06
             else:
                 diff = char.wagemod
-                dismod = .5
-                joymod = .3
+                dismod = .1
+                joymod = .1
 
             if wage and not got_paid:
                 temp = "You failed to pay her promised wage..."
@@ -937,22 +937,21 @@ init -9 python:
                 txt.append(temp)
 
                 if diff == 0:
-                    txt.append("And she got exactly that in wages! ")
+                    temp = "And she got exactly that in wages! "
                     img = "profile"
                 elif diff > 0:
                     temp = choice(["You've paid her {}% more than that! ".format(diff),
                                    "She got {}% more for her services. ".format(diff)])
-                    txt.append(temp)
                     img = char.show("profile", "happy", resize=(500, 600))
-                    char.disposition += round_int(diff*dismod)
-                    char.joy += round_int(diff*joymod)
                 elif diff < 0:
                     temp = choice(["She has received {}% less... You should really pay your girls a fair wage if you expect them to be happy and loyal.".format(diff),
                                    "She got {}% less than that! ".format(diff)])
-                    txt.append(temp)
                     img = char.show("profile", "angry", resize=(500, 600))
-                    char.disposition -= round_int(diff*dismod)
-                    char.joy -= round_int(diff*joymod)
+                    dismod = -dismod
+                    joymod = -joymod
+                char.disposition += round_int(diff*dismod)
+                char.joy += round_int(diff*joymod)
+                txt.append(temp)
                 txt.append("\n")
 
             return img
