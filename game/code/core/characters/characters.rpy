@@ -4550,7 +4550,6 @@ init -9 python:
 
                 # Training with NPCs ---------------------------------------------->
                 if not self.action == "Exploring":
-
                     if self.flag("train_with_witch"):
                         if self.get_free_ap():
                             if hero.take_money(self.get_training_price(), "Training"):
@@ -4558,11 +4557,14 @@ init -9 python:
                                 self.reservedAP += 1
                                 txt.append("\nSuccessfully completed scheduled training with Abby the Witch!")
                             else:
-                                txt.append("\nNot enought funds to train with Abby the Witch. Auto-Training will be disabled!")
+                                txt.append("\nNot enough funds to train with Abby the Witch. Auto-Training will be disabled!")
                                 self.del_flag("train_with_witch")
                                 self.remove_trait(traits["Abby Training"])
                         else:
-                            txt.append("\nNot enough AP left in reserve to train with Abby the Witch. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!")
+                            s0 = "\nNot enough AP left in reserve to train with Abby the Witch."
+                            s1 = "Auto-Training will not be disabled."
+                            s2 = "{color=[red]}This character will start next day with 0 AP!){/color}"
+                            txt.append(" ".join([s0, s1, s2]))
 
                     if self.flag("train_with_aine"):
                         if self.get_free_ap():
