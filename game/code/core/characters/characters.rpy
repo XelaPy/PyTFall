@@ -2258,8 +2258,7 @@ init -9 python:
             self.stats.log["exp"] = self.exp
             self.stats.log["level"] = self.level
 
-        # -------------------------------------------------------------------------------->
-        # Equipment Methods (They often assume a character has an inventory)
+        # Items/Equipment related, Inventory is assumed!
         def eq_items(self):
             """Returns a list of all equiped items."""
             if hasattr(self, "eqslots"):
@@ -2418,6 +2417,85 @@ init -9 python:
                         i = i // 2
 
             return returns
+
+        def keep_chance(self, item):
+            """
+            return a list of chances, up to 100 indicating how much the person wants to hold on to a particular
+            item. Only includes personal preferences, use inv.eval_inventory() to determine stats/skills.
+            """
+
+            if not item.eqchance or not can_equip(item, self):
+                return [-1000000]
+
+            chance = []
+            when_drunk = 30
+            appetite = 50
+
+            for trait in self.traits:
+
+                if trait in trait_selections["badtraits"] and item in trait_selections["badtraits"][trait]:
+                    return [-1000000]
+
+                if trait in trait_selections["goodtraits"] and item in trait_selections["goodtraits"][trait]:
+                    chance.append(100)
+
+                if trait == "Kamidere": # Vanity: wants pricy uncommon items
+                    chance.append((100 - item.chance + min(item.price/10, 100))/2)
+
+                elif trait == "Tsundere": # stubborn: what s|he won't buy, s|he won't wear.
+                    chance.append(100 - item.badness)
+
+                elif trait == "Bokukko": # what the farmer don't know, s|he won't eat.
+                    chance.append(item.chance)
+
+                elif trait == "Heavy Drinker":
+                    when_drunk = 45
+
+                elif trait == "Always Hungry":
+                    appetite += 20
+
+                elif trait == "Slim":
+                    appetite -= 10
+
+            if item.type == "permanent": # only allowed if also in goodtraits. but then we already returned 100
+                return [-1000000]
+
+            if item.slot == "consumable":
+
+                if item in self.consblock or item in self.constemp:
+                    return [-10]
+
+                if item.type == "alcohol":
+
+                    if self.effects['Drunk']['activation_count'] >= when_drunk:
+                        return [-1]
+
+                    if self.effects['Depression']['active']:
+                        chance.append(30 + when_drunk)
+
+                elif item.type == "food":
+
+                    food_poisoning = self.effects['Food Poisoning']['activation_count']
+
+                    if not food_poisoning:
+                        chance.append(appetite)
+
+                    else:
+                        if food_poisoning >= 6:
+                            return [-1]
+
+                        chance.append((6-food_poisoning) * 9)
+
+            elif item.slot == "misc":
+                # If the item self-destructs or will be blocked after one use,
+                # it's now up to the caller to stop after the first item of this kind that is picked.
+
+                # no blocked misc items:
+                if item.id in self.miscblock:
+                    return [-1000000]
+
+            chance.append(item.eqchance)
+            return chance
 
         def equip(self, item, remove=True): # Equips the item
             """
@@ -3724,7 +3802,7 @@ init -9 python:
                         self.reservedAP += 1
                         txt.append("\nSuccessfully completed scheduled combat training with Xeona!")
                     else:
-                        txt.append("\nNot enought funds to train with Xeona. Auto-Training will be disabled!")
+                        txt.append("\nNot enough funds to train with Xeona. Auto-Training will be disabled!")
                         self.remove_trait(traits["Xeona Training"])
                         self.del_flag("train_with_xeona")
                 else:
@@ -3829,6 +3907,7 @@ init -9 python:
             self._buildings = list()
             self._chars = list()
 
+            # TODO Doesn't look like this is in use anymore?
             self.guard_relay = {"bar_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
                                            "whore_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
                                            "club_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0}
@@ -4139,13 +4218,6 @@ init -9 python:
 
             if mod > 0:
                 txt += "You've comfortably spent a night."
-                # if self.AP > 0:
-                #     txt += "\nYou've had some Action Points left from the day so you've tried to improve yourself to the very best of your ability to do so! \n" # probably a bad idea, there are already many ways to increase stats
-                #     for ap in xrange(self.AP):
-                #         for stat in self.STATS:
-                #             if stat not in ["luck", "alignment", "vitality"]:
-                #                 if dice(1 + int(round(self.luck/20.0))):
-                #                         self.mod_stat(stat, 1)
             elif mod < 0:
                 flag_red = True
                 txt += "{color=[red]}You should find some shelter for the night... it's not healthy to sleep outside.{/color}\n"
@@ -4154,7 +4226,7 @@ init -9 python:
                 mod_by_max(self, stat, mod)
 
             # Training with NPCs --------------------------------------->
-            txt += self.nd_auto_train()
+            self.nd_auto_train(txt)
 
             # Finances related ---->
             self.fin.next_day()
@@ -4558,74 +4630,14 @@ init -9 python:
                     self.nd_auto_train(txt)
 
                     # Shopping (For now will not cost AP):
-                    if all([# self.action in [None, "AutoRest", "Rest"], # Feels off, they can go shopping after work.
-                            self.autobuy, self.flag("day_since_shopping") > 5,
-                            self.gold > 1000, self.status != "slave"]):
-                            self.set_flag("day_since_shopping", 1)
-
-                        temp = choice(["\n\n%s decided to go on a shopping tour :)\n" % self.nickname,
-                                       "\n\n%s went to town to relax, take her mind of things and maybe even do some shopping!\n" % self.nickname])
-                        txt.append(temp)
-
-                        result = self.auto_buy(amount=randint(3, 7))
-
-                        if result:
-                            temp = choice(["{color=[green]}She bought {color=[blue]}%s %s{/color} for herself. This brightened her mood a bit!{/color}\n\n"%(", ".join(result), plural("item",len(result))),
-                                           "{color=[green]}She got her hands on {color=[blue]}%s %s{/color}! She's definitely in better mood because of that!{/color}\n\n"%(", ".join(result),
-                                                                                                                                                                           plural("item", len(result)))])
-                            txt.append(temp)
-                            flag_green = True
-                            self.joy += 5 * len(result)
-                        else:
-                            temp = choice(["But she ended up not doing much else than windowshopping...\n\n",
-                                           "But she could not find what she was looking for...\n\n"])
-                            txt.append(temp)
-
+                    self.nd_autoshop(txt)
                     # --------------------------------->>>
 
                     self.restore()
                     self.check_resting()
 
                     # Unhappiness and related:
-                    if self.joy <= 25:
-                        txt.append("\n\nThis girl is unhappy!")
-                        self.img = self.show("profile", "sad", resize=(500, 600))
-                        self.days_unhappy += 1
-                    else:
-                        if self.days_unhappy - 1 >= 0:
-                            self.days_unhappy -= 1
-
-                    if self.days_unhappy > 7 and self.status != "slave":
-                        txt.append("{color=[red]}She has left your employment because you do not give a rats ass about how she feels!{/color}")
-                        flag_red = True
-                        hero.remove_char(self)
-                        char.home = locations["City Apartments"]
-                        char.workplace = None
-                        char.action = None
-                        set_location(char, locations["City"])
-
-                    elif self.disposition < -500:
-                        if self.status != "slave":
-                            txt.append("{color=[red]}She has left your employment because she no longer trusts or respects you!{/color}")
-                            flag_red = True
-                            self.img = self.show("profile", "sad", resize=(500, 600))
-                            hero.remove_char(self)
-                            char.home = locations["City Apartments"]
-                            char.workplace = None
-                            char.action = None
-                            set_location(char, locations["City"])
-                        else:
-                            if self.days_unhappy > 7:
-                                if dice(50):
-                                    txt.append("\n\n{color=[red]}Took her own life because she could no longer live as your slave!{/color}")
-                                    self.img = self.show("profile", "sad", resize=(500, 600))
-                                    flag_red = True
-                                    self.health = 0
-                                else:
-                                    txt.append("\n\n{color=[red]}Tried to take her own life because she could no longer live as your slave!{/color}")
-                                    self.img = self.show("profile", "sad", resize=(500, 600))
-                                    flag_red = True
-                                    self.health = 1
+                    img = self.nd_joy_disposition_checks(txt, img)
 
             # Effects:
             if self.effects['Poisoned']['active']:
@@ -4639,38 +4651,25 @@ init -9 python:
                 txt.append("She will be handling her own equipment from now on!\n")
 
             # Here we change girl mod from local stat gathering to total daily change:
-            girlmod = dict()
-            for stat in self.stats.log:
-                if stat == "exp": girlmod[stat] = self.exp - self.stats.log[stat]
-                elif stat == "level": girlmod[stat] = self.level - self.stats.log[stat]
-                else: girlmod[stat] = self.stats[stat] - self.stats.log[stat]
+            charmod = dict()
+            for stat, value in self.stats.log.items():
+                if stat == "exp": charmod[stat] = self.exp - value
+                elif stat == "level": charmod[stat] = self.level - value
+                else: charmod[stat] = self.stats[stat] - value
 
             # Prolly a good idea to throw a red flag if she is not doing anything:
-            # I've added another check to make sure this doesn't happen if a girl is in FG as there is always something to do there:
+            # I've added another check to make sure this doesn't happen if
+            # a girl is in FG as there is always something to do there:
             if not self.action:
                 flag_red = True
-                txt.append("\n\n  {color=[red]}Please note that she is not really doing anything productive!{/color}\n")
-
-            # TODO lovers/friends system:
-            # This is temporary code, better and more reasonable system is needed, especially if we want different characters to befriend each other.
-            if self.disposition < -200: # until we'll have means to deal with chars with very low disposition (aka slave training), negative disposition will slowly increase
-                self.disposition += randint(2, 5)
-            if self.disposition < -150 and hero in self.friends:
-                txt.append("\n {} is no longer friends with you...".format(self.nickname))
-                end_friends(self, hero)
-            if self.disposition > 400 and not(hero in self.friends):
-                txt.append("\n {} became pretty close to you.".format(self.nickname))
-                set_friends(self, hero)
-            if self.disposition < 500 and hero in self.lovers:
-                txt.append("\n {} and you are no longer lovers...".format(self.nickname))
-                end_lovers(self, hero)
+                txt.append("\n\n  -{color=[red]}Please note that she is not really doing anything productive!-{/color}\n")
 
             txt.append("{color=[green]}\n\n%s{/color}" % "\n".join(self.txt))
 
             # Create the event:
             evt = NDEvent()
             evt.red_flag = flag_red
-            evt.charmod = girlmod
+            evt.charmod = charmod
             evt.type = 'girlndreport'
             evt.char = self
             evt.img = img
@@ -4705,84 +4704,86 @@ init -9 python:
             # else:
             #     super(Char, self).next_day()
 
-        def keep_chance(self, item):
-            """
-            return a list of chances, up to 100 indicating how much the person wants to hold on to a particular
-            item. Only includes personal preferences, use inv.eval_inventory() to determine stats/skills.
-            """
+        def nd_autoshop(self, txt):
+            if all([# self.action in [None, "AutoRest", "Rest"], # Feels off, they can go shopping after work.
+                    self.autobuy, self.flag("day_since_shopping") > 5,
+                    self.gold > 1000, self.status != "slave"]):
 
-            if not item.eqchance or not can_equip(item, self):
-                return [-1000000]
+                self.set_flag("day_since_shopping", 1)
+                temp = choice(["\n\n%s decided to go on a shopping tour :)\n" % self.nickname,
+                               "\n\n%s went to town to relax, take her mind of things and maybe even do some shopping!\n" % self.nickname])
+                txt.append(temp)
 
-            chance = []
-            when_drunk = 30
-            appetite = 50
+                result = self.auto_buy(amount=randint(3, 7))
+                if result:
+                    temp = choice(["{color=[green]}She bought {color=[blue]}%s %s{/color} for herself. This brightened her mood a bit!{/color}\n\n"%(", ".join(result), plural("item",len(result))),
+                                   "{color=[green]}She got her hands on {color=[blue]}%s %s{/color}! She's definitely in better mood because of that!{/color}\n\n"%(", ".join(result),
+                                                                                                                                                                   plural("item", len(result)))])
+                    txt.append(temp)
+                    flag_green = True
+                    self.joy += 5 * len(result)
+                else:
+                    temp = choice(["But she ended up not doing much else than window-shopping...\n\n",
+                                   "But she could not find what she was looking for...\n\n"])
+                    txt.append(temp)
 
-            for trait in self.traits:
+        def nd_joy_disposition_checks(self, txt, img):
+            if self.joy <= 25:
+                txt.append("\n\nThis girl is unhappy!")
+                img = self.show("profile", "sad", resize=(500, 600))
+                self.days_unhappy += 1
+            else:
+                if self.days_unhappy - 1 >= 0:
+                    self.days_unhappy -= 1
 
-                if trait in trait_selections["badtraits"] and item in trait_selections["badtraits"][trait]:
-                    return [-1000000]
-
-                if trait in trait_selections["goodtraits"] and item in trait_selections["goodtraits"][trait]:
-                    chance.append(100)
-
-                if trait == "Kamidere": # Vanity: wants pricy uncommon items
-                    chance.append((100 - item.chance + min(item.price/10, 100))/2)
-
-                elif trait == "Tsundere": # stubborn: what s|he won't buy, s|he won't wear.
-                    chance.append(100 - item.badness)
-
-                elif trait == "Bokukko": # what the farmer don't know, s|he won't eat.
-                    chance.append(item.chance)
-
-                elif trait == "Heavy Drinker":
-                    when_drunk = 45
-
-                elif trait == "Always Hungry":
-                    appetite += 20
-
-                elif trait == "Slim":
-                    appetite -= 10
-
-            if item.type == "permanent": # only allowed if also in goodtraits. but then we already returned 100
-                return [-1000000]
-
-            if item.slot == "consumable":
-
-                if item in self.consblock or item in self.constemp:
-                    return [-10]
-
-                if item.type == "alcohol":
-
-                    if self.effects['Drunk']['activation_count'] >= when_drunk:
-                        return [-1]
-
-                    if self.effects['Depression']['active']:
-                        chance.append(30 + when_drunk)
-
-                elif item.type == "food":
-
-                    food_poisoning = self.effects['Food Poisoning']['activation_count']
-
-                    if not food_poisoning:
-                        chance.append(appetite)
-
+            if self.days_unhappy > 7 and self.status != "slave":
+                txt.append("{color=[red]}She has left your employment because you do not give a rats ass about how she feels!{/color}")
+                flag_red = True
+                hero.remove_char(self)
+                char.home = locations["City Apartments"]
+                char.workplace = None
+                char.action = None
+                set_location(char, locations["City"])
+            elif self.disposition < -500:
+                if self.status != "slave":
+                    txt.append("{color=[red]}She has left your employment because she no longer trusts or respects you!{/color}")
+                    flag_red = True
+                    img = self.show("profile", "sad", resize=(500, 600))
+                    hero.remove_char(self)
+                    char.home = locations["City Apartments"]
+                    char.workplace = None
+                    char.action = None
+                    set_location(char, locations["City"])
+                elif self.days_unhappy > 7:
+                    if dice(50):
+                        txt.append("\n{color=[red]}Took her own life because she could no longer live as your slave!{/color}")
+                        img = self.show("profile", "sad", resize=(500, 600))
+                        flag_red = True
+                        self.health = 0
                     else:
-                        if food_poisoning >= 6:
-                            return [-1]
+                        txt.append("\n{color=[red]}Tried to take her own life because she could no longer live as your slave!{/color}")
+                        img = self.show("profile", "sad", resize=(500, 600))
+                        flag_red = True
+                        self.health = 1
 
-                        chance.append((6-food_poisoning) * 9)
+            # This is temporary code, better and more reasonable system is needed,
+            # especially if we want different characters to befriend each other.
 
-            elif item.slot == "misc":
-                # If the item self-destructs or will be blocked after one use,
-                # it's now up to the caller to stop after the first item of this kind that is picked.
+            # until we'll have means to deal with chars
+            # with very low disposition (aka slave training), negative disposition will slowly increase
+            if self.disposition < -200:
+                self.disposition += randint(2, 5)
+            if self.disposition < -150 and hero in self.friends:
+                txt.append("\n {} is no longer friends with you...".format(self.nickname))
+                end_friends(self, hero)
+            if self.disposition > 400 and not hero in self.friends:
+                txt.append("\n {} became pretty close to you.".format(self.nickname))
+                set_friends(self, hero)
+            if self.disposition < 500 and hero in self.lovers:
+                txt.append("\n {} and you are no longer lovers...".format(self.nickname))
+                end_lovers(self, hero)
 
-                # no blocked misc items:
-                if item.id in self.miscblock:
-                    return [-1000000]
-
-            chance.append(item.eqchance)
-            return chance
+            return img
 
 
     class rChar(Char):
