@@ -3674,7 +3674,7 @@ init -9 python:
                 elif flag.startswith("_jobs"):
                     self.del_flag(flag)
 
-            # Run the effects if they are availible:
+            # Run the effects if they are available:
             if hasattr(self, "effects"):
                 for key in self.effects:
                     if self.effects[key]['active']:
@@ -3683,6 +3683,55 @@ init -9 python:
             # Log stats to display changes on the next day (Only for chars to whom it's useful):
             if self in hero.chars:
                 self.log_stats()
+
+        def nd_auto_train(self, txt):
+            if self.flag("train_with_witch"):
+                if self.get_free_ap():
+                    if hero.take_money(self.get_training_price(), "Training"):
+                        self.auto_training("train_with_witch")
+                        self.reservedAP += 1
+                        txt.append("\nSuccessfully completed scheduled training with Abby the Witch!")
+                    else:
+                        txt.append("\nNot enough funds to train with Abby the Witch. Auto-Training will be disabled!")
+                        self.del_flag("train_with_witch")
+                        self.remove_trait(traits["Abby Training"])
+                else:
+                    s0 = "\nNot enough AP left in reserve to train with Abby the Witch."
+                    s1 = "Auto-Training will not be disabled."
+                    s2 = "{color=[red]}This character will start next day with 0 AP!){/color}"
+                    txt.append(" ".join([s0, s1, s2]))
+
+            if self.flag("train_with_aine"):
+                if self.get_free_ap():
+                    if hero.take_money(self.get_training_price(), "Training"):
+                        self.auto_training("train_with_aine")
+                        self.reservedAP += 1
+                        txt.append("\nSuccessfully completed scheduled training with Aine!")
+                    else:
+                        txt.append("\nNot enought funds to train with Aine. Auto-Training will be disabled!")
+                        self.del_flag("train_with_aine")
+                        self.remove_trait(traits["Aine Training"])
+                else:
+                    s0 = "\nNot enough AP left in reserve to train with Aine."
+                    s1 = "Auto-Training will not be disabled."
+                    s2 = "{color=[red]}This character will start next day with 0 AP!){/color}"
+                    txt.append(" ".join([s0, s1, s2]))
+
+            if self.flag("train_with_xeona"):
+                if self.get_free_ap():
+                    if hero.take_money(self.get_training_price(), "Training"):
+                        self.auto_training("train_with_xeona")
+                        self.reservedAP += 1
+                        txt.append("\nSuccessfully completed scheduled combat training with Xeona!")
+                    else:
+                        txt.append("\nNot enought funds to train with Xeona. Auto-Training will be disabled!")
+                        self.remove_trait(traits["Xeona Training"])
+                        self.del_flag("train_with_xeona")
+                else:
+                    s0 = "\nNot enough AP left in reserve to train with Xeona."
+                    s1 = "Auto-Training will not be disabled."
+                    s2 = "{color=[red]}This character will start next day with 0 AP!){/color}"
+                    txt.append(" ".join([s0, s1, s2]))
 
 
     class Mob(PytCharacter):
@@ -3891,50 +3940,6 @@ init -9 python:
         #
         #     return img
 
-        # ----------------------------------------------------------------------------------
-        # Next Day:
-        def nd_auto_train(self):
-            txt = ""
-            if self.flag("train_with_witch"):
-                if self.get_free_ap():
-                    if self.take_money(self.get_training_price(), "Training"):
-                        self.auto_training("train_with_witch")
-                        self.reservedAP += 1
-                        txt += "\nSuccessfully completed scheduled training with Abby the Witch!"
-                    else:
-                       txt +=  "\nNot enought funds to train with Abby the Witch. Auto-Training will be disabled!"
-                       self.del_flag("train_with_witch")
-                       self.remove_trait(traits["Abby Training"])
-                else:
-                    txt += "\nNot enough AP left in reserve to train with Abby the Witch. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
-
-            if self.flag("train_with_aine"):
-                if self.get_free_ap():
-                    if self.take_money(self.get_training_price(), "Training"):
-                        self.auto_training("train_with_aine")
-                        self.reservedAP += 1
-                        txt += "\nSuccessfully completed scheduled training with Aine!"
-                    else:
-                       txt +=  "\nNot enought funds to train with Aine. Auto-Training will be disabled!"
-                       self.del_flag("train_with_aine")
-                       self.remove_trait(traits["Aine Training"])
-                else:
-                    txt += "\nNot enough AP left in reserve to train with Aine. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
-
-            if self.flag("train_with_xeona"):
-                if self.get_free_ap():
-                    if self.take_money(self.get_training_price(), "Training"):
-                        self.auto_training("train_with_xeona")
-                        self.reservedAP += 1
-                        txt += "\nSuccessfully completed scheduled combat training with Xeona!"
-                    else:
-                       txt +=  "\nNot enought funds to train with Xeona. Auto-Training will be disabled!"
-                       self.del_flag("train_with_xeona")
-                       self.remove_trait(traits["Xeona Training"])
-                else:
-                    txt += "\nNot enough AP left in reserve to train with Xeona. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!"
-            return txt
-
         def nd_pay_taxes(self):
             txt = ""
             if calendar.weekday() == "Monday" and day != 1 and not config.developer:
@@ -4122,6 +4127,7 @@ init -9 python:
                         self.mod_stat(stat, self.guard_relay[event]["stats"][stat])
 
             # -------------------->
+            # TODO: Convert to a list or we'll crash when autotraining!
             txt += "Hero Report:\n\n"
 
             # Home location nd mods:
@@ -4150,8 +4156,7 @@ init -9 python:
             # Training with NPCs --------------------------------------->
             txt += self.nd_auto_train()
 
-            # -------------
-            # Finances related
+            # Finances related ---->
             self.fin.next_day()
 
             # Taxes:
@@ -4550,53 +4555,13 @@ init -9 python:
 
                 # Training with NPCs ---------------------------------------------->
                 if not self.action == "Exploring":
-                    if self.flag("train_with_witch"):
-                        if self.get_free_ap():
-                            if hero.take_money(self.get_training_price(), "Training"):
-                                self.auto_training("train_with_witch")
-                                self.reservedAP += 1
-                                txt.append("\nSuccessfully completed scheduled training with Abby the Witch!")
-                            else:
-                                txt.append("\nNot enough funds to train with Abby the Witch. Auto-Training will be disabled!")
-                                self.del_flag("train_with_witch")
-                                self.remove_trait(traits["Abby Training"])
-                        else:
-                            s0 = "\nNot enough AP left in reserve to train with Abby the Witch."
-                            s1 = "Auto-Training will not be disabled."
-                            s2 = "{color=[red]}This character will start next day with 0 AP!){/color}"
-                            txt.append(" ".join([s0, s1, s2]))
-
-                    if self.flag("train_with_aine"):
-                        if self.get_free_ap():
-                            if hero.take_money(self.get_training_price(), "Training"):
-                                self.auto_training("train_with_aine")
-                                self.reservedAP += 1
-                                txt.append("\nSuccessfully completed scheduled training with Aine!")
-                            else:
-                                txt.append("\nNot enought funds to train with Aine. Auto-Training will be disabled!")
-                                self.del_flag("train_with_aine")
-                                self.remove_trait(traits["Aine Training"])
-                        else:
-                            txt.append("\nNot enough AP left in reserve to train with Aine. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!")
-
-                    if self.flag("train_with_xeona"):
-                        if self.get_free_ap():
-                            if hero.take_money(self.get_training_price(), "Training"):
-                                self.auto_training("train_with_xeona")
-                                self.reservedAP += 1
-                                txt.append("\nSuccessfully completed scheduled combat training with Xeona!")
-                            else:
-                                txt.append("\nNot enought funds to train with Xeona. Auto-Training will be disabled!")
-                                self.remove_trait(traits["Xeona Training"])
-                                self.del_flag("train_with_xeona")
-                        else:
-                            txt.append("\nNot enough AP left in reserve to train with Xeona. Auto-Training will not be disabled ({color=[red]}This character will start next day with 0 AP{/color})!")
+                    self.nd_auto_train(txt)
 
                     # Shopping (For now will not cost AP):
-                    if all([self.action in [None, "AutoRest", "Rest"],
+                    if all([# self.action in [None, "AutoRest", "Rest"], # Feels off, they can go shopping after work.
                             self.autobuy, self.flag("day_since_shopping") > 5,
                             self.gold > 1000, self.status != "slave"]):
-                        self.set_flag("day_since_shopping", 1)
+                            self.set_flag("day_since_shopping", 1)
 
                         temp = choice(["\n\n%s decided to go on a shopping tour :)\n" % self.nickname,
                                        "\n\n%s went to town to relax, take her mind of things and maybe even do some shopping!\n" % self.nickname])
@@ -4605,8 +4570,8 @@ init -9 python:
                         result = self.auto_buy(amount=randint(3, 7))
 
                         if result:
-                            temp = choice(["{color=[green]}She bought {color=[blue]}%s %s{/color} for herself. This brightend her mood a bit!{/color}\n\n"%(", ".join(result), plural("item",len(result))),
-                                           "{color=[green]}She got her hands on {color=[blue]}%s %s{/color}! She's definetly in better mood because of that!{/color}\n\n"%(", ".join(result),
+                            temp = choice(["{color=[green]}She bought {color=[blue]}%s %s{/color} for herself. This brightened her mood a bit!{/color}\n\n"%(", ".join(result), plural("item",len(result))),
+                                           "{color=[green]}She got her hands on {color=[blue]}%s %s{/color}! She's definitely in better mood because of that!{/color}\n\n"%(", ".join(result),
                                                                                                                                                                            plural("item", len(result)))])
                             txt.append(temp)
                             flag_green = True
