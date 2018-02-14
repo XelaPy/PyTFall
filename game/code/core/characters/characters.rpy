@@ -3811,6 +3811,24 @@ init -9 python:
                     s2 = "{color=[red]}This character will start next day with 0 AP!){/color}"
                     txt.append(" ".join([s0, s1, s2]))
 
+        def nd_log_report(self, txt, img, flag_red, type='girlndreport'):
+            # Change in stats during the day:
+            charmod = dict()
+            for stat, value in self.stats.log.items():
+                if stat == "exp": charmod[stat] = self.exp - value
+                elif stat == "level": charmod[stat] = self.level - value
+                else: charmod[stat] = self.stats[stat] - value
+
+            # Create the event:
+            evt = NDEvent()
+            evt.red_flag = flag_red
+            evt.charmod = charmod
+            evt.type = 'girlndreport'
+            evt.char = self
+            evt.img = img
+            evt.txt = txt
+            NextDayEvents.append(evt)
+
 
     class Mob(PytCharacter):
         """
@@ -4195,7 +4213,7 @@ init -9 python:
             # Relay from GuardJob:
 
             img = 'profile'
-            txt = "" # For future reports...
+            txt = []
             flag_red = False
 
             for event in self.guard_relay:
@@ -4206,8 +4224,7 @@ init -9 python:
                         self.mod_stat(stat, self.guard_relay[event]["stats"][stat])
 
             # -------------------->
-            # TODO: Convert to a list or we'll crash when autotraining!
-            txt += "Hero Report:\n\n"
+            txt.append("Hero Report:\n\n")
 
             # Home location nd mods:
             loc = self.home
@@ -4217,10 +4234,10 @@ init -9 python:
                 raise Exception("Home location without daily_modifier field was set. ({})".format(loc))
 
             if mod > 0:
-                txt += "You've comfortably spent a night."
+                txt.append("You've comfortably spent a night.")
             elif mod < 0:
                 flag_red = True
-                txt += "{color=[red]}You should find some shelter for the night... it's not healthy to sleep outside.{/color}\n"
+                txt.append("{color=[red]}You should find some shelter for the night... it's not healthy to sleep outside.{/color}\n")
 
             for stat in ("health", "mp", "vitality"):
                 mod_by_max(self, stat, mod)
@@ -4232,29 +4249,10 @@ init -9 python:
             self.fin.next_day()
 
             # Taxes:
-            txt += self.nd_pay_taxes()
+            txt.append(self.nd_pay_taxes())
 
             # ------------
-            # Stats log:
-            statmod = dict()
-            for stat in self.stats.log:
-                if stat == "exp":
-                    statmod[stat] = self.exp - self.stats.log[stat]
-                elif stat == "level":
-                    statmod[stat] = self.level - self.stats.log[stat]
-                else:
-                    statmod[stat] = self.stats[stat] - self.stats.log[stat]
-
-            # ------------
-            # Create the event:
-            evt = NDEvent()
-            evt.red_flag = flag_red
-            evt.charmod = statmod
-            evt.type = 'mcndreport'
-            evt.char = self
-            evt.img = img
-            evt.txt = txt
-            NextDayEvents.append(evt)
+            self.nd_log_report(txt, img, flag_red, type='mcndreport')
 
             # -------------
             self.cache = list()
@@ -4650,12 +4648,7 @@ init -9 python:
                 self.autoequip = True
                 txt.append("She will be handling her own equipment from now on!\n")
 
-            # Here we change girl mod from local stat gathering to total daily change:
-            charmod = dict()
-            for stat, value in self.stats.log.items():
-                if stat == "exp": charmod[stat] = self.exp - value
-                elif stat == "level": charmod[stat] = self.level - value
-                else: charmod[stat] = self.stats[stat] - value
+
 
             # Prolly a good idea to throw a red flag if she is not doing anything:
             # I've added another check to make sure this doesn't happen if
@@ -4666,15 +4659,7 @@ init -9 python:
 
             txt.append("{color=[green]}\n\n%s{/color}" % "\n".join(self.txt))
 
-            # Create the event:
-            evt = NDEvent()
-            evt.red_flag = flag_red
-            evt.charmod = charmod
-            evt.type = 'girlndreport'
-            evt.char = self
-            evt.img = img
-            evt.txt = txt
-            NextDayEvents.append(evt)
+            self.nd_log_report(txt, img, flag_red, type='girlndreport')
 
             # Finances related:
             self.fin.next_day()
