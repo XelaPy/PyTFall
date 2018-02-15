@@ -3953,10 +3953,9 @@ init -9 python:
                 raise Exception, "This char (ID: %s) is not in service to the player!!!" % self.id
 
         # ----------------------------------------------------------------------------------
-        def nd_pay_taxes(self):
-            txt = ""
+        def nd_pay_taxes(self, txt):
             if calendar.weekday() == "Monday" and day != 1 and not config.developer:
-                txt += "\nIt's time to pay taxes!\n"
+                txt.append("\nIt's time to pay taxes!\n")
                 income = dict()
                 businesses = [b for b in self.buildings if hasattr(b, "fin")]
                 for b in businesses:
@@ -3968,25 +3967,33 @@ init -9 python:
                                 income[key] = income.get(key, 0) + b.fin.game_fin_log[_day][0]["work"][key]
 
                 income = sum(income.values())
-                txt += "Over the past week your taxable income accounted for: {color=[gold]}%d Gold{/color}. " % income
+                temp = "Over the past week your taxable income accounted for: {color=[gold]}%d Gold{/color}. " % income
+                txt.append(temp)
                 if self.fin.income_tax_debt:
-                    txt += "You are indebted to the govenment: %d Gold." % self.fin.income_tax_debt
+                    temp =
+                    txt += "You are indebted to the government: %d Gold." % self.fin.income_tax_debt
+                    txt.append(temp)
                 txt += "\n"
                 if income <= 5000:
                     txt += "You may concider yourself lucky as any sum below 5000 Gold is not taxable. Otherwise the government would have totally ripped you off :)"
+                    txt.append(temp)
                 elif income <= 25000:
                     tax = int(round(income*0.1))
                     txt += "Your income tax for this week is %d. " % tax
+                    txt.append(temp)
                     if self.fin.income_tax_debt:
                         self.fin.income_tax_debt = self.fin.income_tax_debt + tax
                         txt += "That makes it a total amount of: %d Gold. " % self.fin.income_tax_debt
+                        txt.append(temp)
                     else:
                         self.fin.income_tax_debt = self.fin.income_tax_debt + tax
                     if self.take_money(self.fin.income_tax_debt, "Income Taxes"):
                         txt += "\nYou were able to pay that in full!\n"
+                        txt.append(temp)
                         self.fin.income_tax_debt = 0
                     else:
                         txt += "\nYou've did not have enough money... Be advised that if your debt to the government reaches 50000, they will start indiscriminately confiscate your property. (meaning that you will loose everything that you own at repo prices).\n"
+                        txt.append(temp)
                 elif income <= 50000:
                     tax = int(round(income*0.2))
                     txt += "Your income tax for this week is %d. " % tax
@@ -3997,50 +4004,65 @@ init -9 python:
                         self.fin.income_tax_debt = self.fin.income_tax_debt + tax
                     if self.take_money(self.fin.income_tax_debt, "Income Taxes"):
                         txt += "\nYou were able to pay that in full!\n"
+                        txt.append(temp)
                         self.fin.income_tax_debt = 0
                     else:
                         txt += "\nYou've did not have enough money... Be advised that if your debt to the government reaches 50000, they will start indiscriminately confiscate your property. (meaning that you will loose everything that you own at repo prices).\n"
+                        txt.append(temp)
                 elif income <= 100000:
                     tax = int(round(income*0.3))
                     txt += "Your income tax for this week is %d. " % tax
+                    txt.append(temp)
                     if self.fin.income_tax_debt:
                         self.fin.income_tax_debt = self.fin.income_tax_debt + tax
                         txt += "That makes it a total amount of: %d Gold. " % self.fin.income_tax_debt
+                        txt.append(temp)
                     else:
                         self.fin.income_tax_debt = self.fin.income_tax_debt + tax
                     if self.take_money(self.fin.income_tax_debt, "Income Taxes"):
                         txt += "\nYou were able to pay that in full!\n"
+                        txt.append(temp)
                         self.fin.income_tax_debt = 0
                     else:
                         txt += "\nYou've did not have enough money... Be advised that if your debt to the government reaches 50000, they will start indiscriminately confiscate your property. (meaning that you will loose everything that you own at repo prices).\n"
+                        txt.append(temp)
                 elif income <= 200000:
                     tax = int(round(income*0.4))
                     txt += "Your income tax for this week is %d. " % tax
+                    txt.append(temp)
                     if self.fin.income_tax_debt:
                         self.fin.income_tax_debt = self.fin.income_tax_debt + tax
                         txt += "That makes it a total amount of: %d Gold. " % self.fin.income_tax_debt
+                        txt.append(temp)
                     else:
                         self.fin.income_tax_debt = self.fin.income_tax_debt + tax
                     if self.take_money(self.fin.income_tax_debt, "Income Taxes"):
                         txt += "\nYou were able to pay that in full!\n"
+                        txt.append(temp)
                         self.fin.income_tax_debt = 0
                     else:
                         txt += "\nYou've did not have enough money... Be advised that if your debt to the government reaches 50000, they will start indiscriminately confiscate your property. (meaning that you will loose everything that you own at repo prices).\n"
+                        txt.append(temp)
                 else:
                     tax = int(round(income*0.45))
                     txt += "Your income tax for this week is %d. " % tax
+                    txt.append(temp)
                     if self.fin.income_tax_debt:
                         self.fin.income_tax_debt = self.fin.income_tax_debt + tax
                         txt += "That makes it a total amount of: %d Gold. " % self.fin.income_tax_debt
+                        txt.append(temp)
                     else:
                         self.fin.income_tax_debt = self.fin.income_tax_debt + tax
                     if self.take_money(self.fin.income_tax_debt, "Income Taxes"):
                         txt += "\nYou were able to pay that in full!\n"
+                        txt.append(temp)
                         self.fin.income_tax_debt = 0
                     else:
                         txt += "\nYou've did not have enough money... Be advised that if your debt to the government reaches 50000, they will start indiscriminately confiscate your property. (meaning that you will loose everything that you own at repo prices).\n"
+                        txt.append(temp)
 
                 txt += choice(["\nWe're not done yet...\n", "\nProperty tax:\n", "\nProperty taxes next!\n"])
+                txt.append(temp)
                 b_tax = 0
                 s_tax = 0
                 for b in businesses:
@@ -4050,29 +4072,38 @@ init -9 python:
                         s_tax += int(char.fin.get_price()*0.05)
                 if b_tax:
                     txt += "Your property taxes for your real estate are: %d Gold. " % b_tax
+                    txt.append(temp)
                 if s_tax:
                     txt += "For Slaves that you own, property tax is: %d Gold." % s_tax
+                    txt.append(temp)
                 tax = b_tax + s_tax
                 if tax:
                     txt += "\nThat makes it a total of {color=[gold]}%d Gold{/color}" % tax
+                    txt.append(temp)
                     if self.fin.property_tax_debt:
-                        txt += " Don't worry, we didn't forget about your debt of %d Gold either. Yeap, there are just the two unevitable things in life: Death and Paying your tax on Monday!" % self.fin.property_tax_debt
+                        txt += " Don't worry, we didn't forget about your debt of %d Gold either. Yeap, there are just the two inevitable things in life: Death and Paying your tax on Monday!" % self.fin.property_tax_debt
+                        txt.append(temp)
                         self.fin.property_tax_debt += tax
                     else:
                         self.fin.property_tax_debt += tax
                     if self.take_money(self.fin.property_tax_debt, "Property Taxes"):
                         txt += "\nWell done, but your wallet feels a lot lighter now :)\n"
+                        txt.append(temp)
                         self.fin.property_tax_debt = 0
                     else:
                         txt += "\nYour payment failed...\n"
+                        txt.append(temp)
                 else:
                     txt += "\nHowever, you do not own much...\n"
+                    txt.append(temp)
 
                 total_debt = self.fin.income_tax_debt + self.fin.property_tax_debt
                 if total_debt:
-                    txt += "\n\nYour current total debt to the govenment is {color=[gold]}%d Gold{/color}!" % total_debt
+                    txt += "\n\nYour current total debt to the government is {color=[gold]}%d Gold{/color}!" % total_debt
+                    txt.append(temp)
                 if total_debt > 50000:
-                    txt += " {color=[red]}... And... your're pretty much screwed because it is above 50000!{/color} Your property will now be confiscated :("
+                    txt += " {color=[red]}... And... you're pretty much screwed because it is above 50000!{/color} Your property will now be confiscated :("
+                    txt.append(temp)
                     all_properties = list()
                     for char in hero.chars:
                         if char.status == "slave":
@@ -4107,27 +4138,30 @@ init -9 python:
                         txt += choice(["\n%s has been confiscated for a price of %s of the original value. " % (confiscate.name, multiplier),
                                                "\nThose sobs took %s from you! " % confiscate.name,
                                                "\nYou've lost %s! If only you were better at managing your business... " % confiscate.name])
+                        txt.append(temp)
                         total_debt = total_debt - int(price*multiplier)
                         if total_debt > 0:
                             txt += "You are still required to pay %s Gold." % total_debt
+                            txt.append(temp)
                         else:
-                            txt += "Your debt has been payed in full!"
+                            txt += "Your debt has been paid in full!"
+                            txt.append(temp)
                             if total_debt <= 0:
                                 total_debt = -total_debt
                                 txt += " You get a sum of %d Gold returned to you from the last repo!" % total_debt
+                                txt.append(temp)
                                 hero.add_money(total_debt, reason="Other")
                                 total_debt = 0
                         if not all_properties and total_debt:
-                            txt += "\n You do not own anything that might be reposessed by the government..."
+                            txt += "\n You do not own anything that might be repossessed by the government..."
+                            txt.append(temp)
                             txt += " You've been declared bankrupt and your debt is now Null and Void!"
+                            txt.append(temp)
                         self.fin.income_tax_debt = 0
                         self.fin.property_tax_debt = 0
             return txt
 
         def next_day(self):
-            # ND Logic....
-            # Relay from GuardJob:
-
             img = 'profile'
             txt = []
             flag_red = False
