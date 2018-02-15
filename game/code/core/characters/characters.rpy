@@ -697,57 +697,6 @@ init -9 python:
             char.stats.normalize_stats()
 
 
-    class Rank(_object): # Will not be used for the next release...
-        """
-        Ranks, currently not in use in the game.
-        """
-        WhRANKS = OrderedDict()
-        WhRANKS["0"]=dict(name=('No Rank: Kirimise', '(Almost beggar)'), price=0)
-        WhRANKS["1"]=dict(name=("Rank 1: Heya-Mochi", "(Low-class prostitute)"), skills={"oral": 10, "vaginal": 10, "anal": 5}, total_skill=100, price=1000, exp=10000) # note: refinement is not a stat anymore!
-        WhRANKS["2"]=dict(name=("Rank 2: Zashiki-Mochi", "(Middle-class Prostitute"), skills={"oral": 25, "vaginal": 15, "anal": 15}, total_skill=300, price=3000, exp=25000)
-        WhRANKS["3"]=dict(name=("Rank 3: Tsuke-Mawashi", "(Courtesan)"), skills={"oral": 55, "vaginal": 40, "anal": 25}, total_skill=600, price=5000, exp=50000)
-        WhRANKS["4"]=dict(name=("Rank 4: Chûsan", "(Famous)"), skills={"oral": 100, "vaginal": 80, "anal": 50}, total_skill=1000, stats={"refinement": 100}, price=7500, exp=100000)
-        WhRANKS["5"]=dict(name=("Rank 5: Yobidashi", "(High-Class Courtesan)"), skills={"oral": 250, "vaginal": 150, "anal": 130}, total_skill=1250, stats={"refinement": 150}, price=10000, exp=250000)
-        WhRANKS["6"]=dict(name=("Rank 6: Koshi", "(Nation famous)"), skills={"oral": 500, "vaginal": 500, "anal": 500}, total_skill=2500, stats={"refinement": 500}, price=25000, exp=400000)
-        WhRANKS["7"]=dict(name=("Rank 7: Tayu", "(Legendary)"), skills={"oral": 1500, "vaginal": 1500, "anal": 1500}, total_skill=5000, stats={"refinement": 800}, price=50000, exp=800000)
-
-        WaRANKS = OrderedDict()
-        WaRANKS["0"]=dict(name=('No Rank', 'Nub with a stick...'), price=0)
-        WaRANKS["1"]=dict(name=("Rank 1", "Thug"), skills={}, total_skill=100, stats={}, price=1000, exp=10000)
-        WaRANKS["2"]=dict(name=("Rank 2", "Sword Sister"), skills={}, total_skill=300, stats={}, price=3000, exp=25000)
-        WaRANKS["3"]=dict(name=("Rank 3", "War Maiden"), skills={}, total_skill=600, stats={}, price=5000, exp=50000)
-        WaRANKS["4"]=dict(name=("Rank 4", "Famous"), skills={}, total_skill=1000, stats={}, price=7500, exp=100000)
-        WaRANKS["5"]=dict(name=("Rank 5", "War Maiden"), skills={}, total_skill=1250, stats={}, price=10000, exp=250000)
-        WaRANKS["6"]=dict(name=("Rank 6", "Valkyrie"), skills={}, total_skill=2500, stats={}, price=25000, exp=400000)
-        WaRANKS["7"]=dict(name=("Rank 7", "Legendary"), skills={}, total_skill=5000, stats={}, price=50000, exp=800000)
-
-        StRANKS = OrderedDict()
-        StRANKS["0"]=dict(name=('No Rank', 'Nub wiggling her ass...'), price=0)
-        StRANKS["1"]=dict(name=("Rank 1", "Stripper"), skills={"strip": 50}, total_skill=100, price=1000, exp=10000)
-        StRANKS["2"]=dict(name=("Rank 2", "Lap Dancer"), skills={"strip": 100}, total_skill=300, price=3000, exp=25000)
-        StRANKS["3"]=dict(name=("Rank 3", "Seductress"), skills={"strip": 250}, total_skill=600, price=5000, exp=50000)
-        StRANKS["4"]=dict(name=("Rank 4", "Famous"), skills={"strip": 500}, total_skill=1000, stats={}, price=7500, exp=100000)
-        StRANKS["5"]=dict(name=("Rank 5", "Ecdysiastn"), skills={"strip": 1000}, total_skill=1250, stats={}, price=10000, exp=250000)
-        StRANKS["6"]=dict(name=("Rank 6", "Temptress"), skills={"strip": 2500}, total_skill=2500, stats={}, price=25000, exp=400000)
-        StRANKS["7"]=dict(name=("Rank 7", "Legendary"), skills={"strip": 5000}, total_skill=5000, stats={}, price=50000, exp=800000)
-
-        SgRANKS = OrderedDict()
-        SgRANKS["0"]=dict(name=('No Rank', 'Nub breaking the china...'), price=0)
-        SgRANKS["1"]=dict(name=("Rank 1", "Wench"), skills={"service": 50}, total_skill=100, price=1000, exp=10000)
-        SgRANKS["2"]=dict(name=("Rank 2", "Servant"), skills={"service": 100}, total_skill=300, price=3000, exp=25000)
-        SgRANKS["3"]=dict(name=("Rank 3", "Maid"), skills={"service": 250}, total_skill=600, price=5000, exp=50000)
-        SgRANKS["4"]=dict(name=("Rank 4", "Chambermaid"), skills={"service": 500}, total_skill=1000, stats={}, price=7500, exp=100000)
-        SgRANKS["5"]=dict(name=("Rank 5", "Housekeeper"), skills={"service": 1000}, total_skill=1250, stats={}, price=10000, exp=250000)
-        SgRANKS["6"]=dict(name=("Rank 6", "Famous"), skills={"service": 2500}, total_skill=2500, stats={}, price=25000, exp=400000)
-        SgRANKS["7"]=dict(name=("Rank 7", "Legendary"), skills={"service": 5000}, total_skill=5000, stats={}, price=50000, exp=800000)
-        """
-        Handles ranks for characters. Stores all related data and returns the correct rank/requirement/updates.
-        """
-        def __init__(self):
-            self.current_rank = None
-            self.n = None
-
-
     class Finances(_object):
         """Helper class that handles finance related matters in order to reduce
         the size of Characters/Buildings classes."""
