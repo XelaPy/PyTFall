@@ -3953,39 +3953,6 @@ init -9 python:
                 raise Exception, "This char (ID: %s) is not in service to the player!!!" % self.id
 
         # ----------------------------------------------------------------------------------
-        # Show to mimic girls method behavior:
-        # def has_image(self, *tags):
-        #     """
-        #     Returns True if image is found.
-        #     """
-        #     return True
-
-        # def show(self, tag, resize=(None, None), cache=True):
-        #     if tag == "battle":
-        #         tag = "combat"
-        #     if tag == "fighting":
-        #         tag = "combat"
-        #     if tag == "cportrait":
-        #         tag = "cportrait"
-        #     if tag == "sprofile":
-        #         tag = "sprofile"
-        #     if cache:
-        #         for entry in self.cache:
-        #             if entry[0] == tag:
-        #                 return ProportionalScale(entry[1], resize[0], resize[1])
-        #
-        #     if tag in self.img_db:
-        #         path = choice(self.img_db[tag])
-        #     else:
-        #         path = choice(self.img_db["battle_sprite"])
-        #
-        #     if cache:
-        #         self.cache.append([tag, path])
-        #
-        #     img = ProportionalScale(path, resize[0], resize[1])
-        #
-        #     return img
-
         def nd_pay_taxes(self):
             txt = ""
             if calendar.weekday() == "Monday" and day != 1 and not config.developer:
