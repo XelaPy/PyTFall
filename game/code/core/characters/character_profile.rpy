@@ -1267,7 +1267,9 @@ screen finances(obj, mode="logical"):
 
         # Days:
         default fin_day = days[-1] if days else None
-        if fin_day is None:
+
+        # Special check, took some time to track down:
+        if fin_day not in all_income_data:
             text "There are no Finances to display for {}!".format(obj.name) align .5, .5
         else:
             hbox:
