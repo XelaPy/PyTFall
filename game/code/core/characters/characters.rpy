@@ -3957,8 +3957,10 @@ init -9 python:
             if calendar.weekday() == "Monday" and day != 1 and not config.developer:
                 txt.append("\nIt's time to pay taxes!\n")
                 income = dict()
-                businesses = [b for b in self.buildings if hasattr(b, "fin")]
-                for b in businesses:
+                ec = store.pytfall.economy
+                properties = [b for b in self.buildings if hasattr(b, "price")]
+
+                for b in properties:
                     for _day in b.fin.game_fin_log:
                         if int(_day) > day - 7:
                             for key in b.fin.game_fin_log[_day][0]["private"]:
@@ -3966,133 +3968,72 @@ init -9 python:
                             for key in b.fin.game_fin_log[_day][0]["work"]:
                                 income[key] = income.get(key, 0) + b.fin.game_fin_log[_day][0]["work"][key]
 
-                income = sum(income.values())
-                temp = "Over the past week your taxable income accounted for: {color=[gold]}%d Gold{/color}. " % income
-                txt.append(temp)
-
                 if self.fin.income_tax_debt:
-                    temp = "You are indebted to the government: %d Gold." % self.fin.income_tax_debt
+                    temp = "Your standing dept to the government: %d Gold." % self.fin.income_tax_debt
                     txt.append(temp)
 
                 txt.append("\n")
 
-                s0 = "\nYou've did not have enough money..."
-                s1 = "Be advised that if your debt to the government reaches 50000,"
-                s2 = "they will start indiscriminately confiscate your property."
-                s3 = "(meaning that you will loose everything that you own at repo prices).\n"
-                else_srt = " ".join([s0, s1, s2, s3])
+                # Income Taxes:
+                income = sum(income.values())
+                temp = "Over the past week your taxable income accounted for: {color=[gold]}%d Gold{/color}.\n" % income
+                txt.append(temp)
 
                 if income <= 5000:
                     s0 = "You may consider yourself lucky as any sum below 5000 Gold is not taxable."
                     s1 = "Otherwise the government would have totally ripped you off :)"
                     temp = " ".join([s0, s1])
                     txt.append(temp)
-                elif income <= 25000:
-                    tax = int(round(income*.1))
-                    temp = "Your income tax for this week is %d. " % tax
-                    txt.append(temp)
-                    if self.fin.income_tax_debt:
-                        self.fin.income_tax_debt = self.fin.income_tax_debt + tax
-                        temp = "That makes it a total amount of: %d Gold. " % self.fin.income_tax_debt
-                        txt.append(temp)
-                    else:
-                        self.fin.income_tax_debt = self.fin.income_tax_debt + tax
-                    if self.take_money(self.fin.income_tax_debt, "Income Taxes"):
-                        temp = "\nYou were able to pay that in full!\n"
-                        txt.append(temp)
-                        self.fin.income_tax_debt = 0
-                    else:
-                        txt.append(else_srt)
-                elif income <= 50000:
-                    tax = int(round(income*0.2))
-                    temp = "Your income tax for this week is %d. " % tax
-                    if self.fin.income_tax_debt:
-                        self.fin.income_tax_debt = self.fin.income_tax_debt + tax
-                        temp = "That makes it a total amount of: %d Gold. " % self.fin.income_tax_debt
-                    else:
-                        self.fin.income_tax_debt = self.fin.income_tax_debt + tax
-                    if self.take_money(self.fin.income_tax_debt, "Income Taxes"):
-                        temp = "\nYou were able to pay that in full!\n"
-                        txt.append(temp)
-                        self.fin.income_tax_debt = 0
-                    else:
-                        txt.append(else_srt)
-                elif income <= 100000:
-                    tax = int(round(income*0.3))
-                    temp = "Your income tax for this week is %d. " % tax
-                    txt.append(temp)
-                    if self.fin.income_tax_debt:
-                        self.fin.income_tax_debt = self.fin.income_tax_debt + tax
-                        temp = "That makes it a total amount of: %d Gold. " % self.fin.income_tax_debt
-                        txt.append(temp)
-                    else:
-                        self.fin.income_tax_debt = self.fin.income_tax_debt + tax
-                    if self.take_money(self.fin.income_tax_debt, "Income Taxes"):
-                        temp = "\nYou were able to pay that in full!\n"
-                        txt.append(temp)
-                        self.fin.income_tax_debt = 0
-                    else:
-                        txt.append(else_srt)
-                elif income <= 200000:
-                    tax = int(round(income*0.4))
-                    temp = "Your income tax for this week is %d. " % tax
-                    txt.append(temp)
-                    if self.fin.income_tax_debt:
-                        self.fin.income_tax_debt = self.fin.income_tax_debt + tax
-                        temp = "That makes it a total amount of: %d Gold. " % self.fin.income_tax_debt
-                        txt.append(temp)
-                    else:
-                        self.fin.income_tax_debt = self.fin.income_tax_debt + tax
-                    if self.take_money(self.fin.income_tax_debt, "Income Taxes"):
-                        temp = "\nYou were able to pay that in full!\n"
-                        txt.append(temp)
-                        self.fin.income_tax_debt = 0
-                    else:
-                        txt.append(else_srt)
                 else:
-                    tax = int(round(income*0.45))
-                    temp = "Your income tax for this week is %d. " % tax
-                    txt.append(temp)
-                    if self.fin.income_tax_debt:
-                        self.fin.income_tax_debt = self.fin.income_tax_debt + tax
-                        temp = "That makes it a total amount of: %d Gold. " % self.fin.income_tax_debt
-                        txt.append(temp)
-                    else:
-                        self.fin.income_tax_debt = self.fin.income_tax_debt + tax
-                    if self.take_money(self.fin.income_tax_debt, "Income Taxes"):
-                        temp = "\nYou were able to pay that in full!\n"
-                        txt.append(temp)
-                        self.fin.income_tax_debt = 0
-                    else:
-                        txt.append(else_srt)
+                    for delimiter, mod in ec.taxation_levels:
+                        if income <= delimiter:
+                            tax = round_int(income*mod)
+                            temp = "Your income tax for this week is %d. " % tax
+                            txt.append(temp)
 
+                            self.fin.income_tax_debt += tax
+                            if tax != self.fin.income_tax_debt:
+                                temp = "That makes it a total amount of: %d Gold. " % self.fin.income_tax_debt
+                                txt.append(temp)
+
+                            if self.take_money(self.fin.income_tax_debt, "Income Taxes"):
+                                temp = "\nYou were able to pay that in full!\n"
+                                txt.append(temp)
+                                self.fin.income_tax_debt = 0
+                            else:
+                                s0 = "\nYou've did not have enough money..."
+                                s1 = "Be advised that if your debt to the government reaches 50000,"
+                                s2 = "they will start indiscriminately confiscate your property."
+                                s3 = "(meaning that you will loose everything that you own at repo prices).\n"
+                                else_srt = " ".join([s0, s1, s2, s3])
+                            break
+
+                # Property taxes:
                 temp = choice(["\nWe're not done yet...\n",
                                "\nProperty tax:\n",
                                "\nProperty taxes next!\n"])
                 txt.append(temp)
-                b_tax = 0
-                s_tax = 0
-                for b in businesses:
-                    b_tax += int(b.price*0.04)
-                for char in self.chars:
-                    if char.status == "slave":
-                        s_tax += int(char.fin.get_price()*0.05)
+                slaves = [c for c in self.chars if c.status == "slave"]
+                b_tax = round_int(sum([b.price for b in properties])*ec.property_tax["real_estate"])
+                s_tax = round_int(sum([c.fin.get_price() for c in slaves])*ec.property_tax["slaves"])
+                tax = b_tax + s_tax
                 if b_tax:
-                    temp = "Your property taxes for your real estate are: %d Gold. " % b_tax
+                    temp = "Real Estate Tax: %d Gold.\n" % b_tax
                     txt.append(temp)
                 if s_tax:
-                    temp = "For Slaves that you own, property tax is: %d Gold." % s_tax
+                    temp = "Slave Tax: %d Gold.\n" % s_tax
                     txt.append(temp)
-                tax = b_tax + s_tax
                 if tax:
                     temp = "\nThat makes it a total of {color=[gold]}%d Gold{/color}" % tax
                     txt.append(temp)
-                    if self.fin.property_tax_debt:
-                        temp = " Don't worry, we didn't forget about your debt of %d Gold either. Yeap, there are just the two inevitable things in life: Death and Paying your tax on Monday!" % self.fin.property_tax_debt
+                    self.fin.property_tax_debt += tax
+                    if self.fin.property_tax_debt != tax:
+                        s0 = " Don't worry, we didn't forget about your debt of %d Gold either." % self.fin.property_tax_debt
+                        s1 = "Yeap, there are just the two inevitable things in life:"
+                        s2 = "Death and Paying your tax on Monday!"
+                        temp = " ".join([s0, s1, s2])
                         txt.append(temp)
-                        self.fin.property_tax_debt += tax
-                    else:
-                        self.fin.property_tax_debt += tax
+
                     if self.take_money(self.fin.property_tax_debt, "Property Taxes"):
                         temp = "\nWell done, but your wallet feels a lot lighter now :)\n"
                         txt.append(temp)
@@ -4101,7 +4042,7 @@ init -9 python:
                         temp = "\nYour payment failed...\n"
                         txt.append(temp)
                 else:
-                    temp = "\nHowever, you do not own much...\n"
+                    temp = "\nHowever, you do not have enough Gold...\n"
                     txt.append(temp)
 
                 total_debt = self.fin.income_tax_debt + self.fin.property_tax_debt
@@ -4109,17 +4050,13 @@ init -9 python:
                     temp = "\n\nYour current total debt to the government is {color=[gold]}%d Gold{/color}!" % total_debt
                     txt.append(temp)
                 if total_debt > 50000:
-                    temp = " {color=[red]}... And... you're pretty much screwed because it is above 50000!{/color} Your property will now be confiscated :("
+                    temp = " {color=[red]}... And you're pretty much screwed because it is above 50000!{/color} Your property will now be confiscated!"
                     txt.append(temp)
-                    all_properties = list()
-                    for char in hero.chars:
-                        if char.status == "slave":
-                            all_properties.append(char)
-                    for b in businesses:
-                        all_properties.append(b)
+
+                    all_properties = properties + slaves
                     shuffle(all_properties)
                     while total_debt and all_properties:
-                        multiplier = choice([0.4, 0.5, 0.6])
+                        multiplier = choice([.4, .5, .6])
                         confiscate = all_properties.pop()
                         # TODO taxes: This may need to be revised.
                         # Also as part of the above, account for businesses and upgrades.
@@ -4142,9 +4079,11 @@ init -9 python:
                             confiscate.action = None
                             set_location(confiscate, char.home)
 
-                        temp = choice(["\n%s has been confiscated for a price of %s of the original value. " % (confiscate.name, multiplier),
-                                       "\nThose sobs took %s from you! " % confiscate.name,
-                                       "\nYou've lost %s! If only you were better at managing your business... " % confiscate.name])
+                        temp = choice(["\n{} has been confiscated for a price of {}% of the original value. ".format(
+                                                                                        confiscate.name, multiplier*100),
+                                       "\nThose sobs took {} from you! ".format(confiscate.name),
+                                       "\nYou've lost {}! If only you were better at managing your business... ".format(
+                                                                                        confiscate.name)])
                         txt.append(temp)
                         total_debt = total_debt - int(price*multiplier)
                         if total_debt > 0:
@@ -4157,7 +4096,7 @@ init -9 python:
                                 total_debt = -total_debt
                                 temp = " You get a sum of %d Gold returned to you from the last repo!" % total_debt
                                 txt.append(temp)
-                                hero.add_money(total_debt, reason="Other")
+                                hero.add_money(total_debt, reason="Tax Returns")
                                 total_debt = 0
                         if not all_properties and total_debt:
                             temp = "\n You do not own anything that might be repossessed by the government..."
@@ -4206,7 +4145,7 @@ init -9 python:
 
             # Taxes:
             self.nd_pay_taxes(txt)
-            
+
             # ------------
             self.nd_log_report(txt, img, flag_red, type='mcndreport')
 

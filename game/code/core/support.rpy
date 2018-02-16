@@ -59,7 +59,7 @@ init -9 python:
             self.witch_spells_shop = ItemShop("Witch Spells Shop", 18, ["Witch Spells Shop"], gold=5000, sells=["scroll"], sell_margin=1, buy_margin=5.0) # for scrolls
             self.aine_shop = ItemShop("Aine Shop", 18, ["Aine Shop"], gold=5000, sells=["scroll"], sell_margin=1, buy_margin=5.0)
             self.angelica_shop = ItemShop("Angelica Shop", 18, ["Angelica Shop"], gold=5000, sells=["scroll"], sell_margin=1, buy_margin=5.0)
-            
+
         # World AI ----------------------------->
         @staticmethod
         def restore_all_chars():
@@ -356,6 +356,13 @@ init -9 python:
         """
         def __init__(self):
             self.state = 1.0 # Modifier for default economy state
+
+            # Taxes related:
+            self.income_tax = [(25000, .1), (50000, .2),
+                               (100000, .3), (200000, .4),
+                               (float("inf"), .45)]
+            self.property_tax = {"slaves": .04,
+                                 "real_estate": .05}
 
         def get_clients_pay(self, job, difficulty=1):
             if isinstance(job, basestring):
