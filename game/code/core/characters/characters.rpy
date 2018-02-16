@@ -703,8 +703,8 @@ init -9 python:
         def __init__(self, *args, **kwargs):
             """Main logs log actual finances (money moving around)
             Jobs income logs don't do any such thing. They just hold info about
-            how much building or character earned for MC or how much MC payed
-            to them
+            how much building or character earned for MC or how much MC paid
+            to them.
             """
             self.instance = args[0]
             self.todays_main_income_log = dict()
@@ -746,15 +746,15 @@ init -9 python:
             temp = self.todays_main_expense_log
             temp[kind] = temp.get(kind, 0) + value
 
-        # Logging logical data (just for info)
+        # Logging logical data (just for info, relative to MC)
         def log_logical_income(self, value, kind):
-            """Logs Jobs income (logical) (Buildings or Chars)"""
+            """(Buildings or Chars)"""
             value = int(round(value))
             temp = self.todays_logical_income_log
             temp[kind] = temp.get(kind, 0) + value
 
         def log_logical_expense(self, value, kind):
-            """Logs Jobs expense (logical) (Buildings or Chars)"""
+            """(Buildings or Chars)"""
             value = int(round(value))
             temp = self.todays_logical_expense_log
             temp[kind] = temp.get(kind, 0) + value
