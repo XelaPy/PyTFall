@@ -805,6 +805,7 @@ init -9 python:
             else:
                 raise Exception("Income kind: {} is not valid!".format(kind))
 
+        # Tax related:
         def get_income_tax(self, days=7):
             # MC's Income Tax
             char = self.instance
