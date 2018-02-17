@@ -9,7 +9,7 @@ init -5 python:
         COST = 500
         def __init__(self, **kwargs):
             super(StripClub, self).__init__(**kwargs)
-            
+
             self.jobs = set([simple_jobs["Striptease Job"]])
             self.workable = True
             self.type = "public_service"
@@ -27,7 +27,8 @@ init -5 python:
             self.log(temp, True)
 
             # We create the log object here! And start logging to it directly!
-            job, loc = self.job, building
+            building = self.building
+            job, loc = self.job, self.building
             log = NDEvent(job=job, char=worker, loc=loc, business=self)
 
             log.append("{} is performing Strip Job!".format(worker.name))

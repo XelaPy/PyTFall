@@ -231,6 +231,8 @@ init -12 python:
             Removes worker from instances master list.
             Returns True is yes, False otherwise.
             """
+            building = self.building
+
             if job.is_valid_for(worker):
                 if config.debug:
                     temp = set_font_color("{}: Debug: {} worker (Occupations: {}) with action: {} is doing {}.".format(self.env.now,
@@ -238,8 +240,8 @@ init -12 python:
                     self.log(temp)
                 return True
             else:
-                if worker in self.building.available_workers:
-                    self.building.available_workers.remove(worker)
+                if worker in building.available_workers:
+                    building.available_workers.remove(worker)
 
                 if config.debug:
                     temp = set_font_color('{}: Debug: {} worker (Occupations: {}) with action: {} refuses to do {}.'.format(self.env.now, worker.nickname, ", ".join(list(str(t) for t in worker.occupations)), worker.action, job.id), "red")
@@ -256,6 +258,8 @@ init -12 python:
             Removes worker from instances master list.
             Returns True is yes, False otherwise.
             """
+            building = self.building
+
             if can_do_work(worker):
                 return True
             else:
@@ -266,7 +270,7 @@ init -12 python:
                 return False
 
         def convert_AP(self, worker):
-            building.convert_AP(worker)
+            self.building.convert_AP(worker)
 
         # Runs before ND calcs stats for this building.
         def pre_nd(self):
@@ -284,7 +288,7 @@ init -12 python:
             # Plainly logs income to the main building finances.
             if not reason:
                 reason = self.name
-            building.fin.log_logical_income(amount, reason)
+            self.building.fin.log_logical_income(amount, reason)
 
         def post_nd_reset(self):
             # Resets all flags and variables after next day calculations are finished.
@@ -340,9 +344,9 @@ init -12 python:
             self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
 
         def has_workers(self):
-            # Check if the building still has someone availbile to do the job.
+            # Check if the building still has someone available to do the job.
             # We just check this for
-            return list(i for i in building.available_workers if self.all_occs & i.occupations)
+            return list(i for i in self.building.available_workers if self.all_occs & i.occupations)
 
         def pre_nd(self):
             self.res = simpy.Resource(self.env, self.capacity)
@@ -357,7 +361,7 @@ init -12 python:
             # We remove the business from nd if there are no more strippers to entertain:
             temp = "There are no workers available in the {} so it is shutting down!".format(self.name)
             self.log(temp)
-            building.nd_ups.remove(self)
+            self.building.nd_ups.remove(self)
 
         def request_resource(self, client, char):
             """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms available...
@@ -396,7 +400,7 @@ init -12 python:
             self.job(char, client)
 
             # We return the char to the nd list:
-            building.available_workers.insert(0, char)
+            self.building.available_workers.insert(0, char)
 
         def post_nd_reset(self):
             self.res = None
@@ -437,6 +441,8 @@ init -12 python:
             """Request for a spot for a client...
             We add dirt here.
             """
+            building = self.building
+
             with self.res.request() as request:
                 yield request
 
@@ -468,6 +474,7 @@ init -12 python:
                 client.del_flag("jobs_busy")
 
         def add_worker(self):
+            building = self.building
             workers = building.available_workers
             # Get all candidates:
             job = self.job
@@ -629,6 +636,7 @@ init -12 python:
 
         def calc_job_power(self, workers, job, power_flag_name,
                                 remove_from_available_workers=True):
+            building = self.building
             difficulty = building.tier
 
             for w in workers:

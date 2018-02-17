@@ -21,7 +21,7 @@ init -5 python:
         def has_workers(self):
             # Check if the building still has someone available to do the job.
             # We just check this for
-            return list(i for i in building.available_workers if self.all_occs & i.occupations)
+            return list(i for i in self.building.available_workers if self.all_occs & i.occupations)
 
         def business_control(self):
             while 1:

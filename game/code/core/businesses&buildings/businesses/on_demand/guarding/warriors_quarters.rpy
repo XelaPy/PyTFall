@@ -194,6 +194,7 @@ init -5 python:
             - Work with clients instead of props I am planning to use for testing.
             - Check if previous guard action was interrupted and act (look for defenders/restore older process) accordingly.
             """
+            building = self.building
             # TODO simpy-brawl: If in play for beta, update to modern code!
             job = simple_jobs["Guarding"]
             opfor = list() if opfor is None else opfor
