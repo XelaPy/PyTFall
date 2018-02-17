@@ -18,7 +18,7 @@ screen set_action_dropdown(char, pos=()):
         anchor (xval, yval)
         has vbox
 
-        if getattr(char.location, "is_school", True):
+        if getattr(char.location, "is_school", False):
             textbutton "Change Course":
                 action [Hide("set_action_dropdown"),
                         Hide("charslist"),
