@@ -35,7 +35,6 @@ label char_profile:
                         $ renpy.show_screen("message_screen", "This girl has run away!")
                 elif result[0] != "control":
                     $ renpy.show_screen("message_screen", "This girl has run away!")
-
             # Else if you still have the girl
             else:
                 if result[0] == "jump":
@@ -1012,7 +1011,7 @@ screen girl_control():
         # Tooltip Related:
         default tt = Tooltip("Adjust your girls behavior here.")
         frame:
-            background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+            background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             align(.5, .88)
             xysize (320, 120)
             xpadding 13
@@ -1020,6 +1019,7 @@ screen girl_control():
             has vbox
             text ("%s" % tt.value) color white size 18
 
+        # Tips/Wagemod
         frame:
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.7), 10, 10)
             align .6, .08
@@ -1065,23 +1065,19 @@ screen girl_control():
         vbox:
             style_group "basic"
             align (.55, .5)
-            # TODO gui/char groups: Update location ==> Home/Work when assigning to group.
             if isinstance(char, PytGroup):
                 if char not in pytfall.ra:
                     button:
                         xysize (200, 32)
                         style_group "basic"
-                        action Return(["dropdown", "loc", char])
+                        action Return(["dropdown", "workplace", char])
                         hovered tt.Action("Choose a location for %s to work at" % char.nickname)
-
                         if len(str(char.location)) > 18:
                             text "[char.location]" size 15
-
                         elif len(str(char.location)) > 10:
                             text "[char.location]" size 18
-
                         else:
-                            text "Location: [char.location]" size 18
+                            text "Work: [char.location]" size 18
                     button:
                         xysize (200, 32)
                         style_group "basic"
@@ -1095,7 +1091,6 @@ screen girl_control():
 
                         else:
                             text "Action: [char.action]" size 18
-
                 else:
                     text "{size=15}Location: Unknown"
                     text "{size=15}Action: Hiding"
@@ -1137,12 +1132,12 @@ screen girl_control():
                 else:
                     add cd_unchecked align (1.0, .5)
 
-            # Autoequip
+            # Autoequip:
             button:
                 xysize (200, 32)
                 action If(char.status == "slave" or char.disposition > 850, true=ToggleField(char, "autoequip"))
                 text "Auto Equip" align (.0, .5)
-                hovered tt.Action("Requires a slave or high disposition, allows to equip the best items automatically (results may very)")
+                hovered tt.Action("Requires a slave or very high disposition, allows to equip the best items automatically (results may vary)")
                 if isinstance(char.autoequip, list):
                     add cb_some_checked align (1.0, .5)
                 elif char.autoequip:

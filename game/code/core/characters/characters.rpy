@@ -4336,16 +4336,13 @@ init -9 python:
                 self.arena_willing = True
 
             # Settle auto-equip + auto-buy:
-            if self.status != "slave":
+            if self.status == "free":
                 self.autobuy = True
-                self.autoequip = True
-            else:
-                self.autoequip = True
+            self.autoequip = True
             self.set_flag("day_since_shopping", 1)
 
-            # add Character:
+            # add ADVCharacter:
             self.update_sayer()
-
             self.say_screen_portrait = DynamicDisplayable(self._portrait)
             self.say_screen_portrait_overlay_mode = None
 
