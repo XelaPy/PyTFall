@@ -4,7 +4,6 @@ init -12 python:
     class CoreExtension(_object):
         """BaseClass for any building expansion! (aka Business)
         """
-
         # Class attributes serve as default, they are fed to a method of UpgradableBuilding
         # adjusted and displayed to the player. In most of the cases, Extension will be created
         # using these:
@@ -14,25 +13,28 @@ init -12 python:
         COST = 100
         IN_SLOTS = 2
         EX_SLOTS = 0
+        CAPACITY = 0
 
         def __init__(self, name="Extension", desc="Base Extension.",
                      img=ImageReference("no_image"),
                      **kwargs):
 
             self.name = name # name, a string.
+            self.kwags = kwargs
             self.building = None # Building this upgrade belongs to.
             self.desc = desc # description, a string.
             self.img = img
 
-            self.cost = kwargs.pop("cost", 100)
-            self.in_slots = kwargs.pop("in_slots", 2)
-            self.ex_slots = kwargs.pop("ex_slots", 0)
+            self.cost = kwargs.pop("cost", self.COST)
+            self.in_slots = kwargs.pop("in_slots", self.IN_SLOTS)
+            self.ex_slots = kwargs.pop("ex_slots", self.EX_SLOTS)
+            self.materials = kwargs.pop("materials", self.MATERIALS)
 
             # This means that we can add capacity to this business.
             self.capacity = kwargs.get("capacity", 0)
             self.expands_capacity = kwargs.get("expands_capacity", False)
             self.exp_cap_in_slots = kwargs.pop("exp_cap_in_slots", 1)
-            self.exp_cap_ex_slots = kwargs.pop("exp_cap_ex_slots", 0)
+            self.exp_cap_ex_slots = kwargs.pop("exp_cap_ex_slots", self.CAPACITY)
             self._exp_cap_cost = kwargs.pop("exp_cap_cost", 100)
 
         @property
@@ -60,14 +62,13 @@ init -12 python:
             self.ex_slots += self.exp_cap_ex_slots
             self.building.ex_slots += self.exp_cap_ex_slots
 
-            hero.take_money(self.exp_cap_cost, "Upgrading Business")
-
+            hero.take_money(self.exp_cap_cost, "Business Expansion")
             self.capacity += 1
 
         def get_price(self):
             # Returns our best guess for price of the business
             # Needed for buying, selling the building or for taxation.
-            price = self.cost
+            price = self.building.get_extension_price(self.__class__, **self.kwargs)
             price += self.capacity * self.exp_cap_cost
             return price
 

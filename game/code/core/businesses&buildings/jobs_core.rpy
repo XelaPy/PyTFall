@@ -118,7 +118,8 @@
             # After a long conversation with Dark and CW, we've decided to prevent workers dieing during jobs
             # I am leaving the code I wrote before that decision was reached in case
             # we change our minds or add jobs like exploration where it makes more sense.
-            # On the other hand just ignoring it is bad, so let's at least reduce some stuff, pretending that she lost consciousness for example.
+            # On the other hand just ignoring it is bad, so let's at least reduce some stuff,
+            # pretending that she lost consciousness for example.
             """
             data = char.stats_skills
 
