@@ -547,12 +547,15 @@ init -10 python:
             # adds the upgrade to in construction buildings:
             self.in_construction_upgrades.append(upgrade)
 
-        def get_extension_cost(self, extension_class, **ec_kwargs):
+        def get_extension_cost(self, extension, **ec_kwargs):
             # We figure out what it would take to add this extension (building or business)
             # using it's class attributes to figure out the cost and the materials required.
             tier = self.tier or 1
 
-            ext = extension_class(**ec_kwargs)
+            if inspect.isclass(extension):
+                ext = extension(**ec_kwargs)
+            else:
+                ext = extension
             cap = exp.capacity
 
             cost = ext.cost * tier
@@ -593,8 +596,9 @@ init -10 python:
         def add_business(self, business, normalize_jobs=True):
             """Add business to the building.
             """
-            self.in_slots += business.in_slots
-            self.ex_slots += business.ex_slots
+            cost, materials, in_slots, ex_slots = self.get_extension_cost(business)
+            self.in_slots += in_slots
+            self.ex_slots += ex_slots
 
             business.building = self
             self._businesses.append(business)
@@ -604,8 +608,9 @@ init -10 python:
                 self.normalize_jobs()
 
         def add_upgrade(self, upgrade):
-            self.in_slots += upgrade.in_slots
-            self.ex_slots += upgrade.ex_slots
+            cost, materials, in_slots, ex_slots = self.get_extension_cost(upgrade)
+            self.in_slots += in_slots
+            self.ex_slots += ex_slots
 
             upgrade.building = self
             self._upgrades.append(upgrade)
