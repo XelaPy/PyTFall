@@ -125,6 +125,8 @@ screen mainscreen():
             align (.01, .5)
             textbutton "Arena Inside":
                 action Hide("mainscreen"), Jump("arena_inside")
+            textbutton "Arena Inside":
+                action Hide("mainscreen"), Jump("realtor_agency")
             textbutton "Test BE":
                 action Hide("mainscreen"), Jump("test_be")
             textbutton "Test BE Logical":

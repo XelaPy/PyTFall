@@ -15,8 +15,7 @@ label realtor_agency:
 
     $ g = npcs["Rose_estate"].say
 
-    if not global_flags.has_flag("visited_ra"):
-
+    if not global_flags.has_flag("visited_ra") and not config.developer:
         $ nvl_ra = Character(None, kind=nvl)
         nvl_ra "After entering the real-estate office, the first thing that hit you was the brightness."
         nvl_ra "It was far brighter than the outside world. Your eyes quickly adapted and you noticed the source of the light."
