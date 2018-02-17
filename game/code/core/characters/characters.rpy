@@ -806,7 +806,7 @@ init -9 python:
                 raise Exception("Income kind: {} is not valid!".format(kind))
 
         # Tax related:
-        def get_income_tax(self, days=7):
+        def get_income_tax(self, days=7, log_finances=False):
             # MC's Income Tax
             char = self.instance
             ec = store.pytfall.economy
@@ -824,16 +824,37 @@ init -9 python:
                     if income <= delimiter:
                         tax = round_int(income*mod)
                     break
+
+            if log_finances and tax:
+                # We have no choice but to do the whole routine again :(
+                # Final value may be off but +/- 1 gold due to rounding
+                # in this simplefied code. I may perfect this one day...
+                for b in [i for i in char.buildings if hasattr(i, "fin")]:
+                    fin_log = b.fin.game_logical_income_log
+                    for _day in fin_log:
+                        if _day > store.day - days:
+                            _income += sum(fin_log[_day].values())
+                            _tax = round_int(income*mod)
+                            b.fin.log_logical_expense(_tax, "Income Tax")
             return income, tax
 
-        def get_property_tax(self):
+        def get_property_tax(self, log_finances=False):
             char = self.instance
             ec = store.pytfall.economy
-            buildings = char.buildings
+            properties = char.buildings
 
             slaves = [c for c in char.chars if c.status == "slave"]
-            b_tax = round_int(sum([b.price for b in properties])*ec.property_tax["real_estate"])
-            s_tax = round_int(sum([c.fin.get_price() for c in slaves])*ec.property_tax["slaves"])
+            b_tax = round_int(sum([p.get_price() for p in properties])*ec.property_tax["real_estate"])
+            s_tax = round_int(sum([s.fin.get_price() for s in slaves])*ec.property_tax["slaves"])
+
+            if log_finances:
+                for p in properties:
+                    _tax = round_int(p.get_price()*ec.property_tax["real_estate"])
+                    p.fin.log_logical_expense(_tax, "Property Tax")
+                for s in slaves:
+                    _tax = round_int(s.get_price()*ec.property_tax["slaves"])
+                    s.fin.log_logical_expense(_tax, "Property Tax")
+
             tax = b_tax + s_tax
             return b_tax, s_tax, tax
 
@@ -3963,7 +3984,7 @@ init -9 python:
             txt.append("\n")
 
             # Income Taxes:
-            income, tax = self.fin.get_income_tax()
+            income, tax = self.fin.get_income_tax(log_finances=True)
             temp = "Over the past week your taxable income amounted to: {color=[gold]}%d Gold{/color}.\n" % income
             txt.append(temp)
 
@@ -3998,7 +4019,7 @@ init -9 python:
                            "\nProperty tax:\n",
                            "\nProperty taxes next!\n"])
             txt.append(temp)
-            b_tax, s_tax, tax = self.fin.get_property_tax()
+            b_tax, s_tax, tax = self.fin.get_property_tax(log_finances=True)
             if b_tax:
                 temp = "Real Estate Tax: %d Gold.\n" % b_tax
                 txt.append(temp)
@@ -4042,7 +4063,7 @@ init -9 python:
                     cr = ec.confiscation_range
                     multiplier = round(random.uniform(*cr), 2)
                     confiscate = all_properties.pop()
-                    
+
                     if isinstance(confiscate, Building):
                         price = confiscate.get_price()
                         if self.home == confiscate:

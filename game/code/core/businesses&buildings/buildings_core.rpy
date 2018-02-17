@@ -547,10 +547,12 @@ init -10 python:
             # adds the upgrade to in construction buildings:
             self.in_construction_upgrades.append(upgrade)
 
-        def get_extension_price(self, extension_class):
+        def get_extension_price(self, extension_class, **ec_kwargs):
             # We figure out what it would take to add this extension (building or business)
             # using it's class attributes to figure out the cost and the materials required.
             tier = self.tier or 1
+
+            # extension = extension_class(**ec_kwargs)
 
             cost = extension_class.COST * tier
 

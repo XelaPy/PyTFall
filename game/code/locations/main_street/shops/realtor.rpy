@@ -1,5 +1,4 @@
 label realtor_agency:
-
     # Music related:
     if not "shops" in ilists.world_music:
         $ ilists.world_music["shops"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("shops")]
