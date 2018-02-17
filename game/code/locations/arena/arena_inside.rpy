@@ -1035,10 +1035,10 @@ init: # Main Screens:
             at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
             pos (280, 154)
             background im.Scale("content/gfx/frame/frame_dec_1.png", 720, 580)
-            xysize(720, 580)
+            xysize (720, 580)
             viewport:
-                pos(50, 50)
-                xysize(620, 400)
+                pos (50, 50)
+                xysize (620, 400)
                 child_size 620, 10000
                 mousewheel True
                 has vbox xsize 620
