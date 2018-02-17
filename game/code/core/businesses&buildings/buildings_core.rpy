@@ -682,9 +682,8 @@ init -10 python:
         # SimPy:
         def run_nd(self):
             """This method is ran for buildings during next day
-            - Gets list of workable businesses and availible workers
+            - Gets list of workable businesses and available workers
             - Creates SimPy Environment
-            -
             """
             tl.timer("Temp Jobs Loop")
             # Setup and start the simulation
