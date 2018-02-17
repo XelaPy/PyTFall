@@ -74,7 +74,7 @@ init -12 python:
         def get_price(self):
             # Returns our best guess for price of the business
             # Needed for buying, selling the building or for taxation.
-            price = self.cost * (building.tier or 1)
+            price = self.cost * (self.building.tier or 1)
             price += self.capacity*self.exp_cap_cost
             return price
 
