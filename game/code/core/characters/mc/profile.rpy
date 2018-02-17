@@ -71,12 +71,12 @@ init:
             xysize (270, 270)
             pos (300, 413)
             add Transform(child=RadarChart((float(hero.attack)/hero.get_max("attack")), (float(hero.defence)/hero.get_max("defence")), (float(hero.agility)/hero.get_max("agility")),
-                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 112, 126, 148, blue), alpha=0.4) align (0.5, .5)
+                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 112, 126, 148, blue), alpha=0.4) align (.5, .5)
             add Transform(child=RadarChart((float(hero.attack)/hero.get_max("attack")), (float(hero.defence)/hero.get_max("defence")), (float(hero.agility)/hero.get_max("agility")),
-                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 65, 126, 148, blueviolet), alpha=0.3) align (0.5, .5)
+                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 65, 126, 148, blueviolet), alpha=0.3) align (.5, .5)
             add Transform(child=RadarChart((float(hero.attack)/hero.get_max("attack")), (float(hero.defence)/hero.get_max("defence")), (float(hero.agility)/hero.get_max("agility")),
-                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 33, 126, 148, aquamarine), alpha=0.2) align (0.5, .5)
-            add ProportionalScale("content/gfx/interface/images/pentagon1.png", 250, 250) align (0.01, .5)
+                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 33, 126, 148, aquamarine), alpha=0.2) align (.5, .5)
+            add ProportionalScale("content/gfx/interface/images/pentagon1.png", 250, 250) align (.01, .5)
 
         fixed:
             frame:
@@ -161,7 +161,7 @@ init:
                     frame:
                         xysize (212, 27)
                         xalign .5
-                        text "{color=#43CD80}Vitality:" xalign (0.02)
+                        text "{color=#43CD80}Vitality:" xalign (.02)
                         if hero.vitality <= hero.get_max("vitality")*0.3:
                             text (u"{color=[red]}%s/%s"%(hero.vitality, hero.get_max("vitality"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                         else:
@@ -191,13 +191,13 @@ init:
 
                 # ELEMENTAL ALIGNMENT ====================================>
                 $ els = [Transform(e.icon, size=(90, 90)) for e in hero.elements]
-                $ els_a = [Transform(im.MatrixColor(e.icon, im.matrix.brightness(0.10)), size=(90, 90)) for e in hero.elements]
+                $ els_a = [Transform(im.MatrixColor(e.icon, im.matrix.brightness(.10)), size=(90, 90)) for e in hero.elements]
                 frame:
                     xalign .5
                     yfill True
                     background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                     xysize (100, 30)
-                    text (u"{color=#CDAD00} Element") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, .7)
+                    text (u"{color=#CDAD00} Element") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
                 fixed:
                     xalign .5
                     xysize (100, 100)
@@ -289,20 +289,20 @@ init:
                             xmargin 0
                             ymargin 0
                             xminimum 180
-                            align (0.5, .5)
+                            align (.5, .5)
                             has vbox spacing 1 xalign .5
                             button:
                                 ypadding 1
                                 xpadding 1
                                 xmargin 0
                                 ymargin 0
-                                align (0.5, .5)
+                                align (.5, .5)
                                 style "basic_choice2_button"
-                                add char.show("portrait", resize=(120, 120), cache=True) align (0.5, .5)
+                                add char.show("portrait", resize=(120, 120), cache=True) align (.5, .5)
                                 action [Hide("hero_profile"), With(dissolve), Function(friends_list_gms, char)]
                                 hovered tt.Action("Click to meet [char.name] in the city")
 
-                            text "{=TisaOTMolxm}[char.nickname]" align (0.5, 1.0) yoffset 5 xmaximum 190
+                            text "{=TisaOTMolxm}[char.nickname]" align (.5, 1.0) yoffset 5 xmaximum 190
                             if char in hero.lovers:
                                 add ProportionalScale("content/gfx/interface/images/love.png", 35, 35) xalign .5
                             else:
@@ -329,7 +329,7 @@ init:
                 yfill True
                 background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                 xysize (153, 60)
-                text (u"{color=#CDAD00} Day [day]") font "fonts/Rubius.ttf" size 26 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, .6)
+                text (u"{color=#CDAD00} Day [day]") font "fonts/Rubius.ttf" size 26 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .6)
             null height 2
             frame:
                 xalign .5
@@ -364,7 +364,7 @@ init:
                                     action NullAction()
                                     text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
                                     hovered tt.action(entry.desc)
-                                    hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
+                                    hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
                 frame:
                     background Frame("content/gfx/frame/hp_1.png", 5, 5)
@@ -386,7 +386,7 @@ init:
                                     action NullAction()
                                     text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
                                     hovered tt.action(entry.desc)
-                                    hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
+                                    hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
         # TRAITS ====================================>
         elif rframe_display == "traits":
@@ -414,7 +414,7 @@ init:
                                     action Show("show_trait_info", trait=trait.id, place="mc_trait")
                                     text trait.id idle_color ivory size 15 align .5, .5 hover_color crimson text_align .5
                                     hovered tt.Action(u"%s"%trait.desc)
-                                    hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
+                                    hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
                 null height 10
 
@@ -434,7 +434,7 @@ init:
                                     action NullAction()
                                     text "[effect]" idle_color ivory size 15 align .5, .5 hover_color crimson
                                     hovered tt.Action(u"%s"%val.get("desc", "No Description availible."))
-                                    hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
+                                    hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
         # TOOLTIP TEXT ====================================>
         hbox:
@@ -450,7 +450,7 @@ init:
                         yalign .5
                         if element.icon:
                             $ img = ProportionalScale(element.icon, 90, 90)
-                            add img align (0.5, .5)
+                            add img align (.5, .5)
                 text tt.value.desc style "content_text" size 18 color "#ecc88a" yalign .1
             else:
                 text (u"{=content_text}{color=#ecc88a}%s" % tt.value) size 18
@@ -682,7 +682,7 @@ init:
         frame:
             background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.65), 10, 10)
             style_group "content"
-            align (0.5, .5)
+            align (.5, .5)
             xysize (1120, 600)
             # side "c r":
                 # area (20, 43, 1110, 495)
@@ -742,7 +742,7 @@ init:
                             total = total_income - total_expenses
 
                         vbox:
-                            align (0.80, .60)
+                            align (.80, .60)
                             text "----------------------------------------"
                             text ("Revenue: [total]"):
                                 size 20
@@ -754,7 +754,7 @@ init:
 
                         hbox:
                             style_group "basic"
-                            align (0.5, .9)
+                            align (.5, .9)
                             textbutton "Show Total" action SetField(pytfall.hp, "finance_filter", "total")
 
                     elif pytfall.hp.finance_filter == 'total':
@@ -812,7 +812,7 @@ init:
                             game_total = total_income - total_expenses
 
                         vbox:
-                            align (0.80, .60)
+                            align (.80, .60)
                             text "----------------------------------------"
                             text ("Revenue: [game_total]"):
                                 size 20
@@ -824,7 +824,7 @@ init:
 
                         hbox:
                             style_group "basic"
-                            align (0.5, .9)
+                            align (.5, .9)
                             textbutton "{size=-3}Show Daily" action SetField(pytfall.hp, "finance_filter", "day")
 
                     hbox:
@@ -860,5 +860,5 @@ init:
                 style_group "basic"
                 action Hide('hero_finances')
                 minimum (250, 30)
-                align (0.5, .96)
+                align (.5, .96)
                 text "OK"

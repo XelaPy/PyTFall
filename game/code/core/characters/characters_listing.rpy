@@ -131,7 +131,7 @@ screen chars_list(source=None):
                                     text_color ivory
 
                             vbox:
-                                align (0.96, .035)
+                                align (.96, .035)
                                 spacing 5
                                 if c.status == "slave":
                                     add ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50)
@@ -388,9 +388,9 @@ screen chars_list(source=None):
 
     frame:
         background Frame("content/gfx/frame/window_frame1.png", 10, 10)
-        align(0.09, 1.0)
+        align(.09, 1.0)
         xysize (950, 65)
-        text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(0.5, .5)
+        text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(.5, .5)
 
     use top_stripe(True)
 

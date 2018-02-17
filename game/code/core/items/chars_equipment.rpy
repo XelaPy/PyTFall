@@ -387,14 +387,14 @@ screen char_equip():
         # ymaximum 410
         # yminimum 410
         background Frame(Transform("content/gfx/frame/Mc_bg3.png", alpha=0.3), 10, 10)
-        use eqdoll(active_mode=True, char=eqtarget, frame_size=[70, 70], scr_align=(0.98, 1.0), return_value=['item', "unequip"], txt_size=17, fx_size=(455, 400))
+        use eqdoll(active_mode=True, char=eqtarget, frame_size=[70, 70], scr_align=(.98, 1.0), return_value=['item', "unequip"], txt_size=17, fx_size=(455, 400))
 
     # BASE FRAME 3 "mid layer" ====================================>
     add "content/gfx/frame/equipment.png"
 
     # Item Info (Mid-Bottom Frame): ====================================>
     hbox:
-        align (0.388, 1.0)
+        align (.388, 1.0)
         spacing 1
         style_group "content"
 
@@ -625,7 +625,7 @@ screen group_equip_left_frame(tt):
                 action SetField(eqtarget, "lst", set(eqtarget.all)), SetField(eqtarget, "unselected", set()), SetVariable("focusitem", None), SetVariable("dummy", None)
                 background Null()
                 foreground ProportionalScale("content/gfx/interface/buttons/Group_full.png", 32, 32) pos (14, 70)
-                hover_foreground ProportionalScale(im.MatrixColor("content/gfx/interface/buttons/Group_full.png", im.matrix.brightness(0.20)), 34, 34)
+                hover_foreground ProportionalScale(im.MatrixColor("content/gfx/interface/buttons/Group_full.png", im.matrix.brightness(.20)), 34, 34)
             # PORTRAIT ============================>
             frame:
                 xysize (100, 100)
@@ -665,7 +665,7 @@ screen group_equip_left_frame(tt):
                                             text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#F5F5DC"
                                         else:
                                             text u"[k.name]" xalign .98 yoffset 3 style_suffix "value_text" color "#75755C"
-                                        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 0, 0)
+                                        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 0, 0)
 
 
     use char_equip_right_frame(tt)
@@ -698,7 +698,7 @@ screen char_equip_right_frame(tt):
                 t = "{vspace=17}[eqtarget.name]{/color}"
 
         if tt.value:
-            text "{color=#ecc88a}%s"%tt.value size 14 align (0.5, .5) font "fonts/TisaOTM.otf" line_leading -5
+            text "{color=#ecc88a}%s"%tt.value size 14 align (.5, .5) font "fonts/TisaOTM.otf" line_leading -5
         elif dummy:
             # Traits and skills:
             vbox:
@@ -773,11 +773,11 @@ screen char_equip_right_frame(tt):
                                 text u'{color=#CD4F39}%s'%skill size 16 yalign .5
         elif not tt.value:
             if isinstance(eqtarget, PytGroup):
-                text (u"{color=#ecc88a}%s" % t) size 14 align (0.55, .65) font "fonts/TisaOTM.otf" line_leading -5
+                text (u"{color=#ecc88a}%s" % t) size 14 align (.55, .65) font "fonts/TisaOTM.otf" line_leading -5
             elif eqtarget.status == "slave":
-                text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Slave%s" % t) size 14 align (0.55, .65) font "fonts/TisaOTM.otf" line_leading -5
+                text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Slave%s" % t) size 14 align (.55, .65) font "fonts/TisaOTM.otf" line_leading -5
             elif eqtarget.status == "free":
-                text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Free%s" % t) size 14 align (0.55, .65) font "fonts/TisaOTM.otf" line_leading -5
+                text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Free%s" % t) size 14 align (.55, .65) font "fonts/TisaOTM.otf" line_leading -5
 
 
     # Right Frame Buttons ====================================>
@@ -819,7 +819,7 @@ screen char_equip_right_frame(tt):
                 xysize (110, 30)
                 action If(eqtarget != hero, true=Return(["jump", "item_transfer"]))
                 text "Exchange" style "pb_button_text"
-        use paging(ref=inv_source.inventory, use_filter=False, xysize=(250, 20), align=(0.5, .5))
+        use paging(ref=inv_source.inventory, use_filter=False, xysize=(250, 20), align=(.5, .5))
 
     # Filters: ====================================>
     hbox:
@@ -936,46 +936,46 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                 slot = SLOTALIASES[item.slot]
                             else:
                                 slot = item.slot.capitalize()
-                        label ('{color=#F5F5DC}{size=-4}%s'%slot) align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                        label ('{color=#F5F5DC}{size=-4}%s'%slot) align (.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                     frame:
                         xysize (160, 25)
                         text ('{color=#F5F5DC}Type:') xalign .02
-                        label ('{color=#F5F5DC}{size=-4}%s'%item.type.capitalize()) align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                        label ('{color=#F5F5DC}{size=-4}%s'%item.type.capitalize()) align (.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                     frame:
                         xysize (160, 25)
                         text ('{color=#F5F5DC}Sex:') xalign .02
                         if item.slot in ["gift", "resources", "loot"]:
-                            label "{size=-4}N/A" align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                            label "{size=-4}N/A" align (.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                         elif item.type == "food" and item.sex == "unisex":
-                            label "{size=-4}N/A" align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                            label "{size=-4}N/A" align (.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                         elif item.sex == 'male':
-                            label ('{color=#F5F5DC}{size=-4}{color=#FFA54F}%s'%item.sex.capitalize()) align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                            label ('{color=#F5F5DC}{size=-4}{color=#FFA54F}%s'%item.sex.capitalize()) align (.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                         elif item.sex == 'female':
-                            label ('{color=#F5F5DC}{size=-4}{color=#FFAEB9}%s'%item.sex.capitalize()) align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                            label ('{color=#F5F5DC}{size=-4}{color=#FFAEB9}%s'%item.sex.capitalize()) align (.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                         elif item.sex == 'unisex':
-                            label ('{color=#F5F5DC}{size=-4}%s'%item.sex.capitalize()) align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                            label ('{color=#F5F5DC}{size=-4}%s'%item.sex.capitalize()) align (.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
 
                 # Buttons and image:
                 button:
                     style_group "pb"
-                    align (0.0, .5)
+                    align (.0, .5)
                     xysize (80, 45)
                     action SensitiveIf(eqtarget != hero and ((eqtarget.inventory[item] > 0 and inv_source == eqtarget) or (hero.inventory[item] > 0 and inv_source == hero))), Return(['item', 'transfer'])
                     if eqtarget == hero:
                         hovered tt.Action("Disabled")
-                        text "Disabled" style "pb_button_text" align (0.5, .5)
+                        text "Disabled" style "pb_button_text" align (.5, .5)
                     elif inv_source == hero:
                         hovered tt.Action("Transfer {} from {} to {}".format(item.id, hero.nickname, eqtarget.nickname))
-                        text "Give to\n {color=#FFAEB9}[eqtarget.nickname]{/color}" style "pb_button_text" align (0.5, .5) line_leading 3
+                        text "Give to\n {color=#FFAEB9}[eqtarget.nickname]{/color}" style "pb_button_text" align (.5, .5) line_leading 3
                     else:
-                        text "Give to\n {color=#FFA54F}[hero.nickname]{/color}" style "pb_button_text" align (0.5, .5) line_leading 3
+                        text "Give to\n {color=#FFA54F}[hero.nickname]{/color}" style "pb_button_text" align (.5, .5) line_leading 3
                         hovered tt.Action("Transfer {} from {} to {}".format(item.id, eqtarget.nickname, hero.nickname))
 
                 frame:
-                    align (0.5, .5)
+                    align (.5, .5)
                     background Frame("content/gfx/frame/frame_it2.png", 5, 5)
                     xysize (120, 120)
-                    add (ProportionalScale(item.icon, 100, 100)) align(0.5, .5)
+                    add (ProportionalScale(item.icon, 100, 100)) align(.5, .5)
 
                 if item_direction == 'unequip':
                     $ temp = "Unequip"
@@ -995,9 +995,9 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                        hovered tt.Action(temp_msg)
                     action SensitiveIf(focusitem), Return(['item', 'equip/unequip'])
                     if item_direction == 'equip' and not can_equip(focusitem, eqtarget):
-                        text "[temp]" style "pb_button_text" align (0.5, .5) color red strikethrough True
+                        text "[temp]" style "pb_button_text" align (.5, .5) color red strikethrough True
                     else:
-                        text "[temp]" style "pb_button_text" align (0.5, .5)
+                        text "[temp]" style "pb_button_text" align (.5, .5)
 
                 # Right items info (Stats):
                 frame:
@@ -1018,7 +1018,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                     frame:
                                         xysize (172, 18)
                                         text (u'{color=#F5F5DC}%s' % stat.capitalize()) size 15 xalign .02 yoffset -2
-                                        label (u'{color=#F5F5DC}{size=-4}[value]') align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                        label (u'{color=#F5F5DC}{size=-4}[value]') align (.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                             null height 3
 
                         if item.max:
@@ -1029,7 +1029,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                     frame:
                                         xysize (172, 18)
                                         text (u'{color=#F5F5DC}%s'%stat.capitalize()) size 15 xalign .02 yoffset -2
-                                        label (u'{color=#F5F5DC}{size=-4}[value]') align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                        label (u'{color=#F5F5DC}{size=-4}[value]') align (.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                             null height 3
 
                         if item.min:
@@ -1040,7 +1040,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                     frame:
                                         xysize (172, 18)
                                         text (u'{color=#F5F5DC}%s'%stat.capitalize()) size 15 xalign .02 yoffset -2
-                                        label (u'{color=#F5F5DC}{size=-4}%d'%value) align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                        label (u'{color=#F5F5DC}{size=-4}%d'%value) align (.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                         if hasattr(item, 'mtemp'):
                             if item.mtemp:
                                 label ('Frequency:') text_size 16 text_color gold xpos 30
@@ -1073,7 +1073,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                             frame:
                                                 xysize (172, 18)
                                                 text (u'{color=#F5F5DC}Stat limit') size 15 xalign .02 yoffset -2
-                                                label (u'{color=#F5F5DC}{size=-4}%d'%item.statmax) align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                                label (u'{color=#F5F5DC}{size=-4}%d'%item.statmax) align (.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                         if hasattr(item, 'ctemp'):
                             if item.ctemp:
                                 label ('Duration:') text_size 16 text_color gold xpos 30
@@ -1295,7 +1295,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                     hovered tt.Action("Show/hide equipment state if it's saved")
                                     text "Outfit %d" % (i + 1) style "pb_button_text"
                                 button:
-                                    align (0.5, .5)
+                                    align (.5, .5)
                                     xysize (30, 30)
                                     action Function(eqtarget.eqsave.__setitem__, i, eqtarget.eqslots.copy()), SetDict(eqsave, i, True), With(dissolve)
                                     text u"\u2193"
@@ -1304,7 +1304,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                         hovered tt.Action("Save equipment state")
                                 if any(eqtarget.eqsave[i].values()):
                                     button:
-                                        align (0.5, .5)
+                                        align (.5, .5)
                                         xysize (30, 30)
                                         action Function(eqtarget.load_equip, eqtarget.eqsave[i]), With(dissolve)
                                         text u"\u2191"
@@ -1312,7 +1312,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                         if tt:
                                             hovered tt.Action("Load equipment state")
                                     button:
-                                        align (0.5, .5)
+                                        align (.5, .5)
                                         xysize (30, 30)
                                         action Function(eqtarget.eqsave.__setitem__, i, {k: False for k in eqtarget.eqslots}), SetDict(eqsave, i, False), With(dissolve)
                                         text u"\u00D7"
@@ -1323,7 +1323,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                             xysize (234, 246)
                             background Null()
                             if eqsave[i] and any(eqtarget.eqsave[i].values()):
-                                use eqdoll(active_mode=True, char=eqtarget.eqsave[i], scr_align=(0.98, 1.0), return_value=['item', "save"], txt_size=17, fx_size=(304, 266))
+                                use eqdoll(active_mode=True, char=eqtarget.eqsave[i], scr_align=(.98, 1.0), return_value=['item', "save"], txt_size=17, fx_size=(304, 266))
 
 screen diff_item_effects(char, dummy):
     zorder 10
@@ -1333,7 +1333,7 @@ screen diff_item_effects(char, dummy):
     frame:
         xysize (1000, 500)
         background Solid("#F00", alpha=0.1)
-        align (0.1, .5)
+        align (.1, .5)
         has hbox
 
         vbox:

@@ -39,14 +39,14 @@ screen city_park():
     
     use top_stripe(True)
     
-    # use r_lightbutton(img=im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=true), return_value =['control', 'jumpgates'], align=(0.01, .5))
+    # use r_lightbutton(img=im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=true), return_value =['control', 'jumpgates'], align=(.01, .5))
     
     if not gm.show_girls:
         $img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
         imagebutton:
-            align (0.01, .5)
+            align (.01, .5)
             idle (img)
-            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img, im.matrix.brightness(.15)))
             action [Hide("city_park"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_parkgates")]
     
     
@@ -70,5 +70,5 @@ screen city_park():
             imagebutton:
                 pos(1090, 340)
                 idle (img_aine_shop)
-                hover (im.MatrixColor(img_aine_shop, im.matrix.brightness(0.15)))
+                hover (im.MatrixColor(img_aine_shop, im.matrix.brightness(.15)))
                 action [Hide("city_park"), Jump("aine_menu"), With(dissolve)]

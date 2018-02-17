@@ -36,9 +36,9 @@ screen city_beach_cafe:
     if not gm.show_girls:
         $ img = im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80)
         imagebutton:
-            align (0.99, .5)
+            align (.99, .5)
             idle (img)
-            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img, im.matrix.brightness(.15)))
             action [Hide("city_beach_cafe"), Jump("city_beach_cafe_main")]
     
     use location_actions("city_beach_cafe")

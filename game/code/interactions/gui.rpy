@@ -330,7 +330,7 @@ screen girl_interactions():
 
     # Disposition bar
     vbox:
-        align (0.95, .31)
+        align (.95, .31)
 
         vbar:
             top_gutter 13
@@ -394,7 +394,7 @@ screen girl_interactions():
         frame:
             style "dropdown_gm_frame"
             xysize (385, 455)
-            align (0.89, .27)
+            align (.89, .27)
             viewport:
                 xysize (365, 433)
                 scrollbars "vertical"
@@ -551,7 +551,7 @@ screen girl_interactions_old:
     # Move to General GM
     if config.developer:
         textbutton "Test GM":
-            align (0.5, .1)
+            align (.5, .1)
             action Return(['test_gm'])
 
     # Girl image

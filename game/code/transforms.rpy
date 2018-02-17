@@ -3,16 +3,16 @@ init -997: # Transforms:
 
     # First, More default positions:
     transform mid_right:
-        align (0.75, 1.0)
+        align (.75, 1.0)
 
     transform mid_left:
-        align (0.25, 1.0)
+        align (.25, 1.0)
 
     transform center_right:
-        align (0.95, .5)
+        align (.95, .5)
 
     transform center_left:
-        align (0.05, .5)
+        align (.05, .5)
 
     # Other Transforms:
     transform move_to_pos_with_offset(pos, t):
@@ -114,7 +114,7 @@ init -997: # Transforms:
     transform simple_zoom_from_to_with_easein(start_val=1.0, end_val=0.0, t=1.0):
         # Simple zoom...
         subpixel True
-        anchor (0.5, .5)
+        anchor (.5, .5)
         zoom start_val
         easein t zoom end_val
 
@@ -122,10 +122,10 @@ init -997: # Transforms:
     transform pers_effect():
         subpixel True
         parallel:
-            fade_from_to(0.98, 1.05, 1.0)
+            fade_from_to(.98, 1.05, 1.0)
             fade_from_to(1.05, .98, 2.2)
         parallel:
-            simple_zoom_from_to_with_linear(0.98, 1.05, 1.0)
+            simple_zoom_from_to_with_linear(.98, 1.05, 1.0)
             simple_zoom_from_to_with_linear(1.05, .98, 2.2)
         repeat
 
@@ -137,14 +137,14 @@ init -997: # Transforms:
         parallel:
             block:
                 parallel:
-                    fade_from_to(0.3, 1.0, 5.0)
+                    fade_from_to(.3, 1.0, 5.0)
                 parallel:
                     simple_zoom_from_to_with_linear(1.2, .8, 5.0)
             block:
                 parallel:
                     fade_from_to(1.0, .3, 5.0)
                 parallel:
-                    simple_zoom_from_to_with_linear(0.8, 1.2, 5.0)
+                    simple_zoom_from_to_with_linear(.8, 1.2, 5.0)
             repeat
         parallel:
             repeated_rotate(t=30.0)
@@ -153,7 +153,7 @@ init -997: # Transforms:
         # Slider for arena Vicroty/Defeat texts
         on show:
             parallel:
-                fade_from_to(0.3, 1.0, .5)
+                fade_from_to(.3, 1.0, .5)
             parallel:
                 xoffset 500
                 ease .5 xoffset -400
@@ -215,7 +215,7 @@ init -997: # Transforms:
     transform interactions_angry_pulse_tr:
         "angry_pulse"
         pos (150, 566)
-        anchor (0.5, .5)
+        anchor (.5, .5)
         block:
             linear .05 zoom 1.1
             linear .05 zoom .9
@@ -295,7 +295,7 @@ init -997: # Transforms:
                                                                               "surprised": interactions_surprised_tr,
                                                                               "shy": interactions_blush_tr, # probably should be used only as a replacement for missing shy portraits
                                                                               "love": Transform("hearts_flow", pos=(220, 700)),
-                                                                              "like": Transform("hearts_rise", pos=(120, 405), anchor=(0.0, .0))
+                                                                              "like": Transform("hearts_rise", pos=(120, 405), anchor=(.0, .0))
                                                                               })
 
     # Also used for gm:

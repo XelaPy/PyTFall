@@ -105,7 +105,7 @@ screen girl_training:
     # Tooltip related:
     frame:
         background Frame("content/gfx/frame/window_frame1.png", 10, 10)
-        align(0.5, .997)
+        align(.5, .997)
         xysize (1000, 100)
         xpadding 10
         ypadding 10
@@ -126,7 +126,7 @@ screen girl_training_trainer:
         frame:
             background Frame("content/gfx/frame/p_frame2.png", 10, 10)
             xysize (365, 25)
-            label u"- Trainers -" align (0.5, .5) text_size 25 text_color ivory
+            label u"- Trainers -" align (.5, .5) text_size 25 text_color ivory
         null height 3
         side "c r":
             viewport id "trainer_vp":
@@ -144,7 +144,7 @@ screen girl_training_trainer:
                             imagebutton:
                                 align (0, .5)
                                 idle girl_image_show
-                                hover im.MatrixColor(girl_image_show, im.matrix.brightness(0.15))
+                                hover im.MatrixColor(girl_image_show, im.matrix.brightness(.15))
                                 action Return(["trainer", trainer])
                                 hovered tt.action("Train girls with %s.\nCurrently training: %s"%(trainer.name, ", ".join([str(g) for g in girls_training_with(hero)])))
 
@@ -176,7 +176,7 @@ screen girl_training_trainer:
         frame:
             background Frame("content/gfx/frame/p_frame2.png", 10, 10)
             xysize (385, 25)
-            label u"- Courses -" align (0.5, .5) text_size 25 text_color ivory
+            label u"- Courses -" align (.5, .5) text_size 25 text_color ivory
         null height 3
         side "c r":
             viewport id "course_vp":
@@ -200,9 +200,9 @@ screen girl_training_trainer:
                                     frame:
                                         xysize (170, 170)
                                         imagebutton:
-                                            align (0.5, .5)
+                                            align (.5, .5)
                                             idle ProportionalScale(course.get_lesson_image(), 155, 155)
-                                            hover im.MatrixColor(ProportionalScale(course.get_lesson_image(), 155, 155), im.matrix.brightness(0.15))
+                                            hover im.MatrixColor(ProportionalScale(course.get_lesson_image(), 155, 155), im.matrix.brightness(.15))
                                             action Return(["open", course])
                                             hovered tt.action(u"%s"%course.desc)
                                     null height 5
@@ -219,7 +219,7 @@ screen girl_training_trainer:
             frame:
                 background Frame("content/gfx/frame/p_frame2.png", 10, 10)
                 xysize (427, 25)
-                label u"- %s -"%training_screen_course.name align (0.5, .5) text_size 25 text_color ivory
+                label u"- %s -"%training_screen_course.name align (.5, .5) text_size 25 text_color ivory
             null height 3
             side "c r":
                 viewport id "lesson_vp":
@@ -258,9 +258,9 @@ screen girl_training_lesson(course, tt, show_image):
             frame:
                 xysize (190, 190)
                 imagebutton:
-                    align (0.5, .5)
+                    align (.5, .5)
                     idle ProportionalScale(course.get_lesson_image(), 175, 175)
-                    hover im.MatrixColor(ProportionalScale(course.get_lesson_image(), 175, 175), im.matrix.brightness(0.15))
+                    hover im.MatrixColor(ProportionalScale(course.get_lesson_image(), 175, 175), im.matrix.brightness(.15))
                     action Return(["setto", course])
                     hovered tt.action(u"%s\nGirls being trained: %s"%(course.desc, ", ".join([girl.fullname for girl in hero.chars if char_is_training(girl) is course])))
 

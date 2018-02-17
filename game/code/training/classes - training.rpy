@@ -2048,7 +2048,7 @@ init -9 python:
             # In case non-slaves escape, use 3000 as base price
             base = self.girl.fin.get_price() or 3000
             time = float(self.jail_cache[self.girl][0])
-            return int(base * (0.75 - (0.125 * time)))
+            return int(base * (.75 - (.125 * time)))
 
         def get_upkeep(self):
             """

@@ -50,30 +50,30 @@ screen city_beach():
         $ img = im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80)
         imagebutton:
             id "meow"
-            align (0.99, .5)
+            align (.99, .5)
             idle (img)
-            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img, im.matrix.brightness(.15)))
             action [Hide("city_beach"), Jump("city_beach_right")]
 
         $ img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
         imagebutton:
-            align (0.01, .5)
+            align (.01, .5)
             idle (img)
-            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img, im.matrix.brightness(.15)))
             action [Hide("city_beach"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_beach_left")]
 
         $ img_pool = ProportionalScale("content/gfx/interface/icons/swimming_pool.png", 60, 60)
         imagebutton:
             pos(1040, 80)
             idle (img_pool)
-            hover (im.MatrixColor(img_pool, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img_pool, im.matrix.brightness(.15)))
             action [Hide("city_beach"), Jump("swimming_pool")]
 
         $ img_beach_swim = ProportionalScale("content/gfx/interface/icons/sp_swimming.png", 90, 90)
         imagebutton:
             pos(280, 240)
             idle (img_beach_swim)
-            hover (im.MatrixColor(img_beach_swim, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img_beach_swim, im.matrix.brightness(.15)))
             action [Hide("city_beach"), Show("city_beach_swim"), With(dissolve)]
     use location_actions("city_beach")
 
@@ -98,7 +98,7 @@ screen city_beach_swim():
         ypadding 10
         vbox:
             style_group "wood"
-            align (0.5, .5)
+            align (.5, .5)
             spacing 10
             button:
                 xysize (120, 40)

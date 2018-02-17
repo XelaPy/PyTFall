@@ -446,7 +446,7 @@ init -100 python:
             super(Snowing, self).__init__(**kwargs)
             self.d = renpy.easy.displayable(d)
 
-            self.interval = interval if interval is not None else (0.2, .3)
+            self.interval = interval if interval is not None else (.2, .3)
             self.start_pos = start_pos if start_pos is not None else ((-200, config.screen_width), 0)
             self.end_pos = end_pos if end_pos is not None else ({"offset": (100, 200)}, config.screen_height)
 
@@ -515,7 +515,7 @@ init -100 python:
 
 
     class ParticleBurst(renpy.Displayable):
-        def __init__(self, displayable, interval=(0.02, .04), speed=(0.15, .3),
+        def __init__(self, displayable, interval=(.02, .04), speed=(.15, .3),
                      around=(config.screen_width/2, config.screen_height/2), angle=(0, 360),
                      radius=(50, 75), particles=None, mouse_sparkle_mode=False, **kwargs):
             """Creates a burst of displayable...
@@ -877,23 +877,23 @@ init python:
         factor = im.Scale(img, width/5, height/5)
         factor = Transform(factor, size=(width, height))
         renpy.show("blur_effect", what=factor)
-        renpy.with_statement(Dissolve(0.6))
+        renpy.with_statement(Dissolve(.6))
         renpy.hide("blur_effect")
 
         renpy.show("blur_effect", what=img)
-        renpy.with_statement(Dissolve(0.4))
+        renpy.with_statement(Dissolve(.4))
         renpy.hide("blur_effect")
 
         factor = im.Scale(img, width/10, height/10)
         factor = Transform(factor, size=(width, height))
         renpy.show("blur_effect", what=factor)
-        renpy.with_statement(Dissolve(0.8))
+        renpy.with_statement(Dissolve(.8))
         renpy.hide("blur_effect")
 
         factor = im.Scale(img, width/5, height/5)
         factor = Transform(factor, size=(width, height))
         renpy.show("blur_effect", what=factor)
-        renpy.with_statement(Dissolve(0.6))
+        renpy.with_statement(Dissolve(.6))
         renpy.hide("blur_effect")
 
         factor = im.Scale(img, width/15, height/15)
@@ -905,7 +905,7 @@ init python:
         factor = im.Scale(img, width/10, height/10)
         factor = Transform(factor, size=(width, height))
         renpy.show("blur_effect", what=factor)
-        renpy.with_statement(Dissolve(0.8))
+        renpy.with_statement(Dissolve(.8))
         renpy.hide("blur_effect")
 
         factor = im.Scale(img, width/20, height/20)

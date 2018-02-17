@@ -224,7 +224,7 @@ init -1: # Images and Animations
     image vortex = FilmStrip("content/gfx/be/filmstrips/vortex.png", (277, 277), (15, 1), .1, loop=True)
     image tornado:
         FilmStrip("content/gfx/be/filmstrips/tornado.png", (674, 592), (2, 3), .05, loop=True)
-        anchor (0.5, 1.0)
+        anchor (.5, 1.0)
         zoom .5
         subpixel True
         easeout 1.5 zoom 1.3
@@ -267,14 +267,14 @@ init -1: # Images and Animations
         contains:
             "ice_strike"
             pos pos
-            anchor (0.5, 1.0)
+            anchor (.5, 1.0)
             pause 1.2
             Null()
         contains:
             pause .6
             "ice_twin_explosion"
             pos pos
-            anchor (0.5, 1.0)
+            anchor (.5, 1.0)
             offset (-120, -10)
             pause .7
             Null()
@@ -282,7 +282,7 @@ init -1: # Images and Animations
             pause .8
             "ice_twin_explosion"
             pos pos
-            anchor (0.5, 1.0)
+            anchor (.5, 1.0)
             offset (100, -60)
             pause .7
             Null()
@@ -290,7 +290,7 @@ init -1: # Images and Animations
             pause .95
             "ice_twin_explosion"
             pos pos
-            anchor (0.5, 1.0)
+            anchor (.5, 1.0)
             offset (60, -140)
             pause .7
             Null()
@@ -298,7 +298,7 @@ init -1: # Images and Animations
             pause 1.0
             "ice_twin_explosion"
             pos pos
-            anchor (0.5, 1.0)
+            anchor (.5, 1.0)
             offset (-60, -170)
             pause .7
             Null()
@@ -306,7 +306,7 @@ init -1: # Images and Animations
             pause 1.0
             "ice_twin_explosion"
             pos pos
-            anchor (0.5, 1.0)
+            anchor (.5, 1.0)
             offset (40, -80)
             pause .7
             Null()

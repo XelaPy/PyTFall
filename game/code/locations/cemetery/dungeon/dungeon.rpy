@@ -198,10 +198,10 @@ screen dungeon_move(hotspots):
                         (width, height) = mco.image.load().get_size()
 
                         xz=1.0/(1.5 + math.log(sw[2], 2))
-                        xx=int(float(renpy.config.screen_width - (width/2)*xz) * (0.5 + float(sw[3]) / float(1 + sw[2])))
+                        xx=int(float(renpy.config.screen_width - (width/2)*xz) * (.5 + float(sw[3]) / float(1 + sw[2])))
 
                         yz = xz/1.75
-                        yy=int((renpy.config.screen_height - height*xz) * (0.5 + 1.0 / float(1.0 + sw[2])))
+                        yy=int((renpy.config.screen_height - height*xz) * (.5 + 1.0 / float(1.0 + sw[2])))
                         rot = sw[1]['rot'] if 'rot' in sw[1] else None #15.0+float(abs(sw[3])*distance)
                     elif isinstance(sw[0], Mob):
                         mco = im.MatrixColor(sw[0].battle_sprite, light_matrix)
@@ -209,14 +209,14 @@ screen dungeon_move(hotspots):
 
                         sz = float(sw[1]['size']) if 'size' in sw[1] else 1.3
                         xz=2.0/(1.5 + math.log(sw[2], 2))
-                        xx=int(float(renpy.config.screen_width - width*xz) * (0.5 + float(sw[3]) / float(1 + sw[2])))
+                        xx=int(float(renpy.config.screen_width - width*xz) * (.5 + float(sw[3]) / float(1 + sw[2])))
 
 
                         yz = xz
                         lowness = float(renpy.config.screen_height)
                         if 'yoffs' in sw[1]:
                             lowness += float(sw[1]['yoffs'])
-                        yy=int(float(lowness - height*xz) * (0.5 + .5 / float(.0001 + sw[2])))
+                        yy=int(float(lowness - height*xz) * (.5 + .5 / float(.0001 + sw[2])))
                         rot=None
 
                 add mco at [sprite_default(xx, yy, xz, yz, rot)]

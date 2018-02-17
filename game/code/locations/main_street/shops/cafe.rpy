@@ -89,7 +89,7 @@ screen cafe_eating:
         ypadding 10
         vbox:
             style_group "wood"
-            align (0.5, .5)
+            align (.5, .5)
             spacing 10
             button:
                 xysize (150, 40)

@@ -21,30 +21,30 @@ init:
                     xysize frame_size
                     if char.inventory[item]:
                         background Frame("content/gfx/frame/frame_it2.png", -1, -1)
-                        use r_lightbutton (img=ProportionalScale(item.icon, 70, 70), return_value=return_value+[item], align=(0.5, .5))
+                        use r_lightbutton (img=ProportionalScale(item.icon, 70, 70), return_value=return_value+[item], align=(.5, .5))
                         label (u"{color=#ecc88a}%d" % char.inventory[item]):
-                            align (0.995, .995)
+                            align (.995, .995)
                             style "stats_label_text"
                             text_size 18
                             text_outlines [(2, "#9c8975", 0, 0), (1, "#000000", 0, 0)]
                     else:
                         # in groups indicate some have the item
                         background Frame("content/gfx/frame/frame_it1.png", -1, -1)
-                        use r_lightbutton (img=ProportionalScale(im.Sepia(item.icon), 70, 70), return_value=return_value+[item], align=(0.5, .5))
+                        use r_lightbutton (img=ProportionalScale(im.Sepia(item.icon), 70, 70), return_value=return_value+[item], align=(.5, .5))
 
-    screen eqdoll(active_mode=True, char=None, frame_size=[55, 55], scr_align=(0.23, .23), return_value=['item', 'get'], txt_size=17, fx_size=(300, 320)):
+    screen eqdoll(active_mode=True, char=None, frame_size=[55, 55], scr_align=(.23, .23), return_value=['item', 'get'], txt_size=17, fx_size=(300, 320)):
         # active_mode = Allows equipped item to be focused if true, otherwise just dispayes a picture of an item (when equipped).
         # char = source of equipment slots.
         # Slots and the doll ------------------------------------------------------------>
         if char == hero:
-            # add Transform(hero.show("sprofile", resize=(400, 720)), alpha=0.8) align(0.5, 1.0)
-            add im.Scale("content/gfx/interface/images/doll_male.png", 286, 400) align (0.5, .5)
+            # add Transform(hero.show("sprofile", resize=(400, 720)), alpha=0.8) align(.5, 1.0)
+            add im.Scale("content/gfx/interface/images/doll_male.png", 286, 400) align (.5, .5)
         elif not isinstance(char, dict):
             #f rame:
-                # align (0.5, .5)
+                # align (.5, .5)
                 # background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-            add (char.show("vnsprite", resize=(288, 400), cache=True)) alpha .9 align (0.5, 1.0)
-            # add im.Scale("content/gfx/interface/images/doll_fem.png", 350, 500) align (0.25, .23)
+            add (char.show("vnsprite", resize=(288, 400), cache=True)) alpha .9 align (.5, 1.0)
+            # add im.Scale("content/gfx/interface/images/doll_fem.png", 350, 500) align (.25, .23)
 
         fixed:
             style_group "content"
@@ -83,9 +83,9 @@ init:
                         if not isinstance(char, dict):
                             use r_lightbutton(img=ProportionalScale(img, frame_size[0]*0.78, frame_size[1]*0.78), return_value=return_value+equipment)
                         else:
-                            add ProportionalScale(img, frame_size[0]*0.71, frame_size[1]*0.71) align (0.5, .5)
+                            add ProportionalScale(img, frame_size[0]*0.71, frame_size[1]*0.71) align (.5, .5)
                     else:
-                        add Transform(ProportionalScale("content/gfx/interface/buttons/filters/%s_bg.png"%key, frame_size[0]*0.71, frame_size[1]*0.71), alpha=0.35) align (0.5, .5)
+                        add Transform(ProportionalScale("content/gfx/interface/buttons/filters/%s_bg.png"%key, frame_size[0]*0.71, frame_size[1]*0.71), alpha=0.35) align (.5, .5)
 
     screen shopping(left_ref=None, right_ref=None):
         use shop_inventory(ref=left_ref, x=0.0)
@@ -218,66 +218,66 @@ init:
                                     for stat, value in item.mod.items():
                                         frame:
                                             xysize 153, 20
-                                            text stat.capitalize() color ivory size 16 align (0.02, .5)
-                                            label (u'{size=-4}[value]') align (0.98, .5)
+                                            text stat.capitalize() color ivory size 16 align (.02, .5)
+                                            label (u'{size=-4}[value]') align (.98, .5)
                                     null height 2
                                 if item.max:
                                     label ('Max:') text_size 18 text_color gold xpos 10
                                     for stat, value in item.max.items():
                                         frame:
                                             xysize 153, 20
-                                            text stat.capitalize() color ivory size 16 align (0.02, .5)
-                                            label u'{size=-4}[value]' align (0.98, .5)
+                                            text stat.capitalize() color ivory size 16 align (.02, .5)
+                                            label u'{size=-4}[value]' align (.98, .5)
                                     null height 2
                                 if item.min:
                                     label ('Min:') text_size 18 text_color gold xpos 10
                                     for stat, value in item.min.items():
                                         frame:
                                             xysize 153, 20
-                                            text stat.capitalize() color ivory size 16 align (0.02, .5)
-                                            label (u'{size=-4}%d'%value) align (0.98, .5)
+                                            text stat.capitalize() color ivory size 16 align (.02, .5)
+                                            label (u'{size=-4}%d'%value) align (.98, .5)
                                     null height 2
                                 if item.addtraits:
                                     label ('Adds Traits:') text_size 16 text_color gold xpos 10
                                     for trait in item.addtraits:
                                         frame:
                                             xysize 153, 20
-                                            text(u'%s'%trait.capitalize()) color ivory size 16 align (0.5, .5)
+                                            text(u'%s'%trait.capitalize()) color ivory size 16 align (.5, .5)
                                     null height 2
                                 if item.removetraits:
                                     label ('Removes Traits:') text_size 16 text_color gold xpos 10
                                     for trait in item.removetraits:
                                         frame:
                                             xysize 153, 20
-                                            text(u'%s'%trait.capitalize()) color ivory size 16 align (0.5, .5)
+                                            text(u'%s'%trait.capitalize()) color ivory size 16 align (.5, .5)
                                     null height 2
                                 if item.add_be_spells:
                                     label ('Adds Skills:') text_size 16 text_color gold xpos 10
                                     for skill in item.add_be_spells:
                                         frame:
                                             xysize 153, 20
-                                            text(u'%s'%skill.capitalize()) color ivory size 16 align (0.5, .5)
+                                            text(u'%s'%skill.capitalize()) color ivory size 16 align (.5, .5)
                                     null height 2
                                 if item.remove_be_spells:
                                     label ('Removes Skills:') text_size 16 text_color gold xpos 10
                                     for skill in item.remove_be_spells:
                                         frame:
                                             xysize 153, 20
-                                            text (u'%s'%skill.capitalize()) color ivory size 16 align (0.5, .5)
+                                            text (u'%s'%skill.capitalize()) color ivory size 16 align (.5, .5)
                                     null height 2
                                 if item.addeffects:
                                     label ('Adds Effects:') text_size 16 text_color gold xpos 10
                                     for effect in item.addeffects:
                                         frame:
                                             xysize 153, 20
-                                            text(u'%s'%effect.capitalize()) color ivory size 16 align (0.5, .5)
+                                            text(u'%s'%effect.capitalize()) color ivory size 16 align (.5, .5)
                                     null height 2
                                 if item.removeeffects:
                                     label ('Removes Effects:') text_size 16 text_color gold xpos 10
                                     for effect in item.removeeffects:
                                         frame:
                                             xysize 153, 20
-                                            text(u'%s'%effect.capitalize()) color ivory size 16 align (0.5, .5)
+                                            text(u'%s'%effect.capitalize()) color ivory size 16 align (.5, .5)
                                 if hasattr(item, 'mtemp'):
                                     if item.mtemp:
                                         label ('Frequency:') text_size 18 text_color gold xpos 10
@@ -285,39 +285,39 @@ init:
                                             xysize 153, 20
                                             if item.mreusable:
                                                 if item.mtemp > 1:
-                                                    text "Every [item.mtemp] days" color ivory size 16 align (0.02, .5)
+                                                    text "Every [item.mtemp] days" color ivory size 16 align (.02, .5)
                                                 else:
-                                                    text "Every day" color ivory size 16 align (0.02, .5)
+                                                    text "Every day" color ivory size 16 align (.02, .5)
                                             else:
                                                 if item.mtemp > 1:
-                                                    text "After [item.mtemp] days" color ivory size 16 align (0.02, .5)
+                                                    text "After [item.mtemp] days" color ivory size 16 align (.02, .5)
                                                 else:
-                                                    text "After one day" color ivory size 16 align (0.02, .5)
+                                                    text "After one day" color ivory size 16 align (.02, .5)
                                         if hasattr(item, 'mdestruct'):
                                             if item.mdestruct:
                                                 frame:
                                                     xysize 153, 20
-                                                    text "Disposable" color ivory size 16 align (0.02, .5)
+                                                    text "Disposable" color ivory size 16 align (.02, .5)
                                         if hasattr(item, 'mreusable'):
                                             if item.mreusable:
                                                 frame:
                                                     xysize 153, 20
-                                                    text "Reusable" color ivory size 16 align (0.02, .5)
+                                                    text "Reusable" color ivory size 16 align (.02, .5)
                                         if hasattr(item, 'statmax'):
                                             if item.statmax:
                                                 frame:
                                                     xysize 153, 20
-                                                    text "Stat limit" color ivory size 16 align (0.02, .5)
-                                                    label (u'{size=-4}%d'%item.statmax) align (0.98, .5)
+                                                    text "Stat limit" color ivory size 16 align (.02, .5)
+                                                    label (u'{size=-4}%d'%item.statmax) align (.98, .5)
                                 if hasattr(item, 'ctemp'):
                                     if item.ctemp:
                                         label ('Duration:') text_size 18 text_color gold xpos 10
                                         frame:
                                             xysize 153, 20
                                             if item.ctemp > 1:
-                                                text "[item.ctemp] days" color ivory size 16 align (0.02, .5)
+                                                text "[item.ctemp] days" color ivory size 16 align (.02, .5)
                                             else:
-                                                text "One day" color ivory size 16 align (0.02, .5)
+                                                text "One day" color ivory size 16 align (.02, .5)
                     label ('{color=#ecc88a}----------------------------------------') xalign .5
                     frame:
                         xalign .5
@@ -369,29 +369,29 @@ init:
                     xmaximum xysize[0] - 5
                     xfill True
                     hbox:
-                        align (0.0, .5)
+                        align (.0, .5)
                         imagebutton:
                             yalign .5
                             idle (path+'first.png')
-                            hover (im.MatrixColor(path+'first.png', im.matrix.brightness(0.15)))
+                            hover (im.MatrixColor(path+'first.png', im.matrix.brightness(.15)))
                             action Function(ref.first)
                         imagebutton:
                             yalign .5
                             idle (path+'prev.png')
-                            hover (im.MatrixColor(path+'prev.png', im.matrix.brightness(0.15)))
+                            hover (im.MatrixColor(path+'prev.png', im.matrix.brightness(.15)))
                             action Function(ref.prev)
-                    label ("%d - %d"%(ref.page+1, ref.max_page)) align (0.5, .5) text_color ivory
+                    label ("%d - %d"%(ref.page+1, ref.max_page)) align (.5, .5) text_color ivory
                     hbox:
                         align (1.0, .5)
                         imagebutton:
                             yalign .5
                             idle (path+'next.png')
-                            hover (im.MatrixColor(path+'next.png', im.matrix.brightness(0.15)))
+                            hover (im.MatrixColor(path+'next.png', im.matrix.brightness(.15)))
                             action Function(ref.next)
                         imagebutton:
                             yalign .5
                             idle (path+'last.png')
-                            hover (im.MatrixColor(path+'last.png', im.matrix.brightness(0.15)))
+                            hover (im.MatrixColor(path+'last.png', im.matrix.brightness(.15)))
                             action Function(ref.last)
 
     screen shop_inventory(ref=None, x=0.0):
@@ -411,9 +411,9 @@ init:
 
             hbox:
                 xalign .5
-                add im.Scale("content/gfx/interface/icons/gold.png", 25, 25) align (0.0, .5)
+                add im.Scale("content/gfx/interface/icons/gold.png", 25, 25) align (.0, .5)
                 null width 10
-                text u'[ref.gold]' align (0.5, 1.0) color gold size 23
+                text u'[ref.gold]' align (.5, 1.0) color gold size 23
 
             null height 5
 
@@ -433,7 +433,7 @@ init:
         imagebutton:
             align align
             idle img
-            hover im.MatrixColor(img, im.matrix.brightness(0.15))
+            hover im.MatrixColor(img, im.matrix.brightness(.15))
             action Return(return_value)
 
     screen rg_lightbutton:
@@ -454,7 +454,7 @@ init:
                 imagebutton:
                     align align
                     idle (p_img)
-                    hover (im.MatrixColor(p_img, im.matrix.brightness(0.15)))
+                    hover (im.MatrixColor(p_img, im.matrix.brightness(.15)))
                     action Return(return_value)
             frame:
                 padding(2, 2)
@@ -465,7 +465,7 @@ init:
     screen rtt_lightbutton:
         imagebutton yalign .5:
             idle (img)
-            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img, im.matrix.brightness(.15)))
             action Return(return_value)
             hovered tt.action(u"%s"%tooltip)
 
@@ -562,7 +562,7 @@ init:
             # Left HBox: ======================================================>>>>>>
             # Add to and remove from Team Button.
             hbox:
-                align(0.3, .5)
+                align(.3, .5)
                 if renpy.get_screen("char_profile") and char not in pytfall.ra:
                     if char in hero.team:
                         imagebutton:
@@ -581,19 +581,19 @@ init:
             if any([renpy.current_screen().tag == "next_day", hero.AP == 0]) and renpy.current_screen().tag not in ["mainscreen", "girl_interactions"] and not show_team_status:
                 button:
                     style_group "basic"
-                    align (0.5, .6)
+                    align (.5, .6)
                     if renpy.current_screen().tag == "next_day":
                         action Return(['control', "next_day_local"])
                     else:
                         action (hs, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
                     text "Next Day"
             else:
-                add ProportionalScale("content/gfx/frame/frame_ap.png", 170, 50) align (0.5, .7)
-                label "[hero.AP]" align (0.53, .6) style "content_label"  text_size 23 text_color ivory text_bold True
+                add ProportionalScale("content/gfx/frame/frame_ap.png", 170, 50) align (.5, .7)
+                label "[hero.AP]" align (.53, .6) style "content_label"  text_size 23 text_color ivory text_bold True
 
             # Right HBox:
             hbox:
-                align(0.8, .5)
+                align(.8, .5)
                 spacing 5
                 if config.developer:
                     textbutton "{size=20}{color=[ivory]}{b}F":
@@ -604,14 +604,14 @@ init:
                 if renpy.current_screen().tag not in ["quest_log"]:
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40)
-                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40), im.matrix.brightness(0.25))
+                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40), im.matrix.brightness(.25))
                         hovered tt.Action("Quest Journal")
                         action ShowMenu("quest_log")
 
                 if renpy.current_screen().tag == "mainscreen":
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/preference.png", 39, 40)
-                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/preference.png", 39, 40), im.matrix.brightness(0.25))
+                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/preference.png", 39, 40), im.matrix.brightness(.25))
                         action Show("s_menu", transition=dissolve)
                         hovered tt.Action("Game Preferences")
                     key "mousedown_3" action Show("s_menu", transition=dissolve)
@@ -619,21 +619,21 @@ init:
                 if renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "dungeon"] and show_lead_away_buttons:
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37)
-                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37), im.matrix.brightness(0.25))
+                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png" , 38, 37), im.matrix.brightness(.25))
                         action (Hide(renpy.current_screen().tag), Function(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
                         hovered tt.Action("Return to Main Screen")
 
                 if renpy.current_screen().tag in ["char_profile", "char_equip"] and char.action != "Exploring":
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
-                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(0.25))
+                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(.25))
                         action Return(["jump", "item_transfer"])
                         hovered tt.Action("Transfer items between [hero.name] and and [char.nickname]")
 
                 if renpy.current_screen().tag not in ["hero_profile", "girl_interactions", "quest_log"] and show_lead_away_buttons:
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/profile.png", 35, 40)
-                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/profile.png", 35, 40), im.matrix.brightness(0.25))
+                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/profile.png", 35, 40), im.matrix.brightness(.25))
                         action [SetField(pytfall.hp, "came_from", last_label), Hide(renpy.current_screen().tag), Jump("hero_profile")]
                         hovered tt.Action("View Hero Profile")
 
@@ -641,21 +641,21 @@ init:
 
                 imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/save.png" , 40, 40)
-                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/save.png" , 40, 40), im.matrix.brightness(0.25))
+                        hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/save.png" , 40, 40), im.matrix.brightness(.25))
                         hovered tt.Action("QuickSave")
                         action QuickSave()
 
                 imagebutton:
                     idle im.Scale("content/gfx/interface/buttons/load.png" , 38, 40)
-                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/load.png" , 38, 40), im.matrix.brightness(0.25))
+                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/load.png" , 38, 40), im.matrix.brightness(.25))
                     hovered tt.Action("QuickLoad")
                     action QuickLoad()
 
             if show_return_button:
                 imagebutton:
-                    align(0.993, .5)
+                    align(.993, .5)
                     idle im.Scale("content/gfx/interface/buttons/close.png", 35, 35)
-                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 35, 35), im.matrix.brightness(0.25))
+                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 35, 35), im.matrix.brightness(.25))
                     action return_action
                     hovered tt.Action("Return to previous screen")
 
@@ -672,7 +672,7 @@ init:
                             imagebutton:
                                 background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
                                 idle (char_profile_img)
-                                hover (im.MatrixColor(char_profile_img, im.matrix.brightness(0.15)))
+                                hover (im.MatrixColor(char_profile_img, im.matrix.brightness(.15)))
                                 action Return(l)
                                 align 0, .5
                                 xysize (102, 102)
@@ -706,9 +706,9 @@ init:
         if renpy.current_screen().tag == "mainscreen":
             frame:
                 background None
-                align(0.5, .997)
+                align(.5, .997)
                 xysize (750, 100)
-                text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(0.5, .5)
+                text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(.5, .5)
         elif renpy.current_screen().tag == "building_management":
             frame:
                 pos (960, 300)
@@ -728,16 +728,16 @@ init:
         elif renpy.current_screen().tag == "chars_list":
             frame:
                 background None
-                align(0.1, 1.0)
+                align(.1, 1.0)
                 xysize (946, 65)
-                text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(0.5, .5)
+                text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(.5, .5)
 
     screen message_screen(msg, size=(500, 300), use_return=False):
         modal True
         zorder 10
 
         fixed:
-            align(0.5, .5)
+            align(.5, .5)
             xysize(size[0], size[1])
             xfill True
             yfill True
@@ -747,7 +747,7 @@ init:
             vbox:
                 style_prefix "proper_stats"
                 spacing 30
-                align(0.5, .5)
+                align(.5, .5)
                 vbox:
                     xmaximum (size[0] - 50)
                     text msg xalign .5 color lightgoldenrodyellow size 20
@@ -766,7 +766,7 @@ init:
         zorder 10
 
         fixed:
-            align(0.5, .5)
+            align(.5, .5)
             minimum(size[0], size[1])
             maximum(size[0], size[1])
             xfill True
@@ -776,7 +776,7 @@ init:
 
             vbox:
                 spacing 10
-                align(0.5, .5)
+                align(.5, .5)
                 text text xalign .5 style "TisaOTM" size 20 color goldenrod
                 input:
                     id "text_input"
@@ -801,7 +801,7 @@ init:
         imagebutton:
             align(align[0], align[1])
             idle img
-            hover im.MatrixColor(img, im.matrix.brightness(0.25))
+            hover im.MatrixColor(img, im.matrix.brightness(.25))
             action action
         key "mousedown_3" action action
         key "K_ESCAPE" action action
@@ -851,13 +851,13 @@ init:
                                 anchor = (1.0, .5)
                             elif side == "right":
                                 pos = (maxx + 10, sum(ally)/len(ally))
-                                anchor = (0.0, .5)
+                                anchor = (.0, .5)
                             elif side == "bottom":
                                 pos = (sum(allx)/len(allx), maxy + 10)
-                                anchor = (0.5, .0)
+                                anchor = (.5, .0)
                             elif side == "top":
                                 pos = (sum(allx)/len(allx), miny - 10)
-                                anchor = (0.5, 1.0)
+                                anchor = (.5, 1.0)
 
                     button:
                         background Null()
@@ -961,18 +961,18 @@ init:
             # at fade_in_out(sv1=0.0, ev1=1.0, t1=0.7,
                                     # sv2=1.0, ev2=0.0, t2=0.5)
             background Frame (Transform("content/gfx/frame/framegp2.png", alpha=0.8), 10, 10)
-            align (0.315, .5)
+            align (.315, .5)
             xysize (690, 414)
             style_group "smenu"
-            has hbox align (0.5, .5) xfill True
+            has hbox align (.5, .5) xfill True
 
             if s_menu == "Settings":
                 grid 3 1:
-                    align (0.5, .5)
+                    align (.5, .5)
                     spacing 7
                     # Left column...
                     frame:
-                        align (0.5, .5)
+                        align (.5, .5)
                         background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
                         xpadding 10
                         ypadding 10
@@ -982,17 +982,17 @@ init:
                             # xsize 194
                             # ypadding 8
                             # style_group "dropdown_gm2"
-                            # has vbox align (0.5, .5)
+                            # has vbox align (.5, .5)
 
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
-                            has vbox align (0.5, .5)
+                            has vbox align (.5, .5)
                             frame:
                                 xsize 184
-                                align (0.5, .5)
+                                align (.5, .5)
                                 background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Display -") style "TisaOTMolxm"
                             textbutton _("Window") action Preference("display", "window") xsize 150 xalign .5 text_size 16
@@ -1003,10 +1003,10 @@ init:
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
-                            has vbox align (0.5, .5)
+                            has vbox align (.5, .5)
                             frame:
                                 xsize 184
-                                align (0.5, .5)
+                                align (.5, .5)
                                 background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Transitions -") style "TisaOTMolxm"
                             textbutton _("All") action Preference("transitions", "all") xsize 150 xalign .5 text_size 16
@@ -1017,27 +1017,27 @@ init:
                             xsize 194
                             ypadding 10
                             style_group "dropdown_gm2"
-                            has vbox align (0.5, .5)
+                            has vbox align (.5, .5)
                             frame:
                                 xsize 184
-                                align (0.5, .5)
+                                align (.5, .5)
                                 background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Text Speed -") style "TisaOTMolxm"
                             null height 8
-                            bar value Preference("text speed") align (0.5, .5)
+                            bar value Preference("text speed") align (.5, .5)
 
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
-                            has vbox align (0.5, .5)
+                            has vbox align (.5, .5)
                             textbutton _("Gamepad") action SensitiveIf(GamepadExists()), GamepadCalibrate() xsize 150 text_size 16
 
 
                     # Middle column...
                     frame:
-                        align (0.5, .5)
+                        align (.5, .5)
                         background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
                         xpadding 10
                         ypadding 10
@@ -1047,10 +1047,10 @@ init:
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
-                            has vbox align (0.5, .5)
+                            has vbox align (.5, .5)
                             frame:
                                 xsize 184
-                                align (0.5, .5)
+                                align (.5, .5)
                                 background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Skip -") style "TisaOTMolxm"
                             textbutton _("Seen Messages") action Preference("skip", "seen") xsize 150 xalign .5 text_size 16
@@ -1061,10 +1061,10 @@ init:
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
-                            has vbox align (0.5, .5)
+                            has vbox align (.5, .5)
                             frame:
                                 xsize 184
-                                align (0.5, .5)
+                                align (.5, .5)
                                 background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- After Choices -") style "TisaOTMolxm"
                             textbutton _("Stop Skipping") action Preference("after choices", "stop") xsize 150 xalign .5 text_size 16
@@ -1075,14 +1075,14 @@ init:
                             xsize 194
                             ypadding 10
                             style_group "dropdown_gm2"
-                            has vbox align (0.5, .5)
+                            has vbox align (.5, .5)
                             frame:
                                 xsize 184
-                                align (0.5, .5)
+                                align (.5, .5)
                                 background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- A-Forward Time -") style "TisaOTMolxm"
                             null height 8
-                            bar value Preference("auto-forward time") align (0.5, .5)
+                            bar value Preference("auto-forward time") align (.5, .5)
                             if config.has_voice:
                                 textbutton _("Wait for Voice") action Preference("wait for voice", "toggle") xsize 150 xalign .5 text_size 16
 
@@ -1091,12 +1091,12 @@ init:
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
-                            has vbox align (0.5, .5)
+                            has vbox align (.5, .5)
                             textbutton _("Begin Skipping") action Skip() xsize 150 text_size 16
 
                     # Right column...
                     frame:
-                        align (0.5, .0)
+                        align (.5, .0)
                         background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
                         xpadding 10
                         ypadding 10
@@ -1108,11 +1108,11 @@ init:
 
                             ypadding 8
                             style_group "dropdown_gm2"
-                            has vbox align (0.5, .5)
+                            has vbox align (.5, .5)
                             frame:
                                 xsize 184
 
-                                align (0.5, .5)
+                                align (.5, .5)
                                 background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Mute -") style "TisaOTMolxm"
                             textbutton "Music" action Preference("music mute", "toggle") xsize 150 xalign .5 text_size 16
@@ -1123,28 +1123,28 @@ init:
                             xsize 194
                             ypadding 10
                             style_group "dropdown_gm2"
-                            has vbox align (0.5, .5)
+                            has vbox align (.5, .5)
                             frame:
                                 xsize 184
-                                align (0.5, .5)
+                                align (.5, .5)
                                 background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
-                                text _("- Music Volume -") align (0.5, .0) style "TisaOTMolxm"
+                                text _("- Music Volume -") align (.5, .0) style "TisaOTMolxm"
                             null height 8
-                            bar value Preference("music volume") align (0.5, .5)
+                            bar value Preference("music volume") align (.5, .5)
 
                         frame:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
                             xsize 194
                             ypadding 10
                             style_group "dropdown_gm2"
-                            has vbox align (0.5, .5)
+                            has vbox align (.5, .5)
                             frame:
                                 xsize 184
-                                align (0.5, .5)
+                                align (.5, .5)
                                 background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Sound Volume -") style "TisaOTMolxm"
                             null height 8
-                            bar value Preference("sound volume") align (0.5, .5)
+                            bar value Preference("sound volume") align (.5, .5)
                             if config.sample_sound:
                                 textbutton _("Test"):
                                     action Play("sound", config.sample_sound)
@@ -1154,12 +1154,12 @@ init:
                             # xsize 194
                             # ypadding 10
                             # style_group "smenu"
-                            # has vbox align (0.5, .5)
+                            # has vbox align (.5, .5)
                             # button:
                                 # xsize 164
                                 # yalign .5
                                 # action Function(dev_mode_switch)
-                                # text "Debug Mode" size 18 align (0.5, .5):
+                                # text "Debug Mode" size 18 align (.5, .5):
                                     # if config.developer:
                                         # color green
                                     # else:
@@ -1174,11 +1174,11 @@ init:
                     align .5, .1
                     text (u"{=stats_text}{color=[goldenrod]}{size=15}%s" % tt.value) outlines [(1, "#3a3a3a", 0, 0)]
                 grid 1 1:
-                    align (0.5, .5)
+                    align (.5, .5)
                     spacing 7
                     # Left column...
                     frame:
-                        align (0.5, .5)
+                        align (.5, .5)
                         background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
                         xpadding 10
                         ypadding 10
@@ -1188,10 +1188,10 @@ init:
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
-                            has vbox align (0.5, .5)
+                            has vbox align (.5, .5)
                             frame:
                                 xsize 184
-                                align (0.5, .5)
+                                align (.5, .5)
                                 background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Panic Screen -") style "TisaOTMolxm"
                             textbutton _("Enable") action SetField(persistent, "unsafe_mode", True) xsize 150 xalign .5 text_size 16 hovered tt.Action("If it's enabled, press Q to activate panic screen. It hides NSFW content and mutes all sounds. Press Q again to deactivate it.")
@@ -1202,10 +1202,10 @@ init:
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
-                            has vbox align (0.5, .5)
+                            has vbox align (.5, .5)
                             frame:
                                 xsize 184
-                                align (0.5, .5)
+                                align (.5, .5)
                                 background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Battle Results -") style "TisaOTMolxm"
                             textbutton _("Show") action SetField(persistent, "battle_results", True) xsize 150 xalign .5 text_size 16 hovered tt.Action("Enables/disables screen with gained experience and gold after combat.")
@@ -1216,10 +1216,10 @@ init:
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
-                            has vbox align (0.5, .5)
+                            has vbox align (.5, .5)
                             frame:
                                 xsize 184
-                                align (0.5, .5)
+                                align (.5, .5)
                                 background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
                                 text _("- Autosave -") style "TisaOTMolxm"
                             textbutton _("Enable") action SetField(persistent, "auto_saves", True) xsize 150 xalign .5 text_size 16 hovered tt.Action("Creates autosave every time you leave the next day screen. Can be slow, disable if it bothers you.")
@@ -1234,7 +1234,7 @@ init:
                     hbox:
                         spacing 3
                         style_group "dropdown_gm2"
-                        align (0.5, .5)
+                        align (.5, .5)
                         textbutton _("Previous") action FilePagePrevious(), With(dissolve) text_size 16
                         textbutton _("Auto") action FilePage("auto"), With(dissolve) text_size 16
                         textbutton _("Quick") action FilePage("quick"), With(dissolve) text_size 16
@@ -1259,20 +1259,20 @@ init:
                             $ save_name = FileSaveName(i)
 
                             hbox:
-                                align (0.5, .5)
+                                align (.5, .5)
                                 if "portrait" in json_info:
                                     frame:
                                         background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                                        align (0.5, .5)
-                                        add ProportionalScale(json_info["portrait"], 90, 90) align (0.5, .5)
+                                        align (.5, .5)
+                                        add ProportionalScale(json_info["portrait"], 90, 90) align (.5, .5)
                                 else:
                                     frame:
                                         background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                                        align (0.5, .5)
+                                        align (.5, .5)
                                         xysize (102, 102)
                                 button:
                                     style "smenu2_button"
-                                    align (0.5, .5)
+                                    align (.5, .5)
                                     xysize (220, 100)
                                     if s_menu == "Save":
                                         action FileSave(i)
@@ -1300,52 +1300,52 @@ init:
                                     key "save_delete" action FileDelete(i)
         frame:
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
-            align (0.765, .505)
+            align (.765, .505)
             xysize (150, 409)
             style_group "smenu"
             xpadding 8
-            has vbox spacing 5 align (0.5, .5)
+            has vbox spacing 5 align (.5, .5)
             null height 3
             vbox:
                 xfill True
                 spacing -10
-                align (0.5, .5)
+                align (.5, .5)
                 if s_menu == "Settings":
-                    text "Settings" style "TisaOTMol" size 26 align (0.5, .5)
+                    text "Settings" style "TisaOTMol" size 26 align (.5, .5)
                 if s_menu == "Game":
-                    text "Game" style "TisaOTMol" size 26 align (0.5, .5)
+                    text "Game" style "TisaOTMol" size 26 align (.5, .5)
                 elif s_menu == "Save":
-                    text "Save" style "TisaOTMol" size 26 align (0.5, .5)
+                    text "Save" style "TisaOTMol" size 26 align (.5, .5)
                 elif s_menu == "Load":
-                    text "Load" style "TisaOTMol" size 26 align (0.5, .5)
+                    text "Load" style "TisaOTMol" size 26 align (.5, .5)
             button:
                 yalign .5
                 action Hide("s_menu"), With(dissolve)
-                text "Return" size 18 align (0.5, .5) # style "mmenu_button_text"
+                text "Return" size 18 align (.5, .5) # style "mmenu_button_text"
             button:
                 yalign .5
                 action SelectedIf(s_menu == "Settings"), Hide("s_menu"), Show("s_menu", s_menu="Settings"), With(dissolve) # SetScreenVariable("s_menu", "Settings")
-                text "Settings" size 18 align (0.5, .5) # style "mmenu_button_text"
+                text "Settings" size 18 align (.5, .5) # style "mmenu_button_text"
             button:
                 yalign .5
                 action SelectedIf(s_menu == "Game"), Hide("s_menu"), Show("s_menu", s_menu="Game"), With(dissolve)
-                text "Game" size 18 align (0.5, .5)
+                text "Game" size 18 align (.5, .5)
             button:
                 yalign .5
                 action SensitiveIf(not main_menu), SelectedIf(s_menu == "Save"), Hide("s_menu"), Show("s_menu", s_menu="Save"), With(dissolve)#, SetScreenVariable("s_menu", "Save")
-                text "Save" size 18 align (0.5, .5) # style "mmenu_button_text"
+                text "Save" size 18 align (.5, .5) # style "mmenu_button_text"
             button:
                 yalign .5
                 action SelectedIf(s_menu == "Load"), Hide("s_menu"), Show("s_menu", s_menu="Load"), With(dissolve)#, SetScreenVariable("s_menu", "Load")
-                text "Load" size 18 align (0.5, .5) # style "mmenu_button_text"
+                text "Load" size 18 align (.5, .5) # style "mmenu_button_text"
             button:
                 yalign .5
                 action MainMenu()
-                text "Main Menu" size 18 align (0.5, .5) #  style "mmenu_button_text"
+                text "Main Menu" size 18 align (.5, .5) #  style "mmenu_button_text"
             button:
                 yalign 1.0
                 action Quit()
-                text "Quit" size 18 align (0.5, .5) # style "mmenu_button_text"
+                text "Quit" size 18 align (.5, .5) # style "mmenu_button_text"
             null height 3
 
 screen keymap_override():
@@ -1381,12 +1381,12 @@ screen give_exp_after_battle(group, exp = 0, money=0): # shows post-battle resul
     modal True
     zorder 100
     frame:
-        align (0.5, .5)
+        align (.5, .5)
         background Frame("content/gfx/frame/post_battle.png", 75, 75)
         xpadding 75
         ypadding 75
         has vbox
-        text ("You gained %d exp"%exp) size 20 align (0.5, .5) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
+        text ("You gained %d exp"%exp) size 20 align (.5, .5) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
         null height 15
         for l in group:
             $ char_profile_img = l.show('portrait', resize=(101, 101), cache=True)
@@ -1395,7 +1395,7 @@ screen give_exp_after_battle(group, exp = 0, money=0): # shows post-battle resul
                 imagebutton:
                     background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
                     idle (char_profile_img)
-                    hover (im.MatrixColor(char_profile_img, im.matrix.brightness(0.15)))
+                    hover (im.MatrixColor(char_profile_img, im.matrix.brightness(.15)))
                     action None
                     align 0, .5
                     xysize (102, 102)
@@ -1417,9 +1417,9 @@ screen give_exp_after_battle(group, exp = 0, money=0): # shows post-battle resul
         if money > 0:
             hbox:
                 xalign .5
-                text ("You found %d"%money) size 20 align (0.5, .5) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
+                text ("You found %d"%money) size 20 align (.5, .5) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
                 null width 5
-                add "coin_top" align (0.5, .5)
+                add "coin_top" align (.5, .5)
         style_prefix "wood"
         null height 15
         button:

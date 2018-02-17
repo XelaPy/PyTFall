@@ -17,7 +17,7 @@ init: # screens:
         python:
             img = im.Flip("content/gfx/interface/buttons/blue_arrow_up.png", vertical=True)
             idle_image = im.MatrixColor(img, im.matrix.opacity(.7))
-            selected_img = im.MatrixColor(img, im.matrix.tint(1.0, .6, 1.0)*im.matrix.brightness(0.15))
+            selected_img = im.MatrixColor(img, im.matrix.tint(1.0, .6, 1.0)*im.matrix.brightness(.15))
 
         for t in targets:
             $ pos = battle.get_cp(t, type="tc", yo=-40)
@@ -42,7 +42,7 @@ init: # screens:
 
             frame:
                 style "dropdown_gm_frame"
-                align (0.5, .88)
+                align (.5, .88)
                 textbutton "Cancel":
                     style "basic_button"
                     action Return(False)
@@ -55,7 +55,7 @@ init: # screens:
 
         if menu_mode != "top":
             frame:
-                align (0.95, .07)
+                align (.95, .07)
                 style "dropdown_gm_frame"
                 textbutton "{color=[black]}{size=-5}Back":
                     style "basic_choice_button"
@@ -275,7 +275,7 @@ init: # screens:
         # be reffers to battle core instance, we access the global directly atm.
         # Averything that is displayed all the time:
         frame:
-            align (0.5, .99)
+            align (.5, .99)
             background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
             style "dropdown_gm_frame"
             has viewport:
@@ -384,14 +384,14 @@ init: # screens:
 
         if config.debug:
             vbox:
-                align (0.99, 0)
+                align (.99, 0)
                 textbutton "Terminate":
                     action SetField(be, "terminate", True)
 
 
         button:
             style_group "dropdown_gm"
-            align (0.0, 1.0)
+            align (.0, 1.0)
             xysize 130, 30
             text "Main Menu" size 14
             action MainMenu()

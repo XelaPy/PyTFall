@@ -59,7 +59,7 @@ screen city_screen():
             $ hover_img = "".join([pytfall.map_pattern, key["id"], "_hover.png"])
             $ pos = 0, 0
             if "appearing" in key and key["appearing"]:
-                $ hover_img = im.MatrixColor(idle_img, im.matrix.brightness(0.08))
+                $ hover_img = im.MatrixColor(idle_img, im.matrix.brightness(.08))
                 $ pos = key["pos"]
                 
             button:
@@ -81,7 +81,7 @@ screen city_screen():
         fixed:
             xysize (164, 78)
             pos (1111, 321)
-            text (u"[tt.value]") style "TisaOTMolxm" size 19 align (0.5, .5)
+            text (u"[tt.value]") style "TisaOTMolxm" size 19 align (.5, .5)
             
     # Right frame:
     ### ----> Top buttons <---- ###
@@ -90,27 +90,27 @@ screen city_screen():
         spacing 4
         imagebutton:
             idle im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40)
-            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40), im.matrix.brightness(0.15))
+            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40), im.matrix.brightness(.15))
             hovered tt.Action("Quest Journal")
             action ShowMenu("quest_log")
         imagebutton:
             idle im.Scale("content/gfx/interface/buttons/MS.png", 38, 37)
-            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png", 38, 37), im.matrix.brightness(0.15))
+            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png", 38, 37), im.matrix.brightness(.15))
             action (Hide(renpy.current_screen().tag), Function(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
             hovered tt.Action("Return to Main Screen")
         imagebutton:
             idle im.Scale("content/gfx/interface/buttons/profile.png", 35, 40)
-            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/profile.png", 35, 40), im.matrix.brightness(0.15))
+            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/profile.png", 35, 40), im.matrix.brightness(.15))
             action [SetField(pytfall.hp, "came_from", last_label), Hide(renpy.current_screen().tag), Jump("hero_profile")]
             hovered tt.Action("View Hero Profile")
         imagebutton:
             idle im.Scale("content/gfx/interface/buttons/save.png", 40, 40)
-            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/save.png", 40, 40), im.matrix.brightness(0.15))
+            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/save.png", 40, 40), im.matrix.brightness(.15))
             hovered tt.Action("QuickSave")
             action QuickSave()
         imagebutton:
             idle im.Scale("content/gfx/interface/buttons/load.png", 38, 40)
-            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/load.png", 38, 40), im.matrix.brightness(0.15))
+            hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/load.png", 38, 40), im.matrix.brightness(.15))
             hovered tt.Action("QuickLoad")
             action QuickLoad()
     
@@ -150,8 +150,8 @@ screen city_screen():
                 if loc["id"] in loc_list and not key.get("hidden", False):
                     button:
                         xysize (160, 28)
-                        idle_background Frame(im.MatrixColor(prefix + loc["id"] + ".png", im.matrix.brightness(0.10)), 5, 5)
-                        hover_background Frame(im.MatrixColor(prefix + loc["id"] + "_hover.png", im.matrix.brightness(0.15)), 5, 5)
+                        idle_background Frame(im.MatrixColor(prefix + loc["id"] + ".png", im.matrix.brightness(.10)), 5, 5)
+                        hover_background Frame(im.MatrixColor(prefix + loc["id"] + "_hover.png", im.matrix.brightness(.15)), 5, 5)
                         hovered tt.action(loc['name'])
                         action Return(['location', loc["id"]])
                     

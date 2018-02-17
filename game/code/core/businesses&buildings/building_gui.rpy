@@ -423,17 +423,17 @@ init: # Screens:
                 pos 25, 20
                 xysize (260, 40)
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                label (u"__ [bm_mid_frame_mode.name] __") text_size 18 text_color ivory align (0.5, .6)
+                label (u"__ [bm_mid_frame_mode.name] __") text_size 18 text_color ivory align (.5, .6)
             null height 5
 
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
-                align (0.5, .5)
+                align (.5, .5)
                 xpadding 10
                 ypadding 10
                 vbox:
                     style_group "wood"
-                    align (0.5, .5)
+                    align (.5, .5)
                     spacing 10
                     button:
                         xysize (150, 40)
@@ -553,7 +553,7 @@ init: # Screens:
                                 null height 2
                                 textbutton "{size=15}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Details":
                                     background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=0.8)
-                                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15))), alpha=1)
+                                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
                                     xalign .5
                                     action SetVariable("bm_mid_frame_mode", u)
 
@@ -570,7 +570,7 @@ init: # Screens:
                         # if advert['active']:
                             # frame:
                                 # xysize (305, 27)
-                                # text (u"%s" % advert['name']) size 16 xalign (0.02)
+                                # text (u"%s" % advert['name']) size 16 xalign (.02)
 
     screen building_management_leftframe_businesses_mode:
         $ show_slots = not any([(isinstance(bm_mid_frame_mode, ExplorationGuild) and bm_exploration_view_mode in ("log", "team", "explore"))])
@@ -811,13 +811,13 @@ init: # Screens:
                     xalign .5
                     xysize (380, 50)
                     background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                    label (u"__ [building.name] __") text_size 23 text_color ivory align (0.5, .6)
+                    label (u"__ [building.name] __") text_size 23 text_color ivory align (.5, .6)
                 null height 5
 
                 frame:
                     xalign .5
                     background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
-                    add ProportionalScale(building.img, 600, 444) align (0.5, .5)
+                    add ProportionalScale(building.img, 600, 444) align (.5, .5)
 
                 # Left/Right Controls.
                 frame:
@@ -834,7 +834,7 @@ init: # Screens:
                     frame:
                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                         xysize (200, 50)
-                        align (0.5, .5)
+                        align (.5, .5)
 
                     button:
                         align .9, .5
@@ -876,7 +876,7 @@ init: # Screens:
                                 text (u"%d/%d"%(building.security_presence, building.gui_security_bar()[1])) size 12
                         null height 3
                         bar:
-                            align (0.45, .8)
+                            align (.45, .8)
                             value FieldValue(building, 'security_presence', building.gui_security_bar()[1], max_is_zero=False, style='scrollbar', offset=0, step=1)
                             xsize 170
                             thumb 'content/gfx/interface/icons/move15.png'
@@ -918,7 +918,7 @@ init: # Screens:
                                 $ temp = sorted([a for a in fg_areas.values() if a.area == bm_mid_frame_focus.name], key=attrgetter("stage"))
                                 for area in temp:
                                     $ fbg = "content/gfx/frame/mes12.jpg"
-                                    $ hfbg = im.MatrixColor("content/gfx/frame/mes11.jpg", im.matrix.brightness(0.10))
+                                    $ hfbg = im.MatrixColor("content/gfx/frame/mes11.jpg", im.matrix.brightness(.10))
                                     button:
                                         background Transform(Frame(fbg, 10, 10), alpha=0.9)
                                         hover_background Transform(Frame(hfbg, 10, 10), alpha=0.9)
@@ -931,9 +931,9 @@ init: # Screens:
                                         else:
                                             $ temp = "?????????"
                                             action NullAction()
-                                        text temp color gold style "interactions_text" size 14 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, .01)
+                                        text temp color gold style "interactions_text" size 14 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .01)
                                         hbox:
-                                            align (0.5, .9)
+                                            align (.5, .9)
                                             # Get the correct stars:
                                             python:
                                                 temp = []
@@ -1036,7 +1036,7 @@ init: # Screens:
                                         button:
                                             xysize (46, 46)
                                             background img
-                                            hover_background im.MatrixColor(img, im.matrix.brightness(0.10))
+                                            hover_background im.MatrixColor(img, im.matrix.brightness(.10))
                                             action Show("fg_char_dropdown", dissolve, i, team=t, remove=True)
                                             hovered tt.action(i.fullname)
                                 frame:
@@ -1055,7 +1055,7 @@ init: # Screens:
                                     $ img = im.Scale("content/gfx/interface/buttons/shape69.png", 20, 20)
                                     button:
                                         background img
-                                        hover_background im.MatrixColor(img, im.matrix.brightness(0.15))
+                                        hover_background im.MatrixColor(img, im.matrix.brightness(.15))
                                         insensitive_background  im.Sepia(img)
                                         padding 0, 0
                                         margin 0, 0
@@ -1174,7 +1174,7 @@ init: # Screens:
 
                 textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Back":
                     background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=0.8)
-                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15))), alpha=1)
+                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
                     align .5, .95
                     action SetVariable("bm_mid_frame_mode", "building")
 
@@ -1191,13 +1191,13 @@ init: # Screens:
             yalign .95
             xysize(343, 675)
 
-            label (u"{size=20}{color=[ivory]}{b}Maintenance!") align(0.5, .19) text_outlines [(2, "#424242", 0, 0)]
+            label (u"{size=20}{color=[ivory]}{b}Maintenance!") align(.5, .19) text_outlines [(2, "#424242", 0, 0)]
 
             # Tooltip related ---------------------------------->
             default tt = Tooltip("Maintenance screen!")
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                align(0.5, .88)
+                align(.5, .88)
                 xysize (320, 120)
                 xpadding 13
                 ypadding 15
@@ -1207,7 +1207,7 @@ init: # Screens:
             # Controls themselves ---------------------------------->
             vbox:
                 style_group "basic"
-                align(0.55, .5)
+                align(.55, .5)
                 if isinstance(building, BuildingStats):
                     button:
                         xysize(200, 32)
@@ -1232,7 +1232,7 @@ init: # Screens:
                         yalign .5
                         action ToggleField(building, "auto_clean")
                         hovered tt.action("Enable automatic hiring of cleaners if building gets to dirty!")
-                        text "Auto-Cleaning:" align (0.0, .5)
+                        text "Auto-Cleaning:" align (.0, .5)
                         if not building.auto_clean:
                             add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, .5)
                         else:
@@ -1250,10 +1250,10 @@ init: # Screens:
                 button:
                     style_group "basic"
                     xysize (200, 32)
-                    align (0.5, .5)
+                    align (.5, .5)
                     action Return(["maintenance", "retrieve_jail"])
                     hovered tt.action("Allow your guards to bail your escaped girls out of jail?")
-                    text "Auto-bail" align (0.0, .5)
+                    text "Auto-bail" align (.0, .5)
                     if not pytfall.ra.retrieve_jail:
                         add im.Scale("content/gfx/interface/icons/checkbox_unchecked.png", 25, 25) align (1.0, .5)
                     else:
@@ -1263,7 +1263,7 @@ init: # Screens:
                 style_group "dropdown_gm"
                 action Hide("building_maintenance")
                 minimum(50, 30)
-                align (0.5, .97)
+                align (.5, .97)
                 text  "OK"
             key "mousedown_3" action Hide("building_maintenance")
 
@@ -1279,13 +1279,13 @@ init: # Screens:
             yalign .95
             xysize(343, 675)
 
-            label (u"{size=20}{color=[ivory]}{b}Advertise!") text_outlines [(2, "#424242", 0, 0)] align (0.5, .16)
+            label (u"{size=20}{color=[ivory]}{b}Advertise!") text_outlines [(2, "#424242", 0, 0)] align (.5, .16)
 
             # Tooltip related ---------------------------------->
             default tt = Tooltip("Attract more and better clients. Choose your advertisement budget carefully so your girls can keep up with quality and quantity of customers!")
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-                align(0.5, .88)
+                align(.5, .88)
                 xysize (320, 140)
                 xpadding 13
                 ypadding 15
@@ -1294,43 +1294,43 @@ init: # Screens:
 
             # Buttons themselves ---------------------------------->
             hbox:
-                align(0.5, .4)
+                align(.5, .4)
                 box_wrap True
                 spacing 20
                 for advert in building.adverts:
                     vbox:
                         style_group "basic"
-                        align (0.5, .5)
+                        align (.5, .5)
                         if advert['active']:
                             button:
                                 xysize(280, 32)
                                 hovered tt.action(advert['desc'])
                                 action ToggleDict(advert, "active")
-                                text ("Stop %s!" % advert['name']) color black align (0.5, .5)
+                                text ("Stop %s!" % advert['name']) color black align (.5, .5)
                         else:
                             if advert['name'] == "sign":
                                 button:
                                     xysize(280, 32)
                                     hovered tt.action(advert['desc'])
                                     action Return(["building", "sign"])
-                                    text "Put Up Sign!" color black align (0.5, .5) size 15
+                                    text "Put Up Sign!" color black align (.5, .5) size 15
                             else:
                                 button:
                                     xysize(280, 32)
                                     hovered tt.action(advert['desc'])
                                     action ToggleDict(advert, "active")
                                     if advert['price'] == 0:
-                                        text ("Use %s for %s Gold a day!" % (advert['name'], advert['upkeep'])) color black align (0.5, .5) size 15
+                                        text ("Use %s for %s Gold a day!" % (advert['name'], advert['upkeep'])) color black align (.5, .5) size 15
                                     elif advert['upkeep'] == 0:
-                                        text ("Use %s for %s Gold!" % (advert['name'], advert['price'])) color black align (0.5, .5) size 15
+                                        text ("Use %s for %s Gold!" % (advert['name'], advert['price'])) color black align (.5, .5) size 15
                                     else:
-                                        text ("Use %s for %s Gold and %s a day!" % (advert['name'], advert['price'], advert['upkeep'])) color black align (0.5, .5) size 15
+                                        text ("Use %s for %s Gold and %s a day!" % (advert['name'], advert['price'], advert['upkeep'])) color black align (.5, .5) size 15
 
             button:
                 style_group "dropdown_gm"
                 action Hide("building_adverts")
                 minimum(50, 30)
-                align (0.5, .97)
+                align (.5, .97)
                 text  "OK"
         key "mousedown_3" action Hide("building_adverts")
 
@@ -1342,7 +1342,7 @@ init: # Screens:
 
         frame at slide(so1=(0, 700), t1=0.7, so2=(0, 0), t2=0.3, eo2=(0, -config.screen_height)):
             background Frame("content/gfx/frame/arena_d.png", 5, 5)
-            align (0.5, .5)
+            align (.5, .5)
 
             # side "c r":
             viewport id "message_vp":
@@ -1415,7 +1415,7 @@ init: # Screens:
                             for key in fin_exp["private"]: total_expenses += fin_exp["private"][key]
                             total = total_income - total_expenses
                         vbox:
-                            align (0.80, .60)
+                            align (.80, .60)
                             text "----------------------------------------"
                             text ("Revenue: [total]"):
                                 size 25
@@ -1427,7 +1427,7 @@ init: # Screens:
 
                         hbox:
                             style_group "basic"
-                            align (0.5, .9)
+                            align (.5, .9)
                             textbutton "{size=-3}Show Total" action SetScreenVariable("show_fin", "total") minimum(200, 30)
 
                     elif show_fin == 'total':
@@ -1486,7 +1486,7 @@ init: # Screens:
                             total_expenses = sum(expenses.values())
                             game_total = total_income - total_expenses
                         vbox:
-                            align (0.80, .60)
+                            align (.80, .60)
                             text "----------------------------------------"
                             text ("Revenue: [game_total]"):
                                 size 25
@@ -1498,17 +1498,17 @@ init: # Screens:
 
                         hbox:
                             style_group "basic"
-                            align (0.5, .9)
+                            align (.5, .9)
                             textbutton "{size=-3}Show Daily" action SetScreenVariable("show_fin", "day") minimum(200, 30)
 
                 else:
-                    text (u"No financial records available!") align(0.5, .5)
+                    text (u"No financial records available!") align(.5, .5)
 
                 button:
                     style_group "basic"
                     action Hide('building_finances')
                     minimum (250, 30)
-                    align (0.5, .96)
+                    align (.5, .96)
                     text "OK"
 
     # Customized screens for specific businesses:
@@ -1537,9 +1537,9 @@ init: # Screens:
                 ymargin 1
                 ypadding 1
                 $ temp = area.name
-                text temp color gold style "interactions_text" size 35 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, .3)
+                text temp color gold style "interactions_text" size 35 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .3)
                 hbox:
-                    align (0.5, .9)
+                    align (.5, .9)
                     # Get the correct stars:
                     python:
                         temp = []
@@ -1565,7 +1565,7 @@ init: # Screens:
 
                 frame:
                     style_group "content"
-                    align (0.5, .015)
+                    align (.5, .015)
                     padding 15, 5
                     background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
                     label "Events" text_size 20 text_color ivory align .5, .5
@@ -1669,9 +1669,9 @@ init: # Screens:
                 ymargin 1
                 ypadding 1
                 $ temp = area.name
-                text temp color gold style "interactions_text" size 35 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, .3)
+                text temp color gold style "interactions_text" size 35 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .3)
                 hbox:
-                    align (0.5, .9)
+                    align (.5, .9)
                     # Get the correct stars:
                     python:
                         temp = []
@@ -1685,7 +1685,7 @@ init: # Screens:
                     for i in temp:
                         add i
                     # button:
-                        # align (0.5, .95)
+                        # align (.5, .95)
                         # action NullAction()
                         # text "Stage 1" size 14
                 # vbox:
@@ -1693,16 +1693,16 @@ init: # Screens:
                     # spacing 7
                     # frame:
                         # style_group "content"
-                        # align (0.5, .015)
+                        # align (.5, .015)
                         # xysize (210, 30)
                         # background Frame (Transform("content/gfx/frame/Namebox.png", alpha=0.9), 10, 10)
-                        # label (u"Team name") text_size 20 text_color ivory align(0.5, .5)
+                        # label (u"Team name") text_size 20 text_color ivory align(.5, .5)
                     # hbox:
                         # xfill True
                         # spacing 2
-                        # add "content/gfx/bg/example/1.png" align (0.5, .5)
-                        # add "content/gfx/bg/example/2.png" align (0.5, .5)
-                        # add "content/gfx/bg/example/3.png" align (0.5, .5)
+                        # add "content/gfx/bg/example/1.png" align (.5, .5)
+                        # add "content/gfx/bg/example/2.png" align (.5, .5)
+                        # add "content/gfx/bg/example/3.png" align (.5, .5)
 
             hbox:
                 align .5, .5
@@ -1712,7 +1712,7 @@ init: # Screens:
                     xpadding 5
                     frame:
                         style_group "content"
-                        align (0.5, .015)
+                        align (.5, .015)
                         xysize (210, 40)
                         background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
                         label (u"Enemies") text_size 23 text_color ivory align .5, .5
@@ -1755,7 +1755,7 @@ init: # Screens:
                     xpadding 5
                     frame:
                         style_group "content"
-                        align (0.5, .015)
+                        align (.5, .015)
                         xysize (210, 40)
                         background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
                         label (u"Items") text_size 23 text_color ivory align .5, .5
@@ -1784,7 +1784,7 @@ init: # Screens:
                                     xpadding 4
                                     xpos 233
                                     #$ temp = m["min_lvl"]
-                                    #text ("Lvl\n[temp]+") align (0.5, .5) style "TisaOTM" size 18
+                                    #text ("Lvl\n[temp]+") align (.5, .5) style "TisaOTM" size 18
                                 frame:
                                     background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=0.75), 10, 10)
                                     padding 3, 3
@@ -1797,10 +1797,10 @@ init: # Screens:
                         # yalign 1.0
                         # frame:
                             # style_group "content"
-                            # align (0.5, .015)
+                            # align (.5, .015)
                             # xysize (200, 40)
                             # background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
-                            # label (u"Loot") text_size 23 text_color ivory align(0.5, .5)
+                            # label (u"Loot") text_size 23 text_color ivory align(.5, .5)
                         # vbox:    ### Need Side-scrolling ###
                             # style_group "stats"
                             # vbox:
@@ -1983,7 +1983,7 @@ init: # Screens:
                     text "No teams avalible!"
 
             hbox:
-                align (0.5, .98)
+                align (.5, .98)
                 button:
                     style_group "basic"
                     action Hide("fg_area")
@@ -1993,7 +1993,7 @@ init: # Screens:
                         # style_group "basic"
                         # action NullAction()
                         # minimum(50, 30)
-                        # align (0.5, .98)
+                        # align (.5, .98)
                         # text  "Launch!!! Days 1" # Gismo: AutoCalculate. 1 day per stage (1-5), 2 days per stage (6-10).
 
     screen fg_char_dropdown(char, team=None, remove=False):

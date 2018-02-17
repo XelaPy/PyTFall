@@ -67,9 +67,9 @@ label examples:
     # It will hide everything except screens (They are being displayed on a screens layer) and maybe something else we decided to show on a different layer.
 
     # "Quick interruption to show off the image we declared a few lines ealier!"
-    # # show sinstar at Transform(align=(0.3, .5))
-    # # show sinstar_reverced at Transform(align=(0.5, .5))
-    # show sinstar_loop at Transform(align=(0.5, .5))
+    # # show sinstar at Transform(align=(.3, .5))
+    # # show sinstar_reverced at Transform(align=(.5, .5))
+    # show sinstar_loop at Transform(align=(.5, .5))
     # pause # This will wait for user to click somewhere...
     # "This was it... sorry for inconvenience..."
     # scene black
@@ -88,17 +88,17 @@ label examples:
     # $ temp = im.Scale(ImageReference("bg cafe"), 128, 72)
     # $ temp = Transform(temp, size=(1280, 720))
     # show expression temp as bg
-    # with Dissolve(0.4)
+    # with Dissolve(.4)
     # show bg cafe
-    # with Dissolve(0.4)
+    # with Dissolve(.4)
     # show expression temp as bg
-    # with Dissolve(0.5)
+    # with Dissolve(.5)
     # show bg cafe
-    # with Dissolve(0.5)
+    # with Dissolve(.5)
     # show expression temp as bg
-    # with Dissolve(0.6)
+    # with Dissolve(.6)
     # show bg cafe
-    # with Dissolve(0.4)
+    # with Dissolve(.4)
     # show expression temp as bg
     # with Dissolve(1.0)
     # show bg cafe

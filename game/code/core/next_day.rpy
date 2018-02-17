@@ -412,7 +412,7 @@ screen next_day():
                             xysize 95, 95
                             yalign .5
                             idle_background Frame(img, 5 ,5)
-                            hover_background Frame(im.MatrixColor(img ,im.matrix.brightness(0.20)), 5, 5)
+                            hover_background Frame(im.MatrixColor(img ,im.matrix.brightness(.20)), 5, 5)
                             text "All" align .5, .5 style "proper_stats_label_text" size 32
                             action [Return(['filter', 'all']), SetScreenVariable("show_summary", None)]
                             hovered tt.action(u"Show full report tree!")
@@ -562,8 +562,8 @@ screen next_day():
                                 yalign .5
                                 xysize (90, 90)
                                 idle_background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
-                                hover_background Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(0.10)), 5, 5)
-                                text "!" align (0.5, .5) color red size 60 style "stats_text"
+                                hover_background Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(.10)), 5, 5)
+                                text "!" align (.5, .5) color red size 60 style "stats_text"
                                 action [Return(['filter', 'red_flags']), SetScreenVariable("show_summary", None)]
                                 hovered tt.action(u"View All events flagged Red!!")
                         else:
@@ -888,7 +888,7 @@ screen next_day():
                 imagebutton:
                     align .5, .5
                     idle img
-                    hover (im.MatrixColor(img ,im.matrix.brightness(0.15)))
+                    hover (im.MatrixColor(img ,im.matrix.brightness(.15)))
                     action [Return(['filter', 'school']), SetScreenVariable("show_summary", None)]
                     hovered tt.action(u"View School and School Events!")
 
@@ -901,7 +901,7 @@ screen next_day():
                 imagebutton:
                     align .5, .5
                     idle img
-                    hover (im.MatrixColor(img ,im.matrix.brightness(0.15)))
+                    hover (im.MatrixColor(img ,im.matrix.brightness(.15)))
                     action [Return(['filter', 'gndreports']), SetScreenVariable("show_summary", None)]
                     hovered tt.action(u"Show personal girl reports!")
 
@@ -1142,7 +1142,7 @@ screen next_day():
                         ypos 5
                         xysize (136, 40)
                         background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.7), 10, 10)
-                        label (u"Char Stats:") text_size 18 text_color ivory align (0.5, .5)
+                        label (u"Char Stats:") text_size 18 text_color ivory align (.5, .5)
 
                     if event.team:
                         pass # Preventing crash before system is adjusted to team jobs again.
@@ -1251,7 +1251,7 @@ screen next_day():
                     xalign .5
                     xysize (330, 60)
                     background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                    label (u"Description:") text_size 23 text_color ivory align(0.5, .6)
+                    label (u"Description:") text_size 23 text_color ivory align(.5, .6)
                 frame:
                     background Frame(Transform("content/gfx/frame/mc_bg.png", alpha=0.5), 5, 5)
                     xysize (435, 520)
@@ -1283,19 +1283,19 @@ screen next_day():
             pos (834, 603)
             xysize (449, 120)
             vbox:
-                align (0.5, .5)
+                align (.5, .5)
                 spacing 8
                 hbox:
-                    align (0.5, .5)
+                    align (.5, .5)
                     spacing 20
                     button:
                         xysize (120, 40)
                         style "left_wood_button"
                         action Return(['control', 'left'])
                         hovered tt.action("<== View Previous Event")
-                        text "Previous Event" style "wood_text" xalign(0.6) size 10
+                        text "Previous Event" style "wood_text" xalign(.6) size 10
                     frame:
-                        align (0.5, .5)
+                        align (.5, .5)
                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
                         xysize (90, 40)
                         text(u'Act: %d/%d'%(FilteredList.index(event)+1, len(FilteredList))) align (.5, .5) size 16 style "stats_text" text_align .5

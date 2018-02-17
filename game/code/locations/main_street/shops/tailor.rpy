@@ -62,7 +62,7 @@ label tailor_store_shopping:
 screen shopkeeper_items_upgrades(upgrades_list):
     modal True
     frame:
-        align (0.5, .5)
+        align (.5, .5)
         background Frame("content/gfx/frame/frame_dec_1.png", 75, 75)
         xpadding 75
         ypadding 75
@@ -150,7 +150,7 @@ screen tailor_shop:
         ypadding 10
         vbox:
             style_group "wood"
-            align (0.5, .5)
+            align (.5, .5)
             spacing 10
             button:
                 xysize (150, 40)

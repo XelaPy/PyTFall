@@ -44,9 +44,9 @@ screen swimming_pool():
 
     $ img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
     imagebutton:
-        align (0.01, .5)
+        align (.01, .5)
         idle (img)
-        hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+        hover (im.MatrixColor(img, im.matrix.brightness(.15)))
         action [Hide("swimming_pool"), Jump("city_beach")]
 
     use location_actions("swimming_pool")
@@ -54,7 +54,7 @@ screen swimming_pool():
     imagebutton:
         pos(290, 510)
         idle (img_swim_pool)
-        hover (im.MatrixColor(img_swim_pool, im.matrix.brightness(0.15)))
+        hover (im.MatrixColor(img_swim_pool, im.matrix.brightness(.15)))
         action [Hide("swimming_pool"), Show("swimmong_pool_swim"), With(dissolve)]
 
     if gm.show_girls:
@@ -62,7 +62,7 @@ screen swimming_pool():
         add "content/gfx/images/bg_gradient.png" yalign .45
 
         hbox:
-            align(0.5, .3)
+            align(.5, .3)
             spacing 70
 
             for entry in gm.display_girls():
@@ -77,7 +77,7 @@ screen swimmong_pool_swim():
         ypadding 10
         vbox:
             style_group "wood"
-            align (0.5, .5)
+            align (.5, .5)
             spacing 10
             button:
                 xysize (240, 40)

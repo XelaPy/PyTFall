@@ -44,21 +44,21 @@ screen city_beach_left():
         imagebutton:
             pos(380, 300)
             idle (img)
-            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img, im.matrix.brightness(.15)))
             action [Hide("city_beach_left"), Jump("city_beach_cafe_main")]
 
         $img = im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80)
         imagebutton:
-            align (0.99, .5)
+            align (.99, .5)
             idle (img)
-            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img, im.matrix.brightness(.15)))
             action [Hide("city_beach_left"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_beach")]
 
         $ img_beach_fish = ProportionalScale("content/gfx/interface/icons/beach_fishing.png", 90, 90)
         imagebutton:
             pos(960, 400)
             idle (img_beach_fish)
-            hover (im.MatrixColor(img_beach_fish, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img_beach_fish, im.matrix.brightness(.15)))
             action [Hide("city_beach_left"), Jump("fishing_logic"), With(dissolve)]
 
 
@@ -66,7 +66,7 @@ screen city_beach_left():
         imagebutton:
             pos(400, 545)
             idle (img_beach_swim)
-            hover (im.MatrixColor(img_beach_swim, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img_beach_swim, im.matrix.brightness(.15)))
             action [Hide("city_beach_left"), Jump("city_beach_rest")]
 
     use location_actions("city_beach_left")
@@ -113,7 +113,7 @@ screen city_beach_fishing():
         ypadding 10
         vbox:
             style_group "wood"
-            align (0.5, .5)
+            align (.5, .5)
             spacing 10
             button:
                 xysize (240, 40)

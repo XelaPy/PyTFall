@@ -196,17 +196,17 @@ label interactions_shopping:
 screen tailor_store_shopping_girl():
 
     frame:
-        align(0.5,0)
+        align(.5,0)
         xmaximum 600
         ymaximum 120
 
         hbox:
             null width 30
-            add(im.Scale("content/gfx/interface/icons/gold.png", 40, 40)) align(0.5,0.5)
+            add(im.Scale("content/gfx/interface/icons/gold.png", 40, 40)) align(.5,0.5)
             null width 20
-            text(u'{size=+1}{color=[gold]}{b}= %s{/b}'%hero.gold) align(0.5,0.5)
+            text(u'{size=+1}{color=[gold]}{b}= %s{/b}'%hero.gold) align(.5,0.5)
             null width 60
-            text(u'{size=+1}Day  =  %d'%day) align(0.5,0.5)
+            text(u'{size=+1}Day  =  %d'%day) align(.5,0.5)
             null width 50
 
     use shop_inventory(ref=char,x=0.0,title="Inventory")
@@ -214,23 +214,23 @@ screen tailor_store_shopping_girl():
 
     if focus:
         frame background Frame("content/gfx/frame/mes12.jpg",5,5):
-            align (0.5,0.15)
+            align (.5,0.15)
             xmaximum 700
             ymaximum 400 # changed so the other frame can go below
             hbox:
                 use itemstats(item=focus,mode='normal')
             frame background Solid((0,0,0,0)):
-                align (0.5,1.0)
+                align (.5,1.0)
                 hbox:
                     text (u' Price: %s'%focus.price)
                     null width 20
                     textbutton "Buy/Sell" action Return(['control','buy/sell']) maximum(150,30)
         if char.eqslots['body']: # only show the currently equiped item if there is one
             frame background Frame("content/gfx/frame/mes12.jpg",5,5):
-                align (0.5,0.95)
+                align (.5,0.95)
                 xmaximum 700
                 ymaximum 300
                 use itemstats(item=char.eqslots['body']) # added a mode to the itemstats
 
 
-    use r_lightbutton(img=im.Scale("content/gfx/interface/buttons/shape69.png",40,40),return_value =['control','return'], align=(0.99,0))
+    use r_lightbutton(img=im.Scale("content/gfx/interface/buttons/shape69.png",40,40),return_value =['control','return'], align=(.99,0))

@@ -282,7 +282,7 @@ init -1 python:
                         renpy.pause(rndm-3)
                     else:
                         image = ProportionalScale(image, 10000, config.screen_height)
-                        renpy.show(tag, what=image, at_list=[move_from_to_align_with_linear((0.0, .5), (1.0, .5), rndm)])
+                        renpy.show(tag, what=image, at_list=[move_from_to_align_with_linear((.0, .5), (1.0, .5), rndm)])
                         renpy.with_statement(ImageDissolve(transitions.pop(), 3))
                         renpy.pause(rndm-3)
                 elif y > x:
@@ -294,7 +294,7 @@ init -1 python:
                         renpy.pause(rndm-3)
                     else:
                         image = ProportionalScale(image, config.screen_width, 10000)
-                        renpy.show(tag, what=image, at_list=[truecenter, move_from_to_align_with_linear((0.5, 1.0), (0.5, .0), rndm)])
+                        renpy.show(tag, what=image, at_list=[truecenter, move_from_to_align_with_linear((.5, 1.0), (.5, .0), rndm)])
                         renpy.with_statement(ImageDissolve(transitions.pop(), 3))
                         renpy.pause(rndm-3)
                 else:

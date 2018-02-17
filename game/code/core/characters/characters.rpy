@@ -1235,14 +1235,14 @@ init -9 python:
 
             if from__setattr__:
                 value -= self.skills[key][at]
-            value *= max(0.5, min(self.skills_multipliers[key][at], 1.5))
+            value *= max(.5, min(self.skills_multipliers[key][at], 1.5))
 
             threshold = SKILLS_THRESHOLD[key]
             beyond_training = current_full_value - threshold
 
             if beyond_training > 0: # insufficient training... lessened increase beyond
                 at_zero = skill_max - threshold
-                value *= max(0.1, 1 - float(beyond_training)/at_zero)
+                value *= max(.1, 1 - float(beyond_training)/at_zero)
 
             self.skills[key][at] += value
 
@@ -3040,9 +3040,9 @@ init -9 python:
                             if self.effects['Fast Metabolism']['active'] and item.type == "food":
                                 self.mod_stat(stat, (2*value))
                             elif "Summer Eternality" in self.traits and stat == "health" and value > 0:
-                                self.mod_stat(stat, (int(0.35*value)))
+                                self.mod_stat(stat, (int(.35*value)))
                             elif "Winter Eternality" in self.traits and stat == "mp" and value > 0:
-                                self.mod_stat(stat, (int(0.35*value)))
+                                self.mod_stat(stat, (int(.35*value)))
                             elif "Effective Metabolism" in self.traits and stat == "vitality" and value > 0:
                                 if item.type == "food":
                                     self.mod_stat(stat, (int(2*value)))

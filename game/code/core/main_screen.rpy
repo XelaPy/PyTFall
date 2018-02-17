@@ -76,10 +76,10 @@ screen mainscreen():
     default tt = Tooltip("")
 
     # Main pic:
-    add im.Scale("content/gfx/bg/bg085_rsz.jpg", config.screen_width, config.screen_height-40) at fade_from_to(0.0, 1.0, 2.0) ypos 40
+    add im.Scale("content/gfx/bg/bg085_rsz.jpg", config.screen_width, config.screen_height-40) at fade_from_to(.0, 1.0, 2.0) ypos 40
 
     frame:
-        align (0.995, .88)
+        align (.995, .88)
         background Frame("content/gfx/frame/window_frame2.png", 30, 30)
         xysize (255, 670)
         xfill True
@@ -122,7 +122,7 @@ screen mainscreen():
         vbox:
             style_group "dropdown_gm"
             spacing 1
-            align (0.01, .5)
+            align (.01, .5)
             textbutton "Arena Inside":
                 action Hide("mainscreen"), Jump("arena_inside")
             textbutton "Test BE":
@@ -138,14 +138,14 @@ screen mainscreen():
             pos (500, 60)
             xysize (500, 300)
             background Frame("content/gfx/frame/settings1.png", 10, 10)
-            text "%s"%pytfall.ms_text align (0.5, .1) style "content_text" color goldenrod size 19
+            text "%s"%pytfall.ms_text align (.5, .1) style "content_text" color goldenrod size 19
             timer 10 action ToggleField(pytfall, "todays_first_view")
 
     # Tooltip related:
     frame:
         background Frame("content/gfx/frame/window_frame1.png", 10, 10)
-        align(0.5, .997)
+        align(.5, .997)
         xysize (750, 100)
-        text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(0.5, .5)
+        text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(.5, .5)
 
     use top_stripe(False)

@@ -112,7 +112,7 @@ screen city_tavern_inside():
         ypadding 10
         vbox:
             style_prefix "wood"
-            align (0.5, .5)
+            align (.5, .5)
             spacing 10
             button:
                 xysize (120, 40)

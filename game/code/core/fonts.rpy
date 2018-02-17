@@ -15,7 +15,7 @@ screen fonts(fonts):
     add Solid(black)
     
     vbox:
-        align (0.5, .1)
+        align (.5, .1)
         
         python:
             if not group:
@@ -38,12 +38,12 @@ screen fonts(fonts):
             text u"❤ ☀ ☆ ☂ ☻ ♞ ☯ ☭ ☢ € → ☎ ❄ ♫ ✂ ▷ ✇ ♎ ⇧ ☮ ⌘ 　 ー"  font font
             
     hbox:
-        align (0.5, .8)
+        align (.5, .8)
         spacing 10
         textbutton "<--" action SetScreenVariable("index", (index - 1) % len(fonts)), SetScreenVariable("group", None)
         textbutton "Group Test" action SetScreenVariable("group", tisa_otm_adv)
         textbutton "-->" action SetScreenVariable("index", (index + 1) % len(fonts)), SetScreenVariable("group", None)
         
     textbutton "Close":
-        align (0.5, 1.0)
+        align (.5, 1.0)
         action Hide("fonts"), Jump("mainscreen")

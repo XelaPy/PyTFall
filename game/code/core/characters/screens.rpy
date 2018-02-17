@@ -139,11 +139,11 @@ screen char_rename(char=None):
         else:
             background Frame("content/gfx/frame/post_battle.png", 500, 500)
             xysize(500, 500)
-        align (0.5, .5)
+        align (.5, .5)
         vbox:
             style_prefix "wood"
             at fade_in_out()
-            align (0.5, .5)
+            align (.5, .5)
             spacing 10
             if isinstance(char, Player) or char.status == "slave":
                 text "Name:" size 21 color goldenrod outlines [(2, "#3a3a3a", 0, 0)]
@@ -195,7 +195,7 @@ screen character_pick_screen(): # screen to select someone from the MC team
         ysize 310
         padding(2, 2)
         background Frame("content/gfx/frame/frame_dec_1.png")
-        label "Select a character" align (0.5, .08) text_color "#DAA520" text_size 18
+        label "Select a character" align (.5, .08) text_color "#DAA520" text_size 18
         hbox:
             spacing 45
             align (.5, .4)
@@ -209,7 +209,7 @@ screen character_pick_screen(): # screen to select someone from the MC team
                         xalign .5
                         background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
                         idle (char_profile_img)
-                        hover (im.MatrixColor(char_profile_img, im.matrix.brightness(0.15)))
+                        hover (im.MatrixColor(char_profile_img, im.matrix.brightness(.15)))
                         action Return(l)
                         xysize (102, 102)
                     bar:
@@ -249,7 +249,7 @@ screen character_pick_screen(): # screen to select someone from the MC team
                         padding(2, 2)
                         background Frame("content/gfx/frame/gm_frame.png")
                         $ name = l.name[:8]
-                        label "[name]" align (0.5, .5) text_color "#DAA520" text_size 16
+                        label "[name]" align (.5, .5) text_color "#DAA520" text_size 16
 
         vbox:
             style_group "wood"

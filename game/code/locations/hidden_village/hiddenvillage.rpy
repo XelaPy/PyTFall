@@ -48,7 +48,7 @@ screen hiddenvillage_entrance:
         imagebutton:
             pos(300, 315)
             idle (img)
-            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img, im.matrix.brightness(.15)))
             action [Hide("hiddenvillage_entrance"), Jump("hidden_village_shop")]
 
     if gm.show_girls:

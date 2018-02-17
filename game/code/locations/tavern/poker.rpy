@@ -96,7 +96,7 @@ screen city_tavern_show_poker_dices(dice_1, dice_2, atl, selected_atl): # main p
 screen city_tavern_show_poker_dices_controls:
     vbox:
         style_group "wood"
-        align (0.9, .9)
+        align (.9, .9)
         button:
             xysize (120, 40)
             yalign .5

@@ -53,7 +53,7 @@ screen city_parkgates():
     use top_stripe(True)
 
     if not gm.show_girls:
-        use r_lightbutton(img=im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), return_value=['control', 'jumppark'], align=(0.99,0.5))
+        use r_lightbutton(img=im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), return_value=['control', 'jumppark'], align=(.99,0.5))
 
     use location_actions("city_parkgates")
 

@@ -42,16 +42,16 @@ screen city_beach_cafe_main:
         # Jump buttons:
         $img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
         imagebutton:
-            align (0.01, .5)
+            align (.01, .5)
             idle (img)
-            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img, im.matrix.brightness(.15)))
             action [Hide("city_beach_cafe_main"), Function(global_flags.del_flag, "keep_playing_music"), Jump("city_beach_cafe")]
         
         $img = im.Scale(im.Flip("content/gfx/interface/buttons/blue_arrow_up.png", vertical=True), 80, 70)
         imagebutton:
-            align (0.5, .99)
+            align (.5, .99)
             idle (img)
-            hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img, im.matrix.brightness(.15)))
             action [Hide("city_beach_cafe_main"), Jump("city_beach_left")]        
     
     use location_actions("city_beach_cafe_main")

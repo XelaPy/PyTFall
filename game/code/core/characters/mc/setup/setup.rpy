@@ -123,40 +123,40 @@ init: # MC Setup Screens:
         if all([(hasattr(store, "mc_substory") and store.mc_substory)]):
             textbutton "{size=40}{color=[white]}{font=fonts/TisaOTB.otf}Start Game" at fade_in_out():
                 background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=1)
-                hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
-                align (0.46, .93)
+                hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15)), 5, 5), alpha=1)
+                align (.46, .93)
                 action [Stop("music"), Return(["control", "build_mc", sprites[index]])]
         vbox:
-            # align (0.37, .10)
+            # align (.37, .10)
             pos (365, 68)
             hbox:
                 textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Name:":
                     background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
-                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
+                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15)), 5, 5), alpha=1)
                     xpadding 12
                     ypadding 8
                 textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[white]}[hero.name]":
                     background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
-                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
+                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15)), 5, 5), alpha=1)
                     xpadding 12
                     ypadding 8
 
             textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[red]}Click to change name":
                 background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
-                hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
+                hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15)), 5, 5), alpha=1)
                 xpadding 12
                 ypadding 8
-                align (0.0, .10)
+                align (.0, .10)
                 action Show("char_rename", char=hero)
 
         # MC Sprites:
         hbox:
             spacing 4
-            align (0.463, .75)
+            align (.463, .75)
             $ img = ProportionalScale("content/gfx/interface/buttons/blue_arrow_left.png", 40, 40)
             imagebutton:
                 idle img
-                hover im.MatrixColor(img, im.matrix.brightness(0.20))
+                hover im.MatrixColor(img, im.matrix.brightness(.20))
                 activate_sound "content/sfx/sound/sys/hover_2.wav"
                 action [SetScreenVariable("index", (index - 1) % len(sprites)),
                         SetScreenVariable("left_index", (left_index - 1) % len(sprites)),
@@ -164,12 +164,12 @@ init: # MC Setup Screens:
             $ img = ProportionalScale("content/gfx/interface/buttons/blue_arrow_right.png", 40, 40)
             textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[white]}Select your appearance":
                 background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
-                hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15)), 5, 5), alpha=1)
+                hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15)), 5, 5), alpha=1)
                 xpadding 12
                 ypadding 8
             imagebutton:
                 idle img
-                hover im.MatrixColor(img, im.matrix.brightness(0.20))
+                hover im.MatrixColor(img, im.matrix.brightness(.20))
                 activate_sound "content/sfx/sound/sys/hover_2.wav"
                 action [SetScreenVariable("index", (index + 1) % len(sprites)),
                         SetScreenVariable("left_index", (left_index + 1) % len(sprites)),
@@ -195,14 +195,14 @@ init: # MC Setup Screens:
             add sprites[index].show("portrait", resize=(100, 100))
 
         ### Background Story ###
-        add "content/gfx/interface/images/story1.png" align (0.002, .09)
+        add "content/gfx/interface/images/story1.png" align (.002, .09)
 
         frame: # Text frame for Main Story (Merchant, Warrior, Scholar and Noble)
             background Frame(Transform("content/gfx/interface/images/story12.png", alpha=0.8), 10, 10)
             pos 173, 16 anchor .5, .0
             padding 15, 10
             # xysize (150, 40)
-            text ("{size=20}{font=fonts/TisaOTm.otf}Select your origin") # align (0.53, .4)
+            text ("{size=20}{font=fonts/TisaOTm.otf}Select your origin") # align (.53, .4)
 
         hbox: # Fathers Main occupation:
             style_group "sqstory"
@@ -212,12 +212,12 @@ init: # MC Setup Screens:
                          SetVariable("sub_story", None), SetVariable("mc_story", None),
                          SetVariable("mc_substory", None)]
             for branch in mc_stories:
-                $ img = im.Scale(mc_stories[branch]["img"], 50, 50, align=(0.5, .5))
+                $ img = im.Scale(mc_stories[branch]["img"], 50, 50, align=(.5, .5))
                 button: ## Merchant ##
-                    foreground im.Sepia(img, align=(0.5, .5))
+                    foreground im.Sepia(img, align=(.5, .5))
                     selected_foreground img
-                    idle_foreground im.Sepia(img, align=(0.5, .5))
-                    hover_foreground im.MatrixColor(img, im.matrix.brightness(0.15), align=(0.5, .5))
+                    idle_foreground im.Sepia(img, align=(.5, .5))
+                    hover_foreground im.MatrixColor(img, im.matrix.brightness(.15), align=(.5, .5))
                     if mc_stories[branch].get("header", ""):
                         action SelectedIf(main_story == branch), If(store.main_story == branch,
                                   false=ac_list + [SetVariable("main_story", branch),
@@ -241,7 +241,7 @@ init: # MC Setup Screens:
                         if sub_story in mc_stories[main_story]:
                             text ("%s" % mc_stories[main_story][sub_story]["text"]) xalign .5 style "garamond" size 18
                 else:
-                    text "No [main_story] story found!!!" align (0.5, .5)
+                    text "No [main_story] story found!!!" align (.5, .5)
 
     screen mc_stories(choices=OrderedDict()): # This is the fathers SUB occupation choice.
         tag mc_sub
@@ -265,9 +265,9 @@ init: # MC Setup Screens:
                         text key align (1.0, .52)
                             # if greycolor:
                                 # color grey
-                        add img align (0.0, .5)
+                        add img align (.0, .5)
                     else:
-                        text key align (0.0, .52)
+                        text key align (.0, .52)
                             # if greycolor:
                                 # color grey
                         add img align (1.0, .5)
@@ -285,15 +285,15 @@ init: # MC Setup Screens:
                     if choices.get(i, ""):
                         vbox:
                             spacing 2
-                            $ img = ProportionalScale(choices["".join([i, "_img"])], 150, 150, align=(0.5, .5))
+                            $ img = ProportionalScale(choices["".join([i, "_img"])], 150, 150, align=(.5, .5))
                             if not choices[i] == mc_story:
-                                $ img = im.Sepia(img, align=(0.5, .5))
+                                $ img = im.Sepia(img, align=(.5, .5))
                             button:
                                 xalign .5
                                 xysize (165, 165)
                                 background Frame("content/gfx/frame/MC_bg.png", 10, 10)
                                 idle_foreground img
-                                hover_foreground im.MatrixColor(img, im.matrix.brightness(0.10), align=(0.5, .5))
+                                hover_foreground im.MatrixColor(img, im.matrix.brightness(.10), align=(.5, .5))
                                 action Hide("mc_sub_texts"), SetVariable("mc_story", choices[i]), SetVariable("mc_substory", None), Show("mc_sub_texts", transition=dissolve)
                             hbox:
                                 xalign .5
@@ -302,16 +302,16 @@ init: # MC Setup Screens:
                                 for sub in xrange(3):
                                     $ sub = str(sub)
                                     if choices.get(i + sub, ""):
-                                        $ img = ProportionalScale(choices["".join([i, sub, "_img"])], 46, 46, align=(0.5, .5))
+                                        $ img = ProportionalScale(choices["".join([i, sub, "_img"])], 46, 46, align=(.5, .5))
                                         if not mc_substory == choices[i + sub]:
-                                            $ img = im.Sepia(img, align=(0.5, .5))
+                                            $ img = im.Sepia(img, align=(.5, .5))
                                         button:
                                             # foreground img
-                                            # idle_foreground im.Sepia(img, align=(0.5, .5))
-                                            # hover_foreground im.MatrixColor(img, im.matrix.brightness(0.15), align=(0.5, .5))
+                                            # idle_foreground im.Sepia(img, align=(.5, .5))
+                                            # hover_foreground im.MatrixColor(img, im.matrix.brightness(.15), align=(.5, .5))
                                             background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                                            idle_foreground im.Sepia(img, align=(0.5, .5))
-                                            hover_foreground im.MatrixColor(img, im.matrix.brightness(0.15), align=(0.5, .5))
+                                            idle_foreground im.Sepia(img, align=(.5, .5))
+                                            hover_foreground im.MatrixColor(img, im.matrix.brightness(.15), align=(.5, .5))
                                             selected_foreground img
                                             action SetVariable("mc_substory", choices[i + sub]), SensitiveIf(choices[i] == mc_story), SelectedIf(mc_substory == choices[i + sub]), Show("mc_sub_texts", transition=dissolve)
 

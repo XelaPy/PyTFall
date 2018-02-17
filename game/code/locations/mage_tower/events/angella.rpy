@@ -162,7 +162,7 @@ screen alignment_choice(character):
             var = var + step
         imagebutton at circle_around(t=10, angle=angle, radius=250):
             idle img
-            hover im.MatrixColor(img, im.matrix.brightness(0.25))
+            hover im.MatrixColor(img, im.matrix.brightness(.25))
             action Return(el)
             hovered tt.Action("Add "+el.id)
 
@@ -191,7 +191,7 @@ screen alignment_removal_choice(character):
             var = var + step
         imagebutton at circle_around(t=10, angle=angle, radius=250):
             idle img
-            hover im.MatrixColor(img, im.matrix.brightness(0.25))
+            hover im.MatrixColor(img, im.matrix.brightness(.25))
             action Return(el)
             hovered tt.Action("Remove " + el.id)
 
@@ -199,7 +199,7 @@ screen alignment_removal_choice(character):
     imagebutton:
         align (.5, .5)
         idle img
-        hover Transform(im.MatrixColor(img, im.matrix.brightness(0.25)), zoom=1.2)
+        hover Transform(im.MatrixColor(img, im.matrix.brightness(.25)), zoom=1.2)
         action Return("clear_all")
         hovered tt.Action("Remove all elements")
 
@@ -212,7 +212,7 @@ screen angelica_menu:
         ypadding 10
         vbox:
             style_group "wood"
-            align (0.5, .5)
+            align (.5, .5)
             spacing 10
             button:
                 xysize (200, 40)

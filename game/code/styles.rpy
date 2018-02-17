@@ -57,25 +57,25 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
         clear
         xysize (29, 43)
         background Frame(interfacebuttons + "arrow_left.png")
-        hover_background im.MatrixColor(interfacebuttons + "arrow_left.png", im.matrix.brightness(0.10))
+        hover_background im.MatrixColor(interfacebuttons + "arrow_left.png", im.matrix.brightness(.10))
         insensitive_background im.Sepia(interfacebuttons + "arrow_left.png")
     style paging_green_button_left2x:
         clear
         xysize (43, 43)
         background Frame(interfacebuttons + "arrow_left2x.png")
-        hover_background im.MatrixColor(interfacebuttons + "arrow_left2x.png", im.matrix.brightness(0.10))
+        hover_background im.MatrixColor(interfacebuttons + "arrow_left2x.png", im.matrix.brightness(.10))
         insensitive_background im.Sepia(interfacebuttons + "arrow_left2x.png")
     style paging_green_button_right:
         clear
         xysize (29, 43)
         background Frame(interfacebuttons + "arrow_right.png")
-        hover_background im.MatrixColor(interfacebuttons + "arrow_right.png", im.matrix.brightness(0.10))
+        hover_background im.MatrixColor(interfacebuttons + "arrow_right.png", im.matrix.brightness(.10))
         insensitive_background im.Sepia(interfacebuttons + "arrow_right.png")
     style paging_green_button_right2x:
         clear
         xysize (43, 43)
         background Frame(interfacebuttons + "arrow_right2x.png")
-        hover_background im.MatrixColor(interfacebuttons + "arrow_right2x.png", im.matrix.brightness(0.10))
+        hover_background im.MatrixColor(interfacebuttons + "arrow_right2x.png", im.matrix.brightness(.10))
         insensitive_background im.Sepia(interfacebuttons + "arrow_right2x.png")
 
     # Simple button we use to call the dropdowns:
@@ -98,11 +98,11 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
         hover_background Frame("content/gfx/interface/buttons/choice_buttons1h.png", 10, 10)
         insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/choice_buttons1.png"), 10, 10)
         selected_idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons1.png", im.matrix.tint(1, .75, .75)), 10, 10)
-        selected_hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons1h.png", im.matrix.tint(0.75, .75, 1)), 10, 10)
+        selected_hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons1h.png", im.matrix.tint(.75, .75, 1)), 10, 10)
 
     style basic_choice2_button:
         background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
-        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.15)), 5, 5)
+        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.15)), 5, 5)
         selected_idle_background Frame(Transform("content/gfx/interface/buttons/choice_buttons2s.png", alpha=1.12), 5, 5)
         selected_hover_background Frame(Transform("content/gfx/interface/buttons/choice_buttons2s.png", alpha=1.32), 5, 5)
         insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/choice_buttons2.png"), 5, 5)
@@ -133,7 +133,7 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
     # Black button with a thin outlines, not used anywhere.
     style smenu2_button:
         background Frame ("content/gfx/interface/buttons/s_menu2.png", 5, 5)
-        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/s_menu2h.png", im.matrix.brightness(0.19)), 5, 5)
+        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/s_menu2h.png", im.matrix.brightness(.19)), 5, 5)
         selected_idle_background Frame(Transform("content/gfx/interface/buttons/choice_buttons2s.png", alpha=1.12), 5, 5)
         selected_hover_background Frame(Transform("content/gfx/interface/buttons/choice_buttons2s.png", alpha=1.32), 5, 5)
 
@@ -160,7 +160,7 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
         hover_sound "content/sfx/sound/sys/hover_2.wav"
 
     style wood_text:
-        align (0.5, .5)
+        align (.5, .5)
         size 14
         color ivory
         hover_color red
@@ -168,7 +168,7 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
     # This is a simple white, semi transparrent button, prolly should be deleted.
     style white_cry_button:
         background Transform(Frame(im.Twocolor("content/gfx/frame/cry_box.png", white, white), 5, 5), alpha=0.8)
-        hover_background Transform(Frame(im.MatrixColor(im.Twocolor("content/gfx/frame/cry_box.png", white, aquamarine), im.matrix.brightness(0.20)), 5, 5), alpha=0.8)
+        hover_background Transform(Frame(im.MatrixColor(im.Twocolor("content/gfx/frame/cry_box.png", white, aquamarine), im.matrix.brightness(.20)), 5, 5), alpha=0.8)
         insensitive_background Transform(Frame(im.Sepia("content/gfx/frame/cry_box.png"), 5, 5), alpha=0.8)
         ypadding 3
 
@@ -176,7 +176,7 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
     style marbleG_button:
         is button
         idle_background Frame("content/gfx/interface/buttons/marbleG_button.png", 5, 5)
-        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/marbleG_button.png", im.matrix.brightness(0.15)), 5, 5)
+        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/marbleG_button.png", im.matrix.brightness(.15)), 5, 5)
         insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/marbleG_button.png"), 5, 5)
 
     # Cool Blue button we use in a number of places (Main Screen that leads to Buildings/GL for example)
@@ -185,23 +185,23 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
         idle_background Frame("content/gfx/interface/buttons/blue3.png", 5, 5)
         idle_foreground Frame("content/gfx/interface/buttons/f1.png", 5, 5)
 
-        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/blue3.png", im.matrix.brightness(0.15)), 5, 5)
-        hover_foreground Frame(im.MatrixColor("content/gfx/interface/buttons/f1.png", im.matrix.brightness(0.07)), 5, 5)
+        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/blue3.png", im.matrix.brightness(.15)), 5, 5)
+        hover_foreground Frame(im.MatrixColor("content/gfx/interface/buttons/f1.png", im.matrix.brightness(.07)), 5, 5)
 
         insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/blue3.png"), 5, 5)
         insensitive_foreground Frame("content/gfx/interface/buttons/f1.png", 5, 5)
 
-        selected_idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/blue3.png", im.matrix.tint(0.6, .6, .6)), 5, 5)
+        selected_idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/blue3.png", im.matrix.tint(.6, .6, .6)), 5, 5)
         selected_idle_foreground Frame("content/gfx/interface/buttons/f1.png", 5, 5)
 
-        selected_hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/blue3.png", im.matrix.tint(0.6, .6, .6) * im.matrix.brightness(0.15)), 5, 5)
-        selected_hover_foreground Frame(im.MatrixColor("content/gfx/interface/buttons/f1.png", im.matrix.brightness(0.07)), 5, 5)
+        selected_hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/blue3.png", im.matrix.tint(.6, .6, .6) * im.matrix.brightness(.15)), 5, 5)
+        selected_hover_foreground Frame(im.MatrixColor("content/gfx/interface/buttons/f1.png", im.matrix.brightness(.07)), 5, 5)
 
     # Decent Wooden button, Used as a ND.
     style op1:
         is button
         idle_background Frame("content/gfx/interface/buttons/op3.png", 5, 5)
-        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/op3.png", im.matrix.brightness(0.15)), 5, 5)
+        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/op3.png", im.matrix.brightness(.15)), 5, 5)
         idle_foreground Frame("content/gfx/interface/buttons/f1.png", 5, 5)
         hover_foreground Frame("content/gfx/interface/buttons/f1.png", 5, 5)
 
@@ -232,17 +232,17 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
     style earthkid is text:
         size 20
         font "fonts/earthkid.ttf"
-        align (0.5, .5)
+        align (.5, .5)
 
     style agrevue is text:
         size 20
         font "fonts/agrevue.ttf"
-        align (0.5, .5)
+        align (.5, .5)
 
     style rubius is text:
         size 20
         font "fonts/rubius.ttf"
-        align (0.5, .5)
+        align (.5, .5)
 
     style TisaSansOT is text:
         size 20
@@ -255,11 +255,11 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
 
     style TisaOTBc:
         is TisaOTB
-        align (0.5, .5)
+        align (.5, .5)
 
     style TisaOTMc:
         is TisaOTM
-        align (0.5, .5)
+        align (.5, .5)
 
 
 init 2: # Advanced style that can carry a lot of properies to be used in screens/labels.
@@ -318,7 +318,7 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         thumb None #im.Scale("content/gfx/interface/bars/pref_thumb.png", 18, 21)
         hover_thumb  None #im.Scale("content/gfx/interface/bars/pref_thumb.png", 18, 21)
         xmaximum 166
-        align (0.5, .5)
+        align (.5, .5)
 
     # One of the most widely used styles in the game:
     # These are Gismo's Grey Button style we use all over the place.
@@ -429,14 +429,14 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         is garamond
         line_leading -5
         size 15
-        align (0.5, .5)
+        align (.5, .5)
 
     # MC Setup Screen:
     style mcsetup_button:
         is button
         xysize (175, 51)
         idle_background Frame("content/gfx/interface/images/story12.png", 1, 1)
-        hover_background Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.1)), 1, 1)
+        hover_background Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.1)), 1, 1)
         insensitive_background Frame(im.Sepia("content/gfx/interface/images/story12.png"), 1, 1)
 
     style mcsetup_text:
@@ -491,9 +491,9 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
     style sound_button:
         subpixel True
         idle_background Frame(im.Sepia("content/gfx/interface/buttons/sound_icon.png"), 5, 5)
-        hover_background Frame(im.MatrixColor(im.Sepia("content/gfx/interface/buttons/sound_icon.png"), im.matrix.brightness(0.15)), 5, 5)
+        hover_background Frame(im.MatrixColor(im.Sepia("content/gfx/interface/buttons/sound_icon.png"), im.matrix.brightness(.15)), 5, 5)
         selected_idle_background Frame("content/gfx/interface/buttons/sound_icon.png", 5, 5)
-        selected_hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/sound_icon.png", im.matrix.brightness(0.15)), 5, 5)
+        selected_hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/sound_icon.png", im.matrix.brightness(.15)), 5, 5)
 
     # Specialized text styles: ===============>
     style TisaOTMol:
@@ -528,7 +528,7 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         size 20
         font "fonts/serpentn.ttf"
         color black
-        align (0.5, .5)
+        align (.5, .5)
 
     style next_day_summary_text is text:
         size 16
@@ -630,13 +630,13 @@ init: # Ren'Py Styles (Or replacements):
         xpadding 50
         size_group "choice_menu"
         background Frame("content/gfx/frame/chat_text_box_idle.png", 5, 5)
-        hover_background Transform(Frame("content/gfx/frame/chat_text_box_hover.png", 5, 5), xzoom=1.07, yzoom=1.5, align=(0.5, .5))
+        hover_background Transform(Frame("content/gfx/frame/chat_text_box_hover.png", 5, 5), xzoom=1.07, yzoom=1.5, align=(.5, .5))
         insensitive_background Frame(im.Sepia("content/gfx/frame/chat_text_box_idle.png"), 5, 5)
         ysize 29
 
     style menu_choice_button_blue is menu_choice_button:
         background Frame(im.Twocolor("content/gfx/frame/chat_text_box_idle.png", white, blue), 5, 5)
-        hover_background Transform(Frame(im.Twocolor("content/gfx/frame/chat_text_box_hover.png", white, blue), 5, 5), xzoom=1.07, yzoom=1.5, align=(0.5, .5))
+        hover_background Transform(Frame(im.Twocolor("content/gfx/frame/chat_text_box_hover.png", white, blue), 5, 5), xzoom=1.07, yzoom=1.5, align=(.5, .5))
 
     # Main Menu and Preferences:
     # Gismo's New MM Version!

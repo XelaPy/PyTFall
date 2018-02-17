@@ -304,7 +304,7 @@ init: # Main Screens:
                 style_group "basic"
                 xysize (270, 110)
                 vbox:
-                    align (0.5, .5)
+                    align (.5, .5)
                     spacing 10
                     textbutton "Show Daily Report":
                         xalign .5
@@ -435,7 +435,7 @@ init: # Main Screens:
                 style_group "basic"
                 action Hide("arena_matches")
                 minimum(50, 30)
-                align (0.5, .9995)
+                align (.5, .9995)
                 text  "Close"
         key "mousedown_3" action Hide("arena_matches")
 
@@ -476,7 +476,7 @@ init: # Main Screens:
                                     align .5, .5
                             if team:
                                 frame:
-                                    align (0.5, .6)
+                                    align (.5, .6)
                                     xysize (100, 45)
                                     background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                     $ lvl = team.get_level
@@ -495,7 +495,7 @@ init: # Main Screens:
                                             add fighter.show("portrait", resize=(45, 45), cache=True)
                                 null width 12
                                 frame:
-                                    align (0.5, .5)
+                                    align (.5, .5)
                                     xfill True
                                     background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                     label "[name]" align .5, .5 text_size 25 text_style "proper_stats_text" text_color gold:
@@ -508,7 +508,7 @@ init: # Main Screens:
                 style_group "basic"
                 action Hide("arena_lineups")
                 minimum(50, 30)
-                align (0.5, .9995)
+                align (.5, .9995)
                 text  "Close"
         key "mousedown_3" action Hide("arena_lineups")
 
@@ -551,17 +551,17 @@ init: # Main Screens:
                                     add fighter.show("portrait", resize=(40, 40))
                                     yalign .5
                                 frame:
-                                    align (0.5, .5)
+                                    align (.5, .5)
                                     xsize 100
                                     background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                     text("Lvl [fighter.level]") align .5, .5 size 25 style "proper_stats_text" color gold
                                 frame:
                                     xfill True
-                                    align (0.5, .5)
+                                    align (.5, .5)
                                     background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                     hbox:
                                         xfill True
-                                        align (0.5, .5)
+                                        align (.5, .5)
                                         text("[fighter.name]") align .03, .5 size 25 style "proper_stats_text" color gold
                                         text("[fighter.arena_rep]") align .99, .5 size 20 style "proper_stats_value_text" color gold
 
@@ -571,7 +571,7 @@ init: # Main Screens:
                 style_group "basic"
                 action Hide("arena_rep_ladder")
                 minimum(50, 30)
-                align (0.5, .9995)
+                align (.5, .9995)
                 text  "Close"
         key "mousedown_3" action Hide("arena_rep_ladder")
 
@@ -642,7 +642,7 @@ init: # Main Screens:
                 style_group "basic"
                 action Hide("arena_dogfights")
                 minimum(50, 30)
-                align (0.5, .9995)
+                align (.5, .9995)
                 text  "Close"
         key "mousedown_3" action Hide("arena_dogfights")
 
@@ -684,7 +684,7 @@ init: # Main Screens:
                                     imagebutton:
                                         align .5, .6
                                         idle img
-                                        hover (im.MatrixColor(img, im.matrix.brightness(0.25)))
+                                        hover (im.MatrixColor(img, im.matrix.brightness(.25)))
                                         action SetScreenVariable("in_focus_mob", creature)
                         null height 2
 
@@ -718,7 +718,7 @@ init: # Main Screens:
                                 yfill True
                                 background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                                 xysize (145, 30)
-                                text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, .7)
+                                text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
                             frame:
                                 xalign .5
                                 yfill True
@@ -740,8 +740,8 @@ init: # Main Screens:
                             $ x = 0
                             $ els_args = [Transform(i, crop=(100/len(els_transforms)*els_transforms.index(i), 0, 100/len(els), 100), subpixel=True, xpos=(x + 100/len(els)*els_transforms.index(i))) for i in els_transforms]
                             $ f = Fixed(*els_args, xysize=(100, 100))
-                            add f align (0.5, .5)
-                            add ProportionalScale("content/gfx/interface/images/elements/hover.png", 100, 100) align (0.5, .5)
+                            add f align (.5, .5)
+                            add ProportionalScale("content/gfx/interface/images/elements/hover.png", 100, 100) align (.5, .5)
                         vbox:
                             style_group "proper_stats"
                             xalign .0
@@ -751,7 +751,7 @@ init: # Main Screens:
                                 yfill True
                                 background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                                 xysize (145, 30)
-                                text (u"{color=#CDAD00} Class") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, .7)
+                                text (u"{color=#CDAD00} Class") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
                             for t in data["basetraits"]:
                                 frame:
                                     xalign .5
@@ -765,7 +765,7 @@ init: # Main Screens:
                         yfill True
                         background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                         xysize (260, 30)
-                        text (u"{color=#CDAD00} Relative stats") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5# align (0.5, 1.0)
+                        text (u"{color=#CDAD00} Relative stats") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5# align (.5, 1.0)
                     hbox:
                         null width 2
                         vbox:
@@ -909,14 +909,14 @@ init: # Main Screens:
             add "content/gfx/images/battle/victory_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
             add "content/gfx/images/battle/battle_c.png" at fade_from_to(start_val=0.5, end_val=1.0, t=2.0, wait=0)
             add "content/gfx/images/battle/victory.png":
-                align (0.5, .5)
+                align (.5, .5)
                 at simple_zoom_from_to_with_easein(start_val=50.0, end_val=1.0, t=2.0)
         else:
             add "content/gfx/images/battle/defeat_l.png" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
             add "content/gfx/images/battle/defeat_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
             add "content/gfx/images/battle/battle_c.png" at fade_from_to(start_val=0.5, end_val=1.0, t=2.0, wait=0)
             add "content/gfx/images/battle/defeat.png":
-                align (0.5, .5)
+                align (.5, .5)
                 at simple_zoom_from_to_with_easein(start_val=50.0, end_val=1.0, t=2.0)
 
         frame:
@@ -928,12 +928,12 @@ init: # Main Screens:
             ypadding 8
             xmargin 0
             ymargin 0
-            has vbox spacing 5 align(0.5, .5) box_reverse True
+            has vbox spacing 5 align(.5, .5) box_reverse True
             $ i = 0
             for member in w_team :
                 $ img = member.show("portrait", resize=(70, 70), cache=True)
                 fixed:
-                    align (0.5, .5)
+                    align (.5, .5)
                     xysize (70, 70)
                     imagebutton:
                         at fade_from_to(start_val=0, end_val=1.0, t=2.0, wait=i)
@@ -941,7 +941,7 @@ init: # Main Screens:
                         xpadding 1
                         xmargin 0
                         ymargin 0
-                        align (0.5, .5)
+                        align (.5, .5)
                         style "basic_choice2_button"
                         idle img
                         hover img
@@ -957,12 +957,12 @@ init: # Main Screens:
             ypadding 8
             xmargin 0
             ymargin 0
-            has vbox spacing 5 align(0.5, .5)
+            has vbox spacing 5 align(.5, .5)
             $ i = 0
             for member in l_team:
                 $ img = member.show("portrait", resize=(70, 70), cache=True)
                 fixed:
-                    align (0.5, .5)
+                    align (.5, .5)
                     xysize (70, 70)
                     imagebutton:
                         at fade_from_to(start_val=0, end_val=1.0, t=2.0, wait=i)
@@ -970,7 +970,7 @@ init: # Main Screens:
                         xpadding 1
                         xmargin 0
                         ymargin 0
-                        align (0.5, .5)
+                        align (.5, .5)
                         style "basic_choice2_button"
                         idle img
                         hover img
@@ -979,7 +979,7 @@ init: # Main Screens:
                     $ i = i + 1
 
         button:
-            align (0.5, .63)
+            align (.5, .63)
             style_group "pb"
             action [Function(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])]
             text "Continue" style "pb_button_text"
@@ -1001,7 +1001,7 @@ init: # Main Screens:
             if hero.team == w_team: # Show only if we won...
                 frame:
                     style_group "proper_stats"
-                    align (0.2, .5)
+                    align (.2, .5)
                     background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                     xpadding 12
                     ypadding 12
@@ -1020,12 +1020,12 @@ init: # Main Screens:
             frame:
                 background Frame("content/gfx/frame/MC_bg.png", 10, 10)
                 add im.Sepia(loser.show("battle_sprite", resize=(200, 200), cache=True))
-                align (0.8, .2)
+                align (.8, .2)
         else:
             frame:
                 background Frame("content/gfx/frame/MC_bg.png", 10, 10)
                 add loser.show("battle_sprite", resize=(200, 200), cache=True)
-                align (0.8, .2)
+                align (.8, .2)
 
         add "content/gfx/frame/h1.png"
 
@@ -1048,7 +1048,7 @@ init: # Main Screens:
                 style_group "basic"
                 action Hide("arena_report")
                 minimum(50, 30)
-                align (0.5, .9)
+                align (.5, .9)
                 text  "Close" # TODO gui: possibly will require align changes when arena log is full
         key "mousedown_3" action Hide("arena_report")
 
@@ -1110,7 +1110,7 @@ init: # ChainFights vs Mobs:
                     style_group "basic"
                     action SetField(pytfall.arena, "result", "break"), Return("Bupkis")
                     minimum(50, 30)
-                    align (0.5, .9995)
+                    align (.5, .9995)
                     text  "Close"
         else:
             timer .5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
@@ -1123,13 +1123,13 @@ init: # ChainFights vs Mobs:
         # if not pytfall.arena.cf_mob:
             # text "Choose your Fight!":
                 # style "arena_header_text"
-                # align (0.5, .1)
+                # align (.5, .1)
                 # size 50
 
             # vbox:
                 # style "menu"
                 # spacing 1
-                # align (0.5, .55)
+                # align (.5, .55)
                 # for setup in pytfall.arena.chain_fights_order:
                     # button:
                         # style "menu_choice_button_blue"
@@ -1254,7 +1254,7 @@ init: # ChainFights vs Mobs:
         hbox at slide(so1=(0, 700), t1=0.7, so2=(0, 700), t2=0.7):
             style_prefix "wood"
             spacing 40
-            align(0.5, .9)
+            align(.5, .9)
             button:
                 text "Give Up" size 25 color goldenrod outlines [(1, "#000000", 0, 0)]
                 xysize (180, 60)

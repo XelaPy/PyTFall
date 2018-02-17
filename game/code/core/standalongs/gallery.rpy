@@ -20,9 +20,9 @@ screen gallery():
         # Tags:
         frame:
             background Frame("content/gfx/frame/p_frame7.png", 10, 10)
-            align (0.5, .5)
+            align (.5, .5)
             xysize (980, 40)
-            text "Tags: [gallery.tags]" align(0.5, .5) color ivory
+            text "Tags: [gallery.tags]" align(.5, .5) color ivory
         # Img:
         frame:
             xysize (980, 680)
@@ -32,7 +32,7 @@ screen gallery():
             xmargin 0
             ymargin 0
             frame:
-                align(0.5, .5)
+                align(.5, .5)
                 xpadding 7
                 ypadding 7
                 xmargin 0
@@ -41,7 +41,7 @@ screen gallery():
                     background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
                 else:
                     background Frame(im.Twocolor("content/gfx/frame/MC_bg3.png", white, white), 10 ,10)
-                add gallery.image align (0.5, .5) 
+                add gallery.image align (.5, .5) 
             if config.developer:
                 button:
                     if black_bg:
@@ -67,7 +67,7 @@ screen gallery():
                     xysize (280, 60)
                     insensitive_background im.Sepia(img)
                     idle_background img
-                    hover_background im.MatrixColor(img, im.matrix.brightness(0.15))
+                    hover_background im.MatrixColor(img, im.matrix.brightness(.15))
                     action If(gallery.td_mode == "dev", true=Return(["change_dict", "full"]), false=Return(["change_dict", "dev"]))
             else:
                 add ProportionalScale("content/gfx/interface/logos/logo9.png", 280, 60) xalign .5
@@ -114,7 +114,7 @@ screen gallery():
                 xalign .5
                 spacing 20
                 use r_lightbutton(img=im.Scale("content/gfx/interface/buttons/blue_arrow_left.png", 60, 60), return_value =['image', 'previous'])
-                use exit_button(size=(45, 45), align=(0.5, .5))
+                use exit_button(size=(45, 45), align=(.5, .5))
                 use r_lightbutton(img=im.Scale("content/gfx/interface/buttons/blue_arrow_right.png", 60, 60),return_value =['image', 'next'])
             textbutton "Lets Jig with this girl! :)":
                 xalign .5
@@ -124,7 +124,7 @@ screen gallery():
 screen gallery_trans():
     zorder 5000
     button:
-        align (0.5, .5)
+        align (.5, .5)
         background None
         xysize (config.screen_width, config.screen_height)
         xfill True

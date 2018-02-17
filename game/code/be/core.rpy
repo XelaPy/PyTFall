@@ -974,7 +974,7 @@ init -1 python: # Core classes:
 
             # Decreasing based of current health:
             # healthlevel=(1.0*a.health)/(1.0*a.get_max("health"))*0.5 # low health decreases attack power, down to 50% at close to 0 health.
-            # attack *= (0.5+healthlevel)
+            # attack *= (.5+healthlevel)
 
             return int(attack) if attack >= 1 else 1
 
@@ -1355,13 +1355,13 @@ init -1 python: # Core classes:
         def time_attackers_first_effect(self, battle, attacker, targets):
             start = self.get_show_attackers_first_action_duration()
             if start in self.timestamps:
-                start = start + random.uniform(0.001, .002)
+                start = start + random.uniform(.001, .002)
             self.timestamps[start] = renpy.curry(self.show_attackers_first_effect)(battle, attacker, targets)
 
             if self.attacker_effects["gfx"]:
                 effects_delay = start + self.get_attackers_first_effect_pause(battle, attacker)
                 if effects_delay in self.timestamps:
-                    effects_delay = effects_delay + random.uniform(0.001, .002)
+                    effects_delay = effects_delay + random.uniform(.001, .002)
                 self.timestamps[effects_delay] = renpy.curry(self.hide_attackers_first_effect)(battle, attacker)
                 return effects_delay
 
@@ -1402,26 +1402,26 @@ init -1 python: # Core classes:
                 sfx="content/sfx/sound/be/casting_1.mp3"
 
             if gfx == "orb":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(0.5, .5))], zorder=attacker.besk["zorder"]+1)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
             elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-75), align=(0.5, .5))], zorder=attacker.besk["zorder"]+1)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-75), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
             elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(0.5, .5))], zorder=attacker.besk["zorder"]+1)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
             elif gfx == "default_1":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc"), align=(0.5, .5))], zorder=attacker.besk["zorder"]-1)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc"), align=(.5, .5))], zorder=attacker.besk["zorder"]-1)
             elif gfx == "circle_1":
-                renpy.show("casting", what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-10), align=(0.5, .5))], zorder=attacker.besk["zorder"]-1)
+                renpy.show("casting", what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-10), align=(.5, .5))], zorder=attacker.besk["zorder"]-1)
             elif gfx == "circle_2":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-100), align=(0.5, .5))], zorder=attacker.besk["zorder"]+1)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-100), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
             elif gfx == "circle_3":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center", yo=-50), align=(0.5, .5))], zorder=attacker.besk["zorder"]+1)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center", yo=-50), align=(.5, .5))], zorder=attacker.besk["zorder"]+1)
             elif gfx == "runes_1":
-                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-50), align=(0.5, .5))], zorder=attacker.besk["zorder"]-1)
+                renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="bc", yo=-50), align=(.5, .5))], zorder=attacker.besk["zorder"]-1)
             elif gfx == "wolf" or gfx == "bear":
                 if battle.get_cp(attacker)[0] > battle.get_cp(targets[0])[0]:
                     renpy.show("casting", what=what,  at_list=[Transform(xzoom=-1, pos=battle.get_cp(attacker, type="center"), align=(1.0, .5))], zorder=attacker.besk["zorder"]+1)
                 else:
-                    renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(0.1, .5))], zorder=attacker.besk["zorder"]+1)
+                    renpy.show("casting", what=what,  at_list=[Transform(pos=battle.get_cp(attacker, type="center"), align=(.1, .5))], zorder=attacker.besk["zorder"]+1)
             if sfx:
                 renpy.sound.play(sfx)
 
@@ -1458,7 +1458,7 @@ init -1 python: # Core classes:
 
         def time_main_gfx(self, battle, attacker, targets, start):
             if start in self.timestamps:
-                start = start + random.uniform(0.001, .002)
+                start = start + random.uniform(.001, .002)
             self.timestamps[start] = renpy.curry(self.show_main_gfx)(battle, attacker, targets)
 
             pause = start + self.main_effect["duration"]
@@ -1468,7 +1468,7 @@ init -1 python: # Core classes:
             pause += getattr(self, "projectile_effects", {}).get("duration", 0)
 
             if pause in self.timestamps:
-                pause = pause + random.uniform(0.001, .002)
+                pause = pause + random.uniform(.001, .002)
             self.timestamps[pause] = renpy.curry(self.hide_main_gfx)(targets)
 
         def show_main_gfx(self, battle, attacker, targets):
@@ -1493,7 +1493,7 @@ init -1 python: # Core classes:
 
                 aim = self.main_effect["aim"]
                 point = aim.get("point", "center")
-                anchor = aim.get("anchor", (0.5, .5))
+                anchor = aim.get("anchor", (.5, .5))
                 xo = aim.get("xo", 0)
                 yo = aim.get("yo", 0)
 
@@ -1511,12 +1511,12 @@ init -1 python: # Core classes:
             damage_effect_start = start + self.target_sprite_damage_effect["initial_pause"]
 
             if damage_effect_start in self.timestamps:
-                damage_effect_start = damage_effect_start + random.uniform(0.001, .002)
+                damage_effect_start = damage_effect_start + random.uniform(.001, .002)
             self.timestamps[damage_effect_start] = renpy.curry(self.show_target_sprite_damage_effect)(targets)
 
             delay = damage_effect_start + self.target_sprite_damage_effect["duration"]
             if delay in self.timestamps:
-                delay = delay + random.uniform(0.001, .002)
+                delay = delay + random.uniform(.001, .002)
 
             self.timestamps[delay] = renpy.curry(self.hide_target_sprite_damage_effect)(targets, died)
 
@@ -1530,14 +1530,14 @@ init -1 python: # Core classes:
 
                 if type == "shake":
                     what = target.besprite
-                    at_list = [damage_shake(0.05, (-10, 10))]
+                    at_list = [damage_shake(.05, (-10, 10))]
                 elif type == "true_dark": # not used atm! will need decent high level spells for this one!
                     what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, Transform("fire_logo", size=target.besprite_size), alpha=True)
                 elif type == "true_water":
                     what = AlphaBlend(Transform(target.besprite, alpha=.6), target.besprite, Transform("water_overlay_test", size=target.besprite_size), alpha=True)
                 elif type == "vertical_shake":
                     what = target.besprite
-                    at_list = [vertical_damage_shake(0.1, (-5, 5))]
+                    at_list = [vertical_damage_shake(.1, (-5, 5))]
                 elif type == "fly_away":
                     what = target.besprite
                     at_list = [fly_away]
@@ -1549,17 +1549,17 @@ init -1 python: # Core classes:
                     mask = target.besprite
                     what = AlphaMask(child, mask)
                     if type.endswith("shake"):
-                        at_list = [damage_shake(0.05, (-10, 10))]
+                        at_list = [damage_shake(.05, (-10, 10))]
                 elif type.startswith("on_darkness"):
                     size = int(target.besprite_size[0]*1.5), 60
-                    what = Fixed(target.besprite, Transform("be_dark_mask", size=size, anchor=(0.5, .3), align=(.5, 1.0), alpha=0.8), xysize=(target.besprite_size))
+                    what = Fixed(target.besprite, Transform("be_dark_mask", size=size, anchor=(.5, .3), align=(.5, 1.0), alpha=0.8), xysize=(target.besprite_size))
                     if type.endswith("shake"):
-                        at_list = [damage_shake(0.05, (-10, 10))]
+                        at_list = [damage_shake(.05, (-10, 10))]
                 elif type.startswith("on_light"):
                     size = int(target.besprite_size[0]*2.5), int(target.besprite_size[1]*2.5)
                     what = Fixed(target.besprite, Transform("be_light_mask", size=size, align=(.5, 1.0), alpha=0.6), xysize=(target.besprite_size))
                     if type.endswith("shake"):
-                        at_list = [damage_shake(0.05, (-10, 10))]
+                        at_list = [damage_shake(.05, (-10, 10))]
                 elif type == "on_death":
                     what = AlphaBlend(Transform(target.besprite, alpha=.5), target.besprite, dark_death_color(*target.besprite_size), alpha=True)
                 elif type.startswith("on_dark"):
@@ -1567,24 +1567,24 @@ init -1 python: # Core classes:
                     mask = target.besprite
                     what = AlphaMask(child, mask)
                     if type.endswith("shake"):
-                        at_list = [damage_shake(0.05, (-10, 10))]
+                        at_list = [damage_shake(.05, (-10, 10))]
                 elif type.startswith("frozen"): # shows a big block of ice around the target sprite
                     size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
                     what = Fixed(target.besprite, Transform("content/gfx/be/frozen_2.png", size=size, offset=(-30, -50)))
                     t = self.target_sprite_damage_effect.get("duration", 1)
                     at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=0.2, t=t)]
                     if type.endswith("shake"):
-                        at_list = [damage_shake(0.05, (-10, 10))]
+                        at_list = [damage_shake(.05, (-10, 10))]
                 elif type.startswith("burning"): # looks like more dangerous flame, should be used for high level spells
                     child = Transform("fire_mask", size=target.besprite_size)
                     mask = target.besprite
                     what = AlphaMask(child, mask)
                     if type.endswith("shake"):
-                        at_list = [damage_shake(0.05, (-10, 10))]
+                        at_list = [damage_shake(.05, (-10, 10))]
                 elif type.startswith("on_fire"):
                     what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, fire_effect_color(*target.besprite_size), alpha=True)
                     if type.endswith("shake"):
-                        at_list = [damage_shake(0.05, (-10, 10))]
+                        at_list = [damage_shake(.05, (-10, 10))]
                 elif type.startswith("on_water"):
                     sprite = target.besprite
                     sprite_size = target.besprite_size
@@ -1593,7 +1593,7 @@ init -1 python: # Core classes:
                     what.add(sprite)
                     what.add(AlphaMask(mask, sprite))
                     if type.endswith("shake"):
-                        at_list = [damage_shake(0.05, (-10, 10))]
+                        at_list = [damage_shake(.05, (-10, 10))]
                 elif type.startswith("on_ele"):
                     sprite = target.besprite
                     sprite_size = target.besprite_size
@@ -1602,11 +1602,11 @@ init -1 python: # Core classes:
                     what.add(sprite)
                     what.add(AlphaMask(mask, sprite))
                     if type.endswith("shake"):
-                        at_list = [damage_shake(0.05, (-10, 10))]
+                        at_list = [damage_shake(.05, (-10, 10))]
                 elif type.startswith("poisoned"): # ideally we could use animated texture of green liquid, but it's hard to find for free...
                         what = AlphaBlend(Transform(target.besprite, alpha=.8), target.besprite, poison_effect_color(*target.besprite_size), alpha=True)
                         if type.endswith("shake"):
-                            at_list = [damage_shake(0.05, (-10, 10))]
+                            at_list = [damage_shake(.05, (-10, 10))]
                 elif isinstance(type, basestring) and type.startswith("being_healed"):
                         what = AlphaBlend(Transform(target.besprite, alpha=.9, additive=.4),
                                           target.besprite, healing_effect_color(*target.besprite_size),
@@ -1616,7 +1616,7 @@ init -1 python: # Core classes:
                     renpy.show(target.betag, what=what, at_list=at_list, zorder=target.besk["zorder"])
 
             if self.target_sprite_damage_effect.get("master_shake", False):
-                renpy.layer_at_list([damage_shake(0.05, (-5, 5))], layer='master')
+                renpy.layer_at_list([damage_shake(.05, (-5, 5))], layer='master')
 
         def hide_target_sprite_damage_effect(self, targets, died):
             # Hides damage effects applied to targets:
@@ -1628,7 +1628,7 @@ init -1 python: # Core classes:
                 for target in targets:
                     if target not in died:
                         renpy.hide(target.betag)
-                        renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos), fade_from_to(0.3, 1, .3)], zorder=target.besk["zorder"])
+                        renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos), fade_from_to(.3, 1, .3)], zorder=target.besk["zorder"])
             elif type in ["shake"] and self.target_death_effect["gfx"] == "shatter":
                 for target in targets:
                     renpy.hide(target.betag)
@@ -1647,12 +1647,12 @@ init -1 python: # Core classes:
             damage_effect_start = start + self.target_damage_effect.get("initial_pause", default)
 
             if damage_effect_start in self.timestamps:
-                damage_effect_start = damage_effect_start + random.uniform(0.001, .002)
+                damage_effect_start = damage_effect_start + random.uniform(.001, .002)
             self.timestamps[damage_effect_start] = renpy.curry(self.show_target_damage_effect)(targets, died)
 
             delay = damage_effect_start + self.get_target_damage_effect_duration()
             if delay in self.timestamps:
-                delay = delay + random.uniform(0.001, .002)
+                delay = delay + random.uniform(.001, .002)
 
             self.timestamps[delay] = renpy.curry(self.hide_target_damage_effect)(targets, died)
 
@@ -1709,12 +1709,12 @@ init -1 python: # Core classes:
             death_effect_start = start + self.target_death_effect["initial_pause"]
 
             if death_effect_start in self.timestamps:
-                death_effect_start = death_effect_start + random.uniform(0.001, .002)
+                death_effect_start = death_effect_start + random.uniform(.001, .002)
             self.timestamps[death_effect_start] = renpy.curry(self.show_target_death_effect)(died)
 
             delay = death_effect_start + self.target_death_effect["duration"]
             if delay in self.timestamps:
-                delay = delay + random.uniform(0.001, .002)
+                delay = delay + random.uniform(.001, .002)
 
             self.timestamps[delay] = renpy.curry(self.hide_target_death_effect)(died)
 
@@ -1741,12 +1741,12 @@ init -1 python: # Core classes:
             effect_start = start + self.bg_main_effect["initial_pause"]
 
             if effect_start in self.timestamps:
-                effect_start = effect_start + random.uniform(0.001, .002)
+                effect_start = effect_start + random.uniform(.001, .002)
             self.timestamps[effect_start] = self.show_bg_main_effect
 
             delay = effect_start + self.bg_main_effect["duration"]
             if delay in self.timestamps:
-                delay = delay + random.uniform(0.001, .002)
+                delay = delay + random.uniform(.001, .002)
 
             self.timestamps[delay] = self.hide_bg_main_effect
 
@@ -1763,7 +1763,7 @@ init -1 python: # Core classes:
                 renpy.with_statement(None)
                 renpy.show("bg", what=Solid("#000000"))
                 renpy.with_statement(dissolve)
-                # renpy.pause(0.5)
+                # renpy.pause(.5)
 
         def hide_bg_main_effect(self):
             gfx = self.bg_main_effect["gfx"]
@@ -1789,13 +1789,13 @@ init -1 python: # Core classes:
                 effect_start = effect_start + start
 
             if effect_start in self.timestamps:
-                effect_start = effect_start + random.uniform(0.001, .002)
+                effect_start = effect_start + random.uniform(.001, .002)
             self.timestamps[effect_start] = renpy.curry(self.show_dodge_effect)(attacker, targets)
 
             # Hiding timing as well in our new version:
             delay = effect_start + self.main_effect["duration"]
             if delay in self.timestamps:
-                delay = delay + random.uniform(0.001, .002)
+                delay = delay + random.uniform(.001, .002)
 
             self.timestamps[delay] = renpy.curry(self.hide_dodge_effect)(targets)
 

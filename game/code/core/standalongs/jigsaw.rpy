@@ -214,12 +214,12 @@ screen control_scr(preview):
     
     $ number_of_pieces = (grid_width*grid_height)
     frame:
-        align (0.01, .01)
+        align (.01, .01)
         xpadding 20
         ypadding 20
         style_group "content"
         background Frame("content/gfx/frame/arena_d.png", 5, 5)
-        label "[number_of_pieces] pieces!" text_size 35 text_color ivory align (0.5, .5)
+        label "[number_of_pieces] pieces!" text_size 35 text_color ivory align (.5, .5)
     
     button:
         xysize (100, 40)
@@ -227,12 +227,12 @@ screen control_scr(preview):
         text "Done" size 35
         # action If(current_file != 0, Return(current_file))
         action Return()
-        align (0.5, .98)
+        align (.5, .98)
         
     imagebutton:
         align (1.0, .0)
         idle (im.Scale("content/gfx/interface/buttons/close.png", 60, 60))
-        hover (im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 60, 60), im.matrix.brightness(0.15)))
+        hover (im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 60, 60), im.matrix.brightness(.15)))
         action Jump("gallery")
         
 screen jigsaw():
@@ -267,5 +267,5 @@ screen jigsaw():
     imagebutton:
         align(1.0, .0)
         idle (im.Scale("content/gfx/interface/buttons/close.png", 60, 60))
-        hover (im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 60, 60), im.matrix.brightness(0.15)))
+        hover (im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 60, 60), im.matrix.brightness(.15)))
         action Jump("gallery")

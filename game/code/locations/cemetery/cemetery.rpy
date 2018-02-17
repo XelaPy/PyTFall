@@ -55,11 +55,11 @@ screen cemetry_list_of_dead_chars (dead_list, number): # the list should not be 
     # on "hide":
         # action Show("graveyard_town", dissolve)
     frame:
-        align (0.5, .5)
+        align (.5, .5)
         xysize (234, 420)
         background Frame("content/gfx/frame/tombstone.png", 234, 420)
         vbox:
-            align (0.54, .65)
+            align (.54, .65)
             $ character = dead_list[number]
             if character.has_image('portrait', 'indifferent'):
                 $ char_profile_img = character.show('portrait', 'indifferent', resize=(99, 99), cache=True)
@@ -86,19 +86,19 @@ screen cemetry_list_of_dead_chars (dead_list, number): # the list should not be 
     $ img = "content/gfx/interface/buttons/next.png"
     $ img1 = im.Flip("content/gfx/interface/buttons/next.png", horizontal=True)
     imagebutton:
-        align (0.415, .62)
+        align (.415, .62)
         idle (img1)
-        hover (im.MatrixColor(img1, im.matrix.brightness(0.15)))
+        hover (im.MatrixColor(img1, im.matrix.brightness(.15)))
         action [Jump("cemetery_prev_char")]
     imagebutton:
-        align (0.59, .62)
+        align (.59, .62)
         idle (img)
-        hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+        hover (im.MatrixColor(img, im.matrix.brightness(.15)))
         action [Jump("cemetery_next_char")]
 
     vbox:
         style_group "wood"
-        align (0.9, .9)
+        align (.9, .9)
         button:
             xysize (120, 40)
             yalign .5
@@ -131,12 +131,12 @@ screen graveyard_town():
         imagebutton:
             pos(580, 220)
             idle (img_cemetery)
-            hover (im.MatrixColor(img_cemetery, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img_cemetery, im.matrix.brightness(.15)))
             action [Hide("graveyard_town"), Jump("show_dead_list")]
         imagebutton:
             pos(1090, 180)
             idle (img_mausoleum)
-            hover (im.MatrixColor(img_mausoleum, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img_mausoleum, im.matrix.brightness(.15)))
             action [Hide("graveyard_town"), Jump("enter_dungeon")]
 
     if gm.show_girls:

@@ -63,14 +63,14 @@ screen forest_entrance():
         imagebutton:
             pos(670, 490)
             idle (img_witch_shop)
-            hover (im.MatrixColor(img_witch_shop, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img_witch_shop, im.matrix.brightness(.15)))
             action [Jump("witches_hut"), With(dissolve)]
 
         $ img_deep_forest= ProportionalScale("content/gfx/interface/icons/deep_forest.png", 75, 75)
         imagebutton:
             pos(350, 450)
             idle (img_deep_forest)
-            hover (im.MatrixColor(img_deep_forest, im.matrix.brightness(0.15)))
+            hover (im.MatrixColor(img_deep_forest, im.matrix.brightness(.15)))
             action [Hide("forest_entrance"), Function(global_flags.set_flag, "keep_playing_music"), Jump("forest_dark"), With(dissolve)]
 
         if global_flags.has_flag("met_peevish"):
@@ -78,5 +78,5 @@ screen forest_entrance():
             imagebutton:
                 pos(100, 100)
                 idle (img_peev_shop)
-                hover (im.MatrixColor(img_peev_shop, im.matrix.brightness(0.15)))
+                hover (im.MatrixColor(img_peev_shop, im.matrix.brightness(.15)))
                 action [Hide("forest_entrance"), Jump("peevish_menu"), With(dissolve)]

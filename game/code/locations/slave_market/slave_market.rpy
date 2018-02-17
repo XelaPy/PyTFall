@@ -151,7 +151,7 @@ label work_in_slavemarket:
     python:
         wage = randint(5, 12) + hero.charisma/7 + hero.sex/20 + hero.level * 5
         if dice(hero.luck*0.1): wage += hero.level * 5
-        if dice(0.5 + hero.luck*0.1):
+        if dice(.5 + hero.luck*0.1):
             hero.charisma += 1
             hero.sex += 1
         hero.add_money(wage, reason="Job")
@@ -202,7 +202,7 @@ screen slavemarket():
 
     use top_stripe(True)
 
-    use r_lightbutton(img=im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True), return_value =['control', 'jumpclub'], align=(0.01, .5))
+    use r_lightbutton(img=im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True), return_value =['control', 'jumpclub'], align=(.01, .5))
 
     use location_actions("slave_market")
 
@@ -215,7 +215,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
 
     frame:
         background Frame("content/gfx/frame/black_frame.png", 10, 10)
-        align(0.977, 1.0)
+        align(.977, 1.0)
         xysize (1003, 92)
         vbox:
             text "{=proper_stats_text}%s"%tt.value style "proper_stats_text" outlines [(1, "#3a3a3a", 0, 0)]
@@ -237,7 +237,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     background Frame (Transform("content/gfx/frame/namebox5.png", alpha=0.95), 250, 50)
                     label "{color=[gold]}[store.girl.fullname]":
                         text_color ivory text_outlines [(2, "#424242", 0, 0)]
-                        align (0.5, .5)
+                        align (.5, .5)
                         if len(store.girl.fullname) < 20:
                             text_size 21
 
@@ -248,19 +248,19 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                         xanchor -0.01
                         xysize(253, 47)
                         background Frame("content/gfx/frame/rank_frame.png", 10, 10)
-                        text ('%s:'%store.girl.wranks['r%s'%store.girl.rank]['name'][0]) align (0.1, .2) color ivory size 16
-                        text ('%s'%store.girl.wranks['r%s'%store.girl.rank]['name'][1]) align (0.5, .96) color ivory size 16
+                        text ('%s:'%store.girl.wranks['r%s'%store.girl.rank]['name'][0]) align (.1, .2) color ivory size 16
+                        text ('%s'%store.girl.wranks['r%s'%store.girl.rank]['name'][1]) align (.5, .96) color ivory size 16
                 else:
                     null height -5
 
-                label (u"{size=20}{color=[ivory]}{b}Info:") xalign(0.5) text_outlines [(2, "#424242", 0, 0)]
+                label (u"{size=20}{color=[ivory]}{b}Info:") xalign(.5) text_outlines [(2, "#424242", 0, 0)]
 
                 null height -10
 
                 vbox:
                     style_group "stats"
                     spacing 5
-                    pos(0.015, 10)
+                    pos(.015, 10)
                     frame:
                         background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                         #xysize (317, 10)
@@ -290,13 +290,13 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
 
                 null height 8
 
-                label (u"{size=20}{color=[ivory]}{b}Stats:") xalign(0.5) text_outlines [(2, "#424242", 0, 0)]
+                label (u"{size=20}{color=[ivory]}{b}Stats:") xalign(.5) text_outlines [(2, "#424242", 0, 0)]
 
                 null height -12
 
                 vbox:
                     style_group "stats"
-                    pos(0.015, 10)
+                    pos(.015, 10)
                     frame:
                         background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                         #xysize (317, 10)
@@ -357,13 +357,13 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
 
                 null height 8
 
-                label (u"{size=20}{color=[ivory]}{b}Prof Stats:") xalign(0.5) text_outlines [(2, "#424242", 0, 0)]
+                label (u"{size=20}{color=[ivory]}{b}Prof Stats:") xalign(.5) text_outlines [(2, "#424242", 0, 0)]
 
                 null height -12
 
                 vbox:
                     style_group "stats"
-                    pos(0.015, 10)
+                    pos(.015, 10)
                     frame:
                         background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                         #xysize (317, 10)
@@ -387,9 +387,9 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
             xysize (669, 423)
             background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=1.0), 10, 10)
             frame:
-                align (0.5, .5)
+                align (.5, .5)
                 background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                add (store.girl.show("nude","no clothes", resize=(560, 400), exclude=["rest", "outdoors", "onsen", "beach", "pool", "living"], type="first_default", label_cache=True)) align(0.5, .5)
+                add (store.girl.show("nude","no clothes", resize=(560, 400), exclude=["rest", "outdoors", "onsen", "beach", "pool", "living"], type="first_default", label_cache=True)) align(.5, .5)
 
         # Traits:
         frame:
@@ -397,7 +397,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
             style_group "content"
             xysize (350, 334)
             background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=0.98), 10, 10)
-            has vbox align (0.5, .5)
+            has vbox align (.5, .5)
             null height 5
             label (u"{size=20}{color=[ivory]}{b}Visible Traits") xalign .5 text_outlines [(2, "#424242", 0, 0)]
             null height 5
@@ -424,7 +424,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                                     else:
                                         text trait.id idle_color bisque size 15 align .5, .5 hover_color crimson text_align .5
                                     hovered tt.Action(trait.desc)
-                                    hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(0.10)), 5, 5)
+                                    hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
         # Buttons:
         frame:
@@ -436,16 +436,16 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                 xalign .5
                 $ img=im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_left.png", 50, 50)
                 imagebutton:
-                    align(0.5, .5)
+                    align(.5, .5)
                     idle img
-                    hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+                    hover (im.MatrixColor(img, im.matrix.brightness(.15)))
                     action (Function(store.previous_index))
                     hovered tt.Action("<== Previous Girl")
 
                 null width 10
 
                 frame:
-                    align(0.5, .5)
+                    align(.5, .5)
                     style_group "dropdown_gm"
                     has vbox
 
@@ -469,9 +469,9 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
 
                 $ img=im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_right.png", 50, 50)
                 imagebutton:
-                    align(0.5, .5)
+                    align(.5, .5)
                     idle img
-                    hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
+                    hover (im.MatrixColor(img, im.matrix.brightness(.15)))
                     action (Function(store.next_index))
                     hovered tt.Action("Next Girl ==>")
 
