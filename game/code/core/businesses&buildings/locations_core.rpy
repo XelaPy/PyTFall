@@ -63,7 +63,7 @@ init -20 python:
                 self.id = self.__class__
             else:
                 self.id = id
-            # self.actors = set() # TODO sm: Check how this transfers to SlaveMarket...
+            # self.actors = set()
 
         def __str__(self):
             if hasattr(self, "name"):
