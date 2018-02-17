@@ -20,7 +20,7 @@ init -12 python:
                      **kwargs):
 
             self.name = name # name, a string.
-            self.kwags = kwargs
+            self.kwargs = kwargs
             self.building = None # Building this upgrade belongs to.
             self.desc = desc # description, a string.
             self.img = img
