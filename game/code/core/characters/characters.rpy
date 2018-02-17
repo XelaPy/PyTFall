@@ -936,7 +936,7 @@ init -9 python:
 
         def get_upkeep(self):
             char = self.instance
-            upkeep = getattr(char, "upkeep", 0):
+            upkeep = getattr(char, "upkeep", 0)
 
             if char.status == 'slave':
                 if "Dedicated" in char.traits:
