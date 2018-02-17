@@ -6,7 +6,7 @@ init -5 python:
         NAME = "Cleaning Block"
         DESC = "Until it shines!"
         IMG = "content/buildings/upgrades/cleaners.jpg"
-        
+
         def __init__(self, **kwargs):
             super(Cleaners, self).__init__(**kwargs)
 
@@ -24,7 +24,7 @@ init -5 python:
             If there is no auto-cleaning, we call all workers in the building to clean…
             unless they just refuse that on some principal (trait checks)...
             """
-            building = building
+            building = self.building
             make_nd_report_at = 0 # We build a report every 25 ticks but only if this is True!
             dirt_cleaned = 0 # We only do this for the ND report!
 

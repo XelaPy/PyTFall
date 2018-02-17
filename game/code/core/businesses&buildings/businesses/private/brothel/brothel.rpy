@@ -33,7 +33,7 @@ init -5 python:
             # We remove the business from nd if there are no more strippers to entertain:
             temp = "There are no workers available in the {} so it is shutting down!".format(self.name)
             self.log(temp)
-            building.nd_ups.remove(self)
+            self.building.nd_ups.remove(self)
 
         def request_resource(self, client, worker):
             """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms available...

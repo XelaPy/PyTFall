@@ -16,7 +16,7 @@ init -5 python:
 
             For now, goal is to get this to work reliably.
             """
-            building = building
+            building = self.building
             make_nd_report_at = 0 # We build a report every 25 ticks but only if this is True!
             threat_cleared = 0 # We only do this for the ND report!
 
