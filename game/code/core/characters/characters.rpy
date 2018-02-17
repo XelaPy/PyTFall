@@ -4035,7 +4035,8 @@ init -9 python:
                 temp = " {color=[red]}... And you're pretty much screwed because it is above 50000!{/color} Your property will now be confiscated!"
                 txt.append(temp)
 
-                all_properties = properties + slaves
+                slaves = [c for c in self.chars if c.status == "slave"]
+                all_properties = slaves + self.buildings
                 shuffle(all_properties)
                 while total_debt and all_properties:
                     multiplier = choice([.4, .5, .6])
