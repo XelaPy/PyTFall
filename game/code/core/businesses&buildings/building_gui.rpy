@@ -186,7 +186,7 @@ label building_management_loop:
 
             elif result[1] == "sell":
                 python:
-                    price = int(building.price*0.9)
+                    price = int(building.get_price()*0.9)
 
                     if renpy.call_screen("yesno_prompt",
                                          message="Are you sure you wish to sell %s for %d Gold?" % (building.name, price),
