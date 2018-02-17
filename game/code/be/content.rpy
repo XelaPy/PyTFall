@@ -11,7 +11,7 @@ init python:
                 raise Exception("A timer must have an action supplied.")
 
             if delay <= 0:
-                raise Exception("A timer's delay must be > 0.")
+                raise Exception("A timer's delay must be > .")
 
             self.started = None
 
@@ -397,7 +397,7 @@ init python:
                 teampos = target.beteampos
                 aim = self.main_effect["aim"]
                 point = aim.get("point", "center")
-                anchor = aim.get("anchor", (0.5, 0.5))
+                anchor = aim.get("anchor", (0.5, .5))
                 xo = aim.get("xo", 0)
                 yo = aim.get("yo", 0)
 
@@ -440,7 +440,7 @@ init python:
                 aimpos = battle.get_cp(target, type="center")
                 renpy.show("launch" + str(index), what=missle,
                         at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=pause),
-                        Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+50)
+                        Transform(anchor=(0.5, .5))], zorder=target.besk["zorder"]+50)
 
             renpy.pause(pause)
 
@@ -460,7 +460,7 @@ init python:
             if gfx:
                 aim = self.main_effect["aim"]
                 point = aim.get("point", "center")
-                anchor = aim.get("anchor", (0.5, 0.5))
+                anchor = aim.get("anchor", (0.5, .5))
                 xo = aim.get("xo", 0)
                 yo = aim.get("yo", 0)
 
@@ -506,7 +506,7 @@ init python:
 
             aimpos = BDP["perfect_middle_right"] if target.beteampos == "l" else BDP["perfect_middle_left"]
 
-            renpy.show("launch", what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=pause), Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+1000)
+            renpy.show("launch", what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=initpos, end_pos=aimpos, t=pause), Transform(anchor=(0.5, .5))], zorder=target.besk["zorder"]+1000)
             renpy.pause(pause)
             renpy.hide("launch")
 
@@ -523,7 +523,7 @@ init python:
             if gfx:
                 aim = self.main_effect["aim"]
                 point = aim.get("point", "center")
-                anchor = aim.get("anchor", (0.5, 0.5))
+                anchor = aim.get("anchor", (0.5, .5))
                 xo = aim.get("xo", 0)
                 yo = aim.get("yo", 0)
 
@@ -576,7 +576,7 @@ init python:
 
             for index, target in enumerate(targets):
                 aimpos = battle.get_cp(target, type="center", yo=-20)
-                renpy.show("launch" + str(index), what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=castpos, end_pos=aimpos, t=pause), Transform(anchor=(0.5, 0.5))], zorder=target.besk["zorder"]+51)
+                renpy.show("launch" + str(index), what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=castpos, end_pos=aimpos, t=pause), Transform(anchor=(0.5, .5))], zorder=target.besk["zorder"]+51)
 
             renpy.pause(pause)
 
@@ -597,7 +597,7 @@ init python:
                 # pause = self.main_effect["duration"]
                 aim = self.main_effect["aim"]
                 point = aim.get("point", "center")
-                anchor = aim.get("anchor", (0.5, 0.5))
+                anchor = aim.get("anchor", (0.5, .5))
                 xo = aim.get("xo", 0)
                 yo = aim.get("yo", 0)
 
@@ -664,7 +664,7 @@ init python:
             # GFX:
             if gfx:
                 gfxtag = "areal"
-                renpy.show(gfxtag, what=gfx, at_list=[Transform(align=(0.5, 0.5))], zorder=1000)
+                renpy.show(gfxtag, what=gfx, at_list=[Transform(align=(0.5, .5))], zorder=1000)
 
 
     class BasicHealingSpell(BE_Action):

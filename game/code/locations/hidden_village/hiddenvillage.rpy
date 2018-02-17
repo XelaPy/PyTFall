@@ -4,7 +4,7 @@ label hiddenvillage_entrance:
     if not "village" in ilists.world_music:
         $ ilists.world_music["village"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("village")]
     if not global_flags.has_flag("keep_playing_music"):
-        play world choice(ilists.world_music["village"]) fadein 0.5
+        play world choice(ilists.world_music["village"]) fadein .5
     $ global_flags.del_flag("keep_playing_music")
 
     python:
@@ -53,7 +53,7 @@ screen hiddenvillage_entrance:
 
     if gm.show_girls:
 
-        add "content/gfx/images/bg_gradient.png" yalign 0.45
+        add "content/gfx/images/bg_gradient.png" yalign .45
         $ j = 0
 
         for entry in gm.display_girls():

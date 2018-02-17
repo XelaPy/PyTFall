@@ -9,10 +9,10 @@ init -997: # Transforms:
         align (0.25, 1.0)
 
     transform center_right:
-        align (0.95, 0.5)
+        align (0.95, .5)
 
     transform center_left:
-        align (0.05, 0.5)
+        align (0.05, .5)
 
     # Other Transforms:
     transform move_to_pos_with_offset(pos, t):
@@ -114,7 +114,7 @@ init -997: # Transforms:
     transform simple_zoom_from_to_with_easein(start_val=1.0, end_val=0.0, t=1.0):
         # Simple zoom...
         subpixel True
-        anchor (0.5, 0.5)
+        anchor (0.5, .5)
         zoom start_val
         easein t zoom end_val
 
@@ -123,10 +123,10 @@ init -997: # Transforms:
         subpixel True
         parallel:
             fade_from_to(0.98, 1.05, 1.0)
-            fade_from_to(1.05, 0.98, 2.2)
+            fade_from_to(1.05, .98, 2.2)
         parallel:
             simple_zoom_from_to_with_linear(0.98, 1.05, 1.0)
-            simple_zoom_from_to_with_linear(1.05, 0.98, 2.2)
+            simple_zoom_from_to_with_linear(1.05, .98, 2.2)
         repeat
 
     transform arena_stats_slide:
@@ -139,10 +139,10 @@ init -997: # Transforms:
                 parallel:
                     fade_from_to(0.3, 1.0, 5.0)
                 parallel:
-                    simple_zoom_from_to_with_linear(1.2, 0.8, 5.0)
+                    simple_zoom_from_to_with_linear(1.2, .8, 5.0)
             block:
                 parallel:
-                    fade_from_to(1.0, 0.3, 5.0)
+                    fade_from_to(1.0, .3, 5.0)
                 parallel:
                     simple_zoom_from_to_with_linear(0.8, 1.2, 5.0)
             repeat
@@ -153,11 +153,11 @@ init -997: # Transforms:
         # Slider for arena Vicroty/Defeat texts
         on show:
             parallel:
-                fade_from_to(0.3, 1.0, 0.5)
+                fade_from_to(0.3, 1.0, .5)
             parallel:
                 xoffset 500
-                ease 0.5 xoffset -400
-                ease 0.5 xoffset -100
+                ease .5 xoffset -400
+                ease .5 xoffset -100
             linear 3.0 zoom 1.3
         on hide:
             fade_from_to(t=0.5)
@@ -215,34 +215,34 @@ init -997: # Transforms:
     transform interactions_angry_pulse_tr:
         "angry_pulse"
         pos (150, 566)
-        anchor (0.5, 0.5)
+        anchor (0.5, .5)
         block:
-            linear 0.05 zoom 1.1
-            linear 0.05 zoom 0.9
-            pause 0.2
-            linear 0.05 zoom 1.1
-            linear 0.05 zoom 0.9
-            pause 0.8
+            linear .05 zoom 1.1
+            linear .05 zoom .9
+            pause .2
+            linear .05 zoom 1.1
+            linear .05 zoom .9
+            pause .8
             repeat
 
     transform interactions_puzzled_tr:
         "question_mark"
         pos (130, 546)
-        alpha 0.8
+        alpha .8
         anchor (.0, .0)
         block:
-            linear 1 rotate 15 alpha 0.7 zoom 1.1
-            linear 1 rotate -15 alpha 0.9 zoom 0.9
+            linear 1 rotate 15 alpha .7 zoom 1.1
+            linear 1 rotate -15 alpha .9 zoom .9
             repeat
 
     transform interactions_note_tr:
         "music_note"
         pos (125, 546)
-        alpha 0.9
+        alpha .9
         anchor (.0, .0)
         block:
             linear 1 alpha 1.0 zoom 1.1
-            linear 1 alpha 0.8 zoom 0.9
+            linear 1 alpha .8 zoom .9
             repeat
 
     transform interactions_blush_tr:
@@ -252,30 +252,30 @@ init -997: # Transforms:
         yzoom 2.0
         block:
             linear 1.0 zoom 1.1
-            linear 1.0 zoom 0.9
+            linear 1.0 zoom .9
             repeat
 
     transform interactions_surprised_tr:
         "exclamation_mark"
         subpixel True
         pos (157, 650)
-        alpha 0.8
+        alpha .8
         anchor (.5, 1.0)
         block:
-            linear 0.4 yzoom 1.1 alpha 0.7
-            pause 0.01
-            linear 0.4 yzoom 0.9 alpha 0.9
+            linear .4 yzoom 1.1 alpha .7
+            pause .01
+            linear .4 yzoom .9 alpha .9
             repeat
 
     transform interactions_sweat_drop_tr:
-        pos (145, 575) alpha 0.0
+        pos (145, 575) alpha .0
         "sweat_drop"
         easein 1.0 ypos 610 alpha 1.0
 
     transform interactions_scared_lines_tr:
         "scared_lines"
         pos (160, 577)
-        alpha 0.0
+        alpha .0
         linear 1.0 alpha 1.0
 
     transform interactions_zoom(t):
@@ -295,14 +295,14 @@ init -997: # Transforms:
                                                                               "surprised": interactions_surprised_tr,
                                                                               "shy": interactions_blush_tr, # probably should be used only as a replacement for missing shy portraits
                                                                               "love": Transform("hearts_flow", pos=(220, 700)),
-                                                                              "like": Transform("hearts_rise", pos=(120, 405), anchor=(0.0, 0.0))
+                                                                              "like": Transform("hearts_rise", pos=(120, 405), anchor=(0.0, .0))
                                                                               })
 
     # Also used for gm:
     transform found_cash(x, y, t):
         subpixel True
         parallel:
-            alpha 0.5 zoom 0.5
+            alpha .5 zoom .5
             linear t alpha 1.0 zoom 1.6
         parallel:
             pos(x, y)
@@ -325,37 +325,37 @@ init -997: # Transforms:
 
     transform damage_color(img): # Note: Testing case, this should become a DD/UDD with moar options at some point.
         im.MatrixColor(img, im.matrix.saturation(1))
-        0.05
+        .05
         im.MatrixColor(img, im.matrix.saturation(1.1))
-        0.05
+        .05
         im.MatrixColor(img, im.matrix.saturation(1.2))
-        0.05
+        .05
         im.MatrixColor(img, im.matrix.saturation(1.3))
-        0.05
+        .05
         im.MatrixColor(img, im.matrix.saturation(1.4))
-        0.05
+        .05
         im.MatrixColor(img, im.matrix.saturation(1.5))
-        0.05
+        .05
         im.MatrixColor(img, im.matrix.saturation(1.6))
-        0.05
+        .05
         im.MatrixColor(img, im.matrix.saturation(1.7))
-        0.05
+        .05
         im.MatrixColor(img, im.matrix.saturation(1.8))
-        0.05
+        .05
         im.MatrixColor(img, im.matrix.saturation(1.7))
-        0.05
+        .05
         im.MatrixColor(img, im.matrix.saturation(1.6))
-        0.05
+        .05
         im.MatrixColor(img, im.matrix.saturation(1.5))
-        0.05
+        .05
         im.MatrixColor(img, im.matrix.saturation(1.4))
-        0.05
+        .05
         im.MatrixColor(img, im.matrix.saturation(1.3))
-        0.05
+        .05
         im.MatrixColor(img, im.matrix.saturation(1.2))
-        0.05
+        .05
         im.MatrixColor(img, im.matrix.saturation(1.1))
-        0.05
+        .05
         repeat
 
     transform damage_shake(t, random_range, delay=0):
@@ -393,18 +393,18 @@ init -997: # Transforms:
     transform battle_bounce(pos):
         alpha 1
         pos pos # Initial position.
-        xanchor 0.5
-        easein_circ 0.3 yoffset -100
-        easeout_circ 0.3 yoffset 0
-        easein_circ 0.3 yoffset -70
-        easeout_circ 0.3 yoffset 0
-        linear 0.3 alpha 0
+        xanchor .5
+        easein_circ .3 yoffset -100
+        easeout_circ .3 yoffset 0
+        easein_circ .3 yoffset -70
+        easeout_circ .3 yoffset 0
+        linear .3 alpha 0
 
     transform be_stats_slideout():
         on hover:
-            linear 0.3 xoffset 100
+            linear .3 xoffset 100
         on idle:
-            linear 0.3 xoffset 300
+            linear .3 xoffset 300
 
     transform be_dodge(xoffset, t):
         easein .5 xoffset xoffset
@@ -429,26 +429,26 @@ init -997: # Transforms:
         repeat
 
     transform mm_fire(yps, ype, ast, ae, t):
-        additive 0.9
+        additive .9
         ypos yps
         alpha ast
         linear t ypos ype alpha ae
         repeat
 
     transform flashing:
-        additive 1.0 alpha 0.4
+        additive 1.0 alpha .4
         block:
-            linear 1.0 alpha 0.1
-            linear 1.0 alpha 0.4
+            linear 1.0 alpha .1
+            linear 1.0 alpha .4
             repeat
 
     transform fog:
-        linear 1.0 alpha 0.2
-        linear 1.0 alpha 0.3
-        linear 1.0 alpha 0.4
-        linear 1.0 alpha 0.5
-        linear 1.0 alpha 0.4
-        linear 1.0 alpha 0.3
+        linear 1.0 alpha .2
+        linear 1.0 alpha .3
+        linear 1.0 alpha .4
+        linear 1.0 alpha .5
+        linear 1.0 alpha .4
+        linear 1.0 alpha .3
         repeat
 
     # UDD ===>>>
@@ -493,15 +493,15 @@ init -997: # Transforms:
         pause 2.0
         easeout_bounce 1.0 yoffset 0
         parallel:
-            easeout_bounce 0.1 yzoom 0.95
-            easeout_bounce 0.1 yzoom 1.0
+            easeout_bounce .1 yzoom .95
+            easeout_bounce .1 yzoom 1.0
         parallel:
-            easeout_bounce 0.1 yoffset 10
-            easeout_bounce 0.1 yoffset 0
+            easeout_bounce .1 yoffset 10
+            easeout_bounce .1 yoffset 0
 
     transform blowing_wind():
-        easeout_bounce .1 xzoom -1.0 xanchor 0.1 xoffset 20
-        easeout_bounce .1 xzoom 1.0 xanchor 0.0 xoffset 0
+        easeout_bounce .1 xzoom -1.0 xanchor .1 xoffset 20
+        easeout_bounce .1 xzoom 1.0 xanchor .0 xoffset 0
         repeat
 
     transform shake(dt=.4, dist=128):

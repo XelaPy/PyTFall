@@ -42,14 +42,14 @@ screen city_beach_cafe_main:
         # Jump buttons:
         $img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
         imagebutton:
-            align (0.01, 0.5)
+            align (0.01, .5)
             idle (img)
             hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
             action [Hide("city_beach_cafe_main"), Function(global_flags.del_flag, "keep_playing_music"), Jump("city_beach_cafe")]
         
         $img = im.Scale(im.Flip("content/gfx/interface/buttons/blue_arrow_up.png", vertical=True), 80, 70)
         imagebutton:
-            align (0.5, 0.99)
+            align (0.5, .99)
             idle (img)
             hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
             action [Hide("city_beach_cafe_main"), Jump("city_beach_left")]        
@@ -58,7 +58,7 @@ screen city_beach_cafe_main:
     
     if gm.show_girls:
     
-        add "content/gfx/images/bg_gradient.png" yalign 0.45
+        add "content/gfx/images/bg_gradient.png" yalign .45
     
         $ j = 0
         for entry in gm.display_girls():

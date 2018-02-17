@@ -326,11 +326,11 @@ label interactions_control:
 
 screen girl_interactions():
     # BG
-    add "content/gfx/images/bg_gradient.png" yalign 0.45
+    add "content/gfx/images/bg_gradient.png" yalign .45
 
     # Disposition bar
     vbox:
-        align (0.95, 0.31)
+        align (0.95, .31)
 
         vbar:
             top_gutter 13
@@ -361,8 +361,8 @@ screen girl_interactions():
     # Girl image
     hbox:
         xanchor 0
-        xpos 0.22
-        yalign 0.22
+        xpos .22
+        yalign .22
 
         frame:
             background Frame("content/gfx/frame/MC_bg.png", 10, 10)
@@ -387,14 +387,14 @@ screen girl_interactions():
     # Actions
         
     if gm.show_menu:
-        use location_actions("girl_meets", gm.char, pos=(1180, 315), anchor=(1.0, 0.5), style="main_screen_3")
+        use location_actions("girl_meets", gm.char, pos=(1180, 315), anchor=(1.0, .5), style="main_screen_3")
 
     # Give gift interface
     if gm.show_menu_givegift:
         frame:
             style "dropdown_gm_frame"
             xysize (385, 455)
-            align (0.89, 0.27)
+            align (0.89, .27)
             viewport:
                 xysize (365, 433)
                 scrollbars "vertical"
@@ -426,21 +426,21 @@ screen girl_interactions():
                                     if not item.hidden:
                                         if dismod <= 0:
                                             if flag_value != 0:
-                                                add im.Sepia(im.Scale("content/gfx/interface/icons/gifts_0.png", 65, 35)) align (.0, 0.9)
+                                                add im.Sepia(im.Scale("content/gfx/interface/icons/gifts_0.png", 65, 35)) align (.0, .9)
                                             else:
-                                                add im.Scale("content/gfx/interface/icons/gifts_0.png", 65, 35) align (.0, 0.9)
+                                                add im.Scale("content/gfx/interface/icons/gifts_0.png", 65, 35) align (.0, .9)
                                         elif dismod <= 30:
                                             if flag_value != 0:
-                                                add im.Sepia(im.Scale("content/gfx/interface/icons/gifts_1.png", 65, 35)) align (.0, 0.9)
+                                                add im.Sepia(im.Scale("content/gfx/interface/icons/gifts_1.png", 65, 35)) align (.0, .9)
                                             else:
-                                                add im.Scale("content/gfx/interface/icons/gifts_1.png", 65, 35) align (.0, 0.9)
+                                                add im.Scale("content/gfx/interface/icons/gifts_1.png", 65, 35) align (.0, .9)
                                         elif dismod > 30:
                                             if flag_value != 0:
-                                                add im.Scale(im.Scale("content/gfx/interface/icons/gifts_2.png", 65, 35)) align (.0, 0.9)
+                                                add im.Scale(im.Scale("content/gfx/interface/icons/gifts_2.png", 65, 35)) align (.0, .9)
                                             else:
-                                                add im.Scale("content/gfx/interface/icons/gifts_2.png", 65, 35) align (.0, 0.9)
+                                                add im.Scale("content/gfx/interface/icons/gifts_2.png", 65, 35) align (.0, .9)
                                 null width 10
-                                text "[item.id]" yalign 0.5 style "library_book_header_sub" color ivory
+                                text "[item.id]" yalign .5 style "library_book_header_sub" color ivory
 
                             action If(hero.AP > 0, Return(["gift", item]))
 
@@ -448,7 +448,7 @@ screen girl_interactions():
                 textbutton "Back":
                     action Return(["gift", None])
                     minimum(220, 30)
-                    xalign 0.5
+                    xalign .5
                     style "main_screen_3_button"
                     text_style "library_book_header_sub"
                     text_color ivory
@@ -464,14 +464,14 @@ screen girl_interactions_old:
         background "content/gfx/frame/frame12.png"
         style_group "interactions"
 
-        text "TALK" xalign 0.49 ypos 130 size 22 color white
+        text "TALK" xalign .49 ypos 130 size 22 color white
 
-        text "SEX" xalign 0.49 ypos 260 size 22 color white
+        text "SEX" xalign .49 ypos 260 size 22 color white
 
-        text "GO OUT" xalign 0.49 ypos 380 size 22 color white
+        text "GO OUT" xalign .49 ypos 380 size 22 color white
 
         hbox:
-            xalign 0.47
+            xalign .47
             ypos 150
             button:
                 xysize (78, 30)
@@ -486,63 +486,63 @@ screen girl_interactions_old:
                 text "Praise"
 
         button:
-            xalign 0.48
+            xalign .48
             ypos 192
             xysize (78, 30)
             action gi_action("scold")
             text "Scold"
 
         button:
-            xalign 0.195
+            xalign .195
             ypos 285
             xysize (78, 30)
             action gi_action("fuck")
             text "Fuck"
 
         button:
-            xalign 0.493
+            xalign .493
             ypos 285
             xysize (110, 30)
             action gi_action("blowjob")
             text "Blowjob"
 
         button:
-            xalign 0.79
+            xalign .79
             ypos 285
             xysize (78, 30)
             action gi_action("anal")
             text "Anal"
 
         button:
-            xalign 0.488
+            xalign .488
             ypos 325
             xysize (160, 30)
             action gi_action("lesbo")
             text "Lesbo Action"
 
         button:
-            xalign 0.193
+            xalign .193
             ypos 394
             xysize (78, 30)
             action gi_action("date")
             text "Date"
 
         button:
-            xalign 0.493
+            xalign .493
             ypos 394
             xysize (110, 30)
             action gi_action("shopping")
             text "Shopping"
 
         button:
-            xalign 0.79
+            xalign .79
             ypos 394
             xysize (78, 30)
             action gi_action("other")
             text "Other"
 
         button:
-            xalign 0.484
+            xalign .484
             ypos 435
             xysize (170, 30)
             action gi_action("entertainment")
@@ -551,15 +551,15 @@ screen girl_interactions_old:
     # Move to General GM
     if config.developer:
         textbutton "Test GM":
-            align (0.5, 0.1)
+            align (0.5, .1)
             action Return(['test_gm'])
 
     # Girl image
     frame:
         background Frame("content/gfx/frame/FrameGP.png", 40, 40)
         xanchor 0
-        xpos 0.05
-        yalign 0.2
+        xpos .05
+        yalign .2
         add ProportionalScale(gm.img, 900, 530)
 
     use top_stripe(True)

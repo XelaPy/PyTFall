@@ -23,7 +23,7 @@ init: # screens:
             $ pos = battle.get_cp(t, type="tc", yo=-40)
             imagebutton:
                 pos pos
-                xanchor 0.5
+                xanchor .5
                 if highlight_idle:
                     idle selected_img
                 else:
@@ -42,7 +42,7 @@ init: # screens:
 
             frame:
                 style "dropdown_gm_frame"
-                align (0.5, 0.88)
+                align (0.5, .88)
                 textbutton "Cancel":
                     style "basic_button"
                     action Return(False)
@@ -55,7 +55,7 @@ init: # screens:
 
         if menu_mode != "top":
             frame:
-                align (0.95, 0.07)
+                align (0.95, .07)
                 style "dropdown_gm_frame"
                 textbutton "{color=[black]}{size=-5}Back":
                     style "basic_choice_button"
@@ -261,12 +261,12 @@ init: # screens:
 
                 # if ne:
                     # frame:
-                        # xalign 0.5
+                        # xalign .5
                         # has vbox
                         # for skill in ne:
                             # textbutton "{=text}{color=[black]}{size=-6}[skill.mn]":
                                 # xsize 130
-                                # xalign 0.5
+                                # xalign .5
                                 # action SensitiveIf(skill.check_conditions(char)), Return(skill)
                                 # hovered tt.action(skill)
 
@@ -275,7 +275,7 @@ init: # screens:
         # be reffers to battle core instance, we access the global directly atm.
         # Averything that is displayed all the time:
         frame:
-            align (0.5, 0.99)
+            align (0.5, .99)
             background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
             style "dropdown_gm_frame"
             has viewport:

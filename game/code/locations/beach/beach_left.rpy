@@ -49,7 +49,7 @@ screen city_beach_left():
 
         $img = im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80)
         imagebutton:
-            align (0.99, 0.5)
+            align (0.99, .5)
             idle (img)
             hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
             action [Hide("city_beach_left"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_beach")]
@@ -73,7 +73,7 @@ screen city_beach_left():
 
     if gm.show_girls:
 
-        add "content/gfx/images/bg_gradient.png" yalign 0.45
+        add "content/gfx/images/bg_gradient.png" yalign .45
 
         $ j = 0
 
@@ -106,34 +106,34 @@ screen city_beach_left():
 
 screen city_beach_fishing():
     frame:
-        xalign 0.95
+        xalign .95
         ypos 20
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
             style_group "wood"
-            align (0.5, 0.5)
+            align (0.5, .5)
             spacing 10
             button:
                 xysize (240, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("swimmong_pool_swim"), Jump("single_swim_pool")]
                 text "Swim (10 G)" size 15
             button:
                 xysize (240, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("swimmong_pool_swim"), Jump("instructor_swim_pool")]
                 text "Hire an instructor (50 G)" size 15
             if hero.get_skill("swimming") >= 100:
                 button:
                     xysize (240, 40)
-                    yalign 0.5
+                    yalign .5
                     action [Hide("swimmong_pool_swim"), Jump("work_swim_pool")]
                     text "Work as instructor" size 15
             button:
                 xysize (240, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("swimmong_pool_swim"), Show("swimming_pool"), With(dissolve)]
                 text "Leave" size 15
 

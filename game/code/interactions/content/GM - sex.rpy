@@ -70,13 +70,13 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
     $ price = 500 #a placeholder, the price should be close to whore job prices, which are calculated weirdly atm
 
     if check_friends(char, hero):
-        $ price = round(price * 0.7)
+        $ price = round(price * .7)
     elif char.disposition < -50:
         $ price = round(price * 1.3)
     if ct("Lesbian") and not "Yuri Expert" in hero.traits:
         $ price = round(price * 2.5)
     if ct("Nymphomaniac"):
-        $ price = round(price * 0.9)
+        $ price = round(price * .9)
     elif ct("Frigid"):
         $ price = round(price * 1.2)
     if ct("Virgin"):
@@ -604,11 +604,11 @@ label interactions_lesbian_choice:
     $ resize = (config.screen_width/2 - 75, config.screen_height - 75)
 
 
-    show expression char.show("nude", "simple bg", resize=resize, exclude=["sex", "sleeping", "angry", "in pain", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default") as xxx at Transform(align=(0, 0.5)) with moveinright
-    show expression char2.show("nude", "simple bg", resize=resize, exclude=["sex", "sleeping", "angry", "in pain", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default") as xxx2 at Transform(align=(1.0, 0.5)) with moveinleft
+    show expression char.show("nude", "simple bg", resize=resize, exclude=["sex", "sleeping", "angry", "in pain", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default") as xxx at Transform(align=(0, .5)) with moveinright
+    show expression char2.show("nude", "simple bg", resize=resize, exclude=["sex", "sleeping", "angry", "in pain", "beach", "onsen", "pool", "stage", "dungeon", "bathing"], type="first_default") as xxx2 at Transform(align=(1.0, .5)) with moveinleft
 
-    # Wait for 0.25 secs and add soundbyte:
-    pause 0.25
+    # Wait for .25 secs and add soundbyte:
+    pause .25
     play events "female/orgasm.mp3"
     $ renpy.pause(5.0)
     hide xxx

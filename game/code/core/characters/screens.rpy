@@ -139,18 +139,18 @@ screen char_rename(char=None):
         else:
             background Frame("content/gfx/frame/post_battle.png", 500, 500)
             xysize(500, 500)
-        align (0.5, 0.5)
+        align (0.5, .5)
         vbox:
             style_prefix "wood"
             at fade_in_out()
-            align (0.5, 0.5)
+            align (0.5, .5)
             spacing 10
             if isinstance(char, Player) or char.status == "slave":
                 text "Name:" size 21 color goldenrod outlines [(2, "#3a3a3a", 0, 0)]
                 button:
                     xysize (340, 60)
                     xalign 1.0
-                    yalign 0.5
+                    yalign .5
                     text "[char.name]" size 16 color goldenrod
                     action Return(["rename", "name"])
                     padding (10, 10)
@@ -159,7 +159,7 @@ screen char_rename(char=None):
                 button:
                     xysize (340, 60)
                     xalign 1.0
-                    yalign 0.5
+                    yalign .5
                     if char.nickname != char.name:
                         text "[char.nickname]" size 16 color goldenrod
                     else:
@@ -171,7 +171,7 @@ screen char_rename(char=None):
                 button:
                     xysize (340, 60)
                     xalign 1.0
-                    yalign 0.5
+                    yalign .5
                     text "[char.fullname]" size 16 color goldenrod
                     action Return(["rename", "full"])
                     padding (10, 10)
@@ -179,8 +179,8 @@ screen char_rename(char=None):
             null height 20
             button:
                 xysize (100, 50)
-                xalign 0.5
-                yalign 0.5
+                xalign .5
+                yalign .5
                 text "Back" size 16 color goldenrod
                 action Hide("char_rename")
                 padding (10, 10)
@@ -195,7 +195,7 @@ screen character_pick_screen(): # screen to select someone from the MC team
         ysize 310
         padding(2, 2)
         background Frame("content/gfx/frame/frame_dec_1.png")
-        label "Select a character" align (0.5, 0.08) text_color "#DAA520" text_size 18
+        label "Select a character" align (0.5, .08) text_color "#DAA520" text_size 18
         hbox:
             spacing 45
             align (.5, .4)
@@ -249,13 +249,13 @@ screen character_pick_screen(): # screen to select someone from the MC team
                         padding(2, 2)
                         background Frame("content/gfx/frame/gm_frame.png")
                         $ name = l.name[:8]
-                        label "[name]" align (0.5, 0.5) text_color "#DAA520" text_size 16
+                        label "[name]" align (0.5, .5) text_color "#DAA520" text_size 16
 
         vbox:
             style_group "wood"
-            align (.5, 0.9)
+            align (.5, .9)
             button:
                 xysize (102, 40)
-                yalign 0.5
+                yalign .5
                 action Return(False)
                 text "Cancel" size 15 color goldenrod

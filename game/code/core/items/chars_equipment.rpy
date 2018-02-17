@@ -22,19 +22,19 @@ init:
             padding 10, 10
             margin 0, 0
             has vbox spacing 5 xfill True
-            text "{=TisaOTM}{size=-3}Discard {color=#ffd700}[item.id]{/color}?" xalign 0.52 color "#ecc88a"
+            text "{=TisaOTM}{size=-3}Discard {color=#ffd700}[item.id]{/color}?" xalign .52 color "#ecc88a"
             hbox:
-                xalign 0.5
+                xalign .5
                 spacing 10
                 textbutton "{size=-1}Yes":
-                    xalign 0.5
+                    xalign .5
                     action Function(eq_sourse.inventory.remove, item), Hide("discard_item"), With(dissolve)
                 $ amount = eq_sourse.inventory[item]
                 textbutton "{size=-1}Discard All":
-                    xalign 0.5
+                    xalign .5
                     action SensitiveIf(amount > 1), Function(eq_sourse.inventory.remove, item, amount), Hide("discard_item"), With(dissolve)
                 textbutton "{size=-1}No":
-                    xalign 0.5
+                    xalign .5
                     action Hide("discard_item"), With(dissolve)
 
 init python:
@@ -335,11 +335,11 @@ screen equip_for(pos=()):
         if x > 1000:
             xval = 1.0
         else:
-            xval = 0.0
+            xval = .0
         if y > 500:
             yval = 1.0
         else:
-            yval = 0.0
+            yval = .0
 
         specializations = ["Sex", "Service", "Striptease"]
 
@@ -400,7 +400,7 @@ screen char_equip():
 
         # Item Description:
         frame:
-            xalign 0.6
+            xalign .6
             at fade_in_out()
             background Transform(Frame(im.MatrixColor("content/gfx/frame/Mc_bg3.png", im.matrix.brightness(-0.2)), 5, 5), alpha=0.3)
             xysize (710, 296)
@@ -461,7 +461,7 @@ screen char_equip_left_frame(tt, stats_display):
         # Left Frame Buttons: =====================================>
         hbox:
             style_group "pb"
-            xalign 0.55
+            xalign .55
             ypos 198
             spacing 1
             button:
@@ -698,7 +698,7 @@ screen char_equip_right_frame(tt):
                 t = "{vspace=17}[eqtarget.name]{/color}"
 
         if tt.value:
-            text "{color=#ecc88a}%s"%tt.value size 14 align (0.5, 0.5) font "fonts/TisaOTM.otf" line_leading -5
+            text "{color=#ecc88a}%s"%tt.value size 14 align (0.5, .5) font "fonts/TisaOTM.otf" line_leading -5
         elif dummy:
             # Traits and skills:
             vbox:
@@ -723,7 +723,7 @@ screen char_equip_right_frame(tt):
                     for i in temp:
                         frame:
                             xpadding 3
-                            text u'{color=#43CD80}%s'%i size 16 yalign 0.5
+                            text u'{color=#43CD80}%s'%i size 16 yalign .5
 
                     python:
                         t_old = set(t.id for t in dummy.traits)
@@ -737,7 +737,7 @@ screen char_equip_right_frame(tt):
                     for i in temp:
                         frame:
                             xpadding 3
-                            text u'{color=#CD4F39}%s'%i size 16 yalign 0.5
+                            text u'{color=#CD4F39}%s'%i size 16 yalign .5
 
             vbox:
                 xoffset 165
@@ -768,16 +768,16 @@ screen char_equip_right_frame(tt):
                     if temp:
                         for skill in temp:
                             frame:
-                                xalign 0.98
+                                xalign .98
                                 xpadding 3
-                                text u'{color=#CD4F39}%s'%skill size 16 yalign 0.5
+                                text u'{color=#CD4F39}%s'%skill size 16 yalign .5
         elif not tt.value:
             if isinstance(eqtarget, PytGroup):
-                text (u"{color=#ecc88a}%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
+                text (u"{color=#ecc88a}%s" % t) size 14 align (0.55, .65) font "fonts/TisaOTM.otf" line_leading -5
             elif eqtarget.status == "slave":
-                text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Slave%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
+                text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Slave%s" % t) size 14 align (0.55, .65) font "fonts/TisaOTM.otf" line_leading -5
             elif eqtarget.status == "free":
-                text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Free%s" % t) size 14 align (0.55, 0.65) font "fonts/TisaOTM.otf" line_leading -5
+                text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Free%s" % t) size 14 align (0.55, .65) font "fonts/TisaOTM.otf" line_leading -5
 
 
     # Right Frame Buttons ====================================>
@@ -787,7 +787,7 @@ screen char_equip_right_frame(tt):
         spacing 4
         style_group "pb"
         hbox:
-            xalign 0.5
+            xalign .5
             spacing 100
             button:
                 xsize 70
@@ -805,7 +805,7 @@ screen char_equip_right_frame(tt):
         background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
         pos (931, 184)
         xysize (345, 80)
-        has vbox spacing 1 xalign 0.5
+        has vbox spacing 1 xalign .5
         hbox:
             button:
                 xysize (110, 30)
@@ -819,7 +819,7 @@ screen char_equip_right_frame(tt):
                 xysize (110, 30)
                 action If(eqtarget != hero, true=Return(["jump", "item_transfer"]))
                 text "Exchange" style "pb_button_text"
-        use paging(ref=inv_source.inventory, use_filter=False, xysize=(250, 20), align=(0.5, 0.5))
+        use paging(ref=inv_source.inventory, use_filter=False, xysize=(250, 20), align=(0.5, .5))
 
     # Filters: ====================================>
     hbox:
@@ -930,52 +930,52 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                         label '{size=-4}{color=[gold]}[item.price]' align .98, .5 text_outlines [(1, "#3a3a3a", 0, 0)]
                     frame:
                         xysize (160, 25)
-                        text ('{color=#F5F5DC}Slot:') xalign 0.02
+                        text ('{color=#F5F5DC}Slot:') xalign .02
                         python:
                             if item.slot in SLOTALIASES:
                                 slot = SLOTALIASES[item.slot]
                             else:
                                 slot = item.slot.capitalize()
-                        label ('{color=#F5F5DC}{size=-4}%s'%slot) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                        label ('{color=#F5F5DC}{size=-4}%s'%slot) align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                     frame:
                         xysize (160, 25)
-                        text ('{color=#F5F5DC}Type:') xalign 0.02
-                        label ('{color=#F5F5DC}{size=-4}%s'%item.type.capitalize()) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                        text ('{color=#F5F5DC}Type:') xalign .02
+                        label ('{color=#F5F5DC}{size=-4}%s'%item.type.capitalize()) align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                     frame:
                         xysize (160, 25)
-                        text ('{color=#F5F5DC}Sex:') xalign 0.02
+                        text ('{color=#F5F5DC}Sex:') xalign .02
                         if item.slot in ["gift", "resources", "loot"]:
-                            label "{size=-4}N/A" align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                            label "{size=-4}N/A" align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                         elif item.type == "food" and item.sex == "unisex":
-                            label "{size=-4}N/A" align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                            label "{size=-4}N/A" align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                         elif item.sex == 'male':
-                            label ('{color=#F5F5DC}{size=-4}{color=#FFA54F}%s'%item.sex.capitalize()) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                            label ('{color=#F5F5DC}{size=-4}{color=#FFA54F}%s'%item.sex.capitalize()) align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                         elif item.sex == 'female':
-                            label ('{color=#F5F5DC}{size=-4}{color=#FFAEB9}%s'%item.sex.capitalize()) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                            label ('{color=#F5F5DC}{size=-4}{color=#FFAEB9}%s'%item.sex.capitalize()) align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                         elif item.sex == 'unisex':
-                            label ('{color=#F5F5DC}{size=-4}%s'%item.sex.capitalize()) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                            label ('{color=#F5F5DC}{size=-4}%s'%item.sex.capitalize()) align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
 
                 # Buttons and image:
                 button:
                     style_group "pb"
-                    align (0.0, 0.5)
+                    align (0.0, .5)
                     xysize (80, 45)
                     action SensitiveIf(eqtarget != hero and ((eqtarget.inventory[item] > 0 and inv_source == eqtarget) or (hero.inventory[item] > 0 and inv_source == hero))), Return(['item', 'transfer'])
                     if eqtarget == hero:
                         hovered tt.Action("Disabled")
-                        text "Disabled" style "pb_button_text" align (0.5, 0.5)
+                        text "Disabled" style "pb_button_text" align (0.5, .5)
                     elif inv_source == hero:
                         hovered tt.Action("Transfer {} from {} to {}".format(item.id, hero.nickname, eqtarget.nickname))
-                        text "Give to\n {color=#FFAEB9}[eqtarget.nickname]{/color}" style "pb_button_text" align (0.5, 0.5) line_leading 3
+                        text "Give to\n {color=#FFAEB9}[eqtarget.nickname]{/color}" style "pb_button_text" align (0.5, .5) line_leading 3
                     else:
-                        text "Give to\n {color=#FFA54F}[hero.nickname]{/color}" style "pb_button_text" align (0.5, 0.5) line_leading 3
+                        text "Give to\n {color=#FFA54F}[hero.nickname]{/color}" style "pb_button_text" align (0.5, .5) line_leading 3
                         hovered tt.Action("Transfer {} from {} to {}".format(item.id, eqtarget.nickname, hero.nickname))
 
                 frame:
-                    align (0.5, 0.5)
+                    align (0.5, .5)
                     background Frame("content/gfx/frame/frame_it2.png", 5, 5)
                     xysize (120, 120)
-                    add (ProportionalScale(item.icon, 100, 100)) align(0.5, 0.5)
+                    add (ProportionalScale(item.icon, 100, 100)) align(0.5, .5)
 
                 if item_direction == 'unequip':
                     $ temp = "Unequip"
@@ -989,19 +989,19 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                         $ temp_msg = "Equip {}".format(item.id)
                 button:
                     style_group "pb"
-                    align (1.0, 0.5)
+                    align (1.0, .5)
                     xysize (80, 45)
                     if tt:
                        hovered tt.Action(temp_msg)
                     action SensitiveIf(focusitem), Return(['item', 'equip/unequip'])
                     if item_direction == 'equip' and not can_equip(focusitem, eqtarget):
-                        text "[temp]" style "pb_button_text" align (0.5, 0.5) color red strikethrough True
+                        text "[temp]" style "pb_button_text" align (0.5, .5) color red strikethrough True
                     else:
-                        text "[temp]" style "pb_button_text" align (0.5, 0.5)
+                        text "[temp]" style "pb_button_text" align (0.5, .5)
 
                 # Right items info (Stats):
                 frame:
-                    xalign 0.98
+                    xalign .98
                     background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
                     xysize (185, 130)
                     style_group "proper_stats"
@@ -1017,8 +1017,8 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                 for stat, value in item.mod.items():
                                     frame:
                                         xysize (172, 18)
-                                        text (u'{color=#F5F5DC}%s' % stat.capitalize()) size 15 xalign 0.02 yoffset -2
-                                        label (u'{color=#F5F5DC}{size=-4}[value]') align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                        text (u'{color=#F5F5DC}%s' % stat.capitalize()) size 15 xalign .02 yoffset -2
+                                        label (u'{color=#F5F5DC}{size=-4}[value]') align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                             null height 3
 
                         if item.max:
@@ -1028,8 +1028,8 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                 for stat, value in item.max.items():
                                     frame:
                                         xysize (172, 18)
-                                        text (u'{color=#F5F5DC}%s'%stat.capitalize()) size 15 xalign 0.02 yoffset -2
-                                        label (u'{color=#F5F5DC}{size=-4}[value]') align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                        text (u'{color=#F5F5DC}%s'%stat.capitalize()) size 15 xalign .02 yoffset -2
+                                        label (u'{color=#F5F5DC}{size=-4}[value]') align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                             null height 3
 
                         if item.min:
@@ -1039,8 +1039,8 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                 for stat, value in item.min.items():
                                     frame:
                                         xysize (172, 18)
-                                        text (u'{color=#F5F5DC}%s'%stat.capitalize()) size 15 xalign 0.02 yoffset -2
-                                        label (u'{color=#F5F5DC}{size=-4}%d'%value) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                        text (u'{color=#F5F5DC}%s'%stat.capitalize()) size 15 xalign .02 yoffset -2
+                                        label (u'{color=#F5F5DC}{size=-4}%d'%value) align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                         if hasattr(item, 'mtemp'):
                             if item.mtemp:
                                 label ('Frequency:') text_size 16 text_color gold xpos 30
@@ -1050,39 +1050,39 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                         if hasattr(item, 'mreusable'):
                                             if item.mreusable:
                                                 if item.mtemp > 1:
-                                                    text (u'{color=#F5F5DC}Every %d days'%item.mtemp) size 15 xalign 0.02 yoffset -2
+                                                    text (u'{color=#F5F5DC}Every %d days'%item.mtemp) size 15 xalign .02 yoffset -2
                                                 else:
-                                                    text (u'{color=#F5F5DC}Every day') size 15 xalign 0.02 yoffset -2
+                                                    text (u'{color=#F5F5DC}Every day') size 15 xalign .02 yoffset -2
                                             else:
                                                 if item.mtemp > 1:
-                                                    text (u'{color=#F5F5DC}After %d days'%item.mtemp) size 15 xalign 0.02 yoffset -2
+                                                    text (u'{color=#F5F5DC}After %d days'%item.mtemp) size 15 xalign .02 yoffset -2
                                                 else:
-                                                    text (u'{color=#F5F5DC}After one day') size 15 xalign 0.02 yoffset -2
+                                                    text (u'{color=#F5F5DC}After one day') size 15 xalign .02 yoffset -2
                                     if hasattr(item, 'mdestruct'):
                                         if item.mdestruct:
                                             frame:
                                                 xysize (172, 18)
-                                                text (u'{color=#F5F5DC}Disposable') size 15 xalign 0.02 yoffset -2
+                                                text (u'{color=#F5F5DC}Disposable') size 15 xalign .02 yoffset -2
                                     if hasattr(item, 'mreusable'):
                                         if item.mreusable:
                                             frame:
                                                 xysize (172, 18)
-                                                text (u'{color=#F5F5DC}Reusable') size 15 xalign 0.02 yoffset -2
+                                                text (u'{color=#F5F5DC}Reusable') size 15 xalign .02 yoffset -2
                                     if hasattr(item, 'statmax'):
                                         if item.statmax:
                                             frame:
                                                 xysize (172, 18)
-                                                text (u'{color=#F5F5DC}Stat limit') size 15 xalign 0.02 yoffset -2
-                                                label (u'{color=#F5F5DC}{size=-4}%d'%item.statmax) align (0.98, 0.5) text_outlines [(1, "#3a3a3a", 0, 0)]
+                                                text (u'{color=#F5F5DC}Stat limit') size 15 xalign .02 yoffset -2
+                                                label (u'{color=#F5F5DC}{size=-4}%d'%item.statmax) align (0.98, .5) text_outlines [(1, "#3a3a3a", 0, 0)]
                         if hasattr(item, 'ctemp'):
                             if item.ctemp:
                                 label ('Duration:') text_size 16 text_color gold xpos 30
                                 frame:
                                     xysize (172, 18)
                                     if item.ctemp > 1:
-                                        text (u'{color=#F5F5DC}%d days'%item.ctemp) size 15 xalign 0.02 yoffset -2
+                                        text (u'{color=#F5F5DC}%d days'%item.ctemp) size 15 xalign .02 yoffset -2
                                     else:
-                                        text (u'{color=#F5F5DC}One day') size 15 xalign 0.02 yoffset -2
+                                        text (u'{color=#F5F5DC}One day') size 15 xalign .02 yoffset -2
 
             # Bottom HBox: Desc/Traits/Effects/Skills:
             hbox:
@@ -1115,7 +1115,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                     text (u'{color=#43CD80}%s'%trait) size 15 align .5, .5
                             for trait in item.removetraits:
                                 frame:
-                                    xalign 0.9
+                                    xalign .9
                                     xpadding 2
                                     text (u'{color=#CD4F39}%s'%trait) size 15 align .5, .5
 
@@ -1138,7 +1138,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                     text (u'{color=#43CD80}%s'%effect) size 15 align .5, .5
                             for effect in item.removeeffects:
                                 frame:
-                                    xalign 0.9
+                                    xalign .9
                                     xpadding 2
                                     text (u'{color=#CD4F39}%s'%effect) size 15 align .5, .5
 
@@ -1273,7 +1273,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                     text (u'{color=#43CD80}%s'%skill) size 15 align .5, .5
                             for skill in item.remove_be_spells:
                                 frame:
-                                    xalign 0.9
+                                    xalign .9
                                     xpadding 2
                                     text (u'{color=#CD4F39}%s'%skill) size 15 align .5, .5
 
@@ -1295,7 +1295,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                     hovered tt.Action("Show/hide equipment state if it's saved")
                                     text "Outfit %d" % (i + 1) style "pb_button_text"
                                 button:
-                                    align (0.5, 0.5)
+                                    align (0.5, .5)
                                     xysize (30, 30)
                                     action Function(eqtarget.eqsave.__setitem__, i, eqtarget.eqslots.copy()), SetDict(eqsave, i, True), With(dissolve)
                                     text u"\u2193"
@@ -1304,7 +1304,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                         hovered tt.Action("Save equipment state")
                                 if any(eqtarget.eqsave[i].values()):
                                     button:
-                                        align (0.5, 0.5)
+                                        align (0.5, .5)
                                         xysize (30, 30)
                                         action Function(eqtarget.load_equip, eqtarget.eqsave[i]), With(dissolve)
                                         text u"\u2191"
@@ -1312,7 +1312,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                         if tt:
                                             hovered tt.Action("Load equipment state")
                                     button:
-                                        align (0.5, 0.5)
+                                        align (0.5, .5)
                                         xysize (30, 30)
                                         action Function(eqtarget.eqsave.__setitem__, i, {k: False for k in eqtarget.eqslots}), SetDict(eqsave, i, False), With(dissolve)
                                         text u"\u00D7"
@@ -1328,12 +1328,12 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
 screen diff_item_effects(char, dummy):
     zorder 10
     textbutton "X":
-        align (1.0, 0.0)
+        align (1.0, .0)
         action Hide("diff_item_effects")
     frame:
         xysize (1000, 500)
         background Solid("#F00", alpha=0.1)
-        align (0.1, 0.5)
+        align (0.1, .5)
         has hbox
 
         vbox:

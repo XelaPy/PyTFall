@@ -105,7 +105,7 @@ screen girl_training:
     # Tooltip related:
     frame:
         background Frame("content/gfx/frame/window_frame1.png", 10, 10)
-        align(0.5, 0.997)
+        align(0.5, .997)
         xysize (1000, 100)
         xpadding 10
         ypadding 10
@@ -126,7 +126,7 @@ screen girl_training_trainer:
         frame:
             background Frame("content/gfx/frame/p_frame2.png", 10, 10)
             xysize (365, 25)
-            label u"- Trainers -" align (0.5, 0.5) text_size 25 text_color ivory
+            label u"- Trainers -" align (0.5, .5) text_size 25 text_color ivory
         null height 3
         side "c r":
             viewport id "trainer_vp":
@@ -142,7 +142,7 @@ screen girl_training_trainer:
                             null width 5
                             $ girl_image_show = trainer.show("profile", resize=(70, 70), cache=True)
                             imagebutton:
-                                align (0, 0.5)
+                                align (0, .5)
                                 idle girl_image_show
                                 hover im.MatrixColor(girl_image_show, im.matrix.brightness(0.15))
                                 action Return(["trainer", trainer])
@@ -151,7 +151,7 @@ screen girl_training_trainer:
                             null width 5
 
                             vbox:
-                                yalign 0.5
+                                yalign .5
                                 label (u"[trainer.name]"):
                                     text_size 20
                                     if training_screen_trainer is trainer:
@@ -176,7 +176,7 @@ screen girl_training_trainer:
         frame:
             background Frame("content/gfx/frame/p_frame2.png", 10, 10)
             xysize (385, 25)
-            label u"- Courses -" align (0.5, 0.5) text_size 25 text_color ivory
+            label u"- Courses -" align (0.5, .5) text_size 25 text_color ivory
         null height 3
         side "c r":
             viewport id "course_vp":
@@ -193,14 +193,14 @@ screen girl_training_trainer:
                                 background Frame("content/gfx/frame/p_frame2.png", 10, 10)
                                 xysize (190, 190)
                                 vbox:
-                                    xalign 0.5
+                                    xalign .5
                                     null height 5
-                                    label (u"[course.name]") xalign 0.5
+                                    label (u"[course.name]") xalign .5
                                     null height 5
                                     frame:
                                         xysize (170, 170)
                                         imagebutton:
-                                            align (0.5, 0.5)
+                                            align (0.5, .5)
                                             idle ProportionalScale(course.get_lesson_image(), 155, 155)
                                             hover im.MatrixColor(ProportionalScale(course.get_lesson_image(), 155, 155), im.matrix.brightness(0.15))
                                             action Return(["open", course])
@@ -219,7 +219,7 @@ screen girl_training_trainer:
             frame:
                 background Frame("content/gfx/frame/p_frame2.png", 10, 10)
                 xysize (427, 25)
-                label u"- %s -"%training_screen_course.name align (0.5, 0.5) text_size 25 text_color ivory
+                label u"- %s -"%training_screen_course.name align (0.5, .5) text_size 25 text_color ivory
             null height 3
             side "c r":
                 viewport id "lesson_vp":
@@ -241,16 +241,16 @@ screen girl_training_trainer:
 screen girl_training_lesson(course, tt, show_image):
     vbox:
         style_group "content"
-        xalign 0.5
+        xalign .5
         null height 2
 
         # Do we have an image
         if show_image:
             # Use plain title
             if course.is_schooling:
-                label (u"[course.action]") xalign 0.5 text_color ivory
+                label (u"[course.action]") xalign .5 text_color ivory
             else:
-                label (u"[course.name]") xalign 0.5 text_color ivory
+                label (u"[course.name]") xalign .5 text_color ivory
 
             null height 2
 
@@ -258,7 +258,7 @@ screen girl_training_lesson(course, tt, show_image):
             frame:
                 xysize (190, 190)
                 imagebutton:
-                    align (0.5, 0.5)
+                    align (0.5, .5)
                     idle ProportionalScale(course.get_lesson_image(), 175, 175)
                     hover im.MatrixColor(ProportionalScale(course.get_lesson_image(), 175, 175), im.matrix.brightness(0.15))
                     action Return(["setto", course])
@@ -271,7 +271,7 @@ screen girl_training_lesson(course, tt, show_image):
             # Use title as button
             vbox:
                 style_group "basic"
-                xalign 0.5
+                xalign .5
 
                 null height 3
 
@@ -283,9 +283,9 @@ screen girl_training_lesson(course, tt, show_image):
                 null height 3
 
         vbox:
-            xalign 0.5
+            xalign .5
             hbox:
-                xalign 0.5
+                xalign .5
                 vbox:
                     xmaximum 120
                     xfill True
@@ -350,15 +350,15 @@ screen girl_training_schooling:
     frame:
         style_group "content"
         background Frame("content/gfx/frame/mes11.jpg", 10, 10)
-        align (0, 0.7)
+        align (0, .7)
         xpadding 10
         ypadding 10
         xysize (610, 610)
         has vbox
         null height 3
-        label ("[training_screen_current.name]") xalign 0.5 text_color ivory text_size 25
+        label ("[training_screen_current.name]") xalign .5 text_color ivory text_size 25
         null height 3
-        add (ProportionalScale("content/schools/school.jpg", 585, 400)) xalign 0.5
+        add (ProportionalScale("content/schools/school.jpg", 585, 400)) xalign .5
         null height 8
         text "The Beautiful educational facilities in PyTFall offer any training one may require for free citizens, foreigners and slaves alike. Century old traditions will make sure that no girl taking classes here will ever be sad or unhappy. Nothing in this world is free however, so courses here might cost you a dime and if you wish to be trained by the Masters, a small fortune." color ivory
         null height 5

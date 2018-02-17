@@ -44,7 +44,7 @@ screen swimming_pool():
 
     $ img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
     imagebutton:
-        align (0.01, 0.5)
+        align (0.01, .5)
         idle (img)
         hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
         action [Hide("swimming_pool"), Jump("city_beach")]
@@ -59,10 +59,10 @@ screen swimming_pool():
 
     if gm.show_girls:
 
-        add "content/gfx/images/bg_gradient.png" yalign 0.45
+        add "content/gfx/images/bg_gradient.png" yalign .45
 
         hbox:
-            align(0.5, 0.3)
+            align(0.5, .3)
             spacing 70
 
             for entry in gm.display_girls():
@@ -70,34 +70,34 @@ screen swimming_pool():
 
 screen swimmong_pool_swim():
     frame:
-        xalign 0.95
+        xalign .95
         ypos 20
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
             style_group "wood"
-            align (0.5, 0.5)
+            align (0.5, .5)
             spacing 10
             button:
                 xysize (240, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("swimmong_pool_swim"), Jump("single_swim_pool")]
                 text "Swim (10 G)" size 15
             button:
                 xysize (240, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("swimmong_pool_swim"), Jump("instructor_swim_pool")]
                 text "Hire an instructor (50 G)" size 15
             if hero.get_skill("swimming") >= 100:
                 button:
                     xysize (240, 40)
-                    yalign 0.5
+                    yalign .5
                     action [Hide("swimmong_pool_swim"), Jump("work_swim_pool")]
                     text "Work as instructor" size 15
             button:
                 xysize (240, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("swimmong_pool_swim"), Show("swimming_pool"), With(dissolve)]
                 text "Leave" size 15
 

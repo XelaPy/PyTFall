@@ -562,28 +562,28 @@ init python:
             if not self.loc.is_school:
                 # rewards upgrades / total
                 # 0   > chance = low chance
-                # 0.5 > chance = medium chance
+                # .5 > chance = medium chance
                 # 1   > chance = high chance
                 #
                 self.obey = self.loc.mod_obey() + girl_training_trait_mult(self.girl, "Easy to Reward")
 
                 # punishments upgrades / total
                 # 0   < chance = high chance
-                # 0.5 < chance = medium chance
+                # .5 < chance = medium chance
                 # 1   < chance = low chance
                 #
                 self.disobey = self.loc.mod_disobey() + girl_training_trait_mult(self.girl, "Easy to Punish")
 
                 # security upgrades / total
                 # 0   < chance = high chance
-                # 0.5 < chance = medium chance
+                # .5 < chance = medium chance
                 # 1   < chance = low chance
                 #
                 self.runaway = pytfall.ra.location_runaway(self.loc) # girl_training_trait_mult done in can_escape call
 
                 # security_rating / 1000
                 # 2 - 0   = 2, high chance
-                # 2 - 0.5 = 1.5, medium chance
+                # 2 - .5 = 1.5, medium chance
                 # 2 - 1   = 1, low chance
                 #
                 self.chance = pytfall.ra.location_security(self.loc)
@@ -694,8 +694,8 @@ init python:
                             bad = True
 
                     if not bad and self.trainer is not hero:
-                        ownSkill = self.course.trainerSkill(self.girl) * 0.8
-                        ownMax = self.course.trainerKnowledge(self.girl) * 0.8
+                        ownSkill = self.course.trainerSkill(self.girl) * .8
+                        ownMax = self.course.trainerKnowledge(self.girl) * .8
 
                         # If the girl is better then the trainer
                         if ownSkill > self.teachingchance and ownMax > self.maxskill:
@@ -948,28 +948,28 @@ init python:
             if not self.loc.is_school:
                 # rewards upgrades / total
                 # 0   > chance = low chance
-                # 0.5 > chance = medium chance
+                # .5 > chance = medium chance
                 # 1   > chance = high chance
                 #
                 self.obey = self.loc.mod_obey()
 
                 # punishments upgrades / total
                 # 0   < chance = high chance
-                # 0.5 < chance = medium chance
+                # .5 < chance = medium chance
                 # 1   < chance = low chance
                 #
                 self.disobey = self.loc.mod_disobey()
 
                 # security upgrades / total
                 # 0   < chance = high chance
-                # 0.5 < chance = medium chance
+                # .5 < chance = medium chance
                 # 1   < chance = low chance
                 #
                 self.runaway = pytfall.ra.location_runaway(self.loc)
 
                 # security_rating / 1000
                 # 2 - 0   = 2, high chance
-                # 2 - 0.5 = 1.5, medium chance
+                # 2 - .5 = 1.5, medium chance
                 # 2 - 1   = 1, low chance
                 #
                 self.chance = pytfall.ra.location_security(self.loc)
@@ -1044,7 +1044,7 @@ init python:
 
             # Get search chance
             self.chance = pytfall.ra.status(self.girl)
-            if  "Warrior" not in self.girl.occupations: self.chance *= 0.8
+            if  "Warrior" not in self.girl.occupations: self.chance *= .8
 
             self.slave = None
             self.capture = False

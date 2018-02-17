@@ -86,7 +86,7 @@ screen realtor_agency():
         frame:
             style_group "content"
             background Frame("content/gfx/frame/p_frame53.png", 10, 10)
-            xalign 0.997
+            xalign .997
             ypos 42
             xysize (420, 675)
             side "c r":
@@ -129,7 +129,7 @@ screen realtor_agency():
         frame:
             style_group "content"
             background Frame("content/gfx/frame/p_frame53.png", 10, 10)
-            xalign 0.003
+            xalign .003
             ypos 42
             xysize (420, 675)
             side "c l":

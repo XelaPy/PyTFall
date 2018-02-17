@@ -71,12 +71,12 @@ init:
             xysize (270, 270)
             pos (300, 413)
             add Transform(child=RadarChart((float(hero.attack)/hero.get_max("attack")), (float(hero.defence)/hero.get_max("defence")), (float(hero.agility)/hero.get_max("agility")),
-                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 112, 126, 148, blue), alpha=0.4) align (0.5, 0.5)
+                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 112, 126, 148, blue), alpha=0.4) align (0.5, .5)
             add Transform(child=RadarChart((float(hero.attack)/hero.get_max("attack")), (float(hero.defence)/hero.get_max("defence")), (float(hero.agility)/hero.get_max("agility")),
-                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 65, 126, 148, blueviolet), alpha=0.3) align (0.5, 0.5)
+                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 65, 126, 148, blueviolet), alpha=0.3) align (0.5, .5)
             add Transform(child=RadarChart((float(hero.attack)/hero.get_max("attack")), (float(hero.defence)/hero.get_max("defence")), (float(hero.agility)/hero.get_max("agility")),
-                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 33, 126, 148, aquamarine), alpha=0.2) align (0.5, 0.5)
-            add ProportionalScale("content/gfx/interface/images/pentagon1.png", 250, 250) align (0.01, 0.5)
+                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 33, 126, 148, aquamarine), alpha=0.2) align (0.5, .5)
+            add ProportionalScale("content/gfx/interface/images/pentagon1.png", 250, 250) align (0.01, .5)
 
         fixed:
             frame:
@@ -116,7 +116,7 @@ init:
             pos (8, 110)
 
             # NAME^   LVL   (ok for 1m lvls) ====================================>
-            text (u"[hero.name]") style "TisaOTMol" size 28  xalign 0.492 ypos 5
+            text (u"[hero.name]") style "TisaOTMol" size 28  xalign .492 ypos 5
             hbox:
                 spacing 1
                 if (hero.level) < 10:
@@ -144,23 +144,23 @@ init:
                     xsize 212
                     frame:
                         xysize (212, 27)
-                        xalign 0.5
-                        text "Health:" xalign 0.02 color "#CD4F39"
+                        xalign .5
+                        text "Health:" xalign .02 color "#CD4F39"
                         if hero.health <= hero.get_max("health")*0.3:
                             text (u"{color=[red]}%s/%s"%(hero.health, hero.get_max("health"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                         else:
                             text (u"{color=#F5F5DC}%s/%s"%(hero.health, hero.get_max("health"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                     frame:
                         xysize (212, 27)
-                        xalign 0.5
-                        text "MP:" xalign 0.02 color "#009ACD"
+                        xalign .5
+                        text "MP:" xalign .02 color "#009ACD"
                         if hero.mp <= hero.get_max("mp")*0.3:
                             text (u"{color=[red]}%s/%s"%(hero.mp, hero.get_max("mp"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                         else:
                             text (u"{color=#F5F5DC}%s/%s"%(hero.mp, hero.get_max("mp"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                     frame:
                         xysize (212, 27)
-                        xalign 0.5
+                        xalign .5
                         text "{color=#43CD80}Vitality:" xalign (0.02)
                         if hero.vitality <= hero.get_max("vitality")*0.3:
                             text (u"{color=[red]}%s/%s"%(hero.vitality, hero.get_max("vitality"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
@@ -169,8 +169,8 @@ init:
                     for stat in stats:
                         frame:
                             xysize (212, 27)
-                            xalign 0.5
-                            text '{}'.format(stat.capitalize()) xalign 0.02 color "#79CDCD"
+                            xalign .5
+                            text '{}'.format(stat.capitalize()) xalign .02 color "#79CDCD"
                             text ('%d/%d'%(getattr(hero, stat), hero.get_max(stat))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
 
                 null height 5
@@ -193,13 +193,13 @@ init:
                 $ els = [Transform(e.icon, size=(90, 90)) for e in hero.elements]
                 $ els_a = [Transform(im.MatrixColor(e.icon, im.matrix.brightness(0.10)), size=(90, 90)) for e in hero.elements]
                 frame:
-                    xalign 0.5
+                    xalign .5
                     yfill True
                     background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                     xysize (100, 30)
-                    text (u"{color=#CDAD00} Element") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
+                    text (u"{color=#CDAD00} Element") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, .7)
                 fixed:
-                    xalign 0.5
+                    xalign .5
                     xysize (100, 100)
                     frame:
                         xysize (100, 100)
@@ -229,7 +229,7 @@ init:
                         # draggable True
                         # edgescroll (15, 10)
                         # xysize (200, 110)
-                        # align (0, 0.5)
+                        # align (0, .5)
                         # has vbox spacing -4
                         # for e in hero.elements:
                             # textbutton "{=TisaOTM}{size=14}[e.id]":
@@ -275,7 +275,7 @@ init:
                     scrollbars "vertical"
                     draggable True
                     mousewheel True
-                    xalign 0.5
+                    xalign .5
                     has vbox spacing 4 xfill True
                     $ temp = sorted(list(hero.friends | hero.lovers), key=attrgetter("name"))
                     $ temp = list(i for i in temp if i not in hero.chars)
@@ -289,24 +289,24 @@ init:
                             xmargin 0
                             ymargin 0
                             xminimum 180
-                            align (0.5, 0.5)
-                            has vbox spacing 1 xalign 0.5
+                            align (0.5, .5)
+                            has vbox spacing 1 xalign .5
                             button:
                                 ypadding 1
                                 xpadding 1
                                 xmargin 0
                                 ymargin 0
-                                align (0.5, 0.5)
+                                align (0.5, .5)
                                 style "basic_choice2_button"
-                                add char.show("portrait", resize=(120, 120), cache=True) align (0.5, 0.5)
+                                add char.show("portrait", resize=(120, 120), cache=True) align (0.5, .5)
                                 action [Hide("hero_profile"), With(dissolve), Function(friends_list_gms, char)]
                                 hovered tt.Action("Click to meet [char.name] in the city")
 
                             text "{=TisaOTMolxm}[char.nickname]" align (0.5, 1.0) yoffset 5 xmaximum 190
                             if char in hero.lovers:
-                                add ProportionalScale("content/gfx/interface/images/love.png", 35, 35) xalign 0.5
+                                add ProportionalScale("content/gfx/interface/images/love.png", 35, 35) xalign .5
                             else:
-                                add ProportionalScale("content/gfx/interface/images/friendship.png", 35, 35) xalign 0.5
+                                add ProportionalScale("content/gfx/interface/images/friendship.png", 35, 35) xalign .5
 
         # BUTTONS on the "bottom layer" ------------------------------------>
         hbox:
@@ -325,14 +325,14 @@ init:
             pos (1124, 60)
             xsize 153
             frame:
-                xalign 0.5
+                xalign .5
                 yfill True
                 background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                 xysize (153, 60)
-                text (u"{color=#CDAD00} Day [day]") font "fonts/Rubius.ttf" size 26 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.6)
+                text (u"{color=#CDAD00} Day [day]") font "fonts/Rubius.ttf" size 26 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, .6)
             null height 2
             frame:
-                xalign 0.5
+                xalign .5
                 xysize 142, 22
                 style_prefix "proper_stats"
                 text "Gold:" size 16  outlines [(1, "#3a3a3a", 0, 0)] color gold xalign .1
@@ -447,11 +447,11 @@ init:
                 if element:
                     fixed:
                         xysize (100, 100)
-                        yalign 0.5
+                        yalign .5
                         if element.icon:
                             $ img = ProportionalScale(element.icon, 90, 90)
-                            add img align (0.5, 0.5)
-                text tt.value.desc style "content_text" size 18 color "#ecc88a" yalign 0.1
+                            add img align (0.5, .5)
+                text tt.value.desc style "content_text" size 18 color "#ecc88a" yalign .1
             else:
                 text (u"{=content_text}{color=#ecc88a}%s" % tt.value) size 18
 
@@ -534,7 +534,7 @@ init:
                 pos (90, -17)
                 xmaximum 160
                 xfill True
-                add "content/gfx/interface/images/exp_b.png" ypos 2 xalign 0.8
+                add "content/gfx/interface/images/exp_b.png" ypos 2 xalign .8
                 text "[hero.exp]/[hero.goal]" style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
 
     screen hero_team():
@@ -660,7 +660,7 @@ init:
 
             button:
                 style_group "pb"
-                xalign 0.5
+                xalign .5
                 xsize 120
                 action Hide("hero_team"), With(dissolve)
                 text "Close" style "pb_button_text"
@@ -682,7 +682,7 @@ init:
         frame:
             background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.65), 10, 10)
             style_group "content"
-            align (0.5, 0.5)
+            align (0.5, .5)
             xysize (1120, 600)
             # side "c r":
                 # area (20, 43, 1110, 495)
@@ -695,7 +695,7 @@ init:
                     $ fin_exp = hero.fin.game_main_expense_log[day-1]
 
                     if pytfall.hp.finance_filter == 'day':
-                        label (u"Fin Report (Yesterday)") xalign 0.4 ypos 30 text_size 30
+                        label (u"Fin Report (Yesterday)") xalign .4 ypos 30 text_size 30
                         # Income:
                         vbox:
                             pos (50, 100)
@@ -742,7 +742,7 @@ init:
                             total = total_income - total_expenses
 
                         vbox:
-                            align (0.80, 0.60)
+                            align (0.80, .60)
                             text "----------------------------------------"
                             text ("Revenue: [total]"):
                                 size 20
@@ -754,11 +754,11 @@ init:
 
                         hbox:
                             style_group "basic"
-                            align (0.5, 0.9)
+                            align (0.5, .9)
                             textbutton "Show Total" action SetField(pytfall.hp, "finance_filter", "total")
 
                     elif pytfall.hp.finance_filter == 'total':
-                        label (u"Fin Report (Game)") xalign 0.4 ypos 30 text_size 30
+                        label (u"Fin Report (Game)") xalign .4 ypos 30 text_size 30
                         python:
                             income = dict()
                             for d in hero.fin.game_main_income_log:
@@ -812,7 +812,7 @@ init:
                             game_total = total_income - total_expenses
 
                         vbox:
-                            align (0.80, 0.60)
+                            align (0.80, .60)
                             text "----------------------------------------"
                             text ("Revenue: [game_total]"):
                                 size 20
@@ -824,7 +824,7 @@ init:
 
                         hbox:
                             style_group "basic"
-                            align (0.5, 0.9)
+                            align (0.5, .9)
                             textbutton "{size=-3}Show Daily" action SetField(pytfall.hp, "finance_filter", "day")
 
                     hbox:
@@ -860,5 +860,5 @@ init:
                 style_group "basic"
                 action Hide('hero_finances')
                 minimum (250, 30)
-                align (0.5, 0.96)
+                align (0.5, .96)
                 text "OK"

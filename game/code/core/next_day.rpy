@@ -89,7 +89,7 @@ label next_day_effects_check:  # all traits and effects which require some unusu
             if i.effects['Elation']['activation_count'] >= 3 and not i.effects['Elation']['active']:
                 i.enable_effect('Elation')
 
-            if i.vitality < i.get_max("vitality")*0.3 and not i.effects['Exhausted']['active']: # 5+ days with vitality < 0.3 max lead to Exhausted effect, can be removed by one day of rest or some items
+            if i.vitality < i.get_max("vitality")*0.3 and not i.effects['Exhausted']['active']: # 5+ days with vitality < .3 max lead to Exhausted effect, can be removed by one day of rest or some items
                 i.effects['Exhausted']['activation_count'] += 1
             if i.effects['Exhausted']['activation_count'] >= 5 and not i.effects['Exhausted']['active']:
                 i.enable_effect('Exhausted')
@@ -386,11 +386,11 @@ screen next_day():
             xalign 1.0
             # ALL Buildings/Workers SUMMARY:
             vbox:
-                xalign 0.38
+                xalign .38
 
                 frame:
                     style_group "content"
-                    xalign 0.5
+                    xalign .5
                     ypos 5
                     xysize (330, 50)
                     background Frame("content/gfx/frame/namebox5.png", 10, 10)
@@ -431,7 +431,7 @@ screen next_day():
                             # Active (Numeric Info):
                             frame:
                                 xysize (285, 25)
-                                text "Active" yalign 0.5 xpos 3
+                                text "Active" yalign .5 xpos 3
                                 text str(ndactive["ALL"]["Service"]) style_suffix "value_text" xpos 135
                                 text str(ndactive["ALL"]["Warriors"]) style_suffix "value_text" xpos 175
                                 text str(ndactive["ALL"]["Managers"]) style_suffix "value_text" xpos 215
@@ -440,7 +440,7 @@ screen next_day():
                             # Resting:
                             frame:
                                 xysize (285, 25)
-                                text "Resting" yalign 0.5 xpos 3
+                                text "Resting" yalign .5 xpos 3
                                 text str(ndresting["ALL"]["Service"]) style_suffix "value_text" xpos 135
                                 text str(ndresting["ALL"]["Warriors"]) style_suffix "value_text" xpos 175
                                 text str(ndresting["ALL"]["Managers"]) style_suffix "value_text" xpos 215
@@ -450,7 +450,7 @@ screen next_day():
                             frame:
                                 xpos 2
                                 xysize (285, 25)
-                                text "Events" yalign 0.5 xpos 3
+                                text "Events" yalign .5 xpos 3
 
                                 hbox:
                                     xpos 120
@@ -559,16 +559,16 @@ screen next_day():
 
                         if red_flags:
                             button:
-                                yalign 0.5
+                                yalign .5
                                 xysize (90, 90)
                                 idle_background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
                                 hover_background Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(0.10)), 5, 5)
-                                text "!" align (0.5, 0.5) color red size 60 style "stats_text"
+                                text "!" align (0.5, .5) color red size 60 style "stats_text"
                                 action [Return(['filter', 'red_flags']), SetScreenVariable("show_summary", None)]
                                 hovered tt.action(u"View All events flagged Red!!")
                         else:
                             button:
-                                yalign 0.5
+                                yalign .5
                                 xysize (90, 90)
                                 idle_background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
                                 hover_background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
@@ -656,7 +656,7 @@ screen next_day():
                                     frame:
                                         xpos 2
                                         xysize (410, 25)
-                                        text "Events" yalign 0.5 xpos 3
+                                        text "Events" yalign .5 xpos 3
 
                                         hbox:
                                             xpos 120
@@ -808,20 +808,20 @@ screen next_day():
                                 text_size 16
                                 text_bold True
                                 xpos 38
-                                yalign 0.03
+                                yalign .03
                                 text_color ivory
                             fixed: # HP
                                 xysize (150, 25)
                                 xanchor -8
                                 bar:
-                                    yalign 0.5
+                                    yalign .5
                                     left_bar ProportionalScale("content/gfx/interface/bars/hp1.png", 150, 20)
                                     right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
                                     value hero.health
                                     range hero.get_max("health")
                                     thumb None
                                     xysize (150, 20)
-                                text "HP" size 14 color ivory bold True yalign 0.1 xpos 8
+                                text "HP" size 14 color ivory bold True yalign .1 xpos 8
                                 if hero.health <= hero.get_max("health")*0.2:
                                     text "[hero.health]" size 14 color red bold True style_suffix "value_text" yoffset -3 xpos 102
                                 else:
@@ -831,14 +831,14 @@ screen next_day():
                                 xysize (150, 25)
                                 xanchor -5
                                 bar:
-                                    yalign 0.2
+                                    yalign .2
                                     left_bar ProportionalScale("content/gfx/interface/bars/mp1.png", 150, 20)
                                     right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
                                     value hero.mp
                                     range hero.get_max("mp")
                                     thumb None
                                     xysize (150, 20)
-                                text "MP" size 14 color ivory bold True yalign 0.8 xpos 7
+                                text "MP" size 14 color ivory bold True yalign .8 xpos 7
                                 if hero.mp <= hero.get_max("mp")*0.2:
                                     text "[hero.mp]" size 14 color red bold True style_suffix "value_text" yoffset 2 xpos 99
                                 else:
@@ -848,14 +848,14 @@ screen next_day():
                                 xysize (150, 25)
                                 xanchor -2
                                 bar:
-                                    yalign 0.5
+                                    yalign .5
                                     left_bar ProportionalScale("content/gfx/interface/bars/vitality1.png", 150, 20)
                                     right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
                                     value hero.vitality
                                     range hero.get_max("vitality")
                                     thumb None
                                     xysize (150, 20)
-                                text "VP" size 14 color ivory bold True yalign 0.8 xpos 7
+                                text "VP" size 14 color ivory bold True yalign .8 xpos 7
                                 if hero.vitality <= hero.get_max("vitality")*0.2:
                                     text "[hero.vitality]" size 14 color red bold True style_suffix "value_text" yoffset 2 xpos 99
                                 else:
@@ -880,7 +880,7 @@ screen next_day():
 
             # School:
             frame:
-                align 0.02, 0.98
+                align .02, .98
                 xysize (95, 95)
                 padding 2, 2
                 background Frame("content/gfx/frame/MC_bg3.png", 5, 5)
@@ -894,7 +894,7 @@ screen next_day():
 
             # Girlz/Other Data like flags/char types/unassigned and filters (bid-bottom frame):
             frame:
-                align 0.98, 0.98
+                align .98, .98
                 xysize 95, 95
                 background Frame("content/gfx/frame/MC_bg3.png", 5, 5)
                 $ img = im.Scale("content/gfx/bg/gallery.jpg", 89, 89)
@@ -948,14 +948,14 @@ screen next_day():
 
             if  "We inform you about fresh courses starting today." in school.txt:
                 button:
-                    align 0.4, 0.5
+                    align .4, .5
                     xalign 0
                     background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
                     text "+" color green size 40 style "stats_text"
                     action NullAction()
                     hovered tt.action(u"New Cources availible!")
             hbox:
-                yalign 0.5
+                yalign .5
                 xalign 0
                 if "has successfully completed" in school.txt:
                     button:
@@ -981,8 +981,8 @@ screen next_day():
 
             if red_flags:
                 button:
-                    yalign 0.7
-                    xalign 0.61
+                    yalign .7
+                    xalign .61
                     background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
                     text "!" color red size 40 style "stats_text"
                     action NullAction()
@@ -1061,7 +1061,7 @@ screen next_day():
 
             frame:
                 ypos 6
-                xalign 0.5
+                xalign .5
                 xysize (380, 50)
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
                 label (u"Game Total") text_size 23 text_color ivory align .5, .6
@@ -1138,11 +1138,11 @@ screen next_day():
                 if event.charmod or event.team_charmod:
                     frame:
                         style_group "content"
-                        xalign 0.5
+                        xalign .5
                         ypos 5
                         xysize (136, 40)
                         background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.7), 10, 10)
-                        label (u"Char Stats:") text_size 18 text_color ivory align (0.5, 0.5)
+                        label (u"Char Stats:") text_size 18 text_color ivory align (0.5, .5)
 
                     if event.team:
                         pass # Preventing crash before system is adjusted to team jobs again.
@@ -1248,17 +1248,17 @@ screen next_day():
                 frame:
                     ypos 10
                     style_group "content"
-                    xalign 0.5
+                    xalign .5
                     xysize (330, 60)
                     background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                    label (u"Description:") text_size 23 text_color ivory align(0.5, 0.6)
+                    label (u"Description:") text_size 23 text_color ivory align(0.5, .6)
                 frame:
                     background Frame(Transform("content/gfx/frame/mc_bg.png", alpha=0.5), 5, 5)
                     xysize (435, 520)
                     ypos 15
                     side "c l":
                         ypos 5
-                        xalign 0.5
+                        xalign .5
                         viewport id "nextdaytxt_vp":
                             xysize (400, 500)
                             draggable True
@@ -1283,10 +1283,10 @@ screen next_day():
             pos (834, 603)
             xysize (449, 120)
             vbox:
-                align (0.5, 0.5)
+                align (0.5, .5)
                 spacing 8
                 hbox:
-                    align (0.5, 0.5)
+                    align (0.5, .5)
                     spacing 20
                     button:
                         xysize (120, 40)
@@ -1295,7 +1295,7 @@ screen next_day():
                         hovered tt.action("<== View Previous Event")
                         text "Previous Event" style "wood_text" xalign(0.6) size 10
                     frame:
-                        align (0.5, 0.5)
+                        align (0.5, .5)
                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
                         xysize (90, 40)
                         text(u'Act: %d/%d'%(FilteredList.index(event)+1, len(FilteredList))) align (.5, .5) size 16 style "stats_text" text_align .5

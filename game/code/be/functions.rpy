@@ -46,7 +46,7 @@ init -11 python:
             else: return "victory", exp
 
         # Overwhelming defeat
-        elif defence * 0.6 > offence:
+        elif defence * .6 > offence:
             if new_results: return "OD", exp
             else: return "OD"
 

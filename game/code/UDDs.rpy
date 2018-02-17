@@ -329,7 +329,7 @@ init -999 python:
             # self.image = [Transform(renpy.easy.displayable(image), crop=(0, i+1, width, 2)) for i in range(height/2)]
             self.amplitude = amplitude
             self.wavelength = wavelength
-            self.W2 = config.screen_width * 0.5
+            self.W2 = config.screen_width * .5
 
             zoom_factor = 1.0 - self.amplitude
             self.x_zoom_factor = 1 / zoom_factor
@@ -348,7 +348,7 @@ init -999 python:
                 child_render = t.render(0, 0, st, at)
                 cW, cH = child_render.get_size()
                 # final amount subtracted from h sets y placement
-                render.blit(child_render, ((self.W2) - (cW * 0.5), scanline[1]))
+                render.blit(child_render, ((self.W2) - (cW * .5), scanline[1]))
             renpy.redraw(self, 0)
             return render
 
@@ -361,7 +361,7 @@ init -999 python:
             -dispayable: A displayable to use.
             -amount: Number of displayable to clone.
             -radius: Radius of the vortex.
-            -limit_radius: This can be used to get the radius to start at something other than 0.
+            -limit_radius: This can be used to get the radius to start at something other than .
             -constant_radius: Vorex will not make any inwards/outward movement, radius will be kept contant.
             -adjust_radius: Expects a tuple of two ints, will plainly add a random between the to radius.
             -time: Time animation takes place, in case of animation with constant radius, this is a time for one circle. Can be a float or a tuple of floats.
@@ -446,7 +446,7 @@ init -100 python:
             super(Snowing, self).__init__(**kwargs)
             self.d = renpy.easy.displayable(d)
 
-            self.interval = interval if interval is not None else (0.2, 0.3)
+            self.interval = interval if interval is not None else (0.2, .3)
             self.start_pos = start_pos if start_pos is not None else ((-200, config.screen_width), 0)
             self.end_pos = end_pos if end_pos is not None else ({"offset": (100, 200)}, config.screen_height)
 
@@ -515,7 +515,7 @@ init -100 python:
 
 
     class ParticleBurst(renpy.Displayable):
-        def __init__(self, displayable, interval=(0.02, 0.04), speed=(0.15, 0.3),
+        def __init__(self, displayable, interval=(0.02, .04), speed=(0.15, .3),
                      around=(config.screen_width/2, config.screen_height/2), angle=(0, 360),
                      radius=(50, 75), particles=None, mouse_sparkle_mode=False, **kwargs):
             """Creates a burst of displayable...

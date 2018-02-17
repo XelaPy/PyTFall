@@ -20,9 +20,9 @@ screen gallery():
         # Tags:
         frame:
             background Frame("content/gfx/frame/p_frame7.png", 10, 10)
-            align (0.5, 0.5)
+            align (0.5, .5)
             xysize (980, 40)
-            text "Tags: [gallery.tags]" align(0.5, 0.5) color ivory
+            text "Tags: [gallery.tags]" align(0.5, .5) color ivory
         # Img:
         frame:
             xysize (980, 680)
@@ -32,7 +32,7 @@ screen gallery():
             xmargin 0
             ymargin 0
             frame:
-                align(0.5, 0.5)
+                align(0.5, .5)
                 xpadding 7
                 ypadding 7
                 xmargin 0
@@ -41,7 +41,7 @@ screen gallery():
                     background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
                 else:
                     background Frame(im.Twocolor("content/gfx/frame/MC_bg3.png", white, white), 10 ,10)
-                add gallery.image align (0.5, 0.5) 
+                add gallery.image align (0.5, .5) 
             if config.developer:
                 button:
                     if black_bg:
@@ -59,23 +59,23 @@ screen gallery():
         frame:
             background Frame("content/gfx/frame/p_frame5.png", 15, 15)
             xysize (300, 570)
-            has vbox xalign 0.5
+            has vbox xalign .5
             if config.developer:
                 $ img = ProportionalScale("content/gfx/interface/logos/logo9.png", 280, 60)
                 button:
-                    xalign 0.5
+                    xalign .5
                     xysize (280, 60)
                     insensitive_background im.Sepia(img)
                     idle_background img
                     hover_background im.MatrixColor(img, im.matrix.brightness(0.15))
                     action If(gallery.td_mode == "dev", true=Return(["change_dict", "full"]), false=Return(["change_dict", "dev"]))
             else:
-                add ProportionalScale("content/gfx/interface/logos/logo9.png", 280, 60) xalign 0.5
+                add ProportionalScale("content/gfx/interface/logos/logo9.png", 280, 60) xalign .5
             null height 2
             frame:
                 background Frame(Transform("content/gfx/frame/mc_bg.png", alpha=0.5), 5, 5)
                 xysize (280, 495)
-                xalign 0.5
+                xalign .5
                 # ypos 15
                 side "c r":
                     viewport id "g_buttons_vp":
@@ -97,7 +97,7 @@ screen gallery():
                                         fixed:
                                             xysize (230, 28)
                                             text "[name]" xalign 0
-                                            text "{color=[blue]}[amount]" xalign 0.93
+                                            text "{color=[blue]}[amount]" xalign .93
                     vbar value YScrollValue("g_buttons_vp")
 
         # Buttons:                
@@ -106,25 +106,25 @@ screen gallery():
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
             style_group "basic"
             xysize (300, 155)
-            has vbox xalign 0.5 spacing 5
+            has vbox xalign .5 spacing 5
             textbutton "SlideShow":
-                xalign 0.5
+                xalign .5
                 action Return(["view_trans"])
             hbox:
-                xalign 0.5
+                xalign .5
                 spacing 20
                 use r_lightbutton(img=im.Scale("content/gfx/interface/buttons/blue_arrow_left.png", 60, 60), return_value =['image', 'previous'])
-                use exit_button(size=(45, 45), align=(0.5, 0.5))
+                use exit_button(size=(45, 45), align=(0.5, .5))
                 use r_lightbutton(img=im.Scale("content/gfx/interface/buttons/blue_arrow_right.png", 60, 60),return_value =['image', 'next'])
             textbutton "Lets Jig with this girl! :)":
-                xalign 0.5
+                xalign .5
                 action Jump("jigsaw_puzzle_start")
 
                 
 screen gallery_trans():
     zorder 5000
     button:
-        align (0.5, 0.5)
+        align (0.5, .5)
         background None
         xysize (config.screen_width, config.screen_height)
         xfill True

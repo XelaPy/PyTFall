@@ -97,8 +97,8 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
         background Frame("content/gfx/interface/buttons/choice_buttons1.png", 10, 10)
         hover_background Frame("content/gfx/interface/buttons/choice_buttons1h.png", 10, 10)
         insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/choice_buttons1.png"), 10, 10)
-        selected_idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons1.png", im.matrix.tint(1, 0.75, 0.75)), 10, 10)
-        selected_hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons1h.png", im.matrix.tint(0.75, 0.75, 1)), 10, 10)
+        selected_idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons1.png", im.matrix.tint(1, .75, .75)), 10, 10)
+        selected_hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons1h.png", im.matrix.tint(0.75, .75, 1)), 10, 10)
 
     style basic_choice2_button:
         background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
@@ -160,7 +160,7 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
         hover_sound "content/sfx/sound/sys/hover_2.wav"
 
     style wood_text:
-        align (0.5, 0.5)
+        align (0.5, .5)
         size 14
         color ivory
         hover_color red
@@ -191,10 +191,10 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
         insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/blue3.png"), 5, 5)
         insensitive_foreground Frame("content/gfx/interface/buttons/f1.png", 5, 5)
 
-        selected_idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/blue3.png", im.matrix.tint(0.6, 0.6, 0.6)), 5, 5)
+        selected_idle_background Frame(im.MatrixColor("content/gfx/interface/buttons/blue3.png", im.matrix.tint(0.6, .6, .6)), 5, 5)
         selected_idle_foreground Frame("content/gfx/interface/buttons/f1.png", 5, 5)
 
-        selected_hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/blue3.png", im.matrix.tint(0.6, 0.6, 0.6) * im.matrix.brightness(0.15)), 5, 5)
+        selected_hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/blue3.png", im.matrix.tint(0.6, .6, .6) * im.matrix.brightness(0.15)), 5, 5)
         selected_hover_foreground Frame(im.MatrixColor("content/gfx/interface/buttons/f1.png", im.matrix.brightness(0.07)), 5, 5)
 
     # Decent Wooden button, Used as a ND.
@@ -232,17 +232,17 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
     style earthkid is text:
         size 20
         font "fonts/earthkid.ttf"
-        align (0.5, 0.5)
+        align (0.5, .5)
 
     style agrevue is text:
         size 20
         font "fonts/agrevue.ttf"
-        align (0.5, 0.5)
+        align (0.5, .5)
 
     style rubius is text:
         size 20
         font "fonts/rubius.ttf"
-        align (0.5, 0.5)
+        align (0.5, .5)
 
     style TisaSansOT is text:
         size 20
@@ -255,11 +255,11 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
 
     style TisaOTBc:
         is TisaOTB
-        align (0.5, 0.5)
+        align (0.5, .5)
 
     style TisaOTMc:
         is TisaOTM
-        align (0.5, 0.5)
+        align (0.5, .5)
 
 
 init 2: # Advanced style that can carry a lot of properies to be used in screens/labels.
@@ -273,7 +273,7 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
 
     style dropdown_gm_text:
         is black_serpent
-        xalign 0.5
+        xalign .5
 
     style dropdown_gm_button:
         is basic_choice_button
@@ -318,7 +318,7 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         thumb None #im.Scale("content/gfx/interface/bars/pref_thumb.png", 18, 21)
         hover_thumb  None #im.Scale("content/gfx/interface/bars/pref_thumb.png", 18, 21)
         xmaximum 166
-        align (0.5, 0.5)
+        align (0.5, .5)
 
     # One of the most widely used styles in the game:
     # These are Gismo's Grey Button style we use all over the place.
@@ -415,7 +415,7 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         hover_color "#F5F5DC"
         selected_idle_color "#CDAD00"
         selected_hover_color "#CDAD00"
-        xalign 0.5
+        xalign .5
 
     # Notifications:
     style notify_bubble:
@@ -429,7 +429,7 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         is garamond
         line_leading -5
         size 15
-        align (0.5, 0.5)
+        align (0.5, .5)
 
     # MC Setup Screen:
     style mcsetup_button:
@@ -461,7 +461,7 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
 
     style main_screen_3_button:
         is blue1
-        xalign 0.5
+        xalign .5
         xminimum 180
         xpadding 20
         ypadding 8
@@ -504,13 +504,13 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
 
     style TisaOTMolxm: # With outlines:
         is TisaOTMol
-        xalign 0.5
+        xalign .5
         size 17
 
     style library_book_header_main:
         is della_respira
         color black
-        xalign 0.5
+        xalign .5
         bold True
         size 20
 
@@ -528,7 +528,7 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         size 20
         font "fonts/serpentn.ttf"
         color black
-        align (0.5, 0.5)
+        align (0.5, .5)
 
     style next_day_summary_text is text:
         size 16
@@ -613,7 +613,7 @@ init: # Ren'Py Styles (Or replacements):
 
     style yesno_label_text:
         is content_text
-        text_align 0.5
+        text_align .5
         size 23
         bold True
         layout "subtitle"
@@ -625,18 +625,18 @@ init: # Ren'Py Styles (Or replacements):
 
     style menu_choice_button:
         is button
-        xminimum int(config.screen_width * 0.10)
-        xmaximum int(config.screen_width * 0.80)
+        xminimum int(config.screen_width * .10)
+        xmaximum int(config.screen_width * .80)
         xpadding 50
         size_group "choice_menu"
         background Frame("content/gfx/frame/chat_text_box_idle.png", 5, 5)
-        hover_background Transform(Frame("content/gfx/frame/chat_text_box_hover.png", 5, 5), xzoom=1.07, yzoom=1.5, align=(0.5, 0.5))
+        hover_background Transform(Frame("content/gfx/frame/chat_text_box_hover.png", 5, 5), xzoom=1.07, yzoom=1.5, align=(0.5, .5))
         insensitive_background Frame(im.Sepia("content/gfx/frame/chat_text_box_idle.png"), 5, 5)
         ysize 29
 
     style menu_choice_button_blue is menu_choice_button:
         background Frame(im.Twocolor("content/gfx/frame/chat_text_box_idle.png", white, blue), 5, 5)
-        hover_background Transform(Frame(im.Twocolor("content/gfx/frame/chat_text_box_hover.png", white, blue), 5, 5), xzoom=1.07, yzoom=1.5, align=(0.5, 0.5))
+        hover_background Transform(Frame(im.Twocolor("content/gfx/frame/chat_text_box_hover.png", white, blue), 5, 5), xzoom=1.07, yzoom=1.5, align=(0.5, .5))
 
     # Main Menu and Preferences:
     # Gismo's New MM Version!

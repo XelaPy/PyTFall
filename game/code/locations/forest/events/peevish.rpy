@@ -47,9 +47,9 @@ label peevish_meeting:
     with dissolve
 
     show expression npcs["Peevish"].get_vnsprite() as peevish:
-        pos (0.4, 0.2)
-        linear 1.0 pos (0.4, 0.25)
-        linear 1.0 pos (0.4, 0.2)
+        pos (0.4, .2)
+        linear 1.0 pos (0.4, .25)
+        linear 1.0 pos (0.4, .2)
         repeat
     with dissolve
 
@@ -70,9 +70,9 @@ label peevish_menu:
 
     hide screen forest_entrance
     show expression npcs["Peevish"].get_vnsprite() as peevish:
-        pos (0.4, 0.2)
-        linear 1.0 pos (0.4, 0.25)
-        linear 1.0 pos (0.4, 0.2)
+        pos (0.4, .2)
+        linear 1.0 pos (0.4, .25)
+        linear 1.0 pos (0.4, .2)
         repeat
     with dissolve
 

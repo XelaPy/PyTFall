@@ -29,14 +29,14 @@ label smc_1(event):
             show smc power_on
             with dissolve
             play events "events/machine_up.mp3"
-            pause 0.2
+            pause .2
             "..."
             return
 
     show smc power_on
     with dissolve
     play events "events/machine_up.mp3"
-    pause 0.2
+    pause .2
     play events2 "female/aah.mp3"
     g "Just look at her GO! Fantastic!"
     g "This device is just simple enough to be brilliant!"

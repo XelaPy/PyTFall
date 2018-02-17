@@ -17,11 +17,11 @@ label interactions_hug:
         jump girl_interactions
         
     if check_lovers(char, hero):
-        $ temp = 0.6
+        $ temp = .6
     elif check_friends(char, hero) or ct("Half-Sister"):
-        $ temp = 0.35
+        $ temp = .35
     else:
-        $ temp = 0.3
+        $ temp = .3
         
     $ sub = check_submissivity(char)
     
@@ -128,13 +128,13 @@ label interactions_grabbutt:
         jump girl_interactions
     
     if check_lovers(char, hero):
-        $ temp = 0.6
+        $ temp = .6
     elif check_friends(char, hero):
-        $ temp = 0.25
+        $ temp = .25
     elif ct("Lesbian") and not "Yuri Expert" in hero.traits: 
         $ temp = 0
     else:
-        $ temp = 0.2
+        $ temp = .2
         
     $ sub = check_submissivity(char)
     
@@ -239,13 +239,13 @@ label interactions_grabbreasts:
         jump girl_interactions
     
     if check_lovers(char, hero):
-        $ temp = 0.6
+        $ temp = .6
     elif check_friends(char, hero):
-        $ temp = 0.25
+        $ temp = .25
     elif ct("Lesbian") and not "Yuri Expert" in hero.traits: 
         $ temp = 0
     else:
-        $ temp = 0.2
+        $ temp = .2
         
     $ sub = check_submissivity(char)
     

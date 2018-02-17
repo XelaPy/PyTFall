@@ -152,7 +152,7 @@ label test_be_logical:
 
 screen battle_report():
     vbox:
-        align (0.5, 0.3)
+        align (0.5, .3)
         spacing 10
         frame:
             background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
@@ -165,5 +165,5 @@ screen battle_report():
                     label "%s"%entry style_group "stats_value_text" text_size 14 text_color ivory
 
         textbutton "Exit":
-            xalign 0.5
+            xalign .5
             action Return()

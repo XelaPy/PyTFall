@@ -304,14 +304,14 @@ init: # Main Screens:
                 style_group "basic"
                 xysize (270, 110)
                 vbox:
-                    align (0.5, 0.5)
+                    align (0.5, .5)
                     spacing 10
                     textbutton "Show Daily Report":
-                        xalign 0.5
+                        xalign .5
                         action Show("arena_report")
                         hovered tt.Action("Recent arena events")
                     textbutton "Reputation Ladder":
-                        xalign 0.5
+                        xalign .5
                         action Show("arena_rep_ladder")
                         hovered tt.Action("Top fighters with highest reputation")
 
@@ -403,7 +403,7 @@ init: # Main Screens:
                                                     padding 2, 2
                                                     add fighter.show("portrait", resize=(60, 60))
 
-                                add vs_img yalign 0.5
+                                add vs_img yalign .5
 
                                 # Waiting for the challenge or been challenged by former:
                                 frame:
@@ -423,7 +423,7 @@ init: # Main Screens:
                                             color gold
                                     hbox:
                                         spacing 3
-                                        align 0.5, 1.0
+                                        align .5, 1.0
                                         for fighter in lineup[1]:
                                             frame:
                                                 background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
@@ -435,7 +435,7 @@ init: # Main Screens:
                 style_group "basic"
                 action Hide("arena_matches")
                 minimum(50, 30)
-                align (0.5, 0.9995)
+                align (0.5, .9995)
                 text  "Close"
         key "mousedown_3" action Hide("arena_matches")
 
@@ -476,7 +476,7 @@ init: # Main Screens:
                                     align .5, .5
                             if team:
                                 frame:
-                                    align (0.5, 0.6)
+                                    align (0.5, .6)
                                     xysize (100, 45)
                                     background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                     $ lvl = team.get_level
@@ -495,7 +495,7 @@ init: # Main Screens:
                                             add fighter.show("portrait", resize=(45, 45), cache=True)
                                 null width 12
                                 frame:
-                                    align (0.5, 0.5)
+                                    align (0.5, .5)
                                     xfill True
                                     background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                     label "[name]" align .5, .5 text_size 25 text_style "proper_stats_text" text_color gold:
@@ -508,7 +508,7 @@ init: # Main Screens:
                 style_group "basic"
                 action Hide("arena_lineups")
                 minimum(50, 30)
-                align (0.5, 0.9995)
+                align (0.5, .9995)
                 text  "Close"
         key "mousedown_3" action Hide("arena_lineups")
 
@@ -534,7 +534,7 @@ init: # Main Screens:
                         $ index += 1
                         frame:
                             style_group "content"
-                            xalign 0.5
+                            xalign .5
                             xysize (690, 60)
                             background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
                             has hbox spacing 20
@@ -551,19 +551,19 @@ init: # Main Screens:
                                     add fighter.show("portrait", resize=(40, 40))
                                     yalign .5
                                 frame:
-                                    align (0.5, 0.5)
+                                    align (0.5, .5)
                                     xsize 100
                                     background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                     text("Lvl [fighter.level]") align .5, .5 size 25 style "proper_stats_text" color gold
                                 frame:
                                     xfill True
-                                    align (0.5, 0.5)
+                                    align (0.5, .5)
                                     background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                     hbox:
                                         xfill True
-                                        align (0.5, 0.5)
+                                        align (0.5, .5)
                                         text("[fighter.name]") align .03, .5 size 25 style "proper_stats_text" color gold
-                                        text("[fighter.arena_rep]") align .99, 0.5 size 20 style "proper_stats_value_text" color gold
+                                        text("[fighter.arena_rep]") align .99, .5 size 20 style "proper_stats_value_text" color gold
 
                 vbar value YScrollValue("arena_rep_vp")
 
@@ -571,7 +571,7 @@ init: # Main Screens:
                 style_group "basic"
                 action Hide("arena_rep_ladder")
                 minimum(50, 30)
-                align (0.5, 0.9995)
+                align (0.5, .9995)
                 text  "Close"
         key "mousedown_3" action Hide("arena_rep_ladder")
 
@@ -629,7 +629,7 @@ init: # Main Screens:
                                         color gold
                                 hbox:
                                     spacing 3
-                                    align 0.5, 1.0
+                                    align .5, 1.0
                                     for fighter in team:
                                         frame:
                                             padding 2, 2
@@ -642,7 +642,7 @@ init: # Main Screens:
                 style_group "basic"
                 action Hide("arena_dogfights")
                 minimum(50, 30)
-                align (0.5, 0.9995)
+                align (0.5, .9995)
                 text  "Close"
         key "mousedown_3" action Hide("arena_dogfights")
 
@@ -677,7 +677,7 @@ init: # Main Screens:
                                     add im.Twocolor(img, black, black) align .5, .6
                             else:
                                 vbox:
-                                    xalign 0.5
+                                    xalign .5
                                     xysize 230, 240
                                     spacing 2
                                     text creature xalign .5  style "TisaOTM" color gold
@@ -705,25 +705,25 @@ init: # Main Screens:
                     hbox:
                         frame:
                             xalign .5
-                            yalign 0.0
+                            yalign .0
                             background Frame("content/gfx/frame/MC_bg.png", 10, 10)
                             add portrait
 
                         vbox:
                             style_group "proper_stats"
-                            xalign 0.0
+                            xalign .0
                             spacing 1
                             frame:
-                                xalign 0.5
+                                xalign .5
                                 yfill True
                                 background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                                 xysize (145, 30)
-                                text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
+                                text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, .7)
                             frame:
-                                xalign 0.5
+                                xalign .5
                                 yfill True
                                 xysize (148, 30)
-                                text (data["race"]) xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD" size 15
+                                text (data["race"]) xalign .5 yalign .5 style "stats_value_text" color "#79CDCD" size 15
 
 
                     null height 5
@@ -740,32 +740,32 @@ init: # Main Screens:
                             $ x = 0
                             $ els_args = [Transform(i, crop=(100/len(els_transforms)*els_transforms.index(i), 0, 100/len(els), 100), subpixel=True, xpos=(x + 100/len(els)*els_transforms.index(i))) for i in els_transforms]
                             $ f = Fixed(*els_args, xysize=(100, 100))
-                            add f align (0.5, 0.5)
-                            add ProportionalScale("content/gfx/interface/images/elements/hover.png", 100, 100) align (0.5, 0.5)
+                            add f align (0.5, .5)
+                            add ProportionalScale("content/gfx/interface/images/elements/hover.png", 100, 100) align (0.5, .5)
                         vbox:
                             style_group "proper_stats"
-                            xalign 0.0
+                            xalign .0
                             spacing 1
                             frame:
-                                xalign 0.5
+                                xalign .5
                                 yfill True
                                 background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                                 xysize (145, 30)
-                                text (u"{color=#CDAD00} Class") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
+                                text (u"{color=#CDAD00} Class") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, .7)
                             for t in data["basetraits"]:
                                 frame:
-                                    xalign 0.5
+                                    xalign .5
                                     xysize (148, 30)
                                     yfill True
-                                    text t xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD" size 15
+                                    text t xalign .5 yalign .5 style "stats_value_text" color "#79CDCD" size 15
                     null height 5
                     # Stats:
                     frame:
-                        xalign 0.5
+                        xalign .5
                         yfill True
                         background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                         xysize (260, 30)
-                        text (u"{color=#CDAD00} Relative stats") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5# align (0.5, 1.0)
+                        text (u"{color=#CDAD00} Relative stats") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5# align (0.5, 1.0)
                     hbox:
                         null width 2
                         vbox:
@@ -776,12 +776,12 @@ init: # Main Screens:
                             for stat in stats:
                                 frame:
                                     xysize (130, 22)
-                                    xalign 0.5
-                                    text '{}'.format(stat.capitalize()) xalign 0.02 color "#43CD80" size 16
+                                    xalign .5
+                                    text '{}'.format(stat.capitalize()) xalign .02 color "#43CD80" size 16
                                     if stat in data["stats"]:
-                                        text str(data["stats"][stat]) xalign 0.98 style "stats_value_text" color "#79CDCD" size 17
+                                        text str(data["stats"][stat]) xalign .98 style "stats_value_text" color "#79CDCD" size 17
                                     else:
-                                        text str(20) xalign 0.98 style "stats_value_text" color "#79CDCD" size 17
+                                        text str(20) xalign .98 style "stats_value_text" color "#79CDCD" size 17
                         null width 2
                         vbox:
                             $ stats = ["charisma", "constitution", "intelligence", "luck"]
@@ -791,12 +791,12 @@ init: # Main Screens:
                             for stat in stats:
                                 frame:
                                     xysize (130, 22)
-                                    xalign 0.5
-                                    text '{}'.format(stat.capitalize()) xalign 0.02 color "#43CD80" size 16
+                                    xalign .5
+                                    text '{}'.format(stat.capitalize()) xalign .02 color "#43CD80" size 16
                                     if stat in data["stats"]:
-                                        text str(data["stats"][stat]) xalign 0.98 style "stats_value_text" color "#79CDCD" size 17
+                                        text str(data["stats"][stat]) xalign .98 style "stats_value_text" color "#79CDCD" size 17
                                     else:
-                                        text str(20) xalign 0.98 style "stats_value_text" color "#79CDCD" size 17
+                                        text str(20) xalign .98 style "stats_value_text" color "#79CDCD" size 17
                     null height 5
 
                     # Bottom Viewport:
@@ -815,31 +815,31 @@ init: # Main Screens:
                             yfill True
                             background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                             xysize (155, 30)
-                            text (u"{color=#CDAD00} Description") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5
+                            text (u"{color=#CDAD00} Description") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
                         vbox:
                             style_group "proper_stats"
                             xalign .5
                             if data["desc"]:
                                     frame:
-                                        xalign 0.5
+                                        xalign .5
                                         xsize 261
-                                        text (data["desc"]) size 14 xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD"
+                                        text (data["desc"]) size 14 xalign .5 yalign .5 style "stats_value_text" color "#79CDCD"
                             else:
                                 frame:
-                                    xalign 0.5
+                                    xalign .5
                                     xysize (150, 30)
                                     yfill True
-                                    text "-None-" size 17 xalign 0.5 yalign 0.5 style "stats_value_text" color indianred
+                                    text "-None-" size 17 xalign .5 yalign .5 style "stats_value_text" color indianred
                         null height 5
                         hbox:
                         # Attacks:
                             vbox:
                                 frame:
-                                    xalign 0.5
+                                    xalign .5
                                     yfill True
                                     background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                                     xysize (130, 30)
-                                    text (u"{color=#CDAD00} Attacks") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5
+                                    text (u"{color=#CDAD00} Attacks") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
 
                                 vbox:
                                     style_group "proper_stats"
@@ -847,27 +847,27 @@ init: # Main Screens:
                                     if data["attack_skills"]:
                                         for s in sorted(data["attack_skills"]):
                                             frame:
-                                                xalign 0.5
+                                                xalign .5
                                                 xysize (130, 22)
                                                 yfill True
-                                                text s size 16 xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD":
+                                                text s size 16 xalign .5 yalign .5 style "stats_value_text" color "#79CDCD":
                                                     if len(s) > 12:
                                                         size 12
                                     else:
                                         frame:
-                                            xalign 0.5
+                                            xalign .5
                                             xysize (130, 22)
                                             yfill True
-                                            text "-None-" size 17 xalign 0.5 yalign 0.5 style "stats_value_text" color indianred
+                                            text "-None-" size 17 xalign .5 yalign .5 style "stats_value_text" color indianred
 
                         # Spells:
                             vbox:
                                 frame:
-                                    xalign 0.5
+                                    xalign .5
                                     yfill True
                                     background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                                     xysize (130, 30)
-                                    text (u"{color=#CDAD00} Spells") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign 0.5
+                                    text (u"{color=#CDAD00} Spells") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
 
                                 vbox:
                                     style_group "proper_stats"
@@ -876,18 +876,18 @@ init: # Main Screens:
                                     if data["magic_skills"]:
                                         for s in sorted(data["magic_skills"]):
                                             frame:
-                                                xalign 0.5
+                                                xalign .5
                                                 xysize (130, 22)
                                                 yfill True
-                                                text s size 16 xalign 0.5 yalign 0.5 style "stats_value_text" color "#79CDCD":
+                                                text s size 16 xalign .5 yalign .5 style "stats_value_text" color "#79CDCD":
                                                     if len(s) > 12:
                                                         size 12
                                     else:
                                         frame:
-                                            xalign 0.5
+                                            xalign .5
                                             xysize (130, 22)
                                             yfill True
-                                            text "-None-" size 17 xalign 0.5 yalign 0.5 style "stats_value_text" color indianred
+                                            text "-None-" size 17 xalign .5 yalign .5 style "stats_value_text" color indianred
         imagebutton:
             pos (1233, 670)
             idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
@@ -909,31 +909,31 @@ init: # Main Screens:
             add "content/gfx/images/battle/victory_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
             add "content/gfx/images/battle/battle_c.png" at fade_from_to(start_val=0.5, end_val=1.0, t=2.0, wait=0)
             add "content/gfx/images/battle/victory.png":
-                align (0.5, 0.5)
+                align (0.5, .5)
                 at simple_zoom_from_to_with_easein(start_val=50.0, end_val=1.0, t=2.0)
         else:
             add "content/gfx/images/battle/defeat_l.png" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
             add "content/gfx/images/battle/defeat_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
             add "content/gfx/images/battle/battle_c.png" at fade_from_to(start_val=0.5, end_val=1.0, t=2.0, wait=0)
             add "content/gfx/images/battle/defeat.png":
-                align (0.5, 0.5)
+                align (0.5, .5)
                 at simple_zoom_from_to_with_easein(start_val=50.0, end_val=1.0, t=2.0)
 
         frame:
             background Null()
             xsize 95
             xpos 2
-            yalign 0.5
+            yalign .5
             xpadding 8
             ypadding 8
             xmargin 0
             ymargin 0
-            has vbox spacing 5 align(0.5, 0.5) box_reverse True
+            has vbox spacing 5 align(0.5, .5) box_reverse True
             $ i = 0
             for member in w_team :
                 $ img = member.show("portrait", resize=(70, 70), cache=True)
                 fixed:
-                    align (0.5, 0.5)
+                    align (0.5, .5)
                     xysize (70, 70)
                     imagebutton:
                         at fade_from_to(start_val=0, end_val=1.0, t=2.0, wait=i)
@@ -941,7 +941,7 @@ init: # Main Screens:
                         xpadding 1
                         xmargin 0
                         ymargin 0
-                        align (0.5, 0.5)
+                        align (0.5, .5)
                         style "basic_choice2_button"
                         idle img
                         hover img
@@ -952,17 +952,17 @@ init: # Main Screens:
         frame:
             background Null()
             xsize 95
-            align (1.0, 0.5)
+            align (1.0, .5)
             xpadding 8
             ypadding 8
             xmargin 0
             ymargin 0
-            has vbox spacing 5 align(0.5, 0.5)
+            has vbox spacing 5 align(0.5, .5)
             $ i = 0
             for member in l_team:
                 $ img = member.show("portrait", resize=(70, 70), cache=True)
                 fixed:
-                    align (0.5, 0.5)
+                    align (0.5, .5)
                     xysize (70, 70)
                     imagebutton:
                         at fade_from_to(start_val=0, end_val=1.0, t=2.0, wait=i)
@@ -970,7 +970,7 @@ init: # Main Screens:
                         xpadding 1
                         xmargin 0
                         ymargin 0
-                        align (0.5, 0.5)
+                        align (0.5, .5)
                         style "basic_choice2_button"
                         idle img
                         hover img
@@ -979,7 +979,7 @@ init: # Main Screens:
                     $ i = i + 1
 
         button:
-            align (0.5, 0.63)
+            align (0.5, .63)
             style_group "pb"
             action [Function(renpy.music.stop, channel="music", fadeout=1.0), Return(["control", "hide_vic"])]
             text "Continue" style "pb_button_text"
@@ -1001,7 +1001,7 @@ init: # Main Screens:
             if hero.team == w_team: # Show only if we won...
                 frame:
                     style_group "proper_stats"
-                    align (0.2, 0.5)
+                    align (0.2, .5)
                     background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
                     xpadding 12
                     ypadding 12
@@ -1010,9 +1010,9 @@ init: # Main Screens:
                     has vbox spacing 1
                     for stat in winner.combat_stats:
                         frame:
-                            xalign 0.5
+                            xalign .5
                             xysize (190, 27)
-                            text '{}'.format(stat.capitalize()) xalign 0.02 color "#79CDCD"
+                            text '{}'.format(stat.capitalize()) xalign .02 color "#79CDCD"
                             label str(winner.combat_stats[stat]) xalign 1.0 yoffset -1
 
         # Looser Details Display on the left:
@@ -1020,12 +1020,12 @@ init: # Main Screens:
             frame:
                 background Frame("content/gfx/frame/MC_bg.png", 10, 10)
                 add im.Sepia(loser.show("battle_sprite", resize=(200, 200), cache=True))
-                align (0.8, 0.2)
+                align (0.8, .2)
         else:
             frame:
                 background Frame("content/gfx/frame/MC_bg.png", 10, 10)
                 add loser.show("battle_sprite", resize=(200, 200), cache=True)
-                align (0.8, 0.2)
+                align (0.8, .2)
 
         add "content/gfx/frame/h1.png"
 
@@ -1048,7 +1048,7 @@ init: # Main Screens:
                 style_group "basic"
                 action Hide("arena_report")
                 minimum(50, 30)
-                align (0.5, 0.9)
+                align (0.5, .9)
                 text  "Close" # TODO gui: possibly will require align changes when arena log is full
         key "mousedown_3" action Hide("arena_report")
 
@@ -1079,20 +1079,20 @@ init: # ChainFights vs Mobs:
                             padding 1, 1
                             # has hbox spacing 5
                             hbox:
-                                yalign 0.5
+                                yalign .5
                                 frame:
-                                    yalign 0.5
+                                    yalign .5
                                     xysize (350, 45)
                                     background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                     text("[setup]") align .5, .5 size 25 style "proper_stats_text" color gold
                                 frame:
-                                    yalign 0.5
+                                    yalign .5
                                     xysize (45, 45)
                                     background Frame ("content/gfx/frame/rank_frame.png", 5, 5)
                                     add pytfall.arena.chain_fights_order_portraits[i]:
                                         align (.5, .5)
                                 frame:
-                                    yalign 0.5
+                                    yalign .5
                                     xysize (100, 45)
                                     background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                     $ lvl = pytfall.arena.chain_fights[setup]["level"]
@@ -1110,10 +1110,10 @@ init: # ChainFights vs Mobs:
                     style_group "basic"
                     action SetField(pytfall.arena, "result", "break"), Return("Bupkis")
                     minimum(50, 30)
-                    align (0.5, 0.9995)
+                    align (0.5, .9995)
                     text  "Close"
         else:
-            timer 0.5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
+            timer .5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
         key "mousedown_3" action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
 
         # zorder 1
@@ -1123,13 +1123,13 @@ init: # ChainFights vs Mobs:
         # if not pytfall.arena.cf_mob:
             # text "Choose your Fight!":
                 # style "arena_header_text"
-                # align (0.5, 0.1)
+                # align (0.5, .1)
                 # size 50
 
             # vbox:
                 # style "menu"
                 # spacing 1
-                # align (0.5, 0.55)
+                # align (0.5, .55)
                 # for setup in pytfall.arena.chain_fights_order:
                     # button:
                         # style "menu_choice_button_blue"
@@ -1145,7 +1145,7 @@ init: # ChainFights vs Mobs:
 
                 # key "mousedown_3" action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
         # else:
-            # timer 0.5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
+            # timer .5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
 
     screen arena_minigame(maxval, interval, length_multiplier, d):
         zorder 2
@@ -1254,7 +1254,7 @@ init: # ChainFights vs Mobs:
         hbox at slide(so1=(0, 700), t1=0.7, so2=(0, 700), t2=0.7):
             style_prefix "wood"
             spacing 40
-            align(0.5, 0.9)
+            align(0.5, .9)
             button:
                 text "Give Up" size 25 color goldenrod outlines [(1, "#000000", 0, 0)]
                 xysize (180, 60)
@@ -1290,11 +1290,11 @@ init: # ChainFights vs Mobs:
             align .95, .5
             maximum 500, 400 spacing 30
             text "Rewards:":
-                xalign 0.5
+                xalign .5
                 style "arena_header_text"
 
             hbox:
-                xalign 0.5
+                xalign .5
                 spacing 10
                 box_wrap True
                 if pytfall.arena.cf_rewards:
@@ -1305,7 +1305,7 @@ init: # ChainFights vs Mobs:
                             add ProportionalScale(reward.icon, 80, 80) align .5, .5
                 else:
                     text "No extra rewards... this is unlucky :(":
-                        xalign 0.5
+                        xalign .5
                         style "arena_header_text"
                         size 25
 

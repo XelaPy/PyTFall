@@ -27,7 +27,7 @@ label slave_market:
         "This lot requires more training, get them out of here!"
 
         play sound "content/sfx/sound/be/whip_attack_2.mp3"
-        pause 0.1
+        pause .1
         play sound "content/sfx/sound/be/whip_attack_2.mp3"
 
         "{color=[red]} Yes, Ma'am! Yes, Ma'am! Yes, Ma'am!"
@@ -202,7 +202,7 @@ screen slavemarket():
 
     use top_stripe(True)
 
-    use r_lightbutton(img=im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True), return_value =['control', 'jumpclub'], align=(0.01, 0.5))
+    use r_lightbutton(img=im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True), return_value =['control', 'jumpclub'], align=(0.01, .5))
 
     use location_actions("slave_market")
 
@@ -237,7 +237,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     background Frame (Transform("content/gfx/frame/namebox5.png", alpha=0.95), 250, 50)
                     label "{color=[gold]}[store.girl.fullname]":
                         text_color ivory text_outlines [(2, "#424242", 0, 0)]
-                        align (0.5, 0.5)
+                        align (0.5, .5)
                         if len(store.girl.fullname) < 20:
                             text_size 21
 
@@ -248,8 +248,8 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                         xanchor -0.01
                         xysize(253, 47)
                         background Frame("content/gfx/frame/rank_frame.png", 10, 10)
-                        text ('%s:'%store.girl.wranks['r%s'%store.girl.rank]['name'][0]) align (0.1, 0.2) color ivory size 16
-                        text ('%s'%store.girl.wranks['r%s'%store.girl.rank]['name'][1]) align (0.5, 0.96) color ivory size 16
+                        text ('%s:'%store.girl.wranks['r%s'%store.girl.rank]['name'][0]) align (0.1, .2) color ivory size 16
+                        text ('%s'%store.girl.wranks['r%s'%store.girl.rank]['name'][1]) align (0.5, .96) color ivory size 16
                 else:
                     null height -5
 
@@ -278,15 +278,15 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                             frame:
                                 xysize 244, 20
                                 text ("{color=#79CDCD}{size=-1}Class:") pos (1, -4)
-                                label "{size=-3}[store.girl.traits.base_to_string]" align (1.0, 0.5) ypos 10
+                                label "{size=-3}[store.girl.traits.base_to_string]" align (1.0, .5) ypos 10
                             frame:
                                 xysize 244, 20
                                 text "{color=#79CDCD}{size=-1}Market Price:" pos (1, -4)
-                                label (u"{color=[gold]}{size=-5}%s"%store.girlfin.get_price()) align (1.0, 0.5) ypos 10
+                                label (u"{color=[gold]}{size=-5}%s"%store.girlfin.get_price()) align (1.0, .5) ypos 10
                             frame:
                                 xysize 244, 20
                                 text "{color=#79CDCD}{size=-1}Upkeep:" pos (1, -4)
-                                label (u"{size=-5}%s"%store.girlfin.get_upkeep()) align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s"%store.girlfin.get_upkeep()) align (1.0, .5) ypos 10
 
                 null height 8
 
@@ -314,27 +314,27 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                             frame:
                                 xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Health:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.health, store.girl.get_max("health"))) align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s/%s"%(store.girl.health, store.girl.get_max("health"))) align (1.0, .5) ypos 10
                             frame:
                                 xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Vitality:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.vitality, store.girl.get_max("vitality"))) align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s/%s"%(store.girl.vitality, store.girl.get_max("vitality"))) align (1.0, .5) ypos 10
                             frame:
                                 xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Charisma:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.charisma, store.girl.get_max("charisma"))) align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s/%s"%(store.girl.charisma, store.girl.get_max("charisma"))) align (1.0, .5) ypos 10
                             frame:
                                 xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Character:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.character, store.girl.get_max("character"))) align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s/%s"%(store.girl.character, store.girl.get_max("character"))) align (1.0, .5) ypos 10
                             frame:
                                 xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Constitution:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.constitution, store.girl.get_max("constitution"))) align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s/%s"%(store.girl.constitution, store.girl.get_max("constitution"))) align (1.0, .5) ypos 10
                             frame:
                                 xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Intelligence:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.intelligence, store.girl.get_max("intelligence"))) align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s/%s"%(store.girl.intelligence, store.girl.get_max("intelligence"))) align (1.0, .5) ypos 10
                             #text (u"| %d"%store.girl.goal)
                     frame:
                         background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
@@ -353,7 +353,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                             frame:
                                 xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Level:" pos (1, -4)
-                                label (u"{size=-5}%s"%store.girl.level) align (1.0, 0.5) ypos 10
+                                label (u"{size=-5}%s"%store.girl.level) align (1.0, .5) ypos 10
 
                 null height 8
 
@@ -387,9 +387,9 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
             xysize (669, 423)
             background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=1.0), 10, 10)
             frame:
-                align (0.5, 0.5)
+                align (0.5, .5)
                 background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                add (store.girl.show("nude","no clothes", resize=(560, 400), exclude=["rest", "outdoors", "onsen", "beach", "pool", "living"], type="first_default", label_cache=True)) align(0.5, 0.5)
+                add (store.girl.show("nude","no clothes", resize=(560, 400), exclude=["rest", "outdoors", "onsen", "beach", "pool", "living"], type="first_default", label_cache=True)) align(0.5, .5)
 
         # Traits:
         frame:
@@ -397,7 +397,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
             style_group "content"
             xysize (350, 334)
             background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=0.98), 10, 10)
-            has vbox align (0.5, 0.5)
+            has vbox align (0.5, .5)
             null height 5
             label (u"{size=20}{color=[ivory]}{b}Visible Traits") xalign .5 text_outlines [(2, "#424242", 0, 0)]
             null height 5
@@ -433,10 +433,10 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
             pos(928, 370)
             xsize 350
             hbox:
-                xalign 0.5
+                xalign .5
                 $ img=im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_left.png", 50, 50)
                 imagebutton:
-                    align(0.5, 0.5)
+                    align(0.5, .5)
                     idle img
                     hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
                     action (Function(store.previous_index))
@@ -445,7 +445,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                 null width 10
 
                 frame:
-                    align(0.5, 0.5)
+                    align(0.5, .5)
                     style_group "dropdown_gm"
                     has vbox
 
@@ -469,7 +469,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
 
                 $ img=im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_right.png", 50, 50)
                 imagebutton:
-                    align(0.5, 0.5)
+                    align(0.5, .5)
                     idle img
                     hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
                     action (Function(store.next_index))

@@ -79,21 +79,21 @@ screen mainscreen():
     add im.Scale("content/gfx/bg/bg085_rsz.jpg", config.screen_width, config.screen_height-40) at fade_from_to(0.0, 1.0, 2.0) ypos 40
 
     frame:
-        align (0.995, 0.88)
+        align (0.995, .88)
         background Frame("content/gfx/frame/window_frame2.png", 30, 30)
         xysize (255, 670)
         xfill True
         yfill True
 
-        add "".join(["content/gfx/interface/images/calendar/","cal ", calendar.moonphase(), ".png"]) xalign 0.485 ypos 83
+        add "".join(["content/gfx/interface/images/calendar/","cal ", calendar.moonphase(), ".png"]) xalign .485 ypos 83
 
-        text "{font=fonts/TisaOTM.otf}{k=-1}{color=#FFEC8B}{size=18}%s" % calendar.weekday() xalign 0.5 ypos 210
+        text "{font=fonts/TisaOTM.otf}{k=-1}{color=#FFEC8B}{size=18}%s" % calendar.weekday() xalign .5 ypos 210
 
-        text "{font=fonts/TisaOTM.otf}{k=-0.5}{color=#FFEC8B}{size=18}%s" % calendar.string() xalign 0.5 ypos 250
+        text "{font=fonts/TisaOTM.otf}{k=-0.5}{color=#FFEC8B}{size=18}%s" % calendar.string() xalign .5 ypos 250
 
         vbox:
             style_group "main_screen_3"
-            xalign 0.5
+            xalign .5
             ypos 305
             spacing 15
             textbutton "Characters":
@@ -122,7 +122,7 @@ screen mainscreen():
         vbox:
             style_group "dropdown_gm"
             spacing 1
-            align (0.01, 0.5)
+            align (0.01, .5)
             textbutton "Arena Inside":
                 action Hide("mainscreen"), Jump("arena_inside")
             textbutton "Test BE":
@@ -138,14 +138,14 @@ screen mainscreen():
             pos (500, 60)
             xysize (500, 300)
             background Frame("content/gfx/frame/settings1.png", 10, 10)
-            text "%s"%pytfall.ms_text align (0.5, 0.1) style "content_text" color goldenrod size 19
+            text "%s"%pytfall.ms_text align (0.5, .1) style "content_text" color goldenrod size 19
             timer 10 action ToggleField(pytfall, "todays_first_view")
 
     # Tooltip related:
     frame:
         background Frame("content/gfx/frame/window_frame1.png", 10, 10)
-        align(0.5, 0.997)
+        align(0.5, .997)
         xysize (750, 100)
-        text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(0.5, 0.5)
+        text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(0.5, .5)
 
     use top_stripe(False)

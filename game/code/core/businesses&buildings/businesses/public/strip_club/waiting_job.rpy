@@ -112,7 +112,7 @@ init -5 python:
             """
             Solve the job as a waitress.
             """
-            clientsmax = self.APr * (2 + (worker.agility * 0.05 + worker.serviceskill * 0.05 + worker.refinement * 0.01))
+            clientsmax = self.APr * (2 + (worker.agility * .05 + worker.serviceskill * .05 + worker.refinement * .01))
 
             if self.loc.servicer['clubclientsleft'] - clientsmax <= 0:
                 clientsserved = self.loc.servicer['clubclientsleft']
@@ -124,7 +124,7 @@ init -5 python:
                 log.append("She served snacks and drinks to tables of %d clients. \n"%(clientsmax))
                 self.loc.servicer['clubclientsleft'] = self.loc.servicer['clubclientsleft'] - clientsserved
 
-            clubfees = clientsserved * self.loc.rep * 0.08 + clientsserved * 0.5 * (worker.refinement * 0.1 + worker.charisma * 0.1 + worker.service * 0.025)
+            clubfees = clientsserved * self.loc.rep * .08 + clientsserved * .5 * (worker.refinement * .1 + worker.charisma * .1 + worker.service * .025)
             tips = 0
 
             log.append("\n")
@@ -133,23 +133,23 @@ init -5 python:
             if worker.serviceskill > 2000:
                 self.locmod['reputation'] += choice([0, 1])
                 clubfees = clubfees * 1.5
-                tips = clubfees * 0.10
+                tips = clubfees * .10
                 log.append("She is an excellent waitress, customers didn't notice how they've just kept spending their money as she offered them more and more house specials. \n")
 
             elif worker.serviceskill >= 1000:
                 self.locmod['reputation'] += choice([0,0,0,1])
                 clubfees = clubfees * 1.2
-                tips = clubfees * 0.07
+                tips = clubfees * .07
                 log.append("Customers were pleased with such a skilled waitress serving them. \n")
 
             elif worker.serviceskill >= 500:
-                tips = clubfees * 0.03
+                tips = clubfees * .03
                 self.locmod['reputation'] += choice([0,0,0,0,0,1])
                 log.append("She was skillful enough not to mess anything up during her job. \n")
 
             elif worker.serviceskill >= 100:
                 self.locmod['reputation'] += choice([0,0,-1,0,0,-1])
-                clubfees = clubfees * 0.8
+                clubfees = clubfees * .8
                 log.append("Her performance was rather poor and it most definitely has cost you income. \n")
 
             if worker.charisma > 300:

@@ -457,7 +457,7 @@ init -999 python:
 
             folder_path = "/".join(["/content", folder, dir])
             img_name = split_dir[0]
-            delay = float(split_dir[1]) if len_split > 1 else 0.25
+            delay = float(split_dir[1]) if len_split > 1 else .25
             loop = bool(int(split_dir[2])) if len_split > 2 else False
 
             renpy.image(img_name, animate(folder_path, delay, loop=loop))
@@ -498,18 +498,18 @@ init -1 python: # Constants:
     SLOTALIASES = {"smallweapon": "Left Hand", "weapon": "Right Hand", "amulet": "Neck", "feet": "Legs", "quest": "Special"}
 
     equipSlotsPositions = dict()
-    equipSlotsPositions['head'] = [u'Head', 0.2, 0.1]
-    equipSlotsPositions['body'] = [u'Body', 0.2, 0.3]
-    equipSlotsPositions['amulet'] = [u'Amulet', 1.0, 0.3]
-    equipSlotsPositions['cape'] = [u'Cape', 1.0, 0.1]
-    equipSlotsPositions['weapon'] = [u'Weapon', 0.2, 0.5]
-    equipSlotsPositions['smallweapon'] = [u'Small Weapon', 1.0, 0.5]
-    equipSlotsPositions['feet'] = [u'Feet', 1.0, 0.7]
-    equipSlotsPositions['misc'] = [u'Misc', 0.025, 0.41]
-    equipSlotsPositions['wrist'] = [u'Wrist', 0.2, 0.7]
-    equipSlotsPositions['ring'] = [u'Ring', 1.18, 0.2]
-    equipSlotsPositions['ring1'] = [u'Ring', 1.18, 0.4]
-    equipSlotsPositions['ring2'] = [u'Ring', 1.18, 0.6]
+    equipSlotsPositions['head'] = [u'Head', .2, .1]
+    equipSlotsPositions['body'] = [u'Body', .2, .3]
+    equipSlotsPositions['amulet'] = [u'Amulet', 1.0, .3]
+    equipSlotsPositions['cape'] = [u'Cape', 1.0, .1]
+    equipSlotsPositions['weapon'] = [u'Weapon', .2, .5]
+    equipSlotsPositions['smallweapon'] = [u'Small Weapon', 1.0, .5]
+    equipSlotsPositions['feet'] = [u'Feet', 1.0, .7]
+    equipSlotsPositions['misc'] = [u'Misc', .025, .41]
+    equipSlotsPositions['wrist'] = [u'Wrist', .2, .7]
+    equipSlotsPositions['ring'] = [u'Ring', 1.18, .2]
+    equipSlotsPositions['ring1'] = [u'Ring', 1.18, .4]
+    equipSlotsPositions['ring2'] = [u'Ring', 1.18, .6]
 
 init python: # Locking random seed of internal renpys random
     def locked_random(type, *args, **kwargs):

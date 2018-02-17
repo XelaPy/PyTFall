@@ -165,41 +165,41 @@ init -10 python:
         """
         mult = 1.0*c.character/c.get_max("character") # the idea is based on the character stat, we check how close is she to max possible character at her level
         if "Impersonal" in c.traits: # and traits, they can make mult more or less, so for example even low character tsundere might be more stubborn than high character dandere
-            mult -= 0.1
+            mult -= .1
         elif "Imouto" in c.traits:
-            mult -= 0.05
+            mult -= .05
         elif "Dandere" in c.traits:
-            mult -= 0.15
+            mult -= .15
         elif "Tsundere" in c.traits:
-            mult += 0.2
+            mult += .2
         elif "Kuudere" in c.traits:
-            mult += 0.15
+            mult += .15
         elif "Kamidere" in c.traits:
-            mult += 0.23
+            mult += .23
         elif "Bokukko" in c.traits:
-            mult += 0.2
+            mult += .2
         elif "Ane" in c.traits:
-            mult += 0.05
+            mult += .05
         elif "Yandere" in c.traits: # in case of yandere disposition is everything
             if c.disposition <= 500:
-                mult += 0.25
+                mult += .25
             else:
-                mult -= 0.25
+                mult -= .25
         if "Courageous" in c.traits:
-            mult += 0.05
+            mult += .05
         elif "Coward" in c.traits:
-            mult -= 0.05
+            mult -= .05
         if "Shy" in c.traits:
-            mult -= 0.05
+            mult -= .05
         if "Aggressive" in c.traits:
-            mult += 0.05
+            mult += .05
         if "Natural Leader" in c.traits:
-            mult += 0.05
+            mult += .05
         elif "Natural Follower" in c.traits:
-            mult -= 0.05
-        if mult < 0.35: # there are 3 levels of submissiveness, we return -1, 0 or 1, it's very simple to use in further calculations
+            mult -= .05
+        if mult < .35: # there are 3 levels of submissiveness, we return -1, 0 or 1, it's very simple to use in further calculations
             return -1
-        elif mult > 0.67:
+        elif mult > .67:
             return 1
         else:
             return 0

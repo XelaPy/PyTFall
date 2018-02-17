@@ -47,8 +47,8 @@ init python:
     """
 
 # init:
-    # image sinstar = anim.Filmstrip('content/gfx/images/sinstar.png', (192, 192), (5, 3), 0.1, loop=True) # This is a simplest way to declare an image in Ren'Py
-    # image sinstar_reverced = ReversedFilmstrip('content/gfx/images/sinstar.png', (192, 192), (5, 3), 0.1, loop=True)
+    # image sinstar = anim.Filmstrip('content/gfx/images/sinstar.png', (192, 192), (5, 3), .1, loop=True) # This is a simplest way to declare an image in Ren'Py
+    # image sinstar_reverced = ReversedFilmstrip('content/gfx/images/sinstar.png', (192, 192), (5, 3), .1, loop=True)
     # image sinstar_loop:
         # "sinstar"
         # 1.5
@@ -67,9 +67,9 @@ label examples:
     # It will hide everything except screens (They are being displayed on a screens layer) and maybe something else we decided to show on a different layer.
 
     # "Quick interruption to show off the image we declared a few lines ealier!"
-    # # show sinstar at Transform(align=(0.3, 0.5))
-    # # show sinstar_reverced at Transform(align=(0.5, 0.5))
-    # show sinstar_loop at Transform(align=(0.5, 0.5))
+    # # show sinstar at Transform(align=(0.3, .5))
+    # # show sinstar_reverced at Transform(align=(0.5, .5))
+    # show sinstar_loop at Transform(align=(0.5, .5))
     # pause # This will wait for user to click somewhere...
     # "This was it... sorry for inconvenience..."
     # scene black

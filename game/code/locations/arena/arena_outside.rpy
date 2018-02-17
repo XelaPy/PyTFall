@@ -222,7 +222,7 @@ screen arena_outside:
 
     if gm.show_girls:
 
-        add "content/gfx/images/bg_gradient.png" yalign 0.45
+        add "content/gfx/images/bg_gradient.png" yalign .45
         $ j = 0
 
         for entry in gm.display_girls():
@@ -233,27 +233,27 @@ screen arena_outside:
 
 screen xeona_screen:
     frame:
-        xalign 0.95
+        xalign .95
         ypos 20
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
             style_group "wood"
-            align (0.5, 0.5)
+            align (0.5, .5)
             spacing 10
             button:
                 xysize (150, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("xeona_screen"), Jump("xeona_talking")]
                 text "Talk" size 15
             button:
                 xysize (150, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("xeona_screen"), Jump("xeona_training")]
                 text "Training" size 15
             button:
                 xysize (150, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("xeona_screen"), Jump("xeona_goodbye")]
                 text "Leave" size 15

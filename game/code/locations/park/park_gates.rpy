@@ -5,7 +5,7 @@ label city_parkgates:
     if not "park" in ilists.world_music:
         $ ilists.world_music["park"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("park")]
     if not global_flags.has_flag("keep_playing_music"):
-        play world choice(ilists.world_music["park"]) fadein 0.5
+        play world choice(ilists.world_music["park"]) fadein .5
     $ global_flags.del_flag("keep_playing_music")
 
     python:
@@ -59,7 +59,7 @@ screen city_parkgates():
 
     if gm.show_girls:
 
-        add "content/gfx/images/bg_gradient.png" yalign 0.45
+        add "content/gfx/images/bg_gradient.png" yalign .45
 
         $ j = 0
 

@@ -96,15 +96,15 @@ screen city_tavern_show_poker_dices(dice_1, dice_2, atl, selected_atl): # main p
 screen city_tavern_show_poker_dices_controls:
     vbox:
         style_group "wood"
-        align (0.9, 0.9)
+        align (0.9, .9)
         button:
             xysize (120, 40)
-            yalign 0.5
+            yalign .5
             action [Jump("city_tavern_show_poker_shuffle")]
             text "Next" size 15
         button:
             xysize (120, 40)
-            yalign 0.5
+            yalign .5
             action [Hide("city_tavern_show_poker_dices"), Jump("city_tavern_poker_give_up")]
             text "Give Up" size 15
 
@@ -112,13 +112,13 @@ transform dice_roll_zooming(x):
     subpixel True
     anchor (.5, .5)
     zoom 0
-    easein_back 0.75 zoom 1.0
+    easein_back .75 zoom 1.0
 
 transform dice_roll_unzooming(x):
     subpixel True
     anchor (.5, .5)
     zoom 0
-    easein_bounce 0.75 zoom 1.0
+    easein_bounce .75 zoom 1.0
 
 transform dice_roll_change(x):
     subpixel True
@@ -178,39 +178,39 @@ label city_tavern_show_poker_shuffle:
 
 screen city_tavern_show_poker_status(): # additional screen, shows all info related to the dice game
     frame:
-        xalign 0.05
-        yalign 0.05
+        xalign .05
+        yalign .05
         xysize (120, 120)
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         vbox:
-            xalign 0.5
-            yalign 0.5
+            xalign .5
+            yalign .5
             if dice_poker_decide_winner(dice_1, dice_2) == 1:
-                add "content/gfx/interface/images/poker_winner.png" xalign 0.5
+                add "content/gfx/interface/images/poker_winner.png" xalign .5
                 spacing 5
             $ result = dice_poker_calculate(dice_1)[0]
-            text result xalign 0.98 style "stats_value_text" color gold size 12
+            text result xalign .98 style "stats_value_text" color gold size 12
     frame:
-        xalign 0.05
-        yalign 0.95
+        xalign .05
+        yalign .95
         xysize (120, 120)
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         vbox:
-            xalign 0.5
-            yalign 0.5
+            xalign .5
+            yalign .5
             if dice_poker_decide_winner(dice_1, dice_2) == 2:
-                add "content/gfx/interface/images/poker_winner.png" xalign 0.5
+                add "content/gfx/interface/images/poker_winner.png" xalign .5
                 spacing 5
             $ result = dice_poker_calculate(dice_2)[0]
-            text result xalign 0.98 style "stats_value_text" color gold size 12
+            text result xalign .98 style "stats_value_text" color gold size 12
     frame:
-        xalign 0.5
-        yalign 0.05
+        xalign .5
+        yalign .05
         xysize (120, 120)
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 1
         ypadding 1
         vbox:
-            xalign 0.5
+            xalign .5
             add "content/gfx/interface/images/tavern_gold.png"
-            text str(city_tavern_current_dice_bet) xalign 0.5 style "stats_value_text" color gold
+            text str(city_tavern_current_dice_bet) xalign .5 style "stats_value_text" color gold

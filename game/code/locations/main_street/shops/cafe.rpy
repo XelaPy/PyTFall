@@ -82,35 +82,35 @@ label cafe_shopping:
 
 screen cafe_eating:
     frame:
-        xalign 0.95
+        xalign .95
         ypos 20
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
             style_group "wood"
-            align (0.5, 0.5)
+            align (0.5, .5)
             spacing 10
             button:
                 xysize (150, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("cafe_eating"), Jump("cafe_shopping")]
                 text "Shop" size 15
             if hero.flag("ate_in_cafe") != day:
                 button:
                     xysize (150, 40)
-                    yalign 0.5
+                    yalign .5
                     action [Hide("cafe_eating"), Jump("cafe_eat_alone")]
                     text "Eat alone" size 15
             if len(hero.team)>1 and hero.flag("ate_in_cafe") != day:
                 button:
                     xysize (150, 40)
-                    yalign 0.5
+                    yalign .5
                     action [Hide("cafe_eating"), Jump("cafe_eat_group")]
                     text "Eat with group" size 15
             button:
                 xysize (150, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("cafe_eating"), Jump("main_street")]
                 text "Leave" size 15
 label cafe_eat_alone:
@@ -269,7 +269,7 @@ label cafe_invitation: # we jump here when the group was invited by one of chars
         python:
             for member in hero.team:
                 if member.status != "free" and member.disposition < -50:
-                    d = 0.5
+                    d = .5
                 else:
                     d = 1
                 stat = round(randint(5, 10)*d)

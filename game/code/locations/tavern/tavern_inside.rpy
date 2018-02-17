@@ -44,7 +44,7 @@ label tavern_town:
                 if not file.endswith("db"):
                     tavern_event_list.append('content/events/tavern_entry/cozy/%s' % (file))
             img = ProportionalScale(choice(tavern_event_list), 1000, 600)
-            renpy.show("drunkards", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
+            renpy.show("drunkards", what=img, at_list=[Position(ypos = .5, xpos = .5, yanchor = .5, xanchor = .5)])
             renpy.with_statement(dissolve)
             narrator ("The tavern is warm and cozy with only a handful of drunkards enjoying the stay.")
     elif global_flags.flag("tavern_status")[1] == "lively":
@@ -53,7 +53,7 @@ label tavern_town:
                 if not file.endswith("db"):
                     tavern_event_list.append('content/events/tavern_entry/lively/%s' % (file))
             img = ProportionalScale(choice(tavern_event_list), 1000, 600)
-            renpy.show("drunkards", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
+            renpy.show("drunkards", what=img, at_list=[Position(ypos = .5, xpos = .5, yanchor = .5, xanchor = .5)])
             renpy.with_statement(dissolve)
             narrator ("The place is loud and lively today, with townsmen drinking and talking at every table.")
     else:
@@ -62,7 +62,7 @@ label tavern_town:
                 if not file.endswith("db"):
                     tavern_event_list.append('content/events/tavern_entry/brawl/%s' % (file))
             img = ProportionalScale(choice(tavern_event_list), 1000, 600)
-            renpy.show("event", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
+            renpy.show("event", what=img, at_list=[Position(ypos = .5, xpos = .5, yanchor = .5, xanchor = .5)])
             renpy.with_statement(dissolve)
             renpy.music.stop(channel="world")
             renpy.music.play("brawl.mp3",channel="world")
@@ -78,7 +78,7 @@ label city_tavern_menu: # "lively" status is limited by drunk effect; every acti
         $ tavern_dizzy = True
         "You feel a little dizzy... Perhaps you should go easy on drinks."
         $ double_vision_on("bg tavern_inside")
-        $ renpy.show("drunkards", what=img, at_list=[Position(ypos = 0.5, xpos = 0.5, yanchor = 0.5, xanchor = 0.5)])
+        $ renpy.show("drunkards", what=img, at_list=[Position(ypos = .5, xpos = .5, yanchor = .5, xanchor = .5)])
     show screen city_tavern_inside
     while 1:
         $ result = ui.interact()
@@ -105,53 +105,53 @@ label city_tavern_choose_label:
 screen city_tavern_inside():
     use top_stripe(True)
     frame:
-        xalign 0.95
+        xalign .95
         ypos 50
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
             style_prefix "wood"
-            align (0.5, 0.5)
+            align (0.5, .5)
             spacing 10
             button:
                 xysize (120, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("city_tavern_inside"), Jump("city_tavern_shopping")]
                 text "Buy a drink" size 15
             if hero.AP > 0 and global_flags.flag("tavern_status")[1] == "lively":
                 button:
                     xysize (120, 40)
-                    yalign 0.5
+                    yalign .5
                     action [Hide("city_tavern_inside"), Jump("tavern_look_around")]
                     text "Look around" size 15
             if hero.AP > 0 and global_flags.flag("tavern_status")[1] == "cozy" and hero.flag("rest_in_tavern") != day:
                 button:
                     xysize (120, 40)
-                    yalign 0.5
+                    yalign .5
                     action [Hide("city_tavern_inside"), Jump("tavern_relax")]
                     text "Relax" size 15
             if hero.AP > 0 and global_flags.flag("tavern_status")[1] == "cozy":
                 button:
                     xysize (120, 40)
-                    yalign 0.5
+                    yalign .5
                     action [Hide("city_tavern_inside"), Jump("city_tavern_play_dice")]
                     text "Blackjack" size 15
             if hero.AP > 0 and global_flags.flag("tavern_status")[1] == "cozy":
                 button:
                     xysize (120, 40)
-                    yalign 0.5
+                    yalign .5
                     action [Hide("city_tavern_inside"), Jump("city_tavern_play_poker")]
                     text "Poker" size 15
             if global_flags.flag("tavern_status")[1] == "cozy":
                 button:
                     xysize (120, 40)
-                    yalign 0.5
+                    yalign .5
                     action [Hide("city_tavern_inside"), Jump("city_tavern_choose_label")]
                     text "Set dice bet" size 15
             button:
                 xysize (120, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("city_tavern_inside"), Jump("city")]
                 text "Leave" size 15
 

@@ -31,11 +31,11 @@ label interactions_kiss:
         jump girl_interactions
     
     if check_lovers(char, hero):
-        $ temp = 0.6
+        $ temp = .6
     elif check_friends(char, hero):
-        $ temp = 0.2
+        $ temp = .2
     else:
-        $ temp = 0.15
+        $ temp = .15
 
     $ sub = check_submissivity(char)
     

@@ -50,7 +50,7 @@ screen city_screen():
     default loc_list = ["main_street", "arena_outside", "slave_market", "city_jail", "tavern_town",
                                 "city_parkgates", "academy_town", "mages_tower",
                                 "graveyard_town", "city_beach", "forest_entrance", "hiddenvillage_entrance"]
-    add "content/gfx/images/m_1.png" align (1.0, 0.0)
+    add "content/gfx/images/m_1.png" align (1.0, .0)
     
     for key in pytfall.maps("pytfall"):
         if not key.get("hidden", False):
@@ -81,7 +81,7 @@ screen city_screen():
         fixed:
             xysize (164, 78)
             pos (1111, 321)
-            text (u"[tt.value]") style "TisaOTMolxm" size 19 align (0.5, 0.5)
+            text (u"[tt.value]") style "TisaOTMolxm" size 19 align (0.5, .5)
             
     # Right frame:
     ### ----> Top buttons <---- ###

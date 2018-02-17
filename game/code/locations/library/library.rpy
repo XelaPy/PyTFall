@@ -1,6 +1,6 @@
 init python:
-    golem_change = ImageDissolve("content/gfx/masks/m12.jpg", 0.5, ramplen=128, reverse=True, time_warp=eyewarp) # masks for changing between eleven sprites
-    golem_change_back = ImageDissolve("content/gfx/masks/m12.jpg", 0.5, ramplen=128, reverse=False, time_warp=eyewarp)
+    golem_change = ImageDissolve("content/gfx/masks/m12.jpg", .5, ramplen=128, reverse=True, time_warp=eyewarp) # masks for changing between eleven sprites
+    golem_change_back = ImageDissolve("content/gfx/masks/m12.jpg", .5, ramplen=128, reverse=False, time_warp=eyewarp)
     class LibraryBooks(_object):
         """Simple class to hold library texts and format them appropriately.
         """
@@ -136,7 +136,7 @@ label academy_town:
         $ ilists.world_music["library"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("library")]
 
     if not global_flags.has_flag("keep_playing_music"):
-        play world choice(ilists.world_music["library"]) fadein 0.5
+        play world choice(ilists.world_music["library"]) fadein .5
 
     $ global_flags.del_flag("keep_playing_music")
 
@@ -246,7 +246,7 @@ screen academy_town():
 
     if gm.show_girls:
 
-        add "content/gfx/images/bg_gradient.png" yalign 0.45
+        add "content/gfx/images/bg_gradient.png" yalign .45
         $ j = 0
 
         for entry in gm.display_girls():

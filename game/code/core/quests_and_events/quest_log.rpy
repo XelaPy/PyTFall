@@ -62,9 +62,9 @@ screen quest_log():
                 style_group "basic"
                 text ("Hide Quest Popups") size 16
                 if USE_QUEST_POPUP:
-                    add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, 0.5)
+                    add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, .5)
                 else:
-                    add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, 0.5)
+                    add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, .5)
                 action QuestLogAction(not USE_QUEST_POPUP, "popup")
             null width 120
             $ if config.developer and "unstarted" not in modes: modes = modes + ["unstarted"]
@@ -106,10 +106,10 @@ screen quest_log():
                             style_group "basic"
                             frame:
                                 style_group "content"
-                                xalign 0.5
+                                xalign .5
                                 xysize (270, 50)
                                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                                label (u"Complete:") text_size 23 text_color ivory align(0.5, 0.6)
+                                label (u"Complete:") text_size 23 text_color ivory align(0.5, .6)
                             null height 20
                             for i in pytfall.world_quests.complete:
                                 textbutton i.name action [QuestLogAction(i.name), SelectedIf(i.name == quest_log_current_quest)]
@@ -119,10 +119,10 @@ screen quest_log():
                             style_group "basic"
                             frame:
                                 style_group "content"
-                                xalign 0.5
+                                xalign .5
                                 xysize (270, 50)
                                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                                label (u"Failed:") text_size 23 text_color ivory align(0.5, 0.6)
+                                label (u"Failed:") text_size 23 text_color ivory align(0.5, .6)
                             null height 20
                             for i in pytfall.world_quests.failed:
                                 textbutton i.name action [QuestLogAction(i.name), SelectedIf(i.name == quest_log_current_quest)]
@@ -132,10 +132,10 @@ screen quest_log():
                             style_group "basic"
                             frame:
                                 style_group "content"
-                                xalign 0.5
+                                xalign .5
                                 xysize (270, 50)
                                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                                label (u"Unstarted:") text_size 23 text_color ivory align(0.5, 0.6)
+                                label (u"Unstarted:") text_size 23 text_color ivory align(0.5, .6)
                             null height 20
                             for i in pytfall.world_quests.quests:
                                 if not i.active and not i.complete and not i.failed:

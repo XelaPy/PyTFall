@@ -124,14 +124,14 @@ screen chars_list(source=None):
                             label "[c.name]":
                                 text_size 18
                                 xpos 10
-                                yalign 0.06
+                                yalign .06
                                 if c.__class__ == Char:
                                     text_color pink
                                 else:
                                     text_color ivory
 
                             vbox:
-                                align (0.96, 0.035)
+                                align (0.96, .035)
                                 spacing 5
                                 if c.status == "slave":
                                     add ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50)
@@ -152,7 +152,7 @@ screen chars_list(source=None):
                                     hovered tt.Action('Select the character')
 
                             vbox:
-                                yalign 0.98
+                                yalign .98
                                 xpos 10
                                 # Prof-Classes
                                 python:
@@ -329,8 +329,8 @@ screen chars_list(source=None):
             null height 3
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
-                xalign 0.5
-                yalign 0.5
+                xalign .5
+                yalign .5
                 # ypos 5
                 xysize (250, 50)
                 has hbox style_group "basic" align .5, .5 spacing 5
@@ -358,8 +358,8 @@ screen chars_list(source=None):
             # Mass action Buttons ====================================>
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
-                xalign 0.5
-                yalign 0.5
+                xalign .5
+                yalign .5
                 xysize (250, 145)
                 has vbox style_group "basic" align .5, .5 spacing 3
                 vbox:
@@ -390,7 +390,7 @@ screen chars_list(source=None):
         background Frame("content/gfx/frame/window_frame1.png", 10, 10)
         align(0.09, 1.0)
         xysize (950, 65)
-        text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(0.5, 0.5)
+        text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(0.5, .5)
 
     use top_stripe(True)
 

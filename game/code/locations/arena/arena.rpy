@@ -212,19 +212,19 @@ init -9 python:
             """
             for team in self.dogfights_1v1:
                 for fighter in team:
-                    if fighter.health < fighter.get_max("health") * 0.9 or fighter.AP < 2:
+                    if fighter.health < fighter.get_max("health") * .9 or fighter.AP < 2:
                         if team in self.dogfights_1v1:
                             self.dogfights_1v1.remove(team)
 
             for team in self.dogfights_2v2:
                 for fighter in team:
-                    if fighter.health < fighter.get_max("health") * 0.9 or fighter.AP < 2:
+                    if fighter.health < fighter.get_max("health") * .9 or fighter.AP < 2:
                         if team in self.dogfights_2v2:
                             self.dogfights_2v2.remove(team)
 
             for team in self.dogfights_3v3:
                 for fighter in team:
-                    if fighter.health < fighter.get_max("health") * 0.9 or fighter.AP < 2:
+                    if fighter.health < fighter.get_max("health") * .9 or fighter.AP < 2:
                         if team in self.dogfights_3v3:
                             self.dogfights_3v3.remove(team)
 
@@ -236,7 +236,7 @@ init -9 python:
             """
             if isinstance(unit, Team):
                 for member in unit:
-                    if member.health < int(member.get_max("health") * 0.9):
+                    if member.health < int(member.get_max("health") * .9):
                         return False
                     if day+1 in member.fighting_days:
                         return False
@@ -246,7 +246,7 @@ init -9 python:
                     return False
 
             else:   # Any single fighter.
-                if unit.health < int(unit.get_max("health") * 0.9):
+                if unit.health < int(unit.get_max("health") * .9):
                     return False
                 if day+1 in unit.fighting_days:
                     return False
@@ -994,7 +994,7 @@ init -9 python:
                 d["white"] = c["white"] / 2
                 # Pass the dict to the award method:
                 renpy.play("win_screen.mp3", channel="world")
-                renpy.call_screen("arena_minigame", 50, 0.01, 6, d)
+                renpy.call_screen("arena_minigame", 50, .01, 6, d)
 
             renpy.show_screen("confirm_chainfight")
 

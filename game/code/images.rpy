@@ -9,21 +9,21 @@ init:
     image bg_main = "content/gfx/bg/main.jpg"
 
     image eyes:
-        zoom 0.7
+        zoom .7
         additive 1.0
-        alpha 0.7
+        alpha .7
         "content/gfx/animations/main_menu/eyes/eyes1.png"
         pause 1
         "content/gfx/animations/main_menu/eyes/eyes2.png"
         pause 2
         "content/gfx/animations/main_menu/eyes/eyes3.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes4.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes5.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes6.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes7.png"
         pause 1
         "content/gfx/animations/main_menu/eyes/eyes8.png"
@@ -33,25 +33,25 @@ init:
         "content/gfx/animations/main_menu/eyes/eyes10.png"
         pause 2
         "content/gfx/animations/main_menu/eyes/eyes11.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes12.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes13.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes14.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes15.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes16.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes17.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes18.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes19.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes20.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes21.png"
         pause 1
         "content/gfx/animations/main_menu/eyes/eyes22.png"
@@ -59,61 +59,61 @@ init:
         "content/gfx/animations/main_menu/eyes/eyes23.png"
         pause 1
         "content/gfx/animations/main_menu/eyes/eyes24.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes25.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes26.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes27.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes28.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/eyes/eyes29.png"
         pause 1
         "content/gfx/animations/main_menu/eyes/eyes30.png"
         pause 1
         "content/gfx/animations/main_menu/eyes/eyes31.png"
-        pause 0.5
+        pause .5
         "content/gfx/animations/main_menu/eyes/eyes32.png"
         pause 1
         "content/gfx/animations/main_menu/eyes/eyes33.png"
-        pause 0.5
+        pause .5
         "content/gfx/animations/main_menu/eyes/eyes34.png"
         pause 1
         "content/gfx/animations/main_menu/eyes/eyes35.png"
-        pause 0.5
+        pause .5
         "content/gfx/animations/main_menu/eyes/eyes36.png"
-        pause 0.5
+        pause .5
         "content/gfx/animations/main_menu/eyes/eyes37.png"
-        pause 0.5
+        pause .5
         "content/gfx/animations/main_menu/eyes/eyes38.png"
         pause 1
         "content/gfx/animations/main_menu/eyes/eyes39.png"
-        pause 0.4
+        pause .4
         "content/gfx/animations/main_menu/eyes/eyes40.png"
-        pause 0.4
+        pause .4
         repeat
 
     image logo:
         subpixel True
-        additive 0.1
-        alpha 0.95
+        additive .1
+        alpha .95
         "content/gfx/animations/main_menu/logo/logo1.png"
-        pause 0.3
+        pause .3
         "content/gfx/animations/main_menu/logo/logo2.png"
-        pause 0.3
+        pause .3
         "content/gfx/animations/main_menu/logo/logo3.png"
-        pause 0.4
+        pause .4
         "content/gfx/animations/main_menu/logo/logo2.png"
-        pause 0.3
+        pause .3
         "content/gfx/animations/main_menu/logo/logo1.png"
-        pause 0.3
+        pause .3
         "content/gfx/animations/main_menu/logo/logo5.png"
-        pause 0.3
+        pause .3
         "content/gfx/animations/main_menu/logo/logo6.png"
-        pause 0.4
+        pause .4
         "content/gfx/animations/main_menu/logo/logo5.png"
-        pause 0.3
+        pause .3
         repeat
 
     image fog:
@@ -126,55 +126,55 @@ init:
     image mm_cloudstest = im.Scale("content/gfx/animations/main_menu/cloud1.png", 287, 263)
 
     image save:
-        zoom 0.4
+        zoom .4
         additive 1.0
-        alpha 0.7
+        alpha .7
         "content/gfx/animations/main_menu/settings/save1.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/save2.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/save3.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/save4.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/save5.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/save6.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/save7.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/save8.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/save9.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/save10.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/save11.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/save12.png"
-        pause 0.2
+        pause .2
         repeat
 
     image slo:
-        zoom 0.9
+        zoom .9
         additive 1.0
-        #alpha 0.7
+        #alpha .7
         "content/gfx/animations/main_menu/settings/slo1.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/slo2.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/slo3.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/slo4.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/slo5.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/slo6.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/slo7.png"
-        pause 0.2
+        pause .2
         "content/gfx/animations/main_menu/settings/slo8.png"
-        pause 0.2
+        pause .2
         repeat
 
     # Interactions module:
@@ -186,7 +186,7 @@ init:
     image exclamation_mark = "content/gfx/animations/interactions/exclamation.png"
     image music_note = "content/gfx/animations/interactions/note.png"
     image shy_blush = "content/gfx/animations/interactions/blush.png"
-    image hearts_rise = FilmStrip('content/gfx/animations/interactions/hearts.png', (168, 157), (10, 3), 0.07, loop=True)
+    image hearts_rise = FilmStrip('content/gfx/animations/interactions/hearts.png', (168, 157), (10, 3), .07, loop=True)
 
     image hearts_flow:
         subpixel True
@@ -194,35 +194,35 @@ init:
         alpha .8
         additive .9
         "content/gfx/animations/interactions/hearts/heart1.png"
-        pause 0.07
+        pause .07
         "content/gfx/animations/interactions/hearts/heart2.png"
-        pause 0.07
+        pause .07
         "content/gfx/animations/interactions/hearts/heart3.png"
-        pause 0.07
+        pause .07
         "content/gfx/animations/interactions/hearts/heart4.png"
-        pause 0.07
+        pause .07
         "content/gfx/animations/interactions/hearts/heart5.png"
-        pause 0.07
+        pause .07
         "content/gfx/animations/interactions/hearts/heart6.png"
-        pause 0.07
+        pause .07
         "content/gfx/animations/interactions/hearts/heart7.png"
-        pause 0.07
+        pause .07
         "content/gfx/animations/interactions/hearts/heart8.png"
-        pause 0.07
+        pause .07
         "content/gfx/animations/interactions/hearts/heart9.png"
-        pause 0.07
+        pause .07
         "content/gfx/animations/interactions/hearts/heart10.png"
-        pause 0.07
+        pause .07
         "content/gfx/animations/interactions/hearts/heart11.png"
-        pause 0.07
+        pause .07
         "content/gfx/animations/interactions/hearts/heart12.png"
-        pause 0.07
+        pause .07
         "content/gfx/animations/interactions/hearts/heart13.png"
-        pause 0.07
+        pause .07
         "content/gfx/animations/interactions/hearts/heart14.png"
-        pause 0.07
+        pause .07
         "content/gfx/animations/interactions/hearts/heart15.png"
-        pause 0.07
+        pause .07
         repeat
 
     image fire_element_be_viewport = ProportionalScale("content/gfx/interface/images/elements/small_fire.png", 15, 15)

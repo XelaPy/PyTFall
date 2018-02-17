@@ -147,37 +147,37 @@ label witch_talking_menu:
 
 screen witch_shop:
     frame:
-        xalign 0.95
+        xalign .95
         ypos 20
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
             style_group "wood"
-            align (0.5, 0.5)
+            align (0.5, .5)
             spacing 10
             button:
                 xysize (150, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("witch_shop"), Jump("witches_hut_shopping")]
                 text "Shop" size 15
             button:
                 xysize (150, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("witch_shop"), Jump("witches_hut_shopping_spells")]
                 text "Spells" size 15
             button:
                 xysize (150, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("witch_shop"), Jump("witch_training")]
                 text "Training" size 15
             button:
                 xysize (150, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("witch_shop"), Jump("witch_talking_menu")]
                 text "Talk" size 15
             button:
                 xysize (150, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("witch_shop"), Jump("forest_entrance")]
                 text "Leave" size 15

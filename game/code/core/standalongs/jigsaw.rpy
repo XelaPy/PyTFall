@@ -145,7 +145,7 @@ label jigsaw_puzzle_start:
         
         for i in range(0,grid_width):
             for j in range (0,grid_height):
-                piecelist[i,j] = [int(randint(0, (config.screen_width * 0.9 - puzzle_field_size))+puzzle_field_size), int(randint(0, (config.screen_height * 0.8)))]
+                piecelist[i,j] = [int(randint(0, (config.screen_width * .9 - puzzle_field_size))+puzzle_field_size), int(randint(0, (config.screen_height * .8)))]
                 
                 temp_img = im.Crop(mainimage, int(i*active_area_size*x_scale_index), int(j*active_area_size*y_scale_index), int(puzzle_piece_size*x_scale_index), int(puzzle_piece_size*y_scale_index))
         
@@ -214,12 +214,12 @@ screen control_scr(preview):
     
     $ number_of_pieces = (grid_width*grid_height)
     frame:
-        align (0.01, 0.01)
+        align (0.01, .01)
         xpadding 20
         ypadding 20
         style_group "content"
         background Frame("content/gfx/frame/arena_d.png", 5, 5)
-        label "[number_of_pieces] pieces!" text_size 35 text_color ivory align (0.5, 0.5)
+        label "[number_of_pieces] pieces!" text_size 35 text_color ivory align (0.5, .5)
     
     button:
         xysize (100, 40)
@@ -227,10 +227,10 @@ screen control_scr(preview):
         text "Done" size 35
         # action If(current_file != 0, Return(current_file))
         action Return()
-        align (0.5, 0.98)
+        align (0.5, .98)
         
     imagebutton:
-        align (1.0, 0.0)
+        align (1.0, .0)
         idle (im.Scale("content/gfx/interface/buttons/close.png", 60, 60))
         hover (im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 60, 60), im.matrix.brightness(0.15)))
         action Jump("gallery")
@@ -265,7 +265,7 @@ screen jigsaw():
                     xpos piecelist[i, j][0] ypos piecelist[i, j][1]
 
     imagebutton:
-        align(1.0, 0.0)
+        align(1.0, .0)
         idle (im.Scale("content/gfx/interface/buttons/close.png", 60, 60))
         hover (im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 60, 60), im.matrix.brightness(0.15)))
         action Jump("gallery")

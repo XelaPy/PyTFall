@@ -50,14 +50,14 @@ screen city_beach():
         $ img = im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80)
         imagebutton:
             id "meow"
-            align (0.99, 0.5)
+            align (0.99, .5)
             idle (img)
             hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
             action [Hide("city_beach"), Jump("city_beach_right")]
 
         $ img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
         imagebutton:
-            align (0.01, 0.5)
+            align (0.01, .5)
             idle (img)
             hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
             action [Hide("city_beach"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_beach_left")]
@@ -79,7 +79,7 @@ screen city_beach():
 
     if gm.show_girls:
 
-        add "content/gfx/images/bg_gradient.png" yalign 0.45
+        add "content/gfx/images/bg_gradient.png" yalign .45
         $ j = 0
         for entry in gm.display_girls():
             hbox:
@@ -91,29 +91,29 @@ screen city_beach():
 
 screen city_beach_swim():
     frame:
-        xalign 0.95
+        xalign .95
         ypos 20
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
             style_group "wood"
-            align (0.5, 0.5)
+            align (0.5, .5)
             spacing 10
             button:
                 xysize (120, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("city_beach_swim"), Jump("city_beach_swimming_checks")]
                 text "Swim" size 15
             if hero.get_skill("swimming") >= 100:
                 button:
                     xysize (120, 40)
-                    yalign 0.5
+                    yalign .5
                     action [Hide("city_beach_swim"), Jump("city_beach_diving_checks")]
                     text "Diving" size 15
             button:
                 xysize (120, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("city_beach_swim"), Show("city_beach"), With(dissolve)]
                 text "Leave" size 15
 
@@ -218,10 +218,10 @@ label city_beach_monsters_fight:
     jump city_beach
 
 transform alpha_dissolve:
-    alpha 0.0
-    linear 0.5 alpha 1.0
+    alpha .0
+    linear .5 alpha 1.0
     on hide:
-        linear 0.5 alpha 0
+        linear .5 alpha 0
 
 screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
     default oxigen = o2

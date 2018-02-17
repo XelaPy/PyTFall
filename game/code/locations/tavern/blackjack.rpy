@@ -1,63 +1,63 @@
 ##### dice blackjack logic:
 screen city_tavern_show_status(d_1, d_2): # additional screen, shows all info related to the dice game
     frame:
-        xalign 0.05
-        yalign 0.05
+        xalign .05
+        yalign .05
         xysize (90, 90)
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
-            xalign 0.5
-            yalign 0.5
+            xalign .5
+            yalign .5
             hbox:
-                text str(d_1) xalign 0.98 style "stats_value_text" color gold
-                xalign 0.5
+                text str(d_1) xalign .98 style "stats_value_text" color gold
+                xalign .5
             hbox:
                 if ai_passed and d_1 < 21:
-                    text ("Pass") xalign 0.98 style "stats_value_text" color gold
+                    text ("Pass") xalign .98 style "stats_value_text" color gold
                 elif d_1 > 21:
-                    text ("Lost") xalign 0.98 style "stats_value_text" color gold
+                    text ("Lost") xalign .98 style "stats_value_text" color gold
                 elif d_1 == 21:
-                    text ("Score!") xalign 0.98 style "stats_value_text" color gold
+                    text ("Score!") xalign .98 style "stats_value_text" color gold
                 else:
-                    text (" ") xalign 0.98 style "stats_value_text" color gold
-                xalign 0.5
+                    text (" ") xalign .98 style "stats_value_text" color gold
+                xalign .5
     frame:
-        xalign 0.05
-        yalign 0.95
+        xalign .05
+        yalign .95
         xysize (90, 90)
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
-            xalign 0.5
-            yalign 0.5
+            xalign .5
+            yalign .5
             hbox:
-                text str(d_2) xalign 0.98 style "stats_value_text" color gold
-                xalign 0.5
+                text str(d_2) xalign .98 style "stats_value_text" color gold
+                xalign .5
             hbox:
                 if player_passed and d_2 < 21:
-                    text ("Pass") xalign 0.98 style "stats_value_text" color gold
+                    text ("Pass") xalign .98 style "stats_value_text" color gold
                 elif d_2 > 21:
-                    text ("Lost") xalign 0.98 style "stats_value_text" color gold
+                    text ("Lost") xalign .98 style "stats_value_text" color gold
                 elif d_2 == 21:
-                    text ("Score!") xalign 0.98 style "stats_value_text" color gold
+                    text ("Score!") xalign .98 style "stats_value_text" color gold
                 else:
-                    text (" ") xalign 0.98 style "stats_value_text" color gold
-                xalign 0.5
+                    text (" ") xalign .98 style "stats_value_text" color gold
+                xalign .5
 
     frame:
-        xalign 0.5
-        yalign 0.05
+        xalign .5
+        yalign .05
         xysize (120, 120)
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 1
         ypadding 1
         vbox:
-            xalign 0.5
+            xalign .5
             add "content/gfx/interface/images/tavern_gold.png"
-            text str(city_tavern_current_dice_bet) xalign 0.5 style "stats_value_text" color gold
+            text str(city_tavern_current_dice_bet) xalign .5 style "stats_value_text" color gold
 
 screen city_tavern_show_dices(dice_1, dice_2): # main dice screen, shows dices themselves
     on "hide":
@@ -112,7 +112,7 @@ label city_tavern_play_show_dice:
     show screen city_tavern_show_dices(dice_1, dice_2)
     if not(ai_passed and player_passed):
         play events "events/dice_" + str(randint(1, 3)) +".mp3"
-    pause 0.4
+    pause .4
     $ d_1 = sum(dice_1) # we use separate values to delay calculation and thus numbers update until dices alt is finished
     $ d_2 = sum(dice_2)
     show screen city_tavern_show_status(d_1, d_2)
@@ -182,28 +182,28 @@ label city_tavern_throw_dice:
 
 screen city_tavern_dicing(): # dice game controls menu
     frame:
-        xalign 0.95
+        xalign .95
         ypos 50
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
             style_group "wood"
-            align (0.5, 0.5)
+            align (0.5, .5)
             spacing 10
             button:
                 xysize (120, 40)
-                yalign 0.5
+                yalign .5
                 action [Jump("city_tavern_throw_dice")]
                 text "Throw dice" size 15
             button:
                 xysize (120, 40)
-                yalign 0.5
+                yalign .5
                 action [Jump("tavern_dice_pass")]
                 text "Pass" size 15
             button:
                 xysize (120, 40)
-                yalign 0.5
+                yalign .5
                 action [Jump("city_tavern_dices_give_up")]
                 text "Give up" size 15
 

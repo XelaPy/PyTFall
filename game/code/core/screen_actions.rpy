@@ -1046,13 +1046,13 @@ init -10 python:
                 callable()
 
 
-screen location_actions(actions, girl=None, pos=(0.98, 0.98), anchor=(1.0, 1.0), align=None, style="dropdown_gm"):
+screen location_actions(actions, girl=None, pos=(0.98, .98), anchor=(1.0, 1.0), align=None, style="dropdown_gm"):
     python:
         if pytfall.world_actions != actions:
             pytfall.world_actions(actions, girl)
 
         if not align:
-            if not anchor: anchor = (0.0, 0.0)
+            if not anchor: anchor = (0.0, .0)
             if not pos: pos = (0, 0)
 
     hbox:
@@ -1060,7 +1060,7 @@ screen location_actions(actions, girl=None, pos=(0.98, 0.98), anchor=(1.0, 1.0),
             align align
 
         else:
-            box_reverse (anchor[0] >= 0.5)
+            box_reverse (anchor[0] >= .5)
             anchor anchor
             pos pos
 

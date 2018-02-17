@@ -122,27 +122,27 @@ label aine_goodbye:
 
 screen aine_screen:
     frame:
-        xalign 0.95
+        xalign .95
         ypos 20
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
             style_group "wood"
-            align (0.5, 0.5)
+            align (0.5, .5)
             spacing 10
             button:
                 xysize (150, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("aine_screen"), Jump("aine_shop")]
                 text "Spells" size 15
             button:
                 xysize (150, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("aine_screen"), Jump("aine_training")]
                 text "Training" size 15
             button:
                 xysize (150, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("aine_screen"), Jump("aine_goodbye")]
                 text "Leave" size 15

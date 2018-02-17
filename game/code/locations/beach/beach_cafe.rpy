@@ -36,7 +36,7 @@ screen city_beach_cafe:
     if not gm.show_girls:
         $ img = im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80)
         imagebutton:
-            align (0.99, 0.5)
+            align (0.99, .5)
             idle (img)
             hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
             action [Hide("city_beach_cafe"), Jump("city_beach_cafe_main")]
@@ -45,7 +45,7 @@ screen city_beach_cafe:
     
     if gm.show_girls:
     
-        add "content/gfx/images/bg_gradient.png" yalign 0.45
+        add "content/gfx/images/bg_gradient.png" yalign .45
     
         $ j = 0
         for entry in gm.display_girls():

@@ -45,34 +45,34 @@ label forest_dark_continue:
 screen city_dark_forest():
     use top_stripe(False, None, False, True)
     frame:
-        xalign 0.95
+        xalign .95
         ypos 50
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
             style_group "wood"
-            align (0.5, 0.5)
+            align (0.5, .5)
             spacing 10
             button:
                 xysize (120, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("city_dark_forest"), Jump("city_dark_forest_explore"), With(dissolve)]
                 text "Explore" size 15
             button:
                 xysize (120, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("city_dark_forest"), Jump("city_dark_forest_rest"), With(dissolve), SensitiveIf(hero.flag("dark_forest_rested_today") != day)]
                 text "Rest" size 15
             if hero.has_flag("found_old_ruins"):
                 button:
                     xysize (120, 40)
-                    yalign 0.5
+                    yalign .5
                     action [Hide("city_dark_forest"), Jump("city_dark_forest_ruines_part"), With(dissolve)]
                     text "Ruins" size 15
             button:
                 xysize (120, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("city_dark_forest"), Jump("forest_entrance"), With(dissolve)]
                 text "Leave" size 15
 

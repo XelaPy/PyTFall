@@ -23,7 +23,7 @@ init -1 python:
                 renpy.play(*sound)
 
             if not timer:
-                timer = max(float(len(arguments[1])) / 20.0, 0.5)
+                timer = max(float(len(arguments[1])) / 20.0, .5)
 
             self.said = arguments
             while len(self.said) != 4:
@@ -216,7 +216,7 @@ screen dungeon_move(hotspots):
                         lowness = float(renpy.config.screen_height)
                         if 'yoffs' in sw[1]:
                             lowness += float(sw[1]['yoffs'])
-                        yy=int(float(lowness - height*xz) * (0.5 + 0.5 / float(.0001 + sw[2])))
+                        yy=int(float(lowness - height*xz) * (0.5 + .5 / float(.0001 + sw[2])))
                         rot=None
 
                 add mco at [sprite_default(xx, yy, xz, yz, rot)]
@@ -336,7 +336,7 @@ label enter_dungeon:
         if not "dungeon" in ilists.world_music:
             ilists.world_music["dungeon"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("dungeon")]
     if not global_flags.has_flag("keep_playing_music"):
-        play world choice(ilists.world_music["dungeon"]) fadein 0.5
+        play world choice(ilists.world_music["dungeon"]) fadein .5
     $ global_flags.del_flag("keep_playing_music")
 
     # Place a player position on a dungeon stage.

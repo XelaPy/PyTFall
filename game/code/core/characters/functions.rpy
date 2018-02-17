@@ -18,7 +18,7 @@ init -11 python:
     def mod_by_max(char, stat, value, prevent_death=True):
         """Modifies a stat by a float multiplier based of it's max value.
 
-        prevent_death will not allow health to go below 0.
+        prevent_death will not allow health to go below .
         """
         value = round_int(char.get_max(stat)*value)
 

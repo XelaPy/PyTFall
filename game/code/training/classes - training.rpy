@@ -231,7 +231,7 @@ init -9 python:
             default = The value to return if the flag doesn't exist.
             min = The minimum value for the flag if a number.
             max = The maximum value for the flag if a number.
-            trait = The name of a trait to add when the flag is above 0.
+            trait = The name of a trait to add when the flag is above .
             """
             self.flag = flag
             self.default = default
@@ -875,7 +875,7 @@ init -9 python:
                     m += hero.stats.max[i.lower()]
 
                 elif hero.stats.is_skill(i):
-                    s += hero.stats.get_skill(i) * 0.75
+                    s += hero.stats.get_skill(i) * .75
                     m += hero.stats.get_skill(i)
 
                 else:
@@ -889,7 +889,7 @@ init -9 python:
             Returns a description of how well a trainer would teach this lesson for the girl.
             Calculated as:
                 H = The the difference between girls knowledge and the trainers knoweldge as a percentage of the trainers knowledge.
-                    eg: trainer = 100, girl = 75, result = 0.25
+                    eg: trainer = 100, girl = 75, result = .25
                 S = The trainers skill.
 
                 H <= 0: "Worthless"
@@ -1788,7 +1788,7 @@ init -9 python:
 
             if runaway:
                 # If no BE or low security
-                if not use_be or sec < 0.5:
+                if not use_be or sec < .5:
                     # Girl escaped without fighting
                     return True, self.ESCAPED
 
@@ -2291,6 +2291,6 @@ init -9 python:
 
             status = (float(a) / float(b)) * 100
             status *= girl_training_trait_mult(girl, "Restrained")
-            if girl.status == "slave": status *= 0.75
+            if girl.status == "slave": status *= .75
 
             return 100-status

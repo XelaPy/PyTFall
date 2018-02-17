@@ -39,12 +39,12 @@ screen city_park():
     
     use top_stripe(True)
     
-    # use r_lightbutton(img=im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=true), return_value =['control', 'jumpgates'], align=(0.01, 0.5))
+    # use r_lightbutton(img=im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=true), return_value =['control', 'jumpgates'], align=(0.01, .5))
     
     if not gm.show_girls:
         $img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
         imagebutton:
-            align (0.01, 0.5)
+            align (0.01, .5)
             idle (img)
             hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
             action [Hide("city_park"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_parkgates")]
@@ -54,7 +54,7 @@ screen city_park():
     
     if gm.show_girls:
     
-        add "content/gfx/images/bg_gradient.png" yalign 0.45
+        add "content/gfx/images/bg_gradient.png" yalign .45
         $ j = 0
         
         for entry in gm.display_girls():

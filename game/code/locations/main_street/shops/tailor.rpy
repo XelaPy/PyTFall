@@ -62,14 +62,14 @@ label tailor_store_shopping:
 screen shopkeeper_items_upgrades(upgrades_list):
     modal True
     frame:
-        align (0.5, 0.5)
+        align (0.5, .5)
         background Frame("content/gfx/frame/frame_dec_1.png", 75, 75)
         xpadding 75
         ypadding 75
         has vbox
         hbox:
-            xalign 0.5
-            add "content/gfx/animations/coin_top 0.13 1/1.png" yalign .6
+            xalign .5
+            add "content/gfx/animations/coin_top .13 1/1.png" yalign .6
             null width 15
             text "%d" % hero.gold style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 30
         null height 15
@@ -82,21 +82,21 @@ screen shopkeeper_items_upgrades(upgrades_list):
                 hbox:
                     spacing 0
                     xsize 600
-                    xalign 0.5
+                    xalign .5
                     vbox:
-                        add ProportionalScale(items[i["first_item"]].icon, 80, 80) xalign 0.5
-                        text "%s" %i["first_item"] style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 15 xalign 0.5
+                        add ProportionalScale(items[i["first_item"]].icon, 80, 80) xalign .5
+                        text "%s" %i["first_item"] style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 15 xalign .5
                     hbox:
                         yalign .5
-                        text "+ %s " %i["price"] style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 25 yalign .5 xalign 0.0
-                        add "content/gfx/animations/coin_top 0.13 1/1.png" yalign .7
-                        text "  =" style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 25 yalign .5 xalign 0.0
-                    add ProportionalScale(items[i["second_item"]].icon, 80, 80) xalign 0.5
+                        text "+ %s " %i["price"] style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 25 yalign .5 xalign .0
+                        add "content/gfx/animations/coin_top .13 1/1.png" yalign .7
+                        text "  =" style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 25 yalign .5 xalign .0
+                    add ProportionalScale(items[i["second_item"]].icon, 80, 80) xalign .5
                     null width 10
                     button:
                         xysize (100, 50)
                         xalign 1.0
-                        yalign 0.5
+                        yalign .5
                         text "Order" size 16 color goldenrod
                         action Return(i["first_item"])
                         padding (10, 10)
@@ -106,7 +106,7 @@ screen shopkeeper_items_upgrades(upgrades_list):
             xysize (180, 50)
             style_prefix "wood"
             text "Cancel" size 16 color goldenrod
-            xalign 0.5
+            xalign .5
             action Return(-1)
 
 label tailor_special_order:
@@ -143,27 +143,27 @@ label tailor_special_order:
 
 screen tailor_shop:
     frame:
-        xalign 0.95
+        xalign .95
         ypos 20
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
             style_group "wood"
-            align (0.5, 0.5)
+            align (0.5, .5)
             spacing 10
             button:
                 xysize (150, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("tailor_shop"), Jump("tailor_store_shopping")]
                 text "Shop" size 15
             button:
                 xysize (150, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("tailor_shop"), Jump("tailor_special_order")]
                 text "Special Order" size 15
             button:
                 xysize (150, 40)
-                yalign 0.5
+                yalign .5
                 action [Hide("tailor_shop"), Jump("main_street")]
                 text "Leave" size 15

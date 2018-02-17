@@ -153,11 +153,11 @@ screen char_profile():
     if girls:
         # Picture and left/right buttons ====================================>
         if True:
-            add "content/gfx/frame/p_frame6.png" xalign 0.495 yalign 0.185 size (613, 595)
+            add "content/gfx/frame/p_frame6.png" xalign .495 yalign .185 size (613, 595)
             # Alex: Code by Gismo, messy but gets the job done, I actually have no idea of how to get this done with just one frame and the image...
             # Vbox is just for more convenient positioning.
             vbox:
-                align (0.496, 0.184) #0.487, 0.164
+                align (0.496, .184) #0.487, .164
                 yfill True
                 ymaximum 514 #569
                 if check_lovers(char, hero) or "Exhibitionist" in char.traits: # in these cases we are less strict with NSFW pictures
@@ -173,19 +173,19 @@ screen char_profile():
                         frame_image = im.Scale("content/gfx/frame/MC_bg3.png", 1, 1)
                         img = char.show('profile', resize=(600, 514), exclude=["nude", "revealing", "lingerie", "swimsuit"], cache=True)
                 button:
-                    align (0.5, 0.5)
+                    align (0.5, .5)
                     idle_background frame_image
-                    idle_foreground Transform(img, align=(0.5, 0.5))
+                    idle_foreground Transform(img, align=(0.5, .5))
 
                     hover_background im.MatrixColor(frame_image, im.matrix.brightness(0.1))
-                    hover_foreground Transform(im.MatrixColor(img, im.matrix.brightness(0.1)), align=(0.5, 0.5))
+                    hover_foreground Transform(im.MatrixColor(img, im.matrix.brightness(0.1)), align=(0.5, .5))
 
                     insensitive_background frame_image
-                    insensitive_foreground Transform(img, align=(0.5, 0.5))
+                    insensitive_foreground Transform(img, align=(0.5, .5))
                     frame:
-                        align(0.5, 0.5)
+                        align(0.5, .5)
                         background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                        add img align(0.5, 0.5)#ProportionalScale(img, 600, 514) align(0.5, 0.5)
+                        add img align(0.5, .5)#ProportionalScale(img, 600, 514) align(0.5, .5)
                     if "Exhibitionist" in char.traits:
                         action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Function(gm.start_int, char, img=char.show("girlmeets", resize=gm.img_size))], false=NullAction())
                     if check_friends(hero, char) or check_lovers(char, hero):
@@ -197,12 +197,12 @@ screen char_profile():
 
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
-                xalign 0.489
+                xalign .489
                 ypos 560
                 xysize (628, 64)
                 hbox:
-                    xalign 0.46
-                    yalign 0.5
+                    xalign .46
+                    yalign .5
                     button:
                         xysize (140, 40)
                         style "left_wood_button"
@@ -223,7 +223,7 @@ screen char_profile():
         frame:
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
             xysize (337, 780)
-            xanchor 0.01
+            xanchor .01
             ypos 30
             style_group "content"
             has vbox
@@ -332,7 +332,7 @@ screen char_profile():
                                 size 18
 
                 imagebutton:
-                    align(0.99, 0.45)
+                    align(0.99, .45)
                     if char.status == "slave":
                         idle ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50)
                         hover (im.MatrixColor(ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50), im.matrix.brightness(0.25)))
@@ -346,30 +346,30 @@ screen char_profile():
             null height 5
             hbox:
                 style_group "basic"
-                xalign 0.5
+                xalign .5
                 button:
-                    yalign 0.5
+                    yalign .5
                     action SetScreenVariable("stats_display", "main"), With(dissolve)
                     text "Main" size 15
                     hovered tt.action("Show main info")
                 button:
-                    yalign 0.5
+                    yalign .5
                     action SetScreenVariable("stats_display", "stats"), With(dissolve)
                     text "Stats" size 15
                     hovered tt.action("Show stats")
                 button:
-                    yalign 0.5
+                    yalign .5
                     action SetScreenVariable("stats_display", "pro_stats"), With(dissolve)
                     text "Special" size 15
                     hovered tt.action("Show special stats")
                 button:
-                    yalign 0.5
+                    yalign .5
                     action SetScreenVariable("stats_display", "skillset"), With(dissolve)
                     text "Skills" size 15
                     hovered tt.action("Show skills levels")
                 if config.developer:
                     button:
-                        yalign 0.5
+                        yalign .5
                         action SetScreenVariable("stats_display", "skillstest"), With(dissolve)
                         text "S" size 15
                         hovered tt.action("Show skills (dev mode only)")
@@ -383,11 +383,11 @@ screen char_profile():
                     hbox:
                         spacing 20
                         frame:
-                            xalign 0.0
+                            xalign .0
                             yfill True
                             background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                             xysize (100, 30)
-                            text (u"{color=#CDAD00} Full name:") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
+                            text (u"{color=#CDAD00} Full name:") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, .7)
                         textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[green]}Rename":
                             background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=0.8)
                             hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(0.15))), alpha=1)
@@ -411,11 +411,11 @@ screen char_profile():
                         spacing 20
                         vbox:
                             frame:
-                                xalign 0.0
+                                xalign .0
                                 yfill True
                                 background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                                 xysize (100, 30)
-                                text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
+                                text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, .7)
                             null height 3
                             frame:
                                 xysize (100, 100)
@@ -434,11 +434,11 @@ screen char_profile():
                             $ els = [Transform(e.icon, size=(90, 90)) for e in char.elements]
                             $ els_a = [Transform(im.MatrixColor(e.icon, im.matrix.brightness(0.10)), size=(90, 90)) for e in char.elements]
                             frame:
-                                xalign 0.0
+                                xalign .0
                                 yfill True
                                 background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
                                 xysize (100, 30)
-                                text (u"{color=#CDAD00} Element") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, 0.7)
+                                text (u"{color=#CDAD00} Element") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (0.5, .7)
                             null height 3
                             frame:
                                 xysize (100, 100)
@@ -595,10 +595,10 @@ screen char_profile():
 
         # Level, experience ====================================>
         fixed:
-            xalign 0.490
+            xalign .490
             ypos 570
             xysize (360, 45)
-            add(ProportionalScale("content/gfx/frame/level.png", 360, 45)) align(0.5, 0.5)
+            add(ProportionalScale("content/gfx/frame/level.png", 360, 45)) align(0.5, .5)
             text("{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[char.level]") pos(106, 7)
             text("{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[char.exp]") pos(190, 7)
             text("{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[char.goal]") pos(190, 27)
@@ -615,7 +615,7 @@ screen char_profile():
             # Buttons ====================================>
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
-                xalign 0.5
+                xalign .5
                 xoffset -4
                 # ypos 5
                 xysize (325, 150)
@@ -659,7 +659,7 @@ screen char_profile():
 
             # AP ====================================>
             frame:
-                xalign 0.5
+                xalign .5
                 xysize (300, 90)
                 background ProportionalScale("content/gfx/frame/frame_ap.png", 300, 100)
                 label ("[char.AP]"):
@@ -782,8 +782,8 @@ screen char_profile():
                         xysize (70, 70)
                         if element.icon:
                             $ img = ProportionalScale(element.icon, 70, 70)
-                            add img align (0.5, 0.5)
-                text tt.value.desc style "content_text" size 20 color ivory yalign 0.1
+                            add img align (0.5, .5)
+                text tt.value.desc style "content_text" size 20 color ivory yalign .1
             else:
                 text (u"{=content_text}{color=[ivory]}%s" % tt.value)
 
@@ -925,7 +925,7 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=F
                     label ("-no direct effects-") text_size 15 text_color goldenrod text_bold True xalign .45 text_outlines [(1, "#000000", 0, 0)]
 
             imagebutton:
-                align 0.99, .01
+                align .99, .01
                 xysize 22, 22
                 idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
                 hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
@@ -986,7 +986,7 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=F
                 if not(traits[0]) and not(traits[1]):
                     label ("-elements overlapped each other-") text_size 14 text_color goldenrod text_bold True xalign .45
             imagebutton:
-                align 0.465, .01
+                align .465, .01
                 xysize 22, 22
                 idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
                 hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
@@ -1006,14 +1006,14 @@ screen girl_control():
         at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)
         background Frame("content/gfx/frame/p_frame52.png", 10, 10)
         xpos 936
-        yalign 0.95
+        yalign .95
         xysize(343, 675)
 
         # Tooltip Related:
         default tt = Tooltip("Adjust your girls behavior here.")
         frame:
             background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
-            align(0.5, 0.88)
+            align(0.5, .88)
             xysize (320, 120)
             xpadding 13
             ypadding 15
@@ -1101,52 +1101,52 @@ screen girl_control():
             button:
                 action If(char.status not in ("various"), true=ToggleField(char, "front_row"))
                 xysize (200, 32)
-                text "Front Row" align (0.0, 0.5)
+                text "Front Row" align (0.0, .5)
                 hovered tt.Action("Select the row in battle")
                 if isinstance(char.front_row, list):
-                    add cb_some_checked align (1.0, 0.5)
+                    add cb_some_checked align (1.0, .5)
                 elif char.front_row:
-                    add cb_checked align (1.0, 0.5)
+                    add cb_checked align (1.0, .5)
                 elif not char.front_row:
-                    add cd_unchecked align (1.0, 0.5)
+                    add cd_unchecked align (1.0, .5)
 
             button:
                 action ToggleDict(char.autocontrol, "Rest")
                 xysize (200, 32)
-                text "Auto Rest" align (0.0, 0.5)
+                text "Auto Rest" align (0.0, .5)
                 hovered tt.Action("Allow to rest automatically when she needs it")
                 if isinstance(char.autocontrol['Rest'], list):
-                    add cb_some_checked align (1.0, 0.5)
+                    add cb_some_checked align (1.0, .5)
                 elif char.autocontrol['Rest']:
-                    add cb_checked align (1.0, 0.5)
+                    add cb_checked align (1.0, .5)
                 elif not char.autocontrol['Rest']:
-                    add cd_unchecked align (1.0, 0.5)
+                    add cd_unchecked align (1.0, .5)
 
             # Autobuy:
             button: # used to work for free chars only; I don't believe free chars should agree to stop spending gold, no matter disposition
                 action  If(char.status == "slave", true=ToggleField(char, "autobuy"))
                 xysize (200, 32)
-                text "Auto Buy" align (0.0, 0.5)
+                text "Auto Buy" align (0.0, .5)
                 hovered tt.Action("Can only be disabled for slaves, allows to buy items she likes, if she has enough money")
                 if isinstance(char.autobuy, list):
-                    add cb_some_checked align (1.0, 0.5)
+                    add cb_some_checked align (1.0, .5)
                 elif char.autobuy:
-                    add cb_checked align (1.0, 0.5)
+                    add cb_checked align (1.0, .5)
                 else:
-                    add cd_unchecked align (1.0, 0.5)
+                    add cd_unchecked align (1.0, .5)
 
             # Autoequip
             button:
                 xysize (200, 32)
                 action If(char.status == "slave" or char.disposition > 850, true=ToggleField(char, "autoequip"))
-                text "Auto Equip" align (0.0, 0.5)
+                text "Auto Equip" align (0.0, .5)
                 hovered tt.Action("Requires a slave or high disposition, allows to equip the best items automatically (results may very)")
                 if isinstance(char.autoequip, list):
-                    add cb_some_checked align (1.0, 0.5)
+                    add cb_some_checked align (1.0, .5)
                 elif char.autoequip:
-                    add cb_checked align (1.0, 0.5)
+                    add cb_checked align (1.0, .5)
                 else:
-                    add cd_unchecked align (1.0, 0.5)
+                    add cd_unchecked align (1.0, .5)
             # ------------------------------------------------------------------------------------------------------------------------------------->>>
             # TODO lt: If we ever restore this, char actions are not Jobs!
             # Disabled until Beta release
@@ -1156,20 +1156,20 @@ screen girl_control():
                     # spacing 20
                     # if char.autocontrol['SlaveDriver']:
                         # textbutton "{color=[red]}Slave Driver":
-                            # yalign 0.5
+                            # yalign .5
                             # action Return(['girl_cntr', 'slavedriver'])
                             # minimum(150, 20)
                             # maximum(150, 20)
                             # xfill true
-                        # add cb_checked yalign 0.5
+                        # add cb_checked yalign .5
                     # elif not char.autocontrol['SlaveDriver']:
                         # textbutton "Slave Driver":
-                            # yalign 0.5
+                            # yalign .5
                             # action Return(['girl_cntr', 'slavedriver'])
                             # minimum(150, 20)
                             # maximum(150, 20)
                             # xfill true
-                        # add cd_unchecked yalign 0.5
+                        # add cd_unchecked yalign .5
 
             null height 30
 
@@ -1179,13 +1179,13 @@ screen girl_control():
                     # hbox:
                         # spacing 20
                         # textbutton [key.capitalize()]:
-                            # yalign 0.5
+                            # yalign .5
                             # action Return(['girl_cntr', 'set_act', key])
                             # minimum(150, 20)
                         # if char.autocontrol['Acts'][key]:
-                            # add cb_checked yalign 0.5
+                            # add cb_checked yalign .5
                         # elif not char.autocontrol['Acts'][key]:
-                            # add cd_unchecked yalign 0.5
+                            # add cd_unchecked yalign .5
 
             # if char.action == "Server":
             #     for key in char.autocontrol['S_Tasks']:
@@ -1193,19 +1193,19 @@ screen girl_control():
             #         button:
             #             action ToggleDict(char.autocontrol['S_Tasks'], key)
             #             xysize (200, 30)
-            #             text (key.capitalize()) align (0.0, 0.5)
+            #             text (key.capitalize()) align (0.0, .5)
             #             if isinstance(char.autocontrol['S_Tasks'][key], list):
-            #                 add cb_some_checked align (1.0, 0.5)
+            #                 add cb_some_checked align (1.0, .5)
             #             elif char.autocontrol['S_Tasks'][key]:
-            #                 add cb_checked align (1.0, 0.5)
+            #                 add cb_checked align (1.0, .5)
             #             elif not char.autocontrol['S_Tasks'][key]:
-            #                 add cd_unchecked align (1.0, 0.5)
+            #                 add cd_unchecked align (1.0, .5)
 
         button:
             style_group "basic"
             action Hide("girl_control")
             minimum(50, 30)
-            align (0.5, 0.95)
+            align (0.5, .95)
             text  "OK"
 
     key "mousedown_3" action Hide("girl_control")
@@ -1215,17 +1215,17 @@ screen confirm_girl_sale():
     zorder 1
 
     frame:
-        align(0.5, 0.5)
+        align(0.5, .5)
         minimum(300, 200)
         maximum(300, 200)
         xfill True
         yfill True
 
         if char.status == "slave":
-            text("{size=-5}Are you sure you want to sell [char.name] for %d Gold?"%(int(char.fin.get_price()*0.8))) align(0.5, 0.1)
+            text("{size=-5}Are you sure you want to sell [char.name] for %d Gold?"%(int(char.fin.get_price()*0.8))) align(0.5, .1)
 
             hbox:
-                align(0.5, 0.85)
+                align(0.5, .85)
                 spacing 40
                 textbutton "No":
                     action Hide("confirm_girl_sale")
@@ -1233,10 +1233,10 @@ screen confirm_girl_sale():
                     action Return(['control', 'sell'])
 
         else:
-            text("{size=-5}Are you sure you want to fire the %s?"%char.name) align(0.5, 0.1)
+            text("{size=-5}Are you sure you want to fire the %s?"%char.name) align(0.5, .1)
 
             hbox:
-                align(0.5, 0.85)
+                align(0.5, .85)
                 spacing 40
                 textbutton "No":
                     action Hide("confirm_girl_sale")

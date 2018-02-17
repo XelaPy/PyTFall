@@ -1042,7 +1042,7 @@ init -9 python:
                 training += training_range + beyond_training / 3.0
             else:
                 training += action
-            return training * max(min(self.skills_multipliers[skill][2], 1.5), 0.5)
+            return training * max(min(self.skills_multipliers[skill][2], 1.5), .5)
 
         def is_skill(self, key):
             # Easy check for skills.
@@ -1164,8 +1164,8 @@ init -9 python:
                         # Super Skill Bonuses:
                         for skill in trait.init_skills:
                             if self.is_skill(skill):
-                                ac_val = round(trait.init_skills[skill][0] * 0.02) + self.level / 5
-                                tr_val = round(trait.init_skills[skill][1] * 0.08) + self.level / 2
+                                ac_val = round(trait.init_skills[skill][0] * .02) + self.level / 5
+                                tr_val = round(trait.init_skills[skill][1] * .08) + self.level / 2
                                 self.skills[skill][0] = self.skills[skill][0] + ac_val
                                 self.skills[skill][1] = self.skills[skill][1] + tr_val
                             else:
@@ -1354,7 +1354,7 @@ init -9 python:
                                                 mod_training += training_range - mod_action + beyond_training/3.0
 
                                         mod_training += mod_action
-                                        new_skill = mod_training*max(min(mod_skill_multiplier, 1.5), 0.5)
+                                        new_skill = mod_training*max(min(mod_skill_multiplier, 1.5), .5)
                                         if new_skill < min_value:
                                             break
 
@@ -2727,7 +2727,7 @@ init -9 python:
 
             # how much stats weigh vs skills. To compare weight will be normalised to their max values.
             # skills have a overly high max (5000), so the ratio is tipped towards stats.
-            #stat_vs_skill = 0.5
+            #stat_vs_skill = .5
 
             #if traits["Athletic"]:
             #    stat_vs_skill /= 2 # preference for skills over stats

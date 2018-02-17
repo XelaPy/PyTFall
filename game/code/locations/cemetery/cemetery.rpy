@@ -4,7 +4,7 @@ label graveyard_town:
     if not "cemetery" in ilists.world_music:
         $ ilists.world_music["cemetery"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("cemetery")]
     if not global_flags.has_flag("keep_playing_music"):
-        play world choice(ilists.world_music["cemetery"]) fadein 0.5
+        play world choice(ilists.world_music["cemetery"]) fadein .5
     $ global_flags.del_flag("keep_playing_music")
 
 
@@ -55,11 +55,11 @@ screen cemetry_list_of_dead_chars (dead_list, number): # the list should not be 
     # on "hide":
         # action Show("graveyard_town", dissolve)
     frame:
-        align (0.5, 0.5)
+        align (0.5, .5)
         xysize (234, 420)
         background Frame("content/gfx/frame/tombstone.png", 234, 420)
         vbox:
-            align (0.54, 0.65)
+            align (0.54, .65)
             $ character = dead_list[number]
             if character.has_image('portrait', 'indifferent'):
                 $ char_profile_img = character.show('portrait', 'indifferent', resize=(99, 99), cache=True)
@@ -68,40 +68,40 @@ screen cemetry_list_of_dead_chars (dead_list, number): # the list should not be 
             frame:
                 background Frame("content/gfx/frame/MC_bg.png")
                 add im.Sepia(char_profile_img) align .5, .5
-                xalign 0.5
+                xalign .5
                 xysize (102, 102)
             spacing 5
             frame:
                 background Frame("content/gfx/frame/namebox3.png")
                 xsize 160
                 if len(character.name) <= 10:
-                    text ([character.name]) xalign 0.5 style "stats_value_text" color silver
+                    text ([character.name]) xalign .5 style "stats_value_text" color silver
                 else:
-                    text ([character.name]) xalign 0.5 style "stats_value_text" color silver size 12
+                    text ([character.name]) xalign .5 style "stats_value_text" color silver size 12
             frame:
                 background Frame("content/gfx/frame/namebox3.png")
                 xsize 160
-                text ("[character.level] lvl") xalign 0.5 style "stats_value_text" color silver
+                text ("[character.level] lvl") xalign .5 style "stats_value_text" color silver
 
     $ img = "content/gfx/interface/buttons/next.png"
     $ img1 = im.Flip("content/gfx/interface/buttons/next.png", horizontal=True)
     imagebutton:
-        align (0.415, 0.62)
+        align (0.415, .62)
         idle (img1)
         hover (im.MatrixColor(img1, im.matrix.brightness(0.15)))
         action [Jump("cemetery_prev_char")]
     imagebutton:
-        align (0.59, 0.62)
+        align (0.59, .62)
         idle (img)
         hover (im.MatrixColor(img, im.matrix.brightness(0.15)))
         action [Jump("cemetery_next_char")]
 
     vbox:
         style_group "wood"
-        align (0.9, 0.9)
+        align (0.9, .9)
         button:
             xysize (120, 40)
-            yalign 0.5
+            yalign .5
             action [Hide("cemetry_list_of_dead_chars"), Jump("graveyard_town")]
             text "Exit" size 15
 
@@ -141,7 +141,7 @@ screen graveyard_town():
 
     if gm.show_girls:
 
-        add "content/gfx/images/bg_gradient.png" yalign 0.45
+        add "content/gfx/images/bg_gradient.png" yalign .45
         $ j = 0
 
         for entry in gm.display_girls():
