@@ -16,7 +16,7 @@ init python:
 
     # The job for the GT mode
     gm_job = None
-    
+
 
 label girl_interactions:
     python:
@@ -381,11 +381,11 @@ screen girl_interactions():
                 # text "{color=[white]}Label: [gm.jump_cache]"
                 # text ("{color=[white]}Girl.AP: [gm.char.AP] / %s"%gm.char.get_ap())
                 # text "{color=[white]}Points: [gm.gm_points]"
-                
-        
+
+
 
     # Actions
-        
+
     if gm.show_menu:
         use location_actions("girl_meets", gm.char, pos=(1180, 315), anchor=(1.0, .5), style="main_screen_3")
 
@@ -436,7 +436,7 @@ screen girl_interactions():
                                                 add im.Scale("content/gfx/interface/icons/gifts_1.png", 65, 35) align (.0, .9)
                                         elif dismod > 30:
                                             if flag_value != 0:
-                                                add im.Scale(im.Scale("content/gfx/interface/icons/gifts_2.png", 65, 35)) align (.0, .9)
+                                                add im.Sepia(im.Scale("content/gfx/interface/icons/gifts_2.png", 65, 35)) align (.0, .9)
                                             else:
                                                 add im.Scale("content/gfx/interface/icons/gifts_2.png", 65, 35) align (.0, .9)
                                 null width 10

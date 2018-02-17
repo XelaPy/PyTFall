@@ -274,37 +274,40 @@ label interactions_hire:
     if char.flag("quest_cannot_be_hired") == True:
         call interactions_refuses_to_be_hired
         jump girl_interactions
-        
+
     python:
         heroskillz = 0
         girlskillz = 0
-        
+        mod_chance = 0
+
+    python hide:
         mtraits = []
         for t in char.traits:
             if t.basetrait:
                 mtraits.append(t)
-        
+
         for i in mtraits:
             for s in i.base_stats:
-                heroskillz += getattr(hero, s)
-                girlskillz += getattr(char, s)
-                
-        heroskillz += hero.charisma
-        
+                store.heroskillz += getattr(hero, s)
+                store.girlskillz += getattr(char, s)
+
+        store.heroskillz += hero.charisma
+
         if char.arena_willing and hero.arena_rep > char.arena_rep:
-            heroskillz += 100
-            
-        heroskillz *= (hero.tier+1)*.1 + 1
-        girlskillz *= (char.tier+1)*.1 + 1
-                
-        # and finally get the differense and make sure overwhelming difference will not allow a girl to join at -900 desposition :):
-        mod_chance = heroskillz - girlskillz
+            store.heroskillz += 100
 
-        if mod_chance > 700:
-            mod_chance = 700
+        store.heroskillz *= (hero.tier+1)*.1 + 1
+        store.girlskillz *= (char.tier+1)*.1 + 1
 
-    "[heroskillz]"
-    "[girlskillz]"
+        # and finally get the difference and make sure overwhelming difference
+        # will not allow a girl to join at -900 disposition :):
+        store.mod_chance = heroskillz - girlskillz
+
+        if store.mod_chance > 700:
+            store.mod_chance = 700
+
+    if config.debug:
+        $ notify("Hero|Char| Mod: {}|{}| {}".format(heroskillz, girlskillz, mod_chance))
     python:
        del girlskillz
        del heroskillz
