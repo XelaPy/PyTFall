@@ -4042,10 +4042,9 @@ init -9 python:
                     cr = ec.confiscation_range
                     multiplier = round(random.uniform(*cr), 2)
                     confiscate = all_properties.pop()
-                    # TODO taxes: This may need to be revised.
-                    # Also as part of the above, account for businesses and upgrades.
+                    
                     if isinstance(confiscate, Building):
-                        price = confiscate.price
+                        price = confiscate.get_price()
                         if self.home == confiscate:
                             self.home = locations["Streets"]
                         if self.location == confiscate:
