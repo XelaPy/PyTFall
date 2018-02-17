@@ -29,7 +29,7 @@ init -12 python:
             self.ex_slots = kwargs.pop("ex_slots", 0)
 
             # This means that we can add capacity to this business.
-            self.capacity = kwargs.get("capacity", 1)
+            self.capacity = kwargs.get("capacity", 0)
             self.expands_capacity = kwargs.get("expands_capacity", False)
             self.exp_cap_in_slots = kwargs.pop("exp_cap_in_slots", 1)
             self.exp_cap_ex_slots = kwargs.pop("exp_cap_ex_slots", 0)
@@ -64,6 +64,12 @@ init -12 python:
 
             self.capacity += 1
 
+        def get_price(self):
+            # Returns our best guess for price of the business
+            # Needed for buying, selling the building or for taxation.
+            price = self.cost
+            price += self.capacity * self.exp_cap_cost
+            return price
 
     class Business(CoreExtension):
         """BaseClass for any building expansion! (aka Business)

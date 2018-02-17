@@ -144,6 +144,20 @@ init -10 python:
                 return str(self.name)
             return super(BaseBuilding, self).__str__()
 
+        def get_price(self):
+            # Returns our best guess for price of the Building
+            # Needed for buying, selling the building or for taxation.
+            # **We may want to take reputation and fame into account as well.
+            price = self.price
+
+            if hasattr(self, "_upgrades"):
+                for u in self._upgrades:
+                    price += u.get_price()
+            if hasattr(self, "_businesses"):
+                for b in self._businesses:
+                    price += b.get_price()
+            return price
+
         def get_workers(self):
             # I may want better handing for this...
             # Returns a list of all chars in heros service that have their workplaces set to this building.
@@ -162,7 +176,6 @@ init -10 python:
                     all_chars.add(c)
 
             return all_chars
-
 
         def get_girls(self, action=undefined, occupation=undefined, nott=False):
             """
