@@ -62,7 +62,7 @@ init -3 python:
                      **kwargs):
 
             super(CatWalk, self).__init__(name=name, desc=desc,
-                build_effort=build_effort, materials=materials, **kwargs)
+                build_effort=build_effort, **kwargs)
 
 
     class Aquarium(BusinessUpgrade):

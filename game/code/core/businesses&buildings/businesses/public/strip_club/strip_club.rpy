@@ -5,13 +5,14 @@ init -5 python:
         MATERIALS = {"Wood": 30, "Bricks": 50, "Glass": 10}
         ID = "Strip Club"
         IMG = "content/buildings/upgrades/strip_club.jpg"
-
+        COST = 500
+        
         def __init__(self, name="Strip Club", instance=None, desc="Exotic Dancers go here!",
                      img="content/buildings/upgrades/strip_club.jpg", build_effort=0,
-                     materials=None, in_slots=5, cost=500, **kwargs):
+                     **kwargs):
             super(StripClub, self).__init__(name=name, instance=instance,
                                             desc=desc, img=img, build_effort=build_effort,
-                                            materials=materials, cost=cost, **kwargs)
+                                            *kwargs)
             self.jobs = set([simple_jobs["Striptease Job"]])
             self.workable = True
             self.type = "public_service"

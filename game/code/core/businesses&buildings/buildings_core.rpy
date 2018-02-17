@@ -556,6 +556,9 @@ init -10 python:
                 ext = extension(**ec_kwargs)
             else:
                 ext = extension
+            if ext.building is None:
+                ext.building = self
+
             cap = ext.capacity
 
             cost = ext.cost * tier
