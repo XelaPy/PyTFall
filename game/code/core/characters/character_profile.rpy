@@ -1026,6 +1026,8 @@ screen girl_control():
             xpadding 10
             ypadding 10
             xysize 225, 120
+
+            # Tips:
             button:
                 style_group "basic"
                 xysize 150, 33

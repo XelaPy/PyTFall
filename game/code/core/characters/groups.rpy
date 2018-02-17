@@ -264,7 +264,7 @@ init -8 python:
 
         @property
         def wagemod(self):
-            return self._average([c.wagemod for c in self.lst])
+            return round_int(self._average([c.wagemod for c in self.lst]))
 
         @wagemod.setter
         def wagemod(self, v):
