@@ -4469,7 +4469,9 @@ init -9 python:
                     # The whole upkeep thing feels weird, penalties to slaves are severe...
                     amount = self.fin.get_upkeep()
 
-                    if amount < 0:
+                    if not amount:
+                        pass
+                    elif amount < 0:
                         txt.append("She actually managed to save you some money ({color=[gold]}%d Gold{/color}) instead of requiring upkeep! Very convenient! \n" % (-amount))
                         hero.add_money(-amount, reason="Workers Upkeep")
                     elif hero.take_money(amount, reason="Workers Upkeep"):
@@ -4544,8 +4546,6 @@ init -9 python:
             if all([self.status != "slave", self.disposition < 850, not self.autoequip]):
                 self.autoequip = True
                 txt.append("She will be handling her own equipment from now on!\n")
-
-
 
             # Prolly a good idea to throw a red flag if she is not doing anything:
             # I've added another check to make sure this doesn't happen if
