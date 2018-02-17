@@ -155,13 +155,7 @@
         def after_job(self):
             # We run this after job but before ND reports
             # Figure out source for finlogs:
-            if self.job:
-                fin_source = self.job.id
-            else:
-                if self.debug:
-                    fin_source = "Unspecified NDReport"
-                else:
-                    fin_source = "Unspecified"
+            fin_source = getattr(self.job, "id", "Unspecified Job")
 
             if self.char:
                 self.update_char_data(self.char)
@@ -181,10 +175,11 @@
                         char.fin.log_logical_income(earned, fin_source)
 
             # Location related:
-            if self.loc and hasattr(self.loc, "fin"):
-                self.update_loc_data()
+            self.update_loc_data()
+            if hasattr(self.loc, "fin") and self.earned:
                 self.loc.fin.log_logical_income(self.earned, fin_source)
             if self.earned:
+                store.hero.add_money(self.earned, str(self.loc))
                 self.append("{color=[gold]}\nA total of %d Gold was earned!{/color}" % self.earned)
             self.txt = self.log
             self.log = []
