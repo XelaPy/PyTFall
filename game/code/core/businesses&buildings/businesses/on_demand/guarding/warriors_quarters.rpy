@@ -135,7 +135,7 @@ init -5 python:
                 yield self.env.timeout(1)
 
         def write_nd_report(self, pure_workers, all_workers, threat_cleared):
-            job, loc = self.job, building
+            job, loc = self.job, self.building
             log = NDEvent(job=job, loc=loc, team=all_workers, business=self)
 
             extra_workers = all_workers - pure_workers
