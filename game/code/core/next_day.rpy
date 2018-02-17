@@ -151,7 +151,7 @@ label next_day:
     $ girls = None
     hide screen next_day
 
-    if persistent.auto_saves: # TODO autosaves: is it the best possible place for autosave? maybe not?
+    if persistent.auto_saves:
         call special_auto_save
 
     jump mainscreen

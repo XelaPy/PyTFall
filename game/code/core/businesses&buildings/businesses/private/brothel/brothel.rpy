@@ -8,7 +8,7 @@ init -5 python:
         DESC = "A place to freck in!"
         def __init__(self, **kwargs):
             super(BrothelBlock, self).__init__(**kwargs)
-            
+
             self.type = "personal_service"
             self.jobs = set([simple_jobs["Whore Job"]])
             self.workable = True
@@ -77,7 +77,7 @@ init -5 python:
             client.up_counter("got_serviced_by" + worker.id)
 
             # Execute the job/log results/handle finances and etc.:
-            job, building = self.job, building
+            job, building = self.job, self.building
             log = NDEvent(job=job, char=worker, loc=building, business=self)
             worker.jobpoints -= 100
             job.settle_workers_disposition(worker, log)

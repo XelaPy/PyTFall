@@ -3886,7 +3886,7 @@ init -9 python:
             self._buildings = list()
             self._chars = list()
 
-            # TODO Doesn't look like this is in use anymore?
+            # TODO jobs (Guard) Doesn't look like this is in use anymore?
             self.guard_relay = {"bar_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
                                            "whore_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
                                            "club_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0}

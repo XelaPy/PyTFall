@@ -561,8 +561,7 @@ init -10 python:
 
             cap = ext.capacity
 
-            cost = ext.cost * tier
-            cost += cap*ext.exp_cap_cost
+            cost = ext.get_price()
 
             materials = ext.materials.copy()
             for k, v in materials.items():
