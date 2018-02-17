@@ -460,7 +460,7 @@ init:
 
         # BUTTONS and UI elements on the "top layer" ====================================>
         hbox:
-            style_group "pb"
+            style_prefix "pb"
             spacing 2
             pos (472, 9)
             button:
@@ -488,8 +488,15 @@ init:
                 text "Friends" style "pb_button_text"
                 hovered tt.Action("Show the list friends and lovers who don't work for [hero.name], allowing to find them immediately when needed")
             # Items Transfer to Home Location Inventory:
-            if hasattr(hero.home, "inventory"):
+
+        frame:
+            background Frame("content/gfx/frame/settings1.png", 10, 10)
+            pos 300, 5
+            style_prefix "pb"
+            xysize 100, 40
+            showif hasattr(hero.home, "inventory"):
                 button:
+                    align .5, .5
                     action Return(["item", "transfer"])
                     text "Storage" style "pb_button_text"
                     hovered tt.Action("Open the location storage to leave or take items")
