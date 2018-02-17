@@ -363,6 +363,7 @@ init -9 python:
                                (float("inf"), .45)]
             self.property_tax = {"slaves": .04,
                                  "real_estate": .05}
+            self.confiscation_range = (.5, .7)
 
         def get_clients_pay(self, job, difficulty=1):
             if isinstance(job, basestring):

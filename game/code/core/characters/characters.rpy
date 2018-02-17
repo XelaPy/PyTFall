@@ -4039,7 +4039,8 @@ init -9 python:
                 all_properties = slaves + self.buildings
                 shuffle(all_properties)
                 while total_debt and all_properties:
-                    multiplier = choice([.4, .5, .6])
+                    cr = ec.confiscation_range
+                    multiplier = round(random.uniform(*cr), 2)
                     confiscate = all_properties.pop()
                     # TODO taxes: This may need to be revised.
                     # Also as part of the above, account for businesses and upgrades.
