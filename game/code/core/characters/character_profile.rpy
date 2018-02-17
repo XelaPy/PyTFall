@@ -1267,8 +1267,16 @@ screen finances(obj, mode="logical"):
 
         # Days:
         default fin_day = days[-1] if days else None
-
         # Special check, took some time to track down:
+        # Problem here is that we can CTD when switching from Private to Performance...
+        # Kind of a hack but it's difficult to do this differently without recoding the screen.
+        if fin_day in days:
+            pass
+        elif days:
+            $ fin_day = days[-1]
+        else:
+            $ fin_day = None
+
         if fin_day not in all_income_data:
             text "There are no Finances to display for {}!".format(obj.name) align .5, .5
         else:
