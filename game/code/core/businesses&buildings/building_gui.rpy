@@ -1122,7 +1122,7 @@ init: # Screens:
                                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                                 has fixed xysize 500, 150
 
-                                $ cost, materials, in_slots, ex_slots = building.get_extension_price(u)
+                                $ cost, materials, in_slots, ex_slots = building.get_extension_cost(u)
 
                                 frame:
                                     align .3, 0

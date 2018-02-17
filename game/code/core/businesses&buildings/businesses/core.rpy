@@ -31,6 +31,7 @@ init -12 python:
             self.materials = kwargs.pop("materials", self.MATERIALS)
 
             # This means that we can add capacity to this business.
+            # Slots/Cost are the cost of a single expansion!
             self.capacity = kwargs.get("capacity", 0)
             self.expands_capacity = kwargs.get("expands_capacity", False)
             self.exp_cap_in_slots = kwargs.pop("exp_cap_in_slots", 1)
@@ -39,6 +40,7 @@ init -12 python:
 
         @property
         def exp_cap_cost(self):
+            # Does not scale! If scaled, update the building/business cost methods!
             building = self.building
             return self._exp_cap_cost * (building.tier or 1)
 
@@ -68,8 +70,7 @@ init -12 python:
         def get_price(self):
             # Returns our best guess for price of the business
             # Needed for buying, selling the building or for taxation.
-            price = self.building.get_extension_price(self.__class__, **self.kwargs)
-            price += self.capacity * self.exp_cap_cost
+            price = self.building.get_extension_cost(self.__class__, **self.kwargs)
             return price
 
     class Business(CoreExtension):

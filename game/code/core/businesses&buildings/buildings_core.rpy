@@ -547,30 +547,31 @@ init -10 python:
             # adds the upgrade to in construction buildings:
             self.in_construction_upgrades.append(upgrade)
 
-        def get_extension_price(self, extension_class, **ec_kwargs):
+        def get_extension_cost(self, extension_class, **ec_kwargs):
             # We figure out what it would take to add this extension (building or business)
             # using it's class attributes to figure out the cost and the materials required.
             tier = self.tier or 1
 
-            # extension = extension_class(**ec_kwargs)
+            ext = extension_class(**ec_kwargs)
+            cap = exp.capacity
 
-            cost = extension_class.COST * tier
+            cost = ext.cost * tier
+            cost += cap*ext.exp_cap_cost
 
-            materials = extension_class.MATERIALS.copy()
+            materials = ext.materials.copy()
             for k, v in materials.items():
-                materials[k] = round_int(v*tier)
+                materials[k] = round_int(v*min(tier, 4))
 
-            in_slots = extension_class.IN_SLOTS * max(1, round_int(tier*.5))
-            ex_slots = extension_class.EX_SLOTS * max(1, round_int(tier*.5))
+            in_slots = ext.in_slots + cap*ext.exp_cap_in_slots
+            ex_slots = ext.ex_slots * cap*ext.exp_cap_ex_slots
 
             return cost, materials, in_slots, ex_slots
 
         def eval_extension_build(self, extension_class, price=None):
             # If price is not None, we expect a tuple with requirements to build
             # Check if we can build an upgrade:
-
             if price is None:
-                cost, materials, in_slots, ex_slots = self.get_extension_price(extension_class)
+                cost, materials, in_slots, ex_slots = self.get_extension_cost(extension_class)
             else:
                 cost, materials, in_slots, ex_slots = price
 
