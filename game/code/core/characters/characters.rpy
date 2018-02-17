@@ -861,9 +861,7 @@ init -9 python:
         def get_total_taxes(self, days=7):
             return self.get_income_tax(days) + self.get_property_tax
 
-        # ================================>
-        # Rest
-
+        # Rest ================================>>>
         def settle_wage(self, txt, img):
             """
             Settle wages between player and chars.
@@ -874,10 +872,11 @@ init -9 python:
 
             txt.append("\n")
 
+            # We get expected wage from Tier class
             wage = round_int(char.expected_wage/100.0*char.wagemod)
             if wage and hero.take_money(wage, reason="Wages"):
                 self.add_money(wage, reason="Wages")
-                self.log_logical_expense(wage, "Wages") # Is this correct?
+                self.log_logical_expense(wage, "Wages")
                 if isinstance(char.workplace, Building):
                     char.workplace.fin.log_logical_expense(wage, "Wages")
                 if config.debug:
@@ -937,23 +936,16 @@ init -9 python:
 
         def get_upkeep(self):
             char = self.instance
+            upkeep = getattr(char, "upkeep", 0):
 
             if char.status == 'slave':
-                if hasattr(char, "upkeep"):
-                    upkeep = char.upkeep
-                else:
-                    upkeep = 0
-
-                upkeep *= char.tier+1
-
                 if "Dedicated" in char.traits:
-                    upkeep += 25 + char.tier*100 + char.level*2
+                    upkeep += char.tier*5 + char.level*.5
                 else:
-                    upkeep += 50 + char.tier*100 + char.level*5
+                    upkeep += char.tier*10 + char.level
+                upkeep = max(upkeep, 20)
 
-                return max(20, upkeep)
-            else:
-                return 0
+            return round_int(upkeep)
 
         def next_day(self):
             self.game_main_income_log[day] = self.todays_main_income_log.copy()
