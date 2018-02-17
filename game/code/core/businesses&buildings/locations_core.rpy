@@ -34,11 +34,11 @@ init -20 python:
             # We still allow string location by design, but we may get rid of those one day as well.
             if config.debug:
                 devlog.warn("%s has a string location: %s"%(actor.name, actor.location))
-        elif actor.location and hasattr(actor.location, "remove"):
-            try:
-                actor.location.remove(actor)
-            except KeyError, e:
-                devlog.warn("%s is not in %s (but has it as its location)"%(actor.name, str(actor.location)))
+        # elif actor.location and hasattr(actor.location, "remove"):
+        #     try:
+        #         actor.location.remove(actor)
+        #     except KeyError, e:
+        #         devlog.warn("%s is not in %s (but has it as its location)"%(actor.name, str(actor.location)))
 
         actor.location = loc
         # if isinstance(loc, Location):

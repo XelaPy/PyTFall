@@ -3,14 +3,12 @@ init -5 python:
         SORTING_ORDER = 5
         COMPATIBILITY = []
         MATERIALS = {"Wood": 70, "Bricks": 30, "Glass": 5}
-        ID = "Brothel"
+        NAME = "Brothel"
         IMG = "content/buildings/upgrades/room.jpg"
-        def __init__(self, name="Brothel", instance=None, desc="Rooms to freck in!",
-                     img="content/buildings/upgrades/room.jpg", **kwargs):
-
-            super(BrothelBlock, self).__init__(name=name, instance=instance,
-                        desc=desc, img=img, **kwargs)
-
+        DESC = "A place to freck in!"
+        def __init__(self, **kwargs):
+            super(BrothelBlock, self).__init__(**kwargs)
+            
             self.type = "personal_service"
             self.jobs = set([simple_jobs["Whore Job"]])
             self.workable = True

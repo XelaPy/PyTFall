@@ -1108,7 +1108,7 @@ init: # Screens:
                                         xalign .5
                                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                                         xpadding 10
-                                        text "[u.ID]" align .5, .5 style "stats_text" size 15
+                                        text "[u.NAME]" align .5, .5 style "stats_text" size 15
                                     frame:
                                         xalign .5
                                         background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
@@ -1158,7 +1158,7 @@ init: # Screens:
                                         xalign .5
                                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
                                         xpadding 10
-                                        text "[u.ID]" align .5, .5 style "stats_text" size 15
+                                        text "[u.NAME]" align .5, .5 style "stats_text" size 15
                                     frame:
                                         xalign .5
                                         background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)

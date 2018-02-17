@@ -4,10 +4,12 @@ init -12 python:
     class CoreExtension(_object):
         """BaseClass for any building expansion! (aka Business)
         """
-        # Class attributes serve as default, they are fed to a method of UpgradableBuilding
+        # Class attributes serve as default, they are fed to a method of UpgradableBuilding,
         # adjusted and displayed to the player. In most of the cases, Extension will be created
-        # using these:
-        ID = "Extension"
+        # using these (alt is from JSON/Custom data):
+        NAME = "Extension"
+        DESC = "Core Extension."
+        IMG = "no_image"
         SORTING_ORDER = 0
         MATERIALS = {}
         COST = 100
@@ -15,15 +17,17 @@ init -12 python:
         EX_SLOTS = 0
         CAPACITY = 0
 
-        def __init__(self, name="Extension", desc="Base Extension.",
-                     img=ImageReference("no_image"),
-                     **kwargs):
+        EXP_CAP_IN_SLOTS = 1
+        EXP_CAP_EX_SLOTS = 0
+        EXP_CAP_COST = 100
 
-            self.name = name # name, a string.
+        def __init__(self, **kwargs):
             self.kwargs = kwargs
-            self.building = None # Building this upgrade belongs to.
-            self.desc = desc # description, a string.
-            self.img = img
+            self.name = kwargs.get("name", self.NAME)
+            self.desc = kwargs.get("desc", self.DESC)
+            self.img = renpy.displayable(kwargs.get("img", self.IMG))
+
+            self.building = kwargs.get("building", None) # Building this upgrade belongs to.
 
             self.cost = kwargs.pop("cost", self.COST)
             self.in_slots = kwargs.pop("in_slots", self.IN_SLOTS)
@@ -32,11 +36,11 @@ init -12 python:
 
             # This means that we can add capacity to this business.
             # Slots/Cost are the cost of a single expansion!
-            self.capacity = kwargs.get("capacity", 0)
+            self.capacity = kwargs.get("capacity", self.CAPACITY)
             self.expands_capacity = kwargs.get("expands_capacity", False)
-            self.exp_cap_in_slots = kwargs.pop("exp_cap_in_slots", 1)
-            self.exp_cap_ex_slots = kwargs.pop("exp_cap_ex_slots", self.CAPACITY)
-            self._exp_cap_cost = kwargs.pop("exp_cap_cost", 100)
+            self.exp_cap_in_slots = kwargs.pop("exp_cap_in_slots", self.EXP_CAP_IN_SLOTS)
+            self.exp_cap_ex_slots = kwargs.pop("exp_cap_ex_slots", self.EXP_CAP_EX_SLOTS)
+            self._exp_cap_cost = kwargs.pop("exp_cap_cost", self.EXP_CAP_COST)
 
         @property
         def exp_cap_cost(self):
@@ -73,17 +77,15 @@ init -12 python:
             price = self.building.get_extension_cost(self.__class__, **self.kwargs)
             return price
 
+
     class Business(CoreExtension):
         """BaseClass for any building expansion! (aka Business)
         """
-        ID = "Business"
+        NAME = "Business"
+        DESC = "Business"
         CAPACITY = 2
-        def __init__(self, name="", desc="Business",
-                     img=ImageReference("no_image"),
-                     **kwargs):
-
-            super(Business, self).__init__(name=name,
-                        desc=desc, img=img, **kwargs)
+        def __init__(self, **kwargs):
+            super(Business, self).__init__(**kwargs)
 
             # Jobs this upgrade can add. *We add job instances here!
             # It may be a good idea to turn this into a direct job assignment instead of a set...
@@ -322,15 +324,10 @@ init -12 python:
 
     class PrivateBusiness(Business):
         SORTING_ORDER = 3
-        CAPACITY = 2
-        def __init__(self, name="Private Business",
-                     desc="Client is always right!?!",
-                     img=None, **kwargs):
-
-            img = Null() if img is None else img
-
-            super(PrivateBusiness, self).__init__(name=name,
-                            desc=desc, img=img, **kwargs)
+        NAME = "Private Business"
+        DESC = "Client is always right!?!"
+        def __init__(self, **kwargs):
+            super(PrivateBusiness, self).__init__(**kwargs)
 
             self.type = "personal_service"
             self.jobs = set()
@@ -407,21 +404,16 @@ init -12 python:
 
     class PublicBusiness(Business):
         SORTING_ORDER = 2
-        CAPACITY = 2
+        NAME = "Public Business"
+        DESC = "Clients are always right!?!"
         """Public Business Upgrade.
 
         This usually assumes the following:
         - Clients are handled in one general pool.
         - Workers randomly serve them.
         """
-        def __init__(self, name="Public Default",
-                     desc="Client is always right!?!", img=None,
-                     **kwargs):
-
-            img = Null() if img is None else img
-
-            super(PublicBusiness, self).__init__(name=name,
-                            desc=desc, img=img, **kwargs)
+        def __init__(self, **kwargs):
+            super(PublicBusiness, self).__init__(**kwargs)
             self.jobs = set() # Job bound to this update.
             self.workable = True
             self.type = "public_service"
@@ -586,14 +578,10 @@ init -12 python:
 
     class OnDemandBusiness(Business):
         SORTING_ORDER = 2
-        def __init__(self, name="On Demand Default",
-                     desc="Does something on request!", img=None,
-                     **kwargs):
-
-            img = Null() if img is None else img
-
-            super(OnDemandBusiness, self).__init__(name=name,
-                        desc=desc, img=img, **kwargs)
+        NAME = "On Demand Business"
+        DESC = "Are we gonna work hard!?!"
+        def __init__(self, **kwargs):
+            super(OnDemandBusiness, self).__init__(**kwargs)
 
             self.type = "on_demand_service"
             self.jobs = set()
@@ -662,15 +650,11 @@ init -12 python:
 
     class TaskBusiness(Business):
         SORTING_ORDER = 6
+        NAME = "Task Business"
+        DESC = "Complete given tasks!"
         """Base class upgrade for businesses that just need to complete a task, like FG, crafting and etc.
         """
         # For lack of a better term... can't come up with a better name atm.
-        def __init__(self, name="Task Default", desc="Completes given task!",
-                     img=None, **kwargs):
-
-            img = Null() if img is None else img
-
-            super(TaskBusiness, self).__init__(name=name, desc=desc,
-                                               img=img, **kwargs)
-
+        def __init__(self, **kwargs):
+            super(TaskBusiness, self).__init__(**kwargs)
             self.res = None #*Throws an error?

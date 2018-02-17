@@ -55,7 +55,7 @@ init -3 python:
 
     class CatWalk(BusinessUpgrade):
         # For Strip Club
-        ID = "Cat Walk"
+        NAME = "Cat Walk"
         def __init__(self, name="Cat Walk",
                      desc="Good way to show off your strippers!",
                      img="content/buildings/upgrades/catwalk_0.jpg",
@@ -68,7 +68,7 @@ init -3 python:
     class Aquarium(BusinessUpgrade):
         # For Bar, Strip Club.
         MATERIALS = {"Glass": 10, "Wood": 5}
-        ID = "Aquarium"
+        NAME = "Aquarium"
         def __init__(self, name="Aquarium",
                      desc="Enhance the entertainment experience of your clients!",
                      img="content/buildings/upgrades/aquarium_nq.jpg",

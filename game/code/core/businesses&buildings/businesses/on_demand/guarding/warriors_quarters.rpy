@@ -4,14 +4,11 @@ init -5 python:
         COMPATIBILITY = []
         MATERIALS = {"Wood": 15, "Bricks": 30, "Glass": 3}
         COST = 300
-        ID = "Warrior Quarters"
+        NAME = "Warrior Quarters"
         IMG = "content/buildings/upgrades/guard_qt.jpg"
-        def __init__(self, name="Warrior Quarters", instance=None, desc="Place for Guards!",
-                     img="content/buildings/upgrades/guard_qt.jpg", **kwargs):
-
-            super(WarriorQuarters, self).__init__(name=name, instance=instance, desc=desc,
-                                                  img=img, **kwargs)
-
+        DESC = "Serve and Protect!"
+        def __init__(self, **kwargs):
+            super(WarriorQuarters, self).__init__(**kwargs)
             self.jobs = set([simple_jobs["Guarding"]])
 
         def business_control(self):

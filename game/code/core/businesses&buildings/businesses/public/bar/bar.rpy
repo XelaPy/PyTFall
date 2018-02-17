@@ -3,14 +3,14 @@ init -5 python:
         COMPATIBILITY = []
         SORTING_ORDER = 4
         MATERIALS = {"Wood": 50, "Bricks": 30, "Glass": 5}
-        ID = "Bar"
+        NAME = "Bar"
         IMG = "content/buildings/upgrades/bar.jpg"
+        DESC = "Serve drinks and snacks to your customers!"
         COST = 500
         IN_SLOTS = 3
-        def __init__(self, name="Bar", instance=None, desc="Serve drinks and snacks to your customers!",
-                     img="content/buildings/upgrades/bar.jpg", build_effort=0,
-                     **kwargs):
-            super(Bar, self).__init__(name=name, instance=instance, desc=desc, img=img, build_effort=build_effort, **kwargs)
+        def __init__(self, **kwargs):
+            super(Bar, self).__init__(**kwargs)
+            
             self.jobs = set([simple_jobs["Bartending"]])
             self.workable = True
             self.type = "public_service"

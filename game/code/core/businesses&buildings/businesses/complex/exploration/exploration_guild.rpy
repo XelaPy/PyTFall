@@ -256,16 +256,12 @@ init -6 python:
         SORTING_ORDER = 10
         COMPATIBILITY = []
         MATERIALS = {"Wood": 70, "Bricks": 50, "Glass": 5}
-        ID = "ExplorationGuild"
+        NAME = "Exploration Guild"
         IMG = "content/gfx/bg/buildings/Chorrol_Fighters_Guild.png"
+        DESC = "Travel to exotic places, meet new monsters and people... and take their shit!"
 
-        def __init__(self, name="Exploration Guild",
-                    desc="Travel to exotic places, meet new monsters and people... and take their shit!",
-                    img="content/gfx/bg/buildings/Chorrol_Fighters_Guild.png",
-                    **kwargs):
-
-            super(ExplorationGuild, self).__init__(name=name,
-                        desc=desc, **kwargs)
+        def __init__(self, **kwargs):
+            super(ExplorationGuild, self).__init__(**kwargs)
 
             # Global Values that have effects on the whole business.
             self.teams = list() # List to hold all the teams formed in this guild. We should add at least one team or the guild will be useless...
