@@ -307,7 +307,6 @@ label next_day_controls:
             result = ui.interact()
 
             if result[0] == 'filter':
-
                 if result[1] == 'all':
                     FilteredList = NextDayEvents * 1
                 elif result[1] == 'red_flags':
@@ -346,19 +345,16 @@ label next_day_controls:
                     if index > 0:
                         event = FilteredList[index-1]
                         gimg = event.load_image()
-
             elif result[1] == 'right':
                 python:
                     index = FilteredList.index(event)
                     if index < len(FilteredList)-1:
                         event = FilteredList[index+1]
                         gimg = event.load_image()
-
             elif result[1] == "next_day_local":
                 # Special Logic required:
                 $ next_day_local = True
                 return
-
             elif result[1] == 'return':
                 return
 

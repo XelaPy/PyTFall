@@ -1036,20 +1036,23 @@ init: # Main Screens:
             pos (280, 154)
             background im.Scale("content/gfx/frame/frame_dec_1.png", 720, 580)
             xysize(720, 580)
-            hbox:
+            viewport:
                 pos(50, 50)
                 xysize(620, 400)
+                child_size 620, 10000
+                mousewheel True
+                has vbox xsize 620
                 if not len(pytfall.arena.daily_report):
-                    text("\n\n There is nothing to report right now. Try tomorrow.") color goldenrod
+                    text "Nothing interesting happened yesterday..." color goldenrod align .5, .5
                 else:
-                    text("{size=-4}%s"%pytfall.arena.daily_report) color goldenrod
+                    text "{size=-4}[pytfall.arena.daily_report]" color goldenrod
 
             button:
                 style_group "basic"
                 action Hide("arena_report")
-                minimum(50, 30)
+                minimum (50, 30)
                 align (.5, .9)
-                text  "Close" # TODO gui: possibly will require align changes when arena log is full
+                text  "Close"
         key "mousedown_3" action Hide("arena_report")
 
 init: # ChainFights vs Mobs:
