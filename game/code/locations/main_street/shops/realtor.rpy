@@ -101,28 +101,28 @@ screen realtor_agency():
                             xfill True
                             xysize (395, 320)
                             frame:
-                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 5, 5)
+                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 5, 5)
                                 xysize (395, 320)
                                 null height 15
                                 vbox:
-                                    xalign 0.5
+                                    xalign .5
                                     null height 5
                                     frame:
                                         style_group "content"
-                                        xalign 0.5
+                                        xalign .5
                                         xysize (340, 50)
                                         background Frame("content/gfx/frame/p_frame5.png", 10, 10)
-                                        label (u"[building.name]") text_size 23 text_color ivory align(0.5, 0.5)
+                                        label (u"[building.name]") text_size 23 text_color ivory align(.5, .5)
                                     null height 5
                                     frame:
                                         background Frame("content/gfx/frame/mes11.jpg", 5, 5)
                                         xpadding 5
                                         ypadding 5
-                                        xalign 0.5
+                                        xalign .5
                                         $ img = ProportionalScale(building.img, 300, 220)
                                         imagebutton:
                                             idle (img)
-                                            hover (im.MatrixColor(img, im.matrix.brightness(0.25)))
+                                            hover (im.MatrixColor(img, im.matrix.brightness(.25)))
                                             action SetVariable("focus", building)
                 vbar value YScrollValue("brothelmarket_vp")
 
@@ -144,56 +144,56 @@ screen realtor_agency():
                         null height 50
                         frame:
                             style_group "content"
-                            xalign 0.5
+                            xalign .5
                             xysize (350, 60)
                             background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                            label (u"[focus.name]") text_size 23 text_color ivory align(0.5, 0.8)
+                            label (u"[focus.name]") text_size 23 text_color ivory align (.5, .8)
                         null height 50
                         hbox:
                             style_group "proper_stats"
                             frame:
                                 xpadding 12
                                 ypadding 12
-                                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.98), 10, 10)
+                                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.98), 10, 10)
                                 vbox:
                                     spacing -1
                                     frame:
                                         xysize 380, 24
-                                        text "{color=[gold]}Price:" yalign 0.5
+                                        text "{color=[gold]}Price:" yalign .5
                                         $ price = focus.get_price()
-                                        label "{color=[gold]}[price]" align (1.0, 0.5)
+                                        label "{color=[gold]}[price]" align 1.0, .5
                                     frame:
                                         xysize 380, 24
-                                        text "{color=[ivory]}Quarter:" yalign 0.5
-                                        label "{color=[ivory]}[focus.location]" align (1.0, 0.5)
+                                        text "{color=[ivory]}Quarter:" yalign .5
+                                        label "{color=[ivory]}[focus.location]" align 1.0, .5
                                     frame:
                                         xysize 380, 24
-                                        text "Interior Space:" yalign 0.5
-                                        label (u"{color=[ivory]}%s/%s" % (focus.in_slots, focus.in_slots_max)) align (1.0, 0.5)
+                                        text "Interior Space:" yalign .5
+                                        label (u"{color=[ivory]}%s/%s" % (focus.in_slots, focus.in_slots_max)) align 1.0, .5
                                     frame:
                                         xysize 380, 24
-                                        text "Exterior Space:" yalign 0.5
-                                        label (u"{color=[ivory]}%s/%s" % (focus.ex_slots, focus.ex_slots_max)) align (1.0, 0.5)
+                                        text "Exterior Space:" yalign .5
+                                        label (u"{color=[ivory]}%s/%s" % (focus.ex_slots, focus.ex_slots_max)) align 1.0, .5
                                     if isinstance(focus, FamousBuilding):
                                         frame:
                                             xysize 380, 24
-                                            text "Fame:" yalign 0.5
-                                            label (u"%s/%s" % (focus.fame, focus.maxfame)) align (1.0, 0.5)
+                                            text "Fame:" yalign .5
+                                            label (u"%s/%s" % (focus.fame, focus.maxfame)) align 1.0, .5
                                         frame:
                                             xysize 380, 24
-                                            text "Reputation:" yalign 0.5
-                                            label (u"%s/%s" % (focus.rep, focus.maxrep)) align (1.0, 0.5)
+                                            text "Reputation:" yalign .5
+                                            label (u"%s/%s" % (focus.rep, focus.maxrep)) align 1.0, .5
                                     if isinstance(focus, Building):
                                         frame:
                                             xysize 380, 24
-                                            text "Level:" yalign 0.5
+                                            text "Level:" yalign .5
                                             label (u"%s" % (focus.tier)) align (1.0, .5)
 
                         null height 50
 
                         frame:
                             background Frame("content/gfx/frame/ink_box.png", 10, 10)
-                            xalign 0.5
+                            xalign .5
                             xysize (400, 100)
                             xpadding 10
                             ypadding 10
@@ -202,10 +202,10 @@ screen realtor_agency():
                         null height 100
 
                         button:
-                            xalign 0.5
+                            xalign .5
                             style "blue1"
                             xpadding 15
                             ypadding 10
-                            text "Buy" align (0.5, 0.5) style "black_serpent" color ivory hover_color red
+                            text "Buy" align .5, .5 style "black_serpent" color ivory hover_color red
                             action Return(['buy', focus])
     use top_stripe(True)
