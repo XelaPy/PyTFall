@@ -77,6 +77,7 @@ init -12 python:
         """BaseClass for any building expansion! (aka Business)
         """
         ID = "Business"
+        CAPACITY = 2
         def __init__(self, name="", desc="Business",
                      img=ImageReference("no_image"),
                      **kwargs):
@@ -321,6 +322,7 @@ init -12 python:
 
     class PrivateBusiness(Business):
         SORTING_ORDER = 3
+        CAPACITY = 2
         def __init__(self, name="Private Business",
                      desc="Client is always right!?!",
                      img=None, **kwargs):
@@ -405,6 +407,7 @@ init -12 python:
 
     class PublicBusiness(Business):
         SORTING_ORDER = 2
+        CAPACITY = 2
         """Public Business Upgrade.
 
         This usually assumes the following:
