@@ -310,30 +310,22 @@ label next_day_controls:
 
                 if result[1] == 'all':
                     FilteredList = NextDayEvents * 1
-
                 elif result[1] == 'red_flags':
                     FilteredList = [e for e in NextDayEvents if e.red_flag]
-
                 elif result[1] == 'mc':
                     FilteredList = [e for e in NextDayEvents if e.type == 'mcndreport']
-
                 elif result[1] == 'school':
                     order = {"schoolndreport":1, "schoolreport":2}
                     FilteredList = sorted([e for e in NextDayEvents if e.type in order], key=lambda e: order[e.type])
-
                 elif result[1] == 'gndreports': # Girl Next Day Reports
                     FilteredList = [e for e in NextDayEvents if e.type == 'girlndreport']
-
                 elif result[1] == 'building':
                     building = result[2]
                     order = {"buildingreport": 1, "jobreport": 2}
                     FilteredList = sorted([e for e in NextDayEvents if e.loc == building and e.type in order], key=lambda e: order[e.type])
-                    # TODO gui: There should always be the building report available per design. Check NSUB to figure out what happened to default.
-
                 elif result[1] == "fighters_guild":
                     order = {"fg_report": 1, "exploration_report": 2, "fg_job": 3}
                     FilteredList = sorted([e for e in NextDayEvents if e.type in order], key=lambda e: order[e.type])
-
                 else:
                     devlog.warn("unhandled event:"+result[1])
 
