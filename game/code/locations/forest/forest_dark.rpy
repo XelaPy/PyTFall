@@ -188,8 +188,8 @@ label city_dark_forest_hideout_fight:
     if result is True:
         python hide:
             exp = exp_reward(hero.team, enemy_team)
-            for member in hero.team:
-                member.exp += exp
+            # for member in hero.team:
+            #     member.exp += exp
         scene expression forest_location
         return
 
@@ -283,8 +283,8 @@ label city_dark_forest_fight:
     if result is True:
         python:
             exp = exp_reward(hero.team, enemy_team)
-            for member in hero.team:
-                member.exp += exp
+            # for member in hero.team:
+            #     member.exp += exp
         scene expression forest_location
         if persistent.battle_results:
             show screen give_exp_after_battle(hero.team, exp)
