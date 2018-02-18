@@ -1284,6 +1284,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                         frame:
                             xpadding -50
                             background Null()
+                            style_prefix "pb"
                             hbox:
                                 button:
                                     xysize (90, 30)
@@ -1294,7 +1295,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                     align (.5, .5)
                                     xysize (30, 30)
                                     action Function(eqtarget.eqsave.__setitem__, i, eqtarget.eqslots.copy()), SetDict(eqsave, i, True), With(dissolve)
-                                    text u"\u2193"
+                                    text u"\u2193" align .5, .5
                                     padding (9, 1)
                                     if tt:
                                         hovered tt.Action("Save equipment state")
