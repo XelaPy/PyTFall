@@ -81,6 +81,120 @@ init -999 python:
             return render
 
 
+    class ExpBarController(renpy.Displayable):
+        def __init__(self, char, **kwargs):
+            super(ExpBarController, self).__init__(**kwargs)
+            self.char = char
+            self.last_known_level = char.level
+            self.active_pool = 0
+            self.update_st = 0
+            self.level_changed = False
+            self.set_step()
+
+            self.finished = True # Done adding experience...
+
+        def set_step(self):
+            step = int(round(self.char.stats.goal_increase/60.0))
+            if str(step).endswith('0'):
+                step += 6
+            self._step = step
+
+        def mod_exp(self, value):
+            self.active_pool += value
+            self.update_st = 0
+            self.finished = False
+            renpy.music.play("content/sfx/sound/events/counting_long.ogg", channel="sound", loop=True)
+            renpy.redraw(self, 0)
+
+        def check_finished(self):
+            return not self.active_pool
+
+        @property
+        def step(self):
+            if self.level_changed:
+                self.level_changed = False
+                self.set_step()
+            return self._step
+
+        def bar_and_text(self):
+            char = self.char
+
+            fixed = Fixed(xysize=(326, 130)) # Base
+
+            portrait = Fixed(xysize=(102, 102)) # Portrait
+            bg = Frame("content/gfx/frame/MC_bg3.png", 10, 10,
+                       xysize=(102, 102), align=(.5, .5))
+            portrait.add(bg)
+            profile_img = char.show('portrait', resize=(98, 98), cache=True)
+            portrait.add(Transform(profile_img, align=(.5, .5)))
+            fixed.add(portrait)
+
+            # Level:
+            ts = "Level {}".format(char.level)
+            txt = Text(ts, style="proper_stats_value_text",
+                       bold=True, outlines=[(1, "#181818", 0, 0)],
+                       size=22, color="#DAA520", pos=(250, 65))
+            fixed.add(txt)
+
+            # Bar:
+            left_bar = renpy.displayable("content/gfx/interface/bars/exp_full.png")
+            right_bar = renpy.displayable("content/gfx/interface/bars/exp_empty.png")
+            val = char.stats.exp + char.stats.goal_increase - char.stats.goal
+            bar = Bar(value=val,
+                    left_bar=left_bar,
+                    right_bar=right_bar,
+                    range=char.stats.goal_increase,
+                    thumb=None, xysize=(324, 25),
+                    ypos=102)
+            fixed.add(bar)
+
+            # Exp Img:
+            img = Image("content/gfx/interface/images/exp_b.png", yalign=1.0)
+            fixed.add(img)
+            # Exp:
+            ts = "{}/{}".format(char.exp, char.stats.goal)
+            txt = Text(ts, italic=True, bold=True, size=15,
+                       outlines=[(1, "#181818", 0, 0)], color="#DAA520",
+                       xalign=.6, ypos=110)
+            fixed.add(txt)
+
+            return fixed
+
+        def render(self, width, height, st, at):
+            if self.active_pool:
+                if self.update_st <= st:
+                    value = 0
+                    char = self.char
+                    step = self.step
+                    if self.active_pool > step:
+                        char.exp += step
+                        self.active_pool -= step
+                    else:
+                        char.exp += self.active_pool
+                        self.active_pool = 0
+
+                    if self.active_pool == 0:
+                        renpy.music.stop(channel="sound")
+
+                    if self.last_known_level != char.level:
+                        self.last_known_level = char.level
+                        self.level_changed = True
+
+                    self.update_st = st + .05
+
+            render = renpy.Render(326, 130)
+            render.place(self.bar_and_text(), st=st)
+
+            if not self.finished and self.check_finished():
+                self.update_st = 0
+                self.finished = True
+                renpy.restart_interaction()
+
+            if not self.finished:
+                renpy.redraw(self, 0)
+            return render
+
+
     class HitlerKaputt(renpy.Displayable):
         def __init__(self, displayable, crops, neg_range=(-8, -1), pos_range=(1, 8), **kwargs):
             """

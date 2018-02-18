@@ -1392,52 +1392,30 @@ screen give_exp_after_battle(group, exp=0, money=0):
         has vbox
         text ("You gained %d exp"%exp) size 20 align (.5, .5) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
         null height 15
-        for l in group:
-            $ char_profile_img = l.show('portrait', resize=(101, 101), cache=True)
-            $ img = "content/gfx/frame/ink_box.png"
-            hbox:
-                imagebutton:
-                    background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-                    idle (char_profile_img)
-                    hover (im.MatrixColor(char_profile_img, im.matrix.brightness(.15)))
-                    action None
-                    align 0, .5
-                    xysize (102, 102)
-                null width 15
-                text ("Level %d"%l.level) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] size 22 color "#DAA520" yalign .9
 
-            python:
-                val = l.stats.exp + l.stats.goal_increase - l.stats.goal
-                ran = l.stats.goal_increase
-                old_val = l.exp
-            # TODO gui: Port Bar from GiBC.
-            bar:
-                value AnimatedValue(value=val, range=ran, delay=1.0, old_value=old_val)
-                left_bar ("content/gfx/interface/bars/exp_full.png")
-                right_bar ("content/gfx/interface/bars/exp_empty.png")
-                thumb None
-                maximum (324, 25)
-            hbox:
-                spacing 10
-                pos (90, -23)
-                xmaximum 160
-                xfill True
-                add "content/gfx/interface/images/exp_b.png" ypos 2 xalign .8
-                text "[l.exp]/[l.goal]" style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
+        for l in group:
+            add l.exp_bar
+
+        # actually give the EXP:
+        for c in group:
+            timer .01 action Function(c.exp_bar.mod_exp, exp)
+
         if money > 0:
             hbox:
                 xalign .5
                 text ("You found %d"%money) size 20 align (.5, .5) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
                 null width 5
                 add "coin_top" align (.5, .5)
+
         style_prefix "wood"
         null height 15
         button:
             xalign .5
             xysize (120, 40)
-            yalign .5
-            action [Hide("give_exp_after_battle")]
+            if all(c.exp_bar.finished for c in group):
+                action [Hide("give_exp_after_battle")]
             text "OK" size 15
 
-    key "K_ESCAPE" action [Hide("give_exp_after_battle")]
-    key "K_RETURN" action [Hide("give_exp_after_battle")]
+    if all(c.exp_bar.finished for c in group):
+        key "K_ESCAPE" action [Hide("give_exp_after_battle")]
+        key "K_RETURN" action [Hide("give_exp_after_battle")]

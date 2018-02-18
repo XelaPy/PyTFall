@@ -96,7 +96,7 @@
 				"class": "WarriorQuarters"
 			}
 		],
-		"allowed_businesses": ["BrothelBlock", "StripClub", "Bar", "Cleaners", "WarriorQuarters"]
+		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"]
 	},
 	{
 		"id": 4,
@@ -142,7 +142,7 @@
 				"class": "WarriorQuarters"
 			}
 		],
-		"allowed_businesses": ["BrothelBlock", "StripClub", "Bar", "Cleaners", "WarriorQuarters"]
+		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"]
 	},
 	{
 		"id": 5,
@@ -188,7 +188,7 @@
 				"class": "WarriorQuarters"
 			}
 		],
-		"allowed_businesses": ["BrothelBlock", "StripClub", "Bar", "Cleaners", "WarriorQuarters"]
+		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"]
 	},
 	{
 		"id": 6,
@@ -234,7 +234,7 @@
 				"class": "WarriorQuarters"
 			}
 		],
-		"allowed_businesses": ["BrothelBlock", "StripClub", "Bar", "Cleaners", "WarriorQuarters"]
+		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"]
 	},
 	{
 		"id": 7,
@@ -280,7 +280,7 @@
 				"class": "WarriorQuarters"
 			}
 		],
-		"allowed_businesses": ["BrothelBlock", "StripClub", "Bar", "Cleaners", "WarriorQuarters"]
+		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"]
 	},
 	{
 		"id": 8,

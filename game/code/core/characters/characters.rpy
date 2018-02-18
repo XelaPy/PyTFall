@@ -3901,6 +3901,9 @@ init -9 python:
             self.team = Team(implicit=[self])
             self.team.name = "Player Team"
 
+            # Exp Bar:
+            self.exp_bar = ExpBarController(self)
+
         # Fin Methods:
         def take_money(self, value, reason="Other"):
             return self.fin.take_money(value, reason)
@@ -4256,6 +4259,9 @@ init -9 python:
 
             self.txt = list()
             self.fin = Finances(self)
+
+            # Exp Bar:
+            self.exp_bar = ExpBarController(self)
 
         def init(self):
             """Normalizes after __init__"""

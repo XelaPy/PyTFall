@@ -1,5 +1,5 @@
 init -5 python:
-    class Bar(PublicBusiness):
+    class BarBusiness(PublicBusiness):
         COMPATIBILITY = []
         SORTING_ORDER = 4
         MATERIALS = {"Wood": 50, "Bricks": 30, "Glass": 5}
@@ -9,8 +9,8 @@ init -5 python:
         COST = 500
         IN_SLOTS = 3
         def __init__(self, **kwargs):
-            super(Bar, self).__init__(**kwargs)
-            
+            super(BarBusiness, self).__init__(**kwargs)
+
             self.jobs = set([simple_jobs["Bartending"]])
             self.workable = True
             self.type = "public_service"
