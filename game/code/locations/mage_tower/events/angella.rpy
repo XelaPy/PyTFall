@@ -2,7 +2,7 @@ init python:
     if config.debug:
         register_event("angelica_meet", locations=["mages_tower"], priority=1000, start_day=1, jump=True, dice=100, max_runs=1)
     else:
-        register_event("angelica_meet", locations=["mages_tower"], simple_conditions=["global_flags.flag('mt_counter') > 3"], priority=100, start_day=1, jump=True, dice=80, max_runs=1)
+        register_event("angelica_meet", locations=["mages_tower"], simple_conditions=["global_flags.flag('mt_counter') > 2"], priority=100, start_day=1, jump=True, dice=80, max_runs=1)
 
 label angelica_meet:
     $ a = npcs["Angelica_mage_tower"].say
