@@ -876,13 +876,18 @@ init:
                         unhovered SetField(config, "mouse", None)
 
         if show_exit_button:
-            textbutton "Close":
+            textbutton "{size=+10}Close":
+                padding 10, 5
+                text_yoffset 2
+                style "pb_button"
                 align show_exit_button
                 action Return(False)
 
     screen show_poly_matrix_tt(pos=(), anchor=(), align=(), text=""):
         zorder 1
-        frame:
+        style_prefix "pb"
+        button: # Button for simpler styling.
+            action None
             if align:
                 align align
             if pos:
