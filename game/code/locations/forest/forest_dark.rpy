@@ -142,7 +142,9 @@ label city_dark_forest_hideout:
             show screen city_dark_forest
             $ global_flags.set_flag("keep_playing_music")
             jump forest_dark_continue
+
     call city_dark_forest_hideout_fight
+
     $ N = randint(1, 3)
     $ j = 0
     while j < N:
@@ -151,8 +153,10 @@ label city_dark_forest_hideout:
         "Another group is approaching you!"
         call city_dark_forest_hideout_fight
         $ j += 1
+
     if persistent.battle_results:
         show screen give_exp_after_battle(hero.team, exp)
+
     show screen city_dark_forest
     scene bg forest_hideout
     with dissolve
@@ -178,10 +182,11 @@ label city_dark_forest_hideout_fight:
             mob = build_mob(id=mob_id, level=levels)
             mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
+
     $ place = interactions_pick_background_for_fight("forest")
     $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=True)
     if result is True:
-        python:
+        python hide:
             exp = exp_reward(hero.team, enemy_team)
             for member in hero.team:
                 member.exp += exp

@@ -1381,7 +1381,7 @@ screen panic_screen:
     key "q" action Hide("panic_screen")
     key "Q" action Hide("panic_screen")
 
-screen give_exp_after_battle(group, exp = 0, money=0): # shows post-battle results; TODO lt (after Beta): make the animation to show exp gained post battle, not just the current one;
+screen give_exp_after_battle(group, exp=0, money=0):
     modal True
     zorder 100
     frame:
@@ -1405,8 +1405,14 @@ screen give_exp_after_battle(group, exp = 0, money=0): # shows post-battle resul
                     xysize (102, 102)
                 null width 15
                 text ("Level %d"%l.level) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] size 22 color "#DAA520" yalign .9
+
+            python:
+                val = l.stats.exp + l.stats.goal_increase - l.stats.goal
+                ran = l.stats.goal_increase
+                old_val = l.exp
+            # TODO gui: Port Bar from GiBC.
             bar:
-                value AnimatedValue(value=l.stats.exp + l.stats.goal_increase - l.stats.goal, range=l.stats.goal_increase, delay=1.0, old_value=0)
+                value AnimatedValue(value=val, range=ran, delay=1.0, old_value=old_val)
                 left_bar ("content/gfx/interface/bars/exp_full.png")
                 right_bar ("content/gfx/interface/bars/exp_empty.png")
                 thumb None
