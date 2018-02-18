@@ -382,10 +382,6 @@ screen char_equip():
     frame:
         pos (425, 10)
         xysize 298, 410
-        # xminimum 298
-        # xmaximum 298
-        # ymaximum 410
-        # yminimum 410
         background Frame(Transform("content/gfx/frame/Mc_bg3.png", alpha=0.3), 10, 10)
         use eqdoll(active_mode=True, char=eqtarget, frame_size=[70, 70], scr_align=(.98, 1.0), return_value=['item', "unequip"], txt_size=17, fx_size=(455, 400))
 
@@ -779,13 +775,12 @@ screen char_equip_right_frame(tt):
             elif eqtarget.status == "free":
                 text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Free%s" % t) size 14 align (.55, .65) font "fonts/TisaOTM.otf" line_leading -5
 
-
     # Right Frame Buttons ====================================>
     vbox:
         pos (931, 118)
         xsize 345
         spacing 4
-        style_group "pb"
+        style_prefix "pb"
         hbox:
             xalign .5
             spacing 100
@@ -807,6 +802,7 @@ screen char_equip_right_frame(tt):
         xysize (345, 80)
         has vbox spacing 1 xalign .5
         hbox:
+            style_prefix "pb"
             button:
                 xysize (110, 30)
                 action Return(["equip_for"])
