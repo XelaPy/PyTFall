@@ -378,10 +378,12 @@ init: # Screens:
                     xsize 300
                     spacing 3
                     frame:
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.7), 5, 5)
                         has vbox xysize (130, 40)
                         text "Indoor Slots:" size 10 color yellow xalign .5
                         text "%d/%d" % (building.in_slots, building.in_slots_max) color beige size 12 xalign .5 style_suffix "value_text"
                     frame:
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.7), 5, 5)
                         has vbox xysize (130, 40)
                         text "Outdoor Slots:" size 10 color yellow xalign .5
                         text "%d/%d" % (building.ex_slots, building.ex_slots_max) color beige size 12 xalign .5 style_suffix "value_text"
