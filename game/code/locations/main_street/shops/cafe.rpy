@@ -4,22 +4,22 @@ label cafe:
         $ ilists.world_music["shops"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("shops")]
     if not global_flags.has_flag("keep_playing_music"):
         play world choice(ilists.world_music["shops"]) fadein 1.5
-    
+
     hide screen main_street
-    
+
     scene bg cafe
     with dissolve
-    $ pytfall.world_quests.run_quests("auto")  
+    $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
-    # show npc cafe_assistant 
-    
+    # show npc cafe_assistant
+
     if global_flags.flag("waitress_chosen_today") != day:
 
         $ cafe_waitress_who = npcs[(choice(["Mel_cafe", "Monica_cafe", "Chloe_cafe"]))]
         $ w = cafe_waitress_who.say
         # $ cafe_waitress_who = (choice(["npc cafe_mel_novel", "npc cafe_monica_novel", "npc cafe_chloe_novel"]))
         $ global_flags.set_flag("waitress_chosen_today", value=day)
-        
+
     # $ renpy.show(cafe_waitress_who, at_list=[left])
     show expression cafe_waitress_who.get_vnsprite() as npc
     with dissolve
@@ -45,18 +45,18 @@ label cafe:
     if inviting_character != hero:
         menu:
             "Do you want to accept her invitation (free of charge)?"
-            
+
             "Yes":
                 $ del members
                 jump cafe_invitation
             "No":
                 $ del members
-                
+
 label cafe_menu: # after she said her lines but before we show menu controls, to return here when needed
     show screen cafe_eating
     while 1:
         $ result = ui.interact()
-    
+
 label cafe_shopping:
 
     python:
@@ -72,15 +72,17 @@ label cafe_shopping:
 
     show screen shopping(left_ref=hero, right_ref=shop)
     with dissolve
-    
+
     call shop_control from _call_shop_control_2
-                    
-    $ global_flags.del_flag("keep_playing_music")      
+
+    $ global_flags.del_flag("keep_playing_music")
     hide screen shopping
     with dissolve
     jump cafe_menu
 
 screen cafe_eating:
+    key "mousedown_3" action [Hide("cafe_eating"), Jump("main_street")]
+
     frame:
         xalign .95
         ypos 20
@@ -113,8 +115,8 @@ screen cafe_eating:
                 yalign .5
                 action [Hide("cafe_eating"), Jump("main_street")]
                 text "Leave" size 15
-label cafe_eat_alone:
 
+label cafe_eat_alone:
     menu:
         "What will it be?"
 
@@ -148,7 +150,7 @@ label cafe_eat_alone:
                 $ del name
             else:
                 "You don't have that amount of gold."
-                
+
         "Ordinary Meal (25 G)":
             if hero.take_money(25, reason="Cafe"):
                 $ name = "medium_food_" + str(renpy.random.randint(1, 3))
@@ -219,7 +221,7 @@ label cafe_eat_alone:
                     $ hero.mod_stat("health", 1)
                     $ result += "{color=[goldenrod]} +1 Max Health{/color}"
                     $ hero.set_flag("health_bonus_from_eating_in_cafe", value=hero.flag("health_bonus_from_eating_in_cafe")+1)
-                    
+
                 if result_v > 0:
                     $ result += "{color=[green]} +%d vitality{/color}" % result_v
                 if result_m > 0:
@@ -235,7 +237,7 @@ label cafe_eat_alone:
                 hide image name with dissolve
                 $ del name
     jump cafe_menu
-            
+
 label cafe_eat_group:
     # MC always pays for everyone; an algorithm where we check if every character can and wants to pay and then pays separately is too complex without a good reason
     # instead there will be another event when a character with enough money and disposition invites the group and pays for everything
@@ -264,7 +266,7 @@ label cafe_invitation: # we jump here when the group was invited by one of chars
         $ img = "content/gfx/images/food/cafe_mass_%d.jpg" % n
         show expression img at truecenter with dissolve
         $ interactions_eating_line(hero.team)
-        "You enjoy your meals together. Overall health and mood were improved." 
+        "You enjoy your meals together. Overall health and mood were improved."
         $ hero.set_flag("ate_in_cafe", value=day)
         python:
             for member in hero.team:

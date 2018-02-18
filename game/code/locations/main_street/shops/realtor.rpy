@@ -72,7 +72,7 @@ label realtor_agency:
 label realtor_exit:
     $ renpy.music.stop(channel="world")
     hide screen realtor_agency
-    jump city
+    jump main_street
 
 
 screen realtor_agency():

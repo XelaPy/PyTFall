@@ -142,6 +142,7 @@ label tailor_special_order:
     jump tailor_menu
 
 screen tailor_shop:
+    key "mousedown_3" action [Hide("tailor_shop"), Jump("main_street")]
     frame:
         xalign .95
         ypos 20
