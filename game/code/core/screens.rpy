@@ -313,10 +313,8 @@ init:
                                         label ('Duration:') text_size 18 text_color gold xpos 10
                                         frame:
                                             xysize 153, 20
-                                            if item.ctemp > 1:
-                                                text "[item.ctemp] days" color ivory size 16 align (.02, .5)
-                                            else:
-                                                text "One day" color ivory size 16 align (.02, .5)
+                                            text "Days" color ivory size 16 align (.02, .5)
+                                            label u'{size=-4}[item.ctemp]' align (.98, .5)
                     label ('{color=#ecc88a}----------------------------------------') xalign .5
                     frame:
                         xalign .5
