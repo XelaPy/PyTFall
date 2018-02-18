@@ -98,7 +98,6 @@ init:
                     background Frame("content/gfx/frame/frame_dec_1.png", 30, 30)
                     xalign .5
                     padding 30, 30
-
                     use itemstats(item=focus, size=(580, 350))
 
                 null height 3

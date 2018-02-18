@@ -146,6 +146,8 @@ label witch_talking_menu:
     jump witch_menu
 
 screen witch_shop:
+    key "mousedown_3" action [Hide("witch_shop"), Jump("forest_entrance")]
+
     frame:
         xalign .95
         ypos 20

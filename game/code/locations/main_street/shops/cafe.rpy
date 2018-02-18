@@ -244,6 +244,7 @@ label cafe_eat_group:
     if hero.gold < 200:
         "Sadly, you don't have enough money to reserve a table." # MC doesn't even have 200 gold, it's not a good idea to spend money here so we just stop it immediately
         jump cafe_menu
+
 label cafe_invitation: # we jump here when the group was invited by one of chars
     $ result = randint (30, 40) # base price MC pays for himself and the table
     python:
@@ -261,6 +262,7 @@ label cafe_invitation: # we jump here when the group was invited by one of chars
                     if "Always Hungry" in member.traits:
                         money += randint (10, 20)
                 result += money
+
     if inviting_character.take_money(result, reason="Cafe"):
         $ n = renpy.random.randint(1, 9)
         $ img = "content/gfx/images/food/cafe_mass_%d.jpg" % n
@@ -287,6 +289,7 @@ label cafe_invitation: # we jump here when the group was invited by one of chars
                     if len(hero.team)<3: # when there is only one char, disposition bonus is higher
                         stat += randint(5, 10)
                     member.mod_stat("disposition", stat)
+                    
         $ del result
         $ del stat
         $ del img
