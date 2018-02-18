@@ -543,7 +543,9 @@ init:
                 null width 10
                 add "coin_top" yalign .5
                 null width 5
-                text "[hero.gold]" size 20 color gold yalign .5
+                fixed:
+                    xsize 70
+                    text "[hero.gold]" size 20 color gold yalign .5
                 null width 15
                 text u'Day [day]' size 20 color ivory yalign .5
                 null width 15
