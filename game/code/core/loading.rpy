@@ -683,9 +683,9 @@ init -11 python:
         return content
 
 label load_resources:
-    python:
+    $ buildings = dict()
+    python hide:
         # Scripted Buildings:
-        buildings = dict()
         ap = Apartment(id="Studio Apartment")
         ap.desc = "Buy this Apartment to live in for an Extra AP point per day!"
         ap.img = "content/gfx/bg/buildings/apartment_1.jpg"
@@ -694,7 +694,9 @@ label load_resources:
         ap.init()
         buildings[ap.id] = ap
         hero.buildings.append(ap)
+        hero.home = ap # Note, we may condition this in MC setup? Maybe? One day :D
 
+    python: # Jail:
         jail = CityJail()
         jail.id = "City Jail"
 
@@ -706,13 +708,7 @@ label load_resources:
         # if config.developer:
         #     hero.add_building(buildings[TrainingDungeon.NAME])
 
-        # Variables:
-        char = None # Character global
-        came_to_equip_from = None # Girl equipment screen came from label holder
-        eqtarget = None # Equipment screen
-        char_profile = None # Girl profile screen came from label holder
-        gallery = None
-
+    python:
         # Descriptions for: *Elements
         pytfall.desc = object()
         pytfall.desc.elements = {
@@ -724,6 +720,7 @@ label load_resources:
         "neutral": str("Neutral alignment is the most popular option among warriors that do not rely on use of magic. It will ensure good degree of resistance from anything some silly mage may throw at its wielder. On other hand, this is possibly the worst choice for any magic user."),
         "light": str("One of the two elements born from men desires, thoughts and deeds. Light nests itself inside everyone souls. Gaining its force from good acts and pure thoughts. Evenly matched and locked in the ethereal struggle Light and Darkness, these opposites can cause chaotic damage against each other.")
         }
+
     call load_building_upgrades
     return
 

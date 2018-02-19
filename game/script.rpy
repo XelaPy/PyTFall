@@ -5,12 +5,24 @@
     if config.debug:
         $ renpy.show_screen("debug_tools", _layer="screens")
 
-    python:
+    python: # Variable defaults:
+        chars_list_last_page_viewed = 0
+        char = None # Character global
+        came_to_equip_from = None # Girl equipment screen came from label holder
+        eqtarget = None # Equipment screen
+        char_profile = None # Girl profile screen came from label holder
+        gallery = None
+
+    python: # Day/Calendar/Names/Menu Extensions and some other defaults.
         # Global variables and loading content:
         day = 1
+        calendar = Calendar(day=28, month=2, year=125)
+        global_flags = Flags()
+
+        ilists = ListHandler()
         # difficulty = Difficulties()
 
-        # We need it here cause
+        # Locations (we need this here cause we'll write to it soon):
         locations = dict()
 
         # Load random names selections for rGirls:
@@ -35,7 +47,7 @@
         menu_extensions["Xeona Main"] = []
         tl.timer("Loading: Menu Extensions")
 
-    python hide:
+    python hide: # Base locations:
         # Create locations:
         for loc in (Apartments, Streets, CityLoc):
             loc = loc()
@@ -43,7 +55,7 @@
         loc = HabitableLocation(id="After Life", daily_modifier=.0, rooms=float("inf"))
         locations[loc.id] = loc
 
-    python:
+    python: # Traits:
         # Load all game elements:
         tl.timer("Loading: Traits")
         traits = load_traits()
@@ -67,6 +79,7 @@
                 gen_occ_basetraits[occ].add(t)
         gen_occ_basetraits = dict(gen_occ_basetraits)
 
+    python: # Items/Shops:
         tl.timer("Loading: Items", nested=False)
         items = load_items()
         items.update(load_gifts())
@@ -112,9 +125,11 @@
         for i in items.values():
             tiered_items.setdefault(i.tier, []).append(i)
 
+    python: # Dungeons (Building (Old))
         tl.timer("Loading: Dungeons", nested=False)
         dungeons = load_dungeons()
 
+    # Battle Skills:
     $ tl.timer("Loading: Battle Skills", nested=False)
     $ battle_skills = dict()
     call load_battle_skills
@@ -123,34 +138,32 @@
         for s in battle_skills.values():
             tiered_magic_skills.setdefault(s.tier, []).append(s)
 
-    $ tl.timer("Loading: Battle Skills")
+    # $ tl.timer("Loading: Battle Skills")
 
-    python:
-        # MC:
-        hero = Player()
+    $ hero = Player()
 
-        ilists = ListHandler()
-
+    python: # Jobs:
         tl.timer("Loading: SimpleJobs")
         # This jobs are usually normal, most common type that we have in PyTFall
         temp = [WhoreJob(), StripJob(), BarJob(), Manager(), CleaningJob(), GuardJob()]
         simple_jobs = {j.id: j for j in temp}
         del temp
 
+    python: # Ads and Buildings:
         tl.timer("Loading: Businesses", nested=False)
         adverts = json.load(renpy.file("content/db/buildings/adverts.json"))
         businesses = load_buildings()
 
+    python: # Training/Schools/Weird Proxies by Thewlis:
         tl.timer("Loading: Training", nested=False)
         schools = load_schools()
         pytFlagProxyStore = shallowcopy(pytFlagProxyStore)
         pytRelayProxyStore = shallowcopy(pytRelayProxyStore)
         tl.timer("Loading: Training")
 
+    python: # Picked Tags and maps (afk atm):
+        pass
         # maps = xml_to_dict(content_path('db/map.xml'))
-        calendar = Calendar(day=28, month=2, year=125)
-        global_flags = Flags()
-        chars_list_last_page_viewed = 0
 
         # import cPickle as pickle
         # tl.timer("Loading: Binary Tag Database")
@@ -160,7 +173,7 @@
         # tagslog.info("loaded %d images from binary files" % tagdb.count_images())
         # tl.timer()
 
-    python:
+    python: # Tags/Loading Chars/Mobs/Quests.first_day
         # Loading characters:
         tagdb = TagDatabase()
         for tag in tags_dict.values():
@@ -182,12 +195,12 @@
         tl.timer("Loading: Mobs")
         mobs = load_mobs()
 
+    python: # SE (Areas)
         tl.timer("Loading: Exploration", nested=False)
         # pytfall.forest_1 = Exploration()
         fg_areas = load_fg_areas()
 
-        # ---------------------------------------
-        # Temporary code
+    python: # Move to a World AI method:
         tl.timer("Loading: Generating Random girls", nested=False)
 
         # Some random girls (if there are any):
@@ -206,6 +219,7 @@
             del rgirl
             del new_random_girl
 
+    python: # Girlsmeets/Items Upgrades:
         tl.timer("Loading: GirlsMeets", nested=False)
         gm = GirlsMeets()
 
@@ -215,61 +229,13 @@
     call load_resources
     jump dev_testing_menu_and_load_mc
 
-label continue_with_start:
-    python:
-        tl.timer("Loading: Arena!")
-        pytfall.arena = Arena()
-        locations[pytfall.arena.id] = pytfall.arena
-        pytfall.arena.setup_arena()
-        pytfall.arena.update_matches()
-        pytfall.arena.update_teams()
-        pytfall.arena.find_opfor()
-        pytfall.arena.update_dogfights()
-        tl.timer("Loading: Arena!")
-
-    # Call girls starting labels:
-    $ all_chars = chars.values()
-    while all_chars:
-        $ temp = all_chars.pop()
-        $ chars_unique_label = "_".join(["start", temp.id])
-        if renpy.has_label(chars_unique_label):
-            call expression chars_unique_label
-
-    # Clean up globals after loading chars:
-    python:
-        for i in ("chars_unique_label", "char", "girl", "testBrothel", "all_chars", "temp"):
-            del(i)
-
-    #  --------------------------------------
-    # Put here to facilitate testing:
-    if config.developer and renpy.has_label("testing"):
-        call testing
-
-    python in _console:
-        if config.debug:
-            stdio_lines = []
-            stderr_lines = []
-            console.history = []
-    if hero.name.lower() == "darktl":
-        $ hero.gold += 888888888
-    # last minute checks:
-    if not hero.home:
-        $ hero.home = locations["Streets"]
-
-    python:
-        tl.timer("Loading: Populating SlaveMarket", nested=False)
-        pytfall.sm.populate_chars_list()
-        tl.timer("Loading: Populating SlaveMarket")
-
-    jump mainscreen
-
 label dev_testing_menu_and_load_mc:
     if config.developer:
         menu:
             "Debug Mode":
                 $ hero.traits.basetraits.add(traits["Mage"])
                 $ hero.apply_trait(traits["Mage"])
-                $ initial_levelup(hero, 50, max_out_stats=True)
+                $ tier_up_to(hero, 2.5, level_bios=(.9, 1.1), skill_bios=(.8, 1.2), stat_bios=(.8, 1.0))
             "Content":
                 menu:
                     "Test Intro":
@@ -309,22 +275,77 @@ label dev_testing_menu_and_load_mc:
                             call screen test_penners_easing
                         "Back":
                             jump dev_testing_menu
-        python:
-            if not hasattr(store, "neow"):
-                renpy.music.stop()
-
-                male_fighters, female_fighters, json_fighters = load_special_arena_fighters()
-                af = choice(male_fighters.values())
-                del male_fighters[af.id]
-
-                hero._path_to_imgfolder = af._path_to_imgfolder
-                hero.id = af.id
-                hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(120, 120)))
-                hero.restore_ap()
-                hero.log_stats()
     else:
         call mc_setup
+
+    python: # We run this in case we skipped MC setup in devmode!
+        if not getattr(hero, "_path_to_imgfolder", None):
+            if not config.developer:
+                # We're fucked if this is the case somehow :(
+                raise Exception("Something went horribly wrong with MC setup!")
+            renpy.music.stop()
+
+            male_fighters, female_fighters, json_fighters = load_special_arena_fighters()
+            af = choice(male_fighters.values())
+            del male_fighters[af.id]
+
+            hero._path_to_imgfolder = af._path_to_imgfolder
+            hero.id = af.id
+            hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(120, 120)))
+            hero.restore_ap()
+            hero.log_stats()
+
     jump continue_with_start
+
+label continue_with_start:
+    python: # Load Arena
+        tl.timer("Loading: Arena!")
+        pytfall.arena = Arena()
+        locations[pytfall.arena.id] = pytfall.arena
+        pytfall.arena.setup_arena()
+        pytfall.arena.update_matches()
+        pytfall.arena.update_teams()
+        pytfall.arena.find_opfor()
+        pytfall.arena.update_dogfights()
+        tl.timer("Loading: Arena!")
+
+    # Call girls starting labels:
+    $ all_chars = chars.values()
+    while all_chars:
+        $ temp = all_chars.pop()
+        $ chars_unique_label = "_".join(["start", temp.id])
+        if renpy.has_label(chars_unique_label):
+            call expression chars_unique_label
+
+    # Clean up globals after loading chars:
+    python:
+        for i in ("chars_unique_label", "char", "girl", "testBrothel", "all_chars", "temp"):
+            del(i)
+
+    #  --------------------------------------
+    # Put here to facilitate testing:
+    if config.developer and renpy.has_label("testing"):
+        call testing
+
+    python in _console:
+        if config.debug:
+            stdio_lines = []
+            stderr_lines = []
+            console.history = []
+
+    if hero.name.lower() == "darktl": # LoL! :D
+        $ hero.gold += 888888888
+
+    # last minute checks:
+    if not hero.home:
+        $ hero.home = locations["Streets"]
+
+    python: # Populate Slave Market:
+        tl.timer("Loading: Populating SlaveMarket", nested=False)
+        pytfall.sm.populate_chars_list()
+        # tl.timer("Loading: Populating SlaveMarket")
+
+    jump mainscreen
 
 label after_load:
     if hasattr(store, "stored_random_seed"):

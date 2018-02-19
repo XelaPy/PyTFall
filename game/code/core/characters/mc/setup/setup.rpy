@@ -48,9 +48,7 @@ label build_mc:
         temp = set()
         bt1 = mc_stories[main_story][sub_story].get("class", None) or mc_stories[main_story].get("class", None)
         bt2 = mc_stories[main_story]["MC"][sub_story][mc_story][mc_substory].get("class", None) or mc_stories[main_story]["MC"][sub_story][mc_story].get("class", None)
-        for t in [bt1, bt2]:
-            if t:
-                temp.add(t)
+        temp = [t for t in (bt1, bt2) if t is not None]
 
     python:
         for t in temp:
@@ -65,6 +63,9 @@ label build_mc:
     python:
         for s in ["health", "mp", "vitality"]:
             setattr(hero, s, hero.get_max(s))
+
+    while 1:
+        $ result = ui.interact()
     return
 
 label mc_setup_end:
