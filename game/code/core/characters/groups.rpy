@@ -60,7 +60,6 @@ init -8 python:
                 return DeDist(arr, remedy=remedy, at="%s%s" % (at, bracket))
 
             # else try to get a single value for a list
-
             if 'flatten' in self._remedy and at in self._remedy['flatten']:
                 return list(frozenset([item for sublist in arr for item in sublist]))
 
@@ -98,7 +97,6 @@ init -8 python:
 
 
     class DeDist(Delegator):
-
         def __init__(self, *args, **kwargs):
             super(DeDist, self).__init__(*args, **kwargs)
 
@@ -124,7 +122,6 @@ init -8 python:
 
 
     class PytGInv(Delegator):
-
         def __init__(self, inv):
             super(PytGInv, self).__init__(l=inv, at="inventory")
             self._attrs.extend(('slot_filter', 'page'))
@@ -191,7 +188,6 @@ init -8 python:
 
 
     class PytGroup(Delegator):
-
         def __init__(self, chars):
             remedy = {
                 ".eqslots{}": self._ordered_on_abundance, ".equip_for()": self._list_for_caller, ".home": ".home",
@@ -229,12 +225,19 @@ init -8 python:
         @property
         def action(self):
             return self._defer(arr=[c.action for c in self.lst], at=".action")
-
-
         @action.setter
         def name(self, v):
             for c in self.lst:
                 c.action = v
+
+        @property
+        def gen_occs(self):
+            chars = list(self.lst)
+            occs = set(chars[0].gen_occs)
+            rest = chars[1:]
+            for c in rest:
+                occs = occs.intersection(c.gen_occs)
+            return occs
 
         @property
         def name(self):
@@ -265,7 +268,6 @@ init -8 python:
         @property
         def wagemod(self):
             return round_int(self._average([c.wagemod for c in self.lst]))
-
         @wagemod.setter
         def wagemod(self, v):
             for c in self.lst:
