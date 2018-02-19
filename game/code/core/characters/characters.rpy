@@ -443,11 +443,8 @@ init -9 python:
         @property
         def gen_occs(self):
             # returns a list of general occupation from Base Traits only.
-            gen_occs = list()
-            for go in chain.from_iterable(t.occupations for t in self.basetraits):
-                if go not in gen_occs:
-                    gen_occs.append(go)
-            return gen_occs
+            gen_occs = set(chain.from_iterable(t.occupations for t in self.basetraits))
+            return list(gen_occs)
 
         @property
         def base_to_string(self):
