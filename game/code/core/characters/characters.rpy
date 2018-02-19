@@ -2721,8 +2721,9 @@ init -9 python:
             for k in slots:
                 if self.eqslots[k]:
                     item = self.eqslots[k]
-                    if not equipment_access(self, item=item, silent=True, allowed_to_equip=False):
-                        continue
+                    # This is a bit of a weird conditioning, maybe pass an argument here?
+                    # if not equipment_access(self, item=item, silent=True, allowed_to_equip=False):
+                    #     continue
                     self.unequip(item)
                 weighted[k] = []
 
@@ -2794,15 +2795,16 @@ init -9 python:
 
                     _weight = som/most_weights[slot]
                     if _weight > 0:
-                        if slot != "consumable" and slot != "ring":
-                            if slot == "weapon" and not real_weapons and not item.type.lower().startswith("nw"):
+                        if slot not in ("consumable", "ring"):
+                            if slot in ("weapon", "smallweapon") and not real_weapons and not item.type.lower().startswith("nw"):
                                 continue
                             if _weight > selected[0]:
                                 selected = [_weight, item] # store weight and item for the highest weight
                         else:
                             selected.append([_weight, item])
 
-                if slot != "consumable" and slot != "ring":
+                # We can equip only the one item:
+                if selected[1] and slot not in ("consumable", "ring"):
                     item = selected[1]
                     if item:
                         inv.remove(item)
