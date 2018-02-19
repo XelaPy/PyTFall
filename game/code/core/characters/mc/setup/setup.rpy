@@ -64,8 +64,6 @@ label build_mc:
         for s in ["health", "mp", "vitality"]:
             setattr(hero, s, hero.get_max(s))
 
-    while 1:
-        $ result = ui.interact()
     return
 
 label mc_setup_end:
