@@ -3537,7 +3537,7 @@ init -9 python:
                         self.effects["Down with Cold"][key] = False
 
             elif effect == "Kleptomaniac":
-                self.effects["Kleptomaniac "]['active'] = False
+                self.effects["Kleptomaniac"]['active'] = False
 
             elif effect == "Slow Learner":
                 self.effects["Slow Learner"]['active'] = False
