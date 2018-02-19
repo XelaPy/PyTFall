@@ -8,7 +8,7 @@ init -9 python:
         I'd love it to contain at least some of the calculations and conditioning for Jobs as well, we can split this if it gets too confusing.
         Maybe some behavior flags and alike can be a part of this as well?
         """
-        BASE_WAGES = {"SIW": 20, "Warrior": 30, "Server": 15, "Specialist": 25}
+        BASE_WAGES = {"SIW": 20, "Warrior": 30, "Server": 15, "Specialist": 40}
 
         def __init__(self):
             # self.instance = instance
@@ -1696,14 +1696,20 @@ init -9 python:
 
         # Money:
         def take_money(self, amount, reason="Other"):
-            if amount <= self.gold:
-                self.gold -= amount
-                return True
+            if hasattr(self, "fin"):
+                return self.fin.take_money(value, reason)
             else:
-                return False
+                if amount <= self.gold:
+                    self.gold -= amount
+                    return True
+                else:
+                    return False
 
         def add_money(self, amount, reason="Other"):
-            self.gold += amount
+            if hasattr(self, "fin"):
+                self.fin.add_money(value, reason)
+            else:
+                self.gold += amount
 
         # Game assist methods:
         def set_status(self, s):
@@ -3891,13 +3897,6 @@ init -9 python:
             # Exp Bar:
             self.exp_bar = ExpBarController(self)
 
-        # Fin Methods:
-        def take_money(self, value, reason="Other"):
-            return self.fin.take_money(value, reason)
-
-        def add_money(self, value, reason="Other"):
-            self.fin.add_money(value, reason)
-
         # Girls/Borthels/Buildings Ownership
         @property
         def buildings(self):
@@ -4366,13 +4365,6 @@ init -9 python:
                     self.picture_base["sex"]["missionary"] = True
                 else:
                     self.picture_base["sex"]["missionary"] = False
-
-        ### Girls fin methods
-        def take_money(self, value, reason="Other"):
-            return self.fin.take_money(value, reason)
-
-        def add_money(self, value, reason="Other"):
-            self.fin.add_money(value, reason)
 
         # Logic assists:
         def allowed_to_view_personal_finances(self):
