@@ -1309,9 +1309,9 @@ init -9 python:
                         else:
                             weights.append(200)
                     elif sub_purpose.intersection(item.pref_class):
-                        weights.append(150)
+                        weights.append(125)
                     else: # 'Any'
-                        weights.append(100)
+                        weights.append(55)
 
                 # Stats:
                 for stat, value in item.mod.iteritems():
@@ -2661,7 +2661,9 @@ init -9 python:
             If None is returned the item should not be used. This only includes personal preferences,
             Other factors, like stat bonuses may also have to be taken into account.
             """
-            if not item.eqchance or not can_equip(item, self):
+            if not can_equip(item, self):
+                return None
+            if not item.eqchance or item.badness >= 100:
                 return None
             chance = []
             when_drunk = 30
@@ -2715,6 +2717,8 @@ init -9 python:
                     return None
 
             chance.append(item.eqchance)
+            if item.badness:
+                chance.append(-item.badness)
             return chance
 
         def equip_for(self, purpose):
