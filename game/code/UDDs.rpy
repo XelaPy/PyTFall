@@ -106,6 +106,10 @@ init -999 python:
             self.active_pool += value
             self.update_st = 0
             self.finished = False
+
+            self.last_known_level = self.char.level
+            self.set_step()
+
             renpy.music.play(self.exp_mod_sound, channel="sound", loop=True)
             renpy.redraw(self, 0)
 
@@ -182,7 +186,7 @@ init -999 python:
                     if self.last_known_level != char.level:
                         self.last_known_level = char.level
                         self.level_changed = True
-                        renpy.sound.play("sfx/sound/level_up.ogg", channel="audio")
+                        renpy.music.play(self.level_up_sound, channel="audio")
 
                     self.update_st = st + .05
 
