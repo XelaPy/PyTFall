@@ -1362,7 +1362,8 @@ init -9 python:
                         continue
 
                     if skill in skills:
-                        skill_remaining = SKILLS_MAX[skill] - skills[skill]
+                        value = skills[skill]
+                        skill_remaining = SKILLS_MAX[skill] - value
                         if skill_remaining > 0:
                             # calculate skill with mods applied, as in apply_item_effects() and get_skill()
                             mod_action = self.skills[skill][0] + effect[3]
@@ -1381,9 +1382,9 @@ init -9 python:
                                 weights.append(-111)
                                 continue
 
-                            saturated_skill = max(stats['skill'][skill] + 100, new_skill)
+                            saturated_skill = max(value + 100, new_skill)
 
-                            weights.append(50 + 100*(new_skill - stats['skill'][skill]) / saturated_skill)
+                            weights.append(50 + 100*(new_skill - value) / saturated_skill)
 
                 weighted[item.slot].append([weights, item])
 
@@ -2731,35 +2732,89 @@ init -9 python:
                                                 'defence', 'agility', "luck"],
                                                 slots=slots, real_weapons=True))
             elif purpose == "Battle Mage":
-                returns.extend(self.auto_equip(['health', 'mp', 'attack', 'magic'],
-                               # exclude_on_stats=["agility", "luck", 'defence', 'intelligence'],
-                               exclude_on_stats=["luck", 'magic', 'attack'],
-                               slots=slots, real_weapons=True))
+                target_stats = ['health', 'mp', 'attack', 'magic']
+                exclude_on_stats = ["luck", 'magic', 'attack']
+                target_skills = []
+                exclude_on_skills = []
+                base_purpose = ["Warrior", "Mage"]
+                sub_purpose = []
+                real_weapons = True
+                returns.extend(self.auto_equip(target_stats,
+                               exclude_on_stats=exclude_on_stats,
+                               exclude_on_skills=exclude_on_skills,
+                               base_purpose=base_purpose,
+                               sub_purpose=sub_purpose,
+                               slots=slots, real_weapons=real_weapons))
             elif purpose == "Barbarian":
-                returns.extend(self.auto_equip(['health', 'attack', 'defence', 'constitution', 'agility'],
-                               # exclude_on_stats=["luck"],
-                               exclude_on_stats=['health', 'attack'],
-                               slots=slots, real_weapons=True))
+                target_stats = ['health', 'attack', 'defence', 'constitution', 'agility']
+                exclude_on_stats = ['health', 'attack']
+                target_skills = []
+                exclude_on_skills = []
+                base_purpose = ["Warrior"]
+                sub_purpose = []
+                real_weapons = True
+                returns.extend(self.auto_equip(target_stats,
+                               exclude_on_stats=exclude_on_stats,
+                               exclude_on_skills=exclude_on_skills,
+                               base_purpose=base_purpose,
+                               sub_purpose=sub_purpose,
+                               slots=slots, real_weapons=real_weapons))
             elif purpose == "Wizard":
-                returns.extend(self.auto_equip(['mp', 'magic', "luck", 'intelligence'],
-                               exclude_on_stats=['magic', 'mp'],
-                               slots=slots, real_weapons=True))
+                target_stats = ['mp', 'magic', "luck", 'intelligence']
+                exclude_on_stats = ['magic', 'mp']
+                target_skills = []
+                exclude_on_skills = []
+                base_purpose = ["Mage"]
+                sub_purpose = ["Warrior"]
+                real_weapons = True
+                returns.extend(self.auto_equip(target_stats,
+                               exclude_on_stats=exclude_on_stats,
+                               exclude_on_skills=exclude_on_skills,
+                               base_purpose=base_purpose,
+                               sub_purpose=sub_purpose,
+                               slots=slots, real_weapons=real_weapons))
             elif purpose == "Striptease":
-                returns.extend(self.auto_equip(["charisma"], ["strip"],
-                               exclude_on_stats=["health", "vitality", "mp", "joy"],
-                               # exclude_on_stats=["charisma", "vitality", "joy"],
-                               exclude_on_skills=["strip"],
-                               slots=slots))
+                target_stats = ["charisma"]
+                exclude_on_stats = ["charisma", "vitality"]
+                target_skills = ["strip"]
+                exclude_on_skills = ["strip"]
+                base_purpose = ["Stripper"]
+                sub_purpose = ["SIW"]
+                real_weapons = False
+                returns.extend(self.auto_equip(target_stats,
+                               exclude_on_stats=exclude_on_stats,
+                               exclude_on_skills=exclude_on_skills,
+                               base_purpose=base_purpose,
+                               sub_purpose=sub_purpose,
+                               slots=slots, real_weapons=real_weapons))
             elif purpose == "Sex":
-                returns.extend(self.auto_equip(["charisma"], ["vaginal", "anal", "oral"],
-                               exclude_on_stats=["health", "vitality", "mp"],
-                               # exclude_on_stats=["vitality", "joy"],
-                               slots=slots))
+                target_stats = ["charisma"]
+                exclude_on_stats = ["charisma"]
+                target_skills = ["vaginal", "anal", "oral"]
+                exclude_on_skills = ["vaginal", "anal", "oral"]
+                base_purpose = ["Whore"]
+                sub_purpose = ["SIW"]
+                real_weapons = False
+                returns.extend(self.auto_equip(target_stats,
+                               exclude_on_stats=exclude_on_stats,
+                               exclude_on_skills=exclude_on_skills,
+                               base_purpose=base_purpose,
+                               sub_purpose=sub_purpose,
+                               slots=slots, real_weapons=real_weapons))
             elif purpose == "Service":
-                returns.extend(self.auto_equip(["charisma"], ["service"],
-                               exclude_on_stats=["health", "vitality", "mp", "joy"],
-                               # exclude_on_stats=["vitality", "joy"],
-                               slots=slots))
+                target_stats = ["charisma"]
+                exclude_on_stats = []
+                target_skills = ["service", "cleaning"]
+                exclude_on_skills = ["service", "cleaning"]
+                base_purpose = ["Service"]
+                sub_purpose = []
+                real_weapons = False
+                returns.extend(self.auto_equip(target_stats,
+                               exclude_on_stats=exclude_on_stats,
+                               exclude_on_skills=exclude_on_skills,
+                               base_purpose=base_purpose,
+                               sub_purpose=sub_purpose,
+                               slots=slots, real_weapons=real_weapons))
             else:
                 devlog.warning("Supplied unknown purpose: %s to equip_for method for: %s, (Class: %s)" % (purpose,
                                                             self.name, self.__class__.__name__))
@@ -2870,7 +2925,7 @@ init -9 python:
                     # _weight = som/most_weights[slot]
                     if _weight > 0:
                         if slot not in ("consumable", "ring"):
-                            if slot in ("weapon", "smallweapon") and not real_weapons and item.type != tool:
+                            if slot in ("weapon", "smallweapon") and not real_weapons and item.type != "tool":
                                 continue
                             if _weight > selected[0]:
                                 selected = [_weight, item] # store weight and item for the highest weight
@@ -2878,7 +2933,7 @@ init -9 python:
                             selected.append([_weight, item])
 
                 # We can equip only the one item:
-                if slot not in ("consumable", "ring") and selected[1]:
+                if slot not in ("consumable", "ring"):
                     item = selected[1]
                     if item:
                         inv.remove(item)
