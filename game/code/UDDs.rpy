@@ -91,6 +91,9 @@ init -999 python:
             self.level_changed = False
             self.set_step()
 
+            self.exp_mod_sound = "content/sfx/sound/events/counting_long.ogg"
+            self.level_up_sound = "content/sfx/sound/events/go_for_it.mp3"
+
             self.finished = True # Done adding experience...
 
         def set_step(self):
@@ -103,7 +106,7 @@ init -999 python:
             self.active_pool += value
             self.update_st = 0
             self.finished = False
-            renpy.music.play("content/sfx/sound/events/counting_long.ogg", channel="sound", loop=True)
+            renpy.music.play(self.exp_mod_sound, channel="sound", loop=True)
             renpy.redraw(self, 0)
 
         def check_finished(self):
@@ -179,6 +182,7 @@ init -999 python:
                     if self.last_known_level != char.level:
                         self.last_known_level = char.level
                         self.level_changed = True
+                        renpy.sound.play("sfx/sound/level_up.ogg", channel="audio")
 
                     self.update_st = st + .05
 
