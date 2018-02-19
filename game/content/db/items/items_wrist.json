@@ -363,7 +363,7 @@
     "mod": {"charisma": 5},
     "tier": 0,
     "locations": ["Tailor Store"],
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Casual"]
     },
     {
     "id": "Velvet Gloves",
@@ -383,7 +383,7 @@
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0]},
     "tier": 0,
     "locations": ["Tailor Store"],
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Casual"]
     },
     {
     "id": "Black Leather Gloves",
@@ -403,7 +403,7 @@
     "tier": 1,
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "strip": [0, 0, 0.01, 0, 0]},
     "locations": ["Tailor Store"],
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Casual"]
     },
     {
     "id": "Silken Gloves",
@@ -423,7 +423,7 @@
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "service": [0, 0, 0.01, 0, 0]},
     "tier": 2,
     "locations": ["Tailor Store"],
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Casual", "Server"]
     },
     {
     "id": "Tiger Gloves",
@@ -441,7 +441,7 @@
     "max": {"joy": 10, "charisma": 5, "agility": 5},
     "tier": 3,
     "locations": ["Tailor Store"],
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Casual"]
     },
     {
     "id": "Satin Gloves",
@@ -461,7 +461,7 @@
     "tier": 4,
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "service": [0, 0, 0.02, 0, 0]},
     "locations": ["Tailor Store"],
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Casual", "Server"]
     },
     {
     "id": "Maid Gloves",
@@ -528,7 +528,7 @@
     "locations": ["Exploration", "Arena"],
     "tier": 3,
     "goodtraits": ["Not Human"],
-    "pref_class":["Shooter"]
+    "pref_class":["Shooter", "Warrior"]
     },
     {
     "id": "Elven Sage Armbands",
@@ -598,7 +598,7 @@
     "delivery_multiplier": {"status": 0.05},
     "tier": 4,
     "goodtraits": [],
-    "pref_class":["Assassin"]
+    "pref_class":["Assassin", "Warrior"]
     },
     {
     "id": "Imperial Leather Gloves",

@@ -17,7 +17,7 @@
     "mod_skills": {"refinement": [0, 0, -0.06, 0, 0]},
     "locations": ["Tailor Store", "Look around"],
     "tier": 0,
-    "pref_class": ["Slave"]
+    "pref_class": ["Slave", "Casual"]
     },
     {
     "id": "Peasant Gown",
@@ -36,7 +36,7 @@
     "mod": {"charisma": 5},
     "locations": ["Tailor Store"],
     "tier": 0,
-    "pref_class": ["SIW"]
+    "pref_class": ["SIW", "Casual"]
     },
     {
     "id": "Linen Dress",
@@ -56,7 +56,7 @@
     "mod_skills": {"service": [0, 0, 0.02, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class": ["SIW", "Server"]
+    "pref_class": ["SIW", "Server", "Casual"]
     },
     {
     "id": "Bourgeoise Gown",
@@ -76,7 +76,7 @@
     "mod_skills": {"refinement": [0, 0, 0.04, 0, 0], "management": [0, 0, 0.02, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class": ["SIW", "Manager"]
+    "pref_class": ["SIW", "Manager", "Casual"]
     },
     {
     "id": "Bunny Outfit",
@@ -97,7 +97,7 @@
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "sex": [0, 0, 0.02, 0, 0], "service": [0, 0, 0.04, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class":["SIW", "Server"]
+    "pref_class":["SIW", "Server", "Casual"]
     },
     {
     "id": "Velvet Dress",
@@ -117,7 +117,7 @@
     "mod_skills": {"refinement": [0, 0, 0.05, 0, 0], "service": [0, 0, 0.03, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 2,
-    "pref_class":["SIW", "Server"]
+    "pref_class":["SIW", "Server", "Casual"]
     },
     {
     "id": "Long Foreign Dress",
@@ -137,7 +137,7 @@
     "mod_skills": {"refinement": [0.04, 0.04, 0.04, 0, 0], "dancing": [0.04, 0.04, 0.04, 0, 0], "management": [0.04, 0.04, 0.04, 0, 0]},
     "locations": ["Ninja Shop"],
     "tier": 2,
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Casual", "Stripper"]
     },
     {
     "id": "Short Foreign Dress",
@@ -159,7 +159,7 @@
     "evasion_bonus": 10,
     "locations": ["Ninja Shop"],
     "tier": 3,
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Casual", "Stripper"]
     },
     {
     "id": "Brothel Gown",
@@ -201,7 +201,7 @@
     "mod_skills": {"refinement": [0, 0, 0.05, 0, 0], "management": [0, 0, 0.03, 0, 0], "strip": [0, 0, 0.02, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 3,
-    "pref_class":["SIW", "Manager"]
+    "pref_class":["SIW", "Manager", "Casual"]
     },
     {
     "id": "Noble Gown",
@@ -221,7 +221,7 @@
     "mod_skills": {"refinement": [0, 0, 0.08, 0, 0], "management": [0, 0, 0.05, 0, 0], "strip": [0, 0, 0.04, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 4,
-    "pref_class":["SIW", "Manager"]
+    "pref_class":["SIW", "Manager", "Casual"]
     },
     {
     "id": "Gemstone Dress",
@@ -242,7 +242,7 @@
     "mod_skills": {"refinement": [0.08, 0.02, 0.15, 0, 0], "management": [0.05, 0.01, 0.1, 0, 0], "service": [0, 0, 0.06, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 4,
-    "pref_class":["SIW", "Manager"]
+    "pref_class":["SIW", "Manager", "Casual"]
     },
     {
     "id": "Dancer Costume",
@@ -261,7 +261,7 @@
     "mod_skills": {"dancing": [0.06, 0.02, 0.1, 0, 0], "strip": [0.03, 0.01, 0.05, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Stripper"]
     },
     {
     "id": "Maid Uniform",
@@ -303,7 +303,7 @@
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "strip": [0.02, 0.01, 0.08, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 2,
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Stripper"]
     },
     {
     "id": "Snow-knit Gown",
@@ -518,7 +518,7 @@
     "goodtraits": [],
     "badtraits": ["Shy"],
     "tier": 3,
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Server"]
     },
     {
     "id": "Elven Armor",
@@ -587,7 +587,7 @@
     "locations": ["Exploration", "Arena"],
     "goodtraits": ["Not Human"],
     "tier": 4,
-    "pref_class":["Shooter"]
+    "pref_class":["Shooter", "Any", "Warrior"]
     },
     {
     "id": "Elven Sage Armor",
@@ -637,7 +637,7 @@
     "locations": ["Exploration", "Ninja Shop", "Arena"],
     "goodtraits": [],
     "tier": 4,
-    "pref_class":["Assassin"]
+    "pref_class":["Assassin", "Any", "Warrior", "Casual"]
     },
     {
     "id": "Kunoichi Suit",
@@ -663,7 +663,7 @@
     "goodtraits": [],
     "badtraits": ["Frigid"],
     "tier": 4,
-    "pref_class":["Assassin"]
+    "pref_class":["Assassin", "Any", "Warrior", "Casual"]
     },
     {
     "id": "Pink Dress",
@@ -755,7 +755,7 @@
     "goodtraits": ["Nymphomaniac", "Sexy Air", "Exhibitionist"],
     "badtraits": ["Frigid", "Shy"],
     "tier": 2,
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Stripper"]
     },
     {
     "id": "Summer Clothes",
@@ -888,7 +888,7 @@
     "goodtraits": ["Nymphomaniac"],
     "badtraits": ["Frigid"],
     "tier": 2,
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Whore"]
     },
     {
     "id": "Succubus' Wardress",
@@ -910,7 +910,7 @@
     "removetraits": ["Frigid"],
     "locations": ["Exploration", "Arena"],
     "tier": 3,
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Warrior"]
     },
     {
     "id": "Demonic Cloak",

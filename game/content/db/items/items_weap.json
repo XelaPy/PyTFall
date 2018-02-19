@@ -16,7 +16,7 @@
     "mod": {"attack": 5, "character": 3},
     "locations": ["Work Shop", "Look around"],
     "tier": 0,
-    "pref_class":["Assassin"]
+    "pref_class":["Assassin", "Warrior"]
     },
     {
     "id": "Enchanted Dagger",
@@ -36,7 +36,7 @@
     "mod": {"attack": 10, "character": 5},
     "locations": ["Work Shop", "Arena"],
     "tier": 1,
-    "pref_class":["Assassin"]
+    "pref_class":["Assassin", "Warrior"]
     },
     {
     "id": "Assassin Dagger",
@@ -61,7 +61,7 @@
     "badtraits": ["Virtuous"],
     "locations": ["Ninja Shop", "Arena"],
     "tier": 4,
-    "pref_class":["Assassin"]
+    "pref_class":["Assassin", "Warrior"]
     },
     {
     "id": "Ice Daggers",
@@ -81,7 +81,7 @@
     "mod": {"attack": 10, "magic": 5},
     "locations": ["Exploration", "Arena"],
     "tier": 3,
-    "pref_class":["Assassin"]
+    "pref_class":["Assassin", "Warrior"]
     },
     {
     "id": "Bone Knife",
@@ -101,7 +101,7 @@
     "mod": {"attack": 10, "charisma": -5},
     "locations": ["Exploration", "Arena"],
     "tier": 1,
-    "pref_class":["Assassin"]
+    "pref_class":["Assassin", "Warrior"]
     },
     {
     "id": "Kunai",
@@ -124,7 +124,7 @@
     "locations": ["Ninja Shop", "Exploration", "Arena"],
     "goodtraits": [],
     "tier": 4,
-    "pref_class":["Assassin"]
+    "pref_class":["Assassin", "Warrior"]
     },
     {
     "id": "Small Cane",
@@ -1129,7 +1129,7 @@
     "mod_skills": {"refinement": [0.01, 0, 0.01, 0, 0], "management": [0.01, 0, 0.01, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 0,
-    "pref_class":["SIW", "Manager"]
+    "pref_class":["SIW", "Manager", "Casual"]
     },
     {
     "id": "Fancy Hand Fan",
@@ -1149,7 +1149,7 @@
     "mod_skills": {"refinement": [0.05, 0, 0.05, 0, 0], "management": [0.05, 0, 0.05, 0, 0], "dancing": [0, 0, 0.03, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class":["SIW", "Manager"]
+    "pref_class":["SIW", "Manager", "Casual"]
     },
     {
     "id": "Big Umbrella",
@@ -1169,6 +1169,6 @@
     "mod_skills": {"refinement": [0.01, 0, 0, 0, 0], "security": [0.01, 0, 0, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 0,
-    "pref_class":["SIW", "Manager"]
+    "pref_class":["SIW", "Manager", "Casual"]
     }
   ]

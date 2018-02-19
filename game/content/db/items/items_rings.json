@@ -131,7 +131,7 @@
     "mod": {"charisma": 20},
     "locations": ["Witches Hut", "Fishing"],
     "tier": 1,
-    "pref_class":["SIW", "Manager"]
+    "pref_class":["SIW", "Manager", "Casual"]
     },
     {
     "id": "Ring of Charisma",
@@ -151,7 +151,7 @@
     "mod": {"charisma": 40},
     "locations": ["Exploration", "Arena"],
     "tier": 2,
-    "pref_class":["SIW", "Manager"]
+    "pref_class":["SIW", "Manager", "Casual"]
     },
     {
     "id": "Aquamarine Eye",
@@ -188,7 +188,7 @@
     "mod_skills": {"refinement": [0.04, 0.02, 0.05, 0, 0], "teaching": [0.01, 0, 0.03, 0, 0]},
     "locations": ["Witches Hut"],
     "tier": 1,
-    "pref_class":["SIW", "Manager"]
+    "pref_class":["SIW", "Manager", "Casual"]
     },
     {
     "id": "Ring of Refinement",
@@ -207,7 +207,7 @@
     "mod": {"intelligence": 5},
     "locations": ["Exploration", "Arena"],
     "tier": 2,
-    "pref_class":["SIW", "Manager"]
+    "pref_class":["SIW", "Manager", "Casual"]
     },
     {
     "id": "Flower Ring",
@@ -226,7 +226,7 @@
     "mod": {"charisma": 15},
     "locations": ["Exploration", "Arena"],
     "tier": 3,
-    "pref_class":["SIW", "Manager"]
+    "pref_class":["SIW", "Manager", "Casual"]
     },
     {
     "id": "Minor Ring of the Horndog",
@@ -419,7 +419,7 @@
     "mod": {"luck": 30},
     "locations": ["Exploration", "Witches Hut"],
     "tier": 4,
-    "pref_class":["Assassin"]
+    "pref_class":["Assassin", "Any"]
     },
     {
     "id": "Ring of Magic Energy",
@@ -568,7 +568,7 @@
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "management": [0, 0, 0.06, 0, 0], "teaching": [0, 0, 0.02, 0, 0]},
     "locations": ["General Store"],
     "tier": 2,
-    "pref_class":["SIW", "Manager"]
+    "pref_class":["SIW", "Manager", "Casual"]
     },
     {
     "id": "Silver Skull",
@@ -665,7 +665,7 @@
     "mod": {"luck": 10, "defence": 10, "attack": 10},
     "locations": ["Exploration", "Ninja Shop"],
     "tier": 4,
-    "pref_class":["Shooter", "Assassin"]
+    "pref_class":["Shooter", "Assassin", "Warrior"]
     },
     {
     "id": "Emerald Ribbon",
@@ -685,7 +685,7 @@
     "locations": ["General Store", "Fishing"],
     "goodtraits": ["Lolita"],
     "tier": 1,
-    "pref_class":["SIW", "Assassin"]
+    "pref_class":["SIW", "Assassin", "Casual"]
     },
     {
     "id": "Mysterious Gray Ring",

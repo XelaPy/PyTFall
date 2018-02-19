@@ -16,7 +16,7 @@
     "type": "amulet",
     "tier": 0,
     "locations": ["General Store", "Look around", "Fishing"],
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Casual"]
     },
     {
     "id": "Leash",
@@ -78,7 +78,7 @@
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0]},
     "tier": 1,
     "locations": ["General Store"],
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Casual"]
     },
     {
     "id": "Pearl Necklace",
@@ -98,7 +98,7 @@
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0]},
     "tier": 1,
     "locations": ["General Store"],
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Casual"]
     },
     {
     "id": "Pet Collar",
@@ -139,7 +139,7 @@
     "mod_skills": {"refinement": [0, 0, 0.01, 0, 0], "management": [0, 0, 0.01, 0, 0]},
     "tier": 1,
     "locations": ["General Store", "Fishing"],
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Casual"]
     },
     {
     "id": "Spiked Collar",
@@ -199,7 +199,7 @@
     "mod_skills": {"refinement": [0, 0, 0.03, 0, 0], "management": [0, 0, 0.02, 0, 0]},
     "tier": 3,
     "locations": ["General Store"],
-    "pref_class":["SIW", "Manager"]
+    "pref_class":["SIW", "Manager", "Casual"]
     },
     {
     "id": "Minor Reflector",
@@ -256,7 +256,7 @@
     "mod": {"luck": 5},
     "tier": 0,
     "locations": ["Witches Hut"],
-    "pref_class":["Warrior", "Assassin", "Shooter"]
+    "pref_class":["Warrior", "Assassin", "Shooter", "Casual"]
     },
     {
     "id": "Health Charm",
@@ -330,7 +330,7 @@
     "removetraits": ["Pessimist"],
     "tier": 3,
     "locations": ["Exploration", "Ninja Shop"],
-    "pref_class":["Assassin", "Manager"]
+    "pref_class":["Assassin", "Manager", "Casual"]
     },
     {
     "id": "Garem Charm",
@@ -368,7 +368,7 @@
     "mod": {"attack": 5, "character": 2},
     "tier": 1,
     "locations": ["Exploration", "Fishing"],
-    "pref_class":["Mage"]
+    "pref_class":["Mage", "Warrior"]
     },
     {
     "id": "Master Charm",
@@ -388,7 +388,7 @@
     "mod_skills": {"management": [0, 0, 0.1, 0, 0]},
     "tier": 4,
     "locations": ["Exploration", "Arena"],
-    "pref_class":["Manager"]
+    "pref_class":["Manager", "Casual"]
     },
     {
     "id": "Bandana",

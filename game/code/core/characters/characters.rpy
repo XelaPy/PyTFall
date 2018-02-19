@@ -2396,7 +2396,6 @@ init -9 python:
             return a list of chances, up to 100 indicating how much the person wants to hold on to a particular
             item. Only includes personal preferences, use inv.eval_inventory() to determine stats/skills.
             """
-
             if not item.eqchance or not can_equip(item, self):
                 return [-1000000]
 
@@ -2405,7 +2404,6 @@ init -9 python:
             appetite = 50
 
             for trait in self.traits:
-
                 if trait in trait_selections["badtraits"] and item in trait_selections["badtraits"][trait]:
                     return [-1000000]
 
@@ -2414,19 +2412,14 @@ init -9 python:
 
                 if trait == "Kamidere": # Vanity: wants pricy uncommon items
                     chance.append((100 - item.chance + min(item.price/10, 100))/2)
-
                 elif trait == "Tsundere": # stubborn: what s|he won't buy, s|he won't wear.
                     chance.append(100 - item.badness)
-
                 elif trait == "Bokukko": # what the farmer don't know, s|he won't eat.
                     chance.append(item.chance)
-
                 elif trait == "Heavy Drinker":
                     when_drunk = 45
-
                 elif trait == "Always Hungry":
                     appetite += 20
-
                 elif trait == "Slim":
                     appetite -= 10
 
@@ -2437,32 +2430,24 @@ init -9 python:
 
                 if item in self.consblock or item in self.constemp:
                     return [-10]
-
                 if item.type == "alcohol":
-
                     if self.effects['Drunk']['activation_count'] >= when_drunk:
                         return [-1]
-
                     if self.effects['Depression']['active']:
                         chance.append(30 + when_drunk)
 
                 elif item.type == "food":
-
                     food_poisoning = self.effects['Food Poisoning']['activation_count']
-
                     if not food_poisoning:
                         chance.append(appetite)
-
                     else:
                         if food_poisoning >= 6:
                             return [-1]
-
                         chance.append((6-food_poisoning) * 9)
 
             elif item.slot == "misc":
                 # If the item self-destructs or will be blocked after one use,
                 # it's now up to the caller to stop after the first item of this kind that is picked.
-
                 # no blocked misc items:
                 if item.id in self.miscblock:
                     return [-1000000]

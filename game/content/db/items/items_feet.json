@@ -54,7 +54,7 @@
     "mod": {"charisma": 10},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class":["Server"]
+    "pref_class":["Server", "Casual"]
     },
     {
     "id": "Running Boots",
@@ -96,7 +96,7 @@
     "mod_skills": {"cleaning": [0, 0, 0.01, 0, 0], "security": [0, 0, 0.01, 0, 0], "service": [0, 0, 0.01, 0, 0], "strip": [0, 0, -0.1, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 2,
-    "pref_class":["Server", "SIW"]
+    "pref_class":["Server", "SIW", "Casual"]
     },
     {
     "id": "Male Work Boots",
@@ -135,7 +135,7 @@
     "mod_skills": {"cleaning": [0, 0, -0.1, 0, 0], "teaching": [0, 0, 0.01, 0, 0], "service": [0, 0, -0.01, 0, 0], "strip": [0, 0, 0.1, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 2,
-    "pref_class":["Server", "SIW"]
+    "pref_class":["Stripper", "SIW", "Casual"]
     },
     {
     "id": "Slave Shackles",
@@ -200,7 +200,7 @@
     "locations": ["Tailor Store"],
     "badtraits": [],
     "tier": 2,
-    "pref_class":["Server", "SIW"]
+    "pref_class":["Server", "SIW", "Casual"]
     },
     {
     "id": "Mistress Boots",
@@ -243,7 +243,7 @@
     "mod": {"charisma": 5},
     "locations": ["Tailor Store"],
     "tier": 3,
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Stripper"]
     },
     {
     "id": "Glass Shoes",
@@ -265,7 +265,7 @@
     "addtraits": ["Optimist"],
     "locations": ["Exploration", "Fishing"],
     "tier": 3,
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Stripper"]
     },
     {
     "id": "Designer Pumps",
@@ -285,7 +285,7 @@
     "mod_skills": {"refinement": [0.1, 0, 0.12, 0, 0], "management": [0, 0, 0.02, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 4,
-    "pref_class":["Manager"]
+    "pref_class":["Manager", "Casual"]
     },
     {
     "id": "Boots of Mercury",
@@ -387,7 +387,8 @@
     "defence_bonus": {"ranged": 5, "melee": 5},
     "mod_skills": {"security": [0.01, 0.01, 0.03, 0, 0], "management": [0.01, 0.01, 0.03, 0, 0], "refinement": [0.01, 0.01, 0.01, 0, 0]},
     "locations": ["Exploration", "Arena"],
-    "tier": 2
+    "tier": 2,
+    "pref_class": ["Warrior", "Casual", "Manager"]
     },
     {
     "id": "Metal Boots",

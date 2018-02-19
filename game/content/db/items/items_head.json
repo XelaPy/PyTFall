@@ -427,7 +427,7 @@
     "mod_skills": {"security": [0.01, 0.01, 0.01, 0, 0], "management": [0.01, 0.01, 0.01, 0, 0], "refinement": [0.02, 0.02, 0.01, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 2,
-        "pref_class":["Manager", "SIW"]
+    "pref_class":["Manager", "SIW"]
     },
     {
     "id": "Bonnet",
@@ -546,7 +546,7 @@
     "infinite": false,
     "slot": "head",
     "type": "tool",
-    "mod_skills": {"security": [0.03, 0.03, 0.1, 0, 0], "cleaning": [0, 0, 0.1, 0, 0], "refinement": [0, 0, -0.1, 0, 0], "service": [0, 0, -0.1, 0, 0]},
+    "mod_skills": {"security": [0.03, 0.03, 0.1, 0, 0], "cleaning": [0, 0, 0.1, 0, 0], "refinement": [0, 0, -0.1, 0, 0], "service": [0, 0, 0.1, 0, 0]},
     "max": {"defence": 5},
     "locations": ["Work Shop", "Fishing"],
     "tier": 2,

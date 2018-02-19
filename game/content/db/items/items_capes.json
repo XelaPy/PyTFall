@@ -16,7 +16,7 @@
     "mod": {"defence": 5},
     "locations": ["Work Shop", "Look around"],
     "tier": 0,
-    "pref_class":["Warrior", "Mage", "Shooter"]
+    "pref_class":["Warrior", "Mage", "Shooter", "Casual"]
     },
     {
     "id": "Mantle of the Healer",
@@ -101,7 +101,7 @@
     "defence_bonus": {"ranged": 5, "magic": 15},
     "goodtraits": ["Not Human"],
     "tier": 3,
-    "pref_class":["Mage", "Shooter"]
+    "pref_class":["Mage", "Shooter", "Casual"]
     },
     {
     "id": "Mercenary Cape",
@@ -142,7 +142,7 @@
     "mod": {"charisma": 5},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Casual"]
     },
     {
     "id": "Linen Cape",
@@ -161,7 +161,7 @@
     "mod_skills": {"refinement": [0.01, 0, 0.02, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class":["SIW", "Server"]
+    "pref_class":["SIW", "Server", "Casual"]
     },
     {
     "id": "Velvet Cape",
@@ -180,7 +180,7 @@
     "mod_skills": {"refinement": [0.02, 0.01, 0.03, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class":["SIW", "Server"]
+    "pref_class":["SIW", "Server", "Casual"]
     },
     {
     "id": "Witch's Cloak",
