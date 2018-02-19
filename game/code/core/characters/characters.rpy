@@ -2804,7 +2804,7 @@ init -9 python:
                             selected.append([_weight, item])
 
                 # We can equip only the one item:
-                if selected[1] and slot not in ("consumable", "ring"):
+                if slot not in ("consumable", "ring") and selected[1]:
                     item = selected[1]
                     if item:
                         inv.remove(item)

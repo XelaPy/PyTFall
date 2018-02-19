@@ -628,12 +628,12 @@ init -11 python:
 
     def load_items():
         items = dict()
-        folder = content_path('db')
+        folder = content_path('db/items')
         content = list()
 
         for file in os.listdir(folder):
             if file.startswith("items") and file.endswith(".json"):
-                in_file = content_path("".join(["db/", file]))
+                in_file = content_path("".join(["db/items/", file]))
                 with open(in_file) as f:
                     content.extend(json.load(f))
 
