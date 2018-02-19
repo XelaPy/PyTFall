@@ -341,10 +341,24 @@ screen equip_for(pos=()):
         else:
             yval = .0
 
-        specializations = ["Sex", "Service", "Striptease"]
+        specializations = []
+        eq_slave = eqtarget.status == "slave"
+        eq_free = eqtarget.status == "free"
 
-        if eqtarget.status != "slave" and eqtarget.status != "various":
-            specializations = ["Battle Mage", "Barbarian", "Wizard"] + specializations
+        if eq_slave:
+            specializations.append("Slave")
+        specializations.append("Casual")
+        if eq_free and "Specialist" in eqtarget.gen_occs:
+            specializations.extend(["Manager"])
+        if eq_free and "Warrior" in eqtarget.gen_occs:
+            specializations.extend(["Barbarian", "Shooter"])
+        if eq_free and "Caster" in eqtarget.gen_occs:
+            specializations.extend(["Battle Mage", "Mage"])
+        if eq_slave or (eq_free and "SIW" in eqtarget.gen_occs):
+            specializations.extend(["Sex", "Striptease"])
+        if eq_slave or (eq_free and "Server" in eqtarget.gen_occs):
+            specializations.append("Service")
+
     frame:
         style_group "dropdown_gm"
         pos (x, y)
@@ -355,13 +369,11 @@ screen equip_for(pos=()):
             for t in specializations:
                 textbutton "[t]":
                     xminimum 200
-                    # action NullAction()
                     action [Function(eqtarget.equip_for, t), Hide("equip_for")]
             textbutton "Close":
                 action Hide("equip_for")
 
 screen char_equip():
-
     # Useful keymappings (first time I try this in PyTFall): ====================================>
     if focusitem:
         key "mousedown_2" action Return(["item", "equip/unequip"])

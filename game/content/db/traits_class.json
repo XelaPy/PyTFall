@@ -284,7 +284,7 @@
     {
         "id": "Healer",
         "occupations": [
-           "Warrior", "Caster"
+           "Caster", "Warrior"
         ],
         "desc": "Specializes in healing.",
         "basetrait": true,
@@ -543,7 +543,7 @@
                 -1,
                 0
             ]
-            
+
         }
     }
 ]
