@@ -1287,79 +1287,82 @@ init -9 python:
 
                 # weights is a list of 0 to 100 values that will be averaged for the final weight, unless we break
                 weights = chance_func(item) if chance_func else [item.eqchance]
+                if weights is None: # We move to the next item!
+                    continue
 
-                if weights is not None:
-                    for stat, value in item.mod.iteritems():
-                        if stat in exclude_on_stats and value < min_value:
-                            break # break (in any case below) will cause 0 weights to be added for this item
+                for stat, value in item.mod.iteritems():
+                    if stat in exclude_on_stats and value < min_value:
+                        break # break (in any case below) will cause 0 weights to be added for this item
 
-                        if stat in stats['current_stat']:
-                            # a new max may have to be considered
-                            new_max = min(self.max[stat] + item.max[stat], self.lvl_max[stat]) if stat in item.max else stats['current_max'][stat]
-                            if not new_max:
+                    if stat in stats['current_stat']:
+                        # a new max may have to be considered
+                        new_max = min(self.max[stat] + item.max[stat], self.lvl_max[stat]) if stat in item.max else stats['current_max'][stat]
+                        if not new_max:
+                            break
+                        raise Exception("Meow")
+                        # what the new value would be:
+                        new_stat = max(min(self.stats[stat] + self.imod[stat] + value, new_max), self.min[stat])
+
+                        # add the fraction increace/decrease
+                        weights.append(50 + 100*(new_stat - stats['current_stat'][stat])/new_max)
+                else:
+                    for stat, value in item.max.iteritems():
+
+                        if not stat in exclude_on_stats:
+                            continue
+
+                        if stat in stats['current_max']:
+                            new_max = min(self.max[stat] + value, self.lvl_max[stat])
+
+                            new_stat = self.stats[stat] + self.imod[stat] + (item.mod[stat] if stat in item.mod else 0)
+
+                            # if the stat does change, give weight for this
+                            stat_change = new_stat - stats['current_stat'][stat]
+                            if stat_change:
+                                if stat_change < min_value:
+                                    break
+                                weights.append(50 + 100*stat_change/stats['current_max'][stat])
+                            else:
+                                stat_remaining = new_max - stats['current_stat'][stat]
+                                # if training doesn't shift max, at least give a weight up to 1 for the increased max.
+                                # if max decreases, give a penalty, more severe if there is little stat remaining.
+                                weights.append(max(50 + value / max(stat_remaining + value, 1), 0))
+                    else: # Why the hell is this ELSE??? We don't give a shit about skills unless we broke previous stats for loop?
+                        for skill, effect in item.mod_skills.iteritems():
+                            # Break if any skill we truly care about is lowered by this:
+                            if skill in exclude_on_skills and all(i <= 0 for i in effect):
                                 break
 
-                            # what the new value would be:
-                            new_stat = max(min(self.stats[stat] + self.imod[stat] + value, new_max), self.min[stat])
+                            if skill in target_skills:
+                                skill_remaining = SKILLS_MAX[skill] - stats['skill'][skill]
+                                if skill_remaining > 0:
+                                    # calculate skill with mods applied, as in apply_item_effects() and get_skill()
+                                    mod_action = self.skills[skill][0] + effect[3]
+                                    mod_training = self.skills[skill][1] + effect[4]
+                                    mod_skill_multiplier = self.skills_multipliers[skill][2] + effect[2]
 
-                            # add the fraction increace/decrease
-                            weights.append(50 + 100*(new_stat - stats['current_stat'][stat])/new_max)
-                    else:
-                        for stat, value in item.max.iteritems():
-                            if not stat in exclude_on_stats:
-                                continue
+                                    if upto_skill_limit: # more precise calculation of skill limits
+                                        training_range = mod_training * 3
+                                        beyond_training = mod_action - training_range
+                                        if beyond_training >= 0:
+                                            mod_training += training_range - mod_action + beyond_training/3.0
 
-                            if stat in stats['current_max']:
-                                new_max = min(self.max[stat] + value, self.lvl_max[stat])
-
-                                new_stat = self.stats[stat] + self.imod[stat] + (item.mod[stat] if stat in item.mod else 0)
-
-                                # if the stat does change, give weight for this
-                                stat_change = new_stat - stats['current_stat'][stat]
-                                if stat_change:
-                                    if stat_change < min_value:
+                                    mod_training += mod_action
+                                    new_skill = mod_training*max(min(mod_skill_multiplier, 1.5), .5)
+                                    if new_skill < min_value:
                                         break
-                                    weights.append(50 + 100*stat_change/stats['current_max'][stat])
-                                else:
-                                    stat_remaining = new_max - stats['current_stat'][stat]
-                                    # if training doesn't shift max, at least give a weight up to 1 for the increased max.
-                                    # if max decreases, give a penalty, more severe if there is little stat remaining.
-                                    weights.append(max(50 + value / max(stat_remaining + value, 1), 0))
-                        else: # Why the hell is this ELSE??? We don't give a shit about skills unless we broke previous stats for loop?
-                            for skill, effect in item.mod_skills.iteritems():
-                                # Break if any skill we truly care about is lowered by this:
-                                if skill in exclude_on_skills and all(i <= 0 for i in effect):
-                                    break
 
-                                if skill in target_skills:
-                                    skill_remaining = SKILLS_MAX[skill] - stats['skill'][skill]
-                                    if skill_remaining > 0:
-                                        # calculate skill with mods applied, as in apply_item_effects() and get_skill()
-                                        mod_action = self.skills[skill][0] + effect[3]
-                                        mod_training = self.skills[skill][1] + effect[4]
-                                        mod_skill_multiplier = self.skills_multipliers[skill][2] + effect[2]
+                                    saturated_skill = max(stats['skill'][skill] + 100, new_skill)
 
-                                        if upto_skill_limit: # more precise calculation of skill limits
-                                            training_range = mod_training * 3
-                                            beyond_training = mod_action - training_range
-                                            if beyond_training >= 0:
-                                                mod_training += training_range - mod_action + beyond_training/3.0
+                                    weights.append(50 + 100*(new_skill - stats['skill'][skill]) / saturated_skill)
+                        else:
+                            l = len(weights)
+                            if l > most_weights[item.slot]:
+                                most_weights[item.slot] = l
 
-                                        mod_training += mod_action
-                                        new_skill = mod_training*max(min(mod_skill_multiplier, 1.5), .5)
-                                        if new_skill < min_value:
-                                            break
+                            weighted[item.slot].append([weights, item])
 
-                                        saturated_skill = max(stats['skill'][skill] + 100, new_skill)
-
-                                        weights.append(50 + 100*(new_skill - stats['skill'][skill]) / saturated_skill)
-                            else:
-                                l = len(weights)
-                                if l > most_weights[item.slot]:
-                                    most_weights[item.slot] = l
-
-                                weighted[item.slot].append([weights, item])
-            return most_weights # I am not completely clear on why we return most weirds here if values of those weights is what we should care about?
+            return most_weights
 
 
     class Pronouns(_object):
@@ -2545,11 +2548,9 @@ init -9 python:
             If None is returned the item should not be used. This only includes personal preferences,
             Other factors, like stat bonuses may also have to be taken into account.
             """
-            # if return is 0 the item should be skipped
-
+            # if return is None* the item should be skipped
             if not item.eqchance or not can_equip(item, self):
                 return None
-
             chance = []
             when_drunk = 30
             appetite = 50
@@ -2665,7 +2666,7 @@ init -9 python:
             ==>   do not put stats/skills both in target* and in exclude_on_* !
             *default: All Stats - targetstats
             slots: a list of slots, contains just consumables by default
-            inv: nventory to draw from.
+            inv: inventory to draw from.
             real_weapons: Do we equip real weapon types (*Broom is now considered a weapon as well)
 
             So basically the way this works ATM is like this:
@@ -2732,7 +2733,8 @@ init -9 python:
                 elif t == "Smart":
                     upto_skill_limit = True
 
-            # Why is this done? Prolly less than ideal:
+            # This looks like a shitty idea! Problem here is that we may care
+            # about some stats more than others and this fucks that up completely.
             exclude_on_stats = exclude_on_stats.union(target_stats)
             exclude_on_skills = exclude_on_skills.union(target_skills)
 
@@ -2742,6 +2744,7 @@ init -9 python:
                                                      upto_skill_limit=upto_skill_limit)
 
             returns = list() # We return this list with all items used during the method.
+
             for slot, picks in weighted.iteritems():
                 if not picks:
                     continue
