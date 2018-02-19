@@ -1285,6 +1285,15 @@ init -9 python:
                 if item.slot not in weighted:
                     continue
 
+                # Special check, we only care about items that do something for us,
+                # otherwise we ignore, this can be handled better, through new item fields.
+                # This is less than ideal but will prevent Sex request from equipping Armor :D
+                c0 = set(target_stats).intersection(item.mod.keys())
+                c1 = set(target_stats).intersection(item.max.keys())
+                c2 = set(target_skills).intersection(item.mod_skills.keys())
+                if not any([c0, c1, c2]):
+                    continue
+
                 # weights is a list of 0 to 100 values that will be averaged for the final weight, unless we break
                 weights = chance_func(item) if chance_func else [item.eqchance]
                 if weights is None: # We move to the next item!
@@ -1298,38 +1307,58 @@ init -9 python:
                         # a new max may have to be considered
                         new_max = min(self.max[stat] + item.max[stat], self.lvl_max[stat]) if stat in item.max else stats['current_max'][stat]
                         if not new_max:
-                            break
-                        raise Exception("Meow")
+                            break # Some weird exception?
+
                         # what the new value would be:
                         new_stat = max(min(self.stats[stat] + self.imod[stat] + value, new_max), self.min[stat])
 
-                        # add the fraction increace/decrease
+                        # add the fraction increase/decrease
                         weights.append(50 + 100*(new_stat - stats['current_stat'][stat])/new_max)
                 else:
                     for stat, value in item.max.iteritems():
-
-                        if not stat in exclude_on_stats:
-                            continue
+                        if not stat in target_stats:
+                            continue # Use to be in exclude_on_stats but it didn't feel right.
 
                         if stat in stats['current_max']:
+                            # Next Max and Stats for the Char after item is applied:
+                            # OLD CODE:
+                            # # if the stat does change, give weight for this
+                            # new_max = min(self.max[stat] + value, self.lvl_max[stat])
+                            # new_stat = self.stats[stat] + self.imod[stat] + (item.mod[stat] if stat in item.mod else 0)
+
+                            # stat_change = new_stat - stats['current_stat'][stat]
+                            # if stat_change:
+                            #     if stat_change < min_value:
+                            #         break
+                            #     weights.append(50 + 100*stat_change/stats['current_max'][stat])
+                            # else:
+                            #     stat_remaining = new_max - stats['current_stat'][stat]
+                            #     # if training doesn't shift max, at least give a weight up to 1 for the increased max.
+                            #     # if max decreases, give a penalty, more severe if there is little stat remaining.
+                            #     weights.append(max(50 + value / max(stat_remaining + value, 1), 0))
+
+                            # I disagree with the concept, if max that we care about is improved
+                            # Other items can be used to boost, so feels like a shitty way of handling the matter.
+                            # We care about MAX stat here, not some phantom change as the result of application of
+                            # only this one item. So a rewrite:
                             new_max = min(self.max[stat] + value, self.lvl_max[stat])
-
-                            new_stat = self.stats[stat] + self.imod[stat] + (item.mod[stat] if stat in item.mod else 0)
-
-                            # if the stat does change, give weight for this
-                            stat_change = new_stat - stats['current_stat'][stat]
-                            if stat_change:
-                                if stat_change < min_value:
-                                    break
-                                weights.append(50 + 100*stat_change/stats['current_max'][stat])
-                            else:
-                                stat_remaining = new_max - stats['current_stat'][stat]
-                                # if training doesn't shift max, at least give a weight up to 1 for the increased max.
-                                # if max decreases, give a penalty, more severe if there is little stat remaining.
-                                weights.append(max(50 + value / max(stat_remaining + value, 1), 0))
-                    else: # Why the hell is this ELSE??? We don't give a shit about skills unless we broke previous stats for loop?
+                            curr_max = stats['current_max'][stat]
+                            if new_max == curr_max:
+                                continue
+                            elif new_max > curr_max:
+                                weights.append(50 + max(new_max-curr_max, 50))
+                            else: # Item lowers max of this stat for the character:
+                                if stat in exclude_on_stats:
+                                    break # We want nothing to do with this item.
+                                else:
+                                    change = curr_max-new_max
+                                    if change > curr_max*.2: # If items takes off more that 20% of our stat...
+                                        break
+                    else:
                         for skill, effect in item.mod_skills.iteritems():
                             # Break if any skill we truly care about is lowered by this:
+                            # This feels wrong, some skills may have tiny drawbacks but otherwise be hosted by great items :(
+                            # It feels like we need to add all to the weights, good and bad and figure out what's best later.
                             if skill in exclude_on_skills and all(i <= 0 for i in effect):
                                 break
 
@@ -2735,8 +2764,8 @@ init -9 python:
 
             # This looks like a shitty idea! Problem here is that we may care
             # about some stats more than others and this fucks that up completely.
-            exclude_on_stats = exclude_on_stats.union(target_stats)
-            exclude_on_skills = exclude_on_skills.union(target_skills)
+            # exclude_on_stats = exclude_on_stats.union(target_stats)
+            # exclude_on_skills = exclude_on_skills.union(target_skills)
 
             most_weights = self.stats.eval_inventory(inv, weighted, target_stats, target_skills,
                                                      exclude_on_skills, exclude_on_stats,
