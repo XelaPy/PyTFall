@@ -2357,24 +2357,27 @@ init -9 python:
                 self.inventory.remove(i.id, amount=has_items(i.id, [self]))
 
         def auto_buy(self, item=None, amount=1, equip=False):
-
             # handle request to auto-buy a particular item!
             # including forbidden for slaves items - it might be useful
+            # TODO
+            """Simplefy!
+
+            - Add items class_prefs and Casual.
+            - Add casual as attr
+            - Maybe merge with give_tiered_items somehow!
+            """
+
             if item:
                 if isinstance(item, basestring):
                     item = store.items[item]
-
                 if item in store.all_auto_buy_items:
-                    amount = min(amount, int(self.gold / item.price))
-
+                    amount = min(amount, round_int(self.gold/item.price))
                     if amount != 0:
-                        self.take_money(item.price * amount, reason="Items")
+                        self.take_money(item.price*amount, reason="Items")
                         self.inventory.append(item, amount)
                         if equip:
                             self.equip(item)
-
                         return [item.id] * amount
-
                 return []
 
             # otherwise if it's just a request to buy an item randomly
@@ -2383,7 +2386,6 @@ init -9 python:
             goodtraits = []
             for t in self.traits:
                 if t in trait_selections["badtraits"]:
-                    # why the #*!:-@ is extend() in place and union not??
                     skip = skip.union(trait_selections["badtraits"][t])
                 if t in trait_selections["goodtraits"]:
                     goodtraits.extend(trait_selections["goodtraits"][t])
