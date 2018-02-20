@@ -2639,7 +2639,7 @@ init -9 python:
             return []
 
         def auto_buy(self, item=None, amount=1, slots=None, casual=False,
-                     equip=False, container=None):
+                     equip=False, container=None, purpose=None):
             # handle request to auto-buy a particular item!
             # including forbidden for slaves items - it might be useful
             # TODO
@@ -2666,7 +2666,6 @@ init -9 python:
             - Add casual as attr
             - Maybe merge with give_tiered_items somehow!
             """
-
             if item:
                 return self.auto_buy_item(item, amount, equip)
 
@@ -2678,6 +2677,13 @@ init -9 python:
 
             # Create dict gather data, we gather slot: (item, [30, 50]) types:
             weighted = {s: [] for s in slots_to_buy}
+
+            if not purpose: # Let's see if we can get a purpose from bts:
+                if traits["Mage"] in self.traits.basetraits:
+                    pass
+                if len(set(["Warrior", "Caster"]).intersection(self.gen_occs)) == 2:
+                    purpose = "Battle Mage"
+
 
             min_value = -10
             self.stats.eval_inventory(inv, weighted, target_stats, target_skills,
