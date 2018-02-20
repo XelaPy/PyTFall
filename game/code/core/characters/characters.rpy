@@ -2581,8 +2581,8 @@ init -9 python:
             elif purpose == "Sex":
                 target_stats = ["charisma"]
                 exclude_on_stats = ["charisma"]
-                target_skills = ["vaginal", "anal", "oral"]
-                exclude_on_skills = ["vaginal", "anal", "oral"]
+                target_skills = ["sex", "vaginal", "anal", "oral"]
+                exclude_on_skills = ["sex", "vaginal", "anal", "oral"]
                 base_purpose = ["Whore"]
                 sub_purpose = ["SIW"]
                 real_weapons = False
@@ -2777,7 +2777,7 @@ init -9 python:
                         slot = "ring2"
                         continue
             return returns
-            
+
         def auto_buy_item(self, item, amount=1, equip=False):
             if isinstance(item, basestring):
                 item = store.items[item]
