@@ -1290,6 +1290,10 @@ init -9 python:
                     if not purpose.intersection(item.pref_class):
                         continue
 
+                # Gender:
+                if item.sex not in (self.instance.gender, "unisex"):
+                    continue
+
                 weights = chance_func(item) if chance_func else [item.eqchance]
                 if weights is None: # We move to the next item!
                     continue
@@ -2741,6 +2745,9 @@ init -9 python:
                 # no blocked misc items:
                 if item in self.miscblock:
                     return None
+
+            if item.tier:
+                chance.append(item.tier*50)
 
             chance.append(item.eqchance)
             if item.badness:
