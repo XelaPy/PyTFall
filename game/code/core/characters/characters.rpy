@@ -2272,250 +2272,6 @@ init -9 python:
             for i in self.inventory:
                 self.inventory.remove(i.id, amount=has_items(i.id, [self]))
 
-        def auto_buy_item(self, item, amount=1, equip=False):
-            if isinstance(item, basestring):
-                item = store.items[item]
-            if item in store.all_auto_buy_items:
-                amount = min(amount, round_int(self.gold/item.price))
-                if amount != 0:
-                    self.take_money(item.price*amount, reason="Items")
-                    self.inventory.append(item, amount)
-                    if equip:
-                        self.equip(item)
-                    return [item.id] * amount
-            return []
-
-        def auto_buy(self, item=None, amount=1, slots=None, casual=False,
-                     equip=False, container=None):
-            # handle request to auto-buy a particular item!
-            # including forbidden for slaves items - it might be useful
-            # TODO
-            """Gives items a char, usually by 'buying' those,
-            from the container that host all items that can be
-            sold in PyTFall.
-
-            item: auto_buy specific item.
-            amount: how many items to buy (used as a total instead of slots).
-            slots: what slots to shop for, if None equipment slots and
-                consumable will be used together with amount argument.
-                Otherwise expects a dict of slot: amount.
-            casual: If True, we also try to get a casual outfit for the character.
-            equip: Equip the items after buying them, if true we equip whatever
-                we buy, if set to purpose (Casual, Barbarian, etc.), we auto_equip
-                for that purpose.
-            container: Container with items or Inventory to shop from. If None
-                we use
-
-
-            Simplify!
-
-            - Add items class_prefs and Casual.
-            - Add casual as attr
-            - Maybe merge with give_tiered_items somehow!
-            """
-
-            if item:
-                return self.auto_buy_item(item, amount, equip)
-
-            if slots:
-                slots_to_buy = slots
-                amount = float("inf") # We will subtract 1 from here below
-            else:
-                slots_to_buy = {s: float("inf") for s in self.eqslots.keys()}
-
-            # Create dict gather data, we gather slot: (item, [30, 50]) types:
-            weighted = {s: [] for s in slots_to_buy}
-
-            min_value = -10
-            self.stats.eval_inventory(inv, weighted, target_stats, target_skills,
-                                     exclude_on_skills, exclude_on_stats,
-                                     chance_func=self.equip_chance, min_value=min_value,
-                                     upto_skill_limit=upto_skill_limit,
-                                     base_purpose=base_purpose,
-                                     sub_purpose=sub_purpose,
-                                     check_money=True)
-
-
-
-
-
-
-
-
-
-            # otherwise if it's just a request to buy an item randomly
-            # make sure that she'll NEVER buy an items that is in badtraits
-            skip = set()
-            goodtraits = []
-            for t in self.traits:
-                if t in trait_selections["badtraits"]:
-                    skip = skip.union(trait_selections["badtraits"][t])
-                if t in trait_selections["goodtraits"]:
-                    goodtraits.extend(trait_selections["goodtraits"][t])
-
-            returns = []
-            # high chance to try to buy an item she really likes based on traits
-            if goodtraits and dice(80):
-                i = random.randint(1, len(goodtraits))
-                while i > 0:
-                    pick = goodtraits[i-1]
-                    # filter out too expensive ones
-                    if pick.price <= self.gold:
-                        # weapons not accepted for status
-                        if self.status != "slave" or not (pick.slot in ("weapon", "smallweapon") or pick.type in ("armor", "scroll")):
-                            # make sure that girl will never buy more than 5 of any item!
-                            count = self.inventory[pick] if self.eqslots[pick.slot] != pick else self.inventory[pick] + 1
-                            if pick.slot == "ring":
-                                if self.eqslots["ring1"] == pick: count += 1
-                                if self.eqslots["ring2"] == pick: count += 1
-
-                                count += self.eqslots.values().count(pick)
-
-                            penalty = pick.badness + count * 20
-                            # badtraits skipped here (late test because the search takes time)
-                            if penalty < 100 and dice(100 - penalty) and not pick in skip and self.take_money(pick.price, "Items"):
-                                self.inventory.append(pick)
-                                returns.append(pick.id)
-
-                                amount -= 1
-                                if amount == 0:
-                                    return returns
-                                break
-                        i -= 1 # enough money, but not a lucky pick, just try next
-                    else:
-                        # if the pick is more than she can afford, next pick will be half as pricy
-                        i = i // 2 # ..break if this floors to 0
-
-            skip = skip.union(goodtraits) # the goodtrait items are only available in the 1st selection round
-
-            # define selections
-            articles = []
-            # if she has no body slot items, she will try to buy a dress
-            if not self.eqslots["body"] or all(i.slot != "body" for i in self.inventory):
-                articles.append("body")
-
-            # 30% (of the remaining) chance for her to buy any good restore item.
-            if dice(30):
-                articles.append("restore")
-
-            # then a high chance to buy a snack, I assume that all chars can eat and enjoy normal food even if it's actually useless for them in terms of anatomy, since it's true for sex
-            if ("Always Hungry" in self.traits and dice(80)) or self.vitality > 100 and dice(200 - self.vitality):
-                articles.append("food")
-
-            if amount > 2: # food doesn't count, it's not a big meal
-                # define weighted choice for remaining articles - based on status and class
-                choices = [("rest", 100)]
-                dress_weight = 100
-
-                # for slaves exclude all weapons, spells and armor
-                if self.status != "slave":
-                    if "Warrior" in self.occupations:
-                        choices.append(("warrior", 100))
-                        # if we still didn't pick the items, if the character has Warrior occupation, she may ignore dresses
-                        dress_weight = 60 if self.occupations.issuperset(("SIW", "Server", "Specialist")) else 25
-                    if "Caster" in self.occupations and auto_buy_items["scroll"]: # FIXME: remove 2nd part when we have scrolls.
-                        choices.append(("scroll", 25))
-
-                choices.append(("dress", dress_weight))
-                choice_sum = sum(w for c, w in choices)
-
-                # add remaining choices, based on (normalized) weighted chances
-                for r in random.sample(xrange(choice_sum), amount - 2):
-                    for c, w in choices:
-                        r -= w
-                        if r <= 0:
-                            articles.append(c)
-                            break
-            else:
-                # oopsie, selected too many already, fixing that here
-                articles = articles[:amount]
-
-            for article in articles:
-                wares = auto_buy_items[article]
-
-                i = random.randint(1, len(wares))
-                while i > 0:
-                    price, pick = wares[i-1]
-                    if price <= self.gold:
-                        count = self.inventory[pick] if self.eqslots[pick.slot] != pick else self.inventory[pick] + 1
-                        if pick.slot == "ring":
-                            if self.eqslots["ring1"] == pick: count += 1
-                            if self.eqslots["ring2"] == pick: count += 1
-                        penalty = pick.badness + count * 20
-                        if penalty < 100 and dice(100 - penalty) and not pick in skip and self.take_money(pick.price, "Items"):
-                            self.inventory.append(pick)
-                            returns.append(pick.id)
-                            break
-                        i -= 1
-                    else:
-                        i = i // 2
-
-            return returns
-
-        def keep_chance(self, item):
-            """
-            return a list of chances, up to 100 indicating how much the person wants to hold on to a particular
-            item. Only includes personal preferences, use inv.eval_inventory() to determine stats/skills.
-            """
-            if not item.eqchance or not can_equip(item, self):
-                return [-1000000]
-
-            chance = []
-            when_drunk = 30
-            appetite = 50
-
-            for trait in self.traits:
-                if trait in trait_selections["badtraits"] and item in trait_selections["badtraits"][trait]:
-                    return [-1000000]
-
-                if trait in trait_selections["goodtraits"] and item in trait_selections["goodtraits"][trait]:
-                    chance.append(100)
-
-                if trait == "Kamidere": # Vanity: wants pricy uncommon items
-                    chance.append((100 - item.chance + min(item.price/10, 100))/2)
-                elif trait == "Tsundere": # stubborn: what s|he won't buy, s|he won't wear.
-                    chance.append(100 - item.badness)
-                elif trait == "Bokukko": # what the farmer don't know, s|he won't eat.
-                    chance.append(item.chance)
-                elif trait == "Heavy Drinker":
-                    when_drunk = 45
-                elif trait == "Always Hungry":
-                    appetite += 20
-                elif trait == "Slim":
-                    appetite -= 10
-
-            if item.type == "permanent": # only allowed if also in goodtraits. but then we already returned 100
-                return [-1000000]
-
-            if item.slot == "consumable":
-
-                if item in self.consblock or item in self.constemp:
-                    return [-10]
-                if item.type == "alcohol":
-                    if self.effects['Drunk']['activation_count'] >= when_drunk:
-                        return [-1]
-                    if self.effects['Depression']['active']:
-                        chance.append(30 + when_drunk)
-
-                elif item.type == "food":
-                    food_poisoning = self.effects['Food Poisoning']['activation_count']
-                    if not food_poisoning:
-                        chance.append(appetite)
-                    else:
-                        if food_poisoning >= 6:
-                            return [-1]
-                        chance.append((6-food_poisoning) * 9)
-
-            elif item.slot == "misc":
-                # If the item self-destructs or will be blocked after one use,
-                # it's now up to the caller to stop after the first item of this kind that is picked.
-                # no blocked misc items:
-                if item.id in self.miscblock:
-                    return [-1000000]
-
-            chance.append(item.eqchance)
-            return chance
-
         def equip(self, item, remove=True): # Equips the item
             """
             Equips an item to a corresponding slot or consumes it.
@@ -3021,6 +2777,188 @@ init -9 python:
                         slot = "ring2"
                         continue
             return returns
+            
+        def auto_buy_item(self, item, amount=1, equip=False):
+            if isinstance(item, basestring):
+                item = store.items[item]
+            if item in store.all_auto_buy_items:
+                amount = min(amount, round_int(self.gold/item.price))
+                if amount != 0:
+                    self.take_money(item.price*amount, reason="Items")
+                    self.inventory.append(item, amount)
+                    if equip:
+                        self.equip(item)
+                    return [item.id] * amount
+            return []
+
+        def auto_buy(self, item=None, amount=1, slots=None, casual=False,
+                     equip=False, container=None):
+            # handle request to auto-buy a particular item!
+            # including forbidden for slaves items - it might be useful
+            # TODO
+            """Gives items a char, usually by 'buying' those,
+            from the container that host all items that can be
+            sold in PyTFall.
+
+            item: auto_buy specific item.
+            amount: how many items to buy (used as a total instead of slots).
+            slots: what slots to shop for, if None equipment slots and
+                consumable will be used together with amount argument.
+                Otherwise expects a dict of slot: amount.
+            casual: If True, we also try to get a casual outfit for the character.
+            equip: Equip the items after buying them, if true we equip whatever
+                we buy, if set to purpose (Casual, Barbarian, etc.), we auto_equip
+                for that purpose.
+            container: Container with items or Inventory to shop from. If None
+                we use
+
+
+            Simplify!
+
+            - Add items class_prefs and Casual.
+            - Add casual as attr
+            - Maybe merge with give_tiered_items somehow!
+            """
+
+            if item:
+                return self.auto_buy_item(item, amount, equip)
+
+            if slots:
+                slots_to_buy = slots
+                amount = float("inf") # We will subtract 1 from here below
+            else:
+                slots_to_buy = {s: float("inf") for s in self.eqslots.keys()}
+
+            # Create dict gather data, we gather slot: (item, [30, 50]) types:
+            weighted = {s: [] for s in slots_to_buy}
+
+            min_value = -10
+            self.stats.eval_inventory(inv, weighted, target_stats, target_skills,
+                                     exclude_on_skills, exclude_on_stats,
+                                     chance_func=self.equip_chance, min_value=min_value,
+                                     upto_skill_limit=upto_skill_limit,
+                                     base_purpose=base_purpose,
+                                     sub_purpose=sub_purpose,
+                                     check_money=True)
+
+
+
+
+
+
+
+
+
+            # otherwise if it's just a request to buy an item randomly
+            # make sure that she'll NEVER buy an items that is in badtraits
+            skip = set()
+            goodtraits = []
+            for t in self.traits:
+                if t in trait_selections["badtraits"]:
+                    skip = skip.union(trait_selections["badtraits"][t])
+                if t in trait_selections["goodtraits"]:
+                    goodtraits.extend(trait_selections["goodtraits"][t])
+
+            returns = []
+            # high chance to try to buy an item she really likes based on traits
+            if goodtraits and dice(80):
+                i = random.randint(1, len(goodtraits))
+                while i > 0:
+                    pick = goodtraits[i-1]
+                    # filter out too expensive ones
+                    if pick.price <= self.gold:
+                        # weapons not accepted for status
+                        if self.status != "slave" or not (pick.slot in ("weapon", "smallweapon") or pick.type in ("armor", "scroll")):
+                            # make sure that girl will never buy more than 5 of any item!
+                            count = self.inventory[pick] if self.eqslots[pick.slot] != pick else self.inventory[pick] + 1
+                            if pick.slot == "ring":
+                                if self.eqslots["ring1"] == pick: count += 1
+                                if self.eqslots["ring2"] == pick: count += 1
+
+                                count += self.eqslots.values().count(pick)
+
+                            penalty = pick.badness + count * 20
+                            # badtraits skipped here (late test because the search takes time)
+                            if penalty < 100 and dice(100 - penalty) and not pick in skip and self.take_money(pick.price, "Items"):
+                                self.inventory.append(pick)
+                                returns.append(pick.id)
+
+                                amount -= 1
+                                if amount == 0:
+                                    return returns
+                                break
+                        i -= 1 # enough money, but not a lucky pick, just try next
+                    else:
+                        # if the pick is more than she can afford, next pick will be half as pricy
+                        i = i // 2 # ..break if this floors to 0
+
+            skip = skip.union(goodtraits) # the goodtrait items are only available in the 1st selection round
+
+            # define selections
+            articles = []
+            # if she has no body slot items, she will try to buy a dress
+            if not self.eqslots["body"] or all(i.slot != "body" for i in self.inventory):
+                articles.append("body")
+
+            # 30% (of the remaining) chance for her to buy any good restore item.
+            if dice(30):
+                articles.append("restore")
+
+            # then a high chance to buy a snack, I assume that all chars can eat and enjoy normal food even if it's actually useless for them in terms of anatomy, since it's true for sex
+            if ("Always Hungry" in self.traits and dice(80)) or self.vitality > 100 and dice(200 - self.vitality):
+                articles.append("food")
+
+            if amount > 2: # food doesn't count, it's not a big meal
+                # define weighted choice for remaining articles - based on status and class
+                choices = [("rest", 100)]
+                dress_weight = 100
+
+                # for slaves exclude all weapons, spells and armor
+                if self.status != "slave":
+                    if "Warrior" in self.occupations:
+                        choices.append(("warrior", 100))
+                        # if we still didn't pick the items, if the character has Warrior occupation, she may ignore dresses
+                        dress_weight = 60 if self.occupations.issuperset(("SIW", "Server", "Specialist")) else 25
+                    if "Caster" in self.occupations and auto_buy_items["scroll"]: # FIXME: remove 2nd part when we have scrolls.
+                        choices.append(("scroll", 25))
+
+                choices.append(("dress", dress_weight))
+                choice_sum = sum(w for c, w in choices)
+
+                # add remaining choices, based on (normalized) weighted chances
+                for r in random.sample(xrange(choice_sum), amount - 2):
+                    for c, w in choices:
+                        r -= w
+                        if r <= 0:
+                            articles.append(c)
+                            break
+            else:
+                # oopsie, selected too many already, fixing that here
+                articles = articles[:amount]
+
+            for article in articles:
+                wares = auto_buy_items[article]
+
+                i = random.randint(1, len(wares))
+                while i > 0:
+                    price, pick = wares[i-1]
+                    if price <= self.gold:
+                        count = self.inventory[pick] if self.eqslots[pick.slot] != pick else self.inventory[pick] + 1
+                        if pick.slot == "ring":
+                            if self.eqslots["ring1"] == pick: count += 1
+                            if self.eqslots["ring2"] == pick: count += 1
+                        penalty = pick.badness + count * 20
+                        if penalty < 100 and dice(100 - penalty) and not pick in skip and self.take_money(pick.price, "Items"):
+                            self.inventory.append(pick)
+                            returns.append(pick.id)
+                            break
+                        i -= 1
+                    else:
+                        i = i // 2
+
+            return returns
+
+
 
         def load_equip(self, eqsave):
             # load equipment from save, if possible
