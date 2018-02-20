@@ -2446,172 +2446,19 @@ init -9 python:
             """
             This method will auto-equip slot items on per purpose basis!
             """
-            returns = list()
-            if self.eqslots["weapon"]:
-                self.unequip(self.eqslots["weapon"])
-
-            slots = store.EQUIP_SLOTS
-
-            if purpose == "Combat":
-                target_stats = ['health', 'mp', 'attack', 'magic', 'defence', 'agility', "luck"]
-                exclude_on_stats = ["luck", 'attack']
-                target_skills = []
-                exclude_on_skills = []
-                base_purpose = ["Warrior"]
-                sub_purpose = []
-                real_weapons = True
-                returns.extend(self.auto_equip(target_stats,
-                               exclude_on_stats=exclude_on_stats,
-                               exclude_on_skills=exclude_on_skills,
-                               base_purpose=base_purpose,
-                               sub_purpose=sub_purpose,
-                               slots=slots, real_weapons=real_weapons))
-            elif purpose == "Manager":
-                target_stats = ["charisma", 'constitution', 'agility', "luck"]
-                exclude_on_stats = ["charisma", "luck"]
-                target_skills = ["management"]
-                exclude_on_skills = ["management"]
-                base_purpose = ["Manager"]
-                sub_purpose = ["Casual"]
-                real_weapons = False
-                returns.extend(self.auto_equip(target_stats,
-                               exclude_on_stats=exclude_on_stats,
-                               exclude_on_skills=exclude_on_skills,
-                               base_purpose=base_purpose,
-                               sub_purpose=sub_purpose,
-                               slots=slots, real_weapons=real_weapons))
-            elif purpose == "Casual":
-                target_stats = ["charisma", 'constitution', 'agility', "luck"]
-                exclude_on_stats = ["charisma", "luck"]
-                target_skills = []
-                exclude_on_skills = []
-                base_purpose = ["Casual"]
-                sub_purpose = []
-                real_weapons = False
-                returns.extend(self.auto_equip(target_stats,
-                               exclude_on_stats=exclude_on_stats,
-                               exclude_on_skills=exclude_on_skills,
-                               base_purpose=base_purpose,
-                               sub_purpose=sub_purpose,
-                               slots=slots, real_weapons=real_weapons))
-            elif purpose == "Slave":
-                target_stats = ["charisma", 'constitution', 'agility', "luck"]
-                exclude_on_stats = []
-                target_skills = []
-                exclude_on_skills = []
-                base_purpose = ["Slave"]
-                sub_purpose = ["Casual"]
-                real_weapons = False
-                returns.extend(self.auto_equip(target_stats,
-                               exclude_on_stats=exclude_on_stats,
-                               exclude_on_skills=exclude_on_skills,
-                               base_purpose=base_purpose,
-                               sub_purpose=sub_purpose,
-                               slots=slots, real_weapons=real_weapons))
-            elif purpose == "Barbarian":
-                target_stats = ['health', 'attack', 'defence', 'constitution', 'agility']
-                exclude_on_stats = ['health', 'attack']
-                target_skills = []
-                exclude_on_skills = []
-                base_purpose = ["Warrior"]
-                sub_purpose = []
-                real_weapons = True
-                returns.extend(self.auto_equip(target_stats,
-                               exclude_on_stats=exclude_on_stats,
-                               exclude_on_skills=exclude_on_skills,
-                               base_purpose=base_purpose,
-                               sub_purpose=sub_purpose,
-                               slots=slots, real_weapons=real_weapons))
-            elif purpose == "Shooter":
-                target_stats = ["agility", 'attack', 'defence', "luck"]
-                exclude_on_stats = ["agility", "luck"]
-                target_skills = []
-                exclude_on_skills = []
-                base_purpose = ["Shooter"]
-                sub_purpose = ["Warrior"]
-                real_weapons = True
-                returns.extend(self.auto_equip(target_stats,
-                               exclude_on_stats=exclude_on_stats,
-                               exclude_on_skills=exclude_on_skills,
-                               base_purpose=base_purpose,
-                               sub_purpose=sub_purpose,
-                               slots=slots, real_weapons=real_weapons))
-            elif purpose == "Battle Mage":
-                target_stats = ['health', 'mp', 'attack', 'magic']
-                exclude_on_stats = ["luck", 'magic', 'attack']
-                target_skills = []
-                exclude_on_skills = []
-                base_purpose = ["Warrior", "Mage"]
-                sub_purpose = []
-                real_weapons = True
-                returns.extend(self.auto_equip(target_stats,
-                               exclude_on_stats=exclude_on_stats,
-                               exclude_on_skills=exclude_on_skills,
-                               base_purpose=base_purpose,
-                               sub_purpose=sub_purpose,
-                               slots=slots, real_weapons=real_weapons))
-            elif purpose == "Mage":
-                target_stats = ['mp', 'magic', "luck", 'intelligence']
-                exclude_on_stats = ['magic', 'mp']
-                target_skills = []
-                exclude_on_skills = []
-                base_purpose = ["Mage"]
-                sub_purpose = ["Warrior"]
-                real_weapons = True
-                returns.extend(self.auto_equip(target_stats,
-                               exclude_on_stats=exclude_on_stats,
-                               exclude_on_skills=exclude_on_skills,
-                               base_purpose=base_purpose,
-                               sub_purpose=sub_purpose,
-                               slots=slots, real_weapons=real_weapons))
-            elif purpose == "Striptease":
-                target_stats = ["charisma"]
-                exclude_on_stats = ["charisma", "vitality"]
-                target_skills = ["strip"]
-                exclude_on_skills = ["strip"]
-                base_purpose = ["Stripper"]
-                sub_purpose = ["SIW"]
-                real_weapons = False
-                returns.extend(self.auto_equip(target_stats,
-                               exclude_on_stats=exclude_on_stats,
-                               exclude_on_skills=exclude_on_skills,
-                               base_purpose=base_purpose,
-                               sub_purpose=sub_purpose,
-                               slots=slots, real_weapons=real_weapons))
-            elif purpose == "Sex":
-                target_stats = ["charisma"]
-                exclude_on_stats = ["charisma"]
-                target_skills = ["sex", "vaginal", "anal", "oral"]
-                exclude_on_skills = ["sex", "vaginal", "anal", "oral"]
-                base_purpose = ["Whore"]
-                sub_purpose = ["SIW"]
-                real_weapons = False
-                returns.extend(self.auto_equip(target_stats,
-                               exclude_on_stats=exclude_on_stats,
-                               exclude_on_skills=exclude_on_skills,
-                               base_purpose=base_purpose,
-                               sub_purpose=sub_purpose,
-                               slots=slots, real_weapons=real_weapons))
-            elif purpose == "Service":
-                target_stats = ["charisma"]
-                exclude_on_stats = []
-                target_skills = ["service", "cleaning"]
-                exclude_on_skills = ["service", "cleaning"]
-                base_purpose = ["Service"]
-                sub_purpose = []
-                real_weapons = False
-                returns.extend(self.auto_equip(target_stats,
-                               exclude_on_stats=exclude_on_stats,
-                               exclude_on_skills=exclude_on_skills,
-                               base_purpose=base_purpose,
-                               sub_purpose=sub_purpose,
-                               slots=slots, real_weapons=real_weapons))
-            else:
+            if purpose not in store.aeq_purposes:
                 temp = "Supplied unknown purpose: %s to equip_for method for: %s, (Class: %s)" % (purpose,
                                                             self.name, self.__class__.__name__)
                 if config.developer:
                     devlog.warning(temp)
-            return returns
+                return []
+
+            if self.eqslots["weapon"]:
+                self.unequip(self.eqslots["weapon"])
+
+            slots = store.EQUIP_SLOTS
+            kwargs = aeq_purposes[purpose]
+            return self.auto_equip(slots=slots, **kwargs)
 
         def auto_equip(self, target_stats, target_skills=None,
                        exclude_on_skills=None, exclude_on_stats=None,
