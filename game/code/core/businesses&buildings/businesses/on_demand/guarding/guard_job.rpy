@@ -8,7 +8,7 @@ init -5 python:
             self.type = "Combat"
 
             # Traits/Job-types associated with this job:
-            self.occupations = ["Warrior"] # General Strings likes SIW, Warrior, Server...
+            self.occupations = ["Combatant"] # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = [traits["Warrior"], traits["Mage"], traits["Knight"], traits["Shooter"]] # Corresponding traits...
 
             # Relevant skills and stats:
@@ -132,7 +132,7 @@ init -5 python:
                 log(temp, True)
 
             for worker in workers:
-                if not("Warrior" in worker.traits):
+                if not("Combatant" in worker.traits):
                     sub = check_submissivity(worker)
                     if worker.status != 'slave':
                         if sub < 0:

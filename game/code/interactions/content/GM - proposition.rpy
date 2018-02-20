@@ -46,7 +46,7 @@
         # else:
             # $ rc("I don't feel like it.", "Something about this seems kinda suspicious... I think I'll pass.")
 
-label interactions_sparring: # sparring with MC, for Warriors occupations only
+label interactions_sparring: # sparring with MC, for Combatant occupations only
     $ interactions_check_for_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_girlfriend")
     if char.health < char.get_max("health")*.5:

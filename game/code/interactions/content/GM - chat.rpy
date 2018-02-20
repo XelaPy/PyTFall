@@ -373,7 +373,7 @@ label interactions_abouther:
         if ct("Not Human"):
             $gm_abouther_list.append(choice(["Some humans don't like my appearance. But I don't care.", "The other day they refused to serve me in that fancy cafe because I'm not human enough. Can you imagine that?!"]))
 
-        if cgo("Warrior"):
+        if cgo("Combatant"):
             if ct("Shy") or ct("Coward"):
                 $gm_abouther_list.append(choice(["I have been trained in combat, but I really dislike violence.", "I know a lot about self-defense... but I really hope that I wouldn’t ever need to use it.", "I know how to use a weapon... but it still scares me a bit.", "I can do well in combat training, but in practice...", "They say that I may have the skill, but not the spirit of a warrior...", "I carry a weapon, but I don’t think I would have the heart to hurt someone."]))
             elif ct("Virtuous"):
@@ -401,7 +401,7 @@ label interactions_abouther:
         if ct("Half-Sister"):
             $gm_abouther_list.append(choice(["Do you miss our father? ...Yes, I miss him too.", "We should chat more often. We are family after all."]))
 
-        if not(cgo("Warrior")) and ct("Adventurous"):
+        if not(cgo("Combatant")) and ct("Adventurous"):
             $gm_abouther_list.append(choice(["I always dreamed about my own adventures. But I never had a combat training, so... <sigh>"]))
 
         if cgo("Caster"):
@@ -501,7 +501,7 @@ label interactions_aboutoccupation:
         jump girl_interactions
     $ hero.exp += randint(1, 2)
     if char.disposition > -250:
-        if cgo("Warrior") and not(cgo("Caster")):
+        if cgo("Combatant") and not (cgo("Caster")):
             $ rc("I was trained to fight.", "I have combat training.", "I know how to fight.", "I know how to behave on the battlefield.")
             if co("Knight"):
                 $ rc("I'm more like a bodyguard.", "In battle I was taught to protect others.", "My job is to hold the enemy.")
@@ -523,7 +523,7 @@ label interactions_aboutoccupation:
                 $ rc("I perform menial tasks around the household.", "I'm a professional maid.")
         if co("Manager"):
             $ rc("I know a thing or two about managing.", "I know how to manage people.")
-        if not(cgo("Server") or cgo("SIW") or cgo("Warrior") or cgo("Caster") or co("Manager")): #you never know
+        if not(cgo("Server") or cgo("SIW") or cgo("Combatant") or cgo("Caster") or co("Manager")): #you never know
             $ rc("I don't really have a profession...")
     else:
         $ char.disposition -= randint(0, 1)
@@ -594,7 +594,7 @@ label interactions_interests:
         "Heavy Drinker": ["You discuss various types of alcohol, sharing your drinking experience."],
         "Always Hungry": ["You talk about food for some time. It looks like [char.p] can continue it for hours, so you carefully interrupt the conversation."],
         "Curious": ["You exchange the latest news and gossip. [char.pC] really knows a lot about it."],
-        "cgo('Warrior')": ["You discuss the recent fights at the arena and their participants.", "You discuss a variety of fighting styles."],
+        "cgo('Combatant')": ["You discuss the recent fights at the arena and their participants.", "You discuss a variety of fighting styles."],
         "cgo('Caster')": ["[char.pC] enthusiastically talks about mysteries of arcane arts.", "You discuss [char.op] magical studies."],
         "cgo('SIW')": ["You gossip about the strangeness of some of [char.op] customers."],
         "cgo('Server')": ["[char.pC] recounts rumors that [char.p] heard from customers lately. People tend to not notice service workers when they are not needed."],
@@ -642,7 +642,7 @@ label interactions_interests:
 #            $ rc("Wherever there is something or someone I can shag.", "At the sex-club, oh no--I've said too much...#1 rule...Never talk about the sex club! WTF was I thinking?")
 #        elif ct("Nerd"):
 #            $ rc("Library, where do {color=[red]}you{/color} go for fun?", "I cozy under a tree with a good book.")
-#        elif cgo("Warrior"):
+#        elif cgo("Combatant"):
 #            $ rc("The Arena, where else?", "Window shopping at the blacksmith's!")
 #        elif cgo("SIW"):
 #            $ rc("Wherever men with full pockets are hanging.", 'Us "Fancy Girls" usually hang around in the Red Light District', "Building...Don't look at me like that!")

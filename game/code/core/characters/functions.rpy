@@ -398,7 +398,7 @@ init -11 python:
 
         amount: Usually 1, this number of items will be awarded per slot.
             # Note: atm we just work with 1!
-        gen_occ: General occupation that we equip for: ("SIW", "Warrior", "Server", "Specialist")
+        gen_occ: General occupation that we equip for: ("SIW", "Combatant", "Server", "Specialist")
             This must always be provided, even if occ is specified.
         occ: Specific basetrait.
         equip: Run auto_equip function after we're done.
@@ -409,9 +409,9 @@ init -11 python:
                 gen_occ = choice(char.gen_occs)
             except:
                 raise Exception(char.name, char.__class__)
-        if char.status == "slave" and gen_occ == "Warrior":
+        if char.status == "slave" and gen_occ == "Combatant":
             problem = (char.name, char.__class__)
-            devlog.warning("Giving tiered items to a Warrior Slave failed: {}".format(problem))
+            devlog.warning("Giving tiered items to a Combatant Slave failed: {}".format(problem))
             return
         # See if we can get a perfect occupation:
         if occ is None:
@@ -419,7 +419,7 @@ init -11 python:
             basetraits = char.basetraits.intersection(basetraits)
             if basetraits:
                 occ = random.sample(basetraits, 1)[0].id
-        if char.status == "slave" and occ in gen_occ_basetraits["Warrior"]:
+        if char.status == "slave" and occ in gen_occ_basetraits["Combatant"]:
             return
 
         # print("gen_occ: {}, occ: {}".format(gen_occ, occ))
@@ -457,15 +457,15 @@ init -11 python:
 
         if equip:
             if "Caster" in char.gen_occs:
-                purpose = "Wizard"
-            elif "Warrior" in char.gen_occs:
+                purpose = "Mage"
+            elif "Combatant" in char.gen_occs:
                 purpose = "Combat"
             elif "SIW" in char.gen_occs:
                 purpose = "Sex"
             elif "Server" in char.gen_occs:
                 purpose = "Service"
             elif "Specialist" in char.gen_occs:
-                purpose = "???" # TODO items: Not implemented yet
+                purpose = "Manager"
             char.equip_for(purpose)
 
     def give_tiered_magic_skills(char, amount="auto", support_amount="auto"):
@@ -491,7 +491,7 @@ init -11 python:
             if "Caster" in char.gen_occs:
                 amount = tier + randint(1, 2)
                 s_amount += 1
-            elif "Warrior" in char.gen_occs or "Specialist" in char.gen_occs:
+            elif "Combatant" in char.gen_occs or "Specialist" in char.gen_occs:
                 if "neutral" in attributes:
                     amount = randint(0, 1)
                 else:

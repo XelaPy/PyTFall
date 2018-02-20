@@ -406,7 +406,7 @@ init -11 python:
 
     def cgo(*args):
         """
-        Checks for General Occupation strings, such as "SIW", "Warrior", "Server", etc.
+        Checks for General Occupation strings, such as "SIW", "Combatant", "Server", etc.
         """
         gen_occs = set()
         for occ in char.traits:
@@ -416,7 +416,7 @@ init -11 python:
 
     def cgochar(char, *args):
         """
-        Checks for General Occupation strings, such as "SIW", "Warrior", "Server", etc. Goes with char argument, thus can be used where the game doesn't recognize default "char"
+        Checks for General Occupation strings, such as "SIW", "Combatant", "Server", etc. Goes with char argument, thus can be used where the game doesn't recognize default "char"
         """
         gen_occs = set()
         for occ in char.traits:

@@ -1,5 +1,5 @@
 label arena_outside:
-    $ gm.enter_location(goodtraits=["Manly", "Courageous", "Aggressive"], badtraits=["Coward", "Nerd", "Homebody"], goodoccupations=["Warrior"], curious_priority=False)
+    $ gm.enter_location(goodtraits=["Manly", "Courageous", "Aggressive"], badtraits=["Coward", "Nerd", "Homebody"], goodoccupations=["Combatant"], curious_priority=False)
     $ coords = [[.1, .6], [.59, .64], [.98, .61]]
     # Music related:
     if not "arena_outside" in ilists.world_music:

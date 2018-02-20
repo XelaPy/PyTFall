@@ -22,7 +22,7 @@ init python:
             self.locmod = {}
 
             # Traits/Job-types associated with this job:
-            self.occupations = list() # General Strings likes SIW, Warrior, Server...
+            self.occupations = list() # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = list() # Corresponing traits...
 
             self.txt = list()
@@ -1044,7 +1044,7 @@ init python:
 
             # Get search chance
             self.chance = pytfall.ra.status(self.girl)
-            if  "Warrior" not in self.girl.occupations: self.chance *= .8
+            if "Combatant" not in self.girl.gen_occs: self.chance *= .8
 
             self.slave = None
             self.capture = False

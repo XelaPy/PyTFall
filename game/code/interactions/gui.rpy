@@ -177,7 +177,7 @@ label girl_interactions_after_greetings: # when character wants to say something
             pytfall.world_actions.menu(m, "Propose", condition="not(char in hero.chars) or not(check_friends(char, hero)) or not(check_lovers(char, hero))")
             pytfall.world_actions.gm_choice("Girlfriend", condition="not check_lovers(char, hero)", index=(m, 0))
             pytfall.world_actions.gm_choice("Hire", condition="not(char in hero.chars) and not char.flag('quest_cannot_be_hired')", index=(m, 1))
-            pytfall.world_actions.gm_choice("Sparring", condition="'Warrior' in char.occupations", index=(m, 2))
+            pytfall.world_actions.gm_choice("Sparring", condition="'Combatant' in char.occupations", index=(m, 2))
 
             # INTIMACY
             m = 7

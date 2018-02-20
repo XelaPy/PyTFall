@@ -1813,7 +1813,7 @@ init -9 python:
 
                             # Get warriors
                             else:
-                                guards = [g for g in location.get_girls(occupation="Warrior") if g.AP > 0 and g.health > 40 and g.vitality > 40]
+                                guards = [g for g in location.get_girls(occupation="Combatant") if g.AP > 0 and g.health > 40 and g.vitality > 40]
 
                             if girl in guards: guards.remove(girl)
 
@@ -2111,7 +2111,7 @@ init -9 python:
             else:
                 girls = [g for g in hero.chars if g.location == location]
                 if girls:
-                    mod = float(len(location.get_girls(occupation="Warrior"))) / float(len(girls))
+                    mod = float(len(location.get_girls(occupation="Combatant"))) / float(len(girls))
                 else:
                     mod = 0
 

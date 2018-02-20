@@ -350,7 +350,7 @@ screen equip_for(pos=()):
         specializations.append("Casual")
         if eq_free and "Specialist" in eqtarget.gen_occs:
             specializations.extend(["Manager"])
-        if eq_free and "Warrior" in eqtarget.gen_occs:
+        if eq_free and "Combatant" in eqtarget.gen_occs:
             specializations.extend(["Barbarian", "Shooter"])
         if eq_free and "Caster" in eqtarget.gen_occs:
             specializations.extend(["Battle Mage", "Mage"])

@@ -8,7 +8,7 @@ label special_items_slime_bottle:
         "Yes":
             "The seal is durable, but eventually, it gives up, and pressurized liquid is released."
             $ tier = locked_random("uniform", max(hero.tier, .5), hero.tier+.7)
-            $ new_slime = build_rc(id="Slime", tier=tier, patterns=["Warrior", "Server"])
+            $ new_slime = build_rc(id="Slime", tier=tier, patterns=["Combatant", "Server"])
             if locked_dice(80):
                 $ new_slime.set_status("free")
             else:

@@ -755,7 +755,7 @@ screen next_day():
         # Buttons will be drawn over the frame +==============================>>>
         if summary_filter == "buildings":
             $ start_pos = 844
-            for i in ("Servers", "Warriors", "Managers", "IDLE"):
+            for i in ("Servers", "Combatant", "Managers", "IDLE"):
                 $ start_pos = start_pos + 42
                 frame:
                     at rotate_by(45)

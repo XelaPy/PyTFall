@@ -8,7 +8,7 @@ init -9 python:
         I'd love it to contain at least some of the calculations and conditioning for Jobs as well, we can split this if it gets too confusing.
         Maybe some behavior flags and alike can be a part of this as well?
         """
-        BASE_WAGES = {"SIW": 20, "Warrior": 30, "Server": 15, "Specialist": 40}
+        BASE_WAGES = {"SIW": 20, "Combatant": 30, "Server": 15, "Specialist": 40}
 
         def __init__(self):
             # self.instance = instance
@@ -111,8 +111,8 @@ init -9 python:
             if kind:
                 wage = self.BASE_WAGES[kind]
             else:
-                for i in ["Warrior", "Specialist", "SIW", "Server"]:
-                    if i in self.occupations:
+                for i in ["Combatant", "Specialist", "SIW", "Server"]:
+                    if i in self.gen_occs:
                         wage = self.BASE_WAGES[i]
                         break
                 else:
@@ -1484,7 +1484,7 @@ init -9 python:
                       "security"])
         # Used to access true, final, adjusted skill values through direct access to class, like: char.swimmingskill
         FULLSKILLS = set(skill + "skill" for skill in SKILLS)
-        GEN_OCCS = set(["SIW", "Warrior", "Server", "Specialist"])
+        GEN_OCCS = set(["SIW", "Combatant", "Server", "Specialist"])
         STATUS = set(["slave", "free"])
 
         MOOD_TAGS = set(["angry", "confident", "defiant", "ecstatic", "happy",
@@ -2768,9 +2768,9 @@ init -9 python:
 
                 # for slaves exclude all weapons, spells and armor
                 if self.status != "slave":
-                    if "Warrior" in self.occupations:
+                    if "Combatant" in self.occupations:
                         choices.append(("warrior", 100))
-                        # if we still didn't pick the items, if the character has Warrior occupation, she may ignore dresses
+                        # if we still didn't pick the items, if the character has Combatant occupation, she may ignore dresses
                         dress_weight = 60 if self.occupations.issuperset(("SIW", "Server", "Specialist")) else 25
                     if "Caster" in self.occupations and auto_buy_items["scroll"]: # FIXME: remove 2nd part when we have scrolls.
                         choices.append(("scroll", 25))
@@ -4234,7 +4234,7 @@ init -9 python:
                     self.apply_trait(i)
 
             if self.status not in self.STATUS:
-                if "Warrior" in self.occupations:
+                if "Combatant" in self.gen_occs:
                     self.status = "free"
                 else:
                     self.status = random.sample(self.STATUS, 1).pop()
@@ -4290,7 +4290,7 @@ init -9 python:
                 setattr(self, stat, self.get_max(stat))
 
             # Arena:
-            if "Warrior" in self.occupations and self not in hero.chars and self.arena_willing is not False:
+            if "Combatant" in self.gen_occs and self not in hero.chars and self.arena_willing is not False:
                 self.arena_willing = True
 
             # Settle auto-equip + auto-buy:
