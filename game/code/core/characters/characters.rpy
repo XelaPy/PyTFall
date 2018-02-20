@@ -1253,11 +1253,12 @@ init -9 python:
                            exclude_on_skills, exclude_on_stats,
                            base_purpose, sub_purpose,
                            chance_func=None, min_value=-5,
-                           upto_skill_limit=False):
+                           upto_skill_limit=False,
+                           check_money=False):
             """
             weigh items in inventory based on stats.
 
-            weighted: weights per item will be added to this.
+            weighted: weights per item will be added to this
             inventory: the inventory to evaluate items from
             target_stats: a list of stats to consider for items
             target_skills: similarly, a list of skills
@@ -1266,9 +1267,13 @@ init -9 python:
             chance_func(): function that takes the item and returns a chance, between 0 and 100
             min_value: at what (negative) value the weight will become zero
             upto_skill_limit: whether or not to calculate bonus beyond training exactly
+
+            # Auto-buy related.
+            check_money: check is char has enough cash to buy the items.
             """
 
             # call the functions for these only once
+            char = self.instance
             stats = {'current_stat': {}, 'current_max': {}}
             skills = {s: self.get_skill(s) for s in target_skills}
             for stat in target_stats:
@@ -1291,8 +1296,13 @@ init -9 python:
                         continue
 
                 # Gender:
-                if item.sex not in (self.instance.gender, "unisex"):
+                if item.sex not in (char.gender, "unisex"):
                     continue
+
+                # Money (conditioned):
+                if check_money:
+                    if char.gold < item.price:
+                        continue
 
                 weights = chance_func(item) if chance_func else [item.eqchance]
                 if weights is None: # We move to the next item!
@@ -2410,6 +2420,26 @@ init -9 python:
                 amount = float("inf") # We will subtract 1 from here below
             else:
                 slots_to_buy = {s: float("inf") for s in self.eqslots.keys()}
+
+            # Create dict gather data, we gather slot: (item, [30, 50]) types:
+            weighted = {s: [] for s in slots_to_buy}
+
+            min_value = -10
+            self.stats.eval_inventory(inv, weighted, target_stats, target_skills,
+                                     exclude_on_skills, exclude_on_stats,
+                                     chance_func=self.equip_chance, min_value=min_value,
+                                     upto_skill_limit=upto_skill_limit,
+                                     base_purpose=base_purpose,
+                                     sub_purpose=sub_purpose,
+                                     check_money=True)
+
+
+
+
+
+
+
+
 
             # otherwise if it's just a request to buy an item randomly
             # make sure that she'll NEVER buy an items that is in badtraits
