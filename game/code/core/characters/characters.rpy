@@ -2356,11 +2356,42 @@ init -9 python:
             for i in self.inventory:
                 self.inventory.remove(i.id, amount=has_items(i.id, [self]))
 
-        def auto_buy(self, item=None, amount=1, equip=False):
+        def auto_buy_item(self, item, amount=1):
+            if isinstance(item, basestring):
+                item = store.items[item]
+            if item in store.all_auto_buy_items:
+                amount = min(amount, round_int(self.gold/item.price))
+                if amount != 0:
+                    self.take_money(item.price*amount, reason="Items")
+                    self.inventory.append(item, amount)
+                    if equip:
+                        self.equip(item)
+                    return [item.id] * amount
+            return []
+
+        def auto_buy(self, item=None, amount=1, slots=None, casual=False,
+                     equip=False, container=None):
             # handle request to auto-buy a particular item!
             # including forbidden for slaves items - it might be useful
             # TODO
-            """Simplefy!
+            """Gives items a char, usually by 'buying' those,
+            from the container that host all items that can be
+            sold in PyTFall.
+
+            item: auto_buy specific item.
+            amount: how many items to buy (used as a total instead of slots).
+            slots: what slots to shop for, if None equipment slots and
+                consumable will be used together with amount argument.
+                Otherwise expects a dict of slot: amount.
+            casual: If True, we also try to get a casual outfit for the character.
+            equip: Equip the items after buying them, if true we equip whatever
+                we buy, if set to purpose (Casual, Barbarian, etc.), we auto_equip
+                for that purpose.
+            container: Container with items or Inventory to shop from. If None
+                we use
+
+
+            Simplify!
 
             - Add items class_prefs and Casual.
             - Add casual as attr
@@ -2368,17 +2399,13 @@ init -9 python:
             """
 
             if item:
-                if isinstance(item, basestring):
-                    item = store.items[item]
-                if item in store.all_auto_buy_items:
-                    amount = min(amount, round_int(self.gold/item.price))
-                    if amount != 0:
-                        self.take_money(item.price*amount, reason="Items")
-                        self.inventory.append(item, amount)
-                        if equip:
-                            self.equip(item)
-                        return [item.id] * amount
-                return []
+                return self.auto_buy_item(item, amount)
+
+            if slots:
+                slots_to_buy = slots
+                amount = float("inf") # We will subtract 1 from here below
+            else:
+                slots_to_buy = {s: float("inf") for s in self.eqslots.keys()}
 
             # otherwise if it's just a request to buy an item randomly
             # make sure that she'll NEVER buy an items that is in badtraits
