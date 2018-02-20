@@ -1398,7 +1398,7 @@ init -9 python:
                             weights.append(50 + 100*(new_skill - value) / saturated_skill)
 
                 weighted[item.slot].append([weights, item])
-                
+
 
     class Pronouns(_object):
         # Just to keep huge character class cleaner (smaller)
@@ -2272,7 +2272,7 @@ init -9 python:
             for i in self.inventory:
                 self.inventory.remove(i.id, amount=has_items(i.id, [self]))
 
-        def auto_buy_item(self, item, amount=1):
+        def auto_buy_item(self, item, amount=1, equip=False):
             if isinstance(item, basestring):
                 item = store.items[item]
             if item in store.all_auto_buy_items:
@@ -2315,7 +2315,7 @@ init -9 python:
             """
 
             if item:
-                return self.auto_buy_item(item, amount)
+                return self.auto_buy_item(item, amount, equip)
 
             if slots:
                 slots_to_buy = slots
