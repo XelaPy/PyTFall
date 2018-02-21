@@ -2679,11 +2679,26 @@ init -9 python:
             weighted = {s: [] for s in slots_to_buy}
 
             if not purpose: # Let's see if we can get a purpose from bts:
-                if traits["Mage"] in self.traits.basetraits:
-                    pass
-                if len(set(["Warrior", "Caster"]).intersection(self.gen_occs)) == 2:
+                occs = self.gen_occs
+                bt = char.traits.basetraits
+                if "Specialist" in occs:
+                    purpose = "Manager"
+                elif traits["Stripper"] in bt:
+                    purpose = "Striptease"
+                elif traits["Maid"] in bt:
+                    purpose = "Service"
+                elif traits["Prostitute"] in bt:
+                    purpose = "Sex"
+                elif "Caster" in occs and "Warrior" not in occs:
+                    purpose = "Mage"
+                elif len(set(["Warrior", "Caster"]).intersection(soccs)) == 2:
                     purpose = "Battle Mage"
-
+                elif traits["Shooter"] in bt:
+                    purpose = "Shooter"
+                elif "Combatant" in occs:
+                    purpose = "Barbarian"
+                else:
+                    purpose = "Casual" # Safe option.
 
             min_value = -10
             self.stats.eval_inventory(inv, weighted, target_stats, target_skills,

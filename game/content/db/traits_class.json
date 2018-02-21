@@ -374,7 +374,7 @@
 	{
 		"id": "Warrior",
 		"occupations": [
-			"Combatant"
+			"Combatant", "Warrior"
 		],
 		"desc": "Doesn't have notable strengths and weaknesses due to balanced combat style, but prefers melee weapons.",
 		"basetrait": true,
@@ -442,7 +442,7 @@
 	{
 		"id": "Knight",
 		"occupations": [
-			"Combatant"
+			"Combatant", "Warrior"
 		],
 		"desc": "Specializes in heavy armored combat. Agility and attack are not high, but health and defense compensate it.",
 		"higher_tiers": ["Warrior"],
