@@ -156,6 +156,7 @@ init -1 python: # Core classes:
 
                 # We check the conditions for terminating the BE scenario, this should prolly be end turn event as well, but I've added this before I've added events :)
                 if self.check_break_conditions():
+                    renpy.pause(.6) # Small pause before terminating the engine.
                     break
 
             self.end_battle()
