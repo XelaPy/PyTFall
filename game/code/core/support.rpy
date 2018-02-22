@@ -126,7 +126,8 @@ init -9 python:
 
             # Girls, Buildings income and Hero:
             for char in chars.values():
-                char.next_day()
+                if char in hero.chars:
+                    char.next_day()
 
             businesses = [b for b in hero.buildings if isinstance(b, UpgradableBuilding)]
             for b in businesses:
@@ -136,7 +137,7 @@ init -9 python:
 
             # Restoring world girls:
             self.restore_all_chars()
-            if not day%14:
+            if not day % 14:
                 self.add_random_girls()
 
             # Last we construct the main screen report:
