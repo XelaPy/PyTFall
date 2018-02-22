@@ -168,23 +168,29 @@ python: # We allow this shitty indent just this one time :D
             target_death_effect={"gfx": "dissolve", "initial_pause": .55, "duration": .5},
             dodge_effect={"initial_pause": -.01})
 
-
     # Rapier attacks:
-    BE_Action(u"Steel Flourish", range=1, attributes=["melee", "physical"], critpower=.6, effect=70, multiplier=1.05, vitality_cost=12, mp_cost=6, menu_pos=1,
+    BE_Action(u"Steel Flourish", range=1, attributes=["melee", "physical"], critpower=.6,
+            effect=70, multiplier=1.05, vitality_cost=12, mp_cost=6, menu_pos=1,
             desc="Quick consecutive slashes form an ancient rune which increases critical damage of the attack.", item_only=True,
-            main_effect={"gfx": Transform("steel_flourish_webm", zoom=1.1), "sfx": "content/sfx/sound/be/chop.ogg", "duration": .97, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .15, "duration": .8},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .4})
-    BE_Action(u"Toxic Core", range=1, attributes=["melee", "physical", "poison"], critpower=.2, effect=100, multiplier=.95, vitality_cost=5, health_cost=5, menu_pos=1.1,
+            main_effect={"gfx": Transform("steel_flourish_webm", zoom=1.1), "sfx": "content/sfx/sound/be/chop.ogg", "duration": .97,
+                         "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .17, "duration": .8},
+            target_death_effect={"gfx": "dissolve", "initial_pause": .9, "duration": .5})
+    BE_Action(u"Toxic Core", range=1, attributes=["melee", "physical", "poison"],
+            critpower=.2, effect=100, multiplier=.95, vitality_cost=5, health_cost=5, menu_pos=1.1,
             desc="Inner layers of the weapon produce natural toxins which could be released during the attack.", item_only=True,
-            main_effect={"gfx": Transform("elven_rapier_webm", zoom=.9), "sfx": "content/sfx/sound/be/sword.mp3", "duration": .47, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+            main_effect={"gfx": Transform("elven_rapier_webm", zoom=.9), "sfx": "content/sfx/sound/be/sword.mp3", "duration": .47,
+                         "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
             target_sprite_damage_effect={"gfx": "poisoned_with_shake", "initial_pause": .15, "duration": .8},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .4})
-    BE_Action(u"Air Assault", range=1, attributes=["melee", "physical", "air"], critpower=.1, effect=30, vitality_cost=20,  multiplier=1.0, health_cost=15, menu_pos=1.2, type="all_enemies",
+            target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5})
+    BE_Action(u"Air Assault", range=1, attributes=["melee", "physical", "air"], critpower=.1,
+            effect=30, vitality_cost=20,  multiplier=1.0, health_cost=15, menu_pos=1.2, type="all_enemies",
             desc="Countless quick slashes rip the air itself, sending rapid shockwaves.", item_only=True,
-            main_effect={"gfx": Transform("elven_combo_webm", zoom=1.1), "sfx": "content/sfx/sound/be/elven_combo.mp3", "duration": 1.4, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
-            target_sprite_damage_effect={"gfx": "on_air", "initial_pause": .1, "duration": 1.2},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .9, "duration": .3})
+            main_effect={"gfx": Transform("elven_combo_webm", zoom=1.1), "sfx": "content/sfx/sound/be/elven_combo.mp3",
+                         "duration": 1.4, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+            target_sprite_damage_effect={"gfx": "on_air", "initial_pause": .1, "duration": 1.3},
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.3, "duration": .5})
+
     # Bow Attacks:
     BE_Action("Bow Shot", attributes=["ranged", "physical"], critpower=0, effect=5, range=3, vitality_cost=1, menu_pos=0, multiplier=.5,
             desc="An arrow shot.", item_only=True,
