@@ -500,75 +500,105 @@ python: # Blunt Attacks:
             target_death_effect={"gfx": "dissolve", "initial_pause": .9, "duration": .5})
 
 python: # Axes Attack:
-    BE_Action("Axe Strike", attributes=["melee", "physical"], critpower=.1, effect=10, range=1, vitality_cost=2, menu_pos=0, multiplier=.55,
+    BE_Action("Axe Strike", attributes=["melee", "physical"], critpower=.1,
+            effect=10, range=1, vitality_cost=2, menu_pos=0, multiplier=.55,
             desc="An attack with an axe.", item_only=True,
-            main_effect={"gfx": "simple_axe_attack_webm", "sfx": "content/sfx/sound/be/axe_attack.mp3", "duration": .367, "hflip": True},
+            main_effect={"gfx": "simple_axe_attack_webm", "sfx": "content/sfx/sound/be/axe_attack.mp3",
+                         "duration": .367, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .3},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .35, "duration": .15})
-    MultiAttack("Axe Strike 2X", attributes=["melee", "physical"], critpower=.15, multiplier=.7, effect=15, range=1, vitality_cost=4, menu_pos=.1,
-            desc="Two quick attacks with an axe.", item_only=True,
-            main_effect={"gfx": ProportionalScale("content/gfx/be/axes.png", 150, 150), "sfx": "content/sfx/sound/be/axe_attack.mp3", "duration": .6},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .5})
-    MultiAttack("Axe Strike 4X", attributes=["melee", "physical"], critpower=.2, multiplier=.85, effect=35, range=1, vitality_cost=7, menu_pos=.2,
+            target_death_effect={"gfx": "dissolve", "initial_pause": .35, "duration": .5})
+    MultiAttack("Axe Strike 2X", attributes=["melee", "physical"], critpower=.15,
+                multiplier=.7, effect=15, range=1, vitality_cost=4, menu_pos=.1,
+                desc="Two quick attacks with an axe.", item_only=True,
+                main_effect={"gfx": ProportionalScale("content/gfx/be/axes.png", 150, 150),
+                             "sfx": "content/sfx/sound/be/axe_attack.mp3", "duration": .6},
+                target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
+                target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .5})
+    MultiAttack("Axe Strike 4X", attributes=["melee", "physical"], critpower=.2,
+            multiplier=.85, effect=35, range=1, vitality_cost=7, menu_pos=.2,
             desc="Four quick attacks with an axe.", item_only=True,
-            main_effect={"gfx": ProportionalScale("content/gfx/be/axes.png", 150, 150), "sfx": "content/sfx/sound/be/axe_attack.mp3", "duration": 1.2, "times": 4},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .85},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .8, "duration": .5})
-    BE_Action(u"Ice Axe Strike", menu_pos=1, range=1, critpower=.2, attributes=["melee", "ice", "physical"], effect=50, multiplier=.95, vitality_cost=12, mp_cost=4,
+            main_effect={"gfx": ProportionalScale("content/gfx/be/axes.png", 150, 150),
+                         "sfx": "content/sfx/sound/be/axe_attack.mp3", "duration": 1.2, "times": 4},
+            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.1},
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .5})
+    BE_Action(u"Ice Axe Strike", menu_pos=1, range=1, critpower=.2,
+            attributes=["melee", "ice", "physical"], effect=50, multiplier=.95,
+            vitality_cost=12, mp_cost=4,
             desc="An attack with an ice axe.", item_only=True,
-            main_effect={"gfx": "Ice Arrow impact", "sfx": "content/sfx/sound/be/ice_axe.mp3", "duration": .7, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
-            target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .2, "duration": .4},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .4})
+            main_effect={"gfx": "Ice Arrow impact", "sfx": "content/sfx/sound/be/ice_axe.mp3",
+                         "duration": .7, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+            target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .2, "duration": .5},
+            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
 
 python: # Bite Attacks:
-    BE_Action("Bite", attributes=["melee", "physical"], critpower=.3, effect=1, range=1, vitality_cost=1, menu_pos=0, multiplier=.5,
+    BE_Action("Bite", attributes=["melee", "physical"], critpower=.3, effect=1, range=1,
+            vitality_cost=1, menu_pos=0, multiplier=.5,
             desc="Biting with fangs.", item_only=True,
-            main_effect={"gfx": "simple_bite_attack_webm", "sfx": "content/sfx/sound/be/bite_attack.mp3", "duration": .77, "hflip": True},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": .5},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .15})
+            main_effect={"gfx": "simple_bite_attack_webm",
+                         "sfx": "content/sfx/sound/be/bite_attack.mp3",
+                         "duration": .77, "hflip": True},
+            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": .57},
+            target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5})
 
 python: # Gun Attacks:
-    BE_Action("Gun Shot", attributes=["ranged", "physical"], critpower=.3, effect=50, range=3, vitality_cost=2, menu_pos=0, multiplier=.5,
+    BE_Action("Gun Shot", attributes=["ranged", "physical"], critpower=.3,
+            effect=50, range=3, vitality_cost=2, menu_pos=0, multiplier=.5,
             desc="Shot a bullet.", item_only=True,
-            main_effect={"gfx": "simple_gun_attack_webm", "sfx": "content/sfx/sound/be/gun_attack.mp3", "duration": .433, "hflip": True},
+            main_effect={"gfx": "simple_gun_attack_webm",
+                         "sfx": "content/sfx/sound/be/gun_attack.mp3",
+                         "duration": .433, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .4},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .35, "duration": .15})
+            target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
 
 python: # Scythe Attacks:
-    BE_Action("Scythe Slash", attributes=["melee", "physical"], critpower=.5, effect=10, range=1, vitality_cost=2, menu_pos=0, multiplier=.5,
+    BE_Action("Scythe Slash", attributes=["melee", "physical"], critpower=.5,
+            effect=10, range=1, vitality_cost=2, menu_pos=0, multiplier=.5,
             desc="An attack with a scythe.", item_only=True,
-            main_effect={"gfx": Transform("simple_scythe_attack_webm", zoom = .6), "sfx": "content/sfx/sound/be/scythe_attack.mp3", "duration": .363, "hflip": True},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .3},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .15})
-    MultiAttack("Scythe Slash 2X", attributes=["melee", "physical"], critpower=.5, multiplier=.65, effect=25, range=1, vitality_cost=4, menu_pos=.1,
+            main_effect={"gfx": Transform("simple_scythe_attack_webm", zoom = .6),
+                         "sfx": "content/sfx/sound/be/scythe_attack.mp3",
+                         "duration": .363, "hflip": True},
+            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .06, "duration": .3},
+            target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5})
+    MultiAttack("Scythe Slash 2X", attributes=["melee", "physical"], critpower=.5,
+            multiplier=.65, effect=25, range=1, vitality_cost=4, menu_pos=.1,
             desc="Two quick attacks with a scythe.", item_only=True,
-            main_effect={"gfx": ProportionalScale("content/gfx/be/scythe.png", 150, 150), "sfx": "content/sfx/sound/be/scythe_attack.mp3", "duration": .6, "times": 2},
+            main_effect={"gfx": ProportionalScale("content/gfx/be/scythe.png", 150, 150),
+                         "sfx": "content/sfx/sound/be/scythe_attack.mp3",
+                         "duration": .6, "times": 2},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .3})
-    MultiAttack("Scythe Slash 4X", attributes=["melee", "physical"], critpower=.5, multiplier=.8, effect=40, range=1, vitality_cost=6, menu_pos=.2,
+            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+    MultiAttack("Scythe Slash 4X", attributes=["melee", "physical"],
+            critpower=.5, multiplier=.8, effect=40, range=1, vitality_cost=6, menu_pos=.2,
             desc="Four quick attacks with a scythe.", item_only=True,
-            main_effect={"gfx": ProportionalScale("content/gfx/be/scythe.png", 150, 150), "sfx": "content/sfx/sound/be/scythe_attack.mp3", "duration": 1.2, "times": 4},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .85},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .8, "duration": .5})
-    BE_Action(u"Steel Assault", type="all_enemies", range=1, attributes=["melee", "physical"], critpower=.2, multiplier=1.05, effect=70, vitality_cost=20, menu_pos=1.7,
+            main_effect={"gfx": ProportionalScale("content/gfx/be/scythe.png", 150, 150),
+                         "sfx": "content/sfx/sound/be/scythe_attack.mp3", "duration": 1.2, "times": 4},
+            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .15, "duration": .95},
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .5})
+    BE_Action(u"Steel Assault", type="all_enemies", range=1, attributes=["melee", "physical"],
+            critpower=.2, multiplier=1.05, effect=70, vitality_cost=20, menu_pos=1.7,
             desc="Quick consecutive slashes capable of damaging multiple enemies.", item_only=True,
-            main_effect={"gfx": Transform("chain_scythe_webm", zoom=1.1), "sfx": "content/sfx/sound/be/chop.ogg", "duration": .76, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+            main_effect={"gfx": Transform("chain_scythe_webm", zoom=1.1), "sfx": "content/sfx/sound/be/chop.ogg",
+                         "duration": .76, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .15, "duration": .7},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .4})
-    ArealSkill(u"Harvesting Time", range=2, attributes=["melee", "darkness", "physical", "poison", "inevitable"], menu_pos=5, critpower=1.0, effect=150, multiplier=1.8, vitality_cost=40, mp_cost=.1, health_cost=.1, type="all_enemies", item_only=True,
+            target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5})
+    ArealSkill(u"Harvesting Time", range=2, attributes=["melee", "darkness", "physical", "poison", "inevitable"],
+            menu_pos=5, critpower=1.0, effect=150, multiplier=1.8, vitality_cost=40, mp_cost=.1,
+            health_cost=.1, type="all_enemies", item_only=True,
             desc="By sacrificing some life energy a small piece of the Death powers can be summoned to join the battle.",
-            main_effect={"gfx": Transform("death_scythe_webm", zoom=1.2), "sfx": "content/sfx/sound/be/death_skythe.ogg", "duration": 1.46, "aim": {"anchor": (.5, .5), "xo": 180, "yo":-70}, "hflip": True},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .3},
-            bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 1.5},
-            target_sprite_damage_effect={"gfx": "on_death", "initial_pause": .3, "duration": 1.25})
+            main_effect={"gfx": Transform("death_scythe_webm", zoom=1.2), "sfx": "content/sfx/sound/be/death_skythe.ogg",
+                         "duration": 1.46, "aim": {"anchor": (.5, .5), "xo": 180, "yo":-70}, "hflip": True},
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.35, "duration": .5},
+            bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 1.46},
+            target_sprite_damage_effect={"gfx": "on_death", "initial_pause": .3, "duration": 1.16})
 
 python: # Spray Attacks:
-    BE_Action("Spray", attributes=["ranged", "poison"], critpower=-0.3, effect=100, range=2, vitality_cost=3, menu_pos=0, multiplier=.65,
+    BE_Action("Spray", attributes=["ranged", "poison"], critpower=-0.3,
+            effect=100, range=2, vitality_cost=3, menu_pos=0, multiplier=.65,
             desc="Spray a dangerous substance.", item_only=True,
-            main_effect={"gfx": "simple_spray_attack", "sfx": "content/sfx/sound/be/spray_attack.mp3", "duration": 1.3, "hflip": True, "aim": {"point": "fc", "anchor": (.5, .5)}},
+            main_effect={"gfx": "simple_spray_attack", "sfx": "content/sfx/sound/be/spray_attack.mp3",
+                         "duration": 1.3, "hflip": True, "aim": {"point": "fc", "anchor": (.5, .5)}},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.1},
-            target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .15})
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": .5})
 
 python: # Throw attacks:
     BE_Action("Throw", attributes=["ranged", "physical"], effect=5, range=3, vitality_cost=1, menu_pos=0, multiplier=.5,
