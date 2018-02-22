@@ -2262,6 +2262,17 @@ init -9 python:
             else:
                 return []
 
+        def get_owned_items(self, slot):
+            # figure out how many items actor owns:
+            if self.eqslots.get(slot, None):
+                amount = 1
+            else:
+                amount = 0
+
+            slot_items = [i for i in self.inventory if i.slot == slot]
+
+            return amount + len(slot_items)
+
         def add_item(self, item, amount=1):
             self.inventory.append(item, amount=amount)
 
@@ -2639,7 +2650,8 @@ init -9 python:
             return []
 
         def auto_buy(self, item=None, amount=1, slots=None, casual=False,
-                     equip=False, container=None, purpose=None):
+                     equip=False, container=None, purpose=None,
+                     check_money=True, inv=None):
             # handle request to auto-buy a particular item!
             # including forbidden for slaves items - it might be useful
             # TODO
@@ -2659,7 +2671,6 @@ init -9 python:
             container: Container with items or Inventory to shop from. If None
                 we use
 
-
             Simplify!
 
             - Add items class_prefs and Casual.
@@ -2669,6 +2680,8 @@ init -9 python:
             if item:
                 return self.auto_buy_item(item, amount, equip)
 
+            if not container: # Pick the container we usually shop from:
+                container = store.all_auto_buy_items
             if slots:
                 slots_to_buy = slots
                 amount = float("inf") # We will subtract 1 from here below
@@ -2700,16 +2713,36 @@ init -9 python:
                 else:
                     purpose = "Casual" # Safe option.
 
+            kwargs = aeq_purposes[purpose]
+
             min_value = -10
-            self.stats.eval_inventory(inv, weighted, target_stats, target_skills,
-                                     exclude_on_skills, exclude_on_stats,
-                                     chance_func=self.equip_chance, min_value=min_value,
-                                     upto_skill_limit=upto_skill_limit,
-                                     base_purpose=base_purpose,
-                                     sub_purpose=sub_purpose,
-                                     check_money=True)
+            upto_skill_limit = False
+            self.stats.eval_inventory(container, weighted, chance_func=self.equip_chance,
+                                      upto_skill_limit=upto_skill_limit,
+                                      min_value=min_value, check_money=check_money,
+                                      **kwargs)
 
+            rv = [] # List of item name strings we return in case we need to report
+            # what happened in this method to player.
+            for slot, _items in weighted:
+                if not _items:
+                    continue
 
+                per_slot_amount = slots_to_buy[slot]
+                if slot in store.EQUIP_SLOTS:
+                    amount, per_slot_amount, rv = self.ab_equipment(_items,
+                                                   slot,
+                                                   amount, per_slot_amount,
+                                                   rv, equip, check_money)
+                elif slot == "consumable":
+                    amount, per_slot_amount, rv = self.ab_consumables(_items,
+                                                     slot,
+                                                     amount, per_slot_amount,
+                                                     rv, equip, check_money)
+                if amount <= 0:
+                    break
+
+            return rv
 
 
 
@@ -2826,7 +2859,79 @@ init -9 python:
 
             return returns
 
+        def ab_equipment(self, _items, slot, amount, per_slot_amount,
+                         rv, equip, check_money):
+            buy_amount = min(amount, per_slot_amount)
 
+            owned_items = self.get_owned_items(slot)
+            amount_owned = len(owned_items)
+
+            # We also want to set max amount to buy based on how many items
+            # char already has (5 for rings, 2 for everything else)
+            if not check_money: # special check, where we just force items.
+                pass
+            elif slot == "ring":
+                buy_amount = min(buy_amount, 5)
+            else:
+                buy_amount = min(buy_amount, 2)
+
+            # Check if we want to go on, skip needless calculations otherwise.
+            if not buy_amount:
+                return amount, per_slot_amount, rv
+
+            _items = [(item, sum(weights)) for item, weights in _items]
+            _items.sort(key=itemgetter(1), reverse=True)
+            for item, weight in _items:
+                if not check_money:
+                    buy_amount -= 1
+                    amount -= 1
+                    per_slot_amount -= 1
+                    rv.append(item.id)
+                elif self.take_money(item.price, reason="Items"):
+                    buy_amount -= 1
+                    amount -= 1
+                    per_slot_amount -= 1
+                    rv.append(item.id)
+                if not buy_amount:
+                    break
+
+            return amount, per_slot_amount, rv
+
+        def ab_consumables(self, _items, amount, per_slot_amount,
+                         rv, equip, check_money):
+            buy_amount = min(amount, per_slot_amount)
+
+            owned_items = self.get_owned_items(slot)
+            amount_owned = len(owned_items)
+
+            # We also want to set max amount to buy based on how many items
+            # char already has (5 for rings, 2 for everything else)
+            if not check_money: # special check, where we just force items.
+                pass
+            else:
+                buy_amount = min(buy_amount, 20)
+
+            # Check if we want to go on, skip needless calculations otherwise.
+            if not buy_amount:
+                return amount, per_slot_amount, rv
+
+            _items = [(item, sum(weights)) for item, weights in _items]
+            _items.sort(key=itemgetter(1), reverse=True)
+            for item, weight in _items:
+                if not check_money:
+                    buy_amount -= 1
+                    amount -= 1
+                    per_slot_amount -= 1
+                    rv.append(item.id)
+                elif self.take_money(item.price, reason="Items"):
+                    buy_amount -= 1
+                    amount -= 1
+                    per_slot_amount -= 1
+                    rv.append(item.id)
+                if not buy_amount:
+                    break
+
+            return amount, per_slot_amount, rv
 
         def load_equip(self, eqsave):
             # load equipment from save, if possible
