@@ -440,26 +440,36 @@ python: # Claw Attacks:
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": .5})
 
 python: # Fist Attacks:
-    BE_Action("Fist Attack", attributes=["melee", "physical"], critpower=-0.2, effect=5, range=1, menu_pos=0, multiplier=.4,
+    BE_Action("Fist Attack", attributes=["melee", "physical"], critpower=-0.2,
+            effect=5, range=1, menu_pos=0, multiplier=.4,
             desc="An attack with bare hands.", item_only=True,
-            main_effect={"gfx": "simple_fist_attack_webm", "sfx": list("content/sfx/sound/be/fist_attack_%d.mp3"%i for i in xrange(1, 6)), "duration": .567, "hflip": True},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .15})
-    MultiAttack("Fist Attack 2X", attributes=["melee", "physical"], critpower=-0.2, effect=5, range=1, vitality_cost=1, menu_pos=.1,  multiplier=.5,
+            main_effect={"gfx": "simple_fist_attack_webm",
+                         "sfx": list("content/sfx/sound/be/fist_attack_%d.mp3"%i for i in xrange(1, 6)),
+                         "duration": .567, "hflip": True},
+            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .067, "duration": .5},
+            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+    MultiAttack("Fist Attack 2X", attributes=["melee", "physical"], critpower=-0.2,
+            effect=5, range=1, vitality_cost=1, menu_pos=.1,  multiplier=.5,
             desc="Two quick attacks with bare hands.", item_only=True,
-            main_effect={"gfx": ProportionalScale("content/gfx/be/fists.png", 150, 150), "sfx": "content/sfx/sound/be/fist_attack_5.mp3", "duration": .6, "times": 2},
+            main_effect={"gfx": ProportionalScale("content/gfx/be/fists.png", 150, 150),
+                         "sfx": "content/sfx/sound/be/fist_attack_5.mp3",
+                         "duration": .6, "times": 2},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .3})
-    MultiAttack("Fist Attack 4X", attributes=["melee", "physical"], critpower=-.2, multiplier=.6, effect=5, range=1, vitality_cost=2, menu_pos=.2,
+            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+    MultiAttack("Fist Attack 4X", attributes=["melee", "physical"], critpower=-.2,
+            multiplier=.6, effect=5, range=1, vitality_cost=2, menu_pos=.2,
             desc="Two quick attacks with bare hands.", item_only=True,
-            main_effect={"gfx": ProportionalScale("content/gfx/be/fists.png", 150, 150), "sfx": "content/sfx/sound/be/fist_attack_5.mp3", "duration": 1.2, "times": 4},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.05},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .3})
-    BE_Action(u"Fire Barrage", menu_pos=2, range=1, attributes=["melee", "fire", "physical"], effect=40, critpower=.1, multiplier=.9, vitality_cost=5,
+            main_effect={"gfx": ProportionalScale("content/gfx/be/fists.png", 150, 150),
+                         "sfx": "content/sfx/sound/be/fist_attack_5.mp3", "duration": 1.2, "times": 4},
+            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .15, "duration": 1.05},
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.1, "duration": .5})
+    BE_Action(u"Fire Barrage", menu_pos=2, range=1, attributes=["melee", "fire", "physical"],
+            effect=40, critpower=.1, multiplier=.9, vitality_cost=5,
             desc="A high-speed combination of attacks, fast enough to set air ablaze.", item_only=True,
-            main_effect={"gfx": "multi_fist_webm", "sfx": "content/sfx/sound/be/fire_barrage.ogg", "duration": .46, "aim": {"point": "fc", "anchor": (.5, .5)}, "hflip": True},
+            main_effect={"gfx": "multi_fist_webm", "sfx": "content/sfx/sound/be/fire_barrage.ogg",
+                         "duration": .46, "aim": {"point": "fc", "anchor": (.5, .5)}, "hflip": True},
             target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": .1, "duration": .36},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .4})
+            target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
 
 python: # Cannon Attacks:
     BE_Action("Cannon Shot", attributes=["ranged", "physical"], critpower=.3, effect=50, range=3, vitality_cost=3, menu_pos=0, multiplier=.55, piercing=True,
