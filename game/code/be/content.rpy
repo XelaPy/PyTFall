@@ -60,7 +60,7 @@ init python:
                 None = Do not play SFX at all.
             times = how many times we run the animation in a sequence.
             delay = interval between the two runs.
-            sf_duration = single frame duration.
+            sd_duration = single frame (displayable) duration.
             alpha_fade = Do we want alpha fade for each frame or not. 1.0 means not, .0 means yes and everything in between is partial fade.
             """
             super(ChainedAttack, self).__init__(**properties)
