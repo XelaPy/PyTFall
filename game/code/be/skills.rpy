@@ -332,63 +332,90 @@ python: # Crossbow Attacks:
             target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
 
 python: # Daggers Attacks:
-    BE_Action("Dagger Strike", attributes=["melee", "physical"], critpower=.05, effect=1, range=1, vitality_cost=1, menu_pos=0, multiplier=.5,
+    BE_Action("Dagger Strike", attributes=["melee", "physical"], critpower=.05,
+            effect=1, range=1, vitality_cost=1, menu_pos=0, multiplier=.5,
             desc="An attack with a dagger.", item_only=True,
             main_effect={"gfx": "simple_dagger_attack_webm", "sfx": "content/sfx/sound/be/knife.mp3", "duration": .564, "hflip": True},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .15})
-    MultiAttack("Dagger Strike 4X", attributes=["melee", "physical"], critpower=.075, multiplier=.75, effect=20, vitality_cost=5, range=1,
+            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .04, "duration": .56},
+            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+    MultiAttack("Dagger Strike 4X", attributes=["melee", "physical"], critpower=.075,
+            multiplier=.75, effect=20, vitality_cost=5, range=1,
             desc="Four quick strikes with a dagger.", item_only=True,
-            main_effect={"gfx": ProportionalScale("content/gfx/be/daggers.png", 150, 150), "sfx": "content/sfx/sound/be/dagger_attack_2.mp3", "duration": 1.2, "times": 4, "interval": .2},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .5})
-    BE_Action(u"Rapid Strikes", range=1, attributes=["melee", "physical"], effect=30, menu_pos=.5, multiplier=.85, critpower=.2, vitality_cost=15, type="all_enemies",
-            desc="Special enchantments can temporally decrease weapon weight and momentum, allowing to perform a rapid succession of strikes.", item_only=True,
-            main_effect={"gfx": Transform("speed_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/multi_dagger.mp3", "duration": .5, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+            main_effect={"gfx": ProportionalScale("content/gfx/be/daggers.png", 150, 150),
+                         "sfx": "content/sfx/sound/be/dagger_attack_2.mp3", "duration": 1.8,
+                         "times": 4, "interval": .2},
+            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.7},
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.7, "duration": .5})
+    BE_Action(u"Rapid Strikes", range=1, attributes=["melee", "physical"], effect=30,
+            menu_pos=.5, multiplier=.85, critpower=.2, vitality_cost=15, type="all_enemies",
+            desc="Special enchantments can temporally decrease weapon weight and momentum, allowing to perform a rapid succession of strikes.",
+            item_only=True,
+            main_effect={"gfx": Transform("speed_dagger_webm", zoom=1.1),
+                         "sfx": "content/sfx/sound/be/multi_dagger.mp3", "duration": .5,
+                         "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .4},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .2})
-    BE_Action(u"Ice Strike", menu_pos=.31, range=1, attributes=["melee", "ice", "physical"], effect=60, critpower=.15, multiplier=.8, vitality_cost=5, mp_cost=1,
+            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+    BE_Action(u"Ice Strike", menu_pos=.31, range=1, attributes=["melee", "ice", "physical"],
+            effect=60, critpower=.15, multiplier=.8, vitality_cost=5, mp_cost=1,
             desc="An attack with with an ice dagger.", item_only=True,
-            main_effect={"gfx": Transform("ice_dagger", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": .75, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
-            target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .3, "duration": .5},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
-
-    MultiAttack("Ice Strike 3X", attributes=["melee", "physical", "ice"], menu_pos=.32, multiplier=.9, critpower=.25, effect=80, vitality_cost=7, mp_cost=2, range=1,
+            main_effect={"gfx": Transform("ice_dagger", zoom=1.1),
+                         "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": .75,
+                         "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+            target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .3, "duration": .45},
+            target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5})
+    MultiAttack("Ice Strike 3X", attributes=["melee", "physical", "ice"], menu_pos=.32,
+            multiplier=.9, critpower=.25, effect=80, vitality_cost=7, mp_cost=2, range=1,
             desc="Three quick strikes with an ice dagger.", item_only=True,
-            main_effect={"gfx": Transform("ice_dagger", zoom=1.1), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 1.5, "times": 3, "interval": .5, "alpha_fade": 1.0, "sd_duration": .75},
-            target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .05, "duration": 1.5},
-            target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": .5})
-    BE_Action(u"Ice Break", range=2, attributes=["ranged", "ice"], menu_pos=1.4, effect=90, multiplier=1.1, critpower=.35, vitality_cost=15, mp_cost=7,
+            main_effect={"gfx": Transform("ice_dagger", zoom=1.1),
+                         "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": 3.25,
+                         "times": 3, "interval": .5, "alpha_fade": 1.0, "sd_duration": .75},
+            target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .1, "duration": 3.1},
+            target_death_effect={"gfx": "dissolve", "initial_pause": 3.2, "duration": .5})
+    BE_Action(u"Ice Break", range=2, attributes=["ranged", "ice"], menu_pos=1.4,
+            effect=90, multiplier=1.1, critpower=.35, vitality_cost=15, mp_cost=7,
             desc="Released inner powers of the dagger summon a sharp ice formation.", item_only=True,
-            main_effect={"gfx": Transform("ice_dagger_webm", zoom=.8), "sfx": "content/sfx/sound/be/knife_ice.mp3", "duration": .88, "aim": {"point": "center", "anchor": (.5, .5), "xo":140}, "hflip": True},
-            target_sprite_damage_effect={"gfx": "frozen", "initial_pause": .3, "duration": .4},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
-    BE_Action("Poisoned Dagger", attributes=["melee", "physical", "poison"], critpower=.2, effect=20, range=1, vitality_cost=2, menu_pos=.2, multiplier=.6,
+            main_effect={"gfx": Transform("ice_dagger_webm", zoom=.8), "sfx": "content/sfx/sound/be/knife_ice.mp3",
+                         "duration": .88, "aim": {"point": "center", "anchor": (.5, .5), "xo": 140}, "hflip": True},
+            target_sprite_damage_effect={"gfx": "frozen", "initial_pause": .3, "duration": .58},
+            target_death_effect={"gfx": "dissolve", "initial_pause": .8, "duration": .5})
+    BE_Action("Poisoned Dagger", attributes=["melee", "physical", "poison"], critpower=.2,
+            effect=20, range=1, vitality_cost=2, menu_pos=.2, multiplier=.6,
             desc="An attack with a poisoned dagger.", item_only=True,
-            main_effect={"gfx": AlphaBlend(Transform("simple_dagger_attack_webm", alpha=.8), "simple_dagger_attack_webm", poison_effect_color(149, 120), alpha=True), "sfx": "content/sfx/sound/be/knife.mp3", "duration": .564, "hflip": True},
-            target_sprite_damage_effect={"gfx": "poisoned_with_shake", "initial_pause": .05, "duration": .5},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .15})
-    BasicPoisonSpell(u"Poisonous Rune", range=2, attributes=["status", "poison"], effect=55, menuname = "P Rune", menu_pos=.7, multiplier=1.0, vitality_cost=20, mp_cost=.1,
+            main_effect={"gfx": AlphaBlend(Transform("simple_dagger_attack_webm", alpha=.8),
+                         "simple_dagger_attack_webm", poison_effect_color(149, 120), alpha=True),
+                         "sfx": "content/sfx/sound/be/knife.mp3", "duration": .564, "hflip": True},
+            target_sprite_damage_effect={"gfx": "poisoned_with_shake", "initial_pause": .064, "duration": .5},
+            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+    BasicPoisonSpell(u"Poisonous Rune", range=2, attributes=["status", "poison"], effect=55,
+            menuname = "P Rune", menu_pos=.7, multiplier=1.0, vitality_cost=20, mp_cost=.1,
             desc="Blade enchantment materializes a good deal of poison above the target.", item_only=True,
-            main_effect={"gfx": Transform("poison_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/poison_cloud.mp3", "duration": 1.8, "aim": {"point": "tc", "anchor": (.5, .5)}, "hflip": True},
+            main_effect={"gfx": Transform("poison_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/poison_cloud.mp3",
+                         "duration": 1.8, "aim": {"point": "tc", "anchor": (.5, .5)}, "hflip": True},
             target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.0},
             target_sprite_damage_effect={"gfx": "poisoned_with_shake", "initial_pause": 1.0, "duration": .8},
-            target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .4})
-    P2P_Skill("Shadow Kunai", attributes=["ranged", "darkness", "physical"], menu_pos=1.5, effect=70, vitality_cost=20, multiplier=1.0, critpower=.3, mp_cost=.1, range=4, piercing=True,
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.8, "duration": .5})
+    P2P_Skill("Shadow Kunai", attributes=["ranged", "darkness", "physical"], menu_pos=1.5, effect=70,
+            vitality_cost=20, multiplier=1.0, critpower=.3, mp_cost=.1, range=4, piercing=True,
             desc="Creates an explosive shadow copy of the weapon which can be thrown at the target.", item_only=True,
-            projectile_effects={"gfx": "kunai_throw_webm", "sfx": "content/sfx/sound/be/kunai_throw.mp3", "duration": .75},
-            main_effect={"gfx": Transform("kunai_exp_webm", zoom=1), "sfx": "content/sfx/sound/be/kunai_exp.mp3", "duration": .55, "aim": {"anchor": (.5, .5)}},
-            target_sprite_damage_effect={"gfx": "on_dark_with_shake", "initial_pause": .1, "duration": .4},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .1, "duration": .4},
-            dodge_effect={"initial_pause": .01})
-    ArealSkill(u"Shadow Contract", range=2, attributes=["melee", "darkness", "physical", "poison"], menu_pos=1.8, effect=100, critpower=.4, multiplier=1.2, vitality_cost=30, mp_cost=.2, type="all_enemies", piercing=True,
-            desc="Establishes a spiritual connection between shadow scrolls and the targets. All that remains is to destroy the said scrolls.", item_only=True,
-            main_effect={"gfx": Transform("kunai_bomb_webm", zoom=1.2), "sfx": "content/sfx/sound/be/shadow_contract.ogg", "duration": 1.46, "aim": {"anchor": (.5, .5), "xo": 180, "yo":-70}, "hflip": True},
+            projectile_effects={"gfx": "kunai_throw_webm",
+                                "sfx": "content/sfx/sound/be/kunai_throw.mp3", "duration": .75},
+            main_effect={"gfx": Transform("kunai_exp_webm", zoom=1), "sfx": "content/sfx/sound/be/kunai_exp.mp3",
+                         "duration": .55, "aim": {"anchor": (.5, .5)}},
+            target_sprite_damage_effect={"gfx": "on_dark_with_shake", "initial_pause": .75, "duration": .55},
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.1, "duration": .5},
+            dodge_effect={"initial_pause": .72})
+    ArealSkill(u"Shadow Contract", range=2, attributes=["melee", "darkness", "physical", "poison"], menu_pos=1.8,
+            effect=100, critpower=.4, multiplier=1.2, vitality_cost=30, mp_cost=.2, type="all_enemies", piercing=True,
+            desc="Establishes a spiritual connection between shadow scrolls and the targets. All that remains is to destroy the said scrolls.",
+            item_only=True,
+            main_effect={"gfx": Transform("kunai_bomb_webm", zoom=1.2), "sfx": "content/sfx/sound/be/shadow_contract.ogg",
+                         "duration": 1.46, "aim": {"anchor": (.5, .5), "xo": 180, "yo":-70}, "hflip": True},
             target_sprite_damage_effect={"gfx": "on_dark_with_shake", "initial_pause": .2, "duration": 1.2},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5},
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.3, "duration": .5},
             bg_main_effect={"gfx": "mirage", "initial_pause": .7, "duration": .3},
             dodge_effect={"initial_pause": .7})
-    # Claw Attacks:
+
+python: # Claw Attacks:
     BE_Action("Claw Slash", attributes=["melee", "physical"], critpower=.1, effect=15, range=1, vitality_cost=1, menu_pos=0, multiplier=.5,
             desc="An attack with claws.", item_only=True,
             main_effect={"gfx": "simple_claw_attack_webm", "sfx": "content/sfx/sound/be/claw_attack.mp3", "duration": .367, "hflip": True},
@@ -404,7 +431,8 @@ python: # Daggers Attacks:
             main_effect={"gfx": ProportionalScale("content/gfx/be/claws.png", 150, 150), "sfx": "content/sfx/sound/be/claw_attack.mp3", "duration": 1.2, "times": 4},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.05},
             target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .3})
-    # Fist Attacks:
+
+python: # Fist Attacks:
     BE_Action("Fist Attack", attributes=["melee", "physical"], critpower=-0.2, effect=5, range=1, menu_pos=0, multiplier=.4,
             desc="An attack with bare hands.", item_only=True,
             main_effect={"gfx": "simple_fist_attack_webm", "sfx": list("content/sfx/sound/be/fist_attack_%d.mp3"%i for i in xrange(1, 6)), "duration": .567, "hflip": True},
@@ -426,13 +454,14 @@ python: # Daggers Attacks:
             target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": .1, "duration": .36},
             target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .4})
 
-    # Cannon Attacks:
+python: # Cannon Attacks:
     BE_Action("Cannon Shot", attributes=["ranged", "physical"], critpower=.3, effect=50, range=3, vitality_cost=3, menu_pos=0, multiplier=.55, piercing=True,
             desc="Shot a large caliber.", item_only=True,
             main_effect={"gfx": "simple_cannon_attack_webm", "sfx": list("content/sfx/sound/be/cannon_%d.mp3"%i for i in xrange(1, 4)), "duration": .433, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5},
             target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .15})
-    # Blunt Attacks:
+
+python: # Blunt Attacks:
     BE_Action("Blunt Strike", attributes=["melee", "physical"],  effect=35, range=1, vitality_cost=1, menu_pos=0, multiplier=.5,
             desc="An attack with a blunt weapon.", item_only=True,
             main_effect={"gfx": "simple_blunt_attack_webm", "sfx": "content/sfx/sound/be/rod_attack.mp3", "duration": .567, "hflip": True},
@@ -443,7 +472,8 @@ python: # Daggers Attacks:
             main_effect={"gfx": "earth_hammer_webm", "sfx": "content/sfx/sound/be/earth_hammer.mp3", "duration": .9, "aim": {"point": "bc", "anchor": (.5, 1.0), "xo": 160}, "hflip": True},
             target_sprite_damage_effect={"gfx": "vertical_shake", "initial_pause": .5, "duration": .6, "master_shake": True},
             target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
-    # Axes Attack:
+
+python: # Axes Attack:
     BE_Action("Axe Strike", attributes=["melee", "physical"], critpower=.1, effect=10, range=1, vitality_cost=2, menu_pos=0, multiplier=.55,
             desc="An attack with an axe.", item_only=True,
             main_effect={"gfx": "simple_axe_attack_webm", "sfx": "content/sfx/sound/be/axe_attack.mp3", "duration": .367, "hflip": True},
@@ -464,19 +494,22 @@ python: # Daggers Attacks:
             main_effect={"gfx": "Ice Arrow impact", "sfx": "content/sfx/sound/be/ice_axe.mp3", "duration": .7, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
             target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .2, "duration": .4},
             target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .4})
-    # Bite Attacks:
+
+python: # Bite Attacks:
     BE_Action("Bite", attributes=["melee", "physical"], critpower=.3, effect=1, range=1, vitality_cost=1, menu_pos=0, multiplier=.5,
             desc="Biting with fangs.", item_only=True,
             main_effect={"gfx": "simple_bite_attack_webm", "sfx": "content/sfx/sound/be/bite_attack.mp3", "duration": .77, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": .5},
             target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .15})
-    # Gun Attacks:
+
+python: # Gun Attacks:
     BE_Action("Gun Shot", attributes=["ranged", "physical"], critpower=.3, effect=50, range=3, vitality_cost=2, menu_pos=0, multiplier=.5,
             desc="Shot a bullet.", item_only=True,
             main_effect={"gfx": "simple_gun_attack_webm", "sfx": "content/sfx/sound/be/gun_attack.mp3", "duration": .433, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .4},
             target_death_effect={"gfx": "dissolve", "initial_pause": .35, "duration": .15})
-    # Scythe Attacks:
+
+python: # Scythe Attacks:
     BE_Action("Scythe Slash", attributes=["melee", "physical"], critpower=.5, effect=10, range=1, vitality_cost=2, menu_pos=0, multiplier=.5,
             desc="An attack with a scythe.", item_only=True,
             main_effect={"gfx": Transform("simple_scythe_attack_webm", zoom = .6), "sfx": "content/sfx/sound/be/scythe_attack.mp3", "duration": .363, "hflip": True},
@@ -503,13 +536,15 @@ python: # Daggers Attacks:
             target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .3},
             bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 1.5},
             target_sprite_damage_effect={"gfx": "on_death", "initial_pause": .3, "duration": 1.25})
-    # Spray Attacks:
+
+python: # Spray Attacks:
     BE_Action("Spray", attributes=["ranged", "poison"], critpower=-0.3, effect=100, range=2, vitality_cost=3, menu_pos=0, multiplier=.65,
             desc="Spray a dangerous substance.", item_only=True,
             main_effect={"gfx": "simple_spray_attack", "sfx": "content/sfx/sound/be/spray_attack.mp3", "duration": 1.3, "hflip": True, "aim": {"point": "fc", "anchor": (.5, .5)}},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.1},
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .15})
-    # Throw attacks:
+
+python: # Throw attacks:
     BE_Action("Throw", attributes=["ranged", "physical"], effect=5, range=3, vitality_cost=1, menu_pos=0, multiplier=.5,
             desc="Throw a projectile.", item_only=True,
             main_effect={"gfx": "simple_throw_attack_webm", "sfx": list("content/sfx/sound/be/throwing_attack_%d.mp3"%i for i in xrange(1, 3)), "duration": .367, "hflip": True},
@@ -529,7 +564,8 @@ python: # Daggers Attacks:
             main_effect={"gfx": Transform("throwing_knives_webm", zoom=1.3), "sfx": "content/sfx/sound/be/knives_cloud.mp3", "duration": 1.96, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.8},
             target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .8})
-    # Whip Attacks:
+
+python: # Whip Attacks:
     BE_Action("Whip Strike", attributes=["melee", "physical"], critpower=.1, effect=4, range=1, vitality_cost=1, menu_pos=0, multiplier=.5,
             desc="An attack with a whip.", item_only=True,
             main_effect={"gfx": "simple_whip_attack_webm", "sfx": list("content/sfx/sound/be/whip_attack_%d.mp3"%i for i in xrange(1, 3)), "duration": .367, "hflip": True, "initial_pause": .1},
@@ -545,7 +581,8 @@ python: # Daggers Attacks:
             main_effect={"gfx": "shock_whip_webm", "sfx": "content/sfx/sound/be/shock_whip.ogg", "duration": 1.36, "aim": {"point": "center", "anchor": (.5, .5), "xo": 180}, "hflip": True},
             target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": .5, "duration": .5},
             target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5})
-    # Magical staffs attacks:
+
+python: # Magical staffs attacks:
     BE_Action(u"Heat Discharge", menu_pos=-0.1, range=4, attributes=["magic", "fire"], critpower=.3, effect=50, multiplier=.5, mp_cost=3,
             desc="Releases a discharge of heat energy.", item_only=True,
             main_effect={"gfx": "magic_staff_01_webm", "sfx": "content/sfx/sound/be/fire4.mp3", "duration": .967, "aim": {"point": "center", "anchor": (.5, .5), "xo": 120}, "hflip": True},
@@ -559,7 +596,7 @@ python: # Daggers Attacks:
             target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .01, "duration": .3},
             target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5})
 
-    ##### Mobs-only attacks:
+python: ##### Mobs-only attacks:
     BE_Action(u"Stone Fist", menu_pos=3, range=1, attributes=["melee", "earth", "physical"], effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True,
             desc="The earth itself becomes an extension of the hand to deal a powerful blow.", mob_only=True,
             main_effect={"gfx": "stone_fist_webm", "sfx": "content/sfx/sound/be/stone_fist.ogg", "duration": .77, "aim": {"point": "bc", "anchor": (.5, .6)}, "hflip": True},
@@ -589,7 +626,7 @@ python: # Daggers Attacks:
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.1, "duration": .25})
 
 ##### Magic:
-    # Fire:
+python: # Fire:
     BE_Action(u"Fire", menu_pos=0, attributes=["magic", "fire"], effect=10, multiplier=1.0, type="all_enemies", mp_cost=10, range=4,
             desc="Ignites a small plot of the land.", tier=0,
             attacker_effects={"gfx": "fire_1", "sfx": "default"},
@@ -663,7 +700,8 @@ python: # Daggers Attacks:
             target_sprite_damage_effect={"gfx": "burning_with_shake", "initial_pause": 2, "duration": 2.5, "master_shake": True},
             target_death_effect={"gfx": "hide", "initial_pause": 3.0, "duration": .0001},
             bg_main_effect={"gfx": "mirage", "initial_pause": 2.6, "duration": 2})
-    # Water:
+
+python: # Water:
     BE_Action(u"Water", menu_pos=0, attributes=["magic", "water"], effect=10, multiplier=1.0, mp_cost=10, range=4, type="all_enemies",
             desc="Crushes targets by bubbles of water.", tier=0,
             attacker_effects={"gfx": "water_1", "sfx": "default"},
@@ -721,7 +759,7 @@ python: # Daggers Attacks:
             target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.6},
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .5})
 
-    # Ice:
+python: # Ice:
     BE_Action(u"Blizzard", menu_pos=0, attributes=["magic", "ice"], effect=10, multiplier=1.0, mp_cost=10, range=4, type="all_enemies",
             desc="Creates a cloud of sharp ice splinters.", tier=0,
             attacker_effects={"gfx": "ice_1", "sfx": "default"},
@@ -786,7 +824,8 @@ python: # Daggers Attacks:
             target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.7},
             target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .6, "duration": 1.0, "master_shake": True},
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.0, "duration": .5})
-    # Earth:
+
+python: # Earth:
     BE_Action(u"Stone", menu_pos=0, attributes=["magic", "earth"], effect=10, multiplier=1.0, mp_cost=10, range=4, type="all_enemies",
             desc="Creates a cloud of hardened sharp clay.", tier=0,
             attacker_effects={"gfx": "earth_1", "sfx": "default"},
@@ -845,7 +884,8 @@ python: # Daggers Attacks:
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.0, "duration": 1.7, "master_shake": True},
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": .5},
             bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 2.7})
-    # Air:
+
+python: # Air:
     BE_Action(u"Aero", menu_pos=0, attributes=["magic", "air"], effect=10, multiplier=1.0, mp_cost=10, range=4, type="all_enemies",
             desc="High-pressure air cuts through armor and flesh like a hardened blade.", tier=0,
             attacker_effects={"gfx": "air_1", "sfx": "default"},
@@ -909,7 +949,8 @@ python: # Daggers Attacks:
             target_damage_effect={"gfx": "battle_bounce", "initial_pause": 4.8},
             target_sprite_damage_effect={"gfx": "fly_away", "initial_pause": .2, "duration": 5.1},
             target_death_effect={"gfx": "shatter", "initial_pause": 4.7, "duration": .2})
-    # Electricity:
+
+python: # Electricity:
     BE_Action(u"Thunder", menu_pos=0, attributes=["magic", "electricity"], effect=10, multiplier=1.0, mp_cost=10, range=4, type="all_enemies",
             desc="Shocks with static electricity caused by friction of airborne particles.", tier=0,
             attacker_effects={"gfx": "electricity_1", "sfx": "default"},
@@ -985,7 +1026,8 @@ python: # Daggers Attacks:
             target_damage_effect={"gfx": "battle_bounce", "initial_pause": 3.4},
             target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": .5, "duration": 2.5, "master_shake": True},
             target_death_effect={"gfx": "dissolve", "initial_pause": 2.4, "duration": .5})
-    # Light:
+
+python: # Light:
     BE_Action(u"Holy", menu_pos=0, attributes=["magic", "light"], effect=15, multiplier=1.0, mp_cost=12, range=4, type="all_enemies",
             desc="A flash of light energy burns targets from inside.", tier=0,
             attacker_effects={"gfx": "light_1", "sfx": "default"},
@@ -1043,7 +1085,8 @@ python: # Daggers Attacks:
             target_damage_effect={"gfx": "battle_bounce", "initial_pause": 3.7},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.5, "duration": 2.2},
             target_death_effect={"gfx": "dissolve", "initial_pause": 2.7, "duration": .5})
-    # Darkness:
+
+python: # Darkness:
     BE_Action(u"Dark", menu_pos=0, attributes=["magic", "darkness"], effect=15, multiplier=1.0, mp_cost=12, range=4, type="all_enemies",
             desc="The mere presence of dark energy is dangerous for most creatures.", tier=0,
             attacker_effects={"gfx": "dark_1", "sfx": "default"},
@@ -1107,7 +1150,8 @@ python: # Daggers Attacks:
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 2.4},
             target_death_effect={"gfx": "dissolve", "initial_pause": 2, "duration": .5},
             bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 2.6})
-    # Healing:
+
+python: # Healing:
     # effect should be from 0 to 1, heals the max health*effect
     BasicHealingSpell(u"Life Wind", menu_pos=-3, attributes=["magic", "healing", "air"], kind="healing", effect=.1, mp_cost=10, range=5, type="all_allies",
             desc="Healing wind restores health for the whole party (+10%).", tier=0,
@@ -1151,7 +1195,8 @@ python: # Daggers Attacks:
                 target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 2.4},
                 target_death_effect={"gfx": "dissolve", "initial_pause": 2, "duration": .5},
                 bg_main_effect={"gfx": "black", "initial_pause": 0, "duration": 2.6})
-    # Reviving:
+
+python: # Reviving:
     ReviveSpell(u"Revive", attributes=["magic", "light"], kind="revival", menu_pos=-1,
                 effect=10, mp_cost=35, health_cost=.25, range=5, type="sa",
                 piercing=True, true_pierce=True, target_state="dead",
@@ -1165,7 +1210,7 @@ python: # Daggers Attacks:
             target_death_effect={"gfx": None})
 
 ##### Effects:
-    # Poison:
+python: # Poison:
     # effect should be from 0 to 1, ie part of max health the poison takes every turn
     BasicPoisonSpell("Poison", menu_pos=-5, attributes=["status", "poison", "darkness"], tier=0,
                     effect=.05, multiplier=.5, mp_cost=10, vitality_cost=10, range=4, kind="damage_over_time", buff_group="poison",
@@ -1189,7 +1234,8 @@ python: # Daggers Attacks:
                     target_sprite_damage_effect={"gfx": None},
                     target_damage_effect={"gfx": "battle_bounce", "initial_pause": .2},
                     target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5})
-    # Buffs:
+
+python: # Buffs:
     DefenceBuffSpell("Aery Field", menu_pos=-1, attributes=["status", "air"], kind="buff",
                      defence_multiplier={"ranged": 1.5}, buff_group="ranged shield",
                      buff_icon=ProportionalScale("content/gfx/be/buffs/ranged_def.png", 30, 30),

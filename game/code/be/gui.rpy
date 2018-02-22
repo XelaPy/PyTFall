@@ -179,7 +179,7 @@ init: # screens:
                         scrollbars "vertical"
                         xysize (1280, 380)
                         side_xalign .5
-
+                        $ attacks.sort(key=attrgetter("mn"))
                         for skill in attacks:
                             textbutton "%s"%skill.mn:
                                 xysize 200, 25

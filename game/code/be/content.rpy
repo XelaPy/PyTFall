@@ -52,7 +52,8 @@ init python:
         """
         Going to try and chain gfx/sfx for simple BE attacks using a UDD.
         """
-        def __init__(self, gfx, sfx, chain_sfx=True, times=2, delay=.3, sd_duration=.75, alpha_fade=.0, webm_size=(), **properties):
+        def __init__(self, gfx, sfx, chain_sfx=True, times=2, delay=.3,
+                     sd_duration=.75, alpha_fade=.0, webm_size=(), **properties):
             """
             chain_sfx: Do we play the sound and do we chain it?
                 True = Play and Chain.
