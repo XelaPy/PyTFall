@@ -673,33 +673,45 @@ python: # Magical staffs attacks:
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": .5})
 
 python: ##### Mobs-only attacks:
-    BE_Action(u"Stone Fist", menu_pos=3, range=1, attributes=["melee", "earth", "physical"], effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True,
+    BE_Action(u"Stone Fist", menu_pos=3, range=1, attributes=["melee", "earth", "physical"],
+            effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True,
             desc="The earth itself becomes an extension of the hand to deal a powerful blow.", mob_only=True,
-            main_effect={"gfx": "stone_fist_webm", "sfx": "content/sfx/sound/be/stone_fist.ogg", "duration": .77, "aim": {"point": "bc", "anchor": (.5, .6)}, "hflip": True},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": .56},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .3})
-    BE_Action(u"Web Vortex", menu_pos=3, range=1, attributes=["melee", "poison", "physical"], effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True,
+            main_effect={"gfx": "stone_fist_webm", "sfx": "content/sfx/sound/be/stone_fist.ogg",
+                         "duration": .77, "aim": {"point": "bc", "anchor": (.5, .6)}, "hflip": True},
+            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": .57},
+            target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5})
+    BE_Action(u"Web Vortex", menu_pos=3, range=1, attributes=["melee", "poison", "physical"],
+            effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True,
             desc="A vortex of spider web crashes the target.", mob_only=True,
-            main_effect={"gfx":  Transform("web_webm", zoom=1.5), "sfx": "content/sfx/sound/be/web.ogg", "duration": .97, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+            main_effect={"gfx":  Transform("web_webm", zoom=1.5), "sfx": "content/sfx/sound/be/web.ogg",
+                         "duration": .97, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": .7},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .3})
-    BE_Action(u"Power Pack", menu_pos=3, range=1, attributes=["melee", "light", "physical"], effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True,
-            desc="Spirits of ancient long dead wolves assist in battle, attacking the target from the spirits world.", mob_only=True,
+            target_death_effect={"gfx": "dissolve", "initial_pause": .8, "duration": .5})
+    BE_Action(u"Power Pack", menu_pos=3, range=1, attributes=["melee", "light", "physical"],
+            effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True,
+            desc="Spirits of ancient long dead wolves assist in battle, attacking the target from the spirits world.",
+            mob_only=True,
             attacker_effects={"gfx": "wolf", "sfx": "content/sfx/sound/be/wolf_1.ogg", "hflip": True},
-            main_effect={"gfx": "wolf_2_webm", "sfx": "content/sfx/sound/be/wolf_2.ogg", "duration": .37, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+            main_effect={"gfx": "wolf_2_webm", "sfx": "content/sfx/sound/be/wolf_2.ogg", "duration": .37,
+                         "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .3},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .2})
-    BE_Action(u"Power Bear", menu_pos=3, range=1, attributes=["melee", "ice", "physical"], effect=100, critpower=.1, multiplier=1.4, vitality_cost=20, piercing=True,
-            desc="A spirit of ancient long dead bear assists in battle, attacking the target from the spirits world.", mob_only=True,
+            target_death_effect={"gfx": "dissolve", "initial_pause": .2, "duration": .5})
+    BE_Action(u"Power Bear", menu_pos=3, range=1, attributes=["melee", "ice", "physical"],
+            effect=100, critpower=.1, multiplier=1.4, vitality_cost=20, piercing=True,
+            desc="A spirit of ancient long dead bear assists in battle, attacking the target from the spirits world.",
+            mob_only=True,
             attacker_effects={"gfx": "bear", "sfx": "content/sfx/sound/be/bear.mp3", "hflip": True},
-            main_effect={"gfx": "bear_2_webm", "sfx": "content/sfx/sound/be/wolf_2.ogg", "duration": .57, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .4},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .25, "duration": .25})
-    BE_Action(u"Sharpest Claws", menu_pos=3, range=1, attributes=["melee", "physical"], effect=110, critpower=.15, multiplier=1.35, vitality_cost=25, piercing=False,
+            main_effect={"gfx": "bear_2_webm", "sfx": "content/sfx/sound/be/wolf_2.ogg",
+                         "duration": .57, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .47},
+            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+    BE_Action(u"Sharpest Claws", menu_pos=3, range=1, attributes=["melee", "physical"],
+            effect=110, critpower=.15, multiplier=1.35, vitality_cost=25, piercing=False,
             desc="Multiple quick attacks with sharp deadly claws.", mob_only=True,
-            main_effect={"gfx": "claws_webm", "sfx": "content/sfx/sound/be/many_hits.mp3", "duration": 1.37, "aim": {"point": "center", "anchor": (.5, .5), "xo": 40, "yo": -40}, "hflip": True},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .01, "duration": 1.3},
-            target_death_effect={"gfx": "dissolve", "initial_pause": 1.1, "duration": .25})
+            main_effect={"gfx": "claws_webm", "sfx": "content/sfx/sound/be/many_hits.mp3",
+                         "duration": 1.37, "aim": {"point": "center", "anchor": (.5, .5), "xo": 40, "yo": -40}, "hflip": True},
+            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.3},
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": .5})
 
 ##### Magic:
 python: # Fire:
