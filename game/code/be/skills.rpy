@@ -7,9 +7,9 @@
 # Note that item_only and mob_only skills don't have tiers, they are not needed as long as tiers are not a part of BE AI
 
 label load_battle_skills:
-python: # We allow this shitty indent just this one time :D
-    # Weapons:
-    # Sword attacks:
+# We allow this shitty indent just this one time :D
+# Weapons:
+python: # Sword attacks:
     BE_Action("Sword Slash", attributes=["melee", "physical"], critpower=0, effect=5, multiplier=.5, range=1, vitality_cost=1, menu_pos=0,
             desc="An attack with a blade.", item_only=True,
             main_effect={"gfx": "simple_sword_attack_webm", "sfx": "content/sfx/sound/be/sword.mp3", "duration": .5, "hflip": True},
@@ -168,7 +168,7 @@ python: # We allow this shitty indent just this one time :D
             target_death_effect={"gfx": "dissolve", "initial_pause": .55, "duration": .5},
             dodge_effect={"initial_pause": -.01})
 
-    # Rapier attacks:
+python: # Rapier attacks:
     BE_Action(u"Steel Flourish", range=1, attributes=["melee", "physical"], critpower=.6,
             effect=70, multiplier=1.05, vitality_cost=12, mp_cost=6, menu_pos=1,
             desc="Quick consecutive slashes form an ancient rune which increases critical damage of the attack.", item_only=True,
@@ -191,7 +191,7 @@ python: # We allow this shitty indent just this one time :D
             target_sprite_damage_effect={"gfx": "on_air", "initial_pause": .1, "duration": 1.3},
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.3, "duration": .5})
 
-    # Bow Attacks:
+python: # Bow Attacks:
     BE_Action("Bow Shot", attributes=["ranged", "physical"], critpower=0, effect=5, range=3,
             vitality_cost=1, menu_pos=0, multiplier=.5,
             desc="An arrow shot.", item_only=True,
@@ -315,19 +315,23 @@ python: # We allow this shitty indent just this one time :D
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .57},
             target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
 
-    # Crossbow Attacks:
-    BE_Action("Crossbow Shot", attributes=["ranged", "physical"], critpower=.1, multiplier=.55, effect=10, range=4, vitality_cost=1, menu_pos=0,
+python: # Crossbow Attacks:
+    BE_Action("Crossbow Shot", attributes=["ranged", "physical"], critpower=.1,
+            multiplier=.55, effect=10, range=4, vitality_cost=1, menu_pos=0,
             desc="Shot a bolt.", item_only=True,
             main_effect={"gfx": "simple_crossbow_attack_webm",
                          "sfx": "content/sfx/sound/be/crossbow_attack.mp3", "duration": .37, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .32},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .15})
-    BE_Action(u"Penetrating Bolt", range=3, attributes=["ranged", "physical"], critpower=.5, multiplier=.65, piercing=True, effect=20, vitality_cost=6, menu_pos=1,
+            target_death_effect={"gfx": "dissolve", "initial_pause": .35, "duration": .5})
+    BE_Action(u"Penetrating Bolt", range=3, attributes=["ranged", "physical"], critpower=.5,
+            multiplier=.65, piercing=True, effect=20, vitality_cost=6, menu_pos=1,
             desc="Releases special high-density bolt with high critical damage.", item_only=True,
-            main_effect={"gfx": Transform("crossbow_hit_webm", zoom=1.3), "sfx": "content/sfx/sound/be/crossbow_1.ogg", "duration": .56, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.8},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .8})
-    # Daggers Attacks:
+            main_effect={"gfx": Transform("crossbow_hit_webm", zoom=1.3), "sfx": "content/sfx/sound/be/crossbow_1.ogg",
+                         "duration": .56, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .46},
+            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+
+python: # Daggers Attacks:
     BE_Action("Dagger Strike", attributes=["melee", "physical"], critpower=.05, effect=1, range=1, vitality_cost=1, menu_pos=0, multiplier=.5,
             desc="An attack with a dagger.", item_only=True,
             main_effect={"gfx": "simple_dagger_attack_webm", "sfx": "content/sfx/sound/be/knife.mp3", "duration": .564, "hflip": True},
