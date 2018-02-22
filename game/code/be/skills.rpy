@@ -472,23 +472,32 @@ python: # Fist Attacks:
             target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
 
 python: # Cannon Attacks:
-    BE_Action("Cannon Shot", attributes=["ranged", "physical"], critpower=.3, effect=50, range=3, vitality_cost=3, menu_pos=0, multiplier=.55, piercing=True,
+    BE_Action("Cannon Shot", attributes=["ranged", "physical"], critpower=.3,
+            effect=50, range=3, vitality_cost=3, menu_pos=0, multiplier=.55, piercing=True,
             desc="Shot a large caliber.", item_only=True,
-            main_effect={"gfx": "simple_cannon_attack_webm", "sfx": list("content/sfx/sound/be/cannon_%d.mp3"%i for i in xrange(1, 4)), "duration": .433, "hflip": True},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .15})
+            main_effect={"gfx": "simple_cannon_attack_webm",
+                        "sfx": list("content/sfx/sound/be/cannon_%d.mp3"%i for i in xrange(1, 4)),
+                        "duration": .433, "hflip": True},
+            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .333},
+            target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
 
 python: # Blunt Attacks:
-    BE_Action("Blunt Strike", attributes=["melee", "physical"],  effect=35, range=1, vitality_cost=1, menu_pos=0, multiplier=.5,
+    BE_Action("Blunt Strike", attributes=["melee", "physical"],  effect=35,
+            range=1, vitality_cost=1, menu_pos=0, multiplier=.5,
             desc="An attack with a blunt weapon.", item_only=True,
-            main_effect={"gfx": "simple_blunt_attack_webm", "sfx": "content/sfx/sound/be/rod_attack.mp3", "duration": .567, "hflip": True},
+            main_effect={"gfx": "simple_blunt_attack_webm",
+                         "sfx": "content/sfx/sound/be/rod_attack.mp3",
+                         "duration": .567, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .5},
             target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .15})
-    BE_Action(u"Ground Shockwave", menu_pos=.6, range=1, attributes=["melee", "earth", "physical"], effect=100, critpower=.25, multiplier=1.15, vitality_cost=20,
+    BE_Action(u"Ground Shockwave", menu_pos=.6, range=1, attributes=["melee", "earth", "physical"],
+            effect=100, critpower=.25, multiplier=1.15, vitality_cost=20,
             desc="Sends a shockwave powerful enough to cause a local earthquake.", item_only=True,
-            main_effect={"gfx": "earth_hammer_webm", "sfx": "content/sfx/sound/be/earth_hammer.mp3", "duration": .9, "aim": {"point": "bc", "anchor": (.5, 1.0), "xo": 160}, "hflip": True},
-            target_sprite_damage_effect={"gfx": "vertical_shake", "initial_pause": .5, "duration": .6, "master_shake": True},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
+            main_effect={"gfx": "earth_hammer_webm", "sfx": "content/sfx/sound/be/earth_hammer.mp3",
+                         "duration": .9, "aim": {"point": "bc", "anchor": (.5, 1.0), "xo": 160}, "hflip": True},
+            target_sprite_damage_effect={"gfx": "vertical_shake", "initial_pause": .5,
+                                         "duration": .6, "master_shake": True},
+            target_death_effect={"gfx": "dissolve", "initial_pause": .9, "duration": .5})
 
 python: # Axes Attack:
     BE_Action("Axe Strike", attributes=["melee", "physical"], critpower=.1, effect=10, range=1, vitality_cost=2, menu_pos=0, multiplier=.55,
