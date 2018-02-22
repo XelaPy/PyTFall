@@ -29,7 +29,7 @@ init python:
             renpy.music.play("content/sfx/sound/jp/Pat.mp3", channel="sound")
             my_x = int(int(p_x)*active_area_size*x_scale_index)-int(grip_size*x_scale_index)+puzzle_field_offset
             my_y = int(int(p_y)*active_area_size*y_scale_index)-int(grip_size*y_scale_index)+puzzle_field_offset
-            drags[0].snap(my_x,my_y, delay=0.1)
+            drags[0].snap(my_x,my_y, delay=.1)
             drags[0].draggable = False
             placedlist[int(p_x),int(p_y)] = True
 
@@ -170,7 +170,7 @@ label puzzle:
 
 label win:
     scene bg gallery
-    show expression img_to_play at Position(xalign=0.5,yalign=0.5)
+    show expression img_to_play at Position(xalign=.5,yalign=.5)
     with dissolve
 
     "Congratulations!"

@@ -37,7 +37,7 @@ init:
         # char = source of equipment slots.
         # Slots and the doll ------------------------------------------------------------>
         if char == hero:
-            # add Transform(hero.show("sprofile", resize=(400, 720)), alpha=0.8) align(.5, 1.0)
+            # add Transform(hero.show("sprofile", resize=(400, 720)), alpha=.8) align(.5, 1.0)
             add im.Scale("content/gfx/interface/images/doll_male.png", 286, 400) align (.5, .5)
         elif not isinstance(char, dict):
             #f rame:
@@ -85,10 +85,10 @@ init:
                         else:
                             add ProportionalScale(img, frame_size[0]*0.71, frame_size[1]*0.71) align (.5, .5)
                     else:
-                        add Transform(ProportionalScale("content/gfx/interface/buttons/filters/%s_bg.png"%key, frame_size[0]*0.71, frame_size[1]*0.71), alpha=0.35) align (.5, .5)
+                        add Transform(ProportionalScale("content/gfx/interface/buttons/filters/%s_bg.png"%key, frame_size[0]*0.71, frame_size[1]*0.71), alpha=.35) align (.5, .5)
 
     screen shopping(left_ref=None, right_ref=None):
-        use shop_inventory(ref=left_ref, x=0.0)
+        use shop_inventory(ref=left_ref, x=.0)
         use shop_inventory(ref=right_ref, x=1.0)
 
         if focus:
@@ -391,13 +391,13 @@ init:
                             hover (im.MatrixColor(path+'last.png', im.matrix.brightness(.15)))
                             action Function(ref.last)
 
-    screen shop_inventory(ref=None, x=0.0):
+    screen shop_inventory(ref=None, x=.0):
         key "mousedown_4" action ref.inventory.next
         key "mousedown_5" action ref.inventory.prev
 
-        frame at fade_in_out(t1=0.5, t2=0.5):
+        frame at fade_in_out(t1=.5, t2=.5):
             style_group "content"
-            background Frame(Transform("content/gfx/frame/mes11.jpg", alpha=0.5), 5, 5)
+            background Frame(Transform("content/gfx/frame/mes11.jpg", alpha=.5), 5, 5)
             xalign x
             yfill True
             has vbox
@@ -492,7 +492,7 @@ init:
                 xalign .5
             xysize (500, 200)
             frame:
-                background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.65), 10, 10)
+                background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.65), 10, 10)
                 style_group "dropdown_gm2"
                 xysize (400, 150)
                 align .5, .5
@@ -508,7 +508,7 @@ init:
             frame:
                 pos 400, 140 xanchor 1.0
                 xpadding 15
-                background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.45), 10, 10)
+                background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.45), 10, 10)
                 text type style "content_text" size 40 color gold
 
         if autohide:
@@ -924,8 +924,8 @@ init:
                 add "water_texture__"
 
         # special screen for fishing based on screen hidden_area, uses visible animated imagebuttons instead of invisible areas:
-        $ fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=0.4, alpha=0.4)
-        $ fishing_circles_webm_alpha = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=0.8, alpha=1.0)
+        $ fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=.4, alpha=.4)
+        $ fishing_circles_webm_alpha = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=.8, alpha=1.0)
         for item in items:
             imagebutton:
                 at fish # Randomization is now done here.
@@ -941,7 +941,7 @@ init:
         zorder 500
 
         vbox:
-            at fade_in_out(t1=0.25, t2=0.25)
+            at fade_in_out(t1=.25, t2=.25)
             style_group "notify_bubble"
 
             frame:
@@ -959,12 +959,12 @@ init:
 
         # default s_menu = "Settings"
 
-        add Transform("content/gfx/images/bg_gradient2.png", alpha=0.8)
+        add Transform("content/gfx/images/bg_gradient2.png", alpha=.8)
 
         frame:
-            # at fade_in_out(sv1=0.0, ev1=1.0, t1=0.7,
-                                    # sv2=1.0, ev2=0.0, t2=0.5)
-            background Frame (Transform("content/gfx/frame/framegp2.png", alpha=0.8), 10, 10)
+            # at fade_in_out(sv1=.0, ev1=1.0, t1=.7,
+                                    # sv2=1.0, ev2=.0, t2=.5)
+            background Frame (Transform("content/gfx/frame/framegp2.png", alpha=.8), 10, 10)
             align (.315, .5)
             xysize (690, 414)
             style_group "smenu"
@@ -977,19 +977,19 @@ init:
                     # Left column...
                     frame:
                         align (.5, .5)
-                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
+                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.3), 10, 10)
                         xpadding 10
                         ypadding 10
                         has vbox spacing 5
                         # frame:
-                            # background Frame(Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            # background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             # xsize 194
                             # ypadding 8
                             # style_group "dropdown_gm2"
                             # has vbox align (.5, .5)
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
@@ -997,13 +997,13 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- Display -") style "TisaOTMolxm"
                             textbutton _("Window") action Preference("display", "window") xsize 150 xalign .5 text_size 16
                             textbutton _("Fullscreen") action Preference("display", "fullscreen") xsize 150 xalign .5 text_size 16
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
@@ -1011,13 +1011,13 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- Transitions -") style "TisaOTMolxm"
                             textbutton _("All") action Preference("transitions", "all") xsize 150 xalign .5 text_size 16
                             textbutton _("None") action Preference("transitions", "none") xsize 150 xalign .5 text_size 16
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 10
                             style_group "dropdown_gm2"
@@ -1025,13 +1025,13 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- Text Speed -") style "TisaOTMolxm"
                             null height 8
                             bar value Preference("text speed") align (.5, .5)
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
@@ -1042,12 +1042,12 @@ init:
                     # Middle column...
                     frame:
                         align (.5, .5)
-                        background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
+                        background Frame (Transform("content/gfx/frame/ink_box.png", alpha=.3), 10, 10)
                         xpadding 10
                         ypadding 10
                         has vbox spacing 5
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
@@ -1055,13 +1055,13 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- Skip -") style "TisaOTMolxm"
                             textbutton _("Seen Messages") action Preference("skip", "seen") xsize 150 xalign .5 text_size 16
                             textbutton _("All Messages") action Preference("skip", "all") xsize 150 xalign .5 text_size 16
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
@@ -1069,13 +1069,13 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- After Choices -") style "TisaOTMolxm"
                             textbutton _("Stop Skipping") action Preference("after choices", "stop") xsize 150 xalign .5 text_size 16
                             textbutton _("Keep Skipping") action Preference("after choices", "skip") xsize 150 xalign .5 text_size 16
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 10
                             style_group "dropdown_gm2"
@@ -1083,7 +1083,7 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- A-Forward Time -") style "TisaOTMolxm"
                             null height 8
                             bar value Preference("auto-forward time") align (.5, .5)
@@ -1091,7 +1091,7 @@ init:
                                 textbutton _("Wait for Voice") action Preference("wait for voice", "toggle") xsize 150 xalign .5 text_size 16
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
@@ -1101,13 +1101,13 @@ init:
                     # Right column...
                     frame:
                         align (.5, .0)
-                        background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
+                        background Frame (Transform("content/gfx/frame/ink_box.png", alpha=.3), 10, 10)
                         xpadding 10
                         ypadding 10
                         has vbox spacing 5
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
 
                             ypadding 8
@@ -1117,13 +1117,13 @@ init:
                                 xsize 184
 
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- Mute -") style "TisaOTMolxm"
                             textbutton "Music" action Preference("music mute", "toggle") xsize 150 xalign .5 text_size 16
                             textbutton "Sound" action Preference("sound mute", "toggle") xsize 150 xalign .5 text_size 16
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 10
                             style_group "dropdown_gm2"
@@ -1131,13 +1131,13 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- Music Volume -") align (.5, .0) style "TisaOTMolxm"
                             null height 8
                             bar value Preference("music volume") align (.5, .5)
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 10
                             style_group "dropdown_gm2"
@@ -1145,7 +1145,7 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- Sound Volume -") style "TisaOTMolxm"
                             null height 8
                             bar value Preference("sound volume") align (.5, .5)
@@ -1154,7 +1154,7 @@ init:
                                     action Play("sound", config.sample_sound)
                                     style "soundtest_button"
                         # frame:
-                            # background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
+                            # background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
                             # xsize 194
                             # ypadding 10
                             # style_group "smenu"
@@ -1183,12 +1183,12 @@ init:
                     # Left column...
                     frame:
                         align (.5, .5)
-                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.3), 10, 10)
+                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.3), 10, 10)
                         xpadding 10
                         ypadding 10
                         has vbox spacing 5
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
@@ -1196,13 +1196,13 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- Panic Screen -") style "TisaOTMolxm"
                             textbutton _("Enable") action SetField(persistent, "unsafe_mode", True) xsize 150 xalign .5 text_size 16 hovered tt.Action("If it's enabled, press Q to activate panic screen. It hides NSFW content and mutes all sounds. Press Q again to deactivate it.")
                             textbutton _("Disable") action SetField(persistent, "unsafe_mode", False) xsize 150 xalign .5 text_size 16 hovered tt.Action("If it's enabled, press Q to activate panic screen. It hides NSFW content and mutes all sounds. Press Q again to deactivate it.")
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
@@ -1210,13 +1210,13 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- Battle Results -") style "TisaOTMolxm"
                             textbutton _("Show") action SetField(persistent, "battle_results", True) xsize 150 xalign .5 text_size 16 hovered tt.Action("Enables/disables screen with gained experience and gold after combat.")
                             textbutton _("Don't") action SetField(persistent, "battle_results", False) xsize 150 xalign .5 text_size 16 hovered tt.Action("Enables/disables screen with gained experience and gold after combat.")
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=0.9), 10, 10)
+                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
@@ -1224,7 +1224,7 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- Autosave -") style "TisaOTMolxm"
                             textbutton _("Enable") action SetField(persistent, "auto_saves", True) xsize 150 xalign .5 text_size 16 hovered tt.Action("Creates autosave every time you leave the next day screen. Can be slow, disable if it bothers you.")
                             textbutton _("Disable") action SetField(persistent, "auto_saves", False) xsize 150 xalign .5 text_size 16 hovered tt.Action("Creates autosave every time you leave the next day screen. Can be slow, disable if it bothers you.")
@@ -1303,7 +1303,7 @@ init:
 
                                     key "save_delete" action FileDelete(i)
         frame:
-            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
             align (.765, .505)
             xysize (150, 409)
             style_group "smenu"

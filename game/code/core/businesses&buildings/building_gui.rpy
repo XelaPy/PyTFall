@@ -275,7 +275,7 @@ init: # Screens:
 
             ## Stats/Upgrades - Left Frame
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                 xysize (330, 720)
                 # xanchor .01
                 ypos 40
@@ -291,7 +291,7 @@ init: # Screens:
                 xysize (330, 720)
                 ypos 40
                 xalign 1.0
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                 has vbox spacing 1
                 if bm_mid_frame_mode == "building":
                     use building_management_rightframe_building_mode
@@ -311,7 +311,7 @@ init: # Screens:
             xalign .5
             style_group "wood"
             xpadding 0
-            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 5, 5)
             has hbox xalign .5 spacing 5 xsize 315
             null height 16
             vbox:
@@ -370,7 +370,7 @@ init: # Screens:
                 xalign .5
                 style_group "wood"
                 xpadding 0
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 5, 5)
                 has vbox xalign .5 spacing 2 xsize 315
                 hbox:
                     xoffset 5
@@ -406,7 +406,7 @@ init: # Screens:
         if isinstance(building, UpgradableBuilding):
             frame:
                 xalign .5
-                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
                 if building.manager:
                     add building.manager.show("profile", resize=(190, 190), add_mood=True, cache=True) align .5, .5
                 else:
@@ -429,7 +429,7 @@ init: # Screens:
             null height 5
 
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                 align (.5, .5)
                 xpadding 10
                 ypadding 10
@@ -480,7 +480,7 @@ init: # Screens:
 
     screen building_management_leftframe_building_mode:
         frame:
-            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             style_group "proper_stats"
             xsize 316
             padding 10, 10
@@ -524,12 +524,12 @@ init: # Screens:
 
         null height 5
         frame:
-            background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+            background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             xysize (317, 430)
             if isinstance(building, UpgradableBuilding):
                 frame:
                     align .5, .02
-                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                     xysize (180, 40)
                     label 'Constructed:' text_color ivory xalign .5 text_bold True
                 vbox:
@@ -538,11 +538,11 @@ init: # Screens:
                     for u in building.all_extensions():
                         frame:
                             xalign .6
-                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                             has fixed xysize 290, 80
                             frame:
                                 align .05, .1
-                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
                                 if hasattr(u, "img"):
                                     add im.Scale(u.img, 100, 65) align .5, .5
                                 else:
@@ -554,13 +554,13 @@ init: # Screens:
                                 text "[u.name]" xalign .5 style "proper_stats_text" size 20
                                 null height 2
                                 textbutton "{size=15}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Details":
-                                    background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=0.8)
+                                    background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=.8)
                                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
                                     xalign .5
                                     action SetVariable("bm_mid_frame_mode", u)
 
         # frame:
-            # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+            # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             # xysize (317, 160)
             # style_group "stats"
             # label "Active Advertisements:" text_color ivory xalign .5
@@ -578,7 +578,7 @@ init: # Screens:
         $ show_slots = not any([(isinstance(bm_mid_frame_mode, ExplorationGuild) and bm_exploration_view_mode in ("log", "team", "explore"))])
         if show_slots:
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                 style_group "proper_stats"
                 xsize 310
                 padding 12, 12
@@ -600,7 +600,7 @@ init: # Screens:
             if c0 and bm_mid_frame_mode.expands_capacity:
                 null height 5
                 frame:
-                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                     style_group "proper_stats"
                     xsize 310
                     padding 12, 12
@@ -663,7 +663,7 @@ init: # Screens:
                     $ img = im.Scale(area.img, 200, 130)
                     frame:
                         xalign .5
-                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.9), 10, 10)
                         padding 5, 6
                         margin 0, 0
                         xysize 200, 130
@@ -716,7 +716,7 @@ init: # Screens:
             if bm_exploration_view_mode == "team":
                 # Filters:
                 frame:
-                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                     style_group "proper_stats"
                     xsize 300
                     xalign .5
@@ -739,7 +739,7 @@ init: # Screens:
 
                 # Sorting:
                 frame:
-                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                     style_group "proper_stats"
                     xsize 300
                     xalign .5
@@ -777,7 +777,7 @@ init: # Screens:
                         for area in temp:
                             $ img = im.Scale(area.img, 220, 130)
                             frame:
-                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.9), 10, 10)
+                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.9), 10, 10)
                                 padding 6, 7
                                 margin 0, 0
                                 xysize 220, 130
@@ -818,12 +818,12 @@ init: # Screens:
 
                 frame:
                     xalign .5
-                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
                     add ProportionalScale(building.img, 600, 444) align (.5, .5)
 
                 # Left/Right Controls.
                 frame:
-                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
                     has hbox xysize (600, 74)
                     button:
                         align .1, .5
@@ -834,7 +834,7 @@ init: # Screens:
                         text "Previous" style "wood_text" xalign .69
 
                     frame:
-                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                         xysize (200, 50)
                         align (.5, .5)
 
@@ -850,7 +850,7 @@ init: # Screens:
                     frame:
                         align .5, .95
                         style_group "wood"
-                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 5, 5)
                         xpadding 20
                         ypadding 10
                         button:
@@ -865,7 +865,7 @@ init: # Screens:
                     frame:
                         xalign .490
                         ypos 561
-                        background Frame (Transform("content/gfx/frame/rank_frame.png", alpha=0.4), 5, 5)
+                        background Frame (Transform("content/gfx/frame/rank_frame.png", alpha=.4), 5, 5)
                         xysize (240, 55)
                         xpadding 10
                         ypadding 10
@@ -922,8 +922,8 @@ init: # Screens:
                                     $ fbg = "content/gfx/frame/mes12.jpg"
                                     $ hfbg = im.MatrixColor("content/gfx/frame/mes11.jpg", im.matrix.brightness(.10))
                                     button:
-                                        background Transform(Frame(fbg, 10, 10), alpha=0.9)
-                                        hover_background Transform(Frame(hfbg, 10, 10), alpha=0.9)
+                                        background Transform(Frame(fbg, 10, 10), alpha=.9)
+                                        hover_background Transform(Frame(hfbg, 10, 10), alpha=.9)
                                         xysize (150, 90)
                                         ymargin 1
                                         ypadding 1
@@ -1094,12 +1094,12 @@ init: # Screens:
                         if bm_mid_frame_mode.has_extension(u):
                             frame:
                                 xalign .5
-                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                                 has fixed xysize 500, 150
 
                                 frame:
                                     align .3, .5
-                                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                                     xpadding 15
                                     text "Active" align .5, .5 style "stats_text" size 35
 
@@ -1108,12 +1108,12 @@ init: # Screens:
                                     xsize 150
                                     frame:
                                         xalign .5
-                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                                         xpadding 10
                                         text "[u.NAME]" align .5, .5 style "stats_text" size 15
                                     frame:
                                         xalign .5
-                                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
                                         if hasattr(u, "IMG"):
                                             add im.Scale(u.IMG, 120, 75) align .5, .5
                                         else:
@@ -1121,14 +1121,14 @@ init: # Screens:
                         else:
                             frame:
                                 xalign .5
-                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                                 has fixed xysize 500, 150
 
                                 $ cost, materials, in_slots, ex_slots = building.get_extension_cost(u)
 
                                 frame:
                                     align .3, 0
-                                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                                     xpadding 10
                                     text "Resources Needed:" align .5, .5 style "stats_text" size 15
 
@@ -1138,19 +1138,19 @@ init: # Screens:
                                     xsize 330
                                     spacing 10
                                     frame:
-                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                                         has hbox xysize 135, 40
                                         text "Gold: [cost]" align .5, .5 style "stats_text" size 20 color gold
                                     # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
                                     for r in sorted(materials):
                                         $ r = items[r]
                                         frame:
-                                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                                             has hbox xysize 135, 40
                                             text "[r.id] x {}".format(u.MATERIALS[r.id]) align .01, .5 style "stats_text" color ivory size 15
                                             frame:
                                                 align .99, .5
-                                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
                                                 add im.Scale(r.icon, 33, 33) align .5, .5
 
                                 vbox:
@@ -1158,12 +1158,12 @@ init: # Screens:
                                     xsize 150
                                     frame:
                                         xalign .5
-                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                                         xpadding 10
                                         text "[u.NAME]" align .5, .5 style "stats_text" size 15
                                     frame:
                                         xalign .5
-                                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=0.95), 10, 10)
+                                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
                                         if hasattr(u, "IMG"):
                                             add im.Scale(u.IMG, 120, 75) align .5, .5
                                         else:
@@ -1175,7 +1175,7 @@ init: # Screens:
                                                             price=(cost, materials, in_slots, ex_slots)))]
 
                 textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Back":
-                    background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=0.8)
+                    background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=.8)
                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
                     align .5, .95
                     action SetVariable("bm_mid_frame_mode", "building")
@@ -1188,7 +1188,7 @@ init: # Screens:
         frame:
             style_group "content"
             background Frame("content/gfx/frame/p_frame52.png", 10, 10)
-            at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)
+            at slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7)
             xpos 936
             yalign .95
             xysize(343, 675)
@@ -1198,7 +1198,7 @@ init: # Screens:
             # Tooltip related ---------------------------------->
             default tt = Tooltip("Maintenance screen!")
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                 align(.5, .88)
                 xysize (320, 120)
                 xpadding 13
@@ -1275,7 +1275,7 @@ init: # Screens:
 
         frame:
             style_group "content"
-            at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)
+            at slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7)
             background Frame("content/gfx/frame/p_frame52.png", 10, 10)
             xpos 936
             yalign .95
@@ -1286,7 +1286,7 @@ init: # Screens:
             # Tooltip related ---------------------------------->
             default tt = Tooltip("Attract more and better clients. Choose your advertisement budget carefully so your girls can keep up with quality and quantity of customers!")
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                 align(.5, .88)
                 xysize (320, 140)
                 xpadding 13
@@ -1342,7 +1342,7 @@ init: # Screens:
 
         default show_fin = "day"
 
-        frame at slide(so1=(0, 700), t1=0.7, so2=(0, 0), t2=0.3, eo2=(0, -config.screen_height)):
+        frame at slide(so1=(0, 700), t1=.7, so2=(0, 0), t2=.3, eo2=(0, -config.screen_height)):
             background Frame("content/gfx/frame/arena_d.png", 5, 5)
             align (.5, .5)
 
@@ -1528,13 +1528,13 @@ init: # Screens:
         frame:
             ypos 40
             xalign .5
-            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
             style_prefix "content"
             xysize (630, 680)
 
             $ fbg = "content/gfx/frame/mes11.jpg"
             frame:
-                background Transform(Frame(fbg, 10, 10), alpha=0.9)
+                background Transform(Frame(fbg, 10, 10), alpha=.9)
                 xysize (620, 90)
                 ymargin 1
                 ypadding 1
@@ -1557,7 +1557,7 @@ init: # Screens:
 
             # Buttons with logs (Events):
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                 style_prefix "dropdown_gm2"
                 ypos 100
                 ysize 240
@@ -1569,7 +1569,7 @@ init: # Screens:
                     style_group "content"
                     align (.5, .015)
                     padding 15, 5
-                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
                     label "Events" text_size 20 text_color ivory align .5, .5
 
                 null height 2
@@ -1588,7 +1588,7 @@ init: # Screens:
 
             # Information (Story)
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                 ysize 297
                 padding 10, 10
                 ypos 100 xalign 1.0
@@ -1598,7 +1598,7 @@ init: # Screens:
                     style_group "content"
                     align (.5, .015)
                     padding 15, 5
-                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
                     label "Story" text_size 20 text_color ivory align .5, .5
 
                 null height 2
@@ -1660,13 +1660,13 @@ init: # Screens:
         frame:
             ypos 40
             xalign .5
-            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
             style_prefix "content"
             xysize (630, 680)
 
             $ fbg = "content/gfx/frame/mes11.jpg"
             frame:
-                background Transform(Frame(fbg, 10, 10), alpha=0.9)
+                background Transform(Frame(fbg, 10, 10), alpha=.9)
                 xysize (620, 90)
                 ymargin 1
                 ypadding 1
@@ -1697,7 +1697,7 @@ init: # Screens:
                         # style_group "content"
                         # align (.5, .015)
                         # xysize (210, 30)
-                        # background Frame (Transform("content/gfx/frame/Namebox.png", alpha=0.9), 10, 10)
+                        # background Frame (Transform("content/gfx/frame/Namebox.png", alpha=.9), 10, 10)
                         # label (u"Team name") text_size 20 text_color ivory align(.5, .5)
                     # hbox:
                         # xfill True
@@ -1709,14 +1709,14 @@ init: # Screens:
             hbox:
                 align .5, .5
                 frame:
-                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                     xysize (310, 410)
                     xpadding 5
                     frame:
                         style_group "content"
                         align (.5, .015)
                         xysize (210, 40)
-                        background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
+                        background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
                         label (u"Enemies") text_size 23 text_color ivory align .5, .5
                     viewport:
                         style_prefix "proper_stats"
@@ -1744,7 +1744,7 @@ init: # Screens:
                                     $ temp = m["min_lvl"]
                                     text ("Lvl\n[temp]+") style "TisaOTM" size 17 text_align .5 line_spacing -6
                                 frame:
-                                    background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=0.75), 10, 10)
+                                    background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=.75), 10, 10)
                                     padding 3, 3
                                     margin 0, 0
                                     xysize 60, 60
@@ -1752,14 +1752,14 @@ init: # Screens:
                                     add ProportionalScale(m["portrait"], 57, 57) align .5, .5
 
                 frame:
-                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                     xysize (310, 410)
                     xpadding 5
                     frame:
                         style_group "content"
                         align (.5, .015)
                         xysize (210, 40)
-                        background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
+                        background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
                         label (u"Items") text_size 23 text_color ivory align .5, .5
                     viewport:
                         style_prefix "proper_stats"
@@ -1788,20 +1788,20 @@ init: # Screens:
                                     #$ temp = m["min_lvl"]
                                     #text ("Lvl\n[temp]+") align (.5, .5) style "TisaOTM" size 18
                                 frame:
-                                    background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=0.75), 10, 10)
+                                    background Frame(Transform("content/gfx/interface/buttons/choice_buttons2.png", alpha=.75), 10, 10)
                                     padding 3, 3
                                     xysize 60, 60
                                     align .99, .5
                                     add ProportionalScale(i.icon, 57, 57) align .5, .5
                     # frame:
-                        # background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                        # background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                         # xysize (390, 380)
                         # yalign 1.0
                         # frame:
                             # style_group "content"
                             # align (.5, .015)
                             # xysize (200, 40)
-                            # background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
+                            # background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
                             # label (u"Loot") text_size 23 text_color ivory align(.5, .5)
                         # vbox:    ### Need Side-scrolling ###
                             # style_group "stats"

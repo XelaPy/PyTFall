@@ -874,7 +874,7 @@ init -100 python:
 
 
     class Appearing(renpy.Displayable):
-        def __init__(self, child, opaque_distance, transparent_distance, start_alpha=0.0, **kwargs):
+        def __init__(self, child, opaque_distance, transparent_distance, start_alpha=.0, **kwargs):
 
             # Pass additional properties on to the renpy.Displayable
             # constructor.
@@ -982,7 +982,7 @@ init python:
                 args.append(anim.Edge(i, delay, j, MoveTransition(delay)))
         return anim.SMAnimation(0, *args)
 
-    def double_vision_on(img, alpha=0.5, count=10, dist=7, delay=0.4, clear_scene=True):
+    def double_vision_on(img, alpha=.5, count=10, dist=7, delay=.4, clear_scene=True):
         if clear_scene:
             renpy.scene()
         renpy.show(img)
@@ -1207,7 +1207,7 @@ init -100 python: # Older factory designs:
                     yspeed=(100, 200),
                     start=0,
                     fluttering=0,
-                    flutteringspeed=0.01,
+                    flutteringspeed=.01,
                     fast=False,
                     horizontal=False):
 

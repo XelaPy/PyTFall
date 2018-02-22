@@ -58,7 +58,7 @@ init -997: # Transforms:
         on hide:
             move_from_to_offset_with_ease(so2, eo2, t2)
 
-    transform auto_slide(init_pos=(0, -40), show_pos=(0, 0), t1=0.25, hide_pos=(0, -40), t2=0.25):
+    transform auto_slide(init_pos=(0, -40), show_pos=(0, 0), t1=.25, hide_pos=(0, -40), t2=.25):
         # Auto-Slide, default values are for the top_stripe
         # This is used instead of a normal slide as it doesn't reset in the middle of a motion when switching between show/hide
         pos init_pos
@@ -67,14 +67,14 @@ init -997: # Transforms:
         on hide:
             linear t2 pos hide_pos
 
-    transform fade_from_to(start_val=1.0, end_val=0.0, t=1.0, wait=0):
+    transform fade_from_to(start_val=1.0, end_val=.0, t=1.0, wait=0):
         # Setup as a fade out, reverse the values for the fade in
         # simple_fade (fade is reserved...)
         alpha start_val
         pause wait
         linear t alpha end_val
 
-    transform fade_from_to_with_easeout(start_val=1.0, end_val=0.0, t=1.0, wait=0):
+    transform fade_from_to_with_easeout(start_val=1.0, end_val=.0, t=1.0, wait=0):
         # Setup as a fade out, reverse the values for the fade in
         # simple_fade (fade is reserved...)
         subpixel True
@@ -82,8 +82,8 @@ init -997: # Transforms:
         pause wait
         easeout t alpha end_val
 
-    transform fade_in_out(sv1=0.0, ev1=1.0, t1=1.0,
-                                        sv2=1.0, ev2=0.0, t2=1.0):
+    transform fade_in_out(sv1=.0, ev1=1.0, t1=1.0,
+                                        sv2=1.0, ev2=.0, t2=1.0):
         on show:
             fade_from_to(sv1, ev1, t1)
         on hide:
@@ -104,14 +104,14 @@ init -997: # Transforms:
         subpixel True
         repeat
 
-    transform simple_zoom_from_to_with_linear(start_val=1.0, end_val=0.0, t=1.0):
+    transform simple_zoom_from_to_with_linear(start_val=1.0, end_val=.0, t=1.0):
         # Simple zoom...
         subpixel True
         anchor (.5, .5)
         zoom start_val
         linear t zoom end_val
 
-    transform simple_zoom_from_to_with_easein(start_val=1.0, end_val=0.0, t=1.0):
+    transform simple_zoom_from_to_with_easein(start_val=1.0, end_val=.0, t=1.0):
         # Simple zoom...
         subpixel True
         anchor (.5, .5)
@@ -160,7 +160,7 @@ init -997: # Transforms:
                 ease .5 xoffset -100
             linear 3.0 zoom 1.3
         on hide:
-            fade_from_to(t=0.5)
+            fade_from_to(t=.5)
 
     transform fish():
         align(random.random(), random.random())
@@ -317,8 +317,8 @@ init -997: # Transforms:
             repeat
 
     # BE Transforms:
-    transform status_overlay(sv1=0.0, ev1=1.0, t1=1.0,
-                                        sv2=1.0, ev2=0.0, t2=1.0):
+    transform status_overlay(sv1=.0, ev1=1.0, t1=1.0,
+                                        sv2=1.0, ev2=.0, t2=1.0):
         fade_from_to(sv1, ev1, t1)
         fade_from_to(sv2, ev2, t2)
         repeat

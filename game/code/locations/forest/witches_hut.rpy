@@ -63,7 +63,7 @@ label witches_hut_shopping:
 label witches_hut_shopping_spells:
     w "Sweet!"
     python:
-        witch_spells_shop = ItemShop("Witch Spells Shop", 18, ["Witch Spells Shop"], gold=5000, sells=["scroll"], sell_margin=0.25, buy_margin=5.0)
+        witch_spells_shop = ItemShop("Witch Spells Shop", 18, ["Witch Spells Shop"], gold=5000, sells=["scroll"], sell_margin=.25, buy_margin=5.0)
         focus = False
         item_price = 0
         filter = "all"
@@ -151,7 +151,7 @@ screen witch_shop:
     frame:
         xalign .95
         ypos 20
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:

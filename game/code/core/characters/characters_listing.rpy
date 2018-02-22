@@ -120,7 +120,7 @@ screen chars_list(source=None):
                         frame:
                             xpos 120
                             xysize (335, 110)
-                            background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=0.6), 10, 10)
+                            background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 10, 10)
                             label "[c.name]":
                                 text_size 18
                                 xpos 10
@@ -328,7 +328,7 @@ screen chars_list(source=None):
             # Mass (de)selection Buttons ====================================>
             null height 3
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
                 xalign .5
                 yalign .5
                 # ypos 5
@@ -357,7 +357,7 @@ screen chars_list(source=None):
                         hovered tt.Action('Unselect everyone')
             # Mass action Buttons ====================================>
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
                 xalign .5
                 yalign .5
                 xysize (250, 145)

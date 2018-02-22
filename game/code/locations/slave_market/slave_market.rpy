@@ -223,7 +223,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
     if store.chars_list:
         # Stats and Info (Left Frame):
         frame:
-            background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=0.98), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=.98), 10, 10)
             xysize(270, 678)
             ypos 41
             style_group "content"
@@ -234,7 +234,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                 frame:
                     xanchor -0.01
                     xysize (250, 50)
-                    background Frame (Transform("content/gfx/frame/namebox5.png", alpha=0.95), 250, 50)
+                    background Frame (Transform("content/gfx/frame/namebox5.png", alpha=.95), 250, 50)
                     label "{color=[gold]}[store.girl.fullname]":
                         text_color ivory text_outlines [(2, "#424242", 0, 0)]
                         align (.5, .5)
@@ -262,7 +262,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     spacing 5
                     pos(.015, 10)
                     frame:
-                        background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                        background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                         #xysize (317, 10)
                         xsize 258
                         xanchor 5
@@ -298,7 +298,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     style_group "stats"
                     pos(.015, 10)
                     frame:
-                        background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                        background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                         #xysize (317, 10)
                         xsize 258
                         xanchor 5
@@ -337,7 +337,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                                 label (u"{size=-5}%s/%s"%(store.girl.intelligence, store.girl.get_max("intelligence"))) align (1.0, .5) ypos 10
                             #text (u"| %d"%store.girl.goal)
                     frame:
-                        background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                        background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                         #xysize (317, 10)
                         xsize 258
                         xanchor 5
@@ -365,7 +365,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     style_group "stats"
                     pos(.015, 10)
                     frame:
-                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                         #xysize (317, 10)
                         xsize 258
                         xanchor 5
@@ -396,7 +396,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
             pos (928, 41)
             style_group "content"
             xysize (350, 334)
-            background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=0.98), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=.98), 10, 10)
             has vbox align (.5, .5)
             null height 5
             label (u"{size=20}{color=[ivory]}{b}Visible Traits") xalign .5 text_outlines [(2, "#424242", 0, 0)]
@@ -405,7 +405,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                 left_padding 15
                 ypadding 10
                 xsize 226
-                background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                 has viewport xysize (210, 253) draggable True mousewheel True scrollbars "vertical"
                 vbox:
                     xalign .5
@@ -428,7 +428,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
 
         # Buttons:
         frame:
-            background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=0.98), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=.98), 10, 10)
             xpadding 5
             pos(928, 370)
             xsize 350
@@ -479,7 +479,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
         frame:
             # pos 265, 459
             pos 265, 455
-            background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=0.98), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=.98), 10, 10)
             side "c t":
                 yoffset -2
                 viewport id "sm_vp_glist":

@@ -555,7 +555,7 @@ init python:
 
             castpos = battle.get_cp(attacker, type="fc", xo=30)
 
-            renpy.show("casting", what=bow, at_list=[Transform(pos=castpos, yanchor=0.5)], zorder=attacker.besk["zorder"]+50)
+            renpy.show("casting", what=bow, at_list=[Transform(pos=castpos, yanchor=.5)], zorder=attacker.besk["zorder"]+50)
             if pause > .6:
                 renpy.pause(pause)
             else:
@@ -772,7 +772,7 @@ init python:
 
         def show_main_gfx(self, battle, attacker, targets):
             for target in targets:
-                renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos), fade_from_to(start_val=0, end_val=1.0, t=1.0, wait=0.5)], zorder=target.besk["zorder"])
+                renpy.show(target.betag, what=target.besprite, at_list=[Transform(pos=target.cpos), fade_from_to(start_val=0, end_val=1.0, t=1.0, wait=.5)], zorder=target.besk["zorder"])
             super(ReviveSpell, self).show_main_gfx(battle, attacker, targets)
 
 

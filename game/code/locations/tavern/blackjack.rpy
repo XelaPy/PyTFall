@@ -4,7 +4,7 @@ screen city_tavern_show_status(d_1, d_2): # additional screen, shows all info re
         xalign .05
         yalign .05
         xysize (90, 90)
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
@@ -27,7 +27,7 @@ screen city_tavern_show_status(d_1, d_2): # additional screen, shows all info re
         xalign .05
         yalign .95
         xysize (90, 90)
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
@@ -51,7 +51,7 @@ screen city_tavern_show_status(d_1, d_2): # additional screen, shows all info re
         xalign .5
         yalign .05
         xysize (120, 120)
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
         xpadding 1
         ypadding 1
         vbox:
@@ -184,7 +184,7 @@ screen city_tavern_dicing(): # dice game controls menu
     frame:
         xalign .95
         ypos 50
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:

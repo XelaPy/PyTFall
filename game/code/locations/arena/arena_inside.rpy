@@ -67,7 +67,7 @@ init: # Main Screens:
         yoffset 2
         margin (0, 0)
         xysize (250, 135)
-        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
         hover_background Frame("content/gfx/frame/p_frame4.png", 10, 10)
 
     screen arena_inside():
@@ -111,7 +111,7 @@ init: # Main Screens:
 
             # Beast Fights:
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.7), 5, 5)
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.7), 5, 5)
                 padding 10, 10
                 has vbox spacing 2
 
@@ -133,7 +133,7 @@ init: # Main Screens:
 
             # Ladders (Just Info):
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.7), 5, 5)
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.7), 5, 5)
                 padding 10, 10
                 has vbox spacing 2
 
@@ -158,7 +158,7 @@ init: # Main Screens:
 
             # Official matches:
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.7), 5, 5)
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.7), 5, 5)
                 padding 10, 10
                 has vbox spacing 2
 
@@ -183,7 +183,7 @@ init: # Main Screens:
 
             # Dogfights:
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.7), 5, 5)
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.7), 5, 5)
                 padding 10, 10
                 has vbox spacing 2
 
@@ -235,7 +235,7 @@ init: # Main Screens:
                 # Name + Stats:
                 frame:
                     padding 8, 2
-                    background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=0.6), 5, 5)
+                    background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 5, 5)
                     xsize 155
                     has vbox
 
@@ -716,7 +716,7 @@ init: # Main Screens:
                             frame:
                                 xalign .5
                                 yfill True
-                                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                                 xysize (145, 30)
                                 text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
                             frame:
@@ -733,7 +733,7 @@ init: # Main Screens:
                             $ els_transforms = [Transform(e.icon, size=(100, 100)) for e in els]
                             $ other_traits = data["traits"]
                             style_group "content"
-                            background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.5), 10, 10)
+                            background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 10, 10)
                             xysize 110, 110
                             xalign .5
 
@@ -749,7 +749,7 @@ init: # Main Screens:
                             frame:
                                 xalign .5
                                 yfill True
-                                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                                 xysize (145, 30)
                                 text (u"{color=#CDAD00} Class") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
                             for t in data["basetraits"]:
@@ -763,7 +763,7 @@ init: # Main Screens:
                     frame:
                         xalign .5
                         yfill True
-                        background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                        background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                         xysize (260, 30)
                         text (u"{color=#CDAD00} Relative stats") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5# align (.5, 1.0)
                     hbox:
@@ -813,7 +813,7 @@ init: # Main Screens:
                         frame:
                             xalign .5
                             yfill True
-                            background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                            background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                             xysize (155, 30)
                             text (u"{color=#CDAD00} Description") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
                         vbox:
@@ -837,7 +837,7 @@ init: # Main Screens:
                                 frame:
                                     xalign .5
                                     yfill True
-                                    background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                                    background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                                     xysize (130, 30)
                                     text (u"{color=#CDAD00} Attacks") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
 
@@ -865,7 +865,7 @@ init: # Main Screens:
                                 frame:
                                     xalign .5
                                     yfill True
-                                    background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                                    background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                                     xysize (130, 30)
                                     text (u"{color=#CDAD00} Spells") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
 
@@ -905,16 +905,16 @@ init: # Main Screens:
         default loser = l_team[0]
 
         if hero.team == w_team:
-            add "content/gfx/images/battle/victory_l.png" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=0.7, wait=0)
-            add "content/gfx/images/battle/victory_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
-            add "content/gfx/images/battle/battle_c.png" at fade_from_to(start_val=0.5, end_val=1.0, t=2.0, wait=0)
+            add "content/gfx/images/battle/victory_l.png" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=.7, wait=0)
+            add "content/gfx/images/battle/victory_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=.7)
+            add "content/gfx/images/battle/battle_c.png" at fade_from_to(start_val=.5, end_val=1.0, t=2.0, wait=0)
             add "content/gfx/images/battle/victory.png":
                 align (.5, .5)
                 at simple_zoom_from_to_with_easein(start_val=50.0, end_val=1.0, t=2.0)
         else:
-            add "content/gfx/images/battle/defeat_l.png" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
-            add "content/gfx/images/battle/defeat_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=0.7)
-            add "content/gfx/images/battle/battle_c.png" at fade_from_to(start_val=0.5, end_val=1.0, t=2.0, wait=0)
+            add "content/gfx/images/battle/defeat_l.png" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=.7)
+            add "content/gfx/images/battle/defeat_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=.7)
+            add "content/gfx/images/battle/battle_c.png" at fade_from_to(start_val=.5, end_val=1.0, t=2.0, wait=0)
             add "content/gfx/images/battle/defeat.png":
                 align (.5, .5)
                 at simple_zoom_from_to_with_easein(start_val=50.0, end_val=1.0, t=2.0)
@@ -1002,7 +1002,7 @@ init: # Main Screens:
                 frame:
                     style_group "proper_stats"
                     align (.2, .5)
-                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                     xpadding 12
                     ypadding 12
                     xmargin 0
@@ -1222,15 +1222,15 @@ init: # ChainFights vs Mobs:
 
             # Fight Number:
             text "Round  [pytfall.arena.cf_count]":
-                at move_from_to_pos_with_ease(start_pos=(560, -100), end_pos=(560, 150), t=0.7)
+                at move_from_to_pos_with_ease(start_pos=(560, -100), end_pos=(560, 150), t=.7)
                 italic True
                 color red
                 style "arena_header_text"
                 size 45
 
             # Opposing Sprites:
-            add hero.show("battle_sprite", resize=(200, 200)) at slide(so1=(-600, 0), t1=0.7, eo2=(-1300, 0), t2=0.7) align .35, .5
-            add pytfall.arena.cf_mob.show("battle_sprite", resize=(200, 200)) at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7) align .65, .5
+            add hero.show("battle_sprite", resize=(200, 200)) at slide(so1=(-600, 0), t1=.7, eo2=(-1300, 0), t2=.7) align .35, .5
+            add pytfall.arena.cf_mob.show("battle_sprite", resize=(200, 200)) at slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7) align .65, .5
 
             # Title Text and Boss name if appropriate:
             if pytfall.arena.cf_count == 5:
@@ -1254,7 +1254,7 @@ init: # ChainFights vs Mobs:
                     style "arena_header_text"
                     size 80
 
-        hbox at slide(so1=(0, 700), t1=0.7, so2=(0, 700), t2=0.7):
+        hbox at slide(so1=(0, 700), t1=.7, so2=(0, 700), t2=.7):
             style_prefix "wood"
             spacing 40
             align(.5, .9)

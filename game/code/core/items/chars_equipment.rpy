@@ -13,9 +13,9 @@ init:
         zorder 10
         modal True
 
-        add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
+        add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
         frame:
-            background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.75), 10, 10)
+            background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.75), 10, 10)
             style_group "dropdown_gm2"
             align .42, .61
             xsize 500
@@ -394,7 +394,7 @@ screen char_equip():
     frame:
         pos (425, 10)
         xysize 298, 410
-        background Frame(Transform("content/gfx/frame/Mc_bg3.png", alpha=0.3), 10, 10)
+        background Frame(Transform("content/gfx/frame/Mc_bg3.png", alpha=.3), 10, 10)
         use eqdoll(active_mode=True, char=eqtarget, frame_size=[70, 70], scr_align=(.98, 1.0), return_value=['item', "unequip"], txt_size=17, fx_size=(455, 400))
 
     # BASE FRAME 3 "mid layer" ====================================>
@@ -410,7 +410,7 @@ screen char_equip():
         frame:
             xalign .6
             at fade_in_out()
-            background Transform(Frame(im.MatrixColor("content/gfx/frame/Mc_bg3.png", im.matrix.brightness(-0.2)), 5, 5), alpha=0.3)
+            background Transform(Frame(im.MatrixColor("content/gfx/frame/Mc_bg3.png", im.matrix.brightness(-0.2)), 5, 5), alpha=.3)
             xysize (710, 296)
             use char_equip_item_info(item=focusitem, size=(703, 287), tt=tt)
 
@@ -493,7 +493,7 @@ screen char_equip_left_frame(tt, stats_display):
                     spacing 5
                     pos (4, 40)
                     frame:
-                        background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
+                        background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=.7)
                         xsize 218
                         padding 6, 6
                         margin 0, 0
@@ -538,7 +538,7 @@ screen char_equip_left_frame(tt, stats_display):
 
                     # BATTLE STATS ============================>
                     frame:
-                        background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
+                        background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=.7)
                         xsize 218
                         padding 6, 6
                         style_group "proper_stats"
@@ -648,7 +648,7 @@ screen group_equip_left_frame(tt):
             frame:
                 padding 4, 4
                 ymaximum 590
-                background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
+                background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=.7)
                 xsize 218
                 has hbox
                 hbox:
@@ -683,7 +683,7 @@ screen char_equip_right_frame(tt):
     # TOOLTIP TEXT or Applied Traits and Skills ====================================>
     frame:
         pos (930, 4)
-        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.4), 10, 10)
+        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.4), 10, 10)
         xpadding 10
         xysize (345, 110)
 
@@ -809,7 +809,7 @@ screen char_equip_right_frame(tt):
 
     # Auto-Equip/Item Transfer Buttons and Paging: ================>
     frame:
-        background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
+        background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=.7)
         pos (931, 184)
         xysize (345, 80)
         has vbox spacing 1 xalign .5
@@ -860,7 +860,7 @@ screen char_equip_right_frame(tt):
     # Inventory: ====================================>
     frame:
         pos (931, 372)
-        background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.7)
+        background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=.7)
         use items_inv(char=inv_source, main_size=(333, 333), frame_size=(80, 80), return_value=['item', 'equip'])
 
     # BASE FRAME 1 "top layer" ====================================>
@@ -901,7 +901,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                 frame:
                     align .5, .5
                     xysize (439, 35)
-                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 10, 10), alpha=0.9)
+                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 10, 10), alpha=.9)
                     label ('[item.id]') text_color gold align .5, .5 text_size 19 text_outlines [(1, "#000000", 0, 0)] text_style "interactions_text"
                 imagebutton:
                     xalign 1.0
@@ -926,7 +926,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                 frame:
                     xalign .02
                     style_prefix "proper_stats"
-                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
+                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=.9)
                     xysize (180, 130)
                     xpadding 0
                     xmargin 0
@@ -1010,7 +1010,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                 # Right items info (Stats):
                 frame:
                     xalign .98
-                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
+                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=.9)
                     xysize (185, 130)
                     style_group "proper_stats"
                     left_padding 6
@@ -1097,7 +1097,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                 yalign 1.0
                 # Traits, Effects:
                 frame:
-                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
+                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=.9)
                     xysize 158, 104
                     padding 2, 3
                     has viewport draggable True mousewheel True
@@ -1153,7 +1153,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                 frame:
                     xysize 382, 104
                     padding 10, 5
-                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=0.9)
+                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=.9)
                     has viewport draggable True mousewheel True
                     $ temp = "\n"
                     if hasattr(item, "evasion_bonus"):
@@ -1257,7 +1257,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
 
 
                 frame:
-                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=0.9)
+                    background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.05)), 5, 5), alpha=.9)
                     xysize 158, 104
                     padding 2, 3
                     has viewport draggable True mousewheel True
@@ -1341,7 +1341,7 @@ screen diff_item_effects(char, dummy):
         action Hide("diff_item_effects")
     frame:
         xysize (1000, 500)
-        background Solid("#F00", alpha=0.1)
+        background Solid("#F00", alpha=.1)
         align (.1, .5)
         has hbox
 

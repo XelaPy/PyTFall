@@ -74,7 +74,7 @@ label hidden_village_shop: # ninja shop logic
     with dissolve
     show expression npcs["Ren_hidden_village"].get_vnsprite() as ren
     with dissolve
-    $ hidden_village_shop = ItemShop("Ninja Tools Shop", 18, ["Ninja Shop"], gold=1000, sells=["armor", "dagger", "fists", "rod", "claws", "sword", "bow", "amulet", "smallweapon", "restore", "dress"], sell_margin=0.85, buy_margin=3.0)
+    $ hidden_village_shop = ItemShop("Ninja Tools Shop", 18, ["Ninja Shop"], gold=1000, sells=["armor", "dagger", "fists", "rod", "claws", "sword", "bow", "amulet", "smallweapon", "restore", "dress"], sell_margin=.85, buy_margin=3.0)
     $ r = npcs["Ren_hidden_village"].say
 
     if global_flags.flag('hidden_village_shop_first_enter'):

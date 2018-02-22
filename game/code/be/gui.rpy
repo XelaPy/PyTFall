@@ -38,7 +38,7 @@ init: # screens:
                     unhovered SetScreenVariable("highlight_idle", False)
 
             if t in battle.corpses:
-                add Transform(t.besprite, pos=t.cpos, alpha=0.4)
+                add Transform(t.besprite, pos=t.cpos, alpha=.4)
 
             frame:
                 style "dropdown_gm_frame"
@@ -112,7 +112,7 @@ init: # screens:
             ymaximum 400
             has hbox box_wrap True
 
-            at fade_in_out(t1=0.6, t2=0.3)
+            at fade_in_out(t1=.6, t2=.3)
 
             # First we'll get all the skills and sort them into: @Review: Might be a good idea to move this sorting off the screen!
             # *Attack (battle) skills.
@@ -147,7 +147,7 @@ init: # screens:
                 ymaximum 400
                 has hbox box_wrap True
 
-                at fade_in_out(t1=0.6, t2=0.3)
+                at fade_in_out(t1=.6, t2=.3)
                 textbutton "Attacks":
                     action SensitiveIf(active_attacks), SetScreenVariable("menu_mode", "attacks")
                 textbutton "Magic":
@@ -217,7 +217,7 @@ init: # screens:
                 padding 5, 5
                 has vbox
 
-                at fade_in_out(t1=0.6, t2=0.3)
+                at fade_in_out(t1=.6, t2=.3)
 
                 hbox:
                     spacing 1
@@ -306,7 +306,7 @@ init: # screens:
 
                     frame:
                         style_prefix "proper_stats"
-                        background Frame(Transform(img, alpha=0.5), 5, 5)
+                        background Frame(Transform(img, alpha=.5), 5, 5)
                         padding 5, 3
                         has hbox spacing 3
 
@@ -322,7 +322,7 @@ init: # screens:
                         frame:
                             padding 8, 2
                             xsize 155
-                            background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=0.6), 5, 5)
+                            background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 5, 5)
                             has vbox
 
                             label "[member.name]":

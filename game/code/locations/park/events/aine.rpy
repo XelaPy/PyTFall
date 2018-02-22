@@ -42,7 +42,7 @@ label aine_menu_return:
 label aine_shop:
     a "Of course!"
     python:
-        aine_shop = ItemShop("Aine Shop", 18, ["Aine Shop"], gold=5000, sells=["scroll"], sell_margin=0.25, buy_margin=5.0)
+        aine_shop = ItemShop("Aine Shop", 18, ["Aine Shop"], gold=5000, sells=["scroll"], sell_margin=.25, buy_margin=5.0)
         focus = False
         item_price = 0
         filter = "all"
@@ -124,7 +124,7 @@ screen aine_screen:
     frame:
         xalign .95
         ypos 20
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:

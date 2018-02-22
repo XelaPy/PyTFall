@@ -209,7 +209,7 @@ screen tailor_store_shopping_girl():
             text(u'{size=+1}Day  =  %d'%day) align(.5,0.5)
             null width 50
 
-    use shop_inventory(ref=char,x=0.0,title="Inventory")
+    use shop_inventory(ref=char,x=.0,title="Inventory")
     use shop_inventory(ref=pytfall.tailor_store, x=1.0, title="Tailor Store")
 
     if focus:

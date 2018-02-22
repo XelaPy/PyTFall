@@ -303,7 +303,7 @@ init -9 python:
     class ItemShop(_object):
         '''Any shop that sells items ;)
         '''
-        def __init__(self, name, inv_length, locations=[], gold=10000, visible=True, sells=None, sell_margin=0.8, buy_margin=1.2):
+        def __init__(self, name, inv_length, locations=[], gold=10000, visible=True, sells=None, sell_margin=.8, buy_margin=1.2):
             """Takes:
             locations = must be a list of item location fields ["general_shop", "cafe"] for example
             int_length = length of inventory field as arguments (must be an integer)

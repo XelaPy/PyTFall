@@ -169,7 +169,7 @@ init -999 python:
         return fn.lower().endswith(IMAGE_EXTENSIONS)
 
     # Auto Animation from a folder:
-    def animate(path, delay=0.25, function=None, transition=None, loop=False):
+    def animate(path, delay=.25, function=None, transition=None, loop=False):
         # Build a list of all images:
         files = os.listdir("".join([gamedir, path]))
         images = list("".join([path[1:], "/", fn]) for fn in files if check_image_extension(fn))
@@ -492,7 +492,7 @@ screen debug_tools():
 init -1 python: # Constants:
     # for f in renpy.list_files():
         # if check_image_extension(f):
-            # renpy.image(f, At(f, slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)))
+            # renpy.image(f, At(f, slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7)))
     EQUIP_SLOTS = ['body', 'head', 'feet', 'wrist', 'amulet',
                    'cape', 'weapon', 'misc', 'ring', 'smallweapon']
     SLOTALIASES = {"smallweapon": "Left Hand", "weapon": "Right Hand", "amulet": "Neck", "feet": "Legs", "quest": "Special"}

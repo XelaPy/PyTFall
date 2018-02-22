@@ -8,10 +8,10 @@
 # http://www.renpy.org/doc/html/screen_special.html#say
 screen say(who, what, side_image=None, two_window=False):
     zorder 10
-    # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=0.6) align (0.6, 0.9)
-    # add Transform(Text("PyTFaLL", style="earthkid", color=azure, size=70), alpha=0.5) align (0.1, 0.95)
-    # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=0.6) align (0.8, 0.98)
-    # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=0.6) align (0.9, 0.9
+    # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=.6) align (0.6, 0.9)
+    # add Transform(Text("PyTFaLL", style="earthkid", color=azure, size=70), alpha=.5) align (0.1, 0.95)
+    # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=.6) align (0.8, 0.98)
+    # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=.6) align (0.9, 0.9
     if block_say:
         button:
             background Null()
@@ -301,7 +301,7 @@ screen discord():
     zorder 1
     modal True
     frame:
-        background Transform(Frame("content/gfx/frame/frame_dec_1.png", 20, 20), alpha=0.7)
+        background Transform(Frame("content/gfx/frame/frame_dec_1.png", 20, 20), alpha=.7)
         pos(10, 120)
         xysize (900, 580)
         style_group "mmenu"
@@ -328,7 +328,7 @@ screen credits():
     zorder 1
     modal True
     frame:
-        background Transform(Frame("content/gfx/frame/frame_dec_1.png", 20, 20), alpha=0.9)
+        background Transform(Frame("content/gfx/frame/frame_dec_1.png", 20, 20), alpha=.9)
         pos(10, 120)
         xysize (900, 580)
         style_group "mmenu"
@@ -713,4 +713,4 @@ init: # Default preference menus, replaces by our own versions:
                                 action Play("voice", config.sample_voice)
                                 style "soundtest_button"
 
-        # add Transform("or_dance", alpha=0.7) align(0.02, 0.98)
+        # add Transform("or_dance", alpha=.7) align(0.02, 0.98)

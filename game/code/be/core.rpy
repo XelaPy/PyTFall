@@ -38,7 +38,7 @@ init -1 python: # Core classes:
             self.queue = list() # List of events in BE..
             self.max_turn = max_turns
 
-            self.bg = ConsitionSwitcher("default", {"default": bg, "black": Solid("#000000"), "mirage": Mirage(bg, resize=get_size(bg), amplitude=0.04, wavelength=10, ycrop=10)}) # Background we'll use.
+            self.bg = ConsitionSwitcher("default", {"default": bg, "black": Solid("#000000"), "mirage": Mirage(bg, resize=get_size(bg), amplitude=.04, wavelength=10, ycrop=10)}) # Background we'll use.
 
             if music == "random":
                 self.music = choice(ilists.battle_tracks)
@@ -1372,13 +1372,13 @@ init -1 python: # Core classes:
             if gfx == "orb":
                 what=Transform("cast_orb_1", zoom=1.85)
             elif gfx == "wolf":
-                what=Transform("wolf_1_webm", zoom=0.85)
+                what=Transform("wolf_1_webm", zoom=.85)
             elif gfx == "bear":
-                what=Transform("bear_1_webm", zoom=0.85)
+                what=Transform("bear_1_webm", zoom=.85)
             elif gfx in ["dark_1", "light_1", "water_1", "air_1", "fire_1", "earth_1", "electricity_1", "ice_1"]:
                 what=Transform("cast_" + gfx, zoom=1.5)
             elif gfx in ["dark_2", "light_2", "water_2", "air_2", "fire_2", "earth_2", "ice_2", "electricity_2"]:
-                what=Transform("cast_" + gfx, zoom=0.9)
+                what=Transform("cast_" + gfx, zoom=.9)
             elif gfx == "default_1":
                 what=Transform("cast_default_1", zoom=1.6)
             elif gfx == "circle_1":
@@ -1552,12 +1552,12 @@ init -1 python: # Core classes:
                         at_list = [damage_shake(.05, (-10, 10))]
                 elif type.startswith("on_darkness"):
                     size = int(target.besprite_size[0]*1.5), 60
-                    what = Fixed(target.besprite, Transform("be_dark_mask", size=size, anchor=(.5, .3), align=(.5, 1.0), alpha=0.8), xysize=(target.besprite_size))
+                    what = Fixed(target.besprite, Transform("be_dark_mask", size=size, anchor=(.5, .3), align=(.5, 1.0), alpha=.8), xysize=(target.besprite_size))
                     if type.endswith("shake"):
                         at_list = [damage_shake(.05, (-10, 10))]
                 elif type.startswith("on_light"):
                     size = int(target.besprite_size[0]*2.5), int(target.besprite_size[1]*2.5)
-                    what = Fixed(target.besprite, Transform("be_light_mask", size=size, align=(.5, 1.0), alpha=0.6), xysize=(target.besprite_size))
+                    what = Fixed(target.besprite, Transform("be_light_mask", size=size, align=(.5, 1.0), alpha=.6), xysize=(target.besprite_size))
                     if type.endswith("shake"):
                         at_list = [damage_shake(.05, (-10, 10))]
                 elif type == "on_death":
@@ -1572,7 +1572,7 @@ init -1 python: # Core classes:
                     size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
                     what = Fixed(target.besprite, Transform("content/gfx/be/frozen_2.png", size=size, offset=(-30, -50)))
                     t = self.target_sprite_damage_effect.get("duration", 1)
-                    at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=0.2, t=t)]
+                    at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=.2, t=t)]
                     if type.endswith("shake"):
                         at_list = [damage_shake(.05, (-10, 10))]
                 elif type.startswith("burning"): # looks like more dangerous flame, should be used for high level spells
@@ -1678,7 +1678,7 @@ init -1 python: # Core classes:
                             if "critical_hit" in target.beeffects:
                                 s = "\n".join([s, "Critical hit!"])
                             color = getattr(store, target.dmg_font)
-                        txt = Text(s, style="TisaOTM", min_width=200, text_align=0.5, color=color, size=18)
+                        txt = Text(s, style="TisaOTM", min_width=200, text_align=.5, color=color, size=18)
                         renpy.show(tag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-30))], zorder=target.besk["zorder"]+2)
                         target.dmg_font = "red"
 
@@ -1728,7 +1728,7 @@ init -1 python: # Core classes:
 
             if gfx == "dissolve":
                 for t in died:
-                    renpy.show(t.betag, what=t.besprite, at_list=[fade_from_to(start_val=1.0, end_val=0.0, t=duration)], zorder=t.besk["zorder"])
+                    renpy.show(t.betag, what=t.besprite, at_list=[fade_from_to(start_val=1.0, end_val=.0, t=duration)], zorder=t.besk["zorder"])
             elif gfx == "shatter":
                 for target in died:
                     renpy.show(target.betag, what=HitlerKaputt(target.besprite, 20), zorder=target.besk["zorder"])

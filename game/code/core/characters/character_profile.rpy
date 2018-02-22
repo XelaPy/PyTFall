@@ -195,7 +195,7 @@ screen char_profile():
                     hovered tt.action("{=library_book_header_main}{color=[goldenrod]}{size=17}Click to interact with [char.nickname]{/=}{/color}{/size}\n[char.desc]")
 
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
                 xalign .489
                 ypos 560
                 xysize (628, 64)
@@ -220,7 +220,7 @@ screen char_profile():
 
         # Left Frame with most of the info ====================================>
         frame:
-            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
             xysize (337, 780)
             xanchor .01
             ypos 30
@@ -252,7 +252,7 @@ screen char_profile():
                     action Show("show_trait_info", trait=trait.id, place="main_trait", tt=tt)
                 align (.0, .0)
                 xysize (330, 126)
-                add Transform("content/gfx/frame/base_frame.png", alpha=0.9, size=(330, 126)):
+                add Transform("content/gfx/frame/base_frame.png", alpha=.9, size=(330, 126)):
                     xoffset -5
 
 
@@ -384,11 +384,11 @@ screen char_profile():
                         frame:
                             xalign .0
                             yfill True
-                            background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                            background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                             xysize (100, 30)
                             text (u"{color=#CDAD00} Full name:") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
                         textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[green]}Rename":
-                            background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=0.8)
+                            background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=.8)
                             hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
                             xysize (106, 40)
                             yoffset -4
@@ -412,14 +412,14 @@ screen char_profile():
                             frame:
                                 xalign .0
                                 yfill True
-                                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                                 xysize (100, 30)
                                 text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
                             null height 3
                             frame:
                                 xysize (100, 100)
                                 $ trait = char.race
-                                background Frame (Transform("content/gfx/frame/frame_it1.png", alpha=0.6, size=(100, 100)), 10, 10)
+                                background Frame (Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
                                 $ img = ProportionalScale(trait.icon, 95, 95)
                                 button:
                                     align (.5, .5)
@@ -435,13 +435,13 @@ screen char_profile():
                             frame:
                                 xalign .0
                                 yfill True
-                                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                                 xysize (100, 30)
                                 text (u"{color=#CDAD00} Element") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
                             null height 3
                             frame:
                                 xysize (100, 100)
-                                background Frame (Transform("content/gfx/frame/frame_it1.png", alpha=0.6, size=(100, 100)), 10, 10)
+                                background Frame (Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
                                 add ProportionalScale("content/gfx/interface/images/elements/hover.png", 98, 98) align (.5, .5)
                                 $ x = 0
                                 $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
@@ -507,7 +507,7 @@ screen char_profile():
 
                     label (u"{size=20}{color=[ivory]}{b}Info:") xalign .48 text_outlines [(2, "#424242", 0, 0)]
                     frame:
-                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                         xsize 300
                         padding 12, 12
                         has vbox spacing 1
@@ -607,13 +607,13 @@ screen char_profile():
             ypos 38
             xalign 1.0
             xysize (339, 586)
-            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
             has vbox spacing 1
             null height 1
 
             # Buttons ====================================>
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 10, 10)
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
                 xalign .5
                 xoffset -4
                 # ypos 5
@@ -670,7 +670,7 @@ screen char_profile():
             # Traits/Effects/Attacks/Magix ====================================>
             null height -25
             frame:
-                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6))
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6))
                 xsize 335
                 style_group "proper_stats"
                 xanchor 1
@@ -1002,7 +1002,7 @@ screen girl_control():
 
     frame:
         style_group "content"
-        at slide(so1=(600, 0), t1=0.7, eo2=(1300, 0), t2=0.7)
+        at slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7)
         background Frame("content/gfx/frame/p_frame52.png", 10, 10)
         xpos 936
         yalign .95
@@ -1251,10 +1251,10 @@ screen finances(obj, mode="logical"):
 
     default fin_mode = mode
 
-    add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
+    add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
     frame:
-        at slide(so1=(0, 700), t1=0.7, so2=(0, 0), t2=0.3, eo2=(0, -config.screen_height))
-        background Frame(Transform("content/gfx/frame/FrameGP.png", alpha=0.9), 10, 10)
+        at slide(so1=(0, 700), t1=.7, so2=(0, 0), t2=.3, eo2=(0, -config.screen_height))
+        background Frame(Transform("content/gfx/frame/FrameGP.png", alpha=.9), 10, 10)
         style_prefix "proper_stats"
         xysize 1000, 600
         padding 20, 20

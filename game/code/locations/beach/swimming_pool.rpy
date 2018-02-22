@@ -72,7 +72,7 @@ screen swimmong_pool_swim():
     frame:
         xalign .95
         ypos 20
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:

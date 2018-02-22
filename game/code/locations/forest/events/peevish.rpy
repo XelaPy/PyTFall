@@ -78,7 +78,7 @@ label peevish_menu:
 
     p "Haha, look who's back!"
     p "Got some gold on ya?"
-    $ peevish_shop = ItemShop("Peevish Shop", 18, ["Peevish Shop"], gold=5000, sells=["scroll"], sell_margin=0.25, buy_margin=5.0)
+    $ peevish_shop = ItemShop("Peevish Shop", 18, ["Peevish Shop"], gold=5000, sells=["scroll"], sell_margin=.25, buy_margin=5.0)
 
     p "Well? What do you want?"
     python:

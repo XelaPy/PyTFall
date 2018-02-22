@@ -245,7 +245,7 @@ label praise_yes:
     #    elif ct("Shy") and dice(30):
     #        $ rc("U-Um... Please don't stare at me so much...", "Even though this is embarrassing... I'm glad...", "Don't look at me like that... I-I'm not embarrassed!")
     #    elif ct("Kamidere"):
-    #        $ rc("Do you seriously think so?", "Thanks, but next time keep talk like that for private, ok? ", "So you are that type of person...", "Thanks, I grew them myself.", "Thanks. {p=0.5}Hey, enough. How long will you stare for?!")
+    #        $ rc("Do you seriously think so?", "Thanks, but next time keep talk like that for private, ok? ", "So you are that type of person...", "Thanks, I grew them myself.", "Thanks. {p=.5}Hey, enough. How long will you stare for?!")
     #    elif ct("Ane"):
     #        $ rc("My, don't stare so hard, okay...?", "If you're gonna look, pay me the viewer's fee!♪", "Thanks, but please don't stare like that, it's embarrassing.", "Do you like my breasts? Glad to hear it...")
     #    elif ct("Imouto"):

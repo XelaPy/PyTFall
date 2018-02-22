@@ -75,7 +75,7 @@ label examples:
     # scene black
     # $ renpy.maximum_framerate(60)
     # "First attempt to emulate dizziness:"
-    # show expression Mirage("bg cafe", amplitude=0.04, ycrop=1, wavelength=10) as testing
+    # show expression Mirage("bg cafe", amplitude=.04, ycrop=1, wavelength=10) as testing
     # pause
     # hide testing
     #

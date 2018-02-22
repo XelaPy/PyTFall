@@ -368,7 +368,7 @@ screen next_day():
     # Right frame (Building/Businesses reports):
     if show_summary:
         frame:
-            background Frame(Transform("content/gfx/frame/p_frame6.png", alpha=0.98), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame6.png", alpha=.98), 10, 10)
             xysize (581, 683)
             ypos 37
             xalign 1.0
@@ -391,7 +391,7 @@ screen next_day():
                     align .5, .5
                     top_padding 6
                     xysize 515, 136
-                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                     hbox:
                         xalign .5
                         # ALL Reports button:
@@ -411,7 +411,7 @@ screen next_day():
                         frame:
                             align .5, .5
                             xysize 300, 122
-                            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 5, 5)
+                            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 5, 5)
                             style_group "proper_stats"
                             padding 8, 10
                             has vbox spacing 1
@@ -583,7 +583,7 @@ screen next_day():
                         frame:
                             xoffset 9
                             xysize 550, 136
-                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                             hbox:
                                 yalign .5
                                 null width 10
@@ -613,7 +613,7 @@ screen next_day():
                                 frame:
                                     align .5, .5
                                     xysize 426, 122
-                                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 5, 5)
+                                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 5, 5)
                                     style_prefix "proper_stats"
                                     padding 8, 10
                                     has vbox spacing 1
@@ -769,7 +769,7 @@ screen next_day():
         frame:
             pos (275, 250)
             xysize (430, 349)
-            background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+            background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
             vbox:
                 xalign .5
                 frame:
@@ -980,7 +980,7 @@ screen next_day():
         # Left Frame ==========================================================================>>>>
         # Finances:
         frame:
-            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
             xysize 277, 560
             ypos 37
 
@@ -990,7 +990,7 @@ screen next_day():
 
             frame:
                 style_prefix "proper_stats"
-                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 10, 10)
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                 xysize 270, 550
                 has vbox spacing 1
                 # xoffset -3
@@ -1000,7 +1000,7 @@ screen next_day():
                     style "content_frame"
                     xalign .55
                     xysize 210, 40
-                    background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.6), 10, 10)
+                    background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
                     label (u"Daily Balance") text_size 23 text_color ivory xalign .5 yoffset -4
                 null height 4
 
@@ -1042,7 +1042,7 @@ screen next_day():
 
         # Game Total (Top-Mid Frame)  =============================================>>>
         frame:
-            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
             xysize (429, 220)
             pos (276, 37)
             style_group "content"
@@ -1059,7 +1059,7 @@ screen next_day():
                 align .5, .95
                 xysize (414, 150)
                 style_prefix "proper_stats"
-                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=0.6), 5, 5)
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 5, 5)
                 add ProportionalScale("content/gfx/images/jp1.png", 68, 101) pos (330, 20)
                 add ProportionalScale("content/gfx/images/jp2.png", 73, 103) pos (12, 20)
 
@@ -1118,9 +1118,9 @@ screen next_day():
         showif report_stats:
             # Chars/Teams Stats Frame:
             frame:
-                at slide(so1=(136, 0), eo1=(0, 0), t1=0.4,
-                         so2=(0, 0), eo2=(136, 0), t2=0.3)
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+                at slide(so1=(136, 0), eo1=(0, 0), t1=.4,
+                         so2=(0, 0), eo2=(136, 0), t2=.3)
+                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                 pos (690, -2)
                 has fixed xysize 136, 400
                 if event.charmod or event.team_charmod:
@@ -1129,7 +1129,7 @@ screen next_day():
                         xalign .5
                         ypos 5
                         xysize (136, 40)
-                        background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=0.7), 10, 10)
+                        background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=.7), 10, 10)
                         label (u"Char Stats:") text_size 18 text_color ivory align (.5, .5)
 
                     if event.team:
@@ -1196,9 +1196,9 @@ screen next_day():
                                             label (u"[value]") text_color red align .98, .5
 
             # Buildings Stats Frame:
-            frame background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10):
-                at slide(so1=(136, 0), eo1=(0, 0), t1=0.4,
-                             so2=(0, 0), eo2=(136, 0), t2=0.3)
+            frame background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10):
+                at slide(so1=(136, 0), eo1=(0, 0), t1=.4,
+                             so2=(0, 0), eo2=(136, 0), t2=.3)
                 pos (690, 406)
                 viewport id "nextdaybsf_vp":
                     xysize (136, 305)
@@ -1241,7 +1241,7 @@ screen next_day():
                     background Frame("content/gfx/frame/namebox5.png", 10, 10)
                     label (u"Description:") text_size 23 text_color ivory align(.5, .6)
                 frame:
-                    background Frame(Transform("content/gfx/frame/mc_bg.png", alpha=0.5), 5, 5)
+                    background Frame(Transform("content/gfx/frame/mc_bg.png", alpha=.5), 5, 5)
                     xysize (435, 520)
                     ypos 15
                     side "c l":
@@ -1267,7 +1267,7 @@ screen next_day():
             unhovered SetScreenVariable("report_stats", False)
         # Bottom Buttons:
         frame:
-            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
             pos (834, 603)
             xysize (449, 120)
             vbox:
@@ -1284,7 +1284,7 @@ screen next_day():
                         text "Previous Event" style "wood_text" xalign(.6) size 10
                     frame:
                         align (.5, .5)
-                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.9), 5, 5)
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 5, 5)
                         xysize (90, 40)
                         text(u'Act: %d/%d'%(FilteredList.index(event)+1, len(FilteredList))) align (.5, .5) size 16 style "stats_text" text_align .5
                     button:

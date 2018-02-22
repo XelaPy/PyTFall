@@ -71,41 +71,41 @@ init:
             xysize (270, 270)
             pos (300, 413)
             add Transform(child=RadarChart((float(hero.attack)/hero.get_max("attack")), (float(hero.defence)/hero.get_max("defence")), (float(hero.agility)/hero.get_max("agility")),
-                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 112, 126, 148, blue), alpha=0.4) align (.5, .5)
+                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 112, 126, 148, blue), alpha=.4) align (.5, .5)
             add Transform(child=RadarChart((float(hero.attack)/hero.get_max("attack")), (float(hero.defence)/hero.get_max("defence")), (float(hero.agility)/hero.get_max("agility")),
-                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 65, 126, 148, blueviolet), alpha=0.3) align (.5, .5)
+                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 65, 126, 148, blueviolet), alpha=.3) align (.5, .5)
             add Transform(child=RadarChart((float(hero.attack)/hero.get_max("attack")), (float(hero.defence)/hero.get_max("defence")), (float(hero.agility)/hero.get_max("agility")),
-                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 33, 126, 148, aquamarine), alpha=0.2) align (.5, .5)
+                                                                  (float(hero.luck)/hero.get_max("luck")), (float(hero.magic)/hero.get_max("magic")), 33, 126, 148, aquamarine), alpha=.2) align (.5, .5)
             add ProportionalScale("content/gfx/interface/images/pentagon1.png", 250, 250) align (.01, .5)
 
         fixed:
             frame:
                 pos (375, 402)
-                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                 has hbox
                 add ProportionalScale("content/gfx/interface/images/atk.png", 24, 24)
                 text("{size=-5}{font=fonts/Rubius.ttf}{color=[red]}[hero.attack]|%d"%(hero.get_max("attack"))) outlines [(1, "#0d0d0d", 0, 0)]
             frame:
                 pos (223, 483)
-                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                 has hbox
                 add ProportionalScale("content/gfx/interface/images/def.png", 24, 24)
                 text("{size=-5}{font=fonts/Rubius.ttf}{color=#dc762c}[hero.defence]|%d"%(hero.get_max("defence"))) outlines [(1, "#0d0d0d", 0, 0)]
             frame:
                 pos (255, 643)
-                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                 has hbox
                 add ProportionalScale("content/gfx/interface/images/agi.png", 24, 24)
                 text("{size=-5}{font=fonts/Rubius.ttf}{color=#1E90FF} [hero.agility]|%d"%(hero.get_max("agility"))) outlines [(1, "#0d0d0d", 0, 0)]
             frame:
                 pos (495, 643)
-                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                 has hbox
                 add ProportionalScale("content/gfx/interface/images/luck.png", 24, 24)
                 text("{size=-5}{font=fonts/Rubius.ttf}{color=#00FA9A}[hero.luck]|%d"%(hero.get_max("luck"))) outlines [(1, "#0d0d0d", 0, 0)]
             frame:
                 pos (526, 483)
-                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=0.9), 10, 10)
+                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                 has hbox
                 add ProportionalScale("content/gfx/interface/images/mag.png", 24, 24)
                 text("{size=-5}{font=fonts/Rubius.ttf}{color=#8470FF}[hero.magic]|%d"%(hero.get_max("magic"))) outlines [(1, "#0d0d0d", 0, 0)]
@@ -195,7 +195,7 @@ init:
                 frame:
                     xalign .5
                     yfill True
-                    background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                    background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                     xysize (100, 30)
                     text (u"{color=#CDAD00} Element") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
                 fixed:
@@ -203,7 +203,7 @@ init:
                     xysize (100, 100)
                     frame:
                         xysize (100, 100)
-                        background Frame (Transform("content/gfx/frame/frame_it1.png", alpha=0.6, size=(100, 100)), 10, 10)
+                        background Frame (Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
                         $ x = 0
                         $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
                         $ els_a = [Transform(i, crop=(90/len(els_a)*els_a.index(i), 0, 90/len(els_a), 90), subpixel=True, xpos=(x + 90/len(els_a)*els_a.index(i))) for i in els_a]
@@ -282,7 +282,7 @@ init:
                     for char in temp:
                         $ not_escaped = char not in pytfall.ra
                         frame:
-                            background Frame(Transform("content/gfx/frame/ink_box.png", alpha=0.6), 5, 5)
+                            background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.6), 5, 5)
                             top_padding 10
                             bottom_padding 3
                             xpadding 5
@@ -327,7 +327,7 @@ init:
             frame:
                 xalign .5
                 yfill True
-                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=0.6), 10, 10)
+                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                 xysize (153, 60)
                 text (u"{color=#CDAD00} Day [day]") font "fonts/Rubius.ttf" size 26 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .6)
             null height 2
@@ -544,13 +544,13 @@ init:
         key "mousedown_3" action Hide("hero_team"), With(dissolve)
 
         default tt = Tooltip("")
-        add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
+        add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
 
         # Hero team ====================================>
         frame:
             style_prefix "proper_stats"
             align .54, .4
-            background Frame(Transform(im.Twocolor("content/gfx/frame/ink_box.png", white, black), alpha=0.7), 5, 5)
+            background Frame(Transform(im.Twocolor("content/gfx/frame/ink_box.png", white, black), alpha=.7), 5, 5)
             padding 10, 5
             has vbox spacing 10
 
@@ -589,7 +589,7 @@ init:
 
                         imagebutton:
                             align (0, 1.0)
-                            idle Transform(img, alpha=0.9)
+                            idle Transform(img, alpha=.9)
                             hover Transform(img, alpha=1.05)
                             insensitive im.Sepia(img)
                             action If(hasattr(member, "front_row"), true=[ToggleField(member, "front_row"), tt.Action("Row has been changed!")])
@@ -602,7 +602,7 @@ init:
                     frame:
                         xsize 162
                         padding 10, 5
-                        background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=0.6), 5, 5)
+                        background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 5, 5)
                         has vbox spacing 4 xfill True
                         fixed:
                             xysize 158, 25
@@ -678,9 +678,9 @@ init:
 
         key "mousedown_3" action Hide("hero_finances"), With(dissolve)
 
-        add Transform("content/gfx/images/bg_gradient2.png", alpha=0.3)
+        add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
         frame:
-            background Frame (Transform("content/gfx/frame/ink_box.png", alpha=0.65), 10, 10)
+            background Frame (Transform("content/gfx/frame/ink_box.png", alpha=.65), 10, 10)
             style_group "content"
             align (.5, .5)
             xysize (1120, 600)

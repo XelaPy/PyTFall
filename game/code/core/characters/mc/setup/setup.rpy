@@ -130,18 +130,18 @@ init: # MC Setup Screens:
             pos (365, 68)
             hbox:
                 textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Name:":
-                    background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
+                    background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=.8)
                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15)), 5, 5), alpha=1)
                     xpadding 12
                     ypadding 8
                 textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[white]}[hero.name]":
-                    background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
+                    background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=.8)
                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15)), 5, 5), alpha=1)
                     xpadding 12
                     ypadding 8
 
             textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[red]}Click to change name":
-                background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
+                background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=.8)
                 hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15)), 5, 5), alpha=1)
                 xpadding 12
                 ypadding 8
@@ -162,7 +162,7 @@ init: # MC Setup Screens:
                         SetScreenVariable("right_index", (right_index - 1) % len(sprites))]
             $ img = ProportionalScale("content/gfx/interface/buttons/blue_arrow_right.png", 40, 40)
             textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[white]}Select your appearance":
-                background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=0.8)
+                background Transform(Frame("content/gfx/interface/images/story12.png", 5, 5), alpha=.8)
                 hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15)), 5, 5), alpha=1)
                 xpadding 12
                 ypadding 8
@@ -197,7 +197,7 @@ init: # MC Setup Screens:
         add "content/gfx/interface/images/story1.png" align (.002, .09)
 
         frame: # Text frame for Main Story (Merchant, Warrior, Scholar and Noble)
-            background Frame(Transform("content/gfx/interface/images/story12.png", alpha=0.8), 10, 10)
+            background Frame(Transform("content/gfx/interface/images/story12.png", alpha=.8), 10, 10)
             pos 173, 16 anchor .5, .0
             padding 15, 10
             # xysize (150, 40)

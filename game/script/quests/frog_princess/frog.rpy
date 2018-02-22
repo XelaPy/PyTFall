@@ -19,11 +19,11 @@ label show_frog_final:
 screen show_frog:
     zorder 10
     if renpy.get_screen("forest_entrance"):
-        $ img = Transform("jumping_frog", zoom=0.2)
+        $ img = Transform("jumping_frog", zoom=.2)
         imagebutton:
             pos (237, 586)
-            idle Transform("jumping_frog", zoom=0.2)
-            hover Transform("jumping_frog", zoom=0.2)
+            idle Transform("jumping_frog", zoom=.2)
+            hover Transform("jumping_frog", zoom=.2)
             action Jump("start_frog_event")
     else:
         timer 0.01 action Hide("show_frog")

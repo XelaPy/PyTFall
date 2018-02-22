@@ -21,7 +21,7 @@ screen prison_break_controls(): # control buttons screen
     frame:
         xalign 0.95
         ypos 50
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=0.98), 10, 10)
+        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
         xpadding 10
         ypadding 10
         vbox:
@@ -122,7 +122,7 @@ label storyi_bossroom:
         result = run_default_be(enemy_team, background="content/gfx/bg/story/p_b.jpg", slaves=True, track="content/sfx/music/be/battle (5)b.ogg", prebattle=False, death=False)
 
     show bg story p4 with sflash
-    show sinister_star at Position(xpos = 704, xanchor=0.5, ypos=375, yanchor=0.5):
+    show sinister_star at Position(xpos = 704, xanchor=.5, ypos=375, yanchor=.5):
         anchor (0.5, 0.5)
         zoom 1.0
         alpha 1.0
