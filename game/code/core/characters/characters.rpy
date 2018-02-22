@@ -1701,21 +1701,21 @@ init -9 python:
                 super(PytCharacter, self).__setattr__(key, value)
 
         # Money:
-        def take_money(self, amount, reason="Other"):
+        def take_money(self, value, reason="Other"):
             if hasattr(self, "fin"):
                 return self.fin.take_money(value, reason)
             else:
-                if amount <= self.gold:
-                    self.gold -= amount
+                if value <= self.gold:
+                    self.gold -= value
                     return True
                 else:
                     return False
 
-        def add_money(self, amount, reason="Other"):
+        def add_money(self, value, reason="Other"):
             if hasattr(self, "fin"):
                 self.fin.add_money(value, reason)
             else:
-                self.gold += amount
+                self.gold += value
 
         # Game assist methods:
         def set_status(self, s):
@@ -2688,7 +2688,7 @@ init -9 python:
             else:
                 slots_to_buy = {s: float("inf") for s in self.eqslots.keys()}
 
-            # Create dict gather data, we gather slot: (item, [30, 50]) types:
+            # Create dict gather data, we gather slot: ([30, 50], item) types:
             weighted = {s: [] for s in slots_to_buy}
 
             if not purpose: # Let's see if we can get a purpose from bts:
@@ -2714,6 +2714,9 @@ init -9 python:
                     purpose = "Casual" # Safe option.
 
             kwargs = aeq_purposes[purpose]
+            kwargs.pop("real_weapons", None)
+            kwargs["base_purpose"] = set(kwargs["base_purpose"])
+            kwargs["sub_purpose"] = set(kwargs["sub_purpose"])
 
             min_value = -10
             upto_skill_limit = False
@@ -2724,7 +2727,7 @@ init -9 python:
 
             rv = [] # List of item name strings we return in case we need to report
             # what happened in this method to player.
-            for slot, _items in weighted:
+            for slot, _items in weighted.iteritems():
                 if not _items:
                     continue
 
@@ -2750,9 +2753,7 @@ init -9 python:
         def ab_equipment(self, _items, slot, amount, per_slot_amount,
                          rv, equip, check_money):
             buy_amount = min(amount, per_slot_amount)
-
-            owned_items = self.get_owned_items(slot)
-            amount_owned = len(owned_items)
+            amount_owned = self.get_owned_items_per_slot(slot)
 
             # We also want to set max amount to buy based on how many items
             # char already has (5 for rings, 2 for everything else)
@@ -2767,30 +2768,28 @@ init -9 python:
             if not buy_amount:
                 return amount, per_slot_amount, rv
 
-            _items = [(item, sum(weights)) for item, weights in _items]
-            _items.sort(key=itemgetter(1), reverse=True)
-            for item, weight in _items:
-                if not check_money:
+            # raise Exception(_items)
+            _items = [(sum(weights), item) for weights, item in _items]
+            _items.sort(key=itemgetter(0), reverse=True)
+            for weight, item in _items:
+                c0 = not check_money
+                c1 = check_money and self.take_money(item.price, reason="Items")
+                if c0 or c1:
                     buy_amount -= 1
                     amount -= 1
                     per_slot_amount -= 1
+                    self.inventory.append(item)
                     rv.append(item.id)
-                elif self.take_money(item.price, reason="Items"):
-                    buy_amount -= 1
-                    amount -= 1
-                    per_slot_amount -= 1
-                    rv.append(item.id)
+
                 if not buy_amount:
                     break
 
             return amount, per_slot_amount, rv
 
-        def ab_consumables(self, _items, amount, per_slot_amount,
+        def ab_consumables(self, _items, slot, amount, per_slot_amount,
                          rv, equip, check_money):
             buy_amount = min(amount, per_slot_amount)
-
-            owned_items = self.get_owned_items(slot)
-            amount_owned = len(owned_items)
+            amount_owned = self.get_owned_items_per_slot(slot)
 
             # We also want to set max amount to buy based on how many items
             # char already has (5 for rings, 2 for everything else)
@@ -2803,9 +2802,9 @@ init -9 python:
             if not buy_amount:
                 return amount, per_slot_amount, rv
 
-            _items = [(item, sum(weights)) for item, weights in _items]
-            _items.sort(key=itemgetter(1), reverse=True)
-            for item, weight in _items:
+            _items = [(sum(weights), item) for weights, item in _items]
+            _items.sort(key=itemgetter(0), reverse=True)
+            for weight, item in _items:
                 # Do not buy more than 3 of any consumable item:
                 if self.inventory[item] >= 3:
                     continue
@@ -2816,6 +2815,7 @@ init -9 python:
                     buy_amount -= 1
                     amount -= 1
                     per_slot_amount -= 1
+                    self.inventory.append(item)
                     rv.append(item.id)
 
                 if not buy_amount:
