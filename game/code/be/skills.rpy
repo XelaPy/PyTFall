@@ -416,21 +416,28 @@ python: # Daggers Attacks:
             dodge_effect={"initial_pause": .7})
 
 python: # Claw Attacks:
-    BE_Action("Claw Slash", attributes=["melee", "physical"], critpower=.1, effect=15, range=1, vitality_cost=1, menu_pos=0, multiplier=.5,
+    BE_Action("Claw Slash", attributes=["melee", "physical"], critpower=.1, effect=15,
+            range=1, vitality_cost=1, menu_pos=0, multiplier=.5,
             desc="An attack with claws.", item_only=True,
-            main_effect={"gfx": "simple_claw_attack_webm", "sfx": "content/sfx/sound/be/claw_attack.mp3", "duration": .367, "hflip": True},
+            main_effect={"gfx": "simple_claw_attack_webm",
+                         "sfx": "content/sfx/sound/be/claw_attack.mp3",
+                         "duration": .367, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .3},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .15})
-    MultiAttack("Claw Slash 2X", attributes=["melee", "physical"], critpower=.1,  effect=30, range=1, vitality_cost=2, menu_pos=.1, multiplier=.65,
+            target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5})
+    MultiAttack("Claw Slash 2X", attributes=["melee", "physical"], critpower=.1,
+            effect=30, range=1, vitality_cost=2, menu_pos=.1, multiplier=.65,
             desc="Two quick attacks with claws.", item_only=True,
-            main_effect={"gfx": ProportionalScale("content/gfx/be/claws.png", 150, 150), "sfx": "content/sfx/sound/be/claw_attack.mp3", "duration": .6, "times": 2},
+            main_effect={"gfx": ProportionalScale("content/gfx/be/claws.png", 150, 150),
+                         "sfx": "content/sfx/sound/be/claw_attack.mp3", "duration": .6, "times": 2},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .3})
-    MultiAttack("Claw Slash 4X", attributes=["melee", "physical"], critpower=.1, multiplier=.8, effect=45, range=1, vitality_cost=5, menu_pos=.2,
+            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+    MultiAttack("Claw Slash 4X", attributes=["melee", "physical"], critpower=.1,
+            multiplier=.8, effect=45, range=1, vitality_cost=5, menu_pos=.2,
             desc="Four quick attacks with claws.", item_only=True,
-            main_effect={"gfx": ProportionalScale("content/gfx/be/claws.png", 150, 150), "sfx": "content/sfx/sound/be/claw_attack.mp3", "duration": 1.2, "times": 4},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.05},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .3})
+            main_effect={"gfx": ProportionalScale("content/gfx/be/claws.png", 150, 150),
+                         "sfx": "content/sfx/sound/be/claw_attack.mp3", "duration": 1.2, "times": 4},
+            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": 1.15},
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": .5})
 
 python: # Fist Attacks:
     BE_Action("Fist Attack", attributes=["melee", "physical"], critpower=-0.2, effect=5, range=1, menu_pos=0, multiplier=.4,
