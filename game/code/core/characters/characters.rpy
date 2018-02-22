@@ -2806,16 +2806,18 @@ init -9 python:
             _items = [(item, sum(weights)) for item, weights in _items]
             _items.sort(key=itemgetter(1), reverse=True)
             for item, weight in _items:
-                if not check_money:
+                # Do not buy more than 3 of any consumable item:
+                if self.inventory[item] >= 3:
+                    continue
+
+                c0 = not check_money
+                c1 = check_money and self.take_money(item.price, reason="Items")
+                if c0 or c1:
                     buy_amount -= 1
                     amount -= 1
                     per_slot_amount -= 1
                     rv.append(item.id)
-                elif self.take_money(item.price, reason="Items"):
-                    buy_amount -= 1
-                    amount -= 1
-                    per_slot_amount -= 1
-                    rv.append(item.id)
+
                 if not buy_amount:
                     break
 
