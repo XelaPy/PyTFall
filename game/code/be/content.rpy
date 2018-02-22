@@ -576,7 +576,10 @@ init python:
 
             for index, target in enumerate(targets):
                 aimpos = battle.get_cp(target, type="center", yo=-20)
-                renpy.show("launch" + str(index), what=missle, at_list=[move_from_to_pos_with_easeout(start_pos=castpos, end_pos=aimpos, t=pause), Transform(anchor=(.5, .5))], zorder=target.besk["zorder"]+51)
+                renpy.show("launch" + str(index), what=missle, at_list=[
+                           move_from_to_pos_with_easeout(start_pos=castpos, end_pos=aimpos, t=pause),
+                           Transform(anchor=(.5, .5))],
+                           zorder=target.besk["zorder"]+51)
 
             renpy.pause(pause)
 
