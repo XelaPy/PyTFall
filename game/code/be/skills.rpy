@@ -601,56 +601,76 @@ python: # Spray Attacks:
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": .5})
 
 python: # Throw attacks:
-    BE_Action("Throw", attributes=["ranged", "physical"], effect=5, range=3, vitality_cost=1, menu_pos=0, multiplier=.5,
+    BE_Action("Throw", attributes=["ranged", "physical"], effect=5,
+            range=3, vitality_cost=1, menu_pos=0, multiplier=.5,
             desc="Throw a projectile.", item_only=True,
-            main_effect={"gfx": "simple_throw_attack_webm", "sfx": list("content/sfx/sound/be/throwing_attack_%d.mp3"%i for i in xrange(1, 3)), "duration": .367, "hflip": True},
+            main_effect={"gfx": "simple_throw_attack_webm",
+                         "sfx": list("content/sfx/sound/be/throwing_attack_%d.mp3"%i for i in xrange(1, 3)),
+                         "duration": .367, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .31},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .15})
-    ArrowsSkill("Shadow Shuriken", menu_pos=.5, attributes=["ranged", "darkness"], effect=60, critpower=.5, multiplier=.95, mp_cost=.05, vitality_cost=15, range=4, piercing=True,
+            target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5})
+    ArrowsSkill("Shadow Shuriken", menu_pos=.5, attributes=["ranged", "darkness"],
+            effect=60, critpower=.5, multiplier=.95, mp_cost=.05, vitality_cost=15, range=4, piercing=True,
             desc="Throw an explosive shadow projectile.", item_only=True,
             firing_effects={"gfx": "shuriken_throw_webm", "sfx": "content/sfx/sound/be/kunai_throw.mp3"},
             projectile_effects={"gfx": "shuriken_fly_webm", "sfx": None, "duration": .4},
-            main_effect={"gfx": "shuriken_hit_webm", "sfx": "content/sfx/sound/be/kunai_exp.mp3", "duration": .51, "aim": {"anchor": (.5, .5), "xo": 0 ,"yo": 0}},
-            target_damage_effect={"gfx": "battle_bounce", "initial_pause": .021},
-            target_sprite_damage_effect={"gfx": "on_dark_with_shake", "initial_pause": .01, "duration": .3},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5},
-            dodge_effect={"initial_pause": .05, "duration": 1.5})
-    BE_Action(u"Cloud of Knives", range=3, attributes=["ranged", "physical"], critpower=.4, effect=100, multiplier=1.05, vitality_cost=15, menu_pos=.5,
+            main_effect={"gfx": "shuriken_hit_webm", "sfx": "content/sfx/sound/be/kunai_exp.mp3",
+                         "duration": 1.51, "aim": {"anchor": (.5, .5), "xo": 0 ,"yo": 0}},
+            target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.05},
+            target_sprite_damage_effect={"gfx": "on_dark_with_shake", "initial_pause": 1.0, "duration": .51},
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": .5},
+            dodge_effect={"initial_pause": .95, "duration": .75})
+    BE_Action(u"Cloud of Knives", range=3, attributes=["ranged", "physical"], critpower=.4,
+            effect=100, multiplier=1.05, vitality_cost=15, menu_pos=.5,
             desc="Throw multiple knives in quick succession.", item_only=True,
-            main_effect={"gfx": Transform("throwing_knives_webm", zoom=1.3), "sfx": "content/sfx/sound/be/knives_cloud.mp3", "duration": 1.96, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
+            main_effect={"gfx": Transform("throwing_knives_webm", zoom=1.3),
+                         "sfx": "content/sfx/sound/be/knives_cloud.mp3",
+                         "duration": 1.96, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.8},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .8})
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.4, "duration": .8})
 
 python: # Whip Attacks:
-    BE_Action("Whip Strike", attributes=["melee", "physical"], critpower=.1, effect=4, range=1, vitality_cost=1, menu_pos=0, multiplier=.5,
+    BE_Action("Whip Strike", attributes=["melee", "physical"], critpower=.1,
+            effect=4, range=1, vitality_cost=1, menu_pos=0, multiplier=.5,
             desc="An attack with a whip.", item_only=True,
-            main_effect={"gfx": "simple_whip_attack_webm", "sfx": list("content/sfx/sound/be/whip_attack_%d.mp3"%i for i in xrange(1, 3)), "duration": .367, "hflip": True, "initial_pause": .1},
-            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .25},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .15})
-    MultiAttack("Whip Strike 2X", attributes=["melee", "physical"], critpower=.1, multiplier=.6, effect=15, range=1, menu_pos=.1, vitality_cost=3,
+            main_effect={"gfx": "simple_whip_attack_webm",
+                         "sfx": list("content/sfx/sound/be/whip_attack_%d.mp3"%i for i in xrange(1, 3)),
+                         "duration": .367, "hflip": True, "initial_pause": .1},
+            target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .36},
+            target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5})
+    MultiAttack("Whip Strike 2X", attributes=["melee", "physical"], critpower=.1,
+            multiplier=.6, effect=15, range=1, menu_pos=.1, vitality_cost=3,
             desc="Two quick attacks with a whip.", item_only=True,
-            main_effect={"gfx": ProportionalScale("content/gfx/be/whip.png", 150, 150), "sfx": "content/sfx/sound/be/whip_attack_1.mp3", "duration": .6, "times": 2},
+            main_effect={"gfx": ProportionalScale("content/gfx/be/whip.png", 150, 150),
+                         "sfx": "content/sfx/sound/be/whip_attack_1.mp3",
+                         "duration": .6, "times": 2},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .3})
-    BE_Action(u"Shocker Whip", menu_pos=1.4, range=1, attributes=["melee", "electricity", "physical"], effect=70, critpower=.5, multiplier=1.1, vitality_cost=8, mp_cost=.1,
+            target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
+    BE_Action(u"Shocker Whip", menu_pos=1.4, range=1, attributes=["melee", "electricity", "physical"],
+            effect=70, critpower=.5, multiplier=1.1, vitality_cost=8, mp_cost=.1,
             desc="A whip attack charged with electricity. Double pleasure, double pain.", item_only=True,
-            main_effect={"gfx": "shock_whip_webm", "sfx": "content/sfx/sound/be/shock_whip.ogg", "duration": 1.36, "aim": {"point": "center", "anchor": (.5, .5), "xo": 180}, "hflip": True},
-            target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": .5, "duration": .5},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5})
+            main_effect={"gfx": "shock_whip_webm", "sfx": "content/sfx/sound/be/shock_whip.ogg",
+                         "duration": 1.36, "aim": {"point": "center", "anchor": (.5, .5), "xo": 180}, "hflip": True},
+            target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": .5, "duration": .86},
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": .5})
 
 python: # Magical staffs attacks:
-    BE_Action(u"Heat Discharge", menu_pos=-0.1, range=4, attributes=["magic", "fire"], critpower=.3, effect=50, multiplier=.5, mp_cost=3,
+    BE_Action(u"Heat Discharge", menu_pos=-0.1, range=4, attributes=["magic", "fire"],
+            critpower=.3, effect=50, multiplier=.5, mp_cost=3,
             desc="Releases a discharge of heat energy.", item_only=True,
-            main_effect={"gfx": "magic_staff_01_webm", "sfx": "content/sfx/sound/be/fire4.mp3", "duration": .967, "aim": {"point": "center", "anchor": (.5, .5), "xo": 120}, "hflip": True},
-            target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": .45, "duration": .45},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .25})
-    P2P_Skill("Ice Sphere", menu_pos=-0.1, attributes=["magic", "ice"], effect=40, critpower=.2, multiplier=.45, mp_cost=2, range=4, piercing=True,
+            main_effect={"gfx": "magic_staff_01_webm", "sfx": "content/sfx/sound/be/fire4.mp3",
+                         "duration": .967, "aim": {"point": "center", "anchor": (.5, .5), "xo": 120}, "hflip": True},
+            target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": .45, "duration": .55},
+            target_death_effect={"gfx": "dissolve", "initial_pause": .8, "duration": .5})
+    P2P_Skill("Ice Sphere", menu_pos=-0.1, attributes=["magic", "ice"], effect=40,
+            critpower=.2, multiplier=.45, mp_cost=2, range=4, piercing=True,
             desc="Creates a simple projectile made of ice.", item_only=True,
             projectile_effects={"gfx": "magic_staff_02_webm", "sfx": "content/sfx/sound/be/ice_staff.opus", "duration": .4},
-            main_effect={"gfx": "Ice Arrow impact", "sfx": "content/sfx/sound/be/ice_axe.mp3", "duration": .7, "aim": {"anchor": (.5, .5), "xo": 0 ,"yo": 0}},
-            target_damage_effect={"gfx": "battle_bounce", "initial_pause": .01},
-            target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .01, "duration": .3},
-            target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5})
+            main_effect={"gfx": "Ice Arrow impact", "sfx": "content/sfx/sound/be/ice_axe.mp3",
+                         "duration": .7, "aim": {"anchor": (.5, .5), "xo": 0 ,"yo": 0}},
+            target_damage_effect={"gfx": "battle_bounce", "initial_pause": .42},
+            target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .45, "duration": .6},
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": .5})
 
 python: ##### Mobs-only attacks:
     BE_Action(u"Stone Fist", menu_pos=3, range=1, attributes=["melee", "earth", "physical"], effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True,
