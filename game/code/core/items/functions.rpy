@@ -293,10 +293,10 @@ init -11 python:
                     interactions_character_doesnt_want_bad_item()
                 return not allowed_to_equip
 
-        if character.disposition < 950 and not check_lovers(character, hero):
-            if not silent:
-                interactions_character_doesnt_want_to_equip_item()
-            return False
+            elif character.disposition < 950 and not check_lovers(character, hero):
+                if not silent:
+                    interactions_character_doesnt_want_to_equip_item()
+                return False
 
         return True
 

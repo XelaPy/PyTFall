@@ -246,7 +246,7 @@ screen chars_list(source=None):
                     text_outlines [(1, "#000000", 0, 0)]
                 hbox:
                     box_wrap True
-                    for f, c, t in [('Home', brown, 'Toggle home filters'),
+                    for f, c, t in [('Home', saddlebrown, 'Toggle home filters'),
                                     ('Work', brown, 'Toggle workplace filters'),
                                     ("Status", green, 'Toggle status filters'),
                                     ("Action", darkblue, 'Toggle action filters'),
@@ -283,9 +283,9 @@ screen chars_list(source=None):
                             button:
                                 xsize 125
                                 action ModFilterSet(source, "home_filters", f)
-                                text "[f]" color brown:
+                                text "[f]" color saddlebrown:
                                     if len(str(f)) > 12:
-                                        size 10
+                                        size 12
                                 hovered tt.Action('Toggle the filter')
                     if "Work" in selected_filters:
                         for f in work_filters:
@@ -368,16 +368,19 @@ screen chars_list(source=None):
                         xysize (150, 40)
                         action If(len(the_chosen), [Show("girl_control")])
                         text "Girl Control"
+                        selected False
                         hovered tt.Action('Set desired behavior for group')
                     button:
                         xysize (150, 40)
                         action If(len(the_chosen), [Hide("chars_list"), With(dissolve), SetVariable("eqtarget", None), Jump('char_equip')])
                         text "Equipment"
+                        selected False
                         hovered tt.Action('Manage group equipment')
                     button:
                         xysize (150, 40)
                         action If(len(the_chosen), [Hide("chars_list"), With(dissolve), Jump('girl_training')])
                         text "Training"
+                        selected False
                         hovered tt.Action('Manage group training')
 
     # Keybinds:
