@@ -117,18 +117,24 @@ label special_auto_save: # since built-in autosave works like shit, I use normal
         $ special_save_number = 1
     return
 
+screen next_day_calculations:
+    zorder 20
+    text "Processing next day calculations" font "fonts/badaboom.ttf" color "#daa520" size 35 align(.5, .5) outlines [(2, "#000000", 0, 0)]
+    
 label next_day:
     call next_day_effects_check
     scene bg profile_2
     $ next_day_local = None
+    show screen next_day_calculations
     if just_view_next_day: # Review old reports:
         $ just_view_next_day = False
     else: # Do the calculations:
         $ counter = 1
+        
         while counter:
             call next_day_calculations
             $ counter -= 1
-
+    
     # Preparing to display ND.
     ####### - - - - - #######
     # Sort data for summary reports:
@@ -138,13 +144,12 @@ label next_day:
     if FilteredList:
         $ event = FilteredList[0]
         $ gimg = event.load_image()
-
+    hide screen next_day_calculations
     call next_day_controls
 
     # Lets free some memory...
     if not day%50:
         $ renpy.free_memory()
-
     if next_day_local:
         jump next_day
 
