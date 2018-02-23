@@ -368,16 +368,19 @@ screen chars_list(source=None):
                         xysize (150, 40)
                         action If(len(the_chosen), [Show("girl_control")])
                         text "Girl Control"
+                        selected False
                         hovered tt.Action('Set desired behavior for group')
                     button:
                         xysize (150, 40)
                         action If(len(the_chosen), [Hide("chars_list"), With(dissolve), SetVariable("eqtarget", None), Jump('char_equip')])
                         text "Equipment"
+                        selected False
                         hovered tt.Action('Manage group equipment')
                     button:
                         xysize (150, 40)
                         action If(len(the_chosen), [Hide("chars_list"), With(dissolve), Jump('girl_training')])
                         text "Training"
+                        selected False
                         hovered tt.Action('Manage group training')
 
     # Keybinds:
