@@ -12,37 +12,36 @@ init -9 python:
 
         def __init__(self):
             super(CityJail, self).__init__()
-            self.worker = None
+            self.focused = None
             self.index = 0
-            self.workers_list = list() # Absurd name, prolly due to mass renaming...
+            self.chars_list = []
             self.auto_sell_captured = False # Do we auto-sell SE captured slaves?
 
         def __contains__(self, char):
-            """
-            Checks whether a girl has runaway.
-            """
-            return char in self.workers_list
+            return char in self.chars_list
 
-        def add_prisoner(self, girl, flag=None):
+        def add_prisoner(self, char, flag=None):
+            """Adds a char to the jail.
+
+            char: Character to throw into Jail
+            flag: Sentence type (reason to put in Jail)
             """
-            Adds a girl to the jail.
-            girl = The girl to add.
-            """
-            if girl not in self:
-                if girl in hero.team: hero.team.remove(girl)
-                self.workers_list.append(girl)
+            if char not in self:
+                if char in hero.team:
+                    hero.team.remove(char)
+                self.chars_list.append(char)
 
                 # Flag to determine how the girl is handled in the jail:
                 if flag:
-                    girl.set_flag("sentence_type", flag)
+                    char.set_flag("sentence_type", flag)
                     if flag == "SE_capture":
-                        girl.set_flag("days_in_jail", 0)
+                        char.set_flag("days_in_jail", 0)
 
-                if self.worker is None:
-                    self.worker = girl
+                if self.focused is None:
+                    self.focused = char
                     self.index = 0
 
-        def buy_girl(self):
+        def buy_char(self):
             """Buys an escaped girl from the jail.
             """
             if hero.take_ap(1):
@@ -55,7 +54,7 @@ init -9 python:
             else:
                 renpy.call_screen('message_screen', "You don't have enough AP left for this action!")
 
-            if not self.workers_list:
+            if not self.chars_list:
                 renpy.hide_screen("slave_shopping")
 
         def get_price(self):
@@ -82,15 +81,15 @@ init -9 python:
             """
             Sets the next index for the slavemarket.
             """
-            self.index = (self.index+1) % len(self.workers_list)
-            self.worker = self.workers_list[self.index]
+            self.index = (self.index+1) % len(self.chars_list)
+            self.worker = self.chars_list[self.index]
 
         def previous_index(self):
             """
             Sets the previous index for the slavemarket.
             """
-            self.index = (self.index-1) % len(self.workers_list)
-            self.worker = self.workers_list[self.index]
+            self.index = (self.index-1) % len(self.chars_list)
+            self.worker = self.chars_list[self.index]
 
         def remove_prisoner(self, char, set_location=True):
             """
@@ -100,11 +99,11 @@ init -9 python:
             if char in self:
                 char.del_flag("sentence_type")
                 char.del_flag("days_in_jail")
-                self.workers_list.remove(char)
+                self.chars_list.remove(char)
 
-                if self.workers_list:
-                    self.index %= len(self.workers_list)
-                    self.worker = self.workers_list[self.index]
+                if self.chars_list:
+                    self.index %= len(self.chars_list)
+                    self.worker = self.chars_list[self.index]
                 else:
                     self.index = 0
                     self.worker = None
@@ -123,9 +122,9 @@ init -9 python:
             Sets the girl to be the index for the slavemarket.
             girl = The girl to set.
             """
-            if self.workers_list and girl in self.workers_list:
+            if self.chars_list and girl in self.chars_list:
                 self.worker = girl
-                self.index = self.workers_list.index(self.worker)
+                self.index = self.chars_list.index(self.worker)
 
         # Deals with girls captured during SE:
         def sell_captured(self, girl=None, auto=False):
@@ -149,11 +148,11 @@ init -9 python:
                 renpy.call_screen('message_screen', "You don't have enough AP left for this action!")
 
             if not auto:
-                if not self.workers_list:
+                if not self.chars_list:
                     renpy.hide_screen("slave_shopping")
 
         def next_day(self):
-            for i in self.workers_list:
+            for i in self.chars_list:
                 if i.flag("sentence_type") == "SE_capture":
                     i.mod_flag("days_in_jail")
                     if self.auto_sell_captured:
@@ -196,7 +195,7 @@ init -9 python:
             else:
                 renpy.call_screen('message_screen', "You don't have enough AP left for this action!")
 
-            if not self.workers_list:
+            if not self.chars_list:
                 renpy.hide_screen("slave_shopping")
 
 

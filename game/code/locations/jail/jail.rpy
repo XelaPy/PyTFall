@@ -56,7 +56,7 @@ label _no_jail_event:
     return
 
 
-screen city_jail:
+screen city_jail():
 
     use top_stripe(True)
 

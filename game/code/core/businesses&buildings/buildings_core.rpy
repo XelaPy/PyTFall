@@ -7,7 +7,7 @@ init -10 python:
     # UpgradableBuilding = Adds upgrades  to the building.
     #
     # Examples:
-    # class CityJail(Building): <-- Just a building6
+    # class CityJail(Building): <-- Just a building
     # class Brothel(UpgradableBuilding, BuildingStats, FamousBuilding): <-- A building will upgrade, dirt and fame mechanics.
     #
     """Core order for SimPy jobs loop:
