@@ -2,8 +2,10 @@
 init -9 python:
     ######## Game logic classes ########
     class PyTFallWorld(_object):
-        '''This class will guide all AI/Logic inside of the world that is not controlled by the player.
-        This really looks like this should be a function at the moment, but we will add more relevant methods in the future.
+        '''This class will guide all AI/Logic inside of the world
+            that is not controlled by the player.
+        This really looks like this should be a function at the moment,
+            but we will add more relevant methods in the future.
         '''
         def __init__(self):
             # Maps
@@ -86,13 +88,18 @@ init -9 python:
             # Same for Arena Fighters:
             for fighter in pytfall.arena.arena_fighters.values():
                 fighter.cache = list()
+                fighter.img_cache = list()
                 fighter.health = fighter.get_max("health")
                 fighter.mp = fighter.get_max("mp")
                 fighter.vitality = fighter.get_max("vitality")
 
         @staticmethod
         def add_random_girls():
-            l = list(girl for girl in chars.values() if girl.__class__ == rChar and not girl.arena_active and girl not in hero.chars)
+            # TODO FIXME Proper ranfom char generation!
+            l = list(girl for girl in chars.values() if
+                        girl.__class__ == rChar and
+                        not girl.arena_active and
+                        girl not in hero.chars)
             amount = randint(45, 60)
             if len(l) < amount:
                 for __ in xrange((amount+5) - len(l)):
