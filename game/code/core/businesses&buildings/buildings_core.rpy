@@ -405,6 +405,8 @@ init -10 python:
             self._businesses = list()
             self.allowed_businesses = []
 
+            self.fin = Finances(self)
+
             # And new style upgrades:
             self.in_slots = 0 # Interior Slots
             self.in_slots_max = kwargs.pop("in_slots_max", 100)
@@ -429,29 +431,29 @@ init -10 python:
             # Clients:
             self.all_clients = set() # All clients of this building are maintained here.
             self.regular_clients = set() # Subset of self.all_clients.
-            self.clients = set() # Local clients, this is used during next day and reset on when that ends.
+            self.clients = set() # temp clients, this is used during SimPy cals and reset on when that ends.
+            self.logged_clients = False
+            # This is the amount of clients that will visit the Building:
+            self.total_clients = 0 # this is set by get_client_count method.
 
             # Chars:
             # Note: We also use .inhabitants set inherited from all the way over location.
             self.manager = None
-            self.manager_effectiveness = 0
+            self.manager_effectiveness = 0 # Calculated once (performance)
+            # Bit of an issue could be that we're using all_workers in SimPy as well? :D
+            # TODO (bb) Look into the above.
             self.all_workers = list() # All workers presently assigned to work in this building.
-            self.available_workers = list() # This is built and used during the next day.
+            self.available_workers = list() # This is built and used during the next day (SimPy).
 
             # Upgrades:
             self.nd_ups = list() # Upgrades active during the next day...
 
             # SimPy and etc follows:
             self.env = None
-            # self.maxrank = kwargs.pop("maxrank", 0) # @Useless property...
 
-            self.logged_clients = False
-            # This is the amount of clients that will visit the brothel,
-            # this is set by get_client_count method.
-            self.total_clients = 0
-            self.mod = 1
+            self.mod = kwargs.get("mod", 1)
 
-            self.fin = Finances(self)
+
 
         def log(self, item, add_time=False):
             # Logs the item (text) to the Building log...
@@ -762,7 +764,7 @@ init -10 python:
             customer = build_client(gender=gender, caste=caste, tier=random.uniform(min_tier, max_tier))
 
             return customer
-        
+
         # SimPy/Working the building related:
         def run_nd(self):
             """This method is ran for buildings during next day
