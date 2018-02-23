@@ -704,7 +704,7 @@ init -10 python:
             expected_clients = expected_clients/100.0*temp
             clients = round_int(max(min_clients, expected_clients))
             if clients and write_to_nd:
-                self.log("{} clients are expected to come here!".format(clients, self.name))
+                self.log("Total of {} clients are expected to visit this establishment!".format(set_font_color(clients, "lawngreen")))
 
             self.total_clients = clients
 
@@ -712,7 +712,7 @@ init -10 python:
         def expects_clients(self):
             return any(i.expects_clients for i in self._businesses)
 
-        def create_customer(self, name=""):
+        def create_customer(self, name="", likes=None):
             """
             Returns a customer for this Building.
             If name is an empty string, a random customer is returned.
@@ -737,8 +737,9 @@ init -10 python:
             # create random customer
             min_tier = float(max(self.tier-2, .1))
             max_tier = float(self.tier + 1)
-            customer = build_client(gender=gender, caste=caste, tier=random.uniform(min_tier, max_tier))
-
+            customer = build_client(gender=gender, caste=caste,
+                                    tier=random.uniform(min_tier, max_tier),
+                                    likes=likes)
             return customer
 
         # SimPy/Working the building related:
@@ -765,22 +766,20 @@ init -10 python:
 
             # Get businesses we wish SimPy to manage! business_manager method is expected here.
             self.nd_ups = list(up for up in self._businesses if up.workable)
+            client_businesses = list(up for up in self._businesses if up.expects_clients)
 
             # Clients:
             tl.timer("Generating clients")
             self.get_client_count(write_to_nd=True)
             clnts = self.total_clients
+
             # TODO B&B-clients: Generate and add regulars!
-            # ALSO: We at the moment randomly pick a business for a client to like, that may need to be adjusted.
             if self.available_workers and len(self.all_clients) < clnts:
-                if self.nd_ups:
-                    for i in xrange(clnts - len(self.all_clients)):
-                        if dice(80):
-                            self.all_clients.add(build_client(likes=[choice(self.nd_ups)]))
-                        else:
-                            self.all_clients.add(build_client(gender="female", likes=[choice(self.nd_ups)]))
+                for i in xrange(clnts - len(self.all_clients)):
+                    client = self.create_customer(likes=[choice(client_businesses)])
+                    self.all_clients.add(client)
             self.clients = self.all_clients.copy()
-            self.log("Total of {} clients are expected to visit this establishment!".format(set_font_color(len(self.clients), "lawngreen")))
+
             tl.timer("Generating clients")
 
             # Create an environment and start the setup process:
@@ -805,6 +804,9 @@ init -10 python:
 
         def building_manager(self, end=100):
             """This is the main process that manages everything that is happening in the building!
+
+            We manage workable buildings here.
+            This does not benefit from being a SimPy process as it stands now.
             """
             # TODO B&B-clients: Improve the function and add possibilities for "Rush hours"
             for u in self.nd_ups:
@@ -817,7 +819,7 @@ init -10 python:
                 if u.has_workers():
                     u.is_running = True
 
-            if self.expects_clients:
+            if self.expects_clients and self.total_clients:
                 self.env.process(self.clients_dispatcher(end=end))
 
             while 1:
@@ -825,27 +827,35 @@ init -10 python:
 
         def clients_dispatcher(self, end=100):
             """This method provides stream of clients to the building following it's own algorithm.
-            """
-            # TODO B&B-clients: This can plainly be done better... i ii iii
-            i = 0
-            ii = 0
-            if self.clients and len(self.clients) > 60:
-                iii = randint(3, len(self.clients)/20)
-            else:
-                iii = 0
 
-            while self.clients and self.nd_ups:
-                if ii > iii:
-                    delay = randint(1, 3)
-                    yield self.env.timeout(delay)
-                    # Ensure a steady stream if clients:
-                    ii = 0
-                    if len(self.clients) > end - self.env.now:
-                        iii = (len(self.clients) / (end - self.env.now))
-                i += 1
-                ii += 1
-                client = self.clients.pop()
-                self.env.process(self.client_manager(client))
+            We want 50% of all clients to come in the 'rush hour' (turn 50 - 80).
+            """
+            expected = self.total_clients
+            running = 0
+
+            # We do not want to add clients at the last 5 - 10 turns...
+            # So we use 90 as base.
+            normal_step = self.total_clients*.5/60
+            rush_hour_step = self.total_clients*.5/30
+
+            while expected > 0 and self.clients:
+                if 50 <= self.env.now <= 80:
+                    running += rush_hour_step
+                else:
+                    running += normal_step
+
+                if running >= 1:
+                    add_clients = round_int(running)
+                    running -= add_clients
+
+                    for i in range(add_clients):
+                        expected -= 1
+                        if self.clients:
+                            client = self.clients.pop()
+                            self.env.process(self.client_manager(client))
+
+                devlog.info("Client Distribution running: {}".format(running))
+                yield self.env.timeout(1)
 
         def client_manager(self, client):
             """Manages a client using SimPy.
@@ -869,7 +879,7 @@ init -10 python:
                 self.env.exit()
             if self.threat >= 800:
                 yield self.env.timeout(1)
-                temp = "Your building is as safe as a warzone. {} runs away from it.".format(client.name)
+                temp = "Your building is as safe as a warzone. {} ran away.".format(client.name)
                 self.log(temp)
                 self.env.exit()
 
