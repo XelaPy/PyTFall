@@ -453,8 +453,6 @@ init -10 python:
 
             self.mod = kwargs.get("mod", 1)
 
-
-
         def log(self, item, add_time=False):
             # Logs the item (text) to the Building log...
             if add_time and self.env:
@@ -644,60 +642,6 @@ init -10 python:
             return any(i.workable for i in self._businesses)
 
         # Clients related:
-        def get_clients(self):
-            """
-            Get the amount of clients that will visit the brothel the next day.
-            """
-            self.flag_red = False # Dev Note: This is being set and reset here and only here!
-
-            self.txt += "OLD CODE THAT NEEDS TO DIE OFF:\n\n"
-
-            if not self.fame and not self.rep and self.hasattr('toggle_advert') and not adverts['Sign'].active:
-                no_clients = True
-                self.flag_red = True
-            else:
-                no_clients = False
-
-            clients = self.baseclients*round_int(self.mod*1.5)
-            if config.debug:
-                if not self.logged_clients:
-                    self.txt += "\n Adding 10 Clients in the debug mode!"
-                clients = clients + 10
-
-            if not self.logged_clients and no_clients:
-                self.txt += "{color=[red]}Noone came to your brothel today... You should at least put up a sign!{/color}"
-                self.logged_clients = True
-                return 0
-
-            elif not self.logged_clients:
-                self.txt += "%d clients came to brothel just because its there... " % clients
-
-            if not no_clients:
-                add_clients = int(self.fame*0.2)
-
-                if add_clients and not self.logged_clients:
-                    self.txt += "%d because of it's Fame... " % add_clients
-
-                clients += add_clients
-
-                # Adding bonuses for girls in this brothel
-                gfamebonus = 0
-
-                for girl in self.get_girls(["Guard", "AutoRest", "Rest"], True): gfamebonus += 1 + int(girl.fame/20)
-
-                if not self.logged_clients and gfamebonus:
-                    self.txt += "and another %d attracted by your girlz :) \n" % gfamebonus
-
-                clients = clients + gfamebonus
-
-                self.logged_clients = True
-
-            #TODO B&B-clients: Add girl's customer-magnet traits.
-            if no_clients:
-                return 0
-            else:
-                return clients
-
         def get_client_count(self, write_to_nd=False):
             """Get the amount of clients that will visit the building the next day.
             """

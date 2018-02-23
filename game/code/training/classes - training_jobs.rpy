@@ -66,10 +66,6 @@ init python:
             # All Occupations:
             return set(self.occupations + self.occupation_traits)
 
-        def get_clients(self):
-            # This returns a correct amount of clients used for the job
-            return 0
-
         def create_event(self):
             """
             Returns an event depicting the current state of this job.

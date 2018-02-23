@@ -243,10 +243,6 @@
                     return True
             return False
 
-        def get_clients(self):
-            # This returns a correct amount of clients used for the job
-            return 0
-
         def calculate_disposition_level(self, worker):
             return 0
 
