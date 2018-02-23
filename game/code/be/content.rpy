@@ -52,17 +52,18 @@ init python:
         """
         Going to try and chain gfx/sfx for simple BE attacks using a UDD.
         """
-        def __init__(self, gfx, sfx, chain_sfx=True, times=2, delay=.3,
-                     sd_duration=.75, alpha_fade=.0, webm_size=(), **properties):
+        def __init__(self, gfx, sfx, chain_sfx=True, times=2, delay=.35,
+                     sd_duration=.5, alpha_fade=.0, webm_size=(), **properties):
             """
             chain_sfx: Do we play the sound and do we chain it?
                 True = Play and Chain.
                 False = Play once and don't play again.
                 None = Do not play SFX at all.
             times = how many times we run the animation in a sequence.
-            delay = interval between the two runs.
+            delay = time between showing displayables.
             sd_duration = single frame (displayable) duration.
-            alpha_fade = Do we want alpha fade for each frame or not. 1.0 means not, .0 means yes and everything in between is partial fade.
+            alpha_fade = Do we want alpha fade for each frame or not. 1.0 means not,
+                .0 means yes and everything in between is partial fade.
             """
             super(ChainedAttack, self).__init__(**properties)
 
@@ -109,10 +110,13 @@ init python:
 
                 # GFX:
                 gfx = Transform(self.gfx, **flip)
-                gfx = multi_strike(gfx, (offx, offy), st, self.single_displayable_duration, self.alpha_fade)
+                gfx = multi_strike(gfx, (offx, offy), st,
+                                   self.single_displayable_duration, self.alpha_fade)
 
-                # Calc when we add the next gfx and remove the old one from the list. Right now it's a steady stream of ds but I'll prolly change it in the future.
-                self.next = st + random.uniform(self.delay*.5, self.delay)
+                # Calc when we add the next gfx and remove the old one from the list.
+                # Right now it's a steady stream of ds but I'll prolly change it in the future.
+                next_disp = random.uniform(self.delay*.85, self.delay)
+                self.next = st + next_disp
                 self.count += 1
                 self.displayable.append((gfx, st + self.single_displayable_duration))
 
@@ -341,7 +345,7 @@ init python:
             sfx = self.main_effect["sfx"]
 
             times = self.main_effect.get("times", 2)
-            interval = self.main_effect.get("interval", .3)
+            interval = self.main_effect.get("interval", .2)
             sd_duration = self.main_effect.get("sd_duration", .3)
             alpha_fade = self.main_effect.get("alpha_fade", .3)
             webm_size  = self.main_effect.get("webm_size", ())

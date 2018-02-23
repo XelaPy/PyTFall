@@ -4,7 +4,7 @@ init -1 python: # Core classes:
     I think that we can use zorders on master layer instead of messing with multiple layers.
     """
 
-    BDP = {} # BE DEFAULT POSITIONS *Postions are tuples in lists that go from top to bottom.
+    BDP = {} # BE DEFAULT POSITIONS *positions are tuples in lists that go from top to bottom.
     BDP["l0"] = [(160, 360), (120, 410), (80, 460)] # Left (Usually player) teams backrow default positions.
     BDP["l1"] = [(260, 360), (220, 410), (180, 460)] # Left (Usually player) teams frontrow default positions.
     BDP["r0"] = list((config.screen_width-t[0], t[1]) for t in BDP["l0"]) # BackRow, Right (Usually enemy).
