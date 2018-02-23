@@ -309,7 +309,7 @@ python: # Bow Attacks:
             projectile_effects={"gfx": "Fire Arrow fly", "sfx": None, "duration": .4},
             attacker_effects={"gfx": "default_1", "sfx": "default"},
             target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.0},
-            main_effect={"gfx": "Fire Arrow impact", "sfx": None, "duration": 1.51, "aim": {"anchor": (.5, .5)}}, # .51s =Duration of main effect.
+            main_effect={"gfx": "Fire Arrow impact", "sfx": None, "duration": .51, "aim": {"anchor": (.5, .5)}}, # .51s =Duration of main effect.
             target_sprite_damage_effect={"gfx": "burning_with_shake", "initial_pause": 1.0, "duration": .5},
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": .5},
             dodge_effect={"initial_pause": 1.0})
@@ -318,7 +318,7 @@ python: # Bow Attacks:
             desc="Shot an arrow of frozen water.", item_only=True,
             firing_effects={"gfx": "Ice Arrow cast", "sfx": "content/sfx/sound/be/ice_arrow.mp3"},
             projectile_effects={"gfx": "Ice Arrow fly", "sfx": None, "duration": .4},
-            main_effect={"gfx": "Ice Arrow impact", "sfx": None, "duration": 1.51,
+            main_effect={"gfx": "Ice Arrow impact", "sfx": None, "duration": .51,
                          "aim": {"anchor": (.5, .5), "xo": 0 ,"yo": 0}},
             attacker_effects={"gfx": "ice_2", "sfx": "default"},
             target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.0},
@@ -638,7 +638,7 @@ python: # Throw attacks:
             firing_effects={"gfx": "shuriken_throw_webm", "sfx": "content/sfx/sound/be/kunai_throw.mp3"},
             projectile_effects={"gfx": "shuriken_fly_webm", "sfx": None, "duration": .4},
             main_effect={"gfx": "shuriken_hit_webm", "sfx": "content/sfx/sound/be/kunai_exp.mp3",
-                         "duration": 1.51, "aim": {"anchor": (.5, .5), "xo": 0 ,"yo": 0}},
+                         "duration": .51, "aim": {"anchor": (.5, .5), "xo": 0 ,"yo": 0}},
             target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.05},
             target_sprite_damage_effect={"gfx": "on_dark_with_shake", "initial_pause": 1.0, "duration": .51},
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": .5},

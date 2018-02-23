@@ -1463,13 +1463,13 @@ init -1 python: # Core classes:
             self.timestamps[start] = renpy.curry(self.show_main_gfx)(battle, attacker, targets)
 
             pause = start + self.main_effect["duration"]
-            # Kind of a shitty way of trying to handle attacks that come
+            # Kind of a shitty way of trying to handle attacks that come.
             # With their own pauses in time_main_gfx method.
             pause += getattr(self, "firing_effects", {}).get("duration", 0)
             pause += getattr(self, "projectile_effects", {}).get("duration", 0)
-
             if pause in self.timestamps:
                 pause = pause + random.uniform(.001, .002)
+
             self.timestamps[pause] = renpy.curry(self.hide_main_gfx)(targets)
 
         def show_main_gfx(self, battle, attacker, targets):
