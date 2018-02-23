@@ -110,8 +110,15 @@ init -12 python:
             self.upgrades = list()
 
         def get_client_count(self):
-            # Returns amount of clients we expect to come here.
-            return self.capacity
+            """Returns amount of clients we expect to come here.
+
+            Right now we base our best guess on time and cap.
+            """
+            # .7 is just 70% of absolute max (to make upgrades meaningful).
+            # 101.0 is self.env duration.
+            # self.time is amount of time we expect to spend per client.
+            amount = round_int(((101.0/self.time)*self.capacity)*.7)
+            return amount
 
         @property
         def job(self):
@@ -330,6 +337,7 @@ init -12 python:
             self.type = "personal_service"
             self.jobs = set()
             self.workable = True
+            self.expects_clients = True
 
             # SimPy and etc follows:
             self.res = None # Restored before every job...
@@ -414,6 +422,7 @@ init -12 python:
             super(PublicBusiness, self).__init__(**kwargs)
             self.jobs = set() # Job bound to this update.
             self.workable = True
+            self.expects_clients = True
             self.type = "public_service"
 
             self.active_workers = set() # On duty Workers.
@@ -421,14 +430,10 @@ init -12 python:
 
             # SimPy and etc follows (L33t stuff :) ):
             self.res = None # Restored before every job... Resource Instance that may not be useful here...
-            self.time = 5 # Time for a single shift.
+            self.time = 10 # Time for a single shift.
             self.is_running = False # Active/Inactive.
 
             self.earned_cash = 0 # Cash earned (total)
-
-        def pre_nd(self):
-            # Whatever we need to do at start of Next Day calculations.
-            self.res = simpy.Resource(self.env, self.capacity)
 
         def client_control(self, client):
             """Request for a spot for a client...
@@ -445,10 +450,10 @@ init -12 python:
 
                 dirt = 0
                 flag_name = "jobs_spent_in_{}".format(self.name)
-                du_to_spend_here = self.time*3 # 3 full terns
+                du_to_spend_here = self.time
 
                 while not client.flag("jobs_ready_to_leave"):
-                    yield self.env.timeout(self.time)
+                    yield self.env.timeout(5)
 
                     dirt += randint(2, 3) # Move to business_control?
 
@@ -568,6 +573,10 @@ init -12 python:
 
         def worker_control(self, worker):
             raise Exception("worker_control method must be implemented")
+
+        def pre_nd(self):
+            # Whatever we need to do at start of Next Day calculations.
+            self.res = simpy.Resource(self.env, self.capacity)
 
         def post_nd_reset(self):
             self.res = None
