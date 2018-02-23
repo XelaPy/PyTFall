@@ -41,7 +41,7 @@ init -9 python:
                     self.focused = char
                     self.index = 0
 
-        def buy_char(self):
+        def buy_girl(self):
             """Buys an escaped girl from the jail.
             """
             if hero.take_ap(1):
@@ -781,7 +781,7 @@ init -9 python:
 
         def create_customer(self, name=""):
             """
-            Returns a customer for this brothel.
+            Returns a customer for this Building.
             If name is an empty string, a random customer is returned.
             If name is given, the returning customer with that name is returned
             by this method. A NameError will be raised if the given name is not
@@ -797,7 +797,7 @@ init -9 python:
             if self.rep < 50: caste = choice(['Peasant', 'Merchant'])
             elif 50 <= self.rep <= 150: caste = choice(['Peasant', 'Merchant', 'Nomad'])
             elif 151 <= self.rep <= 400: caste = choice(['Nomad', 'Merchant', 'Wealthy Merchant'])
-            elif 401 <= self.rep <= 600:caste = choice(['Merchant', 'Wealthy Merchant', 'Clerk'])
+            elif 401 <= self.rep <= 600: caste = choice(['Merchant', 'Wealthy Merchant', 'Clerk'])
             elif 601 <= self.rep <= 800: caste = choice(['Wealthy Merchant', 'Clerk', 'Noble'])
             else: caste = choice(['Clerk', 'Noble', 'Royal'])
 

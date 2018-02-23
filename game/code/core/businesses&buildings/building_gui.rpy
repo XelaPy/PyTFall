@@ -474,9 +474,9 @@ init: # Screens:
             frame:
                 background Frame("content/gfx/frame/ink_box.png", 10, 10)
                 xysize (307, 190)
-                xpadding 10
+                padding 10, 10
                 align .5, .99
-                text (u"{=stats_text}{color=[bisque]}{size=-1}%s" % tt.value) outlines [(1, "#3a3a3a", 0, 0)]
+                text (u"{=proper_stats_text}{color=[bisque]}%s" % tt.value) outlines [(1, "#3a3a3a", 0, 0)]
 
     screen building_management_leftframe_building_mode:
         frame:
@@ -556,6 +556,7 @@ init: # Screens:
                                 textbutton "{size=15}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Details":
                                     background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=.8)
                                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
+                                    hovered tt.action("View details or expand {}".format(u.name))
                                     xalign .5
                                     action SetVariable("bm_mid_frame_mode", u)
 
@@ -601,7 +602,7 @@ init: # Screens:
                 null height 5
                 frame:
                     background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
-                    style_group "proper_stats"
+                    style_prefix "proper_stats"
                     xsize 310
                     padding 12, 12
                     margin 0, 0
@@ -611,7 +612,8 @@ init: # Screens:
                         xalign .5
                         text "Capacity:" xalign .02 color ivory
                         text "[bm_mid_frame_mode.capacity]"  xalign .98 style_suffix "value_text" yoffset 4
-                    null height 1
+                    null height 5
+                    text "To Expand:"
                     frame:
                         xysize (290, 27)
                         xalign .5
@@ -629,6 +631,7 @@ init: # Screens:
                         text "[bm_mid_frame_mode.exp_cap_cost]"  xalign .98 style_suffix "value_text" yoffset 4
                     null height 1
                     textbutton "Expand Capacity":
+                        style "pb_button"
                         xalign .5
                         if bm_mid_frame_mode.can_extend_capacity():
                             action [Function(bm_mid_frame_mode.expand_capacity),
@@ -857,7 +860,7 @@ init: # Screens:
                             align .5, .5
                             xysize (135, 40)
                             action SetVariable("bm_mid_frame_mode", building)
-                            hovered tt.action('Open a new business in this building!.')
+                            hovered tt.action('Open a new business or upgrade this building!')
                             text "Expand"
 
                 ## Security Bar:
