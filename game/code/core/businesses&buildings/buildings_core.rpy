@@ -494,6 +494,7 @@ init -10 python:
 
         # Building of Upgrades:
         # This should be part of the main BUILDING!!! (So it's this one :) )
+        # This will not be in use until we allow BUILDING the Buildings :D
         # def check_resources(self, upgrade):
         #     # checks if the player has enough resources to build an upgrade:
         #     return True
@@ -641,8 +642,62 @@ init -10 python:
             return any(i.workable for i in self._businesses)
 
         # Clients related:
+        def get_clients(self):
+            """
+            Get the amount of clients that will visit the brothel the next day.
+            """
+            self.flag_red = False # Dev Note: This is being set and reset here and only here!
+
+            self.txt += "OLD CODE THAT NEEDS TO DIE OFF:\n\n"
+
+            if not self.fame and not self.rep and self.hasattr('toggle_advert') and not adverts['Sign'].active:
+                no_clients = True
+                self.flag_red = True
+            else:
+                no_clients = False
+
+            clients = self.baseclients*round_int(self.mod*1.5)
+            if config.debug:
+                if not self.logged_clients:
+                    self.txt += "\n Adding 10 Clients in the debug mode!"
+                clients = clients + 10
+
+            if not self.logged_clients and no_clients:
+                self.txt += "{color=[red]}Noone came to your brothel today... You should at least put up a sign!{/color}"
+                self.logged_clients = True
+                return 0
+
+            elif not self.logged_clients:
+                self.txt += "%d clients came to brothel just because its there... " % clients
+
+            if not no_clients:
+                add_clients = int(self.fame*0.2)
+
+                if add_clients and not self.logged_clients:
+                    self.txt += "%d because of it's Fame... " % add_clients
+
+                clients += add_clients
+
+                # Adding bonuses for girls in this brothel
+                gfamebonus = 0
+
+                for girl in self.get_girls(["Guard", "AutoRest", "Rest"], True): gfamebonus += 1 + int(girl.fame/20)
+
+                if not self.logged_clients and gfamebonus:
+                    self.txt += "and another %d attracted by your girlz :) \n" % gfamebonus
+
+                clients = clients + gfamebonus
+
+                self.logged_clients = True
+
+            #TODO B&B-clients: Add girl's customer-magnet traits.
+            if no_clients:
+                return 0
+            else:
+                return clients
+
         def get_client_count(self, write_to_nd=False):
-            """Get the amount of clients that will visit the brothel the next day.
+            """Get the amount of clients that will visit the building the next day.
             """
 
             if not (self.fame or self.rep or any(a['name'] == 'Sign' and a['active'] for a in self.adverts)):
@@ -679,6 +734,35 @@ init -10 python:
         def expects_clients(self):
             return any(i.expects_clients for i in self._businesses)
 
+        def create_customer(self, name=""):
+            """
+            Returns a customer for this Building.
+            If name is an empty string, a random customer is returned.
+            If name is given, the returning customer with that name is returned
+            by this method. A NameError will be raised if the given name is not
+            associated with a returning customer.
+            """
+            if name:
+                raise NotImplementedError("Returning customers are not implemented yet")
+
+            # determine gender of random customer
+            gender = choice(["male"]*5 + ['female']*2)
+
+            # determine caste of random customer
+            if self.rep < 50: caste = choice(['Peasant', 'Merchant'])
+            elif 50 <= self.rep <= 150: caste = choice(['Peasant', 'Merchant', 'Nomad'])
+            elif 151 <= self.rep <= 400: caste = choice(['Nomad', 'Merchant', 'Wealthy Merchant'])
+            elif 401 <= self.rep <= 600: caste = choice(['Merchant', 'Wealthy Merchant', 'Clerk'])
+            elif 601 <= self.rep <= 800: caste = choice(['Wealthy Merchant', 'Clerk', 'Noble'])
+            else: caste = choice(['Clerk', 'Noble', 'Royal'])
+
+            # create random customer
+            min_tier = float(max(self.tier-2, .1))
+            max_tier = float(self.tier + 1)
+            customer = build_client(gender=gender, caste=caste, tier=random.uniform(min_tier, max_tier))
+
+            return customer
+        
         # SimPy/Working the building related:
         def run_nd(self):
             """This method is ran for buildings during next day
