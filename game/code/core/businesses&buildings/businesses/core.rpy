@@ -92,28 +92,22 @@ init -12 python:
             # It may be a good idea to turn this into a direct job assignment instead of a set...
             self.jobs = set()
             self.workers = set() # List of on duty characters.
+            self.clients = set() # Local clients, this is used during next day and reset on when that ends.
 
+            # If False, no clients are expected.
+            # If all businesses in the building have this set to false, no client stream will be generated at all.
+            self.expects_clients = False
             self.habitable = False
             self.workable = False
             # If not active, business is not executed and is considered "dead",
             # we run "inactive" method with a corresponding simpy process in this case.
             self.active = True
 
-            self.clients = set() # Local clients, this is used during next day and reset on when that ends.
-
             # @Review: From Business class which seemed useless to me...
             self.blocked_upgrades = kwargs.get("blocked_upgrades", list())
             self.allowed_upgrades = kwargs.get("allowed_upgrades", list())
-            self.in_construction_upgrades = list()
+            self.in_construction_upgrades = list() # Not used yet!
             self.upgrades = list()
-
-            # If False, no clients are expected.
-            # If all businesses in the building have this set to false, no client stream will be generated at all.
-            self.expects_clients = True
-
-            # This means that we can add capacity to this business.
-            self.capacity = kwargs.pop("capacity", 2)
-            self.expands_capacity = kwargs.pop("expands_capacity", True)
 
         def get_client_count(self):
             # Returns amount of clients we expect to come here.
@@ -127,21 +121,20 @@ init -12 python:
 
         # Reputation:
         # Prolly not a good idea to mess with this on per business basis, at least at first...
-        @property
-        def rep(self):
-            return self._rep
-
-        @rep.setter
-        def rep(self, value):
-            self._rep = self._rep + value
-            if self._rep > 1000:
-                self._rep = 1000
-            elif self._rep < -1000:
-                self._rep = -1000
+        # @property
+        # def rep(self):
+        #     return self._rep
+        #
+        # @rep.setter
+        # def rep(self, value):
+        #     self._rep = self._rep + value
+        #     if self._rep > 1000:
+        #         self._rep = 1000
+        #     elif self._rep < -1000:
+        #         self._rep = -1000
 
         @property
         def env(self):
-            # SimPy and etc follows (L33t stuff :) ):
             return self.building.env
 
         def log(self, item, add_time=False):

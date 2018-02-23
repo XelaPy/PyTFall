@@ -217,10 +217,14 @@ init -10 python:
 
 
     class FamousBuilding(BaseBuilding):
-        """
-        A Building that has Fame and Reputation properties.
-        """
+        """A Building that has Fame and Reputation properties.
 
+        Concept:
+            fame should be difficult to gain and difficult to lose. Mostly,
+                this decides how many client will come to the building.
+            rep should be relatively easy to gain and easy to lose. Mostly,
+                this decided the 'quality' (tier) of clients.
+        """
         def __init__(self, *args, **kwargs):
             """
             Creates a new FamousBuilding.
@@ -645,14 +649,13 @@ init -10 python:
         def get_client_count(self, write_to_nd=False):
             """Get the amount of clients that will visit the building the next day.
             """
-
             if not (self.fame or self.rep or any(a['name'] == 'Sign' and a['active'] for a in self.adverts)):
                 if write_to_nd:
                     self.log("{}".format(set_font_color("Noone came to your unknown establishment that doesn't have as much as a sign!", "red")))
                     self.flag_red = True
                 return 0
 
-            clients = self.baseclients*round_int(self.mod*1.5)
+            clients = 10*round_int(self.mod*1.5)
             if write_to_nd:
                 self.log("{} clients came to brothel just because its there!".format(set_font_color(clients, "green")))
 
