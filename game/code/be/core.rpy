@@ -4,7 +4,7 @@ init -1 python: # Core classes:
     I think that we can use zorders on master layer instead of messing with multiple layers.
     """
 
-    BDP = {} # BE DEFAULT POSITIONS *Postions are tuples in lists that go from top to bottom.
+    BDP = {} # BE DEFAULT POSITIONS *positions are tuples in lists that go from top to bottom.
     BDP["l0"] = [(160, 360), (120, 410), (80, 460)] # Left (Usually player) teams backrow default positions.
     BDP["l1"] = [(260, 360), (220, 410), (180, 460)] # Left (Usually player) teams frontrow default positions.
     BDP["r0"] = list((config.screen_width-t[0], t[1]) for t in BDP["l0"]) # BackRow, Right (Usually enemy).
@@ -1463,13 +1463,13 @@ init -1 python: # Core classes:
             self.timestamps[start] = renpy.curry(self.show_main_gfx)(battle, attacker, targets)
 
             pause = start + self.main_effect["duration"]
-            # Kind of a shitty way of trying to handle attacks that come
+            # Kind of a shitty way of trying to handle attacks that come.
             # With their own pauses in time_main_gfx method.
             pause += getattr(self, "firing_effects", {}).get("duration", 0)
             pause += getattr(self, "projectile_effects", {}).get("duration", 0)
-
             if pause in self.timestamps:
                 pause = pause + random.uniform(.001, .002)
+
             self.timestamps[pause] = renpy.curry(self.hide_main_gfx)(targets)
 
         def show_main_gfx(self, battle, attacker, targets):
