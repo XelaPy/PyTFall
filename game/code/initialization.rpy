@@ -75,15 +75,16 @@ init -999 python:
             self.log = {}
             self.logged = {} # (History) We may want to view it later...
 
-        def start(self, msg):
+        def start(self, msg, report_start=False):
             if config.developer:
                 if msg not in self.log:
                     self.log[msg] = time.time()
-                    devlog.info("Starting timer: {}".format(msg))
+                    if report_start:
+                        devlog.info("Starting timer: {}".format(msg))
                 else:
                     devlog.warning("!!! Tried to start before finishing a timer: {}!".format(msg))
 
-        def end(msg):
+        def end(self, msg):
             if config.developer:
                 if msg not in self.log:
                     devlog.warning("!!! Tried to end before starting a timer: {}!".format(msg))

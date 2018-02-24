@@ -80,8 +80,8 @@ init -10 python:
             log.append(temp)
             earned *= 1.2
 
+        earned = round_int(earned)
         if earned:
-            earned = round_int(earned)
             temp = "You've earned {} Gold!".format(earned)
             log.append(temp)
             log.earned += earned

@@ -85,7 +85,7 @@ label test_be:
     jump mainscreen
 
 label test_be_logical:
-    $ tl.timer("Logical BE Scenario with Setup!")
+    $ tl.start("Logical BE Scenario with Setup!")
     python:
         # Prepear the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
@@ -134,16 +134,16 @@ label test_be_logical:
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)
 
-        tl.timer("Logical BE Scenario without Setup!")
+        tl.start("Logical BE Scenario without Setup!")
         battle.start_battle()
-        tl.timer("Logical BE Scenario without Setup!")
+        tl.end("Logical BE Scenario without Setup!")
 
         # Reset Controller:
         hero.controller = "player"
         n.controller = "player"
         h.controller = "player"
 
-    $ tl.timer("Logical BE Scenario with Setup!")
+    $ tl.end("Logical BE Scenario with Setup!")
 
     scene black
     call screen battle_report
