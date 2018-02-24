@@ -15,7 +15,7 @@ init -5 python:
 
             # SimPy and etc follows:
             self.res = None # Restored before every job...
-            self.time = 5 # Same
+            self.time = 10 # Single shift with client.
             self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
 
         def has_workers(self):
@@ -38,7 +38,7 @@ init -5 python:
         def request_resource(self, client, worker):
             """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms available...
 
-            If the above docstring is true, and this is never called if there are no rooms, while do we request shit?
+            If the above docstring is true, and this is never called if there are no rooms, why do we request shit?
             ==> This is likely capacity related. Should be working just fine.
             """
             with self.res.request() as request:
@@ -74,7 +74,7 @@ init -5 python:
             """Handles the job and job report.
             """
             # Visit counter:
-            client.up_counter("got_serviced_by" + worker.id)
+            # client.up_counter("got_serviced_by" + worker.id)
 
             # Execute the job/log results/handle finances and etc.:
             job, building = self.job, self.building

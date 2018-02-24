@@ -395,7 +395,7 @@ init -12 python:
             self.log(temp)
 
             # Visit counter:
-            client.up_counter("got_serviced_by" + char.id)
+            # client.up_counter("got_serviced_by" + char.id)
 
             # Execute the job:
             self.job(char, client)
@@ -426,14 +426,13 @@ init -12 python:
             self.type = "public_service"
 
             self.active_workers = set() # On duty Workers.
-            self.clients = set() # Clients.
+            self.clients_waiting = set() # Clients waiting to be served.
+            self.clients_served = set() # Clients that we served.
 
             # SimPy and etc follows (L33t stuff :) ):
             self.res = None # Restored before every job... Resource Instance that may not be useful here...
             self.time = 10 # Time for a single shift.
             self.is_running = False # Active/Inactive.
-
-            self.earned_cash = 0 # Cash earned (total)
 
         def client_control(self, client):
             """Request for a spot for a client...
@@ -444,23 +443,38 @@ init -12 python:
             with self.res.request() as request:
                 yield request
 
-                self.clients.add(client)
+                self.clients_waiting.add(client)
                 temp = "{} enters the {}.".format(client.name, self.name)
                 self.log(temp, True)
 
                 dirt = 0
                 flag_name = "jobs_spent_in_{}".format(self.name)
                 du_to_spend_here = self.time
+                du_spent_here = 0
+                du_without_service = 0
+                serviced = False
 
                 while not client.flag("jobs_ready_to_leave"):
-                    yield self.env.timeout(5)
+                    if client in self.clients_served:
+                        serviced = True
 
-                    dirt += randint(2, 3) # Move to business_control?
+                    if not serviced:
+                        yield self.env.timeout(1)
+                        du_spent_here += 1
+                        du_without_service += 1
+                    else:
+                        yield self.env.timeout(3)
+                        du_spent_here += 3
+                        du_without_service = 0
+                        serviced = False
+                        self.clients_served.remove(client)
+                        self.clients_waiting.add(client)
+                        dirt += randint(2, 3) # Move to business_control?
 
-                    if client.flag("jobs_without_service") >= 10:
+                    if du_spent_here >= du_to_spend_here:
                         break
 
-                    if client.flag(flag_name) >= du_to_spend_here:
+                    if du_without_service >= 4:
                         break
 
                 building.dirt += dirt
@@ -468,7 +482,11 @@ init -12 python:
                 temp = "{} exits the {} leaving {} dirt behind.".format(
                                         client.name, self.name, dirt)
                 self.log(temp, True)
-                self.clients.remove(client)
+                
+                if client in self.clients_served:
+                    self.clients_served.remove(client)
+                if client in self.clients_waiting:
+                    self.clients_waiting.remove(client)
                 client.del_flag("jobs_busy")
 
         def add_worker(self):
@@ -583,7 +601,6 @@ init -12 python:
             self.is_running = False
             self.active_workers = set()
             self.clients = set()
-            self.earned_cash = 0
 
 
     class OnDemandBusiness(Business):

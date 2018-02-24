@@ -11,20 +11,13 @@ init -5 python:
             super(StripClub, self).__init__(**kwargs)
 
             self.jobs = set([simple_jobs["Striptease Job"]])
-            self.workable = True
-            self.type = "public_service"
-
-            self.active_workers = set() # On duty Strippers.
-            self.clients = set() # Clients watching the stripshows.
-
-            self.res = None # Restored before every job...
-            self.time = 5
-            self.is_running = False
 
         def worker_control(self, worker):
             temp = "{} comes out to do striptease in {}!".format(
                                                 worker.name, self.name)
             self.log(temp, True)
+
+            max_du_working = 35
 
             # We create the log object here! And start logging to it directly!
             building = self.building
@@ -36,8 +29,7 @@ init -5 python:
 
             difficulty = loc.tier
             effectiveness = job.effectiveness(worker, difficulty, log, False)
-            # Come up with a good way to figure out how many clients a worker can serve!
-            can_serve_clients = 5
+
             if config.debug:
                 log.append("Debug: Her effectiveness: {}! (difficulty: {}, Tier: {})".format(
                                 effectiveness, difficulty, worker.tier))
