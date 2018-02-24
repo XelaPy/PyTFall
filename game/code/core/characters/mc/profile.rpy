@@ -47,6 +47,8 @@ label hero_profile:
         elif result[0] == "rename_team":
             if result[1] == "set_name":
                 $ hero.team.name = renpy.call_screen("pyt_input", hero.team.name, "Enter Team Name", 20, (350, 200))
+        elif result[0] == "show_skill_info":
+            $ renpy.show_screen("show_skill_info", result[1])
 
 init:
     screen hero_profile():
@@ -361,7 +363,7 @@ init:
                                 button:
                                     background Null()
                                     xysize (147, 25)
-                                    action NullAction()
+                                    action Return(["show_skill_info", entry])
                                     text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
                                     hovered tt.action(entry.desc)
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
@@ -383,7 +385,7 @@ init:
                                 button:
                                     background Null()
                                     xysize (147, 25)
-                                    action NullAction()
+                                    action Return(["show_skill_info", entry])
                                     text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
                                     hovered tt.action(entry.desc)
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)

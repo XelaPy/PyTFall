@@ -42,6 +42,8 @@ label char_profile:
                         hide screen char_profile
                         $ items_transfer([hero, char])
                         show screen char_profile
+                elif result[0] == "show_skill_info":
+                    $ renpy.show_screen("show_skill_info", result[1])
                 elif result[0] == "dropdown":
                     python:
                         if result[1] == "workplace":
@@ -123,6 +125,7 @@ label char_profile:
                     hide screen show_trait_info
                 elif result[1] == 'return':
                     jump char_profile_end
+
 
 label char_profile_end:
     hide screen char_profile
@@ -740,7 +743,7 @@ screen char_profile():
                                     button:
                                         background Null()
                                         xysize (147, 25)
-                                        action NullAction()
+                                        action Return(["show_skill_info", entry])
                                         text "[entry.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
                                         hovered tt.action(entry.desc)
                                         hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
@@ -761,7 +764,7 @@ screen char_profile():
                                     button:
                                         background Null()
                                         xysize (147, 25)
-                                        action NullAction()
+                                        action Return(["show_skill_info", entry])
                                         text "[entry.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
                                         hovered tt.action(entry.desc)
                                         hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
@@ -787,6 +790,53 @@ screen char_profile():
                 text (u"{=content_text}{color=[ivory]}%s" % tt.value)
 
     use top_stripe(True)
+    
+screen show_skill_info(skill):
+    modal True
+    default DAMAGE = {"physical": "{image=physical_be_viewport}", "fire": "{image=fire_element_be_viewport}", "water": "{image=water_element_be_viewport}",
+              "ice": "{image=ice_element_be_viewport}", "earth": "{image=earth_element_be_viewport}", "air": "{image=air_element_be_viewport}",
+              "electricity": "{image=ele_element_be_viewport}", "light": "{image=light_element_be_viewport}", "darkness": "{image=darkness_element_be_viewport}",
+              "healing": "{image=healing_be_viewport}", "poison": "{image=poison_be_viewport}"}
+
+    frame:
+        align(.5, .5)
+        background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+        xysize 400, 200
+        
+        vbox:
+            text "[skill.name]" size 18 color goldenrod bold True xalign .45
+            null height 5
+            
+            text "[skill.desc]" color ivory size 14 xalign .05
+            null height 10
+            $ line = ""
+            if "melee" in skill.attributes:
+                $ line += "  {color=[red]}Melee skill. {/color}"
+            elif "ranged" in skill.attributes:
+                $ line += "  {color=[green]}Ranged skill. {/color}"
+            elif "magic" in skill.attributes:
+                $ line += "  {color=[green]}Magic skill. {/color}"
+            else:
+                $ line += "  {color=[orange]}Status skill. {/color}"
+                
+            
+                
+            if "inevitable" in skill.attributes:
+                $ line += "Cannot be dodged. "
+                
+            $ attr = list(i for i in skill.attributes if i not in ["melee", "ranged", "magic", "status", "inevitable"])
+            if attr:
+                for i in attr:
+                    $ line += DAMAGE[i]
+                    
+            text line size 14
+                    
+        imagebutton:
+            align .99, .01
+            xysize 22, 22
+            idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
+            hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
+            action Hide("show_skill_info")
 
 screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=False):
     if place == "girl_trait":
