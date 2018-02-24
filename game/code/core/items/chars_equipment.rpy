@@ -143,7 +143,7 @@ label char_equip_loop:
 
                     elif item_direction == 'unequip':
                         # Check if we are allowed to access inventory and act:
-                        if equipment_access(eqtarget):
+                        if equipment_access(eqtarget, focusitem, unequip=True):
                             eqtarget.unequip(focusitem, unequip_slot)
 
                             # We should try to transfer items in case of:

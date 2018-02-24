@@ -101,7 +101,7 @@ init -1 python: # Core classes:
                 # If the controller was killed off during the mid_turn_events:
                 if fighter not in self.corpses:
                     if fighter.controller != "player":
-                        # This character is not controled by the player so we call the (AI) controller:
+                        # This character is not controlled by the player so we call the (AI) controller:
                         fighter.controller()
                     else:
                         # Controller is the player:
@@ -109,7 +109,7 @@ init -1 python: # Core classes:
                         s = None
                         t = None
 
-                        # making known whos turn it is:
+                        # making known whose turn it is:
                         w, h = fighter.besprite_size
                         renpy.show("its_my_turn", at_list=[Transform(additive=.6, alpha=.7, size=(int(w*1.5), h/3), pos=battle.get_cp(fighter, type="bc", yo=20), anchor=(.5, 1.0))], zorder=fighter.besk["zorder"]+1)
 
@@ -225,7 +225,7 @@ init -1 python: # Core classes:
             """Ends the battle, trying to normalize any variables that may have been used during the battle.
             """
             if not self.logical:
-                # We'll have to reset any attributes of the charcters classes:
+                # We'll have to reset any attributes of the characters classes:
                 renpy.hide_screen("be_status_overlay")
                 renpy.hide_screen("be_test")
                 renpy.hide_screen("target_practice")
@@ -266,7 +266,7 @@ init -1 python: # Core classes:
             Returns inicial position of the character based on row/team!
             Positions should always be retrieved using this method or errors may occur.
             """
-            # We want different behavior for 3 member teams putting the leader in the middle:
+            # We want different behaviour for 3 member teams putting the leader in the middle:
             char.besk = dict()
             # Supplied to the show method.
             char.betag = str(random.random())
@@ -286,7 +286,7 @@ init -1 python: # Core classes:
                 else:
                     char.besprite = sprite
 
-                # We're going to land the character at the default position from now on, with centered buttom of the image landing directly on the position!
+                # We're going to land the character at the default position from now on, with centred bottom of the image landing directly on the position!
                 # This makes more sense for all purposes:
                 char.dpos = self.row_pos[team_index + str(int(char.front_row))][char_index]
                 char.cpos = char.dpos
@@ -337,7 +337,7 @@ init -1 python: # Core classes:
             **Updated to using Current Position + Types.
             pos: Character position (pos)
             sopos: This is tc of default character position. Used to place status overlay icons.
-            center: center of the charcters image
+            center: center of the characters image
             tc: top center of the characters image
             bc: bottom center of the characters image
             fc: front center (Special per row instruction (for offset) applies)
@@ -383,7 +383,7 @@ init -1 python: # Core classes:
             if char.row in [0, 1]:
                 xpos = xpos + xo
             else:
-                xpos = xpos - xo # Is this a reasonable approach instead of providing correct (negative/positive) offsets? Something to concider during the code review...
+                xpos = xpos - xo # Is this a reasonable approach instead of providing correct (negative/positive) offsets? Something to consider during the code review...
 
             return xpos, ypos
 
@@ -393,7 +393,7 @@ init -1 python: # Core classes:
             states:
             - alive: All active member on the battlefield.
             - all: Everyone dead or alive.
-            - dead: Everyone dead in the battlefied.
+            - dead: Everyone dead in the battlefield.
             rows: If provided, should be an iterable in range of 0 - 3. Only fighters in the row will be returned.
             """
             if state == "all":
@@ -569,7 +569,7 @@ init -1 python: # Core classes:
 
             self.damage = [d for d in self.attributes if d in self.DAMAGE]
 
-            self.tags_to_hide = list() # BE effects tags of all kinds, will be hidden when the show gfx method runs it's cource and cleared for the next use.
+            self.tags_to_hide = list() # BE effects tags of all kinds, will be hidden when the show gfx method runs it's course and cleared for the next use.
 
             if add2skills:
                 battle_skills[self.name] = self
@@ -673,7 +673,7 @@ init -1 python: # Core classes:
             if any(t for t in in_range if isinstance(t, basestring)):
                 raise Exception(in_range)
 
-            # Lets handle the piercing (Or not piercing since piercing attacks incude everyone in range already):
+            # Lets handle the piercing (Or not piercing since piercing attacks include everyone in range already):
             if not self.piercing:
                 if char.row in [0, 1]:
                     # Source is on left team:
@@ -739,7 +739,7 @@ init -1 python: # Core classes:
             if self.menu_pos >= battle.max_skill_lvl:
                 return False
 
-            # Check if attacker has enought resources for the attack:
+            # Check if attacker has enough resources for the attack:
             if not isinstance(self.mp_cost, int):
                 mp_cost = int(char.get_max("mp")*self.mp_cost)
             else:
@@ -788,7 +788,7 @@ init -1 python: # Core classes:
                 attack = attack/len(self.damage)
 
             for t in targets:
-                # effect list must be cleared here first thing... preferebly in the future, at the end of each skill execution...
+                # effect list must be cleared here first thing... preferably in the future, at the end of each skill execution...
                 effects = t.beeffects
 
                 defense = self.get_defense(t)
@@ -871,7 +871,7 @@ init -1 python: # Core classes:
                     absorb_ratio = self.check_absorbtion(t, type)
                     if absorb_ratio:
                         result = -(absorb_ratio)*result
-                        # We also set defence to 1, no point in defending against absorbtion:
+                        # We also set defence to 1, no point in defending against absorption:
                         temp_def = 1
                     else:
                         temp_def = defense
@@ -1233,7 +1233,7 @@ init -1 python: # Core classes:
 
         # GFX/SFX:
         def time_gfx(self, targets, died):
-            """Executes GFX part of an attack. Diregarded during logical combat.
+            """Executes GFX part of an attack. Disregarded during logical combat.
 
             Usually, this has the following order:
                 - Intro (attacker sprite manipulation) + Effect (attacker_effects)
@@ -1508,7 +1508,7 @@ init -1 python: # Core classes:
                 renpy.hide(gfxtag)
 
         def time_target_sprite_damage_effect(self, targets, died, start):
-            # We take previous start as baseppoint for execution:
+            # We take previous start as basepoint for execution:
             damage_effect_start = start + self.target_sprite_damage_effect["initial_pause"]
 
             if damage_effect_start in self.timestamps:
@@ -1951,7 +1951,7 @@ init -1 python: # Core classes:
                 total_skills = len(attack_skills)
                 while attack_skills:
                     # Most powerful skill has 70% chance to trigger.
-                    # If not tirggered, next skill have slightly lower chance.
+                    # If not triggered, next skill have slightly lower chance.
                     # Last skill in the list will execute!
                     chance = 70.0*len(attack_skills)/total_skills
                     skill = attack_skills.pop()
