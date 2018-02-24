@@ -26,11 +26,12 @@
         locations = dict()
 
         # Load random names selections for rGirls:
-        tl.timer("Loading: Random Name Files")
+        tl.start("Loading: Random Name Files")
         female_first_names = load_female_first_names(200)
         male_first_names = load_male_first_names(200)
         random_last_names = load_random_last_names(200)
         random_team_names = load_team_names(50)
+        tl.end("Loading: Random Name Files")
 
         # Load random names selections for Teams:
         file = open(content_path("db/RandomTeamNames_1.txt"))
@@ -38,14 +39,15 @@
         shuffle(randomTeamNames)
         file.close()
 
-        tl.timer("Loading: PyTFallWorld", nested=False)
+        tl.start("Loading: PyTFallWorld")
         pytfall = PyTFallWorld()
+        tl.end("Loading: PyTFallWorld")
 
-        tl.timer("Loading: Menu Extensions", nested=False)
+        tl.start("Loading: Menu Extensions")
         menu_extensions = MenuExtension()
         menu_extensions["Abby The Witch Main"] = []
         menu_extensions["Xeona Main"] = []
-        tl.timer("Loading: Menu Extensions")
+        tl.end("Loading: Menu Extensions")
 
     python hide: # Base locations:
         # Create locations:
@@ -57,7 +59,7 @@
 
     python: # Traits:
         # Load all game elements:
-        tl.timer("Loading: Traits")
+        tl.start("Loading/Sorting: Traits")
         traits = load_traits()
 
         # This should be reorganized later:
@@ -78,11 +80,13 @@
             for occ in t.occupations:
                 gen_occ_basetraits[occ].add(t)
         gen_occ_basetraits = dict(gen_occ_basetraits)
+        tl.end("Loading/Sorting: Traits")
 
     python: # Items/Shops:
-        tl.timer("Loading: Items", nested=False)
+        tl.start("Loading/Sorting: Items")
         items = load_items()
         items.update(load_gifts())
+        items_upgrades = json.load(renpy.file("content/db/upgrades.json"))
 
         # Build shops:
         pytfall.init_shops()
@@ -125,12 +129,15 @@
         for i in items.values():
             tiered_items.setdefault(i.tier, []).append(i)
 
+        tl.end("Loading/Sorting: Items")
+
     python: # Dungeons (Building (Old))
-        tl.timer("Loading: Dungeons", nested=False)
+        tl.start("Loading: Dungeons")
         dungeons = load_dungeons()
+        tl.end("Loading: Dungeons")
 
     # Battle Skills:
-    $ tl.timer("Loading: Battle Skills", nested=False)
+    $ tl.start("Loading: Battle Skills")
     $ battle_skills = dict()
     call load_battle_skills
     $ tiered_magic_skills = {}
@@ -138,47 +145,50 @@
         for s in battle_skills.values():
             tiered_magic_skills.setdefault(s.tier, []).append(s)
 
-    # $ tl.timer("Loading: Battle Skills")
+    $ tl.end("Loading: Battle Skills")
 
     $ hero = Player()
 
     python: # Jobs:
-        tl.timer("Loading: SimpleJobs")
+        tl.start("Loading: Jobs")
         # This jobs are usually normal, most common type that we have in PyTFall
         temp = [WhoreJob(), StripJob(), BarJob(), Manager(), CleaningJob(), GuardJob()]
         simple_jobs = {j.id: j for j in temp}
         del temp
+        tl.end("Loading: Jobs")
 
     python: # Ads and Buildings:
-        tl.timer("Loading: Businesses", nested=False)
+        tl.start("Loading: Businesses")
         adverts = json.load(renpy.file("content/db/buildings/adverts.json"))
         businesses = load_buildings()
+        tl.end("Loading: Businesses")
 
     python: # Training/Schools/Weird Proxies by Thewlis:
-        tl.timer("Loading: Training", nested=False)
+        tl.start("Loading: Training")
         schools = load_schools()
         pytFlagProxyStore = shallowcopy(pytFlagProxyStore)
         pytRelayProxyStore = shallowcopy(pytRelayProxyStore)
-        tl.timer("Loading: Training")
+        tl.end("Loading: Training")
 
     python: # Picked Tags and maps (afk atm):
         pass
         # maps = xml_to_dict(content_path('db/map.xml'))
 
         # import cPickle as pickle
-        # tl.timer("Loading: Binary Tag Database")
+        # tl.start("Loading: Binary Tag Database")
         # # pickle.dump(tagdb.tagmap, open(config.gamedir + "/save.p", "wb"))
         # tagdb = TagDatabase()
         # tagdb.tagmap = pickle.load(open(config.gamedir + "/save.p", "rb"))
         # tagslog.info("loaded %d images from binary files" % tagdb.count_images())
-        # tl.timer()
+        # tl.end("Loading: Binary Tag Database")
 
     python: # Tags/Loading Chars/Mobs/Quests.first_day
         # Loading characters:
         tagdb = TagDatabase()
         for tag in tags_dict.values():
             tagdb.tagmap[tag] = set()
-        tl.timer("Loading: All Characters!")
+
+        tl.start("Loading: All Characters!")
         chars = load_characters("chars", Char)
         npcs = load_characters("npc", NPC)
         # Trying to load crazy characters:
@@ -186,22 +196,25 @@
         chars.update(crazy_chars)
         rchars = load_random_characters()
         del crazy_chars
-        tl.timer("Loading: All Characters!")
+        tl.end("Loading: All Characters!")
+
         devlog.info("Loaded %d images from filenames!" % tagdb.count_images())
 
         # Start auto-quests
         pytfall.world_quests.first_day()
 
-        tl.timer("Loading: Mobs")
+        tl.start("Loading: Mobs")
         mobs = load_mobs()
+        tl.end("Loading: Mobs")
 
     python: # SE (Areas)
-        tl.timer("Loading: Exploration", nested=False)
+        tl.start("Loading: Exploration Areas")
         # pytfall.forest_1 = Exploration()
         fg_areas = load_fg_areas()
+        tl.end("Loading: Exploration Areas")
 
     python: # Move to a World AI method:
-        tl.timer("Loading: Generating Random girls", nested=False)
+        tl.start("Loading: Generating Random girls")
 
         # Some random girls (if there are any):
         if rchars:
@@ -218,12 +231,12 @@
             del rgirls
             del rgirl
             del new_random_girl
+        tl.end("Loading: Generating Random girls")
 
     python: # Girlsmeets/Items Upgrades:
-        tl.timer("Loading: GirlsMeets", nested=False)
+        tl.start("Loading: GirlsMeets")
         gm = GirlsMeets()
-
-        items_upgrades = json.load(renpy.file("content/db/upgrades.json"))
+        tl.end("Loading: GirlsMeets")
 
     # Loading apartments/guilds:
     call load_resources
@@ -299,7 +312,7 @@ label dev_testing_menu_and_load_mc:
 
 label continue_with_start:
     python: # Load Arena
-        tl.timer("Loading: Arena!")
+        tl.start("Loading: Arena!")
         pytfall.arena = Arena()
         locations[pytfall.arena.id] = pytfall.arena
         pytfall.arena.setup_arena()
@@ -307,7 +320,7 @@ label continue_with_start:
         pytfall.arena.update_teams()
         pytfall.arena.find_opfor()
         pytfall.arena.update_dogfights()
-        tl.timer("Loading: Arena!")
+        tl.end("Loading: Arena!")
 
     # Call girls starting labels:
     $ all_chars = chars.values()
@@ -319,7 +332,7 @@ label continue_with_start:
 
     # Clean up globals after loading chars:
     python:
-        for i in ("chars_unique_label", "char", "girl", "testBrothel", "all_chars", "temp"):
+        for i in ("chars_unique_label", "char", "girl", "testBrothel", "all_chars", "temp", "utka"):
             del(i)
 
     #  --------------------------------------
@@ -341,9 +354,9 @@ label continue_with_start:
         $ hero.home = locations["Streets"]
 
     python: # Populate Slave Market:
-        tl.timer("Loading: Populating SlaveMarket", nested=False)
+        tl.start("Loading: Populating SlaveMarket")
         pytfall.sm.populate_chars_list()
-        # tl.timer("Loading: Populating SlaveMarket")
+        tl.end("Loading: Populating SlaveMarket")
 
     jump mainscreen
 

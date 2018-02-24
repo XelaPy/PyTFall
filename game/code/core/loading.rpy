@@ -731,7 +731,7 @@ label load_json_tags:
     python:
         # -----------------------------------------------
         # load image tags into the tag database
-        tl.timer("Loading: JSON Tags (OldStyle)")
+        tl.start("Loading: JSON Tags (OldStyle)")
         charsdir = os.path.join(gamedir, "content", "chars")
         rcharsdir = os.path.join(gamedir, "content", "rchars")
         jsonfiles = locate_files("tags.json", charsdir)
@@ -754,7 +754,7 @@ label load_json_tags:
                 del jsontagdb.tagmap[tag]
             except ValueError:
                 pass
-        tl.timer("Loading: JSON Tags (OldStyle)")
+        tl.end("Loading: JSON Tags (OldStyle)")
     return
 
 label convert_json_to_filenames:

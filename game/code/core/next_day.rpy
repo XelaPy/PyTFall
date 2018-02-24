@@ -120,7 +120,7 @@ label special_auto_save: # since built-in autosave works like shit, I use normal
 screen next_day_calculations:
     zorder 20
     text "Processing next day calculations" font "fonts/badaboom.ttf" color "#daa520" size 35 align(.5, .5) outlines [(2, "#000000", 0, 0)]
-    
+
 label next_day:
     call next_day_effects_check
     scene bg profile_2
@@ -130,11 +130,11 @@ label next_day:
         $ just_view_next_day = False
     else: # Do the calculations:
         $ counter = 1
-        
+
         while counter:
             call next_day_calculations
             $ counter -= 1
-    
+
     # Preparing to display ND.
     ####### - - - - - #######
     # Sort data for summary reports:
@@ -170,22 +170,23 @@ label next_day_calculations:
             $ ilists.world_music["pytfall"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("pytfall")]
         play world choice(ilists.world_music["pytfall"])
 
+    $ tl.start("Next Day")
     python:
         global_flags.set_flag("keep_playing_music")
-        tl.timer("Next Day")
+
         devlog.info("Day: %s, Girls (Player): %s, Girls (Game): %s" % (day, len(hero.chars), len(chars)))
         NextDayEvents = list()
 
         ################## Restore before the jobs ##################
-        tl.timer("Char.restore for all MC girls")
+        tl.start("Char.restore for all MC chars") # TODO !!! Find out wtf this is for.
         list(girl.restore() for girl in list(g for g in hero.chars if g.action != "Exploring"))
-        tl.timer("Char.restore for all MC girls")
+        tl.end("Char.restore for all MC chars")
 
         ################## Building events Start ##################
         """
         Complete Rewrite! This should become a manager for jobs! Preferably partly in Ren'Py script!
         """
-    $ tl.timer("Buildings")
+    $ tl.start("ND-Buildings")
     # Ren'Py script:
     $ nd_buildings = list(b for b in hero.buildings if isinstance(b, UpgradableBuilding))
 
@@ -200,7 +201,7 @@ label next_day_calculations:
                                                     difficulty, None, False)
 
     # $ ndr_chars2 = list(c for c in hero.chars if not can_do_work(c)) # Revice this for characters who are set to work till the drop???
-    $ tl.timer("Rest (1)")
+    $ tl.start("ND-Rest (First pass)")
     python:
         for c in hero.chars:
             if not isinstance(c.action, Rest):
@@ -209,7 +210,7 @@ label next_day_calculations:
     while ndr_chars:
         $ resting_char = ndr_chars.pop()
         $ resting_char.action(resting_char) # <--- Looks odd and off?
-    $ tl.timer("Rest (1)")
+    $ tl.end("ND-Rest (First pass)")
 
     while nd_buildings:
         $ building = nd_buildings.pop()
@@ -217,13 +218,13 @@ label next_day_calculations:
         $ building.next_day()
 
 
-    $ tl.timer("Buildings", nested=False)
+    $ tl.end("ND-Buildings")
         ################## Building events END ##################
         #
         #
         ################## Training events Start ##################
     python:
-        tl.timer("Training")
+        tl.start("Training")
         for school in schools:
             school = schools[school]
             if not school.available: continue
@@ -232,46 +233,40 @@ label next_day_calculations:
             guards = school.get_girls("Guard")
             trainers = school.get_girls("Training")
 
-            # Girls first so disobey/runaway/obey events and trainer ap can be calculated
-            tl.timer("TrainingJob")
             while girls:
                 TrainingJob(choice(girls), school, girls)
 
-            # Guards go next for runaway events
-            tl.timer("SchoolGuardJob", nested=False)
             while guards:
                 SchoolGuardJob(choice(guards), school, guards)
 
             # Trainers last for disobey events
-            tl.timer("TrainerJob", nested=False)
             while trainers:
                 TrainerJob(choice(trainers), school, trainers)
 
             if school.is_school:
-                tl.timer("School.next_day", nested=False)
                 school.next_day()
             else:
-                tl.timer("TrainingDungeon.next_day", nested=False)
                 school.next_day()
 
-        tl.timer("Training")
+        tl.end("Training")
         ################## Training events End ##################
         #
         #
         ################## Searching events Start ####################
-        tl.timer("Searching")
+        tl.start("Searching") # TODO (lt) Find out if we still want escaping chars?
         for building in hero.buildings:
             girls = building.get_girls("Search")
             while girls:
                 EscapeeSearchJob(choice(girls), building, girls)
+        tl.end("Searching")
 
     # Second iteration of Rest:
-    $ tl.timer("Rest (2)")
+    $ tl.start("ND-Rest (Second pass)")
     $ ndr_chars = list(c for c in hero.chars if c.location != "Exploring" and isinstance(c.action, Rest) and c.AP > 0) # Next Day Resting Chars
     while ndr_chars:
         $ resting_char = ndr_chars.pop()
         $ resting_char.action(resting_char) # <--- Looks odd and off?
-    $ tl.timer("Rest (2)")
+    $ tl.end("ND-Rest (Second pass)")
 
     python hide:
         # Done after buildings resets in next day because we may allow
@@ -284,15 +279,17 @@ label next_day_calculations:
         #
         #
         ################## Exploration ########################
-        # tl.timer("Fighers Guild", nested=False)
+        # tl.start("Fighers Guild")
         # if fg in hero.buildings:
             # fg.next_day()
+        # tl.end("Fighers Guild")
         ################## Logic #############################
-        tl.timer("pytfall + calender.next_day", nested=False)
+        tl.start("pytfall/calender .next_day")
         pytfall.next_day()
         calendar.next() # day + 1 is here.
-        tl.timer("pytfall + calender.next_day")
-        tl.timer("Next Day")
+        tl.end("pytfall/calender .next_day")
+
+    $ tl.end("Next Day")
 
     # Reset Flags:
     python:

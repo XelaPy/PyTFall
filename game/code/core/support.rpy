@@ -378,9 +378,8 @@ init -9 python:
                 job = store.simple_jobs[job]
 
             payout = job.per_client_payout
-            payout *= difficulty
+            payout *= max(difficulty, 1)
             payout *= self.state
-
             return payout
 
 

@@ -748,7 +748,7 @@ init -10 python:
             - Gets list of workable businesses and available workers
             - Creates SimPy Environment
             """
-            tl.timer("Temp Jobs Loop")
+            tl.start("{}.run_nd (SimPy/Clients, etc.)".format(self.name))
             # Setup and start the simulation
             self.flag_red = False
 
@@ -769,7 +769,7 @@ init -10 python:
             client_businesses = list(up for up in self._businesses if up.expects_clients)
 
             # Clients:
-            tl.timer("Generating clients")
+            tl.start("Generating clients in {}".format(self.name))
             self.get_client_count(write_to_nd=True)
             clnts = self.total_clients
 
@@ -780,7 +780,7 @@ init -10 python:
                     self.all_clients.add(client)
             self.clients = self.all_clients.copy()
 
-            tl.timer("Generating clients")
+            tl.end("Generating clients in {}".format(self.name))
 
             # Create an environment and start the setup process:
             self.env = simpy.Environment()
@@ -798,9 +798,9 @@ init -10 python:
             self.log("\nA total of {} Gold was earned here today!".format(set_font_color(str(self.fin.get_logical_income()), "red")))
             self.log("{}".format(set_font_color("===================", "red")))
             self.log("\n\n")
-            tl.timer("Temp Jobs Loop")
 
             self.post_nd_reset()
+            tl.end("{}.run_nd (SimPy/Clients, etc.)".format(self.name))
 
         def building_manager(self, end=100):
             """This is the main process that manages everything that is happening in the building!
