@@ -2669,12 +2669,12 @@ init -9 python:
                 we buy, if set to purpose (Casual, Barbarian, etc.), we auto_equip
                 for that purpose.
             container: Container with items or Inventory to shop from. If None
-                we use
+                we use.
 
             Simplify!
 
             - Add items class_prefs and Casual.
-            - Add casual as attr
+            - Add casual as attr.
             - Maybe merge with give_tiered_items somehow!
             """
             if item:
@@ -2824,16 +2824,9 @@ init -9 python:
             return amount, per_slot_amount, rv
 
         def auto_buy_old_but_optimized(self, item=None, amount=1, equip=False):
-            # handle request to auto-buy a particular item!
-            # including forbidden for slaves items - it might be useful
-            # TODO
-            """Simplefy!
-
-            - Add items class_prefs and Casual.
-            - Add casual as attr
-            - Maybe merge with give_tiered_items somehow!
+            """Older version of autobuy method which should be more optimized
+            for performace than the new one.
             """
-
             if item:
                 if isinstance(item, basestring):
                     item = store.items[item]
