@@ -4767,6 +4767,9 @@ init -9 python:
         def __init__(self, gender="male", caste="Peasant"):
             super(Customer, self).__init__()
 
+            # Using direct access instead of a flag, looks better in code:
+            self.served_by = ()
+
             self.gender = gender
             self.caste = caste
             self.rank = ilists.clientCastes.index(caste)
@@ -4776,36 +4779,11 @@ init -9 python:
             if dice(2):
                 self.apply_trait(traits['Aggressive'])
 
-            # self.seenstrip = False  # Seen striptease at least once
-            # self.stripsatisfaction = 0  # Range from 0 to 100, extra bonus of goes above
-
-            # self.traitmatched = False  # Sets to true if checks on next day to avoid another loop during the job.
-            # self.favtraits = set()
-            # self.favgirls = set()
-            # self.favacts = set()
             # Alex, we should come up with a good way to set portrait depending on caste
             self.portrait = "" # path to portrait
             self.questpic = "" # path to picture used in quests
             self.act = ""
             self.pronoun = ""
-
-            # Should we use money? @ presently not...
-            self.cash = 0 # carried cash
-            self.cashtospend = 0 # cash the customer is willing to spend
-
-            # class battle stats
-            # self.attack = randint(5, 40)
-            # self.magic = randint(5, 40)
-            # self.defence = randint(5, 40)
-            # self.mp = randint(5, 40)
-            # self.agility = randint(5, 40)
-
-            # if "Aggressive" in self.traits:
-                # self.attack += randint(5,20)
-                # self.defence += randint(5,20)
-                # self.magic += randint(5,20)
-                # self.agility += randint(5,20)
-                # self.mp += randint(5,20)
 
             # determine act and pronoun
             if self.gender == 'male':
@@ -4816,79 +4794,7 @@ init -9 python:
                 # self.act = choice(pytWhoringActs.female.keys())
                 self.act = "lesbian"
                 self.pronoun = 'She'
-
-            # @Review: Temporary disabled (until we are ready to do complex client modeling, all clients assumed to have infinite money)
-            # if caste in ('Beggar'):
-                # self.cash = randint(30, 50)
-                # self.fame = randint(0, 10)
-
-                # self.attack += randint(5, 10)
-                # self.magic += randint(5, 10)
-                # self.defence += randint(5, 10)
-                # self.mp += randint(5, 10)
-                # self.agility += randint(5, 10)
-            # elif caste in ('Peasant', 'Nomad'):
-                # self.cash = randint(50, 80)
-                # self.fame = randint(10, 30)
-
-                # self.attack += randint(5, 15)
-                # self.magic += randint(5, 15)
-                # self.defence += randint(5, 15)
-                # self.mp += randint(5, 15)
-                # self.agility += randint(5, 15)
-            # elif caste in ('Merchant'):
-                # self.cash = randint(80, 120)
-                # self.fame = randint(25, 65)
-
-                # self.attack += randint(10, 15)
-                # self.magic += randint(10, 15)
-                # self.defence += randint(10, 15)
-                # self.mp += randint(10, 15)
-                # self.agility += randint(10, 15)
-            # elif caste in ('Wealthy Merchant', 'Clerk'):
-                # self.cash = randint(120, 150)
-                # self.fame = randint(65, 100)
-
-                # self.attack += randint(10, 20)
-                # self.magic += randint(10, 20)
-                # self.defence += randint(10, 20)
-                # self.mp += randint(10, 20)
-                # self.agility += randint(10, 20)
-            # elif caste in ('Noble'):
-                # self.cash = randint(150, 200)
-                # self.fame = randint(95, 150)
-
-                # self.attack += randint(15, 30)
-                # self.magic += randint(15, 30)
-                # self.defence += randint(15, 30)
-                # self.mp += randint(15, 30)
-                # self.agility += randint(15, 30)
-            # elif caste in ('Royal'):
-                # self.cash = randint(200, 250)
-                # self.fame = randint(120, 200)
-
-                # self.attack += randint(25, 40)
-                # self.magic += randint(25, 40)
-                # self.defence += randint(25, 40)
-                # self.mp += randint(25, 40)
-                # self.agility += randint(25, 40)
-            # else:
-                # self.cash = 100
-                # notify(u">>Warning<< Unknown caste: '%s'" % caste)
-            # determine cash the customer is willing to spend
-            # poor customers should be willing to spend all of it, or not go
-            # into a brothel in the first place
-            # self.cashtospend = min((self.cash/2 + 30), self.cash)
-
-        # Want to see striptease method:
-        def wts_strip(self, girl):
-            # Just in the mood for striptease / Overlapping traits / Fame:
-            if self.wtsstrip or self.favtraits.intersection(girl.traits) or girl.fame >= self.fame:
-                # self.seenstrip = True
-                return True
-            else:
-                return False
-
+                
 
     class NPC(Char):
         """There is no point in this other than an ability to check for instances of NPCs
