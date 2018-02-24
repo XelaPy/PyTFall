@@ -1341,6 +1341,7 @@ init -9 python:
                 txt = "{color=[red]}You have a scheduled Arena match today! Don't you dare chickening out :) \n\n{/color}"
                 # txt = "You have a scheduled Arena match today! Don't you dare chickening out :) \n\n"
 
+            tl.start("Arena: Matches")
             # Running the matches:
             # Join string method is used here to improve performance over += or + (Note: Same should prolly be done for jobs.)
             for setup in self.matches_1v1:
@@ -1394,12 +1395,15 @@ init -9 python:
                 else:
                     txt = "".join([txt, "\n {color=[red]}You've missed a team fight vs %s, whatever the reason, you Arena Reputation took a hit of %d. Don't forget or chicken out next time :){/color}"%(penalty_setup[1].name, rep_penalty)])
 
+
             self.update_matches()
+            tl.end("Arena: Matches")
 
             # Some random dogfights
             df_count = 0
 
             # 1v1:
+            tl.start("Arena: Dogfights")
             opfor_pool = list()
 
             for fighter in self.get_arena_fighters():
@@ -1453,6 +1457,7 @@ init -9 python:
                     df_count += 1
 
             self.update_dogfights()
+            tl.end("Arena: Dogfights")
 
             txt = "".join([txt, "\n %d unofficial dogfights took place yesterday!"%df_count])
 

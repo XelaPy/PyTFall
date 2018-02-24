@@ -129,12 +129,16 @@ init -9 python:
                     del cells[cell]
 
             # Arena:
+            tl.start("Anera.next_day")
             self.arena.next_day()
+            tl.end("Anera.next_day")
 
             # Girls, Buildings income and Hero:
+            tl.start("MC's Chars .next_day")
             for char in chars.values():
                 if char in hero.chars:
                     char.next_day()
+            tl.end("MC's Chars .next_day")
 
             businesses = [b for b in hero.buildings if isinstance(b, UpgradableBuilding)]
             for b in businesses:

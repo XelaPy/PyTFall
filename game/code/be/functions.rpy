@@ -69,7 +69,11 @@ init -11 python:
             elif ai == "complex":
                 fighter.controller = Complex_BE_AI(fighter)
 
+        devlog.info("Using {} ai.".format(ai))
+
+        tl.start("logical combat: BATTLE")
         battle.start_battle()
+        tl.end("logical combat: BATTLE")
 
         for fighter in chained():
             fighter.controller = "player"

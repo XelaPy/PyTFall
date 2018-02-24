@@ -117,20 +117,21 @@ label special_auto_save: # since built-in autosave works like shit, I use normal
         $ special_save_number = 1
     return
 
-screen next_day_calculations:
+screen next_day_calculations():
     zorder 20
     text "Processing next day calculations" font "fonts/badaboom.ttf" color "#daa520" size 35 align(.5, .5) outlines [(2, "#000000", 0, 0)]
 
 label next_day:
     call next_day_effects_check
     scene bg profile_2
-    $ next_day_local = None
     show screen next_day_calculations
+
+    $ next_day_local = None
+
     if just_view_next_day: # Review old reports:
         $ just_view_next_day = False
     else: # Do the calculations:
         $ counter = 1
-
         while counter:
             call next_day_calculations
             $ counter -= 1
@@ -144,7 +145,9 @@ label next_day:
     if FilteredList:
         $ event = FilteredList[0]
         $ gimg = event.load_image()
+
     hide screen next_day_calculations
+
     call next_day_controls
 
     # Lets free some memory...
@@ -182,10 +185,7 @@ label next_day_calculations:
         list(girl.restore() for girl in list(g for g in hero.chars if g.action != "Exploring"))
         tl.end("Char.restore for all MC chars")
 
-        ################## Building events Start ##################
-        """
-        Complete Rewrite! This should become a manager for jobs! Preferably partly in Ren'Py script!
-        """
+    ################## Building events Start ##################
     $ tl.start("ND-Buildings")
     # Ren'Py script:
     $ nd_buildings = list(b for b in hero.buildings if isinstance(b, UpgradableBuilding))
@@ -355,6 +355,7 @@ label next_day_controls:
                         gimg = event.load_image()
             elif result[1] == "next_day_local":
                 # Special Logic required:
+                hide screen next_day
                 $ next_day_local = True
                 return
             elif result[1] == 'return':
