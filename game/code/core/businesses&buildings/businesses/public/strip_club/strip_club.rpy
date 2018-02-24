@@ -17,14 +17,14 @@ init -5 python:
                                                 worker.name, self.name)
             self.log(temp, True)
 
-            max_du_working = 35
+            du_working = 35
 
             # We create the log object here! And start logging to it directly!
             building = self.building
             job, loc = self.job, self.building
             log = NDEvent(job=job, char=worker, loc=loc, business=self)
 
-            log.append("{} is performing Strip Job!".format(worker.name))
+            log.append("{} is performing Striptease!".format(worker.name))
             log.append("\n")
 
             difficulty = loc.tier
@@ -34,25 +34,34 @@ init -5 python:
                 log.append("Debug: Her effectiveness: {}! (difficulty: {}, Tier: {})".format(
                                 effectiveness, difficulty, worker.tier))
 
-            worker.set_flag("jobs_effectiveness", effectiveness)
-            worker.set_flag("jobs_can_serve_clients", can_serve_clients)
-            # Must be a list in case of doubles:
-            worker.set_flag("jobs_clients_served", list())
+            # Actively serving these clients:
+            can_serve = 5 # We consider max of 5
+            serving_clients = set() # actively serving these clients
+            clients_served = [] # client served during the shift
 
-            while worker.jobpoints > 0: #  and self.res.count:
-                yield self.env.timeout(self.time)
+            while worker.jobpoints > 0 and du_working > 0:
+                # Add clients to serve:
+                for c in self.clients_waiting.copy():
+                    if len(serving_clients) < can_serve:
+                        self.clients_waiting.remove(c)
+                        self.clients_served.add(c)
+                        c.served_by(worker, effectiveness)
+                        serving_clients.add(c)
+                        clients_served.append(c)
+                    else:
+                        break
 
-                worker.jobpoints -= 100
+                yield self.env.timeout(1)
 
-            clients = worker.flag("jobs_clients_served")
-            # Once the worker is done, we run the job and create the event:
-            if clients:
+                worker.jobpoints -= len(serving_clients)*2 # 2 jobpoints per client?
+
+            if clients_served:
                 if config.debug:
                     temp = "{}: Logging {} for {}!".format(self.env.now, self.name, worker.name)
                     self.log(temp)
                 job.work_strip_club(worker, loc, log)
 
-                earned = payout(job, effectiveness, difficulty, building, self, worker, clients, log)
+                earned = payout(job, effectiveness, difficulty, building, self, worker, clients_served, log)
                 temp = "{}: {} earns {} by serving {} clients!".format(self.env.now,
                                                 worker.name, earned, self.res.count)
                 self.log(temp)
@@ -63,13 +72,6 @@ init -5 python:
             else:
                 temp = "{}: There were no clients for {} to serve".format(self.env.now, worker.name)
                 self.log(temp)
-
-            # log the tips:
-            tips = worker.flag("_jobs_tips")
-            if tips:
-                temp = "{} gets {} in tips for stripping!".format(worker.name, tips)
-                self.log(temp, True)
-                loc.fin.log_logical_income(tips, job.id + " Tips")
 
             self.active_workers.remove(worker)
             temp = "{} is done with the job in {} for the day!".format(

@@ -425,6 +425,10 @@ init -12 python:
             self.expects_clients = True
             self.type = "public_service"
 
+            # If this is set to self.env.now in client manager, we send in workers (bc).
+            self.send_in_worker = float("inf")
+
+
             self.active_workers = set() # On duty Workers.
             self.clients_waiting = set() # Clients waiting to be served.
             self.clients_served = set() # Clients that we served.
@@ -439,6 +443,7 @@ init -12 python:
             We add dirt here.
             """
             building = self.building
+            tier = building.tier
 
             with self.res.request() as request:
                 yield request
@@ -452,13 +457,10 @@ init -12 python:
                 du_to_spend_here = self.time
                 du_spent_here = 0
                 du_without_service = 0
-                serviced = False
 
-                while not client.flag("jobs_ready_to_leave"):
-                    if client in self.clients_served:
-                        serviced = True
-
-                    if not serviced:
+                # while not client.flag("jobs_ready_to_leave"):
+                while 1:
+                    if client in self.clients_waiting:
                         yield self.env.timeout(1)
                         du_spent_here += 1
                         du_without_service += 1
@@ -466,10 +468,21 @@ init -12 python:
                         yield self.env.timeout(3)
                         du_spent_here += 3
                         du_without_service = 0
-                        serviced = False
                         self.clients_served.remove(client)
                         self.clients_waiting.add(client)
                         dirt += randint(2, 3) # Move to business_control?
+
+                        # Tips:
+                        worker, effectiveness = client.served_by
+                        client.served_by = ()
+                        if effectiveness >= 150:
+                            worker.up_counter("_jobs_tips", tier*randint(2, 3))
+                        elif effectiveness >= 100:
+                            worker.up_counter("_jobs_tips", tier*randint(1, 2))
+
+                    if du_spent_here >= 1 and not self.send_in_worker == float("inf"):
+                        # We need a worker ASAP:
+                        self.send_in_worker = self.env.now
 
                     if du_spent_here >= du_to_spend_here:
                         break
@@ -482,7 +495,7 @@ init -12 python:
                 temp = "{} exits the {} leaving {} dirt behind.".format(
                                         client.name, self.name, dirt)
                 self.log(temp, True)
-                
+
                 if client in self.clients_served:
                     self.clients_served.remove(client)
                 if client in self.clients_waiting:
@@ -511,16 +524,13 @@ init -12 python:
             while 1:
                 every_5_du = not self.env.now % 5
 
-                # if every_5_du:
-                if True:
-                    max_clients_to_service = sum([w.flag("jobs_can_serve_clients") for w in self.active_workers])
-                    if len(self.clients) > max_clients_to_service:
-                        new_workers_required = max(1, (len(self.clients)-max_clients_to_service)/4)
-                        for i in range(new_workers_required):
-                            self.add_worker()
-                        max_clients_to_service = sum([w.flag("jobs_can_serve_clients") for w in self.active_workers])
+                if self.send_in_worker <= self.env.now: # Sends in workers when needed!
+                    new_workers_required = max(1, len(self.clients_waiting)/5)
+                    for i in range(new_workers_required):
+                        self.add_worker()
+                    self.send_in_worker = float("inf")
 
-                yield self.env.timeout(self.time)
+                yield self.env.timeout(1)
 
                 # Could be flipped to a job Brawl event?:
                 if False:
@@ -537,52 +547,20 @@ init -12 python:
                         counter += 1
                         process.interrupt("fight")
                         self.env.process(u.intercept(interrupted=True))
-                    #  =====================================>>>
+                    # =====================================>>>
 
-                # Strip for clients (random worker is picked atm):
-                workers = list(self.active_workers)
-                if workers:
-                    w = workers.pop()
-                    can_service = w.flag("jobs_can_serve_clients")
-                else:
-                    w = None
-                    can_service = None
+                if every_5_du:
+                    if config.debug:
+                        temp = "Debug: {} places are currently in use in {}!".format(
+                                set_font_color(self.res.count, "red"),
+                                self.name)
+                        temp = temp + " {} Workers are currently on duty in {}!".format(
+                                set_font_color(len(self.active_workers), "red"),
+                                self.name)
+                        self.log(temp, True)
 
-                flag_name = "jobs_spent_in_{}".format(self.name)
-                for c in self.clients:
-                    c.up_counter(flag_name, self.time)
-
-                    if can_service is None:
-                        c.up_counter("jobs_without_service", self.time)
-                    else:
-                        c.del_flag("jobs_without_service")
-                        can_service -= 1
-                        w.flag("jobs_clients_served").append(c)
-                        effectiveness = w.flag("jobs_effectiveness")
-                        if effectiveness >= 150:
-                            w.up_counter("_jobs_tips", tier*randint(2, 3))
-                        if effectiveness >= 100:
-                            w.up_counter("_jobs_tips", tier*randint(1, 2))
-
-                    if can_service == 0:
-                        if workers:
-                            w = workers.pop()
-                            can_service = w.flag("jobs_can_serve_clients")
-                        else:
-                            w = None
-                            can_service = None
-
-                if config.debug:
-                    temp = "Debug: {} places are currently in use in {}!".format(
-                            set_font_color(self.res.count, "red"),
-                            self.name)
-                    temp = temp + " {} Workers are currently on duty in {}!".format(
-                            set_font_color(len(self.active_workers), "red"),
-                            self.name)
-                    self.log(temp, True)
-
-                if not self.all_workers and not self.active_workers:
-                    break
+                    if not self.all_workers and not self.active_workers:
+                        break
 
             # We remove the business from nd if there are no more strippers to entertain:
             temp = "There are no workers available in the {} so it is shutting down!".format(self.name)

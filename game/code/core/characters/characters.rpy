@@ -4586,7 +4586,7 @@ init -9 python:
                     txt.append(temp)
 
                     if self.autocontrol["Tips"]:
-                        temp = choice(["As per agreement, your girl gets to keep all her tips! This is a very good motivator. ",
+                        temp = choice(["As per agreement, your worker gets to keep all her tips! This is a very good motivator. ",
                                        "She's happy to keep it. "])
                         txt.append(temp)
 
@@ -4794,7 +4794,7 @@ init -9 python:
                 # self.act = choice(pytWhoringActs.female.keys())
                 self.act = "lesbian"
                 self.pronoun = 'She'
-                
+
 
     class NPC(Char):
         """There is no point in this other than an ability to check for instances of NPCs

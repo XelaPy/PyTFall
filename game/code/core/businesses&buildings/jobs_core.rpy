@@ -153,6 +153,17 @@
                 else:
                     raise Exception("Stat: {} does not exits for Businesses".format(key))
 
+        def log_tips(self, worker):
+            # logically logs tips as income of this business.
+            # We settle later, in char.next_day()
+            tips = worker.flag("_jobs_tips")
+            if tips:
+                loc = self.building
+
+                temp = "{} gets {} Gold in tips!".format(worker.name, tips)
+                self.add(temp, True)
+                loc.fin.log_logical_income(tips, job.id + " Tips")
+
         def after_job(self):
             # We run this after job but before ND reports
             # Figure out source for finlogs:
@@ -162,6 +173,7 @@
                 self.update_char_data(self.char)
                 self.charmod.update(self.char.stats_skills)
                 self.char.stats_skills = {}
+                self.log_tips(self.char)
                 self.reset_workers_flags(self.char)
                 if self.earned:
                     self.char.fin.log_logical_income(self.earned, fin_source)
@@ -170,6 +182,7 @@
                 for char in self.team:
                     self.update_char_data(char)
                     self.team_charmod[char] = char.stats_skills.copy()
+                    self.log_tips(char)
                     char.stats_skills = {}
                     self.reset_workers_flags(char)
                     if earned:
@@ -177,11 +190,14 @@
 
             # Location related:
             self.update_loc_data()
+
             if hasattr(self.loc, "fin") and self.earned:
                 self.loc.fin.log_logical_income(self.earned, fin_source)
             if self.earned:
                 store.hero.add_money(self.earned, str(self.loc))
                 self.append("{color=[gold]}\nA total of %d Gold was earned!{/color}" % self.earned)
+            else:
+                self.append("{color=[gold]}\nNo Gold was earned!{/color}" % self.earned)
             self.txt = self.log
             self.log = []
 
