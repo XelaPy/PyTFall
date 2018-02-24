@@ -231,7 +231,7 @@ init -11 python:
             return
         return True
 
-    def equipment_access(character, item=None, silent=False, allowed_to_equip=True):
+    def equipment_access(character, item=None, silent=False, allowed_to_equip=True, unequip=False):
         # Here we determine if a character would be willing to give MC access to her equipment:
         # Like if MC asked this character to equip or unequip an item.
         # We return True if access is granted!
@@ -241,6 +241,7 @@ init -11 python:
         if character == hero:
             return True # Would be weird if we could not access MCs inventory....
 
+            
         if isinstance(character, PytGroup):
             if item and item.jump_to_label:
                 return False
@@ -264,36 +265,47 @@ init -11 python:
             return False
 
         if item:
-            # Bad Traits:
-            if item.badtraits.intersection(character.traits):
-                if not silent:
-                    interactions_character_doesnt_want_bad_item()
-                return not allowed_to_equip
+            if unequip:
+                if character.disposition >= 900 or check_lovers(character, hero) or check_friends(character, hero):
+                    return True
+                    
+                if item.eqchance <= 20 or item.badness >= 80:
+                    return True
+                    
+                if item.badtraits.intersection(character.traits):
+                    return True
+                    
+            else:
+                # Bad Traits:
+                if item.badtraits.intersection(character.traits):
+                    if not silent:
+                        interactions_character_doesnt_want_bad_item()
+                    return not allowed_to_equip
 
-            # Always allow restorative items:
-            if item.type == "restore" and item.eqchance > 0:
-                return True
-
-            if item.type == "alcohol" and item.eqchance > 0:
-                if character.effects['Drunk']['active'] or character.effects['Depression']['active'] or "Heavy Drinker" in character.traits: # green light for booze in case of suitable effects
+                # Always allow restorative items:
+                if item.type == "restore" and item.eqchance > 0:
                     return True
 
-            if item.type == "food" and "Always Hungry" in character.traits and item.eqchance > 0: # same for food
-                return True
+                if item.type == "alcohol" and item.eqchance > 0:
+                    if character.effects['Drunk']['active'] or character.effects['Depression']['active'] or "Heavy Drinker" in character.traits: # green light for booze in case of suitable effects
+                        return True
 
-            # Good traits:
-            if item.goodtraits.intersection(character.traits):
-                return allowed_to_equip
+                if item.type == "food" and "Always Hungry" in character.traits and item.eqchance > 0: # same for food
+                    return True
 
-            # Just an awesome item in general:
-            if item.eqchance >= 70:
-                return allowed_to_equip
-            elif item.eqchance <= 0: # 0 eqchance will make item unavailable, unless there is good trait or slave status
-                if not silent:
-                    interactions_character_doesnt_want_bad_item()
-                return not allowed_to_equip
+                # Good traits:
+                if item.goodtraits.intersection(character.traits):
+                    return allowed_to_equip
 
-        if character.disposition < 950 and not check_lovers(character, hero):
+                # Just an awesome item in general:
+                if item.eqchance >= 70:
+                    return allowed_to_equip
+                elif item.eqchance <= 0: # 0 eqchance will make item unavailable, unless there is good trait or slave status
+                    if not silent:
+                        interactions_character_doesnt_want_bad_item()
+                    return not allowed_to_equip
+
+        if character.disposition < 900 and not check_lovers(character, hero):
             if not silent:
                 interactions_character_doesnt_want_to_equip_item()
             return False
