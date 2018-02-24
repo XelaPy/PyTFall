@@ -67,31 +67,36 @@ init -999 python:
 
     class TimeLog(_object):
         '''
-        Uses Devlog log to time execustion time between the two points.
+        Uses Devlog to log execution time between the two statements.
         Failed to use RenPy log, switching to dev.
         '''
         def __init__(self):
-            self._log = []
+            # dict of msg: start_time
+            self.log = {}
+            self.logged = {} # (History) We may want to view it later...
 
-        def timer(self, msg="default", nested=True):
+        def start(self, msg):
             if config.developer:
-                if not nested or self._log and msg == self._log[-1][0]:
-                    (old_msg, timed) = self._log.pop()
-                    devlog.info("%s took %s secs to run!"%(old_msg, time.time() - timed))
-                    if old_msg == msg:
-                        return
+                if msg not in self.log:
+                    self.log[msg] = time.time()
+                    devlog.info("Starting timer: {}".format(msg))
                 else:
-                    found = [i for i in range(0, len(self._log)) if self._log[i][0] == msg]
-                    if found:
-                        devlog.warn("timing of %s wasn't last on the stack, later timings were:\n%s"%(msg, str(self._log[found[0]:])))
-                        (old_msg, timed) = self._log.pop(found[0])
-                        devlog.info("%s took %s secs to run!"%(old_msg, time.time() - timed))
+                    devlog.warning("!!! Tried to start before finishing a timer: {}!".format(msg))
 
-                self._log.append((msg, time.time()))
-                devlog.info("Starting timer: %s"%msg)
+        def end(msg):
+            if config.developer:
+                if msg not in self.log:
+                    devlog.warning("!!! Tried to end before starting a timer: {}!".format(msg))
+                    return
+
+                duration = time.time() - self.log[msg]
+                duration = round(duration, 2)
+                self.logged[msg] = duration
+                devlog.info("{} completes in {}s.".format(msg, duration))
+                del(self.log[msg])
 
     tl = TimeLog()
-    tl.timer("Ren'Py User Init!")
+    tl.start("Ren'Py User Init!")
 
     # setting the window on center
     # useful if game is launched in the window mode
@@ -538,4 +543,4 @@ init 999 python:
     # tilemap = TileMap("my_map.json")
     # map_image = tilemap.build_map()
 
-    tl.timer("Ren'Py User Init!")
+    tl.end("Ren'Py User Init!")
