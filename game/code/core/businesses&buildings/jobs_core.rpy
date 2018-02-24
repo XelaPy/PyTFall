@@ -159,6 +159,7 @@
             tips = worker.flag("_jobs_tips")
             if tips:
                 loc = self.building
+                job = self.job
 
                 temp = "{} gets {} Gold in tips!".format(worker.name, tips)
                 self.add(temp, True)
@@ -197,7 +198,7 @@
                 store.hero.add_money(self.earned, str(self.loc))
                 self.append("{color=[gold]}\nA total of %d Gold was earned!{/color}" % self.earned)
             else:
-                self.append("{color=[gold]}\nNo Gold was earned!{/color}" % self.earned)
+                self.append("{color=[gold]}\nNo Gold was earned!{/color}")
             self.txt = self.log
             self.log = []
 

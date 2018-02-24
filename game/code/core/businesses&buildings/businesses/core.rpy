@@ -455,18 +455,19 @@ init -12 python:
                 flag_name = "jobs_spent_in_{}".format(self.name)
                 du_to_spend_here = self.time
                 du_spent_here = 0
-                du_without_service = 0
+                client.du_without_service = 0
 
                 # while not client.flag("jobs_ready_to_leave"):
                 while 1:
                     if client in self.clients_waiting:
                         yield self.env.timeout(1)
                         du_spent_here += 1
-                        du_without_service += 1
+                        client.du_without_service += 1
                     else:
+                        client.du_without_service = 0
+
                         yield self.env.timeout(3)
                         du_spent_here += 3
-                        du_without_service = 0
                         self.clients_served.remove(client)
                         self.clients_waiting.add(client)
                         dirt += randint(2, 3) # Move to business_control?
@@ -479,14 +480,14 @@ init -12 python:
                         elif effectiveness >= 100:
                             worker.up_counter("_jobs_tips", tier*randint(1, 2))
 
-                    if du_spent_here >= 1 and not self.send_in_worker == float("inf"):
+                    if client.du_without_service >= 2 and self.send_in_worker == float("inf"):
                         # We need a worker ASAP:
                         self.send_in_worker = self.env.now
 
                     if du_spent_here >= du_to_spend_here:
                         break
 
-                    if du_without_service >= 4:
+                    if client.du_without_service >= 5:
                         break
 
                 building.dirt += dirt

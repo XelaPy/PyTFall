@@ -37,7 +37,7 @@ init -5 python:
             # Actively serving these clients:
             can_serve = 5 # We consider max of 5
             serving_clients = set() # actively serving these clients
-            clients_served = [] # client served during the shift
+            clients_served = [] # client served during the shift (all of them, for the report)
 
             while worker.jobpoints > 0 and du_working > 0:
                 # Add clients to serve:
@@ -45,13 +45,15 @@ init -5 python:
                     if len(serving_clients) < can_serve:
                         self.clients_waiting.remove(c)
                         self.clients_served.add(c)
-                        c.served_by(worker, effectiveness)
+                        c.du_without_service = 0 # Prevent more worker from being called on duty.
+                        c.served_by = (worker, effectiveness)
                         serving_clients.add(c)
                         clients_served.append(c)
                     else:
                         break
 
                 yield self.env.timeout(1)
+                du_working -= 1
 
                 worker.jobpoints -= len(serving_clients)*2 # 2 jobpoints per client?
 

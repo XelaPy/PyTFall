@@ -4769,6 +4769,7 @@ init -9 python:
 
             # Using direct access instead of a flag, looks better in code:
             self.served_by = ()
+            self.du_without_service = 0 # How long did this client spent without service
 
             self.gender = gender
             self.caste = caste
