@@ -52,6 +52,12 @@ init -10 python:
                     earned *= .75
                 else:
                     earned *= .5
+                    temp = " You will get half..."
+                    log.append(temp)
+            else:
+                earned *= .5
+                temp = "  You will get half..."
+                log.append(temp)
         elif effectiveness <= 150:
             if plural:
                 temp = "Clients are very happy with {} service and pay the full price.".format(worker.name)
@@ -60,11 +66,11 @@ init -10 python:
             log.append(temp)
         else:
             if plural:
-                temp = "Clients are ecstatic! {} service was beyond any expectations. +10% to payout!".format(worker.name)
+                temp = "Clients are ecstatic! {} service was beyond any expectations. +20% to payout!".format(worker.name)
             else:
-                temp = "Client is ecstatic! {} service was beyond any expectations. +10% to payout!".format(worker.name)
+                temp = "Client is ecstatic! {} service was beyond any expectations. +20% to payout!".format(worker.name)
             log.append(temp)
-            earned *= 1.1
+            earned *= 1.2
 
         if me >= 120 and dice(50):
             if plural:
