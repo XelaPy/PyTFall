@@ -136,7 +136,7 @@ init -5 python:
             """
             handles penalties in case of wrong job
             """
-            if not("Maid" in worker.traits):
+            if not("Server" in worker.gen_occs):
                 sub = check_submissivity(worker)
                 if worker.status != 'slave':
                     if sub < 0:

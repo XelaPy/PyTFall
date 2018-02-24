@@ -132,7 +132,7 @@ init -5 python:
                 log(temp, True)
 
             for worker in workers:
-                if not("Combatant" in worker.traits):
+                if not("Combatant" in worker.gen_occs):
                     sub = check_submissivity(worker)
                     if worker.status != 'slave':
                         if sub < 0:
@@ -142,7 +142,7 @@ init -5 python:
                         elif sub == 0:
                             if dice(25):
                                 worker.logws('character', 1)
-                            log("%s serves customers as a guard, but she would prefer to do something else." % worker.nickname)
+                            log("%s will work as a guard, but she would prefer to do something else." % worker.nickname)
                         else:
                             if dice(35):
                                 worker.logws('character', 1)

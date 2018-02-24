@@ -144,7 +144,7 @@ init -5 python:
 
         def settle_workers_disposition(self, worker, log):
             # handles penalties in case of wrong job
-            if not("Prostitute" in worker.traits):
+            if not("SIW" in worker.gen_occs):
                 sub = check_submissivity(worker)
                 if worker.status != 'slave':
                     if sub < 0:

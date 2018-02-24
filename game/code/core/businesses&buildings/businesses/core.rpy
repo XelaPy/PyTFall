@@ -428,7 +428,6 @@ init -12 python:
             # If this is set to self.env.now in client manager, we send in workers (bc).
             self.send_in_worker = float("inf")
 
-
             self.active_workers = set() # On duty Workers.
             self.clients_waiting = set() # Clients waiting to be served.
             self.clients_served = set() # Clients that we served.
