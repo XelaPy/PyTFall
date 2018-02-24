@@ -622,7 +622,7 @@ init:
                         action (Hide(renpy.current_screen().tag), Function(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
                         hovered tt.Action("Return to Main Screen")
 
-                if renpy.current_screen().tag in ["char_profile", "char_equip"] and char.action != "Exploring":
+                if renpy.current_screen().tag in ["char_profile", "char_equip"] and char.is_available:
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png" , 34, 37), im.matrix.brightness(.25))

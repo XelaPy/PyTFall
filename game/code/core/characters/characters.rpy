@@ -1729,10 +1729,12 @@ init -9 python:
         # Properties:
         @property
         def is_available(self):
-            # Is this enought or should there be separate tracker properties for gameworld and player actions? This will prolly do for now.
+            # False if we cannot reach the character.
             if not self.alive:
                 return False
             if self.action == "Exploring":
+                return False
+            if self in pytfall.ra:
                 return False
             return self._available
 
@@ -4515,6 +4517,9 @@ init -9 python:
                 self.health -= randint(3, 5)
                 txt.append("\n{color=[red]}This girl has escaped! Assign guards to search for her or do so yourself.{/color}\n\n")
                 flag_red = True
+            # TODO se/Char.nd(): This can't be right? This is prolly set to the exploration log object.
+            elif self.action == "Exploring":
+                txt.append("\n{color=[green]}She is currently on the exploration run!{/color}\n")
             else:
                 # Front text (Days employed)
                 days = set_font_color(self.fullname, "green")
@@ -4530,25 +4535,21 @@ init -9 python:
                 loc = self.home
                 mod = loc.daily_modifier
 
-                # TODO se/Char.nd(): This can't be right? This is prolly set to the exploration log object.
-                if self.action == "Exploring":
-                    txt.append("\n{color=[green]}She is currently on the exploration run!{/color}\n")
-                else:
-                    if mod > 0:
-                        txt.append("She has comfortably spent a night.")
-                    elif mod < 0:
-                        flag_red = True
-                        txt.append("{color=[red]}You should find some shelter for your worker... it's not healthy to sleep outside.{/color}\n")
+                if mod > 0:
+                    txt.append("She has comfortably spent a night.")
+                elif mod < 0:
+                    flag_red = True
+                    txt.append("{color=[red]}You should find some shelter for your worker... it's not healthy to sleep outside.{/color}\n")
 
-                    for stat in ("health", "mp", "vitality"):
-                        mod_by_max(self, stat, mod)
+                for stat in ("health", "mp", "vitality"):
+                    mod_by_max(self, stat, mod)
 
                 # Finances:
                 # Upkeep:
-                if in_training_location(self):
-                    txt.append("Upkeep is included in price of the class your girl's taking. \n")
-                elif self.action == "Exploring":
+                if not self.is_available:
                     pass
+                elif in_training_location(self):
+                    txt.append("Upkeep is included in price of the class your girl's taking. \n")
                 else:
                     # The whole upkeep thing feels weird, penalties to slaves are severe...
                     amount = self.fin.get_upkeep()
@@ -4575,8 +4576,9 @@ init -9 python:
                             self.vitality -= 25
                             txt.append("\nYou've failed to provide even the most basic needs for your slave. This will end badly... \n")
 
-                # This whole routine is basically fucked and done twice or more. Gotta do a whole check of all related parts tomorrow.
-                # Settle wages:
+            # This whole routine is basically fucked and done twice or more. Gotta do a whole check of all related parts tomorrow.
+            # Settle wages:
+            if self not in pytfall.ra:
                 img = self.fin.settle_wage(txt, img)
 
                 tips = self.flag("_jobs_tips")
@@ -4603,40 +4605,37 @@ init -9 python:
                         txt.append(temp)
                         hero.add_money(tips, reason="Worker Tips")
 
-                # ----------------------------------------------------------------->
-                # The bit from here on will be disabled during exploration and other multi-day activities:
+            # Training with NPCs ---------------------------------------------->
+            if self.is_available:
+                self.nd_auto_train(txt)
 
-                # Training with NPCs ---------------------------------------------->
-                if not self.action == "Exploring":
-                    self.nd_auto_train(txt)
+                # Shopping (For now will not cost AP):
+                self.nd_autoshop(txt)
+                # --------------------------------->>>
 
-                    # Shopping (For now will not cost AP):
-                    self.nd_autoshop(txt)
-                    # --------------------------------->>>
+                self.restore()
+                self.check_resting()
 
-                    self.restore()
-                    self.check_resting()
+                # Unhappiness and related:
+                img = self.nd_joy_disposition_checks(txt, img)
 
-                    # Unhappiness and related:
-                    img = self.nd_joy_disposition_checks(txt, img)
+                # Effects:
+                if self.effects['Poisoned']['active']:
+                    txt.append("\n{color=[red]}This girl is suffering from the effects of Poison!{/color}\n")
+                    flag_red = True
+                if all([not self.autobuy, self.status != "slave", self.disposition < 950]):
+                    self.autobuy = True
+                    txt.append("She will go shopping whenever it may please here from now on!\n")
+                if all([self.status != "slave", self.disposition < 850, not self.autoequip]):
+                    self.autoequip = True
+                    txt.append("She will be handling her own equipment from now on!\n")
 
-            # Effects:
-            if self.effects['Poisoned']['active']:
-                txt.append("\n{color=[red]}This girl is suffering from the effects of Poison!{/color}\n")
-                flag_red = True
-            if all([not self.autobuy, self.status != "slave", self.disposition < 950]):
-                self.autobuy = True
-                txt.append("She will go shopping whenever it may please here from now on!\n")
-            if all([self.status != "slave", self.disposition < 850, not self.autoequip]):
-                self.autoequip = True
-                txt.append("She will be handling her own equipment from now on!\n")
-
-            # Prolly a good idea to throw a red flag if she is not doing anything:
-            # I've added another check to make sure this doesn't happen if
-            # a girl is in FG as there is always something to do there:
-            if not self.action:
-                flag_red = True
-                txt.append("\n\n  -{color=[red]}Please note that she is not really doing anything productive!-{/color}\n")
+                # Prolly a good idea to throw a red flag if she is not doing anything:
+                # I've added another check to make sure this doesn't happen if
+                # a girl is in FG as there is always something to do there:
+                if not self.action:
+                    flag_red = True
+                    txt.append("\n\n  -{color=[red]}Please note that she is not really doing anything productive!-{/color}\n")
 
             txt.append("{color=[green]}\n\n%s{/color}" % "\n".join(self.txt))
 

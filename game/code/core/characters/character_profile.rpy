@@ -2,6 +2,7 @@ label char_profile:
 
     if not hasattr(store, "girls") or girls is None or char not in girls:
         $ girls = list(girl for girl in hero.chars if girl.action != "Exploring")
+        # TODO !!! Find a solid way to handle this.
 
     scene bg scroll
     $ renpy.retain_after_load()
@@ -790,7 +791,7 @@ screen char_profile():
                 text (u"{=content_text}{color=[ivory]}%s" % tt.value)
 
     use top_stripe(True)
-    
+
 screen show_skill_info(skill):
     modal True
     default DAMAGE = {"physical": "{image=physical_be_viewport}", "fire": "{image=fire_element_be_viewport}", "water": "{image=water_element_be_viewport}",
@@ -802,11 +803,11 @@ screen show_skill_info(skill):
         align(.5, .5)
         background Frame("content/gfx/frame/p_frame52.png", 10, 10)
         xysize 400, 200
-        
+
         vbox:
             text "[skill.name]" size 18 color goldenrod bold True xalign .45
             null height 5
-            
+
             text "[skill.desc]" color ivory size 14 xalign .05
             null height 10
             $ line = ""
@@ -818,19 +819,19 @@ screen show_skill_info(skill):
                 $ line += "  {color=[green]}Magic skill. {/color}"
             else:
                 $ line += "  {color=[orange]}Status skill. {/color}"
-                
-            
-                
+
+
+
             if "inevitable" in skill.attributes:
                 $ line += "Cannot be dodged. "
-                
+
             $ attr = list(i for i in skill.attributes if i not in ["melee", "ranged", "magic", "status", "inevitable"])
             if attr:
                 for i in attr:
                     $ line += DAMAGE[i]
-                    
+
             text line size 14
-                    
+
         imagebutton:
             align .99, .01
             xysize 22, 22

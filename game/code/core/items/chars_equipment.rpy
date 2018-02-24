@@ -81,7 +81,7 @@ label char_equip:
             if isinstance(eqtarget, PytGroup) or eqtarget == hero:
                 equip_girls = []
             else:
-                equip_girls = list(girl for girl in hero.chars if girl.action != "Exploring")
+                equip_girls = list(girl for girl in hero.chars if girl.is_available)
 
         eqtarget.inventory.set_page_size(16)
         hero.inventory.set_page_size(16)

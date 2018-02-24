@@ -182,7 +182,7 @@ label next_day_calculations:
 
         ################## Restore before the jobs ##################
         tl.start("Char.restore for all MC chars") # TODO !!! Find out wtf this is for.
-        list(girl.restore() for girl in list(g for g in hero.chars if g.action != "Exploring"))
+        list(girl.restore() for girl in list(g for g in hero.chars if g.is_available))
         tl.end("Char.restore for all MC chars")
 
     ################## Building events Start ##################
@@ -206,7 +206,7 @@ label next_day_calculations:
         for c in hero.chars:
             if not isinstance(c.action, Rest):
                 can_do_work(c, check_ap=True, log=None)
-    $ ndr_chars = list(c for c in hero.chars if c.location != "Exploring" and isinstance(c.action, Rest) and c.AP > 0) # Next Day Resting Chars
+    $ ndr_chars = list(c for c in hero.chars if c.is_available and isinstance(c.action, Rest) and c.AP > 0) # Next Day Resting Chars
     while ndr_chars:
         $ resting_char = ndr_chars.pop()
         $ resting_char.action(resting_char) # <--- Looks odd and off?
@@ -262,7 +262,7 @@ label next_day_calculations:
 
     # Second iteration of Rest:
     $ tl.start("ND-Rest (Second pass)")
-    $ ndr_chars = list(c for c in hero.chars if c.location != "Exploring" and isinstance(c.action, Rest) and c.AP > 0) # Next Day Resting Chars
+    $ ndr_chars = list(c for c in hero.chars if c.is_available and isinstance(c.action, Rest) and c.AP > 0) # Next Day Resting Chars
     while ndr_chars:
         $ resting_char = ndr_chars.pop()
         $ resting_char.action(resting_char) # <--- Looks odd and off?
