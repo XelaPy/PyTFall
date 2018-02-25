@@ -45,7 +45,8 @@ screen set_action_dropdown(char, pos=()):
                 tooltip "Call your girl back from the Academy to do something useful in one of your businesses."
         elif isinstance(char.workplace, UpgradableBuilding):
             $ jobs = char.workplace.get_valid_jobs(char)
-            $ jobs.append(Rest())
+            if char != hero: # Rest is not really useful for MC, which player controls.
+                $ jobs.append(Rest())
             for i in jobs:
                 textbutton "[i.id]":
                     action [Function(set_char_to_work, char, char.workplace, i),
