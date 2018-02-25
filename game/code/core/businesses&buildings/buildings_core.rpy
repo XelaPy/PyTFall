@@ -774,7 +774,8 @@ init -10 python:
             clnts = self.total_clients
 
             # TODO B&B-clients: Generate and add regulars!
-            if self.available_workers and len(self.all_clients) < clnts:
+            c0 = self.expects_clients and self.available_workers
+            if c0 and len(self.all_clients) < clnts:
                 for i in xrange(clnts - len(self.all_clients)):
                     client = self.create_customer(likes=[choice(client_businesses)])
                     self.all_clients.add(client)
