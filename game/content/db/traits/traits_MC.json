@@ -132,13 +132,13 @@
     "desc": "All shields are a bit more effective than usual.",
     "blocks": ["Knightly Stance", "Sword Master", "Royal Assassin", "Bow Master", "Berserk", "Dagger Master", "Farsightedness", "Elven Ranger", "Armor Expert", "Arcane Archer"],
     "MC_trait": true
-    },   
+    },
     {
     "id": "Arcane Archer",
     "desc": "Most ranged weapons give a bonus to magic equal to half of their bonus to attack.",
     "blocks": ["Knightly Stance", "Sword Master", "Royal Assassin", "Bow Master", "Berserk", "Dagger Master", "Farsightedness", "Elven Ranger", "Armor Expert", "Shield Master"],
     "MC_trait": true
-    },   
+    },
     {
     "id": "Sister Lover",
     "desc": "Characters with the Half-Sister trait will not reject you due to kinship and will have additional disposition bonus.",

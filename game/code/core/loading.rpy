@@ -591,13 +591,13 @@ init -11 python:
 
     def load_traits():
         content = list()
-        folder = content_path('db')
+        folder = content_path('db/traits')
         for file in os.listdir(folder):
             # New file "content/db/traits_chances.json" crashes this function as it matches the naming scheme for the traits files, but not the content scheme
             # Added check to remove it from consideration to prevent crashing, should look into changing its name, conforming to scheme, or better check.
             #
             if file.startswith("traits") and file.endswith(".json") and "_chances" not in file:
-                in_file = content_path("".join(["db/", file]))
+                in_file = content_path("".join(["db/traits/", file]))
                 with open(in_file) as f:
                     content.extend(json.load(f))
         traits = dict()

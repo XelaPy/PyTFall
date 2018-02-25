@@ -2,7 +2,7 @@
     {
         "id": "Berserker",
         "occupations": [
-            "Warrior"
+            "Combatant"
         ],
         "desc": "Berserker attacks no matter the cost.",
         "basetrait": true,
@@ -52,7 +52,7 @@
     {
         "id": "Juggernaut",
         "occupations": [
-            "Warrior"
+            "Combatant"
         ],
         "desc": "Juggernauts may be slow, but very difficult to kill.",
         "basetrait": true,
@@ -111,7 +111,7 @@
     {
         "id": "Magical Creature",
         "occupations": [
-            "Warrior"
+            "Combatant"
         ],
         "desc": "This creature has magic in its blood, flesh, and soul.",
         "basetrait": true,
@@ -164,7 +164,7 @@
     {
         "id": "Trickster",
         "occupations": [
-            "Warrior"
+            "Combatant"
         ],
         "desc": "This creature is not too strong, but extremely agile and fast.",
         "basetrait": true,
@@ -216,7 +216,7 @@
     {
         "id": "Demigod",
         "occupations": [
-            "Warrior"
+            "Combatant"
         ],
         "desc": "This creature does not have any weaknesses.",
         "basetrait": true,
