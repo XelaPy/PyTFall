@@ -365,7 +365,7 @@ init:
                                     xysize (147, 25)
                                     action Return(["show_skill_info", entry])
                                     text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
-                                    hovered tt.action(entry.desc)
+                                    hovered tt.action("Click to see more info")
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
                 frame:
@@ -387,7 +387,7 @@ init:
                                     xysize (147, 25)
                                     action Return(["show_skill_info", entry])
                                     text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
-                                    hovered tt.action(entry.desc)
+                                    hovered tt.action("Click to see more info")
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
         # TRAITS ====================================>
