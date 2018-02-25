@@ -746,7 +746,7 @@ screen char_profile():
                                         xysize (147, 25)
                                         action Return(["show_skill_info", entry])
                                         text "[entry.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
-                                        hovered tt.action(entry.desc)
+                                        hovered tt.action("Click to see more info")
                                         hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
                     vbox:
@@ -767,7 +767,7 @@ screen char_profile():
                                         xysize (147, 25)
                                         action Return(["show_skill_info", entry])
                                         text "[entry.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
-                                        hovered tt.action(entry.desc)
+                                        hovered tt.action("Click to see more info")
                                         hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
         # Tooltip ====================================>
@@ -798,40 +798,61 @@ screen show_skill_info(skill):
               "ice": "{image=ice_element_be_viewport}", "earth": "{image=earth_element_be_viewport}", "air": "{image=air_element_be_viewport}",
               "electricity": "{image=ele_element_be_viewport}", "light": "{image=light_element_be_viewport}", "darkness": "{image=darkness_element_be_viewport}",
               "healing": "{image=healing_be_viewport}", "poison": "{image=poison_be_viewport}"}
-
-    frame:
+    fixed:
+        xysize 300, 200
         align(.5, .5)
-        background Frame("content/gfx/frame/p_frame52.png", 10, 10)
-        xysize 400, 200
+        frame:
+            align(.5, .5)
+            background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+            xysize 300, 200
 
-        vbox:
-            text "[skill.name]" size 18 color goldenrod bold True xalign .45
+            has vbox style_prefix "proper_stats" spacing 1
+            frame:
+                xsize 290
+                text "[skill.name]" size 18 color goldenrod bold True xalign .45
             null height 5
 
-            text "[skill.desc]" color ivory size 14 xalign .05
+            frame:
+                xsize 290
+                text "[skill.desc]" color ivory size 14 xalign .05
             null height 10
-            $ line = ""
-            if "melee" in skill.attributes:
-                $ line += "  {color=[red]}Melee skill. {/color}"
-            elif "ranged" in skill.attributes:
-                $ line += "  {color=[green]}Ranged skill. {/color}"
-            elif "magic" in skill.attributes:
-                $ line += "  {color=[green]}Magic skill. {/color}"
-            else:
-                $ line += "  {color=[orange]}Status skill. {/color}"
+            frame:
+                xsize 290
+                $ line = ""
+                if "melee" in skill.attributes:
+                    $ line += "  {color=[red]}Melee skill {/color}"
+                elif "ranged" in skill.attributes:
+                    $ line += "  {color=[green]}Ranged skill {/color}"
+                elif "magic" in skill.attributes:
+                    $ line += "  {color=[green]}Magic skill {/color}"
+                else:
+                    $ line += "  {color=[orange]}Status skill {/color}"
 
+                if "inevitable" in skill.attributes:
+                    $ line += "Cannot be dodged. "
 
+                $ attr = list(i for i in skill.attributes if i not in ["melee", "ranged", "magic", "status", "inevitable"])
+                if attr:
+                    for i in attr:
+                        $ line += DAMAGE[i]
 
-            if "inevitable" in skill.attributes:
-                $ line += "Cannot be dodged. "
-
-            $ attr = list(i for i in skill.attributes if i not in ["melee", "ranged", "magic", "status", "inevitable"])
-            if attr:
-                for i in attr:
-                    $ line += DAMAGE[i]
-
-            text line size 14
-
+                text line size 14 xalign .05
+                
+            if skill.critpower != 0:
+                if skill.critpower >0:
+                    $ line = "Crit damage: + [skill.critpower]%"
+                else:
+                    $ line = "Crit damage: [skill.critpower]%"
+                frame:
+                    xsize 290
+                    text line size 14 color goldenrod bold True xalign .05
+                    
+            if skill.effect > 0:
+                $ line = "Relative power: [skill.effect]"
+                frame:
+                    xsize 290
+                    text line size 14 color goldenrod bold True xalign .05
+            
         imagebutton:
             align .99, .01
             xysize 22, 22
