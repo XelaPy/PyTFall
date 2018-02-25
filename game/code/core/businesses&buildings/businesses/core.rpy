@@ -625,19 +625,16 @@ init -12 python:
             super(OnDemandBusiness, self).__init__(**kwargs)
 
             self.type = "on_demand_service"
-            self.jobs = set()
             self.workable = True
             self.active_workers = list()
             self.action = None # Action that is currently running! For example guard that are presently on patrol should still respond to act
                                           # of violence by the customers, even thought it may appear that they're busy (in code).
 
             # SimPy and etc follows:
-            self.res = None # Restored before every job...
             self.time = 1 # Same.
-            self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
-            self.interrupt = None # We can bind an active process here if it can be interrupted. I'ma an idiot... This needs to be reset.
-            self.expects_clients = False # See Business.__init__
-
+            # We can bind an active process here if
+            # it can be interrupted. I'ma an idiot... This needs to be reset.
+            self.interrupt = None
             self.expands_capacity = False
 
         def get_pure_workers(self, job, power_flag_name, use_slaves=True):
