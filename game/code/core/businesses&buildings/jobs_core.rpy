@@ -236,7 +236,7 @@
             self.base_stats = dict()
             # Where key: value are stat/skill: weight!
 
-            self.desc = "" # String we can use to describe the Job.
+            self.desc = "Add Description." # String we can use to describe the Job.
 
         def __str__(self):
             return str(self.id)

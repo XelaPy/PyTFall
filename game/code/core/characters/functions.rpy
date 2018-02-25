@@ -182,7 +182,7 @@ init -11 python:
                  equip_to_tier=False, gtt_kwargs=None,
                  spells_to_tier=False, stt_kwargs=None):
         '''Creates a random character!
-        id: id to choose from the rchars dictionary that holds rGirl loading data
+        id: id to choose from the rchars dictionary that holds rGirl loading data.
             from JSON files, will be chosen at random if none available.
         name: (String) Name for a girl to use. If None one will be chosen from randomNames file!
         last_name: Same thing only for last name :)

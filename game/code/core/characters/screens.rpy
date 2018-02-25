@@ -1,3 +1,14 @@
+screen new_style_tooltip():
+    $ tooltip = GetTooltip()
+
+    style_prefix "new_style_tooltip"
+
+    if tooltip:
+        $ pos = renpy.get_mouse_pos()
+        frame:
+            pos pos
+            text "[tooltip]"
+
 screen set_action_dropdown(char, pos=()):
     # Trying to create a drop down screen with choices of actions:
     zorder 3
@@ -25,26 +36,31 @@ screen set_action_dropdown(char, pos=()):
                         Hide("char_profile"),
                         SetField(store, "char", char, True),
                         Jump("girl_training")]
+                tooltip "Change training course to a different one."
             textbutton "Stop Course":
                 action [SetField(char, "location", None),
                         SetField(char, "workplace", None),
                         SetField(char, "action", None),
                         Hide("set_action_dropdown")]
+                tooltip "Call your girl back from the Academy to do something useful in one of your businesses."
         elif isinstance(char.workplace, UpgradableBuilding):
             $ jobs = char.workplace.get_valid_jobs(char)
+            $ jobs.append(Rest())
             for i in jobs:
                 textbutton "[i.id]":
                     action [Function(set_char_to_work, char, char.workplace, i),
                             Hide("set_action_dropdown")]
+                    tooltip i.desc
             textbutton "None":
                 action [SetField(char, "action", None),
                         If(char_is_training(char), true=Function(stop_training, char)),
                         Hide("set_action_dropdown")]
-            textbutton "Rest":
-                action [SetField(char, "action", Rest()), Hide("set_action_dropdown")]
+                tooltip "In case you are in a great need of a slacker..."
 
         textbutton "Close":
             action [Hide("set_action_dropdown")]
+
+    use new_style_tooltip()
 
     key "K_ESCAPE" action [Hide("set_action_dropdown")]
 
