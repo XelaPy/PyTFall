@@ -420,8 +420,7 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
     style new_style_tooltip_frame:
         padding (8, 5)
         xsize 350
-        background Fixed(Frame("content/gfx/interface/buttons/hp_1s.png", 5, 5),
-                               flashing(Frame("content/gfx/interface/buttons/flashing2.png", 5, 5)))
+        background Frame("content/gfx/interface/buttons/hp_1s.png", 5, 5)
     style new_style_tooltip_text:
         font "fonts/rubius.ttf"
         size 18
