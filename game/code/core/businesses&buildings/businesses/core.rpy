@@ -335,7 +335,6 @@ init -12 python:
             super(PrivateBusiness, self).__init__(**kwargs)
 
             self.type = "personal_service"
-            self.jobs = set()
             self.workable = True
             self.expects_clients = True
 
@@ -374,7 +373,6 @@ init -12 python:
             """Waits for self.time delay and calls the job...
             """
             raise Exception("Run Job method/process must be implemented")
-            self.building.available_workers.insert(0, char)
 
         def post_nd_reset(self):
             self.res = None
@@ -393,7 +391,6 @@ init -12 python:
         """
         def __init__(self, **kwargs):
             super(PublicBusiness, self).__init__(**kwargs)
-            self.jobs = set() # Job bound to this update.
             self.workable = True
             self.expects_clients = True
             self.type = "public_service"
