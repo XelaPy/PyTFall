@@ -341,13 +341,12 @@ init -12 python:
 
             # SimPy and etc follows:
             self.res = None # Restored before every job...
-            self.time = 5 # Same
-            self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
+            self.time = 10 # Same
+            self.is_running = False
 
         def has_workers(self):
-            # Check if the building still has someone available to do the job.
-            # We just check this for
-            return list(i for i in self.building.available_workers if self.all_occs & i.occupations)
+            return list(i for i in self.building.available_workers if
+                                              self.all_occs & i.occupations)
 
         def pre_nd(self):
             self.res = simpy.Resource(self.env, self.capacity)
@@ -367,40 +366,14 @@ init -12 python:
         def request_resource(self, client, char):
             """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms available...
             """
+            raise Exception("request_resource method/process must be implemented")
             with self.res.request() as request:
                 yield request
-
-                # All is well and the client enters:
-                temp = "{}: {} and {} enter the room.".format(self.env.now, client.name, char.name)
-                self.log(temp)
-
-                # This line will make sure code halts here until run_job ran it's course...
-                yield self.env.process(self.run_job(client, char))
-
-                # Action (Job) ran it's course and client is leaving...
-                temp = "{}: {} leaves the {}.".format(self.env.now, client.name, self.name)
-                self.log(temp)
-                # client.flag("jobs_busy").interrupt()
-            client.del_flag("jobs_busy")
 
         def run_job(self, client, char):
             """Waits for self.time delay and calls the job...
             """
-            yield self.env.timeout(self.time)
-            if config.debug:
-                temp = "{}: Debug: {} Building Resource in use!".format(self.env.now, set_font_color(self.res.count, "red"))
-                self.log(temp)
-
-            temp = "{}: {} and {} did their thing!".format(self.env.now, set_font_color(char.name, "pink"), client.name)
-            self.log(temp)
-
-            # Visit counter:
-            # client.up_counter("got_serviced_by" + char.id)
-
-            # Execute the job:
-            self.job(char, client)
-
-            # We return the char to the nd list:
+            raise Exception("Run Job method/process must be implemented")
             self.building.available_workers.insert(0, char)
 
         def post_nd_reset(self):

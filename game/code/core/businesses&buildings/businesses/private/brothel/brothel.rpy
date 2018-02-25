@@ -9,31 +9,7 @@ init -5 python:
         def __init__(self, **kwargs):
             super(BrothelBlock, self).__init__(**kwargs)
 
-            self.type = "personal_service"
             self.jobs = set([simple_jobs["Whore Job"]])
-            self.workable = True
-
-            # SimPy and etc follows:
-            self.res = None # Restored before every job...
-            self.time = 10 # Single shift with client.
-            self.is_running = False # Is true when the business is running, this is being set to True at the start of the ND and to False on it's end.
-
-        def has_workers(self):
-            # Check if the building still has someone available to do the job.
-            # We just check this for
-            return list(i for i in self.building.available_workers if self.all_occs & i.occupations)
-
-        def business_control(self):
-            while 1:
-                yield self.env.timeout(self.time)
-
-                if self.res.count == 0 and not self.has_workers():
-                    break
-
-            # We remove the business from nd if there are no more strippers to entertain:
-            temp = "There are no workers available in the {} so it is shutting down!".format(self.name)
-            self.log(temp)
-            self.building.nd_ups.remove(self)
 
         def request_resource(self, client, worker):
             """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms available...
