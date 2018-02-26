@@ -70,8 +70,8 @@ label char_profile:
                                 python:
                                     hero.add_money(int(char.fin.get_price()*0.8), reason="SlaveTrade")
                                     char.home = pytfall.sm
-                                    char.workplace = None
                                     char.action = None
+                                    char.workplace = None
                                     set_location(char, char.home)
                             else:
                                 if char.disposition >= 0:
@@ -86,8 +86,8 @@ label char_profile:
                                     $ block_say = False
                                 python:
                                     char.home = locations["City Apartments"]
-                                    char.workplace = None
                                     char.action = None
+                                    char.workplace = None
                                     set_location(char, locations["City"])
                             python:
                                 hero.remove_char(char)
@@ -837,7 +837,7 @@ screen show_skill_info(skill):
                         $ line += DAMAGE[i]
 
                 text line size 14 xalign .05
-                
+
             if skill.critpower != 0:
                 if skill.critpower >0:
                     $ line = "Crit damage: + [skill.critpower]%"
@@ -846,13 +846,13 @@ screen show_skill_info(skill):
                 frame:
                     xsize 290
                     text line size 14 color goldenrod bold True xalign .05
-                    
+
             if skill.effect > 0:
                 $ line = "Relative power: [skill.effect]"
                 frame:
                     xsize 290
                     text line size 14 color goldenrod bold True xalign .05
-            
+
         imagebutton:
             align .99, .01
             xysize 22, 22

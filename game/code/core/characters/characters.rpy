@@ -4720,8 +4720,8 @@ init -9 python:
                 flag_red = True
                 hero.remove_char(self)
                 char.home = locations["City Apartments"]
-                char.workplace = None
                 char.action = None
+                char.workplace = None
                 set_location(char, locations["City"])
             elif self.disposition < -500:
                 if self.status != "slave":
@@ -4730,8 +4730,8 @@ init -9 python:
                     img = self.show("profile", "sad", resize=(500, 600))
                     hero.remove_char(self)
                     char.home = locations["City Apartments"]
-                    char.workplace = None
                     char.action = None
+                    char.workplace = None
                     set_location(char, locations["City"])
                 elif self.days_unhappy > 7:
                     if dice(50):

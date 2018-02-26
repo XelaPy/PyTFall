@@ -194,6 +194,7 @@ label building_management_loop:
                         if hero.home == building:
                             hero.home = locations["Streets"]
                         if hero.workplace == building:
+                            hero.action = None
                             hero.workplace = None
                         if hero.location == building:
                             set_location(hero, hero.home)
