@@ -1794,9 +1794,16 @@ init -9 python:
             return self._action
         @action.setter
         def action(self, value):
+            c0 = getattr(value, "type", None) == "Resting"
+            c1 = self.previousaction == value
+            if c0 or c1:
+                self._action = value
+                return
+
             old_action = self.action
             building = self.workplace
             manager = simple_jobs["Manager"]
+
 
             # Check if we already have a manager in the building:
             if value == manager:
