@@ -732,9 +732,10 @@ init -11 python:
             if job not in (sj["Manager"], sj["Rest"], sj["AutoRest"]):
                 building.manager = None
 
-        char.action = job
+
         # We prolly still want to set a workplace...
         char.workplace = building
+        char.action = job
 
         if job is None:
             return
