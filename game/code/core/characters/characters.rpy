@@ -1761,13 +1761,6 @@ init -9 python:
             return allowed
 
         @property
-        def action(self):
-            return self._action
-        @action.setter
-        def action(self, value):
-            self._action = value
-
-        @property
         def arena_rep(self):
             return self._arena_rep
         @arena_rep.setter
@@ -1795,6 +1788,27 @@ init -9 python:
                 # self.status = "slave"
                 # self.home = "slavemarket"
             self._location = value
+
+        @property
+        def action(self):
+            return self._action
+        @action.setter
+        def action(self, value):
+            old_action = self.action
+            building = self.workplace
+            manager = simple_jobs["Manager"]
+
+            # Check if we already have a manager in the building:
+            if value == manager:
+                if building.manager:
+                    building.manager.action = None
+                    building.manager = None
+            if old_action == manager:
+                # Works as a Manager so special considerations are needed:
+                building.manager = None
+                building.manager_effectiveness = 0
+
+            self._action = value
 
         @property
         def workplace(self):
