@@ -1804,7 +1804,6 @@ init -9 python:
             building = self.workplace
             manager = simple_jobs["Manager"]
 
-
             # Check if we already have a manager in the building:
             if value == manager:
                 if building.manager:

@@ -658,7 +658,7 @@ init -9 python:
                 a_team = Team(name=name, max_size=teamsize)
                 for index, member in enumerate(members):
                     if member == "random_char":
-                        member = build_rc(patterns="Combatant")
+                        member = build_rc(bt_go_patterns="Combatant")
                     elif member in chars:
                         member = chars[member]
                         if member in hero.chars:
@@ -678,7 +678,7 @@ init -9 python:
                                 " Arena Fighter %s to 3v3 Arena teams more than once!" % member.name)
                         self.arena_fighters[member.id] = member
                     elif member in rchars:
-                        build_rc(id=member, patterns="Combatant")
+                        build_rc(id=member, bt_go_patterns="Combatant")
                     else:
                         raise Exception("Team Fighter %s is of unknown origin!" % member)
 
@@ -794,7 +794,7 @@ init -9 python:
                     give_tiered_items(fighter, equip=True)
                     give_tiered_magic_skills(fighter)
                 else:
-                    fighter = build_rc(patterns="Combatant", tier=tier,
+                    fighter = build_rc(bt_go_patterns="Combatant", tier=tier,
                                        equip_to_tier=True, spells_to_tier=True)
                     # print("Created Arena RG: {}".format(fighter.name))
                     candidates.append(fighter)

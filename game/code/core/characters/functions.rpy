@@ -175,8 +175,10 @@ init -11 python:
 
         return mob
 
-    def build_rc(id=None, name=None, last_name=None, patterns=None,
-                 specific_patterns=None, set_locations=True,
+    def build_rc(id=None, name=None, last_name=None,
+                 bt_direct=None, bt_go_patterns=None,
+                 bt_group=None, bt_preset=None,
+                 set_locations=True,
                  set_status="free",
                  tier=0, tier_kwargs=None, add_to_gameworld=True,
                  equip_to_tier=False, gtt_kwargs=None,
@@ -186,10 +188,16 @@ init -11 python:
             from JSON files, will be chosen at random if none available.
         name: (String) Name for a girl to use. If None one will be chosen from randomNames file!
         last_name: Same thing only for last name :)
-        patterns: Pattern to use when creating the character!
-            Expects general occupation or list of the same.
-        specific_patterns: A list of one or more specific base traits
+        bt_direct: A list of one or more specific base traits
             to use in character creation. If more than two are provided, two will be chosen at random.
+        bt_go_patterns: General occupation patterns to use when creating the character!
+            Expects general occupation or list of the same.
+            Use create_traits_base function to build basetraits.
+            Input could be ["Combatant", "Specialist"] for example, we'll pick from all
+            Combatant and Specialist bts in the game randomly.
+        bt_group: Groups of custom selections of basetraits.
+        bt_preset: Random choice from custom presets of basetraits.
+
         teir: Tier of the character... floats are allowed.
         add_to_gameworld: Adds to characters dictionary, should always
         be True unless character is created not to participate in the game world...
@@ -290,19 +298,31 @@ init -11 python:
                 set_location(rg, locations["City"])
 
         # BASE TRAITS:
+        selection = []
+        if bt_direct:
+            selection = bt_direct
+        elif bt_go_patterns:
+            selection = create_traits_base(bt_go_patterns)
+        elif bt_group:
+            selection = choice(base_trait_presets[choice(base_traits_groups[bt_group])])
+        elif bt_preset:
+            selection = choice(base_trait_presets[bt_preset])
+        else:
+            selection = []
+            selection.extend(base_trait_presets["Combatant"])
+            selection.extend(base_trait_presets["SIW"])
+            selection.extend(base_trait_presets["Maid"])
+            selection = choice(selection)
+
         basetraits = []
-        if specific_patterns:
-            for p in specific_patterns:
-                if isinstance(p, basestring):
-                    p = traits[p]
-                basetraits.append(p)
-        if not basetraits and patterns:
-            basetraits = create_traits_base(patterns)
-        if basetraits:
-            basetraits = random.sample(basetraits, min(len(basetraits), 2))
-            rg.traits.basetraits = set(basetraits)
-            for t in basetraits:
-                rg.apply_trait(t)
+        for t in selection:
+            if isinstance(t, basestring):
+                t = traits[t]
+            basetraits.append(t)
+        basetraits = set(random.sample(basetraits, min(len(basetraits), 2)))
+        rg.traits.basetraits = basetraits
+        for t in basetraits:
+            rg.apply_trait(t)
 
         # Battle and Magic skills:
         if "default_attack_skill" in data:
@@ -392,6 +412,22 @@ init -11 python:
             store.chars["_".join([rg.id, rg.name, rg.fullname.split(" ")[1]])] = rg
 
         return rg
+
+    def create_traits_base(patterns):
+        """Create a pattern with one or two base traits for a character.
+
+        patterns: Single general occupation or list of the same to build a specific pattern from.
+        """
+        try:
+            if isinstance(patterns, basestring):
+                patterns = [patterns]
+            patterns = list(chain.from_iterable(gen_occ_basetraits[p] for p in patterns))
+            if len(patterns) > 1 and dice(55):
+                return random.sample(patterns, 2)
+            else:
+                return random.sample(patterns, 1)
+        except:
+            raise Exception("Cannot create base traits list from patterns: {}".format(patterns))
 
     def give_tiered_items(char, amount=1, gen_occ=None, occ=None, equip=False):
         """Gives items based on tier and class of the character.
@@ -583,22 +619,6 @@ init -11 python:
                 return int(math.ceil(char.level * exp)*0.4)
         return int(math.ceil(char.level * exp))
 
-    def create_traits_base(patterns):
-        """Create a pattern with one or two base traits for a character.
-
-        patterns: Single general occupation or list of the same to build a specific pattern from.
-        """
-        try:
-            if isinstance(patterns, basestring):
-                patterns = [patterns]
-            patterns = list(chain.from_iterable(gen_occ_basetraits[p] for p in patterns))
-            if len(patterns) > 1 and dice(50):
-                return random.sample(patterns, 2)
-            else:
-                return random.sample(patterns, 1)
-        except:
-            raise Exception("Cannot create base traits list from patterns: {}".format(patterns))
-
     def build_client(id=None, gender="male", caste="Peasant", name=None, last_name=None,
                      pattern=None, likes=None, dislikes=None, tier=1):
         """
@@ -732,7 +752,7 @@ init -11 python:
             available_jobs = list(j for j in building.jobs if j.all_occs & char.occupations)
             if sj["Manager"] in available_jobs and building.manager: # We already have a manager!
                 available_jobs.remove(sj["Manager"])
-                
+
         # We prolly still want to set a workplace...
         char.workplace = building
         char.action = job
