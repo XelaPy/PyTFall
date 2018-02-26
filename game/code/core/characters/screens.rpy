@@ -46,7 +46,7 @@ screen set_action_dropdown(char, pos=()):
         elif isinstance(char.workplace, UpgradableBuilding):
             $ jobs = char.workplace.get_valid_jobs(char)
             if char != hero: # Rest is not really useful for MC, which player controls.
-                $ jobs.append(Rest())
+                $ jobs.append(simple_jobs["Rest"])
             for i in jobs:
                 textbutton "[i.id]":
                     action [Function(set_char_to_work, char, char.workplace, i),

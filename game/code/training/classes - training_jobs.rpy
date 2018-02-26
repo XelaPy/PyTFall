@@ -128,7 +128,7 @@ init python:
 
                 if self.girl.autocontrol['Rest']:
                     self.girl.previousaction = self.girl.action
-                    self.girl.action = 'AutoRest'
+                    self.girl.action = simple_jobs["AutoRest"]
                     self.txt.append("She is going to take few days off to heal her wounds. ")
 
                 self.girls.remove(self.girl)
@@ -144,7 +144,7 @@ init python:
 
                 if self.girl.autocontrol['Rest']:
                     self.girl.previousaction = self.girl.action
-                    self.girl.action = 'AutoRest'
+                    self.girl.action = simple_jobs["AutoRest"]
                     self.txt.append("She's going to take few days off to recover her stamina. ")
 
                 self.girls.remove(self.girl)

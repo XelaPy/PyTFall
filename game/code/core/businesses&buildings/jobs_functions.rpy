@@ -137,7 +137,7 @@ init -10 python:
             # self.img = c.show("profile", "sad", resize=(740, 685))
             if c.autocontrol['Rest']:
                 c.previousaction = c.action
-                c.action = AutoRest()
+                c.action = simple_jobs["AutoRest"]
                 if log:
                     log.append("And going to take few days off to heal. ")
             return False
@@ -147,7 +147,7 @@ init -10 python:
             # self.img = c.show("profile", "sad", resize=(740, 685))
             if c.autocontrol['Rest']:
                 c.previousaction = c.action
-                c.action = AutoRest()
+                c.action = simple_jobs["AutoRest"]
                 if log:
                     log.append("And going to take few days off to recover. ")
             return False
@@ -157,7 +157,7 @@ init -10 python:
             # self.img = c.show("profile", "sad", resize=(740, 685))
             if c.autocontrol['Rest']:
                 c.previousaction = c.action
-                c.action = AutoRest()
+                c.action = simple_jobs["AutoRest"]
                 if log:
                     log.append("And going to take few days off to recover. ")
         if check_ap:
