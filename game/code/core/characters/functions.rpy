@@ -10,8 +10,8 @@ init -11 python:
                 else: # Weird case for free chars...
                     c.home = location["City Apartments"]
             if c.workplace == loc:
-                c.workplace = None
                 c.action = None
+                c.workplace = None
             if c.location == loc:
                 set_location(c, c.home)
 
