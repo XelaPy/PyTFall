@@ -722,17 +722,17 @@ init -11 python:
             for c in char.lst:
                 set_char_to_work(c, building, job)
             return
+
         if job is False:
             available_jobs = list(j for j in building.jobs if j.all_occs & char.occupations)
             job = choice(available_jobs) if available_jobs else None
 
-        # We want to remove char as a building manager if he/she leave the post, we don't do that when char is set to rest or auto-rest.
-        if building.manager == char:
-            sj = store.simple_jobs
-            if job not in (sj["Manager"], sj["Rest"], sj["AutoRest"]):
-                building.manager = None
-
-
+        sj = store.simple_jobs
+        if job is False:
+            available_jobs = list(j for j in building.jobs if j.all_occs & char.occupations)
+            if sj["Manager"] in available_jobs and building.manager: # We already have a manager!
+                available_jobs.remove(sj["Manager"])
+                
         # We prolly still want to set a workplace...
         char.workplace = building
         char.action = job
