@@ -1251,7 +1251,7 @@ init -9 python:
 
         def eval_inventory(self, inventory, weighted, target_stats, target_skills,
                            exclude_on_skills, exclude_on_stats,
-                           base_purpose, sub_purpose,
+                           base_purpose, sub_purpose, limit_tier=False,
                            chance_func=None, min_value=-5,
                            upto_skill_limit=False,
                            check_money=False):
@@ -1287,6 +1287,9 @@ init -9 python:
 
             for item in inventory:
                 if item.slot not in weighted:
+                    continue
+
+                if limit_tier is not False and item.tier > limit_tier:
                     continue
 
                 # If no purpose is valid for the item, we want nothing to do with it.
@@ -2496,7 +2499,8 @@ init -9 python:
         def auto_equip(self, target_stats, target_skills=None,
                        exclude_on_skills=None, exclude_on_stats=None,
                        slots=None, inv=None, real_weapons=False,
-                       base_purpose=None, sub_purpose=None):
+                       base_purpose=None, sub_purpose=None,
+                       limit_tier=False):
             """
             targetstats: expects a list of stats to pick the item
             targetskills: expects a list of skills to pick the item
@@ -2574,7 +2578,8 @@ init -9 python:
                                      chance_func=self.equip_chance, min_value=min_value,
                                      upto_skill_limit=upto_skill_limit,
                                      base_purpose=base_purpose,
-                                     sub_purpose=sub_purpose)
+                                     sub_purpose=sub_purpose,
+                                     limit_tier=limit_tier)
 
             returns = list() # We return this list with all items used during the method.
 
