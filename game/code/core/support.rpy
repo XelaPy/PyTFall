@@ -47,6 +47,11 @@ init -9 python:
             self.show_text = False
             self.todays_first_view = True
 
+            self.rc_pop_distr = {"SIW": 30, "Specialist": 10,
+                                   "Combatant": 30, "Server": 15,
+                                   "Healer": 5}
+            self.rc_population = 70
+
         def init_shops(self):
             # Shops:
             self.shops = ['General Store', 'Cafe', 'Work Shop', 'Witches Hut', 'Tailor Store', 'Tavern', 'Ninja Shop', 'Peevish Shop', 'Witch Spells Shop', 'Aine Shop', 'Angelica Shop']
@@ -96,10 +101,49 @@ init -9 python:
         @staticmethod
         def add_random_girls():
             # TODO FIXME Proper ranfom char generation!
-            l = list(girl for girl in chars.values() if
-                        girl.__class__ == rChar and
-                        not girl.arena_active and
-                        girl not in hero.chars)
+            # list of all world rchars in the game:
+            rcs = list(c for c in chars.values() if
+                        c.__class__ == rChar and
+                        not c.arena_active and
+                        c not in hero.chars)
+
+            required = self.rc_population - len(rcs)
+            if required <= 0:
+                return
+
+            # Distribution of the above:
+            rcd = {"SIW": 0, "Specialist": 0,
+                   "Combatant": 0, "Server": 0,
+                   "Healer": 0}
+            distr = rcd.copy()
+            new_rcs = rcd.copy()
+
+            for c in rcs:
+                if "SIW" in c.gen_occs:
+                    rcd["SIW"] += 1
+                if "Specialist" in c.gen_occs:
+                    rcd["Specialist"] += 1
+                if "Combatant" in c.gen_occs:
+                    rcd["Combatant"] += 1
+                if "Server" in c.gen_occs:
+                    rcd["Server"] += 1
+                if "Healer" in c.traits:
+                    rcd["Healer"] += 1
+            total = sum(rcd.values())
+            if not total:
+                distr = self.rc_pop_distr
+            else:
+                for key, value in rcd.items():
+                    distr[key] = 100.0*value/total
+                for key, value in self.rc_pop_distr.items():
+                    distr[key] = max(1, value-distr[key])
+
+            total = float(sum(distr.values()))
+            for key, value in distr.items():
+                new_rcs[key] = round_int(total*value/required)
+
+            # We are done with distibution, now tiers:
+
             amount = randint(45, 60)
             if len(l) < amount:
                 for __ in xrange((amount+5) - len(l)):
@@ -148,8 +192,8 @@ init -9 python:
 
             # Restoring world girls:
             self.restore_all_chars()
-            if not day % 14:
-                self.add_random_girls()
+            # if not day % 14:
+            #     self.add_random_girls()
 
             # Last we construct the main screen report:
             self.ms_text = "\n".join(self.temp_text)
