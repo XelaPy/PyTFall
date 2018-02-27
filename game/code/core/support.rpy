@@ -98,10 +98,8 @@ init -9 python:
                 fighter.mp = fighter.get_max("mp")
                 fighter.vitality = fighter.get_max("vitality")
 
-        @staticmethod
-        def add_random_girls():
-            # TODO FIXME Proper ranfom char generation!
-            # list of all world rchars in the game:
+        def populate_world(self, tier_offset=.0):
+            # all world rchars in the game:
             rcs = list(c for c in chars.values() if
                         c.__class__ == rChar and
                         not c.arena_active and
@@ -143,11 +141,27 @@ init -9 python:
                 new_rcs[key] = round_int(total*value/required)
 
             # We are done with distibution, now tiers:
+            for bt_group, amount in new_rcs.items():
+                for i in range(amount):
+                    if dice(1): # Super char!
+                        tier = hero.tier + random.uniform(3.0, 5.0)
+                    elif dice(20): # Decent char.
+                        tier = hero.tier + random.uniform(1.0, 2.5)
+                    else: # Ok char...
+                        tier = hero.tier + random.uniform(.2, 1.5)
+                    tier += tier_offset
 
-            amount = randint(45, 60)
-            if len(l) < amount:
-                for __ in xrange((amount+5) - len(l)):
-                    build_rc()
+                    if bt_group in ["Combatant", "Specialist", "Healer"]:
+                        status = "free"
+                    else:
+                        status = "slave" if dice(55) else "free"
+
+                    build_rc(bt_group=bt_group,
+                             set_locations=True,
+                             set_status=status,
+                             tier=tier, tier_kwargs=None,
+                             equip_to_tier=False, gtt_kwargs=None, # TODO add/equip items.
+                             spells_to_tier=False, stt_kwargs=None)
 
         # ----------------------------------------->
         def next_day(self):

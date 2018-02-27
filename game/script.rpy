@@ -214,24 +214,9 @@
         tl.end("Loading: Exploration Areas")
 
     python: # Move to a World AI method:
-        tl.start("Loading: Generating Random girls")
-
-        # Some random girls (if there are any):
-        if rchars:
-            rgirls = rchars.keys()
-            shuffle(rgirls)
-            for i in xrange(25):
-                if rgirls:
-                    rgirl = rgirls.pop()
-                    new_random_girl = build_rc(id=rgirl, tier=random.uniform(.3, 1.5))
-                else:
-                    rgirls = rchars.keys()
-                    shuffle(rgirls)
-
-            del rgirls
-            del rgirl
-            del new_random_girl
-        tl.end("Loading: Generating Random girls")
+        tl.start("Loading: Populating World with RChars")
+        pytfall.populate_world()
+        tl.end("Loading: Populating World with RChars")
 
     python: # Girlsmeets/Items Upgrades:
         tl.start("Loading: GirlsMeets")
