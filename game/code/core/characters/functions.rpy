@@ -181,7 +181,8 @@ init -11 python:
                  set_locations=True,
                  set_status="free",
                  tier=0, tier_kwargs=None, add_to_gameworld=True,
-                 equip_to_tier=False, gtt_kwargs=None,
+                 give_casual_items=False, gci_kwargs=None,
+                 give_bt_items=False, gbti_kwargs=None,
                  spells_to_tier=False, stt_kwargs=None):
         '''Creates a random character!
         id: id to choose from the rchars dictionary that holds rGirl loading data.
@@ -201,7 +202,10 @@ init -11 python:
         teir: Tier of the character... floats are allowed.
         add_to_gameworld: Adds to characters dictionary, should always
         be True unless character is created not to participate in the game world...
-        equip_to_tier/gtt_kwargs: Do we run equip to tier func and kwargs for it.
+
+        give_casual_items/gci_kwargs // give_bt_items/gbti_kwargs:
+            Give/Equip item sets using auto_buy without paying cash.
+            Expects a dict of kwargs or we just take our best guess.
         spells_to_tier/stt_kwargs: Award spells and kwargs for the func
         '''
         if tier_kwargs is None:
@@ -402,8 +406,34 @@ init -11 python:
         # And at last, leveling up and stats/skills applications:
         tier_up_to(rg, tier, **tier_kwargs)
 
-        if equip_to_tier:
-            give_tiered_items(rg, **gtt_kwargs)
+        give_casual_items/gci_kwargs // give_bt_items/gbti_kwargs
+        if give_casual_items:
+            if not gci_kwargs:
+                gci_kwargs = {}
+                gci_kwargs["slots"] = {slot: 1 for slot in EQUIP_SLOTS}
+                gci_kwargs["casual"] = True
+                gci_kwargs["equip"] = True
+                gci_kwargs["purpose"] = "Casual"
+                gci_kwargs["check_money"] = False
+                gci_kwargs["limit_tier"] = max(round_int(char.tier/2.0), 1)
+
+            rg.auto_buy(**gci_kwargs)
+
+        if give_bt_items:
+            if not gbti_kwargs:
+                gbti_kwargs = {}
+                gbti_kwargs["slots"] = {slot: 1 for slot in EQUIP_SLOTS}
+                gbti_kwargs["casual"] = True
+                gbti_kwargs["equip"] = True
+                gbti_kwargs["check_money"] = False
+                gbti_kwargs["limit_tier"] = max(round_int(char.tier/2.0), 1)
+
+                gbti_kwargs["purpose"] = None # Figure out in auto_buy method.
+
+            rg.auto_buy(**gbti_kwargs)
+
+        # if equip_to_tier:
+        #     give_tiered_items(rg, **gtt_kwargs) # (old/simle(er) func)
         if spells_to_tier:
             give_tiered_magic_skills(rg, **stt_kwargs)
 

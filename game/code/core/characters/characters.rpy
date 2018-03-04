@@ -2681,7 +2681,7 @@ init -9 python:
         def auto_buy(self, item=None, amount=1, slots=None, casual=False,
                      equip=False, container=None, purpose=None,
                      check_money=True, inv=None,
-                     limit_tier=limit_tier):
+                     limit_tier=False):
             # handle request to auto-buy a particular item!
             # including forbidden for slaves items - it might be useful
             # TODO
