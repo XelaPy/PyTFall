@@ -181,7 +181,7 @@ init -11 python:
                  set_locations=True,
                  set_status="free",
                  tier=0, tier_kwargs=None, add_to_gameworld=True,
-                 give_casual_items=False, gci_kwargs=None,
+                 give_civilian_items=False, gci_kwargs=None,
                  give_bt_items=False, gbti_kwargs=None,
                  spells_to_tier=False, stt_kwargs=None):
         '''Creates a random character!
@@ -203,15 +203,17 @@ init -11 python:
         add_to_gameworld: Adds to characters dictionary, should always
         be True unless character is created not to participate in the game world...
 
-        give_casual_items/gci_kwargs // give_bt_items/gbti_kwargs:
+        give_civilian_items/gci_kwargs // give_bt_items/gbti_kwargs:
             Give/Equip item sets using auto_buy without paying cash.
             Expects a dict of kwargs or we just take our best guess.
         spells_to_tier/stt_kwargs: Award spells and kwargs for the func
         '''
         if tier_kwargs is None:
             tier_kwargs = {}
-        if gtt_kwargs is None:
-            gtt_kwargs = {}
+        if gci_kwargs is None:
+            gci_kwargs = {}
+        if gbti_kwargs is None:
+            gbti_kwargs = {}
         if stt_kwargs is None:
             stt_kwargs = {}
 
@@ -406,16 +408,18 @@ init -11 python:
         # And at last, leveling up and stats/skills applications:
         tier_up_to(rg, tier, **tier_kwargs)
 
-        give_casual_items/gci_kwargs // give_bt_items/gbti_kwargs
-        if give_casual_items:
+        if give_civilian_items:
             if not gci_kwargs:
                 gci_kwargs = {}
                 gci_kwargs["slots"] = {slot: 1 for slot in EQUIP_SLOTS}
                 gci_kwargs["casual"] = True
-                gci_kwargs["equip"] = True
-                gci_kwargs["purpose"] = "Casual"
+                gci_kwargs["equip"] = not give_bt_items # Equip only for civ items.
+                if rg.status == "slave":
+                    gci_kwargs["purpose"] = "Slave"
+                else:
+                    gci_kwargs["purpose"] = "Casual"
                 gci_kwargs["check_money"] = False
-                gci_kwargs["limit_tier"] = max(round_int(char.tier/2.0), 1)
+                gci_kwargs["limit_tier"] = max(round_int(rg.tier/2.0), 1)
 
             rg.auto_buy(**gci_kwargs)
 
@@ -426,7 +430,7 @@ init -11 python:
                 gbti_kwargs["casual"] = True
                 gbti_kwargs["equip"] = True
                 gbti_kwargs["check_money"] = False
-                gbti_kwargs["limit_tier"] = max(round_int(char.tier/2.0), 1)
+                gbti_kwargs["limit_tier"] = max(round_int(rg.tier/2.0), 1)
 
                 gbti_kwargs["purpose"] = None # Figure out in auto_buy method.
 

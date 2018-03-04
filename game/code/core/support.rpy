@@ -160,8 +160,9 @@ init -9 python:
                              set_locations=True,
                              set_status=status,
                              tier=tier, tier_kwargs=None,
-                             equip_to_tier=False, gtt_kwargs=None, # TODO add/equip items.
-                             spells_to_tier=False, stt_kwargs=None)
+                             give_civilian_items=True,
+                             give_bt_items=True,
+                             spells_to_tier=False)
 
         # ----------------------------------------->
         def next_day(self):

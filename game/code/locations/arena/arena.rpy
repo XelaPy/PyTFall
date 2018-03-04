@@ -763,7 +763,7 @@ init -9 python:
                     give_tiered_magic_skills(char)
                 else:
                     char = build_rc(tier=7, tier_kwargs=tier_kwargs,
-                                    equip_to_tier=True, spells_to_tier=True)
+                                    give_bt_items=True, spells_to_tier=True)
                     candidates.append(char)
 
                 char.set_status("free")
@@ -795,7 +795,7 @@ init -9 python:
                     give_tiered_magic_skills(fighter)
                 else:
                     fighter = build_rc(bt_go_patterns="Combatant", tier=tier,
-                                       equip_to_tier=True, spells_to_tier=True)
+                                       give_bt_items=True, spells_to_tier=True)
                     # print("Created Arena RG: {}".format(fighter.name))
                     candidates.append(fighter)
 

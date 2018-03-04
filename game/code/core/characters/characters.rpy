@@ -2472,7 +2472,7 @@ init -9 python:
 
             if item.tier:
                 # only award tier bonus if it's reasonable.
-                target_tier = char.tier
+                target_tier = self.tier
                 item_tier = item.tier*2
                 tier_bonus = max(target_tier-item_tier, 1)
                 chance.append(tier_bonus*50)
@@ -2723,7 +2723,7 @@ init -9 python:
 
             if not purpose: # Let's see if we can get a purpose from bts:
                 occs = self.gen_occs
-                bt = char.traits.basetraits
+                bt = self.traits.basetraits
                 if "Specialist" in occs:
                     purpose = "Manager"
                 elif traits["Stripper"] in bt:
@@ -2734,7 +2734,7 @@ init -9 python:
                     purpose = "Sex"
                 elif "Caster" in occs and "Warrior" not in occs:
                     purpose = "Mage"
-                elif len(set(["Warrior", "Caster"]).intersection(soccs)) == 2:
+                elif len(set(["Warrior", "Caster"]).intersection(occs)) == 2:
                     purpose = "Battle Mage"
                 elif traits["Shooter"] in bt:
                     purpose = "Shooter"

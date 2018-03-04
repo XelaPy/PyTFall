@@ -67,7 +67,7 @@ init python:
     "Striptease":
         {"target_stats": ["charisma"],
          "exclude_on_stats": ["charisma", "vitality"],
-         "target_skills": ["strip", "dance"],
+         "target_skills": ["strip", "dancing"],
          "exclude_on_skills": ["strip"],
          "base_purpose": ["Stripper"],
          "sub_purpose": ["SIW"],
