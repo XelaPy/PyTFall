@@ -2499,8 +2499,7 @@ init -9 python:
         def auto_equip(self, target_stats, target_skills=None,
                        exclude_on_skills=None, exclude_on_stats=None,
                        slots=None, inv=None, real_weapons=False,
-                       base_purpose=None, sub_purpose=None,
-                       limit_tier=False):
+                       base_purpose=None, sub_purpose=None):
             """
             targetstats: expects a list of stats to pick the item
             targetskills: expects a list of skills to pick the item
@@ -2578,8 +2577,7 @@ init -9 python:
                                      chance_func=self.equip_chance, min_value=min_value,
                                      upto_skill_limit=upto_skill_limit,
                                      base_purpose=base_purpose,
-                                     sub_purpose=sub_purpose,
-                                     limit_tier=limit_tier)
+                                     sub_purpose=sub_purpose)
 
             returns = list() # We return this list with all items used during the method.
 
@@ -2678,7 +2676,8 @@ init -9 python:
 
         def auto_buy(self, item=None, amount=1, slots=None, casual=False,
                      equip=False, container=None, purpose=None,
-                     check_money=True, inv=None):
+                     check_money=True, inv=None,
+                     limit_tier=limit_tier):
             # handle request to auto-buy a particular item!
             # including forbidden for slaves items - it might be useful
             # TODO
@@ -2750,6 +2749,7 @@ init -9 python:
             self.stats.eval_inventory(container, weighted, chance_func=self.equip_chance,
                                       upto_skill_limit=upto_skill_limit,
                                       min_value=min_value, check_money=check_money,
+                                      limit_tier=limit_tier,
                                       **kwargs)
 
             rv = [] # List of item name strings we return in case we need to report
