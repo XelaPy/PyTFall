@@ -2471,7 +2471,11 @@ init -9 python:
                     return None
 
             if item.tier:
-                chance.append(item.tier*50)
+                # only award tier bonus if it's reasonable.
+                target_tier = char.tier
+                item_tier = item.tier*2
+                tier_bonus = max(target_tier-item_tier, 1)
+                chance.append(tier_bonus*50)
 
             chance.append(item.eqchance)
             if item.badness:
