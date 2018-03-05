@@ -27,6 +27,9 @@ screen debug_tools():
 style chars_debug_text:
     size 10
 
+style chars_debug_fixed:
+    yalign .5
+
 screen chars_debug():
     zorder 100
     modal True
@@ -45,6 +48,12 @@ screen chars_debug():
             fixed:
                 xysize 80, 20
                 text "Name" color red bold 1
+            fixed:
+                xysize 80, 20
+                text "Lvl/Tier" color red bold 1
+            fixed:
+                xysize 80, 20
+                text "Class" color red bold 1
             fixed:
                 xysize 80, 20
                 text "Origin" color crimson bold 1
@@ -75,9 +84,18 @@ screen chars_debug():
             for char in list(sorted(chain.from_iterable(shown_chars), key=attrgetter("name"))):
                 hbox:
                     spacing 1
+                    ysize 30
                     fixed:
                         xysize 80, 20
                         text "[char.name]" color red
+                    fixed:
+                        xysize 80, 20
+                        text "[char.level]/[char.tier]" color red bold 1
+                    vbox:
+                        xysize 80, 20
+                        yalign .5
+                        for t in sorted(char.traits.basetraits):
+                            text t.id color blue bold 1 size 8 xalign .0
                     fixed:
                         xysize 80, 20
                         text "[char.origin]" color crimson
