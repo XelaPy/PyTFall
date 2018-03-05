@@ -408,6 +408,12 @@ init -11 python:
         # And at last, leveling up and stats/skills applications:
         tier_up_to(rg, tier, **tier_kwargs)
 
+        if give_civilian_items or give_bt_items:
+            tiered_items = []
+            limit_tier = rg.tier + 1
+            for i in range(limit_tier):
+                tiered_items.extend(store.tiered_items.get(i, []))
+
         if give_civilian_items:
             if not gci_kwargs:
                 gci_kwargs = {}
@@ -419,8 +425,8 @@ init -11 python:
                 else:
                     gci_kwargs["purpose"] = "Casual"
                 gci_kwargs["check_money"] = False
-                gci_kwargs["limit_tier"] = rg.tier + 1
-                gci_kwards["container"] = store.tiered_items
+                gci_kwargs["limit_tier"] = limit_tier
+                gci_kwargs["container"] = tiered_items
 
             rg.auto_buy(**gci_kwargs)
 
@@ -431,8 +437,8 @@ init -11 python:
                 gbti_kwargs["casual"] = True
                 gbti_kwargs["equip"] = True
                 gbti_kwargs["check_money"] = False
-                gbti_kwargs["limit_tier"] = rg.tier + 1
-                gci_kwards["container"] = store.tiered_items
+                gbti_kwargs["limit_tier"] = limit_tier
+                gbti_kwargs["container"] = tiered_items
 
                 gbti_kwargs["purpose"] = None # Figure out in auto_buy method.
 
