@@ -63,6 +63,9 @@ screen chars_debug():
             fixed:
                 xysize 80, 20
                 text "Action" color orange bold 1
+            fixed:
+                xysize 80, 20
+                text "Inv" color gold bold 1
 
         viewport:
             xysize 1280, 700
@@ -99,7 +102,20 @@ screen chars_debug():
                     fixed:
                         xysize 80, 20
                         text "[char.action]" color orange
-
+                    python:
+                        temp = []
+                        for item in char.inventory:
+                            ts = []
+                            ts.append(item.id)
+                            if item in char.eqslots.values():
+                                ts.append("{color=#00ff00}Eq!{/color}")
+                            else:
+                                ts.append("{color=#ffffff}NEq{/color}")
+                            temp.append(" ==> ".join(ts))
+                    textbutton "Inv":
+                        xysize 80, 20
+                        action NullAction()
+                        tooltip "\n".join(temp)
 
     hbox:
         align 1.0, .0
@@ -115,3 +131,5 @@ screen chars_debug():
                     action Function(shown_chars.append, container)
         textbutton "X":
             action Hide("chars_debug")
+
+    use new_style_tooltip
