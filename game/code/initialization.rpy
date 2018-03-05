@@ -471,29 +471,6 @@ init -999 python:
     load_frame_by_frame_animations_from_dir("gfx/animations")
     load_frame_by_frame_animations_from_dir("gfx/be/auto-animations")
 
-    def dd_cursor_position(st, at):
-        x, y = renpy.get_mouse_pos()
-        return Text("{size=-5}%d-%d" % (x, y)), .1
-
-screen debug_tools():
-    zorder 4
-    drag:
-        align .0, 1.0
-        id "meow____"
-        frame:
-            background Frame("content/gfx/frame/FrameGP2.png", 2, 2)
-            # xsize 90
-            has vbox xsize 90
-            hbox:
-                xalign 1.0
-                textbutton "X":
-                    action Quit(confirm=False)
-                textbutton "R":
-                    action ui.callsinnewcontext("_save_reload_game")
-            add DynamicDisplayable(dd_cursor_position)
-            # $ screen_link(last_label) # PICKLING ISSUES!
-            text "[last_label]" size 10
-            text "Call Stack: " + str(renpy.call_stack_depth()) size 10
 
 init -1 python: # Constants:
     # for f in renpy.list_files():
