@@ -419,7 +419,8 @@ init -11 python:
                 else:
                     gci_kwargs["purpose"] = "Casual"
                 gci_kwargs["check_money"] = False
-                gci_kwargs["limit_tier"] = max(round_int(rg.tier/2.0), 1)
+                gci_kwargs["limit_tier"] = rg.tier + 1
+                gci_kwards["container"] = store.tiered_items
 
             rg.auto_buy(**gci_kwargs)
 
@@ -430,7 +431,8 @@ init -11 python:
                 gbti_kwargs["casual"] = True
                 gbti_kwargs["equip"] = True
                 gbti_kwargs["check_money"] = False
-                gbti_kwargs["limit_tier"] = max(round_int(rg.tier/2.0), 1)
+                gbti_kwargs["limit_tier"] = rg.tier + 1
+                gci_kwards["container"] = store.tiered_items
 
                 gbti_kwargs["purpose"] = None # Figure out in auto_buy method.
 
