@@ -83,7 +83,7 @@
     "delivery_multiplier": {"magic": 0.05},
     "locations": ["Witches Hut", "Exploration"],
     "tier": 2,
-    "pref_class":["Mage"]
+    "pref_class":["Caster", "Mage"]
     },
     {
     "id": "Rune Staff",

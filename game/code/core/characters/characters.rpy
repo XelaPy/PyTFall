@@ -2496,8 +2496,10 @@ init -9 python:
             if self.eqslots["weapon"]:
                 self.unequip(self.eqslots["weapon"])
 
+            devlog.warn("Auto Equipping for -- {} --".format(purpose))
             slots = store.EQUIP_SLOTS
             kwargs = aeq_purposes[purpose]
+            devlog.warn("Auto Equipping Real Weapons: {} --!!".format(kwargs["real_weapons"]))
             return self.auto_equip(slots=slots, **kwargs)
 
         def auto_equip(self, target_stats, target_skills=None,
@@ -2594,7 +2596,7 @@ init -9 python:
 
                 # create averages for items
                 for _weight, item in picks:
-                    devlog.warn("Slot: {} Item: {} ==> Weights: {}".format(item.slot, item.id, str(_weight)))
+                    devlog.warn("(A-Eq) Slot: {} Item: {} ==> Weights: {}".format(item.slot, item.id, str(_weight)))
                     _weight = sum(_weight)
 
                     # impute with weights of 50 for items that have less weights
@@ -2605,8 +2607,17 @@ init -9 python:
                     # _weight = som/most_weights[slot]
                     if _weight > 0:
                         if slot not in ("consumable", "ring"):
-                            if slot in ("weapon", "smallweapon") and not real_weapons and item.type != "tool":
-                                continue
+                            if slot in ("weapon", "smallweapon"):
+                                if not real_weapons and item.type != "tool":
+                                    msg = []
+                                    msg.append("Skipping AE Weapons!")
+                                    msg.append("Real Weapons: {}".format(real_weapons))
+                                    if base_purpose:
+                                        msg.append("Base: {}".format(base_purpose))
+                                    if sub_purpose:
+                                        msg.append("Sub: {}".format(sub_purpose))
+                                    devlog.warn(" ".join(msg))
+                                    continue
                             if _weight > selected[0]:
                                 selected = [_weight, item] # store weight and item for the highest weight
                         else:
@@ -2743,7 +2754,7 @@ init -9 python:
                 else:
                     purpose = "Casual" # Safe option.
 
-            kwargs = aeq_purposes[purpose]
+            kwargs = aeq_purposes[purpose].copy()
             kwargs.pop("real_weapons", None)
             kwargs["base_purpose"] = set(kwargs["base_purpose"])
             kwargs["sub_purpose"] = set(kwargs["sub_purpose"])
