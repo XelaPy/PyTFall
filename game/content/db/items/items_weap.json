@@ -253,7 +253,7 @@
     "ch_multiplier": -0.1,
     "locations": ["Work Shop", "Arena"],
     "tier": 0,
-    "pref_class":["Mage"]
+    "pref_class":["Caster", "Mage"]
     },
     {
     "id": "Replica Sword",
@@ -403,7 +403,7 @@
     "pref_class":["Shooter"]
     },
     {
-    "id": "Arcane Stuff",
+    "id": "Arcane Staff",
     "desc": "A heavy, long staff made of several types of enchanted wood, capable to channel magical energy.",
     "icon": "content/items/weapon/ac.png",
     "price": 450,

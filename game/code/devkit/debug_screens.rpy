@@ -122,13 +122,16 @@ screen chars_debug():
                         text "[char.action]" color orange
                     python:
                         temp = []
+                        for item in char.eqslots.values():
+                            if isinstance(item, Item):
+                                ts = []
+                                ts.append("{color=#ffffff}: {/color}".join([item.slot, item.id]))
+                                ts.append("{color=#00ff00}Eq!{/color}")
+                                temp.append(" ==> ".join(ts))
                         for item in char.inventory:
                             ts = []
                             ts.append(item.id)
-                            if item in char.eqslots.values():
-                                ts.append("{color=#00ff00}Eq!{/color}")
-                            else:
-                                ts.append("{color=#ffffff}NEq{/color}")
+                            ts.append("{color=#ffffff}NEq{/color}")
                             temp.append(" ==> ".join(ts))
                     textbutton "Inv":
                         xysize 80, 20
