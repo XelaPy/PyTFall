@@ -934,13 +934,13 @@ init -1 python: # Core classes:
             a = self.source
 
             if "melee" in self.attributes:
-                attack = (a.attack*0.75 + a.agility*.5 + self.effect) * self.multiplier
+                attack = (a.attack*0.75 + a.agility*.5) * self.multiplier
             elif "ranged" in self.attributes:
-                attack = (a.agility*0.7 + a.attack*.5 + (a.luck+50)*.5 + self.effect) * self.multiplier
+                attack = (a.agility*0.7 + a.attack*.5 + (a.luck+50)*.5) * self.multiplier
             elif "magic" in self.attributes:
-                attack = (a.magic*0.75 + a.intelligence*.5 + self.effect) * self.multiplier
+                attack = (a.magic*0.75 + a.intelligence*.5) * self.multiplier
             elif "status" in self.attributes:
-                attack = (a.intelligence*0.75 + a.attack*.25 + a.agility*.25 + self.effect) * self.multiplier
+                attack = (a.intelligence*0.75 + a.attack*.25 + a.agility*.25) * self.multiplier
 
             delivery = self.delivery
 
@@ -1050,7 +1050,9 @@ init -1 python: # Core classes:
             """
             a = self.source
 
-            damage = multiplier*attack**2/(attack+3*defense)
+            damage = (self.effect + attack)*multiplier - defense + randint(5, 10)
+            if damage <= 0:
+                damage = randint(2, 5)
 
             # Items Bonus:
             m = 1.0
@@ -1902,6 +1904,7 @@ init -1 python: # Core classes:
             super(Complex_BE_AI, self).__init__(source=source)
 
         def __call__(self):
+        
             skip = BE_Skip(source=self.source)
             temp = self.get_availible_skills()
             if not temp:
