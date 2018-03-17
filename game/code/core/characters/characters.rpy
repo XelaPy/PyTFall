@@ -1289,34 +1289,34 @@ init -9 python:
 
             for item in inventory:
                 if item.slot not in weighted:
-                    devlog.warning("Ignoring item {} on slot.".format(item.id))
+                    # devlog.warning("Ignoring item {} on slot.".format(item.id))
                     continue
 
                 if limit_tier is not False and item.tier > limit_tier:
-                    devlog.warning("Ignoring item {} on tier.".format(item.id))
+                    # devlog.warning("Ignoring item {} on tier.".format(item.id))
                     continue
 
                 # If no purpose is valid for the item, we want nothing to do with it.
                 if item.slot not in ("misc", "consumable"):
                     purpose = base_purpose.union(sub_purpose.union(["Any"]))
                     if not purpose.intersection(item.pref_class):
-                        devlog.warning("Ignoring item {} on purpose.".format(item.id))
+                        # devlog.warning("Ignoring item {} on purpose.".format(item.id))
                         continue
 
                 # Gender:
                 if item.sex not in (char.gender, "unisex"):
-                    devlog.warning("Ignoring item {} on gender.".format(item.id))
+                    # devlog.warning("Ignoring item {} on gender.".format(item.id))
                     continue
 
                 # Money (conditioned):
                 if check_money:
                     if char.gold < item.price:
-                        devlog.warning("Ignoring item {} on money.".format(item.id))
+                        # devlog.warning("Ignoring item {} on money.".format(item.id))
                         continue
 
                 weights = chance_func(item) if chance_func else [item.eqchance]
                 if weights is None: # We move to the next item!
-                    devlog.warning("Ignoring item {} on weights.".format(item.id))
+                    # devlog.warning("Ignoring item {} on weights.".format(item.id))
                     continue
 
                 # Handle purposes:
