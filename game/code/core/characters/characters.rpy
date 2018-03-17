@@ -1316,7 +1316,7 @@ init -9 python:
 
                 weights = chance_func(item) if chance_func else [item.eqchance]
                 if weights is None: # We move to the next item!
-                    devlog.warning("Ignoring item {} on weight.".format(item.id))
+                    devlog.warning("Ignoring item {} on weights.".format(item.id))
                     continue
 
                 # Handle purposes:
@@ -1324,7 +1324,7 @@ init -9 python:
                     temp = base_purpose.intersection(item.pref_class)
                     if temp:
                         # Perfect match, could be important for
-                        # stuff like Battle Mage (Warrior + Mage)
+                        # stuff like Battle Mage (Warrior + Mage) # Note: No longer works.
                         _len = len(base_purpose)
                         if _len > 1 and _len == len(temp):
                             weights.append(250)
@@ -1405,8 +1405,10 @@ init -9 python:
                                 continue
 
                             saturated_skill = max(value + 100, new_skill)
-
-                            weights.append(50 + 100*(new_skill - value) / saturated_skill)
+                            mod_val = 50 + 100*(new_skill - value) / saturated_skill
+                            if mod_val > 100 or mod_val < -100:
+                                devlog.info("Unusual mod value for skill {}: {}".format(skill, mod_val))
+                            weights.append(mod_val)
 
                 weighted[item.slot].append([weights, item])
 
