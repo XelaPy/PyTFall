@@ -158,7 +158,7 @@
             # We settle later, in char.next_day()
             tips = worker.flag("_jobs_tips")
             if tips:
-                loc = self.building
+                loc = self.loc
                 job = self.job
 
                 temp = "{} gets {} Gold in tips!".format(worker.name, tips)

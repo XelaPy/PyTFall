@@ -61,7 +61,8 @@ init -5 python:
             difficulty = building.tier
             effectiveness = job.effectiveness(worker, difficulty, log, False)
 
-            result = job.work_brothel(worker=worker, client=client, building=building, log=log, effectiveness=effectiveness)
+            result = job.work_brothel(worker=worker, client=client, building=building,
+                                      log=log, effectiveness=effectiveness)
 
             earned = payout(job, effectiveness, difficulty, building, self, worker, client, log)
 
