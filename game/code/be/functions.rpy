@@ -58,10 +58,11 @@ init -11 python:
     def new_style_conflict_resolver(off_team, def_team, ai="simple", battle_kwargs=None):
         if battle_kwargs is None:
             battle_kwargs = {}
+
         chained = partial(chain, off_team, def_team)
-        battle = BE_Core(logical=True, **battle_kwargs)
-        store.battle = battle
-        battle.teams = [off_team, off_team]
+
+        store.battle = battle = BE_Core(logical=True, **battle_kwargs)
+        battle.teams = [off_team, def_team]
 
         for fighter in chained():
             if ai == "simple":
@@ -69,6 +70,7 @@ init -11 python:
             elif ai == "complex":
                 fighter.controller = Complex_BE_AI(fighter)
 
+        devlog.info("\n===================================================>>>>")
         devlog.info("Using {} ai.".format(ai))
 
         tl.start("logical combat: BATTLE")
