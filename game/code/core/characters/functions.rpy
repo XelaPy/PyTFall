@@ -230,19 +230,6 @@ init -11 python:
         else:
             raise Exception("Unknown id {} when creating a random character!".format(id))
 
-        # rg.id = id
-
-        # Elements:
-        # if "elements" in data:
-        #     for key, value in data["elements"]:
-        #         if dice(value):
-        #             if key not in traits:
-        #                 key = key.split(" ")[0]
-        #             if key not in traits:
-        #                 devlog.warning("Element (*Split with ' '): {} for random girl with id: {} is not a valid element for this game!".format(str(key), str(id)))
-        #                 continue
-        #             rg.apply_trait(traits[key])
-
         # Blocking traits:
         for key in ("blocked_traits", "ab_traits"):
             if key in data:
@@ -347,46 +334,10 @@ init -11 python:
                     else:
                         devlog.warning(str("%s Random Girl tried to apply unknown battle skill: %s!" % (id, skill)))
 
-        # SKILLS:
-        # if "random_skills" in data:
-        #     d = data["random_skills"]
-        #     for key in d:
-        #         if key.lower() in Skills:
-        #             value = randint(d[key][0], d[key][1])
-        #             rg.stats.mod_full_skill(key)
-        #         else:
-        #             devlog.warning(str("Skill: %s for random girl with id: %s is invalid! "%(key, id)))
-        #
-        # # STATS:
-        # if "random_stats" in data:
-        #     d = data["random_stats"]
-        #     for key in d:
-        #         if key in Stats:
-        #             if key != "luck":
-        #                 value = randint(d[key][0], d[key][1])
-        #                 value = int(round(float(value)*100 / rg.get_max(key)))
-        #                 rg.mod_stat(key, value)
-        #             elif key == "luck":
-        #                 rg.mod_stat(key, randint(d[key][0], d[key][1]))
-        #         else:
-        #             devlog.warning(str("Stat: %s for random girl with id: %s is invalid! " % (key, id)))
-
-        # Normalizing if not all stats were supplied:
-        # for stat in Stats:
-        #     if stat not in rg.stats.FIXED_MAX and getattr(rg, stat) == 0:
-        #         setattr(rg, stat, randint(10, 25))
-
         # Rest of the expected data:
         for i in ("gold", "desc", "height", "full_race"):
             if i in data:
                 setattr(rg, i, data[i])
-
-        # if "race" in data:
-        #     trait = data["race"]
-        #     if trait in traits:
-        #         rg.apply_trait(traits[trait])
-        #     else:
-        #         devlog.warning("%s is not a valid race (build_rc)!" % (trait))
 
         # Colors in say screen:
         for key in ("color", "what_color"):
@@ -408,6 +359,7 @@ init -11 python:
         # And at last, leveling up and stats/skills applications:
         tier_up_to(rg, tier, **tier_kwargs)
 
+        # Items, give and/or autoequip:
         if give_civilian_items or give_bt_items:
             tiered_items = []
             limit_tier = rg.tier + 1
@@ -446,6 +398,8 @@ init -11 python:
 
         # if equip_to_tier:
         #     give_tiered_items(rg, **gtt_kwargs) # (old/simle(er) func)
+
+        # Spells to Tier:
         if spells_to_tier:
             give_tiered_magic_skills(rg, **stt_kwargs)
 
