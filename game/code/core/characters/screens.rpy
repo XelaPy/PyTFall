@@ -3,10 +3,16 @@ screen new_style_tooltip():
 
     style_prefix "new_style_tooltip"
 
+    # Get mouse coords:
+    python:
+        x, y = renpy.get_mouse_pos()
+        xval = 1.0 if x > config.screen_width/2 else .0
+        yval = 1.0 if y > config.screen_height/2 else .0
+
     if tooltip:
-        $ pos = renpy.get_mouse_pos()
         frame:
-            pos pos
+            pos (x, y)
+            anchor (xval, yval)
             text "[tooltip]"
 
 screen set_action_dropdown(char, pos=()):
