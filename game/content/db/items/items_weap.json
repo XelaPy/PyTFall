@@ -90,7 +90,7 @@
     "price": 150,
     "sex": "unisex",
     "chance": 60,
-    "badness": 100,
+    "badness": 50,
     "eqchance": 25,
     "hidden": false,
     "infinite": false,
