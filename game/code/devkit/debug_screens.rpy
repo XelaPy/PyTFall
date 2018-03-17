@@ -56,6 +56,9 @@ screen chars_debug():
                 text "Class" color red bold 1
             fixed:
                 xysize 80, 20
+                text "Elements" color lawngreen bold 1
+            fixed:
+                xysize 80, 20
                 text "Origin" color crimson bold 1
             fixed:
                 xysize 50, 20
@@ -75,6 +78,9 @@ screen chars_debug():
             fixed:
                 xysize 80, 20
                 text "Inv" color gold bold 1
+            fixed:
+                xysize 80, 20
+                text "Magic" color purple bold 1
 
         viewport:
             xysize 1280, 700
@@ -91,6 +97,10 @@ screen chars_debug():
                     fixed:
                         xysize 80, 20
                         text "[char.level]/[char.tier]" color red bold 1
+                    vbox:
+                        xysize 80, 20
+                        yalign .5
+                        text "\n".join([e.id for e in char.elements]) color lawngreen bold 1 size 10
                     vbox:
                         xysize 80, 20
                         yalign .5
@@ -135,6 +145,15 @@ screen chars_debug():
                             temp.append(" ==> ".join(ts))
                     textbutton "Inv":
                         xysize 80, 20
+                        action NullAction()
+                        tooltip "\n".join(temp)
+                    python:
+                        temp = []
+                        for bskill in char.magic_skills:
+                            temp.append(bskill.name)
+                    textbutton "Magic":
+                        xysize 80, 20
+                        text_color purple
                         action NullAction()
                         tooltip "\n".join(temp)
 

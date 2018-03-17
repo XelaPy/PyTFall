@@ -396,7 +396,7 @@ init -11 python:
 
             rg.auto_buy(**gbti_kwargs)
 
-        # if equip_to_tier:
+        # if equip_to_tier: # Old (faster but less precise) way of giving items:
         #     give_tiered_items(rg, **gtt_kwargs) # (old/simle(er) func)
 
         # Spells to Tier:
