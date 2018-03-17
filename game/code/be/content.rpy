@@ -229,6 +229,7 @@ init python:
             self.counter = duration
             self.effect = effect
             self.type = "poison"
+            self.group = "poison" # Or we collide with Buffs
             self.icon = ProportionalScale("content/gfx/be/poison1.png", 30, 30)
 
         def check_conditions(self):
@@ -273,7 +274,9 @@ init python:
                 battle.log(msg)
             else:
                 t.health = 1
-                death = RPG_Death(self.target, msg="{color=[red]}Poison took out %s!\n{/color}" % t.name, death_effect="dissolve")
+                death = RPG_Death(self.target,
+                                  msg="{color=[red]}Poison took out %s!\n{/color}" % t.name,
+                                  death_effect="dissolve")
                 death.apply_effects()
 
             self.counter -= 1
