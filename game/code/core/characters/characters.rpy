@@ -1279,6 +1279,8 @@ init -9 python:
             for stat in target_stats:
                 stats['current_stat'][stat] = self._get_stat(stat) # current stat value
                 stats['current_max'][stat] = self.get_max(stat)   # current stat max
+            # Add basetraits to basepurposes:
+            base_purpose = base_purpose.union([bt.id for bt in char.traits.basetraits])
 
             # per item the nr of weighting criteria may vary. At the end all of them are averaged.
             # if an item has less than the most weights the remaining are imputed with 50 weights
@@ -1287,28 +1289,34 @@ init -9 python:
 
             for item in inventory:
                 if item.slot not in weighted:
+                    devlog.warning("Ignoring item {} on slot.".format(item.id))
                     continue
 
                 if limit_tier is not False and item.tier > limit_tier:
+                    devlog.warning("Ignoring item {} on tier.".format(item.id))
                     continue
 
                 # If no purpose is valid for the item, we want nothing to do with it.
                 if item.slot not in ("misc", "consumable"):
                     purpose = base_purpose.union(sub_purpose.union(["Any"]))
                     if not purpose.intersection(item.pref_class):
+                        devlog.warning("Ignoring item {} on purpose.".format(item.id))
                         continue
 
                 # Gender:
                 if item.sex not in (char.gender, "unisex"):
+                    devlog.warning("Ignoring item {} on gender.".format(item.id))
                     continue
 
                 # Money (conditioned):
                 if check_money:
                     if char.gold < item.price:
+                        devlog.warning("Ignoring item {} on money.".format(item.id))
                         continue
 
                 weights = chance_func(item) if chance_func else [item.eqchance]
                 if weights is None: # We move to the next item!
+                    devlog.warning("Ignoring item {} on weight.".format(item.id))
                     continue
 
                 # Handle purposes:
@@ -2496,10 +2504,10 @@ init -9 python:
             if self.eqslots["weapon"]:
                 self.unequip(self.eqslots["weapon"])
 
-            devlog.warn("Auto Equipping for -- {} --".format(purpose))
+            devlog.info("Auto Equipping for -- {} --".format(purpose))
             slots = store.EQUIP_SLOTS
             kwargs = aeq_purposes[purpose]
-            devlog.warn("Auto Equipping Real Weapons: {} --!!".format(kwargs["real_weapons"]))
+            devlog.info("Auto Equipping Real Weapons: {} --!!".format(kwargs["real_weapons"]))
             return self.auto_equip(slots=slots, **kwargs)
 
         def auto_equip(self, target_stats, target_skills=None,
@@ -2531,7 +2539,7 @@ init -9 python:
             and pytChar.equip_chance methods. Later we come back here and sort out the results
             """
 
-            # Prepair data:
+            # Prepare data:
             if not slots:
                 slots = ["consumable"]
             if not inv:
@@ -2577,13 +2585,19 @@ init -9 python:
             # about some stats more than others and this fucks that up completely.
             # exclude_on_stats = exclude_on_stats.union(target_stats)
             # exclude_on_skills = exclude_on_skills.union(target_skills)
-
-            self.stats.eval_inventory(inv, weighted, target_stats, target_skills,
-                                     exclude_on_skills, exclude_on_stats,
-                                     chance_func=self.equip_chance, min_value=min_value,
-                                     upto_skill_limit=upto_skill_limit,
-                                     base_purpose=base_purpose,
-                                     sub_purpose=sub_purpose)
+            # self.stats.eval_inventory(container, weighted, chance_func=self.equip_chance,
+            #                           upto_skill_limit=upto_skill_limit,
+            #                           min_value=min_value, check_money=check_money,
+            #                           limit_tier=limit_tier,
+            #                           **kwargs)
+            self.stats.eval_inventory(inv, weighted,
+                                      target_stats, target_skills,
+                                      exclude_on_skills, exclude_on_stats,
+                                      chance_func=self.equip_chance,
+                                      upto_skill_limit=upto_skill_limit,
+                                      min_value=min_value,
+                                      base_purpose=base_purpose,
+                                      sub_purpose=sub_purpose)
 
             returns = list() # We return this list with all items used during the method.
 
@@ -2596,7 +2610,7 @@ init -9 python:
 
                 # create averages for items
                 for _weight, item in picks:
-                    devlog.warn("(A-Eq) Slot: {} Item: {} ==> Weights: {}".format(item.slot, item.id, str(_weight)))
+                    devlog.info("(A-Eq=> {}) Slot: {} Item: {} ==> Weights: {}".format(self.name, item.slot, item.id, str(_weight)))
                     _weight = sum(_weight)
 
                     # impute with weights of 50 for items that have less weights
@@ -2629,6 +2643,7 @@ init -9 python:
                     if item:
                         inv.remove(item)
                         self.equip(item, remove=False)
+                        devlog.info("     --> {} equipped {} to {}.".format(item.id, self.name, item.slot))
                         returns.append(item.id)
                     continue
 

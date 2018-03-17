@@ -286,7 +286,7 @@
     "defence_bonus": {"ranged": 20},
     "locations": ["Exploration", "Ninja Shop"],
     "tier": 1,
-    "pref_class":["Assassin", "Shooter"]
+    "pref_class": ["Assassin", "Shooter"]
     },
     {
     "id": "Mage Robe",
