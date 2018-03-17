@@ -201,9 +201,10 @@ init -11 python:
 
         teir: Tier of the character... floats are allowed.
         add_to_gameworld: Adds to characters dictionary, should always
-        be True unless character is created not to participate in the game world...
+            be True unless character is created not to participate in the game world...
 
         give_civilian_items/gci_kwargs // give_bt_items/gbti_kwargs:
+            *Note: bt_ ==> base_traits* (award items for profession)
             Give/Equip item sets using auto_buy without paying cash.
             Expects a dict of kwargs or we just take our best guess.
         spells_to_tier/stt_kwargs: Award spells and kwargs for the func

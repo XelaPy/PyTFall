@@ -241,7 +241,6 @@ init -11 python:
         if character == hero:
             return True # Would be weird if we could not access MCs inventory....
 
-            
         if isinstance(character, PytGroup):
             if item and item.jump_to_label:
                 return False
@@ -268,13 +267,13 @@ init -11 python:
             if unequip:
                 if character.disposition >= 900 or check_lovers(character, hero) or check_friends(character, hero):
                     return True
-                    
+
                 if item.eqchance <= 20 or item.badness >= 80:
                     return True
-                    
+
                 if item.badtraits.intersection(character.traits):
                     return True
-                    
+
             else:
                 # Bad Traits:
                 if item.badtraits.intersection(character.traits):

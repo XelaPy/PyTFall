@@ -101,9 +101,9 @@ init -9 python:
         def populate_world(self, tier_offset=.0):
             # all world rchars in the game:
             rcs = list(c for c in chars.values() if
-                        c.__class__ == rChar and
-                        not c.arena_active and
-                        c not in hero.chars)
+                       c.__class__ == rChar and
+                       not c.arena_active and
+                       c not in hero.chars)
 
             required = self.rc_population - len(rcs)
             if required <= 0:
