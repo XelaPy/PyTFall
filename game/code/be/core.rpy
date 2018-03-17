@@ -38,7 +38,12 @@ init -1 python: # Core classes:
             self.queue = list() # List of events in BE..
             self.max_turn = max_turns
 
-            self.bg = ConsitionSwitcher("default", {"default": bg, "black": Solid("#000000"), "mirage": Mirage(bg, resize=get_size(bg), amplitude=.04, wavelength=10, ycrop=10)}) # Background we'll use.
+            if not logical:
+                # Background we'll use.
+                self.bg = ConsitionSwitcher("default", {"default": bg,
+                                                        "black": Solid("#000000"),
+                                                        "mirage": Mirage(bg, resize=get_size(bg),
+                                                        amplitude=.04, wavelength=10, ycrop=10)})
 
             if music == "random":
                 self.music = choice(ilists.battle_tracks)
@@ -52,7 +57,9 @@ init -1 python: # Core classes:
             else:
                 self.row_pos = row_pos
 
-            self.controller = None # Whatever controls the current queue of the loop is the controller. Usually it's player or AI combatants.
+            # Whatever controls the current queue of the loop is the controller.
+            # Usually it's player or AI combatants.
+            self.controller = None
             self.winner = None
             self.combat_log = list()
 
@@ -184,7 +191,8 @@ init -1 python: # Core classes:
                 for i in team:
                     self.show_char(i, at_list=[Transform(pos=self.get_icp(team, i))])
                     if not i.attack_skills:
-                        i.attack_skills.append("Fist Attack") # we never allow hero team members to have zero attacks
+                        # we never allow hero team members to have zero attacks
+                        i.attack_skills.append("Fist Attack")
 
                 team = self.teams[1]
                 for i in team:
@@ -203,7 +211,8 @@ init -1 python: # Core classes:
             self.main_loop()
 
         def prepear_teams(self):
-            # Plainly sets allegiance of chars to their teams. Allegiance may change during the fight (confusion skill for example once we have one).
+            # Plainly sets allegiance of chars to their teams.
+            # Allegiance may change during the fight (confusion skill for example once we have one).
             # I've also included part of team/char positioning logic here.
             for team in self.teams:
                 team.position = "l" if not self.teams.index(team) else "r"
@@ -220,7 +229,7 @@ init -1 python: # Core classes:
                         char.row = 2 if char.front_row else 3
 
                     # Allegiance:
-                    char.allegiance = team.name
+                    char.allegiance = team.name or team
 
         def end_battle(self):
             """Ends the battle, trying to normalize any variables that may have been used during the battle.
@@ -1880,7 +1889,6 @@ init -1 python: # Core classes:
                 targets = targets if "all" in skill.type else choice(targets) # We get a correct amount of targets here.
 
                 skill(ai=True, t=targets)
-
             else:
                 BE_Skip(source=self.source)()
 
@@ -1904,7 +1912,7 @@ init -1 python: # Core classes:
             super(Complex_BE_AI, self).__init__(source=source)
 
         def __call__(self):
-        
+
             skip = BE_Skip(source=self.source)
             temp = self.get_availible_skills()
             if not temp:
