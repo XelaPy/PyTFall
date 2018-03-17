@@ -14,7 +14,9 @@ init -11 python:
 
         return amount
 
-    equipment_safe_mode = False # when it's true, we assume that equipment screen was called from unusual place, so all things which can break it are disabled
+    # when it's true, we assume that equipment screen was called from unusual place,
+    # so all things which can break it are disabled
+    equipment_safe_mode = False
 
     def equip_item(item, char, silent=False):
         """First level of checks, all items should be equipped through this function!
@@ -231,7 +233,8 @@ init -11 python:
             return
         return True
 
-    def equipment_access(character, item=None, silent=False, allowed_to_equip=True, unequip=False):
+    def equipment_access(character, item=None, silent=False,
+                         allowed_to_equip=True, unequip=False):
         # Here we determine if a character would be willing to give MC access to her equipment:
         # Like if MC asked this character to equip or unequip an item.
         # We return True if access is granted!

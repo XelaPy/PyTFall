@@ -2506,10 +2506,10 @@ init -9 python:
             if self.eqslots["weapon"]:
                 self.unequip(self.eqslots["weapon"])
 
-            devlog.info("Auto Equipping for -- {} --".format(purpose))
+            # devlog.info("Auto Equipping for -- {} --".format(purpose))
             slots = store.EQUIP_SLOTS
             kwargs = aeq_purposes[purpose]
-            devlog.info("Auto Equipping Real Weapons: {} --!!".format(kwargs["real_weapons"]))
+            # devlog.info("Auto Equipping Real Weapons: {} --!!".format(kwargs["real_weapons"]))
             return self.auto_equip(slots=slots, **kwargs)
 
         def auto_equip(self, target_stats, target_skills=None,
@@ -2612,7 +2612,7 @@ init -9 python:
 
                 # create averages for items
                 for _weight, item in picks:
-                    devlog.info("(A-Eq=> {}) Slot: {} Item: {} ==> Weights: {}".format(self.name, item.slot, item.id, str(_weight)))
+                    # devlog.info("(A-Eq=> {}) Slot: {} Item: {} ==> Weights: {}".format(self.name, item.slot, item.id, str(_weight)))
                     _weight = sum(_weight)
 
                     # impute with weights of 50 for items that have less weights
@@ -2632,7 +2632,7 @@ init -9 python:
                                         msg.append("Base: {}".format(base_purpose))
                                     if sub_purpose:
                                         msg.append("Sub: {}".format(sub_purpose))
-                                    devlog.warn(" ".join(msg))
+                                    # devlog.warn(" ".join(msg))
                                     continue
                             if _weight > selected[0]:
                                 selected = [_weight, item] # store weight and item for the highest weight
@@ -2645,7 +2645,7 @@ init -9 python:
                     if item:
                         inv.remove(item)
                         self.equip(item, remove=False)
-                        devlog.info("     --> {} equipped {} to {}.".format(item.id, self.name, item.slot))
+                        # devlog.info("     --> {} equipped {} to {}.".format(item.id, self.name, item.slot))
                         returns.append(item.id)
                     continue
 
