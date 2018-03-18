@@ -380,7 +380,7 @@ init -9 python:
             self._a = None
             self.locations = dict()
             self._n = None
-            self.nest = None
+            self.nest = []
 
         def __call__(self, index, girl=None):
             """
@@ -502,7 +502,7 @@ init -9 python:
             Clears the currently selected location.
             """
             self._n = None
-            self.nest = None
+            self.nest = []
 
         def combine(self, *sets):
             """
