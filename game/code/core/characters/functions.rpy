@@ -605,33 +605,38 @@ init -11 python:
         Adjusts experience according to a level of character.
         We will find a better way to handle experience in the future.
         '''
+        if isinstance(char, int): # A level was provided directly
+            level = char
+        else:
+            level = char.level
+
         if char == hero:
-            if char.level < 10:
-                return int(math.ceil(char.level * exp)*1.4)
-            elif char.level < 30:
-                return int(math.ceil(char.level * exp)*1.3)
-            elif char.level < 40:
-                return int(math.ceil(char.level * exp)*1.2)
+            if level < 10:
+                mod = 1.4
+            elif level < 30:
+                mod = 1.3
+            elif level < 40:
+                mod = 1.2
             else:
-                return int(math.ceil(char.level * exp)*1.1)
-        elif isinstance(char, Char):
-            if char.level < 10:
-                return int(math.ceil(char.level * exp)*0.9)
-            elif char.level < 20:
-                return int(math.ceil(char.level * exp)*0.8)
-            elif char.level < 30:
-                return int(math.ceil(char.level * exp)*0.75)
-            elif char.level < 40:
-                return int(math.ceil(char.level * exp)*0.70)
-            elif char.level < 50:
-                return int(math.ceil(char.level * exp)*0.65)
-            elif char.level < 60:
-                return int(math.ceil(char.level * exp)*0.6)
-            elif char.level < 70:
-                return int(math.ceil(char.level * exp)*0.5)
+                mod = 1.1
+        else:
+            if level < 10:
+                mod = .9
+            elif level < 20:
+                mod = .8
+            elif level < 30:
+                mod = .75
+            elif level < 40:
+                mod = .70
+            elif level < 50:
+                mod = .65
+            elif level < 60:
+                mod = .6
+            elif level < 70:
+                mod = .5
             else:
-                return int(math.ceil(char.level * exp)*0.4)
-        return int(math.ceil(char.level * exp))
+                mod = .4
+        return int(math.ceil(level*exp))
 
     def build_client(id=None, gender="male", caste="Peasant", name=None, last_name=None,
                      pattern=None, likes=None, dislikes=None, tier=1):

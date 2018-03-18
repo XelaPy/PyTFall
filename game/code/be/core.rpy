@@ -2004,28 +2004,19 @@ init -1 python: # Core classes:
 
     def exp_reward(team, enemies): # calculates exp reward after a battle
         team_level = team.get_level()
+        enemy_level = enemies.get_level()
 
         if team_level <= 0:
             team_level = 1
+        if enemy_level <= 0:
+            enemy_level = 1
 
-        mob_level = 0
-        min_exp = 0
-        for i in enemies:
-            mob_level += i.level  # sum of enemies levels
-            if hasattr(i, "min_lvl"):
-                min_exp += i.min_lvl+i.level*10  # min exp level, based on min_lvl field
-            else:
-                min_exp += 500 # most likely enemies without min_lvl are characters, let it be 250 for them
-        if mob_level <= 0:
-            mob_level = 1
-        if min_exp <= 0:
-            min_exp = 1
-        levels_proportion = mob_level/team_level # the difference between summary levels
-        if levels_proportion < .5:
-            levels_proportion = .5
-        elif levels_proportion > 3:
-            levels_proportion = 3
+        difficulty = team_level - enemy_level
+        base_exp = max(20, min(difficulty*10, 200)) # Between 20 and 200.
 
-        resulting_exp = int(min_exp*levels_proportion)
-
-        return resulting_exp
+        if team_level >= enemy_level: # Case where we fought weak(er) enemies:
+            exp = base_exp*.7 # bit of a penalty
+            return round_int(adjust_exp(team_level, exp))
+        else:
+            exp = base_exp*1.15 # bit of a bonus
+            return round_int(adjust_exp(team_level, exp))
