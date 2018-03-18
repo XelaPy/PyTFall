@@ -702,7 +702,8 @@ init -1 python: # Core classes:
             elif self.type in ["all_allies", "sa"]:
                 in_range = set([f for f in in_range if char.allegiance == f.allegiance])
 
-            # In a perfect world, we're done, however we have to overwrite normal rules if no targets are found and backrow can hit over it's own range (for example):
+            # In a perfect world, we're done, however we have to overwrite normal
+            # rules if no targets are found and backrow can hit over it's own range (for example):
             if not in_range: # <== We need to run "frenemy" code prior to this!
                 # Another step is to allow any range > 1 backrow attack and any frontrow attack hitting backrow of the opfor...
                 # and... if there is noone if front row, allow longer reach fighters in backrow even if their range normally would not allow it.
@@ -738,6 +739,17 @@ init -1 python: # Core classes:
 
             # And we need to check for dead people again... better code is needed to avoid cr@p like this in the future:
             in_range = [i for i in in_range if i in all_targets]
+
+            # @Review: Prevent AI from casting the same Buffs endlessly:
+            # Note that we do not have a concrete setup for buffs yet so this
+            # is coded to be safe.
+            if char.controller != "player":
+                buff_group = getattr(self, "buff_group", "no_buff_group")
+                for target in in_range[:]:
+                    for ev in store.battle.get_all_events():
+                        if getattr(ev, "group", "no_group") == buff_group:
+                            in_range.remove(target)
+                            break
 
             return in_range # List: So we can support indexing...
 
