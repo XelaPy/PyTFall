@@ -187,8 +187,9 @@ label city_dark_forest_hideout_fight:
     $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=True)
     if result is True:
         $ exp = exp_reward(hero.team, enemy_team)
-
         scene expression forest_location
+        if persistent.battle_results:
+            show screen give_exp_after_battle(hero.team, exp)
         return
 
 label city_dark_forest_fight:
