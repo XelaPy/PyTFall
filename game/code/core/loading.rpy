@@ -650,27 +650,16 @@ init -11 python:
 
         return items
 
-    def load_dungeons():
-        content = []
-        for file in os.listdir(content_path('db')):
-            if file.startswith("dungeon") and file.endswith(".json"):
-
-                in_file = content_path("".join(["db/", file]))
-                with open(in_file) as f:
-                    content.extend(json.load(f))
-
-        return { d['id']: Dungeon(**d) for d in content }
-
     def load_gifts():
         """
         Returns items dict with gift items to be used during girl_meets.
         """
         unprocessed = dict()
         content = dict()
-        folder = content_path('db')
+        folder = content_path('db/items')
         for file in os.listdir(folder):
             if file.startswith("gifts") and file.endswith(".json"):
-                in_file = content_path("/".join(["db", file]))
+                in_file = content_path("/".join(["db/items/", file]))
                 with open(in_file) as f:
                     unprocessed = json.load(f)
 
@@ -681,6 +670,17 @@ init -11 python:
                     item.__dict__.update(key)
                     content[item.id] = item
         return content
+
+    def load_dungeons():
+        content = []
+        for file in os.listdir(content_path('db')):
+            if file.startswith("dungeon") and file.endswith(".json"):
+
+                in_file = content_path("".join(["db/", file]))
+                with open(in_file) as f:
+                    content.extend(json.load(f))
+
+        return { d['id']: Dungeon(**d) for d in content }
 
 label load_resources:
     $ buildings = dict()
