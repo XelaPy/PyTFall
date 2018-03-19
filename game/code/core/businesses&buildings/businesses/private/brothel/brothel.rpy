@@ -12,10 +12,8 @@ init -5 python:
             self.jobs = set([simple_jobs["Whore Job"]])
 
         def request_resource(self, client, worker):
-            """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms available...
-
-            If the above docstring is true, and this is never called if there are no rooms, why do we request shit?
-            ==> This is likely capacity related. Should be working just fine.
+            """Requests a room from Sim'Py, under the current code,
+               this will not be called if there are no rooms available...
             """
             with self.res.request() as request:
                 yield request
@@ -49,9 +47,6 @@ init -5 python:
         def run_job(self, client, worker):
             """Handles the job and job report.
             """
-            # Visit counter:
-            # client.up_counter("got_serviced_by" + worker.id)
-
             # Execute the job/log results/handle finances and etc.:
             job, building = self.job, self.building
             log = NDEvent(job=job, char=worker, loc=building, business=self)
@@ -64,7 +59,8 @@ init -5 python:
             result = job.work_brothel(worker=worker, client=client, building=building,
                                       log=log, effectiveness=effectiveness)
 
-            earned = payout(job, effectiveness, difficulty, building, self, worker, client, log)
+            earned = payout(job, effectiveness, difficulty,
+                            building, self, worker, client, log)
 
             log.after_job()
             NextDayEvents.append(log)
