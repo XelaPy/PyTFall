@@ -858,4 +858,3 @@ init -5 python:
                 worker.remove_trait(traits["Virgin"])
                 if tips:
                     worker.mod_flag("_jobs_tips", tips)
-                    loc.fin.log_logical_income(tips, self.id + " Tips")

@@ -197,7 +197,6 @@ init -5 python:
             # Finances:
             worker.fin.log_logical_income(clubfees, "Waitress")
             worker.mod_flag("_jobs_tips", tips)
-            self.loc.fin.log_logical_income(clubfees + tips, "Waitress")
 
             self.apply_stats()
             self.finish_job()
