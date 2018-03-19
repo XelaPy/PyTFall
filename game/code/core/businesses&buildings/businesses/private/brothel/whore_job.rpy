@@ -827,7 +827,7 @@ init -5 python:
                 worker.logws("oral", oralmod)
                 sexskill += 1
             if sexskill + constmod > 0:
-                log.append("\n%s feels like she learned something! \n"% worker.name)
+                log.append("%s feels like she learned something! \n"% worker.name)
                 worker.logws("joy", 1)
 
             return effectiveness
