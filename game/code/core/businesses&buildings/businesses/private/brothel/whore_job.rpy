@@ -123,8 +123,9 @@ init -5 python:
             elif "Natural Leader" in worker.traits:
                 disposition += 50
 
-
-            if check_lovers(worker, hero): # Virgin trait makes whoring problematic, unless Chastity effect is active which should protect Virgin trait all the time no matter what
+            # Virgin trait makes whoring problematic, unless Chastity effect is
+            # active which should protect Virgin trait all the time no matter what
+            if check_lovers(worker, hero):
                 if "Virgin" in worker.traits and "Dedicated" in worker.traits:
                     disposition += 2000 # not a typo; they never agree, even with Chastity effect
                     return disposition
@@ -761,7 +762,7 @@ init -5 python:
                         log.append("The customer was unimpressed by %s looks, to say at least. Still, he preferred fucking her over a harpy. Hearing that from him however, was not encouraging for the poor girl at all..." % worker.name)
                     else:
                         log.append("The customer was unimpressed by %s looks, to say at least. Still, she preferred fucking her over a harpy. Hearing that from her however, was not encouraging for the poor girl at all..." % worker.name)
-            log.append("\n")
+            # log.append("\n")
 
             if effectiveness >= 190:
                 if client.gender == "male":

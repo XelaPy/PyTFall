@@ -56,7 +56,7 @@ init -10 python:
                     log.append(temp)
             else:
                 earned *= .5
-                temp = "  You will get half..."
+                temp = " You will get half..."
                 log.append(temp)
         elif effectiveness <= 150:
             if plural:
