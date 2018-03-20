@@ -193,15 +193,15 @@ init -5 python:
                         worker.logws("joy", -randint(2, 4))
                         worker.logws('vitality', -randint(2, 6))
             else:
-                log.append(choice(["%s is doing her shift as a harlot." % worker.name,
-                                   "%s gets busy with clients." % worker.fullname,
-                                   "%s serves customers as a whore." % worker.nickname]))
+                log.append(choice(["{color=[pink]}%s is doing her shift as a harlot.{/color}" % worker.name,
+                                   "{color=[pink]}%s gets busy with clients.{/color}" % worker.fullname,
+                                   "{color=[pink]}%s serves customers as a whore.{/color}" % worker.nickname]))
             return True
 
         def work_brothel(self, worker, client, building, log, effectiveness):
             # Pass the flags from occupation_checks:
             # log.append(worker.flag("jobs_whoreintro"))
-            log.append("\n\n")
+            log.append("\n")
 
             width = 820
             height = 705
@@ -807,7 +807,8 @@ init -5 python:
                 elif (client.gender == "female") and not("Lesbian" in worker.traits) and not("Bisexual" in worker.traits):
                     log.append(" It was a bit difficult for %s to do it with a woman due to her sexual orientation..." % worker.name)
                     log.logws("vitality", -randint(1, 5))
-            log.append("\n")
+
+            log.append("")
 
             # Take care of stats mods
             constmod = 1 if dice(12) else 0
