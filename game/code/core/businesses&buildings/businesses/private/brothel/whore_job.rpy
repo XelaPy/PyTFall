@@ -13,7 +13,7 @@ init -5 python:
             self.base_skills = {"sex": 60, "vaginal": 40, "anal": 40, "oral": 40}
             self.base_stats = {"charisma": 100}
 
-            self.desc = "Whores provide very personal service by selling their bodies."
+            self.desc = "Oldest profession known to men."
 
         def traits_and_effects_effectiveness_mod(self, worker, log):
             """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
@@ -22,16 +22,16 @@ init -5 python:
             effectiveness = 0
             # effects always work
             if worker.effects['Food Poisoning']['active']:
-                log.append("%s suffers from Food Poisoning, and is very far from her top shape." % worker.name)
+                log.append("%s suffers from Food Poisoning and doesn't feel like whoring." % worker.name)
                 effectiveness -= 50
             elif worker.effects['Down with Cold']['active']:
-                log.append("%s is not feeling well due to colds..." % worker.name)
+                log.append("%s is not feeling well (down with cold)..." % worker.name)
                 effectiveness -= 15
             elif worker.effects['Horny']['active']:
-                log.append("%s is horny. A perfect mindset for her job!" % worker.name)
+                log.append("%s is horny. It's perfect mindset for her job!" % worker.name)
                 effectiveness += 20
             elif worker.effects['Revealing Clothes']['active']:
-                log.append("Her revealing clothes attract horny customers, and make them even hornier.")
+                log.append("Her revealing clothes appeal to customers and make them really horny.")
                 effectiveness += 15
 
             if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
@@ -58,10 +58,10 @@ init -5 python:
                         log.logloc("dirt", 1)
                 elif trait == "Heavy Drinker":
                     if locked_dice(50):
-                        log.append("Unfortunately %s drank too much yesterday evening, and currently suffers from a headache." % worker.name)
+                        log.append("Unfortunately %s drank too much yesterday, and now suffers from a hangover." % worker.name)
                         effectiveness -= 20
                     else:
-                        log.append("Slightly drunk %s sexually assaults customers all the day, making them happy to oblige." % worker.name)
+                        log.append("Slightly drunk %s sexually assaults customers all the day, they don't complain." % worker.name)
                         effectiveness += 20
                 elif trait == "Neat":
                     log.append("Unfortunately %s is too focused on keeping her freshly laundered clothes clean instead of satisfying her partners..." % worker.name)
@@ -71,7 +71,7 @@ init -5 python:
                     log.logloc("dirt", randint(1, 2))
                     effectiveness += 20
                 elif trait == "Homebody":
-                    log.append("%s really enjoys her job, having warm food and soft bed nearby all the time. Nice to see someone who enjoys work." % worker.name)
+                    log.append("%s really enjoys her job, having warm food and soft bed nearby all the time. Nice to see someone dedicated to their work." % worker.name)
                     effectiveness += 15
                 elif trait == "Indifferent":
                     log.append("Somehow %s doesn't care much about being fucked today, and most customers don't appreciate it." % worker.name)
