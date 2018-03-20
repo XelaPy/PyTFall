@@ -145,7 +145,6 @@ label building_management_loop:
                     for i in result[2]._members[:]:
                         workers.add(i)
                         result[2]._members.remove(i)
-
         elif result[0] == "building":
             # if result[1] == 'buyroom':
             #     python:
@@ -156,7 +155,6 @@ label building_management_loop:
             #                 renpy.call_screen('message_screen', "Not enough funds to buy new room!")
             #         else:
             #             renpy.call_screen('message_screen', "No more rooms can be added to this building!")
-
             if result[1] == 'items_transfer':
                 python:
                     it_members = list(w for w in hero.chars if w.location == building)
@@ -166,7 +164,6 @@ label building_management_loop:
                 hide screen building_management
                 $ items_transfer(it_members)
                 show screen building_management
-
             elif result[1] == "sign":
                 python:
                     if building.flag('bought_sign'):
@@ -183,7 +180,6 @@ label building_management_loop:
 
                         else:
                             renpy.show_screen("message_screen", "Not enough cash on hand!")
-
             elif result[1] == "sell":
                 python:
                     price = int(building.get_price()*0.9)
@@ -209,14 +205,19 @@ label building_management_loop:
                             building = hero.upgradable_buildings[index]
                         else:
                             jump("building_management_end")
-
         # Upgrades:
         elif result[0] == 'upgrade':
             if result[1] == "build":
                 python hide:
                     temp = result[2]()
-                    building.add_business(temp, main_upgrade=result[3])
-
+                    if isinstance(temp, BusinessUpgrade):
+                        result[3].add_upgrade(temp)
+                    elif isinstance(temp, Business):
+                        building.add_business(temp)
+                    elif isinstance(temp, BuildingUpgrade):
+                        building.add_upgrade(temp)
+                    else:
+                        raise Exception("Unknown extension class detected: {}".format(result[2]))
         elif result[0] == "maintenance":
             python:
                 # Cleaning controls
@@ -241,7 +242,6 @@ label building_management_loop:
 
                 elif result[1] == "retrieve_jail":
                     pytfall.ra.retrieve_jail = not pytfall.ra.retrieve_jail
-
         elif result[0] == 'control':
             if result[1] == 'left':
                 $ index = (index - 1) % len(hero.upgradable_buildings)

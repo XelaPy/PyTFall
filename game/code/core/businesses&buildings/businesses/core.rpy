@@ -308,9 +308,16 @@ init -12 python:
 
         # Business MainUpgrade related:
         def add_upgrade(self, upgrade):
-            upgrade.building = self
+            building = self.building
+
+            cost, materials, in_slots, ex_slots = building.get_extension_cost(upgrade)
+            self.in_slots += in_slots
+            self.ex_slots += ex_slots
+
             upgrade.building = building
+            upgrade_business = self
             self.upgrades.append(upgrade)
+            self.upgrades.sort(key=attrgetter("SORTING_ORDER"), reverse=True)
 
         def all_possible_extensions(self):
             # Named this was to conform to GUI (same as for Buildings)

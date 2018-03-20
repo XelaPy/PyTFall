@@ -4,10 +4,8 @@ init -3 python:
         """Building or Business Upgrade core class.
         In case we need one...
         """
-        def __init__(self, *args, **kwargs):
-
-            super(BBUpgrade, self).__init__(name=name,
-                        desc=desc, img=img, **kwargs)
+        def __init__(self, **kwargs):
+            super(BBUpgrade, self).__init__(**kwargs)
 
 
     class BuildingUpgrade(BBUpgrade):
@@ -15,11 +13,8 @@ init -3 python:
         #@Review: Inherited from building upgrade before, not sure why.
         """Usually suggests an expansion to a building that modifies some of it's workflow/properties/jobs!
         """
-        COMPATIBILITY = []
-        def __init__(self, *args, **kwargs):
-
-            super(BuildingUpgrade, self).__init__(name=name,
-                        desc=desc, img=img, **kwargs)
+        def __init__(self, **kwargs):
+            super(BuildingUpgrade, self).__init__(**kwargs)
 
 
     class BusinessUpgrade(BBUpgrade):
@@ -30,9 +25,7 @@ init -3 python:
         """
         COMPATIBILITY = []
         def __init__(self, *args, **kwargs):
-            super(BusinessUpgrade, self).__init__(name=name,
-                        desc=desc, img=img, **kwargs)
-
+            super(BusinessUpgrade, self).__init__(**kwargs)
             self.business = None
 
 

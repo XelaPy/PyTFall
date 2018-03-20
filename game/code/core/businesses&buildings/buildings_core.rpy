@@ -564,8 +564,8 @@ init -10 python:
             if (self.in_slots_max - self.in_slots) < in_slots or (self.ex_slots_max - self.ex_slots) < ex_slots:
                 return False
 
-            if self.has_extension(upgrade):
-                return False
+            # if self.has_extension(upgrade):
+            #     return False
 
             if hero.gold < cost:
                 return False

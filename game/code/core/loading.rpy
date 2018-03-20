@@ -542,10 +542,13 @@ init -11 python:
         # Load json content
         buildings_data = json.load(renpy.file("content/db/buildings/buildings.json"))
         adverts_data = json.load(renpy.file("content/db/buildings/adverts.json"))
+
         # Populate into brothel objects:
         buildings = dict()
         for building in buildings_data:
             b = Building()
+            # business_upgrade_data = building.get("allowed_business_upgrades", {})
+
             for key, value in building.iteritems():
                 if key == "adverts":
                     b.add_adverts([adv for adv in adverts_data if adv['name'] in value])
@@ -553,15 +556,21 @@ init -11 python:
                     for business_data in value:
                         cls = getattr(store, business_data["class"])
                         kwargs = business_data.get("kwargs", {})
-                        business = cls(**kwargs)
-                        b.add_business(business)
+
+                        # Load allowed business upgrades if there are any:
+                        au = [getattr(store, u) for u in kwargs.get("allowed_upgrades", [])]
+                        kwargs["allowed_upgrades"] = au
+
+                        b.add_business(cls(**kwargs))
                 elif key == "allowed_businesses":
                     for business in value:
                         business = getattr(store, business)
                         b.allowed_businesses.append(business)
                 else:
                     setattr(b, key, value)
+
             buildings[b.id] = b
+
         return buildings
 
     def load_tiles():

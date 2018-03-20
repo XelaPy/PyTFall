@@ -124,7 +124,8 @@
 				"kwargs": {
 					"capacity": 5,
 					"in_slots": 5,
-					"desc": "Small, private rooms that'll 'do the trick'!"
+					"desc": "Small, private rooms that'll 'do the trick'!",
+					"allowed_upgrades": ["StatueOfSexGoddess"]
 				}
 			},
 			{
@@ -144,7 +145,7 @@
 		],
 		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"],
 		"allowed_upgrades": [],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess", {}]}
+		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"]}
 	},
 	{
 		"id": 5,
