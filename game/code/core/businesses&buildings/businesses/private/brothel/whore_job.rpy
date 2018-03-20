@@ -98,7 +98,7 @@ init -5 python:
                     log.append("Knowing what her partners really want is a trivial matter for a psychic like %s, making her customers happier." % worker.name)
                     effectiveness += 35
                 elif trait == "Lactation":
-                    log.append("Sometimes customers are happy to swallow liquids too. As in the case of %s's milk which is produced more than usual today." % worker.name)
+                    log.append("%s is lactating! Sometimes customers crave whitish liquids as much as working girls." % worker.name)
                     effectiveness += 25
             return effectiveness
 
@@ -151,11 +151,11 @@ init -5 python:
                     if sub < 0:
                         if dice(15):
                             worker.logws('character', 1)
-                        log.append("%s is not very happy with her current job as a harlot, but she will get the job done." % worker.name)
+                        log.append("%s is not very happy with her current job as a harlot, but she'll get the job done." % worker.name)
                     elif sub == 0:
                         if dice(25):
                             worker.logws('character', 1)
-                        log.append("%s serves customers as a whore, but, truth be told, she would prefer to do something else." % worker.nickname)
+                        log.append("%s serves customers as a whore, but she would prefer to do something else." % worker.nickname)
                     else:
                         if dice(35):
                             worker.logws('character', 1)
@@ -173,7 +173,7 @@ init -5 python:
                             worker.logws('character', 1)
                     elif sub == 0:
                         if worker.disposition < self.calculate_disposition_level(worker):
-                            log.append("%s will do as you command, but she will hate every second of her harlot shift..." % worker.name)
+                            log.append("%s will do as you command, but she will hate every second of her working as a harlot..." % worker.name)
                         else:
                             log.append("%s was very displeased by her order to work as a whore, but didn't dare to refuse." % worker.name)
                         if dice(35):
@@ -228,7 +228,7 @@ init -5 python:
                     log.img = worker.show("after sex", exclude=["angry", "in pain", "dungeon", "sad"], **kwargs)
                 image_tags = log.img.get_image_tags()
                 if "ontop" in image_tags:
-                    log.append("He invited her to 'sit' on his lap as he unsheathed his cock. They've continued along the same lines in 'girl ontop' position. \n")
+                    log.append("He invited her to 'sit' on his lap as he unsheathed his cock. They've continued along the same lines in 'girl-on-top' position. \n")
                 elif "doggy" in image_tags:
                     log.append("He ordered %s to bend over and took her from behind. \n"%worker.nickname)
                 elif "missionary" in image_tags:
