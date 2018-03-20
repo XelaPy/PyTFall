@@ -50,7 +50,7 @@ init -5 python:
             # Execute the job/log results/handle finances and etc.:
             job, building = self.job, self.building
             log = NDEvent(job=job, char=worker, loc=building, business=self)
-            worker.jobpoints -= 100
+
             job.settle_workers_disposition(worker, log)
 
             difficulty = building.tier
@@ -58,6 +58,10 @@ init -5 python:
 
             result = job.work_brothel(worker=worker, client=client, building=building,
                                       log=log, effectiveness=effectiveness)
+
+            worker.jobpoints -= job.calc_jp_cost(worker, log,
+                        manager_effectiveness=building.manager_effectiveness,
+                        cost=100)
 
             earned = payout(job, effectiveness, difficulty,
                             building, self, worker, client, log)

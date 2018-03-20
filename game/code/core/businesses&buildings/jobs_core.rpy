@@ -225,6 +225,9 @@
             # Payout per single client, this is passed to Economy class and modified if needs be.
             self.per_client_payout = 5
 
+            # How many 'job points' is required, this is used in calc_jp_method.
+            self.jp_cost = 100
+
             # Traits/Job-types associated with this job:
             self.occupations = list() # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = list() # Corresponding traits...
@@ -377,3 +380,14 @@
             returns an integer to be added to base calculations!
             """
             return 0
+
+        def calc_jp_cost(self, worker, log, manager_effectiveness=0, cost=None):
+            if cost is None:
+                cost = self.jp_cost
+
+            # Good manager, we only use 50% of the original cost.
+            if manager_effectiveness > 130 and dice(manager_effectiveness-100):
+                log.append("{} is very motivated by your manager! She feels less tired after doing her work-shift!".format(worker.name))
+                cost = round_int(cost*.5)
+
+            return cost
