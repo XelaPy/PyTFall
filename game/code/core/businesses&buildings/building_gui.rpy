@@ -643,6 +643,27 @@ init: # Screens:
                             action NullAction()
                             hovered tt.action("Can't add more space to this business at this time!")
 
+            if getattr(bm_mid_frame_mode, "upgrades", []):
+                null height 5
+                frame:
+                    align .5, .02
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
+                    xysize (180, 40)
+                    label 'Constructed:' text_color ivory xalign .5 text_bold True
+                viewport:
+                    pos 3, 10
+                    xysize 310, 406
+                    mousewheel True
+                    has vbox
+                    for u in bm_mid_frame_mode.upgrades:
+                        button:
+                            xsize 309
+                            style "pb_button"
+                            text "[u.name]":
+                                align .5, .5
+                                color ivory
+                            action NullAction()
+                            tooltip u.desc
 
         if isinstance(bm_mid_frame_mode, ExplorationGuild):
             use building_management_leftframe_exploration_guild_mode
@@ -1096,33 +1117,6 @@ init: # Screens:
                     xsize 630
                     for u in bm_mid_frame_mode.all_possible_extensions():
                         if not bm_mid_frame_mode.has_extension(u):
-                            # frame:
-                            #     xalign .5
-                            #     background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-                            #     has fixed xysize 500, 150
-                            #
-                            #     frame:
-                            #         align .3, .5
-                            #         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-                            #         xpadding 15
-                            #         text "Active" align .5, .5 style "stats_text" size 35
-                            #
-                            #     vbox:
-                            #         align 1.0, 0
-                            #         xsize 150
-                            #         frame:
-                            #             xalign .5
-                            #             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-                            #             xpadding 10
-                            #             text "[u.NAME]" align .5, .5 style "stats_text" size 15
-                            #         frame:
-                            #             xalign .5
-                            #             background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
-                            #             if hasattr(u, "IMG"):
-                            #                 add im.Scale(u.IMG, 120, 75) align .5, .5
-                            #             else:
-                            #                 add Solid(black, xysize=(120, 75)) align .5, .5
-                        # else:
                             frame:
                                 xalign .5
                                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
@@ -1179,20 +1173,31 @@ init: # Screens:
                                         text "Ext Slots: {}".format(ex_slots)
 
                                 vbox:
-                                    align 1.0, 0
+                                    align 1.0, .5
                                     xsize 150
-                                    frame:
+                                    button:
                                         xalign .5
-                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
+                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 3, 3)
                                         xpadding 10
-                                        text "[u.NAME]" align .5, .5 style "stats_text" size 15
-                                    frame:
+                                        python:
+                                            if len(u.NAME) >= 15:
+                                                t_size = 14
+                                            else:
+                                                t_size = 15
+                                        textbutton "[u.NAME]":
+                                            align .5, .5
+                                            style "stats_text"
+                                            ypadding 3
+                                            text_size t_size
+                                            action NullAction()
+                                            tooltip u.DESC
+                                    button:
                                         xalign .5
-                                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
-                                        if hasattr(u, "IMG"):
-                                            add im.Scale(u.IMG, 120, 75) align .5, .5
-                                        else:
-                                            add Solid(black, xysize=(120, 75)) align .5, .5
+                                        xysize 133, 83
+                                        background Frame("content/gfx/frame/MC_bg3.png", 3, 3)
+                                        foreground Transform(u.IMG, size=(120, 75), align=(.5, .5))
+                                        action NullAction()
+                                        tooltip u.DESC
                                     textbutton "Build":
                                         xalign .5
                                         style "pb_button"
