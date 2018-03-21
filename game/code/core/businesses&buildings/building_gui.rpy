@@ -1136,11 +1136,12 @@ init: # Screens:
                                     xpadding 10
                                     text "Resources Needed:" align .5, .5 style "stats_text" size 15
 
+                                # Materials and GOLD
                                 vbox:
                                     pos 5, 30
                                     box_wrap True
                                     xysize 340, 100
-                                    spacing 10
+                                    spacing 5
                                     frame:
                                         background Frame("content/gfx/frame/p_frame5.png", 5, 5)
                                         xsize 100
@@ -1150,6 +1151,7 @@ init: # Screens:
                                             xysize 25, 25
                                             align 0, .5
                                             action NullAction()
+                                            tooltip "{} Gold required!".format(cost)
                                         text "[cost]" align .95, .5 style "proper_stats_text"
                                     # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
                                     for r in sorted(materials):
@@ -1164,7 +1166,17 @@ init: # Screens:
                                                 background Frame(r.icon)
                                                 align 0, .5
                                                 action NullAction()
+                                                tooltip "{} of {} required!".format(amount, r.id)
                                             text "[amount]" align .95, .5 style "proper_stats_text"
+
+                                hbox:
+                                    align .01, .98
+                                    spacing 2
+                                    style_prefix "proper_stats"
+                                    if in_slots:
+                                        text "In Slots: {}".format(in_slots)
+                                    if ex_slots:
+                                        text "Ext Slots: {}".format(ex_slots)
 
                                 vbox:
                                     align 1.0, 0
