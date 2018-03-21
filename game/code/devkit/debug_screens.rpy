@@ -172,4 +172,4 @@ screen chars_debug():
         textbutton "X":
             action Hide("chars_debug")
 
-    use new_style_tooltip
+    # use new_style_tooltip

@@ -68,6 +68,7 @@ init -5 python hide:
     # config.use_cpickle = False
     config.save_dump = False
 
+    config.layers.append("tooltips")
     config.layers.append("pytfall")
 
     # Imagecache:

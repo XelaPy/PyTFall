@@ -67,7 +67,7 @@ screen set_action_dropdown(char, pos=()):
         textbutton "Close":
             action [Hide("set_action_dropdown")]
 
-    use new_style_tooltip()
+    # use new_style_tooltip()
 
     key "K_ESCAPE" action [Hide("set_action_dropdown")]
 

@@ -418,6 +418,8 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         xalign .5
 
     style new_style_tooltip_frame:
+        clear
+        
         padding (8, 5)
         xsize 350
         background Frame("content/gfx/interface/buttons/hp_1s.png", 5, 5)
