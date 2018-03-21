@@ -680,11 +680,15 @@ init -12 python:
                 if not w.flag(power_flag_name):
                     effectiveness_ratio = job.effectiveness(w, difficulty,
                             manager_effectiveness=building.manager_effectiveness)
-                            
+
                     if config.debug:
                         devlog.info("{} Effectiveness: {}: {}".format(job.id,
                                             w.nickname, effectiveness_ratio))
                     value = -(5 * effectiveness_ratio)
+
+                    for u in self.upgrades:
+                        value += getattr(u, "job_power_mod", 0)
+
                     w.set_flag(power_flag_name, value)
 
                     # Remove from active workers:
