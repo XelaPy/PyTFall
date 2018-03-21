@@ -1112,8 +1112,11 @@ init: # Screens:
                                             # add i.show("portrait", resize=(38, 38), cache=1)
                                     # add gfxframes + "small_port_empty.png"
             else:
-                vbox:
-                    xsize 630
+                viewport:
+                    xysize 620, 668
+                    mousewheel True
+                    xalign .5
+                    has vbox xsize 618
                     for u in bm_mid_frame_mode.all_possible_extensions():
                         if not bm_mid_frame_mode.has_extension(u):
                             frame:
