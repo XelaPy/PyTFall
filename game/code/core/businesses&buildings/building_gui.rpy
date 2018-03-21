@@ -526,20 +526,21 @@ init: # Screens:
         null height 5
         frame:
             background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
-            xysize (317, 430)
+            xysize (317, 480)
             if isinstance(building, UpgradableBuilding):
                 frame:
                     align .5, .02
                     background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                     xysize (180, 40)
                     label 'Constructed:' text_color ivory xalign .5 text_bold True
-                vbox:
-                    ypos 55
-                    xalign .5
+                viewport:
+                    pos 3, 55
+                    xysize 310, 406
+                    mousewheel True
                     for u in building.all_extensions():
                         frame:
                             xalign .6
-                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
+                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 5, 5)
                             has fixed xysize 290, 80
                             frame:
                                 align .05, .1
@@ -1141,7 +1142,7 @@ init: # Screens:
                                     pos 5, 30
                                     box_wrap True
                                     xysize 340, 100
-                                    spacing 5
+                                    spacing 2
                                     frame:
                                         background Frame("content/gfx/frame/p_frame5.png", 5, 5)
                                         xsize 100
