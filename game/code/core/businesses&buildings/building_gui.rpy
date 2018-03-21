@@ -820,13 +820,14 @@ init: # Screens:
                     background Frame("content/gfx/frame/namebox5.png", 10, 10)
                     label (u"__ [building.name] __") text_size 23 text_color ivory align (.5, .6)
                 null height 5
-
                 frame:
                     xalign .5
                     background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
                     add ProportionalScale(building.img, 600, 444) align (.5, .5)
 
-                # Left/Right Controls.
+            # Left/Right Controls + Expand button:
+            vbox:
+                align .5, 1.0
                 frame:
                     background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
                     has hbox xysize (600, 74)
@@ -837,12 +838,10 @@ init: # Screens:
                         action Return(['control', 'left'])
                         hovered tt.action("<== Previous")
                         text "Previous" style "wood_text" xalign .69
-
                     frame:
                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                         xysize (200, 50)
                         align (.5, .5)
-
                     button:
                         align .9, .5
                         xysize (140, 40)
@@ -1096,34 +1095,34 @@ init: # Screens:
                 vbox:
                     xsize 630
                     for u in bm_mid_frame_mode.all_possible_extensions():
-                        if bm_mid_frame_mode.has_extension(u):
-                            frame:
-                                xalign .5
-                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-                                has fixed xysize 500, 150
-
-                                frame:
-                                    align .3, .5
-                                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-                                    xpadding 15
-                                    text "Active" align .5, .5 style "stats_text" size 35
-
-                                vbox:
-                                    align 1.0, 0
-                                    xsize 150
-                                    frame:
-                                        xalign .5
-                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-                                        xpadding 10
-                                        text "[u.NAME]" align .5, .5 style "stats_text" size 15
-                                    frame:
-                                        xalign .5
-                                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
-                                        if hasattr(u, "IMG"):
-                                            add im.Scale(u.IMG, 120, 75) align .5, .5
-                                        else:
-                                            add Solid(black, xysize=(120, 75)) align .5, .5
-                        else:
+                        if not bm_mid_frame_mode.has_extension(u):
+                            # frame:
+                            #     xalign .5
+                            #     background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
+                            #     has fixed xysize 500, 150
+                            #
+                            #     frame:
+                            #         align .3, .5
+                            #         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
+                            #         xpadding 15
+                            #         text "Active" align .5, .5 style "stats_text" size 35
+                            #
+                            #     vbox:
+                            #         align 1.0, 0
+                            #         xsize 150
+                            #         frame:
+                            #             xalign .5
+                            #             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
+                            #             xpadding 10
+                            #             text "[u.NAME]" align .5, .5 style "stats_text" size 15
+                            #         frame:
+                            #             xalign .5
+                            #             background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
+                            #             if hasattr(u, "IMG"):
+                            #                 add im.Scale(u.IMG, 120, 75) align .5, .5
+                            #             else:
+                            #                 add Solid(black, xysize=(120, 75)) align .5, .5
+                        # else:
                             frame:
                                 xalign .5
                                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
