@@ -13,17 +13,16 @@ init -5 python:
             self.base_skills = {"cleaning": 100}
             self.base_stats = {"agility": 30, "constitution": 30}
 
-        def traits_and_effects_effectiveness_mod(self, worker, manager_effectiveness=0,
-                                                 log=None, real_log=None):
+        def traits_and_effects_effectiveness_mod(self, worker,
+                                                 log=None):
             """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
                Calculates only once per turn, in the very beginning.
 
-               log/real_log are afk for the time being as this is now a team job.
+               log is afk for the time being as this is now a team job.
             """
             if not log:
                 log = []
-            if not real_log:
-                real_log = []
+                
             effectiveness = 0
              # effects always work
             if worker.effects['Food Poisoning']['active']:
@@ -75,11 +74,6 @@ init -5 python:
                 elif trait == "Abnormally Large Boobs":
                     log.append("Her boobs get in the way so much that she may as well scrub down the walls with them instead..." % worker.name)
                     effectiveness -= 50
-
-                if manager_effectiveness >= 175:
-                    effectiveness += 50
-                elif manager_effectiveness >= 130 and dice(75):
-                    effectiveness += 25
 
             return effectiveness
 

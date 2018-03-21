@@ -275,7 +275,8 @@
             return True
 
         # We should also have a number of methods or properties to evaluate new dicts:
-        def effectiveness(self, worker, difficulty, log=None, return_ratio=True):
+        def effectiveness(self, worker, difficulty, log=None, return_ratio=True,
+                          manager_effectiveness=0):
             """We check effectiveness here during jobs from SimPy land.
 
             difficulty is used to counter worker tier.
@@ -351,7 +352,16 @@
             bt_bonus = len(set(self.occupation_traits).intersection(worker.traits))*5
             traits_bonus = self.traits_and_effects_effectiveness_mod(worker, log)
 
-            total = round_int(sum([gen_occ_ability, bt_bonus, traits_bonus, total_skills, total_stats]))
+            # manager effects:
+            if manager_effectiveness >= 175:
+                manager_bonus += 20
+            elif manager_effectiveness >= 130 and dice(manager_effectiveness-100):
+                manager_bonus += 10
+            else:
+                manager_bonus = 0
+
+            total = round_int(sum([gen_occ_ability, bt_bonus, manager_bonus,
+                                   traits_bonus, total_skills, total_stats]))
             # Normalize:
             if total < 0:
                 total = 0

@@ -678,7 +678,9 @@ init -12 python:
 
             for w in workers:
                 if not w.flag(power_flag_name):
-                    effectiveness_ratio = job.effectiveness(w, difficulty)
+                    effectiveness_ratio = job.effectiveness(w, difficulty,
+                            manager_effectiveness=building.manager_effectiveness)
+                            
                     if config.debug:
                         devlog.info("{} Effectiveness: {}: {}".format(job.id,
                                             w.nickname, effectiveness_ratio))
