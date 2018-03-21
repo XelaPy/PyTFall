@@ -1111,7 +1111,6 @@ init: # Screens:
                                         # for i in hero.team:
                                             # add i.show("portrait", resize=(38, 38), cache=1)
                                     # add gfxframes + "small_port_empty.png"
-
             else:
                 vbox:
                     xsize 630
@@ -1206,11 +1205,11 @@ init: # Screens:
                                                 SensitiveIf(building.eval_extension_build(u,
                                                             price=(cost, materials, in_slots, ex_slots)))]
 
-                textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Back":
-                    background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=.8)
-                    hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
-                    align .5, .95
-                    action SetVariable("bm_mid_frame_mode", "building")
+                # textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Back":
+                #     background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=.8)
+                #     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
+                #     align .5, .95
+                #     action SetVariable("bm_mid_frame_mode", "building")
 
 
     screen building_maintenance():
