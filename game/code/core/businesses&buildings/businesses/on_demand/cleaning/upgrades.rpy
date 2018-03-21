@@ -23,5 +23,5 @@ init 5 python:
         EXP_CAP_COST = 0
 
         def __init__(self, **kwargs):
-            super(StatueOfSexGoddess, self).__init__(**kwargs)
+            super(BroomCloset, self).__init__(**kwargs)
             self.job_power_mod = 2
