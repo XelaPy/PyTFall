@@ -73,6 +73,10 @@ init -5 python:
             earned = payout(job, effectiveness, difficulty,
                             building, self, worker, client, log)
 
+            # Dirt:
+            building.dirt += randint(3, 6)
+
+            # Log everything:
             log.after_job()
             NextDayEvents.append(log)
 
