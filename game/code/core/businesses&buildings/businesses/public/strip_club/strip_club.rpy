@@ -4,7 +4,7 @@ init -5 python:
         SORTING_ORDER = 4
         MATERIALS = {"Wood": 30, "Bricks": 50, "Glass": 10}
         NAME = "Strip Club"
-        DESC = "Exotic Dancers go here!",
+        DESC = "Exotic Dancers go here!"
         IMG = "content/buildings/upgrades/strip_club.jpg"
         COST = 500
         def __init__(self, **kwargs):
