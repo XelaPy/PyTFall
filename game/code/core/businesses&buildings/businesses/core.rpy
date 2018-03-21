@@ -37,7 +37,7 @@ init -12 python:
             # This means that we can add capacity to this business.
             # Slots/Cost are the cost of a single expansion!
             self.capacity = kwargs.get("capacity", self.CAPACITY)
-            self.expands_capacity = kwargs.get("expands_capacity", False)
+            self.expands_capacity = kwargs.get("expands_capacity", True)
             self.exp_cap_in_slots = kwargs.pop("exp_cap_in_slots", self.EXP_CAP_IN_SLOTS)
             self.exp_cap_ex_slots = kwargs.pop("exp_cap_ex_slots", self.EXP_CAP_EX_SLOTS)
             self._exp_cap_cost = kwargs.pop("exp_cap_cost", self.EXP_CAP_COST)

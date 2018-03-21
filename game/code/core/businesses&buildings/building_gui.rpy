@@ -260,10 +260,6 @@ label building_management_end:
 
 init: # Screens:
     screen building_management():
-
-        key "mousedown_4" action Return(["control", "right"])
-        key "mousedown_5" action Return(["control", "left"])
-
         default tt = Tooltip("")
 
         if hero.upgradable_buildings:
@@ -305,6 +301,9 @@ init: # Screens:
         use top_stripe(True)
         if not bm_mid_frame_mode == "building":
             key "mousedown_3" action SetVariable("bm_mid_frame_mode", "building")
+        else:
+            key "mousedown_4" action Return(["control", "right"])
+            key "mousedown_5" action Return(["control", "left"])
 
     screen building_management_rightframe_building_mode:
         # Buttons group:
@@ -537,6 +536,7 @@ init: # Screens:
                     pos 3, 55
                     xysize 310, 406
                     mousewheel True
+                    has vbox
                     for u in building.all_extensions():
                         frame:
                             xalign .6
