@@ -10,7 +10,7 @@ init 5 python:
         temp = []
         temp.append("Broom Closet!")
         temp.append("Closet full of magical brooms which can be used to speed up cleaning process.")
-        temp.append("(+10 Job Power)")
+        temp.append("(+2 Job Power)")
         DESC = "\n".join(temp)
         del temp
         COST = 1000
