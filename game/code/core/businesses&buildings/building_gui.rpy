@@ -1136,26 +1136,35 @@ init: # Screens:
                                     xpadding 10
                                     text "Resources Needed:" align .5, .5 style "stats_text" size 15
 
-                                hbox:
-                                    pos 15, 35
+                                vbox:
+                                    pos 5, 30
                                     box_wrap True
-                                    xsize 330
+                                    xysize 340, 100
                                     spacing 10
                                     frame:
-                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-                                        has hbox xysize 135, 40
-                                        text "Gold: [cost]" align .5, .5 style "stats_text" size 20 color gold
+                                        background Frame("content/gfx/frame/p_frame5.png", 5, 5)
+                                        xsize 100
+                                        has hbox xsize 90
+                                        button:
+                                            background Frame("content/gfx/animations/coin_top 0.13 1/1.png")
+                                            xysize 25, 25
+                                            align 0, .5
+                                            action NullAction()
+                                        text "[cost]" align .95, .5 style "proper_stats_text"
                                     # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
                                     for r in sorted(materials):
                                         $ r = items[r]
+                                        $ amount = u.MATERIALS[r.id]
                                         frame:
-                                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-                                            has hbox xysize 135, 40
-                                            text "[r.id] x {}".format(u.MATERIALS[r.id]) align .01, .5 style "stats_text" color ivory size 15
-                                            frame:
-                                                align .99, .5
-                                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
-                                                add im.Scale(r.icon, 33, 33) align .5, .5
+                                            background Frame("content/gfx/frame/p_frame5.png", 5, 5)
+                                            xsize 100
+                                            has hbox xsize 90
+                                            button:
+                                                xysize 25, 25
+                                                background Frame(r.icon)
+                                                align 0, .5
+                                                action NullAction()
+                                            text "[amount]" align .95, .5 style "proper_stats_text"
 
                                 vbox:
                                     align 1.0, 0
@@ -1172,8 +1181,10 @@ init: # Screens:
                                             add im.Scale(u.IMG, 120, 75) align .5, .5
                                         else:
                                             add Solid(black, xysize=(120, 75)) align .5, .5
-                                    textbutton "{size=15}Build":
+                                    textbutton "Build":
                                         xalign .5
+                                        style "pb_button"
+                                        text_size 15
                                         action [Return(["upgrade", "build", u, bm_mid_frame_mode]),
                                                 SensitiveIf(building.eval_extension_build(u,
                                                             price=(cost, materials, in_slots, ex_slots)))]
