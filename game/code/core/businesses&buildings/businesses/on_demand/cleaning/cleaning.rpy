@@ -68,7 +68,7 @@ init -5 python:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
                                                 set_font_color(wlen, "red"), building.name)
                             self.log(temp)
-                elif dirt >= 600:
+                elif dirt >= 700:
                     if not using_all_workers:
                         using_all_workers = True
                         all_workers = self.all_on_deck(workers, job, power_flag_name)
@@ -175,9 +175,24 @@ init -5 python:
             log.append(temp)
 
             dirt_cleaned = int(dirt_cleaned)
-
             temp = "\nA total of {} dirt was cleaned.".format(set_font_color(dirt_cleaned, "red"))
             log.append(temp)
+
+            exp = dirt_cleaned/len(all_workers)
+            for w in pure_workers:
+                log.logws("cleaning", randint(1, 3))
+                if dice(30):
+                    log.logws("agility", 1)
+                if dice(10):
+                    log.logws("constitution", 1)
+                log.logws("exp", min(50, exp))
+            for w in extra_workers:
+                log.logws("cleaning", 1)
+                if dice(10):
+                    log.logws("agility", 1)
+                if dice(10):
+                    log.logws("constitution", 1)
+                log.logws("exp", min(25, exp/2))
 
             # Stat mods
             log.logloc('dirt', dirt_cleaned)
