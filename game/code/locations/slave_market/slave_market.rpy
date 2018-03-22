@@ -114,6 +114,8 @@ label slave_market:
                 if hero.take_money(char.fin.get_price(), reason="Slave Purchase"):
                     play sound "content/sfx/sound/world/purchase_1.ogg"
                     $ hero.add_char(char)
+                    $ char.action = char.workplace = None
+                    $ char.home = locations["Streets"]
                     $ pytfall.sm.chars_list.remove(char)
 
                     if pytfall.sm.chars_list:
