@@ -41,13 +41,13 @@ init -5 python:
                 if threat >= 900:
                     if True:
                         price = 500*building.tier*self.capacity
-                        price = max(hero.gold, price)
+                        price = min(hero.gold, price)
                         if hero.take_money(price):
                             building.threat = 0
                             threat = 0
-                            temp = "{}: {} Police was called in!".format(building.name)
+                            temp = "Police arrived at {}!".format(building.name)
                             temp += " You paid {} in penalty fees for allowing things to get this out of hand.".format(price)
-                            temp += " {} reputation also took a very serious hit!"
+                            temp += " {} reputation also took a very serious hit!".format(building.name)
                             building.modrep(-(50*min(1, building.tier)))
                             self.log(temp, True)
 
