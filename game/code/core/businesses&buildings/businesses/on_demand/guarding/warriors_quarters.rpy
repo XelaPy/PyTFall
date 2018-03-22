@@ -64,7 +64,7 @@ init -5 python:
                             temp = "{}: {} Workers have started to guard {}!".format(self.env.now,
                                                 set_font_color(wlen, "red"), building.name)
                             self.log(temp)
-                elif threat >= 600:
+                elif threat >= 700:
                     if not using_all_workers:
                         using_all_workers = True
                         all_workers = self.all_on_deck(workers, job,
@@ -101,7 +101,6 @@ init -5 python:
                         value = w.flag(power_flag_name)
                         threat_cleared += value
                         building.threat += value
-                        # building.clean(value)
 
                         # Adjust JP and Remove the clear after running out of jobpoints:
                         w.jobpoints -= 5
@@ -123,7 +122,7 @@ init -5 python:
                     threat_cleared = 0
 
                     # Release none-pure workers:
-                    if threat < 600 and using_all_workers:
+                    if threat < 700 and using_all_workers:
                         using_all_workers = False
                         for worker in workers.copy():
                             if worker not in pure_workers:

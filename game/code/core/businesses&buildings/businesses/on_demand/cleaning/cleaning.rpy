@@ -126,7 +126,7 @@ init -5 python:
                     dirt_cleaned = 0
 
                     # Release none-pure cleaners:
-                    if dirt < 600 and using_all_workers:
+                    if dirt < 700 and using_all_workers:
                         using_all_workers = False
                         for worker in workers.copy():
                             if worker not in pure_workers:
