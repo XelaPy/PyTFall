@@ -4126,15 +4126,12 @@ init -9 python:
 
         # ----------------------------------------------------------------------------------
         def nd_pay_taxes(self, txt):
-            txt.append("\nIt's time to pay taxes!\n")
+            txt.append("\nIt's time to pay taxes!")
             ec = store.pytfall.economy
 
             if self.fin.income_tax_debt:
                 temp = "Your standing income tax debt to the government: %d Gold." % self.fin.income_tax_debt
                 txt.append(temp)
-
-            txt.append("\n")
-
             # Income Taxes:
             income, tax = self.fin.get_income_tax(log_finances=True)
             temp = "Over the past week your taxable income amounted to: {color=[gold]}%d Gold{/color}.\n" % income
@@ -4194,7 +4191,7 @@ init -9 python:
                     txt.append(temp)
                     self.fin.property_tax_debt = 0
                 else:
-                    temp = "\nYour payment failed...\n"
+                    temp = "\nYour payment failed..."
                     txt.append(temp)
             else:
                 temp = "\nHowever, you do not have enough Gold...\n"
