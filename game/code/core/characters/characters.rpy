@@ -4625,7 +4625,7 @@ init -9 python:
                     elif hero.take_money(amount, reason="Workers Upkeep"):
                         self.fin.log_logical_expense(amount, "Upkeep")
                         if hasattr(self.workplace, "fin"):
-                            self.location.fin.log_logical_expense(amount, "Workers Upkeep")
+                            self.workplace.fin.log_logical_expense(amount, "Workers Upkeep")
                         txt.append("You paid {color=[gold]}%d Gold{/color} for her upkeep. \n" % amount)
                     else:
                         if self.status != "slave":
