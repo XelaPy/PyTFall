@@ -69,54 +69,6 @@ init python:
 
         return actions, rest, events
 
-label next_day_effects_check:  # all traits and effects which require some unusual checks every turn do it here
-    if "Life Beacon" in hero.traits:
-        $ hero.health += randint(10, 20)
-    python:
-        for i in hero.chars: # chars with low or high joy get joy-related effects every day
-
-            if not "Pessimist" in i.traits and i.joy <= randint(15, 20) and not i.effects['Depression']['active']:
-                i.effects['Depression']['activation_count'] += 1
-            elif i.joy > 20:
-                i.effects['Depression']['activation_count'] = 0
-            if i.effects['Depression']['activation_count'] >= 3 and not i.effects['Depression']['active']:
-                i.enable_effect('Depression')
-
-            if not "Optimist" in i.traits and i.joy >= 95 and not i.effects['Elation']['active']:
-                i.effects['Elation']['activation_count'] += 1
-            elif i.joy < 95:
-                i.effects['Elation']['activation_count'] = 0
-            if i.effects['Elation']['activation_count'] >= 3 and not i.effects['Elation']['active']:
-                i.enable_effect('Elation')
-
-            if i.vitality < i.get_max("vitality")*0.3 and not i.effects['Exhausted']['active']: # 5+ days with vitality < .3 max lead to Exhausted effect, can be removed by one day of rest or some items
-                i.effects['Exhausted']['activation_count'] += 1
-            if i.effects['Exhausted']['activation_count'] >= 5 and not i.effects['Exhausted']['active']:
-                i.enable_effect('Exhausted')
-
-            if "Life Beacon" in hero.traits: # hero-only trait which heals everybody
-                i.health += randint(10, 20)
-                i.joy += 1
-
-            if i.effects['Horny']['active']: # horny effect which affects various sex-related things and scenes
-                i.disable_effect("Horny")
-            else:
-                if interactions_silent_check_for_bad_stuff(i):
-                    if "Nymphomaniac" in i.traits and locked_dice(60):
-                        i.enable_effect("Horny")
-                    elif not ("Frigid" in i.traits) and locked_dice(30) and i.joy > 50:
-                        i.enable_effect("Horny")
-    return
-
-label special_auto_save: # since built-in autosave works like shit, I use normal saves to save in auto slots
-    python hide:
-        temp = "auto-" + str(special_save_number)
-        renpy.save(temp)
-    $ special_save_number += 1
-    if special_save_number > 6:
-        $ special_save_number = 1
-    return
-
 label next_day:
     call next_day_effects_check
     scene bg profile_2
@@ -356,6 +308,55 @@ label next_day_controls:
                 return
             elif result[1] == 'return':
                 return
+
+label next_day_effects_check:  # all traits and effects which require some unusual checks every turn do it here
+    if "Life Beacon" in hero.traits:
+        $ hero.health += randint(10, 20)
+    python:
+        for i in hero.chars: # chars with low or high joy get joy-related effects every day
+
+            if not "Pessimist" in i.traits and i.joy <= randint(15, 20) and not i.effects['Depression']['active']:
+                i.effects['Depression']['activation_count'] += 1
+            elif i.joy > 20:
+                i.effects['Depression']['activation_count'] = 0
+            if i.effects['Depression']['activation_count'] >= 3 and not i.effects['Depression']['active']:
+                i.enable_effect('Depression')
+
+            if not "Optimist" in i.traits and i.joy >= 95 and not i.effects['Elation']['active']:
+                i.effects['Elation']['activation_count'] += 1
+            elif i.joy < 95:
+                i.effects['Elation']['activation_count'] = 0
+            if i.effects['Elation']['activation_count'] >= 3 and not i.effects['Elation']['active']:
+                i.enable_effect('Elation')
+
+            if i.vitality < i.get_max("vitality")*0.3 and not i.effects['Exhausted']['active']: # 5+ days with vitality < .3 max lead to Exhausted effect, can be removed by one day of rest or some items
+                i.effects['Exhausted']['activation_count'] += 1
+            if i.effects['Exhausted']['activation_count'] >= 5 and not i.effects['Exhausted']['active']:
+                i.enable_effect('Exhausted')
+
+            if "Life Beacon" in hero.traits: # hero-only trait which heals everybody
+                i.health += randint(10, 20)
+                i.joy += 1
+
+            if i.effects['Horny']['active']: # horny effect which affects various sex-related things and scenes
+                i.disable_effect("Horny")
+            else:
+                if interactions_silent_check_for_bad_stuff(i):
+                    if "Nymphomaniac" in i.traits and locked_dice(60):
+                        i.enable_effect("Horny")
+                    elif not ("Frigid" in i.traits) and locked_dice(30) and i.joy > 50:
+                        i.enable_effect("Horny")
+    return
+
+label special_auto_save: # since built-in autosave works like shit, I use normal saves to save in auto slots
+    python hide:
+        temp = "auto-" + str(special_save_number)
+        renpy.save(temp)
+    $ special_save_number += 1
+    if special_save_number > 6:
+        $ special_save_number = 1
+    return
+
 
 screen next_day():
 
