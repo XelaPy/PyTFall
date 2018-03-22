@@ -17,10 +17,16 @@ init -5 python:
 
             self.desc = "Don't let them take your shit!"
 
-        def traits_and_effects_effectiveness_mod(self, worker, log):
+        def traits_and_effects_effectiveness_mod(self, worker, log=None):
             """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
                Calculates only once per turn, in the very beginning.
+
+               Another 'team' job which we have individual lines for...
+               Maybe unique reports should be a thing as well for on_demand businesses?
             """
+            if not log:
+                log = []
+
             effectiveness = 0
              # effects always work
             if worker.effects['Food Poisoning']['active']:
@@ -41,7 +47,6 @@ init -5 python:
                     effectiveness += 10
 
             if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
-
                 traits = list(i.id for i in worker.traits if i in ["Abnormally Large Boobs",
                               "Aggressive", "Coward", "Stupid", "Neat", "Psychic", "Adventurous",
                               "Natural Leader", "Scars", "Artificial Body", "Sexy Air",
