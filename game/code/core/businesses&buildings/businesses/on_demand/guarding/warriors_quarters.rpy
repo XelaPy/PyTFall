@@ -183,45 +183,58 @@ init -5 python:
             log.after_job()
             NextDayEvents.append(log)
 
-        def intercept(self, opfor=None, interrupted=False):
-            """This intercepts a bunch of aggressive clients and resolves the issue through combat or intimidation.
+        def intercept(self, workers, power_flag_name, interrupted=False):
+            """This intercepts a bunch of aggressive clients and
+                    resolves the issue through combat or intimidation.
 
-            opfor = opposition forces
+            For beta, this is a simple function we trigger when threat
+                level is high from the business_control method.
 
-            TODO simpy-guarding:
-            - This needs to gather the forces.
-            - Return the result and put a hold on the business process if interception had failed.
-            - Work with clients instead of props I am planning to use for testing.
-            - Check if previous guard action was interrupted and act (look for defenders/restore older process) accordingly.
+            Ideally, this should interrupt other processes but that is
+                very time-costly to setup and is not required atm.
+
+            We will also make it a separate report for the time being.
             """
             building = self.building
-            # TODO simpy-brawl: If in play for beta, update to modern code!
+
             job = simple_jobs["Guarding"]
-            opfor = list() if opfor is None else opfor
 
             # gather the response forces:
             defenders = list()
-            if interrupted:
-                active_workers_backup = self.active_workers[:]
-                defenders = self.active_workers[:]
-                self.active_workers = list()
 
-            temp = self.get_workers(job, amount=10, match_to_client=None, priority=True, any=True) # Set amount according to opfor/manager:
-            defenders = set(defenders + temp)
+            all_workers = self.all_on_deck(workers, job,
+                                power_flag_name, use_slaves=False)
+            defenders = all_workers.union(workers)
 
-            temp = "{}: {} Guards are intercepting attack event in {}".format(self.env.now, set_font_color(len(defenders), "red"), building.name)
-            self.log(temp)
+            # temp = "{}: {} Guards are intercepting attack event in {}".format(self.env.now, set_font_color(len(defenders), "red"), building.name)
+            # self.log(temp)
+
+            temp = "{color=[red]}A number of clients got completely out of hand!{/color}"
+            self.log(temp, True)
 
             if not defenders:
                 # If there are no defenders, we're screwed:
-                temp = "{}: Noone was able to intercept attack event in {}".format(self.env.now, building.name)
+                temp = "No one was available to put them down"
+                dirt = 400
+                threat = 500
+                temp += "\n  +{} Dirt and +{} Threat!".format(dirt, threat)
                 self.log(temp)
+
+                building.dirt += dirt
+                building.threat += threat
+
                 self.env.exit(False)
             else:
-                temp = "{}: {} Guards are intercepting attack event in {}".format(self.env.now, set_font_color(len(defenders), "red"), building.name)
+                temp = "{} Guards and employees are responding!".format(set_font_color(len(defenders), "red"), building.name)
                 self.log(temp)
 
             # Prepare the teams:
+            # Enemies:
+            capacity = 0
+            for u in buildings._businesses:
+                if u.expects_clients:
+                    capacity += u.capacity
+
             enemy_team = Team(name="Enemy Team", max_size=5)
             mob = build_mob(id="Goblin Shaman", level=30)
             mob.front_row = True
