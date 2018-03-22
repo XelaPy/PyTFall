@@ -663,7 +663,7 @@ init -11 python:
             client.fullname = client.name + " " + get_last_name()
 
         # Patterns:
-        if not pattern:
+        if pattern is None:
             pattern = random.sample(client.GEN_OCCS, 1).pop()
         pattern = create_traits_base(pattern)
         for i in pattern:

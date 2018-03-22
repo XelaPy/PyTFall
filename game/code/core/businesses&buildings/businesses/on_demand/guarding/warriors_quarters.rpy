@@ -175,6 +175,34 @@ init -5 python:
             temp = "\nA total of {} threat was removed.".format(set_font_color(threat_cleared, "red"))
             log.append(temp)
 
+            exp = threat_cleared/len(all_workers)
+            for w in pure_workers:
+                log.logws("security", randint(1, 3), char=w)
+                if dice(30):
+                    log.logws("attack", 1, char=w)
+                if dice(30):
+                    log.logws("defence", 1, char=w)
+                if dice(30):
+                    log.logws("magic", 1, char=w)
+                if dice(30):
+                    log.logws("agility", 1, char=w)
+                if dice(10):
+                    log.logws("constitution", 1, char=w)
+                log.logws("exp", min(50, exp), char=w)
+            for w in extra_workers:
+                log.logws("security", 1, char=w)
+                if dice(10):
+                    log.logws("attack", 1, char=w)
+                if dice(10):
+                    log.logws("defence", 1, char=w)
+                if dice(10):
+                    log.logws("magic", 1, char=w)
+                if dice(10):
+                    log.logws("agility", 1, char=w)
+                if dice(10):
+                    log.logws("constitution", 1, char=w)
+                log.logws("exp", min(25, exp/2), char=w)
+
             # Stat mods
             log.logloc('threat', threat_cleared)
 
@@ -235,17 +263,20 @@ init -5 python:
                 if u.expects_clients:
                     capacity += u.capacity
 
-            enemy_team = Team(name="Enemy Team", max_size=5)
-            mob = build_mob(id="Goblin Shaman", level=30)
-            mob.front_row = True
-            mob.apply_trait("Fire")
-            mob.controller = BE_AI(mob)
-            enemy_team.add(mob)
-            for i in xrange(4): # Testing 5 mobs...
-                mob = build_mob(id="Goblin Archer", level=10)
-                mob.front_row = False
-                mob.controller = BE_AI(mob)
-                enemy_team.add(mob)
+            enemies = capacity/5
+            enemies = min(10, max(enemies, 1)) # prolly never more than 10 enemies...
+
+            # Note: We could draw from client pool in the future, for now,
+            # we'll just generate offenders.
+            enemy_team = Team(name="Enemy Team", max_size=enemies)
+            for e in range(enemies):
+                enemy = build_client(gender="male", caste="Peasant", name="Hooligan #{}".format(e+1),
+                                 pattern=["Combatant"], tier=building.tier+1.5)
+                                 # Tier + 1.5 cause we don't award any items so it's a brawl!
+                enemy.front_row = True
+                enemy.apply_trait("Fire")
+                enemy.controller = BE_AI(mob)
+                enemy_team.add(enemy)
 
             defence_team = Team(name="Guardians Of The Galaxy", max_size=len(defenders))
             for i in defenders:
@@ -263,20 +294,20 @@ init -5 python:
             for i in defenders:
                 i.controller = "player"
 
-            yield self.env.timeout(5)
-
             # We also should restore the list if there was interruption:
-            if "active_workers_backup" in locals():
-                for i in active_workers_backup:
-                    if can_do_work(i, check_ap=False): # Check if we're still ok to work...
-                        self.active_workers.append(i)
+            # if "active_workers_backup" in locals():
+            #     for i in active_workers_backup:
+            #         if can_do_work(i, check_ap=False): # Check if we're still ok to work...
+            #             self.active_workers.append(i)
 
             # Build a Job report:
             # Create flag object first to pass data to the Job:
-            flag = Flags()
-            flag.set_flag("result", battle.winner == defence_team)
-            flag.set_flag("opfor", opfor)
-            job(defenders, defenders, building, action="intercept", flag=flag)
+            # flag = Flags()
+            # flag.set_flag("result", battle.winner == defence_team)
+            # flag.set_flag("opfor", opfor)
+            # job(defenders, defenders, building, action="intercept", flag=flag)
+
+
 
             # decided to add report in debug mode after all :)
             if config.debug:
