@@ -354,9 +354,9 @@
 
             # manager effects:
             if manager_effectiveness >= 175:
-                manager_bonus += 20
+                manager_bonus = 20
             elif manager_effectiveness >= 130 and dice(manager_effectiveness-100):
-                manager_bonus += 10
+                manager_bonus = 10
             else:
                 manager_bonus = 0
 
