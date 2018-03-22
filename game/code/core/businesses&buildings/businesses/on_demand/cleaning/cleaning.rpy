@@ -153,7 +153,9 @@ init -5 python:
 
             log.img = Fixed(xysize=(820, 705))
             log.img.add(Transform(loc.img, size=(820, 705)))
-            vp = vp_or_fixed(all_workers, ["maid", "cleaning"], {"exclude": ["sex"], "resize": (150, 150), "type": "any"})
+            vp = vp_or_fixed(all_workers, ["maid", "cleaning"],
+                             {"exclude": ["sex"], "resize": (150, 150),
+                             "type": "any"})
             log.img.add(Transform(vp, align=(.5, .9)))
 
             log.team = all_workers
@@ -180,19 +182,19 @@ init -5 python:
 
             exp = dirt_cleaned/len(all_workers)
             for w in pure_workers:
-                log.logws("cleaning", randint(1, 3))
+                log.logws("cleaning", randint(1, 3), char=w)
                 if dice(30):
-                    log.logws("agility", 1)
+                    log.logws("agility", 1, char=w)
                 if dice(10):
-                    log.logws("constitution", 1)
-                log.logws("exp", min(50, exp))
+                    log.logws("constitution", 1, char=w)
+                log.logws("exp", min(50, exp), char=w)
             for w in extra_workers:
-                log.logws("cleaning", 1)
+                log.logws("cleaning", 1, char=w)
                 if dice(10):
-                    log.logws("agility", 1)
+                    log.logws("agility", 1, char=w)
                 if dice(10):
-                    log.logws("constitution", 1)
-                log.logws("exp", min(25, exp/2))
+                    log.logws("constitution", 1, char=w)
+                log.logws("exp", min(25, exp/2), char=w)
 
             # Stat mods
             log.logloc('dirt', dirt_cleaned)
