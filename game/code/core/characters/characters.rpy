@@ -847,9 +847,10 @@ init -9 python:
             if log_finances:
                 for p in properties:
                     _tax = round_int(p.get_price()*ec.property_tax["real_estate"])
-                    p.fin.log_logical_expense(_tax, "Property Tax")
+                    if hasattr(p, "fin"): # Simpler location do not have fin module
+                        p.fin.log_logical_expense(_tax, "Property Tax")
                 for s in slaves:
-                    _tax = round_int(s.get_price()*ec.property_tax["slaves"])
+                    _tax = round_int(s.fin.get_price()*ec.property_tax["slaves"])
                     s.fin.log_logical_expense(_tax, "Property Tax")
 
             tax = b_tax + s_tax
@@ -4221,7 +4222,7 @@ init -9 python:
                             self.home = locations["Streets"]
                         if self.location == confiscate:
                             set_location(self, None)
-                        self.remove_brothel(confiscate)
+                        self.remove_building(confiscate)
                         retire_chars_from_location(self.chars, confiscate)
                     elif isinstance(confiscate, Char):
                         price = confiscate.fin.get_price()
@@ -4300,8 +4301,7 @@ init -9 python:
 
             # Taxes:
             if all([calendar.weekday() == "Monday",
-                    day != 1,
-                    not config.developer]):
+                    day != 1]):
                 self.nd_pay_taxes(txt)
 
             # ------------
