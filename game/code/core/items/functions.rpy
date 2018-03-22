@@ -161,6 +161,13 @@ init -11 python:
         @param: silent: If False, game will notify the player with a reason why an item cannot be equipped.
         @param: force: Option to forcibly take an item from a character.
         """
+        # Special check for locations that allow inventories.
+        # Apartment is one such example.
+        if isinstance(source, Location):
+            return True
+        if isinstance(target, Location):
+            return True
+
         if isinstance(source, PytGroup):
             if item.jump_to_label:
                 return
@@ -186,6 +193,7 @@ init -11 python:
             if not silent:
                 renpy.show_screen('message_screen', "This item cannot be transferred!")
             return
+
         # Free girls should always refuse giving up their items unless MC gave it to them:
         # (Unless action is forced):
         if not force:
