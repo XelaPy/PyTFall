@@ -209,10 +209,11 @@ init python:
         def apply_effects(self):
             battle.corpses.add(self.target)
 
-            if self.death_effect == "dissolve":
-                renpy.hide(self.target.betag)
+            if not store.battle.logical:
                 if self.death_effect == "dissolve":
-                    renpy.with_statement(dissolve)
+                    renpy.hide(self.target.betag)
+                    if self.death_effect == "dissolve":
+                        renpy.with_statement(dissolve)
 
             # Forgot to remove poor sods from the queue:
             for target in battle.queue[:]:
