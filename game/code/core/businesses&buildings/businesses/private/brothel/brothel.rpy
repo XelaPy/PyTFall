@@ -54,7 +54,8 @@ init -5 python:
             job.settle_workers_disposition(worker, log)
 
             difficulty = building.tier
-            effectiveness = job.effectiveness(worker, difficulty, log, False)
+            effectiveness = job.effectiveness(worker, difficulty, log, False,
+                                manager_effectiveness=building.manager_effectiveness)
 
             # Upgrade mods:
             # Move to Job method?
