@@ -39,15 +39,16 @@ init -5 python:
                     self.log(temp, True)
 
                 if threat >= 900:
-                    # if building.auto_clean:
                     if True:
-                        # price = building.get_cleaning_price()
-                        price = 1000 # TODO bb: Write a func to get penalty fee.
+                        price = 500*building.tier*self.capacity
+                        price = max(hero.gold, price)
                         if hero.take_money(price):
                             building.threat = 0
                             threat = 0
                             temp = "{}: {} Police was called in!".format(building.name)
-                            # TODO bb: Damage reputation.
+                            temp += " You paid {} in penalty fees for allowing things to get this out of hand.".format(price)
+                            temp += " {} reputation also took a very serious hit!"
+                            building.modrep(-(50*min(1, building.tier)))
                             self.log(temp, True)
 
                     if not using_all_workers and threat:
