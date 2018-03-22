@@ -587,6 +587,7 @@ init:
                 button:
                     style_group "basic"
                     align (.5, .6)
+                    tooltip "Next Day for businesses and game world in general!"
                     if renpy.current_screen().tag == "next_day":
                         action Return(['control', "next_day_local"])
                     else:
