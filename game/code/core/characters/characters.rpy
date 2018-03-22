@@ -3948,7 +3948,7 @@ init -9 python:
             evt = NDEvent()
             evt.red_flag = flag_red
             evt.charmod = charmod
-            evt.type = 'girlndreport'
+            evt.type = type
             evt.char = self
             evt.img = img
             evt.txt = txt

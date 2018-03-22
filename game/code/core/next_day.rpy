@@ -117,10 +117,6 @@ label special_auto_save: # since built-in autosave works like shit, I use normal
         $ special_save_number = 1
     return
 
-screen next_day_calculations():
-    zorder 20
-    text "Processing next day calculations" font "fonts/badaboom.ttf" color "#daa520" size 35 align(.5, .5) outlines [(2, "#000000", 0, 0)]
-
 label next_day:
     call next_day_effects_check
     scene bg profile_2
@@ -1322,3 +1318,7 @@ screen next_day():
                         text_size 16
                         ypadding 5
                         xysize (150, 40)
+
+screen next_day_calculations():
+    zorder 20
+    text "Processing next day calculations" font "fonts/badaboom.ttf" color "#daa520" size 35 align(.5, .5) outlines [(2, "#000000", 0, 0)]
