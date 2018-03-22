@@ -232,6 +232,9 @@
             self.occupations = list() # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = list() # Corresponding traits...
 
+            # Status we allow:
+            self.allowed_status = ["free", "slave"]
+
             self.event_type = "jobreport"
 
             # Each job should have two dicts of stats/skills to evaluate chars ability of performing it:
@@ -254,12 +257,15 @@
 
             elif worker.status in ("free", "various"): ~==various==~ was added by pico to handle groups!
             """
-            if worker.status == 'slave':
+            if worker.status == 'slave' and worker.status in self.allowed_status:
                 return True
+
             if not isinstance(worker, PytGroup):
-                if worker.disposition >= self.calculate_disposition_level(worker):
-                    return True
+                # if worker.disposition >= self.calculate_disposition_level(worker):
+                #     return True
                 if set(self.occupation_traits).intersection(worker.traits):
+                    return True
+                if set(self.occupations).intersection(worker.gen_occs):
                     return True
             return False
 

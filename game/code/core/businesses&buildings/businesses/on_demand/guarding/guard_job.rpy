@@ -19,6 +19,8 @@ init -5 python:
 
             self.desc = "Don't let them take your shit!"
 
+            self.allowed_status = ["free"]
+
         def traits_and_effects_effectiveness_mod(self, worker, log=None):
             """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
                Calculates only once per turn, in the very beginning.
