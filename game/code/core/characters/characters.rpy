@@ -1692,6 +1692,9 @@ init -9 python:
             self.alive = True
             self._available = True
 
+            # Action tracking (AutoRest job for instance):
+            self.previousaction = ''
+
             self.jobpoints = 0
 
             # Say style properties:
@@ -4406,9 +4409,6 @@ init -9 python:
             self.autobuy = False
             self.autoequip = False
             self.given_items = dict()
-
-            # Actions:
-            self.previousaction = ''
 
             self.txt = list()
             self.fin = Finances(self)
