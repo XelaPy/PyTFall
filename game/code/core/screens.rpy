@@ -580,7 +580,10 @@ init:
                             tooltip "Add {} to player team".format(char.nickname)
 
             # AP Frame/Next Day button:
-            if any([renpy.current_screen().tag == "next_day", hero.AP == 0]) and renpy.current_screen().tag not in ["mainscreen", "girl_interactions"] and not show_team_status:
+            $ tc_0 = any([renpy.current_screen().tag == "next_day", hero.AP == 0])
+            $ tc_1 = renpy.current_screen().tag not in ["mainscreen", "girl_interactions"]
+            $ tc_2 = not show_team_status
+            if all([tc_0, tc_1, tc_2]):
                 button:
                     style_group "basic"
                     align (.5, .6)
@@ -590,8 +593,19 @@ init:
                         action (hs, Function(global_flags.set_flag, "nd_music_play"), Jump("next_day"))
                     text "Next Day"
             else:
-                add ProportionalScale("content/gfx/frame/frame_ap.png", 170, 50) align (.5, .7)
-                label "[hero.AP]" align (.53, .6) style "content_label"  text_size 23 text_color ivory text_bold True
+                button:
+                    xalign .5 ypos 3
+                    xysize 170, 50
+                    focus_mask True
+                    background ProportionalScale("content/gfx/frame/frame_ap.png", 170, 50)
+                    action NullAction()
+                    tooltip "You have {} Action Points to interact with the world!".format(hero.AP)
+                    label "[hero.AP]":
+                        align .8, .1
+                        style "content_label"
+                        text_size 23
+                        text_color ivory
+                        text_bold True
 
             # Right HBox:
             hbox:
