@@ -892,6 +892,10 @@ init -9 python:
             if wage and not got_paid:
                 temp = "You failed to pay her promised wage..."
                 txt.append(temp)
+
+                tier = char.tier or 1
+                char.disposition -= tier*15
+                char.joy -= tier
             else:
                 if char.status != "slave":
                     temp = choice(["She expects to be compensated for her services ( %d Gold). " % char.expected_wage,
@@ -914,6 +918,11 @@ init -9 python:
                     img = char.show("profile", "angry", resize=(500, 600))
                     dismod = -dismod
                     joymod = -joymod
+
+                if config.debug:
+                    txt.append("Debug: Disposition mod: {}".format(round_int(diff*dismod)))
+                    txt.append("Debug: Joy mod: {}".format(round_int(diff*joymod)))
+
                 char.disposition += round_int(diff*dismod)
                 char.joy += round_int(diff*joymod)
                 txt.append(temp)
