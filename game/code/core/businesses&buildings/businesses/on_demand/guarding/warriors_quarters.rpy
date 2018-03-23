@@ -266,7 +266,6 @@ init -5 python:
             # Prepare the teams:
             # Enemies:
             capacity = building.get_max_client_capacity()
-
             enemies = capacity/5
             enemies = min(10, max(enemies, 1)) # prolly never more than 10 enemies...
 
@@ -274,12 +273,13 @@ init -5 python:
             # we'll just generate offenders.
             enemy_team = Team(name="Hooligans", max_size=enemies)
             for e in range(enemies):
-                enemy = build_client(gender="male", caste="Peasant", name="Hooligan #{}".format(e+1),
-                                 pattern=["Combatant"], tier=building.tier+1.5)
+                enemy = build_client(gender="male", caste="Peasant", name="Hooligan",
+                                 last_name="{}".format(e+1),
+                                 pattern=["Combatant"], tier=building.tier+2.0)
                                  # Tier + 1.5 cause we don't give them any items so it's a brawl!
                 enemy.front_row = True
                 enemy.apply_trait("Fire")
-                enemy.controller = BE_AI(mob)
+                enemy.controller = BE_AI(enemy)
                 enemy_team.add(enemy)
 
             defence_team = Team(name="Guardians Of The Galaxy", max_size=len(defenders))
@@ -311,22 +311,23 @@ init -5 python:
             # flag.set_flag("opfor", opfor)
             # job(defenders, defenders, building, action="intercept", flag=flag)
 
-
-
             # decided to add report in debug mode after all :)
-            if config.debug:
-                self.log(set_font_color("Debug: Battle Starts!", "crimson"))
-                for entry in reversed(battle.combat_log):
-                    self.log(entry)
-                self.log(set_font_color("=== Battle Ends ===", "crimson"))
+            self.log(set_font_color("Battle Starts!", "crimson"))
+            for entry in battle.combat_log:
+                self.log(entry)
+            self.log(set_font_color("=== Battle Ends ===", "crimson"))
 
             if battle.winner == defence_team:
-                temp = "{}: Interception Success!".format(self.env.now)
+                temp = "Interception is a Success!"
                 temp = temp + set_font_color("....", "crimson")
                 self.log(temp)
+                building.threat -= 200
+                building.dirt += 35*enemies
                 # self.env.exit(True) # return True
             else:
-                temp = "{}: Interception Failed, your Guards have been defeated!".format(self.env.now)
+                temp = "Interception Failed, your Guards have been defeated!"
                 temp = temp + set_font_color("....", "crimson")
                 self.log(temp)
+                building.threat += 100
+                building.dirt += 60*enemies
                 # self.env.exit(False)

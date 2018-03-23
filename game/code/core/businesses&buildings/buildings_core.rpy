@@ -717,6 +717,7 @@ init -10 python:
                 if u.expects_clients:
                     capacity += u.capacity
             return capacity
+
         @property
         def expects_clients(self):
             return any(i.expects_clients for i in self._businesses)
