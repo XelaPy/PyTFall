@@ -152,10 +152,10 @@ init -1 python: # Core classes:
 
                 self.logical_counter += 1
 
-                if config.debug and self.logical:
-                    temp = "Debug: Loop: %d, TLeft: %d, TRight: %d"%(self.logical_counter, len(self.get_fighters(state="dead", rows=(0, 1))),  len(self.get_fighters(state="dead", rows=(2, 3))))
-                    temp += ", ".join([str(i.health) for i in self.teams[0]])
-                    self.log(temp)
+                # if config.debug and self.logical:
+                #     temp = "Debug: Loop: %d, TLeft: %d, TRight: %d"%(self.logical_counter, len(self.get_fighters(state="dead", rows=(0, 1))),  len(self.get_fighters(state="dead", rows=(2, 3))))
+                #     temp += ", ".join([str(i.health) for i in self.teams[0]])
+                #     self.log(temp)
 
                 for event in self.get_all_events():
                     if hasattr(event, "activated_this_turn"):
