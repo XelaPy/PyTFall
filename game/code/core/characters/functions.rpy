@@ -652,15 +652,13 @@ init -11 python:
         if not id:
             client.id = "Client" + str(random.random())
 
-        if name:
-            client.name = name
-        else:
-            client.name = get_first_name(gender)
-
-        if last_name:
-            client.fullname = client.name + " " + last_name
-        else:
-            client.fullname = client.name + " " + get_last_name()
+        # Names:
+        if not name:
+            name = get_first_name(gender)
+        if not last_name:
+            last_name = get_last_name()
+        client.name = name
+        client.fullname = client.nickname = " ".join([name, last_name])
 
         # Patterns:
         if pattern is None:
