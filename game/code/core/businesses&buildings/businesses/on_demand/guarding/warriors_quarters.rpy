@@ -320,14 +320,16 @@ init -5 python:
 
             if battle.winner == defence_team:
                 temp = "Interception is a Success!"
-                temp = temp + set_font_color("....", "crimson")
+                temp = set_font_color(temp, "lawngreen")
+                # temp = temp + set_font_color("....", "crimson")
                 self.log(temp)
                 building.threat -= 200
                 building.dirt += 35*enemies
                 # self.env.exit(True) # return True
             else:
                 temp = "Interception Failed, your Guards have been defeated!"
-                temp = temp + set_font_color("....", "crimson")
+                temp = set_font_color(temp, "crimson")
+                # temp = temp + set_font_color("....", "crimson")
                 self.log(temp)
                 building.threat += 100
                 building.dirt += 60*enemies
