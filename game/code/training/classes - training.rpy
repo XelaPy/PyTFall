@@ -651,14 +651,12 @@ init -9 python:
             # Add excluded tags, if any
             if self.noImageTags: kwargs["exclude"] = self.noImageTags
 
-            # If we have tags
+            # If we have tags:
             if self.imageTags:
-                # Check and return
-                if girl.has_image(*self.imageTags, **kwargs):
-                    return girl.show(*self.imageTags, **kwargs)
+                img = girl.show(*self.imageTags, **kwargs)
 
             # Else return profile
-            return girl.show("profile", "happy", **kwargs)
+            return img or girl.show("profile", "happy", **kwargs)
 
         def get_label(self, girl, state):
             """
