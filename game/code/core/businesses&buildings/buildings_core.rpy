@@ -708,6 +708,15 @@ init -10 python:
 
             self.total_clients = clients
 
+        def get_max_client_capacity(self):
+            """Returns the very maximum amount of clients this building can host
+                at any given time. This is used in a number of ND-calculations.
+            """
+            capacity = 0
+            for u in self._businesses:
+                if u.expects_clients:
+                    capacity += u.capacity
+            return capacity
         @property
         def expects_clients(self):
             return any(i.expects_clients for i in self._businesses)

@@ -27,6 +27,9 @@ init -5 python:
             power_flag_name = "ndd_guarding_power"
             job = simple_jobs["Guarding"]
 
+            # Brawl event:
+            had_brawl_event = False
+
             # Pure workers, container is kept around for checking during all_on_deck scenarios
             pure_workers = self.get_pure_workers(job, power_flag_name, use_slaves=False)
             all_workers = pure_workers.copy() # Everyone that cleaned for the report
@@ -40,7 +43,7 @@ init -5 python:
 
                 if threat >= 900:
                     if True:
-                        price = 500*building.tier*self.capacity
+                        price = 500*building.get_max_client_capacity()*(building.tier or 1)
                         price = min(hero.gold, price)
                         if hero.take_money(price):
                             building.threat = 0
@@ -132,7 +135,12 @@ init -5 python:
                     # and finally update all workers container:
                     all_workers = workers.copy()
 
-                yield self.env.timeout(1)
+                if threat >= 500 and not had_brawl_event:
+                    self.intercept(workers, power_flag_name)
+                    had_brawl_event = True
+                    yield self.env.timeout(5)
+                else:
+                    yield self.env.timeout(1)
 
         def write_nd_report(self, pure_workers, all_workers, threat_cleared):
             job, loc = self.job, self.building
@@ -224,7 +232,6 @@ init -5 python:
             We will also make it a separate report for the time being.
             """
             building = self.building
-
             job = simple_jobs["Guarding"]
 
             # gather the response forces:
@@ -258,21 +265,18 @@ init -5 python:
 
             # Prepare the teams:
             # Enemies:
-            capacity = 0
-            for u in buildings._businesses:
-                if u.expects_clients:
-                    capacity += u.capacity
+            capacity = building.get_max_client_capacity()
 
             enemies = capacity/5
             enemies = min(10, max(enemies, 1)) # prolly never more than 10 enemies...
 
             # Note: We could draw from client pool in the future, for now,
             # we'll just generate offenders.
-            enemy_team = Team(name="Enemy Team", max_size=enemies)
+            enemy_team = Team(name="Hooligans", max_size=enemies)
             for e in range(enemies):
                 enemy = build_client(gender="male", caste="Peasant", name="Hooligan #{}".format(e+1),
                                  pattern=["Combatant"], tier=building.tier+1.5)
-                                 # Tier + 1.5 cause we don't award any items so it's a brawl!
+                                 # Tier + 1.5 cause we don't give them any items so it's a brawl!
                 enemy.front_row = True
                 enemy.apply_trait("Fire")
                 enemy.controller = BE_AI(mob)
@@ -320,9 +324,9 @@ init -5 python:
                 temp = "{}: Interception Success!".format(self.env.now)
                 temp = temp + set_font_color("....", "crimson")
                 self.log(temp)
-                self.env.exit(True) # return True
+                # self.env.exit(True) # return True
             else:
                 temp = "{}: Interception Failed, your Guards have been defeated!".format(self.env.now)
                 temp = temp + set_font_color("....", "crimson")
                 self.log(temp)
-                self.env.exit(False)
+                # self.env.exit(False)
