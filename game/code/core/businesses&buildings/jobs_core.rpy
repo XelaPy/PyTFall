@@ -92,7 +92,10 @@
                 return d
             if isinstance(d, basestring):
                 if not d:
-                    raise Exception("Basetring Supplied as img: Ev.type: {}, Ev.loc.name: {}".format(self.type, self.loc.name if self.loc else "Unknown"))
+                    raise Exception("Basestring Supplied as img {}: Ev.type: {}, Ev.loc.name: {}".format(
+                                d
+                                self.type,
+                                self.loc.name if self.loc else "Unknown"))
                 elif "." in d:
                     return ProportionalScale(d, width, height)
                 else:
