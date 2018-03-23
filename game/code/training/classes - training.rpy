@@ -654,7 +654,8 @@ init -9 python:
             # If we have tags
             if self.imageTags:
                 # Check and return
-                if girl.has_image(*self.imageTags, **kwargs): return girl.show(*self.imageTags, **kwargs)
+                if girl.has_image(*self.imageTags, **kwargs):
+                    return girl.show(*self.imageTags, **kwargs)
 
             # Else return profile
             return girl.show("profile", "happy", **kwargs)
