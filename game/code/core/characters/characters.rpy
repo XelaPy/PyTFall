@@ -817,7 +817,7 @@ init -9 python:
             if income < 5000:
                 tax = 0
             else:
-                for delimiter, mod in ec.taxation_levels:
+                for delimiter, mod in ec.income_tax:
                     if income <= delimiter:
                         tax = round_int(income*mod)
                     break
@@ -830,9 +830,9 @@ init -9 python:
                     fin_log = b.fin.game_logical_income_log
                     for _day in fin_log:
                         if _day > store.day - days:
-                            _income += sum(fin_log[_day].values())
-                            _tax = round_int(income*mod)
-                            b.fin.log_logical_expense(_tax, "Income Tax")
+                            income += sum(fin_log[_day].values())
+                            tax = round_int(income*mod)
+                            b.fin.log_logical_expense(tax, "Income Tax")
             return income, tax
 
         def get_property_tax(self, log_finances=False):
