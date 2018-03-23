@@ -4768,20 +4768,20 @@ init -9 python:
                 txt.append("{color=[red]}She has left your employment because you do not give a rats ass about how she feels!{/color}")
                 flag_red = True
                 hero.remove_char(self)
-                char.home = locations["City Apartments"]
-                char.action = None
-                char.workplace = None
-                set_location(char, locations["City"])
+                self.home = locations["City Apartments"]
+                self.action = None
+                self.workplace = None
+                set_location(self, locations["City"])
             elif self.disposition < -500:
                 if self.status != "slave":
                     txt.append("{color=[red]}She has left your employment because she no longer trusts or respects you!{/color}")
                     flag_red = True
                     img = self.show("profile", "sad", resize=(500, 600))
                     hero.remove_char(self)
-                    char.home = locations["City Apartments"]
-                    char.action = None
-                    char.workplace = None
-                    set_location(char, locations["City"])
+                    self.home = locations["City Apartments"]
+                    self.action = None
+                    self.workplace = None
+                    set_location(self, locations["City"])
                 elif self.days_unhappy > 7:
                     if dice(50):
                         txt.append("\n{color=[red]}Took her own life because she could no longer live as your slave!{/color}")
