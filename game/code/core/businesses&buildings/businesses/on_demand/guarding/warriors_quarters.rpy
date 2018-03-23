@@ -289,7 +289,8 @@ init -5 python:
 
             # ImageReference("chainfights")
             global battle
-            battle = BE_Core(logical=1)
+            battle = BE_Core(logical=True, max_skill_lvl=6,
+                        max_turns=(enemies+len(defenders))*4)
             battle.teams.append(defence_team)
             battle.teams.append(enemy_team)
 
