@@ -60,7 +60,6 @@ init python:
             self.girlmod = {}
             self.locmod = {}
 
-
         @property
         def all_occs(self):
             # All Occupations:
@@ -75,6 +74,9 @@ init python:
                     self.txt = "".join(self.txt)
                 except TypeError:
                     self.txt = "".join(str(i) for i in self.txt)
+
+            if self.img == "":
+                self.img = self.girl.show("profile", resize=(740, 685))
 
             return NDEvent(type=self.event_type,
                                  img=self.img,
@@ -100,7 +102,7 @@ init python:
             if not self.girl.alive:
                 self.txt.append("%s is dead. \n"%self.girl.fullname)
                 self.girls.remove(self.girl)
-                self.img = im.Sepia(self.girl.show('profile'), resize=(740, 685))
+                self.img = im.Sepia(self.girl.show('profile', resize=(740, 685)))
                 self.finish_job()
 
         def finish_job(self):
@@ -225,10 +227,8 @@ init python:
                     self.finish_job()
 
                     return True
-
                 else:
                     return False
-
             else:
                 return False
 
@@ -590,7 +590,6 @@ init python:
                 # trainer upgrades / total
                 self.teachingchance += (self.teachingchance*0.25) * self.loc.mod_skill()
                 self.maxskill += (self.maxskill*0.25) * self.loc.mod_skill()
-
             # If school, ignore
             else:
                 self.obey = 0
@@ -598,7 +597,6 @@ init python:
                 self.runaway = 0
                 self.expmod = 0
                 self.chance = 0
-
 
             # Debugging info
             if config.developer and False:
@@ -631,7 +629,6 @@ init python:
 
             try:
                 self.course.chars[str(self.girl)] += 1
-
             except KeyError:
                 devlog.error("TrainingJob.__init__ cannot increase girl (%s) training amount in course %s."%(self.girl.id, self.course.action))
 
@@ -644,6 +641,7 @@ init python:
             # Check for girl AP
             if self.course.AP > 0:
                 if self.girl.AP < self.course.AP:
+                    raise Exception("AP: {}, JP: {}".format(self.girl.AP, self.girl.jobpoints))
                     self.txt.append("%s couldn't attend the %s as she didn't have enough AP! \n"%(self.girl.name, self.course.action))
                     self.rg()
                     self.finish_job()
@@ -660,7 +658,6 @@ init python:
                     self.rg()
                     self.finish_job()
                     return TrainingJobFlags.HERO_AP
-
             elif not self.course.is_schooling:
                 # This catch is for if non-school lessons don't have trainers
                 self.txt.append("%s couldn't attend the %s as she didn't have a trainer assigned! \n"%(self.girl.name, self.course.action))
@@ -902,7 +899,7 @@ init python:
                 self.loc.events_relay["finish"][1] += 1
 
             # Basic stat changes
-            self.girlmod["vitality"] = randint(18,28)
+            self.girlmod["vitality"] = randint(18, 28)
 
             # Reduce girls AP
             self.girl.AP -= self.course.AP

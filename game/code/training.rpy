@@ -5,7 +5,6 @@ init python:
 
     # Done as action to allow for easy sensitivity detection
     class TrainingSwitchAction(Action):
-
         def __init__(self, current):
             self.current = current
 
@@ -49,26 +48,21 @@ label girl_training:
 
             if result[0] == "trainer":
                 training_screen_trainer = result[1]
-
             elif result[0] == "open":
                 training_screen_course = result[1]
-
             elif result[0] == "setto":
                 # Schooling
                 if training_screen_current.is_school:
                     # Slave and combat incompatibility
                     if result[1].type == "Combat" and char.status in ("slave", "various"):
                         renpy.call_screen("message_screen", "Slaves cannot be trained as Combatants!")
-
                     else:
                         result[1].set_training(char, training_screen_current)
-
                 # Normal training
                 else:
                     result[1].set_training(char, training_screen_current, training_screen_trainer)
 
                 break
-
             # Exit
             elif result[0] == "control" and result[1] == "return":
                 break
@@ -114,8 +108,7 @@ screen girl_training:
     use top_stripe(True)
 
 # Personal sub-screen
-screen girl_training_trainer:
-
+screen girl_training_trainer():
     # Trainers:
     frame:
         style_group "content"

@@ -338,9 +338,9 @@ init -9 python:
 
             if not girls:
                 txt += "Excellent courses are available today! Remember our Motto: Education is Gold! \n"
-
             else:
-                txt += choice(["You currently have %d girls training with us! \n" % len(girls), "Excellent courses are available today! Remember our Motto: Education is Gold! \n"])
+                txt += choice(["You currently have %d girls training with us! \n" % len(girls),
+                               "Excellent courses are available today! Remember our Motto: Education is Gold! \n"])
 
             # Add courses
             tempval = len(self.courses)
@@ -362,7 +362,7 @@ init -9 python:
             for course in self.courses:
                 for girl in girls:
                     if str(girl) in course.chars:
-                        cdays = int(course.duration*0.7)
+                        cdays = int(course.duration*.7)
 
                         if course.chars[str(girl)] >= cdays:
                             if str(girl) in course.complete:
@@ -398,20 +398,16 @@ init -9 python:
 
             # Event summery
             for i in self.events_relay:
-                j,k = self.events_relay[i]
-
+                j, k = self.events_relay[i]
                 if i == "obey":
                     if j > 0: txt += "%d %s obeyed their trainers perfectly. \n"%(j, plural("girl", j))
                     if k > 0: txt += "%d %s did extra well because of the facilities and equipment. \n"%(k, plural("girl", k))
-
                 elif i == "disobey":
                     if j > 0: txt += "%d %s disobeyed their trainers without punishment. \n"%(j, plural("girl", j))
                     if k > 0: txt += "%d %s disobeyed their trainers and were punished for it. \n"%(k, plural("girl", k))
-
                 elif i == "runaway":
                     if j > 0: txt += "%d %s ran away from their lessons, wasting their day. \n"%(j, plural("girl", j))
                     if k > 0: txt += "%d %s tried to run away, but were caught and punished. \n"%(k, plural("girl", k))
-
                 elif i == "finish":
                     if j > 0: txt += "%d %s have completed their training. \n"%(j, plural("girl", j))
                     if k > 0: txt += "%d %s are no longer eligible for their training. \n"%(k, plural("girl", k))
@@ -618,7 +614,6 @@ init -9 python:
 
             if not girls:
                 txt += "Your dungeon is currently going unused, maybe some of your girls require training? \n"
-
             else:
                 txt += "You currently have %d %s training in your dungeon. \n"%(len(girls), plural("girl", len(girls)))
 
@@ -629,7 +624,6 @@ init -9 python:
 
                 if course.daysLeft(girl) > 0:
                     girl_training_left.set(girl, -1, True) # Decrease
-
                 else:
                     stop_training(girl)
                     self.events_relay["finish"][0] += 1
@@ -667,15 +661,12 @@ init -9 python:
                 if i == "obey":
                     if j > 0: txt += "%d %s obeyed their trainers perfectly. \n"%(j, plural("girl", j))
                     if k > 0: txt += "%d %s did extra well because of the facilities and equipment. \n"%(k, plural("girl", k))
-
                 elif i == "disobey":
                     if j > 0: txt += "%d %s disobeyed their trainers without punishment. \n"%(j, plural("girl", j))
                     if k > 0: txt += "%d %s disobeyed their trainers and were punished for it. \n"%(k, plural("girl", k))
-
                 elif i == "runaway":
                     if j > 0: txt += "%d %s ran away from their lessons, wasting their day. \n"%(j, plural("girl", j))
                     if k > 0: txt += "%d %s tried to run away, but were caught and punished. \n"%(k, plural("girl", k))
-
                 elif i == "finish":
                     if j > 0: txt += "%d %s have completed their training. \n"%(j, plural("girl", j))
                     if k > 0: txt += "%d %s are no longer eligible for their training. \n"%(k, plural("girl", k))
