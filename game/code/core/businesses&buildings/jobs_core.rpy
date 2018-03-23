@@ -93,7 +93,7 @@
             if isinstance(d, basestring):
                 if not d:
                     raise Exception("Basestring Supplied as img {}: Ev.type: {}, Ev.loc.name: {}".format(
-                                d
+                                d,
                                 self.type,
                                 self.loc.name if self.loc else "Unknown"))
                 elif "." in d:
