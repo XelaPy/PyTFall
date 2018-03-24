@@ -904,7 +904,7 @@ init -9 python:
             txt.append("")
 
             if not paid_wage: # Free girl with 0% wage mod
-                txt.append("You paid her nothing...".format(paid_wage))
+                txt.append("You paid her nothing..."
             elif hero.take_money(paid_wage, reason="Wages"):
                 self.add_money(paid_wage, reason="Wages")
                 self.log_logical_expense(paid_wage, "Wages")
