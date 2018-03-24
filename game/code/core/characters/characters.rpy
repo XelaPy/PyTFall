@@ -108,6 +108,11 @@ init -9 python:
             for a specific task. If None, first occupation found when iterating
             default list will do...
             """
+            # Slaves don't normally expect to be paid.
+            # if self.status == "slave":
+            #     return 0
+
+            # Free workers are:
             if kind:
                 wage = self.BASE_WAGES[kind]
             else:
@@ -866,68 +871,96 @@ init -9 python:
             Called during next day method per each individual girl.
             """
             char = self.instance
+
+            # expected_wage_mod = 100 if char.status == "free" else 0
+            expected_wage_mod = 0
+
+            real_wagemod = char.wagemod
             got_paid = False
 
-            txt.append("\n")
+            if char.status == "slave":
+                temp = choice(["Being a slave, she doesn't expect to get paid.",
+                               "Slaves don't get paid."])
+                if real_wagemod:
+                    paid_wage = round_int(char.expected_wage/100.0*real_wagemod)
+                    if paid_wage:
+                        temp += " And yet... you chose to pay her {}% of fair wage ({} Gold)!".format(
+                                    real_wagemod, paid_wage)
+                        txt.append(temp)
+                    else: # Could be set to 1 - 2%, no real money for lower tears.
+                        txt.append(temp)
+                        return img
+                else:
+                    txt.append(temp)
+                    return img
+            else: # Free girls:
+                expected_wage = char.expected_wage
+                temp = choice(["She expects to be compensated for her services (%d Gold)." % expected_wage,
+                               "She expects to be paid a wage of %d Gold." % expected_wage])
+                paid_wage = round_int(expected_wage/100.0*real_wagemod)
+                temp += " You chose to pay her {}% of that! ({} Gold)".format(real_wagemod, paid_wage)
+                txt.append(temp)
 
-            # We get expected wage from Tier class
-            wage = round_int(char.expected_wage/100.0*char.wagemod)
-            if wage and hero.take_money(wage, reason="Wages"):
-                self.add_money(wage, reason="Wages")
-                self.log_logical_expense(wage, "Wages")
+            txt.append("")
+
+            if not paid_wage: # Free girl with 0% wage mod
+                txt.append("You paid her nothing...".format(paid_wage))
+            elif hero.take_money(paid_wage, reason="Wages"):
+                self.add_money(paid_wage, reason="Wages")
+                self.log_logical_expense(paid_wage, "Wages")
                 if isinstance(char.workplace, Building):
-                    char.workplace.fin.log_logical_expense(wage, "Wages")
-                if config.debug:
-                    txt.append("DEBUG: You paid {} in wages!\n".format(wage))
+                    char.workplace.fin.log_logical_expense(paid_wage, "Wages")
+                txt.append("And you covered {} Gold in wages!".format(paid_wage))
                 got_paid = True
+            else:
+                txt.append("You lacked the funds to pay her promised wage.".format(paid_wage))
+                if char.status == "slave":
+                    temp += " But being a slave {} will not hold that against you.".format(char.nickname)
+                    return img
 
-            if char.status != "slave":
-                diff = char.wagemod-100
+            # So... if we got this far, we're either talking slaves that player
+            # chose to pay a wage or free girls who expect that.
+            if char.status == "free":
+                if got_paid:
+                    diff = real_wagemod - 100 # We expected 100% of the wage at least.
+                else:
+                    diff = -100 # Failing to pay anything at all... huge penalty
                 dismod = .09
                 joymod = .06
-            else:
-                diff = char.wagemod
+                if diff > 0:
+                    img = char.show("profile", "happy", resize=(500, 600))
+                    dismod = min(1, round_int(diff*dismod))
+                    joymod = min(1, round_int(diff*joymod))
+                    if config.debug:
+                        txt.append("Debug: Disposition mod: {}".format(dismod))
+                        txt.append("Debug: Joy mod: {}".format(joymod))
+                    char.disposition += dismod
+                    char.joy += joymod
+                elif diff < 0:
+                    img = char.show("profile", "angry", resize=(500, 600))
+                    dismod = min(-2, round_int(diff*dismod)) * (char.tier or 1)
+                    joymod = min(-1, round_int(diff*joymod)) * (char.tier or 1)
+                    if config.debug:
+                        txt.append("Debug: Disposition mod: {}".format(dismod))
+                        txt.append("Debug: Joy mod: {}".format(joymod))
+                    char.disposition += dismod
+                    char.joy += joymod
+                else: # Paying a fair wage
+                    if dice(10): # just a small way to appreciate that:
+                        char.disposition += 1
+                        char.joy += 1
+            else: # Slave case:
+                img = char.show("profile", "happy", resize=(500, 600))
+                diff = real_wagemod # Slaves just get the raw value.
                 dismod = .1
                 joymod = .1
-
-            if wage and not got_paid:
-                temp = "You failed to pay her promised wage..."
-                txt.append(temp)
-
-                tier = char.tier or 1
-                char.disposition -= tier*15
-                char.joy -= tier
-            else:
-                if char.status != "slave":
-                    temp = choice(["She expects to be compensated for her services ( %d Gold). " % char.expected_wage,
-                                   "She expects to be paid a wage of %d Gold. " % char.expected_wage])
-                else:
-                    temp = choice(["Being a slave, she doesn't expect to get paid. ",
-                                   "Slaves don't get paid. "])
-                txt.append(temp)
-
-                if diff == 0:
-                    temp = "And she got exactly that in wages! "
-                    img = "profile"
-                elif diff > 0:
-                    temp = choice(["You've paid her {}% more than that! ".format(diff),
-                                   "She got {}% more for her services. ".format(diff)])
-                    img = char.show("profile", "happy", resize=(500, 600))
-                elif diff < 0:
-                    temp = choice(["She has received {}% less... You should really pay your girls a fair wage if you expect them to be happy and loyal.".format(diff),
-                                   "She got {}% less than that! ".format(diff)])
-                    img = char.show("profile", "angry", resize=(500, 600))
-                    dismod = -dismod
-                    joymod = -joymod
-
+                dismod = min(1, round_int(diff*dismod))
+                joymod = min(1, round_int(diff*joymod))
                 if config.debug:
-                    txt.append("Debug: Disposition mod: {}".format(round_int(diff*dismod)))
-                    txt.append("Debug: Joy mod: {}".format(round_int(diff*joymod)))
-
-                char.disposition += round_int(diff*dismod)
-                char.joy += round_int(diff*joymod)
-                txt.append(temp)
-                txt.append("\n")
+                    txt.append("Debug: Disposition mod: {}".format(dismod))
+                    txt.append("Debug: Joy mod: {}".format(joymod))
+                char.disposition += round_int(dismod)
+                char.joy += round_int(joymod)
 
             return img
 
@@ -1529,6 +1562,7 @@ init -9 python:
             self.full_race = ""
             self.gender = "female"
             self.origin = ""
+            self.status = "free"
 
             self.AP = 3
             self.baseAP = 3
@@ -4840,7 +4874,7 @@ init -9 python:
 
             # Traits activation:
             if dice(2):
-                self.apply_trait(traits['Aggressive'])
+                self.apply_trait('Aggressive')
 
             # Alex, we should come up with a good way to set portrait depending on caste
             self.portrait = "" # path to portrait
@@ -4854,7 +4888,6 @@ init -9 python:
                 self.pronoun = 'He'
 
             elif self.gender == 'female':
-                # self.act = choice(pytWhoringActs.female.keys())
                 self.act = "lesbian"
                 self.pronoun = 'She'
 
