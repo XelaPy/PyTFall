@@ -28,7 +28,8 @@ label realtor_agency:
         nvl_ra "Blouse and skirt that she wore was well fitted, and stick really tightly to her body emphasizing her breasts and hips."
         nvl_ra "The black stockings that she was wearing also matched her perfectly, underlining her beautiful legs. The finishing touch was her shoes with little, cute roses on the toes that you almost didn't notice."
 
-        show expression npcs["Rose_estate"].get_vnsprite() as rose with dissolve
+        show expression npcs["Rose_estate"].get_vnsprite() at center as rose with dissolve:
+            yoffset 100
 
         g "Welcome to Rose Real Estates."
         extend " My name is Rose. I'm the owner and the realtor."
@@ -38,7 +39,8 @@ label realtor_agency:
 
     else:
         "The room is still bright and filled with the same sweet scent."
-        show expression npcs["Rose_estate"].get_vnsprite() as rose with dissolve
+        show expression npcs["Rose_estate"].get_vnsprite() at center as rose with dissolve:
+            yoffset 100
 
 
     # Added the next three lines to disable this feature without crashing the game   --fenec250
@@ -47,7 +49,6 @@ label realtor_agency:
     $ focus = None
 
     show screen realtor_agency
-    with fade
 
     while 1:
 
