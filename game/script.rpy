@@ -246,7 +246,7 @@ label dev_testing_menu_and_load_mc:
                     "Skip MC Setup":
                         $ pass
                     "Back":
-                        jump dev_testing_menu
+                        jump dev_testing_menu_and_load_mc
             "GFX":
                 while 1:
                     menu gfx_testing_menu:
@@ -273,7 +273,7 @@ label dev_testing_menu_and_load_mc:
                         "Test Robert Penners Easing":
                             call screen test_penners_easing
                         "Back":
-                            jump dev_testing_menu
+                            jump dev_testing_menu_and_load_mc
     else:
         call mc_setup
 
