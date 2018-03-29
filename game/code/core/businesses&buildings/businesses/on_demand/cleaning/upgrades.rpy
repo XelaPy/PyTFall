@@ -3,7 +3,7 @@ init 5 python:
         SORTING_ORDER = 5
         COMPATIBILITY = [Cleaners]
 
-        NAME = "Statue"
+        NAME = "Closet"
         IMG = "content/buildings/upgrades/broom_closet.jpg"
         MATERIALS = {"Wood": 20, "Stone": 10,
                      "Steel":5}
