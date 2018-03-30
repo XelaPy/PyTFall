@@ -159,7 +159,7 @@ init -5 python:
                     # and finally update all workers container:
                     all_workers = workers.copy()
 
-                if threat >= 500 and not had_brawl_event:
+                if not EnforcedOrder_active and threat >= 500 and not had_brawl_event:
                     self.intercept(workers, power_flag_name)
                     had_brawl_event = True
                     yield self.env.timeout(5)
