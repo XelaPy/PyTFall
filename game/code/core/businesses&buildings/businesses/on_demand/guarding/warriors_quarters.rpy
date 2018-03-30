@@ -137,6 +137,13 @@ init -5 python:
                             if dice(20): # Small chance to get hurt.
                                 log.logws("health", round_int(-w.get_max("health")*.2), char=w)
 
+                if EnforcedOrder_active and self.env.now > 0 and not self.env.now % 50:
+                    for w in building.all_workers:
+                        if not "Combatant" in w.gen_occs:
+                            log.logws("disposition", -1, char=w)
+                            if dice(50):
+                                log.logws("joy", -1, char=w)
+
                 # Create actual report:
                 c0 = make_nd_report_at and threat_cleared
                 c1 = building.threat <= 0 or self.env.now == make_nd_report_at
