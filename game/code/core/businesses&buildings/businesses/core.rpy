@@ -510,29 +510,31 @@ init -12 python:
                 yield self.env.timeout(1)
 
                 # Could be flipped to a job Brawl event?:
-                if False:
-                    if counter < 1 and self.env.now > 20:
-                        counter += 1
-                        for u in building._businesses:
-                            if u.__class__ == WarriorQuarters:
-                                process = u.request_action(building=building, start_job=True, priority=True, any=False, action="patrol")[1]
-                                u.interrupt = process # New field to which we can bind a process that can be interrupted.
-                                break
-
-                    # testing interruption:
-                    if "process" in locals() and (counter == 1 and self.env.now > 40):
-                        counter += 1
-                        process.interrupt("fight")
-                        self.env.process(u.intercept(interrupted=True))
-                    # =====================================>>>
+                # if False:
+                #     if counter < 1 and self.env.now > 20:
+                #         counter += 1
+                #         for u in building._businesses:
+                #             if u.__class__ == WarriorQuarters:
+                #                 process = u.request_action(building=building, start_job=True, priority=True, any=False, action="patrol")[1]
+                #                 u.interrupt = process # New field to which we can bind a process that can be interrupted.
+                #                 break
+                #
+                #     # testing interruption:
+                #     if "process" in locals() and (counter == 1 and self.env.now > 40):
+                #         counter += 1
+                #         process.interrupt("fight")
+                #         self.env.process(u.intercept(interrupted=True))
+                # =====================================>>>
 
                 if every_5_du:
                     if config.debug:
-                        temp = "Debug: {} places are currently in use in {}!".format(
-                                set_font_color(self.res.count, "red"),
-                                self.name)
-                        temp = temp + " {} Workers are currently on duty in {}!".format(
-                                set_font_color(len(self.active_workers), "red"),
+                        temp = "Debug: {} capacity is currently in use.".format(
+                                set_font_color(self.res.count, "red"))
+                        temp = temp + " {} Workers are currently on duty!".format(
+                                set_font_color(len(self.active_workers), "blue"))
+                        siw_workers = len([w for w in building.available_workers if "SIW" in w.gen_occs])
+                        temp = temp + " {} SIW workers are available in the {}!".format(
+                                set_font_color(siw_workers, "green"),
                                 self.name)
                         self.log(temp, True)
 
@@ -592,14 +594,14 @@ init -12 python:
 
             if clients_served:
                 if config.debug:
-                    temp = "{}: Logging {} for {}!".format(self.env.now, self.name, worker.name)
-                    self.log(temp)
+                    temp = "Logging {} for {}!".format(self.name, worker.name)
+                    self.log(temp, True)
                 job.work_strip_club(worker, loc, log)
 
                 earned = payout(job, effectiveness, difficulty, building, self, worker, clients_served, log)
-                temp = "{}: {} earns {} by serving {} clients!".format(self.env.now,
+                temp = "{} earns {} by serving {} clients!".format(
                                                 worker.name, earned, self.res.count)
-                self.log(temp)
+                self.log(temp, True)
 
                 # Create the job report and settle!
                 log.after_job()
