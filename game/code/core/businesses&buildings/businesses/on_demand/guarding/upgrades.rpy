@@ -43,7 +43,7 @@ init 5 python:
         temp.append("Set of decorations and tools in order to over-secure your building.")
         temp.append("But your workers feel 'out of place'.")
         temp.append("+ 50% guard effectiveness. Brawl event is blocked.")
-        temp.append("- Joy and Disposition.")
+        temp.append("- Joy and Disposition for civilians working the building.")
         DESC = "\n".join(temp)
         del temp
         COST = 5000
