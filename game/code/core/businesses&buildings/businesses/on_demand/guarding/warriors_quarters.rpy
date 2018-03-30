@@ -27,6 +27,15 @@ init -5 python:
             power_flag_name = "ndd_guarding_power"
             job = simple_jobs["Guarding"]
 
+            # Upgrades:
+            EnforcedOrder_active = False
+            SparringQuarters_active = False
+            for u in self.upgrades:
+                if isinstance(u, EnforcedOrder):
+                    EnforcedOrder_active = True
+                elif isinstance(u, EnforcedOrder):
+                    SparringQuarters_active = True
+
             # Brawl event:
             had_brawl_event = False
 
@@ -112,6 +121,21 @@ init -5 python:
                                                 set_font_color(w.nickname, "blue"))
                             self.log(temp)
                             workers.remove(w)
+
+                if SparringQuarters_active and self.env.now > 0 and not self.env.now % 25:
+                    for w in all_workers:
+                        if dice(25):
+                            log.logws("security", 1, char=w)
+                            log.logws("attack", 1, char=w)
+                            log.logws("defence", 1, char=w)
+                            log.logws("magic", 1, char=w)
+                            if dice(10):
+                                log.logws("constitution", 1, char=w)
+                            log.logws("exp", 10, char=w)
+                            log.logws("agility", -5, char=w)
+
+                            if dice(20): # Small chance to get hurt.
+                                log.logws("health", round_int(-w.get_max("health")*.2), char=w)
 
                 # Create actual report:
                 c0 = make_nd_report_at and threat_cleared
