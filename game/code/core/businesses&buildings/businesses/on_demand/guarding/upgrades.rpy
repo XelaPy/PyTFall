@@ -11,8 +11,8 @@ init 5 python:
         temp = []
         temp.append("Sparring Quarters!")
         temp.append("Quarters where guards can do some training between their patrol shifts.")
-        temp.append("+ Chance to earn extra combat stats, skills and experience.")
-        temp.append("- Small chance to get hurt while training.")
+        temp.append("+Chance to earn extra combat stats, skills and experience.")
+        temp.append("-Small chance to get hurt while training.")
         DESC = "\n".join(temp)
         del temp
         COST = 2000
@@ -42,8 +42,8 @@ init 5 python:
         temp.append("Enforced Order!")
         temp.append("Set of decorations and tools in order to over-secure your building.")
         temp.append("But your workers feel 'out of place'.")
-        temp.append("+ 50% guard effectiveness. Brawl event is blocked.")
-        temp.append("- Joy and Disposition for civilians working the building.")
+        temp.append("+5 Job Power points. Brawl event is blocked.")
+        temp.append("-Joy and Disposition for civilians working the building.")
         DESC = "\n".join(temp)
         del temp
         COST = 5000
@@ -57,5 +57,6 @@ init 5 python:
 
         def __init__(self, **kwargs):
             super(EnforcedOrder, self).__init__(**kwargs)
+            self.job_power_mod = kwargs.get("job_power_mod", 5)
             # We just check for instance and award stats.
             # It's prolly more confusing to add modifier here unless logic changes.
