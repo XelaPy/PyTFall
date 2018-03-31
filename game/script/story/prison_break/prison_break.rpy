@@ -681,6 +681,8 @@ label prison_storyi_event_barracks:
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
     call storyi_show_bg
+    if not hero.has_flag("defeated_boss_1"):
+        hero.say "I see old stairs. I wonder where they lead."
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map
