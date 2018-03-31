@@ -615,6 +615,8 @@ init -12 python:
                                 worker.name, earned, self.res.count)
                 self.log(temp, True)
 
+                worker.serving_clients = None # Clean-up.
+
                 # Create the job report and settle!
                 log.after_job()
                 NextDayEvents.append(log)
