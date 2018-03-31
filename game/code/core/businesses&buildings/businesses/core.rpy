@@ -547,8 +547,8 @@ init -12 python:
                         temp = temp + " {} Workers are currently on duty in {}!".format(
                                 set_font_color(len(self.active_workers), "blue"),
                                 self.name)
-                        siw_workers = len([w for w in building.available_workers if "SIW" in w.gen_occs])
-                        temp = temp + " {} SIW workers are available in the Building!".format(
+                        siw_workers = len([w for w in building.available_workers if set(w.gen_occs).intersection(self.job.occupations)])
+                        temp = temp + " {} (gen_occ) workers are available in the Building for the job!".format(
                                 set_font_color(siw_workers, "green"))
                         self.log(temp, True)
 

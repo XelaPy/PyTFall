@@ -215,10 +215,10 @@ init -5 python:
                 log.append("She is a very unskilled bartender, this girl definitely needs training \n")
 
             if charisma > 300:
-                log.logloc('fame', choice([0,1,1]))
+                log.logloc('fame', choice([0, 1, 1]))
                 log.append("Your girl was stunningly pretty, customers couldn't keep their eyes off her. \n")
             elif charisma > 150:
-                log.logloc('fame', choice([0,0,1]))
+                log.logloc('fame', choice([0, 0, 1]))
                 log.append("Your girl looked beautiful, this will not go unnoticed. \n")
             elif charisma > 45:
                 log.logloc('fame', choice([0, 0, 0, 1]))
@@ -233,7 +233,7 @@ init -5 python:
             log.logws('exp', randint(15, 25))
             log.logws('bartending', choice([1, 2]))
             log.logws('refinement', choice([0, 0, 0, 1]))
-            log.logws('vitality', len_clients * -3)
+            log.logws('vitality', len_clients*-3)
 
             if worker.has_image("waitress", exclude=["sex"]):
                 log.img = worker.show("waitress", exclude=["sex"], resize=(740, 685))
