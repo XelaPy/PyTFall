@@ -457,7 +457,8 @@ init -12 python:
                             worker.up_counter("_jobs_tips", tier*randint(1, 2))
 
                         # And remove client from actively served clients by the worker:
-                        worker.serving_clients.remove(client)
+                        if client in worker.serving_clients:
+                            worker.serving_clients.remove(client)
 
                     if client.du_without_service >= 2 and not self.send_in_worker:
                         # We need a worker ASAP:
