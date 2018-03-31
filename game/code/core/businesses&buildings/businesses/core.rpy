@@ -403,11 +403,11 @@ init -12 python:
             self.type = "public_service"
 
             # If this is set to self.env.now in client manager, we send in workers (bc).
-            self.send_in_worker = float("inf")
+            self.send_in_worker = False
 
             self.active_workers = set() # On duty Workers.
             self.clients_waiting = set() # Clients waiting to be served.
-            self.clients_served = set() # Clients that we served.
+            self.clients_being_served = set() # Clients that we serve.
 
             # SimPy and etc follows (L33t stuff :) ):
             self.res = None # Restored before every job... Resource Instance that may not be useful here...
@@ -419,7 +419,7 @@ init -12 python:
             We add dirt here.
             """
             building = self.building
-            tier = building.tier
+            tier = building.tier or 1
 
             with self.res.request() as request:
                 yield request
@@ -434,7 +434,6 @@ init -12 python:
                 du_spent_here = 0
                 client.du_without_service = 0
 
-                # while not client.flag("jobs_ready_to_leave"):
                 while 1:
                     if client in self.clients_waiting:
                         yield self.env.timeout(1)
@@ -445,7 +444,7 @@ init -12 python:
 
                         yield self.env.timeout(3)
                         du_spent_here += 3
-                        self.clients_served.remove(client)
+                        self.clients_being_served.remove(client)
                         self.clients_waiting.add(client)
                         dirt += randint(2, 3) # Move to business_control?
 
@@ -457,14 +456,20 @@ init -12 python:
                         elif effectiveness >= 100:
                             worker.up_counter("_jobs_tips", tier*randint(1, 2))
 
-                    if client.du_without_service >= 2 and self.send_in_worker == float("inf"):
+                        # And remove client from actively served clients by the worker:
+                        worker.serving_clients.remove(client)
+
+                    if client.du_without_service >= 2 and not self.send_in_worker:
                         # We need a worker ASAP:
-                        self.send_in_worker = self.env.now
+                        self.send_in_worker = True
 
                     if du_spent_here >= du_to_spend_here:
                         break
 
                     if client.du_without_service >= 5:
+                        temp = "{} spent too long waiting for service!".format(
+                                                client.name)
+                        self.log(temp, True)
                         break
 
                 building.dirt += dirt
@@ -473,8 +478,8 @@ init -12 python:
                                         client.name, self.name, dirt)
                 self.log(temp, True)
 
-                if client in self.clients_served:
-                    self.clients_served.remove(client)
+                if client in self.clients_being_served:
+                    self.clients_being_served.remove(client)
                 if client in self.clients_waiting:
                     self.clients_waiting.remove(client)
                 client.del_flag("jobs_busy")
@@ -501,11 +506,19 @@ init -12 python:
             while 1:
                 every_5_du = not self.env.now % 5
 
-                if self.send_in_worker <= self.env.now: # Sends in workers when needed!
+                if self.send_in_worker: # Sends in workers when needed!
                     new_workers_required = max(1, len(self.clients_waiting)/5)
+                    if config.debug:
+                        temp = "Adding {} workers to {}!".format(
+                                set_font_color(new_workers_required, "green"),
+                                self.name)
+                        temp = temp + " ~ self.send_in_worker == {}".format(
+                                    set_font_color(self.send_in_worker, "red")
+                        )
+                    self.log(temp, True)
                     for i in range(new_workers_required):
                         self.add_worker()
-                    self.send_in_worker = float("inf")
+                    self.send_in_worker = False
 
                 yield self.env.timeout(1)
 
@@ -530,12 +543,12 @@ init -12 python:
                     if config.debug:
                         temp = "Debug: {} capacity is currently in use.".format(
                                 set_font_color(self.res.count, "red"))
-                        temp = temp + " {} Workers are currently on duty!".format(
-                                set_font_color(len(self.active_workers), "blue"))
-                        siw_workers = len([w for w in building.available_workers if "SIW" in w.gen_occs])
-                        temp = temp + " {} SIW workers are available in the {}!".format(
-                                set_font_color(siw_workers, "green"),
+                        temp = temp + " {} Workers are currently on duty in {}!".format(
+                                set_font_color(len(self.active_workers), "blue"),
                                 self.name)
+                        siw_workers = len([w for w in building.available_workers if "SIW" in w.gen_occs])
+                        temp = temp + " {} SIW workers are available in the Building!".format(
+                                set_font_color(siw_workers, "green"))
                         self.log(temp, True)
 
                     if not self.all_workers and not self.active_workers:
@@ -547,9 +560,7 @@ init -12 python:
             building.nd_ups.remove(self)
 
         def worker_control(self, worker):
-            temp = self.intro_string.format(
-                                worker.name, self.name)
-            self.log(temp, True)
+            self.log(self.intro_string.format(worker.name, self.name), True)
 
             du_working = 35
 
@@ -571,18 +582,18 @@ init -12 python:
 
             # Actively serving these clients:
             can_serve = 5 # We consider max of 5
-            serving_clients = set() # actively serving these clients
+            worker.serving_clients = set() # actively serving these clients
             clients_served = [] # client served during the shift (all of them, for the report)
 
             while worker.jobpoints > 0 and du_working > 0:
                 # Add clients to serve:
                 for c in self.clients_waiting.copy():
-                    if len(serving_clients) < can_serve:
+                    if len(worker.serving_clients) < can_serve:
                         self.clients_waiting.remove(c)
-                        self.clients_served.add(c)
+                        self.clients_being_served.add(c)
                         c.du_without_service = 0 # Prevent more worker from being called on duty.
                         c.served_by = (worker, effectiveness)
-                        serving_clients.add(c)
+                        worker.serving_clients.add(c)
                         clients_served.append(c)
                     else:
                         break
@@ -590,7 +601,7 @@ init -12 python:
                 yield self.env.timeout(1)
                 du_working -= 1
 
-                worker.jobpoints -= len(serving_clients)*2 # 2 jobpoints per client?
+                worker.jobpoints -= len(worker.serving_clients)*2 # 2 jobpoints per client?
 
             if clients_served:
                 if config.debug:
@@ -598,17 +609,18 @@ init -12 python:
                     self.log(temp, True)
                 job.work_strip_club(worker, loc, log)
 
-                earned = payout(job, effectiveness, difficulty, building, self, worker, clients_served, log)
+                earned = payout(job, effectiveness, difficulty, building,
+                                self, worker, clients_served, log)
                 temp = "{} earns {} by serving {} clients!".format(
-                                                worker.name, earned, self.res.count)
+                                worker.name, earned, self.res.count)
                 self.log(temp, True)
 
                 # Create the job report and settle!
                 log.after_job()
                 NextDayEvents.append(log)
             else:
-                temp = "{}: There were no clients for {} to serve".format(self.env.now, worker.name)
-                self.log(temp)
+                temp = "There were no clients for {} to serve".format(worker.name)
+                self.log(temp, True)
 
             self.active_workers.remove(worker)
             temp = "{} is done with the job in {} for the day!".format(
@@ -623,6 +635,7 @@ init -12 python:
         def post_nd_reset(self):
             self.res = None
             self.is_running = False
+            self.send_in_worker = False
             self.active_workers = set()
             self.clients = set()
 
