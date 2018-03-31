@@ -762,53 +762,57 @@ init -10 python:
             # Setup and start the simulation
             self.flag_red = False
 
-            self.log(set_font_color("===================", "lawngreen"))
-            self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
-            self.log("--- Testing {} Building ---".format(set_font_color(self.name, "lawngreen")))
+            if self.expects_clients:
+                self.log(set_font_color("===================", "lawngreen"))
+                self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
+                self.log("--- Testing {} Building ---".format(set_font_color(self.name, "lawngreen")))
 
-            # All workers and workable businesses:
-            self.available_workers = list(c for c in self.all_workers if
-                                          c.is_available and
-                                          c.workplace == self and
-                                          c.action in self.jobs)
-            for w in self.all_workers:
-                self.convert_AP(w)
+                # All workers and workable businesses:
+                self.available_workers = list(c for c in self.all_workers if
+                                              c.is_available and
+                                              c.workplace == self and
+                                              c.action in self.jobs)
+                for w in self.all_workers:
+                    self.convert_AP(w)
 
-            # Get businesses we wish SimPy to manage! business_manager method is expected here.
-            self.nd_ups = list(up for up in self._businesses if up.workable)
-            client_businesses = list(up for up in self._businesses if up.expects_clients)
+                # Get businesses we wish SimPy to manage! business_manager method is expected here.
+                self.nd_ups = list(up for up in self._businesses if up.workable)
+                client_businesses = list(up for up in self._businesses if up.expects_clients)
 
-            # Clients:
-            tl.start("Generating clients in {}".format(self.name))
-            self.get_client_count(write_to_nd=True)
-            clnts = self.total_clients
+                # Clients:
+                tl.start("Generating clients in {}".format(self.name))
+                self.get_client_count(write_to_nd=True)
+                clnts = self.total_clients
 
-            # TODO B&B-clients: Generate and add regulars!
-            c0 = self.expects_clients and self.available_workers
-            if c0 and len(self.all_clients) < clnts:
-                for i in xrange(clnts - len(self.all_clients)):
-                    client = self.create_customer(likes=[choice(client_businesses)])
-                    self.all_clients.add(client)
-            self.clients = self.all_clients.copy()
+                # TODO B&B-clients: Generate and add regulars!
+                c0 = self.expects_clients and self.available_workers
+                if c0 and len(self.all_clients) < clnts:
+                    for i in xrange(clnts - len(self.all_clients)):
+                        client = self.create_customer(likes=[choice(client_businesses)])
+                        self.all_clients.add(client)
+                self.clients = self.all_clients.copy()
 
-            tl.end("Generating clients in {}".format(self.name))
+                tl.end("Generating clients in {}".format(self.name))
 
-            # Create an environment and start the setup process:
-            self.env = simpy.Environment()
-            for up in self._businesses:
-                up.pre_nd()
+                # Create an environment and start the setup process:
+                self.env = simpy.Environment()
+                for up in self._businesses:
+                    up.pre_nd()
 
-            self.env.process(self.building_manager(end=101))
-            self.env.run(until=101) # 101 will run events at 100 which it is more intuitive to manage.
-            self.log("{}".format(set_font_color("Ending the simulation:", "red")))
+                self.env.process(self.building_manager(end=101))
+                self.env.run(until=101) # 101 will run events at 100 which it is more intuitive to manage.
+                self.log("{}".format(set_font_color("Ending the simulation:", "red")))
 
-            # We can run it for a bit more, as matrons option!?!
-            # self.env.run(until=110)
-            # self.log("{}".format(set_font_color("Ending the second stage of simulation:", "red")))
+                # We can run it for a bit more, as matrons option!?!
+                # self.env.run(until=110)
+                # self.log("{}".format(set_font_color("Ending the second stage of simulation:", "red")))
 
-            self.log("\nA total of {} Gold was earned here today!".format(set_font_color(str(self.fin.get_logical_income()), "red")))
-            self.log("{}".format(set_font_color("===================", "red")))
-            self.log("\n\n")
+                self.log("\nA total of {} Gold was earned here today!".format(set_font_color(str(self.fin.get_logical_income()), "red")))
+                self.log("{}".format(set_font_color("===================", "red")))
+                self.log("\n\n")
+            else:
+                self.log(set_font_color("===================", "lawngreen"))
+                self.log("This is a residential building. Nothing much happened here today.")
 
             self.post_nd_reset()
             tl.end("{}.run_nd (SimPy/Clients, etc.)".format(self.name))
@@ -834,7 +838,16 @@ init -10 python:
                 self.env.process(self.clients_dispatcher(end=end))
 
             while 1:
-                yield self.env.timeout(100)
+                temp = "\n{color=[green]}%d =========>>>{/color}" % (self.env.now)
+                self.log(temp)
+                yield self.env.timeout(1)
+
+                # Delete the line if nothing happened on this turn:
+                if self.nd_events_report[-1] == temp:
+                    del self.nd_events_report[-1]
+
+                if not self.env.now % 25:
+                    self.dirt += 5 # 5 dirt each 25 turns even if nothing is happening.
 
         def clients_dispatcher(self, end=100):
             """This method provides stream of clients to the building following it's own algorithm.
