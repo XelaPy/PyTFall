@@ -615,7 +615,9 @@ init -12 python:
                 if config.debug:
                     temp = "Logging {} for {}!".format(self.name, worker.name)
                     self.log(temp, True)
-                job.work_strip_club(worker, loc, log)
+                # Weird way to call job method but it may help with debugging somehow.
+                work_method = getattr(job, self.job_method)
+                work_method(worker, clients_served, loc, log)
 
                 earned = payout(job, effectiveness, difficulty, building,
                                 self, worker, clients_served, log)

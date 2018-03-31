@@ -14,3 +14,5 @@ init -5 python:
             # For now, before we'll have to split the method.
             self.intro_string = "{} comes out to do striptease in {}!"
             self.log_intro_string = "{} is performing Striptease!"
+            # Looks weird but until we have a better way to debug SimPy :(
+            self.job_method = "work_strip_club" 

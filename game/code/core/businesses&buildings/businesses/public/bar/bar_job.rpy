@@ -132,10 +132,13 @@ init -5 python:
                 disposition += 100
             return disposition
 
-        def settle_workers_disposition(self, worker, log):
+        def settle_workers_disposition(self, worker, log=None):
             """
             handles penalties in case of wrong job
             """
+            if log is None:
+                log = []
+
             if not("Server" in worker.gen_occs):
                 sub = check_submissivity(worker)
                 if worker.status != 'slave':

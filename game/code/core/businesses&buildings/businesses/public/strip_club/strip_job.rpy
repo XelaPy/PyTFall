@@ -216,7 +216,7 @@ init -5 python:
 
             return True
 
-        def work_strip_club(self, worker, loc, log):
+        def work_strip_club(self, worker, clients, loc, log):
             # TODO jobs: We can now interpolate this from base_stats/skills
             skill = round(worker.get_skill("strip")*.75 + worker.get_skill("dancing")*.25)
             charisma = worker.charisma

@@ -16,3 +16,4 @@ init -5 python:
             # For now, before we'll have to split the method.
             self.intro_string = "{} comes out to tend the Bar in {}!"
             self.log_intro_string = "{} is working the bar!"
+            self.job_method = "work_bar"
