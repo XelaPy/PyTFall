@@ -127,13 +127,14 @@ init -5 python:
                         if dice(25):
                             log.logws("security", 1, char=w)
                             log.logws("attack", 1, char=w)
+                            log.logws("agility", 1, char=w)
                             log.logws("defence", 1, char=w)
                             log.logws("magic", 1, char=w)
                             if dice(10):
                                 log.logws("constitution", 1, char=w)
                             log.logws("exp", 10, char=w)
-                            log.logws("agility", -5, char=w)
 
+                            log.logws("vitality", -5, char=w)
                             if dice(20): # Small chance to get hurt.
                                 log.logws("health", round_int(-w.get_max("health")*.2), char=w)
 
