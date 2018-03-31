@@ -221,6 +221,8 @@ init -5 python:
             skill = round(worker.get_skill("strip")*.75 + worker.get_skill("dancing")*.25)
             charisma = worker.charisma
 
+            len_clients = len(clients)
+
             # TODO jobs: This should prolly die:
             if charisma >= 1500:
                 log.append("%s supernal loveliness instantly captivated audiences. " % worker.name)
@@ -287,6 +289,8 @@ init -5 python:
             log.logws("charisma", charismamod)
             log.logws("dancing", dancemod)
             log.logws("strip", stripmod)
+
+            log.logws('vitality', len_clients*-2)
 
             if stripmod + agilemod + dancemod + charismamod > 0:
                 log.append("\n%s feels like she learned something! \n"%worker.name)
