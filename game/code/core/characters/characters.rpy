@@ -4628,15 +4628,22 @@ init -9 python:
                                                                             plural("day", self.flag("daysemployed"))))
                 self.up_counter("daysemployed")
 
+                if self.status == "slave":
+                    txt.append("She is a slave.")
+                else:
+                    txt.append("She is a free.")
+
                 # Home location nd mods:
                 loc = self.home
                 mod = loc.daily_modifier
 
                 if mod > 0:
-                    txt.append("She has comfortably spent a night.")
+                    txt.append("She has comfortably spent a night in {}.".format(loc.name))
                 elif mod < 0:
                     flag_red = True
-                    txt.append("{color=[red]}You should find some shelter for your worker... it's not healthy to sleep outside.{/color}\n")
+                    txt.append("{color=[red]}She presently resides in the %s.{/color}" % loc.name)
+                    txt.append("{color=[red]}It's not a comfortable or healthy place to sleep in.{/color}")
+                    txt.append("{color=[red]}Try finding better accommodations for your worker!{/color}\n")
 
                 for stat in ("health", "mp", "vitality"):
                     mod_by_max(self, stat, mod)
