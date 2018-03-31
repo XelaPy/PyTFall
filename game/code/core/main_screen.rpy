@@ -123,6 +123,8 @@ screen mainscreen():
             style_group "dropdown_gm"
             spacing 1
             align (.01, .5)
+            textbutton "MD test":
+                action Hide("mainscreen"), Jump("storyi_start")
             textbutton "Arena Inside":
                 action Hide("mainscreen"), Jump("arena_inside")
             textbutton "Realtor":
