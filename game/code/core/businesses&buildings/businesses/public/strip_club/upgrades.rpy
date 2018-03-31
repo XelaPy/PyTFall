@@ -6,7 +6,7 @@ init 5 python:
         NAME = "Catwalk"
         IMG = "content/buildings/upgrades/catwalk_2.jpg"
         MATERIALS = {"Bricks": 20,
-                     "Wood": 50
+                     "Wood": 50,
                      "Glass": 20}
         temp = []
         temp.append("Catwalk!")
