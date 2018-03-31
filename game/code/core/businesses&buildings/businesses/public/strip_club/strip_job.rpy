@@ -285,7 +285,6 @@ init -5 python:
             charismamod = 1 if dice(20) else 0
 
             log.logws("agility", agilemod)
-            log.logws('vitality', randrange(-31, -15))
             log.logws("charisma", charismamod)
             log.logws("dancing", dancemod)
             log.logws("strip", stripmod)
