@@ -137,7 +137,8 @@ init -5 python:
                 vit_amount = randint(20, 30) + int(worker.get_max("vitality")*0.3)
             log.logws('vitality', vit_amount)
 
-            for i in range(worker.AP): # every left AP gives additional health, mp and joy
+            ap_range = worker.AP + round_int(worker.jobpoints/100.0)
+            for i in range(ap_range): # every left AP gives additional health, mp and joy
                 value = round_int(worker.get_max("health")*.1) or 1
                 log.logws('health', value)
                 value = round_int(worker.get_max("mp")*.1) or 1
