@@ -437,13 +437,17 @@ init -12 python:
                 client.du_without_service = 0
 
                 while 1:
+                    simpy_debug("Entering PublicBusiness({}).client_control iteration at {}".format(self.name, self.env.now))
+
                     if client in self.clients_waiting:
+                        simpy_debug("Client {} will wait to be served.".format(client.name))
                         yield self.env.timeout(1)
                         du_spent_here += 1
                         client.du_without_service += 1
                     else:
                         client.du_without_service = 0
 
+                        simpy_debug("Client {} is about to be served.".format(client.name))
                         yield self.env.timeout(3)
                         du_spent_here += 3
                         self.clients_being_served.remove(client)
@@ -494,7 +498,10 @@ init -12 python:
                     self.clients_waiting.remove(client)
                 client.del_flag("jobs_busy")
 
+                simpy_debug("Exiting PublicBusiness({}).client_control iteration at {}".format(self.name, self.env.now))
+
         def add_worker(self):
+            simpy_debug("Entering PublicBusiness({}).add_worker at {}".format(self.name, self.env.now))
             building = self.building
             workers = building.available_workers
             # Get all candidates:
@@ -505,6 +512,7 @@ init -12 python:
                 self.active_workers.add(w)
                 workers.remove(w)
                 self.env.process(self.worker_control(w))
+            simpy_debug("Exiting PublicBusiness({}).add_worker at {}".format(self.name, self.env.now))
 
         def business_control(self):
             """This runs the club as a SimPy process from start to the end.
@@ -514,6 +522,7 @@ init -12 python:
             tier = building.tier
 
             while 1:
+                simpy_debug("Entering PublicBusiness({}).business_control iteration at {}".format(self.name, self.env.now))
                 every_5_du = not self.env.now % 5
 
                 if self.send_in_worker: # Sends in workers when needed!
@@ -564,6 +573,8 @@ init -12 python:
                     if not self.all_workers and not self.active_workers:
                         break
 
+                simpy_debug("Exiting PublicBusiness({}).business_control iteration at {}".format(self.name, self.env.now))
+
             # We remove the business from nd if there are no more strippers to entertain:
             temp = "There are no workers available in the {} so it is shutting down!".format(self.name)
             self.log(temp)
@@ -603,6 +614,8 @@ init -12 python:
             clients_served = [] # client served during the shift (all of them, for the report)
 
             while worker.jobpoints > 0 and du_working > 0:
+                simpy_debug("Entering PublicBusiness({}).worker_control iteration at {}".format(self.name, self.env.now))
+
                 # Add clients to serve:
                 for c in self.clients_waiting.copy():
                     if len(worker.serving_clients) < can_serve:
@@ -619,6 +632,8 @@ init -12 python:
                 du_working -= 1
 
                 worker.jobpoints -= len(worker.serving_clients)*2 # 2 jobpoints per client?
+
+                simpy_debug("Exiting PublicBusiness({}).worker_control iteration at {}".format(self.name, self.env.now))
 
             if clients_served:
                 if config.debug:
@@ -648,6 +663,8 @@ init -12 python:
                                 set_font_color(worker.name, "red"),
                                 self.name)
             self.log(temp, True)
+
+            simpy_debug("Leaving PublicBusiness({}).worker_control at {}".format(self.name, self.env.now))
 
         def pre_nd(self):
             # Whatever we need to do at start of Next Day calculations.

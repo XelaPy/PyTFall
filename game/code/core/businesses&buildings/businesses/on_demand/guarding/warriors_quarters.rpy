@@ -45,6 +45,8 @@ init -5 python:
             workers = all_workers.copy() # workers on active duty
 
             while 1:
+                simpy_debug("Entering WarriorQuarters.business_control at {}".format(self.env.now))
+
                 threat = building.threat
                 if config.debug and not self.env.now % 5:
                     temp = "{color=[red]}" + "DEBUG: {0:.2f} Threat to THE BUILDING!".format(threat)
@@ -167,6 +169,7 @@ init -5 python:
                     # and finally update all workers container:
                     all_workers = workers.copy()
 
+                simpy_debug("Exiting WarriorQuarters.business_control at {}".format(self.env.now))
                 if not EnforcedOrder_active and threat >= 500 and not had_brawl_event:
                     self.intercept(workers, power_flag_name)
                     had_brawl_event = True
@@ -175,6 +178,7 @@ init -5 python:
                     yield self.env.timeout(1)
 
         def write_nd_report(self, pure_workers, all_workers, threat_cleared):
+            simpy_debug("Entering WarriorQuarters.write_nd_report at {}".format(self.env.now))
             job, loc = self.job, self.building
             log = NDEvent(job=job, loc=loc, team=all_workers, business=self)
 
@@ -253,6 +257,8 @@ init -5 python:
             log.after_job()
             NextDayEvents.append(log)
 
+            simpy_debug("Exiting WarriorQuarters.write_nd_report at {}".format(self.env.now))
+
         def intercept(self, workers, power_flag_name, interrupted=False):
             """This intercepts a bunch of aggressive clients and
                     resolves the issue through combat or intimidation.
@@ -265,6 +271,8 @@ init -5 python:
 
             We will also make it a separate report for the time being.
             """
+            simpy_debug("Entering WarriorQuarters.intercept at {}".format(self.env.now))
+
             building = self.building
             job = simple_jobs["Guarding"]
 
@@ -368,3 +376,5 @@ init -5 python:
                 building.threat += 100
                 building.dirt += 60*enemies
                 # self.env.exit(False)
+
+            simpy_debug("Exiting WarriorQuarters.intercept at {}".format(self.env.now))
