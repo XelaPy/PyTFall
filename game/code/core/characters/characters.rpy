@@ -4631,7 +4631,7 @@ init -9 python:
                 if self.status == "slave":
                     txt.append("She is a slave.")
                 else:
-                    txt.append("She is a free.")
+                    txt.append("She is a free citizen.")
 
                 # Home location nd mods:
                 loc = self.home

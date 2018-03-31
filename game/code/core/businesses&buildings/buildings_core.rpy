@@ -245,12 +245,12 @@ init -10 python:
 
         @property
         def fame_percentage(self):
-            fame = self.fame*100.0/self.maxfame
+            fame = self.fame*100.0/max(1, self.maxfame)
             return round_int(fame)
 
         @property
         def rep_percentage(self):
-            rep = self.rep*100.0/self.maxrep
+            rep = self.rep*100.0/max(1, self.maxrep)
             return round_int(rep)
 
         def modfame(self, value):
