@@ -215,6 +215,8 @@ init -5 python:
             temp = "\nA total of {} threat was removed.".format(set_font_color(threat_cleared, "red"))
             log.append(temp)
 
+            if not len(all_workers):
+                raise Exception("Zero Modulo Division Detected #01")
             exp = threat_cleared/len(all_workers)
             for w in pure_workers:
                 log.logws("security", randint(1, 3), char=w)

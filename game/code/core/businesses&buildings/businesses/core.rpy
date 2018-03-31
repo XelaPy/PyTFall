@@ -117,6 +117,8 @@ init -12 python:
             # .7 is just 70% of absolute max (to make upgrades meaningful).
             # 101.0 is self.env duration.
             # self.time is amount of time we expect to spend per client.
+            if not self.time:
+                raise Exception("Zero Modulo Division Detected #02")
             amount = round_int(((101.0/self.time)*self.capacity)*.7)
             return amount
 

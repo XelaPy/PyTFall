@@ -4638,10 +4638,10 @@ init -9 python:
                 mod = loc.daily_modifier
 
                 if mod > 0:
-                    txt.append("She has comfortably spent a night in {}.".format(loc.name))
+                    txt.append("She comfortably spent a night in {}.".format(str(loc)))
                 elif mod < 0:
                     flag_red = True
-                    txt.append("{color=[red]}She presently resides in the %s.{/color}" % loc.name)
+                    txt.append("{color=[red]}She presently resides in the %s.{/color}" % str(loc))
                     txt.append("{color=[red]}It's not a comfortable or healthy place to sleep in.{/color}")
                     txt.append("{color=[red]}Try finding better accommodations for your worker!{/color}\n")
 
