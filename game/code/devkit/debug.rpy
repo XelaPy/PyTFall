@@ -1,6 +1,6 @@
 init python:
     # Special debug functions configured of global variables.
-    DEBUG_SIMPY = True
+    DEBUG_SIMPY = False
 
 
     def simpy_debug(msg):
