@@ -15,7 +15,7 @@ init -9 python:
 
             self.tier = 0
 
-            self.expected_wage = 0
+            self.expected_wage = 10
             self.paid_wage = 0
             self.upkeep = 0
             self.expected_accomodations = "poor"
