@@ -576,6 +576,13 @@ init -12 python:
             effectiveness = job.effectiveness(worker, difficulty, log, False,
                                 manager_effectiveness=building.manager_effectiveness)
 
+            # Upgrade mods:
+            # Move to Job method?
+            eff_mod = 0
+            for u in self.upgrades:
+                eff_mod += getattr(u, "job_effectiveness_mod", 0)
+            effectiveness += eff_mod
+
             if config.debug:
                 log.append("Debug: Her effectiveness: {}! (difficulty: {}, Tier: {})".format(
                                 effectiveness, difficulty, worker.tier))
