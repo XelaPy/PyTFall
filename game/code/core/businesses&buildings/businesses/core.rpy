@@ -452,9 +452,16 @@ init -12 python:
                         worker, effectiveness = client.served_by
                         client.served_by = ()
                         if effectiveness >= 150:
-                            worker.up_counter("_jobs_tips", tier*randint(2, 3))
+                            tips = tier*randint(2, 3)
                         elif effectiveness >= 100:
-                            worker.up_counter("_jobs_tips", tier*randint(1, 2))
+                            tips = tier*randint(1, 2)
+                        else:
+                            tips = 0
+                        if tips:
+                            for u in self.upgrades:
+                                if isinstance(u, TapBeer) and dice(75):
+                                    tips += 1*tier
+                            worker.up_counter("_jobs_tips", tips)
 
                         # And remove client from actively served clients by the worker:
                         if client in worker.serving_clients:
