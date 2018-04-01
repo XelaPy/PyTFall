@@ -862,6 +862,7 @@ init -10 python:
 
                 if not self.env.now % 25:
                     self.dirt += 5 # 5 dirt each 25 turns even if nothing is happening.
+                    self.threat += self.threat_mod
 
         def clients_dispatcher(self, end=100):
             """This method provides stream of clients to the building following it's own algorithm.
@@ -921,6 +922,9 @@ init -10 python:
                 temp = "Your building is as safe as a warzone. {} ran away.".format(client.name)
                 self.log(temp)
                 self.env.exit()
+
+            if "Aggressive" in client.traits:
+                self.threat += 3
 
             # Visit counter:
             client.up_counter("visited_building" + str(self.id))
