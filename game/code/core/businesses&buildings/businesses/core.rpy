@@ -217,8 +217,15 @@ init -12 python:
                 likes = client.likes.intersection(w.traits)
                 if likes:
                     slikes = ", ".join([str(l) for l in likes])
-                    temp = '{}: {} liked {} for {}.'.format(self.env.now, client.name, w.nickname, slikes)
-                    self.log(temp)
+                    temp0 = '{} liked {} for {} {}.'.format(
+                        set_font_color(client.name, "beige"),
+                        set_font_color(w.nickname, "pink"),
+                        slikes, plural("trait", len(likes)))
+                    temp1 = '{} found {} {} in {} very appealing.'.format(
+                        set_font_color(client.name, "beige"),
+                        slikes, plural("trait", len(likes)),
+                        set_font_color(w.nickname, "pink"))
+                    self.log(choice([temp0, temp1]))
                     worker = w
                     workers.remove(w)
                     client.set_flag("jobs_matched_traits", likes)
@@ -269,7 +276,7 @@ init -12 python:
             else:
                 if worker in building.available_workers:
                     building.available_workers.remove(worker)
-                temp = set_font_color('{}: {} is done working for the day.'.format(self.env.now, worker.name), "aliceblue")
+                temp = set_font_color('{} is done working for the day.'.format(worker.name), "cadetblue")
                 self.log(temp)
                 return False
 
@@ -581,7 +588,7 @@ init -12 python:
             building.nd_ups.remove(self)
 
         def worker_control(self, worker):
-            self.log(self.intro_string % (worker.name, self.name), True)
+            self.log(self.intro_string % (worker.name), True)
 
             du_working = 35
 
@@ -660,8 +667,9 @@ init -12 python:
 
             self.active_workers.remove(worker)
             temp = "{} is done with the job in {} for the day!".format(
-                                set_font_color(worker.name, "red"),
+                                worker.name,
                                 self.name)
+            temp = set_font_color(temp, "cadetblue")
             self.log(temp, True)
 
             simpy_debug("Leaving PublicBusiness({}).worker_control at {}".format(self.name, self.env.now))

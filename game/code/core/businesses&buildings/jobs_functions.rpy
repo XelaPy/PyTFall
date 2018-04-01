@@ -25,7 +25,7 @@ init -10 python:
                                 business.name, worker.name)
             else:
                 temp = "{} leaves the {} refusing to pay for the inadequate service {} provided.".format(
-                                client_name.capitalize(), business.name, worker.name)
+                                set_font_color(client_name.capitalize(), "beige"), business.name, worker.name)
             log.append(temp)
             earned = 0
         elif effectiveness <= 90: # Worker sucked but situation may be salvageable by Manager.

@@ -893,7 +893,8 @@ init -10 python:
             Once this method is terminated, client has completely left the building!
             """
             # Register the fact that client arrived at the building:
-            temp = '{} arrives at the {}.'.format(client.name, self.name)
+            temp = '{} arrives at the {}.'.format(
+                        set_font_color(client.name, "beige"), self.name)
             self.log(temp, True)
 
             if self.dirt >= 800:
@@ -974,13 +975,13 @@ init -10 python:
                         yield self.env.timeout(1)
 
             if not visited:
-                temp = "{}: There is not much for the {} to do...".format(self.env.now, client.name)
+                temp = "There is not much for the {} to do...".format(set_font_color(client.name, "beige"))
                 self.log(temp)
-                temp = "{}: So {} leaves your establishment cursing...".format(self.env.now, client.name)
+                temp = "So {} leaves your establishment cursing...".format(set_font_color(client.name, "beige"))
                 self.log(temp)
                 yield self.env.timeout(0) # To make sure this is a generator :)
             else:
-                temp = '{}: {} is leaving after visiting {} businesses.'.format(self.env.now, client.name, visited)
+                temp = '{} is leaving after visiting {} business(es).'.format(set_font_color(client.name, "beige"), visited)
                 self.log(temp)
 
         def post_nd_reset(self):

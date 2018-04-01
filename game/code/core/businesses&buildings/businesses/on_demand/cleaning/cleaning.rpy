@@ -80,16 +80,16 @@ init -5 python:
                         wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env and wlen:
-                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
-                                                set_font_color(wlen, "red"), building.name)
+                            temp = "{} Workers have started to clean {}!".format(
+                                            set_font_color(wlen, "green"), building.name)
                             self.log(temp)
                 elif dirt >= 200:
                     if not make_nd_report_at:
                         wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env and wlen:
-                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
-                                                set_font_color(wlen, "red"), building.name)
+                            temp = "{} Workers have started to clean {}!".format(
+                                            set_font_color(wlen, "green"), building.name)
                             self.log(temp)
 
                 # switch back to normal cleaners only
@@ -110,8 +110,9 @@ init -5 python:
                         # Adjust JP and Remove the clear after running out of jobpoints:
                         w.jobpoints -= 5
                         if w.jobpoints <= 0:
-                            temp = "{}: {} is done cleaning for the day!".format(self.env.now,
-                                                set_font_color(w.nickname, "blue"))
+                            temp = "{} is done cleaning for the day!".format(
+                                            w.nickname)
+                            temp = set_font_color(temp, "cadetblue")
                             self.log(temp)
                             workers.remove(w)
 

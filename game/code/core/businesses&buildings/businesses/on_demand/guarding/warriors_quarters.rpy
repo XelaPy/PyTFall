@@ -119,8 +119,9 @@ init -5 python:
                         # Adjust JP and Remove the clear after running out of jobpoints:
                         w.jobpoints -= 5
                         if w.jobpoints <= 0:
-                            temp = "{}: {} is done guarding for the day!".format(self.env.now,
-                                                set_font_color(w.nickname, "blue"))
+                            temp = "{} is done guarding for the day!".format(
+                                                w.nickname)
+                            temp = set_font_color(temp, "cadetblue")
                             self.log(temp)
                             workers.remove(w)
 
