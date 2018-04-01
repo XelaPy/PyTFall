@@ -612,7 +612,7 @@ init:
 
             # Right HBox:
             hbox:
-                align(.8, .5)
+                align (.8, .5)
                 spacing 5
                 if config.developer:
                     textbutton "{size=20}{color=[ivory]}{b}F":

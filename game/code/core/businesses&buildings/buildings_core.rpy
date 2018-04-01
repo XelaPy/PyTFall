@@ -848,6 +848,7 @@ init -10 python:
 
                 if not self.env.now % 25:
                     self.dirt += 5 # 5 dirt each 25 turns even if nothing is happening.
+                    self.threat += self.threat_mod
 
         def clients_dispatcher(self, end=100):
             """This method provides stream of clients to the building following it's own algorithm.
