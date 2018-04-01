@@ -514,7 +514,9 @@ init:
         if autohide:
             timer autohide action Hide("quest_notifications")
 
-    screen top_stripe(show_return_button=True, return_button_action=None, show_lead_away_buttons=True, show_team_status=False):
+    screen top_stripe(show_return_button=True, return_button_action=None,
+                      show_lead_away_buttons=True, show_team_status=False):
+
         # default tt = Tooltip("")
         default return_action = Return(['control', 'return']) if return_button_action is None else return_button_action
 
@@ -634,7 +636,6 @@ init:
                         action Show("s_menu", transition=dissolve)
                         # hovered tt.Action("Game Preferences")
                         tooltip "Game Preferences"
-                    key "mousedown_3" action Show("s_menu", transition=dissolve)
 
                 if renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "dungeon"] and show_lead_away_buttons:
                     imagebutton:
