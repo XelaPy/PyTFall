@@ -320,7 +320,7 @@ init -10 python:
                 threat = -1
             else:
                 raise Eception("{} Building with an unknown location detected!".format(str(self)))
-                
+
         def __setattr__(self, key, value):
             stats = self.__dict__.get("stats", {})
             if key in stats:
@@ -923,6 +923,9 @@ init -10 python:
                 temp = "Your building is as safe as a warzone. {} ran away.".format(client.name)
                 self.log(temp)
                 self.env.exit()
+
+            if "Aggressive" in client.traits:
+                self.threat += 3
 
             # Visit counter:
             client.up_counter("visited_building" + str(self.id))

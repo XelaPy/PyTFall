@@ -638,7 +638,8 @@ init -11 python:
                 mod = .4
         return int(math.ceil(level*exp))
 
-    def build_client(id=None, gender="male", caste="Peasant", name=None, last_name=None,
+    def build_client(id=None, gender="male", caste="Peasant",
+                     name=None, last_name=None,
                      pattern=None, likes=None, dislikes=None, tier=1):
         """
         This function creates Customers to be used in the jobs.
@@ -672,6 +673,9 @@ init -11 python:
         trts = random.sample(tgs.client, randint(2, 5))
         for t in trts:
             client.apply_trait(t)
+
+        if dice(20):
+            client.apply_trait("Aggressive")
 
         # Likes:
         # Add some traits from trait groups:
