@@ -44,7 +44,7 @@ init -5 python:
                 simpy_debug("Entering Cleaners.business_control iteration at {}".format(self.env.now))
 
                 dirt = building.dirt
-                if config.debug and not self.env.now % 5:
+                if DSNBR and not self.env.now % 5:
                     temp = "{color=[red]}" + "DEBUG: {0:.2f} DIRT IN THE BUILDING!".format(dirt)
                     self.log(temp, True)
 
@@ -120,7 +120,7 @@ init -5 python:
                 c1 = building.dirt <= 0 or self.env.now == make_nd_report_at
                 c2 = all_workers # No point in a report if no workers worked the cleaning.
                 if all([c0, c1, c2]):
-                    if config.debug:
+                    if DSNBR:
                         temp = "{}: DEBUG! WRITING CLEANING REPORT! c0: {}, c1: {}".format(self.env.now,
                                             c0, c1)
                         self.log(temp)

@@ -236,17 +236,19 @@ init -12 python:
             building = self.building
 
             if job.is_valid_for(worker):
-                if config.debug:
-                    temp = set_font_color("{}: Debug: {} worker (Occupations: {}) with action: {} is doing {}.".format(self.env.now,
+                if DSNBR:
+                    temp = set_font_color("Debug: {} worker (Occupations: {}) with action: {} is doing {}.".format(
                                           worker.nickname, ", ".join(list(str(t) for t in worker.occupations)), worker.action, job.id), "lawngreen")
-                    self.log(temp)
+                    self.log(temp, True)
                 return True
             else:
                 if worker in building.available_workers:
                     building.available_workers.remove(worker)
 
-                if config.debug:
-                    temp = set_font_color('{}: Debug: {} worker (Occupations: {}) with action: {} refuses to do {}.'.format(self.env.now, worker.nickname, ", ".join(list(str(t) for t in worker.occupations)), worker.action, job.id), "red")
+                if DSNBR:
+                    temp = set_font_color('Debug: {} worker (Occupations: {}) with action: {} refuses to do {}.'.format(
+                            worker.nickname, ", ".join(list(str(t) for t in worker.occupations)),
+                            worker.action, job.id), "red")
                     self.log(temp)
                 else:
                     temp = set_font_color('{} is refuses to do {}!'.format(worker.name, job.id), "red")
@@ -427,7 +429,7 @@ init -12 python:
                 yield request
 
                 self.clients_waiting.add(client)
-                temp = "{} enters the {}.".format(client.name, self.name)
+                temp = "{color=[beige]}%s{/color} enters the %s." % (client.name, self.name)
                 self.log(temp, True)
 
                 dirt = 0
@@ -440,14 +442,14 @@ init -12 python:
                     simpy_debug("Entering PublicBusiness({}).client_control iteration at {}".format(self.name, self.env.now))
 
                     if client in self.clients_waiting:
-                        simpy_debug("Client {} will wait to be served.".format(client.name))
+                        simpy_debug("Client {color=[beige]}%s{/color} will wait to be served." % client.name)
                         yield self.env.timeout(1)
                         du_spent_here += 1
                         client.du_without_service += 1
                     else:
                         client.du_without_service = 0
 
-                        simpy_debug("Client {} is about to be served.".format(client.name))
+                        simpy_debug("Client {color=[beige]}%s{/color} is about to be served." % client.name)
                         yield self.env.timeout(3)
                         du_spent_here += 3
                         self.clients_being_served.remove(client)
@@ -481,15 +483,14 @@ init -12 python:
                         break
 
                     if client.du_without_service >= 5:
-                        temp = "{} spent too long waiting for service!".format(
-                                                client.name)
+                        temp = "{color=[beige]}%s{/color} spent too long waiting for service!" % client.name
                         self.log(temp, True)
                         break
 
                 building.dirt += dirt
 
                 temp = "{} exits the {} leaving {} dirt behind.".format(
-                                        client.name, self.name, dirt)
+                                        set_font_color(client.name, "beige"), self.name, dirt)
                 self.log(temp, True)
 
                 if client in self.clients_being_served:
@@ -527,14 +528,13 @@ init -12 python:
 
                 if self.send_in_worker: # Sends in workers when needed!
                     new_workers_required = max(1, len(self.clients_waiting)/5)
-                    if config.debug:
+                    if DSNBR:
                         temp = "Adding {} workers to {}!".format(
                                 set_font_color(new_workers_required, "green"),
                                 self.name)
                         temp = temp + " ~ self.send_in_worker == {}".format(
-                                    set_font_color(self.send_in_worker, "red")
-                        )
-                    self.log(temp, True)
+                                    set_font_color(self.send_in_worker, "red"))
+                        self.log(temp, True)
                     for i in range(new_workers_required):
                         self.add_worker()
                     self.send_in_worker = False
@@ -559,7 +559,7 @@ init -12 python:
                 # =====================================>>>
 
                 if every_5_du:
-                    if config.debug:
+                    if DSNBR:
                         temp = "Debug: {} capacity is currently in use.".format(
                                 set_font_color(self.res.count, "red"))
                         temp = temp + " {} Workers are currently on duty in {}!".format(
@@ -581,7 +581,7 @@ init -12 python:
             building.nd_ups.remove(self)
 
         def worker_control(self, worker):
-            self.log(self.intro_string.format(worker.name, self.name), True)
+            self.log(self.intro_string % (worker.name, self.name), True)
 
             du_working = 35
 
@@ -590,7 +590,7 @@ init -12 python:
             job, loc = self.job, self.building
             log = NDEvent(job=job, char=worker, loc=loc, business=self)
 
-            log.append(self.log_intro_string.format(worker.name))
+            log.append(self.log_intro_string % (worker.name))
             log.append("\n")
 
             difficulty = loc.tier
@@ -604,7 +604,7 @@ init -12 python:
                 eff_mod += getattr(u, "job_effectiveness_mod", 0)
             effectiveness += eff_mod
 
-            if config.debug:
+            if DSNBR:
                 log.append("Debug: Her effectiveness: {}! (difficulty: {}, Tier: {})".format(
                                 effectiveness, difficulty, worker.tier))
 
@@ -636,7 +636,7 @@ init -12 python:
                 simpy_debug("Exiting PublicBusiness({}).worker_control iteration at {}".format(self.name, self.env.now))
 
             if clients_served:
-                if config.debug:
+                if DSNBR:
                     temp = "Logging {} for {}!".format(self.name, worker.name)
                     self.log(temp, True)
                 # Weird way to call job method but it may help with debugging somehow.

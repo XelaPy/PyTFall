@@ -683,7 +683,7 @@ init -10 python:
             if config.debug:
                 debug_add = 10
                 devlog.info("Debug adds {} pure clients for {}".format(debug_add, self.name))
-                if write_to_nd:
+                if write_to_nd and DSNBR:
                     self.log("Debug Mode adding {} clients!".format(set_font_color(debug_add, "red")))
                 clients += debug_add
 

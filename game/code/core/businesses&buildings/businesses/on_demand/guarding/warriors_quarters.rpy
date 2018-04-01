@@ -48,7 +48,7 @@ init -5 python:
                 simpy_debug("Entering WarriorQuarters.business_control at {}".format(self.env.now))
 
                 threat = building.threat
-                if config.debug and not self.env.now % 5:
+                if DSNBR and not self.env.now % 5:
                     temp = "{color=[red]}" + "DEBUG: {0:.2f} Threat to THE BUILDING!".format(threat)
                     self.log(temp, True)
 
@@ -151,7 +151,7 @@ init -5 python:
                 c0 = make_nd_report_at and threat_cleared
                 c1 = building.threat <= 0 or self.env.now == make_nd_report_at
                 if c0 and c1:
-                    if config.debug:
+                    if DSNBR:
                         temp = "DEBUG! WRITING GUARDING REPORT! c0: {}, c1: {}".format(c0, c1)
                         self.log(temp, True)
                     self.write_nd_report(pure_workers, all_workers, -threat_cleared)

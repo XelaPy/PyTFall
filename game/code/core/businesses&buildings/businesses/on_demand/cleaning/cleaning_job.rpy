@@ -22,7 +22,7 @@ init -5 python:
             """
             if not log:
                 log = []
-                
+
             effectiveness = 0
              # effects always work
             if worker.effects['Food Poisoning']['active']:
@@ -106,12 +106,12 @@ init -5 python:
             if all_on_deck:
                 # Make sure we make a note that these are not dedicated cleaners
                 temp = "{color=[red]}"
-                temp += "{}: Building got too dirty to work at! All free workers were called on cleaning duty!".format(business.env.now)
+                temp += "Building got too dirty to work at! All free workers were called on cleaning duty!"
                 log(temp)
             else:
                 # Make sure we make a note that these are not dedicated cleaners
                 temp = "{color=[blue]}"
-                temp += "{}: Your cleaners are starting their shift!".format(business.env.now)
+                temp += "Your cleaners are starting their shift!"
                 log(temp)
 
             for worker in cleaners:
