@@ -303,7 +303,6 @@ init -10 python:
         def __init__(self):
             """
             Creates a new BuildingStats.
-            # sq_meters = The m^2 that each room takes up.
             """
             self.stats = {"dirt": 0, "threat": 0}
             self.max_stats = {"dirt": 1000, "threat": 1000}
@@ -320,7 +319,7 @@ init -10 python:
                 threat = -1
             else:
                 raise Eception("{} Building with an unknown location detected!".format(str(self)))
-                
+
         def __setattr__(self, key, value):
             stats = self.__dict__.get("stats", {})
             if key in stats:
