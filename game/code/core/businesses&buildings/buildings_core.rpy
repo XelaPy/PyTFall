@@ -309,8 +309,18 @@ init -10 python:
             self.max_stats = {"dirt": 1000, "threat": 1000}
             self.auto_clean = False
 
-
-
+        @property
+        def threat_mod(self):
+            # Figure out threat mod to apply over the building every 25 DU!
+            if self.location == "Flee Bottom":
+                threat = 5
+            elif self.location == "Midtown":
+                threat = 2
+            elif self.location == "Richford":
+                threat = -1
+            else:
+                raise Eception("{} Building with an unknown location detected!".format(str(self)))
+                
         def __setattr__(self, key, value):
             stats = self.__dict__.get("stats", {})
             if key in stats:
