@@ -136,6 +136,9 @@ init -10 python:
 
             self.tier = 0
 
+            # Location Default:
+            self.location = "Flee Bottom"
+
             # ND Report
             self.txt = ""
 
@@ -305,6 +308,8 @@ init -10 python:
             self.stats = {"dirt": 0, "threat": 0}
             self.max_stats = {"dirt": 1000, "threat": 1000}
             self.auto_clean = False
+
+
 
         def __setattr__(self, key, value):
             stats = self.__dict__.get("stats", {})
