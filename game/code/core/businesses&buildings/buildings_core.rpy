@@ -319,6 +319,8 @@ init -10 python:
                 threat = -1
             else:
                 raise Eception("{} Building with an unknown location detected!".format(str(self)))
+                
+            return threat
 
         def __setattr__(self, key, value):
             stats = self.__dict__.get("stats", {})
