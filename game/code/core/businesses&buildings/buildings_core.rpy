@@ -798,6 +798,11 @@ init -10 python:
                 self.get_client_count(write_to_nd=True)
                 clnts = self.total_clients
 
+                for u in self._upgrades:
+                    mod = getattr(u, "client_flow_mod", 0)
+                    if mod:
+                        clnts = round_int(clnts*mod)
+
                 # TODO B&B-clients: Generate and add regulars!
                 c0 = self.expects_clients and self.available_workers
                 if c0 and len(self.all_clients) < clnts:
@@ -923,6 +928,7 @@ init -10 python:
                 self.log(temp)
                 self.env.exit()
 
+            # Client threat mod:
             if "Aggressive" in client.traits:
                 self.threat += 3
 
