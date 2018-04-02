@@ -136,6 +136,9 @@ init -10 python:
 
             self.tier = 0
 
+            # Location Default:
+            self.location = "Flee Bottom"
+
             # ND Report
             self.txt = ""
 
@@ -245,12 +248,12 @@ init -10 python:
 
         @property
         def fame_percentage(self):
-            fame = self.fame*100.0/self.maxfame
+            fame = self.fame*100.0/max(1, self.maxfame)
             return round_int(fame)
 
         @property
         def rep_percentage(self):
-            rep = self.rep*100.0/self.maxrep
+            rep = self.rep*100.0/max(1, self.maxrep)
             return round_int(rep)
 
         def modfame(self, value):
@@ -300,11 +303,22 @@ init -10 python:
         def __init__(self):
             """
             Creates a new BuildingStats.
-            # sq_meters = The m^2 that each room takes up.
             """
             self.stats = {"dirt": 0, "threat": 0}
             self.max_stats = {"dirt": 1000, "threat": 1000}
             self.auto_clean = False
+
+        @property
+        def threat_mod(self):
+            # Figure out threat mod to apply over the building every 25 DU!
+            if self.location == "Flee Bottom":
+                threat = 5
+            elif self.location == "Midtown":
+                threat = 2
+            elif self.location == "Richford":
+                threat = -1
+            else:
+                raise Eception("{} Building with an unknown location detected!".format(str(self)))
 
         def __setattr__(self, key, value):
             stats = self.__dict__.get("stats", {})
@@ -469,8 +483,8 @@ init -10 python:
 
         def log(self, item, add_time=False):
             # Logs the item (text) to the Building log...
-            if add_time and self.env:
-                item = "{}: ".format(self.env.now) + item
+            # if add_time and self.env:
+            #     item = "{}: ".format(self.env.now) + item
             self.nd_events_report.append(item)
             if config.debug and True:
                 devlog.info(item)
@@ -683,7 +697,7 @@ init -10 python:
             if config.debug:
                 debug_add = 10
                 devlog.info("Debug adds {} pure clients for {}".format(debug_add, self.name))
-                if write_to_nd:
+                if write_to_nd and DSNBR:
                     self.log("Debug Mode adding {} clients!".format(set_font_color(debug_add, "red")))
                 clients += debug_add
 
@@ -762,53 +776,57 @@ init -10 python:
             # Setup and start the simulation
             self.flag_red = False
 
-            self.log(set_font_color("===================", "lawngreen"))
-            self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
-            self.log("--- Testing {} Building ---".format(set_font_color(self.name, "lawngreen")))
+            if self.expects_clients:
+                self.log(set_font_color("===================", "lawngreen"))
+                self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
+                self.log("--- Testing {} Building ---".format(set_font_color(self.name, "lawngreen")))
 
-            # All workers and workable businesses:
-            self.available_workers = list(c for c in self.all_workers if
-                                          c.is_available and
-                                          c.workplace == self and
-                                          c.action in self.jobs)
-            for w in self.all_workers:
-                self.convert_AP(w)
+                # All workers and workable businesses:
+                self.available_workers = list(c for c in self.all_workers if
+                                              c.is_available and
+                                              c.workplace == self and
+                                              c.action in self.jobs)
+                for w in self.all_workers:
+                    self.convert_AP(w)
 
-            # Get businesses we wish SimPy to manage! business_manager method is expected here.
-            self.nd_ups = list(up for up in self._businesses if up.workable)
-            client_businesses = list(up for up in self._businesses if up.expects_clients)
+                # Get businesses we wish SimPy to manage! business_manager method is expected here.
+                self.nd_ups = list(up for up in self._businesses if up.workable)
+                client_businesses = list(up for up in self._businesses if up.expects_clients)
 
-            # Clients:
-            tl.start("Generating clients in {}".format(self.name))
-            self.get_client_count(write_to_nd=True)
-            clnts = self.total_clients
+                # Clients:
+                tl.start("Generating clients in {}".format(self.name))
+                self.get_client_count(write_to_nd=True)
+                clnts = self.total_clients
 
-            # TODO B&B-clients: Generate and add regulars!
-            c0 = self.expects_clients and self.available_workers
-            if c0 and len(self.all_clients) < clnts:
-                for i in xrange(clnts - len(self.all_clients)):
-                    client = self.create_customer(likes=[choice(client_businesses)])
-                    self.all_clients.add(client)
-            self.clients = self.all_clients.copy()
+                # TODO B&B-clients: Generate and add regulars!
+                c0 = self.expects_clients and self.available_workers
+                if c0 and len(self.all_clients) < clnts:
+                    for i in xrange(clnts - len(self.all_clients)):
+                        client = self.create_customer(likes=[choice(client_businesses)])
+                        self.all_clients.add(client)
+                self.clients = self.all_clients.copy()
 
-            tl.end("Generating clients in {}".format(self.name))
+                tl.end("Generating clients in {}".format(self.name))
 
-            # Create an environment and start the setup process:
-            self.env = simpy.Environment()
-            for up in self._businesses:
-                up.pre_nd()
+                # Create an environment and start the setup process:
+                self.env = simpy.Environment()
+                for up in self._businesses:
+                    up.pre_nd()
 
-            self.env.process(self.building_manager(end=101))
-            self.env.run(until=101) # 101 will run events at 100 which it is more intuitive to manage.
-            self.log("{}".format(set_font_color("Ending the simulation:", "red")))
+                self.env.process(self.building_manager(end=101))
+                self.env.run(until=101) # 101 will run events at 100 which it is more intuitive to manage.
+                self.log("{}".format(set_font_color("Ending the simulation:", "red")))
 
-            # We can run it for a bit more, as matrons option!?!
-            # self.env.run(until=110)
-            # self.log("{}".format(set_font_color("Ending the second stage of simulation:", "red")))
+                # We can run it for a bit more, as matrons option!?!
+                # self.env.run(until=110)
+                # self.log("{}".format(set_font_color("Ending the second stage of simulation:", "red")))
 
-            self.log("\nA total of {} Gold was earned here today!".format(set_font_color(str(self.fin.get_logical_income()), "red")))
-            self.log("{}".format(set_font_color("===================", "red")))
-            self.log("\n\n")
+                self.log("\nA total of {} Gold was earned here today!".format(set_font_color(str(self.fin.get_logical_income()), "red")))
+                self.log("{}".format(set_font_color("===================", "red")))
+                self.log("\n\n")
+            else:
+                self.log(set_font_color("===================", "lawngreen"))
+                self.log("This is a residential building. Nothing much happened here today.")
 
             self.post_nd_reset()
             tl.end("{}.run_nd (SimPy/Clients, etc.)".format(self.name))
@@ -834,7 +852,17 @@ init -10 python:
                 self.env.process(self.clients_dispatcher(end=end))
 
             while 1:
-                yield self.env.timeout(100)
+                temp = "\n{color=[green]}%d =========>>>{/color}" % (self.env.now)
+                self.log(temp)
+                yield self.env.timeout(1)
+
+                # Delete the line if nothing happened on this turn:
+                if self.nd_events_report[-1] == temp:
+                    del self.nd_events_report[-1]
+
+                if not self.env.now % 25:
+                    self.dirt += 5 # 5 dirt each 25 turns even if nothing is happening.
+                    self.threat += self.threat_mod
 
         def clients_dispatcher(self, end=100):
             """This method provides stream of clients to the building following it's own algorithm.
@@ -880,7 +908,8 @@ init -10 python:
             Once this method is terminated, client has completely left the building!
             """
             # Register the fact that client arrived at the building:
-            temp = '{} arrives at the {}.'.format(client.name, self.name)
+            temp = '{} arrives at the {}.'.format(
+                        set_font_color(client.name, "beige"), self.name)
             self.log(temp, True)
 
             if self.dirt >= 800:
@@ -893,6 +922,9 @@ init -10 python:
                 temp = "Your building is as safe as a warzone. {} ran away.".format(client.name)
                 self.log(temp)
                 self.env.exit()
+
+            if "Aggressive" in client.traits:
+                self.threat += 3
 
             # Visit counter:
             client.up_counter("visited_building" + str(self.id))
@@ -961,13 +993,13 @@ init -10 python:
                         yield self.env.timeout(1)
 
             if not visited:
-                temp = "{}: There is not much for the {} to do...".format(self.env.now, client.name)
+                temp = "There is not much for the {} to do...".format(set_font_color(client.name, "beige"))
                 self.log(temp)
-                temp = "{}: So {} leaves your establishment cursing...".format(self.env.now, client.name)
+                temp = "So {} leaves your establishment cursing...".format(set_font_color(client.name, "beige"))
                 self.log(temp)
                 yield self.env.timeout(0) # To make sure this is a generator :)
             else:
-                temp = '{}: {} is leaving after visiting {} businesses.'.format(self.env.now, client.name, visited)
+                temp = '{} is leaving after visiting {} business(es).'.format(set_font_color(client.name, "beige"), visited)
                 self.log(temp)
 
         def post_nd_reset(self):

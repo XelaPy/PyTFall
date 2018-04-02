@@ -234,6 +234,7 @@ screen chars_list(source=None):
         vbox:
             spacing 3
             viewport:
+                scrollbars "vertical"
                 xsize 250
                 draggable True
                 mousewheel True

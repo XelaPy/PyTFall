@@ -11,7 +11,7 @@ init -5 python:
             super(Rest, self).__init__()
             self.id = "Rest"
             self.type = "Resting"
-            
+
             self.desc = "No one can work without taking a break sometimes. Rest restores health, vitality and mp and removes some negative effects."
 
         def __call__(self, char):
@@ -137,9 +137,12 @@ init -5 python:
                 vit_amount = randint(20, 30) + int(worker.get_max("vitality")*0.3)
             log.logws('vitality', vit_amount)
 
-            for i in range(worker.AP): # every left AP gives additional health, mp and joy
-                log.logws('health', randint(5, 10))
-                log.logws('mp', randint(5, 10))
+            ap_range = worker.AP + round_int(worker.jobpoints/100.0)
+            for i in range(ap_range): # every left AP gives additional health, mp and joy
+                value = round_int(worker.get_max("health")*.1) or 1
+                log.logws('health', value)
+                value = round_int(worker.get_max("mp")*.1) or 1
+                log.logws('mp', value)
                 log.logws('joy', randint(1, 2))
                 worker.AP -= 1
 
@@ -150,7 +153,11 @@ init -5 python:
             c0 = worker.vitality >= worker.get_max("vitality")*.95
             c1 = worker.health >= worker.get_max('health')*.95
             c2 = not worker.effects['Food Poisoning']['active']
-            if all([c0, c1, c2]): return True
+
+            if all([c0, c1, c2]):
+                return True
+            else:
+                return False
 
         def after_rest(self, worker, log):
             # Must check for is_rested first always.

@@ -15,12 +15,19 @@ init -5 python:
             """Requests a room from Sim'Py, under the current code,
                this will not be called if there are no rooms available...
             """
+
             with self.res.request() as request:
                 yield request
+                simpy_debug("Entering BrothelBlock.request_resource after-yield at {}".format(self.env.now))
 
                 # All is well and the client enters:
-                temp = "{}: {} and {} enter the room.".format(self.env.now, client.name, worker.name)
-                self.log(temp)
+                temp0 = "{} and {} enter the room.".format(
+                    set_font_color(client.name, "beige"),
+                    set_font_color(worker.name, "pink"))
+                temp1 = "{} and {} find a very private room for themselves.".format(
+                    set_font_color(worker.name, "pink"),
+                    set_font_color(client.name, "beige"))
+                self.log(choice([temp0, temp1]))
 
                 # This line will make sure code halts here until run_job ran it's course...
                 yield self.env.timeout(self.time)
@@ -36,17 +43,21 @@ init -5 python:
                     line = "The service was shit."
                 temp = "{} 'did' {}... {}".format(
                             set_font_color(worker.name, "pink"),
-                            client.name,
+                            set_font_color(client.name, "beige"),
                             line)
                 self.log(temp, True)
-                temp = "{} leaves the {}.".format(client.name, self.name)
+                temp = "{} leaves the {}.".format(set_font_color(client.name, "beige"), self.name)
                 self.log(temp, True)
                 # client.flag("jobs_busy").interrupt()
             client.del_flag("jobs_busy")
 
+            simpy_debug("Exiting BrothelBlock.request_resource after-yield at {}".format(self.env.now))
+
         def run_job(self, client, worker):
             """Handles the job and job report.
             """
+            simpy_debug("Entering BrothelBlock.run_job after-yield at {}".format(self.env.now))
+
             # Execute the job/log results/handle finances and etc.:
             job, building = self.job, self.building
             log = NDEvent(job=job, char=worker, loc=building, business=self)
@@ -83,4 +94,7 @@ init -5 python:
 
             # We return the char to the nd list:
             building.available_workers.insert(0, worker)
+
+            simpy_debug("Exiting BrothelBlock.run_job after-yield at {}".format(self.env.now))
+
             return result

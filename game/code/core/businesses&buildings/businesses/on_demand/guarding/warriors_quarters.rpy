@@ -45,8 +45,10 @@ init -5 python:
             workers = all_workers.copy() # workers on active duty
 
             while 1:
+                simpy_debug("Entering WarriorQuarters.business_control at {}".format(self.env.now))
+
                 threat = building.threat
-                if config.debug and not self.env.now % 5:
+                if DSNBR and not self.env.now % 5:
                     temp = "{color=[red]}" + "DEBUG: {0:.2f} Threat to THE BUILDING!".format(threat)
                     self.log(temp, True)
 
@@ -117,8 +119,9 @@ init -5 python:
                         # Adjust JP and Remove the clear after running out of jobpoints:
                         w.jobpoints -= 5
                         if w.jobpoints <= 0:
-                            temp = "{}: {} is done guarding for the day!".format(self.env.now,
-                                                set_font_color(w.nickname, "blue"))
+                            temp = "{} is done guarding for the day!".format(
+                                                w.nickname)
+                            temp = set_font_color(temp, "cadetblue")
                             self.log(temp)
                             workers.remove(w)
 
@@ -127,13 +130,14 @@ init -5 python:
                         if dice(25):
                             log.logws("security", 1, char=w)
                             log.logws("attack", 1, char=w)
+                            log.logws("agility", 1, char=w)
                             log.logws("defence", 1, char=w)
                             log.logws("magic", 1, char=w)
                             if dice(10):
                                 log.logws("constitution", 1, char=w)
                             log.logws("exp", 10, char=w)
-                            log.logws("agility", -5, char=w)
 
+                            log.logws("vitality", -5, char=w)
                             if dice(20): # Small chance to get hurt.
                                 log.logws("health", round_int(-w.get_max("health")*.2), char=w)
 
@@ -148,7 +152,7 @@ init -5 python:
                 c0 = make_nd_report_at and threat_cleared
                 c1 = building.threat <= 0 or self.env.now == make_nd_report_at
                 if c0 and c1:
-                    if config.debug:
+                    if DSNBR:
                         temp = "DEBUG! WRITING GUARDING REPORT! c0: {}, c1: {}".format(c0, c1)
                         self.log(temp, True)
                     self.write_nd_report(pure_workers, all_workers, -threat_cleared)
@@ -166,6 +170,7 @@ init -5 python:
                     # and finally update all workers container:
                     all_workers = workers.copy()
 
+                simpy_debug("Exiting WarriorQuarters.business_control at {}".format(self.env.now))
                 if not EnforcedOrder_active and threat >= 500 and not had_brawl_event:
                     self.intercept(workers, power_flag_name)
                     had_brawl_event = True
@@ -174,6 +179,7 @@ init -5 python:
                     yield self.env.timeout(1)
 
         def write_nd_report(self, pure_workers, all_workers, threat_cleared):
+            simpy_debug("Entering WarriorQuarters.write_nd_report at {}".format(self.env.now))
             job, loc = self.job, self.building
             log = NDEvent(job=job, loc=loc, team=all_workers, business=self)
 
@@ -214,6 +220,8 @@ init -5 python:
             temp = "\nA total of {} threat was removed.".format(set_font_color(threat_cleared, "red"))
             log.append(temp)
 
+            if not len(all_workers):
+                raise Exception("Zero Modulo Division Detected #01")
             exp = threat_cleared/len(all_workers)
             for w in pure_workers:
                 log.logws("security", randint(1, 3), char=w)
@@ -250,6 +258,8 @@ init -5 python:
             log.after_job()
             NextDayEvents.append(log)
 
+            simpy_debug("Exiting WarriorQuarters.write_nd_report at {}".format(self.env.now))
+
         def intercept(self, workers, power_flag_name, interrupted=False):
             """This intercepts a bunch of aggressive clients and
                     resolves the issue through combat or intimidation.
@@ -262,6 +272,8 @@ init -5 python:
 
             We will also make it a separate report for the time being.
             """
+            simpy_debug("Entering WarriorQuarters.intercept at {}".format(self.env.now))
+
             building = self.building
             job = simple_jobs["Guarding"]
 
@@ -365,3 +377,5 @@ init -5 python:
                 building.threat += 100
                 building.dirt += 60*enemies
                 # self.env.exit(False)
+
+            simpy_debug("Exiting WarriorQuarters.intercept at {}".format(self.env.now))

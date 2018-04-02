@@ -96,7 +96,11 @@ init -20 python:
             self._habitable = True
             self.rooms = rooms
             self.inhabitants = set()
-            self.daily_modifier = daily_modifier
+            self._daily_modifier = daily_modifier
+
+        @property
+        def daily_modifier(self):
+            return self._daily_modifier
 
         @property
         def habitable(self):

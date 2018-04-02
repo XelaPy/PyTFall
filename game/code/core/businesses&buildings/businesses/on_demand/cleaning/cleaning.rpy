@@ -41,8 +41,10 @@ init -5 python:
             workers = all_workers.copy() # cleaners on active duty
 
             while 1:
+                simpy_debug("Entering Cleaners.business_control iteration at {}".format(self.env.now))
+
                 dirt = building.dirt
-                if config.debug and not self.env.now % 5:
+                if DSNBR and not self.env.now % 5:
                     temp = "{color=[red]}" + "DEBUG: {0:.2f} DIRT IN THE BUILDING!".format(dirt)
                     self.log(temp, True)
 
@@ -78,16 +80,16 @@ init -5 python:
                         wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env and wlen:
-                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
-                                                set_font_color(wlen, "red"), building.name)
+                            temp = "{} Workers have started to clean {}!".format(
+                                            set_font_color(wlen, "green"), building.name)
                             self.log(temp)
                 elif dirt >= 200:
                     if not make_nd_report_at:
                         wlen = len(workers)
                         make_nd_report_at = min(self.env.now+25, 100)
                         if self.env and wlen:
-                            temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
-                                                set_font_color(wlen, "red"), building.name)
+                            temp = "{} Workers have started to clean {}!".format(
+                                            set_font_color(wlen, "green"), building.name)
                             self.log(temp)
 
                 # switch back to normal cleaners only
@@ -108,16 +110,18 @@ init -5 python:
                         # Adjust JP and Remove the clear after running out of jobpoints:
                         w.jobpoints -= 5
                         if w.jobpoints <= 0:
-                            temp = "{}: {} is done cleaning for the day!".format(self.env.now,
-                                                set_font_color(w.nickname, "blue"))
+                            temp = "{} is done cleaning for the day!".format(
+                                            w.nickname)
+                            temp = set_font_color(temp, "cadetblue")
                             self.log(temp)
                             workers.remove(w)
 
                 # Create actual report:
                 c0 = make_nd_report_at and dirt_cleaned
                 c1 = building.dirt <= 0 or self.env.now == make_nd_report_at
-                if c0 and c1:
-                    if config.debug:
+                c2 = all_workers # No point in a report if no workers worked the cleaning.
+                if all([c0, c1, c2]):
+                    if DSNBR:
                         temp = "{}: DEBUG! WRITING CLEANING REPORT! c0: {}, c1: {}".format(self.env.now,
                                             c0, c1)
                         self.log(temp)
@@ -136,9 +140,12 @@ init -5 python:
                     # and finally update all cleaners container:
                     all_workers = workers.copy()
 
+                simpy_debug("Exiting Cleaners.business_control iteration at {}".format(self.env.now))
                 yield self.env.timeout(1)
 
         def write_nd_report(self, pure_workers, all_workers, dirt_cleaned):
+            simpy_debug("Entering Cleaners.write_nd_report at {}".format(self.env.now))
+
             job, loc = self.job, self.building
             log = NDEvent(job=job, loc=loc, team=all_workers, business=self)
 
@@ -147,7 +154,13 @@ init -5 python:
             temp = "{} Cleaning Report!\n".format(loc.name)
             log.append(temp)
 
+            simpy_debug("Cleaners.write_nd_report marker 1")
+
             wlen = len(all_workers)
+
+            if not wlen:
+                raise Exception("About to write a report without workers!")
+
             temp = "{} Workers cleaned the building today.".format(set_font_color(wlen, "red"))
             log.append(temp)
 
@@ -159,6 +172,8 @@ init -5 python:
             log.img.add(Transform(vp, align=(.5, .9)))
 
             log.team = all_workers
+
+            simpy_debug("Cleaners.write_nd_report marker 2")
 
             if extra_workers:
                 temp = "Dirt overwhelmed your building so extra staff was called to clean it! "
@@ -176,11 +191,13 @@ init -5 python:
                 temp += "!"
             log.append(temp)
 
+            simpy_debug("Cleaners.write_nd_report marker 3")
+
             dirt_cleaned = int(dirt_cleaned)
             temp = "\nA total of {} dirt was cleaned.".format(set_font_color(dirt_cleaned, "red"))
             log.append(temp)
 
-            exp = dirt_cleaned/len(all_workers)
+            exp = dirt_cleaned/wlen
             for w in pure_workers:
                 log.logws("cleaning", randint(1, 3), char=w)
                 if dice(30):
@@ -201,5 +218,9 @@ init -5 python:
 
             log.event_type = "jobreport" # Come up with a new type for team reports?
 
+            simpy_debug("Cleaners.write_nd_report marker 4")
+
             log.after_job()
             NextDayEvents.append(log)
+
+            simpy_debug("Exiting Cleaners.write_nd_report at {}".format(self.env.now))

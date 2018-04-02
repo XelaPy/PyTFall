@@ -182,6 +182,8 @@
                 if self.earned:
                     self.char.fin.log_logical_income(self.earned, fin_source)
             elif self.team:
+                if not len(self.team):
+                    raise Exception("Zero Modulo Division Detected #03")
                 earned = round_int(self.earned/float(len(self.team)))
                 for char in self.team:
                     self.update_char_data(char)
@@ -330,12 +332,15 @@
                 total_weight_points = sum(skills.values())
                 total_skills = 0
                 for skill, weight in skills.items():
+                    if not total_weight_points:
+                        raise Exception("Zero Dev #3")
                     weight_ratio = float(weight)/total_weight_points
                     max_p = default_points*weight_ratio
 
                     sp = worker.get_skill(skill)
                     sp_required = worker.get_max_skill(skill, difficulty)
-
+                    if not sp_required:
+                        raise Exception("Zero Dev #4")
                     total_skills += min(sp*max_p/sp_required, max_p*1.1)
 
             stats = self.base_stats
@@ -345,6 +350,8 @@
                 total_stats = 0
                 total_weight_points = sum(stats.values())
                 for stat, weight in stats.items():
+                    if not total_weight_points:
+                        raise Exception("Zero Dev #5")
                     weight_ratio = float(weight)/total_weight_points
                     max_p = default_points*weight_ratio
 
@@ -354,7 +361,9 @@
                     else:
                         # 450 is my guess for a target stat of a maxed out character
                         sp_required = 450*(difficulty*.1)
-
+                        
+                    if not sp_required:
+                        raise Exception("Zero Dev #6")
                     total_stats += min(sp*max_p/sp_required, max_p*1.1)
 
             # Bonuses:

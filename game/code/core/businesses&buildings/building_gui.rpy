@@ -486,11 +486,17 @@ init: # Screens:
             padding 10, 10
             has vbox spacing 1
 
+            # We are not really using this anymore?
             # Security Rating:
+            # frame:
+            #     xysize (296, 27)
+            #     text "Security Rating:" xalign .02 color ivory
+            #     text "%s/1000" % building.security_rating xalign .98 style_suffix "value_text" yoffset 4
+            # INSTEAD: Report quarter location.
             frame:
                 xysize (296, 27)
-                text "Security Rating:" xalign .02 color ivory
-                text "%s/1000" % building.security_rating xalign .98 style_suffix "value_text" yoffset 4
+                text "Location:" xalign .02 color ivory
+                text "[building.location]" xalign .98 style_suffix "value_text" yoffset 4
 
             # Dirt:
             if isinstance(building, BuildingStats):

@@ -16,7 +16,7 @@ init -5 python:
             self.base_skills = {"strip": 100, "dancing": 50}
             self.base_stats = {"charisma": 70, "agility": 30}
 
-            self.desc = "Strippers dance half-naked at the stage, keeping customers hard and ready to hire more whores."
+            self.desc = "Strippers dance half-naked on the stage, keeping customers hard and ready to hire more whores."
 
         def traits_and_effects_effectiveness_mod(self, worker, log):
             """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
@@ -153,7 +153,10 @@ init -5 python:
 
         def settle_workers_disposition(self, worker, log):
             """
-            handles penalties in case of wrong job
+            Handles penalties in case of wrong job
+
+            Note:
+            "jobs_stripintro" flag is unused.
             """
             # Formerly check_occupation
             if not("Stripper" in worker.traits) and worker.disposition < self.calculate_disposition_level(worker):
@@ -213,28 +216,31 @@ init -5 python:
 
             return True
 
-        def work_strip_club(self, worker, loc, log):
-            skill = round(worker.get_skill("strip")*.75 + worker.get_skill("dancing")*.25) # TODO jobs: We can now interpolate this from base_stats/skills
+        def work_strip_club(self, worker, clients, loc, log):
+            # TODO jobs: We can now interpolate this from base_stats/skills
+            skill = round(worker.get_skill("strip")*.75 + worker.get_skill("dancing")*.25)
             charisma = worker.charisma
+
+            len_clients = len(clients)
 
             # TODO jobs: This should prolly die:
             if charisma >= 1500:
-                log.append("%s supernal loveliness instantly captivated audiences. " %worker.name)
+                log.append("%s supernal loveliness instantly captivated audiences. " % worker.name)
                 log.logws("joy", 1)
             elif worker.charisma >= 1000:
-                log.append("The attention of customers was entirely focused on %s thanks to her prettiness. " %worker.name)
+                log.append("The attention of customers was entirely focused on %s thanks to her prettiness. " % worker.name)
                 log.logws("joy", 1)
             elif worker.charisma >= 500:
-                log.append("%s enchanted customers with her stunning beauty. " %worker.name)
+                log.append("%s enchanted customers with her stunning beauty. " % worker.name)
             elif worker.charisma >= 200:
-                log.append("Customers were delighted with %s beauty. " %worker.name)
+                log.append("Customers were delighted with %s beauty. " % worker.name)
             elif worker.charisma >= 100:
-                log.append("%s good looks was pleasing to audiences. " %worker.name)
+                log.append("%s good looks was pleasing to audiences. " % worker.name)
             elif worker.charisma >= 50:
-                log.append("%s did her best to make customers like her, but her beauty could definitely be enhanced. " %worker.name)
+                log.append("%s did her best to make customers like her, but her beauty could definitely be enhanced. " % worker.name)
             else:
                 log.logws("joy", -2)
-                log.append("Customers clearly were unimpressed by %s looks, to say at least. Such a cold reception was not encouraging for the poor girl at all..." %worker.name)
+                log.append("Customers clearly were unimpressed by %s looks, to say at least. Such a cold reception was not encouraging for the poor girl at all..." % worker.name)
 
             log.append("\n")
             if skill >= 4000:
@@ -279,17 +285,19 @@ init -5 python:
             charismamod = 1 if dice(20) else 0
 
             log.logws("agility", agilemod)
-            log.logws('vitality', randrange(-31, -15))
             log.logws("charisma", charismamod)
             log.logws("dancing", dancemod)
             log.logws("strip", stripmod)
+
+            log.logws('vitality', len_clients*-2)
 
             if stripmod + agilemod + dancemod + charismamod > 0:
                 log.append("\n%s feels like she learned something! \n"%worker.name)
                 log.logws("joy", 1)
 
             available = list()
-            kwargs = dict(exclude=["sad", "angry", "in pain"], resize=(740, 685), type="first_default", add_mood=False)
+            kwargs = dict(exclude=["sad", "angry", "in pain"], resize=(740, 685),
+                          type="first_default", add_mood=False)
             if worker.has_image("stripping", "stage", exclude=["sad", "angry", "in pain"]):
                 available.append("stage")
             if worker.has_image("stripping", "simple bg", exclude=["sad", "angry", "in pain"]):

@@ -75,6 +75,8 @@ screen mainscreen():
     # Tooltip related:
     default tt = Tooltip("")
 
+    key "mousedown_3" action Show("s_menu", transition=dissolve)
+
     # Main pic:
     add im.Scale("content/gfx/bg/bg085_rsz.jpg", config.screen_width, config.screen_height-40) at fade_from_to(.0, 1.0, 2.0) ypos 40
 
@@ -123,6 +125,8 @@ screen mainscreen():
             style_group "dropdown_gm"
             spacing 1
             align (.01, .5)
+            textbutton "MD test":
+                action Hide("mainscreen"), Jump("storyi_start")
             textbutton "Arena Inside":
                 action Hide("mainscreen"), Jump("arena_inside")
             textbutton "Realtor":

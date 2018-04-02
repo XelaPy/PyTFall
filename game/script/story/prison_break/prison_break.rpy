@@ -224,17 +224,13 @@ label storyi_treat_wounds:
         for i in hero.team:
             if i.health < i.get_max("health"):
                 j = True
+                break
     if j:
-        if storyi_treat_wounds_count > 0:
-            "You use stored medicaments to treat your wounds."
-            python:
-                for i in hero.team:
-                    i.health = i.get_max("health")
-                storyi_treat_wounds_count -= 1
-        else:
-            "Unfortunately, you used all stored medicaments."
+        python:
+            for i in hero.team:
+                i.health = i.get_max("health")
     else:
-        "Supplies are limited. It's not wise to waste them if your health is fine."
+        "Everyone is healthy already."
     show screen prison_break_controls
     $ del j
     jump storyi_gui_loop
@@ -253,7 +249,6 @@ label storyi_start: # beginning point of the dungeon;
     # hide txt1
     play world "Theme2.ogg" fadein 2.0 loop
     show bg story d_entrance with eye_open
-    $ storyi_treat_wounds_count = 5
     $ storyi_prison_stage = 1
     $ storyi_prison_location = 6
     if not hero.has_flag("been_in_old_ruins"):
@@ -323,6 +318,8 @@ label storyi_show_bg: # shows bg depending on matrix location; due to use of BE 
         $ enemies = ["Fire Spirit", "Flame Spirit", "Fiery Shadow"]
     else:
         $ enemies = ["Slime", "Alkaline Slime", "Acid Slime"]
+    if storyi_prison_location in treasures:
+        $ notify("It might be worth to search this room...")
     return
 
 label storyi_search_items:
@@ -681,6 +678,8 @@ label prison_storyi_event_barracks:
     play events2 "events/prison_cell_door.mp3"
     call storyi_move_map_point
     call storyi_show_bg
+    if not hero.has_flag("defeated_boss_1"):
+        hero.say "I see old stairs. I wonder where they lead."
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map

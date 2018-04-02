@@ -1168,7 +1168,7 @@ screen girl_control():
                     text "{size=15}Action: Hiding"
             null height 30
             button:
-                action If(char.status not in ("various"), true=ToggleField(char, "front_row"))
+                action ToggleField(char, "front_row")
                 xysize (200, 32)
                 text "Front Row" align (.0, .5)
                 hovered tt.Action("Select the row in battle")
@@ -1193,7 +1193,10 @@ screen girl_control():
 
             # Autobuy:
             button: # used to work for free chars only; I don't believe free chars should agree to stop spending gold, no matter disposition
-                action  If(char.status == "slave", true=ToggleField(char, "autobuy"))
+                if char.status == "slave":
+                    action ToggleField(char, "autobuy")
+                else:
+                    action tt.Action("Can only be disabled for slaves, allows to buy items she likes, if she has enough money")
                 xysize (200, 32)
                 text "Auto Buy" align (.0, .5)
                 hovered tt.Action("Can only be disabled for slaves, allows to buy items she likes, if she has enough money")
@@ -1207,9 +1210,12 @@ screen girl_control():
             # Autoequip:
             button:
                 xysize (200, 32)
-                action If(char.status == "slave" or char.disposition > 850, true=ToggleField(char, "autoequip"))
+                if char.status == "slave" or char.disposition > 850:
+                    action ToggleField(char, "autoequip")
+                else:
+                    action tt.Action("Requires a slave or very high disposition to be disabled, allows to equip the best items automatically (results may vary)")
                 text "Auto Equip" align (.0, .5)
-                hovered tt.Action("Requires a slave or very high disposition, allows to equip the best items automatically (results may vary)")
+                hovered tt.Action("Requires a slave or very high disposition to be disabled, allows to equip the best items automatically (results may vary)")
                 if isinstance(char.autoequip, list):
                     add cb_some_checked align (1.0, .5)
                 elif char.autoequip:

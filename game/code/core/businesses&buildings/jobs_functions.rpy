@@ -25,7 +25,7 @@ init -10 python:
                                 business.name, worker.name)
             else:
                 temp = "{} leaves the {} refusing to pay for the inadequate service {} provided.".format(
-                                client_name.capitalize(), business.name, worker.name)
+                                set_font_color(client_name.capitalize(), "beige"), business.name, worker.name)
             log.append(temp)
             earned = 0
         elif effectiveness <= 90: # Worker sucked but situation may be salvageable by Manager.
@@ -169,6 +169,8 @@ init -10 python:
     def check_submissivity(c):
         """Here we determine how submissive the character is, thus if she's willing to do something she doesn't want to, or for example take the initiative in certain cases.
         """
+        if not c.get_max("character"):
+            raise Exception("Zero Dev Exception #10")
         mult = 1.0*c.character/c.get_max("character") # the idea is based on the character stat, we check how close is she to max possible character at her level
         if "Impersonal" in c.traits: # and traits, they can make mult more or less, so for example even low character tsundere might be more stubborn than high character dandere
             mult -= .1

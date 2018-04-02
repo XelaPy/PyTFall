@@ -117,6 +117,8 @@ init -12 python:
             # .7 is just 70% of absolute max (to make upgrades meaningful).
             # 101.0 is self.env duration.
             # self.time is amount of time we expect to spend per client.
+            if not self.time:
+                raise Exception("Zero Modulo Division Detected #02")
             amount = round_int(((101.0/self.time)*self.capacity)*.7)
             return amount
 
@@ -215,8 +217,15 @@ init -12 python:
                 likes = client.likes.intersection(w.traits)
                 if likes:
                     slikes = ", ".join([str(l) for l in likes])
-                    temp = '{}: {} liked {} for {}.'.format(self.env.now, client.name, w.nickname, slikes)
-                    self.log(temp)
+                    temp0 = '{} liked {} for {} {}.'.format(
+                        set_font_color(client.name, "beige"),
+                        set_font_color(w.nickname, "pink"),
+                        slikes, plural("trait", len(likes)))
+                    temp1 = '{} found {} {} in {} very appealing.'.format(
+                        set_font_color(client.name, "beige"),
+                        slikes, plural("trait", len(likes)),
+                        set_font_color(w.nickname, "pink"))
+                    self.log(choice([temp0, temp1]))
                     worker = w
                     workers.remove(w)
                     client.set_flag("jobs_matched_traits", likes)
@@ -234,17 +243,19 @@ init -12 python:
             building = self.building
 
             if job.is_valid_for(worker):
-                if config.debug:
-                    temp = set_font_color("{}: Debug: {} worker (Occupations: {}) with action: {} is doing {}.".format(self.env.now,
+                if DSNBR:
+                    temp = set_font_color("Debug: {} worker (Occupations: {}) with action: {} is doing {}.".format(
                                           worker.nickname, ", ".join(list(str(t) for t in worker.occupations)), worker.action, job.id), "lawngreen")
-                    self.log(temp)
+                    self.log(temp, True)
                 return True
             else:
                 if worker in building.available_workers:
                     building.available_workers.remove(worker)
 
-                if config.debug:
-                    temp = set_font_color('{}: Debug: {} worker (Occupations: {}) with action: {} refuses to do {}.'.format(self.env.now, worker.nickname, ", ".join(list(str(t) for t in worker.occupations)), worker.action, job.id), "red")
+                if DSNBR:
+                    temp = set_font_color('Debug: {} worker (Occupations: {}) with action: {} refuses to do {}.'.format(
+                            worker.nickname, ", ".join(list(str(t) for t in worker.occupations)),
+                            worker.action, job.id), "red")
                     self.log(temp)
                 else:
                     temp = set_font_color('{} is refuses to do {}!'.format(worker.name, job.id), "red")
@@ -265,7 +276,7 @@ init -12 python:
             else:
                 if worker in building.available_workers:
                     building.available_workers.remove(worker)
-                temp = set_font_color('{}: {} is done working for the day.'.format(self.env.now, worker.name), "aliceblue")
+                temp = set_font_color('{} is done working for the day.'.format(worker.name), "cadetblue")
                 self.log(temp)
                 return False
 
@@ -403,11 +414,11 @@ init -12 python:
             self.type = "public_service"
 
             # If this is set to self.env.now in client manager, we send in workers (bc).
-            self.send_in_worker = float("inf")
+            self.send_in_worker = False
 
             self.active_workers = set() # On duty Workers.
             self.clients_waiting = set() # Clients waiting to be served.
-            self.clients_served = set() # Clients that we served.
+            self.clients_being_served = set() # Clients that we serve.
 
             # SimPy and etc follows (L33t stuff :) ):
             self.res = None # Restored before every job... Resource Instance that may not be useful here...
@@ -419,13 +430,13 @@ init -12 python:
             We add dirt here.
             """
             building = self.building
-            tier = building.tier
+            tier = building.tier or 1
 
             with self.res.request() as request:
                 yield request
 
                 self.clients_waiting.add(client)
-                temp = "{} enters the {}.".format(client.name, self.name)
+                temp = "{color=[beige]}%s{/color} enters the %s." % (client.name, self.name)
                 self.log(temp, True)
 
                 dirt = 0
@@ -434,18 +445,21 @@ init -12 python:
                 du_spent_here = 0
                 client.du_without_service = 0
 
-                # while not client.flag("jobs_ready_to_leave"):
                 while 1:
+                    simpy_debug("Entering PublicBusiness({}).client_control iteration at {}".format(self.name, self.env.now))
+
                     if client in self.clients_waiting:
+                        simpy_debug("Client {color=[beige]}%s{/color} will wait to be served." % client.name)
                         yield self.env.timeout(1)
                         du_spent_here += 1
                         client.du_without_service += 1
                     else:
                         client.du_without_service = 0
 
+                        simpy_debug("Client {color=[beige]}%s{/color} is about to be served." % client.name)
                         yield self.env.timeout(3)
                         du_spent_here += 3
-                        self.clients_served.remove(client)
+                        self.clients_being_served.remove(client)
                         self.clients_waiting.add(client)
                         dirt += randint(2, 3) # Move to business_control?
 
@@ -453,33 +467,49 @@ init -12 python:
                         worker, effectiveness = client.served_by
                         client.served_by = ()
                         if effectiveness >= 150:
-                            worker.up_counter("_jobs_tips", tier*randint(2, 3))
+                            tips = tier*randint(2, 3)
                         elif effectiveness >= 100:
-                            worker.up_counter("_jobs_tips", tier*randint(1, 2))
+                            tips = tier*randint(1, 2)
+                        else:
+                            tips = 0
+                        if tips:
+                            for u in self.upgrades:
+                                if isinstance(u, TapBeer) and dice(75):
+                                    tips += 1*tier
+                            worker.up_counter("_jobs_tips", tips)
 
-                    if client.du_without_service >= 2 and self.send_in_worker == float("inf"):
+                        # And remove client from actively served clients by the worker:
+                        if client in worker.serving_clients:
+                            worker.serving_clients.remove(client)
+
+                    if client.du_without_service >= 2 and not self.send_in_worker:
                         # We need a worker ASAP:
-                        self.send_in_worker = self.env.now
+                        self.send_in_worker = True
 
                     if du_spent_here >= du_to_spend_here:
                         break
 
                     if client.du_without_service >= 5:
+                        temp = "{color=[beige]}%s{/color} spent too long waiting for service!" % client.name
+                        self.log(temp, True)
                         break
 
                 building.dirt += dirt
 
                 temp = "{} exits the {} leaving {} dirt behind.".format(
-                                        client.name, self.name, dirt)
+                                        set_font_color(client.name, "beige"), self.name, dirt)
                 self.log(temp, True)
 
-                if client in self.clients_served:
-                    self.clients_served.remove(client)
+                if client in self.clients_being_served:
+                    self.clients_being_served.remove(client)
                 if client in self.clients_waiting:
                     self.clients_waiting.remove(client)
                 client.del_flag("jobs_busy")
 
+                simpy_debug("Exiting PublicBusiness({}).client_control iteration at {}".format(self.name, self.env.now))
+
         def add_worker(self):
+            simpy_debug("Entering PublicBusiness({}).add_worker at {}".format(self.name, self.env.now))
             building = self.building
             workers = building.available_workers
             # Get all candidates:
@@ -490,6 +520,7 @@ init -12 python:
                 self.active_workers.add(w)
                 workers.remove(w)
                 self.env.process(self.worker_control(w))
+            simpy_debug("Exiting PublicBusiness({}).add_worker at {}".format(self.name, self.env.now))
 
         def business_control(self):
             """This runs the club as a SimPy process from start to the end.
@@ -499,45 +530,57 @@ init -12 python:
             tier = building.tier
 
             while 1:
+                simpy_debug("Entering PublicBusiness({}).business_control iteration at {}".format(self.name, self.env.now))
                 every_5_du = not self.env.now % 5
 
-                if self.send_in_worker <= self.env.now: # Sends in workers when needed!
+                if self.send_in_worker: # Sends in workers when needed!
                     new_workers_required = max(1, len(self.clients_waiting)/5)
+                    if DSNBR:
+                        temp = "Adding {} workers to {}!".format(
+                                set_font_color(new_workers_required, "green"),
+                                self.name)
+                        temp = temp + " ~ self.send_in_worker == {}".format(
+                                    set_font_color(self.send_in_worker, "red"))
+                        self.log(temp, True)
                     for i in range(new_workers_required):
                         self.add_worker()
-                    self.send_in_worker = float("inf")
+                    self.send_in_worker = False
 
                 yield self.env.timeout(1)
 
                 # Could be flipped to a job Brawl event?:
-                if False:
-                    if counter < 1 and self.env.now > 20:
-                        counter += 1
-                        for u in building._businesses:
-                            if u.__class__ == WarriorQuarters:
-                                process = u.request_action(building=building, start_job=True, priority=True, any=False, action="patrol")[1]
-                                u.interrupt = process # New field to which we can bind a process that can be interrupted.
-                                break
-
-                    # testing interruption:
-                    if "process" in locals() and (counter == 1 and self.env.now > 40):
-                        counter += 1
-                        process.interrupt("fight")
-                        self.env.process(u.intercept(interrupted=True))
-                    # =====================================>>>
+                # if False:
+                #     if counter < 1 and self.env.now > 20:
+                #         counter += 1
+                #         for u in building._businesses:
+                #             if u.__class__ == WarriorQuarters:
+                #                 process = u.request_action(building=building, start_job=True, priority=True, any=False, action="patrol")[1]
+                #                 u.interrupt = process # New field to which we can bind a process that can be interrupted.
+                #                 break
+                #
+                #     # testing interruption:
+                #     if "process" in locals() and (counter == 1 and self.env.now > 40):
+                #         counter += 1
+                #         process.interrupt("fight")
+                #         self.env.process(u.intercept(interrupted=True))
+                # =====================================>>>
 
                 if every_5_du:
-                    if config.debug:
-                        temp = "Debug: {} places are currently in use in {}!".format(
-                                set_font_color(self.res.count, "red"),
-                                self.name)
+                    if DSNBR:
+                        temp = "Debug: {} capacity is currently in use.".format(
+                                set_font_color(self.res.count, "red"))
                         temp = temp + " {} Workers are currently on duty in {}!".format(
-                                set_font_color(len(self.active_workers), "red"),
+                                set_font_color(len(self.active_workers), "blue"),
                                 self.name)
+                        siw_workers = len([w for w in building.available_workers if set(w.gen_occs).intersection(self.job.occupations)])
+                        temp = temp + " {} (gen_occ) workers are available in the Building for the job!".format(
+                                set_font_color(siw_workers, "green"))
                         self.log(temp, True)
 
                     if not self.all_workers and not self.active_workers:
                         break
+
+                simpy_debug("Exiting PublicBusiness({}).business_control iteration at {}".format(self.name, self.env.now))
 
             # We remove the business from nd if there are no more strippers to entertain:
             temp = "There are no workers available in the {} so it is shutting down!".format(self.name)
@@ -545,9 +588,7 @@ init -12 python:
             building.nd_ups.remove(self)
 
         def worker_control(self, worker):
-            temp = self.intro_string.format(
-                                worker.name, self.name)
-            self.log(temp, True)
+            self.log(self.intro_string % (worker.name), True)
 
             du_working = 35
 
@@ -556,31 +597,40 @@ init -12 python:
             job, loc = self.job, self.building
             log = NDEvent(job=job, char=worker, loc=loc, business=self)
 
-            log.append(self.log_intro_string.format(worker.name))
+            log.append(self.log_intro_string % (worker.name))
             log.append("\n")
 
             difficulty = loc.tier
             effectiveness = job.effectiveness(worker, difficulty, log, False,
                                 manager_effectiveness=building.manager_effectiveness)
 
-            if config.debug:
+            # Upgrade mods:
+            # Move to Job method?
+            eff_mod = 0
+            for u in self.upgrades:
+                eff_mod += getattr(u, "job_effectiveness_mod", 0)
+            effectiveness += eff_mod
+
+            if DSNBR:
                 log.append("Debug: Her effectiveness: {}! (difficulty: {}, Tier: {})".format(
                                 effectiveness, difficulty, worker.tier))
 
             # Actively serving these clients:
             can_serve = 5 # We consider max of 5
-            serving_clients = set() # actively serving these clients
+            worker.serving_clients = set() # actively serving these clients
             clients_served = [] # client served during the shift (all of them, for the report)
 
             while worker.jobpoints > 0 and du_working > 0:
+                simpy_debug("Entering PublicBusiness({}).worker_control iteration at {}".format(self.name, self.env.now))
+
                 # Add clients to serve:
                 for c in self.clients_waiting.copy():
-                    if len(serving_clients) < can_serve:
+                    if len(worker.serving_clients) < can_serve:
                         self.clients_waiting.remove(c)
-                        self.clients_served.add(c)
+                        self.clients_being_served.add(c)
                         c.du_without_service = 0 # Prevent more worker from being called on duty.
                         c.served_by = (worker, effectiveness)
-                        serving_clients.add(c)
+                        worker.serving_clients.add(c)
                         clients_served.append(c)
                     else:
                         break
@@ -588,31 +638,41 @@ init -12 python:
                 yield self.env.timeout(1)
                 du_working -= 1
 
-                worker.jobpoints -= len(serving_clients)*2 # 2 jobpoints per client?
+                worker.jobpoints -= len(worker.serving_clients)*2 # 2 jobpoints per client?
+
+                simpy_debug("Exiting PublicBusiness({}).worker_control iteration at {}".format(self.name, self.env.now))
 
             if clients_served:
-                if config.debug:
-                    temp = "{}: Logging {} for {}!".format(self.env.now, self.name, worker.name)
-                    self.log(temp)
-                job.work_strip_club(worker, loc, log)
+                if DSNBR:
+                    temp = "Logging {} for {}!".format(self.name, worker.name)
+                    self.log(temp, True)
+                # Weird way to call job method but it may help with debugging somehow.
+                work_method = getattr(job, self.job_method)
+                work_method(worker, clients_served, loc, log)
 
-                earned = payout(job, effectiveness, difficulty, building, self, worker, clients_served, log)
-                temp = "{}: {} earns {} by serving {} clients!".format(self.env.now,
-                                                worker.name, earned, self.res.count)
-                self.log(temp)
+                earned = payout(job, effectiveness, difficulty, building,
+                                self, worker, clients_served, log)
+                temp = "{} earns {} by serving {} clients!".format(
+                                worker.name, earned, self.res.count)
+                self.log(temp, True)
+
+                worker.serving_clients = set() # Clean-up.
 
                 # Create the job report and settle!
                 log.after_job()
                 NextDayEvents.append(log)
             else:
-                temp = "{}: There were no clients for {} to serve".format(self.env.now, worker.name)
-                self.log(temp)
+                temp = "There were no clients for {} to serve".format(worker.name)
+                self.log(temp, True)
 
             self.active_workers.remove(worker)
             temp = "{} is done with the job in {} for the day!".format(
-                                set_font_color(worker.name, "red"),
+                                worker.name,
                                 self.name)
+            temp = set_font_color(temp, "cadetblue")
             self.log(temp, True)
+
+            simpy_debug("Leaving PublicBusiness({}).worker_control at {}".format(self.name, self.env.now))
 
         def pre_nd(self):
             # Whatever we need to do at start of Next Day calculations.
@@ -621,6 +681,7 @@ init -12 python:
         def post_nd_reset(self):
             self.res = None
             self.is_running = False
+            self.send_in_worker = False
             self.active_workers = set()
             self.clients = set()
 

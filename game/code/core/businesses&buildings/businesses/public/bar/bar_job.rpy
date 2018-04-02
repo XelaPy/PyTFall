@@ -17,6 +17,7 @@ init -5 python:
 
         def traits_and_effects_effectiveness_mod(self, worker, log):
             effectiveness = 0
+
             if worker.effects['Food Poisoning']['active']:
                 log.append("%s suffers from Food Poisoning, and is very far from her top shape." % worker.name)
                 effectiveness -= 50
@@ -27,9 +28,15 @@ init -5 python:
                 log.append("Being drunk, %s perfectly understands her customers who also are far from sobriety." % worker.name)
                 effectiveness += 20
 
-            if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
-
-                traits = list(i.id for i in worker.traits if i in ["Great Arse", "Bad Eyesight", "Curious", "Indifferent", "Neat", "Messy", "Heavy Drinker", "Ill-mannered", "Psychic", "Shy", "Nerd", "Natural Follower", "Virtuous", "Natural Leader", "Clumsy", "Stupid", "Abnormally Large Boobs", "Big Boobs", "Scars", "Manly", "Vicious"])
+            # traits don't always work, even with high amount of traits
+            # there are normal days when performance is not affected
+            if locked_dice(65):
+                traits = list(i.id for i in worker.traits if i in ["Great Arse",
+                        "Bad Eyesight", "Curious", "Indifferent", "Neat", "Messy",
+                        "Heavy Drinker", "Ill-mannered", "Psychic", "Shy", "Nerd",
+                        "Natural Follower", "Virtuous", "Natural Leader", "Clumsy",
+                        "Stupid", "Abnormally Large Boobs", "Big Boobs", "Scars",
+                        "Manly", "Vicious"])
                 if "Lolita" in worker.traits and worker.height == "short":
                     traits.append("Lolita")
                 if traits:
@@ -101,6 +108,7 @@ init -5 python:
                 elif trait == "Vicious":
                     log.append("It's nice to have %s working as a bartender. She doesn't let the customers build up a tab no matter how pitiable they are." % worker.name)
                     effectiveness += 10
+
             return effectiveness
 
         def calculate_disposition_level(self, worker):
@@ -132,10 +140,13 @@ init -5 python:
                 disposition += 100
             return disposition
 
-        def settle_workers_disposition(self, worker, log):
+        def settle_workers_disposition(self, worker, log=None):
             """
             handles penalties in case of wrong job
             """
+            if log is None:
+                log = []
+
             if not("Server" in worker.gen_occs):
                 sub = check_submissivity(worker)
                 if worker.status != 'slave':
@@ -184,7 +195,9 @@ init -5 python:
                         worker.logws("joy", -randint(2, 4))
                         worker.logws('vitality', -randint(1, 4))
             else:
-                log.append(choice(["%s is doing her shift as a barmaid." % worker.name, "%s gets busy with clients." % worker.fullname, "%s serves customers in the bar." % worker.nickname]))
+                log.append(choice(["%s is doing her shift as a barmaid." % worker.name,
+                                   "%s gets busy with clients." % worker.fullname,
+                                   "%s serves customers in the bar." % worker.nickname]))
             return True
 
         def work_bar(self, worker, clients, loc, log):
@@ -212,10 +225,10 @@ init -5 python:
                 log.append("She is a very unskilled bartender, this girl definitely needs training \n")
 
             if charisma > 300:
-                log.logloc('fame', choice([0,1,1]))
+                log.logloc('fame', choice([0, 1, 1]))
                 log.append("Your girl was stunningly pretty, customers couldn't keep their eyes off her. \n")
             elif charisma > 150:
-                log.logloc('fame', choice([0,0,1]))
+                log.logloc('fame', choice([0, 0, 1]))
                 log.append("Your girl looked beautiful, this will not go unnoticed. \n")
             elif charisma > 45:
                 log.logloc('fame', choice([0, 0, 0, 1]))
@@ -230,7 +243,7 @@ init -5 python:
             log.logws('exp', randint(15, 25))
             log.logws('bartending', choice([1, 2]))
             log.logws('refinement', choice([0, 0, 0, 1]))
-            log.logws('vitality', len_clients * -3)
+            log.logws('vitality', len_clients*-2)
 
             if worker.has_image("waitress", exclude=["sex"]):
                 log.img = worker.show("waitress", exclude=["sex"], resize=(740, 685))

@@ -8,3 +8,10 @@ init -6 python:
         def __init__(self, **kwargs):
             super(SlaveQuarters, self).__init__(**kwargs)
             self.habitable = True
+
+        @property
+        def daily_modifier(self):
+            value = self._daily_modifier
+            for u in self.upgrades:
+                value += getattr(u, "daily_rejuvenation_modifier", 0)
+            return value
