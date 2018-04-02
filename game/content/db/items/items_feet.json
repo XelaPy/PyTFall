@@ -7,7 +7,7 @@
     "sex": "unisex",
     "chance": 100,
     "badness": 95,
-    "eqchance": 1,
+    "eqchance": 10,
     "hidden": false,
     "infinite": true,
     "slot": "feet",

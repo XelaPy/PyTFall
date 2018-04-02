@@ -2536,7 +2536,7 @@ init -9 python:
 
             chance.append(item.eqchance)
             if item.badness:
-                chance.append(-item.badness)
+                chance.append(-int(item.badness*.5))
             return chance
 
         def equip_for(self, purpose):
