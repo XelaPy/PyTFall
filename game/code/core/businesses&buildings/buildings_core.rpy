@@ -856,6 +856,13 @@ init -10 python:
             if self.expects_clients and self.total_clients:
                 self.env.process(self.clients_dispatcher(end=end))
 
+            for u in self._upgrades:
+                if isinstance(u, Garden):
+                    has_garden = True
+                    break
+            else:
+                has_garden = False
+
             while 1:
                 temp = "\n{color=[green]}%d =========>>>{/color}" % (self.env.now)
                 self.log(temp)
@@ -869,6 +876,10 @@ init -10 python:
                     self.dirt += 5 # 5 dirt each 25 turns even if nothing is happening.
                     self.threat += self.threat_mod
 
+                    if has_garden and dice(25):
+                        for w in self.all_workers:
+                            w.joy += 1
+
         def clients_dispatcher(self, end=100):
             """This method provides stream of clients to the building following it's own algorithm.
 
@@ -876,6 +887,13 @@ init -10 python:
             """
             expected = self.total_clients
             running = 0
+
+            for u in self._upgrades:
+                if isinstance(u, Garden):
+                    has_garden = True
+                    break
+            else:
+                has_garden = False
 
             # We do not want to add clients at the last 5 - 10 turns...
             # So we use 90 as base.
@@ -896,12 +914,12 @@ init -10 python:
                         expected -= 1
                         if self.clients:
                             client = self.clients.pop()
-                            self.env.process(self.client_manager(client))
+                            self.env.process(self.client_manager(client, has_garden=has_garden))
 
                 devlog.info("Client Distribution running: {}".format(running))
                 yield self.env.timeout(1)
 
-        def client_manager(self, client):
+        def client_manager(self, client, has_garden=False):
             """Manages a client using SimPy.
 
             - Picks a business
@@ -930,7 +948,10 @@ init -10 python:
 
             # Client threat mod:
             if "Aggressive" in client.traits:
-                self.threat += 3
+                if has_garden:
+                    self.threat += 2
+                else:
+                    self.threat += 3
 
             # Visit counter:
             client.up_counter("visited_building" + str(self.id))
@@ -943,7 +964,8 @@ init -10 python:
 
             fav_business = client.likes.intersection(self._businesses)
 
-            if not fav_business: # Case where clients fav business was removed from the building, client to react appropriately.
+            # Case where clients fav business was removed from the building, client to react appropriately.
+            if not fav_business:
                 self.all_clients.remove(client)
                 temp = "{}: {} storms out of the building pissed off as his favorite business was removed!".format(self.env.now, client.name)
                 self.log(temp)
