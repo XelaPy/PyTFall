@@ -66,7 +66,9 @@
 				"class": "Cleaners"
 			}
 		],
-		"allowed_businesses": ["BrothelBlock", "StripClub", "Cleaners", "WarriorQuarters"]
+		"allowed_businesses": ["BrothelBlock", "Cleaners", "WarriorQuarters"],
+		"allowed_upgrades": ["Garden"],
+		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"]}
 	},
 	{
 		"id": 3,
@@ -96,7 +98,12 @@
 				"class": "WarriorQuarters"
 			}
 		],
-		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"]
+		"allowed_businesses": ["BrothelBlock", "BarBusiness", "Cleaners", "WarriorQuarters"],
+		"allowed_upgrades": ["Garden"],
+		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
+																	"BarBusiness": ["TapBeer"],
+																	"Cleaners": ["BroomCloset"],
+																	"WarriorQuarters": ["SparringQuarters"]}
 	},
 	{
 		"id": 4,
@@ -105,7 +112,7 @@
 		"location": "Midtown",
 		"price": 75000,
 
-		"in_slots_max": 30,
+		"in_slots_max": 40,
 		"ex_slots_max": 6,
 
 		"fame": 0,
@@ -129,23 +136,18 @@
 				}
 			},
 			{
-				"class": "StripClub",
-				"kwargs": {
-					"capacity": 5,
-					"in_slots": 5,
-					"desc": "Entance your clients with exotic dancers!"
-				}
-			},
-			{
 				"class": "Cleaners"
 			},
 			{
 				"class": "WarriorQuarters"
 			}
 		],
-		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"],
-		"allowed_upgrades": [],
-		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"]}
+		"allowed_businesses": ["BrothelBlock", "StripClub", "Cleaners", "WarriorQuarters"],
+		"allowed_upgrades": ["MainHall", "Garden"],
+		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
+																	"StripClub": ["Catwalk"],
+																	"Cleaners": ["BroomCloset"],
+																	"WarriorQuarters": ["EnforcedOrder"]}
 	},
 	{
 		"id": 5,
@@ -154,7 +156,7 @@
 		"location": "Midtown",
 		"price": 175000,
 
-		"in_slots_max": 40,
+		"in_slots_max": 50,
 		"ex_slots_max": 10,
 
 		"fame": 50,
@@ -191,7 +193,13 @@
 				"class": "WarriorQuarters"
 			}
 		],
-		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"]
+		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"],
+		"allowed_upgrades": ["MainHall"],
+		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
+																	"StripClub": ["Catwalk"],
+																	"BarBusiness": ["TapBeer"],
+																	"Cleaners": ["BroomCloset"],
+																	"WarriorQuarters": ["EnforcedOrder"]}
 	},
 	{
 		"id": 6,
@@ -200,7 +208,7 @@
 		"location": "Richford",
 		"price": 500000,
 
-		"in_slots_max": 60,
+		"in_slots_max": 65,
 		"ex_slots_max": 25,
 
 		"fame": 100,
@@ -214,22 +222,7 @@
 		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
 		"img": "content/buildings/palace.jpg",
 
-		"build_businesses": [{
-				"class": "BrothelBlock",
-				"kwargs": {
-					"capacity": 5,
-					"in_slots": 5,
-					"desc": "Small, private rooms that'll 'do the trick'!"
-				}
-			},
-			{
-				"class": "StripClub",
-				"kwargs": {
-					"capacity": 5,
-					"in_slots": 5,
-					"desc": "Entance your clients with exotic dancers!"
-				}
-			},
+		"build_businesses": [
 			{
 				"class": "Cleaners"
 			},
@@ -237,7 +230,13 @@
 				"class": "WarriorQuarters"
 			}
 		],
-		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"]
+		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"],
+		"allowed_upgrades": ["MainHall", "Garden"],
+		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
+																	"StripClub": ["Catwalk"],
+																	"BarBusiness": ["TapBeer"],
+																	"Cleaners": ["BroomCloset"],
+																	"WarriorQuarters": ["SparringQuarters", "EnforcedOrder"]}
 	},
 	{
 		"id": 7,
@@ -246,7 +245,7 @@
 		"location": "Richford",
 		"price": 1000000,
 
-		"in_slots_max": 100,
+		"in_slots_max": 120,
 		"ex_slots_max": 40,
 
 		"fame": 200,
@@ -283,7 +282,13 @@
 				"class": "WarriorQuarters"
 			}
 		],
-		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"]
+		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"],
+		"allowed_upgrades": ["MainHall", "Garden"],
+		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
+																	"StripClub": ["Catwalk"],
+																	"BarBusiness": ["TapBeer"],
+																	"Cleaners": ["BroomCloset"],
+																	"WarriorQuarters": ["SparringQuarters", "EnforcedOrder"]}
 	},
 	{
 		"id": 8,
@@ -342,7 +347,8 @@
 			"kwargs": {
 				"capacity": 5,
 				"in_slots": 5,
-				"desc": "Home for slaves to live in."
+				"desc": "Home for slaves to live in.",
+				"allowed_upgrades": ["SQLandscape"]
 			}
 		}],
 		"allowed_businesses": []
@@ -373,7 +379,8 @@
 			"kwargs": {
 				"capacity": 10,
 				"in_slots": 10,
-				"desc": "Home for slaves to live in."
+				"desc": "Home for slaves to live in.",
+				"allowed_upgrades": ["SQLandscape"]
 			}
 		}],
 		"allowed_businesses": []

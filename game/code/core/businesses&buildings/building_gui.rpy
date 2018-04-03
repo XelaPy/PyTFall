@@ -263,7 +263,6 @@ init: # Screens:
         default tt = Tooltip("")
 
         if hero.upgradable_buildings:
-
             # Main Building mode:
             if bm_mid_frame_mode == "building":
                 use building_management_midframe_building_mode
@@ -542,6 +541,7 @@ init: # Screens:
                     pos 3, 55
                     xysize 310, 406
                     mousewheel True
+                    draggable True
                     has vbox
                     for u in building.all_extensions():
                         frame:

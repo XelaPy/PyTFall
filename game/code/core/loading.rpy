@@ -567,6 +567,11 @@ init -11 python:
                     for business in value:
                         business = getattr(store, business)
                         b.allowed_businesses.append(business)
+                elif key == "allowed_upgrades":
+                    for u in value:
+                        u = getattr(store, u)
+                        if u not in b.allowed_upgrades:
+                            b.allowed_upgrades.append(u)
                 else:
                     setattr(b, key, value)
 
