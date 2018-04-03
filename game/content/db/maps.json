@@ -44,6 +44,7 @@
             "id": "hiddenvillage_entrance",
             "name": "Hidden Village",
             "appearing": true,
+            "hidden": true,
             "pos": [177, 192]
         },
         {
