@@ -5,7 +5,7 @@
 		"location": "Flee Bottom",
 		"price": 5000,
 
-		"in_slots_max": 4,
+		"in_slots_max": 10,
 		"ex_slots_max": 0,
 
 		"fame": 0,
@@ -40,7 +40,7 @@
 		"location": "Flee Bottom",
 		"price": 15000,
 
-		"in_slots_max": 8,
+		"in_slots_max": 16,
 		"ex_slots_max": 2,
 
 		"fame": 0,
@@ -75,7 +75,7 @@
 		"location": "Flee Bottom",
 		"price": 25000,
 
-		"in_slots_max": 12,
+		"in_slots_max": 22,
 		"ex_slots_max": 8,
 
 		"fame": 0,
@@ -105,8 +105,8 @@
 		"location": "Midtown",
 		"price": 75000,
 
-		"in_slots_max": 20,
-		"ex_slots_max": 4,
+		"in_slots_max": 30,
+		"ex_slots_max": 6,
 
 		"fame": 0,
 		"maxfame": 200,
@@ -154,7 +154,7 @@
 		"location": "Midtown",
 		"price": 175000,
 
-		"in_slots_max": 25,
+		"in_slots_max": 40,
 		"ex_slots_max": 10,
 
 		"fame": 50,
@@ -200,7 +200,7 @@
 		"location": "Richford",
 		"price": 500000,
 
-		"in_slots_max": 45,
+		"in_slots_max": 60,
 		"ex_slots_max": 25,
 
 		"fame": 100,
@@ -292,7 +292,7 @@
 		"location": "Flee Bottom",
 		"price": 2000,
 
-		"in_slots_max": 6,
+		"in_slots_max": 8,
 		"ex_slots_max": 0,
 
 		"fame": 0,
@@ -324,7 +324,7 @@
 		"price": 10000,
 
 		"in_slots_max": 18,
-		"ex_slots_max": 0,
+		"ex_slots_max": 5,
 
 		"fame": 0,
 		"maxfame": 0,
@@ -355,7 +355,7 @@
 		"price": 200000,
 
 		"in_slots_max": 80,
-		"ex_slots_max": 0,
+		"ex_slots_max": 15,
 
 		"fame": 0,
 		"maxfame": 0,

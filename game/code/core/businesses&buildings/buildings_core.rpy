@@ -459,6 +459,10 @@ init -10 python:
             self._businesses = list()
             self.allowed_businesses = []
 
+            # We add allowed BUs here, for businesses that have not been built yet.
+            # { business: ["u1", "u2", ...]}
+            self.allowed_business_upgrades = {}
+
             self.fin = Finances(self)
 
             # And new style upgrades:
@@ -626,6 +630,14 @@ init -10 python:
             business.building = self
             self._businesses.append(business)
             self._businesses.sort(key=attrgetter("SORTING_ORDER"), reverse=True)
+
+            # Add possible upgrades:
+            cls_name = business.__class__.__name__
+            upgrades = self.allowed_business_upgrades.get(name, None)
+            if upgrades is not None:
+                for u in upgrades:
+                    u = getattr(store, u)
+                    business.allowed_upgrades.append(u)
 
             if normalize_jobs:
                 self.normalize_jobs()

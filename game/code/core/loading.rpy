@@ -547,7 +547,8 @@ init -11 python:
         buildings = dict()
         for building in buildings_data:
             b = Building()
-            # business_upgrade_data = building.get("allowed_business_upgrades", {})
+            # Allowed upgrades for businesses we have not built yet!
+            b.allowed_business_upgrades = building.get("allowed_business_upgrades", {})
 
             for key, value in building.iteritems():
                 if key == "adverts":
