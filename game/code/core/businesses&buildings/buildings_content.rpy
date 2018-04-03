@@ -701,7 +701,6 @@ init -9 python:
             self.fin = Finances(self)
 
             # ND Report
-            self.stats_mod = {}
             self.nd_events_report = list()
             self.logged_clients = False
 
@@ -748,8 +747,11 @@ init -9 python:
 
                 self.fin.log_expense(spentcash, "Ads")
 
+            charmod = self.nd_log_stats()
+
             evt = NDEvent()
             evt.type = type
+            evt.charmod = charmod
             evt.red_flag = self.flag_red
             evt.loc = self
             evt.char = char

@@ -308,6 +308,9 @@ init -10 python:
             self.max_stats = {"dirt": 1000, "threat": 1000}
             self.auto_clean = False
 
+            # Logging stat changes during the day:
+            self.stats_log = {}
+
         @property
         def threat_mod(self):
             # Figure out threat mod to apply over the building every 25 DU!
@@ -319,7 +322,7 @@ init -10 python:
                 threat = -1
             else:
                 raise Eception("{} Building with an unknown location detected!".format(str(self)))
-                
+
             return threat
 
         def __setattr__(self, key, value):
@@ -375,6 +378,27 @@ init -10 python:
             self.dirt = result
             if config.debug and self.env:
                 devlog.info("{}: Clean Function: result: {}, self.dirt: {}".format(self.env.now, result, self.dirt))
+
+        def nd_log_stats(self):
+            # Get a list of stats, usually all 4.
+            diff = OrderedDict()
+            stats = self.stats.keys()
+            if isinstance(self, FamousBuilding):
+                # throw in fame and rep:
+                stats.extend(["fame", "rep"])
+            stats.sort()
+
+            # Do not run the very first time:
+            if self.stats_log:
+                for stat in stats:
+                    value = round_int(getattr(self, stat) - self.stats_log.get(stat, 0))
+                    diff[stat] = value
+
+            # Log the new values:
+            for stat in stats:
+                self.stats_log[stat] = getattr(self, stat)
+
+            return diff
 
 
     class AdvertableBuilding(_object):

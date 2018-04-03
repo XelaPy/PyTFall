@@ -4739,7 +4739,7 @@ init -9 python:
                 # a girl is in FG as there is always something to do there:
                 if not self.action:
                     flag_red = True
-                    txt.append("\n\n  -{color=[red]}Please note that she is not really doing anything productive!-{/color}\n")
+                    txt.append("\n\n  {color=[red]}Please note that she is not really doing anything productive!-{/color}\n")
 
             txt.append("{color=[green]}\n\n%s{/color}" % "\n".join(self.txt))
 

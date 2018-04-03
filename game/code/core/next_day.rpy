@@ -1130,7 +1130,7 @@ screen next_day():
                         ypos 5
                         xysize (136, 40)
                         background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=.7), 10, 10)
-                        label (u"Char Stats:") text_size 18 text_color ivory align (.5, .5)
+                        label (u"Stat Changes:") text_size 18 text_color ivory align (.5, .5)
 
                     if event.team:
                         pass # Preventing crash before system is adjusted to team jobs again.
@@ -1189,11 +1189,18 @@ screen next_day():
                                     frame:
                                         xalign .5
                                         xysize 130, 25
-                                        text (u"%s:"%str(key).capitalize()) align .02, .5
+                                        text (u"%s:" % str(key).capitalize()) align .02, .5
+                                        python: # Special considerations:
+                                            if key in ["dirt", "threat"]:
+                                                neg_color = lawngreen
+                                                pos_color = red
+                                            else:
+                                                neg_color = red
+                                                pos_color = lawngreen
                                         if value > 0:
-                                            label (u"[value]") text_color lawngreen align .98, .5
-                                        else:
                                             label (u"[value]") text_color red align .98, .5
+                                        elif value < 0:
+                                            label (u"[value]") text_color neg_color align .98, .5
 
             # Buildings Stats Frame:
             frame background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10):
