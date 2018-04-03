@@ -1408,9 +1408,16 @@ screen panic_screen:
     key "q" action Hide("panic_screen")
     key "Q" action Hide("panic_screen")
 
+init python:
+    def meowzaaa(group):
+        return [c.exp_bar for c in group]
+
 screen give_exp_after_battle(group, exp=0, money=0):
     modal True
     zorder 100
+
+    default bars = meowzaaa(group)
+
     frame:
         align (.5, .5)
         background Frame("content/gfx/frame/post_battle.png", 75, 75)
@@ -1420,12 +1427,12 @@ screen give_exp_after_battle(group, exp=0, money=0):
         text "You gained [exp] exp" size 20 align (.5, .5) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
         null height 15
 
-        for l in group:
-            add l.exp_bar
+        for b in bars:
+            add b
 
         # actually give the EXP:
         for c in group:
-            timer .01 action Function(c.exp_bar.mod_exp, exp)
+            timer .01 action Function(c.exp_bar.mod_exp, exp) repeat False
 
         if money > 0:
             hbox:
@@ -1439,10 +1446,10 @@ screen give_exp_after_battle(group, exp=0, money=0):
         button:
             xalign .5
             xysize (120, 40)
-            if all(c.exp_bar.finished for c in group):
+            if all(c.finished for c in bars):
                 action [Hide("give_exp_after_battle")]
             text "OK" size 15
 
-    if all(c.exp_bar.finished for c in group):
+    if all(c.finished for c in bars):
         key "K_ESCAPE" action [Hide("give_exp_after_battle")]
         key "K_RETURN" action [Hide("give_exp_after_battle")]
