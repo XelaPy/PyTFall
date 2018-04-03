@@ -1,7 +1,4 @@
 init -1 python:
-    from collections import deque
-    from pygame import scrap, SCRAP_TEXT
-    import time
     class Dungeon(object):
 
         def __init__(self, **kwargs):

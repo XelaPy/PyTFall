@@ -5,6 +5,7 @@ init -999 python:
     import inspect
     import re
     import pygame
+    from pygame import scrap, SCRAP_TEXT
     import time
     import string
     import logging
