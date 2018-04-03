@@ -1196,6 +1196,20 @@ python: # Light:
             target_damage_effect={"gfx": "battle_bounce", "initial_pause": 3.7},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.5, "duration": 2.2},
             target_death_effect={"gfx": "dissolve", "initial_pause": 2.7, "duration": .5})
+    if config.debug:
+        BE_Action(u"Holy Touch", menu_pos=0, attributes=["magic", "light"], effect=100000,
+                  multiplier=1000.0, mp_cost=12, range=4, type="all_enemies",
+                desc="Simple way to kill all his enemies.", tier=0,
+                attacker_effects={"gfx": "light_1", "sfx": "default"},
+                main_effect={"gfx": Transform("light_1", zoom=1.5),
+                             "sfx": "content/sfx/sound/be/light1.mp3",
+                             "duration": 1.25, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0},
+                             "start_at": 0},
+                target_sprite_damage_effect={"gfx": "on_light_with_shake",
+                                             "initial_pause": .1, "duration": 1.1},
+                target_damage_effect={"gfx": "battle_bounce", "sfx": None},
+                target_death_effect={"gfx": "dissolve", "sfx": None,
+                                     "initial_pause":0.9, "duration": .2})
 
 python: # Darkness:
     BE_Action(u"Dark", menu_pos=0, attributes=["magic", "darkness"], effect=15, multiplier=1.0, mp_cost=12, range=4, type="all_enemies",

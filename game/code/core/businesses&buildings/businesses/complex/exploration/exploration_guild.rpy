@@ -741,7 +741,6 @@ init -6 python:
                 # self.stats["agility"] += randrange(2)
                 # self.stats["magic"] += randrange(2)
                 # self.stats["exp"] += mob_power/15
-
                 log.suffix = "{color=[red]}Defeat{/color}"
                 temp = "{color=[red]}Your team got their asses kicked!!{/color}\n"
                 log.add(temp)

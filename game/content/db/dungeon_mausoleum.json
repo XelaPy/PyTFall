@@ -152,8 +152,8 @@
 		"Bear": {
 			"spot": [562, 321, 184, 339],
 			"actions": [{
-				"function": "dungeon.say",
-				"arguments": ["", "You killed the bear."],
+				"function": "dungeon_combat",
+				"arguments": ["Bear"],
 				"sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
 			}]
 		}

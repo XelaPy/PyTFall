@@ -158,8 +158,13 @@ init -1 python:
             return "wall collision"
 
         def function(self, function, arguments, set_var=None, **kwargs):
-            # only allow particular functions
-            if all(function[:len(f)] != f for f in ('renpy.', 'dungeon.', 'devlog.')):
+            if function in ["dungeon_combat"]:
+                func = getattr(store, function)
+                func(*arguments, **kwargs)
+                return
+
+            # only allow particular functions # WHY...???
+            elif all(function[:len(f)] != f for f in ('renpy.', 'dungeon.', 'devlog.', 'dungeon')):
                 # may want to add more exceptions if necessary and safe
                 raise Exception("calling function %s not allowed" % function)
 

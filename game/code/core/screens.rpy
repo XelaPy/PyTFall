@@ -1417,7 +1417,7 @@ screen give_exp_after_battle(group, exp=0, money=0):
         xpadding 75
         ypadding 75
         has vbox
-        text ("You gained %d exp"%exp) size 20 align (.5, .5) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
+        text "You gained [exp] exp" size 20 align (.5, .5) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
         null height 15
 
         for l in group:
@@ -1430,7 +1430,7 @@ screen give_exp_after_battle(group, exp=0, money=0):
         if money > 0:
             hbox:
                 xalign .5
-                text ("You found %d"%money) size 20 align (.5, .5) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
+                text ("You found [money]") size 20 align (.5, .5) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
                 null width 5
                 add "coin_top" align (.5, .5)
 
