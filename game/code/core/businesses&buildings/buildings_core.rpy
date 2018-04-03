@@ -633,7 +633,7 @@ init -10 python:
 
             # Add possible upgrades:
             cls_name = business.__class__.__name__
-            upgrades = self.allowed_business_upgrades.get(name, None)
+            upgrades = self.allowed_business_upgrades.get(cls_name, None)
             if upgrades is not None:
                 for u in upgrades:
                     u = getattr(store, u)
