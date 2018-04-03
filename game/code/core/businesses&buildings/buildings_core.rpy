@@ -637,7 +637,8 @@ init -10 python:
             if upgrades is not None:
                 for u in upgrades:
                     u = getattr(store, u)
-                    business.allowed_upgrades.append(u)
+                    if u not in business.allowed_upgrades:
+                        business.allowed_upgrades.append(u)
 
             if normalize_jobs:
                 self.normalize_jobs()
