@@ -1,10 +1,7 @@
 init -1 python:
     class Dungeon_Skill(object):
-
+        '''Class used for battle skills
         '''
-        Class used for battle skills
-        '''
-
         def __init__(self, name, type, hit=0, power=0):
             self.name = name
             self.type = type
@@ -12,11 +9,8 @@ init -1 python:
             self.power = power
 
     class Actor(object):
-
+        '''Class used for battle characters.
         '''
-        Class used for battle characters.
-        '''
-
         def __init__(self, name, max_hp=0, skills=[]):
             self.name=name
             self.max_hp=max_hp
@@ -30,9 +24,9 @@ init -1 python:
                 target.hp -= self.skill.power
                 narrator ("{} got {} damage".format(target.name, self.skill.power))
 
+
 screen dungeon_battle_ui:
     # Screen which shows battle status
-
     use dungeon_battle_frame(char=player, position=(.95,.05))
     use dungeon_battle_frame(char=enemy, position=(.05,.05))
 
@@ -48,7 +42,6 @@ screen dungeon_battle_frame(char,position):
 
 screen dungeon_command_screen:
     # Screen used for selecting skills
-
     vbox style_group "skill" align (.1,.8):
         for i in player.skills:
             textbutton "[i.name]" action Return (value=i)
@@ -56,6 +49,7 @@ screen dungeon_command_screen:
 style skill_button_text:
     size 40
     xminimum 200
+
 
 label dungeon_battle(player, enemy):
     # To start battling, call this label with 2 actor objects: player and enemy.
@@ -84,7 +78,6 @@ label dungeon_battle(player, enemy):
 
 label _dungeon_battle(player, enemy):
     # A sub label used in the battle label.
-
     while True:
         $ player.skill = renpy.call_screen("dungeon_command_screen")
         $ enemy.skill = renpy.random.choice(enemy.skills)

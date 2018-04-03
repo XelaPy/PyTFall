@@ -1,12 +1,16 @@
 label graveyard_town:
-    $ gm.enter_location(goodtraits=["Undead", "Divine Creature", "Demonic Creature"], badtraits=["Elf", "Android", "Monster", "Human", "Furry"], curious_priority=False)
+    python:
+        gm.enter_location(goodtraits=["Undead", "Divine Creature", "Demonic Creature"],
+                          badtraits=["Elf", "Android", "Monster", "Human", "Furry"],
+                          curious_priority=False)
     $ coords = [[.1, .55], [.5, .84], [.92, .45]]
+
     if not "cemetery" in ilists.world_music:
         $ ilists.world_music["cemetery"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("cemetery")]
     if not global_flags.has_flag("keep_playing_music"):
         play world choice(ilists.world_music["cemetery"]) fadein .5
-    $ global_flags.del_flag("keep_playing_music")
 
+    $ global_flags.del_flag("keep_playing_music")
 
     python:
         # Build the actions
@@ -20,7 +24,6 @@ label graveyard_town:
     $ number=0
 
     while 1:
-
         $ result = ui.interact()
 
         if result[0] == 'jump':
@@ -85,6 +88,7 @@ screen cemetry_list_of_dead_chars (dead_list, number): # the list should not be 
 
     $ img = "content/gfx/interface/buttons/next.png"
     $ img1 = im.Flip("content/gfx/interface/buttons/next.png", horizontal=True)
+
     imagebutton:
         align (.415, .62)
         idle (img1)
@@ -140,12 +144,14 @@ screen graveyard_town():
             action [Hide("graveyard_town"), Jump("enter_dungeon")]
 
     if gm.show_girls:
-
         add "content/gfx/images/bg_gradient.png" yalign .45
-        $ j = 0
-
-        for entry in gm.display_girls():
+        for j, entry in enumerate(gm.display_girls()):
             hbox:
                 align (coords[j])
-                $ j += 1
-                use rg_lightbutton(img=entry.show('girlmeets', exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage", "onsen", "indoors", "indoor"], type="first_default",label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show('girlmeets',
+                        exclude=["swimsuit", "wildness",
+                                 "beach", "pool", "urban", "stage",
+                                 "onsen", "indoors", "indoor"],
+                                 type="first_default", label_cache=True,
+                                 resize=(300, 400)),
+                                 return_value=['jump', entry])

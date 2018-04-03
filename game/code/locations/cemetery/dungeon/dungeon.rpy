@@ -1,6 +1,5 @@
 init -1 python:
     class Dungeon(object):
-
         def __init__(self, **kwargs):
             for k in kwargs:
                 if k != "r" and k != "map":
@@ -29,7 +28,6 @@ init -1 python:
             self.add_timer(timer, [{"function": "dungeon.__setattr__", "arguments": ["said", None] }])
 
         def add_timer(self, timer, functions):
-
             self.timer = min(self.timer, timer) if self.timer is not None else timer
             timestr = timer + time.time()
             funclist = list(functions)
@@ -66,7 +64,6 @@ init -1 python:
             return self.hero
 
         def _move_npc(self, at_str, m):
-
             if not at_str in self.spawn:
                 devlog.warn("spawn at %s already died?" % at_str)
                 return
@@ -114,7 +111,6 @@ init -1 python:
             return self._map[y][x]
 
         def teleport(self, pt=None):
-
             if not pt: # using map hotspot
                 pt = renpy.get_mouse_pos()
                 pt = ((pt[0] - 3) / 6, (pt[1]-43) / 6)
@@ -129,9 +125,7 @@ init -1 python:
             if condition and not renpy.music.is_playing(channel):
                 renpy.play(sound, channel)
 
-
         def no_access(self, at, to, ori, is_spawn=False):
-
             if pc['x'] == to[0] and pc['y'] == to[1]:
                 return "hero collision" # for spawn movement
 
@@ -164,7 +158,6 @@ init -1 python:
             return "wall collision"
 
         def function(self, function, arguments, set_var=None, **kwargs):
-
             # only allow particular functions
             if all(function[:len(f)] != f for f in ('renpy.', 'dungeon.', 'devlog.')):
                 # may want to add more exceptions if necessary and safe
@@ -335,9 +328,9 @@ label enter_dungeon:
     if not global_flags.has_flag("keep_playing_music"):
         play world choice(ilists.world_music["dungeon"]) fadein .5
     $ global_flags.del_flag("keep_playing_music")
-
     # Place a player position on a dungeon stage.
     # dx,dy means direction. If dy=1, it's down. If dx=-1, it's left.
+
 label enter_dungeon_r:
     while True:
         # Composite background images.
@@ -385,7 +378,7 @@ label enter_dungeon_r:
 
                 situ = dungeon.map(x, y)
                 if situ in dungeon.container:
-                    #FIXME use position lookup, for some container may first have to add front (cover) image (or modify image)
+                    # FIXME use position lookup, for some container may first have to add front (cover) image (or modify image)
 
                     pt = str((x, y))
                     if pt in dungeon.renderitem:
@@ -432,22 +425,17 @@ label enter_dungeon_r:
                 dungeon.arrow.x = (pc['x'] - .2)*6 + 3
 
                 if situ in dungeon.visible: # a wall or so, need to draw.
-
                     if isinstance(blend[situ], list):
-
                         if len(blend[situ]) == 2: # left-right symmetry
                             show.append(sided[lateral+3] % ('dungeon_'+blend[situ][abs(pc['dx'])], dungeon.light, distance))
-
                         else: # no symmetry, 4 images.
                             ori = 1 - pc['dx'] - pc['dy'] + (1 if pc['dx'] > pc['dy'] else 0)
                             show.append(sided[lateral+3] % ('dungeon_'+blend[situ][ori], dungeon.light, distance))
-
                     else: # symmetric, or simply rendered in only one symmetry
                         show.append(sided[lateral+3] % ('dungeon_'+blend[situ], dungeon.light, distance))
 
                 transparent_area = dungeon.transparent[abs(pc['dx'])]
                 if situ in transparent_area or (situ in dungeon.visible and not renpy.has_image(show[-1])): # need to draw what's behind it.
-
                     # after `or' prevents adding areas twice. If the area diagonally nearer to hero is
                     # a wall, the area is not yet drawn, draw it, unless we cannot see it.
                     (bx, by) = (x-pc['dx'], y-pc['dy'])
@@ -455,12 +443,10 @@ label enter_dungeon_r:
                                          and dungeon.map(bx-pc['dy'], by+pc['dx']) not in transparent_area
                                          and ((distance == 1 and lateral == 0) or dungeon.map(bx, by) in transparent_area)):
                         areas.append([distance, lateral + 1])
-
                     if lateral <= 0 and (distance == -lateral*2 or distance > -lateral*2
                                          and dungeon.map(bx+pc['dy'], by-pc['dx']) not in transparent_area
                                          and ((distance == 1 and lateral == 0) or dungeon.map(bx, by) in transparent_area)):
                         areas.append([distance, lateral - 1])
-
                     if distance < 5:
                         areas.append([distance + 1, lateral])
 
@@ -475,55 +461,46 @@ label enter_dungeon_r:
             if isinstance(_return, list):
                 dungeon.next_events.extend(_return)
                 _return = "event_list"
-
             elif _return == 2:
                 to = (pc['x']-pc['dx'], pc['y']-pc['dy'])
 
                 access_denied = dungeon.no_access(at, to, ori)
                 if not access_denied:
                     (pc['x'], pc['y']) = to
-
             elif _return == 4:
                 (pc['dx'], pc['dy']) = (pc['dy'], -pc['dx'])
-
             elif _return == 6:
                 (pc['dx'], pc['dy']) = (-pc['dy'], pc['dx'])
-
             elif _return == 7:
                 to = (pc['x']+pc['dy'], pc['y']-pc['dx'])
 
                 access_denied = dungeon.no_access(at, to, ori ^ 2)
                 if not access_denied:
                     (pc['x'], pc['y']) = to
-
             elif _return == 8:
                 to = (pc['x']+pc['dx'], pc['y']+pc['dy'])
 
                 access_denied = dungeon.no_access(at, to, ori)
                 if not access_denied:
                     (pc['x'], pc['y']) = to
-
             elif _return == 9:
                 to = (pc['x']-pc['dy'], pc['y']+pc['dx'])
 
                 access_denied = dungeon.no_access(at, to, ori ^ 2)
                 if not access_denied:
                     (pc['x'], pc['y']) = to
-
             elif _return == "update map":
                 dungeon_location = dungeon.hero
                 dungeons = load_dungeons()
                 dungeon = dungeons[dungeon.id]
                 dungeon.enter(at=dungeon_location)
-
-            elif _return == "mpos": #XXX: dev mode
+            elif _return == "mpos": # XXX: dev mode
                 if mpos:
                     mpos2 = renpy.get_mouse_pos()
                     scrap.put(SCRAP_TEXT, str((mpos[0], mpos[1], mpos2[0] - mpos[0], mpos2[1] - mpos[1])))
                     mpos = None
                 else:
                     mpos = renpy.get_mouse_pos()
-
             elif _return in hero.team:
                 came_to_equip_from = "enter_dungeon_r"
                 eqtarget = _return
@@ -537,7 +514,6 @@ label enter_dungeon_r:
                     _return = "event_list"
 
             if _return == "event_list":
-
                 while dungeon.next_events:
                     event = dungeon.next_events.popleft()
                     if "load" in event:
@@ -549,8 +525,6 @@ label enter_dungeon_r:
                         break
                     else:
                         dungeon.function(**event)
-
-
 
             # do any expired timer events
             if dungeon.timer is not None:
