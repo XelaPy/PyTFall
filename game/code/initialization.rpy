@@ -3,6 +3,7 @@ init -999 python:
     import os
     import sys
     import inspect
+    from inspect import isclass
     import re
     import pygame
     from pygame import scrap, SCRAP_TEXT

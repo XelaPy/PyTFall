@@ -577,7 +577,7 @@ init -10 python:
             # using it's class attributes to figure out the cost and the materials required.
             tier = self.tier or 1
 
-            if inspect.isclass(extension):
+            if isclass(extension):
                 ext = extension(**ec_kwargs)
             else:
                 ext = extension
@@ -660,7 +660,7 @@ init -10 python:
             return self._businesses + self._upgrades
 
         def has_extension(self, extension, include_business_upgrades=False):
-            if not inspect.isclass(extension):
+            if not isclass(extension):
                 extension = extension.__class__
 
             for ex in self.all_extensions():

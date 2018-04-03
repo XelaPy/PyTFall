@@ -1,7 +1,4 @@
 init -1 python:
-
-    from copy import copy as copycopy
-
     class Dungeon_Skill(object):
 
         '''
@@ -65,7 +62,7 @@ label dungeon_battle(player, enemy):
 
     # Preparation
     # Copying enemy object prevents modifying an original data.
-    $ enemy=copycopy(enemy)
+    $ enemy = shallowcopy(enemy)
     $ _rollback=False
     show screen dungeon_battle_ui
     "[enemy.name] appeared"

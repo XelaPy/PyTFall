@@ -1,7 +1,5 @@
 # classes and methods for groups of Characters:
 init -8 python:
-    from inspect import isclass
-
     class Delegator(_object):
         def __init__(self, l, at, remedy=None, *args, **kwargs):
             self._attrs = ['lst', '_remedy', '_at']
