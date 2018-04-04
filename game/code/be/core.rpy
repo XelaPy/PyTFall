@@ -2014,6 +2014,11 @@ init -1 python: # Core classes:
         difficulty = team_level - enemy_level
         base_exp = max(20, min(difficulty*10, 200)) # Between 20 and 200.
 
+        # We can check if there were more enemies on the opfor
+        diff = len(enemies) - len(team)
+        if diff > 0: # there were more enemies, we can give more EXP for that.
+            base_exp += base_exp * (.3*diff)
+
         if team_level >= enemy_level: # Case where we fought weak(er) enemies:
             exp = base_exp*.7 # bit of a penalty
             return round_int(adjust_exp(team_level, exp))
