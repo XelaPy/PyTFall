@@ -92,8 +92,8 @@
 		"Shuriken": {
 			"spot": [621, 631, 91, 49],
 			"actions": [{
-				"function": "dungeon.say",
-				"arguments": ["", "You found Shuriken."],
+				"function": "dungeon_grab_item",
+				"arguments": ["Shuriken"],
 				"sound": ["content/sfx/sound/dungeon/shuriken.ogg", "voice"]
 			}]
 		}
@@ -102,24 +102,24 @@
 		"dagger": {
 			"spot": [628, 420, 186, 20],
 			"actions": [{
-				"function": "dungeon.say",
-				"arguments": ["", "You found a dagger."],
+				"function": "dungeon_grab_item",
+				"arguments": ["Courtesan Dagger"],
 				"sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
 			}]
 		},
 		"ring": {
 			"spot": [695, 429, 41, 11],
 			"actions": [{
-				"function": "dungeon.say",
-				"arguments": ["", "This ring must be valuable!"],
+				"function": "dungeon_grab_item",
+				"arguments": ["Rogue's Ring"],
 				"sound": ["content/sfx/sound/dungeon/ring.ogg", "voice"]
 			}]
 		},
 		"bottle": {
 			"spot": [670, 309, 58, 127],
 			"actions": [{
-				"function": "dungeon.say",
-				"arguments": ["", "An elixer of some kind!"],
+				"function": "dungeon_grab_item",
+				"arguments": ["Great Mana Potion"],
 				"sound": ["content/sfx/sound/dungeon/bottle.ogg", "voice"]
 			}]
 		}
