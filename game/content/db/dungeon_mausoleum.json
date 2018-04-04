@@ -84,8 +84,8 @@
 		"Replica Sword": {
 			"spot": [614, 576, 127, 95],
 			"actions": [{
-				"function": "dungeon.say",
-				"arguments": ["", "You found a Replica Sword."],
+				"function": "dungeon_grab_item",
+				"arguments": ["Replica Sword"],
 				"sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
 			}]
 		},
@@ -128,24 +128,24 @@
 		"Goblin": {
 			"spot": [520, 442, 234, 269],
 			"actions": [{
-				"function": "dungeon.say",
-				"arguments": ["", "You killed the goblin."],
+				"function": "dungeon_combat",
+				"arguments": ["Goblin"],
 				"sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
 			}]
 		},
 		"Devil Rat": {
 			"spot": [540, 376, 212, 278],
 			"actions": [{
-				"function": "dungeon.say",
-				"arguments": ["", "You killed the rat."],
+				"function": "dungeon_combat",
+				"arguments": ["Devil Rat"],
 				"sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
 			}]
 		},
 		"Bats": {
 			"spot": [536, 40, 226, 249],
 			"actions": [{
-				"function": "dungeon.say",
-				"arguments": ["", "You killed the bats."],
+				"function": "dungeon_combat",
+				"arguments": ["Bats"],
 				"sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
 			}]
 		},

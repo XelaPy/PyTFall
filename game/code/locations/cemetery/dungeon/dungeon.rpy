@@ -306,18 +306,6 @@ screen dungeon_move(hotspots):
 style move_button_text:
     size 60
 
-# Assign background images.
-# "left0" means a wall on the lefthand, "front2" means a further wall on the front, and so on. field of view:
-#
-# left5c, left5b, left5, front5, right5, right5b, right5c
-# left4c, left4b, left4, front4, right4, right4b, right4c
-#         left3b, left3, front3, right3, right3b
-#         left2b, left2, front2, right2, right2b
-#                 left1, front1, right1
-#                 left0, <hero>, right0
-
-
-
 label enter_dungeon:
     python:
         # Create a dungeon stage
@@ -542,3 +530,14 @@ label enter_dungeon_r:
                                 dungeon.function(**event)
                         else:
                             dungeon.timer = t - current_time
+
+
+# Assign background images.
+# "left0" means a wall on the lefthand, "front2" means a further wall on the front, and so on. field of view:
+#
+# left5c, left5b, left5, front5, right5, right5b, right5c
+# left4c, left4b, left4, front4, right4, right4b, right4c
+#         left3b, left3, front3, right3, right3b
+#         left2b, left2, front2, right2, right2b
+#                 left1, front1, right1
+#                 left0, <hero>, right0
