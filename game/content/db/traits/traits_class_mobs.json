@@ -170,7 +170,7 @@
         "basetrait": true,
         "defence_multiplier": {"status":0.5},
         "mob_only": true,
-        "mod_stats": {"defence": [1, 1], "agility": [3, 1]
+        "mod_stats": {"defence": [1, 1], "agility": [3, 1], "attack": [1, 1]
         },
         "init_lvlmax": {
             "attack": 30,
@@ -179,6 +179,12 @@
             "agility": 80,
             "intelligence": 25
         },
+		"base_stats": {
+			"attack": 40,
+			"defence": 40,
+			"health": 10,
+			"agility": 10
+		},
         "init_max": {
             "attack": 30,
             "defence": 30,
@@ -210,7 +216,11 @@
             "magic": [
                 -1,
                 -1
-            ]
+            ],
+			"health": [
+				4,
+				4
+			]
         }
     },
     {
