@@ -166,6 +166,36 @@ screen alignment_choice(character):
             action Return(el)
             hovered tt.Action("Add "+el.id)
 
+    vbox:
+        align .5, .65
+        # Elements icon:
+        $ els = [Transform(e.icon, size=(90, 90)) for e in character.elements]
+        $ els_a = [Transform(im.MatrixColor(e.icon, im.matrix.brightness(.10)), size=(90, 90)) for e in character.elements]
+        frame:
+            xalign .0
+            yfill True
+            background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+            xysize (100, 30)
+            text (u"[character.nickname]") color "#CDAD00" font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
+        null height 3
+        frame:
+            xysize (100, 100)
+            background Frame(Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
+            add ProportionalScale("content/gfx/interface/images/elements/hover.png", 98, 98) align (.5, .5)
+            $ x = 0
+            $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
+            $ els_a = [Transform(i, crop=(90/len(els_a)*els_a.index(i), 0, 90/len(els_a), 90), subpixel=True, xpos=(x + 90/len(els_a)*els_a.index(i))) for i in els_a]
+            $ f = Fixed(*els, xysize=(90, 90))
+            $ f_a = Fixed(*els_a, xysize=(90, 90))
+
+            button:
+                align .5, .5
+                xysize (90, 90)
+                # pos (5, 5)
+                action NullAction()
+                background Transform(f, align=(.5, .5))
+                hover_background Transform(f_a, align=(.5, .5))
+
 screen alignment_removal_choice(character):
     default tt = Tooltip("Cancel")
     key "mousedown_3" action Return("")

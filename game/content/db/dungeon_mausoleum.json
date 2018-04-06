@@ -350,16 +350,16 @@
 		"Blast Beetle": {
 			"spot": [517, 453, 210, 192],
 			"actions": [{
-				"function": "dungeon.say",
-				"arguments": ["", "You killed the beetle."],
+				"function": "dungeon_combat",
+				"arguments": ["Blast Beetle"],
 				"sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
 			}]
 		},
 		"Wikkawak": {
 			"spot": [585, 390, 192, 202],
 			"actions": [{
-				"function": "dungeon.say",
-				"arguments": ["", "You kill the creature."],
+				"function": "dungeon_combat",
+				"arguments": ["Wikkawak"],
 				"sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
 			}]
 		}

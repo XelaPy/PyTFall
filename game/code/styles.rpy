@@ -140,10 +140,17 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
     # Based Wooden buttons we inherited from WM Wood Skin.
     style wood_button:
         is button
-        idle_background Frame("content/gfx/interface/buttons/idle_wood.png", 5, 5)
+        background Frame("content/gfx/interface/buttons/idle_wood.png", 5, 5)
         hover_background Frame("content/gfx/interface/buttons/hover_wood.png", 5, 5)
         insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/idle_wood.png"), 5, 5)
         hover_sound "content/sfx/sound/sys/hover_2.wav"
+
+    style wood_text:
+        align (.5, .5)
+        size 14
+        color ivory
+        hover_color red
+        insensitive_color black
 
     style left_wood_button:
         is button
@@ -158,12 +165,6 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
         hover_background Frame("content/gfx/interface/buttons/button_wood_right_hover.png", 5, 5)
         insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/button_wood_right_idle.png"), 5, 5)
         hover_sound "content/sfx/sound/sys/hover_2.wav"
-
-    style wood_text:
-        align (.5, .5)
-        size 14
-        color ivory
-        hover_color red
 
     # This is a simple white, semi transparrent button, prolly should be deleted.
     style white_cry_button:
@@ -419,7 +420,7 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
 
     style new_style_tooltip_frame:
         clear
-        
+
         padding (8, 5)
         xsize 350
         background Frame("content/gfx/interface/buttons/hp_1s.png", 5, 5)

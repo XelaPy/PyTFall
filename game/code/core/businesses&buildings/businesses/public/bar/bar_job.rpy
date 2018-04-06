@@ -5,6 +5,8 @@ init -5 python:
             self.id = "Bartending"
             self.type = "Service"
 
+            self.per_client_payout = 6
+
             # Traits/Job-types associated with this job:
             self.occupations = ["Server"] # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = [traits["Maid"]] # Corresponding traits...
