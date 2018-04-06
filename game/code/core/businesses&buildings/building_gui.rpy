@@ -308,7 +308,7 @@ init: # Screens:
         # Buttons group:
         frame:
             xalign .5
-            style_group "wood"
+            style_prefix "wood"
             xpadding 0
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 5, 5)
             has hbox xalign .5 spacing 5 xsize 315
@@ -321,19 +321,12 @@ init: # Screens:
                         action Show("building_adverts")
                         hovered tt.action('Advertise this building to attract more and better customers')
                         text "Advertise"
-                if building.get_all_chars():
-                    button:
-                        xysize (135, 40)
-                        action Return(['building', "items_transfer"])
-                        hovered tt.action('Transfer items between characters in this building')
-                        sensitive (len(building.get_all_chars()) >= 2)
-                        text "Transfer Items"
-                else:
-                    button:
-                        xysize (135, 40)
-                        action NullAction()
-                        hovered tt.action('Transfer items between characters in this building')
-                        text "Transfer Items"
+                button:
+                    xysize (135, 40)
+                    action Return(['building', "items_transfer"])
+                    hovered tt.action('Transfer items between characters in this building')
+                    sensitive (len(building.get_all_chars()) >= 2)
+                    text "Transfer Items"
                 if isinstance(building, BuildingStats):
                     button:
                         xysize (135, 40)
