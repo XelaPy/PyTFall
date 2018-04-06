@@ -65,7 +65,7 @@ init -9 python:
                 if not stats: # Some weird ass base trait, we just award 33% of total possible points.
                     stat_bonus += default_points*.33
                 else:
-                    stats = trait.base_stats
+                    total_weight_points = sum(stats.values())
                     for stat, weight in stats.items():
                         weight_ratio = float(weight)/total_weight_points
                         max_p = default_points*weight_ratio
