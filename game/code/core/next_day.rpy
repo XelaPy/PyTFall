@@ -1198,7 +1198,7 @@ screen next_day():
                                                 neg_color = red
                                                 pos_color = lawngreen
                                         if value > 0:
-                                            label (u"[value]") text_color red align .98, .5
+                                            label (u"[value]") text_color pos_color align .98, .5
                                         elif value < 0:
                                             label (u"[value]") text_color neg_color align .98, .5
 
