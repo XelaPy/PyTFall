@@ -927,6 +927,17 @@ init -10 python:
                         for w in self.all_workers:
                             w.joy += 1
 
+                # Clear threat and dirt for smaller buildings:
+                # Maybe require any kind of manager???
+                if env.now == 101 and self.capacity < 10:
+                    if (self.threat > 500 or self.dirt > 500) and dice(20):
+                        temp = "Your employees took care of the building for you after work hours!"
+                        self.log(temp)
+                        temp = "You are still working with a small businesses, so don't expect this trend to continue as your business empire grows and expands!"
+                        self.log(temp)
+                        self.threat = 0
+                        self.dirt = 0
+
         def clients_dispatcher(self, end=100):
             """This method provides stream of clients to the building following it's own algorithm.
 
