@@ -170,7 +170,7 @@ init -11 python:
         if not max_out_stats:
             for stat, value in data.get("stats", {}).iteritems():
                 if stat != "luck":
-                    value = getattr(mob, stat) + int(round(mob.get_max(stat)*value/float(100)))
+                    value = getattr(mob, stat) + abs(value)
                 setattr(mob, stat, value)
 
         return mob
