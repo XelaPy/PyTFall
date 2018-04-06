@@ -326,6 +326,7 @@ init: # Screens:
                         xysize (135, 40)
                         action Return(['building', "items_transfer"])
                         hovered tt.action('Transfer items between characters in this building')
+                        sensitive (len(building.get_all_chars()) >= 2)
                         text "Transfer Items"
                 else:
                     button:
