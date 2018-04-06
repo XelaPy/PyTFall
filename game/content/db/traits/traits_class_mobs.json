@@ -20,6 +20,10 @@
             "defence": 40,
             "agility": 40
         },
+        "base_stats": {
+            "attack": 50,
+            "agility": 10
+        },
         "init_mod": {
             "attack": 100,
             "defence": 20,
@@ -67,6 +71,7 @@
             "constitution": 100,
             "agility": -10
         },
+        
         "init_max": {
             "attack": 40,
             "defence": 200,
@@ -79,6 +84,10 @@
             "defence": 150,
             "agility": -20,
             "constitution": 30
+        },
+        "base_stats": {
+            "defence": 80,
+            "health": 100
         },
         "init_skills": {},
         "leveling_stats": {
@@ -126,6 +135,10 @@
             "defence": 25,
             "health": 50,
             "intelligence": 100
+        },
+        "base_stats": {
+            "intelligence": 40,
+            "magic": 40
         },
         "init_max": {
             "magic": 150,
@@ -179,12 +192,12 @@
             "agility": 80,
             "intelligence": 25
         },
-		"base_stats": {
-			"attack": 40,
-			"defence": 40,
-			"health": 10,
-			"agility": 10
-		},
+        "base_stats": {
+            "attack": 40,
+            "defence": 40,
+            "health": 10,
+            "agility": 10
+    },
         "init_max": {
             "attack": 30,
             "defence": 30,
@@ -217,10 +230,10 @@
                 -1,
                 -1
             ],
-			"health": [
-				4,
-				4
-			]
+            "health": [
+                4,
+                4
+            ]
         }
     },
     {
@@ -243,6 +256,13 @@
             "agility": 50,
             "intelligence": 75
         },
+        "base_stats": {
+            "attack": 50,
+            "defence": 50,
+            "health": 50,
+            "agility": 50,
+            "magic": 50
+    },
         "init_max": {
             "magic": 100,
             "mp": 100,
