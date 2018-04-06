@@ -6,6 +6,8 @@ init -5 python:
             self.id = "Whore Job"
             self.type = "SIW"
 
+            self.per_client_payout = 30
+
             # Traits/Job-types associated with this job:
             self.occupations = ["SIW"] # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = [traits["Prostitute"]] # Corresponding traits...
