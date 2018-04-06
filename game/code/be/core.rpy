@@ -841,7 +841,7 @@ init -1 python: # Core classes:
                     ch += 100*m
 
                     if dice(ch):
-                        multiplier += 1.5 + self.critpower
+                        multiplier += 1.1 + self.critpower
                         effects.append("critical_hit")
                     elif ("inevitable" not in attributes): # inevitable attribute makes skill/spell undodgeable/unresistable
                         ev = min(t.agility*.05-a.agility*.05, 15) + max(0, min(t.luck-a.luck, 15)) # Max 15 for agility and luck each...
