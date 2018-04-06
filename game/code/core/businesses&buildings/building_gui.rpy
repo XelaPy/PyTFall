@@ -315,36 +315,31 @@ init: # Screens:
             null height 16
             vbox:
                 spacing 5
-                if building.can_advert:
-                    button:
-                        xysize (135, 40)
-                        action Show("building_adverts")
-                        hovered tt.action('Advertise this building to attract more and better customers')
-                        text "Advertise"
+                button:
+                    xysize (135, 40)
+                    action Show("building_adverts")
+                    hovered tt.action('Advertise this building to attract more and better customers')
+                    sensitive building.can_advert
+                    text "Advertise"
                 button:
                     xysize (135, 40)
                     action Return(['building', "items_transfer"])
                     hovered tt.action('Transfer items between characters in this building')
                     sensitive (len(building.get_all_chars()) >= 2)
                     text "Transfer Items"
-                if isinstance(building, BuildingStats):
-                    button:
-                        xysize (135, 40)
-                        action Show("building_maintenance")
-                        hovered tt.action('Perform maintenance of this building')
-                        text "Maintenance"
-                else:
-                    button:
-                        xysize (135, 40)
-                        action NullAction()
-                        hovered tt.action('Perform maintenance of this building')
-                        text "Maintenance"
+                button:
+                    xysize (135, 40)
+                    action Show("building_maintenance")
+                    hovered tt.action('Perform maintenance of this building')
+                    sensitive isinstance(building, BuildingStats)
+                    text "Maintenance"
             vbox:
                 spacing 5
                 button:
                     xysize (135, 40)
                     action SetField(hero, "location", building)
                     hovered tt.action('Place [hero.name] in this building')
+                    sensitive False # We prolly want better conditioning to use this!
                     text "Settle"
                 button:
                     xysize (135, 40)
