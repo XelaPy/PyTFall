@@ -288,5 +288,6 @@ screen library_show_text(book):
         vbar value YScrollValue("vp")
 
     textbutton "Enough with it":
+        style "pb_button"
         align (1.0, 1.0)
         action (Hide("library_show_text", transition=dissolve), Jump("library_read_matrix"))
