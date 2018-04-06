@@ -493,6 +493,7 @@ init -10 python:
             self.logged_clients = False
             # This is the amount of clients that will visit the Building:
             self.total_clients = 0 # this is set by get_client_count method.
+            self.clients_regen_day = 0
 
             # Chars:
             # Note: We also use .inhabitants set inherited from all the way over location.
@@ -843,7 +844,14 @@ init -10 python:
                         clnts = round_int(clnts*mod)
 
                 # TODO B&B-clients: Generate and add regulars!
+                # Note (Beta): Basically what happened with this code is that all clients,
+                # became regulars. For now, I'll add shuffle and regen,
+                # later we want real regulars!
+                if self.clients_regen_day <= day:
+                    self.all_clients = set()
+                    self.clients_regen_day = day + randint(2, 4)
                 c0 = self.expects_clients and self.available_workers
+
                 if c0 and len(self.all_clients) < clnts:
                     for i in xrange(clnts - len(self.all_clients)):
                         client = self.create_customer(likes=[choice(client_businesses)])
