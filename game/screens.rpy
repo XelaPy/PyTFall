@@ -218,12 +218,35 @@ screen main_menu():
 
     add "bg_main"
     
-    button:
-        background "content/gfx/interface/logos/gibc.png"
-        hover_background im.MatrixColor("content/gfx/interface/logos/gibc.png", im.matrix.brightness(0.10))
-        action OpenURL('https://mega.nz/#!mxAw0Q5b!F-4-An4oK5TbB9BO5e-M0Elslolrim6t3UxBdGolj-8')
-        focus_mask True
-        xysize(350, 342)
+    if not renpy.get_screen("credits"):
+        vbox:
+            align (.02, .05)
+            text "Our Patreon" xalign .5 size 22 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
+            hbox:
+                button:
+                    xalign .5
+                    xysize (100, 100)
+                    background ProportionalScale("content/gfx/interface/icons/credits/x_hole_idle.png", 100, 100)
+                    hover_background ProportionalScale("content/gfx/interface/icons/credits/x_hole_hover.png", 100, 100)
+                    action OpenURL('https://www.patreon.com/xelapy')
+                    add At(ProportionalScale("content/gfx/interface/icons/credits/patreonlogoorange.png", 100, 25, yalign=1.0), patreon_bounce)
+                null width 10
+                button:
+                    xalign .5
+                    xysize (100, 100)
+                    background ProportionalScale("content/gfx/interface/icons/credits/dark_hole_idle.png", 100, 100)
+                    hover_background ProportionalScale("content/gfx/interface/icons/credits/dark_hole_hover.png", 100, 100)
+                    action OpenURL('https://www.patreon.com/darkt')
+                    add At(ProportionalScale("content/gfx/interface/icons/credits/patreonlogoorange.png", 100, 25, yalign=1.0), patreon_bounce)
+
+   
+    
+    # button:
+        # background "content/gfx/interface/logos/gibc.png"
+        # hover_background im.MatrixColor("content/gfx/interface/logos/gibc.png", im.matrix.brightness(0.10))
+        # action OpenURL('https://mega.nz/#!mxAw0Q5b!F-4-An4oK5TbB9BO5e-M0Elslolrim6t3UxBdGolj-8')
+        # focus_mask True
+        # xysize(350, 342)
     # $ index = map_options.index(persistent.town_path)
     # button:
         # xalign 0
@@ -293,8 +316,8 @@ screen main_menu():
                 textbutton _("Settings") action Show("s_menu", s_menu="Settings"), With(dissolve)
                 hbox:
                     xalign 0.5
-                    textbutton _("Credits") action Show("credits", transition=ImageDissolve("content/gfx/masks/m02.jpg", 3)) xsize 85 text_size 16
-                    textbutton _("Help") action Show("discord", transition=ImageDissolve("content/gfx/masks/m02.jpg", 3)) xsize 85 text_size 16
+                    textbutton _("Credits") action Show("credits", transition=ImageDissolve("content/gfx/masks/m02.jpg", 1)) xsize 85 text_size 16
+                    textbutton _("Help") action Show("discord", transition=ImageDissolve("content/gfx/masks/m02.jpg", 1)) xsize 85 text_size 16
                 textbutton _("Quit") action Quit(confirm=False) xalign 0.5
 
 screen discord():
