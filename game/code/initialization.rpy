@@ -48,6 +48,8 @@ init -999 python:
         persistent.battle_results = True
     if persistent.auto_saves is None:
         persistent.auto_saves = False
+    if persistent.intro is None:
+        persistent.intro = False
 
     def content_path(path):
         '''Returns proper path for a file in the content directory *To be used with os module.'''

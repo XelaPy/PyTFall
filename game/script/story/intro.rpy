@@ -10,6 +10,16 @@ label intro:
     stop world
     stop music
     scene black
+    if persistent.intro:
+        menu:
+            "Skip Intro?"
+            
+            "Yes":
+                return
+            "No":
+                $ pass
+    
+    
     show expression Text("Mundiga continent", style="TisaOTM", align=(0.5, 0.33), size=40) as txt1:
         alpha 0
         linear 3.5 alpha 1.0
@@ -120,4 +130,8 @@ label intro:
     $ renpy.show("logo", at_list=[simple_zoom_from_to_with_linear(0.5, 2, 8), Transform(pos=(0.5, 0.75), subpixel=True)])
     $ renpy.with_statement(dissolve)
     pause 4.5
+    stop music fadeout 1.0
+    scene black
+    with dissolve
+    pause 1.0
     return
