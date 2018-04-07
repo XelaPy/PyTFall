@@ -39,8 +39,8 @@ init -999 python hide:
     ## Should we enable the use of developer tools? This should be
     ## set to False before the game is released, so the user can't
     ## cheat using developer tools.
-    config.developer = False
-    config.debug = False
+    config.developer = True
+    config.debug = True
 
 define config.window_icon = "content/gfx/interface/icons/win_icon.png"
 
