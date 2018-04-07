@@ -1332,34 +1332,40 @@ init -9 python:
 
             for item in inventory:
                 if item.slot not in weighted:
-                    # devlog.warning("Ignoring item {} on slot.".format(item.id))
+                    if AUTO_ITEM_DEBUG:
+                        devlog.warning("Ignoring item {} on slot.".format(item.id))
                     continue
 
                 if limit_tier is not False and item.tier > limit_tier:
-                    # devlog.warning("Ignoring item {} on tier.".format(item.id))
+                    if AUTO_ITEM_DEBUG:
+                        devlog.warning("Ignoring item {} on tier.".format(item.id))
                     continue
 
                 # If no purpose is valid for the item, we want nothing to do with it.
                 if item.slot not in ("misc", "consumable"):
                     purpose = base_purpose.union(sub_purpose.union(["Any"]))
                     if not purpose.intersection(item.pref_class):
-                        # devlog.warning("Ignoring item {} on purpose.".format(item.id))
+                        if AUTO_ITEM_DEBUG:
+                            devlog.warning("Ignoring item {} on purpose.".format(item.id))
                         continue
 
                 # Gender:
                 if item.sex not in (char.gender, "unisex"):
-                    # devlog.warning("Ignoring item {} on gender.".format(item.id))
+                    if AUTO_ITEM_DEBUG:
+                        devlog.warning("Ignoring item {} on gender.".format(item.id))
                     continue
 
                 # Money (conditioned):
                 if check_money:
                     if char.gold < item.price:
-                        # devlog.warning("Ignoring item {} on money.".format(item.id))
+                        if AUTO_ITEM_DEBUG:
+                            devlog.warning("Ignoring item {} on money.".format(item.id))
                         continue
 
                 weights = chance_func(item) if chance_func else [item.eqchance]
                 if weights is None: # We move to the next item!
-                    # devlog.warning("Ignoring item {} on weights.".format(item.id))
+                    if AUTO_ITEM_DEBUG:
+                        devlog.warning("Ignoring item {} on weights.".format(item.id))
                     continue
 
                 # Handle purposes:
@@ -1450,7 +1456,8 @@ init -9 python:
                             saturated_skill = max(value + 100, new_skill)
                             mod_val = 50 + 100*(new_skill - value) / saturated_skill
                             if mod_val > 100 or mod_val < -100:
-                                devlog.info("Unusual mod value for skill {}: {}".format(skill, mod_val))
+                                if AUTO_ITEM_DEBUG:
+                                    devlog.info("Unusual mod value for skill {}: {}".format(skill, mod_val))
                             weights.append(mod_val)
 
                 weighted[item.slot].append([weights, item])
@@ -2553,10 +2560,12 @@ init -9 python:
             if self.eqslots["weapon"]:
                 self.unequip(self.eqslots["weapon"])
 
-            # devlog.info("Auto Equipping for -- {} --".format(purpose))
+            if AUTO_ITEM_DEBUG:
+                devlog.info("Auto Equipping for -- {} --".format(purpose))
             slots = store.EQUIP_SLOTS
             kwargs = aeq_purposes[purpose]
-            # devlog.info("Auto Equipping Real Weapons: {} --!!".format(kwargs["real_weapons"]))
+            if AUTO_ITEM_DEBUG:
+                devlog.info("Auto Equipping Real Weapons: {} --!!".format(kwargs["real_weapons"]))
             return self.auto_equip(slots=slots, **kwargs)
 
         def auto_equip(self, target_stats, target_skills=None,
@@ -2659,7 +2668,8 @@ init -9 python:
 
                 # create averages for items
                 for _weight, item in picks:
-                    # devlog.info("(A-Eq=> {}) Slot: {} Item: {} ==> Weights: {}".format(self.name, item.slot, item.id, str(_weight)))
+                    if AUTO_ITEM_DEBUG:
+                        devlog.info("(A-Eq=> {}) Slot: {} Item: {} ==> Weights: {}".format(self.name, item.slot, item.id, str(_weight)))
                     _weight = sum(_weight)
 
                     # impute with weights of 50 for items that have less weights
@@ -2672,14 +2682,15 @@ init -9 python:
                         if slot not in ("consumable", "ring"):
                             if slot in ("weapon", "smallweapon"):
                                 if not real_weapons and item.type != "tool":
-                                    msg = []
-                                    msg.append("Skipping AE Weapons!")
-                                    msg.append("Real Weapons: {}".format(real_weapons))
-                                    if base_purpose:
-                                        msg.append("Base: {}".format(base_purpose))
-                                    if sub_purpose:
-                                        msg.append("Sub: {}".format(sub_purpose))
-                                    # devlog.warn(" ".join(msg))
+                                    if AUTO_ITEM_DEBUG:
+                                        msg = []
+                                        msg.append("Skipping AE Weapons!")
+                                        msg.append("Real Weapons: {}".format(real_weapons))
+                                        if base_purpose:
+                                            msg.append("Base: {}".format(base_purpose))
+                                        if sub_purpose:
+                                            msg.append("Sub: {}".format(sub_purpose))
+                                        devlog.warn(" ".join(msg))
                                     continue
                             if _weight > selected[0]:
                                 selected = [_weight, item] # store weight and item for the highest weight
@@ -2692,7 +2703,8 @@ init -9 python:
                     if item:
                         inv.remove(item)
                         self.equip(item, remove=False)
-                        # devlog.info("     --> {} equipped {} to {}.".format(item.id, self.name, item.slot))
+                        if AUTO_ITEM_DEBUG:
+                            devlog.info("     --> {} equipped {} to {}.".format(item.id, self.name, item.slot))
                         returns.append(item.id)
                     continue
 
