@@ -929,7 +929,7 @@ init -10 python:
 
                 # Clear threat and dirt for smaller buildings:
                 # Maybe require any kind of manager???
-                if env.now == 101 and self.capacity < 10:
+                if self.env.now == 101 and self.capacity < 10:
                     if (self.threat > 500 or self.dirt > 500) and dice(20):
                         temp = "Your employees took care of the building for you after work hours!"
                         self.log(temp)
