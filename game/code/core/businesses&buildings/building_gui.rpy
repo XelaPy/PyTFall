@@ -586,12 +586,12 @@ init: # Screens:
                 frame:
                     xysize (290, 27)
                     xalign .5
-                    text "In Slots:" xalign .02 color ivory
+                    text "Indoor Slots:" xalign .02 color ivory
                     text "[bm_mid_frame_mode.in_slots]"  xalign .98 style_suffix "value_text" yoffset 4
                 frame:
                     xysize (290, 27)
                     xalign .5
-                    text "Ext Slots:" xalign .02 color ivory
+                    text "Exterior Slots:" xalign .02 color ivory
                     text "[bm_mid_frame_mode.ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
 
             $ c0 = isinstance(bm_mid_frame_mode, CoreExtension)
@@ -614,12 +614,12 @@ init: # Screens:
                     frame:
                         xysize (290, 27)
                         xalign .5
-                        text "In Slots Required:" xalign .02 color ivory
+                        text "Indoor Slots Required:" xalign .02 color ivory
                         text "[bm_mid_frame_mode.exp_cap_in_slots]"  xalign .98 style_suffix "value_text" yoffset 4
                     frame:
                         xysize (290, 27)
                         xalign .5
-                        text "Ext Slots Required:" xalign .02 color ivory
+                        text "Exterior Slots Required:" xalign .02 color ivory
                         text "[bm_mid_frame_mode.exp_cap_ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
                     frame:
                         xysize (290, 27)
@@ -1165,9 +1165,9 @@ init: # Screens:
                                     spacing 2
                                     style_prefix "proper_stats"
                                     if in_slots:
-                                        text "In Slots: {}".format(in_slots)
+                                        text "Indoor Slots: {}".format(in_slots)
                                     if ex_slots:
-                                        text "Ext Slots: {}".format(ex_slots)
+                                        text "Exterior Slots: {}".format(ex_slots)
 
                                 vbox:
                                     align 1.0, .5
