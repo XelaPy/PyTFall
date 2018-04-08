@@ -2373,12 +2373,14 @@ init -9 python:
             for i in self.inventory:
                 self.inventory.remove(i.id, amount=has_items(i.id, [self]))
 
-        def equip(self, item, remove=True): # Equips the item
+        def equip(self, item, remove=True, aeq_mode=False): # Equips the item
             """
             Equips an item to a corresponding slot or consumes it.
             remove: Removes from the inventory (Should be False if item is equipped from directly from a foreign inventory)
+            aeq_mode: If we came here because of 'AI' auto equipment function or through players actions.
             **Note that the remove is only applicable when dealing with consumables, game will not expect any other kind of an item.
             """
+            # What the fuck is this and where did this come from??? # TODO Find out...
             if isinstance(item, list):
                 for it in item:
                     self.equip(it, remove)
@@ -2387,6 +2389,12 @@ init -9 python:
             if item.slot not in self.eqslots:
                 devlog.warning(str("Unknown Items slot: %s, %s" % (item.slot, self.__class__.__name__)))
                 return
+
+            # AEQ considerations:
+            # Basically we manually mess with inventory and have
+            # no way of knowing what was done to it.
+            if not aeq_mode and item.slot != 'consumable':
+                self.last_known_aeq_purpose = ''
 
             # This is a temporary check, to make sure nothing goes wrong:
             # Code checks during the equip method should make sure that the unique items never make it this far:
@@ -2410,7 +2418,6 @@ init -9 python:
                 if remove: # Needs to be infront of effect application for jumping items.
                     self.inventory.remove(item)
                 self.apply_item_effects(item)
-
             elif item.slot == 'misc':
                 if item in self.miscblock:
                     return
@@ -2422,7 +2429,6 @@ init -9 python:
                 self.eqslots['misc'] = item
                 self.miscitems[item] = item.mtemp
                 self.inventory.remove(item)
-
             elif item.slot == 'ring':
                 if not self.eqslots['ring']:
                     self.eqslots['ring'] = item
@@ -2438,7 +2444,6 @@ init -9 python:
                     self.eqslots['ring2'] = item
                 self.apply_item_effects(item)
                 self.inventory.remove(item)
-
             else:
                 # Any other slot:
                 if self.eqslots[item.slot]: # If there is any item equipped:
@@ -2448,12 +2453,17 @@ init -9 python:
                 self.apply_item_effects(item) # Apply item effects
                 self.inventory.remove(item) # Remove item from the inventory
 
-        def unequip(self, item, slot=None):
+        def unequip(self, item, slot=None, aeq_mode=False):
+            # AEQ considerations:
+            # Basically we manually mess with inventory and have
+            # no way of knowing what was done to it.
+            if not aeq_mode and item.slot != 'consumable':
+                self.last_known_aeq_purpose = ''
+
             if item.slot == 'misc':
                 self.eqslots['misc'] = None
                 del(self.miscitems[item])
                 self.inventory.append(item)
-
             elif item.slot == 'ring':
                 if slot:
                     self.eqslots[slot] = None
@@ -2467,7 +2477,6 @@ init -9 python:
                     raise Exception("Error while unequiping a ring! (Girl)")
                 self.inventory.append(item)
                 self.apply_item_effects(item, direction=False)
-
             else:
                 # Other slots:
                 self.inventory.append(item)
@@ -2553,13 +2562,15 @@ init -9 python:
             """
             purpose = self.guess_aeq_purpose(purpose)
 
+            self.last_known_aeq_purpose = purpose
+
             if self.eqslots["weapon"]:
                 self.unequip(self.eqslots["weapon"])
 
             if AUTO_ITEM_DEBUG:
                 devlog.info("Auto Equipping for -- {} --".format(purpose))
             slots = store.EQUIP_SLOTS
-            kwargs = aeq_purposes[purpose]
+            kwargs = AEQ_PURPOSES[purpose]
             if AUTO_ITEM_DEBUG:
                 devlog.info("Auto Equipping Real Weapons: {} --!!".format(kwargs["real_weapons"]))
             return self.auto_equip(slots=slots, **kwargs)
@@ -2613,7 +2624,7 @@ init -9 python:
                     # This is a bit of a weird conditioning, maybe pass an argument here?
                     # if not equipment_access(self, item=item, silent=True, allowed_to_equip=False):
                     #     continue
-                    self.unequip(item)
+                    self.unequip(item, aeq_mode=True)
                 weighted[k] = []
 
             # allow a little stat/skill penalty, just make sure the net weight is positive.
@@ -2698,7 +2709,7 @@ init -9 python:
                     item = selected[1]
                     if item:
                         inv.remove(item)
-                        self.equip(item, remove=False)
+                        self.equip(item, remove=False, aeq_mode=True)
                         if AUTO_ITEM_DEBUG:
                             devlog.info("     --> {} equipped {} to {}.".format(item.id, self.name, item.slot))
                         returns.append(item.id)
@@ -2709,7 +2720,7 @@ init -9 python:
                 for weight, item in sorted(selected, key=lambda x: x[0], reverse=True):
                     while self.equip_chance(item) != None:
                         inv.remove(item)
-                        self.equip(item, remove=False)
+                        self.equip(item, remove=False, aeq_mode=True)
                         returns.append(item.id)
 
                         if not item.id in inv.items:
@@ -2733,7 +2744,7 @@ init -9 python:
                             for skill in item.mod_skills:
                                 if skill in target_skills:
                                     inv.remove(item)
-                                    self.equip(item, remove=False)
+                                    self.equip(item, remove=False, aeq_mode=True)
                                     returns.append(item.id)
                             break # outer for loop
 
@@ -2785,7 +2796,7 @@ init -9 python:
             occs = self.gen_occs
             bt = self.traits.basetraits
 
-            if hint in store.aeq_purposes:
+            if hint in store.AEQ_PURPOSES:
                 purpose = hint
             elif hint == "Fighting":
                 if traits["Shooter"] in bt:
@@ -2869,7 +2880,7 @@ init -9 python:
             if not purpose: # Let's see if we can get a purpose from bts:
                 purpose = self.guess_aeq_purpose()
 
-            kwargs = aeq_purposes[purpose].copy()
+            kwargs = AEQ_PURPOSES[purpose].copy()
             kwargs.pop("real_weapons", None)
             kwargs["base_purpose"] = set(kwargs["base_purpose"])
             kwargs["sub_purpose"] = set(kwargs["sub_purpose"])

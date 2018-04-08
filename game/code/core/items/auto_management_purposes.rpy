@@ -1,5 +1,13 @@
 init python:
-    aeq_purposes = {
+    FIGHTING_AEQ_PURPOSES = [
+    "Combat",
+    "Barbarian",
+    "Shooter",
+    "Battle Mage",
+    "Mage"
+    ]
+
+    AEQ_PURPOSES = {
     "Combat":
         {"target_stats": ['health', 'mp', 'attack', 'magic', 'defence', 'agility', "luck"],
          "exclude_on_stats": ["luck", 'attack', "defence"],

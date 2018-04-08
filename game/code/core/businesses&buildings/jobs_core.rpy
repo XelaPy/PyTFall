@@ -253,6 +253,24 @@
         def __str__(self):
             return str(self.id)
 
+        def auto_equip(self, worker):
+            """
+            Auto-equip a worker for this job.
+            """
+            purpose = self.aeq_purpose
+            last_known = worker.last_known_aeq_purpose
+
+            if purpose == last_known:
+                return
+
+            # Special considerations:
+            if purpose == "Fighitng":
+                if last_known in FIGHTING_AEQ_PURPOSES:
+                    return
+
+            # Otherwise, let us AEQ:
+            worker.equip_for(purpose)
+
         @property
         def all_occs(self):
             # All Occupations:
