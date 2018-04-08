@@ -2837,7 +2837,7 @@ init -9 python:
         def auto_buy(self, item=None, amount=1, slots=None, casual=False,
                      equip=False, container=None, purpose=None,
                      check_money=True, inv=None,
-                     limit_tier=False):
+                     limit_tier=False, direct_equip=False):
             # handle request to auto-buy a particular item!
             # including forbidden for slaves items - it might be useful
             # TODO
@@ -2856,6 +2856,8 @@ init -9 python:
                 for that purpose.
             container: Container with items or Inventory to shop from. If None
                 we use.
+            direct_equip: Special arg, only when building the char, we can just equip
+                the item they 'auto_buy'.
 
             Simplify!
 
@@ -2904,7 +2906,8 @@ init -9 python:
                     amount, per_slot_amount, rv = self.ab_equipment(_items,
                                                    slot,
                                                    amount, per_slot_amount,
-                                                   rv, equip, check_money)
+                                                   rv, equip, check_money,
+                                                   direct_equip=direct_equip)
                 elif slot == "consumable":
                     amount, per_slot_amount, rv = self.ab_consumables(_items,
                                                      slot,
@@ -2913,13 +2916,13 @@ init -9 python:
                 if amount <= 0:
                     break
 
-            if equip:
+            if equip and not direct_equip:
                 self.equip_for(purpose)
 
             return rv
 
         def ab_equipment(self, _items, slot, amount, per_slot_amount,
-                         rv, equip, check_money):
+                         rv, equip, check_money, direct_equip=False):
             buy_amount = min(amount, per_slot_amount)
             amount_owned = self.get_owned_items_per_slot(slot)
 
@@ -2948,6 +2951,8 @@ init -9 python:
                     per_slot_amount -= 1
                     self.inventory.append(item)
                     rv.append(item.id)
+                    if direct_equip:
+                        self.equip(item)
 
                 if not buy_amount:
                     break

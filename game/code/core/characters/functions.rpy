@@ -392,8 +392,9 @@ init -11 python:
                 gbti_kwargs["check_money"] = False
                 gbti_kwargs["limit_tier"] = limit_tier
                 gbti_kwargs["container"] = tiered_items
-
+                
                 gbti_kwargs["purpose"] = None # Figure out in auto_buy method.
+                gbti_kwargs["direct_equip"] = True
 
             rg.auto_buy(**gbti_kwargs)
 
