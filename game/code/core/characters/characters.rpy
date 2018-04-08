@@ -2949,10 +2949,12 @@ init -9 python:
                     buy_amount -= 1
                     amount -= 1
                     per_slot_amount -= 1
-                    self.inventory.append(item)
                     rv.append(item.id)
+                    
                     if direct_equip:
                         self.equip(item)
+                    else:
+                        self.inventory.append(item)
 
                 if not buy_amount:
                     break
