@@ -11,6 +11,7 @@ init -5 python:
             # Traits/Job-types associated with this job:
             self.occupations = ["SIW"] # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = [traits["Prostitute"]] # Corresponding traits...
+            self.aeq_purpose = 'Sex'
 
             self.base_skills = {"sex": 60, "vaginal": 40, "anal": 40, "oral": 40}
             self.base_stats = {"charisma": 100}

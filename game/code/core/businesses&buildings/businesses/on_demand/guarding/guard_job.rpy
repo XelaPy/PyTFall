@@ -11,6 +11,7 @@ init -5 python:
             self.occupations = ["Combatant"] # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = [traits["Warrior"], traits["Mage"],
                                       traits["Knight"], traits["Shooter"]] # Corresponding traits...
+            self.aeq_purpose = 'Fighting'
 
             # Relevant skills and stats:
             self.base_stats = {"attack": 20, "defence": 20,

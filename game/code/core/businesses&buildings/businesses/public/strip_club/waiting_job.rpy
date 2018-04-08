@@ -2,12 +2,15 @@ init -5 python:
     class Waiting(Job):
         def __init__(self):
             super(Waiting, self).__init__()
+            """Dead Job ATM (Beta release)
+            """
             self.id = "Waiting Job"
             self.type = "Service"
 
             # Traits/Job-types associated with this job:
             self.occupations = [] # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = [] # Corresponding traits...
+            self.aeq_purpose = 'Service'
 
             # Relevant skills and stats:
             self.skills = []

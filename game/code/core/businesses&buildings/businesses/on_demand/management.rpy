@@ -12,5 +12,6 @@ init -5 python:
             # Traits/Job-types associated with this job:
             self.occupations = ["Specialist"] # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = [traits["Manager"]] # Corresponding traits...
+            self.aeq_purpose = 'Manager'
 
             self.allowed_status = ["free"]

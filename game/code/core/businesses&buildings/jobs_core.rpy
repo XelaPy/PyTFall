@@ -236,6 +236,7 @@
             # Traits/Job-types associated with this job:
             self.occupations = list() # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = list() # Corresponding traits...
+            self.aeq_purpose = 'Casual'
 
             # Status we allow:
             self.allowed_status = ["free", "slave"]
@@ -361,7 +362,7 @@
                     else:
                         # 450 is my guess for a target stat of a maxed out character
                         sp_required = 450*(difficulty*.1)
-                        
+
                     if not sp_required:
                         raise Exception("Zero Dev #6")
                     total_stats += min(sp*max_p/sp_required, max_p*1.1)

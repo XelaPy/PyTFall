@@ -8,6 +8,7 @@ init -5 python:
             # Traits/Job-types associated with this job:
             self.occupations = ["Server"] # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = [traits["Maid"]] # Corresponding traits...
+            self.aeq_purpose = 'Service'
 
             # Relevant skills and stats:
             self.base_skills = {"cleaning": 100}
