@@ -199,24 +199,6 @@ init -9 python:
                 renpy.hide_screen("slave_shopping")
 
 
-    class Apartment(BaseBuilding):
-        """Useless class really, but I may require to check for this during interaction in the future."""
-        def __init__(self, id="", **kwargs):
-            super(Apartment, self).__init__(id=id, **kwargs)
-            # Once again, for the Items transfer:
-            self.status = "slave"
-            self.given_items = dict()
-            self.inventory = Inventory(15)
-
-        def init(self):
-            self.nickname = self.fullname = self.name = self.id
-
-        # Mimicking the show method expected from character classes for items transfer:
-        def show(self, *tags, **kwargs):
-            size = kwargs.get("resize", (205, 205))
-            return ProportionalScale(self.img, size[0], size[1])
-
-
     class School(BaseBuilding):
         """
         Building that represents the school.

@@ -716,12 +716,10 @@ label load_resources:
     $ buildings = dict()
     python hide:
         # Scripted Buildings:
-        ap = Apartment(id="Studio Apartment")
-        ap.desc = "Buy this Apartment to live in for an Extra AP point per day!"
-        ap.img = "content/gfx/bg/buildings/apartment_1.jpg"
-        ap.rooms = 1
-        ap.price = 10000
-        ap.init()
+        ap = InvLocation(id="Studio Apartment", daily_modifier=10.0, rooms=1,
+                         desc="Comfartable apartment with plenty of storage space!",
+                         img="content/gfx/bg/buildings/apartment_1.jpg",
+                         price=5000)
         buildings[ap.id] = ap
         hero.buildings.append(ap)
         hero.home = ap # Note, we may condition this in MC setup? Maybe? One day :D

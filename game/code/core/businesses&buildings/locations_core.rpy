@@ -78,14 +78,6 @@ init -20 python:
             self.actors.remove(actor)
 
 
-    class CityLoc(Location):
-        """This used to be 'city' string.
-        They will partake in interactions.
-        """
-        def __init__(self):
-            super(CityLoc, self).__init__(id="City")
-
-
     class HabitableLocation(Location):
         """Location where actors can live and modifier for health and items recovery.
         Other Habitable locations can be buildings which mimic this functionality or may inherit from it in the future.
@@ -120,18 +112,29 @@ init -20 python:
             return rooms
 
 
-    class Streets(HabitableLocation):
-        """
-        Dummy location for actors that have no place to live...
-        """
-        def __init__(self):
-            super(Streets, self).__init__(id="Streets", daily_modifier=-.1, rooms=float("inf"))
+    class InvLocation(HabitableLocation):
+        """Location with an inventory:
 
+        Basically, a habitable location where one can store 'stuff'
+        Also has a number of extra properties.
+        """
+        def __init__(self, id, img="", daily_modifier=.1,
+                     desc="", price=0, rooms=1, **kwargs):
+            super(InvLocation, self).__init__(id=id,
+                        daily_modifier=daily_modifier,
+                        rooms=rooms)
+            # Once again, for the Items transfer:
+            self.status = "slave"
+            self.given_items = dict()
+            self.inventory = Inventory(15)
 
-    class Apartments(HabitableLocation):
-        """
-        Another Dummy Location, this one is used for free characters that have a place to live of their own.
-        This maybe replaced later by actual apartments for every character.
-        """
-        def __init__(self):
-            super(Apartments, self).__init__(id="City Apartments", daily_modifier=.2, rooms=float("inf"))
+            self.desc = desc
+            self.img = img
+            self.price = price
+
+            self.nickname = self.fullname = self.name = self.id
+
+        # Mimicking the show method expected from character classes for items transfer:
+        def show(self, *tags, **kwargs):
+            size = kwargs.get("resize", (205, 205))
+            return ProportionalScale(self.img, size[0], size[1])

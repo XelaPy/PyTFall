@@ -52,9 +52,15 @@
 
     python hide: # Base locations:
         # Create locations:
-        for loc in (Apartments, Streets, CityLoc):
-            loc = loc()
-            locations[loc.id] = loc
+        loc = HabitableLocation(id="Streets", daily_modifier=-.1, rooms=float("inf"))
+        locations[loc.id] = loc
+
+        loc = HabitableLocation(id="City Apartments", daily_modifier=.2, rooms=float("inf"))
+        locations[loc.id] = loc
+
+        loc = Location(id="City")
+        locations[loc.id] = loc
+
         loc = HabitableLocation(id="After Life", daily_modifier=.0, rooms=float("inf"))
         locations[loc.id] = loc
 
