@@ -256,8 +256,6 @@ screen main_menu():
         # text "<->" color black align (0.5, 0.5) size 15
         # action [SetField(persistent, "town_path", map_options[(index + 1) % len(map_options)]), Jump("_save_reload_game")]
 
-    #add AlphaBlend(Text("PyTFall", size=210, font="fonts/earthkid.ttf"), Frame(Null(), 25, 25),  "fire_logo", alpha=True) align (0.02, 0.02)
-
     #$ img = ProportionalScale("content/gfx/interface/icons/arena.png", 60, 60)
     #imagebutton:
         #pos (380, 460)
@@ -303,7 +301,6 @@ screen main_menu():
     # The main menu buttons.
     vbox:
         align (0.947, 0.87)
-        #add "miku_dance"
         frame:
             background Null()
             style_group "mmenu"
@@ -739,5 +736,3 @@ init: # Default preference menus, replaces by our own versions:
                             textbutton _("Test"):
                                 action Play("voice", config.sample_voice)
                                 style "soundtest_button"
-
-        # add Transform("or_dance", alpha=.7) align(0.02, 0.98)

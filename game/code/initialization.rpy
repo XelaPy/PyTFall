@@ -398,35 +398,35 @@ init -999 python:
             renpy.image(tag, im.Scale(image, config.screen_width,
                         config.screen_height))
 
-    # Same thing for sprites and NPC
-    for fname in os.listdir(gamedir + '/content/gfx/sprites'):
-        if check_image_extension(fname):
-            tag = fname[:-4]
-            image = 'content/gfx/sprites/' + fname
-            renpy.image(tag, image)
+    # Same thing for sprites and NPC; not used atm as we use new npcs
+    # for fname in os.listdir(gamedir + '/content/gfx/sprites'):
+        # if check_image_extension(fname):
+            # tag = fname[:-4]
+            # image = 'content/gfx/sprites/' + fname
+            # renpy.image(tag, image)
 
-    for fname in os.listdir(gamedir + '/content/gfx/sprites/npc'):
-        if check_image_extension(fname):
-            tag = 'npc ' + fname[:-4]
-            image = 'content/gfx/sprites/npc/' + fname
-            renpy.image(tag, ProportionalScale(image, 400,
-                        600))
-            tag = 'npc ' + fname[:-4] + '_novel'
-            image = 'content/gfx/sprites/npc/' + fname
-            renpy.image(tag, ProportionalScale(image, 600,
-                        700))
+    # for fname in os.listdir(gamedir + '/content/gfx/sprites/npc'):
+        # if check_image_extension(fname):
+            # tag = 'npc ' + fname[:-4]
+            # image = 'content/gfx/sprites/npc/' + fname
+            # renpy.image(tag, ProportionalScale(image, 400,
+                        # 600))
+            # tag = 'npc ' + fname[:-4] + '_novel'
+            # image = 'content/gfx/sprites/npc/' + fname
+            # renpy.image(tag, ProportionalScale(image, 600,
+                        # 700))
 
-    # We'll define same images again so multiple npcs could be placed on the screen at the same time.
-    for fname in os.listdir(gamedir + '/content/gfx/sprites/npc'):
-        if check_image_extension(fname):
-            tag = 'npc2 ' + fname[:-4]
-            image = 'content/gfx/sprites/npc/' + fname
-            renpy.image(tag, ProportionalScale(image, 400,
-                        600))
-            tag = 'npc ' + fname[:-4] + '_novel'
-            image = 'content/gfx/sprites/npc/' + fname
-            renpy.image(tag, ProportionalScale(image, 600,
-                        700))
+    # We'll define same images again so multiple npcs could be placed on the screen at the same time
+    # for fname in os.listdir(gamedir + '/content/gfx/sprites/npc'):
+        # if check_image_extension(fname):
+            # tag = 'npc2 ' + fname[:-4]
+            # image = 'content/gfx/sprites/npc/' + fname
+            # renpy.image(tag, ProportionalScale(image, 400,
+                        # 600))
+            # tag = 'npc ' + fname[:-4] + '_novel'
+            # image = 'content/gfx/sprites/npc/' + fname
+            # renpy.image(tag, ProportionalScale(image, 600,
+                        # 700))
 
     for light in ('', '_torch'):
         # 4 sided symmetry (or symmetry ignored)
