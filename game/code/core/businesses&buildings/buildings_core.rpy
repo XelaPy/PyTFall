@@ -828,6 +828,9 @@ init -10 python:
                                               c.action in self.jobs)
                 for w in self.all_workers:
                     self.convert_AP(w)
+                    # And AEQ
+                    if isinstance(w.action, Job):
+                        w.action.auto_equip(w)
 
                 # Get businesses we wish SimPy to manage! business_manager method is expected here.
                 self.nd_ups = list(up for up in self._businesses if up.workable)
