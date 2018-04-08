@@ -1862,6 +1862,7 @@ init -9 python:
             return self._action
         @action.setter
         def action(self, value):
+            # Resting considerations:
             c0 = getattr(value, "type", None) == "Resting"
             c1 = self.previousaction == value
             if c0 or c1:
@@ -1869,15 +1870,15 @@ init -9 python:
                 return
 
             old_action = self.action
-            building = self.workplace
-            manager = simple_jobs["Manager"]
+            wp = self.workplace
+            mj = simple_jobs["Manager"]
 
             # Check if we already have a manager in the building:
-            if value == manager:
-                if building.manager:
-                    building.manager.action = None
-                    building.manager = None
-            if old_action == manager:
+            if value == mj:
+                if workplace.manager:
+                    workplace.manager.action = None
+                    workplace.manager = None
+            if old_action == mj:
                 # Works as a Manager so special considerations are needed:
                 building.manager = None
                 building.manager_effectiveness = 0
@@ -2950,7 +2951,7 @@ init -9 python:
                     amount -= 1
                     per_slot_amount -= 1
                     rv.append(item.id)
-                    
+
                     if direct_equip:
                         self.equip(item)
                     else:

@@ -179,7 +179,7 @@ init -5 python:
                 else:
                     log.append("\n\n{} is now both well rested and healthy!".format(worker.name))
                 worker.action = worker.previousaction
-                worker.previousaction = None
+                worker.previousaction = ''
 
                 if worker.autoequip and worker.action:
                     # **Adapt to new code structure...
