@@ -127,7 +127,6 @@ label char_profile:
                 elif result[1] == 'return':
                     jump char_profile_end
 
-
 label char_profile_end:
     hide screen char_profile
 
@@ -138,6 +137,7 @@ label char_profile_end:
         jump expression last_label
     else:
         jump chars_list
+
 
 screen char_profile():
 
@@ -1081,31 +1081,28 @@ screen girl_control():
         xysize(343, 675)
 
         # Tooltip Related:
-        default tt = Tooltip("Adjust your girls behavior here.")
+        default tt = Tooltip("Adjust your workers behavior here.")
         frame:
             background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
-            align(.5, .88)
-            xysize (320, 120)
-            xpadding 13
-            ypadding 15
-            has vbox
-            text ("%s" % tt.value) color white size 18
+            align (.5, .0)
+            padding 40, 10
+            text "Adjust your workers behavior here." align .5, .5 color ivory
+            # has vbox
+            # text ("%s" % tt.value) color white size 18
 
         # Tips/Wagemod
         frame:
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.7), 10, 10)
-            align .6, .08
-            xpadding 10
-            ypadding 10
+            align .5, .12
+            padding 10, 10
             xysize 225, 120
-
             # Tips:
             button:
                 style_group "basic"
                 xysize 150, 33
                 align .5, .05
                 action ToggleDict(char.autocontrol, "Tips")
-                hovered tt.action("Allow workers to keep their tips")
+                tooltip "Does {} keep her tips?".format(char.nickname)
                 text "Tips:" align .0, .5
                 if isinstance(char.autocontrol["Tips"], list):
                     add cb_some_checked align 1.0, .5
@@ -1113,7 +1110,6 @@ screen girl_control():
                     add cb_checked align 1.0, .5
                 else:
                     add cd_unchecked align 1.0, .5
-
             # Wagemod, basically it allows you to pay more/less to your workers,
             # effecting disposition.
             fixed:
@@ -1132,6 +1128,7 @@ screen girl_control():
                     value FieldValue(char, 'wagemod', 200, max_is_zero=False, style='scrollbar', offset=0, step=1)
                     xmaximum 150
                     thumb 'content/gfx/interface/icons/move15.png'
+                    tooltip "What percentage of a fair wage are you willing to pay?"
 
         # BE Row, Job controls + Auto-Buy/Equip
         vbox:
@@ -1143,7 +1140,7 @@ screen girl_control():
                         xysize (200, 32)
                         style_group "basic"
                         action Return(["dropdown", "workplace", char])
-                        hovered tt.Action("Choose a location for %s to work at" % char.nickname)
+                        tooltip "Choose a location for %s to work at" % char.nickname
                         if len(str(char.location)) > 18:
                             text "[char.location]" size 15
                         elif len(str(char.location)) > 10:
@@ -1154,24 +1151,26 @@ screen girl_control():
                         xysize (200, 32)
                         style_group "basic"
                         action Return(["dropdown", "action", char])
-                        hovered tt.Action("Choose a task for %s to do" % char.nickname)
+                        tooltip "Choose a task for %s to do" % char.nickname
                         if len(str(char.action)) > 18:
                             text "[char.action]" size 15
-
                         elif len(str(char.action)) > 12:
                             text "[char.action]" size 18
-
                         else:
                             text "Action: [char.action]" size 18
                 else:
                     text "{size=15}Location: Unknown"
                     text "{size=15}Action: Hiding"
+
             null height 30
             button:
                 action ToggleField(char, "front_row")
                 xysize (200, 32)
                 text "Front Row" align (.0, .5)
-                hovered tt.Action("Select the row in battle")
+                if char.front_row:
+                    tooltip "{} fights in the front row!".format(char.name)
+                else:
+                    tooltip "{} fights in the back row!".format(char.name)
                 if isinstance(char.front_row, list):
                     add cb_some_checked align (1.0, .5)
                 elif char.front_row:
@@ -1183,7 +1182,7 @@ screen girl_control():
                 action ToggleDict(char.autocontrol, "Rest")
                 xysize (200, 32)
                 text "Auto Rest" align (.0, .5)
-                hovered tt.Action("Allow to rest automatically when she needs it")
+                tooltip "Automatically rest when no longer capable of working!"
                 if isinstance(char.autocontrol['Rest'], list):
                     add cb_some_checked align (1.0, .5)
                 elif char.autocontrol['Rest']:
@@ -1192,14 +1191,12 @@ screen girl_control():
                     add cd_unchecked align (1.0, .5)
 
             # Autobuy:
-            button: # used to work for free chars only; I don't believe free chars should agree to stop spending gold, no matter disposition
-                if char.status == "slave":
-                    action ToggleField(char, "autobuy")
-                else:
-                    action tt.Action("Can only be disabled for slaves, allows to buy items she likes, if she has enough money")
+            button:
                 xysize (200, 32)
+                sensitive char.status == "slave"
+                action ToggleField(char, "autobuy")
+                tooltip "Give {} permission to go shopping for items if she has enough money.".format(char.nickname)
                 text "Auto Buy" align (.0, .5)
-                hovered tt.Action("Can only be disabled for slaves, allows to buy items she likes, if she has enough money")
                 if isinstance(char.autobuy, list):
                     add cb_some_checked align (1.0, .5)
                 elif char.autobuy:
@@ -1210,18 +1207,17 @@ screen girl_control():
             # Autoequip:
             button:
                 xysize (200, 32)
-                if char.status == "slave" or char.disposition > 850:
-                    action ToggleField(char, "autoequip")
-                else:
-                    action tt.Action("Requires a slave or very high disposition to be disabled, allows to equip the best items automatically (results may vary)")
+                sensitive char.status == "slave" or char.disposition > 850
+                action ToggleField(char, "autoequip")
+                tooltip "Try to equip items favorable for the job automatically (results may vary)."
                 text "Auto Equip" align (.0, .5)
-                hovered tt.Action("Requires a slave or very high disposition to be disabled, allows to equip the best items automatically (results may vary)")
                 if isinstance(char.autoequip, list):
                     add cb_some_checked align (1.0, .5)
                 elif char.autoequip:
                     add cb_checked align (1.0, .5)
                 else:
                     add cd_unchecked align (1.0, .5)
+
             # ------------------------------------------------------------------------------------------------------------------------------------->>>
             # TODO lt: If we ever restore this, char actions are not Jobs!
             # Disabled until Beta release
