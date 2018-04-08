@@ -2280,8 +2280,8 @@ init -9 python:
                 else:
                     base = base * 2
 
-            if str(self.home) == "Studio Apartment":
-                ap += 1
+            # if str(self.home) == "Studio Apartment":
+            #     ap += 1
 
             return self.baseAP + ap
 

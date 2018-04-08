@@ -134,4 +134,4 @@ init -20 python:
         This maybe replaced later by actual apartments for every character.
         """
         def __init__(self):
-            super(Apartments, self).__init__(id="City Apartments", daily_modifier=.1, rooms=float("inf"))
+            super(Apartments, self).__init__(id="City Apartments", daily_modifier=.2, rooms=float("inf"))
