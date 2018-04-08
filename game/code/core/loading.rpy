@@ -249,6 +249,21 @@ init -11 python:
                                 else:
                                     tier_up_to(char, tier)
 
+                            item_up = gd.get("item_up", "auto")
+                            if item_up == "auto":
+                                if char.status == "slave":
+                                    initial_item_up(char,
+                                                    give_civilian_items=True,
+                                                    give_bt_items=False)
+                                else:
+                                    initial_item_up(char,
+                                                    give_civilian_items=True,
+                                                    give_bt_items=True)
+                            elif item_up:
+                                initial_item_up(char,
+                                                give_civilian_items=True,
+                                                give_bt_items=True)
+
                             content[char.id] = char
 
         return content
