@@ -201,12 +201,12 @@ label next_day_calculations:
         #
         #
         ################## Searching events Start ####################
-        tl.start("Searching") # TODO (lt) Find out if we still want escaping chars?
-        for building in hero.buildings:
-            girls = building.get_girls("Search")
-            while girls:
-                EscapeeSearchJob(choice(girls), building, girls)
-        tl.end("Searching")
+        # tl.start("Searching") # TODO (lt) Find out if we still want escaping chars?
+        # for building in hero.buildings:
+        #     girls = building.get_girls("Search")
+        #     while girls:
+        #         EscapeeSearchJob(choice(girls), building, girls)
+        # tl.end("Searching")
 
     # Second iteration of Rest:
     $ tl.start("ND-Rest (Second pass)")

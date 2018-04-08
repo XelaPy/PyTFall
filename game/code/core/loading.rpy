@@ -716,8 +716,8 @@ label load_resources:
     $ buildings = dict()
     python hide:
         # Scripted Buildings:
-        ap = InvLocation(id="Studio Apartment", daily_modifier=10.0, rooms=1,
-                         desc="Comfartable apartment with plenty of storage space!",
+        ap = InvLocation(id="Studio Apartment", daily_modifier=.25, rooms=1,
+                         desc="Comfortable apartment with plenty of storage space!",
                          img="content/gfx/bg/buildings/apartment_1.jpg",
                          price=5000)
         buildings[ap.id] = ap
