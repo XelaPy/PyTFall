@@ -1875,13 +1875,13 @@ init -9 python:
 
             # Check if we already have a manager in the building:
             if value == mj:
-                if workplace.manager:
-                    workplace.manager.action = None
-                    workplace.manager = None
-            if old_action == mj:
+                if wp.manager:
+                    wp.manager.action = None
+                    wp.manager = None
+            if getattr(wp, "manager", None) == self:
                 # Works as a Manager so special considerations are needed:
-                building.manager = None
-                building.manager_effectiveness = 0
+                wp.manager = None
+                wp.manager_effectiveness = 0
 
             self._action = value
 
