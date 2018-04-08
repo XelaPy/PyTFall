@@ -275,6 +275,7 @@ label dev_testing_menu_and_load_mc:
                         "Back":
                             jump dev_testing_menu_and_load_mc
     else:
+        call intro
         call mc_setup
 
     python: # We run this in case we skipped MC setup in devmode!

@@ -1,4 +1,5 @@
 label mc_setup:
+    $ persistent.intro = True
     $ male_fighters, female_fighters, json_fighters = load_special_arena_fighters()
 
     call build_mc_stories
@@ -6,6 +7,7 @@ label mc_setup:
     scene bg mc_setup
     show screen mc_setup
     with dissolve
+    play music "content/sfx/music/world/foregone.ogg" fadein 1.0 fadeout 1.0
 
     $ global_flags.set_flag("game_start")
 

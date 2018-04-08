@@ -392,14 +392,21 @@ init: # Screens:
 
         # Manager?
         if isinstance(building, UpgradableBuilding):
-            frame:
+            vbox:
                 xalign .5
-                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
-                if building.manager:
-                    add building.manager.show("profile", resize=(190, 190), add_mood=True, cache=True) align .5, .5
-                else:
-                    add Solid(black, xysize=(190, 190)) align .5, .5
+                frame:
+                    xmaximum 220
+                    ymaximum 220
 
+                    xalign .5
+                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
+                    if building.manager:
+                        add building.manager.show("profile", resize=(190, 190), add_mood=True, cache=True) align .5, .5
+                    else:
+                        xysize (190, 190)
+                        text "No manager" align (.5, .5) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
+                if building.manager:
+                    text "Current manager" align (.5, .5) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
     screen building_management_rightframe_businesses_mode:
         $ frgr = Fixed(xysize=(315, 680))
         $ frgr.add(ProportionalScale("content/gfx/images/e1.png", 315, 600, align=(.5, .0)))
@@ -586,12 +593,12 @@ init: # Screens:
                 frame:
                     xysize (290, 27)
                     xalign .5
-                    text "In Slots:" xalign .02 color ivory
+                    text "Indoor Slots:" xalign .02 color ivory
                     text "[bm_mid_frame_mode.in_slots]"  xalign .98 style_suffix "value_text" yoffset 4
                 frame:
                     xysize (290, 27)
                     xalign .5
-                    text "Ext Slots:" xalign .02 color ivory
+                    text "Exterior Slots:" xalign .02 color ivory
                     text "[bm_mid_frame_mode.ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
 
             $ c0 = isinstance(bm_mid_frame_mode, CoreExtension)
@@ -614,12 +621,12 @@ init: # Screens:
                     frame:
                         xysize (290, 27)
                         xalign .5
-                        text "In Slots Required:" xalign .02 color ivory
+                        text "Indoor Slots Required:" xalign .02 color ivory
                         text "[bm_mid_frame_mode.exp_cap_in_slots]"  xalign .98 style_suffix "value_text" yoffset 4
                     frame:
                         xysize (290, 27)
                         xalign .5
-                        text "Ext Slots Required:" xalign .02 color ivory
+                        text "Exterior Slots Required:" xalign .02 color ivory
                         text "[bm_mid_frame_mode.exp_cap_ex_slots]"  xalign .98 style_suffix "value_text" yoffset 4
                     frame:
                         xysize (290, 27)
@@ -1165,9 +1172,9 @@ init: # Screens:
                                     spacing 2
                                     style_prefix "proper_stats"
                                     if in_slots:
-                                        text "In Slots: {}".format(in_slots)
+                                        text "Indoor Slots: {}".format(in_slots)
                                     if ex_slots:
-                                        text "Ext Slots: {}".format(ex_slots)
+                                        text "Exterior Slots: {}".format(ex_slots)
 
                                 vbox:
                                     align 1.0, .5
