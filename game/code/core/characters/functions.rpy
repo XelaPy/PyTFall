@@ -361,42 +361,8 @@ init -11 python:
         tier_up_to(rg, tier, **tier_kwargs)
 
         # Items, give and/or autoequip:
-        if give_civilian_items or give_bt_items:
-            tiered_items = []
-            limit_tier = rg.tier + 1
-            for i in range(limit_tier):
-                tiered_items.extend(store.tiered_items.get(i, []))
-
-        if give_civilian_items:
-            if not gci_kwargs:
-                gci_kwargs = {}
-                gci_kwargs["slots"] = {slot: 1 for slot in EQUIP_SLOTS}
-                gci_kwargs["casual"] = True
-                gci_kwargs["equip"] = not give_bt_items # Equip only for civ items.
-                if rg.status == "slave":
-                    gci_kwargs["purpose"] = "Slave"
-                else:
-                    gci_kwargs["purpose"] = "Casual"
-                gci_kwargs["check_money"] = False
-                gci_kwargs["limit_tier"] = limit_tier
-                gci_kwargs["container"] = tiered_items
-
-            rg.auto_buy(**gci_kwargs)
-
-        if give_bt_items:
-            if not gbti_kwargs:
-                gbti_kwargs = {}
-                gbti_kwargs["slots"] = {slot: 1 for slot in EQUIP_SLOTS}
-                gbti_kwargs["casual"] = True
-                gbti_kwargs["equip"] = True
-                gbti_kwargs["check_money"] = False
-                gbti_kwargs["limit_tier"] = limit_tier
-                gbti_kwargs["container"] = tiered_items
-                
-                gbti_kwargs["purpose"] = None # Figure out in auto_buy method.
-                gbti_kwargs["direct_equip"] = True
-
-            rg.auto_buy(**gbti_kwargs)
+        initial_item_up(rg, give_civilian_items, give_bt_items,
+                            gci_kwargs, gbti_kwargs)
 
         # if equip_to_tier: # Old (faster but less precise) way of giving items:
         #     give_tiered_items(rg, **gtt_kwargs) # (old/simle(er) func)
@@ -410,6 +376,49 @@ init -11 python:
             store.chars["_".join([rg.id, rg.name, rg.fullname.split(" ")[1]])] = rg
 
         return rg
+
+    def initial_item_up(char, give_civilian_items=False, give_bt_items=False,
+                        gci_kwargs=None, gbti_kwargs=None):
+        """Gives items to a character as well as equips for a specific task.
+
+        Usually ran right after we created the said character.
+        """
+        if give_civilian_items or give_bt_items:
+            tiered_items = []
+            limit_tier = char.tier + 1
+            for i in range(limit_tier):
+                tiered_items.extend(store.tiered_items.get(i, []))
+
+        if give_civilian_items:
+            if not gci_kwargs:
+                gci_kwargs = {}
+                gci_kwargs["slots"] = {slot: 1 for slot in EQUIP_SLOTS}
+                gci_kwargs["casual"] = True
+                gci_kwargs["equip"] = not give_bt_items # Equip only for civ items.
+                if char.status == "slave":
+                    gci_kwargs["purpose"] = "Slave"
+                else:
+                    gci_kwargs["purpose"] = "Casual"
+                gci_kwargs["check_money"] = False
+                gci_kwargs["limit_tier"] = limit_tier
+                gci_kwargs["container"] = tiered_items
+
+            char.auto_buy(**gci_kwargs)
+
+        if give_bt_items:
+            if not gbti_kwargs:
+                gbti_kwargs = {}
+                gbti_kwargs["slots"] = {slot: 1 for slot in EQUIP_SLOTS}
+                gbti_kwargs["casual"] = True
+                gbti_kwargs["equip"] = True
+                gbti_kwargs["check_money"] = False
+                gbti_kwargs["limit_tier"] = limit_tier
+                gbti_kwargs["container"] = tiered_items
+
+                gbti_kwargs["purpose"] = None # Figure out in auto_buy method.
+                gbti_kwargs["direct_equip"] = True
+
+            char.auto_buy(**gbti_kwargs)
 
     def auto_buy_for_bt(char, slots=None, casual=None, equip=True,
                         check_money=False, limit_tier=False,
