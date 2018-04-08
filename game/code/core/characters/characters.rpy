@@ -4786,9 +4786,8 @@ init -9 python:
             #     super(Char, self).next_day()
 
         def nd_autoshop(self, txt):
-            if all([# self.action in [None, "AutoRest", "Rest"], # Feels off, they can go shopping after work.
-                    self.autobuy, self.flag("day_since_shopping") > 5,
-                    self.gold > 1000, self.status != "slave"]):
+            if all([self.autobuy, self.flag("day_since_shopping") > 5,
+                    self.gold > 1000]):
 
                 self.set_flag("day_since_shopping", 1)
                 temp = choice(["\n\n%s decided to go on a shopping tour :)\n" % self.nickname,
