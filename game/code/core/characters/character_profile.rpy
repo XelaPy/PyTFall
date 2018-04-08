@@ -175,8 +175,14 @@ screen char_profile():
                     python:
                         frame_image = im.Scale("content/gfx/frame/MC_bg3.png", 1, 1)
                         img = char.show('profile', resize=(600, 514), exclude=["nude", "revealing", "lingerie", "swimsuit"], cache=True)
+                        
+                $ image_tags = img.get_image_tags()
+
+                
                 button:
                     align (.5, .5)
+
+
                     idle_background frame_image
                     idle_foreground Transform(img, align=(.5, .5))
 
@@ -187,7 +193,10 @@ screen char_profile():
                     insensitive_foreground Transform(img, align=(.5, .5))
                     frame:
                         align(.5, .5)
-                        background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
+                        if "no bg" in image_tags:
+                            background Frame("content/gfx/frame/MC_bg3_white.png", 10 ,10)
+                        else:
+                            background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
                         add img align(.5, .5)#ProportionalScale(img, 600, 514) align(.5, .5)
                     if "Exhibitionist" in char.traits:
                         action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Function(gm.start_int, char, img=char.show("girlmeets", resize=gm.img_size))], false=NullAction())
