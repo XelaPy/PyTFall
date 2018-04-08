@@ -392,14 +392,21 @@ init: # Screens:
 
         # Manager?
         if isinstance(building, UpgradableBuilding):
-            frame:
+            vbox:
                 xalign .5
-                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
-                if building.manager:
-                    add building.manager.show("profile", resize=(190, 190), add_mood=True, cache=True) align .5, .5
-                else:
-                    add Solid(black, xysize=(190, 190)) align .5, .5
+                frame:
+                    xmaximum 220
+                    ymaximum 220
 
+                    xalign .5
+                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
+                    if building.manager:
+                        add building.manager.show("profile", resize=(190, 190), add_mood=True, cache=True) align .5, .5
+                    else:
+                        xysize (190, 190)
+                        text "No manager" align (.5, .5) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
+                if building.manager:
+                    text "Current manager" align (.5, .5) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
     screen building_management_rightframe_businesses_mode:
         $ frgr = Fixed(xysize=(315, 680))
         $ frgr.add(ProportionalScale("content/gfx/images/e1.png", 315, 600, align=(.5, .0)))
