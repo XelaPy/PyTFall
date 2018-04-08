@@ -628,7 +628,7 @@ screen char_profile():
                     spacing 5
                     button:
                         xysize (150, 40)
-                        action Hide("show_trait_info"), If(not_escaped, true=Show("girl_control"))
+                        action Hide("show_trait_info"), If(not_escaped, true=Show("char_control"))
                         hovered tt.action('Set desired behavior for [char.nickname].')
                         text "Girl Control"
                     button:
@@ -1063,7 +1063,7 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=F
                 hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
                 action Hide("show_trait_info")
 
-screen girl_control():
+screen char_control():
     default char = PytGroup(the_chosen) if the_chosen else char
     modal True
     zorder 1
@@ -1274,12 +1274,12 @@ screen girl_control():
 
         button:
             style_group "basic"
-            action Hide("girl_control")
+            action Hide("char_control")
             minimum(50, 30)
             align (.5, .95)
             text  "OK"
 
-    key "mousedown_3" action Hide("girl_control")
+    key "mousedown_3" action Hide("char_control")
 
 screen confirm_girl_sale():
     modal True

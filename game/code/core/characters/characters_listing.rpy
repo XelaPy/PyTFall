@@ -367,7 +367,7 @@ screen chars_list(source=None):
                     spacing 3
                     button:
                         xysize (150, 40)
-                        action If(len(the_chosen), [Show("girl_control")])
+                        action If(len(the_chosen), [Show("char_control")])
                         text "Girl Control"
                         selected False
                         hovered tt.Action('Set desired behavior for group')
