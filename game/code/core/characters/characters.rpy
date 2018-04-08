@@ -1628,6 +1628,7 @@ init -9 python:
                 self.miscitems = dict()  # Counter for misc items.
                 self.miscblock = list()  # List of blocked misc items.
                 self.eqsave = [self.eqslots.copy(), self.eqslots.copy(), self.eqslots.copy()] # saved equipment states
+                self.last_known_aeq_purpose = "" # We don't want to aeq needlessly, it's an expensive operation.
                 # List to keep track of temporary effect
                 # consumables that failed to activate on cmax **We are not using this or at least I can't find this in code!
                 # self.maxouts = list()
