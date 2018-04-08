@@ -264,7 +264,7 @@
                 return
 
             # Special considerations:
-            if purpose == "Fighitng":
+            if purpose == "Fighting":
                 if last_known in FIGHTING_AEQ_PURPOSES:
                     return
 
