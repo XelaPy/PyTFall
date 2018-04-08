@@ -257,6 +257,9 @@
             """
             Auto-equip a worker for this job.
             """
+            if not worker.autoequip:
+                return
+
             purpose = self.aeq_purpose
             last_known = worker.last_known_aeq_purpose
 
