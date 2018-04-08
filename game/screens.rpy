@@ -221,7 +221,7 @@ screen main_menu():
     if not renpy.get_screen("credits"):
         vbox:
             align (.02, .05)
-            text "Our Patreon" xalign .5 size 22 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
+            text "Support us on" xalign .5 size 22 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
             hbox:
                 button:
                     xalign .5
@@ -334,6 +334,8 @@ screen discord():
         vbox:
             xalign .5
             yalign .2
+            text "The game is still in development. Consider supporting us if you like it!" align (.45, .1) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
+            null height 10
             text "ANY QUESTIONS OR BUGS TO REPORT?" size 35 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats" xalign .5
             text "JOIN OUR COMMUNITY ON:" size 35 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats" xalign .5
         null height 5
@@ -407,7 +409,9 @@ screen credits():
                             null height 3
                             text " DarkTl " align .5, 1.0 size 30 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
                             null height 30
-                    null height 50
+                    null height 10
+                    text "The game is still in development. Consider supporting us if you like it!" align (.45, .1) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
+                    null height 10
                     vbox:
                         style_prefix "proper_stats"
                         text "Special thanks to:" size 22 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
