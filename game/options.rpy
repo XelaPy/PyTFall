@@ -399,7 +399,8 @@ init python:
     build.classify('**/rchars/**', None)
     build.classify('**/_old/**', None)
     build.classify('**devlog**', None)
-    
+    build.classify("game/cache/", None)
+    build.classify("game/saves/", None)
 
     ## To archive files, classify them as 'archive'.
 
