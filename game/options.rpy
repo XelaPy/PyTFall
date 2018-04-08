@@ -395,6 +395,12 @@ init python:
     build.classify('**/.**', None)
     build.classify('**/#**', None)
     build.classify('**/thumbs.db', None)
+    build.classify('**/chars/**', None)
+    build.classify('**/rchars/**', None)
+    build.classify('**/_old/**', None)
+    build.classify('**devlog**', None)
+    build.classify("game/cache/", None)
+    build.classify("game/saves/", None)
 
     ## To archive files, classify them as 'archive'.
 
