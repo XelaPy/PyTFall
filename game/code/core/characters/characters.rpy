@@ -2548,14 +2548,9 @@ init -9 python:
 
         def equip_for(self, purpose):
             """
-            This method will auto-equip slot items on per purpose basis!
+            This method will try to auto-equip items for some purpose!
             """
-            if purpose not in store.aeq_purposes:
-                temp = "Supplied unknown purpose: %s to equip_for method for: %s, (Class: %s)" % (purpose,
-                                                            self.name, self.__class__.__name__)
-                if config.developer:
-                    devlog.warning(temp)
-                return []
+            purpose = self.guess_aeq_purpose(purpose)
 
             if self.eqslots["weapon"]:
                 self.unequip(self.eqslots["weapon"])
@@ -2765,6 +2760,68 @@ init -9 python:
                     return [item.id] * amount
             return []
 
+        def guess_aeq_purpose(self, hint=None):
+            """
+            "Fighting": Generic purpose for combat.
+
+            Other Options are:
+             'Combat'
+             'Barbarian'
+             'Shooter'
+             'Battle Mage'
+             'Mage'
+
+             'Casual'
+             'Slave'
+
+             'Striptease'
+             'Sex'
+
+             'Manager'
+             'Service' (Maid)
+             """
+
+            occs = self.gen_occs
+            bt = self.traits.basetraits
+
+            if hint in store.aeq_purposes:
+                purpose = hint
+            elif hint == "Fighting":
+                if traits["Shooter"] in bt:
+                    purpose = "Shooter"
+                elif "Caster" in occs and "Warrior" not in occs:
+                    purpose = "Mage"
+                elif len(set(["Warrior", "Caster"]).intersection(occs)) == 2:
+                    purpose = "Battle Mage"
+                elif "Combatant" in occs:
+                    purpose = "Barbarian"
+            else: # We just guess...
+                if "Specialist" in occs:
+                    purpose = "Manager"
+                elif traits["Stripper"] in bt:
+                    purpose = "Striptease"
+                elif traits["Maid"] in bt:
+                    purpose = "Service"
+                elif traits["Prostitute"] in bt:
+                    purpose = "Sex"
+                elif "Caster" in occs and "Warrior" not in occs:
+                    purpose = "Mage"
+                elif len(set(["Warrior", "Caster"]).intersection(occs)) == 2:
+                    purpose = "Battle Mage"
+                elif traits["Shooter"] in bt:
+                    purpose = "Shooter"
+                elif "Combatant" in occs:
+                    purpose = "Barbarian"
+                else: # Safe option.
+                    if AUTO_ITEM_DEBUG:
+                        temp = "Supplied unknown aeq purpose: %s for %s, (Class: %s)" % (purpose,
+                                                                    self.name, self.__class__.__name__)
+                        temp += " ~Casual will be used."
+                        devlog.warning(temp)
+                    purpose = "Casual"
+
+            return purpose
+
         def auto_buy(self, item=None, amount=1, slots=None, casual=False,
                      equip=False, container=None, purpose=None,
                      check_money=True, inv=None,
@@ -2809,26 +2866,7 @@ init -9 python:
             weighted = {s: [] for s in slots_to_buy}
 
             if not purpose: # Let's see if we can get a purpose from bts:
-                occs = self.gen_occs
-                bt = self.traits.basetraits
-                if "Specialist" in occs:
-                    purpose = "Manager"
-                elif traits["Stripper"] in bt:
-                    purpose = "Striptease"
-                elif traits["Maid"] in bt:
-                    purpose = "Service"
-                elif traits["Prostitute"] in bt:
-                    purpose = "Sex"
-                elif "Caster" in occs and "Warrior" not in occs:
-                    purpose = "Mage"
-                elif len(set(["Warrior", "Caster"]).intersection(occs)) == 2:
-                    purpose = "Battle Mage"
-                elif traits["Shooter"] in bt:
-                    purpose = "Shooter"
-                elif "Combatant" in occs:
-                    purpose = "Barbarian"
-                else:
-                    purpose = "Casual" # Safe option.
+                purpose = self.guess_aeq_purpose()
 
             kwargs = aeq_purposes[purpose].copy()
             kwargs.pop("real_weapons", None)
