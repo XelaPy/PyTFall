@@ -832,6 +832,7 @@ init -10 python:
                 self.log("Fame: {}%".format(self.fame_percentage))
                 self.log("Dirt: {}%".format(self.get_dirt_percentage()[0]))
                 self.log("Threat: {}%".format(self.get_threat_percentage()))
+                self.log("")
 
                 # All workers and workable businesses:
                 self.available_workers = list(c for c in self.all_workers if
@@ -882,7 +883,7 @@ init -10 python:
 
                 self.env.process(self.building_manager(end=101))
                 self.env.run(until=101) # 101 will run events at 100 which it is more intuitive to manage.
-                self.log("{}".format(set_font_color("Ending the simulation:", "green")))
+                self.log("{}".format(set_font_color("Ending the simulation.", "green")))
 
                 # Building Stats:
                 self.log("Reputation: {}%".format(self.rep_percentage))
