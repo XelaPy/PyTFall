@@ -816,11 +816,12 @@ init:
                     color white
                     changed dummy_interaction_restart
                 button:
-                    style_prefix "wood"
-                    xysize (100, 50)
+                    style "pb_button"
+                    # xysize (100, 50)
                     text "OK"  style "TisaOTM" size 15 color goldenrod align (.5, .5)
                     xalign .5
                     action Return(renpy.get_widget("pyt_input", "text_input").content)
+
         key "input_enter" action Return(renpy.get_widget("pyt_input", "text_input").content)
         key "mousedown_3" action Return (default)
 

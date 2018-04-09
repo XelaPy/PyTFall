@@ -2383,10 +2383,9 @@ init -9 python:
             aeq_mode: If we came here because of 'AI' auto equipment function or through players actions.
             **Note that the remove is only applicable when dealing with consumables, game will not expect any other kind of an item.
             """
-            # What the fuck is this and where did this come from??? # TODO Find out...
             if isinstance(item, list):
                 for it in item:
-                    self.equip(it, remove)
+                    self.equip(it, remove, aeq_mode)
                 return
 
             if item.slot not in self.eqslots:
@@ -2431,7 +2430,8 @@ init -9 python:
                     del(self.miscitems[temp])
                 self.eqslots['misc'] = item
                 self.miscitems[item] = item.mtemp
-                self.inventory.remove(item)
+                if remove:
+                    self.inventory.remove(item)
             elif item.slot == 'ring':
                 if not self.eqslots['ring']:
                     self.eqslots['ring'] = item
@@ -2446,7 +2446,8 @@ init -9 python:
                     self.eqslots['ring1'] = self.eqslots['ring2']
                     self.eqslots['ring2'] = item
                 self.apply_item_effects(item)
-                self.inventory.remove(item)
+                if remove:
+                    self.inventory.remove(item)
             else:
                 # Any other slot:
                 if self.eqslots[item.slot]: # If there is any item equipped:
@@ -2454,7 +2455,8 @@ init -9 python:
                     self.inventory.append(self.eqslots[item.slot]) # Add unequipped item back to inventory
                 self.eqslots[item.slot] = item # Assign new item to the slot
                 self.apply_item_effects(item) # Apply item effects
-                self.inventory.remove(item) # Remove item from the inventory
+                if remove:
+                    self.inventory.remove(item) # Remove item from the inventory
 
         def unequip(self, item, slot=None, aeq_mode=False):
             # AEQ considerations:
@@ -2669,45 +2671,43 @@ init -9 python:
 
             returns = list() # We return this list with all items used during the method.
 
+            # Actually equip the items on per-slot basis:
             for slot, picks in weighted.iteritems():
                 if not picks:
                     continue
 
-                # if we need only one pick, store max and item in selected, otherwise prefilter items
+                # We track one item, the one we think is best for all items,
+                # except consumable and rings.
                 selected = [0, None] if slot not in ("consumable", "ring") else []
 
-                # create averages for items
+                # Get the total weight for every item:
                 for _weight, item in picks:
                     if AUTO_ITEM_DEBUG:
-                        devlog.info("(A-Eq=> {}) Slot: {} Item: {} ==> Weights: {}".format(self.name, item.slot, item.id, str(_weight)))
+                        devlog.info("(A-Eq=> {}) Slot: {} Item: {} ==> Weights: {}".format(
+                                        self.name, item.slot, item.id, str(_weight)))
                     _weight = sum(_weight)
 
-                    # impute with weights of 50 for items that have less weights
-                    # WHY!!!??? What is one of the values was huge and important?
-                    # I am adding max to this...
-                    # impute = 50 * (len(_weight)-most_weights[slot])
-                    # som += max(-50, impute)
-                    # _weight = som/most_weights[slot]
                     if _weight > 0:
                         if slot not in ("consumable", "ring"):
-                            if slot in ("weapon", "smallweapon"):
-                                if not real_weapons and item.type != "tool":
-                                    if AUTO_ITEM_DEBUG:
-                                        msg = []
-                                        msg.append("Skipping AE Weapons!")
-                                        msg.append("Real Weapons: {}".format(real_weapons))
-                                        if base_purpose:
-                                            msg.append("Base: {}".format(base_purpose))
-                                        if sub_purpose:
-                                            msg.append("Sub: {}".format(sub_purpose))
-                                        devlog.warn(" ".join(msg))
-                                    continue
+                            c0 = slot in ("weapon", "smallweapon")
+                            c1 = not real_weapons and item.type != "tool"
+                            if c0 and c1:
+                                if AUTO_ITEM_DEBUG:
+                                    msg = []
+                                    msg.append("Skipping AE Weapons!")
+                                    msg.append("Real Weapons: {}".format(real_weapons))
+                                    if base_purpose:
+                                        msg.append("Base: {}".format(base_purpose))
+                                    if sub_purpose:
+                                        msg.append("Sub: {}".format(sub_purpose))
+                                    devlog.warn(" ".join(msg))
+                                continue
                             if _weight > selected[0]:
                                 selected = [_weight, item] # store weight and item for the highest weight
                         else:
                             selected.append([_weight, item])
 
-                # We can equip only the one item:
+                # For most slots, we just want to equip one item we selected:
                 if slot not in ("consumable", "ring"):
                     item = selected[1]
                     if item:
@@ -2718,9 +2718,10 @@ init -9 python:
                         returns.append(item.id)
                     continue
 
-                # multiple consumables/rings can be taken.
-                # consumables not filtered will also be iterated over multiple times
-                for weight, item in sorted(selected, key=lambda x: x[0], reverse=True):
+                # Here we have a selected matrix with weights/items
+                # consumables and rings that we may want to equip more than one of.
+                selected.sort(key=itemgetter(0), reverse=True)
+                for weight, item in selected:
                     while self.equip_chance(item) != None:
                         inv.remove(item)
                         self.equip(item, remove=False, aeq_mode=True)
@@ -2754,12 +2755,12 @@ init -9 python:
                         if not item.id in inv.items:
                             break
 
-                    if slot == "ring":
-                        slot = "ring1"
-                        continue
-                    if slot == "ring1":
-                        slot = "ring2"
-                        continue
+                    # if slot == "ring":
+                    #     slot = "ring1"
+                    #     continue
+                    # if slot == "ring1":
+                    #     slot = "ring2"
+                    #     continue
             return returns
 
         def auto_buy_item(self, item, amount=1, equip=False):
