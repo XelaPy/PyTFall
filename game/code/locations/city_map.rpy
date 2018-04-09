@@ -116,7 +116,8 @@ screen city_screen():
     
     ### ----> Mid buttons <---- ###
     add "coin_top" pos (1015, 58)
-    text "[hero.gold]" size 18 color gold pos (1052, 62) outlines [(1, "#3a3a3a", 0, 0)]
+    $ g = gold_text(hero.gold)
+    text g size 18 color gold pos (1052, 62) outlines [(1, "#3a3a3a", 0, 0)]
     button:
         style "sound_button"
         pos (1138, 55)
