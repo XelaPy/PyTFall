@@ -648,7 +648,7 @@ init -12 python:
                     self.log(temp, True)
                 # Weird way to call job method but it may help with debugging somehow.
                 work_method = getattr(job, self.job_method)
-                work_method(worker, clients_served, loc, log)
+                work_method(worker, clients_served, effectiveness, log)
 
                 earned = payout(job, effectiveness, difficulty, building,
                                 self, worker, clients_served, log)

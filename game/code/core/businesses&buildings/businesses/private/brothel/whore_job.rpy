@@ -731,41 +731,42 @@ init -5 python:
                 log.append("Whore Job\n\nMissed All acts!\n\n")
                 log.img = worker.show("sex", **kwargs)
 
-            if effectiveness >= 75:
-                if worker.charisma >= 1500:
-                    log.append("Her supernal loveliness made the customer to shed tears of happiness, comparing %s to ancient goddess of love. Be wary of possible cults dedicated to her..." % worker.name)
-                    log.logws("joy", 1)
-                    log.logloc("fame", choice([0, 1, 1, 1]))
-                    log.logloc("reputation", choice([0, 1]))
-                elif worker.charisma >= 800:
-                    log.append("%s made the customer fall in love with her unearthly beauty. Careful now girl, we don't need crowds of admires around our businesses..." % worker.name)
-                    log.logws("joy", 1)
-                    log.logloc("fame", choice([0, 1]))
-                    log.logloc("reputation", choice([0, 0, 1]))
-                elif worker.charisma >= 500:
-                    log.append("%s completely enchanted the customer with her stunning beauty." % worker.name)
-                    log.logloc("fame", choice([0, 0, 1]))
-                    log.logloc("reputation", choice([0, 0, 0, 1]))
-                elif worker.charisma >= 200:
-                    log.append("The client was happy to be alone with such a breathtakingly beautiful girl as %s." % worker.name)
-                    log.logloc("fame", choice([0, 0, 0, 1]))
-                elif worker.charisma >= 100:
-                    log.append("%s good looks clearly was pleasing to the customer." %worker.name)
-                elif worker.charisma >= 50:
-                    log.append("%s did her best to make the customer like her, but her beauty could definitely be enhanced." % worker.name)
-                    log.logloc("fame", choice([-1, 0, 0, 1]))
-                if dice(worker.get_skill("refinement")*0.1) and worker.charisma >= 150:
-                    log.append(" Her impeccable manners also made a very good impression.")
-                    log.logloc("reputation", choice([0, 0, 1]))
+            # Charisma mods:
+            charisma = worker.charisma/float(worker.get_max("charisma"))*effectiveness
+            if charisma >= 170:
+                log.append("Her supernal loveliness made the customer to shed tears of happiness, comparing %s to ancient goddess of love. Be wary of possible cults dedicated to her..." % worker.name)
+                log.logws("joy", 1)
+                log.logloc("fame", choice([0, 1, 1, 1]))
+                log.logloc("reputation", choice([0, 1]))
+            elif charisma >= 160:
+                log.append("%s made the customer fall in love with her unearthly beauty. Careful now girl, we don't need crowds of admires around our businesses..." % worker.name)
+                log.logws("joy", 1)
+                log.logloc("fame", choice([0, 1]))
+                log.logloc("reputation", choice([0, 0, 1]))
+            elif charisma >= 145:
+                log.append("%s completely enchanted the customer with her stunning beauty." % worker.name)
+                log.logloc("fame", choice([0, 0, 1]))
+                log.logloc("reputation", choice([0, 0, 0, 1]))
+            elif charisma >= 120:
+                log.append("The client was happy to be alone with such a breathtakingly beautiful girl as %s." % worker.name)
+                log.logloc("fame", choice([0, 0, 0, 1]))
+            elif charisma >= 100:
+                log.append("%s good looks clearly was pleasing to the customer." %worker.name)
+            elif charisma >= 50:
+                log.append("%s did her best to make the customer like her, but her beauty could definitely be enhanced." % worker.name)
+                log.logloc("fame", choice([-1, 0, 0, 1]))
             else:
-                if worker.charisma < 50:
-                    log.logws("joy", -2)
-                    log.logloc("fame", choice([-1, 0]))
-                    if client.gender == "male":
-                        log.append("The customer was unimpressed by %s looks, to say at least. Still, he preferred fucking her over a harpy. Hearing that from him however, was not encouraging for the poor girl at all..." % worker.name)
-                    else:
-                        log.append("The customer was unimpressed by %s looks, to say at least. Still, she preferred fucking her over a harpy. Hearing that from her however, was not encouraging for the poor girl at all..." % worker.name)
-            # log.append("\n")
+                log.logws("joy", -2)
+                log.logloc("fame", choice([-1, 0]))
+                if client.gender == "male":
+                    log.append("The customer was unimpressed by %s looks, to say at least. Still, he preferred fucking her over a harpy. Hearing that from him however, was not encouraging for the poor girl at all..." % worker.name)
+                else:
+                    log.append("The customer was unimpressed by %s looks, to say at least. Still, she preferred fucking her over a harpy. Hearing that from her however, was not encouraging for the poor girl at all..." % worker.name)
+
+            refinement = worker.refinement/float(worker.get_max("refinement"))*effectiveness
+            if charisma >= 100 and refinement >= 100 and dice(75):
+                log.append("Her impeccable manners also made a very good impression.")
+                log.logloc("reputation", 1)
 
             if effectiveness >= 190:
                 if client.gender == "male":
