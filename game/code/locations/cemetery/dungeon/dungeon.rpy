@@ -257,7 +257,7 @@ screen dungeon_move(hotspots):
     if hotspots:
         imagemap:
             alpha False
-            ground "content/dungeon/bluegrey/dungeon_blank.png"
+            ground "content/dungeon/bluegrey/dungeon_blank.webp"
             for hs in hotspots:
                 hotspot (hs['spot'][0], hs['spot'][1], hs['spot'][2], hs['spot'][3]) action Return(value=hs['actions'])
 
@@ -385,7 +385,7 @@ label enter_dungeon_r:
                             img_name = sided[lateral+3] % ('dungeon_'+ri['name'], dungeon.light, distance)
                             if 'function' in ri and ri['function'][:10] == "im.matrix.":
 
-                                img_name = 'content/dungeon/'+ri['name']+dungeon.light+'/'+img_name+'.png'
+                                img_name = 'content/dungeon/'+ri['name']+dungeon.light+'/'+img_name+'.webp'
                                 if os.path.isfile(gamedir + '/'+img_name):
                                     # distance darkening
                                     brightness = im.matrix.brightness(-math.sqrt(lateral**2 + distance**2)/(5.8 if dungeon.light else 4.5))
