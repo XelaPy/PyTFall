@@ -36,10 +36,12 @@ label mc_setup_warrior_warrior_dragon:
     
 label mc_setup_warrior_warrior_dragon_fire:
     $ hero.apply_trait("Fire Dragon Scales")
+    $ hero.apply_trait("Fire")
     return
     
 label mc_setup_warrior_warrior_dragon_stone:
     $ hero.apply_trait("Stone Dragon Scales")
+    $ hero.apply_trait("Earth")
     return
     
 label mc_setup_warrior_warrior_dragon_sight:
@@ -65,6 +67,7 @@ label mc_setup_warrior_assassin_princess_royal:
     
 label mc_setup_warrior_assassin_drow:
     $ hero.apply_trait("Drow Blood")
+    $ hero.apply_trait("Darkness")
     return
     
 label mc_setup_warrior_assassin_drow_poison:
@@ -97,6 +100,7 @@ label mc_setup_warrior_shooter_forest_elf_ranger:
     
 label mc_setup_warrior_shooter_summer_fay:
     $ hero.apply_trait("Fae Blood")
+    $ hero.apply_trait("Light")
     return
     
 label mc_setup_warrior_shooter_summer_fay_eternal:
@@ -129,6 +133,7 @@ label mc_setup_warrior_defender_harpy_bones:
 
 label mc_setup_warrior_defender_harpy:
     $ hero.apply_trait("Harpy Priestess Blood")
+    $ hero.apply_trait("Air")
     return
     
 label mc_setup_warrior_defender_harpy_meta:
@@ -210,6 +215,7 @@ label mc_setup_mage_sorcerer_winter_win:
     
 label mc_setup_mage_researcher_android:
     $ hero.apply_trait("Artificial Body Structure")
+    $ hero.apply_trait("Electricity")
     return
     
 label mc_setup_mage_researcher_android_ele:
@@ -226,6 +232,7 @@ label mc_setup_mage_researcher_android_recharge:
     
 label mc_setup_mage_researcher_slime:
     $ hero.apply_trait("Liquid Body Structure")
+    $ hero.apply_trait("Water")
     return
     
 label mc_setup_mage_researcher_slime_water:
