@@ -434,14 +434,14 @@ init -999 python:
                       'portal', 'portal_turned', 'ladderdownf', 'mossy_alcove', 'dagger', 'ring'):
             for fname in os.listdir('%s/content/dungeon/%s%s' % (gamedir, blend, light)):
                 if check_image_extension(fname):
-                    renpy.image(fname[:-4], 'content/dungeon/%s%s/%s' % (blend, light, fname))
+                    renpy.image(fname[:-5], 'content/dungeon/%s%s/%s' % (blend, light, fname))
 
         # 2 sided symmetry and no symmetry
         for blend, orientations in [('portal', ['', '_turned']), ('ladder', "lrfb")]:
             for ori in orientations:
                 for fname in os.listdir('%s/content/dungeon/%s%s%s' % (gamedir, blend, ori, light)):
                     if check_image_extension(fname):
-                        renpy.image(fname[:-4], 'content/dungeon/%s%s%s/%s' % (blend, ori, light, fname))
+                        renpy.image(fname[:-5], 'content/dungeon/%s%s%s/%s' % (blend, ori, light, fname))
 
         #composite images
         for wall in ('bluegrey', 'mossy'):
@@ -449,14 +449,14 @@ init -999 python:
                 if check_image_extension(bgfname):
                     bg_img = 'content/dungeon/%s%s/%s' % (wall, light, bgfname)
                     for blend in ('door2','button'):
-                        fn_end = bgfname[len('dungeon_'+wall):-4]
+                        fn_end = bgfname[len('dungeon_'+wall):-5]
                         tag = 'dungeon_%s_%s%s' % (wall, blend, fn_end)
-                        fg_img = 'content/dungeon/%s%s/dungeon_%s%s.png' % (blend, light, blend, fn_end)
+                        fg_img = 'content/dungeon/%s%s/dungeon_%s%s.webp' % (blend, light, blend, fn_end)
 
                         if os.path.isfile('%s/%s' % (gamedir, fg_img)):
                             renpy.image(tag, im.Composite((1280,720), (0, 0), bg_img, (0, 0), fg_img))
                         else:
-                            renpy.image(tag, bgfname[:-4])
+                            renpy.image(tag, bgfname[:-5])
 
     # Auto-Animations are last
     def load_frame_by_frame_animations_from_dir(folder):
