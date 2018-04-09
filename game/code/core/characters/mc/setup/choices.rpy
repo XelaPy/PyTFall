@@ -174,7 +174,7 @@ label build_mc_stories:
 
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"] = {}
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["header"] = "Princess"
-        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["text"] = "He was instructed to eliminate a princess from another land while visiting their capital on a diplomatic mission. No one has seen her since then. Except you, her son."
+        mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["text"] = "He was instructed to eliminate a princess from another land while visiting their capital on a diplomatic mission. No one has seen her since then. Except you, her son. (+2000 Gold)"
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["label"] = "mc_setup_warrior_assassin_princess"
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"]["class"] = "Knight"
 
@@ -230,7 +230,7 @@ label build_mc_stories:
 
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"] = {}
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["header"] = "Amazon"
-        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["text"] = "It was there that he met your mother, an Amazon from a remote tribe. After defeating her in battle, he took her body instead of taking her life."
+        mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["text"] = "It was there that he met your mother, an Amazon from a remote tribe. After defeating her in battle, he took her body instead of taking her life.  (+ Arena Reputation)"
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["label"] = "mc_setup_warrior_warrior_amazon"
 
         mc_stories["Warrior"]["MC"]["Warrior"]["Amazon"]["Yuri Expert"] = {}

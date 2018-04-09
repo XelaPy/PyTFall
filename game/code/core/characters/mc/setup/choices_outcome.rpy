@@ -16,6 +16,7 @@ label mc_setup_merchant_mc_defender_sword:
     
 label mc_setup_warrior_warrior_amazon: 
     $ hero.apply_trait("Amazon Blood")
+    $ hero.arena_rep += 1000
     return
     
 label mc_setup_warrior_warrior_amazon_yuri:
@@ -51,6 +52,7 @@ label mc_setup_warrior_warrior_dragon_sight:
 label mc_setup_warrior_defender_guard:
 label mc_setup_warrior_assassin_princess:
     $ hero.apply_trait("Royal Blood")
+    $ hero.gold += 2000
     return
     
 label mc_setup_warrior_assassin_princess_knight:
