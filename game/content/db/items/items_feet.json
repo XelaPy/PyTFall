@@ -115,7 +115,8 @@
     "mod": {"defence": 5},
     "mod_skills": {"cleaning": [0, 0, 0.01, 0, 0], "security": [0, 0, 0.01, 0, 0], "service": [0, 0, 0.01, 0, 0]},
     "locations": ["Tailor Store"],
-    "tier": 2
+    "tier": 2,
+    "pref_class":["Any", "Casual"]
     },
     {
     "id": "High Boots",

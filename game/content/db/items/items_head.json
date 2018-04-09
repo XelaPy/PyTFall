@@ -282,7 +282,7 @@
     "sex": "male",
     "chance": 0.5,
     "badness": 100,
-    "eqchance": 0,
+    "eqchance": 60,
     "hidden": true,
     "infinite": false,
     "slot": "head",
@@ -301,7 +301,7 @@
     "sex": "male",
     "chance": 75,
     "badness": 100,
-    "eqchance": 0,
+    "eqchance": 10,
     "hidden": false,
     "infinite": false,
     "slot": "head",
@@ -309,7 +309,7 @@
     "mod_skills": {"refinement": [0.04, 0.02, 0.03, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class":["SIW"]
+    "pref_class":["SIW", "Casual"]
     },
     {
     "id": "Silver Barrette",
@@ -359,7 +359,7 @@
     "price": 450,
     "sex": "male",
     "chance": 30,
-    "badness": 0,
+    "badness": 15,
     "eqchance": 100,
     "hidden": false,
     "infinite": false,
@@ -369,7 +369,7 @@
     "mod_skills": {"refinement": [0, 0, 0.02, 0, 0], "management": [0, 0, 0.03, 0, 0], "bdsm": [0, 0, 0.02, 0, 0], "teaching": [0, 0, 0.03, 0, 0]},
     "locations": ["Exploration", "Arena"],
     "tier": 3,
-    "pref_class":["Manager"]
+    "pref_class":["Manager", "Casual"]
     },
     {
     "id": "Huntsman Hat",
