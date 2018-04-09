@@ -410,7 +410,8 @@ init:
                 xalign .5
                 add im.Scale("content/gfx/interface/icons/gold.png", 25, 25) align (.0, .5)
                 null width 10
-                text u'[ref.gold]' align (.5, 1.0) color gold size 23
+                $ g = gold_text(ref.gold)
+                text g align (.5, 1.0) color gold size 23
 
             null height 5
 
@@ -547,7 +548,8 @@ init:
                 null width 5
                 fixed:
                     xsize 70
-                    text "[hero.gold]" size 20 color gold yalign .5
+                    $ g = gold_text(hero.gold)
+                    text g size 20 color gold yalign .5
                 null width 15
                 text u'Day [day]' size 20 color ivory yalign .5
                 null width 15

@@ -18,6 +18,16 @@ init -11 python:
             for key, value in d.iteritems():
                 new[key] = new.get(key, 0) + value
         return new
+        
+    def gold_text(money):
+        if money >= 10**12:
+            return str(round(float(money)/10**12, 2)) + "T"
+        elif money >= 10**9:
+            return str(round(float(money)/10**9, 2)) + "B"
+        elif money >= 10**6:
+            return str(round(float(money)/10**6, 2)) + "M"
+        else:
+            return str(int(money))
 
     def get_mean(numbers):
         return float(sum(numbers)) / max(len(numbers), 1)
