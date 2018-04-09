@@ -144,6 +144,7 @@ screen graveyard_town():
             action [Hide("graveyard_town"), Jump("enter_dungeon")]
 
     if gm.show_girls:
+        key "mousedown_3" action ToggleField(gm, "show_girls")
         add "content/gfx/images/bg_gradient.png" yalign .45
         for j, entry in enumerate(gm.display_girls()):
             hbox:

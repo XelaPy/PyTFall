@@ -7,22 +7,22 @@ label city_park:
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
-    
+
     scene bg city_park
     with dissolve
-    
+
     $ pytfall.world_quests.run_quests("auto")
-    $ pytfall.world_events.run_events("auto") 
-    
+    $ pytfall.world_events.run_events("auto")
+
     show screen city_park
-    
+
     while 1:
-        
+
         $ result = ui.interact()
-        
+
         if result[0] == 'jump':
             $ gm.start_gm(result[1])
-        
+
         if result[0] == 'control':
             if result[1] == 'jumpgates':
                 $ global_flags.set_flag("keep_playing_music")
@@ -33,14 +33,14 @@ label city_park:
                 $ global_flags.set_flag("keep_music_playing")
                 hide screen city_park
                 jump city_parkgates
-                
-                
+
+
 screen city_park():
-    
+
     use top_stripe(True)
-    
+
     # use r_lightbutton(img=im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=true), return_value =['control', 'jumpgates'], align=(.01, .5))
-    
+
     if not gm.show_girls:
         $img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
         imagebutton:
@@ -48,22 +48,22 @@ screen city_park():
             idle (img)
             hover (im.MatrixColor(img, im.matrix.brightness(.15)))
             action [Hide("city_park"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_parkgates")]
-    
-    
+
+
     use location_actions("city_park")
-    
+
     if gm.show_girls:
-    
+        key "mousedown_3" action ToggleField(gm, "show_girls")
         add "content/gfx/images/bg_gradient.png" yalign .45
         $ j = 0
-        
+
         for entry in gm.display_girls():
             hbox:
                 align (coords[j])
                 $ j += 1
 
                 use rg_lightbutton(img=entry.show("girlmeets", "outdoors", "nature", "urban", exclude=["swimsuit", "wildness", "indoors", "stage", "beach", "pool", "onsen", "indoor"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
-                        
+
     if not gm.show_girls:
         if global_flags.has_flag("met_aine"):
             $ img_aine_shop= ProportionalScale("content/gfx/interface/icons/aine.png", 75, 75)

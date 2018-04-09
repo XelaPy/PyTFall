@@ -43,6 +43,7 @@ screen city_beach_right():
     use location_actions("city_beach_right")
 
     if gm.show_girls:
+        key "mousedown_3" action ToggleField(gm, "show_girls")
 
         add "content/gfx/images/bg_gradient.png" yalign .45
         

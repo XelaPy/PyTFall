@@ -58,6 +58,7 @@ screen swimming_pool():
         action [Hide("swimming_pool"), Show("swimmong_pool_swim"), With(dissolve)]
 
     if gm.show_girls:
+        key "mousedown_3" action ToggleField(gm, "show_girls")
 
         add "content/gfx/images/bg_gradient.png" yalign .45
 
