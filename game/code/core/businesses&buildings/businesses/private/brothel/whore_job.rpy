@@ -763,7 +763,7 @@ init -5 python:
                 else:
                     log.append("The customer was unimpressed by %s looks, to say at least. Still, she preferred fucking her over a harpy. Hearing that from her however, was not encouraging for the poor girl at all..." % worker.name)
 
-            refinement = worker.refinement/float(worker.get_max("refinement"))*effectiveness
+            refinement = worker.get_skill("refinement")/float(worker.get_max_skill("refinement"))*effectiveness
             if charisma >= 100 and refinement >= 100 and dice(75):
                 log.append("Her impeccable manners also made a very good impression.")
                 log.logloc("reputation", 1)

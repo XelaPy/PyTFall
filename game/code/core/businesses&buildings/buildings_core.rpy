@@ -353,6 +353,18 @@ init -10 python:
             price = 10 + dirt + dirt
             return round_int(price)
 
+        def get_threat_percentage(self):
+            """
+            Returns percentage of dirt in the building as (percent, description).
+            """
+            if self.threat < 0:
+                self.threat = 0
+            threat = self.threat * 100 / self.max_stats["threat"]
+            if threat > 100:
+                threat = 100
+
+            return threat
+
         def get_dirt_percentage(self):
             """
             Returns percentage of dirt in the building as (percent, description).
@@ -748,12 +760,6 @@ init -10 python:
                 if config.debug:
                     devlog.info("{} pure clients for {}".format(temp, u.name))
 
-            # Fame/Rep:
-            temp = self.rep_percentage
-            self.log("Reputation: {}%".format(temp))
-            temp = self.fame_percentage
-            self.log("Fame: {}%".format(temp))
-
             expected_clients = clients
             expected_clients = expected_clients/100.0*temp
             clients = round_int(max(min_clients, expected_clients))
@@ -819,7 +825,13 @@ init -10 python:
             if self.expects_clients:
                 self.log(set_font_color("===================", "lawngreen"))
                 self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
-                self.log("--- Testing {} Building ---".format(set_font_color(self.name, "lawngreen")))
+                self.log("--- {} ---".format(set_font_color(self.name, "lawngreen")))
+
+                # Building Stats:
+                self.log("Reputation: {}%".format(self.rep_percentage))
+                self.log("Fame: {}%".format(self.fame_percentage))
+                self.log("Dirt: {}%".format(self.get_dirt_percentage()[0]))
+                self.log("Threat: {}%".format(self.get_threat_percentage()))
 
                 # All workers and workable businesses:
                 self.available_workers = list(c for c in self.all_workers if
@@ -870,15 +882,24 @@ init -10 python:
 
                 self.env.process(self.building_manager(end=101))
                 self.env.run(until=101) # 101 will run events at 100 which it is more intuitive to manage.
-                self.log("{}".format(set_font_color("Ending the simulation:", "red")))
+                self.log("{}".format(set_font_color("Ending the simulation:", "green")))
+
+                # Building Stats:
+                self.log("Reputation: {}%".format(self.rep_percentage))
+                self.log("Fame: {}%".format(self.fame_percentage))
+                self.log("Dirt: {}%".format(self.get_dirt_percentage()[0]))
+                self.log("Threat: {}%".format(self.get_threat_percentage()))
 
                 # We can run it for a bit more, as matrons option!?!
                 # self.env.run(until=110)
                 # self.log("{}".format(set_font_color("Ending the second stage of simulation:", "red")))
-
-                self.log("\nA total of {} Gold was earned here today!".format(set_font_color(str(self.fin.get_logical_income()), "red")))
-                self.log("{}".format(set_font_color("===================", "red")))
-                self.log("\n\n")
+                income = self.fin.get_logical_income()
+                if income > 0:
+                    self.log("\nA total of {} Gold was earned here today!".format(set_font_color(str(income), "lawngreen")))
+                elif income < 0:
+                    self.log("\nA total of {} Gold was earned here today!".format(set_font_color(str(income), "red")))
+                self.log("{}".format(set_font_color("===================", "lawngreen")))
+                self.log("")
             else:
                 self.log(set_font_color("===================", "lawngreen"))
                 self.log("This is a residential building. Nothing much happened here today.")

@@ -223,8 +223,8 @@ init -5 python:
             len_clients = len(clients)
 
             strip = worker.get_skill("strip")/float(worker.get_max_skill("strip"))*effectiveness
-            dance = worker.get_skill("dance")/float(worker.get_max_skill("dance"))*effectiveness
-            skill = (strip*1.3 + dance)/2
+            dancing = worker.get_skill("dancing")/float(worker.get_max_skill("dancing"))*effectiveness
+            skill = (strip*1.3 + dancing)/2
             charisma = worker.charisma/float(worker.get_max("charisma"))*effectiveness
 
             if charisma >= 170:
