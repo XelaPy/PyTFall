@@ -53,7 +53,8 @@ init -999 python:
 
             # Tracking:
             self.next_st = 0
-            self.change = 1
+            self.step = 2 # Can control the speed.
+            self.change = self.step
             self.interval = interval
             self.slider_y = 0
             self.change_max = change_max
@@ -64,10 +65,10 @@ init -999 python:
             render = renpy.Render(width, height)
             render.place(self.vbox)
 
-            if self.value == self.change_max:
-                self.change = -1
-            if self.value == 0:
-                self.change = 1
+            if self.value >= self.change_max:
+                self.change = -self.step
+            if self.value <= 0:
+                self.change = self.step
 
             if self.update and st >= self.next_st:
                 self.value += self.change
