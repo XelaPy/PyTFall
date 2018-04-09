@@ -552,7 +552,7 @@
     "sex": "male",
     "chance": 5,
     "badness": 100,
-    "eqchance": 0,
+    "eqchance": 75,
     "hidden": true,
     "infinite": false,
     "slot": "body",
@@ -563,7 +563,8 @@
     "defence_bonus": {"magic": 30, "melee": 30},
     "evasion_bonus": 3,
     "locations": ["Exploration", "Arena"],
-    "tier": 4
+    "tier": 4,
+    "pref_class":["Shooter", "Any", "Warrior"]
     },
     {
     "id": "Elven Ranger Armor",
@@ -943,7 +944,7 @@
     "sex": "male",
     "chance": 90,
     "badness": 100,
-    "eqchance": 0,
+    "eqchance": 10,
     "hidden": false,
     "infinite": false,
     "slot": "body",
@@ -951,7 +952,9 @@
     "max": {"defence": 5},
     "mod": {"charisma": 10, "defence": 10},
     "locations": ["Tailor Store"],
-    "tier": 0
+    "tier": 0,
+    "pref_class":["Any", "Casual"]
+    
     },
     {
     "id": "Armored Casual Clothes",
@@ -961,14 +964,15 @@
     "sex": "male",
     "chance": 0,
     "badness": 100,
-    "eqchance": 0,
+    "eqchance": 15,
     "hidden": false,
     "infinite": false,
     "slot": "body",
     "type": "special",
     "max": {"defence": 20, "agility": -5},
     "mod": {"charisma": 15, "defence": 15},
-    "tier": 0
+    "tier": 0,
+    "pref_class":["Any", "Casual"]
     },
     {
     "id": "Artisan Outfit",
@@ -978,7 +982,7 @@
     "sex": "male",
     "chance": 60,
     "badness": 100,
-    "eqchance": 0,
+    "eqchance": 20,
     "hidden": false,
     "infinite": false,
     "slot": "body",
@@ -987,7 +991,8 @@
     "mod": {"charisma": 20, "defence": 20},
     "mod_skills": {"refinement": [0.01, 0.01, 0.05, 0, 0], "dancing": [0.01, 0.01, 0.05, 0, 0]},
     "locations": ["Tailor Store"],
-    "tier": 1
+    "tier": 1,
+    "pref_class":["Warrior", "Shooter", "Casual", "Any"]
     },
     {
     "id": "Elite Artisan Outfit",
@@ -995,9 +1000,9 @@
     "icon": "content/items/body/ao1.png",
     "price": 500,
     "sex": "male",
-    "chance": 0,
+    "chance": 25,
     "badness": 100,
-    "eqchance": 0,
+    "eqchance": 25,
     "hidden": false,
     "infinite": false,
     "slot": "body",
@@ -1005,7 +1010,8 @@
     "max": {"charisma": 50, "defence": 60, "agility": -15},
     "mod": {"charisma": 30, "defence": 30, "agility": -15},
     "mod_skills": {"refinement": [0.02, 0.02, 0.1, 0, 0]},
-    "tier": 1
+    "tier": 1,
+    "pref_class":["Warrior", "Shooter", "Casual", "Any"]
     },
     {
     "id": "Leather Jacket",
@@ -1015,7 +1021,7 @@
     "sex": "male",
     "chance": 40,
     "badness": 100,
-    "eqchance": 0,
+    "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "body",
@@ -1024,7 +1030,8 @@
     "mod": {"charisma": 25, "defence": 30},
     "mod_skills": {"refinement": [0.01, 0.01, 0.02, 0, 0], "security": [0.01, 0.01, 0.03, 0, 0], "bdsm": [0.02, 0.02, 0.05, 0, 0]},
     "locations": ["Tailor Store"],
-    "tier": 2
+    "tier": 2,
+    "pref_class":["Warrior", "Shooter", "Casual", "Any"]
     },
     {
     "id": "Altered Leather Jacket",
@@ -1034,7 +1041,7 @@
     "sex": "male",
     "chance": 0,
     "badness": 100,
-    "eqchance": 0,
+    "eqchance": 45,
     "hidden": false,
     "infinite": false,
     "slot": "body",
@@ -1042,7 +1049,8 @@
     "max": {"charisma": 75, "defence": 50, "agility": 25},
     "mod": {"charisma": 40, "defence": 40, "agility": 10},
     "mod_skills": {"refinement": [0.01, 0.01, 0.02, 0, 0], "security": [0.01, 0.01, 0.03, 0, 0], "bdsm": [0.02, 0.02, 0.05, 0, 0]},
-    "tier": 2
+    "tier": 2,
+    "pref_class":["Warrior", "Shooter", "Casual", "Any"]
     },
     {
     "id": "Mercenary Clothes",
@@ -1052,7 +1060,7 @@
     "sex": "male",
     "chance": 30,
     "badness": 100,
-    "eqchance": 0,
+    "eqchance": 60,
     "hidden": false,
     "infinite": false,
     "slot": "body",
@@ -1063,7 +1071,8 @@
     "defence_multiplier": {"melee": 0.15, "ranged": 0.15},
     "mod_skills": {"security": [0.02, 0.02, 0.06, 0, 0], "management": [0.02, 0.02, 0.06, 0, 0], "refinement": [0.01, 0.01, 0.05, 0, 0]},
     "locations": ["Tailor Store"],
-    "tier": 3
+    "tier": 3,
+    "pref_class":["Warrior", "Shooter", "Knight"]
     },
     {
     "id": "Proper Mercenary Clothes",
@@ -1073,7 +1082,7 @@
     "sex": "male",
     "chance": 0,
     "badness": 100,
-    "eqchance": 0,
+    "eqchance": 65,
     "hidden": false,
     "infinite": false,
     "slot": "body",
@@ -1083,7 +1092,8 @@
     "mod": {"charisma": 15, "defence": 50, "agility": 20},
     "defence_multiplier": {"melee": 0.2, "ranged": 0.2},
     "mod_skills": {"security": [0.05, 0.05, 0.1, 0, 0], "management": [0.03, 0.03, 0.1, 0, 0]},
-    "tier": 3
+    "tier": 3,
+    "pref_class":["Warrior", "Shooter", "Knight"]
     },
     {
     "id": "Kilt",
@@ -1093,7 +1103,7 @@
     "sex": "male",
     "chance": 70,
     "badness": 100,
-    "eqchance": 0,
+    "eqchance": 5,
     "hidden": false,
     "infinite": false,
     "slot": "body",
@@ -1101,7 +1111,8 @@
     "type": "special",
     "max": {"defence": 20, "character": 20},
     "mod": {"character": 25, "defence": 10, "attack": 10, "constitution": 2},
-    "tier": 1
+    "tier": 1,
+    "pref_class":["Any"]
     },
     {
     "id": "Imperial Armor",
@@ -1119,7 +1130,8 @@
     "max": {"defence": 24, "agility": 6, "charisma": 7},
     "mod": {"defence": 18, "agility": 4, "charisma": 5},
     "locations": ["Work Shop"],
-    "tier": 0
+    "tier": 0,
+    "pref_class":["Warrior", "Shooter"]
     },
     {
     "id": "Female Casual Clothes",

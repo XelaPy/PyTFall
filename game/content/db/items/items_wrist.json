@@ -608,7 +608,7 @@
     "sex": "male",
     "chance": 80,
     "badness": 90,
-    "eqchance": 0,
+    "eqchance": 10,
     "hidden": false,
     "infinite": false,
     "slot": "wrist",
