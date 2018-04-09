@@ -203,38 +203,44 @@ init -5 python:
                                    "%s serves customers in the bar." % worker.nickname]))
             return True
 
-        def work_bar(self, worker, clients, loc, log):
+        def work_bar(self, worker, clients, effectiveness, log):
 
             len_clients = len(clients)
 
-            serviceskill = worker.get_skill("bartending")
-            charisma = worker.charisma
+            bartending = worker.get_skill("bartending")/float(worker.get_max_skill("bartending"))*effectiveness
+            charisma = worker.charisma/float(worker.get_max("charisma"))*effectiveness
 
-            # Skill checks, TODO jobs: This should prolly die or be moved to another place?
-            if serviceskill > 2000:
-                log.logloc('reputation', choice([0, 1, 2]))
+            if bartending > 150:
+                if dice(70):
+                    log.logloc('reputation', 1)
                 log.append("She was an excellent bartender, customers kept spending their money just for the pleasure of her company. \n")
-            elif serviceskill >= 1000:
-                log.logloc('reputation', choice([0, 1]))
+            elif bartending >= 100:
+                if dice(50):
+                    log.logloc('reputation', 1)
                 log.append("Customers were pleased with her company and kept asking for more booze. \n")
-            elif serviceskill >= 500:
-                log.logloc('reputation', choice([0, 0, 0, 0, 0, 1]))
+            elif bartending >= 75:
+                if dice(10):
+                    log.logloc('reputation', 1)
                 log.append("She was skillful enough not to mess anything up during her job. \n")
-            elif serviceskill >= 100:
-                log.logloc('reputation', -1)
+            elif bartending >= 50:
+                if dice(70):
+                    log.logloc('reputation', -1)
                 log.append("Her performance was rather poor and it most definitely has cost you income. \n")
             else:
                 log.logloc('reputation', -2)
                 log.append("She is a very unskilled bartender, this girl definitely needs training \n")
 
-            if charisma > 300:
-                log.logloc('fame', choice([0, 1, 1]))
+            if charisma > 150:
+                if dice(70):
+                    log.logloc('fame', 1)
                 log.append("Your girl was stunningly pretty, customers couldn't keep their eyes off her. \n")
-            elif charisma > 150:
-                log.logloc('fame', choice([0, 0, 1]))
+            elif charisma > 100:
+                if dice(50):
+                    log.logloc('fame', 1)
                 log.append("Your girl looked beautiful, this will not go unnoticed. \n")
-            elif charisma > 45:
-                log.logloc('fame', choice([0, 0, 0, 1]))
+            elif charisma > 75:
+                if dice(70):
+                    log.logloc('fame', -1)
                 log.append("Your girl was easy on the eyes, not bad for a bartender. \n")
             else:
                 log.logloc('fame', -2)
