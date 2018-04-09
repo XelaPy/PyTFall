@@ -331,7 +331,7 @@ screen discord():
         vbox:
             xalign .5
             yalign .2
-            text "The game is still in development. Consider supporting us if you like it!" align (.45, .1) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
+            text "The game is still in development. Support us if you enjoyed it!" align (.45, .1) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
             null height 10
             text "ANY QUESTIONS OR BUGS TO REPORT?" size 35 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats" xalign .5
             text "JOIN OUR COMMUNITY ON:" size 35 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats" xalign .5
