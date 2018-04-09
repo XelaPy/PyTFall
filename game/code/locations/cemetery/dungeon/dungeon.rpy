@@ -182,6 +182,33 @@ transform sprite_default(xx, yy, xz, yz, rot=None):
 
 screen dungeon_move(hotspots):
     tag dungeon
+
+    if dungeon.can_move:
+        key "focus_left" action NullAction()
+        key "focus_right" action NullAction()
+        key "focus_up" action NullAction()
+        key "focus_down" action NullAction()
+
+        key "K_KP2" action Return(value=2)
+        key "K_KP4" action Return(value=4)
+        key "K_KP6" action Return(value=6)
+        key "K_KP7" action Return(value=7)
+        key "K_KP8" action Return(value=8)
+        key "K_KP9" action Return(value=9)
+        key "K_l" action ToggleField(dungeon, "light", "_torch", "")
+        key "K_LEFT" action Return(value=4)
+        key "K_UP" action Return(value=8)
+        key "K_RIGHT" action Return(value=6)
+        key "K_DOWN" action Return(value=2)
+
+        if not renpy.music.is_playing(channel="sound"):
+            key "repeat_K_KP2" action Return(value=2)
+            key "repeat_K_KP7" action Return(value=7)
+            key "repeat_K_KP8" action Return(value=8)
+            key "repeat_K_KP9" action Return(value=9)
+            key "repeat_K_UP" action Return(value=8)
+            key "repeat_K_DOWN" action Return(value=2)
+
     # Screen which shows move buttons and a minimap
     for sw in reversed(show):
         if isinstance(sw, list):
@@ -278,27 +305,6 @@ screen dungeon_move(hotspots):
                 # key "K_o" action Return(value="mpos")
                 # key "K_g" action SetField(dungeon, "show_map", "teleport")
         key "K_m" action ToggleField(dungeon, "show_map")
-
-    if dungeon.can_move:
-        key "K_KP2" action Return(value=2)
-        key "K_KP4" action Return(value=4)
-        key "K_KP6" action Return(value=6)
-        key "K_KP7" action Return(value=7)
-        key "K_KP8" action Return(value=8)
-        key "K_KP9" action Return(value=9)
-        key "K_l" action ToggleField(dungeon, "light", "_torch", "")
-        key "K_LEFT" action Return(value=4)
-        key "K_UP" action Return(value=8)
-        key "K_RIGHT" action Return(value=6)
-        key "K_DOWN" action Return(value=2)
-
-        if not renpy.music.is_playing(channel="sound"):
-            key "repeat_K_KP2" action Return(value=2)
-            key "repeat_K_KP7" action Return(value=7)
-            key "repeat_K_KP8" action Return(value=8)
-            key "repeat_K_KP9" action Return(value=9)
-            key "repeat_K_UP" action Return(value=8)
-            key "repeat_K_DOWN" action Return(value=2)
 
     if dungeon.timer:
         timer dungeon.timer action Return(value="event_list")
