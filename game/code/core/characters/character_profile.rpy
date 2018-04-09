@@ -175,10 +175,10 @@ screen char_profile():
                     python:
                         frame_image = im.Scale("content/gfx/frame/MC_bg3.png", 1, 1)
                         img = char.show('profile', resize=(600, 514), exclude=["nude", "revealing", "lingerie", "swimsuit"], cache=True)
-                        
+
                 $ image_tags = img.get_image_tags()
 
-                
+
                 button:
                     align (.5, .5)
 
@@ -594,6 +594,7 @@ screen char_profile():
                                             size 18
                                         hbox:
                                             xalign 1.0
+                                            yoffset 8
                                             $ step = skill_limit/10.0
                                             for i in range(5):
                                                 if (2*step) <= skill_val:
