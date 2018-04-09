@@ -219,25 +219,26 @@ init -5 python:
 
             return True
 
-        def work_strip_club(self, worker, clients, loc, log):
-            # TODO jobs: We can now interpolate this from base_stats/skills
-            skill = round(worker.get_skill("strip")*.75 + worker.get_skill("dancing")*.25)
-            charisma = worker.charisma
-
+        def work_strip_club(self, worker, clients, effectiveness, log):
             len_clients = len(clients)
 
+            strip = worker.get_skill("strip")/float(worker.get_max_skill("strip"))*effectiveness
+            dance = worker.get_skill("dance")/float(worker.get_max_skill("dance"))*effectiveness
+            skill = (strip*1.3 + dance)/2
+            charisma = worker.charisma/float(worker.get_max("charisma"))*effectiveness
+
             # TODO jobs: This should prolly die:
-            if charisma >= 1500:
+            if charisma >= 170:
                 log.append("%s supernal loveliness instantly captivated audiences. " % worker.name)
-                log.logws("joy", 1)
-            elif worker.charisma >= 1000:
+                log.logws("joy", 2)
+            elif worker.charisma >= 150:
                 log.append("The attention of customers was entirely focused on %s thanks to her prettiness. " % worker.name)
                 log.logws("joy", 1)
-            elif worker.charisma >= 500:
+            elif worker.charisma >= 120:
                 log.append("%s enchanted customers with her stunning beauty. " % worker.name)
-            elif worker.charisma >= 200:
-                log.append("Customers were delighted with %s beauty. " % worker.name)
             elif worker.charisma >= 100:
+                log.append("Customers were delighted with %s beauty. " % worker.name)
+            elif worker.charisma >= 75:
                 log.append("%s good looks was pleasing to audiences. " % worker.name)
             elif worker.charisma >= 50:
                 log.append("%s did her best to make customers like her, but her beauty could definitely be enhanced. " % worker.name)
@@ -246,25 +247,25 @@ init -5 python:
                 log.append("Customers clearly were unimpressed by %s looks, to say at least. Such a cold reception was not encouraging for the poor girl at all..." % worker.name)
 
             log.append("\n")
-            if skill >= 4000:
+            if skill >= 170:
                 log.append("She gave an amazing performance, her sexy and elegant moves forced a few customers to come right away to their own embarrassment.")
                 log.logws("exp", randint(250, 500))
                 self.logloc("reputation", choice([0, 1]))
                 log.logws("joy", 3)
-            elif skill >= 2000:
+            elif skill >= 150:
                 log.append("She gave a performance worthy of kings and queens as the whole hall was cheering for her.")
                 log.logws("exp", randint(100, 200))
                 self.logloc("reputation", choice([0, 0, 1]))
                 log.logws("joy", 2)
-            elif skill >= 1000:
+            elif skill >= 130:
                 log.append("She lost all of her clothing piece by piece as she gracefully danced on the floor, the whole hall was cheering for her.")
                 log.logws("exp", randint(50, 120))
                 log.logws("joy", 2)
-            elif skill >= 500:
+            elif skill >= 100:
                 log.append("She lost all of her clothing piece by piece as she danced on the floor, some mildly drunk clients cheered for her.")
                 log.logws("exp", randint(40, 75))
                 log.logws("joy", 1)
-            elif skill >= 200:
+            elif skill >= 75:
                 log.append("She danced to the best of her ability but her skills could definitely be improved.")
                 log.logws("exp", randint(35, 45))
             elif skill >= 50:
