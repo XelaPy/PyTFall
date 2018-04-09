@@ -217,7 +217,7 @@ screen main_menu():
     # The background of the main menu.
 
     add "bg_main"
-    
+
     if not renpy.get_screen("credits"):
         vbox:
             align (.02, .05)
@@ -239,8 +239,8 @@ screen main_menu():
                     action OpenURL('https://www.patreon.com/darkt')
                     add At(ProportionalScale("content/gfx/interface/icons/credits/patreonlogoorange.png", 100, 25, yalign=1.0), patreon_bounce)
 
-   
-    
+
+
     # button:
         # background "content/gfx/interface/logos/gibc.png"
         # hover_background im.MatrixColor("content/gfx/interface/logos/gibc.png", im.matrix.brightness(0.10))
@@ -344,23 +344,28 @@ screen discord():
             hover_background Transform("content/gfx/interface/icons/credits/discord.png", align=(.5, .5))
             action OpenURL("https://discord.gg/4tT4qmW")
 
-                
-                
+
+
 screen credits():
-    zorder 1
-    modal True
+    zorder 1 modal True
+
     frame:
         background Transform(Frame("content/gfx/frame/frame_dec_1.png", 20, 20), alpha=.9)
-        pos(10, 120)
-        xysize (900, 580)
+        pos (10, 10)
+        xysize (900, 700)
         style_group "mmenu"
-        textbutton "Hide":
-            align(0.5, 0.90)
-            action Hide("credits", transition=dissolve)
-        text "About Us" align (.45, .1) size 35 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
+
+        text "About Us":
+            xalign .5 ypos 50
+            size 35
+            color goldenrod
+            drop_shadow [(1, 2)]
+            drop_shadow_color black
+            antialias True
+            style_prefix "proper_stats"
 
         side "c r":
-            area (100, 100, 800, 350)
+            area (100, 100, 800, 550)
             viewport id "vp":
                 draggable True
                 mousewheel True
@@ -395,7 +400,13 @@ screen credits():
                         null width 100
                         vbox:
                             style_prefix "proper_stats"
-                            text "Content and Coding" size 22 xalign .5 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
+                            text "Content and Coding":
+                                size 22
+                                xalign .5
+                                color goldenrod
+                                drop_shadow [(1, 2)]
+                                drop_shadow_color black
+                                antialias True
                             button:
                                 xalign .5
                                 xysize (100, 100)
@@ -404,18 +415,51 @@ screen credits():
                                 action OpenURL('https://www.patreon.com/darkt')
                                 add At(ProportionalScale("content/gfx/interface/icons/credits/patreonlogoorange.png", 100, 25, yalign=1.0), patreon_bounce)
                             null height 3
-                            text " DarkTl " align .5, 1.0 size 30 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
+                            text " DarkTl ":
+                                align .5, 1.0
+                                size 30
+                                color goldenrod
+                                drop_shadow [(1, 2)]
+                                drop_shadow_color black
+                                antialias True
                             null height 30
+
                     null height 10
-                    text "The game is still in development. Consider supporting us if you like it!" align (.45, .1) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
+
+                    text "The game is still in development. Consider supporting us if you like it!":
+                        size 25
+                        color goldenrod
+                        drop_shadow [(1, 2)]
+                        drop_shadow_color black
+                        antialias True
+                        style_prefix "proper_stats"
+
                     null height 10
+
                     vbox:
                         style_prefix "proper_stats"
-                        text "Special thanks to:" size 22 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
-                        text "The Worst, Lamoli, CherryWood, Gismo, Rudistoned, Eliont, Matt, Xipomus, Longint,"
-                        text "Thewlis, Picobyte, Armegetton, MrKlaus, Krakr, Sysreq, GonDra, Jaeke, Janmaba"
+                        text "Special thanks to:":
+                            size 22
+                            color goldenrod
+                            drop_shadow [(1, 2)]
+                            drop_shadow_color black
+                            antialias True
+                        text "All artists and composers for amazing content featured in PyTFall."
+                        text "Tom Rothamel for Ren'Py."
 
-            vbar value YScrollValue("vp")
+                        null height 10
+                        text "Many thanks to:":
+                            size 22
+                            color goldenrod
+                            drop_shadow [(1, 2)]
+                            drop_shadow_color black
+                            antialias True
+                        text "TheWorst, Gismo, Picobyte, CherryWood, Xipomus, Lamoli, Thewlis, Rudistoned,"
+                        text "Eliont, Matt, Longint, Armegetton, MrKlaus, Krakr, Sysreq, GonDra, Jaeke, Janmaba."
+
+        textbutton "Hide":
+            align .5, .90
+            action Hide("credits", transition=dissolve)
 
 
 ##############################################################################
