@@ -156,12 +156,19 @@ init -9 python:
                     else:
                         status = "slave" if dice(55) else "free"
 
+                    if status == "slave":
+                        give_civilian_items = True
+                        give_bt_items = False
+                    else:
+                        give_civilian_items = True
+                        give_bt_items = True
+
                     build_rc(bt_group=bt_group,
                              set_locations=True,
                              set_status=status,
                              tier=tier, tier_kwargs=None,
-                             give_civilian_items=True,
-                             give_bt_items=True,
+                             give_civilian_items=give_civilian_items,
+                             give_bt_items=give_bt_items,
                              spells_to_tier=False)
 
         # ----------------------------------------->
