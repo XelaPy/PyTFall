@@ -185,7 +185,7 @@ screen chars_list(source=None):
                                                 style_group "ddlist"
                                                 if c.status == "slave":
                                                     action Return(["dropdown", "home", c])
-                                                    hovered tt.Action("Choose a place for %s to live at!" % c.nickname)
+                                                    hovered tt.Action("Choose a place for %s to live at (RMB to set Work)!" % c.nickname)
                                                 else: # Can't set home for free cs, they decide it on their own.
                                                     action NullAction()
                                                     hovered tt.Action("%s is free and decides on where to live at!" % c.nickname)
@@ -197,13 +197,18 @@ screen chars_list(source=None):
                                                     else:
                                                         size 18
                                         elif c.flag("last_chars_list_geet_icon") == "work":
+                                            $ tt_hint = "Choose a place for %s to work at" % c.nickname
+                                            if c.status == "slave":
+                                                $ tt_hint += " (RMB to set Home)!"
+                                            else:
+                                                $ tt_hint += "!"
                                             button:
                                                 style_group "ddlist"
                                                 action Return(["dropdown", "workplace", c])
                                                 if c.status == "slave":
                                                     alternate [Function(c.set_flag, "last_chars_list_geet_icon", "home"),
                                                                Return(["dropdown", "home", c])]
-                                                hovered tt.Action("Choose a place for %s to work at!" % c.nickname)
+                                                hovered tt.Action(tt_hint)
                                                 text "{image=button_circle_green}Work: [c.workplace]":
                                                     if len(str(c.workplace)) > 18:
                                                         size 15
