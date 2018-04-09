@@ -68,6 +68,7 @@ label mc_setup_warrior_assassin_princess_royal:
 label mc_setup_warrior_assassin_drow:
     $ hero.apply_trait("Drow Blood")
     $ hero.apply_trait("Darkness")
+    $ give_tiered_magic_skills(hero, amount=1)
     return
     
 label mc_setup_warrior_assassin_drow_poison:
@@ -101,6 +102,7 @@ label mc_setup_warrior_shooter_forest_elf_ranger:
 label mc_setup_warrior_shooter_summer_fay:
     $ hero.apply_trait("Fae Blood")
     $ hero.apply_trait("Light")
+    $ give_tiered_magic_skills(hero, amount=1)
     return
     
 label mc_setup_warrior_shooter_summer_fay_eternal:
@@ -134,6 +136,7 @@ label mc_setup_warrior_defender_harpy_bones:
 label mc_setup_warrior_defender_harpy:
     $ hero.apply_trait("Harpy Priestess Blood")
     $ hero.apply_trait("Air")
+    $ give_tiered_magic_skills(hero, amount=1)
     return
     
 label mc_setup_warrior_defender_harpy_meta:
@@ -148,6 +151,7 @@ label mc_setup_warrior_defender_harpy_sky:
 label mc_setup_mage_arc_ghost:
     $ hero.apply_trait("Ghostly Structure")
     $ hero.apply_trait("Light")
+    $ give_tiered_magic_skills(hero, amount=randint(4, 5))
     return
     
 label mc_setup_mage_arc_ghost_intangible:
@@ -165,6 +169,7 @@ label mc_setup_mage_arc_ghost_light:
 label mc_setup_mage_arc_vampire:
     $ hero.apply_trait("Vampiric Blood")
     $ hero.apply_trait("Darkness")
+    $ give_tiered_magic_skills(hero, amount=randint(4, 5))
     return
     
 label mc_setup_mage_arc_vampire_night:
@@ -182,6 +187,7 @@ label mc_setup_mage_arc_vampire_reflex:
 label mc_setup_mage_sorcerer_kitsune:
     $ hero.apply_trait("Kitsune Blood")
     $ hero.apply_trait("Fire")
+    $ give_tiered_magic_skills(hero, amount=randint(4, 5))
     return
     
 label mc_setup_mage_sorcerer_kitsune_fire:
@@ -199,6 +205,7 @@ label mc_setup_mage_sorcerer_kitsune_flow:
 label mc_setup_mage_sorcerer_winter:
     $ hero.apply_trait("Fae Blood")
     $ hero.apply_trait("Ice")
+    $ give_tiered_magic_skills(hero, amount=randint(4, 5))
     return
     
 label mc_setup_mage_sorcerer_winter_ice:
@@ -216,6 +223,7 @@ label mc_setup_mage_sorcerer_winter_win:
 label mc_setup_mage_researcher_android:
     $ hero.apply_trait("Artificial Body Structure")
     $ hero.apply_trait("Electricity")
+    $ give_tiered_magic_skills(hero, amount=randint(4, 5))
     return
     
 label mc_setup_mage_researcher_android_ele:
@@ -233,6 +241,7 @@ label mc_setup_mage_researcher_android_recharge:
 label mc_setup_mage_researcher_slime:
     $ hero.apply_trait("Liquid Body Structure")
     $ hero.apply_trait("Water")
+    $ give_tiered_magic_skills(hero, amount=randint(4, 5))
     return
     
 label mc_setup_mage_researcher_slime_water:
