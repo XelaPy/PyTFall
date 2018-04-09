@@ -227,7 +227,6 @@ init -5 python:
             skill = (strip*1.3 + dance)/2
             charisma = worker.charisma/float(worker.get_max("charisma"))*effectiveness
 
-            # TODO jobs: This should prolly die:
             if charisma >= 170:
                 log.append("%s supernal loveliness instantly captivated audiences. " % worker.name)
                 log.logws("joy", 2)
