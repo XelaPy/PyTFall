@@ -9,6 +9,7 @@ init -9 python:
         Maybe some behavior flags and alike can be a part of this as well?
         """
         BASE_WAGES = {"SIW": 20, "Combatant": 30, "Server": 15, "Specialist": 40}
+        BASE_UPKEEP = 2.5 # Per tier, conditioned in get_upkeep method.
 
         def __init__(self):
             # self.instance = instance
@@ -979,11 +980,12 @@ init -9 python:
             upkeep = getattr(char, "upkeep", 0)
 
             if char.status == 'slave':
+                upkeep += char.BASE_UPKEEP * char.tier or 1
+                upkeep *= random.uniform(.9, 1.1)
                 if "Dedicated" in char.traits:
-                    upkeep += char.tier*5 + char.level*.5
-                else:
-                    upkeep += char.tier*10 + char.level
-                upkeep = max(upkeep, 20)
+                    upkeep *= .5
+
+                upkeep = max(upkeep, 1)
 
             return round_int(upkeep)
 
