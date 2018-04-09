@@ -730,8 +730,14 @@ init -12 python:
                 job.settle_workers_disposition(new_workers, self, all_on_deck=True)
                 # Do Effectiveness calculations:
                 self.calc_job_power(new_workers, job, power_flag_name)
+            workers = workers.union(new_workers)
 
-            return workers.union(new_workers)
+            # Throw in the manager:
+            manager = self.building.manager
+            if manager:
+                workers.add(manager)
+
+            return workers
 
         def calc_job_power(self, workers, job, power_flag_name,
                                 remove_from_available_workers=True):
