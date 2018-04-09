@@ -207,9 +207,10 @@ init -1 python: # Core classes:
                 if self.quotes:
                     self.start_turn_events.append(RunQuotes(self.teams[0]))
 
-            # After we've set the whole thing up, we've launch the main loop:
-            renpy.pause(0.25, hard=True)
-            renpy.pause(0.35)
+                # After we've set the whole thing up, we've launch the main loop:
+                renpy.pause(.25, hard=True)
+                renpy.pause(.35)
+                
             self.main_loop()
 
         def prepear_teams(self):
