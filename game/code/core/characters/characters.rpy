@@ -4155,7 +4155,8 @@ init -9 python:
 
             # Player only...
             self.corpses = list() # Dead bodies go here until disposed off. Why the fuck here??? There gotta be a better place for dead chars than MC's class. We're not really using this atm anyway....
-
+            self.attack_skills.append("Fist Attack")
+            
             self._buildings = list()
             self._chars = list()
 
