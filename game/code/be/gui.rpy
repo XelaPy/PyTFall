@@ -396,23 +396,17 @@ init: # screens:
             action MainMenu()
 
         # Pos visualization:
-        if True:
-            for placement, coords in BDP.items():
-                if len(placement) == 2:
-                    for pos in coords:
-                        add Solid("F00", xysize=(5, 5)):
-                            pos pos
-                            anchor .5, .5
-                else: # Middle!
-                    add Solid("000", xysize=(10, 10)):
-                        pos coords
-                        anchor .5, .5
-            #
-            # vbox:
-            #     for pos in list(chain.from_iterable(BDP.values())):
-            #         text "[pos!r]"
-            #         add Solid("F00", xysize=(5, 5))
-                #     anchor .5, .5
+        # if True:
+        #     for placement, coords in BDP.items():
+        #         if len(placement) == 2:
+        #             for pos in coords:
+        #                 add Solid("F00", xysize=(5, 5)):
+        #                     pos pos
+        #                     anchor .5, .5
+        #         else: # Middle!
+        #             add Solid("000", xysize=(10, 10)):
+        #                 pos coords
+        #                 anchor .5, .5
 
     screen be_status_overlay():
         zorder 1
