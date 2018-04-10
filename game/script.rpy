@@ -332,7 +332,7 @@ label continue_with_start:
 
     #  --------------------------------------
     # Put here to facilitate testing:
-    if config.developer and renpy.has_label("testing"):
+    if DEBUG and renpy.has_label("testing"):
         call testing
 
     python in _console:

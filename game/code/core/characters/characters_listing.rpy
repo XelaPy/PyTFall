@@ -51,9 +51,12 @@ label chars_list:
     jump mainscreen
 
 screen chars_list(source=None):
-
-    if len(source.sorted) == 0:
-        label "You don't have any workers" text_size 40 text_color ivory align .34, .2
+    if not source.sorted:
+        text "You don't have any workers.":
+            size 40
+            color ivory
+            align .5, .2
+            style "TisaOTM"
 
     key "mousedown_3" action Return(['control', 'return'])
 

@@ -1329,4 +1329,4 @@ screen next_day():
 
 screen next_day_calculations():
     zorder 20
-    text "Processing next day calculations" font "fonts/badaboom.ttf" color "#daa520" size 35 align(.5, .5) outlines [(2, "#000000", 0, 0)]
+    text "Processing next day calculations..." font "fonts/badaboom.ttf" color "#daa520" size 35 align(.5, .5) outlines [(2, "#000000", 0, 0)]

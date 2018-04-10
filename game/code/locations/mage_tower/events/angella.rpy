@@ -134,7 +134,7 @@ label angelica_remove_alignment:
                 else:
                     a "You don't have enough money. It will be [price] gold."
     else:
-        a "I can't remove an element if you don't have any."
+        a "You have no elements that I can remove."
     jump angelica_menu
 
 screen alignment_choice(character):

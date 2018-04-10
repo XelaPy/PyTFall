@@ -295,7 +295,11 @@ init: # Screens:
                     use building_management_rightframe_businesses_mode
 
         else:
-            label "You don't own any buildings" text_size 50 text_color ivory align .5, .5
+            text "You don't own any buildings.":
+                size 50
+                color ivory
+                align .5, .5
+                style "TisaOTM"
 
         use top_stripe(True)
         if not bm_mid_frame_mode == "building":
