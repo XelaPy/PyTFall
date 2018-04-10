@@ -928,7 +928,7 @@ init: # Screens:
                             xalign .5
                             padding 5, 5
                             background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                            add im.Scale("content/gfx/bg/buildings/log.png", 600, 390)
+                            add im.Scale("content/gfx/bg/buildings/log.webp", 600, 390)
 
                 if bm_exploration_view_mode == "explore":
                     vbox:
@@ -937,7 +937,7 @@ init: # Screens:
                             xalign .5
                             padding 5, 5
                             background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                            add im.Scale("content/gfx/bg/buildings/Exploration.png", 600, 390)
+                            add im.Scale("content/gfx/bg/buildings/Exploration.webp", 600, 390)
 
                         hbox:
                             box_wrap 1
@@ -1145,7 +1145,7 @@ init: # Screens:
                                         xsize 100
                                         has hbox xsize 90
                                         button:
-                                            background Frame("content/gfx/animations/coin_top 0.13 1/1.png")
+                                            background Frame("content/gfx/animations/coin_top 0.13 1/1.webp")
                                             xysize 25, 25
                                             align 0, .5
                                             action NullAction()

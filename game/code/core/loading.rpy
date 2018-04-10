@@ -719,7 +719,7 @@ label load_resources:
         # MC Apartments:
         ap = InvLocation(id="Studio Apartment", daily_modifier=.15, rooms=1,
                          desc="Comfortable apartment with plenty of storage space!",
-                         img="content/gfx/bg/buildings/apartment_1.jpg",
+                         img="content/gfx/bg/buildings/apartment_1.webp",
                          price=5000)
         buildings[ap.id] = ap
         # hero.buildings.append(ap)

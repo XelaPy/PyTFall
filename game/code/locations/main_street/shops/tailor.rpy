@@ -69,7 +69,7 @@ screen shopkeeper_items_upgrades(upgrades_list):
         has vbox
         hbox:
             xalign .5
-            add "content/gfx/animations/coin_top .13 1/1.png" yalign .6
+            add "content/gfx/animations/coin_top 0.13 1/1.webp" yalign .6
             null width 15
             text "%d" % hero.gold style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 30
         null height 15
@@ -89,7 +89,7 @@ screen shopkeeper_items_upgrades(upgrades_list):
                     hbox:
                         yalign .5
                         text "+ %s " %i["price"] style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 25 yalign .5 xalign .0
-                        add "content/gfx/animations/coin_top .13 1/1.png" yalign .7
+                        add "content/gfx/animations/coin_top 0.13 1/1.webp" yalign .7
                         text "  =" style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 25 yalign .5 xalign .0
                     add ProportionalScale(items[i["second_item"]].icon, 80, 80) xalign .5
                     null width 10
