@@ -1,7 +1,7 @@
 init python:
     renpy.image("jumping_frog", animate("/script/quests/frog_princess/img/frog_jump", loop=True))
-    renpy.image("frog", "script/quests/frog_princess/img/frog.png")
-    renpy.image("stranger", "script/quests/frog_princess/img/stranger.png")
+    renpy.image("frog", "script/quests/frog_princess/img/frog.webp")
+    renpy.image("stranger", "script/quests/frog_princess/img/stranger.webp")
     register_quest("Frog Princess!")
     if config.developer:
         register_event("show_frog", screen=True, quest="Frog Princess!", locations=["forest_entrance"], trigger_type="auto", restore_priority=1, priority=300, start_day=1, jump=True, dice=100, max_runs=20)
@@ -31,7 +31,7 @@ screen show_frog:
 screen show_frog_final:
     zorder 10
     if renpy.get_screen("forest_entrance"):
-        $ img = im.Scale("script/quests/frog_princess/img/frog.png", 70, 70)
+        $ img = im.Scale("script/quests/frog_princess/img/frog.webp", 70, 70)
         imagebutton:
             pos (237, 586)
             idle img
