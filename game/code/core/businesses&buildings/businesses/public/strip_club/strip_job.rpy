@@ -249,12 +249,12 @@ init -5 python:
             if skill >= 170:
                 log.append("She gave an amazing performance, her sexy and elegant moves forced a few customers to come right away to their own embarrassment.")
                 log.logws("exp", randint(250, 500))
-                self.logloc("reputation", choice([0, 1]))
+                log.logloc("reputation", choice([0, 1]))
                 log.logws("joy", 3)
             elif skill >= 150:
                 log.append("She gave a performance worthy of kings and queens as the whole hall was cheering for her.")
                 log.logws("exp", randint(100, 200))
-                self.logloc("reputation", choice([0, 0, 1]))
+                log.logloc("reputation", choice([0, 0, 1]))
                 log.logws("joy", 2)
             elif skill >= 130:
                 log.append("She lost all of her clothing piece by piece as she gracefully danced on the floor, the whole hall was cheering for her.")
