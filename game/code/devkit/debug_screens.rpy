@@ -4,7 +4,7 @@ init python:
         return Text("{size=-5}%d-%d" % (x, y)), .1
 
 screen debug_tools():
-    zorder 4
+    layer "tooltips"
     drag:
         align .0, 1.0
         id "meow____"
