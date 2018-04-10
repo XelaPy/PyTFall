@@ -714,15 +714,32 @@ init -11 python:
 
 label load_resources:
     $ buildings = dict()
+
     python hide:
-        # Scripted Buildings:
-        ap = InvLocation(id="Studio Apartment", daily_modifier=.25, rooms=1,
+        # MC Apartments:
+        ap = InvLocation(id="Studio Apartment", daily_modifier=.15, rooms=1,
                          desc="Comfortable apartment with plenty of storage space!",
                          img="content/gfx/bg/buildings/apartment_1.jpg",
                          price=5000)
         buildings[ap.id] = ap
-        hero.buildings.append(ap)
-        hero.home = ap # Note, we may condition this in MC setup? Maybe? One day :D
+        # hero.buildings.append(ap)
+        # hero.home = ap # Note, we may condition this in MC setup? Maybe? One day :D
+
+        ap = InvLocation(id="Large Apartment", daily_modifier=.12, rooms=3,
+                         desc="Comfortable apartment with enough living space for three and a large storage area for all of your items!",
+                         img="content/gfx/bg/buildings/apartment_1.jpg",
+                         price=10000)
+        buildings[ap.id] = ap
+        # hero.buildings.append(ap)
+        # hero.home = ap # Note, we may condition this in MC setup? Maybe? One day :D
+
+        ap = InvLocation(id="Lux Apartment", daily_modifier=.25, rooms=6,
+                         desc="Enough space for six people and nearly magical restorative effects for all who sleep here.",
+                         img="content/gfx/bg/buildings/apartment_1.jpg",
+                         price=50000)
+        buildings[ap.id] = ap
+        # hero.buildings.append(ap)
+        # hero.home = ap # Note, we may condition this in MC setup? Maybe? One day :D
 
     python: # Jail:
         jail = CityJail()
