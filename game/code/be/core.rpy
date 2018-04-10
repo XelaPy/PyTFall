@@ -4,25 +4,6 @@ init -1 python: # Core classes:
     I think that we can use zorders on master layer instead of messing with multiple layers.
     """
 
-    # BDP = {} # BE DEFAULT POSITIONS *positions are tuples in lists that go from top to bottom.
-    # BDP["l0"] = [(160, 360), (120, 410), (80, 460)] # Left (Usually player) teams backrow default positions.
-    # BDP["l1"] = [(260, 360), (220, 410), (180, 460)] # Left (Usually player) teams frontrow default positions.
-    # BDP["r0"] = list((config.screen_width-t[0], t[1]) for t in BDP["l0"]) # BackRow, Right (Usually enemy).
-    # BDP["r1"] = list((config.screen_width-t[0], t[1]) for t in BDP["l1"]) # FrontRow, Right (Usually enemy).
-    #
-    # # We need to get perfect middle positioning:
-    # # Get the perfect middle x:
-    # perfect_middle_xl = BDP["l0"][1][0] + (BDP["l1"][1][0] - BDP["l0"][1][0])
-    # perfect_middle_yl = BDP["l0"][1][1] + (BDP["l1"][1][0] - BDP["l0"][1][0])
-    # perfect_middle_xr = BDP["r0"][1][0] + (BDP["r1"][1][0] - BDP["r0"][1][0])
-    # perfect_middle_yr = perfect_middle_yl
-    # BDP["perfect_middle_right"] = (perfect_middle_xl, perfect_middle_yl)
-    # BDP["perfect_middle_left"] = (perfect_middle_xr, perfect_middle_yr)
-    # del perfect_middle_xl
-    # del perfect_middle_yl
-    # del perfect_middle_xr
-    # del perfect_middle_yr
-
     BDP = {} # BE DEFAULT POSITIONS *positions are tuples in lists that go from top to bottom.
     BDP["l0"] = [(260, 560), (220, 610), (180, 660)] # Left (Usually player) teams backrow default positions.
     BDP["l1"] = [(360, 560), (320, 610), (280, 660)] # Left (Usually player) teams frontrow default positions.
