@@ -1094,7 +1094,7 @@ init -1 python: # Core classes:
                 if damage <= 0:
                     damage = randint(2, 5)
             else:
-                damage = (-self.effect + attack)*multiplier - defense - randint(5, 25)
+                damage = (-self.effect + attack)*multiplier - defense - randint(2, 10)
 
             # Items Bonus:
             m = 1.0
