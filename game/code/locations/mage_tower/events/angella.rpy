@@ -233,34 +233,17 @@ screen alignment_removal_choice(character):
         action Return("clear_all")
         hovered tt.Action("Remove all elements")
 
-screen angelica_menu:
+screen angelica_menu():
+    style_prefix "dropdown_gm"
     frame:
-        xalign .95
-        ypos 20
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-        xpadding 10
-        ypadding 10
-        vbox:
-            style_group "wood"
-            align (.5, .5)
-            spacing 10
-            button:
-                xysize (200, 40)
-                yalign .5
-                action [Hide("angelica_menu"), Jump("angelica_spells")]
-                text "Spells" size 15
-            button:
-                xysize (200, 40)
-                yalign .5
-                action [Hide("angelica_menu"), Jump("angelica_add_alignment")]
-                text "Add Alignment" size 15
-            button:
-                xysize (200, 40)
-                yalign .5
-                action [Hide("angelica_menu"), Jump("angelica_remove_alignment")]
-                text "Remove Alignment" size 15
-            button:
-                xysize (200, 40)
-                yalign .5
-                action [Hide("angelica_menu"), Jump("mages_tower")]
-                text "Leave" size 15
+        pos (.98, .98) anchor (1.0, 1.0)
+        has vbox
+        textbutton "Spells":
+            action Hide("angelica_menu"), Jump("angelica_spells")
+        textbutton "Add Alignment":
+            action Hide("angelica_menu"), Jump("angelica_add_alignment")
+        textbutton "Remove Alignment":
+            action Hide("angelica_menu"), Jump("angelica_remove_alignment")
+        textbutton "Leave":
+            action Hide("angelica_menu"), Jump("mages_tower")
+            keysym "mousedown_3"

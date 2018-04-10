@@ -232,29 +232,15 @@ screen arena_outside:
                 $ j += 1
                 use rg_lightbutton(img=entry.show("girlmeets", "armor", exclude=["swimsuit", "beach", "pool", "onsen", "bunny", "indoor", "formal", "wildness"], label_cache=True, resize=(300, 400), type="reduce"), return_value=['jump', entry])
 
-screen xeona_screen:
+screen xeona_screen():
+    style_prefix "dropdown_gm"
     frame:
-        xalign .95
-        ypos 20
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-        xpadding 10
-        ypadding 10
-        vbox:
-            style_group "wood"
-            align (.5, .5)
-            spacing 10
-            button:
-                xysize (150, 40)
-                yalign .5
-                action [Hide("xeona_screen"), Jump("xeona_talking")]
-                text "Talk" size 15
-            button:
-                xysize (150, 40)
-                yalign .5
-                action [Hide("xeona_screen"), Jump("xeona_training")]
-                text "Training" size 15
-            button:
-                xysize (150, 40)
-                yalign .5
-                action [Hide("xeona_screen"), Jump("xeona_goodbye")]
-                text "Leave" size 15
+        pos (.98, .98) anchor (1.0, 1.0)
+        has vbox
+        textbutton "Talk":
+            action Hide("xeona_screen"), Jump("xeona_talking")
+        textbutton "Train":
+            action Hide("xeona_screen"), Jump("xeona_training")
+        textbutton "Leave":
+            action Hide("xeona_screen"), Jump("xeona_goodbye")
+            keysym "mousedown_3"

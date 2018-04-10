@@ -91,32 +91,19 @@ screen city_beach():
 
 
 screen city_beach_swim():
+    style_prefix "dropdown_gm"
     frame:
-        xalign .95
-        ypos 20
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-        xpadding 10
-        ypadding 10
-        vbox:
-            style_group "wood"
-            align (.5, .5)
-            spacing 10
-            button:
-                xysize (120, 40)
-                yalign .5
-                action [Hide("city_beach_swim"), Jump("city_beach_swimming_checks")]
-                text "Swim" size 15
-            if hero.get_skill("swimming") >= 100:
-                button:
-                    xysize (120, 40)
-                    yalign .5
-                    action [Hide("city_beach_swim"), Jump("city_beach_diving_checks")]
-                    text "Diving" size 15
-            button:
-                xysize (120, 40)
-                yalign .5
-                action [Hide("city_beach_swim"), Show("city_beach"), With(dissolve)]
-                text "Leave" size 15
+        pos (.98, .98) anchor (1.0, 1.0)
+        has vbox
+        textbutton "Swim":
+            action Hide("city_beach_swim"), Jump("city_beach_swimming_checks")
+        if hero.get_skill("swimming") >= 100:
+            textbutton "Diving":
+                action Hide("city_beach_swim"), Jump("city_beach_diving_checks")
+        textbutton "Leave":
+            action Hide("city_beach_swim"), Show("city_beach"), With(dissolve)
+            keysym "mousedown_3"
+
 
 label city_beach_swimming_checks:
 

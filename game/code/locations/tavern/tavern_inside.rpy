@@ -154,6 +154,7 @@ screen city_tavern_inside():
                 yalign .5
                 action [Hide("city_tavern_inside"), Jump("city")]
                 text "Leave" size 15
+                keysym "mousedown_3"
 
 label tavern_relax:
     hide drunkards with dissolve

@@ -70,37 +70,21 @@ screen swimming_pool():
                 use rg_lightbutton(img=entry.show("sfw", "swimsuit", "pool", exclude=["beach"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
 
 screen swimmong_pool_swim():
+    style_prefix "dropdown_gm"
     frame:
-        xalign .95
-        ypos 20
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-        xpadding 10
-        ypadding 10
-        vbox:
-            style_group "wood"
-            align (.5, .5)
-            spacing 10
-            button:
-                xysize (240, 40)
-                yalign .5
-                action [Hide("swimmong_pool_swim"), Jump("single_swim_pool")]
-                text "Swim (10 G)" size 15
-            button:
-                xysize (240, 40)
-                yalign .5
-                action [Hide("swimmong_pool_swim"), Jump("instructor_swim_pool")]
-                text "Hire an instructor (50 G)" size 15
-            if hero.get_skill("swimming") >= 100:
-                button:
-                    xysize (240, 40)
-                    yalign .5
-                    action [Hide("swimmong_pool_swim"), Jump("work_swim_pool")]
-                    text "Work as instructor" size 15
-            button:
-                xysize (240, 40)
-                yalign .5
-                action [Hide("swimmong_pool_swim"), Show("swimming_pool"), With(dissolve)]
-                text "Leave" size 15
+        pos (.98, .98) anchor (1.0, 1.0)
+        has vbox
+        textbutton "Swim (10 G)":
+            action Hide("swimmong_pool_swim"), Jump("single_swim_pool")
+        textbutton "Hire an instructor (50 G)":
+            action Hide("swimmong_pool_swim"), Jump("instructor_swim_pool")
+        if hero.get_skill("swimming") >= 100:
+            textbutton "Work as instructor":
+                action Hide("swimmong_pool_swim"), Jump("work_swim_pool")
+        textbutton "Leave":
+            action Hide("swimmong_pool_swim"), Show("swimming_pool"), With(dissolve)
+            keysym "mousedown_3"
+
 
 label single_swim_pool:
     if hero.vitality < 20 or hero.AP <= 0:

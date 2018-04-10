@@ -279,7 +279,8 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
     style dropdown_gm_button:
         is basic_choice_button
         size_group "dropdown_gm"
-        ypadding 1
+        padding (10, 1)
+        xminimum 200
         # xalign 0
 
     style dropdown_gm_button_text:

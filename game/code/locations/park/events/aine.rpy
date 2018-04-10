@@ -120,29 +120,15 @@ label aine_goodbye:
     hide aine with dissolve
     jump city_park
 
-screen aine_screen:
+screen aine_screen():
+    style_prefix "dropdown_gm"
     frame:
-        xalign .95
-        ypos 20
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-        xpadding 10
-        ypadding 10
-        vbox:
-            style_group "wood"
-            align (.5, .5)
-            spacing 10
-            button:
-                xysize (150, 40)
-                yalign .5
-                action [Hide("aine_screen"), Jump("aine_shop")]
-                text "Spells" size 15
-            button:
-                xysize (150, 40)
-                yalign .5
-                action [Hide("aine_screen"), Jump("aine_training")]
-                text "Training" size 15
-            button:
-                xysize (150, 40)
-                yalign .5
-                action [Hide("aine_screen"), Jump("aine_goodbye")]
-                text "Leave" size 15
+        pos (.98, .98) anchor (1.0, 1.0)
+        has vbox
+        textbutton "Spells":
+            action Hide("aine_screen"), Jump("aine_shop")
+        textbutton "Training":
+            action Hide("aine_screen"), Jump("aine_training")
+        textbutton "Leave":
+            action Hide("aine_screen"), Jump("aine_goodbye")
+            keysym "mousedown_3"

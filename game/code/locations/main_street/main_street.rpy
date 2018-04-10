@@ -7,31 +7,31 @@ label main_street:
     if not global_flags.has_flag("keep_playing_music"):
         play world choice(ilists.world_music["main_street"])
     $ global_flags.del_flag("keep_playing_music")
-    
+
     python:
         # Build the actions
         if pytfall.world_actions.location("main_street"):
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
-    
+
     hide screen city_screen
     scene bg main_street at truecenter
     with dissolve
-    
+
     show screen main_street
     with dissolve
-    
+
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
-    
+
     while 1:
 
         $ result = ui.interact()
 
         if result[0] == 'control':
             if result[1] == 'return':
-                $ global_flags.del_flag("keep_playing_music")            
+                $ global_flags.del_flag("keep_playing_music")
                 hide screen main_street
                 jump city
 
@@ -41,14 +41,14 @@ label main_street:
 
         if result[0] == 'jump':
             $ gm.start_gm(result[1])
-            
-            
+
+
 screen main_street():
-    
+
     use top_stripe(True)
-    
+
     use location_actions("main_street")
-    
+
     if not gm.show_girls:
         $ img_tailor = ProportionalScale("content/gfx/interface/icons/tailor_shop.png", 50, 50)
         imagebutton:
@@ -80,13 +80,14 @@ screen main_street():
             idle (img_realtor)
             hover (im.MatrixColor(img_realtor, im.matrix.brightness(.15)))
             action [Hide("main_street"), Jump("realtor_agency")]
+
     # Girlsmeets screen
     if gm.show_girls:
         key "mousedown_3" action ToggleField(gm, "show_girls")
-    
+
         add "content/gfx/images/bg_gradient.png" yalign .45
         $ j = 0
-        
+
         for entry in gm.display_girls():
             hbox:
                 align (coords[j])

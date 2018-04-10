@@ -145,41 +145,19 @@ label witch_talking_menu:
                 jump forest_entrance
     jump witch_menu
 
-screen witch_shop:
-    key "mousedown_3" action [Hide("witch_shop"), Jump("forest_entrance")]
-
+screen witch_shop():
+    style_prefix "dropdown_gm"
     frame:
-        xalign .95
-        ypos 20
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-        xpadding 10
-        ypadding 10
-        vbox:
-            style_group "wood"
-            align (.5, .5)
-            spacing 10
-            button:
-                xysize (150, 40)
-                yalign .5
-                action [Hide("witch_shop"), Jump("witches_hut_shopping")]
-                text "Shop" size 15
-            button:
-                xysize (150, 40)
-                yalign .5
-                action [Hide("witch_shop"), Jump("witches_hut_shopping_spells")]
-                text "Spells" size 15
-            button:
-                xysize (150, 40)
-                yalign .5
-                action [Hide("witch_shop"), Jump("witch_training")]
-                text "Training" size 15
-            button:
-                xysize (150, 40)
-                yalign .5
-                action [Hide("witch_shop"), Jump("witch_talking_menu")]
-                text "Talk" size 15
-            button:
-                xysize (150, 40)
-                yalign .5
-                action [Hide("witch_shop"), Jump("forest_entrance")]
-                text "Leave" size 15
+        pos (.98, .98) anchor (1.0, 1.0)
+        has vbox
+        textbutton "Shop":
+            action Hide("witch_shop"), Jump("witches_hut_shopping")
+        textbutton "Spells":
+            action Hide("witch_shop"), Jump("witches_hut_shopping_spells")
+        textbutton "Train":
+            action Hide("witch_shop"), Jump("witch_training")
+        textbutton "Talk":
+            action Hide("witch_shop"), Jump("witch_talking_menu")
+        textbutton "Leave":
+            action Hide("witch_shop"), Jump("forest_entrance")
+            keysym "mousedown_3"

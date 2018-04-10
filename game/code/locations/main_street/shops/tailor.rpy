@@ -141,30 +141,15 @@ label tailor_special_order:
             $ del our_list
     jump tailor_menu
 
-screen tailor_shop:
-    key "mousedown_3" action [Hide("tailor_shop"), Jump("main_street")]
+screen tailor_shop():
+    style_prefix "dropdown_gm"
     frame:
-        xalign .95
-        ypos 20
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-        xpadding 10
-        ypadding 10
-        vbox:
-            style_group "wood"
-            align (.5, .5)
-            spacing 10
-            button:
-                xysize (150, 40)
-                yalign .5
-                action [Hide("tailor_shop"), Jump("tailor_store_shopping")]
-                text "Shop" size 15
-            button:
-                xysize (150, 40)
-                yalign .5
-                action [Hide("tailor_shop"), Jump("tailor_special_order")]
-                text "Special Order" size 15
-            button:
-                xysize (150, 40)
-                yalign .5
-                action [Hide("tailor_shop"), Jump("main_street")]
-                text "Leave" size 15
+        pos (.98, .98) anchor (1.0, 1.0)
+        has vbox
+        textbutton "Shop":
+            action Hide("tailor_shop"), Jump("tailor_store_shopping")
+        textbutton "Special Order":
+            action Hide("tailor_shop"), Jump("tailor_special_order")
+        textbutton "Leave":
+            action Hide("tailor_shop"), Jump("main_street")
+            keysym "mousedown_3"

@@ -80,41 +80,22 @@ label cafe_shopping:
     with dissolve
     jump cafe_menu
 
-screen cafe_eating:
-    key "mousedown_3" action [Hide("cafe_eating"), Jump("main_street")]
-
+screen cafe_eating():
+    style_prefix "dropdown_gm"
     frame:
-        xalign .95
-        ypos 20
-        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-        xpadding 10
-        ypadding 10
-        vbox:
-            style_group "wood"
-            align (.5, .5)
-            spacing 10
-            button:
-                xysize (150, 40)
-                yalign .5
-                action [Hide("cafe_eating"), Jump("cafe_shopping")]
-                text "Shop" size 15
-            if hero.flag("ate_in_cafe") != day:
-                button:
-                    xysize (150, 40)
-                    yalign .5
-                    action [Hide("cafe_eating"), Jump("cafe_eat_alone")]
-                    text "Eat alone" size 15
-            if len(hero.team)>1 and hero.flag("ate_in_cafe") != day:
-                button:
-                    xysize (150, 40)
-                    yalign .5
-                    action [Hide("cafe_eating"), Jump("cafe_eat_group")]
-                    text "Eat with group" size 15
-            button:
-                xysize (150, 40)
-                yalign .5
-                action [Hide("cafe_eating"), Jump("main_street")]
-                text "Leave" size 15
+        pos (.98, .98) anchor (1.0, 1.0)
+        has vbox
+        textbutton "Shop":
+            action [Hide("cafe_eating"), Jump("cafe_shopping")]
+        if hero.flag("ate_in_cafe") != day:
+            textbutton "Eat alone":
+                action [Hide("cafe_eating"), Jump("cafe_eat_alone")]
+        if len(hero.team)>1 and hero.flag("ate_in_cafe") != day:
+            textbutton "Eat with group":
+                action [Hide("cafe_eating"), Jump("cafe_eat_group")]
+        textbutton "Leave":
+            action [Hide("cafe_eating"), Jump("main_street")]
+            keysym "mousedown_3"
 
 label cafe_eat_alone:
     menu:
@@ -289,7 +270,7 @@ label cafe_invitation: # we jump here when the group was invited by one of chars
                     if len(hero.team)<3: # when there is only one char, disposition bonus is higher
                         stat += randint(5, 10)
                     member.mod_stat("disposition", stat)
-                    
+
         $ del result
         $ del stat
         $ del img
