@@ -105,24 +105,6 @@ screen city_beach_left():
 
                 use rg_lightbutton(img=entry.show(*entry.flag("beach_left_tags")[1], exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
 
-screen city_beach_fishing():
-    style_prefix "dropdown_gm"
-    frame:
-        pos (.98, .98) anchor (1.0, 1.0)
-        has vbox
-        textbutton "Swim (10 G)":
-            xsize 200
-            action Hide("swimmong_pool_swim"), Jump("single_swim_pool")
-        textbutton "Hire an instructor (50 G)":
-            action Hide("swimmong_pool_swim"), Jump("instructor_swim_pool")
-        if hero.get_skill("swimming") >= 100:
-            textbutton "Work as instructor":
-                action Hide("swimmong_pool_swim"), Jump("work_swim_pool")
-        textbutton "Leave":
-            action Hide("swimmong_pool_swim"), Show("swimming_pool"), With(dissolve)
-            keysym "mousedown_3"
-
-
 label city_beach_rest:
     show bg beach_rest with dissolve
     if hero.flag("rest_at_beach") == day:
