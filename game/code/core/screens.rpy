@@ -522,9 +522,15 @@ init:
         default return_action = Return(['control', 'return']) if return_button_action is None else return_button_action
 
         # Hotkeys:
-        # TODO: GENERAL CONDITIONS FOR THIS!?
-        if global_flags.flag("visited_arena"):
-            key "a" action Function(renpy.scene, "screens"), Jump("arena_inside")
+        if get_screens("mainscreen", "chars_list", "char_profile"):
+            if global_flags.flag("visited_arena"):
+                key "a" action Function(renpy.scene, "screens"), Jump("arena_inside")
+            if global_flags.flag('visited_dark_forest'):
+                key "f" action Function(renpy.scene, "screens"), Jump("forest_entrance")
+            if global_flags.flag("visited_sm"):
+                key "m" action Function(renpy.scene, "screens"), Jump("slave_market")
+            if global_flags.flag("visited_mainstreet"):
+                key "p" action Function(renpy.scene, "screens"), Jump("slave_market")
 
         # Top Stripe Frame:
         add "content/gfx/frame/top_stripe.png"

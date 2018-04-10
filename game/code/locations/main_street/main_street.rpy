@@ -15,6 +15,8 @@ label main_street:
             pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
 
+    $ global_flags.set_flag("visited_mainstreet", True)
+
     hide screen city_screen
     scene bg main_street at truecenter
     with dissolve
