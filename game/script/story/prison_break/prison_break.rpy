@@ -1,6 +1,6 @@
 init:
-    image map_scroll = ProportionalScale("content/events/StoryI/scroll.png", 900, 900)
-    image blueprint = ProportionalScale("content/events/StoryI/blueprint.png", 660, 540)
+    image map_scroll = ProportionalScale("content/events/StoryI/scroll.webp", 900, 900)
+    image blueprint = ProportionalScale("content/events/StoryI/blueprint.webp", 660, 540)
     transform blueprint_position:
         align (0.5, 0.6)
     $ sflash = Fade(.25, 0, .25, color=darkred)
@@ -163,7 +163,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
             mob = build_mob(id=random.choice(enemies), level=15)
             mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
-        result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.jpg", slaves=True, prebattle=False, death=True, skill_lvl=3)
+        result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.webp", slaves=True, prebattle=False, death=True, skill_lvl=3)
 
     if result is True:
         python:

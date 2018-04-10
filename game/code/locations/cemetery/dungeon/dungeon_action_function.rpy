@@ -12,7 +12,7 @@ init python:
             mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
 
-        place = "content/gfx/bg/be/b_dungeon_1.jpg"
+        place = "content/gfx/bg/be/b_dungeon_1.webp"
         result = run_default_be(enemy_team, background=place, slaves=False, prebattle=False, death=True)
 
         if result is True:

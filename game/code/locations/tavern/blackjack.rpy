@@ -67,12 +67,12 @@ screen city_tavern_show_dices(dice_1, dice_2): # main dice screen, shows dices t
         spacing 5
         box_reverse True
         for i in dice_1:
-            add "content/events/tavern_dice/"+str(i)+".png" at dice_roll_zooming()
+            add "content/events/tavern_dice/"+str(i)+".webp" at dice_roll_zooming()
     hbox:
         align .55, .6
         spacing 5
         for i in dice_2:
-            add "content/events/tavern_dice/"+str(i)+".png" at dice_roll_zooming()
+            add "content/events/tavern_dice/"+str(i)+".webp" at dice_roll_zooming()
 
 label tavern_dice_pass: # player passes, and cannot throw dices anymore
     $ player_passed = True

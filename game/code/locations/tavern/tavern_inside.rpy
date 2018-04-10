@@ -41,7 +41,7 @@ label tavern_town:
     if global_flags.flag("tavern_status")[1] == "cozy":
         python:
             for file in os.listdir(content_path("events/tavern_entry/cozy/")):
-                if not file.endswith("db"):
+                if check_image_extension(file):
                     tavern_event_list.append('content/events/tavern_entry/cozy/%s' % (file))
             img = ProportionalScale(choice(tavern_event_list), 1000, 600)
             renpy.show("drunkards", what=img, at_list=[Position(ypos = .5, xpos = .5, yanchor = .5, xanchor = .5)])
@@ -50,7 +50,7 @@ label tavern_town:
     elif global_flags.flag("tavern_status")[1] == "lively":
         python:
             for file in os.listdir(content_path("events/tavern_entry/lively/")):
-                if not file.endswith("db"):
+                if check_image_extension(file):
                     tavern_event_list.append('content/events/tavern_entry/lively/%s' % (file))
             img = ProportionalScale(choice(tavern_event_list), 1000, 600)
             renpy.show("drunkards", what=img, at_list=[Position(ypos = .5, xpos = .5, yanchor = .5, xanchor = .5)])
@@ -59,7 +59,7 @@ label tavern_town:
     else:
         python:
             for file in os.listdir(content_path("events/tavern_entry/brawl/")):
-                if not file.endswith("db"):
+                if check_image_extension(file):
                     tavern_event_list.append('content/events/tavern_entry/brawl/%s' % (file))
             img = ProportionalScale(choice(tavern_event_list), 1000, 600)
             renpy.show("event", what=img, at_list=[Position(ypos = .5, xpos = .5, yanchor = .5, xanchor = .5)])

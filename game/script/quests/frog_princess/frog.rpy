@@ -1,7 +1,7 @@
 init python:
     renpy.image("jumping_frog", animate("/script/quests/frog_princess/img/frog_jump", loop=True))
-    renpy.image("frog", "script/quests/frog_princess/img/frog.png")
-    renpy.image("stranger", "script/quests/frog_princess/img/stranger.png")
+    renpy.image("frog", "script/quests/frog_princess/img/frog.webp")
+    renpy.image("stranger", "script/quests/frog_princess/img/stranger.webp")
     register_quest("Frog Princess!")
     if config.developer:
         register_event("show_frog", screen=True, quest="Frog Princess!", locations=["forest_entrance"], trigger_type="auto", restore_priority=1, priority=300, start_day=1, jump=True, dice=100, max_runs=20)
@@ -31,7 +31,7 @@ screen show_frog:
 screen show_frog_final:
     zorder 10
     if renpy.get_screen("forest_entrance"):
-        $ img = im.Scale("script/quests/frog_princess/img/frog.png", 70, 70)
+        $ img = im.Scale("script/quests/frog_princess/img/frog.webp", 70, 70)
         imagebutton:
             pos (237, 586)
             idle img
@@ -231,7 +231,7 @@ label frog_deathfight:
             mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
 
-    $ result = run_default_be(enemy_team, background="content/gfx/bg/be/battle_arena_1.jpg", slaves=True, prebattle=False, death=False)
+    $ result = run_default_be(enemy_team, background="content/gfx/bg/be/battle_arena_1.webp", slaves=True, prebattle=False, death=False)
 
     if result:
         python:

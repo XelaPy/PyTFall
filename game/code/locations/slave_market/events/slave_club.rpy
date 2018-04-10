@@ -1,7 +1,7 @@
 init python:
     for fname in os.listdir(gamedir + '/content/events/slave_club'):
-        if fname.endswith('.jpg'):
-            tag = 'smc ' + fname[:-4]
+        if check_image_extension(fname):
+            tag = 'smc ' + fname[:-5]
             image = 'content/events/slave_club/' + fname
             renpy.image(tag, ProportionalScale(image, config.screen_width,
                         config.screen_height))

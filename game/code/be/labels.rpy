@@ -74,7 +74,7 @@ label test_be:
         enemy_team.reset_controller()
 
     python:
-        battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.jpg"), music="random", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
+        battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.webp"), music="random", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)
         battle.start_battle()

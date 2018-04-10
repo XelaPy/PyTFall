@@ -47,7 +47,7 @@ screen city_tavern_show_poker_dices(dice_1, dice_2, atl, selected_atl): # main p
         for index, d in enumerate(dice_1):
             $ index += 1
             python:
-                img = "content/events/tavern_dice/"+str(d)+".png"
+                img = "content/events/tavern_dice/"+str(d)+".webp"
                 if index != selected_ai_dice:
                     idle_bg = img
                     hover_bg = im.MatrixColor(img, im.matrix.brightness(.10))
@@ -73,7 +73,7 @@ screen city_tavern_show_poker_dices(dice_1, dice_2, atl, selected_atl): # main p
         for index, d in enumerate(dice_2):
             $ index += 1
             python:
-                img = "content/events/tavern_dice/"+str(d)+".png"
+                img = "content/events/tavern_dice/"+str(d)+".webp"
                 if index != selected_dice:
                     idle_bg = img
                     hover_bg = im.MatrixColor(img, im.matrix.brightness(.10))
