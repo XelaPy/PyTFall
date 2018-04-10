@@ -10,7 +10,7 @@ label forest_dark_continue:
     if forest_bg_change:
         $ background_number_list = list(i for i in range(1, 7) if i != background_number)
         $ background_number = choice(background_number_list)
-        $ forest_location = "content/gfx/bg/locations/forest_" + str(background_number) + ".jpg"
+        $ forest_location = "content/gfx/bg/locations/forest_" + str(background_number) + ".webp"
     else:
         $ forest_bg_change = True
     scene expression forest_location

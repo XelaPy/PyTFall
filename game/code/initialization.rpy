@@ -354,7 +354,7 @@ init -999 python:
     # if not persistent.town_path:
         # persistent.town_path = "content/gfx/bg/locations/map_buttons/dark/"
     # renpy.image("bg humans", "".join([persistent.town_path, "humans.jpg"]))
-    renpy.image("bg humans", "content/gfx/bg/locations/map_buttons/gismo/humans.jpg")
+    renpy.image("bg humans", "content/gfx/bg/locations/map_buttons/gismo/humans.webp")
 
     renpy.image('bg black', Solid((0, 0, 0, 255)))
     renpy.image('bg blood', Solid((150, 6, 7, 255)))

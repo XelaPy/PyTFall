@@ -3,7 +3,7 @@ init python:
         for key in pytfall.maps("pytfall"):
             if not key.get("hidden", False):
                 if "appearing" in key and key["appearing"]:
-                    idle_img = "".join([pytfall.map_pattern, key["id"], ".png"])
+                    idle_img = "".join([pytfall.map_pattern, key["id"], ".webp"])
                     appearing_img = Appearing(idle_img, 50, 200, start_alpha=.1)
                     pos = key["pos"]
                     if mode == "show":
@@ -55,8 +55,8 @@ screen city_screen():
     for key in pytfall.maps("pytfall"):
         if not key.get("hidden", False):
             # Resolve images + Add Appearing where appropriate:
-            $ idle_img = "".join([pytfall.map_pattern, key["id"], ".png"])
-            $ hover_img = "".join([pytfall.map_pattern, key["id"], "_hover.png"])
+            $ idle_img = "".join([pytfall.map_pattern, key["id"], ".webp"])
+            $ hover_img = "".join([pytfall.map_pattern, key["id"], "_hover.webp"])
             $ pos = 0, 0
             if "appearing" in key and key["appearing"]:
                 $ hover_img = im.MatrixColor(idle_img, im.matrix.brightness(.08))

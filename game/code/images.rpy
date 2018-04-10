@@ -6,7 +6,7 @@ init:
 
     image no_image = "content/gfx/interface/images/no_image.png"
 
-    image bg_main = "content/gfx/bg/main.jpg"
+    image bg_main = "content/gfx/bg/main.webp"
 
     image eyes:
         zoom .7

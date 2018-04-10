@@ -885,7 +885,7 @@ screen next_day():
                 align .98, .98
                 xysize 95, 95
                 background Frame("content/gfx/frame/MC_bg3.png", 5, 5)
-                $ img = im.Scale("content/gfx/bg/gallery.jpg", 89, 89)
+                $ img = im.Scale("content/gfx/bg/gallery.webp", 89, 89)
                 imagebutton:
                     align .5, .5
                     idle img
