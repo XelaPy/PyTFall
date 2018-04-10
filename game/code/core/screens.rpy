@@ -522,6 +522,7 @@ init:
         default return_action = Return(['control', 'return']) if return_button_action is None else return_button_action
 
         # Hotkeys:
+        key "a" action Function(renpy.scene, "screens"), Jump("arena_inside")
 
         # Top Stripe Frame:
         add "content/gfx/frame/top_stripe.png"
@@ -1397,16 +1398,28 @@ screen keymap_override():
     key "fast_skip" action NullAction()
     key "mouseup_3" action NullAction()
 
-screen panic_screen:
-    zorder 1000000000
+screen panic_screen():
     modal True
-    add "content/gfx/bg/panic_screen.webp" zoom 1.32
+    layer "panic"
+
     default original_transitions_state = _preferences.transitions
+
     on "show":
-        action [PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True), SetField(_preferences, "transitions", 0)]
+        action [PauseAudio("events", True), PauseAudio("events2", True),
+                PauseAudio("world", True), PauseAudio("gamemusic", True),
+                PauseAudio("music", True), SetField(_preferences, "transitions", 0)]
     on "hide":
-        action [SetField(config, "window_title", config.name), PauseAudio("events", False), PauseAudio("events2", False), PauseAudio("world", False), PauseAudio("gamemusic", False), PauseAudio("music", False), SetField(_preferences, "transitions", original_transitions_state), SetField(config, "window_icon", "content/gfx/interface/icons/win_icon.png"), renpy.game.interface.set_icon]
+        action [SetField(config, "window_title", config.name), PauseAudio("events", False),
+                PauseAudio("events2", False), PauseAudio("world", False),
+                PauseAudio("gamemusic", False), PauseAudio("music", False),
+                SetField(_preferences, "transitions", original_transitions_state),
+                SetField(config, "window_icon", "content/gfx/interface/icons/win_icon.png"),
+                renpy.game.interface.set_icon]
+
     use keymap_override
+
+    add "content/gfx/bg/panic_screen.webp" zoom 1.32
+
     key "q" action Hide("panic_screen")
     key "Q" action Hide("panic_screen")
 

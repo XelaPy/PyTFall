@@ -70,6 +70,7 @@ init -5 python hide:
 
     config.layers.append("tooltips")
     config.layers.append("pytfall")
+    config.layers.append("panic")
 
     # Imagecache:
     # config.debug_image_cache = True
