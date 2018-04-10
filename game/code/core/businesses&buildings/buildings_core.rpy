@@ -914,7 +914,6 @@ init -10 python:
             We manage workable buildings here.
             This does not benefit from being a SimPy process as it stands now.
             """
-            # TODO B&B-clients: Improve the function and add possibilities for "Rush hours"
             for u in self.nd_ups:
                 # Trigger all public businesses:
                 if not u.active: # building is not active:
