@@ -89,12 +89,12 @@ screen cafe_eating():
             action [Hide("cafe_eating"), Jump("cafe_shopping")]
         
         textbutton "Eat alone":
-            if hero.flag("ate_in_cafe") != day:
-                action [Hide("cafe_eating"), Jump("cafe_eat_alone")]
+            sensitive hero.flag("ate_in_cafe") != day
+            action [Hide("cafe_eating"), Jump("cafe_eat_alone")]
                 
         textbutton "Eat with group":
-            if len(hero.team)>1 and hero.flag("ate_in_cafe") != day:
-                action [Hide("cafe_eating"), Jump("cafe_eat_group")]
+            sensitive len(hero.team)>1 and hero.flag("ate_in_cafe") != day
+            action [Hide("cafe_eating"), Jump("cafe_eat_group")]
                 
         textbutton "Leave":
             action [Hide("cafe_eating"), Jump("main_street")]
