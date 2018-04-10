@@ -272,8 +272,8 @@ init: # screens:
 
     screen battle_overlay(be):
         zorder 2
-        # be reffers to battle core instance, we access the global directly atm.
-        # Averything that is displayed all the time:
+        # be refers to battle core instance, we access the global directly atm.
+        # Everything that is displayed all the time:
         frame:
             align (.5, .99)
             background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
@@ -286,7 +286,7 @@ init: # screens:
                     label "%s"%entry style_group "stats_value_text" text_size 14 text_color ivory
 
 
-        # I'll need to condition this more appropriatly later, for now this will do:
+        # I'll need to condition this more appropriately later, for now this will do:
         hbox:
             spacing 2
             align .5, .01
@@ -388,13 +388,31 @@ init: # screens:
                 textbutton "Terminate":
                     action SetField(be, "terminate", True)
 
-
         button:
             style_group "dropdown_gm"
             align (.0, 1.0)
             xysize 130, 30
             text "Main Menu" size 14
             action MainMenu()
+
+        # Pos visualization:
+        if True:
+            for placement, coords in BDP.items():
+                if len(placement) == 2:
+                    for pos in coords:
+                        add Solid("F00", xysize=(5, 5)):
+                            pos pos
+                            anchor .5, .5
+                else: # Middle!
+                    add Solid("000", xysize=(10, 10)):
+                        pos coords
+                        anchor .5, .5
+            #
+            # vbox:
+            #     for pos in list(chain.from_iterable(BDP.values())):
+            #         text "[pos!r]"
+            #         add Solid("F00", xysize=(5, 5))
+                #     anchor .5, .5
 
     screen be_status_overlay():
         zorder 1
