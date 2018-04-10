@@ -1,21 +1,20 @@
 init -1 python: # Core classes:
     """
-    This is our version of turnbased BattleEngine.
+    This is our version of turn based BattleEngine.
     I think that we can use zorders on master layer instead of messing with multiple layers.
     """
 
     BDP = {} # BE DEFAULT POSITIONS *positions are tuples in lists that go from top to bottom.
-    BDP["l0"] = [(160, 360), (120, 410), (80, 460)] # Left (Usually player) teams backrow default positions.
-    BDP["l1"] = [(260, 360), (220, 410), (180, 460)] # Left (Usually player) teams frontrow default positions.
+    BDP["l0"] = [(260, 560), (220, 610), (180, 660)] # Left (Usually player) teams backrow default positions.
+    BDP["l1"] = [(360, 560), (320, 610), (280, 660)] # Left (Usually player) teams frontrow default positions.
     BDP["r0"] = list((config.screen_width-t[0], t[1]) for t in BDP["l0"]) # BackRow, Right (Usually enemy).
     BDP["r1"] = list((config.screen_width-t[0], t[1]) for t in BDP["l1"]) # FrontRow, Right (Usually enemy).
 
     # We need to get perfect middle positioning:
     # Get the perfect middle x:
-    perfect_middle_xl = BDP["l0"][1][0] + (BDP["l1"][1][0] - BDP["l0"][1][0])
-    perfect_middle_yl = BDP["l0"][1][1] + (BDP["l1"][1][0] - BDP["l0"][1][0])
-    perfect_middle_xr = BDP["r0"][1][0] + (BDP["r1"][1][0] - BDP["r0"][1][0])
-    perfect_middle_yr = perfect_middle_yl
+    perfect_middle_xl = BDP["l0"][1][0] + round_int((BDP["l1"][1][0] - BDP["l0"][1][0])*.5)
+    perfect_middle_yl = perfect_middle_yr = BDP["l1"][1][1] - 100
+    perfect_middle_xr = BDP["r0"][1][0] + round_int((BDP["r1"][1][0] - BDP["r0"][1][0])*.5)
     BDP["perfect_middle_right"] = (perfect_middle_xl, perfect_middle_yl)
     BDP["perfect_middle_left"] = (perfect_middle_xr, perfect_middle_yr)
     del perfect_middle_xl
@@ -210,7 +209,7 @@ init -1 python: # Core classes:
                 # After we've set the whole thing up, we've launch the main loop:
                 renpy.pause(.25, hard=True)
                 renpy.pause(.35)
-                
+
             self.main_loop()
 
         def prepear_teams(self):
@@ -276,10 +275,10 @@ init -1 python: # Core classes:
             """Get Initial Character Position
 
             Basically this is what sets the characters up at the start of the battle-round.
-            Returns inicial position of the character based on row/team!
+            Returns initial position of the character based on row/team!
             Positions should always be retrieved using this method or errors may occur.
             """
-            # We want different behaviour for 3 member teams putting the leader in the middle:
+            # We want different behavior for 3 member teams putting the leader in the middle:
             char.besk = dict()
             # Supplied to the show method.
             char.betag = str(random.random())
@@ -290,20 +289,7 @@ init -1 python: # Core classes:
             # We'll assign "indexes" from 0 to 3 from left to right [0, 1, 3, 4] to help calculating attack ranges.
             team_index = team.position
             char_index = char.beinx
-            if team_index:
-                if char.__class__ == Mob:
-                    if isinstance(sprite, ProportionalScale):
-                        char.besprite = im.Flip(sprite, horizontal=True)
-                    else:
-                        char.besprite = Transform(sprite, xzoom=-1)
-                else:
-                    char.besprite = sprite
-
-                # We're going to land the character at the default position from now on, with centred bottom of the image landing directly on the position!
-                # This makes more sense for all purposes:
-                char.dpos = self.row_pos[team_index + str(int(char.front_row))][char_index]
-                char.cpos = char.dpos
-
+            # Sprite Flips:
             if team_index == "r":
                 if char.__class__ != Mob:
                     if isinstance(sprite, ProportionalScale):
@@ -312,13 +298,23 @@ init -1 python: # Core classes:
                         char.besprite = Transform(sprite, xzoom=-1)
                 else:
                     char.besprite = sprite
+            else:
+                if char.__class__ == Mob:
+                    if isinstance(sprite, ProportionalScale):
+                        char.besprite = im.Flip(sprite, horizontal=True)
+                    else:
+                        char.besprite = Transform(sprite, xzoom=-1)
+                else:
+                    char.besprite = sprite
 
-                pos = self.row_pos[team_index + str(int(char.front_row))][char_index]
-                # Now the offset:
-                xpos = pos[0] - char.besprite_size[0]
-                char.dpos = (xpos, pos[1])
-                char.cpos = char.dpos
-
+            # We're going to land the character at the default position from now on,
+            # with centered bottom of the image landing directly on the position!
+            # This makes more sense for all purposes:
+            x, y = self.row_pos[team_index + str(int(char.front_row))][char_index]
+            w, h = char.besprite_size
+            xpos = round_int(x-w*.5)
+            ypos = round_int(y-h)
+            char.dpos = char.cpos = (xpos, ypos)
 
             char.besk["what"] = char.besprite
             # Zorder defaults to characters (index + 1) * 100
