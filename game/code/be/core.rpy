@@ -61,6 +61,8 @@ init -1 python: # Core classes:
             self.controller = None
             self.winner = None
             self.combat_log = list()
+            # We may want to delay logging something to the end of turn.
+            self.delayed_log = list()
 
             # Events:
             self.start_turn_events = list() # Events we execute on start of the turn.
@@ -77,10 +79,13 @@ init -1 python: # Core classes:
 
             self.max_skill_lvl = max_skill_lvl
 
-        def log(self, report):
+        def log(self, report, delayed=False):
             if config.debug:
                 devlog.info(report)
-            self.combat_log.append(report)
+            if delayed:
+                self.delayed_log.append(report)
+            else:
+                self.combat_log.append(report)
 
         def get_faction(self, char):
             # Since factions are simply teams:
@@ -160,6 +165,13 @@ init -1 python: # Core classes:
                     if hasattr(event, "activated_this_turn"):
                         event.activated_this_turn = False
 
+                if not self.logical:
+                    for c in self.get_fighters("all"):
+                        c.stats.update_delayed()
+
+                self.combat_log.extend(self.delayed_log)
+                self.delayed_log = list()
+
                 # We check the conditions for terminating the BE scenario, this should prolly be end turn event as well, but I've added this before I've added events :)
                 if self.check_break_conditions():
                     if not self.logical:
@@ -232,6 +244,9 @@ init -1 python: # Core classes:
 
                     # Allegiance:
                     char.allegiance = team.name or team
+
+                    if not self.logical:
+                        char.stats.update_delayed()
 
         def end_battle(self):
             """Ends the battle, trying to normalize any variables that may have been used during the battle.
@@ -1114,7 +1129,7 @@ init -1 python: # Core classes:
 
             s = s + self.effects_to_string(t)
 
-            battle.log("".join(s))
+            battle.log("".join(s), delayed=True)
 
         def set_dmg_font_color(self, t, attributes, to_string=True, color="red"):
             """
@@ -1248,6 +1263,9 @@ init -1 python: # Core classes:
             self.source.mp -= mp_cost
             self.source.health -= health_cost
             self.source.vitality -= vitality_cost
+
+            if not battle.logical:
+                self.source.stats.update_delayed()
 
         # Game/Gui Assists:
         def get_element(self):
