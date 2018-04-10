@@ -261,7 +261,7 @@ screen main_menu():
         #pos (380, 460)
         #idle (img)
         #hover (im.MatrixColor(img, im.matrix.brightness(0.25)))
-        #action Show("credits", transition=ImageDissolve("content/gfx/masks/m02.jpg", 3))
+        #action Show("credits", transition=ImageDissolve("content/gfx/masks/m02.webp", 3))
     if not prereqs:
         frame:
             background Frame("content/gfx/frame/FrameGP.png", 40, 40)
@@ -313,8 +313,8 @@ screen main_menu():
                 textbutton _("Settings") action Show("s_menu", s_menu="Settings"), With(dissolve)
                 hbox:
                     xalign 0.5
-                    textbutton _("Credits") action Show("credits", transition=ImageDissolve("content/gfx/masks/m02.jpg", 1)) xsize 85 text_size 16
-                    textbutton _("Help") action Show("discord", transition=ImageDissolve("content/gfx/masks/m02.jpg", 1)) xsize 85 text_size 16
+                    textbutton _("Credits") action Show("credits", transition=ImageDissolve("content/gfx/masks/m02.webp", 1)) xsize 85 text_size 16
+                    textbutton _("Help") action Show("discord", transition=ImageDissolve("content/gfx/masks/m02.webp", 1)) xsize 85 text_size 16
                 textbutton _("Quit") action Quit(confirm=False) xalign 0.5
 
 screen discord():
