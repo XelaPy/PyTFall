@@ -1,10 +1,9 @@
 init:
-    image logo = ProportionalScale("content/events/Intro/logo-transperent.png", 600, 300)
-    image he = ProportionalScale("content/events/Intro/h1.png", 1750, 550)
-    image hes = ProportionalScale("content/events/Intro/he1.png", 1750, 550)
+    image logo = ProportionalScale("content/events/Intro/logo-transperent.webp", 600, 300)
+    image he = ProportionalScale("content/events/Intro/h1.webp", 1750, 550)
+    image hes = ProportionalScale("content/events/Intro/he1.webp", 1750, 550)
     $ flash = Fade(.75, 0.25, .75, color=darkred)
     $ sflash = Fade(.25, 0, .25, color=darkred)
-    $ t = Character("Terumi", color=green, what_color=green, show_two_window=True, show_side_image="content\events\Intro\pnterumi.png")
 
 label intro:
     stop world

@@ -1,6 +1,6 @@
 init:
-    image map_scroll = ProportionalScale("content/events/StoryI/scroll.png", 900, 900)
-    image blueprint = ProportionalScale("content/events/StoryI/blueprint.png", 660, 540)
+    image map_scroll = ProportionalScale("content/events/StoryI/scroll.webp", 900, 900)
+    image blueprint = ProportionalScale("content/events/StoryI/blueprint.webp", 660, 540)
     transform blueprint_position:
         align (0.5, 0.6)
     $ sflash = Fade(.25, 0, .25, color=darkred)
