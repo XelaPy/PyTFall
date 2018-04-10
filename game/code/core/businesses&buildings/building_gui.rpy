@@ -928,7 +928,7 @@ init: # Screens:
                             xalign .5
                             padding 5, 5
                             background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                            add im.Scale("content/gfx/bg/buildings/log.png", 600, 390)
+                            add im.Scale("content/gfx/bg/buildings/log.webp", 600, 390)
 
                 if bm_exploration_view_mode == "explore":
                     vbox:
@@ -937,7 +937,7 @@ init: # Screens:
                             xalign .5
                             padding 5, 5
                             background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                            add im.Scale("content/gfx/bg/buildings/Exploration.png", 600, 390)
+                            add im.Scale("content/gfx/bg/buildings/Exploration.webp", 600, 390)
 
                         hbox:
                             box_wrap 1
