@@ -206,6 +206,14 @@ screen nvl(dialogue, items=None):
 #
 # Screen that's used to display the main menu, when Ren'Py first starts
 # http://www.renpy.org/doc/html/screen_special.html#main-menu
+
+transform patreon_hover(init_alpha=.25):
+    alpha init_alpha additive .4
+    on hover:
+        linear 1.0 alpha 1.0
+    on idle:
+        linear 1.0 alpha .25
+
 screen main_menu():
 
     # This ensures that any other menu screen is replaced.
@@ -220,18 +228,28 @@ screen main_menu():
 
     if not renpy.get_screen("credits"):
         vbox:
-            align (.02, .05)
-            text "Support us on" xalign .5 size 22 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True
+            align (.5, .01)
+            text "Support us on:":
+                at patreon_hover(init_alpha=.4)
+                xalign .5
+                size 22
+                color goldenrod
+                drop_shadow [(1, 2)]
+                drop_shadow_color black
+                antialias True
             hbox:
+                spacing 60
                 button:
+                    at patreon_hover
                     xalign .5
                     xysize (100, 100)
                     background ProportionalScale("content/gfx/interface/icons/credits/x_hole_idle.png", 100, 100)
                     hover_background ProportionalScale("content/gfx/interface/icons/credits/x_hole_hover.png", 100, 100)
                     action OpenURL('https://www.patreon.com/xelapy')
                     add At(ProportionalScale("content/gfx/interface/icons/credits/patreonlogoorange.png", 100, 25, yalign=1.0), patreon_bounce)
-                null width 10
+                # null width 10
                 button:
+                    at patreon_hover
                     xalign .5
                     xysize (100, 100)
                     background ProportionalScale("content/gfx/interface/icons/credits/dark_hole_idle.png", 100, 100)
@@ -317,6 +335,7 @@ screen main_menu():
                     textbutton _("Help") action Show("discord", transition=ImageDissolve("content/gfx/masks/m02.webp", 1)) xsize 85 text_size 16
                 textbutton _("Quit") action Quit(confirm=False) xalign 0.5
 
+
 screen discord():
     zorder 1
     modal True
@@ -343,7 +362,6 @@ screen discord():
             background Transform("content/gfx/interface/icons/credits/discord.png", zoom=.9, align=(.5, .5))
             hover_background Transform("content/gfx/interface/icons/credits/discord.png", align=(.5, .5))
             action OpenURL("https://discord.gg/4tT4qmW")
-
 
 
 screen credits():
@@ -701,7 +719,6 @@ init: # Default preference menus, replaces by our own versions:
                     has vbox
 
                     textbutton _("Joystick...") action Preference("joystick")
-
 
             vbox:
                 frame:
