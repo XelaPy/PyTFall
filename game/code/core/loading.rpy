@@ -725,9 +725,9 @@ label load_resources:
         # hero.buildings.append(ap)
         # hero.home = ap # Note, we may condition this in MC setup? Maybe? One day :D
 
-        ap = InvLocation(id="Large Apartment", daily_modifier=.12, rooms=3,
+        ap = InvLocation(id="Large Apartment", daily_modifier=.12, rooms=3, 
                          desc="Comfortable apartment with enough living space for three and a large storage area for all of your items!",
-                         img="content/gfx/bg/buildings/Rooms/decent (1).jpg",
+                         img="content/gfx/bg/buildings/Rooms/decent (1).jpg", # TODO: Image doesn't exist!
                          price=10000)
         buildings[ap.id] = ap
         # hero.buildings.append(ap)
@@ -735,7 +735,7 @@ label load_resources:
 
         ap = InvLocation(id="Lux Apartment", daily_modifier=.25, rooms=6,
                          desc="Enough space for six people and nearly magical restorative effects for all who sleep here.",
-                         img="content/gfx/bg/buildings/Rooms/luxury (3).jpg",
+                         img="content/gfx/bg/buildings/Rooms/luxury (3).jpg", # TODO: Image doesn't exist!
                          price=50000)
         buildings[ap.id] = ap
         # hero.buildings.append(ap)
