@@ -741,6 +741,10 @@ label load_resources:
         # hero.buildings.append(ap)
         # hero.home = ap # Note, we may condition this in MC setup? Maybe? One day :D
 
+        if config.debug and not hero.home:
+            hero.buildings.append(ap)
+            hero.home = ap
+
     python: # Jail:
         jail = CityJail()
         jail.id = "City Jail"
