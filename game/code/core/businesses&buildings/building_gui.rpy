@@ -1145,7 +1145,7 @@ init: # Screens:
                                         xsize 100
                                         has hbox xsize 90
                                         button:
-                                            background Frame("content/gfx/animations/coin_top 0.13 1/1.png")
+                                            background Frame("content/gfx/animations/coin_top 0.13 1/1.webp")
                                             xysize 25, 25
                                             align 0, .5
                                             action NullAction()
