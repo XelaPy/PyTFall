@@ -623,29 +623,29 @@ init -11 python:
         """
         if "park" in place:
             n = randint(1,4)
-            back = "content/gfx/bg/be/b_park_" + str(n) + ".jpg"
+            back = "content/gfx/bg/be/b_park_" + str(n) + ".webp"
         elif "beach" in place:
             n = randint(1,3)
-            back = "content/gfx/bg/be/b_beach_" + str(n) + ".jpg"
+            back = "content/gfx/bg/be/b_beach_" + str(n) + ".webp"
         elif "forest" in place or "mage" in place:
             n = randint(1,8)
-            back = "content/gfx/bg/be/b_forest_" + str(n) + ".jpg"
+            back = "content/gfx/bg/be/b_forest_" + str(n) + ".webp"
         elif "village" in place:
-            back = "content/gfx/bg/be/b_village_1.jpg"
+            back = "content/gfx/bg/be/b_village_1.webp"
         elif "grave" in place:
-            back = "content/gfx/bg/be/b_grave_1.jpg"
+            back = "content/gfx/bg/be/b_grave_1.webp"
         elif "academy" in place:
-            back = "content/gfx/bg/be/b_academy_1.jpg"
+            back = "content/gfx/bg/be/b_academy_1.webp"
         elif "arena" in place:
-            back = "content/gfx/bg/be/battle_arena_1.jpg"
+            back = "content/gfx/bg/be/battle_arena_1.webp"
         elif "tavern" in place:
-            back = "content/gfx/bg/be/b_tavern_1.jpg"
+            back = "content/gfx/bg/be/b_tavern_1.webp"
         else:
             n = randint(1,6)
-            back = "content/gfx/bg/be/b_city_" + str(n) + ".jpg" # city streets are default backgrounds; always used for hired chars from the characters menu atm.
+            back = "content/gfx/bg/be/b_city_" + str(n) + ".webp" # city streets are default backgrounds; always used for hired chars from the characters menu atm.
         return back
 
-    def run_default_be(enemy_team, slaves=False, background="content/gfx/bg/be/battle_arena_1.jpg", track="random", prebattle=True, death=False, skill_lvl=float("inf")):
+    def run_default_be(enemy_team, slaves=False, background="content/gfx/bg/be/battle_arena_1.webp", track="random", prebattle=True, death=False, skill_lvl=float("inf")):
         """
         Launches BE with MC team vs provided enemy team, returns True if MC won and vice versa
         - if slaves == True, slaves in MC team will be inside BE with passive AI, otherwise they won't be there

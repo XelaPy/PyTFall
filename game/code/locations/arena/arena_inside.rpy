@@ -5,7 +5,7 @@ label arena_inside:
         $ ilists.world_music["arena_inside"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("arena_inside")]
     play world choice(ilists.world_music["arena_inside"]) fadein 1.5
 
-    scene expression "content/gfx/bg/be/battle_arena_1.jpg"
+    scene expression "content/gfx/bg/be/battle_arena_1.webp"
     show screen arena_inside
     with fade
 
@@ -73,7 +73,7 @@ init: # Main Screens:
     screen arena_inside():
         default tt = Tooltip("Get your ass kicked in our Arena!")
         #use top_stripe(True)
-        add "content/gfx/bg/be/battle_arena_1.jpg"  xpos 100 ypos 35
+        add "content/gfx/bg/be/battle_arena_1.webp"  xpos 100 ypos 35
 
         # Start match button:
         if day in hero.fighting_days:
@@ -1156,7 +1156,7 @@ init: # ChainFights vs Mobs:
 
         default rolled = False
 
-        add "content/gfx/bg/be/battle_arena_1.jpg"
+        add "content/gfx/bg/be/battle_arena_1.webp"
         text "Special Bonus Time!":
             align (.5, .1)
             italic True
@@ -1216,7 +1216,7 @@ init: # ChainFights vs Mobs:
         zorder 2
         modal True
 
-        add "content/gfx/bg/be/battle_arena_1.jpg"
+        add "content/gfx/bg/be/battle_arena_1.webp"
 
         if pytfall.arena.cf_count and pytfall.arena.cf_mob:
 
@@ -1279,7 +1279,7 @@ init: # ChainFights vs Mobs:
 
         timer 9.0 action [Hide("arena_finished_chainfight"), Hide("arena_inside"), Hide("chain_fight"), Hide("confirm_chainfight"), SetField(pytfall.arena, "cf_count", 0), Jump("arena_inside")]
 
-        add "content/gfx/bg/be/battle_arena_1.jpg"
+        add "content/gfx/bg/be/battle_arena_1.webp"
 
         text "Victory!":
             at move_from_to_align_with_linear(start_align=(.5, .3), end_align=(.5, .03), t=2.2)
