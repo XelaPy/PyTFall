@@ -2848,9 +2848,6 @@ init -9 python:
                      equip=False, container=None, purpose=None,
                      check_money=True, inv=None,
                      limit_tier=False, direct_equip=False):
-            # handle request to auto-buy a particular item!
-            # including forbidden for slaves items - it might be useful
-            # TODO
             """Gives items a char, usually by 'buying' those,
             from the container that host all items that can be
             sold in PyTFall.
