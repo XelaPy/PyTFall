@@ -599,7 +599,7 @@ init python:
                 self.chance = 0
 
             # Debugging info
-            if config.developer and False:
+            if DEBUG and False:
                 self.txt.extend(["{color=[blue]}",
                                  "Girl: %s\n"%self.girl,
                                  "Trainer: %s\n"%("You" if self.trainer is hero else self.trainer),
@@ -711,7 +711,7 @@ init python:
                 if flag is None: flag = TrainingJobFlags.NORMAL
 
                 # Debugging info
-                if config.developer and False:
+                if DEBUG and False:
                     self.txt.append("{color=[blue]}Flag: %s\n{/color}"%str(flag))
 
             ##### SUCCESS STATE
@@ -840,7 +840,7 @@ init python:
             # Get actual amount
             if amount == 0: amount = self.girl.AP
 
-            if config.developer and False:
+            if DEBUG and False:
                 self.txt.append("{color=[red]}do_course solved %s times.{/color} \n"%int(amount/self.course.AP))
 
             while amount >= self.course.AP:
@@ -983,7 +983,7 @@ init python:
                 self.chance = 0
 
             # Debugging info
-            # if config.developer:
+            # if DEBUG:
                 # self.txt.extend(["{color=[blue]}",
                                  # "Girl: %s\n"%self.girl,
                                  # "Trainer: %s\n"%("You" if self.trainer is hero else self.trainer),

@@ -1,13 +1,13 @@
 init python:
-    
+
     # Holds the current quest being looked at.
     quest_log_current_quest = None
-    
+
     class QuestLogAction(Action):
         """
         Special action for the Quest log.
         """
-        
+
         def __init__(self, data, mode="set"):
             """
             Creates a new QuestLogAction.
@@ -18,36 +18,36 @@ init python:
             """
             self.data = data
             self.mode = mode
-        
+
         def __call__(self):
             """
             Actions the QuestLogAction.
             """
             global quest_log_current_quest
             global USE_QUEST_POPUP
-            
+
             q = pytfall.world_quests.get(self.data)
-            
+
             if self.mode == "set":
                 quest_log_current_quest = self.data
-            
+
             elif self.mode == "popup":
                 USE_QUEST_POPUP = self.data
-            
+
             renpy.restart_interaction()
-        
-    
+
+
 
 # Screen used for the in-game quest log
 # Set up as screen only (avoiding label) for easier checking during scenes as and when quest updates, etc.
 #
 screen quest_log():
-    
+
     zorder 10
-    
+
     default display_mode = "active"
     default modes = ["active", "complete", "failed"]
-    
+
     frame:
         ypos 42
         background Frame("content/gfx/frame/p_frame5.png", 10, 10)
@@ -67,12 +67,12 @@ screen quest_log():
                     add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, .5)
                 action QuestLogAction(not USE_QUEST_POPUP, "popup")
             null width 120
-            $ if config.developer and "unstarted" not in modes: modes = modes + ["unstarted"]
+            $ if DEBUG and "unstarted" not in modes: modes = modes + ["unstarted"]
             for mode in modes:
                 button:
                     action SetVariable("quest_log_current_quest", None), SetScreenVariable("display_mode", mode), SelectedIf(mode == display_mode)
                     text mode.capitalize() size 16
-    
+
     frame:
         ypos 78
         background Frame("content/gfx/frame/p_frame5.png", 10, 10)
@@ -100,7 +100,7 @@ screen quest_log():
                             null height 20
                             for i in pytfall.world_quests.active:
                                 textbutton i.name action [QuestLogAction(i.name), SelectedIf(i.name == quest_log_current_quest)]
-                        
+
                     elif display_mode == "complete":
                         vbox:
                             style_group "basic"
@@ -113,7 +113,7 @@ screen quest_log():
                             null height 20
                             for i in pytfall.world_quests.complete:
                                 textbutton i.name action [QuestLogAction(i.name), SelectedIf(i.name == quest_log_current_quest)]
-                        
+
                     elif display_mode == "failed":
                         vbox:
                             style_group "basic"
@@ -126,7 +126,7 @@ screen quest_log():
                             null height 20
                             for i in pytfall.world_quests.failed:
                                 textbutton i.name action [QuestLogAction(i.name), SelectedIf(i.name == quest_log_current_quest)]
-                        
+
                     elif display_mode == "unstarted":
                         vbox:
                             style_group "basic"
@@ -140,7 +140,7 @@ screen quest_log():
                             for i in pytfall.world_quests.quests:
                                 if not i.active and not i.complete and not i.failed:
                                     textbutton i.name action [QuestLogAction(i.name), SelectedIf(i.name == quest_log_current_quest)]
-                
+
             frame:
                 style_group "content"
                 background Frame("content/gfx/frame/p_frame7.png", 10, 10)
@@ -163,6 +163,5 @@ screen quest_log():
                             null height 2
                             for i in temp:
                                 text i color (211, 211, 211, 180) style "TisaOTMolxm" size 18 xpos 20 xanchor .0
-    
+
     use top_stripe(True)
-    

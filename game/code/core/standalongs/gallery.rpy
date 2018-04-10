@@ -2,18 +2,18 @@ label gallery:
     scene bg gallery
     show screen gallery
     with dissolve
-    
+
     $ gallery.screen_loop()
-    
+
     hide screen gallery
     with dissolve
     $ gallery = None
     jump char_profile
-    
+
 screen gallery():
-    
+
     default black_bg = True
-    
+
     # Tags + Image:
     vbox:
         style_group "content"
@@ -41,7 +41,7 @@ screen gallery():
                     background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
                 else:
                     background Frame(im.Twocolor("content/gfx/frame/MC_bg3.png", white, white), 10 ,10)
-                add gallery.image align (.5, .5) 
+                add gallery.image align (.5, .5)
             if config.developer:
                 button:
                     if black_bg:
@@ -82,7 +82,7 @@ screen gallery():
                         xysize (260, 480)
                         style_group "basic"
                         draggable True
-                        mousewheel True 
+                        mousewheel True
                         vbox:
                             $ gallery.tagsdict = OrderedDict(sorted(gallery.tagsdict.items(), key=itemgetter(1), reverse=True))
                             for key in gallery.tagsdict:
@@ -100,7 +100,7 @@ screen gallery():
                                             text "{color=[blue]}[amount]" xalign .93
                     vbar value YScrollValue("g_buttons_vp")
 
-        # Buttons:                
+        # Buttons:
         frame:
             yoffset -3
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
@@ -120,7 +120,7 @@ screen gallery():
                 xalign .5
                 action Jump("jigsaw_puzzle_start")
 
-                
+
 screen gallery_trans():
     zorder 5000
     button:

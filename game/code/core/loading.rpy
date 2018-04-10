@@ -754,7 +754,7 @@ label load_resources:
         # school = TrainingDungeon(load_training("training", PytTraining))
         # schools[school.name] = school
         # buildings[TrainingDungeon.NAME] = schools[TrainingDungeon.NAME]
-        # if config.developer:
+        # if DEBUG:
         #     hero.add_building(buildings[TrainingDungeon.NAME])
 
     python:

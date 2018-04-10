@@ -379,7 +379,7 @@ screen char_profile():
                     action SetScreenVariable("stats_display", "skillset"), With(dissolve)
                     text "Skills" size 15
                     hovered tt.action("Show skills levels")
-                if config.developer:
+                if DEBUG:
                     button:
                         yalign .5
                         action SetScreenVariable("stats_display", "skillstest"), With(dissolve)

@@ -3,10 +3,17 @@ init python:
     renpy.image("frog", "script/quests/frog_princess/img/frog.webp")
     renpy.image("stranger", "script/quests/frog_princess/img/stranger.webp")
     register_quest("Frog Princess!")
-    if config.developer:
-        register_event("show_frog", screen=True, quest="Frog Princess!", locations=["forest_entrance"], trigger_type="auto", restore_priority=1, priority=300, start_day=1, jump=True, dice=100, max_runs=20)
+    if DEBUG_QE:
+        register_event("show_frog", screen=True, quest="Frog Princess!",
+                       locations=["forest_entrance"], trigger_type="auto",
+                       restore_priority=1, priority=300, start_day=1,
+                       jump=True, dice=100, max_runs=20)
     else:
-        register_event("show_frog", screen=True, quest="Frog Princess!", locations=["forest_entrance"], trigger_type="auto", restore_priority=1, priority=300, start_day=choice([15, 25, 35]), jump=True, dice=65, max_runs=20)
+        register_event("show_frog", screen=True, quest="Frog Princess!",
+                       locations=["forest_entrance"], trigger_type="auto",
+                       restore_priority=1, priority=300,
+                       start_day=choice([15, 25, 35]), jump=True,
+                       dice=65, max_runs=20)
 
 label show_frog_deathfight:
     $ menu_extensions.add_extension("Xeona Main", ("Deathfight vs Goblin Champ!", Jump("frog_deathfight")))

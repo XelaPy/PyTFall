@@ -237,7 +237,7 @@
     jump dev_testing_menu_and_load_mc
 
 label dev_testing_menu_and_load_mc:
-    if config.developer:
+    if DEBUG:
         menu:
             "Debug Mode":
                 $ hero.traits.basetraits.add(traits["Mage"])
@@ -288,7 +288,7 @@ label dev_testing_menu_and_load_mc:
 
     python: # We run this in case we skipped MC setup in devmode!
         if not getattr(hero, "_path_to_imgfolder", None):
-            if not config.developer:
+            if not DEBUG:
                 # We're fucked if this is the case somehow :(
                 raise Exception("Something went horribly wrong with MC setup!")
             renpy.music.stop()

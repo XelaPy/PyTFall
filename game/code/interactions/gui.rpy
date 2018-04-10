@@ -188,9 +188,9 @@ label girl_interactions_after_greetings: # when character wants to say something
             pytfall.world_actions.gm_choice("Kiss", index=(m, 3))
             pytfall.world_actions.gm_choice("Sex", index=(m, 4))
             pytfall.world_actions.gm_choice("Hire For Sex", index=(m, 5), condition="not(check_lovers(char, hero)) and cgo('SIW') and char.status != 'slave'")
-            pytfall.world_actions.gm_choice("Become Fr", index=(m, 6), condition="config.developer")
-            pytfall.world_actions.gm_choice("Become Lv", index=(m, 7), condition="config.developer")
-            pytfall.world_actions.gm_choice("Disp", index=(m, 8), condition="config.developer")
+            pytfall.world_actions.gm_choice("Become Fr", index=(m, 6), condition="DEBUG_INTERACTIONS")
+            pytfall.world_actions.gm_choice("Become Lv", index=(m, 7), condition="DEBUG_INTERACTIONS")
+            pytfall.world_actions.gm_choice("Disp", index=(m, 8), condition="DEBUG_INTERACTIONS")
             # Quests/Events to Interactions Menu:
             """
             Expects a dictionary with the following k/v pairs to be set as a flag that starts with :
@@ -217,7 +217,7 @@ label girl_interactions_after_greetings: # when character wants to say something
             pytfall.world_actions.add("zzz", "Leave", Return(["control", "back"]))
 
             # Developer mode switches
-            if config.developer:
+            if DEBUG_INTERACTIONS:
                 pytfall.world_actions.menu("dev", "Developer")
                 pytfall.world_actions.add(("dev", "gm"), "GM", Return(["test", "GM"]), condition=_not_gm_mode)
                 pytfall.world_actions.add(("dev", "gi"), "GI", Return(["test", "GI"]), condition=_not_gi_mode)
@@ -372,7 +372,7 @@ screen girl_interactions():
             else:
                 add gm.img
 
-        # if config.developer:
+        # if DEBUG_INTERACTIONS:
             # null width 15
 
             # vbox:

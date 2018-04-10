@@ -120,7 +120,7 @@ screen mainscreen():
                     hovered tt.action("Advance to next day!")
                     action [Hide("mainscreen"), Jump("next_day")]
 
-    if config.developer:
+    if DEBUG:
         vbox:
             style_group "dropdown_gm"
             spacing 1

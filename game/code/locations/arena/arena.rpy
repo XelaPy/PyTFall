@@ -946,7 +946,7 @@ init -9 python:
             else:
                 if dice(25 + luck*0.5):
                     bonus = True
-            # if config.developer:
+            # if DEBUG:
                 # bonus = True
             if bonus:
                 d = OrderedDict()
