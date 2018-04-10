@@ -231,7 +231,7 @@ init python:
             self.effect = effect
             self.type = "poison"
             self.group = "poison" # Or we collide with Buffs
-            self.icon = ProportionalScale("content/gfx/be/poison1.png", 30, 30)
+            self.icon = ProportionalScale("content/gfx/be/poison1.webp", 30, 30)
 
         def check_conditions(self):
             if battle.controller == self.target:
@@ -297,7 +297,7 @@ init python:
 
             self.counter = randint(5, 8) # Active for 5-8 turns
 
-            self.icon = icon or ProportionalScale("content/gfx/be/fists.png", 30, 30)
+            self.icon = icon or ProportionalScale("content/gfx/be/fists.webp", 30, 30)
             self.gfx_effect = gfx_effect
             self.activated_this_turn = False # Flag used to pass to gfx methods that this buff was triggered.
             self.group = group # No two buffs from the same group can be applied twice.
