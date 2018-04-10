@@ -1,7 +1,59 @@
 init -999 python:
+    class GFXOverlay(renpy.Displayable):
+        """Quick and reliable way to show overlay of displayable.
+
+        The idea is to create a way to show any number of quick-paced displayable,
+            without restrictions often posed by screens and renpy.show.
+        I am planning to use this in BE, interactions and whenever we can, really,
+            to improve game experience.
+        """
+        def __init__(self, **kwargs):
+            super(GFXOverlay, self).__init__(**kwargs)
+
+            self.gfx = dict() # duration: gfx
+            self.sfx = dict() # startingdelay: sfx
+
+        def add_gfx(self, gfx, duration):
+            if duration in self.gfx:
+                # Ensure unique key:
+                duration += random.uniform(.0001, .0002)
+            self.gfx[duration] = gfx
+            
+            renpy.redraw(self, 0)
+
+        def add_sfx(self, sfx, delay=0):
+            if delay in self.sfx:
+                # Ensure unique key:
+                delay += random.uniform(.0001, .0002)
+            self.sfx[delay] = sfx
+
+            renpy.redraw(self, 0)
+
+        def render(self, width, height, st, at):
+            r = renpy.Render(width, height)
+
+            for duration, gfx in self.gfx.items():
+                kill_me_at = st + duration
+                r.place(gfx)
+
+                if kill_me_at <= st:
+                    del self.gfx[duration]
+
+            for delay, sfx in self.sfx.items():
+                start_me_at = st + delay
+                if start_me_at >= st:
+                    renpy.play(sfx, channel="audio")
+
+                    del self.sfx[delay]
+
+            if self.gfx or self.sfx:
+                renpy.redraw(self, 0)
+            return r
+
+
     class RadarChart(renpy.Displayable):
         def __init__(self, stat1, stat2, stat3, stat4, stat5, size, xcenter, ycenter, color, **kwargs):
-            super(RadarChart, self).__init__(self, **kwargs)
+            super(RadarChart, self).__init__(**kwargs)
             # renpy.Displayable.__init__(self, **kwargs)
             self.color = color
             self.stat1_vertex = (xcenter, ycenter - (self.get_length_for_rating(size, stat1)))
