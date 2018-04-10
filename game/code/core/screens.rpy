@@ -522,11 +522,6 @@ init:
         default return_action = Return(['control', 'return']) if return_button_action is None else return_button_action
 
         # Hotkeys:
-        if show_return_button and not get_screens("girl_interactions",
-                                                  "building_management_leftframe_businesses_mode",
-                                                  "chars_list",
-                                                  "char_profile"):
-            key "mousedown_3" action return_action
 
         # Top Stripe Frame:
         add "content/gfx/frame/top_stripe.png"
@@ -680,13 +675,17 @@ init:
                     action QuickLoad()
 
             if show_return_button:
+                default special_screens = ["girl_interactions",
+                                           "building_management_leftframe_businesses_mode",
+                                           "chars_list", "char_profile"]
                 imagebutton:
                     align(.993, .5)
                     idle im.Scale("content/gfx/interface/buttons/close.png", 35, 35)
                     hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 35, 35), im.matrix.brightness(.25))
                     action return_action
-                    # hovered tt.Action("Return to previous screen")
                     tooltip "Return to previous screen"
+                    if not get_screens(*special_screens):
+                        keysym "mousedown_3"
 
             if show_team_status:
                 hbox:
