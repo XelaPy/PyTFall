@@ -46,16 +46,6 @@ init python:
     init: (initiation phase, it runs every time Ren'Py game is launched from the OS) should be mensioned as well.
     """
 
-# init:
-    # image sinstar = anim.Filmstrip('content/gfx/images/sinstar.png', (192, 192), (5, 3), .1, loop=True) # This is a simplest way to declare an image in Ren'Py
-    # image sinstar_reverced = ReversedFilmstrip('content/gfx/images/sinstar.png', (192, 192), (5, 3), .1, loop=True)
-    # image sinstar_loop:
-        # "sinstar"
-        # 1.5
-        # "sinstar_reverced"
-        # 1.5
-        # repeat
-
 label examples:
     # <-- Hashtag is how we leave single line comments in Ren'Py script and Python. Ren'Py script does not support multiline as above and requires to define those comments as python code.
     # Labels are logical deviders for code/content in Ren'Py.

@@ -179,49 +179,49 @@ init:
 
     # Interactions module:
     # Portrait overlays (for enhancing emotions):
-    image angry_pulse = "content/gfx/animations/interactions/angry.png"
-    image sweat_drop = "content/gfx/animations/interactions/uncertain.png"
-    image scared_lines = "content/gfx/animations/interactions/scared.png"
-    image question_mark = "content/gfx/animations/interactions/puzzled.png"
-    image exclamation_mark = "content/gfx/animations/interactions/exclamation.png"
-    image music_note = "content/gfx/animations/interactions/note.png"
-    image shy_blush = "content/gfx/animations/interactions/blush.png"
-    image hearts_rise = FilmStrip('content/gfx/animations/interactions/hearts.png', (168, 157), (10, 3), .07, loop=True)
+    image angry_pulse = "content/gfx/animations/interactions/angry.webp"
+    image sweat_drop = "content/gfx/animations/interactions/uncertain.webp"
+    image scared_lines = "content/gfx/animations/interactions/scared.webp"
+    image question_mark = "content/gfx/animations/interactions/puzzled.webp"
+    image exclamation_mark = "content/gfx/animations/interactions/exclamation.webp"
+    image music_note = "content/gfx/animations/interactions/note.webp"
+    image shy_blush = "content/gfx/animations/interactions/blush.webp"
+    image hearts_rise = FilmStrip('content/gfx/animations/interactions/hearts.webp', (168, 157), (10, 3), .07, loop=True)
 
     image hearts_flow:
         subpixel True
         anchor (.5, 1.0)
         alpha .8
         additive .9
-        "content/gfx/animations/interactions/hearts/heart1.png"
+        "content/gfx/animations/interactions/hearts/heart1.webp"
         pause .07
-        "content/gfx/animations/interactions/hearts/heart2.png"
+        "content/gfx/animations/interactions/hearts/heart2.webp"
         pause .07
-        "content/gfx/animations/interactions/hearts/heart3.png"
+        "content/gfx/animations/interactions/hearts/heart3.webp"
         pause .07
-        "content/gfx/animations/interactions/hearts/heart4.png"
+        "content/gfx/animations/interactions/hearts/heart4.webp"
         pause .07
-        "content/gfx/animations/interactions/hearts/heart5.png"
+        "content/gfx/animations/interactions/hearts/heart5.webp"
         pause .07
-        "content/gfx/animations/interactions/hearts/heart6.png"
+        "content/gfx/animations/interactions/hearts/heart6.webp"
         pause .07
-        "content/gfx/animations/interactions/hearts/heart7.png"
+        "content/gfx/animations/interactions/hearts/heart7.webp"
         pause .07
-        "content/gfx/animations/interactions/hearts/heart8.png"
+        "content/gfx/animations/interactions/hearts/heart8.webp"
         pause .07
-        "content/gfx/animations/interactions/hearts/heart9.png"
+        "content/gfx/animations/interactions/hearts/heart9.webp"
         pause .07
-        "content/gfx/animations/interactions/hearts/heart10.png"
+        "content/gfx/animations/interactions/hearts/heart10.webp"
         pause .07
-        "content/gfx/animations/interactions/hearts/heart11.png"
+        "content/gfx/animations/interactions/hearts/heart11.webp"
         pause .07
-        "content/gfx/animations/interactions/hearts/heart12.png"
+        "content/gfx/animations/interactions/hearts/heart12.webp"
         pause .07
-        "content/gfx/animations/interactions/hearts/heart13.png"
+        "content/gfx/animations/interactions/hearts/heart13.webp"
         pause .07
-        "content/gfx/animations/interactions/hearts/heart14.png"
+        "content/gfx/animations/interactions/hearts/heart14.webp"
         pause .07
-        "content/gfx/animations/interactions/hearts/heart15.png"
+        "content/gfx/animations/interactions/hearts/heart15.webp"
         pause .07
         repeat
 
