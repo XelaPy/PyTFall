@@ -336,7 +336,7 @@ label continue_with_start:
         call testing
 
     python in _console:
-        if DEBUG:
+        if store.DEBUG:
             stdio_lines = []
             stderr_lines = []
             console.history = []
