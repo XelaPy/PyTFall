@@ -285,7 +285,7 @@ screen main_menu():
 
     add "eyes" pos (150, 410)
     #add "logo" pos (980, 250)
-    add "content/gfx/animations/main_menu/logo/logo1.png" pos (980, 250) # static logo
+    add "anim_logo" pos (980, 250) # static logo
     add "fog" at fog
 
     # Fire

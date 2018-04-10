@@ -1573,7 +1573,7 @@ init -1 python: # Core classes:
                     what = target.besprite
                     at_list = [blowing_wind()]
                 elif type.startswith("iced"):
-                    child = Transform("content/gfx/be/frozen.jpg", size=target.besprite_size)
+                    child = Transform("content/gfx/be/frozen.webp", size=target.besprite_size)
                     mask = target.besprite
                     what = AlphaMask(child, mask)
                     if type.endswith("shake"):
@@ -1591,14 +1591,14 @@ init -1 python: # Core classes:
                 elif type == "on_death":
                     what = AlphaBlend(Transform(target.besprite, alpha=.5), target.besprite, dark_death_color(*target.besprite_size), alpha=True)
                 elif type.startswith("on_dark"):
-                    child = Transform("content/gfx/be/darken.jpg", size=target.besprite_size)
+                    child = Transform("content/gfx/be/darken.webp", size=target.besprite_size)
                     mask = target.besprite
                     what = AlphaMask(child, mask)
                     if type.endswith("shake"):
                         at_list = [damage_shake(.05, (-10, 10))]
                 elif type.startswith("frozen"): # shows a big block of ice around the target sprite
                     size = (int(target.besprite_size[0]*1.5), int(target.besprite_size[1]*1.5))
-                    what = Fixed(target.besprite, Transform("content/gfx/be/frozen_2.png", size=size, offset=(-30, -50)))
+                    what = Fixed(target.besprite, Transform("content/gfx/be/frozen_2.webp", size=size, offset=(-30, -50)))
                     t = self.target_sprite_damage_effect.get("duration", 1)
                     at_list=[fade_from_to_with_easeout(start_val=1.0, end_val=.2, t=t)]
                     if type.endswith("shake"):
