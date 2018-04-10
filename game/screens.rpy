@@ -426,7 +426,7 @@ screen credits():
 
                     null height 10
 
-                    text "The game is still in development. Consider supporting us if you like it!":
+                    text "The game is still in development. Support us if you enjoyed it!":
                         size 25
                         color goldenrod
                         drop_shadow [(1, 2)]
