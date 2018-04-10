@@ -1401,7 +1401,7 @@ screen keymap_override():
 screen panic_screen:
     zorder 1000000000
     modal True
-    add "content/gfx/bg/panic_screen.jpg" zoom 1.32
+    add "content/gfx/bg/panic_screen.webp" zoom 1.32
     default original_transitions_state = _preferences.transitions
     on "show":
         action [PauseAudio("events", True), PauseAudio("events2", True), PauseAudio("world", True), PauseAudio("gamemusic", True), PauseAudio("music", True), SetField(_preferences, "transitions", 0)]

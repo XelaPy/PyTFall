@@ -119,7 +119,7 @@ label storyi_bossroom:
         mob.mod_stat("mp", 100)
         mob.controller = Complex_BE_AI(mob)
         enemy_team.add(mob)
-        result = run_default_be(enemy_team, background="content/gfx/bg/story/p_b.jpg", slaves=True, track="content/sfx/music/be/battle (5)b.ogg", prebattle=False, death=False)
+        result = run_default_be(enemy_team, background="content/gfx/bg/story/p_b.webp", slaves=True, track="content/sfx/music/be/battle (5)b.ogg", prebattle=False, death=False)
 
     show bg story p4 with sflash
     show sinister_star at Position(xpos = 704, xanchor=.5, ypos=375, yanchor=.5):
