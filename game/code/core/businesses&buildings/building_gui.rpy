@@ -964,17 +964,17 @@ init: # Screens:
                                         hbox:
                                             align (.5, .9)
                                             # Get the correct stars:
-                                            python:
-                                                temp = []
-                                                for i in range(area.explored//20):
-                                                    temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
-                                                if len(temp) != 5:
-                                                    if area.explored%20 >= 10:
-                                                        temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
-                                                while len(temp) != 5:
-                                                    temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
-                                            for i in temp:
-                                                add i
+                                            # python:
+                                                # temp = []
+                                                # for i in range(area.explored//20):
+                                                    # temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
+                                                # if len(temp) != 5:
+                                                    # if area.explored%20 >= 10:
+                                                        # temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
+                                                # while len(temp) != 5:
+                                                    # temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
+                                            # for i in temp:
+                                                # add i
 
                 if bm_exploration_view_mode == "team":
                     # Backgrounds:
@@ -1711,17 +1711,17 @@ init: # Screens:
                 hbox:
                     align (.5, .9)
                     # Get the correct stars:
-                    python:
-                        temp = []
-                        for i in range(area.explored//20):
-                            temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
-                        if len(temp) != 5:
-                            if area.explored%20 >= 10:
-                                temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
-                        while len(temp) != 5:
-                            temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
-                    for i in temp:
-                        add i
+                    # python:
+                        # temp = []
+                        # for i in range(area.explored//20):
+                            # temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
+                        # if len(temp) != 5:
+                            # if area.explored%20 >= 10:
+                                # temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
+                        # while len(temp) != 5:
+                            # temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
+                    # for i in temp:
+                        # add i
                     # button:
                         # align (.5, .95)
                         # action NullAction()
