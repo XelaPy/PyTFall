@@ -1,9 +1,9 @@
 init -10 python:
     def payout(job, effectiveness, difficulty, building, business, worker, clients, log):
-        # TODO jobs payouts: Might be an idea to account for client level in the future as well!
-        # Calculates payout for jobs based of effectiveness and other modifications.
-        # Writes to log accordingly.
-
+        """
+        Calculates payout for jobs based of effectiveness and other modifications.
+        Writes to log accordingly.
+        """
         earned = pytfall.economy.get_clients_pay(job, difficulty)
 
         if isinstance(clients, (set, list, tuple)):
