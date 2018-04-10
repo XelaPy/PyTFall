@@ -20,9 +20,9 @@ label mainscreen:
     # Prediction Helpers:
     # TODO lt: Stop predictions when we've moved to far away from the images!
     python:
-        imglist = ["".join([pytfall.map_pattern, key, ".png"]) for key in list(i["id"] for i in pytfall.maps("pytfall"))]
-        imglist.extend(["".join([pytfall.map_pattern, key, "_hover.png"])  for key in list(i["id"] for i in pytfall.maps("pytfall"))])
-        imglist.extend("".join(["content/gfx/interface/buttons/locations/", key, ".png"]) for key in ["main_street",
+        imglist = ["".join([pytfall.map_pattern, key, ".webp"]) for key in list(i["id"] for i in pytfall.maps("pytfall"))]
+        imglist.extend(["".join([pytfall.map_pattern, key, "_hover.webp"])  for key in list(i["id"] for i in pytfall.maps("pytfall"))])
+        imglist.extend("".join(["content/gfx/interface/buttons/locations/", key, ".webp"]) for key in ["main_street",
                                "arena_outside", "slave_market", "city_jail", "tavern_town",
                                "city_parkgates", "academy_town", "mages_tower",
                                "graveyard_town", "city_beach", "forest_entrance", "hiddenvillage_entrance"])
