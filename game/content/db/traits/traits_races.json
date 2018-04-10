@@ -4,7 +4,7 @@
     "max": {"charisma": 5, "constitution": -10, "agility": 5},
     "type": "race",
     "mod_stats": {"charisma": [1, 1], "constitution": [-1, 1]},
-    "icon": "content/races/elf.png",
+    "icon": "content/races/elf.webp",
     "el_damage": {"earth": 0.1, "wind": 0.1, "water": 0.1},
     "el_defence": {"healing": -0.1},
     "race": true
@@ -14,7 +14,7 @@
     "max": {"charisma": -10, "constitution": 10},
     "type": "race",
     "mod_stats": {"charisma": [-1, 1], "constitution": [1, 1]},
-    "icon": "content/races/undead.png",
+    "icon": "content/races/undead.webp",
     "el_damage": {"darkness": 0.1},
     "el_defence": {"healing": 0.5, "darkness": 0.1, "poison": 0.5, "light": -0.1, "physical": 0.2},
     "race": true
@@ -24,7 +24,7 @@
     "max": {"agility": 10, "intelligence": -10},
     "mod_stats": {"intelligence": [-1, 1], "agility": [1, 1]},
     "type": "race",
-    "icon": "content/races/furry.png",
+    "icon": "content/races/furry.webp",
     "el_defence": {"healing": -0.3},
     "race": true
     },
@@ -33,7 +33,7 @@
     "max": {"charisma": -10, "constitution": 5, "agility": 5},
     "mod_stats": {"charisma": [-1, 1], "constitution": [1, 1]},
     "type": "race",
-    "icon": "content/races/android.png",
+    "icon": "content/races/android.webp",
     "el_damage": {"electricity": 0.1},
     "el_defence": {"healing": 0.25, "poison": 0.5},
     "race": true
@@ -43,7 +43,7 @@
     "max": {"charisma": 10, "magic": 5, "constitution": -5},
     "mod_stats": {"charisma": [1, 1], "constitution": [-1, 1]},
     "type": "race",
-    "icon": "content/races/angel.png",
+    "icon": "content/races/angel.webp",
     "el_damage": {"light": 0.15},
     "el_defence": {"light": 0.15, "physical": 0.05, "darkness": -0.1},
     "race": true
@@ -53,7 +53,7 @@
     "max": {"magic": 5, "constitution": 5, "charisma": -10},
     "mod_stats": {"charisma": [-1, 1], "magic": [1, 1]},
     "type": "race",
-    "icon": "content/races/demon.png",
+    "icon": "content/races/demon.webp",
     "el_damage": {"fire": 0.15},
     "el_defence": {"fire": 0.1, "darkness": 0.1, "light": -0.1},
     "race": true
@@ -62,7 +62,7 @@
     "id": "Human",
     "max": {"character": 5},
     "type": "race",
-    "icon": "content/races/human.png",
+    "icon": "content/races/human.webp",
     "race": true
     },
    {
@@ -70,7 +70,7 @@
     "max": {"attack": 5, "charisma": -10, "defence": 5},
     "mod_stats": {"charisma": [-1, 1], "attack": [1, 1]},
     "type": "race",
-    "icon": "content/races/monster.png",
+    "icon": "content/races/monster.webp",
     "el_damage": {"physical": 0.05},
     "race": true
     },
@@ -79,7 +79,7 @@
     "max": {"defence": 15, "character": -5, "charisma": -10},
     "mod_stats": {"character": [-1, 1], "defence": [1, 1]},
     "type": "race",
-    "icon": "content/races/slime.png",
+    "icon": "content/races/slime.webp",
     "el_damage": {"water": 0.15, "poison": 0.25, "fire": -0.25, "ice": -0.25, "physical": 0.2},
     "race": true
     },
@@ -88,7 +88,7 @@
     "max": {"constitution": 5, "character": -5},
     "mod_stats": {"character": [-1, 2], "constitution": [1, 2]},
     "type": "race",
-    "icon": "content/races/unknown.png",
+    "icon": "content/races/unknown.webp",
     "race": true
     }
 ]
