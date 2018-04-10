@@ -26,19 +26,6 @@ init -11 python:
 
         char.equip(item)
 
-    def equip_for(girl, jobtype):
-        # TODO items: Must be updated to work with new base-traits and jobs system.
-        # Also, iirc, we now have better way of figuring this out with basetraits/occupations.
-        if girl.autoequip:
-            if jobtype == "Guard":
-                girl.equip_for("Combat")
-            elif jobtype == "Server":
-                girl.equip_for("Service")
-            elif jobtype == "Stripper":
-                girl.equip_for("Striptease")
-            elif jobtype == "Prostitute":
-                girl.equip_for("Sex")
-
     def transfer_items(source, target, item, amount=1, silent=False, force=False):
         """Transfers items between characters.
 
