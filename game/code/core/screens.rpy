@@ -530,7 +530,7 @@ init:
             if global_flags.flag("visited_sm"):
                 key "m" action Function(renpy.scene, "screens"), Jump("slave_market")
             if global_flags.flag("visited_mainstreet"):
-                key "p" action Function(renpy.scene, "screens"), Jump("slave_market")
+                key "p" action Function(renpy.scene, "screens"), Jump("main_street")
 
         # Top Stripe Frame:
         add "content/gfx/frame/top_stripe.png"
