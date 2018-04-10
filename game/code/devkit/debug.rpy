@@ -1,7 +1,7 @@
 init -999 python:
     # General debugging:
-    DEBUG = False # General debugging.
-    DEBUG_QE = False # Debug Quests and Events
+    DEBUG = True # General debugging.
+    DEBUG_QE = True # Debug Quests and Events
     DEBUG_PROFILING = False # Loading time of various game elements.
     DEBUG_INTERACTIONS = False
 
