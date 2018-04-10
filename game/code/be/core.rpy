@@ -907,13 +907,15 @@ init -1 python: # Core classes:
                     absorb_ratio = self.check_absorbtion(t, type)
                     if absorb_ratio:
                         result = -(absorb_ratio)*result
-                        # We also set defence to 1, no point in defending against absorption:
-                        temp_def = 1
+                        # We also set defence to 0, no point in defending against absorption:
+                        temp_def = 0
+                        absorbed=True
                     else:
                         temp_def = defense
-
+                        absorbed=False
+                        
                     # Get the damage:
-                    result = self.damage_calculator(t, result, temp_def, multiplier, attacker_items)
+                    result = self.damage_calculator(t, result, temp_def, multiplier, attacker_items, absorbed)
 
                     effects.append((type, result))
                     total_damage += result
@@ -1079,15 +1081,20 @@ init -1 python: # Core classes:
 
             return defense if defense > 0 else 1
 
-        def damage_calculator(self, t, attack, defense, multiplier, attacker_items=[]):
+        def damage_calculator(self, t, attack, defense, multiplier, attacker_items=[], absorbed=False):
             """Used to calc damage of the attack.
             Before multipliers and effects are apllied.
             """
             a = self.source
+            
+            if not absorbed:
 
-            damage = (self.effect + attack)*multiplier - defense + randint(5, 10)
-            if damage <= 0:
-                damage = randint(2, 5)
+                damage = (self.effect + attack)*multiplier - defense + randint(5, 10)
+                
+                if damage <= 0:
+                    damage = randint(2, 5)
+            else:
+                damage = (-self.effect + attack)*multiplier - defense - randint(2, 10)
 
             # Items Bonus:
             m = 1.0
