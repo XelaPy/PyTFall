@@ -47,7 +47,7 @@ label intro:
     extend " and soon found themselves outnumbered ten to one."
 
     "They say there were those who sympathized with the oppressed. Those who gave them weapons and magic to fight back. "
-    show bg story firetome with ImageDissolve("content/gfx/masks/m21.jpg", 2)
+    show bg story firetome with ImageDissolve("content/gfx/masks/m21.webp", 2)
     extend "To resist!"
 
     show bg story war with dissolve
