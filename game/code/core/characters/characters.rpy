@@ -1143,20 +1143,19 @@ init -9 python:
                         elif value <= -5:
                             self.instance.joy -= 1
                     if effects['Introvert']['active']:
-                        value = int(value*.8)
+                        value = round_int(value*.8)
                     elif effects['Extrovert']['active']:
-                        value = int(value*1.2)
+                        value = round_int(value*1.2)
                     if effects['Loyal']['active'] and value < 0: # works together with other traits
-                        value = int(value*.8)
+                        value = round_int(value*.8)
 
-                    if last_label.startswith("interactions_"):
-                        tag = str(random.random())
-                        renpy.show_screen("display_disposition", tag, value, 40, 530, 400, 1)
+                    if value and last_label.startswith("interactions_"):
+                        gfx_overlay.disposition_mod(value)
                 elif key == 'joy':
                     if effects['Impressible']['active']:
-                        value = int(value*1.5)
+                        value = round_int(value*1.5)
                     elif effects['Calm']['active']:
-                        value = int(value*0.5)
+                        value = round_int(value*.5)
             return value
 
         def _mod_exp(self, value):

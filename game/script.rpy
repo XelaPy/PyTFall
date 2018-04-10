@@ -5,6 +5,8 @@
     if config.debug:
         $ renpy.show_screen("debug_tools")
     $ renpy.show_screen("new_style_tooltip")
+    $ gfx_overlay = GFXOverlay()
+    $ renpy.show("pf_gfx_overlay", what=gfx_overlay, layer="pytfall")
 
     python: # Variable defaults:
         chars_list_last_page_viewed = 0

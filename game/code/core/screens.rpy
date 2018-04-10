@@ -791,11 +791,6 @@ init:
         key "K_RETURN" action If(use_return, true=Return(), false=Hide("message_screen"))
         key "K_ESCAPE" action If(use_return, true=Return(), false=Hide("message_screen"))
 
-    screen display_disposition(tag, d, size, x, y, t):
-        tag tag
-        text "[d]" font "fonts/rubius.ttf" size size color crimson at found_cash(x, y, t)
-        timer t+0.2 action Hide("display_disposition")
-
     screen pyt_input(default="", text="", length=20, size=(350, 150)):
         use keymap_override
         modal True

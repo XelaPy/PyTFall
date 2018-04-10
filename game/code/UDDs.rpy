@@ -10,15 +10,20 @@ init -999 python:
         def __init__(self, **kwargs):
             super(GFXOverlay, self).__init__(**kwargs)
 
-            self.gfx = dict() # duration: gfx
+            self.gfx = dict() # killtime: gfx
+            self.parse_gfx = dict() # unique_key: [callable, kwargs]
             self.sfx = dict() # startingdelay: sfx
 
-        def add_gfx(self, gfx, duration):
-            if duration in self.gfx:
+        def add_atl(self, atl, duration, kwargs=None):
+            if kwargs is None:
+                kwargs = {}
+
+            if duration in self.parse_gfx:
                 # Ensure unique key:
                 duration += random.uniform(.0001, .0002)
-            self.gfx[duration] = gfx
-            
+
+            self.parse_gfx[duration] = (atl, kwargs)
+
             renpy.redraw(self, 0)
 
         def add_sfx(self, sfx, delay=0):
@@ -29,15 +34,57 @@ init -999 python:
 
             renpy.redraw(self, 0)
 
+        def disposition_mod(self, value):
+            kwargs = dict()
+
+            if value > 0:
+                fixed = Fixed(xysize=(130, 130))
+                d = Transform("hearts_flow", size=(130, 130), align=(.5, .5))
+                fixed.add(d)
+                d = Text(str(value), font="fonts/rubius.ttf", color=pink,
+                         size=60, align=(.5, .5))
+                fixed.add(d)
+                kwargs["pos"] = randint(680, 920), randint(500, 600)
+                kwargs["yoffset"] = randint(-300, -250)
+            else:
+                fixed = Fixed(xysize=(130, 130))
+                d = Transform("shy_blush", size=(130, 130), align=(.5, .5))
+                fixed.add(d)
+                d = Text(str(value), font="fonts/rubius.ttf", color=blue,
+                         size=60, align=(.5, .5))
+                fixed.add(d)
+                kwargs["pos"] = randint(680, 920), randint(100, 200)
+                kwargs["yoffset"] = randint(250, 300)
+
+            kwargs["d"] = fixed
+            kwargs["start"] = 0
+            duration = random.uniform(1.2, 2.3)
+            kwargs["duration"] = duration
+            self.add_atl(dispostion_effect, duration, kwargs)
+            self.add_sfx("content/sfx/sound/female/uhm.mp3")
+
         def render(self, width, height, st, at):
             r = renpy.Render(width, height)
 
-            for duration, gfx in self.gfx.items():
-                kill_me_at = st + duration
+            for duration, data in self.parse_gfx.items():
+                callable, kwargs = data
+                if duration in self.gfx:
+                    # Ensure unique key:
+                    duration += random.uniform(.0001, .0002)
+                if "start" in kwargs:
+                    kwargs["start"] += st
+                killtime = st + duration
+                self.gfx[killtime] = callable(**kwargs)
+
+                del self.parse_gfx[duration]
+
+            for killtime, gfx in self.gfx.items():
+                # temp = Text(str(gfx), align=(.5, .5))
                 r.place(gfx)
 
-                if kill_me_at <= st:
-                    del self.gfx[duration]
+                if killtime <= st:
+                    del self.gfx[killtime]
+                    renpy.redraw(self, 0)
 
             for delay, sfx in self.sfx.items():
                 start_me_at = st + delay

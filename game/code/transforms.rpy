@@ -299,6 +299,14 @@ init -997: # Transforms:
                                                                               })
 
     # Also used for gm:
+    transform dispostion_effect(d, start, pos, yoffset, duration):
+        subpixel True
+        pause start
+        d
+        pos pos yoffset 0 anchor (.5, .5)
+        alpha .6 zoom .5
+        linear duration alpha 1.0 zoom 1.2 yoffset yoffset
+
     transform found_cash(x, y, t):
         subpixel True
         parallel:
