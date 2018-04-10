@@ -1,5 +1,5 @@
 init:
-    image slave_market_slaves = "content/gfx/bg/locations/slave_podium.jpeg"
+    image slave_market_slaves = "content/gfx/bg/locations/slave_podium.webp"
 
 label slave_market:
 

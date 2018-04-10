@@ -649,7 +649,7 @@ init: # Main Screens:
     screen arena_bestiary():
         default in_focus_mob = False
 
-        add("content/gfx/bg/locations/arena_bestiary.jpg")
+        add("content/gfx/bg/locations/arena_bestiary.webp")
         hbox:
             viewport:
                 at fade_in_out()
@@ -1118,37 +1118,6 @@ init: # ChainFights vs Mobs:
         else:
             timer .5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
         key "mousedown_3" action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
-
-        # zorder 1
-
-        # add "content/gfx/bg/locations/arena_bestiary.jpg"
-
-        # if not pytfall.arena.cf_mob:
-            # text "Choose your Fight!":
-                # style "arena_header_text"
-                # align (.5, .1)
-                # size 50
-
-            # vbox:
-                # style "menu"
-                # spacing 1
-                # align (.5, .55)
-                # for setup in pytfall.arena.chain_fights_order:
-                    # button:
-                        # style "menu_choice_button_blue"
-                        # action [SetField(pytfall.arena, "result", setup), Return("Bupkis")]
-
-                        # text "[setup]" style "menu_choice"
-
-                # button:
-                    # style "menu_choice_button"
-                    # action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
-
-                    # text "Back" style "menu_choice"
-
-                # key "mousedown_3" action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
-        # else:
-            # timer .5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
 
     screen arena_minigame(maxval, interval, length_multiplier, d):
         zorder 2
