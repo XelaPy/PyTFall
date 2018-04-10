@@ -741,7 +741,7 @@ label load_resources:
         # hero.buildings.append(ap)
         # hero.home = ap # Note, we may condition this in MC setup? Maybe? One day :D
 
-        if config.debug and not hero.home:
+        if DEBUG and not hero.home:
             hero.buildings.append(ap)
             hero.home = ap
 

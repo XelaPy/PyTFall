@@ -217,7 +217,7 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
 
     timer .1 repeat True action If(oxigen > 0, true=SetScreenVariable('oxigen', oxigen - 1), false=(Hide("diving_progress_bar"), Return("All out of Air!")))
     key "mousedown_3" action (Hide("diving_progress_bar"), Return("Swim Out"))
-    if config.debug:
+    if DEBUG:
         vbox:
             xalign .5
             text str(oxigen)

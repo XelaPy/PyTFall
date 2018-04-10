@@ -565,7 +565,7 @@ screen char_profile():
                         vbox spacing 1:
                             for skill in char.stats.skills:
                                 $ skill_val = int(char.get_skill(skill))
-                                if config.debug or skill_val > char.level * 10:
+                                if DEBUG or skill_val > char.level * 10:
                                     frame:
                                         xoffset 4
                                         xysize (270, 27)

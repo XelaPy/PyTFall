@@ -1,5 +1,5 @@
 init -1 python:
-    if config.debug:
+    if DEBUG_QE:
         register_event("meet_beggar_event", locations=["city_parkgates"], priority=1, restore_priority=8, dice=100, max_runs=7)
     else:
         register_event("meet_beggar_event", locations=["city_parkgates"], priority=1, restore_priority=8, dice=25, max_runs=7)

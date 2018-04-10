@@ -408,7 +408,7 @@
             elif total > 200:
                 total = 200
 
-            if config.debug:
+            if DEBUG_SIMPY:
                 temp = {}
                 for stat in self.base_stats:
                     temp[stat] = getattr(worker, stat)

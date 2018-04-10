@@ -39,8 +39,8 @@ init -999 python hide:
     ## Should we enable the use of developer tools? This should be
     ## set to False before the game is released, so the user can't
     ## cheat using developer tools.
-    config.developer = True
-    config.debug = True
+    config.developer = False
+    # config.debug = False
 
 define config.window_icon = "content/gfx/interface/icons/win_icon.png"
 
@@ -52,7 +52,7 @@ init -5 python hide:
 
     # ----------------------------- Moved from initialization.rpy -------------------------------------->>>
     config.quit_action = Quit()
-    if config.debug:
+    if DEBUG:
         config.keymap['game_menu'] = ["K_ESCAPE"]
     else:
         config.keymap['game_menu'] = []

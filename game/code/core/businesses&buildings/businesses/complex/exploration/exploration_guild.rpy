@@ -165,7 +165,7 @@ init -6 python:
             # jump("fg_management")
 
         def log(self, txt, name="", nd_log=True, ui_log=False, **kwargs):
-            if config.debug:
+            if DEBUG_SE:
                 devlog.info("Logging SE: {}: {} at {}\n    {}".format(self.area.name, self.team.name, self.guild.env.now, txt))
 
             obj = ExplorationLog(name, txt, nd_log, ui_log, **kwargs)
@@ -268,7 +268,7 @@ init -6 python:
             self.explorers = list() # List to hold all the (active) exploring trackers.
 
             self.teams.append(Team("Avengers", free=1))
-            if config.debug:
+            if DEBUG_SE:
                 for i in range(5):
                     self.teams.append(Team("Team " + str(i), free=1))
 
@@ -391,7 +391,7 @@ init -6 python:
                 elif tracker.state == "setting_up_basecamp":
                     yield process(self.setup_basecamp(tracker))
 
-            # if config.debug:
+            # if DEBUG_SE:
                 # tracker.log("Debug: The day has come to an end for {}.".format(tracker.team.name))
             self.overnight(tracker)
             tracker.day += 1
@@ -516,7 +516,7 @@ init -6 python:
 
                 if self.env.now >= 99:
                     tracker.days_in_camp += 1
-                    # if config.debug:
+                    # if DEBUG_SE:
                         # tracker.log("Debug: Still Camping!")
                     self.env.exit("still camping")
 

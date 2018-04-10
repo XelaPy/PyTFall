@@ -215,15 +215,13 @@ transform patreon_hover(init_alpha=.25):
         linear 1.0 alpha .25
 
 screen main_menu():
-
-    # This ensures that any other menu screen is replaced.
     tag menu
+
     default prereqs = exist(["content/chars/", "content/rchars/"])
 
     default map_options = ["content/gfx/bg/locations/map_buttons/dark/", "content/gfx/bg/locations/map_buttons/bright/", "content/gfx/bg/locations/map_buttons/gismo/"]
 
     # The background of the main menu.
-
     add "bg_main"
 
     if not renpy.get_screen("credits"):
@@ -257,8 +255,6 @@ screen main_menu():
                     action OpenURL('https://www.patreon.com/darkt')
                     add At(ProportionalScale("content/gfx/interface/icons/credits/patreonlogoorange.png", 100, 25, yalign=1.0), patreon_bounce)
 
-
-
     # button:
         # background "content/gfx/interface/logos/gibc.png"
         # hover_background im.MatrixColor("content/gfx/interface/logos/gibc.png", im.matrix.brightness(0.10))
@@ -274,7 +270,7 @@ screen main_menu():
         # text "<->" color black align (0.5, 0.5) size 15
         # action [SetField(persistent, "town_path", map_options[(index + 1) % len(map_options)]), Jump("_save_reload_game")]
 
-    #$ img = ProportionalScale("content/gfx/interface/icons/arena.png", 60, 60)
+    # $ img = ProportionalScale("content/gfx/interface/icons/arena.png", 60, 60)
     #imagebutton:
         #pos (380, 460)
         #idle (img)
@@ -302,7 +298,7 @@ screen main_menu():
         add "mm_clouds" at  mm_clouds(0, -768, 50)
 
     add "eyes" pos (150, 410)
-    #add "logo" pos (980, 250)
+    # add "logo" pos (980, 250)
     add "anim_logo" pos (980, 250) # static logo
     add "fog" at fog
 

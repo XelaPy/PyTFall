@@ -306,8 +306,9 @@ label interactions_hire:
         if store.mod_chance > 700:
             store.mod_chance = 700
 
-    if config.debug:
+    if DEBUG:
         $ notify("Hero|Char| Mod: {}|{}| {}".format(heroskillz, girlskillz, mod_chance))
+        
     python:
        del girlskillz
        del heroskillz

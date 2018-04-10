@@ -166,7 +166,7 @@ init: # screens:
                 # Sorting off menu_pos:
                 $ attacks.sort(key=attrgetter("menu_pos"))
 
-                if not config.debug:
+                if not DEBUG_BE:
                     vbox box_wrap True maximum (1280, 400):
                         for skill in attacks:
                             textbutton "%s"%skill.mn:
@@ -389,7 +389,7 @@ init: # screens:
         # Overlay for stats:
         # use be_status_overlay() Moving to a better location...
 
-        if config.debug:
+        if DEBUG_BE:
             vbox:
                 align (.99, 0)
                 textbutton "Terminate":

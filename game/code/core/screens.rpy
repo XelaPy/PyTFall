@@ -2,10 +2,6 @@ init python:
     def dummy_interaction_restart(*args, **kwargs):
         renpy.restart_interaction()
 
-    def dev_mode_switch():
-        config.developer = not(config.developer)
-        config.debug = not(config.debug)
-
 ################### Specialized ####################
 init:
     # Items:
@@ -1186,22 +1182,6 @@ init:
                                 textbutton _("Test"):
                                     action Play("sound", config.sample_sound)
                                     style "soundtest_button"
-                        # frame:
-                            # background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
-                            # xsize 194
-                            # ypadding 10
-                            # style_group "smenu"
-                            # has vbox align (.5, .5)
-                            # button:
-                                # xsize 164
-                                # yalign .5
-                                # action Function(dev_mode_switch)
-                                # text "Debug Mode" size 18 align (.5, .5):
-                                    # if config.developer:
-                                        # color green
-                                    # else:
-                                        # color red
-
 
             elif s_menu == "Game":
                 frame:

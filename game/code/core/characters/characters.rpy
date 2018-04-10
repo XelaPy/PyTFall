@@ -932,7 +932,7 @@ init -9 python:
                     img = char.show("profile", "happy", resize=(500, 600))
                     dismod = min(1, round_int(diff*dismod))
                     joymod = min(1, round_int(diff*joymod))
-                    if config.debug:
+                    if DEBUG:
                         txt.append("Debug: Disposition mod: {}".format(dismod))
                         txt.append("Debug: Joy mod: {}".format(joymod))
                     char.disposition += dismod
@@ -941,7 +941,7 @@ init -9 python:
                     img = char.show("profile", "angry", resize=(500, 600))
                     dismod = min(-2, round_int(diff*dismod)) * (char.tier or 1)
                     joymod = min(-1, round_int(diff*joymod)) * (char.tier or 1)
-                    if config.debug:
+                    if DEBUG:
                         txt.append("Debug: Disposition mod: {}".format(dismod))
                         txt.append("Debug: Joy mod: {}".format(joymod))
                     char.disposition += dismod
@@ -957,7 +957,7 @@ init -9 python:
                 joymod = .1
                 dismod = min(1, round_int(diff*dismod))
                 joymod = min(1, round_int(diff*joymod))
-                if config.debug:
+                if DEBUG:
                     txt.append("Debug: Disposition mod: {}".format(dismod))
                     txt.append("Debug: Joy mod: {}".format(joymod))
                 char.disposition += round_int(dismod)

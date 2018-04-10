@@ -215,7 +215,7 @@ init -999 python:
 
             Simply changes the value of the flag otherwise.
             """
-            if config.debug:
+            if DEBUG:
                 if not self.has_flag(flag) and "next" not in last_label:
                     devlog.warning("{} flag modded before setting it's value!".format(flag))
 
@@ -270,7 +270,7 @@ init -999 python:
 
             If a flag exists, expects it to be a set() and creates a union with it.
             """
-            if config.debug:
+            if DEBUG:
                 if not self.has_flag(flag) and "next" not in last_label:
                     devlog.warning("{} flag modded before setting it's value!".format(flag))
 

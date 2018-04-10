@@ -388,7 +388,7 @@ init -10 python:
         def clean(self, value):
             result = self.dirt + value
             self.dirt = result
-            if config.debug and self.env:
+            if DEBUG_SIMPY and self.env:
                 devlog.info("{}: Clean Function: result: {}, self.dirt: {}".format(self.env.now, result, self.dirt))
 
         def nd_log_stats(self):
@@ -529,7 +529,7 @@ init -10 python:
             # if add_time and self.env:
             #     item = "{}: ".format(self.env.now) + item
             self.nd_events_report.append(item)
-            if config.debug and True:
+            if DSNBR:
                 devlog.info(item)
 
         # Jobs Related:
@@ -746,7 +746,7 @@ init -10 python:
             # if write_to_nd:
             #     self.log("{} clients came to brothel just because its there!".format(set_font_color(clients, "green")))
 
-            if config.debug:
+            if DSNBR:
                 debug_add = 10
                 devlog.info("Debug adds {} pure clients for {}".format(debug_add, self.name))
                 if write_to_nd and DSNBR:
@@ -757,7 +757,7 @@ init -10 python:
             for u in [u for u in self._businesses if u.expects_clients]:
                 temp = u.get_client_count()
                 clients += temp
-                if config.debug:
+                if DSNBR:
                     devlog.info("{} pure clients for {}".format(temp, u.name))
 
             expected_clients = clients

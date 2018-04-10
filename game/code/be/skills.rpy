@@ -1196,7 +1196,7 @@ python: # Light:
             target_damage_effect={"gfx": "battle_bounce", "initial_pause": 3.7},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": 1.5, "duration": 2.2},
             target_death_effect={"gfx": "dissolve", "initial_pause": 2.7, "duration": .5})
-    if config.debug:
+    if DEBUG_BE:
         BE_Action(u"Holy Touch", menu_pos=0, attributes=["magic", "light"], effect=100000,
                   multiplier=1000.0, mp_cost=12, range=4, type="all_enemies",
                 desc="Simple way to kill all his enemies.", tier=0,
@@ -1302,7 +1302,7 @@ python: # Healing:
             target_sprite_damage_effect={"gfx": "being_healed"},
             target_damage_effect={"gfx": "battle_bounce", "initial_pause": 1.0},
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})
-    if config.debug: # spell for killing allies for testing; available only in debug mode
+    if DEBUG_BE: # spell for killing allies for testing; available only in debug mode
         BE_Action(u"DarkTouch", menu_pos=-99, attributes=["magic", "darkness"], effect=999999999, mp_cost=10, range=5,
             type="sa", piercing=True, true_pierce=True, test_only=True,
             desc="Sacrifices a party member in the name of an ancient dark creature from another dimension.",

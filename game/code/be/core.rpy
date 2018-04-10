@@ -80,8 +80,7 @@ init -1 python: # Core classes:
             self.max_skill_lvl = max_skill_lvl
 
         def log(self, report, delayed=False):
-            if config.debug:
-                devlog.info(report)
+            be_debug(report)
             if delayed:
                 self.delayed_log.append(report)
             else:
@@ -156,7 +155,7 @@ init -1 python: # Core classes:
 
                 self.logical_counter += 1
 
-                # if config.debug and self.logical:
+                # if DEBUG_BE and self.logical:
                 #     temp = "Debug: Loop: %d, TLeft: %d, TRight: %d"%(self.logical_counter, len(self.get_fighters(state="dead", rows=(0, 1))),  len(self.get_fighters(state="dead", rows=(2, 3))))
                 #     temp += ", ".join([str(i.health) for i in self.teams[0]])
                 #     self.log(temp)
@@ -913,7 +912,7 @@ init -1 python: # Core classes:
                     else:
                         temp_def = defense
                         absorbed=False
-                        
+
                     # Get the damage:
                     result = self.damage_calculator(t, result, temp_def, multiplier, attacker_items, absorbed)
 
@@ -1086,11 +1085,11 @@ init -1 python: # Core classes:
             Before multipliers and effects are apllied.
             """
             a = self.source
-            
+
             if not absorbed:
 
                 damage = (self.effect + attack)*multiplier - defense + randint(5, 10)
-                
+
                 if damage <= 0:
                     damage = randint(2, 5)
             else:

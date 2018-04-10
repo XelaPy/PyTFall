@@ -141,7 +141,7 @@ label frog1_event_abby:
             w "I should have the answer soon. Visit me in few days."
             $ pytfall.world_quests.get("Frog Princess!").next_in_label("For a hefty sum of 1000 Gold Abby the witch promised to look into the frog matter. You should visit her again in a few days.")
             $ hero.take_money(1000, reason="Events")
-            if config.debug:
+            if DEBUG_QE:
                 $ menu_extensions.add_extension("Abby The Witch Main", ("Ask about the frog (again)", Jump("frog1_event_abby_2"), "day > {}".format(day)))
             else:
                 $ menu_extensions.add_extension("Abby The Witch Main", ("Ask about the frog (again)", Jump("frog1_event_abby_2"), "day > {}".format(day + 4)))
@@ -205,7 +205,7 @@ label frog_event_arena:
     ax "Also, don't expect him to be along even if you are, people will expect a vicious fight, deathmatches are rare enough, so it's best to make it look good!"
     $ hero.take_ap(1)
     $ pytfall.world_quests.get("Frog Princess!").next_in_label("Xeona agreed to set up a match per your request but you've been warned that it is a {color=[red]}very{/color} dangerous endeavour and it would be a good idea to bring some backup!")
-    if config.debug:
+    if DEBUG_QE:
         $ register_event_in_label("show_frog_deathfight", locations=["arena_outside"], trigger_type="auto", restore_priority=1, priority=300, start_day=day, jump=True, dice=100, max_runs=1)
     else:
         $ register_event_in_label("show_frog_deathfight", locations=["arena_outside"], trigger_type="auto", restore_priority=1, priority=300, start_day=day+3, jump=True, dice=100, max_runs=1)

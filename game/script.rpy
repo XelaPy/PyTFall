@@ -2,7 +2,7 @@
     $ renpy.block_rollback()
     $ locked_random("random") # Just making sure that we have set the variable...
 
-    if config.debug:
+    if DEBUG:
         $ renpy.show_screen("debug_tools")
     $ renpy.show_screen("new_style_tooltip")
     $ gfx_overlay = GFXOverlay()
@@ -336,7 +336,7 @@ label continue_with_start:
         call testing
 
     python in _console:
-        if config.debug:
+        if DEBUG:
             stdio_lines = []
             stderr_lines = []
             console.history = []

@@ -32,7 +32,7 @@ init -20 python:
 
         if isinstance(actor.location, basestring):
             # We still allow string location by design, but we may get rid of those one day as well.
-            if config.debug:
+            if DEBUG:
                 devlog.warn("%s has a string location: %s"%(actor.name, actor.location))
         # elif actor.location and hasattr(actor.location, "remove"):
         #     try:

@@ -749,7 +749,7 @@ init -12 python:
                     effectiveness_ratio = job.effectiveness(w, difficulty,
                             manager_effectiveness=building.manager_effectiveness)
 
-                    if config.debug:
+                    if DEBUG_SIMPY:
                         devlog.info("{} Effectiveness: {}: {}".format(job.id,
                                             w.nickname, effectiveness_ratio))
                     value = -(5 * effectiveness_ratio)
