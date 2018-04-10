@@ -211,7 +211,7 @@ init -9 python:
         #"sprimary": [1,1,0,0,1,1,1,1,1,1,0,1,0,2],
         #"ssecondary": [0,0,0,1,0,1,0,0,1,0,0,0,1,1,1,1,0,0,0,0,1,2],
 
-        def __init__(self, id="-PyTFall Educators-", image="content/schools/school.jpg",
+        def __init__(self, id="-PyTFall Educators-", image="content/schools/school.webp",
                      primary=0, secondary=0, skillPrimary=None, skillSecondary=None,
                      options=None, file=None):
             """

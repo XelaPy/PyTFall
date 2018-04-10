@@ -351,7 +351,7 @@ screen girl_training_schooling:
         null height 3
         label ("[training_screen_current.name]") xalign .5 text_color ivory text_size 25
         null height 3
-        add (ProportionalScale("content/schools/school.jpg", 585, 400)) xalign .5
+        add (ProportionalScale("content/schools/school.webp", 585, 400)) xalign .5
         null height 8
         text "The Beautiful educational facilities in PyTFall offer any training one may require for free citizens, foreigners and slaves alike. Century old traditions will make sure that no girl taking classes here will ever be sad or unhappy. Nothing in this world is free however, so courses here might cost you a dime and if you wish to be trained by the Masters, a small fortune." color ivory
         null height 5
