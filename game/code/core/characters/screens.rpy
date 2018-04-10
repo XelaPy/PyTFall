@@ -1,4 +1,5 @@
 screen new_style_tooltip():
+    layer "tooltips"
     $ tooltip = GetTooltip()
 
     style_prefix "new_style_tooltip"
