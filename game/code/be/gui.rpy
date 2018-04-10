@@ -334,50 +334,57 @@ init: # screens:
                                 else:
                                     text_color ivory
 
+                            $ health = member.stats.delayed_stats["health"]
                             fixed:
                                 ysize 25
                                 bar:
                                     left_bar ProportionalScale("content/gfx/interface/bars/hp1.png", 150, 20)
                                     right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
-                                    value member.health
-                                    range member.get_max("health")
+                                    value AnimatedValue(value=health, range=member.get_max("health"), delay=.5, old_value=None)
+                                    # value health
+                                    # range member.get_max("health")
                                     thumb None
                                     xysize (150, 20)
                                 text "HP" size 14 color ivory bold True xpos 8
-                                if member.health <= member.get_max("health")*0.2:
-                                    text "[member.health]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
-                                else:
-                                    text "[member.health]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
 
+                                if health <= member.get_max("health")*0.2:
+                                    text "[health]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
+                                else:
+                                    text "[health]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
+
+                            $ mp = member.stats.delayed_stats["mp"]
                             fixed:
                                 ysize 25
                                 bar:
                                     left_bar ProportionalScale("content/gfx/interface/bars/mp1.png", 150, 20)
                                     right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
-                                    value member.mp
-                                    range member.get_max("mp")
+                                    value AnimatedValue(value=mp, range=member.get_max("mp"), delay=.5, old_value=None)
+                                    # value mp
+                                    # range member.get_max("mp")
                                     thumb None
                                     xysize (150, 20)
                                 text "MP" size 14 color ivory bold True xpos 8
-                                if member.mp <= member.get_max("mp")*0.2:
-                                    text "[member.mp]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
+                                if mp <= member.get_max("mp")*0.2:
+                                    text "[mp]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
                                 else:
-                                    text "[member.mp]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
+                                    text "[mp]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
 
+                            $ vitality = member.stats.delayed_stats["vitality"]
                             fixed:
                                 ysize 25
                                 bar:
                                     left_bar ProportionalScale("content/gfx/interface/bars/vitality1.png", 150, 20)
                                     right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
-                                    value member.vitality
-                                    range member.get_max("vitality")
+                                    value AnimatedValue(value=vitality, range=member.get_max("vitality"), delay=.5, old_value=None)
+                                    # value vitality
+                                    # range member.get_max("vitality")
                                     thumb None
                                     xysize (150, 20)
                                 text "VP" size 14 color ivory bold True xpos 8
-                                if member.vitality <= member.get_max("vitality")*0.2:
-                                    text "[member.vitality]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
+                                if vitality <= member.get_max("vitality")*0.2:
+                                    text "[vitality]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
                                 else:
-                                    text "[member.vitality]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
+                                    text "[vitality]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
 
         # Overlay for stats:
         # use be_status_overlay() Moving to a better location...

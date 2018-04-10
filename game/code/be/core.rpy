@@ -160,6 +160,10 @@ init -1 python: # Core classes:
                     if hasattr(event, "activated_this_turn"):
                         event.activated_this_turn = False
 
+                if not self.logical:
+                    for c in self.get_fighters("all"):
+                        c.stats.update_delayed()
+
                 # We check the conditions for terminating the BE scenario, this should prolly be end turn event as well, but I've added this before I've added events :)
                 if self.check_break_conditions():
                     if not self.logical:
@@ -232,6 +236,9 @@ init -1 python: # Core classes:
 
                     # Allegiance:
                     char.allegiance = team.name or team
+
+                    if not self.logical:
+                        char.stats.update_delayed()
 
         def end_battle(self):
             """Ends the battle, trying to normalize any variables that may have been used during the battle.
@@ -1241,6 +1248,9 @@ init -1 python: # Core classes:
             self.source.mp -= mp_cost
             self.source.health -= health_cost
             self.source.vitality -= vitality_cost
+
+            if not self.logical:
+                self.source.stats.update_delayed()
 
         # Game/Gui Assists:
         def get_element(self):

@@ -1013,14 +1013,17 @@ init -9 python:
             Expects a dict with statname as key and a list of:
             [stat, min, max, lvl_max] as value.
             Added skills to this class... (Maybe move to a separate class if they get complex?).
-            DevNote: Training skills have a capital letter in them, action skills do not. This should be done thought the class of the character and NEVER using self.mod_skill directly!
+            DevNote: Training skills have a capital letter in them, action skills do not.
+                This should be done thought the class of the character and NEVER using self.mod_skill directly!
             """
             self.instance = args[0]
             self.stats, self.imod, self.min, self.max, self.lvl_max = dict(), dict(), dict(), dict(), dict()
+            self.delayed_stats = dict() # We use it in BE so we can delay updating stats in GUI.
 
             # Load the stat values:
             for stat, values in kwargs.get("stats", {}).iteritems():
                 self.stats[stat] = values[0]
+                self.delayed_stats[stat] = values[0]
                 self.imod[stat] = 0
                 self.min[stat] = values[1]
                 self.max[stat] = values[2]
@@ -1039,6 +1042,9 @@ init -9 python:
 
             # Statslog:
             self.log = dict()
+
+        def update_delayed(self):
+            self.delayed_stats.update(self.stats)
 
         def _raw_skill(self, key):
             """Raw Skills:
@@ -4157,7 +4163,7 @@ init -9 python:
             # Player only...
             self.corpses = list() # Dead bodies go here until disposed off. Why the fuck here??? There gotta be a better place for dead chars than MC's class. We're not really using this atm anyway....
             self.attack_skills.append("Fist Attack")
-            
+
             self._buildings = list()
             self._chars = list()
 
