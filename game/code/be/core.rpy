@@ -5,8 +5,8 @@ init -1 python: # Core classes:
     """
 
     BDP = {} # BE DEFAULT POSITIONS *positions are tuples in lists that go from top to bottom.
-    BDP["l0"] = [(260, 560), (220, 610), (180, 660)] # Left (Usually player) teams backrow default positions.
-    BDP["l1"] = [(360, 560), (320, 610), (280, 660)] # Left (Usually player) teams frontrow default positions.
+    BDP["l0"] = [(230, 540), (190, 590), (150, 640)] # Left (Usually player) teams backrow default positions.
+    BDP["l1"] = [(360, 540), (320, 590), (280, 640)] # Left (Usually player) teams frontrow default positions.
     BDP["r0"] = list((config.screen_width-t[0], t[1]) for t in BDP["l0"]) # BackRow, Right (Usually enemy).
     BDP["r1"] = list((config.screen_width-t[0], t[1]) for t in BDP["l1"]) # FrontRow, Right (Usually enemy).
 
