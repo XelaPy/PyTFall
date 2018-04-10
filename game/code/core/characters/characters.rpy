@@ -1712,7 +1712,7 @@ init -9 python:
                 "Horny": {"active": False, "desc": "She's in the mood for sex."},
                 "Chastity": {"active": False, "desc": "Special enchantment preserves her virginity intact."},
                 "Revealing Clothes": {"active": False, "desc": "Her clothes show a lot of skin, attracting views."},
-                "Fluffy Companion": {"active": False, "desc": "All girls love cute cats, what often helps to increase disposition."}
+                "Fluffy Companion": {"active": False, "desc": "All girls love cute animals. Helps to increase disposition during interactions."}
                 }
 
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
