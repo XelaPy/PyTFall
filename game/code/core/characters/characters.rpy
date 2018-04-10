@@ -1339,40 +1339,34 @@ init -9 python:
 
             for item in inventory:
                 if item.slot not in weighted:
-                    if AUTO_ITEM_DEBUG:
-                        devlog.warning("Ignoring item {} on slot.".format(item.id))
+                    aeq_debug("Ignoring item {} on slot.".format(item.id))
                     continue
 
                 if limit_tier is not False and item.tier > limit_tier:
-                    if AUTO_ITEM_DEBUG:
-                        devlog.warning("Ignoring item {} on tier.".format(item.id))
+                    aeq_debug("Ignoring item {} on tier.".format(item.id))
                     continue
 
                 # If no purpose is valid for the item, we want nothing to do with it.
                 if item.slot not in ("misc", "consumable"):
                     purpose = base_purpose.union(sub_purpose.union(["Any"]))
                     if not purpose.intersection(item.pref_class):
-                        if AUTO_ITEM_DEBUG:
-                            devlog.warning("Ignoring item {} on purpose.".format(item.id))
+                        aeq_debug("Ignoring item {} on purpose.".format(item.id))
                         continue
 
                 # Gender:
                 if item.sex not in (char.gender, "unisex"):
-                    if AUTO_ITEM_DEBUG:
-                        devlog.warning("Ignoring item {} on gender.".format(item.id))
+                    aeq_debug("Ignoring item {} on gender.".format(item.id))
                     continue
 
                 # Money (conditioned):
                 if check_money:
                     if char.gold < item.price:
-                        if AUTO_ITEM_DEBUG:
-                            devlog.warning("Ignoring item {} on money.".format(item.id))
+                        aeq_debug("Ignoring item {} on money.".format(item.id))
                         continue
 
                 weights = chance_func(item) if chance_func else [item.eqchance]
                 if weights is None: # We move to the next item!
-                    if AUTO_ITEM_DEBUG:
-                        devlog.warning("Ignoring item {} on weights.".format(item.id))
+                    aeq_debug("Ignoring item {} on weights.".format(item.id))
                     continue
 
                 # Handle purposes:
@@ -1463,8 +1457,7 @@ init -9 python:
                             saturated_skill = max(value + 100, new_skill)
                             mod_val = 50 + 100*(new_skill - value) / saturated_skill
                             if mod_val > 100 or mod_val < -100:
-                                if AUTO_ITEM_DEBUG:
-                                    devlog.info("Unusual mod value for skill {}: {}".format(skill, mod_val))
+                                aeq_debug("Unusual mod value for skill {}: {}".format(skill, mod_val))
                             weights.append(mod_val)
 
                 weighted[item.slot].append([weights, item])
@@ -2577,12 +2570,10 @@ init -9 python:
             if self.eqslots["weapon"]:
                 self.unequip(self.eqslots["weapon"])
 
-            if AUTO_ITEM_DEBUG:
-                devlog.info("Auto Equipping for -- {} --".format(purpose))
+            aeq_debug("Auto Equipping for -- {} --".format(purpose))
             slots = store.EQUIP_SLOTS
             kwargs = AEQ_PURPOSES[purpose]
-            if AUTO_ITEM_DEBUG:
-                devlog.info("Auto Equipping Real Weapons: {} --!!".format(kwargs["real_weapons"]))
+            aeq_debug("Auto Equipping Real Weapons: {} --!!".format(kwargs["real_weapons"]))
             return self.auto_equip(slots=slots, **kwargs)
 
         def auto_equip(self, target_stats, target_skills=None,
@@ -2687,8 +2678,7 @@ init -9 python:
 
                 # Get the total weight for every item:
                 for _weight, item in picks:
-                    if AUTO_ITEM_DEBUG:
-                        devlog.info("(A-Eq=> {}) Slot: {} Item: {} ==> Weights: {}".format(
+                    aeq_debug("(A-Eq=> {}) Slot: {} Item: {} ==> Weights: {}".format(
                                         self.name, item.slot, item.id, str(_weight)))
                     _weight = sum(_weight)
 
@@ -2705,7 +2695,7 @@ init -9 python:
                                         msg.append("Base: {}".format(base_purpose))
                                     if sub_purpose:
                                         msg.append("Sub: {}".format(sub_purpose))
-                                    devlog.warn(" ".join(msg))
+                                    aeq_debug(" ".join(msg))
                                 continue
                             if _weight > selected[0]:
                                 selected = [_weight, item] # store weight and item for the highest weight
@@ -2718,8 +2708,7 @@ init -9 python:
                     if item:
                         inv.remove(item)
                         self.equip(item, remove=False, aeq_mode=True)
-                        if AUTO_ITEM_DEBUG:
-                            devlog.info("     --> {} equipped {} to {}.".format(item.id, self.name, item.slot))
+                        aeq_debug("     --> {} equipped {} to {}.".format(item.id, self.name, item.slot))
                         returns.append(item.id)
                     continue
 
@@ -2838,7 +2827,7 @@ init -9 python:
                         temp = "Supplied unknown aeq purpose: %s for %s, (Class: %s)" % (purpose,
                                                                     self.name, self.__class__.__name__)
                         temp += " ~Casual will be used."
-                        devlog.warning(temp)
+                        aeq_debug(temp)
                     purpose = "Casual"
 
             return purpose

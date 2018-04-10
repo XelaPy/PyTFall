@@ -99,21 +99,28 @@ init:
         additive .1
         alpha .95
         "content/gfx/animations/main_menu/anim_logo/logo1.webp"
-        pause .2
+        choice:
+            pause .5
+        choice:
+            pause .7
         "content/gfx/animations/main_menu/anim_logo/logo2.webp"
         pause .2
         "content/gfx/animations/main_menu/anim_logo/logo3.webp"
-        pause .3
+        pause .1
+        "content/gfx/animations/main_menu/anim_logo/logo4.webp"
+        pause .2
+        "content/gfx/animations/main_menu/anim_logo/logo5.webp"
+        choice:
+            pause .5
+        choice:
+            pause .7
+        "content/gfx/animations/main_menu/anim_logo/logo4.webp"
+        pause .2
+        "content/gfx/animations/main_menu/anim_logo/logo3.webp"
+        pause .1
         "content/gfx/animations/main_menu/anim_logo/logo2.webp"
         pause .2
         "content/gfx/animations/main_menu/anim_logo/logo1.webp"
-        pause .2
-        "content/gfx/animations/main_menu/anim_logo/logo5.webp"
-        pause .2
-        "content/gfx/animations/main_menu/anim_logo/logo6.webp"
-        pause .3
-        "content/gfx/animations/main_menu/anim_logo/logo5.webp"
-        pause .2
         repeat
 
     image fog:
