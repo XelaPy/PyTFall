@@ -249,7 +249,7 @@ label cafe_invitation: # we jump here when the group was invited by one of chars
 
     if inviting_character.take_money(result, reason="Cafe"):
         $ n = renpy.random.randint(1, 9)
-        $ img = "content/gfx/images/food/cafe_mass_%d.jpg" % n
+        $ img = "content/gfx/images/food/cafe_mass_%d.webp" % n
         show expression img at truecenter with dissolve
         $ interactions_eating_line(hero.team)
         "You enjoy your meals together. Overall health and mood were improved."
