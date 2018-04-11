@@ -184,7 +184,7 @@ label work_swim_pool: # here we could use an option to meet characters with a ce
     $ hero.swimming += randint(0,2)
     $ hero.SWIMMING += randint(1,2)
     $ hero.vitality -= randint (20, 35)
-    $ picture = "content/gfx/images/swim_kids/sk_" + str(renpy.random.randint(1, 4)) + ".jpg"
+    $ picture = "content/gfx/images/swim_kids/sk_" + str(renpy.random.randint(1, 4)) + ".webp"
     show expression picture at truecenter with dissolve
     $ narrator ("You teach local kids to swim. The payment is low, but at least you can use the pool for free. (+ %d) G" %result)
     $ hero.add_money (result, reason="Job")
