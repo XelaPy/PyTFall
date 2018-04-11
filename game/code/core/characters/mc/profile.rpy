@@ -221,7 +221,7 @@ init:
                     frame:
                         xalign .5
                         yfill True
-                        background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                         xysize (100, 30)
                         text (u"{color=#CDAD00}Element") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
                     fixed:
@@ -229,7 +229,7 @@ init:
                         xysize (100, 100)
                         frame:
                             xysize (100, 100)
-                            background Frame (Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
+                            background Frame(Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
                             $ x = 0
                             $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
                             $ els_a = [Transform(i, crop=(90/len(els_a)*els_a.index(i), 0, 90/len(els_a), 90), subpixel=True, xpos=(x + 90/len(els_a)*els_a.index(i))) for i in els_a]
@@ -353,7 +353,7 @@ init:
             frame:
                 xalign .5
                 yfill True
-                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                 xysize (153, 60)
                 text (u"{color=#CDAD00} Day [day]") font "fonts/Rubius.ttf" size 26 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .6)
             null height 2
@@ -706,7 +706,7 @@ init:
 
         add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
         frame:
-            background Frame (Transform("content/gfx/frame/ink_box.png", alpha=.65), 10, 10)
+            background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.65), 10, 10)
             style_group "content"
             align (.5, .5)
             xysize (1120, 600)

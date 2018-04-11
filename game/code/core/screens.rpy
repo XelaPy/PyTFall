@@ -1005,7 +1005,7 @@ init:
         frame:
             # at fade_in_out(sv1=.0, ev1=1.0, t1=.7,
                                     # sv2=1.0, ev2=.0, t2=.5)
-            background Frame (Transform("content/gfx/frame/framegp2.png", alpha=.8), 10, 10)
+            background Frame(Transform("content/gfx/frame/framegp2.png", alpha=.8), 10, 10)
             align (.315, .5)
             xysize (690, 414)
             style_group "smenu"
@@ -1030,7 +1030,7 @@ init:
                             # has vbox align (.5, .5)
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                            background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
@@ -1044,7 +1044,7 @@ init:
                             textbutton _("Fullscreen") action Preference("display", "fullscreen") xsize 150 xalign .5 text_size 16
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                            background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
@@ -1052,13 +1052,13 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
+                                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- Transitions -") style "TisaOTMolxm"
                             textbutton _("All") action Preference("transitions", "all") xsize 150 xalign .5 text_size 16
                             textbutton _("None") action Preference("transitions", "none") xsize 150 xalign .5 text_size 16
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                            background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 10
                             style_group "dropdown_gm2"
@@ -1066,13 +1066,13 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
+                                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- Text Speed -") style "TisaOTMolxm"
                             null height 8
                             bar value Preference("text speed") align (.5, .5)
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                            background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
@@ -1083,12 +1083,12 @@ init:
                     # Middle column...
                     frame:
                         align (.5, .5)
-                        background Frame (Transform("content/gfx/frame/ink_box.png", alpha=.3), 10, 10)
+                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.3), 10, 10)
                         xpadding 10
                         ypadding 10
                         has vbox spacing 5
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                            background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
@@ -1096,13 +1096,13 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
+                                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- Skip -") style "TisaOTMolxm"
                             textbutton _("Seen Messages") action Preference("skip", "seen") xsize 150 xalign .5 text_size 16
                             textbutton _("All Messages") action Preference("skip", "all") xsize 150 xalign .5 text_size 16
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                            background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
@@ -1110,13 +1110,13 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
+                                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- After Choices -") style "TisaOTMolxm"
                             textbutton _("Stop Skipping") action Preference("after choices", "stop") xsize 150 xalign .5 text_size 16
                             textbutton _("Keep Skipping") action Preference("after choices", "skip") xsize 150 xalign .5 text_size 16
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                            background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 10
                             style_group "dropdown_gm2"
@@ -1124,7 +1124,7 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
+                                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- A-Forward Time -") style "TisaOTMolxm"
                             null height 8
                             bar value Preference("auto-forward time") align (.5, .5)
@@ -1132,7 +1132,7 @@ init:
                                 textbutton _("Wait for Voice") action Preference("wait for voice", "toggle") xsize 150 xalign .5 text_size 16
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                            background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             style_group "dropdown_gm2"
@@ -1142,13 +1142,13 @@ init:
                     # Right column...
                     frame:
                         align (.5, .0)
-                        background Frame (Transform("content/gfx/frame/ink_box.png", alpha=.3), 10, 10)
+                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.3), 10, 10)
                         xpadding 10
                         ypadding 10
                         has vbox spacing 5
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                            background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
 
                             ypadding 8
@@ -1158,13 +1158,13 @@ init:
                                 xsize 184
 
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
+                                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- Mute -") style "TisaOTMolxm"
                             textbutton "Music" action Preference("music mute", "toggle") xsize 150 xalign .5 text_size 16
                             textbutton "Sound" action Preference("sound mute", "toggle") xsize 150 xalign .5 text_size 16
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                            background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 10
                             style_group "dropdown_gm2"
@@ -1172,13 +1172,13 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
+                                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- Music Volume -") align (.5, .0) style "TisaOTMolxm"
                             null height 8
                             bar value Preference("music volume") align (.5, .5)
 
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                            background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 10
                             style_group "dropdown_gm2"
@@ -1186,7 +1186,7 @@ init:
                             frame:
                                 xsize 184
                                 align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
+                                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
                                 text _("- Sound Volume -") style "TisaOTMolxm"
                             null height 8
                             bar value Preference("sound volume") align (.5, .5)
@@ -1214,7 +1214,7 @@ init:
                         ypadding 10
                         has vbox spacing 5
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                            background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             textbutton _("Panic Screen"):

@@ -174,7 +174,7 @@ screen alignment_choice(character):
         frame:
             xalign .0
             yfill True
-            background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+            background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
             xysize (100, 30)
             text (u"[character.nickname]") color "#CDAD00" font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
         null height 3

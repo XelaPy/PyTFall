@@ -110,7 +110,7 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
     # Presently used in Main Menu.
     style mmenu1_button:
         take flashing
-        background Frame ("content/gfx/interface/buttons/main1.png", 5, 5)
+        background Frame("content/gfx/interface/buttons/main1.png", 5, 5)
         hover_background  Fixed(Frame("content/gfx/interface/buttons/main1.png", 5, 5),
                                                   flashing(Frame("content/gfx/interface/buttons/flashing2.png", 5, 5)))
 
@@ -132,7 +132,7 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
 
     # Black button with a thin outlines, not used anywhere.
     style smenu2_button:
-        background Frame ("content/gfx/interface/buttons/s_menu2.png", 5, 5)
+        background Frame("content/gfx/interface/buttons/s_menu2.png", 5, 5)
         hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/s_menu2h.png", im.matrix.brightness(.19)), 5, 5)
         selected_idle_background Frame(Transform("content/gfx/interface/buttons/choice_buttons2s.png", alpha=1.12), 5, 5)
         selected_hover_background Frame(Transform("content/gfx/interface/buttons/choice_buttons2s.png", alpha=1.32), 5, 5)

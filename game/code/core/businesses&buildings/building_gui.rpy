@@ -529,7 +529,7 @@ init: # Screens:
 
         null height 5
         frame:
-            background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             xysize (317, 480)
             if isinstance(building, UpgradableBuilding):
                 frame:
@@ -896,7 +896,7 @@ init: # Screens:
                     frame:
                         xalign .490
                         ypos 561
-                        background Frame (Transform("content/gfx/frame/rank_frame.png", alpha=.4), 5, 5)
+                        background Frame(Transform("content/gfx/frame/rank_frame.png", alpha=.4), 5, 5)
                         xysize (240, 55)
                         xpadding 10
                         ypadding 10
@@ -1737,7 +1737,7 @@ init: # Screens:
                         # style_group "content"
                         # align (.5, .015)
                         # xysize (210, 30)
-                        # background Frame (Transform("content/gfx/frame/Namebox.png", alpha=.9), 10, 10)
+                        # background Frame(Transform("content/gfx/frame/Namebox.png", alpha=.9), 10, 10)
                         # label (u"Team name") text_size 20 text_color ivory align(.5, .5)
                     # hbox:
                         # xfill True
@@ -1756,7 +1756,7 @@ init: # Screens:
                         style_group "content"
                         align (.5, .015)
                         xysize (210, 40)
-                        background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
                         label (u"Enemies") text_size 23 text_color ivory align .5, .5
                     viewport:
                         style_prefix "proper_stats"
@@ -1799,7 +1799,7 @@ init: # Screens:
                         style_group "content"
                         align (.5, .015)
                         xysize (210, 40)
-                        background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
                         label (u"Items") text_size 23 text_color ivory align .5, .5
                     viewport:
                         style_prefix "proper_stats"
@@ -1834,14 +1834,14 @@ init: # Screens:
                                     align .99, .5
                                     add ProportionalScale(i.icon, 57, 57) align .5, .5
                     # frame:
-                        # background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
+                        # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                         # xysize (390, 380)
                         # yalign 1.0
                         # frame:
                             # style_group "content"
                             # align (.5, .015)
                             # xysize (200, 40)
-                            # background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
+                            # background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
                             # label (u"Loot") text_size 23 text_color ivory align(.5, .5)
                         # vbox:    ### Need Side-scrolling ###
                             # style_group "stats"

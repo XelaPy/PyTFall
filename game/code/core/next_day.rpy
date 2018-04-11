@@ -769,7 +769,7 @@ screen next_day():
         frame:
             pos (275, 250)
             xysize (430, 349)
-            background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
             vbox:
                 xalign .5
                 frame:
@@ -1000,7 +1000,7 @@ screen next_day():
                     style "content_frame"
                     xalign .55
                     xysize 210, 40
-                    background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
+                    background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
                     label (u"Daily Balance") text_size 23 text_color ivory xalign .5 yoffset -4
                 null height 4
 
@@ -1129,7 +1129,7 @@ screen next_day():
                         xalign .5
                         ypos 5
                         xysize (136, 40)
-                        background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=.7), 10, 10)
+                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.7), 10, 10)
                         label (u"Stat Changes:") text_size 18 text_color ivory align (.5, .5)
 
                     if event.team:
@@ -1216,7 +1216,7 @@ screen next_day():
                                 style_group "content"
                                 xalign .5
                                 xysize (136, 40)
-                                background Frame (Transform("content/gfx/frame/p_frame5.png", alpha=.7), 10, 10)
+                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.7), 10, 10)
                                 label (u"Building Stats:") text_size 18 text_color ivory align .5, .5
                             null height 10
                             vbox:

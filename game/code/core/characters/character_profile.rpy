@@ -397,7 +397,7 @@ screen char_profile():
                         frame:
                             xalign .0
                             yfill True
-                            background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                            background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                             xysize (100, 30)
                             text (u"{color=#CDAD00} Full name:") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
                         textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[green]}Rename":
@@ -425,14 +425,14 @@ screen char_profile():
                             frame:
                                 xalign .0
                                 yfill True
-                                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                                 xysize (100, 30)
                                 text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
                             null height 3
                             frame:
                                 xysize (100, 100)
                                 $ trait = char.race
-                                background Frame (Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
+                                background Frame(Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
                                 $ img = ProportionalScale(trait.icon, 95, 95)
                                 button:
                                     align (.5, .5)
@@ -448,13 +448,13 @@ screen char_profile():
                             frame:
                                 xalign .0
                                 yfill True
-                                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                                 xysize (100, 30)
                                 text (u"{color=#CDAD00} Element") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
                             null height 3
                             frame:
                                 xysize (100, 100)
-                                background Frame (Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
+                                background Frame(Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
                                 add ProportionalScale("content/gfx/interface/images/elements/hover.png", 98, 98) align (.5, .5)
                                 $ x = 0
                                 $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
@@ -1093,7 +1093,7 @@ screen char_control():
         # Tooltip Related:
         default tt = Tooltip("Adjust your workers behavior here.")
         frame:
-            background Frame (Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
+            background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             align (.5, .0)
             padding 40, 10
             text "Adjust your workers behavior here." align .5, .5 color ivory

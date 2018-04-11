@@ -426,7 +426,7 @@ init: # Main Screens:
                                         align .5, 1.0
                                         for fighter in lineup[1]:
                                             frame:
-                                                background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+                                                background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
                                                 padding 2, 2
                                                 add fighter.show("portrait", resize=(60, 60))
 
@@ -546,7 +546,7 @@ init: # Main Screens:
                                 xfill True
                             if fighter:
                                 frame:
-                                    background Frame ("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+                                    background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
                                     padding 2, 2
                                     add fighter.show("portrait", resize=(40, 40))
                                     yalign .5
@@ -716,7 +716,7 @@ init: # Main Screens:
                             frame:
                                 xalign .5
                                 yfill True
-                                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                                 xysize (145, 30)
                                 text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
                             frame:
@@ -749,7 +749,7 @@ init: # Main Screens:
                             frame:
                                 xalign .5
                                 yfill True
-                                background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                                 xysize (145, 30)
                                 text (u"{color=#CDAD00} Class") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
                             for t in data["basetraits"]:
@@ -763,7 +763,7 @@ init: # Main Screens:
                     frame:
                         xalign .5
                         yfill True
-                        background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                         xysize (260, 30)
                         text (u"{color=#CDAD00} Relative stats") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5# align (.5, 1.0)
                     hbox:
@@ -813,7 +813,7 @@ init: # Main Screens:
                         frame:
                             xalign .5
                             yfill True
-                            background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                            background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                             xysize (155, 30)
                             text (u"{color=#CDAD00} Description") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
                         vbox:
@@ -837,7 +837,7 @@ init: # Main Screens:
                                 frame:
                                     xalign .5
                                     yfill True
-                                    background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                                     xysize (130, 30)
                                     text (u"{color=#CDAD00} Attacks") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
 
@@ -865,7 +865,7 @@ init: # Main Screens:
                                 frame:
                                     xalign .5
                                     yfill True
-                                    background Frame (Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                                     xysize (130, 30)
                                     text (u"{color=#CDAD00} Spells") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
 
@@ -1091,7 +1091,7 @@ init: # ChainFights vs Mobs:
                                 frame:
                                     yalign .5
                                     xysize (45, 45)
-                                    background Frame ("content/gfx/frame/rank_frame.png", 5, 5)
+                                    background Frame("content/gfx/frame/rank_frame.png", 5, 5)
                                     add pytfall.arena.chain_fights_order_portraits[i]:
                                         align (.5, .5)
                                 frame:
