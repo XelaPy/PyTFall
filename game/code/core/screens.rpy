@@ -1248,7 +1248,8 @@ init:
                             xsize 194
                             ypadding 8
                             textbutton _("Quest Pop-Up"):
-                                action QuestLogAction(not USE_QUEST_POPUP, "popup")
+                                action ToggleField(persistent, "use_quest_popups")
+                                sensitive not main_menu
                                 xsize 150
                                 xalign .5
                                 text_size 16

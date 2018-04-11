@@ -24,15 +24,11 @@ init python:
             Actions the QuestLogAction.
             """
             global quest_log_current_quest
-            global USE_QUEST_POPUP
 
             q = pytfall.world_quests.get(self.data)
 
             if self.mode == "set":
                 quest_log_current_quest = self.data
-
-            elif self.mode == "popup":
-                USE_QUEST_POPUP = self.data
 
             renpy.restart_interaction()
 

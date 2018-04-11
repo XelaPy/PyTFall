@@ -42,6 +42,9 @@ init -999 python:
     gfximages = "content/gfx/images/"
     interfaceimages = "content/gfx/interface/images/"
     interfacebuttons = "content/gfx/interface/buttons/"
+
+    if persistent.use_quest_popups is None:
+        persistent.use_quest_popups = True
     if persistent.tooltips is None:
         persistent.tooltips = True
     if persistent.unsafe_mode is None:
