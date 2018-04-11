@@ -521,12 +521,24 @@ init:
         if get_screens("mainscreen", "chars_list", "char_profile"):
             if global_flags.flag("visited_arena"):
                 key "a" action Function(renpy.scene, "screens"), Jump("arena_inside")
+                key "A" action Function(renpy.scene, "screens"), Jump("arena_inside")
+                key "ф" action Function(renpy.scene, "screens"), Jump("arena_inside")
+                key "Ф" action Function(renpy.scene, "screens"), Jump("arena_inside")
             if global_flags.flag('visited_dark_forest'):
                 key "f" action Function(renpy.scene, "screens"), Jump("forest_entrance")
+                key "F" action Function(renpy.scene, "screens"), Jump("forest_entrance")
+                key "А" action Function(renpy.scene, "screens"), Jump("forest_entrance")
+                key "а" action Function(renpy.scene, "screens"), Jump("forest_entrance")
             if global_flags.flag("visited_sm"):
                 key "m" action Function(renpy.scene, "screens"), Jump("slave_market")
+                key "M" action Function(renpy.scene, "screens"), Jump("slave_market")
+                key "ь" action Function(renpy.scene, "screens"), Jump("slave_market")
+                key "Ь" action Function(renpy.scene, "screens"), Jump("slave_market")
             if global_flags.flag("visited_mainstreet"):
                 key "p" action Function(renpy.scene, "screens"), Jump("main_street")
+                key "P" action Function(renpy.scene, "screens"), Jump("main_street")
+                key "з" action Function(renpy.scene, "screens"), Jump("main_street")
+                key "З" action Function(renpy.scene, "screens"), Jump("main_street")
 
         # Top Stripe Frame:
         add "content/gfx/frame/top_stripe.png"
@@ -1405,6 +1417,8 @@ screen panic_screen():
 
     key "q" action Hide("panic_screen")
     key "Q" action Hide("panic_screen")
+    key "й" action Hide("panic_screen")
+    key "Й" action Hide("panic_screen")
 
 init python:
     def meowzaaa(group):

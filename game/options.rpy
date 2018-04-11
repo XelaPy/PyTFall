@@ -32,7 +32,7 @@ init -999 python:
             renpy.game.interface.set_icon()
             renpy.show_screen("panic_screen")
             renpy.restart_interaction()
-    config.keymap['panic_screen'] = ['q', 'Q']
+    config.keymap['panic_screen'] = ['q', 'Q', 'й', 'Й']
     config.underlay.append(renpy.Keymap(panic_screen=show_panic_screen_func))
 
 init -999 python hide:
