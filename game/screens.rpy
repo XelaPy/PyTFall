@@ -139,6 +139,17 @@ init -2:
 #
 # Screen that's used to display renpy.input()
 # http://www.renpy.org/doc/html/screen_special.html#input
+transform caret_alpha:
+    Solid(ivory, xysize=(1, 25))
+    xoffset 3
+    block:
+        linear .8 alpha .2
+        linear .8 alpha 1.0
+        repeat
+
+style input:
+    caret caret_alpha()
+
 
 screen input(prompt=""):
 

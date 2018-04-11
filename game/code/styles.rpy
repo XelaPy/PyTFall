@@ -213,9 +213,21 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
         antialias True # Text in modern Ren'Py is always aa rendered?
         font "fonts/EBGaramond-Regular.ttf"
 
+    transform caret_alpha:
+        Solid(ivory, xysize=(1, 22))
+        offset (1, 2)
+        block:
+            linear .8 alpha .2
+            linear .8 alpha 1.0
+            repeat
+
+    # style input:
+    #     caret caret_alpha()
+
     style TisaOTM:
         is text
         font tisa_otm_adv
+        caret caret_alpha()
 
     style della_respira:
         is text
