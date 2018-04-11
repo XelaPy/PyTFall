@@ -1124,8 +1124,8 @@ init -9 python:
         def get_max(self, key):
             val = min(self.max[key], self.lvl_max[key])
             if key not in ["disposition"]:
-                if val < 0:
-                    val = 0
+                if val <= 0:
+                    val = 1 # may prevent a zero dev error on fucked up items...
             return val
 
         def mod_item_stat(self, key, value):
@@ -2567,8 +2567,8 @@ init -9 python:
 
             self.last_known_aeq_purpose = purpose
 
-            if self.eqslots["weapon"]:
-                self.unequip(self.eqslots["weapon"])
+            # if self.eqslots["weapon"]:
+            #     self.unequip(self.eqslots["weapon"])
 
             aeq_debug("Auto Equipping for -- {} --".format(purpose))
             slots = store.EQUIP_SLOTS
@@ -2619,14 +2619,19 @@ init -9 python:
 
             # Go over all slots and unequip items:
             weighted = {}
-            for k in slots:
-                if self.eqslots[k]:
-                    item = self.eqslots[k]
-                    # This is a bit of a weird conditioning, maybe pass an argument here?
-                    # if not equipment_access(self, item=item, silent=True, allowed_to_equip=False):
-                    #     continue
-                    self.unequip(item, aeq_mode=True)
-                weighted[k] = []
+            for s in slots:
+                if s == "ring":
+                    for r in ["ring", "ring1", "ring2"]:
+                        item = self.eqslots[r]
+                        if item:
+                            self.unequip(item, aeq_mode=True)
+                elif s == "consumable":
+                    pass
+                else:
+                    item = self.eqslots[s]
+                    if item:
+                        self.unequip(item, aeq_mode=True)
+                weighted[s] = []
 
             # allow a little stat/skill penalty, just make sure the net weight is positive.
             min_value = -5
@@ -2716,45 +2721,59 @@ init -9 python:
                 # consumables and rings that we may want to equip more than one of.
                 selected.sort(key=itemgetter(0), reverse=True)
                 for weight, item in selected:
-                    while self.equip_chance(item) != None:
-                        inv.remove(item)
-                        self.equip(item, remove=False, aeq_mode=True)
-                        returns.append(item.id)
-
-                        if not item.id in inv.items:
+                    if slot == "ring":
+                        equipped_rings = []
+                        for s in ["ring", "ring1", "ring2"]:
+                            if isinstance(self.eqslots[s], Item):
+                                equipped_rings.append(s)
+                        if len(equipped_rings) == 3:
                             break
 
-                        for stat in item.mod:
-                            if not stat in target_stats:
-                                continue
+                    while 1:
+                        # Check if this is a shit item? :D
+                        result = self.equip_chance(item)
+                        if result is None:
+                            break
+                        # elif sum(result) <= 0:
+                        #         break
 
-                            if item.slot == "ring" or self.stats._get_stat(stat) < self.get_max(stat)*.40:
-                                break # may select it a 2nd time
+                        # If we don't have any more of the item, let's move on.
+                        if item not in inv:
+                            break
 
-                            # If stat is above 40% of max, behave more selective, to prevent wasting items.
-                            remains = self.get_max(stat) - self.stats._get_stat(stat)
+                        useful = False
+                        for stat in target_stats:
+                            # Consider adding max at some point? ?? ???
+                            if stat in item.mod:
+                                bonus = item.get_stat_eq_bonus(self.stats, stat)
+                                needed = self.get_max(stat) - getattr(self, stat)
+                                if needed*1.4 <= bonus: # We basically allow 40% waste
+                                    useful = True
+                                    break
 
-                            # if effect is larger than remaining required and item is expensive, we don't select it.
-                            if remains > 0 or (item.price <= 100 or remains > item.get_stat_eq_bonus(self.stats, stat)):
-                                break
-                        else:
-                            # item gives no stat benefit anymore. Also apply it once for each skill benefit
+                        if not useful: # Still here? Let's try skills:
                             for skill in item.mod_skills:
                                 if skill in target_skills:
-                                    inv.remove(item)
-                                    self.equip(item, remove=False, aeq_mode=True)
-                                    returns.append(item.id)
-                            break # outer for loop
+                                    useful = True
+                                    break
 
-                        if not item.id in inv.items:
+                        if not useful:
+                            break
+                        else:
+                            inv.remove(item)
+                            self.equip(item, remove=False, aeq_mode=True)
+                            returns.append(item.id)
+
+                        # This is what we were missing! We can consume all the
+                        # Consumables that we have as long as they're useful.
+                        # But we need to equip only three rings tops:
+                        equipped_rings = []
+                        for s in ["ring", "ring1", "ring2"]:
+                            if isinstance(self.eqslots[s], Item):
+                                equipped_rings.append(s)
+                        if len(equipped_rings) == 3:
                             break
 
-                    # if slot == "ring":
-                    #     slot = "ring1"
-                    #     continue
-                    # if slot == "ring1":
-                    #     slot = "ring2"
-                    #     continue
             return returns
 
         def auto_buy_item(self, item, amount=1, equip=False):
