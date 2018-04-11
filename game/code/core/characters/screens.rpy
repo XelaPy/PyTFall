@@ -10,7 +10,7 @@ screen new_style_tooltip():
         xval = 1.0 if x > config.screen_width/2 else .0
         yval = 1.0 if y > config.screen_height/2 else .0
 
-    if tooltip:
+    if persistent.tooltips and tooltip:
         frame:
             pos (x, y)
             anchor (xval, yval)

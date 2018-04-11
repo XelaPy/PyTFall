@@ -57,15 +57,6 @@ screen quest_log():
             style_group "basic"
             spacing 10
             yalign .5
-            button:
-                xysize (250, 32)
-                style_group "basic"
-                text ("Hide Quest Popups") size 16
-                if USE_QUEST_POPUP:
-                    add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, .5)
-                else:
-                    add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, .5)
-                action QuestLogAction(not USE_QUEST_POPUP, "popup")
             null width 120
             $ if DEBUG and "unstarted" not in modes: modes = modes + ["unstarted"]
             for mode in modes:
