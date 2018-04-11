@@ -61,6 +61,7 @@ init: # screens:
                     style "basic_choice_button"
                     xsize 100
                     action SetScreenVariable("menu_mode", "top")
+                    keysym "mousedown_3"
 
         # Tooltip:
         if tt.value:
