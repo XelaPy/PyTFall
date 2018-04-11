@@ -63,6 +63,53 @@ init -999 python:
             self.add_atl(dispostion_effect, duration, kwargs)
             self.add_sfx("content/sfx/sound/female/uhm.mp3")
 
+        def random_find(self, item):
+            # Can be used to show that we've found something.
+            kwargs = {}
+
+            fixed = Fixed(xysize=(100, 100))
+            if isinstance(item, int): # We found gold:
+                icon = pscale("content/gfx/interface/images/money_bag3.png",
+                              80, 80, align=(.5, .5))
+            elif isinstance(item, Item):
+                icon = pscale(item.icon,
+                              80, 80, align=(.5, .5))
+            fixed.add(icon)
+            if isinstance(item, int):
+                d = Text(str(item), font="fonts/rubius.ttf", color=gold,
+                         size=40, align=(.5, 1.0))
+            elif isinstance(item, Item):
+                d = Text(str(item.id), font="fonts/rubius.ttf", color=gold,
+                         size=40, align=(.5, 1.0))
+            fixed.add(d)
+            kwargs["pos"] = 640, 500
+            kwargs["yoffset"] = -250
+
+            kwargs["d"] = fixed
+            kwargs["start"] = 0
+            duration = 2.0
+            kwargs["duration"] = duration
+            self.add_atl(found_effect, duration, kwargs)
+            self.add_sfx("content/sfx/sound/go_for_it.mp3")
+
+            # Generate some side effects :D
+            if isinstance(item, int):
+                icon = pscale("content/gfx/interface/icons/gold.png",
+                              40, 40, align=(.5, .5))
+            elif isinstance(item, Item):
+                icon = pscale("content/gfx/interface/buttons/IT2.png",
+                              40, 40, align=(.5, .5))
+            for i in range(randint(15, 25)):
+                kwargs = {}
+                kwargs["pos"] = randint(500, 750), randint(500, 600)
+                kwargs["yoffset"] = randint(-500, -450)
+
+                kwargs["d"] = icon
+                kwargs["start"] = random.uniform(.0, 1.0)
+                duration = random.uniform(1.5, 2.0)
+                kwargs["duration"] = duration
+                self.add_atl(found_effect, duration, kwargs)
+
         def render(self, width, height, st, at):
             r = renpy.Render(width, height)
 
@@ -1062,7 +1109,7 @@ init python:
         w, h = d.render(0, 0, 0, 0).get_size()
         return int(round(w)), int(round(h))
 
-    def prop_resize(d, maxwidth, maxheight):
+    def prop_resize(d, maxwidth, maxheight, **kwargs):
         """
         Proportionally resizes anything... not just images.
         Image Manipulation is lost with this!
@@ -1073,7 +1120,9 @@ init python:
         ratio = min(maxwidth/float(width), maxheight/float(height))
         width = int(round(ratio * width))
         height = int(round(ratio * height))
-        return Transform(d, size=(width, height))
+        return Transform(d, size=(width, height), **kwargs)
+
+    pscale = prop_resize
 
     def gen_randmotion(count, dist, delay):
         args = [ ]

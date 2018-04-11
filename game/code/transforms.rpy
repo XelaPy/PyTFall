@@ -285,8 +285,6 @@ init -997: # Transforms:
             linear t zoom 1.1
             linear t zoom 1
 
-
-
     default interactions_portraits_overlay = DisplayableSwitcher(displayable={"angry": interactions_angry_pulse_tr,
                                                                               "sweat": interactions_sweat_drop_tr,
                                                                               "scared": interactions_scared_lines_tr,
@@ -298,7 +296,7 @@ init -997: # Transforms:
                                                                               "like": Transform("hearts_rise", pos=(120, 405), anchor=(.0, .0))
                                                                               })
 
-    # Also used for gm:
+    # Overlay ATLs:
     transform dispostion_effect(d, start, pos, yoffset, duration):
         subpixel True
         pause start
@@ -306,6 +304,18 @@ init -997: # Transforms:
         pos pos yoffset 0 anchor (.5, .5)
         alpha .6 zoom .5
         linear duration alpha 1.0 zoom 1.2 yoffset yoffset
+
+    transform found_effect(d, start, pos, yoffset, duration):
+        subpixel True
+        pause start
+        d
+        pos pos yoffset 0 anchor (.5, .5)
+        alpha 1.0 zoom .5
+        parallel:
+            linear duration zoom 1.0 yoffset yoffset
+        parallel:
+            pause duration*.5
+            ease duration*.5 alpha .0
 
     transform found_cash(x, y, t):
         subpixel True
