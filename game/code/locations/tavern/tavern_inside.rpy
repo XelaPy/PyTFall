@@ -234,10 +234,9 @@ label tavern_look_around: # various bonuses to theoretical skills for drinking w
     if hero.take_money(randint(10, 20), reason="Tavern"):
         hide drunkards with dissolve
         $ interactions_drinking_outside_of_inventory(character=hero, count=randint(15, 25))
-        if global_flags.flag("tavern_status")[1] == "lively":
-            $ N = random.choice(["fishing", "sex", "exp"])
+        $ N = random.choice(["fishing", "sex", "exp"])
         if N == "fishing":
-            $ name = "content/gfx/images/tavern/fish_" + str(renpy.random.randint(1, 4)) + ".jpg"
+            $ name = "content/gfx/images/tavern/fish_" + str(renpy.random.randint(1, 4)) + ".webp"
             show expression name as sign at truecenter with dissolve
             "A group of local fishermen celebrating a good catch in the corner. You join them, and they share a few secrets about fishing with you."
             $ hero.FISHING += randint(2, 5)
@@ -249,11 +248,12 @@ label tavern_look_around: # various bonuses to theoretical skills for drinking w
             "A group of drunk young men and women boasting about their sexual feats. Most of the feats never happened, but you still got a few interesting ideas."
             $ hero.SEX += randint(1, 3)
             hide sign with dissolve
-        elif N == "exp":
-            show expression "content/gfx/images/tavern/exp.png" as sign at truecenter with dissolve
+        else:
+            show expression "content/gfx/images/tavern/exp.webp" as sign at truecenter with dissolve
             "You are sharing fresh rumors with patrons over a beer."
             $ hero.adjust_exp(randint(10, 30))
             hide sign with dissolve
+        $ del N
     else:
         "You don't have enough money to join others, so there is nothing interesting for you at the moment."
     jump city_tavern_menu
