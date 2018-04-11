@@ -4,7 +4,7 @@ init 5 python:
         COMPATIBILITY = []
 
         NAME = "Main Hall"
-        IMG = "content/buildings/upgrades/main_hall.jpg"
+        IMG = "content/buildings/upgrades/main_hall.webp"
         MATERIALS = {"Bricks": 50, "Stone": 50,
                      "Green Marble": 40, "Steel": 10}
         temp = []
@@ -32,7 +32,7 @@ init 5 python:
         COMPATIBILITY = []
 
         NAME = "Garden"
-        IMG = "content/buildings/upgrades/garden.jpg"
+        IMG = "content/buildings/upgrades/garden.webp"
         MATERIALS = {"Stone": 50,
                      "Green Marble": 10,
                      "Wood": 50}

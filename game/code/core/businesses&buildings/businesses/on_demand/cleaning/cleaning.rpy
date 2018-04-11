@@ -5,7 +5,7 @@ init -5 python:
         MATERIALS = {"Wood": 2, "Bricks": 2}
         NAME = "Cleaning Block"
         DESC = "Until it shines!"
-        IMG = "content/buildings/upgrades/cleaners.jpg"
+        IMG = "content/buildings/upgrades/cleaners.webp"
 
         def __init__(self, **kwargs):
             super(Cleaners, self).__init__(**kwargs)

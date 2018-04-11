@@ -17,7 +17,7 @@
 		"mod": 1,
 
 		"adverts": ["Sign", "Flyers"],
-		"img": "content/buildings/oldshack.jpg",
+		"img": "content/buildings/oldshack.webp",
 
 		"build_businesses": [{
 				"class": "BrothelBlock",
@@ -52,7 +52,7 @@
 		"tier": 1,
 
 		"adverts": ["Sign", "Flyers", "Magazine"],
-		"img": "content/buildings/smallhouse.jpg",
+		"img": "content/buildings/smallhouse.webp",
 
 		"build_businesses": [{
 				"class": "BrothelBlock",
@@ -89,7 +89,7 @@
 		"mod": 1.4,
 
 		"adverts": ["Sign", "Flyers", "Magazine", "Billboard"],
-		"img": "content/buildings/house1.jpg",
+		"img": "content/buildings/house1.webp",
 
 		"build_businesses": [{
 				"class": "Cleaners"
@@ -124,7 +124,7 @@
 		"mod": 1.6,
 
 		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl"],
-		"img": "content/buildings/house2.jpg",
+		"img": "content/buildings/house2.webp",
 
 		"build_businesses": [{
 				"class": "BrothelBlock",
@@ -168,7 +168,7 @@
 		"mod": 2,
 
 		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl"],
-		"img": "content/buildings/mansion.jpg",
+		"img": "content/buildings/mansion.webp",
 
 		"build_businesses": [{
 				"class": "BrothelBlock",
@@ -220,7 +220,7 @@
 		"mod": 3,
 
 		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
-		"img": "content/buildings/palace.jpg",
+		"img": "content/buildings/palace.webp",
 
 		"build_businesses": [
 			{
@@ -257,7 +257,7 @@
 		"mod": 5,
 
 		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
-		"img": "content/buildings/centralpalace.jpg",
+		"img": "content/buildings/centralpalace.webp",
 
 		"build_businesses": [{
 				"class": "BrothelBlock",
@@ -309,7 +309,7 @@
 		"mod": 1,
 
 		"adverts": [],
-		"img": "content/buildings/slave_quaters.jpg",
+		"img": "content/buildings/slave_quaters.webp",
 
 		"build_businesses": [{
 			"class": "SlaveQuarters",
@@ -340,7 +340,7 @@
 		"mod": 1,
 
 		"adverts": [],
-		"img": "content/buildings/slave_quaters.jpg",
+		"img": "content/buildings/slave_quaters.webp",
 
 		"build_businesses": [{
 			"class": "SlaveQuarters",
@@ -372,7 +372,7 @@
 		"mod": 1,
 
 		"adverts": [],
-		"img": "content/buildings/slave_quaters.jpg",
+		"img": "content/buildings/slave_quaters.webp",
 
 		"build_businesses": [{
 			"class": "SlaveQuarters",

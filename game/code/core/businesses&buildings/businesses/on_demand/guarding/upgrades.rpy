@@ -4,7 +4,7 @@ init 5 python:
         COMPATIBILITY = [WarriorQuarters]
 
         NAME = "Sparring Quarters"
-        IMG = "content/buildings/upgrades/sparring_qt.jpg"
+        IMG = "content/buildings/upgrades/sparring_qt.webp"
         MATERIALS = {"Wood": 20,
                      "Stone": 5,
                      "Steel": 10}
@@ -34,7 +34,7 @@ init 5 python:
         COMPATIBILITY = [WarriorQuarters]
 
         NAME = "Enforced Order"
-        IMG = "content/buildings/upgrades/training_qt.jpg"
+        IMG = "content/buildings/upgrades/training_qt.webp"
         MATERIALS = {"Wood": 5,
                      "Stone": 20,
                      "Steel": 30}

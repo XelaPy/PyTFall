@@ -4,7 +4,7 @@ init 5 python:
         COMPATIBILITY = [StripClub]
 
         NAME = "Catwalk"
-        IMG = "content/buildings/upgrades/catwalk_2.jpg"
+        IMG = "content/buildings/upgrades/catwalk_2.webp"
         MATERIALS = {"Bricks": 20,
                      "Wood": 50,
                      "Glass": 20}

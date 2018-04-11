@@ -4,7 +4,7 @@ init 5 python:
         COMPATIBILITY = [BrothelBlock]
 
         NAME = "Statue"
-        IMG = "content/buildings/upgrades/statue_sexgoddess.jpg"
+        IMG = "content/buildings/upgrades/statue_sexgoddess.webp"
         MATERIALS = {"Bricks": 100, "Stone": 100,
                      "Green Marble": 100, "Steel": 50}
         temp = []

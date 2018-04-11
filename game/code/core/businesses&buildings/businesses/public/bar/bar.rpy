@@ -4,7 +4,7 @@ init -5 python:
         SORTING_ORDER = 4
         MATERIALS = {"Wood": 50, "Bricks": 30, "Glass": 5}
         NAME = "Bar"
-        IMG = "content/buildings/upgrades/bar.jpg"
+        IMG = "content/buildings/upgrades/bar.webp"
         DESC = "Serve drinks and snacks to your customers!"
         COST = 500
         IN_SLOTS = 3

@@ -4,7 +4,7 @@ init -6 python:
         SORTING_ORDER = 0
         NAME = "Slave Quarters"
         DESC = "Place for slaves to live in!"
-        IMG = "content/buildings/upgrades/guard_qt.jpg"
+        IMG = "content/buildings/upgrades/guard_qt.webp"
         def __init__(self, **kwargs):
             super(SlaveQuarters, self).__init__(**kwargs)
             self.habitable = True
