@@ -905,17 +905,17 @@ init: # Main Screens:
         default loser = l_team[0]
 
         if hero.team == w_team:
-            add "content/gfx/images/battle/victory_l.png" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=.7, wait=0)
-            add "content/gfx/images/battle/victory_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=.7)
-            add "content/gfx/images/battle/battle_c.png" at fade_from_to(start_val=.5, end_val=1.0, t=2.0, wait=0)
-            add "content/gfx/images/battle/victory.png":
+            add "content/gfx/images/battle/victory_l.webp" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=.7, wait=0)
+            add "content/gfx/images/battle/victory_r.webp" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=.7)
+            add "content/gfx/images/battle/battle_c.webp" at fade_from_to(start_val=.5, end_val=1.0, t=2.0, wait=0)
+            add "content/gfx/images/battle/victory.webp":
                 align (.5, .5)
                 at simple_zoom_from_to_with_easein(start_val=50.0, end_val=1.0, t=2.0)
         else:
-            add "content/gfx/images/battle/defeat_l.png" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=.7)
-            add "content/gfx/images/battle/defeat_r.png" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=.7)
-            add "content/gfx/images/battle/battle_c.png" at fade_from_to(start_val=.5, end_val=1.0, t=2.0, wait=0)
-            add "content/gfx/images/battle/defeat.png":
+            add "content/gfx/images/battle/defeat_l.webp" at move_from_to_pos_with_ease(start_pos=(-config.screen_width/2, 0), end_pos=(0, 0), t=.7)
+            add "content/gfx/images/battle/defeat_r.webp" at move_from_to_pos_with_ease(start_pos=(config.screen_width/2, 0), end_pos=(0, 0), t=.7)
+            add "content/gfx/images/battle/battle_c.webp" at fade_from_to(start_val=.5, end_val=1.0, t=2.0, wait=0)
+            add "content/gfx/images/battle/defeat.webp":
                 align (.5, .5)
                 at simple_zoom_from_to_with_easein(start_val=50.0, end_val=1.0, t=2.0)
 
