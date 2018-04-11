@@ -134,25 +134,36 @@ init -999 python:
             # Slider:
             self.slider = im.Twocolor("content/gfx/interface/bars/thvslider_thumb.png",
                                         store.white, store.red)
+            self.slider = renpy.displayable("content/gfx/interface/bars/thvslider_thumb.png")
             self.length_multiplier = length_multiplier
 
             # Bar:
+            # bar = "content/gfx/interface/bars/testbar.png"
+            bar = Transform("content/gfx/interface/bars/vcryslider_full.png", size=(40, 300))
+            # fixed = Fixed(xysize=(40, 300))
+            # fixed.add(bar)
+
             vbox = VBox()
-            white = renpy.displayable("content/gfx/interface/bars/testbar.png")
-            white = Transform(white, size=(40, d["white"] * length_multiplier))
+            white = renpy.displayable(bar)
+            white = Solid("000", xysize=((40, d["white"] * length_multiplier)))
+            # Transform(white, size=(40, d["white"] * length_multiplier), alpha=0)
+            # white = Transform(white, alpha=0)
             vbox.add(white)
             for i in d:
                 if i != "white":
-                    what = im.Twocolor(renpy.displayable("content/gfx/interface/bars/testbar.png"),
-                                        getattr(store, i), getattr(store, i))
-                    what = Transform(what, size=(40, d[i]*length_multiplier))
+                    # what = im.Twocolor(renpy.displayable(bar),
+                    #                     getattr(store, i), getattr(store, i))
+                    what = Transform(Solid(getattr(store, i)), size=(40, d[i]*length_multiplier), additive=.5)
                     vbox.add(what)
             vbox.add(white)
-            self.vbox = vbox
+            # fixed.add(vbox)
+            # fixed = AlphaMask(vbox, bar)
+            fixed = AlphaBlend(bar, bar, vbox, alpha=True)
+            self.vbox = fixed
 
             # Tracking:
             self.next_st = 0
-            self.step = 2 # Can control the speed.
+            self.step = 2.5 # Can control the speed.
             self.change = self.step
             self.interval = interval
             self.slider_y = 0

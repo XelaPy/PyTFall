@@ -1135,46 +1135,50 @@ init: # ChainFights vs Mobs:
 
         # Bonus Roll: ===========================================================================>>>
         default my_udd = ArenaBarMinigame(d, length_multiplier, maxval, interval)
-        add my_udd pos (200, 250)
-        textbutton "Stop!":
-            xalign .5 ypos 500
-            xsize 100
-            text_color black
-            style "basic_button"
-            sensitive my_udd.update
-            action [SetField(my_udd, "update", False),
-                    SetScreenVariableC("rolled", pytfall.arena.award_cf_bonus,
-                        udd=my_udd, d=d)]
+        style_prefix "dropdown_gm"
+        frame:
+            align .5, .9
+            xysize 300, 460
 
-        # Results:
-        if not rolled:
-            text "Bonus Roll":
-                pos (150, 200)
-                style "arena_header_text"
-                color red
-                size 35
-        else:
-            timer 2.0 action Return()
-            if rolled == "HP":
-                text "Bonus Roll: HP" pos (200, 200) style "arena_header_text" color red size 30 align (.5, .2)
-            elif rolled == "MP":
-                text "Bonus Roll: MP" pos (200, 200) style "arena_header_text" color blue size 30 align (.5, .2)
-            elif rolled == "Restore":
-                text "Bonus Roll: Vitality" pos (200, 200) style "arena_header_text" color green size 30 align (.5, .2)
+            add my_udd pos 50, 60
+
+            # Results:
+            if not rolled:
+                text "Bonus Roll":
+                    xalign .5 ypos 10
+                    style "arena_header_text"
+                    color red
+                    size 35
             else:
-                text "Bonus Roll: Nothing" pos (200, 200) style "arena_header_text" color white size 30 align (.5, .2)
+                timer 3.0 action Return()
+                if rolled == "HP":
+                    text "Rolled: HP" style "arena_header_text" color red size 30 xalign .5 ypos 10
+                elif rolled == "MP":
+                    text "Rolled: MP" style "arena_header_text" color blue size 30 xalign .5 ypos 10
+                elif rolled == "Restore":
+                    text "Rolled: Vitality" style "arena_header_text" color green size 30 xalign .5 ypos 10
+                else:
+                    text "Rolled: Bupkis" style "arena_header_text" color black size 30 xalign .5 ypos 10
+
+            textbutton "Stop!":
+                align .5, .95
+                xsize 100
+                sensitive my_udd.update
+                action [SetField(my_udd, "update", False),
+                        SetScreenVariableC("rolled", pytfall.arena.award_cf_bonus,
+                            udd=my_udd, d=d)]
 
         # Legenda:
         frame:
-            align (.8, .6)
+            align (.99, .99)
             background Frame("content/gfx/frame/p_frame4.png", 10, 10)
-            padding (10, 10)
+            padding (20, 20)
             vbox:
                 spacing 10
                 for color, text in [(red, "Restore HP"),
                                     (blue, "Restore MP"),
                                     (green, "Restore Vitality"),
-                                    (grey, "Nothing...")]:
+                                    (black, "Nothing...")]:
                     hbox:
                         xalign 0
                         spacing 10
