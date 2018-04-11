@@ -1223,24 +1223,36 @@ init: # ChainFights vs Mobs:
                     style "arena_header_text"
                     size 80
 
-        hbox at slide(so1=(0, 700), t1=.7, so2=(0, 700), t2=.7):
-            style_prefix "wood"
-            spacing 40
+        # hbox at slide(so1=(0, 700), t1=.7, so2=(0, 700), t2=.7):
+        frame:
+            style_prefix "dropdown_gm"
             align(.5, .9)
-            button:
-                text "Give Up" size 25 color goldenrod outlines [(1, "#000000", 0, 0)]
-                xysize (180, 60)
+            has hbox spacing 40
+            textbutton "Give Up":
                 action [Hide("arena_inside"), Hide("chain_fight"), Hide("confirm_chainfight"),
                         SetField(pytfall.arena, "cf_count", 0),
                         SetField(pytfall.arena, "cf_mob", None),
                         SetField(pytfall.arena, "cf_setup", None),
                         Stop("music"), Jump("arena_inside")]
-            button:
-                text "Fight" size 25 color goldenrod outlines [(1, "#000000", 0, 0)]
-                xysize (180, 60)
+            textbutton "Fight":
                 action [Hide("arena_inside"), Hide("chain_fight"),
                         Hide("confirm_chainfight"),
                         Return(["challenge", "chainfight"])]
+            # button:
+            #     text "Give Up":
+            #         size 25 color goldenrod outlines [(1, "#000000", 0, 0)]
+            #     xysize (180, 60)
+            #     action [Hide("arena_inside"), Hide("chain_fight"), Hide("confirm_chainfight"),
+            #             SetField(pytfall.arena, "cf_count", 0),
+            #             SetField(pytfall.arena, "cf_mob", None),
+            #             SetField(pytfall.arena, "cf_setup", None),
+            #             Stop("music"), Jump("arena_inside")]
+            # button:
+            #     text "Fight" size 25 color goldenrod outlines [(1, "#000000", 0, 0)]
+            #     xysize (180, 60)
+            #     action [Hide("arena_inside"), Hide("chain_fight"),
+            #             Hide("confirm_chainfight"),
+            #             Return(["challenge", "chainfight"])]
 
     screen arena_finished_chainfight(w_team):
         zorder  3
