@@ -218,8 +218,8 @@ init -1 python: # Core classes:
                     self.start_turn_events.append(RunQuotes(self.teams[0]))
 
                 # After we've set the whole thing up, we've launch the main loop:
-                renpy.pause(.25, hard=True)
-                renpy.pause(.35)
+                renpy.pause(.6)
+                # renpy.pause(.35)
 
             self.main_loop()
 
@@ -1360,8 +1360,9 @@ init -1 python: # Core classes:
                     pause = stamp-real_passed_time
                     if pause-.05 > 0:
                         # devlog.info("Paused for: {}".format(round(pause, 2)))
-                        ui.pausebehavior(pause, False)
-                        ui.interact(mouse='pause', type='pause', roll_forward=None)
+                        # ui.pausebehavior(pause, False)
+                        # ui.interact(mouse='pause', type='pause', roll_forward=None)
+                        renpy.pause(pause)
 
                 # devlog.info("Function called at: {} (perfect time to call: {})".format(round(time.time()-st, 2), round(stamp, 2)))
                 func()
