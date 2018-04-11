@@ -4,7 +4,7 @@ init -5 python:
         COMPATIBILITY = []
         MATERIALS = {"Wood": 70, "Bricks": 30, "Glass": 5}
         NAME = "Brothel"
-        IMG = "content/buildings/upgrades/room.jpg"
+        IMG = "content/buildings/upgrades/room.webp"
         DESC = "A place to 'freck' in!"
 
         def __init__(self, **kwargs):

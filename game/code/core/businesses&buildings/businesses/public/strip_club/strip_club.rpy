@@ -5,7 +5,7 @@ init -5 python:
         MATERIALS = {"Wood": 30, "Bricks": 50, "Glass": 10}
         NAME = "Strip Club"
         DESC = "Exotic Dancers go here!"
-        IMG = "content/buildings/upgrades/strip_club.jpg"
+        IMG = "content/buildings/upgrades/strip_club.webp"
         COST = 500
         def __init__(self, **kwargs):
             super(StripClub, self).__init__(**kwargs)

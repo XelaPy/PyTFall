@@ -420,7 +420,7 @@ init -9 python:
             super(TrainingDungeon, self).__init__(id=self.NAME, name=self.NAME, desc="A personal dungeon for training and punishing slaves.",
                                                   price=7500, minrooms=5, maxrooms=50, roomprice=500, upgrade_slots=18)
 
-            self.img = "content/buildings/dungeon.jpg"
+            self.img = "content/buildings/dungeon.webp"
 
             self.actions = ["Guard", "Train", "Take Course", "Search"]
 

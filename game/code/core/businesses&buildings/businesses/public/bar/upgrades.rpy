@@ -4,7 +4,7 @@ init 5 python:
         COMPATIBILITY = [BarBusiness]
 
         NAME = "Tap Beer"
-        IMG = "content/buildings/upgrades/beer.jpg"
+        IMG = "content/buildings/upgrades/beer.webp"
         MATERIALS = {"Wood": 2,
                      "Glass": 5}
         temp = []

@@ -4,7 +4,7 @@ init 5 python:
         COMPATIBILITY = [Cleaners]
 
         NAME = "Closet"
-        IMG = "content/buildings/upgrades/broom_closet.jpg"
+        IMG = "content/buildings/upgrades/broom_closet.webp"
         MATERIALS = {"Wood": 20, "Stone": 10,
                      "Steel":5}
         temp = []

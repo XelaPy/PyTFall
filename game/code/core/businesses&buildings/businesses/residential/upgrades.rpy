@@ -4,7 +4,7 @@ init 5 python:
         COMPATIBILITY = [BrothelBlock]
 
         NAME = "Garden"
-        IMG = "content/buildings/upgrades/landscape.jpg"
+        IMG = "content/buildings/upgrades/landscape.webp"
         MATERIALS = {"Stone": 20,
                      "Wood": 20,
                      "Green Marble": 5}

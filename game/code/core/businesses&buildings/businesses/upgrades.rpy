@@ -31,7 +31,7 @@ init -3 python:
 
     # class Garden(BuildingUpgrade):
     #     def __init__(self, name="Garden", desc="Nice, green place to relax!",
-    #                 img="content/buildings/upgrades/garden.jpg",
+    #                 img="content/buildings/upgrades/garden.webp",
     #                 **kwargs):
     #
     #         super(Garden, self).__init__(name=name, desc=desc,
@@ -40,7 +40,7 @@ init -3 python:
     #
     # class MainHall(BuildingUpgrade):
     #     def __init__(self, name="Main Hall", desc="Reception for your customers!",
-    #                  img="content/buildings/upgrades/main_hall.jpg", **kwargs):
+    #                  img="content/buildings/upgrades/main_hall.webp", **kwargs):
     #
     #         super(MainHall, self).__init__(name=name, desc=desc,
     #                 img=img, **kwargs)
@@ -51,7 +51,7 @@ init -3 python:
     #     NAME = "Cat Walk"
     #     def __init__(self, name="Cat Walk",
     #                  desc="Good way to show off your strippers!",
-    #                  img="content/buildings/upgrades/catwalk_0.jpg",
+    #                  img="content/buildings/upgrades/catwalk_0.webp",
     #                  **kwargs):
     #
     #         super(CatWalk, self).__init__(name=name, desc=desc,
@@ -64,7 +64,7 @@ init -3 python:
     #     NAME = "Aquarium"
     #     def __init__(self, name="Aquarium",
     #                  desc="Enhance the entertainment experience of your clients!",
-    #                  img="content/buildings/upgrades/aquarium_nq.jpg",
+    #                  img="content/buildings/upgrades/aquarium_nq.webp",
     #                  **kwargs):
     #
     #         super(Aquarium, self).__init__(name=name,
