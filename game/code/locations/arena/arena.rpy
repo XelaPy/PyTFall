@@ -1011,7 +1011,7 @@ init -9 python:
             """
             Bridge to battle engine + rewards/penalties.
             """
-            team = Team(max_size=len(hero.team))
+            team = Team(name=self.cf_setup.get("id", "Captured Creatures"), max_size=len(hero.team))
             # Add the same amount of mobs as there characters on the MCs team:
             team.add(self.cf_mob)
 
