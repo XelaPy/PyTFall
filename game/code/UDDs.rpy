@@ -34,6 +34,25 @@ init -999 python:
 
             renpy.redraw(self, 0)
 
+        def mod_stat(self, stat, value):
+            kwargs = dict()
+
+            fixed = Fixed(xysize=(240, 36))
+            fixed.add(Transform("content/gfx/frame/rank_frame.png", size=(240, 36)))
+            fixed.add(Text(stat.capitalize(), style="proper_stats_text", color="#79CDCD",
+                           align=(.05, .5)))
+            fixed.add(Text(stat, style="proper_stats_value_text", color="#79CDCD",
+                           align=(.95, .5), xoffset=-6, yoffset=4))
+
+            kwargs["pos"] = randint(150, 900), -150
+            kwargs["yoffset"] = randint(250, 300)
+            kwargs["d"] = fixed
+            kwargs["start"] = 0
+            duration = random.uniform(1.8, 2.5)
+            kwargs["duration"] = duration
+            self.add_atl(dispostion_effect, duration, kwargs)
+            # self.add_sfx("content/sfx/sound/female/uhm.mp3")
+
         def disposition_mod(self, value):
             kwargs = dict()
 
@@ -68,9 +87,13 @@ init -999 python:
             kwargs = {}
 
             fixed = Fixed(xysize=(100, 100))
-            if isinstance(item, int): # We found gold:
-                icon = pscale("content/gfx/interface/images/money_bag3.png",
-                              80, 80, align=(.5, .5))
+            if isinstance(item, int): # We got gold:
+                if str(last_label).startswith("work_in_"): # Got gold as payment:
+                    icon = pscale("content/gfx/interface/images/work.png",
+                                  80, 80, align=(.5, .5))
+                else: # We assume gold was found:
+                    icon = pscale("content/gfx/interface/images/money_bag3.png",
+                                  80, 80, align=(.5, .5))
             elif isinstance(item, Item):
                 icon = pscale(item.icon,
                               80, 80, align=(.5, .5))

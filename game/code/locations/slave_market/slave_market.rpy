@@ -151,9 +151,9 @@ label slave_market:
 
 label work_in_slavemarket:
     python:
-        wage = randint(5, 12) + hero.charisma/7 + hero.sex/20 + hero.level * 5
-        if dice(hero.luck*0.1): wage += hero.level * 5
-        if dice(.5 + hero.luck*0.1):
+        wage = randint(5, 12) + hero.charisma/7 + hero.sex/20 + hero.level*5
+        if dice(hero.luck*.1): wage += hero.level * 5
+        if dice(.5 + hero.luck*.1):
             hero.charisma += 1
             hero.sex += 1
         hero.add_money(wage, reason="Job")
@@ -161,9 +161,12 @@ label work_in_slavemarket:
         renpy.show("_tag", what=Text("%d"%wage, style="back_serpent", color=gold, size=40, bold=True), at_list=[found_cash(150, 600, 2)])
         if hero.take_ap(1):
             if dice(50):
-                renpy.say("", choice(["You did some chores around the slavemarket!", "Pay might be crap, but it's still money.", "You've helped out in da Club!"]))
+                renpy.say("", choice(["You did some chores around the slavemarket!",
+                          "Pay might be crap, but it's still money.",
+                          "You've helped out in da Club!"]))
         else:
-            hero.say(choice(["What a shitty job...", "There's gotta be better way to make money..."]))
+            hero.say(choice(["What a shitty job...",
+            "There's gotta be better way to make money..."]))
         global_flags.set_flag("came_from_sc")
     return
 

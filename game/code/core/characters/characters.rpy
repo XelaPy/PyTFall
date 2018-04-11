@@ -1238,6 +1238,9 @@ init -9 python:
             if key in self.stats: # As different character types may come with different stats.
                 value = self.settle_effects(key, value)
 
+                if value and str(last_label).startswith("work_in_"):
+                    gfx_overlay.stat_mod(key, value)
+
                 val = self.stats[key] + value
 
                 if key == 'health' and val <= 0:

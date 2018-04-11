@@ -297,6 +297,16 @@ init -997: # Transforms:
                                                                               })
 
     # Overlay ATLs:
+    transform stats_effect(d, start, pos, yoffset, duration):
+        subpixel True
+        pause start
+        d
+        pos pos yoffset 0 anchor (.5, .5)
+        alpha .6 zoom .5
+        linear duration*66 alpha 1.0 zoom 1.0 yoffset yoffset
+        HitlerKaputt(d, 20)
+        linear duration*.33 alpha .0
+
     transform dispostion_effect(d, start, pos, yoffset, duration):
         subpixel True
         pause start
