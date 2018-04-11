@@ -1208,6 +1208,7 @@ init:
                     # Left column...
                     frame:
                         align (.5, .5)
+                        style_prefix "dropdown_gm2"
                         background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.3), 10, 10)
                         xpadding 10
                         ypadding 10
@@ -1216,43 +1217,53 @@ init:
                             background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
-                            style_group "dropdown_gm2"
-                            has vbox align (.5, .5)
-                            frame:
-                                xsize 184
-                                align (.5, .5)
-                                background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
-                                text _("- Panic Screen -") style "TisaOTMolxm"
-                            textbutton _("Enable") action SetField(persistent, "unsafe_mode", True) xsize 150 xalign .5 text_size 16 hovered tt.Action("If it's enabled, press Q to activate panic screen. It hides NSFW content and mutes all sounds. Press Q again to deactivate it.")
-                            textbutton _("Disable") action SetField(persistent, "unsafe_mode", False) xsize 150 xalign .5 text_size 16 hovered tt.Action("If it's enabled, press Q to activate panic screen. It hides NSFW content and mutes all sounds. Press Q again to deactivate it.")
-
+                            textbutton _("Panic Screen"):
+                                action ToggleField(persistent, "unsafe_mode")
+                                xsize 150
+                                xalign .5
+                                text_size 16
+                                hovered tt.Action("Panic screen transforms your game window into a system-log. If enabled, press Q whenever you need it.")
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                            background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
-                            style_group "dropdown_gm2"
-                            has vbox align (.5, .5)
-                            frame:
-                                xsize 184
-                                align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
-                                text _("- Battle Results -") style "TisaOTMolxm"
-                            textbutton _("Show") action SetField(persistent, "battle_results", True) xsize 150 xalign .5 text_size 16 hovered tt.Action("Enables/disables screen with gained experience and gold after combat.")
-                            textbutton _("Don't") action SetField(persistent, "battle_results", False) xsize 150 xalign .5 text_size 16 hovered tt.Action("Enables/disables screen with gained experience and gold after combat.")
-
+                            textbutton _("Battle Results"):
+                                action ToggleField(persistent, "battle_results")
+                                xsize 150
+                                xalign .5
+                                text_size 16
+                                hovered tt.Action("Shows experience screen after combat.")
                         frame:
-                            background Frame (Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                            background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
-                            style_group "dropdown_gm2"
-                            has vbox align (.5, .5)
-                            frame:
-                                xsize 184
-                                align (.5, .5)
-                                background Frame (Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
-                                text _("- Autosave -") style "TisaOTMolxm"
-                            textbutton _("Enable") action SetField(persistent, "auto_saves", True) xsize 150 xalign .5 text_size 16 hovered tt.Action("Creates autosave every time you leave the next day screen. Can be slow, disable if it bothers you.")
-                            textbutton _("Disable") action SetField(persistent, "auto_saves", False) xsize 150 xalign .5 text_size 16 hovered tt.Action("Creates autosave every time you leave the next day screen. Can be slow, disable if it bothers you.")
+                            textbutton _("AutoSaves"):
+                                action ToggleField(persistent, "auto_saves")
+                                xsize 150
+                                xalign .5
+                                text_size 16
+                                hovered tt.Action("Saves your game progress every day. This can be slow, disable if it bothers you.")
+                        frame:
+                            background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                            xsize 194
+                            ypadding 8
+                            textbutton _("Quest Pop-Up"):
+                                action QuestLogAction(not USE_QUEST_POPUP, "popup")
+                                xsize 150
+                                xalign .5
+                                text_size 16
+                                hovered tt.Action("Display notifications as you make progress in Quests.")
+                        frame:
+                            background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                            xsize 194
+                            ypadding 8
+                            textbutton _("Tooltips"):
+                                action ToggleField(persistent, "tooltips")
+                                xsize 150
+                                xalign .5
+                                text_size 16
+                                hovered tt.Action("Use new-style tooltips.")
+                                tooltip "Use new-style tooltips."
 
             elif s_menu in ("Save", "Load"):
                 vbox:
