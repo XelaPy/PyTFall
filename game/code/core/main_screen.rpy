@@ -71,10 +71,6 @@ label mainscreen:
                 jump(result[0])
 
 screen mainscreen():
-
-    # Tooltip related:
-    default tt = Tooltip("")
-
     key "mousedown_3" action Show("s_menu", transition=dissolve)
 
     # Main pic:
@@ -100,24 +96,24 @@ screen mainscreen():
             spacing 15
             textbutton "Characters":
                 action Stop("world"), Hide("mainscreen"), Jump("chars_list")
-                hovered tt.Action("A list of all of your workers")
+                tooltip "A list of all of your workers"
             textbutton "Buildings":
                 action Return(["building_management"])
-                hovered tt.Action("Manage here your properties and businesses")
+                tooltip "Manage here your properties and businesses"
             textbutton "Go to the City":
                 action Return(["city"])
-                hovered tt.Action('Explore the city')
+                tooltip 'Explore the city'
 
             null height 50
 
             textbutton "-Next Day-":
                 style "main_screen_4_button"
                 if day > 1:
-                    hovered tt.action("Advance to next day!\nClick RMB to review reports!")
+                    tooltip "Advance to next day!\nClick RMB to review reports!"
                     action [Hide("mainscreen"), Jump("next_day")]
                     alternate SetVariable("just_view_next_day", True), Hide("mainscreen"), Jump("next_day")
                 else:
-                    hovered tt.action("Advance to next day!")
+                    tooltip "Advance to next day!"
                     action [Hide("mainscreen"), Jump("next_day")]
 
     if DEBUG:
@@ -146,12 +142,5 @@ screen mainscreen():
             background Frame("content/gfx/frame/settings1.png", 10, 10)
             text "%s"%pytfall.ms_text align (.5, .1) style "content_text" color goldenrod size 19
             timer 10 action ToggleField(pytfall, "todays_first_view")
-
-    # Tooltip related:
-    frame:
-        background Frame("content/gfx/frame/window_frame1.png", 10, 10)
-        align(.5, .997)
-        xysize (750, 100)
-        text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(.5, .5)
 
     use top_stripe(False)
