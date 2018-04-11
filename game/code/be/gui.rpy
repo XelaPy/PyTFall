@@ -395,12 +395,13 @@ init: # screens:
                 textbutton "Terminate":
                     action SetField(be, "terminate", True)
 
-        button:
-            style_group "dropdown_gm"
-            align (.0, 1.0)
-            xysize 130, 30
-            text "Main Menu" size 14
-            action MainMenu()
+            # Why do we need a weird button in BE that goes to MM?
+            button:
+                style_group "dropdown_gm"
+                align (.0, 1.0)
+                xysize 130, 30
+                text "Main Menu" size 14
+                action MainMenu()
 
         # Pos visualization:
         # if True:
