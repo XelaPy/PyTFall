@@ -13,3 +13,4 @@ screen game_over:
 
     add "bg game_over"
     timer 6.0 action MainMenu(confirm=False)
+    key "mousedown_1" action Stop("sound"), MainMenu(confirm=False)
