@@ -1169,7 +1169,7 @@ init -9 python:
                     val = value - self.exp
                     value = self.exp + int(round(val*1.1))
 
-            if value and and self.instance == hero and str(last_label).startswith("mc_action_"):
+            if value and self.instance == hero and str(last_label).startswith("mc_action_"):
                 gfx_overlay.mod_stat("exp", value)
 
             self.exp = value
@@ -1241,7 +1241,7 @@ init -9 python:
             if key in self.stats: # As different character types may come with different stats.
                 value = self.settle_effects(key, value)
 
-                if value and and self.instance == hero and str(last_label).startswith("mc_action_"):
+                if value and self.instance == hero and str(last_label).startswith("mc_action_"):
                     if key not in self.FIXED_MAX.union(["health", "mp", "vitality"]):
                         gfx_overlay.mod_stat(key, value)
 
@@ -1298,7 +1298,7 @@ init -9 python:
                 at_zero = skill_max - threshold
                 value *= max(.1, 1 - float(beyond_training)/at_zero)
 
-            if value and and self.instance == hero and str(last_label).startswith("mc_action_"):
+            if value and self.instance == hero and str(last_label).startswith("mc_action_"):
                 if key not in self.FIXED_MAX.union(["health", "mp", "vitality"]):
                     gfx_overlay.mod_stat(key, value)
 

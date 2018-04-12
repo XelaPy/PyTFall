@@ -35,6 +35,7 @@ init -999 python:
             renpy.redraw(self, 0)
 
         def mod_stat(self, stat, value):
+            value = round_int(value)
             kwargs = dict()
 
             fixed = Fixed(xysize=(160, 36))
@@ -61,6 +62,7 @@ init -999 python:
             # self.add_sfx("content/sfx/sound/female/uhm.mp3")
 
         def disposition_mod(self, value):
+            value = round_int(value)
             kwargs = dict()
 
             if value > 0:
@@ -95,6 +97,7 @@ init -999 python:
 
             fixed = Fixed(xysize=(100, 100))
             if isinstance(item, int): # We got gold:
+                item = round_int(item)
                 if str(last_label).startswith("work_in_"): # Got gold as payment:
                     icon = pscale("content/gfx/interface/images/work.png",
                                   80, 80, align=(.5, .5))
