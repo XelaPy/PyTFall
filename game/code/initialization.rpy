@@ -490,6 +490,8 @@ init -1 python: # Constants:
     SLOTALIASES = {"smallweapon": "Left Hand", "weapon": "Right Hand",
                    "amulet": "Neck", "feet": "Legs", "quest": "Special"}
     AUTO_OVERLAY_STAT_LABELS = ("mc_action_", "interactions_")
+    BLOCKED_OVERLAY_STAT = ("health", "mp", "vitality",
+                             'mood', 'alignment')
 
     equipSlotsPositions = dict()
     equipSlotsPositions['head'] = [u'Head', .2, .1]

@@ -184,5 +184,5 @@ init -5 python:
 
                 aeq_purpose = getattr(action, "aeq_purpose", "")
                 if worker.autoequip and aeq_purpose:
-                    if self.last_known_aeq_purpose != aeq_purpose:
+                    if worker.last_known_aeq_purpose != aeq_purpose:
                         worker.equip_for(aeq_purpose)

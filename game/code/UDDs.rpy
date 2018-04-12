@@ -42,12 +42,42 @@ init -999 python:
             if not value:
                 return
 
-            if isinstance(char, Char) and stat == "disposition":
-                self.disposition_mod(value)
-
-            if stat not in char.stats.FIXED_MAX.union(["health", "mp", "vitality"]):
-                if char == hero:
+            if stat not in BLOCKED_OVERLAY_STAT:
+                if isinstance(char, Char):
+                    if stat == "disposition":
+                        self.disposition_mod(value)
+                    else:
+                        self.mod_char_stat(stat, value, char)
+                elif char == hero:
                     self.mod_mc_stat(stat, value)
+
+        def mod_char_stat(self, stat, value, char):
+            kwargs = dict()
+
+            frame = "content/gfx/interface/buttons/sl_idle.png"
+
+            fixed = Fixed(xysize=(160, 36))
+            fixed.add(Transform(frame, size=(160, 36)))
+            fixed.add(Text(stat.capitalize(), size=25,
+                           style="proper_stats_text", color="#79CDCD",
+                           align=(.5, .5)))
+            if value < 0:
+                sign = "-"
+                color = red
+            else:
+                sign = "+"
+                color = green
+            fixed.add(Text(sign+str(value), style="proper_stats_value_text", color=color,
+                           size=40, align=(.9, .5), yoffset=25))
+
+            kwargs["pos"] = absolute(randint(150, 900)), absolute(720)
+            kwargs["yoffset"] = randint(-400, -350)
+            kwargs["d"] = fixed
+            kwargs["start"] = 0
+            duration = random.uniform(1.8, 2.2)
+            kwargs["duration"] = duration
+            self.add_atl(stats_effect, duration, kwargs)
+            self.add_sfx("content/sfx/sound/events/bing.ogg", random.uniform(.6, .8))
 
         def mod_mc_stat(self, stat, value):
             kwargs = dict()
