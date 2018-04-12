@@ -1218,7 +1218,7 @@ init:
                                 xsize 150
                                 xalign .5
                                 text_size 16
-                                hovered tt.Action("Panic screen transforms your game window into a system-log. If enabled, press Q whenever you need it.")
+                                hovered tt.Action("{}\nPanic screen transforms your game window into a system-log. If enabled, press Q whenever you need it.".format("Active" if persistent.unsafe_mode else "Inactive"))
                         frame:
                             background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
@@ -1228,7 +1228,7 @@ init:
                                 xsize 150
                                 xalign .5
                                 text_size 16
-                                hovered tt.Action("Shows experience screen after combat.")
+                                hovered tt.Action("{}\nShows experience screen after combat.".format("Active" if persistent.battle_results else "Inactive"))
                         frame:
                             background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
@@ -1238,18 +1238,17 @@ init:
                                 xsize 150
                                 xalign .5
                                 text_size 16
-                                hovered tt.Action("Saves your game progress every day. This can be slow, disable if it bothers you.")
+                                hovered tt.Action("{}\nSaves your game progress every day. This can be slow, disable if it bothers you.".format("Active" if persistent.auto_saves else "Inactive"))
                         frame:
                             background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
                             ypadding 8
                             textbutton _("Quest Pop-Up"):
                                 action ToggleField(persistent, "use_quest_popups")
-                                sensitive not main_menu
                                 xsize 150
                                 xalign .5
                                 text_size 16
-                                hovered tt.Action("Display notifications as you make progress in Quests.")
+                                hovered tt.Action("{}\nDisplay notifications as you make progress in Quests.".format("Active" if persistent.use_quest_popups else "Inactive"))
                         frame:
                             background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
@@ -1259,7 +1258,7 @@ init:
                                 xsize 150
                                 xalign .5
                                 text_size 16
-                                hovered tt.Action("Use new-style tooltips.")
+                                hovered tt.Action("{}\nUse new-style tooltips.".format("Active" if persistent.tooltips else "Inactive"))
                                 tooltip "Use new-style tooltips."
 
             elif s_menu in ("Save", "Load"):
