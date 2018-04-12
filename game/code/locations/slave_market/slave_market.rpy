@@ -45,8 +45,8 @@ label slave_market:
             "You should not be so hard on those girls":
                 g "DON'T TELL ME HOW TO DO MY JOB YOU @$$#^*!!!"
                 extend " ... but I guess that since you had to witness that, I'll let this slide."
-            # "Omg stfu I just need to test something!" if config.developer:
-            #     jump omg_stfu_blue
+            "Omg stfu I just need to test something!" if config.developer:
+                jump omg_stfu_blue
         g "My name is Irma, but apparently, that's too hard to remember... so everyone calls me Blue. Original isn't it?"
 
         $ g = npcs["Blue_slavemarket"].say
@@ -78,12 +78,12 @@ label slave_market:
         g "You won't be disappointed!"
         g "Goodbye!"
 
-    # label omg_stfu_blue:
-    #     hide blue
-    #     with dissolve
-    #     show bg slave_market
-    #
-    #     $ global_flags.set_flag("visited_sm")
+label omg_stfu_blue:
+    hide blue
+    with dissolve
+    show bg slave_market
+
+    $ global_flags.set_flag("visited_sm")
 
     python:
         # Build the actions
