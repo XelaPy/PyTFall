@@ -97,7 +97,7 @@ label building_management:
             if index >= len(hero.upgradable_buildings):
                 index = 0
 
-            # Looks pretty ugly... this might be worth improving upon just for the sake of estetics.
+            # Looks pretty ugly... this might be worth improving upon just for the sake of esthetics.
             building = hero.upgradable_buildings[index]
             char = None
             workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3, size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 15))
@@ -126,12 +126,11 @@ label building_management:
 label building_management_loop:
 
     $ last_label = "building_management" # We need this so we can come back here from screens that depends on this variable.
-    
-    if not global_flags.has_flag("4_tutorial"):
+
+    if not global_flags.flag("4_tutorial") and hero.upgradable_buildings:
         $ global_flags.set_flag("4_tutorial")
         show screen tutorial(4)
-    
-    
+
     while 1:
         if hero.upgradable_buildings:
             $ building = hero.upgradable_buildings[index]
