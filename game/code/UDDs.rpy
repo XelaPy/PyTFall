@@ -38,6 +38,9 @@ init -999 python:
             renpy.redraw(self, 0)
 
         def mod_stat(self, stat, value, char):
+            if isinstance(char, Char) and stat == "disposition":
+                self.disposition_mod(value)
+                
             if not (char == hero and key not in char.stats.FIXED_MAX.union(["health", "mp", "vitality"])):
                 return
 
