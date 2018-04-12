@@ -302,7 +302,7 @@ init -997: # Transforms:
         pause start
         d
         pos pos yoffset 0 anchor (.5, .5)
-        alpha .8 zoom .5
+        alpha .8 zoom .7
         linear duration*.85 alpha 1.0 zoom 1.0 yoffset yoffset
         HitlerKaputt(d, 10)
         linear duration*.15 alpha .0

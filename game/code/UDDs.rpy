@@ -30,7 +30,8 @@ init -999 python:
             if delay in self.sfx:
                 # Ensure unique key:
                 delay += random.uniform(.0001, .0002)
-            self.sfx[delay] = sfx
+            # Convert delay to string so we can make a proper timed events of it.
+            self.sfx[str(delay)] = sfx
 
             renpy.redraw(self, 0)
 
@@ -56,10 +57,10 @@ init -999 python:
             kwargs["yoffset"] = randint(250, 300)
             kwargs["d"] = fixed
             kwargs["start"] = 0
-            duration = random.uniform(2.0, 2.5)
+            duration = random.uniform(1.8, 2.2)
             kwargs["duration"] = duration
             self.add_atl(stats_effect, duration, kwargs)
-            # self.add_sfx("content/sfx/sound/female/uhm.mp3")
+            self.add_sfx("content/sfx/sound/events/bing.ogg", random.uniform(.6, .8))
 
         def disposition_mod(self, value):
             value = round_int(value)
@@ -167,10 +168,12 @@ init -999 python:
                     renpy.redraw(self, 0)
 
             for delay, sfx in self.sfx.items():
-                start_me_at = st + delay
-                if start_me_at >= st:
+                if isinstance(delay, basestring):
+                    del self.sfx[delay]
+                    delay = float(delay) + st
+                    self.sfx[delay] = sfx
+                elif delay >= st:
                     renpy.play(sfx, channel="audio")
-
                     del self.sfx[delay]
 
             if self.gfx or self.sfx:
