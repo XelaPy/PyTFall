@@ -37,7 +37,10 @@ init -999 python:
 
             renpy.redraw(self, 0)
 
-        def mod_stat(self, stat, value):
+        def mod_stat(self, stat, value, char):
+            if not (char == hero and key not in char.stats.FIXED_MAX.union(["health", "mp", "vitality"])):
+                return
+
             value = round_int(value)
             kwargs = dict()
 
