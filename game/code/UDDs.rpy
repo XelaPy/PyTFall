@@ -56,7 +56,7 @@ init -999 python:
             kwargs["yoffset"] = randint(250, 300)
             kwargs["d"] = fixed
             kwargs["start"] = 0
-            duration = random.uniform(2.2, 2.8)
+            duration = random.uniform(2.0, 2.5)
             kwargs["duration"] = duration
             self.add_atl(stats_effect, duration, kwargs)
             # self.add_sfx("content/sfx/sound/female/uhm.mp3")
