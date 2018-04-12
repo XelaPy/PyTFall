@@ -1148,9 +1148,6 @@ init -9 python:
                         value = round_int(value*1.2)
                     if effects['Loyal']['active'] and value < 0: # works together with other traits
                         value = round_int(value*.8)
-
-                    if value and last_label.startswith("interactions_"):
-                        gfx_overlay.disposition_mod(value)
                 elif key == 'joy':
                     if effects['Impressible']['active']:
                         value = round_int(value*1.5)
@@ -1169,8 +1166,8 @@ init -9 python:
                     val = value - self.exp
                     value = self.exp + int(round(val*1.1))
 
-            if value and self.instance == hero and str(last_label).startswith("mc_action_"):
-                gfx_overlay.mod_stat("exp", value)
+            if value and last_label.startswith(AUTO_OVERLAY_STAT_LABELS):
+                gfx_overlay.mod_stat("exp", value, self.instance)
 
             self.exp = value
 
@@ -1241,9 +1238,8 @@ init -9 python:
             if key in self.stats: # As different character types may come with different stats.
                 value = self.settle_effects(key, value)
 
-                if value and self.instance == hero and str(last_label).startswith("mc_action_"):
-                    if key not in self.FIXED_MAX.union(["health", "mp", "vitality"]):
-                        gfx_overlay.mod_stat(key, value)
+                if value and last_label.startswith(AUTO_OVERLAY_STAT_LABELS):
+                    gfx_overlay.mod_stat(key, value, self.instance)
 
                 val = self.stats[key] + value
 
@@ -1298,9 +1294,8 @@ init -9 python:
                 at_zero = skill_max - threshold
                 value *= max(.1, 1 - float(beyond_training)/at_zero)
 
-            if value and self.instance == hero and str(last_label).startswith("mc_action_"):
-                if key not in self.FIXED_MAX.union(["health", "mp", "vitality"]):
-                    gfx_overlay.mod_stat(key, value)
+            if value and last_label.startswith(AUTO_OVERLAY_STAT_LABELS):
+                gfx_overlay.mod_stat(key, value, self.instance)
 
             self.skills[key][at] += value
 
