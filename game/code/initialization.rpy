@@ -487,7 +487,9 @@ init -1 python: # Constants:
             # renpy.image(f, At(f, slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7)))
     EQUIP_SLOTS = ['body', 'head', 'feet', 'wrist', 'amulet',
                    'cape', 'weapon', 'misc', 'ring', 'smallweapon']
-    SLOTALIASES = {"smallweapon": "Left Hand", "weapon": "Right Hand", "amulet": "Neck", "feet": "Legs", "quest": "Special"}
+    SLOTALIASES = {"smallweapon": "Left Hand", "weapon": "Right Hand",
+                   "amulet": "Neck", "feet": "Legs", "quest": "Special"}
+    AUTO_OVERLAY_STAT_LABELS = ("mc_action_", "interactions_")
 
     equipSlotsPositions = dict()
     equipSlotsPositions['head'] = [u'Head', .2, .1]
