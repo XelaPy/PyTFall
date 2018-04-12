@@ -15,7 +15,10 @@ label mainscreen:
 
     scene black
     show screen mainscreen
-    # with pixellate
+    
+    if not global_flags.has_flag("1_tutorial"):
+        $ global_flags.set_flag("1_tutorial")
+        show screen tutorial
 
     # Prediction Helpers:
     # TODO lt: Stop predictions when we've moved to far away from the images!

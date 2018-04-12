@@ -27,6 +27,7 @@ label main_street:
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
 
+    
     while 1:
 
         $ result = ui.interact()

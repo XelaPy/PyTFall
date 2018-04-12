@@ -27,6 +27,10 @@ label chars_list:
         show screen chars_list(source=char_lists_filters)
     with dissolve
 
+    if not global_flags.has_flag("3_tutorial"):
+        $ global_flags.set_flag("3_tutorial")
+        show screen tutorial(3)
+    
     python:
         while 1:
 
