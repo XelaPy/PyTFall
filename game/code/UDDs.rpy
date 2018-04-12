@@ -37,20 +37,27 @@ init -999 python:
         def mod_stat(self, stat, value):
             kwargs = dict()
 
-            fixed = Fixed(xysize=(240, 36))
-            fixed.add(Transform("content/gfx/frame/rank_frame.png", size=(240, 36)))
-            fixed.add(Text(stat.capitalize(), style="proper_stats_text", color="#79CDCD",
-                           align=(.05, .5)))
-            fixed.add(Text(stat, style="proper_stats_value_text", color="#79CDCD",
-                           align=(.95, .5), xoffset=-6, yoffset=4))
+            fixed = Fixed(xysize=(160, 36))
+            fixed.add(Transform("content/gfx/frame/rank_frame.png", size=(160, 36)))
+            fixed.add(Text(stat.capitalize(), size=25,
+                           style="proper_stats_text", color="#79CDCD",
+                           align=(.5, .5)))
+            if value < 0:
+                sign = "-"
+                color = red
+            else:
+                sign = "+"
+                color = green
+            fixed.add(Text(sign+str(value), style="proper_stats_value_text", color=color,
+                           size=40, align=(.9, .5), yoffset=25))
 
-            kwargs["pos"] = randint(150, 900), -150
+            kwargs["pos"] = randint(150, 900), -50
             kwargs["yoffset"] = randint(250, 300)
             kwargs["d"] = fixed
             kwargs["start"] = 0
-            duration = random.uniform(1.8, 2.5)
+            duration = random.uniform(2.2, 2.8)
             kwargs["duration"] = duration
-            self.add_atl(dispostion_effect, duration, kwargs)
+            self.add_atl(stats_effect, duration, kwargs)
             # self.add_sfx("content/sfx/sound/female/uhm.mp3")
 
         def disposition_mod(self, value):
@@ -113,7 +120,7 @@ init -999 python:
             duration = 2.0
             kwargs["duration"] = duration
             self.add_atl(found_effect, duration, kwargs)
-            self.add_sfx("content/sfx/sound/go_for_it.mp3")
+            self.add_sfx("content/sfx/sound/events/go_for_it.mp3")
 
             # Generate some side effects :D
             if isinstance(item, int):
@@ -428,7 +435,9 @@ init -999 python:
 
                         direction = choice(choices), choice(choices)
 
-                        args[(Transform(t, rotate=randint(0, 90), crop=(x, y, crop_xsize, crop_ysize)))] = {"coords": [x, y], "direction": direction}
+                        args[(Transform(t, rotate=randint(0, 90),
+                              crop=(x, y, crop_xsize, crop_ysize)))] = {"coords": [x, y],
+                              "direction": direction}
                 self.args = args
 
             render = renpy.Render(self.width, self.height)

@@ -302,10 +302,10 @@ init -997: # Transforms:
         pause start
         d
         pos pos yoffset 0 anchor (.5, .5)
-        alpha .6 zoom .5
-        linear duration*66 alpha 1.0 zoom 1.0 yoffset yoffset
-        HitlerKaputt(d, 20)
-        linear duration*.33 alpha .0
+        alpha .8 zoom .5
+        linear duration*.6 alpha 1.0 zoom 1.0 yoffset yoffset
+        HitlerKaputt(d, 10)
+        linear duration*.4 alpha .0
 
     transform dispostion_effect(d, start, pos, yoffset, duration):
         subpixel True
@@ -327,14 +327,6 @@ init -997: # Transforms:
             pause duration*.5
             ease duration*.5 alpha .0
 
-    transform found_cash(x, y, t):
-        subpixel True
-        parallel:
-            alpha .5 zoom .5
-            linear t alpha 1.0 zoom 1.6
-        parallel:
-            pos(x, y)
-            linear t pos(x, (y-200))
 
     transform sex_scene_libido_hearth(t):
         anchor (.5, .5)

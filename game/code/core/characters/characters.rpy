@@ -1169,6 +1169,10 @@ init -9 python:
                     val = value - self.exp
                     value = self.exp + int(round(val*1.1))
 
+            if str(last_label).startswith("work_in_"):
+                val = value - self.exp
+                gfx_overlay.mod_stat("EXP", val)
+
             self.exp = value
 
             while self.exp >= self.goal:
@@ -1239,7 +1243,8 @@ init -9 python:
                 value = self.settle_effects(key, value)
 
                 if value and str(last_label).startswith("work_in_"):
-                    gfx_overlay.stat_mod(key, value)
+                    if key not in self.FIXED_MAX.union(["health", "mp", "vitality"]):
+                        gfx_overlay.mod_stat(key, value)
 
                 val = self.stats[key] + value
 
@@ -1293,6 +1298,9 @@ init -9 python:
             if beyond_training > 0: # insufficient training... lessened increase beyond
                 at_zero = skill_max - threshold
                 value *= max(.1, 1 - float(beyond_training)/at_zero)
+
+            if value and str(last_label).startswith("work_in_"):
+                gfx_overlay.mod_stat(key, value)
 
             self.skills[key][at] += value
 

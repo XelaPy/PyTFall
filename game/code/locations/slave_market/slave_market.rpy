@@ -2,7 +2,6 @@ init:
     image slave_market_slaves = "content/gfx/bg/locations/slave_podium.webp"
 
 label slave_market:
-
     # Music related:
     if not "slavemarket" in ilists.world_music:
         $ ilists.world_music["slavemarket"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("slavemarket")]
@@ -11,6 +10,7 @@ label slave_market:
     $ global_flags.del_flag("came_from_sc")
 
     if not global_flags.has_flag("visited_sm"):
+        $ global_flags.set_flag("visited_sm")
         scene bg slave_market
         with dissolve
         show slave_market_slaves at truecenter
@@ -45,8 +45,8 @@ label slave_market:
             "You should not be so hard on those girls":
                 g "DON'T TELL ME HOW TO DO MY JOB YOU @$$#^*!!!"
                 extend " ... but I guess that since you had to witness that, I'll let this slide."
-            "Omg stfu I just need to test something!" if config.developer:
-                jump omg_stfu_blue
+            # "Omg stfu I just need to test something!" if config.developer:
+            #     jump omg_stfu_blue
         g "My name is Irma, but apparently, that's too hard to remember... so everyone calls me Blue. Original isn't it?"
 
         $ g = npcs["Blue_slavemarket"].say
@@ -78,12 +78,12 @@ label slave_market:
         g "You won't be disappointed!"
         g "Goodbye!"
 
-    label omg_stfu_blue:
-        hide blue
-        with dissolve
-        show bg slave_market
-
-        $ global_flags.set_flag("visited_sm")
+    # label omg_stfu_blue:
+    #     hide blue
+    #     with dissolve
+    #     show bg slave_market
+    #
+    #     $ global_flags.set_flag("visited_sm")
 
     python:
         # Build the actions
@@ -134,11 +134,9 @@ label slave_market:
         if result[0] == "control":
             if result[1] == "work":
                 call work_in_slavemarket from _call_work_in_slavemarket
-
             elif result[1] == "jumpclub":
                 hide screen slavemarket
                 jump slave_market_club
-
             elif result[1] == "return":
                 if not renpy.get_screen("slave_shopping"):
                     $ loop = False
@@ -152,22 +150,29 @@ label slave_market:
 label work_in_slavemarket:
     python:
         wage = randint(5, 12) + hero.charisma/7 + hero.sex/20 + hero.level*5
-        if dice(hero.luck*.1): wage += hero.level * 5
+        if dice(hero.luck*.1):
+            wage += hero.level*5
+
         if dice(.5 + hero.luck*.1):
             hero.charisma += 1
             hero.sex += 1
-        hero.add_money(wage, reason="Job")
-        hero.exp += hero.adjust_exp(randint(1, 3))
-        renpy.show("_tag", what=Text("%d"%wage, style="back_serpent", color=gold, size=40, bold=True), at_list=[found_cash(150, 600, 2)])
-        if hero.take_ap(1):
-            if dice(50):
-                renpy.say("", choice(["You did some chores around the slavemarket!",
-                          "Pay might be crap, but it's still money.",
-                          "You've helped out in da Club!"]))
+
+    $ hero.add_money(wage, reason="Job")
+    $ gfx_overlay.random_find(wage)
+    $ hero.exp += hero.adjust_exp(randint(3, 6))
+
+    $ hero.take_ap(1)
+
+    python:
+        if dice(50):
+            renpy.say("", choice(["You did some chores around the slavemarket!",
+                      "Pay might be crap, but it's still money.",
+                      "You've helped out in da Club!"]))
         else:
             hero.say(choice(["What a shitty job...",
             "There's gotta be better way to make money..."]))
-        global_flags.set_flag("came_from_sc")
+
+    $ global_flags.set_flag("came_from_sc")
     return
 
 label blue_menu:
