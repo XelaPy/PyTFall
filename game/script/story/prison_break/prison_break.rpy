@@ -36,7 +36,7 @@ screen prison_break_controls(): # control buttons screen
             button:
                 xysize (120, 40)
                 yalign 0.5
-                action [Hide("prison_break_controls"), Jump("storyi_rest")]
+                action [Hide("prison_break_controls"), Jump("mc_action_storyi_rest")]
                 text "Rest" size 15
             if storyi_prison_location == 3:
                 button:
@@ -138,7 +138,7 @@ label storyi_bossroom:
     show screen prison_break_controls
     jump storyi_gui_loop
 
-label storyi_rest: # resting inside the dungeon; team may be attacked during the rest
+label mc_action_storyi_rest: # resting inside the dungeon; team may be attacked during the rest
     show bg tent with q_dissolve
     python:
         for i in hero.team:

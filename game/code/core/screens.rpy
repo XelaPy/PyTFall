@@ -1214,7 +1214,7 @@ init:
                             xsize 194
                             ypadding 8
                             textbutton _("Panic Screen"):
-                                action ToggleField(persistent, "unsafe_mode")
+                                action ToggleField(persistent, "unsafe_mode"), tt.Action("")
                                 xsize 150
                                 xalign .5
                                 text_size 16
@@ -1224,7 +1224,7 @@ init:
                             xsize 194
                             ypadding 8
                             textbutton _("Battle Results"):
-                                action ToggleField(persistent, "battle_results")
+                                action ToggleField(persistent, "battle_results"), tt.Action("")
                                 xsize 150
                                 xalign .5
                                 text_size 16
@@ -1234,7 +1234,7 @@ init:
                             xsize 194
                             ypadding 8
                             textbutton _("AutoSaves"):
-                                action ToggleField(persistent, "auto_saves")
+                                action ToggleField(persistent, "auto_saves"), tt.Action("")
                                 xsize 150
                                 xalign .5
                                 text_size 16
@@ -1244,7 +1244,7 @@ init:
                             xsize 194
                             ypadding 8
                             textbutton _("Quest Pop-Up"):
-                                action ToggleField(persistent, "use_quest_popups")
+                                action ToggleField(persistent, "use_quest_popups"), tt.Action("")
                                 xsize 150
                                 xalign .5
                                 text_size 16
@@ -1254,7 +1254,7 @@ init:
                             xsize 194
                             ypadding 8
                             textbutton _("Tooltips"):
-                                action ToggleField(persistent, "tooltips")
+                                action ToggleField(persistent, "tooltips"), tt.Action("")
                                 xsize 150
                                 xalign .5
                                 text_size 16
