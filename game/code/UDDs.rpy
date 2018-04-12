@@ -54,10 +54,7 @@ init -999 python:
         def mod_char_stat(self, stat, value, char):
             kwargs = dict()
 
-
-
             # Portrait:
-
             fi = Fixed(xysize=(70, 70), pos=(10, -60))
             frame = Transform("content/gfx/frame/p_frame.png", size=(70, 70))
             fi.add(frame)

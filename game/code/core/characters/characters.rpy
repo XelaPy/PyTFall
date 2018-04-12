@@ -1167,7 +1167,8 @@ init -9 python:
                     value = self.exp + int(round(val*1.1))
 
             if value and last_label.startswith(AUTO_OVERLAY_STAT_LABELS):
-                gfx_overlay.mod_stat("exp", value, self.instance)
+                temp = value - self.exp
+                gfx_overlay.mod_stat("exp", temp, self.instance)
 
             self.exp = value
 
