@@ -46,7 +46,7 @@ label slave_market:
                 g "DON'T TELL ME HOW TO DO MY JOB YOU @$$#^*!!!"
                 extend " ... but I guess that since you had to witness that, I'll let this slide."
             "Omg stfu I just need to test something!" if config.developer:
-                jump omg_stfu_blue
+                jump slavel_market_controls
         g "My name is Irma, but apparently, that's too hard to remember... so everyone calls me Blue. Original isn't it?"
 
         $ g = npcs["Blue_slavemarket"].say
@@ -78,7 +78,7 @@ label slave_market:
         g "You won't be disappointed!"
         g "Goodbye!"
 
-label omg_stfu_blue:
+label slavel_market_controls:
     hide blue
     with dissolve
     show bg slave_market
@@ -133,7 +133,7 @@ label omg_stfu_blue:
 
         if result[0] == "control":
             if result[1] == "work":
-                call mc_action_work_in_slavemarket from _call_work_in_slavemarket
+                jump mc_action_work_in_slavemarket
             elif result[1] == "jumpclub":
                 hide screen slavemarket
                 jump slave_market_club
@@ -173,7 +173,7 @@ label mc_action_work_in_slavemarket:
             "There's gotta be better way to make money..."]))
 
     $ global_flags.set_flag("came_from_sc")
-    return
+    jump slavel_market_controls
 
 label blue_menu:
     $ g = npcs["Blue_slavemarket"].say

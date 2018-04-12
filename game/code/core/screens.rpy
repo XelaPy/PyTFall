@@ -573,7 +573,6 @@ init:
                             true=[Preference("sound mute", "disable"), Preference("music mute", "disable")],
                             false=[Preference("sound mute", "enable"), Preference("music mute", "enable")])]
                     tooltip "Mute All"
-                    # hovered tt.Action("Mute All")
 
             # Left HBox: ======================================================>>>>>>
             # Add to and remove from Team Button.
@@ -585,14 +584,12 @@ init:
                             idle im.Scale("content/gfx/interface/buttons/RG.png" , 36, 40)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/RG.png", 36, 40), im.matrix.brightness(.15))
                             action Function(hero.team.remove, char)
-                            # hovered tt.Action("Remove [char.nickname] from player team")
                             tooltip "Remove {} from player team".format(char.nickname)
                     else:
                         imagebutton:
                             idle im.Scale("content/gfx/interface/buttons/AG.png" , 36, 40)
                             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/AG.png", 36, 40), im.matrix.brightness(.15))
                             action If(len(hero.team) < 3, true=Function(hero.team.add, char), false=Show("message_screen", msg="Team cannot have more than three members"))
-                            # hovered tt.Action("Add [char.nickname] to player team")
                             tooltip "Add {} to player team".format(char.nickname)
 
             # AP Frame/Next Day button:
@@ -632,14 +629,12 @@ init:
                     textbutton "{size=20}{color=[ivory]}{b}F":
                         yalign .5
                         action Jump("fonts")
-                        # hovered tt.Action("View available Fonts")
                         tooltip "View available Fonts"
 
                 if renpy.current_screen().tag not in ["quest_log"]:
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40), im.matrix.brightness(.25))
-                        # hovered tt.Action("Quest Journal")
                         tooltip "Quest Journal"
                         action ShowMenu("quest_log")
 
@@ -648,7 +643,6 @@ init:
                         idle im.Scale("content/gfx/interface/buttons/preference.png", 39, 40)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/preference.png", 39, 40), im.matrix.brightness(.25))
                         action Show("s_menu", transition=dissolve)
-                        # hovered tt.Action("Game Preferences")
                         tooltip "Game Preferences"
 
                 if renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "dungeon"] and show_lead_away_buttons:
@@ -656,7 +650,6 @@ init:
                         idle im.Scale("content/gfx/interface/buttons/MS.png", 38, 37)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png", 38, 37), im.matrix.brightness(.25))
                         action (Hide(renpy.current_screen().tag), Function(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
-                        # hovered tt.Action("Return to Main Screen")
                         tooltip "Return to Main Screen"
 
                 if renpy.current_screen().tag in ["char_profile", "char_equip"] and char.is_available:
@@ -664,7 +657,6 @@ init:
                         idle im.Scale("content/gfx/interface/buttons/IT2.png", 34, 37)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png", 34, 37), im.matrix.brightness(.25))
                         action Return(["jump", "item_transfer"])
-                        # hovered tt.Action("Transfer items between [hero.name] and and [char.nickname]")
                         tooltip "Transfer items between {} and {}".format(hero.name, char.nickname)
 
                 if renpy.current_screen().tag not in ["hero_profile", "girl_interactions", "quest_log"] and show_lead_away_buttons:
@@ -672,7 +664,6 @@ init:
                         idle im.Scale("content/gfx/interface/buttons/profile.png", 35, 40)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/profile.png", 35, 40), im.matrix.brightness(.25))
                         action [SetField(pytfall.hp, "came_from", last_label), Hide(renpy.current_screen().tag), Jump("hero_profile")]
-                        # hovered tt.Action("View Hero Profile")
                         tooltip "View Hero Profile"
 
                 null width 10
@@ -680,14 +671,12 @@ init:
                 imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/save.png", 40, 40)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/save.png" , 40, 40), im.matrix.brightness(.25))
-                        # hovered tt.Action("QuickSave")
                         tooltip "QuickSave"
                         action QuickSave()
 
                 imagebutton:
                     idle im.Scale("content/gfx/interface/buttons/load.png", 38, 40)
                     hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/load.png" , 38, 40), im.matrix.brightness(.25))
-                    # hovered tt.Action("QuickLoad")
                     tooltip "QuickLoad"
                     action QuickLoad()
 
@@ -695,11 +684,18 @@ init:
                 default special_screens = ["girl_interactions",
                                            "building_management_leftframe_businesses_mode",
                                            "chars_list", "char_profile"]
+                # Reasoning for killing the button for mc_action_ is that we can't return to
+                # previous locations from many MC actions, such as working for example.
+                # It's not that we'll just get a stack corruption, we'll be risking
+                # CTD or collapsing the stack all the way to MainMenu.
+                $ img = im.Scale("content/gfx/interface/buttons/close.png", 35, 35)
                 imagebutton:
                     align(.993, .5)
-                    idle im.Scale("content/gfx/interface/buttons/close.png", 35, 35)
-                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/close.png", 35, 35), im.matrix.brightness(.25))
+                    idle img
+                    hover im.MatrixColor(img, im.matrix.brightness(.25))
+                    insensitive_background im.Sepia(img)
                     action return_action
+                    # sensitive not str(last_label).startswith("mc_action_")
                     tooltip "Return to previous screen"
                     if not get_screens(*special_screens):
                         keysym "mousedown_3"

@@ -108,7 +108,7 @@ init -5 python hide:
     # Stop middle click hide menus
     config.keymap["hide_windows"] = None
 
-    # Saves last label in a variable "last_label". Might be useful to jump back to from labels with mulptiple entry points.
+    # Saves last label in a variable "last_label". Might be useful to jump back to from labels with multiple entry points.
     def label_callback(name, abnormal):
         if "pytfall" in globals():
             labels = list(event.label for event in pytfall.world_events.events_cache) # implement as a fixed list on the first sign of delays
