@@ -303,9 +303,9 @@ init -997: # Transforms:
         d
         pos pos yoffset 0 anchor (.5, .5)
         alpha .8 zoom .5
-        linear duration*.66 alpha 1.0 zoom 1.0 yoffset yoffset
+        linear duration*.85 alpha 1.0 zoom 1.0 yoffset yoffset
         HitlerKaputt(d, 10)
-        linear duration*.33 alpha .0
+        linear duration*.15 alpha .0
 
     transform dispostion_effect(d, start, pos, yoffset, duration):
         subpixel True
