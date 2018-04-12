@@ -133,7 +133,7 @@ label omg_stfu_blue:
 
         if result[0] == "control":
             if result[1] == "work":
-                call work_in_slavemarket from _call_work_in_slavemarket
+                call mc_action_work_in_slavemarket from _call_work_in_slavemarket
             elif result[1] == "jumpclub":
                 hide screen slavemarket
                 jump slave_market_club
@@ -147,7 +147,7 @@ label omg_stfu_blue:
     hide screen slavemarket
     jump city
 
-label work_in_slavemarket:
+label mc_action_work_in_slavemarket:
     python:
         wage = randint(5, 12) + hero.charisma/7 + hero.sex/20 + hero.level*5
         if dice(hero.luck*.1):

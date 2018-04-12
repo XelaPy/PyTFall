@@ -90,7 +90,7 @@ screen cafe_eating():
         
         textbutton "Eat alone":
             sensitive hero.flag("ate_in_cafe") != day
-            action [Hide("cafe_eating"), Jump("cafe_eat_alone")]
+            action [Hide("cafe_eating"), Jump("mc_action_cafe_eat_alone")]
                 
         textbutton "Eat with group":
             sensitive len(hero.team)>1 and hero.flag("ate_in_cafe") != day
@@ -100,7 +100,7 @@ screen cafe_eating():
             action [Hide("cafe_eating"), Jump("main_street")]
             keysym "mousedown_3"
 
-label cafe_eat_alone:
+label mc_action_cafe_eat_alone:
     menu:
         "What will it be?"
 
@@ -228,8 +228,10 @@ label cafe_eat_group:
     if hero.gold < 200:
         "Sadly, you don't have enough money to reserve a table." # MC doesn't even have 200 gold, it's not a good idea to spend money here so we just stop it immediately
         jump cafe_menu
+    else:
+        jump mc_action_cafe_invitation
 
-label cafe_invitation: # we jump here when the group was invited by one of chars
+label mc_action_cafe_invitation: # we jump here when the group was invited by one of chars
     $ result = randint (30, 40) # base price MC pays for himself and the table
     python:
         for member in hero.team:

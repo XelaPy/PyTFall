@@ -80,7 +80,7 @@ screen swimmong_pool_swim():
             action Hide("swimmong_pool_swim"), Jump("instructor_swim_pool")
         if hero.get_skill("swimming") >= 100:
             textbutton "Work as instructor":
-                action Hide("swimmong_pool_swim"), Jump("work_swim_pool")
+                action Hide("swimmong_pool_swim"), Jump("mc_action_work_swim_pool")
         textbutton "Leave":
             action Hide("swimmong_pool_swim"), Show("swimming_pool"), With(dissolve)
             keysym "mousedown_3"
@@ -95,7 +95,7 @@ label single_swim_pool:
         play world "underwater.mp3"
         scene bg pool_swim
         with dissolve
-        call hero_swimming_pool_skill_checks
+        call mc_action_swimming_pool_skill_checks
     else:
         "You don't have enough gold."
     jump swimming_pool
@@ -109,12 +109,12 @@ label instructor_swim_pool:
         play world "underwater.mp3"
         scene bg pool_swim
         with dissolve
-        call instructor_swimming_pool_skill_checks
+        call mc_action_instructor_swimming_pool_skill_checks
     else:
         "You don't have enough gold."
     jump swimming_pool
 
-label hero_swimming_pool_skill_checks:
+label mc_action_swimming_pool_skill_checks:
     $ hero.AP -= 1
     if hero.get_skill("swimming") < 20:
         if locked_dice(60):
@@ -142,7 +142,7 @@ label hero_swimming_pool_skill_checks:
         "Swimming did you good (constitution+)."
     return
 
-label instructor_swimming_pool_skill_checks:
+label mc_action_instructor_swimming_pool_skill_checks:
     $ hero.AP -= 1
     if hero.get_skill("swimming") < 20:
         "The instructor teaches you water safety to prevent mouth-to-mouth accidents once and for all."
@@ -173,7 +173,7 @@ label instructor_swimming_pool_skill_checks:
         $ hero.mod_stat("constitution", 1)
     return
 
-label work_swim_pool: # here we could use an option to meet characters with a certain probability
+label mc_action_work_swim_pool: # here we could use an option to meet characters with a certain probability
     if hero.vitality < 20 or hero.AP <= 0 or  hero.health < hero.get_max("health")*0.5:
         jump swimming_pool
 

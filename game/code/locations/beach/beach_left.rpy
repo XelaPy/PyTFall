@@ -67,7 +67,7 @@ screen city_beach_left():
             pos(400, 545)
             idle (img_beach_swim)
             hover (im.MatrixColor(img_beach_swim, im.matrix.brightness(.15)))
-            action [Hide("city_beach_left"), Jump("city_beach_rest")]
+            action [Hide("city_beach_left"), Jump("mc_action_city_beach_rest")]
 
     use location_actions("city_beach_left")
 
@@ -105,7 +105,7 @@ screen city_beach_left():
 
                 use rg_lightbutton(img=entry.show(*entry.flag("beach_left_tags")[1], exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
 
-label city_beach_rest:
+label mc_action_city_beach_rest:
     show bg beach_rest with dissolve
     if hero.flag("rest_at_beach") == day:
         "You already relaxed at the beach today. Doing it again will lead to sunburns."
@@ -273,10 +273,12 @@ label fishing_logic:
         "Find Mor":
             jump fishing_logic_mor_dialogue
         "Try Fishing (-1 AP)":
-            $ pass
+            jump mc_action_beach_start_fishing
         "Nothing":
             jump city_beach_left
 
+            
+label mc_action_beach_start_fishing:
     if not has_items("Fishing Pole", [hero]):
         "You don't have a fishing rode at the moment. Try to get one from local shops."
         jump city_beach_left

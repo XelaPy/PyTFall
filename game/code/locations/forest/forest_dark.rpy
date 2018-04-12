@@ -62,7 +62,7 @@ screen city_dark_forest():
             button:
                 xysize (120, 40)
                 yalign .5
-                action [Hide("city_dark_forest"), Jump("city_dark_forest_rest"), With(dissolve), SensitiveIf(hero.flag("dark_forest_rested_today") != day)]
+                action [Hide("city_dark_forest"), Jump("mc_action_city_dark_forest_rest"), With(dissolve), SensitiveIf(hero.flag("dark_forest_rested_today") != day)]
                 text "Rest" size 15
             if hero.has_flag("found_old_ruins"):
                 button:
@@ -87,7 +87,7 @@ label city_dark_forest_explore:
         jump forest_dark_continue
     else:
         if hero.flag("dark_forest_found_river") != day and hero.vitality < hero.get_max("vitality") and dice(35):
-            jump city_dark_forest_river
+            jump mc_action_city_dark_forest_river
         elif not hero.has_flag("found_old_ruins") and day >= 10 and dice(50):
             $ hero.set_flag("found_old_ruins")
             hide screen city_dark_forest
@@ -113,7 +113,7 @@ label city_dark_forest_ruines_part:
         hide screen city_dark_forest
         jump storyi_start
 
-label city_dark_forest_rest:
+label mc_action_city_dark_forest_rest:
     $ hero.set_flag("dark_forest_rested_today", value=day)
     $ forest_bg_change = False
     scene bg camp
@@ -316,7 +316,7 @@ label dark_forest_girl_meet:
         $ global_flags.set_flag("keep_playing_music")
         jump forest_dark_continue
 
-label city_dark_forest_river:
+label mc_action_city_dark_forest_river:
     play world "forest_lake.ogg"
     $ global_flags.set_flag("keep_playing_music")
     $ hero.set_flag("dark_forest_found_river", value=day)

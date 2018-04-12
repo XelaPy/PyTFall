@@ -1,4 +1,3 @@
-
 label tavern_town:
     if not "tavern_inside" in ilists.world_music:
         $ ilists.world_music["tavern_inside"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("tavern")]
@@ -123,13 +122,13 @@ screen city_tavern_inside():
                 button:
                     xysize (120, 40)
                     yalign .5
-                    action [Hide("city_tavern_inside"), Jump("tavern_look_around")]
+                    action [Hide("city_tavern_inside"), Jump("mc_action_tavern_look_around")]
                     text "Look around" size 15
             if hero.AP > 0 and global_flags.flag("tavern_status")[1] == "cozy" and hero.flag("rest_in_tavern") != day:
                 button:
                     xysize (120, 40)
                     yalign .5
-                    action [Hide("city_tavern_inside"), Jump("tavern_relax")]
+                    action [Hide("city_tavern_inside"), Jump("mc_action_tavern_relax")]
                     text "Relax" size 15
             if hero.AP > 0 and global_flags.flag("tavern_status")[1] == "cozy":
                 button:
@@ -156,7 +155,7 @@ screen city_tavern_inside():
                 text "Leave" size 15
                 keysym "mousedown_3"
 
-label tavern_relax:
+label mc_action_tavern_relax:
     hide drunkards with dissolve
     if len(hero.team) < 2:
         $ hero.set_flag("rest_in_tavern", value = day)
@@ -230,7 +229,7 @@ label city_tavern_brawl_fight:
     jump city
 
 
-label tavern_look_around: # various bonuses to theoretical skills for drinking with others in the lively mode
+label mc_action_tavern_look_around: # various bonuses to theoretical skills for drinking with others in the lively mode
     if hero.take_money(randint(10, 20), reason="Tavern"):
         hide drunkards with dissolve
         $ interactions_drinking_outside_of_inventory(character=hero, count=randint(15, 25))

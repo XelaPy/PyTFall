@@ -99,7 +99,7 @@ screen city_beach_swim():
             action Hide("city_beach_swim"), Jump("city_beach_swimming_checks")
         if hero.get_skill("swimming") >= 100:
             textbutton "Diving":
-                action Hide("city_beach_swim"), Jump("city_beach_diving_checks")
+                action Hide("city_beach_swim"), Jump("mc_action_city_beach_diving_checks")
         textbutton "Leave":
             action Hide("city_beach_swim"), Show("city_beach"), With(dissolve)
             keysym "mousedown_3"
@@ -123,11 +123,11 @@ label city_beach_swimming_checks:
             "You are too wounded at the moment."
         else:
             scene bg open_sea with dissolve
-            call hero_ocean_skill_checks
+            call mc_action_hero_ocean_skill_checks
     $ global_flags.set_flag("keep_playing_music")
     jump city_beach
 
-label hero_ocean_skill_checks:
+label mc_action_hero_ocean_skill_checks:
     $ hero.AP -= 1
     if locked_dice(20):
         $ narrator ("A group of sea monsters surrounded you!")
@@ -232,7 +232,7 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
         xysize (300, 50)
         at alpha_dissolve
 
-label city_beach_diving_checks:
+label mc_action_city_beach_diving_checks:
     if not global_flags.flag('diving_city_beach'):
         $ global_flags.set_flag('diving_city_beach')
         "With high enough swimming skill you can try diving. Every action consumes your vitality, and the amount of oxygen is based on your swimming skill."
@@ -247,6 +247,7 @@ label city_beach_diving_checks:
     elif hero.health < hero.get_max("health")*0.5:
         "You are too wounded at the moment."
         jump city_beach
+
     play world "underwater.mp3"
     $ hero.AP -= 1
     scene bg ocean_underwater_1 with dissolve
