@@ -10,6 +10,8 @@ init -999 python:
         def __init__(self, **kwargs):
             super(GFXOverlay, self).__init__(**kwargs)
 
+            self.active = True
+
             self.gfx = dict() # killtime: gfx
             self.parse_gfx = dict() # unique_key: [callable, kwargs]
             self.sfx = dict() # startingdelay: sfx
@@ -153,6 +155,8 @@ init -999 python:
 
         def render(self, width, height, st, at):
             r = renpy.Render(width, height)
+            if not self.active:
+                return r
 
             for duration, data in self.parse_gfx.items():
                 callable, kwargs = data
