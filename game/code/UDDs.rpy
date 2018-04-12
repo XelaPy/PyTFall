@@ -45,7 +45,7 @@ init -999 python:
             if isinstance(char, Char) and stat == "disposition":
                 self.disposition_mod(value)
 
-            if stat not in char.stats.FIXED_MAX.union(["health", "mp", "vitality"])):
+            if stat not in char.stats.FIXED_MAX.union(["health", "mp", "vitality"]):
                 if char == hero:
                     self.mod_mc_stat(stat, value)
 
