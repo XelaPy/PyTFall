@@ -187,6 +187,12 @@ init -999 python:
                 renpy.redraw(self, 0)
             return r
 
+        def clear(self, mode="all"):
+            if mode in ("sfx", "all"):
+                self.sfx = dict()
+            if mode in ("gfx", "all"):
+                self.gfx = dict()
+                self.parse_gfx = dict()
 
     class RadarChart(renpy.Displayable):
         def __init__(self, stat1, stat2, stat3, stat4, stat5, size, xcenter, ycenter, color, **kwargs):
