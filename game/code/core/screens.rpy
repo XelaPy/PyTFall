@@ -1472,13 +1472,14 @@ screen give_exp_after_battle(group, exp=0, money=0):
     if all(c.finished for c in bars):
         key "K_ESCAPE" action [Hide("give_exp_after_battle")]
         key "K_RETURN" action [Hide("give_exp_after_battle")]
-        
-screen tutorial(level=1):
-    modal True
-    zorder 600
-    add "content/gfx/tutorials/t" + str(level) + ".webp"
 
-    button:
-        background None
-        xysize (1280, 720)
-        action Hide("tutorial")
+screen tutorial(level=1):
+    if not DEBUG:
+        modal True
+        zorder 600
+        add "content/gfx/tutorials/t" + str(level) + ".webp"
+
+        button:
+            background None
+            xysize (1280, 720)
+            action Hide("tutorial")
