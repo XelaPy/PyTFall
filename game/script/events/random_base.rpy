@@ -6,7 +6,7 @@ init -1 python:
 label found_money_event(event):
     $ amount = locked_random("randint", 5, 10) + max(0, hero.luck) + hero.level
     $ hero.add_money(amount, "Luck")
-    $ gfx_overlay.random_find(amount)
+    $ gfx_overlay.random_find(amount, 'gold')
     $ hero.say(choice(["Some money... Excellent.", "Free gold, nice!",
                        "A few coins! I'm lucky today.", "Did someone drop a wallet?"]))
     return
@@ -19,7 +19,7 @@ label found_item_event(event):
         else:
             found_item = items["Rebels Leaflet"]
 
-    $ gfx_overlay.random_find(found_item)
+    $ gfx_overlay.random_find(found_item, 'item')
     $ hero.inventory.append(found_item)
 
     python:

@@ -277,7 +277,6 @@ label fishing_logic:
         "Nothing":
             jump city_beach_left
 
-            
 label mc_action_beach_start_fishing:
     if not has_items("Fishing Pole", [hero]):
         "You don't have a fishing rode at the moment. Try to get one from local shops."
@@ -324,14 +323,13 @@ label mc_action_beach_start_fishing:
                     jump city_beach_left
                 else:
                     $ hero.add_item(item)
-                    $ our_image = ProportionalScale(item.icon, 150, 150)
+                    $ gfx_overlay.random_find(item, 'fishy')
 
-                show expression our_image at truecenter with dissolve
                 $ hero.say("I caught %s!" % item.id)
                 hide expression our_image with dissolve
                 $ hero.fishing += round((100-item.chance)*0.1) # the less item's chance field, the more additional bonus to fishing; with 90 chance it will be +1, with less than 1 chance about 10
+
         $ hero.say("This is all for now.")
-        $ del our_image
         $ del fish_list
         $ del fish
         $ del fishing_attempts

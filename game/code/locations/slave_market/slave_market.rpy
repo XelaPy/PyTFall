@@ -158,7 +158,7 @@ label mc_action_work_in_slavemarket:
             hero.sex += 1
 
     $ hero.add_money(wage, reason="Job")
-    $ gfx_overlay.random_find(wage)
+    $ gfx_overlay.random_find(wage, 'work')
     $ hero.exp += hero.adjust_exp(randint(3, 6))
 
     $ hero.take_ap(1)

@@ -92,33 +92,46 @@ init -999 python:
             self.add_atl(dispostion_effect, duration, kwargs)
             self.add_sfx("content/sfx/sound/female/uhm.mp3")
 
-        def random_find(self, item):
+        def random_find(self, item, mode='gold'):
             # Can be used to show that we've found something.
             kwargs = {}
 
-            fixed = Fixed(xysize=(100, 100))
-            if isinstance(item, int): # We got gold:
+            if mode == 'gold':
                 item = round_int(item)
-                if str(last_label).startswith("work_in_"): # Got gold as payment:
-                    icon = pscale("content/gfx/interface/images/work.png",
-                                  80, 80, align=(.5, .5))
-                else: # We assume gold was found:
-                    icon = pscale("content/gfx/interface/images/money_bag3.png",
-                                  80, 80, align=(.5, .5))
-            elif isinstance(item, Item):
-                icon = pscale(item.icon,
+                main_icon = pscale("content/gfx/interface/images/money_bag3.png",
+                                   80, 80, align=(.5, .5))
+                main_text = Text(str(item), font="fonts/rubius.ttf", color=gold,
+                                         size=40, align=(.5, 1.0))
+                support_icons = pscale("content/gfx/interface/icons/gold.png",
+                              40, 40, align=(.5, .5))
+            elif mode == 'work':
+                item = round_int(item)
+                main_icon = pscale("content/gfx/interface/images/work.png",
                               80, 80, align=(.5, .5))
-            fixed.add(icon)
-            if isinstance(item, int):
-                d = Text(str(item), font="fonts/rubius.ttf", color=gold,
-                         size=40, align=(.5, 1.0))
-            elif isinstance(item, Item):
-                d = Text(str(item.id), font="fonts/rubius.ttf", color=gold,
-                         size=40, align=(.5, 1.0))
-            fixed.add(d)
+                main_text = Text(str(item), font="fonts/rubius.ttf", color=gold,
+                                         size=40, align=(.5, 1.0))
+                support_icons = pscale("content/gfx/interface/icons/gold.png",
+                              40, 40, align=(.5, .5))
+            elif mode == 'fishy':
+                main_icon = pscale(item.icon,
+                              80, 80, align=(.5, .5))
+                main_text = Text(item.id, font="fonts/rubius.ttf", color=gold,
+                                         size=40, align=(.5, 1.0))
+                support_icons = pscale("content/gfx/images/fishy.png",
+                              60, 60, align=(.5, .5))
+            elif mode == 'item':
+                main_icon = pscale(item.icon,
+                              80, 80, align=(.5, .5))
+                main_text = Text(item.id, font="fonts/rubius.ttf", color=gold,
+                                         size=40, align=(.5, 1.0))
+                support_icons = pscale("content/gfx/interface/buttons/IT2.png",
+                              40, 40, align=(.5, .5))
+
+            fixed = Fixed(xysize=(100, 100))
+            fixed.add(main_icon)
+            fixed.add(main_text)
             kwargs["pos"] = 640, 500
             kwargs["yoffset"] = -250
-
             kwargs["d"] = fixed
             kwargs["start"] = 0
             duration = 2.0
@@ -127,18 +140,12 @@ init -999 python:
             self.add_sfx("content/sfx/sound/events/go_for_it.mp3")
 
             # Generate some side effects :D
-            if isinstance(item, int):
-                icon = pscale("content/gfx/interface/icons/gold.png",
-                              40, 40, align=(.5, .5))
-            elif isinstance(item, Item):
-                icon = pscale("content/gfx/interface/buttons/IT2.png",
-                              40, 40, align=(.5, .5))
             for i in range(randint(15, 25)):
                 kwargs = {}
                 kwargs["pos"] = randint(500, 750), randint(500, 600)
                 kwargs["yoffset"] = randint(-500, -450)
 
-                kwargs["d"] = icon
+                kwargs["d"] = support_icons
                 kwargs["start"] = random.uniform(.0, 1.0)
                 duration = random.uniform(1.5, 2.0)
                 kwargs["duration"] = duration
