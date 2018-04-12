@@ -126,7 +126,12 @@ label building_management:
 label building_management_loop:
 
     $ last_label = "building_management" # We need this so we can come back here from screens that depends on this variable.
-
+    
+    if not global_flags.has_flag("4_tutorial"):
+        $ global_flags.set_flag("4_tutorial")
+        show screen tutorial(4)
+    
+    
     while 1:
         if hero.upgradable_buildings:
             $ building = hero.upgradable_buildings[index]
