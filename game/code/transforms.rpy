@@ -297,15 +297,34 @@ init -997: # Transforms:
                                                                               })
 
     # Overlay ATLs:
-    transform stats_effect(d, start, pos, yoffset, duration):
+    transform mc_stats_effect(d, start, pos, yoffset, duration):
         subpixel True
         pause start
         d
         pos pos yoffset 0 anchor (.5, .5)
         alpha 1.0 zoom 1.0
-        linear duration*.85 alpha 1.0 zoom 1.0 yoffset yoffset
+        easein_circ duration*.5 alpha 1.0 zoom 1.0 yoffset yoffset
+        pause duration*.1
+        zoom .9
+        ease duration*.15 zoom 1.1
+        zoom .9
+        ease duration*.15  zoom 1.2
         HitlerKaputt(d, 10)
-        linear duration*.15 alpha .0
+        linear duration*.1 alpha .0
+
+    transform char_stats_effect(d, start, pos, yoffset, duration):
+        subpixel True
+        pause start
+        d
+        pos pos yoffset 0 anchor (.5, .5)
+        alpha 1.0 zoom 1.0
+        easein_circ duration*.5 alpha 1.0 zoom 1.0 yoffset yoffset
+        pause duration*.1
+        zoom .9
+        ease duration*.15 zoom 1.1
+        zoom .9
+        ease duration*.15  zoom 1.2
+        easeout_circ duration*.1 alpha .0 zoom .0
 
     transform dispostion_effect(d, start, pos, yoffset, duration):
         subpixel True

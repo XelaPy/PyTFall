@@ -54,10 +54,28 @@ init -999 python:
         def mod_char_stat(self, stat, value, char):
             kwargs = dict()
 
-            frame = "content/gfx/interface/buttons/sl_idle.png"
+
+
+            # Portrait:
+
+            fi = Fixed(xysize=(70, 70), pos=(10, -60))
+            frame = Transform("content/gfx/frame/p_frame.png", size=(70, 70))
+            fi.add(frame)
+
+            if value > 0:
+                portrait = char.show("portrait", "happy", resize=(65, 65))
+                portrait = Transform(portrait, align=(.5, .5))
+            else:
+                portrait = char.show("portrait", "sad", resize=(65, 65))
+                portrait = Transform(portrait, align=(.5, .5))
+            fi.add(portrait)
 
             fixed = Fixed(xysize=(160, 36))
+            fixed.add(fi)
+
+            frame = "content/gfx/interface/buttons/sl_idle.png"
             fixed.add(Transform(frame, size=(160, 36)))
+
             fixed.add(Text(stat.capitalize(), size=25,
                            style="proper_stats_text", color="#79CDCD",
                            align=(.5, .5)))
@@ -76,7 +94,7 @@ init -999 python:
             kwargs["start"] = 0
             duration = random.uniform(1.8, 2.2)
             kwargs["duration"] = duration
-            self.add_atl(stats_effect, duration, kwargs)
+            self.add_atl(char_stats_effect, duration, kwargs)
             self.add_sfx("content/sfx/sound/events/bing.ogg", random.uniform(.6, .8))
 
         def mod_mc_stat(self, stat, value):
@@ -97,12 +115,12 @@ init -999 python:
                            size=40, align=(.9, .5), yoffset=25))
 
             kwargs["pos"] = randint(150, 900), -50
-            kwargs["yoffset"] = randint(250, 300)
+            kwargs["yoffset"] = randint(130, 170)
             kwargs["d"] = fixed
             kwargs["start"] = 0
             duration = random.uniform(1.8, 2.2)
             kwargs["duration"] = duration
-            self.add_atl(stats_effect, duration, kwargs)
+            self.add_atl(mc_stats_effect, duration, kwargs)
             self.add_sfx("content/sfx/sound/events/bing.ogg", random.uniform(.6, .8))
 
         def disposition_mod(self, value):
