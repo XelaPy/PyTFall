@@ -43,9 +43,24 @@ init -999 python:
 
             simpe_taunts = {"general_chars": ["You shall perish!",
                                               "Die b*tch!",
-                                              "Disappear!"],
-                            "general_mobs": ["Makes threatening noises.",
-                                             "Looks Murderous!"]}
+                                              "Disappear!",
+                                              "Don't take this personally...",
+                                              "Eat this!",
+                                              "I don't think you're going to like this",
+                                              "Let's dance!",
+                                              "I'm gonna teach you some manners",
+                                              "It's too late to run",
+                                              "Doesn't look like much of a challenge",
+                                              "You're history!",
+                                              "Have a nice day, hehe!",
+                                              "Enjoy this!"],
+                            "general_mobs": ["(Makes threatening noises)",
+                                             "(Looks murderous)",
+                                             "Urgggg!",
+                                             "Aaiiiieeee!",
+                                             "Argghhh!",
+                                             "Hnrgggg!",
+                                             "Grrr!"]}
 
             if isinstance(attacker, Mob):
                 taunt = choice(simpe_taunts["general_mobs"])
