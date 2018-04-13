@@ -265,6 +265,7 @@ label storyi_gui_loop: # the gui loop; we jump here every time we need to show c
             $ came_to_equip_from = "storyi_continue"
             $ eqtarget = result
             $ equipment_safe_mode = True
+            hide screen prison_break_controls
             jump char_equip
 
 label storyi_continue: # the label where we return after visiting characters equipment screens
