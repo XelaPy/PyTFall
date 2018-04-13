@@ -335,6 +335,7 @@ init -999 python:
                 self.gfx = dict()
                 self.parse_gfx = dict()
 
+
     class RadarChart(renpy.Displayable):
         def __init__(self, stat1, stat2, stat3, stat4, stat5, size, xcenter, ycenter, color, **kwargs):
             super(RadarChart, self).__init__(**kwargs)
@@ -894,6 +895,38 @@ init -999 python:
             renpy.redraw(self, 0)
             return render
 
+
+    class Blurred(renpy.Displayable):
+        def __init__(self, child, factor=5, **kwargs):
+            super(Blurred, self).__init__(**kwargs)
+
+            self.child = renpy.displayable(child)
+            self.blurred = None
+            self.factor = factor
+
+        def create_blur(self):
+            img = self.child
+            width, height = get_size(img)
+            self.width = width
+            self.height = height
+
+            factor = im.Scale(img, width/self.factor, height/self.factor)
+            factor = Transform(factor, size=(width, height))
+
+            self.blurred = factor
+
+        def render(self, width, height, st, at):
+            if self.blurred is None:
+                self.create_blur()
+
+            render = renpy.Render(self.width, self.height)
+            render.place(self.blurred)
+
+            return render
+
+        def visit(self):
+            return [ self.child ]
+            
 
 init -100 python:
     class Snowing(renpy.Displayable, NoRollback):
