@@ -1123,7 +1123,10 @@ init -1 python: # Core classes:
             # String for the log:
             s = list()
             if not message:
-                s.append("{color=[teal]}%s{/color} attacks %s with %s!" % (a.nickname, t.nickname, self.name))
+                if total_damage >= 0:
+                    s.append("{color=[teal]}%s{/color} attacks %s with %s" % (a.nickname, t.nickname, self.name))
+                else:
+                    s.append("{color=[teal]}%s{/color} attacks %s with %s, but %s absorbs it" % (a.nickname, t.nickname, self.name, t.nickname))
             else:
                 s.append(message)
 
