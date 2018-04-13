@@ -4109,7 +4109,11 @@ init -9 python:
             """
             return True
 
-        def show(self, what, resize=(None, None), cache=True):
+        def show(self, *args, **kwargs):
+            what = args[0]
+            resize = kwargs.get("resize", (100, 100))
+            cache = kwargs.get("cache", True)
+
             if what in ["battle", "fighting"]:
                 what = "combat"
             if what == "portrait":

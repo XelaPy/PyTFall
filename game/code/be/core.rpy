@@ -1348,6 +1348,11 @@ init -1 python: # Core classes:
             if self.bg_main_effect["gfx"]:
                 self.time_bg_main_effect(start)
 
+            # Doesn't feel conceptually correct to put this here,
+            # but it's likely the safest solution atm.
+            if not battle.logical:
+                gfx_overlay.be_taunt(attacker, self)
+
             time_stamps = sorted(self.timestamps.keys())
             st = time.time()
             for stamp in time_stamps:

@@ -37,6 +37,50 @@ init -999 python:
 
             renpy.redraw(self, 0)
 
+        def be_taunt(self, attacker, skill):
+            if getattr(skill, "kind", None) != "assault":
+                return
+
+            simpe_taunts = {"general_chars": ["You shall perish!",
+                                              "Die b*tch!",
+                                              "Disappear!"],
+                            "general_mobs": ["Makes threatening noises.",
+                                             "Looks Murderous!"]}
+
+            if isinstance(attacker, Mob):
+                taunt = choice(simpe_taunts["general_mobs"])
+            else:
+                taunt = choice(simpe_taunts["general_chars"])
+
+            kwargs = dict()
+
+            # Portrait:
+            fi = Fixed(xysize=(70, 70), pos=(10, -60))
+            frame = Transform("content/gfx/frame/p_frame.png", size=(70, 70))
+            fi.add(frame)
+            portrait = attacker.show("portrait", "angry", resize=(65, 65))
+            portrait = Transform(portrait, align=(.5, .5))
+            fi.add(portrait)
+
+            fixed = Fixed(xysize=(220, 40))
+            fixed.add(fi)
+
+            frame = "content/gfx/interface/buttons/sl_idle.png"
+            fixed.add(Transform(frame, size=(220, 40)))
+            fixed.add(Text(taunt, size=25,
+                           style="be_notify",
+                           align=(.5, .5)))
+
+            x, y = battle.get_cp(attacker, type="center")
+            kwargs["pos"] = absolute(x), absolute(y)
+            kwargs["yoffset"] = -200
+            kwargs["d"] = fixed
+            kwargs["start"] = 0
+            duration = 1.5
+            kwargs["duration"] = duration
+            self.add_atl(char_stats_effect, duration, kwargs)
+            # self.add_sfx("content/sfx/sound/events/bing.ogg", random.uniform(.5, 1.0))
+
         def notify(self, msg=None, type="fight", tkwargs=None, duration=1.0):
             kwargs = {}
 
