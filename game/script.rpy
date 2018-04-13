@@ -200,11 +200,7 @@
         tl.start("Loading: All Characters!")
         chars = load_characters("chars", Char)
         npcs = load_characters("npc", NPC)
-        # Trying to load crazy characters:
-        crazy_chars = load_crazy_characters()
-        chars.update(crazy_chars)
         rchars = load_random_characters()
-        del crazy_chars
         tl.end("Loading: All Characters!")
 
         devlog.info("Loaded %d images from filenames!" % tagdb.count_images())
