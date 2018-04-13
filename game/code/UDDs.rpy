@@ -37,7 +37,7 @@ init -999 python:
 
             renpy.redraw(self, 0)
 
-        def notify(self, msg=None, type="fight", tkwargs=None, duration=.7):
+        def notify(self, msg=None, type="fight", tkwargs=None, duration=1.0):
             kwargs = {}
 
             if type == "fight": # Instead of a text, images are used.
