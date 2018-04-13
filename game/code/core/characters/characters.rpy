@@ -1046,6 +1046,11 @@ init -9 python:
         def update_delayed(self):
             self.delayed_stats.update(self.stats)
 
+            battle = getattr(store, 'battle', None)
+            corpses = getattr(battle, 'corpses', [])
+            if self.instance in corpses:
+                self.delayed_stats['health'] = 0
+
         def _raw_skill(self, key):
             """Raw Skills:
             [action_value, training_value]

@@ -81,12 +81,13 @@ init -999 python:
             self.add_atl(char_stats_effect, duration, kwargs)
             # self.add_sfx("content/sfx/sound/events/bing.ogg", random.uniform(.5, 1.0))
 
-        def notify(self, msg=None, type="fight", tkwargs=None, duration=1.0):
+        def notify(self, msg=None, type="text", tkwargs=None, duration=1.0):
             kwargs = {}
 
             if type == "fight": # Instead of a text, images are used.
                 img = choice(["fight_0", "fight_1", "fight_2"])
                 img = renpy.displayable(img)
+                self.add_sfx("content/sfx/sound/be/fight.ogg", duration*.5)
             else: # we use text as last resort:
                 if tkwargs is None:
                     tkwargs = {}
@@ -101,7 +102,6 @@ init -999 python:
             kwargs["start"] = 0
             kwargs["duration"] = duration
             self.add_atl(char_stats_effect, duration, kwargs)
-            self.add_sfx("content/sfx/sound/be/fight.ogg", duration*.5)
 
         def mod_stat(self, stat, value, char):
             value = round_int(value)

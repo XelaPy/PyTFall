@@ -9,11 +9,6 @@ init: # screens:
         if "all" in skill.type:
             $ return_all = True
 
-        # testing mid pos:
-        # add Solid("F00", xysize=(30, 30)) pos BDP["perfect_middle_right"] anchor .5, .5
-        # add Solid("F00", xysize=(30, 30)) pos BDP["perfect_middle_left"] anchor .5, .5
-
-        # add Transform("its_my_turn", xzoom=1.7, yzoom=1.2) pos battle.get_cp(source, type="bc", yo=20) anchor .5, 1.0
         python:
             img = im.Flip("content/gfx/interface/buttons/blue_arrow_up.png", vertical=True)
             idle_image = im.MatrixColor(img, im.matrix.opacity(.7))
@@ -289,106 +284,109 @@ init: # screens:
                 for entry in reversed(battle.combat_log):
                     label "%s"%entry style_group "stats_value_text" text_size 14 text_color ivory
 
-
         # I'll need to condition this more appropriately later, for now this will do:
         hbox:
             spacing 2
             align .5, .01
             for member in battle.teams[0]:
-                if member not in battle.corpses:
-                    python:
-                        profile_img = member.show('portrait', resize=(93, 93), cache=True)
-                        scr = renpy.get_screen("pick_skill")
-                        if scr:
-                            char = scr.scope["_args"][0] # This is not the best code :(
-                        if scr and member == char:
-                            portrait_frame = im.Twocolor("content/gfx/frame/MC_bg3.png", grey, grey)
-                            img = "content/gfx/frame/ink_box.png"
-                        else:
-                            portrait_frame = "content/gfx/frame/MC_bg3.png"
-                            img = "content/gfx/frame/ink_box.png"
+                python:
+                    profile_img = member.show('portrait', resize=(93, 93), cache=True)
+                    if member in battle.corpses:
+                        try:
+                            profile_img = im.Sepia(profile_img)
+                        except:
+                            pass
+                    scr = renpy.get_screen("pick_skill")
+                    if scr:
+                        char = scr.scope["_args"][0] # This is not the best code :(
+                    if scr and member == char:
+                        portrait_frame = im.Twocolor("content/gfx/frame/MC_bg3.png", grey, grey)
+                        img = "content/gfx/frame/ink_box.png"
+                    else:
+                        portrait_frame = "content/gfx/frame/MC_bg3.png"
+                        img = "content/gfx/frame/ink_box.png"
 
+                frame:
+                    style_prefix "proper_stats"
+                    background Frame(Transform(img, alpha=.5), 5, 5)
+                    padding 5, 3
+                    has hbox spacing 3
+
+                    # Girl Image:
                     frame:
-                        style_prefix "proper_stats"
-                        background Frame(Transform(img, alpha=.5), 5, 5)
-                        padding 5, 3
-                        has hbox spacing 3
+                        background Frame(portrait_frame, 5 ,5)
+                        xysize 95, 95
+                        padding 2, 2
+                        yalign .5
+                        add profile_img align .5, .5 alpha .96
 
-                        # Girl Image:
-                        frame:
-                            background Frame(portrait_frame, 5 ,5)
-                            xysize 95, 95
-                            padding 2, 2
-                            yalign .5
-                            add profile_img align .5, .5 alpha .96
+                    # Name/Stats:
+                    frame:
+                        padding 8, 2
+                        xsize 155
+                        background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 5, 5)
+                        has vbox
 
-                        # Name/Stats:
-                        frame:
-                            padding 8, 2
-                            xsize 155
-                            background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 5, 5)
-                            has vbox
+                        label "[member.name]":
+                            text_size 16
+                            text_bold True
+                            yalign .03
+                            if isinstance(member, Char):
+                                text_color pink
+                            else:
+                                text_color ivory
 
-                            label "[member.name]":
-                                text_size 16
-                                text_bold True
-                                yalign .03
-                                if isinstance(member, Char):
-                                    text_color pink
-                                else:
-                                    text_color ivory
+                        $ health = member.stats.delayed_stats["health"]
+                        fixed:
+                            ysize 25
+                            bar:
+                                left_bar ProportionalScale("content/gfx/interface/bars/hp1.png", 150, 20)
+                                right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                                value AnimatedValue(value=health, range=member.get_max("health"), delay=.5, old_value=None)
+                                # value health
+                                # range member.get_max("health")
+                                thumb None
+                                xysize (150, 20)
+                            text "HP" size 14 color ivory bold True xpos 8
 
-                            $ health = member.stats.delayed_stats["health"]
-                            fixed:
-                                ysize 25
-                                bar:
-                                    left_bar ProportionalScale("content/gfx/interface/bars/hp1.png", 150, 20)
-                                    right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
-                                    value AnimatedValue(value=health, range=member.get_max("health"), delay=.5, old_value=None)
-                                    # value health
-                                    # range member.get_max("health")
-                                    thumb None
-                                    xysize (150, 20)
-                                text "HP" size 14 color ivory bold True xpos 8
+                            if health <= member.get_max("health")*0.2:
+                                text "[health]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
+                            else:
+                                text "[health]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
 
-                                if health <= member.get_max("health")*0.2:
-                                    text "[health]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
-                                else:
-                                    text "[health]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
+                        $ mp = member.stats.delayed_stats["mp"]
+                        fixed:
+                            ysize 25
+                            bar:
+                                left_bar ProportionalScale("content/gfx/interface/bars/mp1.png", 150, 20)
+                                right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                                value AnimatedValue(value=mp, range=member.get_max("mp"), delay=.5, old_value=None)
+                                # value mp
+                                # range member.get_max("mp")
+                                thumb None
+                                xysize (150, 20)
+                            text "MP" size 14 color ivory bold True xpos 8
+                            if mp <= member.get_max("mp")*0.2:
+                                text "[mp]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
+                            else:
+                                text "[mp]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
 
-                            $ mp = member.stats.delayed_stats["mp"]
-                            fixed:
-                                ysize 25
-                                bar:
-                                    left_bar ProportionalScale("content/gfx/interface/bars/mp1.png", 150, 20)
-                                    right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
-                                    value AnimatedValue(value=mp, range=member.get_max("mp"), delay=.5, old_value=None)
-                                    # value mp
-                                    # range member.get_max("mp")
-                                    thumb None
-                                    xysize (150, 20)
-                                text "MP" size 14 color ivory bold True xpos 8
-                                if mp <= member.get_max("mp")*0.2:
-                                    text "[mp]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
-                                else:
-                                    text "[mp]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
-
-                            $ vitality = member.stats.delayed_stats["vitality"]
-                            fixed:
-                                ysize 25
-                                bar:
-                                    left_bar ProportionalScale("content/gfx/interface/bars/vitality1.png", 150, 20)
-                                    right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
-                                    value AnimatedValue(value=vitality, range=member.get_max("vitality"), delay=.5, old_value=None)
-                                    # value vitality
-                                    # range member.get_max("vitality")
-                                    thumb None
-                                    xysize (150, 20)
-                                text "VP" size 14 color ivory bold True xpos 8
-                                if vitality <= member.get_max("vitality")*0.2:
-                                    text "[vitality]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
-                                else:
-                                    text "[vitality]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
+                        $ vitality = member.stats.delayed_stats["vitality"]
+                        fixed:
+                            ysize 25
+                            bar:
+                                left_bar ProportionalScale("content/gfx/interface/bars/vitality1.png", 150, 20)
+                                right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                                value AnimatedValue(value=vitality, range=member.get_max("vitality"), delay=.5, old_value=None)
+                                # value vitality
+                                # range member.get_max("vitality")
+                                thumb None
+                                xysize (150, 20)
+                            text "VP" size 14 color ivory bold True xpos 8
+                            if vitality <= member.get_max("vitality")*0.2:
+                                text "[vitality]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
+                            else:
+                                text "[vitality]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
 
         # Overlay for stats:
         # use be_status_overlay() Moving to a better location...

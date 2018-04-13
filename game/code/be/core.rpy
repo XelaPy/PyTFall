@@ -60,6 +60,7 @@ init -1 python: # Core classes:
             # Usually it's player or AI combatants.
             self.controller = None
             self.winner = None
+            self.win = None # We set this to True if left team wins and to False if right.
             self.combat_log = list()
             # We may want to delay logging something to the end of turn.
             self.delayed_log = list()
@@ -173,8 +174,6 @@ init -1 python: # Core classes:
 
                 # We check the conditions for terminating the BE scenario, this should prolly be end turn event as well, but I've added this before I've added events :)
                 if self.check_break_conditions():
-                    if not self.logical:
-                        renpy.pause(.6) # Small pause before terminating the engine.
                     break
 
             self.end_battle()
@@ -218,7 +217,7 @@ init -1 python: # Core classes:
                     self.start_turn_events.append(RunQuotes(self.teams[0]))
 
                 # After we've set the whole thing up, we've launch the main loop:
-                gfx_overlay.notify("fight")
+                gfx_overlay.notify(type="fight")
                 renpy.pause(.6)
                 # renpy.pause(.35)
 
@@ -252,13 +251,21 @@ init -1 python: # Core classes:
             """Ends the battle, trying to normalize any variables that may have been used during the battle.
             """
             if not self.logical:
-                # We'll have to reset any attributes of the characters classes:
-                renpy.hide_screen("be_status_overlay")
-                renpy.hide_screen("be_test")
-                renpy.hide_screen("target_practice")
-                renpy.hide_screen("pick_skill")
-                renpy.hide_screen("battle_overlay")
-                renpy.scene()
+                if self.win is True:
+                    gfx_overlay.notify("You Win!")
+                elif self.win is False:
+                    tkwargs = {"color": blue,
+                               "outline_color": cyan}
+                    gfx_overlay.notify("You Lose!", tkwargs=tkwargs)
+                else:
+                    tkwargs = {"color": gray,
+                               "outline_color": black}
+                    gfx_overlay.notify("Meh :(", tkwargs=tkwargs)
+
+                renpy.pause(.6) # Small pause before terminating the engine.
+
+                renpy.scene("screens")
+
                 if self.end_sfx:
                     renpy.with_statement(self.end_sfx)
 
@@ -438,16 +445,18 @@ init -1 python: # Core classes:
             # For now this assumes that team indexed 0 is player team.
             if self.terminate:
                 return True
-            if self.logical and self.logical_counter >= self.max_turn:
+            elif self.logical and self.logical_counter >= self.max_turn:
                 self.winner = self.teams[1]
                 self.log("Battle went on for far too long! %s is considered the winner!" % self.winner.name)
                 return True
-            if len(self.teams[0]) == len(self.get_fighters(state="dead", rows=(0, 1))):
-                self.winner = self.teams[1]
+            elif len(self.teams[1]) == len(self.get_fighters(state="dead", rows=(2, 3))):
+                self.winner = self.teams[0]
+                self.win = True
                 self.log("%s is victorious!" % self.winner.name)
                 return True
-            if len(self.teams[1]) == len(self.get_fighters(state="dead", rows=(2, 3))):
-                self.winner = self.teams[0]
+            elif len(self.teams[0]) == len(self.get_fighters(state="dead", rows=(0, 1))):
+                self.winner = self.teams[1]
+                self.win = False
                 self.log("%s is victorious!" % self.winner.name)
                 return True
 
