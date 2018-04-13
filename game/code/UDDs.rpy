@@ -37,7 +37,7 @@ init -999 python:
 
             renpy.redraw(self, 0)
 
-        def notify(self, msg=None, type="fight", tkwargs=None):
+        def notify(self, msg=None, type="fight", tkwargs=None, duration=.7):
             kwargs = {}
 
             if type == "fight": # Instead of a text, images are used.
@@ -55,10 +55,9 @@ init -999 python:
             kwargs["yoffset"] = randint(200, 200)
             kwargs["d"] = img
             kwargs["start"] = 0
-            duration = 1.4
             kwargs["duration"] = duration
             self.add_atl(char_stats_effect, duration, kwargs)
-            self.add_sfx("content/sfx/sound/be/fight.ogg", .8)
+            self.add_sfx("content/sfx/sound/be/fight.ogg", duration*.5)
 
         def mod_stat(self, stat, value, char):
             value = round_int(value)
