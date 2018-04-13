@@ -567,6 +567,20 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         line_spacing 6
         color azure
 
+    style badaboom:
+        is text
+        antialias True
+        size 20
+        font "fonts/badaboom.ttf"
+
+    style be_notify:
+        is badaboom
+        size 60
+        color red
+        outlines [(5, "#ffff19", 1, 1)]
+        drop_shadow [(2, 3)]
+        drop_shadow_color black
+
     # Text that goes with the wc button.
     style white_cry_button_text:
         is text

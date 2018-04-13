@@ -37,6 +37,29 @@ init -999 python:
 
             renpy.redraw(self, 0)
 
+        def notify(self, msg=None, type="fight", tkwargs=None):
+            kwargs = {}
+
+            if type == "fight": # Instead of a text, images are used.
+                img = choice(["fight_0", "fight_1", "fight_2"])
+                img = renpy.displayable(img)
+            else: # we use text as last resort:
+                if tkwargs is None:
+                    tkwargs = {}
+
+                default = {"style": "be_notify"}
+                default.update(tkwargs)
+                img = Text(str(msg), **default)
+
+            kwargs["pos"] = absolute(config.screen_width/2), absolute(0)
+            kwargs["yoffset"] = randint(200, 200)
+            kwargs["d"] = img
+            kwargs["start"] = 0
+            duration = 1.4
+            kwargs["duration"] = duration
+            self.add_atl(char_stats_effect, duration, kwargs)
+            self.add_sfx("content/sfx/sound/be/fight.ogg", .8)
+
         def mod_stat(self, stat, value, char):
             value = round_int(value)
             if not value:
@@ -92,7 +115,7 @@ init -999 python:
             duration = random.uniform(1.8, 2.2)
             kwargs["duration"] = duration
             self.add_atl(char_stats_effect, duration, kwargs)
-            self.add_sfx("content/sfx/sound/events/bing.ogg", random.uniform(.6, .8))
+            self.add_sfx("content/sfx/sound/events/bing.ogg", random.uniform(.5, 1.0))
 
         def mod_mc_stat(self, stat, value):
             kwargs = dict()
@@ -118,7 +141,7 @@ init -999 python:
             duration = random.uniform(1.8, 2.2)
             kwargs["duration"] = duration
             self.add_atl(mc_stats_effect, duration, kwargs)
-            self.add_sfx("content/sfx/sound/events/bing.ogg", random.uniform(.6, .8))
+            self.add_sfx("content/sfx/sound/events/bing.ogg", random.uniform(.5, 1.0))
 
         def disposition_mod(self, value):
             value = round_int(value)

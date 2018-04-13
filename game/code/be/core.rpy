@@ -218,6 +218,7 @@ init -1 python: # Core classes:
                     self.start_turn_events.append(RunQuotes(self.teams[0]))
 
                 # After we've set the whole thing up, we've launch the main loop:
+                gfx_overlay.notify("fight")
                 renpy.pause(.6)
                 # renpy.pause(.35)
 
