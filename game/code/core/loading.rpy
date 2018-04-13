@@ -837,6 +837,8 @@ label convert_json_to_filenames:
                     fn = fn + ".jpeg"
                 elif img.endswith(".gif"):
                     fn = fn + ".gif"
+                elif img.endswith(".webp"):
+                    fn = fn + ".webp"
                 oldfilename = f.split(os.sep)[-1]
                 if oldfilename == fn:
                     continue
