@@ -577,7 +577,7 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         is badaboom
         size 60
         color red
-        outlines [(5, "#ffff19", 1, 1)]
+        outlines [(3, "#ffff19", 1, 1)]
         drop_shadow [(2, 3)]
         drop_shadow_color black
 
