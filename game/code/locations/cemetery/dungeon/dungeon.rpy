@@ -313,6 +313,16 @@ style move_button_text:
     size 60
 
 label enter_dungeon:
+    menu:
+        "This old dungeon looks dangerous. Are you sure you want to go in?"
+        
+        "Yes":
+            $ pass
+            
+        "No":
+            $ global_flags.set_flag("keep_playing_music")
+            jump graveyard_town
+
     python:
         # Create a dungeon stage
         dungeon = dungeons['Mausoleum1']
