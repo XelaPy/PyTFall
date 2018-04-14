@@ -141,14 +141,14 @@ label mc_setup_warrior_defender_guard_shield:
     $ hero.apply_trait("Shield Master")
     return
 
-label mc_setup_warrior_defender_harpy_bones:
-    $ hero.apply_trait("Hollow Bones")
-    return
-
 label mc_setup_warrior_defender_harpy:
     $ hero.apply_trait("Harpy Priestess Blood")
     $ hero.apply_trait("Air")
     $ give_tiered_magic_skills(hero, amount=1)
+    return
+
+label mc_setup_warrior_defender_harpy_bones:
+    $ hero.apply_trait("Hollow Bones")
     return
 
 label mc_setup_warrior_defender_harpy_meta:
