@@ -131,10 +131,10 @@ label build_mc_stories:
                                                                         )
 
         mc_stories["Warrior"]["MC"]["Shooter"]["Forest Elf"] = forest_elf = {}
-        temp["header"] = "Forest Elf"
-        temp["text"] = "He worked closely together with elven rangers. As time passed, mistrust gave way to friendship and, eventually, to close relationships with one of their ranks."
-        temp["label"] = "mc_setup_warrior_shooter_forest_elf"
-        temp["class"] = "Warrior"
+        forest_elf["header"] = "Forest Elf"
+        forest_elf["text"] = "He worked closely together with elven rangers. As time passed, mistrust gave way to friendship and, eventually, to close relationships with one of their ranks."
+        forest_elf["label"] = "mc_setup_warrior_shooter_forest_elf"
+        forest_elf["class"] = "Warrior"
 
         forest_elf["Sniper"] = temp = {}
         temp["text"] = "Your mother taught you to use bows, as only the Forest Elves can. All bows are more powerful than usual."
