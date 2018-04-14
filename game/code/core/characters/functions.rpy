@@ -16,16 +16,37 @@ init -11 python:
                 set_location(c, c.home)
 
     def mod_by_max(char, stat, value, prevent_death=True):
-        """Modifies a stat by a float multiplier based of it's max value.
+        """Modifies a stat by a float multiplier (value) based of it's max value.
 
-        prevent_death will not allow health to go below .
+        prevent_death will not allow health to go below 1.
         """
-        value = round_int(char.get_max(stat)*value)
+        if char.stats.is_stat(stat):
+            value = round_int(char.get_max(stat)*value)
+            if prevent_death and stat == "health" and (char.health + value <= 0):
+                char.health = 1
+            else:
+                char.mod_stat(stat, value)
+        elif char.stats.is_skill(stat):
+            value = round_int(char.get_max_skill(stat)*value)
+            char.stats.mod_full_skill(stat, value)
 
-        if prevent_death and stat == "health" and (char.health + value <= 0):
-            char.health = 1
-        else:
-            char.mod_stat(stat, value)
+    def set_stat_to_percentage(char, stat, value, prevent_death=True):
+        """Sets stat/skill to a percentage of max. Forcing the matter.
+        DevNote: Use with caution as this can have unexpected side effects.
+
+        prevent_death will not allow health to go below 1.
+        """
+        stats = char.stats
+
+        if stats.is_stat(stat):
+            if stat == "health":
+                char.health = 1
+            else:
+                setattr(char, stat, 0)
+                mod_by_max(char, stat, value, prevent_death=prevent_death)
+        elif stats.is_skill(stat):
+            stats.skills[stat] = [0, 0]
+            mod_by_max(char, stat, value, prevent_death=prevent_death)
 
     def restore_battle_stats(char):
         for stat in ["health", "mp", "vitality"]:
