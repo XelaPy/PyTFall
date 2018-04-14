@@ -4250,7 +4250,7 @@ init -9 python:
             """
             The buildings that can be upgraded.
             """
-            return [building for building in self.buildings if isinstance(building, UpgradableBuilding) or isinstance(building, UpgradableBuilding)]
+            return [b for b in self.buildings if isinstance(b, UpgradableBuilding)]
 
         def add_building(self, building):
             if building not in self._buildings:
