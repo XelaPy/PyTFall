@@ -28,9 +28,9 @@ init:
         temp["header"] = "Your father was a skilled fighter..."
         # temp["text"] = "Bla bla bla"
         temp["choices"] = OrderedDict(Warrior="content/gfx/interface/images/mc/warrior_m.png",
-                                       Knight="content/gfx/interface/images/mc/defender_m.png",
-                                       Shooter="content/gfx/interface/images/mc/shooter_m.png",
-                                       Assassin="content/gfx/interface/images/mc/assassin_m.png")
+                                      Knight="content/gfx/interface/images/mc/defender_m.png",
+                                      Shooter="content/gfx/interface/images/mc/shooter_m.png",
+                                      Assassin="content/gfx/interface/images/mc/assassin_m.png")
 
         mc_stories["Mage"] = temp = {}
         temp["img"] = "content/gfx/interface/images/magicP.png"
@@ -98,6 +98,7 @@ init:
         mc_stories["Warrior"]["MC"]["Knight"]["Royal Guard"] = royal_guard = {}
         royal_guard["header"] = "Royal Guard"
         royal_guard["text"] = "Many years of exemplary service made him the captain of Palace Guard. It was then that he met your future mother, a young knight from a poor but noble family."
+        royal_guard["text"] += "\n{color=[green]}+ Better Starting Home{/color}"
         royal_guard["label"] = "mc_setup_warrior_defender_guard"
 
         royal_guard["Royal Defender"] = temp = {}
@@ -204,9 +205,14 @@ init:
 
         mc_stories["Warrior"]["MC"]["Assassin"]["Princess"] = princess = {}
         princess["header"] = "Princess"
-        princess["text"] = "He was instructed to eliminate a princess from another land while visiting their capital on a diplomatic mission. No one has seen her since then. Except you, her son. (+2000 Gold)"
+        princess["class"] = "Manager"
+        princess["text"] = "He was instructed to eliminate a princess from another land while visiting their capital on a diplomatic mission. No one has seen her since then. Except you, her son."
+        princess["text"] += " You were taught how to load and manage people and property."
+        princess["text"] += set_font_color("\n+ Manager Class", "green")
+        princess["text"] += set_font_color("\n+ Royal Blood trait", "green")
+        princess["text"] += set_font_color("\n+ 2000 Gold", "gold")
         princess["label"] = "mc_setup_warrior_assassin_princess"
-        princess["class"] = "Knight"
+        # princess["class"] = "Knight"
 
         princess["Heavy Knight"] = temp = {}
         temp["text"] = "Your mother taught you the combat style of Royal Knights, known only to members of the royal families. Defense provided by armor is a bit higher than usual."
@@ -223,6 +229,9 @@ init:
         mc_stories["Warrior"]["MC"]["Assassin"]["Drow"] = drow = {}
         drow["header"] = "Drow"
         drow["text"] = "Carrying out orders, your father often encountered competitors. He'd eliminate them together with the target, but one particularly skilled assassin evaded every one of his deadly strikes. It was your future mother, a lone elf from a distant, underground world."
+        drow["text"] += set_font_color("\n+ Drow Blood Trait", "green")
+        drow["text"] += set_font_color("\n+ Darkness Elemental Alignment", "darkgray")
+        drow["text"] += set_font_color("\n+ One Darkness Magic Spell", "darkgray")
         drow["label"] = "mc_setup_warrior_assassin_drow"
 
         drow["Poison Master"] = temp = {}

@@ -54,6 +54,12 @@ label mc_setup_warrior_warrior_dragon_sight:
     return
 
 label mc_setup_warrior_defender_guard:
+    python hide:
+        ap = buildings["Studio Apartment"]
+        hero.buildings.append(ap)
+        hero.home = ap
+    return
+
 label mc_setup_warrior_assassin_princess:
     $ hero.apply_trait("Royal Blood")
     $ hero.gold += 2000

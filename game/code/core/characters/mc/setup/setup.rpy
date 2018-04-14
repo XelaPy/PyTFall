@@ -103,7 +103,7 @@ label mc_setup_end:
     # Add Home apartment (Slums) to MC, unless we have set him up with a home in special labels.
     python hide:
         if not hero.home:
-            ap = building["Slums Apartment"]
+            ap = buildings["Slums Apartment"]
             hero.buildings.append(ap)
             hero.home = ap
 
