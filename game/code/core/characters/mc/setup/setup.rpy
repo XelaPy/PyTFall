@@ -289,7 +289,7 @@ init: # MC Setup Screens:
                     else:
                         text "Add 'header' to [main_story] story!" xalign .5
                     if mc_stories[main_story].get("text", False):
-                        text ("%s" % mc_stories[main_story]["text"]) xalign .5 style "garamond" size 18
+                        text ("%s" % mc_stories[main_story]["text"]) style "garamond" size 18
                     null height 15
                     vbox:
                         if sub_story in mc_stories[main_story]:

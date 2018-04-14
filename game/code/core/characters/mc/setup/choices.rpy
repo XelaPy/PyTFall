@@ -1,5 +1,7 @@
 label build_mc_stories:
+    return
 
+init:
     python:
         main_story = None # Fathers occupation
         sub_story = None # Father specific occupation
@@ -42,7 +44,10 @@ label build_mc_stories:
     python hide: # Warrior options:
         mc_stories["Warrior"]["Warrior"] = {}
         mc_stories["Warrior"]["Warrior"]["class"] = "Warrior"
-        mc_stories["Warrior"]["Warrior"]["text"] = "He was a famous gladiator. Decades of fighting at the arena made him competent with almost every known weapon and brought fame and wealth."
+        temp = []
+        temp.append("He was a famous gladiator. Decades of fighting at the arena made him competent with almost every known weapon and brought fame and wealth.")
+        temp.append("{color=[green]}+ Warrior Class{/color}")
+        mc_stories["Warrior"]["Warrior"]["text"] = "\n".join(temp)
         mc_stories["Warrior"]["Warrior"]
         mc_stories["Warrior"]["Assassin"] = {}
         mc_stories["Warrior"]["Assassin"]["class"] = "Assassin"
@@ -458,4 +463,6 @@ label build_mc_stories:
         vampire["Perfect Reflexes"] = temp = {}
         temp["text"] = "You inherited your mother's reflexes, which help to evade attacks. Sadly, mortal body is not suitable for vampire speed, affecting your health."
         temp["label"] = "mc_setup_mage_arc_vampire_reflex"
-    return
+
+    # TODO: UNCOMMENT AFTER WE'RE DONE!
+    # return
