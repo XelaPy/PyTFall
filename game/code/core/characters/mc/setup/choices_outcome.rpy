@@ -14,6 +14,10 @@ label mc_setup_merchant_mc_defender_sword:
     "MC Caravan Defender Sword Option Reporting (Finally)!"
     return
 
+label mc_setup_warrior_warrior:
+    $ hero.arena_permit = True
+    return
+
 label mc_setup_warrior_warrior_amazon:
     $ hero.apply_trait("Amazon Blood")
     $ hero.arena_rep += randint(5000, 5500)

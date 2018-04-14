@@ -47,17 +47,30 @@ init:
         temp = []
         temp.append("He was a famous gladiator. Decades of fighting at the arena made him competent with almost every known weapon and brought fame and wealth.")
         temp.append("{color=[green]}+ Warrior Class{/color}")
+        temp.append("{color=[green]}+ Arena Permit{/color}")
         mc_stories["Warrior"]["Warrior"]["text"] = "\n".join(temp)
-        mc_stories["Warrior"]["Warrior"]
+        mc_stories["Warrior"]["Warrior"]["label"] = "mc_setup_warrior_warrior"
+
         mc_stories["Warrior"]["Assassin"] = {}
         mc_stories["Warrior"]["Assassin"]["class"] = "Assassin"
-        mc_stories["Warrior"]["Assassin"]["text"] = "He was a deadly assassin. Even royalties, diplomats and nobility would perish at the tip of his blade, for the right price."
+        temp = []
+        temp.append("He was a deadly assassin. Even royalties, diplomats and nobility would perish at the tip of his blade, for the right price.")
+        temp.append("{color=[green]}+ Assassin Class{/color}")
+        mc_stories["Warrior"]["Assassin"]["text"] = "\n".join(temp)
+
         mc_stories["Warrior"]["Shooter"] = {}
         mc_stories["Warrior"]["Shooter"]["class"] = "Shooter"
-        mc_stories["Warrior"]["Shooter"]["text"] = "He was a skilled marksman. For many years together with other rangers, he hunted monsters and smugglers."
+        temp = []
+        temp.append("He was a skilled marksman. For many years together with other rangers, he hunted monsters and smugglers.")
+        temp.append("{color=[green]}+ Shooter Class{/color}")
+        mc_stories["Warrior"]["Shooter"]["text"] = "\n".join(temp)
+
         mc_stories["Warrior"]["Knight"] = {}
         mc_stories["Warrior"]["Knight"]["class"] = "Knight"
-        mc_stories["Warrior"]["Knight"]["text"] = "He was an experienced bodyguard. His skills secured him a place in high society, as he provided his service to the nobility and royalty alike."
+        temp = []
+        temp.append("He was an experienced bodyguard. His skills secured him a place in high society, as he provided his service to the nobility and royalty alike.")
+        temp.append("{color=[green]}+ Knight Class{/color}")
+        mc_stories["Warrior"]["Knight"]["text"] = "\n".join(temp)
 
         mc_stories["Warrior"]["MC"] = {}
         for key in mc_stories["Warrior"]["choices"]:
