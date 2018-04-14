@@ -70,17 +70,17 @@ init python:
         return actions, rest, events
 
 label next_day:
-    call next_day_effects_check
     scene bg profile_2
-    show screen next_day_calculations
 
     $ next_day_local = None
 
     if just_view_next_day: # Review old reports:
         $ just_view_next_day = False
     else: # Do the calculations:
+        show screen next_day_calculations
         $ counter = 1
         while counter:
+            call next_day_effects_check
             call next_day_calculations
             $ counter -= 1
 
