@@ -118,6 +118,7 @@ init -10 python:
             self.name = name
             self.desc = desc
             self.price = price
+            self.price_overload = None
 
             self.jobs = set()
             self.building_jobs = set()
@@ -151,6 +152,9 @@ init -10 python:
             # Returns our best guess for price of the Building
             # Needed for buying, selling the building or for taxation.
             # **We may want to take reputation and fame into account as well.
+            if self.price_overload is not None:
+                return self.price_overload
+
             price = self.price
 
             if hasattr(self, "_upgrades"):
