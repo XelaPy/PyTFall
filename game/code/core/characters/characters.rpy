@@ -1051,6 +1051,24 @@ init -9 python:
             if self.instance in corpses:
                 self.delayed_stats['health'] = 0
 
+        def get_base_stats(self):
+            bts = self.instance.traits.basetraits
+
+            stats = set()
+            for t in bts:
+                for s in t.base_stats:
+                    stats.add(stat)
+            return stats
+
+        def get_base_skills(self):
+            bts = self.instance.traits.basetraits
+
+            skills = set()
+            for t in bts:
+                for s in t.base_skills:
+                    stats.add(s)
+            return skills
+
         def _raw_skill(self, key):
             """Raw Skills:
             [action_value, training_value]
