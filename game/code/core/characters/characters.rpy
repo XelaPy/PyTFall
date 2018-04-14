@@ -1057,7 +1057,7 @@ init -9 python:
             stats = set()
             for t in bts:
                 for s in t.base_stats:
-                    stats.add(stat)
+                    stats.add(s)
             return stats
 
         def get_base_skills(self):
@@ -1066,7 +1066,7 @@ init -9 python:
             skills = set()
             for t in bts:
                 for s in t.base_skills:
-                    stats.add(s)
+                    skills.add(s)
             return skills
 
         def _raw_skill(self, key):
