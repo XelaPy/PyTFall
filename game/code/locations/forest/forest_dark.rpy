@@ -84,6 +84,7 @@ label city_dark_forest_explore:
             "Unfortunately, you are too tired at the moment. Maybe another time."
         "Each member of your party should have at least 1 AP."
         $ global_flags.set_flag("keep_playing_music")
+        $ forest_bg_change = False
         jump forest_dark_continue
     else:
         if hero.flag("dark_forest_found_river") != day and hero.vitality < hero.get_max("vitality") and dice(35):
