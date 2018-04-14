@@ -305,7 +305,10 @@ init -1 python: # Core classes:
             # Supplied to the show method.
             char.betag = str(random.random())
             # First, lets get correct sprites:
-            sprite = char.show("battle_sprite", resize=char.get_sprite_size("battle_sprite"))
+            if "Grim Reaper" in char.traits:
+                sprite = Image("content/gfx/images/reaper.png")
+            else:
+                sprite = char.show("battle_sprite", resize=char.get_sprite_size("battle_sprite"))
             # char.besprite_size = sprite.true_size()
 
             # We'll assign "indexes" from 0 to 3 from left to right [0, 1, 3, 4] to help calculating attack ranges.
