@@ -75,15 +75,25 @@ label mc_setup_end:
     if renpy.has_label(temp):
         call expression temp
 
-    python hide: # We never really want to start with weakened MC?
-        for s in ["health", "mp", "vitality"]:
-            setattr(hero, s, hero.get_max(s))
+    $ restore_battle_stats(hero) # We never really want to start with weakened MC?
 
     python hide:
-        if 'Combatant' in hero.gen_occs:
-            cfactor = partial(uniform, .85, 1.0)
-        else:
-            cfactor = partial(uniform, .5, .7)
+        high_factor = partial(uniform, .5, .6)
+        normal_factor = partial(uniform, .35, .45)
+
+        base_stats = hero.stats.get_base_stats()
+        for s in ['constitution', 'intelligence', 'charisma', 'attack', 'magic', 'defence', 'agility']:
+            if s in base_stats:
+                value = high_factor()
+                mod_by_max(hero, s, value)
+            else:
+                value = normal_factor()
+                set_stat_to_percentage(hero, s, value)
+
+        base_skills = hero.stats.get_base_skills()
+        for s in base_skills:
+            value = high_factor()+.2
+            set_stat_to_percentage(hero, s, value)
 
         # for stat in ['attack', 'defence', 'agility', 'magic']
         #
