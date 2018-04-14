@@ -4361,7 +4361,7 @@ init -9 python:
                 txt.append(temp)
 
                 slaves = [c for c in self.chars if c.status == "slave"]
-                all_properties = slaves + self.buildings
+                all_properties = slaves + self.upgradable_buildings
                 shuffle(all_properties)
                 while total_debt and all_properties:
                     cr = ec.confiscation_range
