@@ -49,7 +49,7 @@ label mc_setup_end:
     $ renpy.scene(layer='screens')
     scene black
 
-    call build_mc
+    call set_mc_basetraits
 
     # Call all the labels:
     python:
@@ -95,11 +95,6 @@ label mc_setup_end:
             value = high_factor()+.2
             set_stat_to_percentage(hero, s, value)
 
-        # for stat in ['attack', 'defence', 'agility', 'magic']
-        #
-        # for s in ['constitution', 'intelligence', 'charisma', , , , ]:
-        #     setattr(hero, s, int(round(hero.get_max(s)*0.35)))
-
     python:
         del temp
         del mc_stories
@@ -110,7 +105,7 @@ label mc_setup_end:
 
     return
 
-label build_mc:
+label set_mc_basetraits:
     # We build the MC here. First we get the classes player picked in the choices screen and add those to MC:
     python:
         temp = set()
@@ -122,12 +117,6 @@ label build_mc:
         for t in temp:
             hero.traits.basetraits.add(traits[t])
             hero.apply_trait(traits[t])
-
-    # Now that we have our setup, max out all fixed max stats and set all normal stats to 35% of their maximum:
-    python:
-        for s in ['constitution', 'intelligence', 'charisma', 'attack', 'magic', 'defence', 'agility']:
-            setattr(hero, s, int(round(hero.get_max(s)*0.35)))
-
     return
 
 init: # MC Setup Screens:
