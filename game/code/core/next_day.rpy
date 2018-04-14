@@ -70,17 +70,17 @@ init python:
         return actions, rest, events
 
 label next_day:
-    call next_day_effects_check
     scene bg profile_2
-    show screen next_day_calculations
 
     $ next_day_local = None
 
     if just_view_next_day: # Review old reports:
         $ just_view_next_day = False
     else: # Do the calculations:
+        show screen next_day_calculations
         $ counter = 1
         while counter:
+            call next_day_effects_check
             call next_day_calculations
             $ counter -= 1
 
@@ -310,11 +310,11 @@ label next_day_controls:
                 return
 
 label next_day_effects_check:  # all traits and effects which require some unusual checks every turn do it here
-    if "Life Beacon" in hero.traits:
-        $ hero.health += randint(10, 20)
-    python:
-        for i in hero.chars: # chars with low or high joy get joy-related effects every day
+    python hide:
+        if "Life Beacon" in hero.traits:
+            mod_by_max(hero, "health", .1)
 
+        for i in hero.chars: # chars with low or high joy get joy-related effects every day
             if not "Pessimist" in i.traits and i.joy <= randint(15, 20) and not i.effects['Depression']['active']:
                 i.effects['Depression']['activation_count'] += 1
             elif i.joy > 20:
@@ -335,7 +335,7 @@ label next_day_effects_check:  # all traits and effects which require some unusu
                 i.enable_effect('Exhausted')
 
             if "Life Beacon" in hero.traits: # hero-only trait which heals everybody
-                i.health += randint(10, 20)
+                mod_by_max(i, "health", .1)
                 i.joy += 1
 
             if i.effects['Horny']['active']: # horny effect which affects various sex-related things and scenes
