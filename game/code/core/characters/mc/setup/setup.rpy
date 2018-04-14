@@ -288,6 +288,8 @@ init: # MC Setup Screens:
                         text ("{font=fonts/DeadSecretary.ttf}{size=22}%s" % mc_stories[main_story]["header"]) xalign .5
                     else:
                         text "Add 'header' to [main_story] story!" xalign .5
+                    if mc_stories[main_story].get("text", False):
+                        text ("%s" % mc_stories[main_story]["text"]) xalign .5 style "garamond" size 18
                     null height 15
                     vbox:
                         if sub_story in mc_stories[main_story]:
