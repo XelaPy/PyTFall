@@ -15,7 +15,7 @@ init -999 python:
     import math
     from math import sin, cos, radians
     import random
-    from random import randrange, randint, choice, shuffle
+    from random import randrange, randint, choice, shuffle, uniform
     import copy
     from copy import deepcopy, copy as shallowcopy
     import itertools
