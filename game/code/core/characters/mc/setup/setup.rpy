@@ -44,7 +44,6 @@ label mc_setup:
                 if len(n):
                     $ hero.fullname = n
 
-
 label mc_setup_end:
     $ renpy.scene(layer='screens')
     scene black
@@ -99,6 +98,8 @@ label mc_setup_end:
             value = high_factor()+.2
             set_stat_to_percentage(hero, s, value)
 
+    call set_mc_start_building
+
     python:
         del temp
         del mc_stories
@@ -121,6 +122,38 @@ label set_mc_basetraits:
         for t in temp:
             hero.traits.basetraits.add(traits[t])
             hero.apply_trait(traits[t])
+    return
+
+label set_mc_start_building:
+    # Sets up mc's starting businesses:
+    python hide:
+        scary = Building(in_slots_max=10, ex_slots_max=0, needs_management=True)
+        scary.add_adverts([advert for advert in adverts if advert['name'] in ["Sign", "Flyers"]])
+        scary.id = scary.name = "Scary Shack"
+
+        scary.img = "content/buildings/haunted.webp"
+        temp = ["It is a haunted sh*thole no sane being would pay a dime for!"]
+        temp.append("But it's all you've got...")
+        temp.append("And 'haunted' is probably just a rumor.")
+        scary.desc = "\n".join(temp)
+        scary.price_overload = 100
+
+        scary.fame = 0
+        scary.maxfame = 100
+
+        scary.maxrep = 100
+        scary.rep = 0
+
+        scary.auto_clean = False
+        scary.dirt = randint(50, 100)
+        scary.threat = 0
+
+        scary.allowed_businesses = [BrothelBlock, Cleaners]
+        scary.add_business(Cleaners(allowed_upgrades=[BroomCloset]))
+        scary.add_business(BrothelBlock(capacity=2, allowed_upgrades=[]))
+
+        scary.normalize_jobs()
+        hero.add_building(scary)
     return
 
 init: # MC Setup Screens:

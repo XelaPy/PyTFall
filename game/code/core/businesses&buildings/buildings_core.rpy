@@ -117,7 +117,7 @@ init -10 python:
             super(BaseBuilding, self).__init__(id=id)
             self.name = name
             self.desc = desc
-            self.price = price
+            self._price = price
             self.price_overload = None
 
             self.jobs = set()
@@ -148,7 +148,8 @@ init -10 python:
                 return str(self.name)
             return super(BaseBuilding, self).__str__()
 
-        def get_price(self):
+        @property
+        def price(self):
             # Returns our best guess for price of the Building
             # Needed for buying, selling the building or for taxation.
             # **We may want to take reputation and fame into account as well.
@@ -164,6 +165,13 @@ init -10 python:
                 for b in self._businesses:
                     price += b.get_price()
             return price
+
+        @price.setter
+        def price(self, value):
+            self._price = value
+
+        def get_price(self):
+            return self.price
 
         def get_workers(self):
             # I may want better handing for this...

@@ -119,7 +119,8 @@ init -20 python:
         Also has a number of extra properties.
         """
         def __init__(self, id, img="", daily_modifier=.1,
-                     desc="", price=0, rooms=1, **kwargs):
+                     desc="", price=0, rooms=1,
+                     location="Flee Bottom", tier=1, **kwargs):
             super(InvLocation, self).__init__(id=id,
                         daily_modifier=daily_modifier,
                         rooms=rooms)
@@ -131,6 +132,8 @@ init -20 python:
             self.desc = desc
             self.img = img
             self.price = price
+            self.location = location
+            self.tier = tier
 
             self.nickname = self.fullname = self.name = self.id
 

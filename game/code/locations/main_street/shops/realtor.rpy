@@ -56,7 +56,7 @@ label realtor_agency:
 
         if result[0] == 'buy':
             if hero.take_ap(1):
-                if hero.take_money(result[1].get_price(), reason="Property"):
+                if hero.take_money(result[1].price, reason="Property"):
                     $ renpy.play("content/sfx/sound/world/purchase_1.ogg")
                     $ hero.add_building(result[1])
                     $ market_buildings.remove(result[1])
@@ -159,20 +159,20 @@ screen realtor_agency():
                                     frame:
                                         xysize 380, 24
                                         text "{color=[gold]}Price:" yalign .5
-                                        $ price = focus.get_price()
-                                        label "{color=[gold]}[price]" align 1.0, .5
+                                        label "{color=[gold]}[focus.price]" align 1.0, .5
                                     frame:
                                         xysize 380, 24
                                         text "{color=[ivory]}Quarter:" yalign .5
                                         label "{color=[ivory]}[focus.location]" align 1.0, .5
-                                    frame:
-                                        xysize 380, 24
-                                        text "Interior Space:" yalign .5
-                                        label (u"{color=[ivory]}%s/%s" % (focus.in_slots, focus.in_slots_max)) align 1.0, .5
-                                    frame:
-                                        xysize 380, 24
-                                        text "Exterior Space:" yalign .5
-                                        label (u"{color=[ivory]}%s/%s" % (focus.ex_slots, focus.ex_slots_max)) align 1.0, .5
+                                    if isinstance(focus, Building):
+                                        frame:
+                                            xysize 380, 24
+                                            text "Interior Space:" yalign .5
+                                            label (u"{color=[ivory]}%s/%s" % (focus.in_slots, focus.in_slots_max)) align 1.0, .5
+                                        frame:
+                                            xysize 380, 24
+                                            text "Exterior Space:" yalign .5
+                                            label (u"{color=[ivory]}%s/%s" % (focus.ex_slots, focus.ex_slots_max)) align 1.0, .5
                                     if isinstance(focus, FamousBuilding):
                                         frame:
                                             xysize 380, 24
