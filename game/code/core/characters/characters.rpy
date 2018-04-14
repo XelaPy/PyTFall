@@ -4190,7 +4190,6 @@ init -9 python:
             self.img_db = None
             self.id = "mc" # Added for unique items methods.
             self.cache = list()
-            self.gold = 6000
             self.name = 'Player'
             self.fullname = 'Player'
             self.nickname = 'Player'
