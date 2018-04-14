@@ -132,58 +132,6 @@ init:
     image mm_clouds = "content/gfx/animations/main_menu/cloud1.webp"
     image mm_cloudstest = im.Scale("content/gfx/animations/main_menu/cloud1.webp", 287, 263)
 
-    image save:
-        zoom .4
-        additive 1.0
-        alpha .7
-        "content/gfx/animations/main_menu/settings/save1.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/save2.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/save3.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/save4.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/save5.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/save6.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/save7.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/save8.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/save9.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/save10.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/save11.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/save12.png"
-        pause .2
-        repeat
-
-    image slo:
-        zoom .9
-        additive 1.0
-        #alpha .7
-        "content/gfx/animations/main_menu/settings/slo1.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/slo2.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/slo3.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/slo4.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/slo5.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/slo6.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/slo7.png"
-        pause .2
-        "content/gfx/animations/main_menu/settings/slo8.png"
-        pause .2
-        repeat
-
     # Interactions module:
     # Portrait overlays (for enhancing emotions):
     image angry_pulse = "content/gfx/animations/interactions/angry.webp"

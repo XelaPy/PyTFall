@@ -268,101 +268,6 @@ init -11 python:
 
         return content
 
-    def load_crazy_characters():
-        # Presently broken...
-        dir = content_path("chars")
-        dirlist = os.listdir(dir)
-        content = dict()
-        crazy_folders = set()
-        all_tags = set(tags_dict.values())
-        tagdb = store.tagdb
-        for folder in dirlist:
-            if os.path.isdir('/'.join([dir, folder])):
-                for file in os.listdir('/'.join([dir, folder])):
-                    if file.endswith(".girlsx"):
-                        crazy_folders.add(folder)
-                        content.update(load_database("%s/%s/%s" % (dir, folder, file), entity=Char))
-
-                    # if os.path.isdir("/".join([dir, folder, file])):
-                        # # We load the new tags!:
-                        # for fn in os.listdir("/".join([dir, folder, file])):
-                            # if check_image_extension(fn):
-                                # rp_path = "/".join(["content/chars", folder, file, fn])
-                                # fn = fn.split(".")[0]
-                                # fn = fn.split("-")[1:]
-                                # for tag in fn:
-                                    # tagdb.tagmap[tags_dict[tag]].add(rp_path)
-                                # tagdb.tagmap.setdefault(file, set()).add(rp_path)
-        for folder in crazy_folders:
-            if os.path.isdir('/'.join([dir, folder])):
-                for file in os.listdir('/'.join([dir, folder])):
-                    if os.path.isdir("/".join([dir, folder, file])):
-                        # Crazy tags!:
-                        for fn in os.listdir("/".join([dir, folder, file])):
-                            if check_image_extension(fn):
-                                rp_path = "/".join(["content/chars", folder, file, fn])
-                                fn = fn.lower()
-                                filetag = None
-                                if fn.startswith("profile"):
-                                    filetag = "profile"
-                                elif fn.startswith("anal"):
-                                    filetag = "anal"
-                                elif fn.startswith("bdsm"):
-                                    filetag = "bdsm"
-                                elif fn.startswith("bunny"):
-                                    filetag = "bunny"
-                                elif fn.startswith("card"):
-                                    filetag = "gambling"
-                                elif fn.startswith("combat"):
-                                    filetag = "battle"
-                                elif fn.startswith("ecchi"):
-                                    filetag = "provocative"
-                                elif fn.startswith("group"):
-                                    filetag = "group"
-                                elif fn.startswith("les"):
-                                    filetag = "les"
-                                elif fn.startswith("mast"):
-                                    filetag = "mast"
-                                elif fn.startswith("nude"):
-                                    filetag = "nude"
-                                elif fn.startswith("oral"):
-                                    filetag = "blowjob"
-                                elif fn.startswith("profile"):
-                                    filetag = "profile"
-                                elif fn.startswith("sex"):
-                                    filetag = "sex"
-                                elif fn.startswith("strip"):
-                                    filetag = "strip"
-                                elif fn.startswith("titty"):
-                                    filetag = ["titsjob", "blowjob"]
-                                elif fn.startswith("wait"):
-                                    filetag = "waitress"
-                                elif fn.split()[0] in all_tags:
-                                        filetag = fn.split()[0]
-                                if filetag != None:
-                                    if isinstance(filetag, basestring):
-                                        tagdb.tagmap.setdefault(filetag, set()).add(rp_path)
-                                    else:
-                                        for tag in filetag:
-                                            if tag in all_tags:
-                                                tagdb.tagmap.setdefault(tag, set()).add(rp_path)
-                                    tagdb.tagmap.setdefault(file, set()).add(rp_path)
-
-
-
-        for key in content:
-            for entry in content[key].xml:
-                if entry.tag == 'Trait':
-                    # raise Exception, entry.__dict__
-                    if entry.attrib["Name"] in traits.keys():
-                        content[key].init_traits.append(entry.attrib["Name"])
-            setattr(content[key], "name", content[key].id)
-            del content[key].__dict__['xml']
-            content[key].init()
-        # raise Exception, [key.name for key in content.values()]
-
-        return content
-
     def load_random_characters():
         dir = content_path('rchars')
         dirlist = os.listdir(dir)
@@ -837,6 +742,8 @@ label convert_json_to_filenames:
                     fn = fn + ".jpeg"
                 elif img.endswith(".gif"):
                     fn = fn + ".gif"
+                elif img.endswith(".webp"):
+                    fn = fn + ".webp"
                 oldfilename = f.split(os.sep)[-1]
                 if oldfilename == fn:
                     continue

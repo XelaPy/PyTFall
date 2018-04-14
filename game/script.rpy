@@ -200,11 +200,7 @@
         tl.start("Loading: All Characters!")
         chars = load_characters("chars", Char)
         npcs = load_characters("npc", NPC)
-        # Trying to load crazy characters:
-        crazy_chars = load_crazy_characters()
-        chars.update(crazy_chars)
         rchars = load_random_characters()
-        del crazy_chars
         tl.end("Loading: All Characters!")
 
         devlog.info("Loaded %d images from filenames!" % tagdb.count_images())
@@ -258,28 +254,11 @@ label dev_testing_menu_and_load_mc:
             "GFX":
                 while 1:
                     menu gfx_testing_menu:
-                        "Webm":
-                            call test_webm
-                        "Chain UDD":
-                            call testing_chain_udd
-                        "Water Effect":
-                            call gfx_water_effect_test
-                            jump gfx_testing_menu
-                        "Test Matrix":
-                            call test_matrix
-                        "Test Vortex":
-                            call test_vortex
-                        # "Quality Test":
-                            # call screen testing_image_quality
-                        "FilmStrip":
-                            call screen testing_new_filmstrip
                         "Particle":
                             scene black
                             show expression ParticleBurst([Solid("#%06x"%renpy.random.randint(0, 0xFFFFFF), xysize=(5, 5)) for i in xrange(50)], mouse_sparkle_mode=True) as pb
                             pause
                             hide pb
-                        "Test Robert Penners Easing":
-                            call screen test_penners_easing
                         "Back":
                             jump dev_testing_menu_and_load_mc
     else:
