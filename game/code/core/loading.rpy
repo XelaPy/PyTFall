@@ -633,8 +633,6 @@ label load_resources:
                          img="content/gfx/bg/buildings/apartment_1.webp",
                          price=5000)
         buildings[ap.id] = ap
-        # hero.buildings.append(ap)
-        # hero.home = ap # Note, we may condition this in MC setup? Maybe? One day :D
 
         ap = InvLocation(id="Large Apartment", daily_modifier=.15, rooms=3,
                          desc="Comfortable apartment with enough living space for three and a large storage area for all of your items!",
@@ -642,8 +640,6 @@ label load_resources:
                          tier=3, location="Midtown",
                          price=10000)
         buildings[ap.id] = ap
-        # hero.buildings.append(ap)
-        # hero.home = ap # Note, we may condition this in MC setup? Maybe? One day :D
 
         ap = InvLocation(id="Lux Apartment", daily_modifier=.25, rooms=6,
                          desc="Enough space for six people and nearly magical restorative effects for all who sleep here.",
@@ -651,12 +647,6 @@ label load_resources:
                          tier=6, location="Richford",
                          price=50000)
         buildings[ap.id] = ap
-        # hero.buildings.append(ap)
-        # hero.home = ap # Note, we may condition this in MC setup? Maybe? One day :D
-
-        if DEBUG and not hero.home:
-            hero.buildings.append(ap)
-            hero.home = ap
 
     python: # Jail:
         jail = CityJail()

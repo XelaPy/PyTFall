@@ -281,6 +281,10 @@ label dev_testing_menu_and_load_mc:
             hero.restore_ap()
             hero.log_stats()
 
+            if DEBUG and not hero.home:
+                hero.buildings.append(ap)
+                hero.home = ap
+
     jump continue_with_start
 
 label continue_with_start:
