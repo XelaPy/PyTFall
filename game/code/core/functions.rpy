@@ -5,7 +5,8 @@ init -11 python:
         @param: color: should be supplied as a string! Not as a variable!
         Sets font color during interpolation.
         """
-        return "".join(["{color=[%s]}" % color, "{}".format(s), "{/color}"])
+        color = getattr(store, color, color)
+        return "".join(["{color=%s}" % color, s, "{/color}"])
 
     def add_dicts(dicts):
         """Does what I originally expected dict.update method to do many years ago...
@@ -18,7 +19,7 @@ init -11 python:
             for key, value in d.iteritems():
                 new[key] = new.get(key, 0) + value
         return new
-        
+
     def gold_text(money):
         if money >= 10**12:
             return str(round(float(money)/10**12, 2)) + "T"

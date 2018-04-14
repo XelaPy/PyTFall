@@ -107,6 +107,10 @@ label mc_setup_end:
             hero.buildings.append(ap)
             hero.home = ap
 
+    # Set the default battle skill:
+    if not hero.attack_skills:
+        $ hero.attack_skills.append(hero.default_attack_skill)
+
     python:
         del temp
         del mc_stories

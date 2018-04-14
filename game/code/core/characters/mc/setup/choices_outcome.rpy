@@ -163,7 +163,7 @@ label mc_setup_warrior_defender_harpy_sky:
 label mc_setup_mage_arc_ghost:
     $ hero.apply_trait("Ghostly Structure")
     $ hero.apply_trait("Light")
-    $ give_tiered_magic_skills(hero, amount=randint(4, 5))
+    $ give_tiered_magic_skills(hero, amount=randint(2, 3))
     return
 
 label mc_setup_mage_arc_ghost_intangible:
@@ -176,16 +176,34 @@ label mc_setup_mage_arc_ghost_illusive:
 
 label mc_setup_mage_arc_ghost_light:
     $ hero.apply_trait("Master of Light")
+    python hide:
+        temp = []
+        for i in items.values():
+            if i.type == "scroll" and "Angelica Shop" in i.locations:
+                temp.append(i)
+        if len(temp) >= 3: # Should always be a case unless we chance the concept.
+            temp = random.sample(temp, 3)
+            for i in temp:
+                hero.add_item(i)
     return
 
 label mc_setup_mage_arc_vampire:
     $ hero.apply_trait("Vampiric Blood")
     $ hero.apply_trait("Darkness")
-    $ give_tiered_magic_skills(hero, amount=randint(4, 5))
+    $ give_tiered_magic_skills(hero, amount=randint(2, 3))
     return
 
 label mc_setup_mage_arc_vampire_night:
     $ hero.apply_trait("Master of Darkness")
+    python hide:
+        temp = []
+        for i in items.values():
+            if i.type == "scroll" and "Angelica Shop" in i.locations:
+                temp.append(i)
+        if len(temp) >= 3: # Should always be a case unless we chance the concept.
+            temp = random.sample(temp, 3)
+            for i in temp:
+                hero.add_item(i)
     return
 
 label mc_setup_mage_arc_vampire_blood:
@@ -199,7 +217,7 @@ label mc_setup_mage_arc_vampire_reflex:
 label mc_setup_mage_sorcerer_kitsune:
     $ hero.apply_trait("Kitsune Blood")
     $ hero.apply_trait("Fire")
-    $ give_tiered_magic_skills(hero, amount=randint(4, 5))
+    $ give_tiered_magic_skills(hero, amount=randint(2, 3))
     return
 
 label mc_setup_mage_sorcerer_kitsune_fire:
@@ -217,7 +235,7 @@ label mc_setup_mage_sorcerer_kitsune_flow:
 label mc_setup_mage_sorcerer_winter:
     $ hero.apply_trait("Fae Blood")
     $ hero.apply_trait("Ice")
-    $ give_tiered_magic_skills(hero, amount=randint(4, 5))
+    $ give_tiered_magic_skills(hero, amount=randint(2, 3))
     return
 
 label mc_setup_mage_sorcerer_winter_ice:
@@ -235,11 +253,20 @@ label mc_setup_mage_sorcerer_winter_win:
 label mc_setup_mage_researcher_android:
     $ hero.apply_trait("Artificial Body Structure")
     $ hero.apply_trait("Electricity")
-    $ give_tiered_magic_skills(hero, amount=randint(4, 5))
+    $ hero.default_attack_skill = battle_skills["Lightning Whip"]
     return
 
 label mc_setup_mage_researcher_android_ele:
     $ hero.apply_trait("Master of Electricity")
+    python hide:
+        temp = []
+        for i in items.values():
+            if i.type == "scroll" and "Aine Shop" in i.locations:
+                temp.append(i)
+        if len(temp) >= 3: # Should always be a case unless we chance the concept.
+            temp = random.sample(temp, 3)
+            for i in temp:
+                hero.add_item(i)
     return
 
 label mc_setup_mage_researcher_android_loop:
@@ -253,11 +280,20 @@ label mc_setup_mage_researcher_android_recharge:
 label mc_setup_mage_researcher_slime:
     $ hero.apply_trait("Liquid Body Structure")
     $ hero.apply_trait("Water")
-    $ give_tiered_magic_skills(hero, amount=randint(4, 5))
+    $ give_tiered_magic_skills(hero, amount=randint(2, 3))
     return
 
 label mc_setup_mage_researcher_slime_water:
     $ hero.apply_trait("Master of Water")
+    python hide:
+        temp = []
+        for i in items.values():
+            if i.type == "scroll" and "Peevish Shop" in i.locations:
+                temp.append(i)
+        if len(temp) >= 3: # Should always be a case unless we chance the concept.
+            temp = random.sample(temp, 3)
+            for i in temp:
+                hero.add_item(i)
     return
 
 label mc_setup_mage_researcher_slime_aarcher:

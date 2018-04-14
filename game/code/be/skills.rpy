@@ -676,6 +676,13 @@ python: # Whip Attacks:
                          "duration": 1.36, "aim": {"point": "center", "anchor": (.5, .5), "xo": 180}, "hflip": True},
             target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": .5, "duration": .86},
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": .5})
+    BE_Action(u"Lightning Whip", menu_pos=.9, range=1, attributes=["melee", "electricity", "physical"],
+            effect=25, critpower=.6, multiplier=1.1, vitality_cost=10,
+            desc="Powerful lightning strike used to do battle by artificial beings.",
+            main_effect={"gfx": "shock_whip_webm", "sfx": "content/sfx/sound/be/shock_whip.ogg",
+                         "duration": 1.36, "aim": {"point": "center", "anchor": (.5, .5), "xo": 180}, "hflip": True},
+            target_sprite_damage_effect={"gfx": "on_ele_with_shake", "initial_pause": .5, "duration": .86},
+            target_death_effect={"gfx": "dissolve", "initial_pause": 1.2, "duration": .5})
 
 python: # Magical staffs attacks:
     BE_Action(u"Heat Discharge", menu_pos=-0.1, range=4, attributes=["magic", "fire"],
