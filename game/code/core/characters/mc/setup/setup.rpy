@@ -19,11 +19,13 @@ label mc_setup:
                 python:
                     af = result[2]
                     del male_fighters[af.id]
+
                     hero._path_to_imgfolder = af._path_to_imgfolder
                     hero.id = af.id
                     hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(120, 120)))
                     hero.restore_ap()
                     hero.log_stats()
+
                 jump mc_setup_end
 
         elif result[0] == "rename":
@@ -42,6 +44,62 @@ label mc_setup:
                 if len(n):
                     $ hero.fullname = n
 
+
+label mc_setup_end:
+    $ renpy.scene(layer='screens')
+    scene black
+
+    call build_mc
+
+    # Call all the labels:
+    python:
+        """
+        main_story: Merchant
+        substory: Caravan
+        mc_story: Defender
+        mc_substory: Sword
+        """
+    $ temp = mc_stories[main_story].get('label', '')
+    if "label" in temp and renpy.has_label(temp["label"]):
+        call expression temp["label"]
+
+    $ temp = mc_stories[main_story][sub_story].get('label', '')
+    if renpy.has_label(temp):
+        call expression temp
+
+    $ temp = mc_stories[main_story]["MC"][sub_story][mc_story].get('label', '')
+    if renpy.has_label(temp):
+        call expression temp
+
+    $ temp = mc_stories[main_story]["MC"][sub_story][mc_story][mc_substory].get('label', '')
+    if renpy.has_label(temp):
+        call expression temp
+
+    python hide: # We never really want to start with weakened MC?
+        for s in ["health", "mp", "vitality"]:
+            setattr(hero, s, hero.get_max(s))
+
+    python hide:
+        if 'Combatant' in hero.gen_occs:
+            cfactor = partial(uniform, .85, 1.0)
+        else:
+            cfactor = partial(uniform, .5, .7)
+
+        # for stat in ['attack', 'defence', 'agility', 'magic']
+        #
+        # for s in ['constitution', 'intelligence', 'charisma', , , , ]:
+        #     setattr(hero, s, int(round(hero.get_max(s)*0.35)))
+
+    python:
+        del temp
+        del mc_stories
+        del main_story
+        del sub_story
+        del mc_story
+        del mc_substory
+
+    return
+
 label build_mc:
     # We build the MC here. First we get the classes player picked in the choices screen and add those to MC:
     python:
@@ -59,54 +117,6 @@ label build_mc:
     python:
         for s in ['constitution', 'intelligence', 'charisma', 'attack', 'magic', 'defence', 'agility']:
             setattr(hero, s, int(round(hero.get_max(s)*0.35)))
-
-    python:
-        for s in ["health", "mp", "vitality"]:
-            setattr(hero, s, hero.get_max(s))
-
-    return
-
-label mc_setup_end:
-    hide screen mc_stories
-    hide screen mc_texts
-    hide screen mc_sub_stories
-    hide screen mc_sub_texts
-    hide screen mc_setup
-    scene black
-
-    call build_mc
-
-    # Call all the labels:
-    python:
-        """
-        main_story: Merchant
-        substory: Caravan
-        mc_story: Defender
-        mc_substory: Sword
-        """
-    $ temp = mc_stories[main_story]
-    if "label" in temp and renpy.has_label(temp["label"]):
-        call expression temp["label"]
-
-    $ temp = mc_stories[main_story][sub_story]
-    if "label" in temp and renpy.has_label(temp["label"]):
-        call expression temp["label"]
-
-    $ temp = mc_stories[main_story]["MC"][sub_story][mc_story]
-    if "label" in temp and renpy.has_label(temp["label"]):
-        call expression temp["label"]
-
-    $ temp = mc_stories[main_story]["MC"][sub_story][mc_story][mc_substory]
-    if "label" in temp and renpy.has_label(temp["label"]):
-        call expression temp["label"]
-
-    python:
-        del temp
-        del mc_stories
-        del main_story
-        del sub_story
-        del mc_story
-        del mc_substory
 
     return
 
