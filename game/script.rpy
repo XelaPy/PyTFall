@@ -266,10 +266,10 @@ label dev_testing_menu_and_load_mc:
 
     python: # We run this in case we skipped MC setup in devmode!
         if not getattr(hero, "_path_to_imgfolder", None):
+            renpy.music.stop()
             if not DEBUG:
                 # We're fucked if this is the case somehow :(
                 raise Exception("Something went horribly wrong with MC setup!")
-            renpy.music.stop()
 
             male_fighters, female_fighters, json_fighters = load_special_arena_fighters()
             af = choice(male_fighters.values())
@@ -282,8 +282,10 @@ label dev_testing_menu_and_load_mc:
             hero.log_stats()
 
             if DEBUG and not hero.home:
+                ap = buildings["Lux Apartment"]
                 hero.buildings.append(ap)
                 hero.home = ap
+                del ap
 
     jump continue_with_start
 
