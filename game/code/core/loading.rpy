@@ -622,6 +622,12 @@ label load_resources:
 
     python hide:
         # MC Apartments:
+        ap = InvLocation(id="Slums Apartment", daily_modifier=.1, rooms=1,
+                         desc="Barely livable apartment with storage space, but it's still better than not having any roof over your head at all!",
+                         img="content/buildings/Rooms/beggar (3).webp",
+                         price=1000)
+        buildings[ap.id] = ap
+
         ap = InvLocation(id="Studio Apartment", daily_modifier=.15, rooms=1,
                          desc="Comfortable apartment with plenty of storage space!",
                          img="content/gfx/bg/buildings/apartment_1.webp",
@@ -630,7 +636,7 @@ label load_resources:
         # hero.buildings.append(ap)
         # hero.home = ap # Note, we may condition this in MC setup? Maybe? One day :D
 
-        ap = InvLocation(id="Large Apartment", daily_modifier=.12, rooms=3,
+        ap = InvLocation(id="Large Apartment", daily_modifier=.15, rooms=3,
                          desc="Comfortable apartment with enough living space for three and a large storage area for all of your items!",
                          img="content/buildings/Rooms/decent (1).webp",
                          tier=3, location="Midtown",

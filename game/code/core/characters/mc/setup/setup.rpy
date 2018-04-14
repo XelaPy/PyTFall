@@ -98,8 +98,16 @@ label mc_setup_end:
             value = high_factor()+.2
             set_stat_to_percentage(hero, s, value)
 
+    # Add default workable building to MC, but only if we didn't add one in special labels.
     if not [b for b in hero.upgradable_buildings if b.workable]:
         call set_mc_start_building
+
+    # Add Home apartment (Slums) to MC, unless we have set him up with a home in special labels.
+    python hide:
+        if not hero.home:
+            ap = building["Slums Apartment"]
+            hero.buildings.append(ap)
+            hero.home = ap
 
     python:
         del temp
