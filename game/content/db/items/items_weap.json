@@ -792,7 +792,8 @@
     "ch_multiplier": 0.2,
     "locations": ["Exploration", "Arena"],
     "tier": 4,
-    "pref_class":["Warrior", "Assassin"]
+    "pref_class":["Warrior", "Assassin"],
+    "addtraits": ["Grim Reaper"]
     },
     {
     "id": "Wooden Club",

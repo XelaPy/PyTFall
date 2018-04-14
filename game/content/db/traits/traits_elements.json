@@ -334,5 +334,13 @@
     "id": "Minor Light Focus",
     "desc": "Light damage is slightly increased.",
     "el_damage": {"light": 0.1}
+    },
+    {
+    "id": "Grim Reaper",
+    "desc": "The power of Death helps in battle, reducing physical damage.",
+    "el_absorbs": {"physical": 0.2},
+    "character_trait": true,
+    "client": false,
+    "market": false
     }
     ]
