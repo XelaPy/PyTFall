@@ -1,4 +1,14 @@
 init -11 python:
+    def friends_disp_check(char):
+        """Sets up friendship with characters based on disposition"""
+        if char.disposition > 400 and not hero in char.friends:
+            set_friends(char, hero)
+        elif char.disposition < -150 and char in char.friends:
+            end_friends(char, hero)
+            
+        if char.disposition < 200 and hero in char.lovers:
+            end_lovers(char, hero)
+            
     def retire_chars_from_location(chars, loc):
         if isinstance(chars, PytCharacter):
             chars = [chars]
