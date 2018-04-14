@@ -58,9 +58,7 @@ label mc_setup_end:
         mc_story: Defender
         mc_substory: Sword
         """
-        """
-        We start off with 6k Gold set in the player class.
-        """
+    $ hero.gold = randint(1950, 2050) # Barely enough to buy a slave and few items.
 
     $ temp = mc_stories[main_story].get('label', '')
     if "label" in temp and renpy.has_label(temp["label"]):
