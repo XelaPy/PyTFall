@@ -24,6 +24,7 @@ label build_mc_stories:
         mc_stories["Warrior"] = temp = {}
         temp["img"] = "content/gfx/interface/images/warriorP.png"
         temp["header"] = "Your father was a skilled fighter..."
+        # temp["text"] = "Bla bla bla"
         temp["choices"] = OrderedDict(Warrior="content/gfx/interface/images/mc/warrior_m.png",
                                        Knight="content/gfx/interface/images/mc/defender_m.png",
                                        Shooter="content/gfx/interface/images/mc/shooter_m.png",
@@ -36,13 +37,13 @@ label build_mc_stories:
 
         mc_stories["Noble"] = temp = {}
         temp["img"] = "content/gfx/interface/images/nobleP.png"
-        # temp["header"] = "Your father was a powerful mage..."
         temp["choices"] = OrderedDict()
 
     python hide: # Warrior options:
         mc_stories["Warrior"]["Warrior"] = {}
         mc_stories["Warrior"]["Warrior"]["class"] = "Warrior"
         mc_stories["Warrior"]["Warrior"]["text"] = "He was a famous gladiator. Decades of fighting at the arena made him competent with almost every known weapon and brought fame and wealth."
+        mc_stories["Warrior"]["Warrior"]
         mc_stories["Warrior"]["Assassin"] = {}
         mc_stories["Warrior"]["Assassin"]["class"] = "Assassin"
         mc_stories["Warrior"]["Assassin"]["text"] = "He was a deadly assassin. Even royalties, diplomats and nobility would perish at the tip of his blade, for the right price."
