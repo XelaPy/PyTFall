@@ -8,7 +8,7 @@ label build_mc_stories:
 
     $ mc_stories = OrderedDict() # Main Dictionary
 
-    python:
+    python hide: # Main options:
         """
         MC Screens are built from this dictionaries and we expect them to have some values,
         even if those values are just the empty dicts and/or images to be grayed out by the screen.
@@ -28,6 +28,18 @@ label build_mc_stories:
                                                        Knight="content/gfx/interface/images/mc/defender_m.png",
                                                        Shooter="content/gfx/interface/images/mc/shooter_m.png",
                                                        Assassin="content/gfx/interface/images/mc/assassin_m.png")
+
+        mc_stories["Mage"] = {}
+        mc_stories["Mage"]["img"] = "content/gfx/interface/images/magicP.png"
+        mc_stories["Mage"]["header"] = "Your father was a powerful mage..."
+        mc_stories["Mage"]["choices"] = OrderedDict()
+
+        mc_stories["Noble"] = {}
+        mc_stories["Noble"]["img"] = "content/gfx/interface/images/nobleP.png"
+        mc_stories["Mage"]["header"] = "Your father was a powerful mage..."
+        mc_stories["Noble"]["choices"] = OrderedDict()
+
+    python hide: # Warrior options:
         mc_stories["Warrior"]["Warrior"] = {}
         mc_stories["Warrior"]["Warrior"]["class"] = "Warrior"
         mc_stories["Warrior"]["Warrior"]["text"] = "He was a famous gladiator. Decades of fighting at the arena made him competent with almost every known weapon and brought fame and wealth."
@@ -265,12 +277,7 @@ label build_mc_stories:
 
 
 
-        # We add the rest of the options:
-        mc_stories["Mage"] = {}
-        mc_stories["Mage"]["img"] = "content/gfx/interface/images/magicP.png"
-        mc_stories["Mage"]["header"] = "Your father was a powerful mage..."
-        mc_stories["Mage"]["choices"] = OrderedDict()
-
+    python hide: # Mage options:
         mc_stories["Mage"]["choices"]["Arcane Knight"] = "content/gfx/interface/images/mc/arc.png"
         mc_stories["Mage"]["choices"]["Sorcerer"] = "content/gfx/interface/images/mc/sorc.png"
         mc_stories["Mage"]["choices"]["Researcher"] = "content/gfx/interface/images/mc/researcher.png"
@@ -451,9 +458,4 @@ label build_mc_stories:
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["Perfect Reflexes"] = {}
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["Perfect Reflexes"]["text"] = "You inherited your mother's reflexes, which help to evade attacks. Sadly, mortal body is not suitable for vampire speed, affecting your health."
         mc_stories["Mage"]["MC"]["Arcane Knight"]["Vampire"]["Perfect Reflexes"]["label"] = "mc_setup_mage_arc_vampire_reflex"
-
-        mc_stories["Noble"] = {}
-        mc_stories["Noble"]["img"] = "content/gfx/interface/images/nobleP.png"
-        mc_stories["Noble"]["choices"] = OrderedDict()
-
     return
