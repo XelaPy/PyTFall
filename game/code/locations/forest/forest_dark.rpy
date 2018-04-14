@@ -75,6 +75,8 @@ screen city_dark_forest():
                 yalign .5
                 action [Hide("city_dark_forest"), Jump("forest_entrance"), With(dissolve)]
                 text "Leave" size 15
+                
+    key "mousedown_3" action [Hide("city_dark_forest"), Jump("forest_entrance"), With(dissolve)]
 
 label city_dark_forest_explore:
     if not(take_team_ap(1)):
