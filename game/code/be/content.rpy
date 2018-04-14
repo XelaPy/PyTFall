@@ -115,7 +115,7 @@ init python:
 
                 # Calc when we add the next gfx and remove the old one from the list.
                 # Right now it's a steady stream of ds but I'll prolly change it in the future.
-                next_disp = random.uniform(self.delay*.85, self.delay)
+                next_disp = uniform(self.delay*.85, self.delay)
                 self.next = st + next_disp
                 self.count += 1
                 self.displayable.append((gfx, st + self.single_displayable_duration))
@@ -169,7 +169,7 @@ init python:
             msg = "{} skips a turn. ".format(self.source.nickname)
 
             # Restoring Vitality:
-            temp = int(self.source.get_max("vitality") * random.uniform(.03, .06))
+            temp = int(self.source.get_max("vitality") * uniform(.03, .06))
             self.source.vitality += temp
             msg = msg + "Restored: {color=[green]}%d vitality{/color} points!"%(temp)
             battle.log(msg)

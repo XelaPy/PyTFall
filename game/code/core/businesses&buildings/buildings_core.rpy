@@ -812,7 +812,7 @@ init -10 python:
             min_tier = float(max(self.tier-2, .1))
             max_tier = float(self.tier + 1)
             customer = build_client(gender=gender, caste=caste,
-                                    tier=random.uniform(min_tier, max_tier),
+                                    tier=uniform(min_tier, max_tier),
                                     likes=likes)
             return customer
 

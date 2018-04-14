@@ -39,7 +39,7 @@ screen city_tavern_show_poker_dices(dice_1, dice_2, atl, selected_atl): # main p
         action Show("city_tavern_show_poker_status", dissolve)
     on "hide":
         action Hide("city_tavern_show_poker_status")
-    # default atl = dice_roll_unzooming(random.uniform(.9999, .99999))
+    # default atl = dice_roll_unzooming(uniform(.9999, .99999))
 
     fixed:
         pos 430, 230

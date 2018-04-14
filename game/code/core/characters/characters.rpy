@@ -981,7 +981,7 @@ init -9 python:
 
             if char.status == 'slave':
                 upkeep += char.BASE_UPKEEP * char.tier or 1
-                upkeep *= random.uniform(.9, 1.1)
+                upkeep *= uniform(.9, 1.1)
                 if "Dedicated" in char.traits:
                     upkeep *= .5
 
@@ -4347,7 +4347,7 @@ init -9 python:
                 shuffle(all_properties)
                 while total_debt and all_properties:
                     cr = ec.confiscation_range
-                    multiplier = round(random.uniform(*cr), 2)
+                    multiplier = round(uniform(*cr), 2)
                     confiscate = all_properties.pop()
 
                     if isinstance(confiscate, Building):

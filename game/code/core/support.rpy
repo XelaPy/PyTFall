@@ -144,11 +144,11 @@ init -9 python:
             for bt_group, amount in new_rcs.items():
                 for i in range(amount):
                     if dice(1): # Super char!
-                        tier = hero.tier + random.uniform(3.0, 5.0)
+                        tier = hero.tier + uniform(3.0, 5.0)
                     elif dice(20): # Decent char.
-                        tier = hero.tier + random.uniform(1.0, 2.5)
+                        tier = hero.tier + uniform(1.0, 2.5)
                     else: # Ok char...
-                        tier = hero.tier + random.uniform(.2, 1.5)
+                        tier = hero.tier + uniform(.2, 1.5)
                     tier += tier_offset
 
                     if bt_group in ["Combatant", "Specialist", "Healer"]:

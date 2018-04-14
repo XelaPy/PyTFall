@@ -22,7 +22,7 @@ init -999 python:
 
             if duration in self.parse_gfx:
                 # Ensure unique key:
-                duration += random.uniform(.0001, .0002)
+                duration += uniform(.0001, .0002)
 
             self.parse_gfx[duration] = (atl, kwargs)
 
@@ -31,7 +31,7 @@ init -999 python:
         def add_sfx(self, sfx, delay=0):
             if delay in self.sfx:
                 # Ensure unique key:
-                delay += random.uniform(.0001, .0002)
+                delay += uniform(.0001, .0002)
             # Convert delay to string so we can make a proper timed events of it.
             self.sfx[str(delay)] = sfx
 
@@ -94,7 +94,7 @@ init -999 python:
             duration = 1.5
             kwargs["duration"] = duration
             self.add_atl(char_stats_effect, duration, kwargs)
-            # self.add_sfx("content/sfx/sound/events/bing.ogg", random.uniform(.5, 1.0))
+            # self.add_sfx("content/sfx/sound/events/bing.ogg", uniform(.5, 1.0))
 
         def notify(self, msg=None, type="text", tkwargs=None, duration=1.0):
             kwargs = {}
@@ -170,10 +170,10 @@ init -999 python:
             kwargs["yoffset"] = randint(-400, -350)
             kwargs["d"] = fixed
             kwargs["start"] = 0
-            duration = random.uniform(1.8, 2.2)
+            duration = uniform(1.8, 2.2)
             kwargs["duration"] = duration
             self.add_atl(char_stats_effect, duration, kwargs)
-            self.add_sfx("content/sfx/sound/events/bing.ogg", random.uniform(.5, 1.0))
+            self.add_sfx("content/sfx/sound/events/bing.ogg", uniform(.5, 1.0))
 
         def mod_mc_stat(self, stat, value):
             kwargs = dict()
@@ -196,10 +196,10 @@ init -999 python:
             kwargs["yoffset"] = randint(130, 170)
             kwargs["d"] = fixed
             kwargs["start"] = 0
-            duration = random.uniform(1.8, 2.2)
+            duration = uniform(1.8, 2.2)
             kwargs["duration"] = duration
             self.add_atl(mc_stats_effect, duration, kwargs)
-            self.add_sfx("content/sfx/sound/events/bing.ogg", random.uniform(.5, 1.0))
+            self.add_sfx("content/sfx/sound/events/bing.ogg", uniform(.5, 1.0))
 
         def disposition_mod(self, value):
             value = round_int(value)
@@ -226,7 +226,7 @@ init -999 python:
 
             kwargs["d"] = fixed
             kwargs["start"] = 0
-            duration = random.uniform(1.2, 2.3)
+            duration = uniform(1.2, 2.3)
             kwargs["duration"] = duration
             self.add_atl(dispostion_effect, duration, kwargs)
             self.add_sfx("content/sfx/sound/female/uhm.mp3")
@@ -285,8 +285,8 @@ init -999 python:
                 kwargs["yoffset"] = randint(-500, -450)
 
                 kwargs["d"] = support_icons
-                kwargs["start"] = random.uniform(.0, 1.0)
-                duration = random.uniform(1.5, 2.0)
+                kwargs["start"] = uniform(.0, 1.0)
+                duration = uniform(1.5, 2.0)
                 kwargs["duration"] = duration
                 self.add_atl(found_effect, duration, kwargs)
 
@@ -299,7 +299,7 @@ init -999 python:
                 callable, kwargs = data
                 if duration in self.gfx:
                     # Ensure unique key:
-                    duration += random.uniform(.0001, .0002)
+                    duration += uniform(.0001, .0002)
                 if "start" in kwargs:
                     kwargs["start"] += st
                 killtime = st + duration
@@ -871,12 +871,12 @@ init -999 python:
                     step = (self.radius-self.limit_radius)/self.amount
                 for i in xrange(1, self.amount+1):
                     if isinstance(self.time, (tuple, list)):
-                        t = random.uniform(*self.time)
+                        t = uniform(*self.time)
                     else:
                         t = self.time
 
                     if isinstance(self.circles, (tuple, list)):
-                        c = random.uniform(*self.circles)
+                        c = uniform(*self.circles)
                     else:
                         c = self.circles
 
@@ -975,7 +975,7 @@ init -100 python:
             render = rp.Render(width, height)
 
             if self.next <= st:
-                speed = random.uniform(self.speed[0], self.speed[1])  if isinstance(self.speed, (list, tuple)) else self.speed
+                speed = uniform(self.speed[0], self.speed[1])  if isinstance(self.speed, (list, tuple)) else self.speed
 
                 posx = self.start_pos[0]
                 posx = random.randint(posx[0], posx[1]) if isinstance(posx, (list, tuple)) else posx
@@ -1000,9 +1000,9 @@ init -100 python:
                 self.shown[st + speed] = self.transform(self.d, st, (posx, posy), (endposx, endposy), speed)
                 if self.slow_start and st < self.slow_start[0]:
                     interval = self.slow_start[1]
-                    self.next = st + random.uniform(interval[0], interval[1])
+                    self.next = st + uniform(interval[0], interval[1])
                 else:
-                    self.next = st + random.uniform(self.interval[0], self.interval[1])
+                    self.next = st + uniform(self.interval[0], self.interval[1])
 
             for d in self.shown.keys():
                 if d < st:
@@ -1063,14 +1063,14 @@ init -100 python:
             render = rp.Render(width, height)
 
             if not (self.particles and self.particle >= self.particles) and self.next <= st:
-                speed = rp.random.uniform(self.speed[0], self.speed[1])
+                speed = rp.uniform(self.speed[0], self.speed[1])
                 angle = rp.random.randrange(self.angle[0], self.angle[1])
                 radius = rp.random.randrange(self.radius[0], self.radius[1])
                 if not self.msm:
                     self.shown[st + speed] = particle(rp.random.choice(self.d), st, speed, self.around, angle, radius)
                 else:
                     self.shown[st + speed] = particle(rp.random.choice(self.d), st, speed, rp.get_mouse_pos(), angle, radius)
-                self.next = st + rp.random.uniform(self.interval[0], self.interval[1])
+                self.next = st + rp.uniform(self.interval[0], self.interval[1])
                 if self.particles:
                     self.particle = self.particle + 1
 
@@ -1462,7 +1462,7 @@ init -100 python: # Older factory designs:
             self.init()
 
         def init(self):
-            self.starts = [ random.uniform(0, self.start) for _i in xrange(0, self.count) ] # W0201
+            self.starts = [ uniform(0, self.start) for _i in xrange(0, self.count) ] # W0201
             self.starts.append(self.start)
             self.starts.sort()
 
@@ -1470,7 +1470,7 @@ init -100 python: # Older factory designs:
 
             def ranged(n):
                 if isinstance(n, tuple):
-                    return random.uniform(n[0], n[1])
+                    return uniform(n[0], n[1])
                 else:
                     return n
 
@@ -1485,7 +1485,7 @@ init -100 python: # Older factory designs:
                                                   st,
                                                   self.fluttering,
                                                   self.flutteringspeed,
-                                                  random.uniform(0, 100),
+                                                  uniform(0, 100),
                                                   fast=True,
                                                   rotate=self.rotate))
                 return rv
@@ -1505,7 +1505,7 @@ init -100 python: # Older factory designs:
                                              st,
                                              self.fluttering,
                                              self.flutteringspeed,
-                                             random.uniform(0, 100),
+                                             uniform(0, 100),
                                              fast=False,
                                              rotate=self.rotate) ]
 
@@ -1554,11 +1554,11 @@ init -100 python: # Older factory designs:
             x0 = min(-xdist, 0)
             x1 = max(sw + xdist, sw)
 
-            self.xstart = random.uniform(x0, x1)
+            self.xstart = uniform(x0, x1)
 
             if fast:
-                self.ystart = random.uniform(-border, sh + border)
-                self.xstart = random.uniform(0, sw)
+                self.ystart = uniform(-border, sh + border)
+                self.xstart = uniform(0, sw)
 
         def update(self, st):
             to = st - self.start

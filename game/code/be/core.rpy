@@ -1018,7 +1018,7 @@ init -1 python: # Core classes:
             attack *= m
 
             # Simple randomization factor?:
-            # attack *= random.uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this? Dark: we make damage calculations unpredictable (within reasonable limits); many games use much more harsh ways to add randomness to BE.
+            # attack *= uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this? Dark: we make damage calculations unpredictable (within reasonable limits); many games use much more harsh ways to add randomness to BE.
 
             # Decreasing based of current health:
             # healthlevel=(1.0*a.health)/(1.0*a.get_max("health"))*0.5 # low health decreases attack power, down to 50% at close to 0 health.
@@ -1086,7 +1086,7 @@ init -1 python: # Core classes:
                 defense += d
                 defense *= m
 
-            # defense *= random.uniform(.90, 1.10)
+            # defense *= uniform(.90, 1.10)
 
             return defense if defense > 0 else 1
 
@@ -1422,13 +1422,13 @@ init -1 python: # Core classes:
         def time_attackers_first_effect(self, battle, attacker, targets):
             start = self.get_show_attackers_first_action_duration()
             if start in self.timestamps:
-                start = start + random.uniform(.001, .002)
+                start = start + uniform(.001, .002)
             self.timestamps[start] = renpy.curry(self.show_attackers_first_effect)(battle, attacker, targets)
 
             if self.attacker_effects["gfx"]:
                 effects_delay = start + self.get_attackers_first_effect_pause(battle, attacker)
                 if effects_delay in self.timestamps:
-                    effects_delay = effects_delay + random.uniform(.001, .002)
+                    effects_delay = effects_delay + uniform(.001, .002)
                 self.timestamps[effects_delay] = renpy.curry(self.hide_attackers_first_effect)(battle, attacker)
                 return effects_delay
 
@@ -1525,7 +1525,7 @@ init -1 python: # Core classes:
 
         def time_main_gfx(self, battle, attacker, targets, start):
             if start in self.timestamps:
-                start = start + random.uniform(.001, .002)
+                start = start + uniform(.001, .002)
             self.timestamps[start] = renpy.curry(self.show_main_gfx)(battle, attacker, targets)
 
             pause = start + self.main_effect["duration"]
@@ -1534,7 +1534,7 @@ init -1 python: # Core classes:
             pause += getattr(self, "firing_effects", {}).get("duration", 0)
             pause += getattr(self, "projectile_effects", {}).get("duration", 0)
             if pause in self.timestamps:
-                pause = pause + random.uniform(.001, .002)
+                pause = pause + uniform(.001, .002)
 
             self.timestamps[pause] = renpy.curry(self.hide_main_gfx)(targets)
 
@@ -1578,12 +1578,12 @@ init -1 python: # Core classes:
             damage_effect_start = start + self.target_sprite_damage_effect["initial_pause"]
 
             if damage_effect_start in self.timestamps:
-                damage_effect_start = damage_effect_start + random.uniform(.001, .002)
+                damage_effect_start = damage_effect_start + uniform(.001, .002)
             self.timestamps[damage_effect_start] = renpy.curry(self.show_target_sprite_damage_effect)(targets)
 
             delay = damage_effect_start + self.target_sprite_damage_effect["duration"]
             if delay in self.timestamps:
-                delay = delay + random.uniform(.001, .002)
+                delay = delay + uniform(.001, .002)
 
             self.timestamps[delay] = renpy.curry(self.hide_target_sprite_damage_effect)(targets, died)
 
@@ -1714,12 +1714,12 @@ init -1 python: # Core classes:
             damage_effect_start = start + self.target_damage_effect.get("initial_pause", default)
 
             if damage_effect_start in self.timestamps:
-                damage_effect_start = damage_effect_start + random.uniform(.001, .002)
+                damage_effect_start = damage_effect_start + uniform(.001, .002)
             self.timestamps[damage_effect_start] = renpy.curry(self.show_target_damage_effect)(targets, died)
 
             delay = damage_effect_start + self.get_target_damage_effect_duration()
             if delay in self.timestamps:
-                delay = delay + random.uniform(.001, .002)
+                delay = delay + uniform(.001, .002)
 
             self.timestamps[delay] = renpy.curry(self.hide_target_damage_effect)(targets, died)
 
@@ -1776,12 +1776,12 @@ init -1 python: # Core classes:
             death_effect_start = start + self.target_death_effect["initial_pause"]
 
             if death_effect_start in self.timestamps:
-                death_effect_start = death_effect_start + random.uniform(.001, .002)
+                death_effect_start = death_effect_start + uniform(.001, .002)
             self.timestamps[death_effect_start] = renpy.curry(self.show_target_death_effect)(died)
 
             delay = death_effect_start + self.target_death_effect["duration"]
             if delay in self.timestamps:
-                delay = delay + random.uniform(.001, .002)
+                delay = delay + uniform(.001, .002)
 
             self.timestamps[delay] = renpy.curry(self.hide_target_death_effect)(died)
 
@@ -1808,12 +1808,12 @@ init -1 python: # Core classes:
             effect_start = start + self.bg_main_effect["initial_pause"]
 
             if effect_start in self.timestamps:
-                effect_start = effect_start + random.uniform(.001, .002)
+                effect_start = effect_start + uniform(.001, .002)
             self.timestamps[effect_start] = self.show_bg_main_effect
 
             delay = effect_start + self.bg_main_effect["duration"]
             if delay in self.timestamps:
-                delay = delay + random.uniform(.001, .002)
+                delay = delay + uniform(.001, .002)
 
             self.timestamps[delay] = self.hide_bg_main_effect
 
@@ -1856,13 +1856,13 @@ init -1 python: # Core classes:
                 effect_start = effect_start + start
 
             if effect_start in self.timestamps:
-                effect_start = effect_start + random.uniform(.001, .002)
+                effect_start = effect_start + uniform(.001, .002)
             self.timestamps[effect_start] = renpy.curry(self.show_dodge_effect)(attacker, targets)
 
             # Hiding timing as well in our new version:
             delay = effect_start + self.main_effect["duration"]
             if delay in self.timestamps:
-                delay = delay + random.uniform(.001, .002)
+                delay = delay + uniform(.001, .002)
 
             self.timestamps[delay] = renpy.curry(self.hide_dodge_effect)(targets)
 

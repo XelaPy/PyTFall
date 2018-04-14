@@ -812,9 +812,9 @@ init -11 python:
 
         Important: Should only be used right after the character was created!
         """
-        level_bios = partial(random.uniform, level_bios[0], level_bios[1])
-        skill_bios = partial(random.uniform, skill_bios[0], skill_bios[1])
-        stat_bios = partial(random.uniform, stat_bios[0], stat_bios[1])
+        level_bios = partial(uniform, level_bios[0], level_bios[1])
+        skill_bios = partial(uniform, skill_bios[0], skill_bios[1])
+        stat_bios = partial(uniform, stat_bios[0], stat_bios[1])
         # Level with base 20
         level = tier*20
         if level:
@@ -857,7 +857,7 @@ init -11 python:
                     value = round_int(value*stat_bios())
                     char.mod_stat(stat, value)
                 else:
-                    value = char.get_max(stat)*random.uniform(.05, .15)
+                    value = char.get_max(stat)*uniform(.05, .15)
                     value = round_int(value*stat_bios())
                     char.mod_stat(stat, value)
         for skill in char.stats.skills:
@@ -867,7 +867,7 @@ init -11 python:
                     value = round_int(value*skill_bios())
                     char.mod_skill(skill, value)
                 else:
-                    value = (SKILLS_MAX[skill]*(tier*.1))*random.uniform(.05, .15)
+                    value = (SKILLS_MAX[skill]*(tier*.1))*uniform(.05, .15)
                     value = round_int(value*skill_bios())
                     char.mod_skill(skill, value)
 

@@ -647,7 +647,7 @@ init -9 python:
                 tiers = team.get("tiers", [])
                 if not tiers:
                     for m in members:
-                        tiers.append(random.uniform(.8, 1.2))
+                        tiers.append(uniform(.8, 1.2))
                 teamsize = len(members)
 
                 if teamsize > 3:
@@ -659,7 +659,7 @@ init -9 python:
                 for index, member in enumerate(members):
                     if member == "random_char":
                         member = build_rc(bt_go_patterns=["Combatant"],
-                                          tier=random.uniform(.8, 1.4),
+                                          tier=uniform(.8, 1.4),
                                           give_bt_items=True,
                                           spells_to_tier=True)
                     elif member in chars:
@@ -683,7 +683,7 @@ init -9 python:
                     elif member in rchars:
                         member = build_rc(id=member,
                                           bt_go_patterns=["Combatant"],
-                                          tier=random.uniform(.8, 1.4),
+                                          tier=uniform(.8, 1.4),
                                           give_bt_items=True,
                                           spells_to_tier=True)
                     else:
@@ -787,14 +787,14 @@ init -9 python:
                 self.king = char
 
             # Setting up some decent fighters:
-            power_levels = [random.uniform(.2, .8) for i in range(10)]
-            power_levels.extend([random.uniform(.4, 1.2) for i in range(10)])
-            power_levels.extend([random.uniform(.8, 1.8) for i in range(15)])
-            power_levels.extend([random.uniform(1.5, 2.3) for i in range(15)])
-            power_levels.extend([random.uniform(1.8, 2.6) for i in range(15)])
-            power_levels.extend([random.uniform(2.3, 3.5) for i in range(15)])
-            power_levels.extend([random.uniform(3.0, 4.5) for i in range(15)])
-            power_levels.extend([random.uniform(3.8, 5.2) for i in range(15)])
+            power_levels = [uniform(.2, .8) for i in range(10)]
+            power_levels.extend([uniform(.4, 1.2) for i in range(10)])
+            power_levels.extend([uniform(.8, 1.8) for i in range(15)])
+            power_levels.extend([uniform(1.5, 2.3) for i in range(15)])
+            power_levels.extend([uniform(1.8, 2.6) for i in range(15)])
+            power_levels.extend([uniform(2.3, 3.5) for i in range(15)])
+            power_levels.extend([uniform(3.0, 4.5) for i in range(15)])
+            power_levels.extend([uniform(3.8, 5.2) for i in range(15)])
             # print("POWER LEVELS: {}".format(len(power_levels)))
             for tier in power_levels:
                 if _candidates:
