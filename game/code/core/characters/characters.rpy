@@ -4756,7 +4756,18 @@ init -9 python:
                 mod = loc.daily_modifier
 
                 if mod > 0:
-                    txt.append("She comfortably spent a night in {}.".format(str(loc)))
+                    temp = "She comfortably spent a night in {}.".format(str(loc))
+                    if self.home == hero.home:
+                        if self.disposition > -500:
+                            # Slave is assumed as we can't effect where free chars spend nights in.
+                            temp += " She is happy to live under the same roof as her master!"
+                            self.dispositon += 1
+                            self.joy += randint(1, 3)
+                        else:
+                            temp += " Even though you both live in the same house, she hates you too much to really care."
+
+                    txt.append(temp)
+
                 elif mod < 0:
                     flag_red = True
                     txt.append("{color=[red]}She presently resides in the %s.{/color}" % str(loc))

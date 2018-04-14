@@ -59,6 +59,10 @@ label mc_setup_end:
         mc_story: Defender
         mc_substory: Sword
         """
+        """
+        We start off with 6k Gold set in the player class.
+        """
+
     $ temp = mc_stories[main_story].get('label', '')
     if "label" in temp and renpy.has_label(temp["label"]):
         call expression temp["label"]
