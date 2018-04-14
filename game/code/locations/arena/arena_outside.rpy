@@ -27,6 +27,7 @@ label arena_outside:
         jump xeona_talking
 
 label arena_return:
+    scene bg arena_outside
     python:
         # Build the actions
         if pytfall.world_actions.location("arena_outside"):
