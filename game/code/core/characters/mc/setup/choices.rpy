@@ -36,7 +36,7 @@ label build_mc_stories:
 
         mc_stories["Noble"] = temp = {}
         temp["img"] = "content/gfx/interface/images/nobleP.png"
-        temp["header"] = "Your father was a powerful mage..."
+        # temp["header"] = "Your father was a powerful mage..."
         temp["choices"] = OrderedDict()
 
     python hide: # Warrior options:

@@ -246,7 +246,6 @@ label dev_testing_menu_and_load_mc:
                         call mc_setup
                     "MC Setup":
                         call mc_setup
-                        $ neow = True
                     "Skip MC Setup":
                         $ pass
                     "Back":

@@ -24,8 +24,6 @@ label mc_setup:
                     hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(120, 120)))
                     hero.restore_ap()
                     hero.log_stats()
-                if hasattr(renpy.store, "neow"):
-                    $ del neow
                 jump mc_setup_end
 
         elif result[0] == "rename":

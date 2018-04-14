@@ -1220,7 +1220,6 @@ init: # ChainFights vs Mobs:
                     color crimson
                     style "garamond"
             else:
-                $ neow = pytfall.arena.cf_setup["id"]
                 text pytfall.arena.cf_setup["id"]:
                     align .5, .01
                     at fade_in_out(t1=1.5, t2=1.5)
