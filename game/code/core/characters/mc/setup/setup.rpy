@@ -98,7 +98,8 @@ label mc_setup_end:
             value = high_factor()+.2
             set_stat_to_percentage(hero, s, value)
 
-    call set_mc_start_building
+    if not [b for b in hero.upgradable_buildings if b.workable]:
+        call set_mc_start_building
 
     python:
         del temp
