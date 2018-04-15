@@ -28,7 +28,9 @@ init -9 python:
             self.transferable = None
             self.sellable = None
 
-            self.hidden = True # mostly not used atm, decides if we should hide the item effects; does hide effects for gifts which have not been used at least once, becoming False afterwards
+            # mostly not used atm, decides if we should hide the item effects;
+            # does hide effects for gifts which have not been used at least once, becoming False afterwards
+            self.hidden = True
             self.jump_to_label = ""
             self.price = 0
             self.sex = 'unisex'
@@ -41,6 +43,15 @@ init -9 python:
             self.badness = 0
 
             self.tier = None # Tier of an item to match class tier, 0 - 4 is the range.
+            self.level = 0
+            # Level is how an item compares to it's relatives
+            # I'd like this to be set for all items one days
+            # Excalibur for example is 10, the shittiest sword is 1
+            # Same can be done for food, scrolls and practically any item in the game.
+            # Groups may even start at high values, if items are really good and/or expensive
+            # And no shit item exists within the same group
+            # Basically, you when we check for level, we want to know how the item
+            # is valued in the game on scale from 0 - 10.
 
             # BE attributes:
             # self.evasion_bonus = 0 # Needs a int, will be used a percentage (1 = 1%)
