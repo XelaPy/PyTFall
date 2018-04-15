@@ -187,37 +187,10 @@ label storyi_randomfight:  # initiates fight with random enemy team
         jump game_over
 
 label give_to_mc_item_reward(type="consumable", price=1000): # va calls gives to mc a random item based on type and max price
-    $ our_items = items_list = []
-    if type=="consumable":
-        $ our_items = list(i for i in items.values() if i.slot == "consumable" and i.price <= price and not i.jump_to_label and i.type != "food")
-    elif type=="restore":
-        $ our_items = list(i for i in items.values() if i.slot == "consumable" and i.type == "restore" and "Potion" in i.id)
-    elif type=="food":
-        $ our_items = list(i for i in items.values() if i.slot == "consumable" and i.type == "food")
-    elif type=="armor":
-        $ our_items = list(i for i in items.values() if i.slot in ("body", "head", "feet", "wrist") and i.price <= price and i.type not in ("dress", "tool"))
-    elif type=="dress":
-        $ our_items = list(i for i in items.values() if i.slot in ("body", "head", "feet", "wrist") and i.price <= price and i.type=="dress")
-    elif type=="weapon":
-        $ our_items = list(i for i in items.values() if i.slot in ("weapon", "smallweapon") and i.price <= price and i.type != "tool")
-    elif type=="loot":
-        $ our_items = list(i for i in items.values() if i.slot == "loot" and i.price <= price and "Exploration" in i.locations)
-    if not(our_items):
-        return
-    else:
-        python:
-            while len(items_list) < 10:
-                items_list.append(random.choice(our_items))
-
-    if not(items_list):
-        return
-
-    $ item = random.choice(items_list)
+    $ item = get_item_drops(type, price=price)
     $ hero.add_item(item)
     $ gfx_overlay.random_find(found_item, 'item')
-
     $ hero.say("I found %s..." % item.id)
-    hide expression our_image with dissolve
     return
 
 label storyi_treat_wounds:

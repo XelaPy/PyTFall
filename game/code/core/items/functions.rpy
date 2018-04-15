@@ -309,6 +309,80 @@ init -11 python:
 
         return True
 
+    def get_item_drops(types, price=None, tier=None, amount=1): # va calls gives to mc a random item based on type and max price
+        """Sort out items for drops/rewards in places such as Arena/Forest/Quests and etc.
+
+        types are item types we want enemies to drop, a list.
+        We expect it to be a list, or shove it in one otherwise
+        'all' will check for all types available here
+        (look in the code for types you can use)
+
+        Can be sorted on price or tier or both (price will have the priority).
+        Well return a list of items if amount is greater than 1 (be careful with this)
+        """
+        if types != "all" and isinstance(types, basestring):
+            types = [types]
+
+        picked = set()
+
+        for item in items.values():
+            if price is not None:
+                if item.price > price:
+                    continue
+
+            if tier is not None:
+                if item.tier > tier:
+                    continue
+
+            if getattr(item, "jump_to_label", False):
+                continue
+
+            if types == "all" or "consumable" in types:
+                if item.slot == "consumable" and item.type != "food":
+                    picked.add(item)
+                    continue
+
+            if types == "all" or "restore" in types:
+                if item.slot == "consumable" and item.type == "restore" and "Potion" in item.id:
+                    picked.add(item)
+                    continue
+
+            if types == "all" or "food" in types:
+                if item.slot == "consumable" and item.type == "food":
+                    picked.add(item)
+                    continue
+
+            if types == "all" or "armor" in types:
+                if item.slot in ("body", "head", "feet", "wrist") and item.type not in ("dress", "tool"):
+                    picked.add(item)
+                    continue
+
+            if types == "all" or "dress" in types:
+                if item.slot in ("body", "head", "feet", "wrist") and item.type == "dress":
+                    picked.add(item)
+                    continue
+
+            if types == "all" or "weapon" in types:
+                if item.slot in ("weapon", "smallweapon") and item.type != "tool":
+                    picked.add(item)
+                    continue
+
+            if types == "all" or "loot" in types:
+                if item.slot == "loot" and "Exploration" in item.locations:
+                    picked.add(item)
+                    continue
+
+        if not picked:
+            return
+
+        picked = random.sample(picked, min(amount, len(picked)))
+
+        if amount == 1:
+            return picked[0]
+        else:
+            return picked
+
+
 label shop_control:
     $ result = ui.interact()
     if result[0] == "item":
