@@ -308,7 +308,7 @@ label city_dark_forest_fight:
         $ item = get_item_drops(["loot", "scrolls", "consumables",
                                  "potions", "restore"], tier=hero.tier)
         if item:
-            $ gfx_overlay.random_find(item, 'item')
+            $ gfx_overlay.random_find(item, 'items')
             $ hero.add_item(item)
 
         $ exp = exp_reward(hero.team, enemy_team)

@@ -195,7 +195,7 @@ label give_to_mc_item_reward(type="consumable", price=1000): # va calls gives to
     $ item = get_item_drops(type, price=price)
     if item:
         $ hero.add_item(item)
-        $ gfx_overlay.random_find(item, 'item')
+        $ gfx_overlay.random_find(item, 'items')
         $ hero.say("I found %s..." % item.id)
     return
 

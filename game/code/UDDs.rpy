@@ -166,14 +166,15 @@ init -999 python:
             fixed.add(Text(sign+str(value), style="proper_stats_value_text", color=color,
                            size=40, align=(.9, .5), yoffset=25))
 
+            time_offset = (len(self.gfx) + len(self.parse_gfx))*.5
             kwargs["pos"] = absolute(randint(150, 900)), absolute(720)
             kwargs["yoffset"] = randint(-400, -350)
             kwargs["d"] = fixed
-            kwargs["start"] = 0
+            kwargs["start"] = time_offset
             duration = uniform(1.8, 2.2)
             kwargs["duration"] = duration
             self.add_atl(char_stats_effect, duration, kwargs)
-            self.add_sfx("content/sfx/sound/events/bing.ogg", uniform(.5, 1.0))
+            self.add_sfx("content/sfx/sound/events/bing.ogg", uniform(.5, 1.0)+time_offset)
 
         def mod_mc_stat(self, stat, value):
             kwargs = dict()
@@ -192,14 +193,15 @@ init -999 python:
             fixed.add(Text(sign+str(value), style="proper_stats_value_text", color=color,
                            size=40, align=(.9, .5), yoffset=25))
 
+            time_offset = (len(self.gfx) + len(self.parse_gfx))*.5
             kwargs["pos"] = randint(150, 900), -50
             kwargs["yoffset"] = randint(130, 170)
             kwargs["d"] = fixed
-            kwargs["start"] = 0
+            kwargs["start"] = time_offset
             duration = uniform(1.8, 2.2)
             kwargs["duration"] = duration
             self.add_atl(mc_stats_effect, duration, kwargs)
-            self.add_sfx("content/sfx/sound/events/bing.ogg", uniform(.5, 1.0))
+            self.add_sfx("content/sfx/sound/events/bing.ogg", uniform(.5, 1.0)+time_offset)
 
         def disposition_mod(self, value):
             value = round_int(value)
@@ -224,12 +226,13 @@ init -999 python:
                 kwargs["pos"] = randint(680, 920), randint(100, 200)
                 kwargs["yoffset"] = randint(250, 300)
 
+            time_offset = (len(self.gfx) + len(self.parse_gfx))*.5
             kwargs["d"] = fixed
-            kwargs["start"] = 0
+            kwargs["start"] = time_offset
             duration = uniform(1.2, 2.3)
             kwargs["duration"] = duration
             self.add_atl(dispostion_effect, duration, kwargs)
-            self.add_sfx("content/sfx/sound/female/uhm.mp3")
+            self.add_sfx("content/sfx/sound/female/uhm.mp3", .6+time_offset)
 
         def random_find(self, item, mode='gold'):
             # Can be used to show that we've found something.
@@ -265,6 +268,31 @@ init -999 python:
                                          size=40, align=(.5, 1.0))
                 support_icons = pscale("content/gfx/interface/buttons/IT2.png",
                               40, 40, align=(.5, .5))
+            elif mode == 'items':
+                # Different mode, similar to MC's Stats:
+                main_icon = pscale(item.icon,
+                              80, 80, align=(.5, .5))
+                main_text = Text(item.id, font="fonts/rubius.ttf", color=gold,
+                                         size=40, align=(.5, 1.0))
+                support_icons = pscale("content/gfx/interface/buttons/IT2.png",
+                              40, 40, align=(.5, .5))
+
+                fixed = Fixed(xysize=(100, 100))
+                fixed.add(main_icon)
+                fixed.add(main_text)
+
+                time_offset = (len(self.gfx) + len(self.parse_gfx))*.5
+                kwargs["pos"] = randint(150, 900), -50
+                kwargs["yoffset"] = randint(130, 170)
+                kwargs["d"] = fixed
+                kwargs["start"] = time_offset
+                duration = uniform(1.8, 2.2)
+                self.gfx = dict() # killtime: gfx
+
+                kwargs["duration"] = duration
+                self.add_atl(mc_stats_effect, duration, kwargs)
+                self.add_sfx("content/sfx/sound/events/bing.ogg", uniform(.5, 1.0)+time_offset)
+                return
 
             fixed = Fixed(xysize=(100, 100))
             fixed.add(main_icon)
@@ -297,12 +325,14 @@ init -999 python:
 
             for duration, data in self.parse_gfx.items():
                 callable, kwargs = data
-                if duration in self.gfx:
-                    # Ensure unique key:
-                    duration += uniform(.0001, .0002)
                 if "start" in kwargs:
-                    kwargs["start"] += st
-                killtime = st + duration
+                    start_delay = kwargs["start"]
+                else:
+                    start_delay = 0
+                kwargs["start"] += st
+                killtime = start_delay + st + duration
+                if killtime in self.gfx:
+                    killtime += uniform(.0001, .0002)
                 self.gfx[killtime] = callable(**kwargs)
 
                 del self.parse_gfx[duration]
@@ -320,12 +350,12 @@ init -999 python:
                     del self.sfx[delay]
                     delay = float(delay) + st
                     self.sfx[delay] = sfx
-                elif delay >= st:
+                elif delay <= st:
                     renpy.play(sfx, channel="audio")
                     del self.sfx[delay]
 
             if self.gfx or self.sfx:
-                renpy.redraw(self, 0)
+                renpy.redraw(self, .02)
             return r
 
         def clear(self, mode="all"):
@@ -926,7 +956,7 @@ init -999 python:
 
         def visit(self):
             return [ self.child ]
-            
+
 
 init -100 python:
     class Snowing(renpy.Displayable, NoRollback):
