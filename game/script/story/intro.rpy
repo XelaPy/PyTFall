@@ -12,13 +12,13 @@ label intro:
     if persistent.intro:
         menu:
             "Skip Intro?"
-            
+
             "Yes":
                 return
             "No":
                 $ pass
-    
-    
+
+
     show expression Text("Mundiga continent", style="TisaOTM", align=(0.5, 0.33), size=40) as txt1:
         alpha 0
         linear 3.5 alpha 1.0
@@ -78,7 +78,7 @@ label intro:
         crop (0, 0, config.screen_width, config.screen_height)
         linear 30 crop (config.screen_width/2, config.screen_height/2, config.screen_width/32, 100)
     extend " and of crushing the rebels once and for all..."
-    "Carrying enough power to build a new empire and maybe, even to surpass Crossgates wealth and fame..."
+    "Carrying enough power to build a new empire and maybe, even to surpass Crossgate's wealth and fame..."
 
     show bg story ruin2:
         linear 3 alpha 0
