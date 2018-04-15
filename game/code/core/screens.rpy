@@ -950,29 +950,6 @@ init:
 
                 # $ raise Exception(args[1])
 
-    screen fishing_area(items):
-        on "hide":
-            action SetField(config, "mouse", None)
-
-        hbox:
-            xsize 1280
-            box_wrap True
-            for i in xrange(15):
-                add "water_texture__"
-
-        # special screen for fishing based on screen hidden_area, uses visible animated imagebuttons instead of invisible areas:
-        $ fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=.4, alpha=.4)
-        $ fishing_circles_webm_alpha = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=.8, alpha=1.0)
-        for item in items:
-            imagebutton:
-                at fish # Randomization is now done here.
-                idle (fishing_circles_webm)
-                hover (fishing_circles_webm_alpha)
-                action Return(item)
-                hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/fishing_hook.png", 20, 20)]})
-                unhovered SetField(config, "mouse", None)
-        key "mousedown_3" action (Hide("fishing_area"), Return("Stop Fishing"))
-
     ##############################################################################
     screen notify:
         zorder 500

@@ -287,17 +287,31 @@ label mc_action_beach_start_fishing:
     else:
         $ min_fish_price = 0
         $ fishing_attempts = 2
-        if ("Simple Bait" in hero.inventory and hero.get_skill("fishing") >= 30) or ("Good Bait" in hero.inventory and hero.get_skill("fishing") >= 100) or ("Magic Bait" in hero.inventory and hero.get_skill("fishing") >= 200): # bites increase min price of available items; they are useless if skill is too low so they only can be used with more or less high skill
+
+        # bites increase min price of available items;
+        # bites increase min price of available items; they are useless if skill is too low
+        # so they only can be used with more or less high skillthey are useless if skill
+        # is too low so they only can be used with more or less high skill
+        python:
+            c0 = ("Simple Bait" in hero.inventory and hero.get_skill("fishing") >= 30)
+            c1 = ("Good Bait" in hero.inventory and hero.get_skill("fishing") >= 100)
+            c2 = ("Magic Bait" in hero.inventory and hero.get_skill("fishing") >= 200)
+            if any([c0, c1, c2]):
+                use_baits = True
+            else:
+                use_baits = False
+
+        if use_baits:
             menu:
-                "Use Simple Bite" if ("Simple Bait" in hero.inventory and hero.get_skill("fishing") >= 30):
+                "Use Simple Bite" if c0:
                     $ min_fish_price += 10
                     $ hero.remove_item("Simple Bait")
                     $ fishing_attempts = 3
-                "Use Good Bite" if ("Good Bait" in hero.inventory and hero.get_skill("fishing") >= 100):
+                "Use Good Bite" if c1:
                     $ min_fish_price += 50
                     $ hero.remove_item("Good Bait")
                     $ fishing_attempts = 4
-                "Use Magic Bite" if ("Magic Bait" in hero.inventory and hero.get_skill("fishing") >= 200):
+                "Use Magic Bite" if c2:
                     $ min_fish_price += 100
                     $ hero.remove_item("Magic Bait")
                     $ fishing_attempts = 5
@@ -309,29 +323,66 @@ label mc_action_beach_start_fishing:
         while fishing_attempts > 0:
             $ fishing_attempts -= 1
             python:
-                fish_list = []
-                fish = list(i for i in items.values() if "Fishing" in i.locations and min_fish_price <= i.price <= hero.get_skill("fishing")) # Get a list of fishing items player is skilled enough to fish out
-                while len(fish_list) < 9:
-                    fish_list.append(random.choice(fish))
-            if not fish:
-                $ hero.say("There is no suitable fish at the moment.")
+                # Get a list of fishing items player is skilled enough to fish out
+                all_fish = list(i for i in items.values() if "Fishing" in i.locations and min_fish_price <= i.price <= hero.get_skill("fishing"))
+                if all_fish:
+                    selected_fish = random.sample(all_fish, min(9, len(all_fish)))
+                else:
+                    selected_fish = []
+
+            if not selected_fish:
+                $ hero.say("Must be one of those no-bite days...")
             else:
-                $ item = renpy.call_screen("fishing_area", fish_list)
+                call screen fishing_area(selected_fish)
+                $ item = _return
                 $ setattr(config, "mouse", None)
+
                 if item == "Stop Fishing":
-                    "You got tired of fishing and returned to the beach."
-                    jump city_beach_left
+                    $ exit_string = "This is tiring, back to the beach!"
+                    jump end_fishing
                 else:
                     $ hero.add_item(item)
                     $ gfx_overlay.random_find(item, 'fishy')
 
                 $ hero.say("I caught %s!" % item.id)
-                hide expression our_image with dissolve
-                $ hero.fishing += round((100-item.chance)*0.1) # the less item's chance field, the more additional bonus to fishing; with 90 chance it will be +1, with less than 1 chance about 10
+                # the less item's chance field, the more additional bonus to fishing;
+                # with 90 chance it will be +1, with less than 1 chance about 10
+                $ hero.fishing += round((100-item.chance)*0.1)
 
-        $ hero.say("This is all for now.")
-        $ del fish_list
-        $ del fish
-        $ del fishing_attempts
-        $ del min_fish_price
-        jump city_beach_left
+label end_fishing:
+    $ temp = getattr(store, "exit_string", "This is all for now.")
+    $ hero.say(temp)
+    # safe(r) cleanup:
+    python hide:
+        cleaup = ["all_fish", "selected_fish", "fishing_attempts",
+                  "selected_fish", "min_fish_price", "exit_string",
+                  "use_baits", "c0", "c1", "c2", "temp"]
+        for i in cleaup:
+            try:
+                delattr(store, i)
+            except:
+                pass
+    jump city_beach_left
+
+image fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=.4, alpha=.4)
+image fishing_circles_webm_alpha = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=.8, alpha=1.0)
+
+screen fishing_area(fishing_items):
+    hbox:
+        xsize 1280
+        box_wrap True
+        for i in xrange(15):
+            add "water_texture__"
+
+    # special screen for fishing based on screen hidden_area, uses visible animated imagebuttons instead of invisible areas:
+    # $ fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=.4, alpha=.4)
+    # $ fishing_circles_webm_alpha = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=.8, alpha=1.0)
+    for i in fishing_items:
+        imagebutton:
+            at random_fishing_movement # Randomization is now done here.
+            idle "fishing_circles_webm"
+            hover "fishing_circles_webm_alpha"
+            action Return(i)
+            hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/fishing_hook.png", 20, 20)]})
+            unhovered SetField(config, "mouse", None)
+    key "mousedown_3" action (Hide("fishing_area"), Return("Stop Fishing"))
