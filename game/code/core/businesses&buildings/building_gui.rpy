@@ -543,6 +543,7 @@ init: # Screens:
                     pos 3, 55
                     xysize 310, 406
                     mousewheel True
+                    scrollbars "vertical"
                     draggable True
                     has vbox
                     for u in building.all_extensions():
@@ -662,6 +663,7 @@ init: # Screens:
                     pos 3, 10
                     xysize 310, 406
                     mousewheel True
+                    scrollbars "vertical"
                     has vbox
                     for u in bm_mid_frame_mode.upgrades:
                         button:
