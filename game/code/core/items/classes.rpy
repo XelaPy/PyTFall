@@ -291,13 +291,16 @@ init -9 python:
             self.filtered_items = list()
 
         # Easy access (special methods):
-        def __getitem__(self, item):
-            """Returns an amount of specif item in inventory.
-            """
-            devlog.info(str(item))
+        def __contains__(self, item):
             if isinstance(item, basestring):
-                item = store.items[item]
-            devlog.info(str(item))
+                item = store.items.get(item, None)
+            return item in self.items
+
+        def __getitem__(self, item):
+            """Returns an amount of specific item in inventory.
+            """
+            if isinstance(item, basestring):
+                item = store.items.get(item, None)
             return self.items.get(item, 0)
 
         def __len__(self):
