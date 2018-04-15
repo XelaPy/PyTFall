@@ -34,7 +34,10 @@ init:
 
         mc_stories["Mage"] = temp = {}
         temp["img"] = "content/gfx/interface/images/magicP.png"
-        temp["header"] = "Your father was a powerful mage..."
+        temp["header"] = "Arcane Artist"
+        temp["text"] = "Your father was a powerful mage."
+        temp["text"] += set_font_color("\n+ Mage Class", color="green")
+        temp["class"] = "Mage"
         temp["choices"] = OrderedDict()
 
         mc_stories["Noble"] = temp = {}
@@ -344,19 +347,19 @@ init:
         mc_stories["Mage"]["choices"]["Arcane Knight"] = "content/gfx/interface/images/mc/arc.png"
 
         mc_stories["Mage"]["Arcane Knight"] = temp = {}
-        temp["class"] = "Mage"
+        # temp["class"] = "Mage"
         temp["text"] = "As an Arcane Knight, he specialized in the extermination of dangerous magical creatures who were continually threatening the city."
-        temp["text"] += set_font_color("\n+ Mage Class", "green")
+        # temp["text"] += set_font_color("\n+ Mage Class", "green")
 
         mc_stories["Mage"]["Sorcerer"] = temp = {}
-        temp["class"] = "Mage"
+        # temp["class"] = "Mage"
         temp["text"] = "As a Sorcerer, he dedicated his life to the study of arcane arts."
-        temp["text"] += set_font_color("\n+ Mage Class", "green")
+        # temp["text"] += set_font_color("\n+ Mage Class", "green")
 
         mc_stories["Mage"]["Researcher"] = temp = {}
-        temp["class"] = "Mage"
+        # temp["class"] = "Mage"
         temp["text"] = "As a Researcher, he studied ruins of ancient civilizations in search of forgotten technologies and enchantments."
-        temp["text"] += set_font_color("\n+ Mage Class", "green")
+        # temp["text"] += set_font_color("\n+ Mage Class", "green")
 
         mc_stories["Mage"]["MC"] = {}
         for key in mc_stories["Mage"]["choices"]:

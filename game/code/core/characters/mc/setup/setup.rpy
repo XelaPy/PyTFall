@@ -283,23 +283,21 @@ init: # MC Setup Screens:
         tag mc_texts
         frame:
             pos (0, 350)
+            ysize 370
             background Frame(Transform("content/gfx/frame/MC_bg.png", alpha=1), 30, 30)
-            xysize(350, 370)
-            vbox:
-                xalign .5
-                if main_story in mc_stories:
-                    if "header" in mc_stories[main_story]:
-                        text ("{font=fonts/DeadSecretary.ttf}{size=22}%s" % mc_stories[main_story]["header"]) xalign .5
-                    else:
-                        text "Add 'header' to [main_story] story!" xalign .5
-                    if mc_stories[main_story].get("text", False):
-                        text ("%s" % mc_stories[main_story]["text"]) style "garamond" size 18
-                    null height 15
-                    vbox:
-                        if sub_story in mc_stories[main_story]:
-                            text ("%s" % mc_stories[main_story][sub_story]["text"]) xalign .5 style "garamond" size 18
-                else:
-                    text "No [main_story] story found!!!" align (.5, .5)
+            has vbox xsize 350
+            if main_story in mc_stories:
+                $ temp = mc_stories[main_story].get('header', "Add 'header' to {} story!".format(main_story))
+                text "[temp]" xalign .5 font "fonts/DeadSecretary.ttf" size 22
+                $ temp = mc_stories[main_story].get("text", False)
+                if temp:
+                    text "[temp]" style "garamond" size 18
+                null height 15
+                vbox:
+                    if sub_story in mc_stories[main_story]:
+                        text ("%s" % mc_stories[main_story][sub_story]["text"]) style "garamond" size 18
+            else:
+                text "No [main_story] story found!!!" align (.5, .5)
 
     screen mc_stories(choices=OrderedDict()): # This is the fathers SUB occupation choice.
         tag mc_sub
@@ -326,8 +324,6 @@ init: # MC Setup Screens:
                         add img align (.0, .5)
                     else:
                         text key align (.0, .52)
-                            # if greycolor:
-                                # color grey
                         add img align (1.0, .5)
                     action SensitiveIf(not sepia), SelectedIf(store.sub_story==key), If(store.sub_story==key, false=[Hide("mc_sub_texts"), Hide("mc_texts"),
                                   SetVariable("mc_story", None), SetVariable("mc_substory", None), SetVariable("sub_story", key),
