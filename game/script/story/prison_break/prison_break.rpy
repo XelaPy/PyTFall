@@ -208,12 +208,14 @@ label give_to_mc_item_reward(type="consumable", price=1000): # va calls gives to
         python:
             while len(items_list) < 10:
                 items_list.append(random.choice(our_items))
+
     if not(items_list):
         return
+
     $ item = random.choice(items_list)
     $ hero.add_item(item)
-    $ our_image = ProportionalScale(item.icon, 100, 100)
-    show expression our_image at truecenter with dissolve
+    $ gfx_overlay.random_find(found_item, 'item')
+
     $ hero.say("I found %s..." % item.id)
     hide expression our_image with dissolve
     return

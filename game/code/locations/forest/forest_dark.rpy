@@ -75,7 +75,7 @@ screen city_dark_forest():
                 yalign .5
                 action [Hide("city_dark_forest"), Jump("forest_entrance"), With(dissolve)]
                 text "Leave" size 15
-                
+
     key "mousedown_3" action [Hide("city_dark_forest"), Jump("forest_entrance"), With(dissolve)]
 
 label city_dark_forest_explore:
@@ -163,7 +163,9 @@ label city_dark_forest_hideout:
     show screen city_dark_forest
     scene bg forest_hideout
     with dissolve
+    
     "After killing all bandits, you found stash with loot."
+
     call give_to_mc_item_reward(type="loot", price=300)
     if locked_dice(50):
         call give_to_mc_item_reward(type="loot", price=300)
