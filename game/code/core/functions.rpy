@@ -6,7 +6,7 @@ init -11 python:
         Sets font color during interpolation.
         """
         color = getattr(store, color, color)
-        return "".join(["{color=%s}" % color, s, "{/color}"])
+        return "".join(["{color=%s}" % color, str(s), "{/color}"])
 
     def add_dicts(dicts):
         """Does what I originally expected dict.update method to do many years ago...

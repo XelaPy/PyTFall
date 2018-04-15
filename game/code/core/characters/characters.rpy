@@ -847,12 +847,12 @@ init -9 python:
             properties = char.buildings
 
             slaves = [c for c in char.chars if c.status == "slave"]
-            b_tax = round_int(sum([p.get_price() for p in properties])*ec.property_tax["real_estate"])
+            b_tax = round_int(sum([p.price for p in properties])*ec.property_tax["real_estate"])
             s_tax = round_int(sum([s.fin.get_price() for s in slaves])*ec.property_tax["slaves"])
 
             if log_finances:
                 for p in properties:
-                    _tax = round_int(p.get_price()*ec.property_tax["real_estate"])
+                    _tax = round_int(p.price*ec.property_tax["real_estate"])
                     if hasattr(p, "fin"): # Simpler location do not have fin module
                         p.fin.log_logical_expense(_tax, "Property Tax")
                 for s in slaves:
@@ -4196,6 +4196,8 @@ init -9 python:
             self._location = locations["Streets"]
             self.status = "free"
             self.gender = "male"
+
+            self.autoequip = False # Player can manage his own shit.
 
             # Player only...
             self.corpses = list() # Dead bodies go here until disposed off. Why the fuck here??? There gotta be a better place for dead chars than MC's class. We're not really using this atm anyway....
