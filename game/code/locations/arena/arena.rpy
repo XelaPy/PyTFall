@@ -881,8 +881,6 @@ init -9 python:
             """
             Checks before chainfight.
             """
-            renpy.predict_screen("confirm_chainfight")
-
             for member in hero.team:
                 if member.AP < 2:
                     renpy.call_screen("message_screen", "%s does not have enough Action Points to start a chain fight (2 AP required)!"%member.name)

@@ -184,7 +184,7 @@ init -1 python: # Core classes:
 
             if not self.logical:
 
-                renpy.maximum_framerate(30)
+                renpy.maximum_framerate(60)
 
                 if self.music:
                     renpy.music.stop()

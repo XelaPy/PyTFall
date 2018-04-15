@@ -37,6 +37,12 @@ init -999 python:
 
 define config.window_icon = "content/gfx/interface/icons/win_icon.png"
 
+define config.adjust_view_size = None
+
+# Imagecache:
+# define config.debug_image_cache = True
+define config.image_cache_size_mb = 1000
+
 init -5 python hide:
     config.console_history_size = 50
     ## This controls the title of the window, when Ren'Py is
@@ -64,10 +70,6 @@ init -5 python hide:
     config.layers.append("tooltips")
     config.layers.append("pytfall")
     config.layers.append("panic")
-
-    # Imagecache:
-    # config.debug_image_cache = True
-    config.image_cache_size = 80
 
     # getting rid of auto-saves
     config.has_autosave = False

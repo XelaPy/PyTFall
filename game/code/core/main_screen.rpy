@@ -15,26 +15,30 @@ label mainscreen:
 
     scene black
     show screen mainscreen
-    
+
     if not global_flags.has_flag("1_tutorial"):
         $ global_flags.set_flag("1_tutorial")
         show screen tutorial
 
     # Prediction Helpers:
     # TODO lt: Stop predictions when we've moved to far away from the images!
-    python:
-        imglist = ["".join([pytfall.map_pattern, key, ".webp"]) for key in list(i["id"] for i in pytfall.maps("pytfall"))]
-        imglist.extend(["".join([pytfall.map_pattern, key, "_hover.webp"])  for key in list(i["id"] for i in pytfall.maps("pytfall"))])
-        imglist.extend("".join(["content/gfx/interface/buttons/locations/", key, ".webp"]) for key in ["main_street",
+    python hide:
+        main_img_predict = ["".join([pytfall.map_pattern, key, ".webp"]) for key in list(i["id"] for i in pytfall.maps("pytfall"))]
+        main_img_predict.extend(["".join([pytfall.map_pattern, key, "_hover.webp"])  for key in list(i["id"] for i in pytfall.maps("pytfall"))])
+        main_img_predict.extend("".join(["content/gfx/interface/buttons/locations/", key, ".webp"]) for key in ["main_street",
                                "arena_outside", "slave_market", "city_jail", "tavern_town",
                                "city_parkgates", "academy_town", "mages_tower",
                                "graveyard_town", "city_beach", "forest_entrance", "hiddenvillage_entrance"])
-        imglist.append("bg gallery")
-        imglist.append("content/gfx/images/m_1.png")
-        imglist.append("content/gfx/frame/h2.png")
-        imglist.append("content/gfx/interface/buttons/compass.png")
-        imglist.append("content/gfx/images/m_2.png")
-        renpy.start_predict(*imglist)
+        main_img_predict.append("bg gallery")
+        main_img_predict.append("content/gfx/images/m_1.png")
+        main_img_predict.append("content/gfx/frame/h2.png")
+        main_img_predict.append("content/gfx/interface/buttons/compass.png")
+        main_img_predict.append("content/gfx/images/m_2.png")
+        renpy.start_predict(*main_img_predict)
+
+        main_scr_predict = ["city_screen", "chars_list"]
+        for scr in main_scr_predict:
+            renpy.start_predict_screen(scr)
 
     $ pytfall.world_events.next_day() # Get new set of active events
     $ pytfall.world_quests.run_quests("auto") # Unsquelch active quests
