@@ -309,8 +309,9 @@ init -997: # Transforms:
         ease duration*.15 zoom 1.1
         zoom .9
         ease duration*.15  zoom 1.2
-        HitlerKaputt(d, 10)
-        linear duration*.1 alpha .0
+        # HitlerKaputt(d, 10)
+        # linear duration*.1 alpha .0
+        easeout_circ duration*.1 alpha .0 zoom .0
 
     transform char_stats_effect(d, start, pos, yoffset, duration):
         subpixel True
