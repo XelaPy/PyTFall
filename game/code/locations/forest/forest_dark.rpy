@@ -212,7 +212,7 @@ label city_dark_forest_fight:
 
     python:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        levels = hero.get_level()
+        levels = hero.team.get_level()
         levels = randint(levels-5, levels+10)
         levels = min(5, levels)
         mob = choice(["slime", "were", "harpy", "goblin", "wolf", "bear",
