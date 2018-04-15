@@ -222,6 +222,15 @@ label mc_setup_mage_sorcerer_kitsune:
 
 label mc_setup_mage_sorcerer_kitsune_fire:
     $ hero.apply_trait("Master of Fire")
+    python hide:
+        temp = []
+        for i in items.values():
+            if i.type == "scroll" and "Peevish Shop" in i.locations:
+                temp.append(i)
+        if len(temp) >= 3: # Should always be a case unless we chance the concept.
+            temp = random.sample(temp, 3)
+            for i in temp:
+                hero.add_item(i)
     return
 
 label mc_setup_mage_sorcerer_kitsune_mana:
@@ -240,6 +249,15 @@ label mc_setup_mage_sorcerer_winter:
 
 label mc_setup_mage_sorcerer_winter_ice:
     $ hero.apply_trait("Master of Ice")
+    python hide:
+        temp = []
+        for i in items.values():
+            if i.type == "scroll" and "Aine Shop" in i.locations:
+                temp.append(i)
+        if len(temp) >= 3: # Should always be a case unless we chance the concept.
+            temp = random.sample(temp, 3)
+            for i in temp:
+                hero.add_item(i)
     return
 
 label mc_setup_mage_sorcerer_winter_imm:
