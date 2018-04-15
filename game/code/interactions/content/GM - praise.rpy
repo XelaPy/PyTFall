@@ -122,6 +122,7 @@ label interactions_strong:
         "You already complimented her recently, so she's not impressed."
         call praise_nope
         jump girl_interactions
+
 label interactions_cute:
     if (day - char.flag("gm_praise_day")) > 0 or char.flag("gm_praise_day") == 0:
         "You are trying to compliment her appearance."
@@ -162,7 +163,8 @@ label interactions_cute:
             "She looks a bit happier than before."
         else:
             "She's not impressed at all."
-            jump praise_nope
+            call praise_nope
+            jump girl_interactions
 
         if char.disposition < 250:
             if char.character*2 > hero.get_skill("refinement"): # refinement tries to overcome character's stubbornness
