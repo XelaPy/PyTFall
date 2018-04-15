@@ -33,23 +33,25 @@ label forest_dark_continue:
 
     while 1:
         $ result = ui.interact()
+
         if result in hero.team:
             $ came_to_equip_from = "forest_dark_continue"
             $ eqtarget = result
             $ global_flags.set_flag("keep_playing_music")
             $ equipment_safe_mode = True
             $ forest_bg_change = False
+
             hide screen city_dark_forest
             jump char_equip
 
 screen city_dark_forest():
     use top_stripe(False, None, False, True)
+
     frame:
         xalign .95
         ypos 50
         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-        xpadding 10
-        ypadding 10
+        padding 10, 10
         vbox:
             style_group "wood"
             align (.5, .5)
@@ -84,7 +86,9 @@ label city_dark_forest_explore:
             "Unfortunately, your team is too tired at the moment. Maybe another time."
         else:
             "Unfortunately, you are too tired at the moment. Maybe another time."
+
         "Each member of your party should have at least 1 AP."
+
         $ global_flags.set_flag("keep_playing_music")
         $ forest_bg_change = False
         jump forest_dark_continue
@@ -109,7 +113,9 @@ label city_dark_forest_ruines_part:
             "Unfortunately, your team is too tired to explore dungeons. Maybe another time."
         else:
             "Unfortunately, you are too tired to explore dungeons. Maybe another time."
+
         "Each member of your party should have at least 2 AP."
+
         $ global_flags.set_flag("keep_playing_music")
         jump forest_dark_continue
     else:
@@ -121,9 +127,11 @@ label mc_action_city_dark_forest_rest:
     $ forest_bg_change = False
     scene bg camp
     with dissolve
+
     "You take a short rest before moving on, restoring mp and vitality."
     $ forest_bg_change = False
     $ global_flags.set_flag("keep_playing_music")
+
     python:
         for i in hero.team:
             i.vitality += int(i.get_max("vitality")*0.25)
@@ -135,7 +143,9 @@ label city_dark_forest_hideout:
     hide screen city_dark_forest
     scene bg forest_hideout
     with dissolve
+
     $ forest_bg_change = False
+
     menu:
         "You found bandits hideout inside an old abandoned castle."
 
@@ -163,7 +173,7 @@ label city_dark_forest_hideout:
     show screen city_dark_forest
     scene bg forest_hideout
     with dissolve
-    
+
     "After killing all bandits, you found stash with loot."
 
     call give_to_mc_item_reward(type="loot", price=300)
@@ -199,10 +209,14 @@ label city_dark_forest_hideout_fight:
 
 label city_dark_forest_fight:
     $ forest_bg_change = False
+
     python:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        levels = randint(5, 20)
+        levels = hero.get_level()
+        levels = randint(levels-5, levels+10)
+        levels = min(5, levels)
         mob = choice(["slime", "were", "harpy", "goblin", "wolf", "bear", "druid", "rat", "undead", "butterfly"])
+
     if mob == "slime":
         "You encountered a small group of predatory slimes."
         python:
@@ -282,11 +296,18 @@ label city_dark_forest_fight:
                 mob = build_mob(id=mob_id, level=levels)
                 mob.controller = Complex_BE_AI(mob)
                 enemy_team.add(mob)
+
     $ place = interactions_pick_background_for_fight("forest")
     $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=True)
+
     if result is True:
         $ exp = exp_reward(hero.team, enemy_team)
         scene expression forest_location
+        $ item = get_item_drops(["loot", "scrolls", "consumables",
+                                 "potions", "restore"], tier=hero.tier)
+        if item:
+            $ gfx_overlay.random_find(item, 'item')
+            $ hero.add_item(item)
         if persistent.battle_results:
             show screen give_exp_after_battle(hero.team, exp)
         jump forest_dark_continue

@@ -156,31 +156,36 @@ label mc_action_storyi_rest: # resting inside the dungeon; team may be attacked 
 
 label storyi_randomfight:  # initiates fight with random enemy team
     $ fight_chance = 10
+
     python:
         enemy_team = Team(name="Enemy Team", max_size=3)
-        your_team = Team(name="Your Team", max_size=3)
+
         for j in range(randint(1, 3)):
             mob = build_mob(id=random.choice(enemies), level=15)
             mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
+
         result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.webp", slaves=True, prebattle=False, death=True, skill_lvl=3)
 
     if result is True:
         python:
             exp = exp_reward(hero.team, enemy_team)
-            # for member in hero.team:
-            #     member.exp += exp
+
         call storyi_show_bg
         play world "Theme2.ogg" fadein 2.0 loop
+
         if storyi_prison_location in [6, 14, 2, 8, 15, 16, 11, 18] and dice(80):
             $ money = randint(5, 15)
         elif storyi_prison_location in [9, 10] and dice(90):
             $ money = randint(15, 30)
         else:
             $ money = 0
+
         $ hero.add_money(money, reason="Loot")
+
         if persistent.battle_results:
             show screen give_exp_after_battle(hero.team, exp, money)
+
         show screen prison_break_controls
         jump storyi_gui_loop
     else:
@@ -188,9 +193,10 @@ label storyi_randomfight:  # initiates fight with random enemy team
 
 label give_to_mc_item_reward(type="consumable", price=1000): # va calls gives to mc a random item based on type and max price
     $ item = get_item_drops(type, price=price)
-    $ hero.add_item(item)
-    $ gfx_overlay.random_find(item, 'item')
-    $ hero.say("I found %s..." % item.id)
+    if item:
+        $ hero.add_item(item)
+        $ gfx_overlay.random_find(item, 'item')
+        $ hero.say("I found %s..." % item.id)
     return
 
 label storyi_treat_wounds:

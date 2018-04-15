@@ -337,6 +337,11 @@ init -11 python:
             if getattr(item, "jump_to_label", False):
                 continue
 
+            if types == "all" or "scroll" in types:
+                if item.type == "scroll":
+                    picked.add(item)
+                    continue
+
             if types == "all" or "consumable" in types:
                 if item.slot == "consumable" and item.type != "food":
                     picked.add(item)
