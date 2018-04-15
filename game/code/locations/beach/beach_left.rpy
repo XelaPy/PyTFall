@@ -379,7 +379,7 @@ screen fishing_area(fishing_items):
     # $ fishing_circles_webm_alpha = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=.8, alpha=1.0)
     for i in fishing_items:
         imagebutton:
-            at random_fishing_movement # Randomization is now done here.
+            at random_fish_movement # Randomization is now done here.
             idle "fishing_circles_webm"
             hover "fishing_circles_webm_alpha"
             action Return(i)

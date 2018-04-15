@@ -162,7 +162,7 @@ init -997: # Transforms:
         on hide:
             fade_from_to(t=.5)
 
-    transform random_fishing_movement():
+    transform random_fish_movement():
         align(random.random(), random.random())
         block:
             subpixel True
