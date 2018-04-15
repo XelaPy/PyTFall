@@ -31,6 +31,8 @@ label tailor_store:
         t "But If you have any special requests, just tell me. I'm sure I will be able to help you."
 
 label tailor_menu: # after she said her lines but before we show menu controls, to return here when needed
+    scene bg tailor_store
+    show expression npcs["Kayo_Sudou"].get_vnsprite() as npc
     show screen tailor_shop
     with dissolve
     while 1:
@@ -142,6 +144,7 @@ label tailor_special_order:
     jump tailor_menu
 
 screen tailor_shop():
+    use top_stripe(False)
     style_prefix "dropdown_gm"
     frame:
         pos (.98, .98) anchor (1.0, 1.0)

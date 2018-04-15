@@ -53,6 +53,8 @@ label cafe:
                 $ del members
 
 label cafe_menu: # after she said her lines but before we show menu controls, to return here when needed
+    scene bg cafe
+    show expression cafe_waitress_who.get_vnsprite() as npc
     show screen cafe_eating
     while 1:
         $ result = ui.interact()
@@ -81,6 +83,7 @@ label cafe_shopping:
     jump cafe_menu
 
 screen cafe_eating():
+    use top_stripe(False)
     style_prefix "dropdown_gm"
     frame:
         pos (.98, .98) anchor (1.0, 1.0)

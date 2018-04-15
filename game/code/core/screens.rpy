@@ -625,11 +625,11 @@ init:
             hbox:
                 align (.8, .5)
                 spacing 5
-                if config.developer:
-                    textbutton "{size=20}{color=[ivory]}{b}F":
-                        yalign .5
-                        action Jump("fonts")
-                        tooltip "View available Fonts"
+                # if config.developer:
+                    # textbutton "{size=20}{color=[ivory]}{b}F":
+                        # yalign .5
+                        # action Jump("fonts")
+                        # tooltip "View available Fonts"
 
                 if renpy.current_screen().tag not in ["quest_log"]:
                     imagebutton:
