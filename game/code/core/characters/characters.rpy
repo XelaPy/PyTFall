@@ -4974,7 +4974,7 @@ init -9 python:
             if self.disposition > 400 and not hero in self.friends:
                 txt.append("\n {} became pretty close to you.".format(self.nickname))
                 set_friends(self, hero)
-            if self.disposition < 500 and hero in self.lovers:
+            if self.disposition < 200 and hero in self.lovers:
                 txt.append("\n {} and you are no longer lovers...".format(self.nickname))
                 end_lovers(self, hero)
 
