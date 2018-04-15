@@ -9,6 +9,19 @@ label arena_inside:
     show screen arena_inside
     with fade
 
+    # Predicting:
+    python:
+        arena_img_predict = ["chainfights", "bg battle_dogfights_1", "bg battle_arena_1"]
+        arena_scr_predict = ["chain_fight", "arena_minigame", "confirm_chainfight",
+                             "arena_finished_chainfight", "arena_rep_ladder",
+                             "arena_matches", "arena_lineups", "arena_dogfights",
+                             "arena_bestiary", "arena_aftermatch", "arena_report"]
+        renpy.start_predict(*arena_img_predict)
+    python hide:
+        for scr in store.arena_scr_predict:
+            renpy.start_predict_screen(scr)
+
+
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
     $ renpy.retain_after_load()
@@ -48,6 +61,11 @@ label arena_inside:
                 $ pytfall.arena.execute_chainfight()
 
 label arena_inside_end:
+    $ renpy.stop_predict(*arena_img_predict)
+    python hide:
+        for scr in store.arena_scr_predict:
+            renpy.stop_predict_screen(scr)
+
     stop world fadeout 1.5
     hide screen arena_inside
     jump arena_outside
