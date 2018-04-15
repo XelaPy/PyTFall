@@ -976,6 +976,9 @@ init -9 python:
             return price
 
         def get_upkeep(self):
+            return self.stored_upkeep
+
+        def calc_upkeep(self):
             char = self.instance
             upkeep = getattr(char, "upkeep", 0)
 
@@ -986,8 +989,7 @@ init -9 python:
                     upkeep *= .5
 
                 upkeep = max(upkeep, 1)
-
-            return round_int(upkeep)
+            self.stored_upkeep = upkeep
 
         def next_day(self):
             self.game_main_income_log[day] = self.todays_main_income_log.copy()
@@ -1613,6 +1615,7 @@ init -9 python:
 
             # Traits:
             self.upkeep = 0 # Required for some traits...
+            self.stored_upkeep = 0 # Recalculated every day and used in the gameworld.
 
             self.traits = Traits(self)
             self.resist = SmartTracker(self, be_skill=False)  # A set of any effects this character resists. Usually it's stuff like poison and other status effects.
@@ -4657,6 +4660,9 @@ init -9 python:
             self.say_screen_portrait = DynamicDisplayable(self._portrait)
             self.say_screen_portrait_overlay_mode = None
 
+            # Calculate upkeep.
+            self.fin.calc_upkeep()
+
             super(Char, self).init()
 
         def update_sayer(self):
@@ -4726,6 +4732,9 @@ init -9 python:
             txt = []
             flag_red = False
             flag_green = False
+
+            # Update upkeep, should always be a saf thing to do.
+            self.fin.calc_upkeep()
 
             # If escaped:
             if self in pytfall.ra:
