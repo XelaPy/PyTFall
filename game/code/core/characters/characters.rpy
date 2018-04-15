@@ -989,7 +989,7 @@ init -9 python:
                     upkeep *= .5
 
                 upkeep = max(upkeep, 1)
-            self.stored_upkeep = upkeep
+            self.stored_upkeep = rount_int(upkeep)
 
         def next_day(self):
             self.game_main_income_log[day] = self.todays_main_income_log.copy()
