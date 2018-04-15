@@ -949,6 +949,9 @@ init -10 python:
             else:
                 has_garden = False
 
+            if self.manager:
+                self.manager.managementskill += randint(1, 4)
+
             while 1:
                 temp = "\n{color=[green]}%d =========>>>{/color}" % (self.env.now)
                 self.log(temp)
