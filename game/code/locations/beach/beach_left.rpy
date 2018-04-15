@@ -293,9 +293,9 @@ label mc_action_beach_start_fishing:
         # so they only can be used with more or less high skillthey are useless if skill
         # is too low so they only can be used with more or less high skill
         python:
-            c0 = ("Simple Bait" in hero.inventory and hero.get_skill("fishing") >= 30)
-            c1 = ("Good Bait" in hero.inventory and hero.get_skill("fishing") >= 100)
-            c2 = ("Magic Bait" in hero.inventory and hero.get_skill("fishing") >= 200)
+            c0 = (items["Simple Bait"] in hero.inventory and hero.get_skill("fishing") >= 30)
+            c1 = (items["Good Bait"] in hero.inventory and hero.get_skill("fishing") >= 100)
+            c2 = (items["Magic Bait"] in hero.inventory and hero.get_skill("fishing") >= 200)
             if any([c0, c1, c2]):
                 use_baits = True
             else:
@@ -303,15 +303,15 @@ label mc_action_beach_start_fishing:
 
         if use_baits:
             menu:
-                "Use Simple Bite" if c0:
+                "Use Simple Bait" if c0:
                     $ min_fish_price += 10
                     $ hero.remove_item("Simple Bait")
                     $ fishing_attempts = 3
-                "Use Good Bite" if c1:
+                "Use Good Bait" if c1:
                     $ min_fish_price += 50
                     $ hero.remove_item("Good Bait")
                     $ fishing_attempts = 4
-                "Use Magic Bite" if c2:
+                "Use Magic Bait" if c2:
                     $ min_fish_price += 100
                     $ hero.remove_item("Magic Bait")
                     $ fishing_attempts = 5

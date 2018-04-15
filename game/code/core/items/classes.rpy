@@ -294,9 +294,10 @@ init -9 python:
         def __getitem__(self, item):
             """Returns an amount of specif item in inventory.
             """
+            devlog.info(str(item))
             if isinstance(item, basestring):
                 item = store.items[item]
-
+            devlog.info(str(item))
             return self.items.get(item, 0)
 
         def __len__(self):
