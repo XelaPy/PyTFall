@@ -518,7 +518,7 @@ init:
         default return_action = Return(['control', 'return']) if return_button_action is None else return_button_action
 
         # Hotkeys:
-        if get_screens("mainscreen", "chars_list", "char_profile"):
+        if get_screens("mainscreen"):
             if global_flags.flag("visited_arena"):
                 key "a" action Function(renpy.scene, "screens"), Jump("arena_inside")
                 key "A" action Function(renpy.scene, "screens"), Jump("arena_inside")
