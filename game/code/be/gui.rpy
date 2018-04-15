@@ -124,7 +124,8 @@ init: # screens:
                     raise Exception, char.name
 
                 # We'll also try to figure out if there is at least one usable attack for them:
-                active_attacks = list() # list(a for a in attacks if battle_skills[a].check_conditions(char)) # BUG IN REN'PY!
+                # list(a for a in attacks if battle_skills[a].check_conditions(char)) # BUG IN REN'PY!
+                active_attacks = list()
                 for i in attacks:
                     if i.check_conditions(char):
                         active_attacks.append(i)
@@ -163,10 +164,11 @@ init: # screens:
                 $ attacks.sort(key=attrgetter("menu_pos"))
 
                 if not DEBUG_BE:
-                    vbox box_wrap True maximum (1280, 400):
+                    vbox:
                         for skill in attacks:
-                            textbutton "%s"%skill.mn:
-                                action SensitiveIf(skill.check_conditions(char)), Return(skill)
+                            textbutton "[skill.mn]":
+                                sensitive skill.check_conditions(char)
+                                action Return(skill)
                                 hovered tt.action(skill)
                 else:
                     vpgrid:
