@@ -215,12 +215,14 @@ label city_dark_forest_fight:
         levels = hero.get_level()
         levels = randint(levels-5, levels+10)
         levels = min(5, levels)
-        mob = choice(["slime", "were", "harpy", "goblin", "wolf", "bear", "druid", "rat", "undead", "butterfly"])
+        mob = choice(["slime", "were", "harpy", "goblin", "wolf", "bear",
+                      "druid", "rat", "undead", "butterfly"])
+        et_len = min(len(hero.team) + 1, 3)
 
     if mob == "slime":
         "You encountered a small group of predatory slimes."
         python:
-            for i in range(randint(2, 3)):
+            for i in range(et_len):
                 mob_id = choice(["Alkaline Slime", "Slime", "Acid Slime"])
                 mob = build_mob(id=mob_id, level=levels)
                 mob.controller = Complex_BE_AI(mob)
@@ -228,7 +230,7 @@ label city_dark_forest_fight:
     elif mob == "were":
         "Hungry shapeshifters want a piece of you."
         python:
-            for i in range(randint(2, 3)):
+            for i in range(et_len):
                 mob_id = choice(["Werecat", "Werewolf", "Weregirl"])
                 mob = build_mob(id=mob_id, level=levels)
                 mob.controller = Complex_BE_AI(mob)
@@ -236,7 +238,7 @@ label city_dark_forest_fight:
     elif mob == "harpy":
         "A flock of wild harpies attempts to protect their territory."
         python:
-            for i in range(randint(2, 3)):
+            for i in range(et_len):
                 mob_id = choice(["Harpy", "Vixen"])
                 mob = build_mob(id=mob_id, level=levels)
                 mob.controller = Complex_BE_AI(mob)
@@ -260,14 +262,15 @@ label city_dark_forest_fight:
     elif mob == "bear":
         "You disturbed an angry bear."
         python:
-            mob_id = choice(["Bear", "Beargirl"])
-            mob = build_mob(id=mob_id, level=levels)
-            mob.controller = Complex_BE_AI(mob)
-            enemy_team.add(mob)
+            for i in range(et_len-1):
+                mob_id = choice(["Bear", "Beargirl"])
+                mob = build_mob(id=mob_id, level=levels)
+                mob.controller = Complex_BE_AI(mob)
+                enemy_team.add(mob)
     elif mob == "druid":
         "Forest fanatics attempt to sacrifice you in the name of «mother nature» or something like that."
         python:
-            for i in range(randint(2, 3)):
+            for i in range(et_len):
                 mob_id = choice(["Druid", "Wild Dryad"])
                 mob = build_mob(id=mob_id, level=levels)
                 mob.controller = Complex_BE_AI(mob)
@@ -275,7 +278,7 @@ label city_dark_forest_fight:
     elif mob == "rat":
         "A pack of foul-smelling rats picks you for dinner."
         python:
-            for i in range(randint(2, 3)):
+            for i in range(et_len):
                 mob_id = "Undead Rat"
                 mob = build_mob(id=mob_id, level=levels)
                 mob.controller = Complex_BE_AI(mob)
@@ -291,7 +294,7 @@ label city_dark_forest_fight:
     else:
         "You encountered a small group of aggressive giant butterflies."
         python:
-            for i in range(randint(2, 3)):
+            for i in range(et_len):
                 mob_id = "Black Butterfly"
                 mob = build_mob(id=mob_id, level=levels)
                 mob.controller = Complex_BE_AI(mob)
@@ -301,13 +304,14 @@ label city_dark_forest_fight:
     $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=True)
 
     if result is True:
-        $ exp = exp_reward(hero.team, enemy_team)
         scene expression forest_location
         $ item = get_item_drops(["loot", "scrolls", "consumables",
                                  "potions", "restore"], tier=hero.tier)
         if item:
             $ gfx_overlay.random_find(item, 'item')
             $ hero.add_item(item)
+
+        $ exp = exp_reward(hero.team, enemy_team)
         if persistent.battle_results:
             show screen give_exp_after_battle(hero.team, exp)
         jump forest_dark_continue
