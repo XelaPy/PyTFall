@@ -39,8 +39,8 @@ label realtor_agency:
 
     else:
         "The room is still bright and filled with the same sweet scent."
-        show expression npcs["Rose_estate"].get_vnsprite() at center as rose with dissolve:
-            yoffset 100
+        show expression npcs["Rose_estate"].get_vnsprite() at right as rose with dissolve
+            # yoffset -100
 
 
     # Added the next three lines to disable this feature without crashing the game   --fenec250
@@ -86,7 +86,7 @@ screen realtor_agency():
         frame:
             style_group "content"
             background Frame("content/gfx/frame/p_frame53.png", 10, 10)
-            xalign .997
+            xalign .003
             ypos 42
             xysize (420, 675)
             side "c r":
