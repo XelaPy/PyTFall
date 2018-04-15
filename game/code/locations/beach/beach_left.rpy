@@ -374,9 +374,6 @@ screen fishing_area(fishing_items):
         for i in xrange(15):
             add "water_texture__"
 
-    # special screen for fishing based on screen hidden_area, uses visible animated imagebuttons instead of invisible areas:
-    # $ fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=.4, alpha=.4)
-    # $ fishing_circles_webm_alpha = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=.8, alpha=1.0)
     for i in fishing_items:
         imagebutton:
             at random_fish_movement # Randomization is now done here.
