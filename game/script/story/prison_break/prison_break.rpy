@@ -189,7 +189,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
 label give_to_mc_item_reward(type="consumable", price=1000): # va calls gives to mc a random item based on type and max price
     $ item = get_item_drops(type, price=price)
     $ hero.add_item(item)
-    $ gfx_overlay.random_find(found_item, 'item')
+    $ gfx_overlay.random_find(item, 'item')
     $ hero.say("I found %s..." % item.id)
     return
 
