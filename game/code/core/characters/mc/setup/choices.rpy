@@ -267,12 +267,12 @@ init:
 
         drow["Poison Master"] = temp = {}
         temp["text"] = "You know a lot about poisons from your mother. Toxins are much less effective against you, and your poison attacks are much stronger."
-        temp["text"] += set_font_color("\n+ Dagger Master Trait", "green")
+        temp["text"] += set_font_color("\n+ Poison Master Trait", "green")
         temp["label"] = "mc_setup_warrior_assassin_drow_poison"
 
         drow["High-Speed Fencer"] = temp = {}
         temp["text"]= "You learned from your mother about rare combat style used by drow assassins. All daggers are more powerful than usual."
-        temp["text"] += set_font_color("\n+ Poison Master Trait", "green")
+        temp["text"] += set_font_color("\n+ Dagger Master Trait", "green")
         temp["label"] = "mc_setup_warrior_assassin_drow_dagger"
 
         drow["Sister Lover"] = temp = {}
