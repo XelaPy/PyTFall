@@ -35,13 +35,6 @@ init -999 python:
     config.keymap['panic_screen'] = ['q', 'Q', 'й', 'Й']
     config.underlay.append(renpy.Keymap(panic_screen=show_panic_screen_func))
 
-init -999 python hide:
-    ## Should we enable the use of developer tools? This should be
-    ## set to False before the game is released, so the user can't
-    ## cheat using developer tools.
-    config.developer = True
-    # config.debug = False
-
 define config.window_icon = "content/gfx/interface/icons/win_icon.png"
 
 init -5 python hide:

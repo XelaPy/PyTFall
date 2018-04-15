@@ -264,7 +264,7 @@ label building_management_end:
 
 init: # Screens:
     screen building_management():
-        default tt = Tooltip("")
+        $ tt = Tooltip(getattr(building, "desc", ""))
 
         if hero.upgradable_buildings:
             # Main Building mode:

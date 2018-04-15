@@ -1,7 +1,12 @@
 init -999 python:
-    # General debugging:
-    DEBUG = True # General debugging.
-    DEBUG_QE = True # Debug Quests and Events
+    ## Should we enable the use of developer tools? This should be
+    ## set to False before the game is released, so the user can't
+    ## cheat using developer tools.
+    config.developer = False
+    # config.debug = False
+
+    DEBUG = False # General debugging.
+    DEBUG_QE = False # Debug Quests and Events
     DEBUG_PROFILING = False # Loading time of various game elements.
     DEBUG_INTERACTIONS = False
 

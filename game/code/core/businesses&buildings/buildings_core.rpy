@@ -156,7 +156,7 @@ init -10 python:
             if self.price_overload is not None:
                 return self.price_overload
 
-            price = self.price
+            price = self._price
 
             if hasattr(self, "_upgrades"):
                 for u in self._upgrades:

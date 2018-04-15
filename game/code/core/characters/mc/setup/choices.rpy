@@ -140,8 +140,10 @@ init:
         temp["label"] = "mc_setup_warrior_defender_harpy_meta"
 
         harpy["Sky Ward"] = temp = {}
-        temp["text"] = "Harpies use their mystical connection to the sky to fly. You may not be able to do that without wings, but that heritage is still of great help. (+1 Action Point and additional agility)"
+        temp["text"] = "Harpies use their mystical connection to the sky to fly. You may not be able to do that without wings, but that heritage is still of great help."
         temp["text"] += set_font_color("\n+ Sky Ward Trait", "green")
+        temp["text"] += set_font_color("\n+ One Action Point", "green")
+        temp["text"] += set_font_color("\n+ Agility", "green")
         temp["label"] = "mc_setup_warrior_defender_harpy_sky"
 
 
