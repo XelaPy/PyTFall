@@ -190,6 +190,9 @@ init -10 python:
                 if c.workplace == self:
                     all_chars.add(c)
 
+            if self.manager:
+                all_chars.add(self.manager)
+
             return all_chars
 
         def get_girls(self, action=undefined, occupation=undefined, nott=False):

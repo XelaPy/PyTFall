@@ -43,7 +43,7 @@ init -9 python:
             self.badness = 0
 
             self.tier = None # Tier of an item to match class tier, 0 - 4 is the range.
-            self.level = 0
+            # self.level = 0 We're using tiers for now.
             # Level is how an item compares to it's relatives
             # I'd like this to be set for all items one days
             # Excalibur for example is 10, the shittiest sword is 1

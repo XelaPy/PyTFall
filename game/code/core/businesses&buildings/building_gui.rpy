@@ -161,10 +161,8 @@ label building_management_loop:
             #             renpy.call_screen('message_screen', "No more rooms can be added to this building!")
             if result[1] == 'items_transfer':
                 python:
-                    it_members = list(w for w in hero.chars if w.location == building)
-                    if hero.location == building:
-                        it_members.insert(0, hero)
-
+                    it_members = list(building.get_all_chars())
+                    it_members.sort(key=attrgetter("name"))
                 hide screen building_management
                 $ items_transfer(it_members)
                 show screen building_management
