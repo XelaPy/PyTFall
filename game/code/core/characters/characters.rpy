@@ -4503,7 +4503,7 @@ init -9 python:
             self.gender = 'female'
             self.race = ""
             self.desc = ""
-            self.status = "slave"
+            self.status = ""
             self._location = "slavemarket"
 
             self.rank = 1
