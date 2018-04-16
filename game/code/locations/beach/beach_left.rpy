@@ -215,6 +215,7 @@ label fishing_logic_mor_dialogue:
         "Bring the Fish" if pytfall.world_quests.check_stage("Fishery") == 1 and has_items(mor_fish, [hero]) >= mor_quantity:
             $ hero.remove_item(mor_fish, mor_quantity)
             $ price = mor_fish.price * mor_quantity + randint(2, 8)
+            $ hero.add_money(price, reason="Quests")
             m "Magnificent. Take your reward, [price] coins. It's much more than any city merchant can give you, trust me."
             $ finish_quest("Fishery", "You brought required fish to Mor and got your reward.", "complete")
             jump Mor_dialogue_usual
