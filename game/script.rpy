@@ -342,5 +342,12 @@ label continue_with_start:
 label after_load:
     if hasattr(store, "stored_random_seed"):
         $ renpy.random.setstate(stored_random_seed)
+
+    python hide:
+        updated_chars = load_characters("chars", Char)
+        for id, char in updated_chars.items():
+            if id not in store.chars:
+                store.chars[id] = char
+
     stop music
     return
