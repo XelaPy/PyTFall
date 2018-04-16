@@ -85,7 +85,10 @@ screen city_screen():
         fixed:
             xysize (164, 78)
             pos (1111, 321)
-            text (u"[tt.value]") style "TisaOTMolxm" size 19 align (.5, .5)
+            if tt.value.lower() == "forest entrance":
+                text ("Dark Forest") style "TisaOTMolxm" size 19 align (.5, .5)
+            else:
+                text (u"[tt.value]") style "TisaOTMolxm" size 19 align (.5, .5)
             
     # Right frame:
     ### ----> Top buttons <---- ###
