@@ -90,7 +90,7 @@ label smc_1(event):
     $ renpy.pause(18.0, hard=True)
     hide smc
     with moveouttop
-    show expression npcs["Blue_slavemistress"].get_vnsprite() as blue
+    show expression npcs["Blue_slavemarket"].get_vnsprite() as blue at right
     g "Now wasn't that fun?"
     g "I could bet you my whip that sales will go over the roof today even without that damn weasel!"
     g "Well, see you around and remember that this is the best quality Slave Market in the town!"
