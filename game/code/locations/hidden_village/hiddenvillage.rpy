@@ -50,6 +50,7 @@ screen hiddenvillage_entrance:
             idle (img)
             hover (im.MatrixColor(img, im.matrix.brightness(.15)))
             action [Hide("hiddenvillage_entrance"), Jump("hidden_village_shop")]
+            tooltip "Ninja Shop"
 
     if gm.show_girls:
         key "mousedown_3" action ToggleField(gm, "show_girls")

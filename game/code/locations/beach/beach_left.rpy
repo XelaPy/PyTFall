@@ -46,6 +46,7 @@ screen city_beach_left():
             idle (img)
             hover (im.MatrixColor(img, im.matrix.brightness(.15)))
             action [Hide("city_beach_left"), Jump("city_beach_cafe_main")]
+            tooltip "Beach Café"
 
         $img = im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80)
         imagebutton:
@@ -60,6 +61,7 @@ screen city_beach_left():
             idle (img_beach_fish)
             hover (im.MatrixColor(img_beach_fish, im.matrix.brightness(.15)))
             action [Hide("city_beach_left"), Jump("fishing_logic"), With(dissolve)]
+            tooltip "Fishing Docks"
 
 
         $ img_beach_swim = ProportionalScale("content/gfx/interface/icons/beach_resting.png", 90, 90)
@@ -68,6 +70,7 @@ screen city_beach_left():
             idle (img_beach_swim)
             hover (im.MatrixColor(img_beach_swim, im.matrix.brightness(.15)))
             action [Hide("city_beach_left"), Jump("mc_action_city_beach_rest")]
+            tooltip "Rest"
 
     use location_actions("city_beach_left")
 

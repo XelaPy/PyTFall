@@ -68,6 +68,7 @@ screen city_beach():
             idle (img_pool)
             hover (im.MatrixColor(img_pool, im.matrix.brightness(.15)))
             action [Hide("city_beach"), Jump("swimming_pool")]
+            tooltip "Swimming Pool"
 
         $ img_beach_swim = ProportionalScale("content/gfx/interface/icons/sp_swimming.png", 90, 90)
         imagebutton:
@@ -75,6 +76,8 @@ screen city_beach():
             idle (img_beach_swim)
             hover (im.MatrixColor(img_beach_swim, im.matrix.brightness(.15)))
             action [Hide("city_beach"), Show("city_beach_swim"), With(dissolve)]
+            tooltip "Swim"
+
     use location_actions("city_beach")
 
     if gm.show_girls:
@@ -86,7 +89,11 @@ screen city_beach():
             hbox:
                 align (coords[j])
                 $ j += 1
-                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach",
+                            exclude=["urban", "wildness", "suburb", "nature", "winter",
+                                     "night", "formal", "indoor", "indoors"],
+                            type="reduce", label_cache=True, resize=(300, 400)),
+                            return_value=['jump', entry])
                 # use rg_lightbutton(p_img=entry.show("portrait", label_cache=True, resize=(200, 200)), return_value=['jump', entry])
 
 

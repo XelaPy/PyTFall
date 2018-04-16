@@ -57,7 +57,11 @@ screen forest_entrance():
             hbox:
                 align (coords[j])
                 $ j += 1
-                use rg_lightbutton(img=entry.show("girlmeets", "nature", "wildness", exclude=["urban", "winter", "night", "beach", "onsen", "dungeon", "stage", "swimsuit", "indoor", "formal"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets", "nature", "wildness",
+                            exclude=["urban", "winter", "night", "beach", "onsen",
+                                     "dungeon", "stage", "swimsuit", "indoor", "formal"],
+                            type="reduce", label_cache=True, resize=(300, 400)),
+                            return_value=['jump', entry])
 
     if not gm.show_girls:
         $ img_witch_shop = ProportionalScale("content/gfx/interface/icons/witch.png", 90, 90)
@@ -66,13 +70,17 @@ screen forest_entrance():
             idle (img_witch_shop)
             hover (im.MatrixColor(img_witch_shop, im.matrix.brightness(.15)))
             action [Jump("witches_hut"), With(dissolve)]
+            tooltip "Abby's Shop"
 
         $ img_deep_forest= ProportionalScale("content/gfx/interface/icons/deep_forest.png", 75, 75)
         imagebutton:
             pos(350, 450)
             idle (img_deep_forest)
             hover (im.MatrixColor(img_deep_forest, im.matrix.brightness(.15)))
-            action [Hide("forest_entrance"), Function(global_flags.set_flag, "keep_playing_music"), Jump("forest_dark"), With(dissolve)]
+            action [Hide("forest_entrance"),
+                    Function(global_flags.set_flag, "keep_playing_music"),
+                    Jump("forest_dark"), With(dissolve)]
+            tooltip "Dark Forest\nBeware all who enter here"
 
         if global_flags.has_flag("met_peevish"):
             $ img_peev_shop= ProportionalScale("content/gfx/interface/icons/peevish.png", 75, 75)
@@ -81,3 +89,4 @@ screen forest_entrance():
                 idle (img_peev_shop)
                 hover (im.MatrixColor(img_peev_shop, im.matrix.brightness(.15)))
                 action [Hide("forest_entrance"), Jump("peevish_menu"), With(dissolve)]
+                tooltip "Peevishes Shop"

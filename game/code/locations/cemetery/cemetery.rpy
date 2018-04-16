@@ -94,6 +94,7 @@ screen cemetry_list_of_dead_chars (dead_list, number): # the list should not be 
         idle (img1)
         hover (im.MatrixColor(img1, im.matrix.brightness(.15)))
         action [Jump("cemetery_prev_char")]
+
     imagebutton:
         align (.59, .62)
         idle (img)
@@ -137,11 +138,13 @@ screen graveyard_town():
             idle (img_cemetery)
             hover (im.MatrixColor(img_cemetery, im.matrix.brightness(.15)))
             action [Hide("graveyard_town"), Jump("show_dead_list")]
+            tooltip "Graves"
         imagebutton:
             pos(1090, 180)
             idle (img_mausoleum)
             hover (im.MatrixColor(img_mausoleum, im.matrix.brightness(.15)))
             action [Hide("graveyard_town"), Jump("enter_dungeon")]
+            tooltip "Dungeon\nBeware all who enter here"
 
     if gm.show_girls:
         key "mousedown_3" action ToggleField(gm, "show_girls")
