@@ -672,7 +672,7 @@ label interactions_flirt:
         $ char.exp += randint(5, 15)
         $ result = round(randint(8, 20)+ char.joy*0.04 - m*2 - char.disposition*0.015)
         if result <= 0:
-            $ result = rendint(1,2)
+            $ result = randint(1,2)
         $ char.disposition += result
         $ del m
         if ct("Impersonal"):

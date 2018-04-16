@@ -42,7 +42,7 @@ label interactions_kiss:
     if char.disposition > (350+50*sub) and dice((char.disposition-100*sub)*temp + (hero.charisma*0.1) - 10*m):
         $ result = round(randint(20, 35)+ char.joy*0.06 - m*4 - char.disposition*0.01)
         if result <= 0:
-            $ result = rendint(1,2)
+            $ result = randint(1,2)
         $ hero.exp += randint(10, 20)
         $ char.exp += randint(10, 20)
         $ char.disposition += result
