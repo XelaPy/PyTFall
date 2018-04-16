@@ -1,32 +1,34 @@
 label arena_outside:
-    $ gm.enter_location(goodtraits=["Manly", "Courageous", "Aggressive"], badtraits=["Coward", "Nerd", "Homebody"], goodoccupations=["Combatant"], curious_priority=False)
-    $ coords = [[.1, .6], [.59, .64], [.98, .61]]
-    # Music related:
-    if not "arena_outside" in ilists.world_music:
-        $ ilists.world_music["arena_outside"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("arena_outside")]
-    if not global_flags.has_flag("keep_playing_music"):
-        play world choice(ilists.world_music["arena_outside"])
-    $ global_flags.del_flag("keep_playing_music")
+    if not global_flags.has_flag("menu_return"):
+        $ gm.enter_location(goodtraits=["Manly", "Courageous", "Aggressive"], badtraits=["Coward", "Nerd", "Homebody"], goodoccupations=["Combatant"], curious_priority=False)
+        $ coords = [[.1, .6], [.59, .64], [.98, .61]]
+        # Music related:
+        if not "arena_outside" in ilists.world_music:
+            $ ilists.world_music["arena_outside"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("arena_outside")]
+        if not global_flags.has_flag("keep_playing_music"):
+            play world choice(ilists.world_music["arena_outside"])
+        $ global_flags.del_flag("keep_playing_music")
 
-    scene bg arena_outside
-    with dissolve
-
-    $ ax = npcs["Xeona_arena"].say
-
-    # Texts: ---------------------------------------------------------->
-    if not global_flags.flag("visited_arena"):
-        $ global_flags.set_flag("visited_arena")
-        $ heard_about_arena = False
-        $ arena_date = False
-        'You see a pretty, confident girl approaching you.'
-        show expression npcs["Xeona_arena"].get_vnsprite() as xeona
+        scene bg arena_outside
         with dissolve
-        ax "I've never seen you before. What brings you here?"
-        ax "Lust for blood? Fame? Power? Or Respect?"
-        ax "Oh well, is there anything you'd like to know about this place?"
-        jump xeona_talking
 
-label arena_return:
+        $ ax = npcs["Xeona_arena"].say
+
+        # Texts: ---------------------------------------------------------->
+        if not global_flags.flag("visited_arena"):
+            $ global_flags.set_flag("visited_arena")
+            $ heard_about_arena = False
+            $ arena_date = False
+            'You see a pretty, confident girl approaching you.'
+            show expression npcs["Xeona_arena"].get_vnsprite() as xeona
+            with dissolve
+            ax "I've never seen you before. What brings you here?"
+            ax "Lust for blood? Fame? Power? Or Respect?"
+            ax "Oh well, is there anything you'd like to know about this place?"
+            jump xeona_talking
+    else:
+        $ global_flags.del_flag("menu_return")
+        
     scene bg arena_outside
     python:
         # Build the actions
@@ -77,7 +79,8 @@ label xeona_menu:
 label xeona_goodbye:
     ax "Find me if you need anything, I'm always here."
     hide xeona with dissolve
-    jump arena_return
+    $ global_flags.set_flag("menu_return")
+    jump arena_outside
 
 label xeona_talking:
     $ loop = True
