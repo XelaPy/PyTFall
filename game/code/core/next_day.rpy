@@ -240,7 +240,7 @@ label next_day_calculations:
     $ tl.end("Next Day")
 
     # Reset Flags:
-    python:
+    python hide:
         for char in chars.values():
             for flag in char.flags.keys():
                 if flag.startswith("ndd"):
