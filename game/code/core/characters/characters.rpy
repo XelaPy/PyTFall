@@ -4770,7 +4770,7 @@ init -9 python:
                         if self.disposition > -500:
                             # Slave is assumed as we can't effect where free chars spend nights in.
                             temp += " She is happy to live under the same roof as her master!"
-                            self.dispositon += 1
+                            self.disposition += 1
                             self.joy += randint(1, 3)
                         else:
                             temp += " Even though you both live in the same house, she hates you too much to really care."
