@@ -28,7 +28,7 @@ label interactions_hug:
     if char.disposition > (200+50*sub) and dice((char.disposition-100*sub)*temp + (hero.charisma*0.1) - 10*m):
         $ result = round(randint(10, 25)+ char.joy*0.4 - m*5 - char.disposition*0.01)
         if result <= 0:
-            $ result = rendint(1,2)
+            $ result = randint(1,2)
         $ char.disposition += result
         $ del temp
         $ del m
@@ -141,7 +141,7 @@ label interactions_grabbutt:
     if char.disposition > (250+50*sub) and dice((char.disposition-100*sub)*temp + (hero.charisma*0.1) - 10*m):
         $ result = round(randint(15, 30)+ char.joy*0.05 - m*5 - char.disposition*0.01)
         if result <= 0:
-            $ result = rendint(1,2)
+            $ result = randint(1,2)
         $ hero.exp += randint(8, 15)
         $ char.exp += randint(8, 15)
         $ char.disposition += result
@@ -252,7 +252,7 @@ label interactions_grabbreasts:
     if char.disposition > (250+50*sub) and dice((char.disposition-100*sub)*temp + (hero.charisma*0.1) - 10*m):
         $ result = round(randint(15, 30)+ char.joy*0.05 - m*5 - char.disposition*0.01)
         if result <= 0:
-            $ result = rendint(1,2)
+            $ result = randint(1,2)
         $ hero.exp += randint(8, 15)
         $ char.exp += randint(8, 15)
         $ char.disposition += result
