@@ -18,44 +18,46 @@ label city:
     if not global_flags.has_flag("keep_playing_music"):
         play world choice(ilists.world_music["pytfall"])
     $ global_flags.del_flag("keep_playing_music")
-    
+
     scene bg humans
     show screen city_screen
     with dissolve
-    
+
     if not global_flags.has_flag("2_tutorial"):
         $ global_flags.set_flag("2_tutorial")
         show screen tutorial(2)
-    
+
     while 1:
-        
+
         $ result = ui.interact()
-        
+
         if result[0] == 'control':
             if result[1] == 'return':
-                $ global_flags.set_flag("keep_playing_music")            
+                $ global_flags.set_flag("keep_playing_music")
                 hide screen city_screen
                 jump mainscreen
         elif result[0] == 'location':
             hide screen city_screen
             jump expression result[1]
-                
-            
+
+
 screen city_screen():
     on "show":
         action Function(appearing_for_city_map, "show")
     on "hide":
         action Function(appearing_for_city_map, "hide")
-    
+
     # Keybind as we don't use the topstripe here anymore:
     key "mousedown_3" action Return(['control', 'return'])
-    
+
     default tt = Tooltip(None)
     default loc_list = ["main_street", "arena_outside", "slave_market", "city_jail", "tavern_town",
-                                "city_parkgates", "academy_town", "mages_tower",
-                                "graveyard_town", "city_beach", "forest_entrance", "hiddenvillage_entrance"]
+                        "city_parkgates", "academy_town", "mages_tower",
+                        "graveyard_town", "city_beach", "forest_entrance", "hiddenvillage_entrance"]
+    default selected = None
+
     add "content/gfx/images/m_1.png" align (1.0, .0)
-    
+
     for key in pytfall.maps("pytfall"):
         if not key.get("hidden", False):
             # Resolve images + Add Appearing where appropriate:
@@ -65,22 +67,25 @@ screen city_screen():
             if "appearing" in key and key["appearing"]:
                 $ hover_img = im.MatrixColor(idle_img, im.matrix.brightness(.08))
                 $ pos = key["pos"]
-                
+
             button:
                 style 'image_button'
                 pos pos
                 if not("appearing" in key and key["appearing"]):
                     idle_background idle_img
                     hover_background hover_img
+                    selected_background hover_img
                 else:
                     idle_background Transform(idle_img, alpha=.01)
                     hover_background hover_img
+                    selected_background hover_img
                 focus_mask True
+                selected key["id"] == selected
                 hovered tt.action(key['name'])
                 action Return(['location', key["id"]])
-                    
+
     add "content/gfx/frame/h2.png"
-    
+
     if tt.value:
         fixed:
             xysize (164, 78)
@@ -89,7 +94,7 @@ screen city_screen():
                 text ("Dark Forest") style "TisaOTMolxm" size 19 align (.5, .5)
             else:
                 text (u"[tt.value]") style "TisaOTMolxm" size 19 align (.5, .5)
-            
+
     # Right frame:
     ### ----> Top buttons <---- ###
     hbox:
@@ -120,7 +125,7 @@ screen city_screen():
             hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/load.png", 38, 40), im.matrix.brightness(.15))
             hovered tt.Action("QuickLoad")
             action QuickLoad()
-    
+
     ### ----> Mid buttons <---- ###
     add "coin_top" pos (1015, 58)
     $ g = gold_text(hero.gold)
@@ -133,7 +138,7 @@ screen city_screen():
         If(_preferences.mute["music"] or _preferences.mute["sfx"],
         true=[Preference("sound mute", "disable"), Preference("music mute", "disable")],
         false=[Preference("sound mute", "enable"), Preference("music mute", "enable")])]
-        
+
     add ProportionalScale("content/gfx/frame/frame_ap.png", 155, 50) pos (1040, 90)
     text "[hero.AP]" style "TisaOTM" color "#f1f1e1" size 24 outlines [(1, "#3a3a3a", 0, 0)] pos (1143, 85)
     fixed:
@@ -141,9 +146,9 @@ screen city_screen():
         xsize 72
         text "Day [day]" style "TisaOTMolxm" color "#f1f1e1" size 18
     add "content/gfx/interface/buttons/compass.png" pos (1187, 15)
-    
+
     add "content/gfx/images/m_2.png"
-    
+
     ### ----> Lower buttons (Locations) <---- ###
     side "c r":
         pos (1104, 132)
@@ -160,7 +165,8 @@ screen city_screen():
                         xysize (160, 28)
                         idle_background Frame(im.MatrixColor(prefix + loc["id"] + ".png", im.matrix.brightness(.10)), 5, 5)
                         hover_background Frame(im.MatrixColor(prefix + loc["id"] + "_hover.png", im.matrix.brightness(.15)), 5, 5)
-                        hovered tt.action(loc['name'])
+                        hovered [tt.action(loc['name']), SetScreenVariable("selected", loc["id"])]
+                        unhovered SetScreenVariable("selected", None)
                         action Return(['location', loc["id"]])
-                    
+
         vbar value YScrollValue("locations")
