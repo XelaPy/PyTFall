@@ -164,6 +164,9 @@
                 loc = self.loc
                 job = self.job
 
+                worker.del_flag("_jobs_tips")
+                worker.mod_flag("ndd_accumulated_tips", tips)
+
                 temp = "{} gets {} Gold in tips!".format(worker.name, tips)
                 self.add(temp, True)
                 loc.fin.log_logical_income(tips, job.id + " Tips")

@@ -4823,7 +4823,7 @@ init -9 python:
             if self not in pytfall.ra:
                 img = self.fin.settle_wage(txt, img)
 
-                tips = self.flag("_jobs_tips")
+                tips = self.flag("ndd_accumulated_tips")
                 if tips:
                     temp = choice(["Total tips earned: %d Gold. " % tips,
                                    "%s got %d Gold in tips. " % (self.nickname, tips)])
