@@ -482,8 +482,8 @@ init python: # Locking random seed of internal renpys random
         return rv
 
 init:
-    default SKILLS_MAX = {k:5000 for k in PytCharacter.SKILLS}
-    default SKILLS_THRESHOLD = {k:2000 for k in PytCharacter.SKILLS} # Must be exceeded before skills becomes harder to gain.
+    default SKILLS_MAX = {k: 5000 for k in PytCharacter.SKILLS}
+    default SKILLS_THRESHOLD = {k: 2000 for k in PytCharacter.SKILLS} # Must be exceeded before skills becomes harder to gain.
     default just_view_next_day = False
     default char = None
     default char_equip = None

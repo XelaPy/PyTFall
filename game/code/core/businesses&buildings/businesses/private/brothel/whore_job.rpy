@@ -228,7 +228,8 @@ init -5 python:
                 if worker.has_image("2c vaginal", **kwargs):
                     log.img = worker.show("2c vaginal", **kwargs)
                 else:
-                    log.img = worker.show("after sex", exclude=["angry", "in pain", "dungeon", "sad"], **kwargs)
+                    kwargs["exclude"] = ["angry", "in pain", "dungeon", "sad"]
+                    log.img = worker.show("after sex", **kwargs)
                 image_tags = log.img.get_image_tags()
                 if "ontop" in image_tags:
                     log.append("He invited her to 'sit' on his lap as he unsheathed his cock. They've continued along the same lines in 'girl-on-top' position. \n")
@@ -266,7 +267,9 @@ init -5 python:
                 if worker.has_image("2c anal", **kwargs):
                     log.img = worker.show("2c anal", **kwargs)
                 else:
-                    log.img = worker.show("after sex", exclude=["angry", "in pain", "dungeon", "sad"], **kwargs)
+                    kwargs["exclude"] = ["angry", "in pain", "dungeon", "sad"]
+                    log.img = worker.show("after sex", **kwargs)
+
                 image_tags = log.img.get_image_tags()
                 if "ontop" in image_tags:
                     log.append("He invited her to 'sit' on his lap as he unsheathed his cock. They've continued along the same lines in 'girl on top' position. \n")
