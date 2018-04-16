@@ -423,7 +423,10 @@ init -1 python:
         if char.has_image("girlmeets", "nature"):
             locations_list.append("nature")
         if locations_list:
-            tag = random.choice(locations_list)
+            tag = random.choice(locations_list
+        else:
+            tag = "urban"
+
         if tag == "beach":
             bg = "city_beach_cafe"
         elif tag == "urban":
