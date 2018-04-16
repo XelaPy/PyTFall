@@ -103,7 +103,7 @@ label city_tavern_choose_label:
     jump city_tavern_menu
 
 screen city_tavern_inside():
-    use top_stripe(True)
+    use top_stripe(False)
     frame:
         xalign .95
         ypos 50
