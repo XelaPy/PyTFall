@@ -138,7 +138,7 @@ label set_mc_basetraits:
 label set_mc_start_building:
     # Sets up mc's starting businesses:
     python hide:
-        scary = Building(in_slots_max=14, ex_slots_max=0, needs_management=True)
+        scary = Building(in_slots_max=16, ex_slots_max=0, needs_management=True)
         scary.add_adverts([advert for advert in adverts if advert['name'] in ["Sign", "Flyers"]])
         scary.id = scary.name = "Scary Shack"
 
@@ -159,7 +159,7 @@ label set_mc_start_building:
         scary.dirt = randint(50, 100)
         scary.threat = 0
 
-        scary.allowed_businesses = [BrothelBlock, Cleaners, SlaveQuarters]
+        scary.allowed_businesses = [BrothelBlock, Cleaners, SlaveQuarters, WarriorQuarters]
         scary.add_business(Cleaners(allowed_upgrades=[BroomCloset]))
         scary.add_business(BrothelBlock(capacity=2, allowed_upgrades=[]))
         scary.add_business(SlaveQuarters(capacity=2, allowed_upgrades=[]))
