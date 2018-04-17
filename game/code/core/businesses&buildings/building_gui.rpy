@@ -219,11 +219,11 @@ label building_management_loop:
                 python hide:
                     temp = result[2]()
                     if isinstance(temp, BusinessUpgrade):
-                        result[3].add_upgrade(temp)
+                        result[3].add_upgrade(temp, pay=True)
                     elif isinstance(temp, Business):
-                        building.add_business(temp)
+                        building.add_business(temp, pay=True)
                     elif isinstance(temp, BuildingUpgrade):
-                        building.add_upgrade(temp)
+                        building.add_upgrade(temp, pay=True)
                     else:
                         raise Exception("Unknown extension class detected: {}".format(result[2]))
         elif result[0] == "maintenance":

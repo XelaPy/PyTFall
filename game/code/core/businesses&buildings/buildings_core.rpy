@@ -627,12 +627,24 @@ init -10 python:
 
             return True
 
-        def add_business(self, business, normalize_jobs=True):
+        def pay_for_extension(self, cost, materials):
+            # This does assume that we checked and know that MC has the resources.
+            if cost:
+                hero.take_money(cost, "Building Upgrades")
+
+            if materials:
+                for item, amount in materials.items():
+                    hero.remove_item(item, amount)
+
+        def add_business(self, business, normalize_jobs=True, pay=False):
             """Add business to the building.
             """
             cost, materials, in_slots, ex_slots = self.get_extension_cost(business)
             self.in_slots += in_slots
             self.ex_slots += ex_slots
+
+            if pay:
+                self.pay_for_extension(cost, materials)
 
             business.building = self
             self._businesses.append(business)
@@ -650,10 +662,13 @@ init -10 python:
             if normalize_jobs:
                 self.normalize_jobs()
 
-        def add_upgrade(self, upgrade):
+        def add_upgrade(self, upgrade, pay=False):
             cost, materials, in_slots, ex_slots = self.get_extension_cost(upgrade)
             self.in_slots += in_slots
             self.ex_slots += ex_slots
+
+            if pay:
+                self.pay_for_extension(cost, materials)
 
             upgrade.building = self
             self._upgrades.append(upgrade)
