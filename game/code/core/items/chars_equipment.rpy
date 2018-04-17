@@ -479,7 +479,7 @@ screen char_equip_left_frame(tt, stats_display):
             button:
                 xsize 100
                 action SetScreenVariable("stats_display", "pro"), With(dissolve)
-                text "Skills" style "pb_button_text" yoffset 2
+                text "Item Skills" style "pb_button_text" yoffset 2
 
         # Stats/Skills:
         vbox:
@@ -573,50 +573,57 @@ screen char_equip_left_frame(tt, stats_display):
                         vbox:
                             xsize 208
                             text ("Select an item to check its skills") size 18 color goldenrod bold True xalign .45 text_align .5
+                    
+                    elif not getattr(focusitem, "mod_skills", {}):
+                        vbox:
+                            xsize 208
+                            text ("Current item doesn't affect skills. Try to select another one?") size 18 color goldenrod bold True xalign .45 text_align .5
+                    else:
+                        for skill, data in getattr(focusitem, "mod_skills", {}).iteritems():
+                                    
 
-                    for skill, data in getattr(focusitem, "mod_skills", {}).iteritems():
-                        frame:
-                            xysize 208, 22
-                            text str(skill).title() size 16 color yellowgreen align .0, .5
+                            frame:
+                                xysize 208, 22
+                                text str(skill).title() size 16 color yellowgreen align .0, .5
 
-                            $ img_path = "content/gfx/interface/icons/skills_icons/"
+                                $ img_path = "content/gfx/interface/icons/skills_icons/"
 
-                            default PS = ProportionalScale
+                                default PS = ProportionalScale
 
-                            hbox:
-                                align .99, .5
-                                spacing 2
-                                yoffset 1
-                                button:
-                                    style "default"
-                                    xysize 20, 18
-                                    action NullAction()
-                                    yoffset 2
-                                    hovered tt.action("Icon represents skills modifier changes. Green means bonus, red means penalty. Left one is action counter, right one is training counter, top one is resulting value.")
-                                    if data[0] > 0:
-                                        add PS(img_path + "left_green.png", 20, 20)
-                                    elif data[0] < 0:
-                                        add PS(img_path + "left_red.png", 20, 20)
-                                    if data[1] > 0:
-                                        add PS(img_path + "right_green.png", 20, 20)
-                                    elif data[1] < 0:
-                                        add PS(img_path + "right_red.png", 20, 20)
-                                    if data[2] > 0:
-                                        add PS(img_path + "top_green.png", 20, 20)
-                                    elif data[2] < 0:
-                                        add PS(img_path + "top_red.png", 20, 20)
-                                if data[3]:
+                                hbox:
+                                    align .99, .5
+                                    spacing 2
+                                    yoffset 1
                                     button:
                                         style "default"
+                                        xysize 20, 18
                                         action NullAction()
-                                        hovered tt.action("Direct bonus to action skill values.")
-                                        label "A: " + str(data[3]) text_size 15
-                                if data[4]:
-                                    button:
-                                        style "default"
-                                        action NullAction()
-                                        hovered tt.action("Direct bonus to knowledge skill values.")
-                                        label "K: " + str(data[4]) text_size 15
+                                        yoffset 2
+                                        hovered tt.action("Icon represents skills modifier changes. Green means bonus, red means penalty. Left one is action counter, right one is training counter, top one is resulting value.")
+                                        if data[0] > 0:
+                                            add PS(img_path + "left_green.png", 20, 20)
+                                        elif data[0] < 0:
+                                            add PS(img_path + "left_red.png", 20, 20)
+                                        if data[1] > 0:
+                                            add PS(img_path + "right_green.png", 20, 20)
+                                        elif data[1] < 0:
+                                            add PS(img_path + "right_red.png", 20, 20)
+                                        if data[2] > 0:
+                                            add PS(img_path + "top_green.png", 20, 20)
+                                        elif data[2] < 0:
+                                            add PS(img_path + "top_red.png", 20, 20)
+                                    if data[3]:
+                                        button:
+                                            style "default"
+                                            action NullAction()
+                                            hovered tt.action("Direct bonus to action skill values.")
+                                            label "A: " + str(data[3]) text_size 15
+                                    if data[4]:
+                                        button:
+                                            style "default"
+                                            action NullAction()
+                                            hovered tt.action("Direct bonus to knowledge skill values.")
+                                            label "K: " + str(data[4]) text_size 15
 
     use char_equip_right_frame(tt)
 
