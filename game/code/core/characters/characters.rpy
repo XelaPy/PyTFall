@@ -4226,6 +4226,14 @@ init -9 python:
             # Exp Bar:
             self.exp_bar = ExpBarController(self)
 
+            self.autocontrol = {
+            "Rest": False,
+            "Tips": False,
+            "SlaveDriver": False,
+            "Acts": {"normalsex": True, "anal": True, "blowjob": True, "lesbian": True},
+            "S_Tasks": {"clean": True, "bar": True, "waitress": True},
+            }
+
         # Girls/Borthels/Buildings Ownership
         @property
         def buildings(self):

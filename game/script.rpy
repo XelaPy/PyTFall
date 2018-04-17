@@ -349,5 +349,14 @@ label after_load:
             if id not in store.chars:
                 store.chars[id] = char
 
+    # Complete hack:
+    python hide:
+        if not hasattr(store.hero, "autocontrol"):
+            store.hero.autocontrol = {"Rest": False,
+                                        "Tips": False,
+                                        "SlaveDriver": False,
+                                        "Acts": {"normalsex": True, "anal": True, "blowjob": True, "lesbian": True},
+                                        "S_Tasks": {"clean": True, "bar": True, "waitress": True}}
+
     stop music
     return

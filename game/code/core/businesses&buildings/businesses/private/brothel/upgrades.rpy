@@ -25,3 +25,4 @@ init 5 python:
         def __init__(self, **kwargs):
             super(StatueOfSexGoddess, self).__init__(**kwargs)
             self.job_effectiveness_mod = 20
+            self.expands_capacity = False # Force the matter.

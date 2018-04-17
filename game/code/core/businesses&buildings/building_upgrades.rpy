@@ -25,6 +25,7 @@ init 5 python:
         def __init__(self, **kwargs):
             super(MainHall, self).__init__(**kwargs)
             self.client_flow_mod = 1.2
+            self.expands_capacity = False # Force the matter.
 
 
     class Garden(BuildingUpgrade):
@@ -54,3 +55,4 @@ init 5 python:
 
         def __init__(self, **kwargs):
             super(Garden, self).__init__(**kwargs)
+            self.expands_capacity = False # Force the matter.
