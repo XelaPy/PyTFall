@@ -52,7 +52,7 @@
         ],
         "options": {
             "Beauty": {
-                "desc": "This course focuses on training charsima. May also improve refinement.",
+                "desc": "This course focuses on training charisma. May also improve refinement.",
                 "image": "Beauty/",
                 "imageTags": [
                     "beauty",
@@ -127,7 +127,7 @@
                 ]
             },
             "Kunoichi": {
-                "desc": "This course focuses on training attack and agility. May also improve sex skill and security.",
+                "desc": "This course focuses on training attack and agility. May also improve general sex and security.",
                 "image": "Kunoichi/",
                 "imageTags": [
                     "ninja",
@@ -173,7 +173,7 @@
                 ]
             },
             "Maid": {
-                "desc": "This course focuses on service and cleanings kills. May also improve waiting and bartending.",
+                "desc": "This course focuses on service and cleanings skills. May also improve waiting and bartending.",
                 "image": "Service/",
                 "imageTags": [
                     "sfw",
@@ -212,7 +212,7 @@
                 ]
             },
             "Anal Sex": {
-                "desc": "This course focuses on training anal sex skills.May also improve general sex.",
+                "desc": "This course focuses on training anal sex skills. May also improve general sex.",
                 "image": "Anal/",
                 "imageMode": "any",
                 "imageTags": [
