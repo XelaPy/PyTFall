@@ -479,7 +479,7 @@ screen char_equip_left_frame(tt, stats_display):
             button:
                 xsize 100
                 action SetScreenVariable("stats_display", "pro"), With(dissolve)
-                text "Skills" style "pb_button_text" yoffset 2
+                text "Item Skills" style "pb_button_text" yoffset 2
 
         # Stats/Skills:
         vbox:
