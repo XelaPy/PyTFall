@@ -736,6 +736,20 @@ init -10 python:
             """
             return any(i.workable for i in self._businesses)
 
+        @property
+        def capacity(self):
+            # Full capacity, habitable and workable:
+            capacity = 0
+
+            workable = [i for i in self._businesses if i.workable]
+            if workable:
+                capacity = sum([i.capacity for i in workable])
+
+            habitable = [i for i in self._businesses if i.habitable]
+            if habitable:
+                capacity = sum([i.capacity for i in habitable])
+            return capacity
+
         # Clients related:
         def get_client_count(self, write_to_nd=False):
             """Get the amount of clients that will visit the building the next day.
@@ -971,14 +985,14 @@ init -10 python:
 
                 # Clear threat and dirt for smaller buildings:
                 # Maybe require any kind of manager???
-                if self.env.now == 101 and self.capacity < 10:
-                    if (self.threat > 500 or self.dirt > 500) and dice(20):
-                        temp = "Your employees took care of the building for you after work hours!"
-                        self.log(temp)
-                        temp = "You are still working with a small businesses, so don't expect this trend to continue as your business empire grows and expands!"
-                        self.log(temp)
-                        self.threat = 0
-                        self.dirt = 0
+                if self.capacity < 10 and not self.env.now % 100 and self.get_all_chars():
+                    temp = "The building is relatively small."
+                    temp += " Your employees took care of the it (Threat/Dirt cleared)!"
+                    self.log(temp)
+                    temp = "Don't expect this trend to continue as your business empire grows and expands!"
+                    self.log(temp)
+                    self.threat = 0
+                    self.dirt = 0
 
         def clients_dispatcher(self, end=100):
             """This method provides stream of clients to the building following it's own algorithm.
