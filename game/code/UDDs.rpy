@@ -166,7 +166,7 @@ init -999 python:
             fixed.add(Text(sign+str(value), style="proper_stats_value_text", color=color,
                            size=40, align=(.9, .5), yoffset=25))
 
-            time_offset = (len(self.gfx) + len(self.parse_gfx))*.5
+            time_offset = self.get_time_offset()
             kwargs["pos"] = absolute(randint(150, 900)), absolute(720)
             kwargs["yoffset"] = randint(-400, -350)
             kwargs["d"] = fixed
@@ -174,7 +174,16 @@ init -999 python:
             duration = uniform(1.8, 2.2)
             kwargs["duration"] = duration
             self.add_atl(char_stats_effect, duration, kwargs)
-            self.add_sfx("content/sfx/sound/events/bing.ogg", uniform(.5, 1.0)+time_offset)
+            self.add_sfx("content/sfx/sound/events/bing.ogg", .5+time_offset)
+
+        def get_time_offset(self):
+            offset = 0
+            showing = len(self.gfx) + len(self.parse_gfx)
+
+            if showing:
+                offset = showing*.3
+                offset = min(.7, offset)
+            return offset
 
         def mod_mc_stat(self, stat, value):
             kwargs = dict()
@@ -193,7 +202,7 @@ init -999 python:
             fixed.add(Text(sign+str(value), style="proper_stats_value_text", color=color,
                            size=40, align=(.9, .5), yoffset=25))
 
-            time_offset = (len(self.gfx) + len(self.parse_gfx))*.5
+            time_offset = self.get_time_offset()
             kwargs["pos"] = randint(150, 900), -50
             kwargs["yoffset"] = randint(130, 170)
             kwargs["d"] = fixed
@@ -201,11 +210,12 @@ init -999 python:
             duration = uniform(1.8, 2.2)
             kwargs["duration"] = duration
             self.add_atl(mc_stats_effect, duration, kwargs)
-            self.add_sfx("content/sfx/sound/events/bing.ogg", uniform(.5, 1.0)+time_offset)
+            self.add_sfx("content/sfx/sound/events/bing.ogg", .5+time_offset)
 
         def disposition_mod(self, value):
             value = round_int(value)
             kwargs = dict()
+            time_offset = self.get_time_offset()
 
             if value > 0:
                 fixed = Fixed(xysize=(130, 130))
@@ -216,6 +226,7 @@ init -999 python:
                 fixed.add(d)
                 kwargs["pos"] = randint(680, 920), randint(500, 600)
                 kwargs["yoffset"] = randint(-300, -250)
+                self.add_sfx("content/sfx/sound/female/uhm.mp3", .3+time_offset)
             else:
                 fixed = Fixed(xysize=(130, 130))
                 d = Transform("shy_blush", size=(130, 130), align=(.5, .5))
@@ -226,13 +237,11 @@ init -999 python:
                 kwargs["pos"] = randint(680, 920), randint(100, 200)
                 kwargs["yoffset"] = randint(250, 300)
 
-            time_offset = (len(self.gfx) + len(self.parse_gfx))*.5
             kwargs["d"] = fixed
             kwargs["start"] = time_offset
             duration = uniform(1.2, 2.3)
             kwargs["duration"] = duration
             self.add_atl(dispostion_effect, duration, kwargs)
-            self.add_sfx("content/sfx/sound/female/uhm.mp3", .6+time_offset)
 
         def random_find(self, item, mode='gold'):
             # Can be used to show that we've found something.
@@ -325,10 +334,7 @@ init -999 python:
 
             for duration, data in self.parse_gfx.items():
                 callable, kwargs = data
-                if "start" in kwargs:
-                    start_delay = kwargs["start"]
-                else:
-                    start_delay = 0
+                start_delay = kwargs.get("start", 0)
                 kwargs["start"] += st
                 killtime = start_delay + st + duration
                 if killtime in self.gfx:
