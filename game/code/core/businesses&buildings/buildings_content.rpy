@@ -654,12 +654,13 @@ init -9 python:
                             modr = randint(*advert['reputation'])
                             self.modrep(modr)
                             tmodrep += modr
-                        spentcash = spentcash + advert['upkeep']
+
+                        spentcash += advert['upkeep']
                         if advert['name'] == 'Celebrity':
                             advert['active'] = False
-                            txt.append("A celebrity came into your brothel, raising it's reputation by %d and fame by %d\n" % (modr, modf))
+                            txt.append("A celebrity came into your building, raising it's reputation by %d and fame by %d\n" % (modr, modf))
 
-                txt.append("In total you got a bill of %d Gold in advertising fees, reputation was increased through advertising by %d, fame by %d." % (spentcash, tmodfame, tmodrep))
+                txt.append("In total you got a bill of %d Gold in advertising fees, reputation was increased through advertising by %d, fame by %d." % (spentcash, tmodrep, tmodfame))
 
                 if spentcash and not hero.take_money(spentcash, reason="Building Ads"):
                     rep_hit = max(10, spentcash/10)

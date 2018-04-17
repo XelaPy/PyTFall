@@ -100,7 +100,8 @@ label building_management:
             # Looks pretty ugly... this might be worth improving upon just for the sake of esthetics.
             building = hero.upgradable_buildings[index]
             char = None
-            workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3, size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 15))
+            workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3,
+                            size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 15))
             fg_filters = CharsSortingForGui(all_chars_for_se)
             fg_filters.status_filters.add("free")
             fg_filters.target_container = [workers, "content"]
@@ -168,20 +169,25 @@ label building_management_loop:
                 show screen building_management
             elif result[1] == "sign":
                 python:
+                    ad = result[2]
+
                     if building.flag('bought_sign'):
-                        if hero.take_money(20, reason="Ads"):
-                            building.toggle_advert(result[1])
-
-                        else:
-                            renpy.show_screen("message_screen", "Not enough cash on hand!")
-
+                        price = ad['price']/10
                     else:
-                        if hero.take_money(200, reason="Ads"):
-                            building.set_flag('bought_sign')
-                            building.toggle_advert(result[1])
+                        price = ad['price']
 
-                        else:
-                            renpy.show_screen("message_screen", "Not enough cash on hand!")
+                    if hero.take_money(price, reason="Building Ads"):
+                        building.set_flag('bought_sign', True)
+                        ad['active'] = not ad['active']
+                    else:
+                        renpy.show_screen("message_screen", "Not enough cash on hand!")
+            elif result[1] == "celeb":
+                python:
+                    ad = result[2]
+                    if hero.take_money(ad['price'], reason="Building Ads"):
+                        ad['active'] = True
+                    else:
+                        renpy.show_screen("message_screen", "Not enough cash on hand!")
             elif result[1] == "sell":
                 python:
                     price = int(building.price*0.9)
@@ -230,7 +236,6 @@ label building_management_loop:
                         building.dirt = 0
                     else:
                         renpy.show_screen("message_screen", "You do not have the required funds!")
-
                 elif result[1] == "clean_all":
                     if hero.take_money(result[2], reason="Pro-Cleaning"):
                         for i in hero.dirty_buildings:
@@ -238,10 +243,8 @@ label building_management_loop:
                             i.dirt = 0
                     else:
                         renpy.show_screen("message_screen", "You do not have the required funds!")
-
                 elif result[1] == "rename_building":
                     building.name = renpy.call_screen("pyt_input", default=building.name, text="Enter Building name:")
-
                 elif result[1] == "retrieve_jail":
                     pytfall.ra.retrieve_jail = not pytfall.ra.retrieve_jail
         elif result[0] == 'control':
@@ -413,6 +416,7 @@ init: # Screens:
                         text "No manager" align (.5, .5) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
                 if building.manager:
                     text "Current manager" align (.5, .5) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
+
     screen building_management_rightframe_businesses_mode:
         $ frgr = Fixed(xysize=(315, 680))
         $ frgr.add(ProportionalScale("content/gfx/images/e1.png", 315, 600, align=(.5, .0)))
@@ -1348,30 +1352,42 @@ init: # Screens:
                     vbox:
                         style_group "basic"
                         align (.5, .5)
-                        if advert['active']:
+                        # if advert['active']:
+                        #     button:
+                        #         xysize(280, 32)
+                        #         hovered tt.action(advert['desc'])
+                        #         action ToggleDict(advert, "active")
+                        #         text ("Stop %s!" % advert['name']) color black align (.5, .5)
+                        # else:
+                        if advert['name'] == "Sign" and not advert['active']:
+                            button:
+                                xysize(280, 32)
+                                hovered tt.action(advert['desc'])
+                                action Return(["building", 'sign', advert])
+                                text "Put Up Sign!" color black align (.5, .5) size 15
+                        elif advert['name'] == "Celebrity":
+                            button:
+                                xysize(280, 32)
+                                hovered tt.action(advert['desc'])
+                                action Return(["building", 'celeb', advert])
+                                sensitive not advert['active']
+                                if not not advert['active']:
+                                    text "Hire a Celeb!" color black align (.5, .5) size 15
+                                else:
+                                    text "Celebrity hired!" color black align (.5, .5) size 15
+                        else:
                             button:
                                 xysize(280, 32)
                                 hovered tt.action(advert['desc'])
                                 action ToggleDict(advert, "active")
-                                text ("Stop %s!" % advert['name']) color black align (.5, .5)
-                        else:
-                            if advert['name'] == "sign":
-                                button:
-                                    xysize(280, 32)
-                                    hovered tt.action(advert['desc'])
-                                    action Return(["building", "sign"])
-                                    text "Put Up Sign!" color black align (.5, .5) size 15
-                            else:
-                                button:
-                                    xysize(280, 32)
-                                    hovered tt.action(advert['desc'])
-                                    action ToggleDict(advert, "active")
-                                    if advert['price'] == 0:
-                                        text ("Use %s for %s Gold a day!" % (advert['name'], advert['upkeep'])) color black align (.5, .5) size 15
-                                    elif advert['upkeep'] == 0:
-                                        text ("Use %s for %s Gold!" % (advert['name'], advert['price'])) color black align (.5, .5) size 15
-                                    else:
-                                        text ("Use %s for %s Gold and %s a day!" % (advert['name'], advert['price'], advert['upkeep'])) color black align (.5, .5) size 15
+                                if advert['active']:
+                                    text ("Stop %s!" % advert['name']) color black align (.5, .5)
+                                elif advert['price'] == 0:
+                                    text ("Use %s for %s Gold a day!" % (advert['name'], advert['upkeep'])) color black align (.5, .5) size 15
+                                elif advert['upkeep'] == 0:
+                                    text ("Use %s for %s Gold!" % (advert['name'], advert['price'])) color black align (.5, .5) size 15
+                                else:
+                                    text ("Use %s for %s Gold and %s a day!" % (advert['name'], advert['price'], advert['upkeep'])) color black align (.5, .5) size 15
 
             button:
                 style_group "dropdown_gm"

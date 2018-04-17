@@ -115,6 +115,8 @@ init -10 python:
             **kwargs = Excess arguments.
             """
             super(BaseBuilding, self).__init__(id=id)
+            Flags.__init__(self)
+
             self.name = name
             self.desc = desc
             self._price = price
@@ -430,7 +432,7 @@ init -10 python:
 
     class AdvertableBuilding(_object):
         def add_adverts(self, adverts):
-            self._adverts = adverts
+            self._adverts = store.adverts
 
             for adv in self._adverts:
 
@@ -448,30 +450,7 @@ init -10 python:
 
         @property
         def can_advert(self):
-            return len(self._adverts) != 0
-
-        def toggle_advert(self, advert):
-            """
-            toggle advertation, returns whether it worked
-            """
-
-            if self._adverts[advert]['active']:
-                self._adverts[advert]['active'] = False
-                return True
-
-            if hero.gold < advert['price'] + advert['upkeep']:
-                return False
-
-            self._adverts[advert]['active'] = True
-            return True
-
-        def advertising(self, advert):
-            return self._adverts[advert]['active']
-
-        def use_adverts(self):
-            """Whether this building has any adverts.
-            """
-            return len(self._adverts) > 0
+            return bool(self._adverts)
 
 
     class UpgradableBuilding(BaseBuilding):
@@ -855,6 +834,11 @@ init -10 python:
                 self.log(set_font_color("===================", "lawngreen"))
                 self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
                 self.log("--- {} ---".format(set_font_color(self.name, "lawngreen")))
+
+                # handle ads:
+                # if isinstance(self, AdvertableBuilding):
+                #     for ad in self.adverts:
+                #         if ad['name'] == """Sign"
 
                 # Building Stats:
                 self.log("Reputation: {}%".format(self.rep_percentage))
