@@ -4093,9 +4093,12 @@ init -9 python:
             # Change in stats during the day:
             charmod = dict()
             for stat, value in self.stats.log.items():
-                if stat == "exp": charmod[stat] = self.exp - value
-                elif stat == "level": charmod[stat] = self.level - value
-                else: charmod[stat] = self.stats[stat] - value
+                if stat == "exp":
+                    charmod[stat] = self.exp - value
+                elif stat == "level":
+                    charmod[stat] = self.level - value
+                else:
+                    charmod[stat] = self.stats[stat] - value
 
             # Create the event:
             evt = NDEvent()
