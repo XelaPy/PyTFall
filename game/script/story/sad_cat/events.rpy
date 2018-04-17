@@ -98,65 +98,54 @@ label found_sad_cat_3:
     jump main_street
 
 label found_sad_cat_4:
-    if "cat_event_day" in globals():
-        if day - cat_event_day >14:
-            $ pytfall.world_events.kill_event("found_sad_cat_4", cached=True)
-            hide screen main_street
-            scene bg street_alley
-            $ del cat_event_day
-            "The alley is empty. There is only a small puddle of dried blood."
-        else:
-            hide screen main_street
-            scene bg street_alley
-            $ temp = npcs["sad_cat"].show("profile", "in pain", resize = (295, 340))
-            $ cat = npcs["sad_cat"]
-            show expression temp at left
-            with dissolve
-            $ npcs["sad_cat"].override_portrait("portrait", "in pain")
-            cat.say "Meow..."
-            hero.say "It's badly hurt. Those wounds are very deep. They won't heal on their own."
-            $ fish = list(i for i in hero.inventory if i.id in ["Small Healing Potion", "Healing Potion", "Great Healing Potion", "Ultimate Healing Potion"])
-            if fish:
-                hero.say "I can heal it with healing potion..."
-                menu:
-                    "Heal it":
-                        $ flash = Fade(.25, 0, .75, color=red)
-                        scene bg street_alley
-                        with flash
-                        hide expression temp
-                        $ temp = npcs["sad_cat"].show("profile", "happy", resize = (295, 340))
-                        show expression temp at left
-                        $ npcs["sad_cat"].override_portrait("portrait", "happy")
-                        cat.say "Meow!"
-                        "The cat looks much better now."
-                        hero.say "I should go now."
-                        hide expression temp
-                        with dissolve
-                        $ temp = npcs["sad_cat"].show("vnsprite", "happy", resize = (295, 340))
-                        show expression temp at center
-                        cat.say "Meow!"
-                        hero.say "The cat follows me. I suppose it's not safe for him to stay here."
-                        extend " I need to give him a name."
-                        $ n = renpy.call_screen("pyt_input", "Fluffy", "Enter name for your cat", 20)
-                        if not(len(n)):
-                            $ n = "Cat"
-                        $ npcs["sad_cat"].name = npcs["sad_cat"].fullname = npcs["sad_cat"].nickname = n
-                        $ npcs["sad_cat"].update_sayer()
-                        $ cat = npcs["sad_cat"]
-                        cat.say "Meow!"
-                        hero.say "Let's go, [cat.name]."
-                        $ items["Your Pet"].desc = "%s, the cat you found on city streets. Cute, funny and loyal, all girls just love him." %cat.name
-                        $ hero.add_item("Your Pet")
-                        "You got yourself a pet cat."
-                        $ pytfall.world_events.kill_event("found_sad_cat_4", cached=True)
-                    "Don't heal":
-                        hero.say "I need those potions for myself."
-                        if not "cat_event_day" in globals():
-                            $ cat_event_day = day
-            else:
-                hero.say "It still can be healed with a healing potion, but I don't have any right now."
-                if not "cat_event_day" in globals():
-                    $ cat_event_day = day
+    hide screen main_street
+    scene bg street_alley
+    $ temp = npcs["sad_cat"].show("profile", "in pain", resize = (295, 340))
+    $ cat = npcs["sad_cat"]
+    show expression temp at left
+    with dissolve
+    $ npcs["sad_cat"].override_portrait("portrait", "in pain")
+    cat.say "Meow..."
+    hero.say "It's badly hurt. Those wounds are very deep. They won't heal on their own."
+    $ fish = list(i for i in hero.inventory if i.id in ["Small Healing Potion", "Healing Potion", "Great Healing Potion", "Ultimate Healing Potion"])
+    if fish:
+        hero.say "I can heal it with healing potion..."
+        menu:
+            "Heal it":
+                $ flash = Fade(.25, 0, .75, color=red)
+                scene bg street_alley
+                with flash
+                hide expression temp
+                $ temp = npcs["sad_cat"].show("profile", "happy", resize = (295, 340))
+                show expression temp at left
+                $ npcs["sad_cat"].override_portrait("portrait", "happy")
+                cat.say "Meow!"
+                "The cat looks much better now."
+                hero.say "I should go now."
+                hide expression temp
+                with dissolve
+                $ temp = npcs["sad_cat"].show("vnsprite", "happy", resize = (295, 340))
+                show expression temp at center
+                cat.say "Meow!"
+                hero.say "The cat follows me. I suppose it's not safe for him to stay here."
+                extend " I need to give him a name."
+                $ n = renpy.call_screen("pyt_input", "Fluffy", "Enter name for your cat", 20)
+                if not(len(n)):
+                    $ n = "Cat"
+                $ npcs["sad_cat"].name = npcs["sad_cat"].fullname = npcs["sad_cat"].nickname = n
+                $ npcs["sad_cat"].update_sayer()
+                $ cat = npcs["sad_cat"]
+                cat.say "Meow!"
+                hero.say "Let's go, [cat.name]."
+                $ items["Your Pet"].desc = "%s, the cat you found on city streets. Cute, funny and loyal, all girls just love him." %cat.name
+                $ hero.add_item("Your Pet")
+                "You got yourself a pet cat."
+                $ pytfall.world_events.kill_event("found_sad_cat_4", cached=True)
+            "Don't heal":
+                hero.say "I need those potions for myself."
+    else:
+        hero.say "It still can be healed with a healing potion, but I don't have any right now."
+        
     $ global_flags.set_flag("keep_playing_music")
     $ npcs["sad_cat"].restore_portrait()
     jump main_street
