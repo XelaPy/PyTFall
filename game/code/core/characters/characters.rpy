@@ -2374,9 +2374,13 @@ init -9 python:
 
         # Logging and updating daily stats change on next day:
         def log_stats(self):
-            self.stats.log = copy.copy(self.stats.stats)
+            # Devnote: It is possible to mod this as stats change
+            # Could be messier to code though...
+            self.stats.log = shallowcopy(self.stats.stats)
             self.stats.log["exp"] = self.exp
             self.stats.log["level"] = self.level
+            for skill in self.SKILLS:
+                self.stats.log[skill] = self.stats.get_skill(skill)
 
         # Items/Equipment related, Inventory is assumed!
         def eq_items(self):
@@ -4014,10 +4018,6 @@ init -9 python:
             if not self.origin:
                 self.origin = choice(["Alkion", "PyTFall", "Crossgate"])
 
-            # Stats log:
-            self.log_stats()
-            self.restore_ap()
-
         def next_day(self):
             self.jobpoints = 0
 
@@ -4097,6 +4097,8 @@ init -9 python:
                     charmod[stat] = self.exp - value
                 elif stat == "level":
                     charmod[stat] = self.level - value
+                elif stat in self.SKILLS:
+                    charmod[stat] = round_int(self.stats.get_skill(stat) - value)
                 else:
                     charmod[stat] = self.stats.stats[stat] - value
 
@@ -4673,6 +4675,9 @@ init -9 python:
 
             # Calculate upkeep.
             self.fin.calc_upkeep()
+
+            # AP restore:
+            self.restore_ap()
 
             super(Char, self).init()
 

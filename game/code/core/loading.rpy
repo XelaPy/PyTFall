@@ -264,6 +264,8 @@ init -11 python:
                                                 give_civilian_items=True,
                                                 give_bt_items=True)
 
+                            char.log_stats()
+
                             content[char.id] = char
 
         return content

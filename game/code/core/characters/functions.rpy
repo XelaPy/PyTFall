@@ -5,10 +5,10 @@ init -11 python:
             set_friends(char, hero)
         elif char.disposition < -150 and char in hero.friends:
             end_friends(char, hero)
-            
+
         if char.disposition < 200 and char in hero.lovers:
             end_lovers(char, hero)
-            
+
     def retire_chars_from_location(chars, loc):
         if isinstance(chars, PytCharacter):
             chars = [chars]
@@ -404,6 +404,7 @@ init -11 python:
 
         # And add to char! :)
         if add_to_gameworld:
+            rg.log_stats()
             store.chars["_".join([rg.id, rg.name, rg.fullname.split(" ")[1]])] = rg
 
         return rg
