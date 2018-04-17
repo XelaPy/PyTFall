@@ -358,5 +358,19 @@ label after_load:
                                         "Acts": {"normalsex": True, "anal": True, "blowjob": True, "lesbian": True},
                                         "S_Tasks": {"clean": True, "bar": True, "waitress": True}}
 
+    python hide:
+        for building in store.buildings.values():
+            if isinstance(building, Flags) and not hasattr(building, "flags"):
+                building.flags = dict()
+
+        for building in store.businesses.values():
+            if isinstance(building, Flags) and not hasattr(building, "flags"):
+                building.flags = dict()
+
+        for building in hero.buildings:
+            if isinstance(building, Flags) and not hasattr(building, "flags"):
+                building.flags = dict()
+
+
     stop music
     return
