@@ -4098,7 +4098,7 @@ init -9 python:
                 elif stat == "level":
                     charmod[stat] = self.level - value
                 else:
-                    charmod[stat] = self.stats[stat] - value
+                    charmod[stat] = self.stats.stats[stat] - value
 
             # Create the event:
             evt = NDEvent()
