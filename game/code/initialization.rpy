@@ -247,7 +247,7 @@ init -999 python:
             This can keep track of max and delete a flag upon meeting it.
             """
             result = self.flags.get(flag, 0) + value
-            if max and result >= max:
+            if max is not None and result >= max:
                 if delete:
                     self.del_flag(flag)
                 else:
@@ -262,7 +262,7 @@ init -999 python:
             """
             result = self.flags.get(flag, 0) - value
 
-            if min and result <= min:
+            if min is not None and result <= min:
                 if delete:
                     self.del_flag(flag)
                 else:
