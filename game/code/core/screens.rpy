@@ -643,12 +643,13 @@ init:
                         tooltip "Quest Journal"
                         action ShowMenu("quest_log")
 
-                if renpy.current_screen().tag == "mainscreen":
+                if renpy.current_screen().tag not in ["girl_interactions", "quest_log"]:
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/preference.png", 39, 40)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/preference.png", 39, 40), im.matrix.brightness(.25))
                         action Show("s_menu", transition=dissolve)
                         tooltip "Game Preferences"
+
 
                 if renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "dungeon"] and show_lead_away_buttons:
                     imagebutton:
