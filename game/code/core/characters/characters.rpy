@@ -1191,7 +1191,7 @@ init -9 python:
                     val = value - self.exp
                     value = self.exp + int(round(val*1.1))
 
-            if value and last_label.startswith(AUTO_OVERLAY_STAT_LABELS):
+            if value and last_label_pure.startswith(AUTO_OVERLAY_STAT_LABELS):
                 temp = value - self.exp
                 gfx_overlay.mod_stat("exp", temp, self.instance)
 
@@ -1264,7 +1264,7 @@ init -9 python:
             if key in self.stats: # As different character types may come with different stats.
                 value = self.settle_effects(key, value)
 
-                if value and last_label.startswith(AUTO_OVERLAY_STAT_LABELS):
+                if value and last_label_pure.startswith(AUTO_OVERLAY_STAT_LABELS):
                     gfx_overlay.mod_stat(key, value, self.instance)
 
                 val = self.stats[key] + value
@@ -1289,7 +1289,7 @@ init -9 python:
 
                 self.stats[key] = val
 
-        def _mod_raw_skill(self, key, value, from__setattr__=True):
+        def _mod_raw_skill(self, key, value, from__setattr__=True, use_overlay=True):
             """Modifies a skill.
 
             # DEVNOTE: THIS SHOULD NOT BE CALLED DIRECTLY! ASSUMES INPUT FROM PytCharacter.__setattr__
@@ -1320,7 +1320,7 @@ init -9 python:
                 at_zero = skill_max - threshold
                 value *= max(.1, 1 - float(beyond_training)/at_zero)
 
-            if value and last_label.startswith(AUTO_OVERLAY_STAT_LABELS):
+            if use_overlay and value and last_label_pure.startswith(AUTO_OVERLAY_STAT_LABELS):
                 gfx_overlay.mod_stat(key, value, self.instance)
 
             self.skills[key][at] += value
@@ -1328,8 +1328,14 @@ init -9 python:
         def mod_full_skill(self, skill, value):
             """This spreads the skill bonus over both action and training.
             """
-            self._mod_raw_skill(skill.lower(), value*(2/3.0), from__setattr__=False)
-            self._mod_raw_skill(skill.capitalize(), value*(1/3.0), from__setattr__=False)
+            # raise Exception("MEOW")
+            if last_label_pure.startswith(AUTO_OVERLAY_STAT_LABELS):
+                gfx_overlay.mod_stat(skill.capitalize(), value, self.instance)
+
+            self._mod_raw_skill(skill.lower(), value*(2/3.0),
+                                from__setattr__=False, use_overlay=False)
+            self._mod_raw_skill(skill.capitalize(), value*(1/3.0),
+                                from__setattr__=False, use_overlay=False)
 
         def eval_inventory(self, inventory, weighted, target_stats, target_skills,
                            exclude_on_skills, exclude_on_stats,

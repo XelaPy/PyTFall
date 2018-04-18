@@ -491,6 +491,7 @@ init:
     default reset_building_management = True
     default block_say = False
     define PytPix = renpy.display.transition.Pixellate
+    default last_label_pure = ""
 
     default special_save_number = 1
 

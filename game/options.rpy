@@ -106,6 +106,8 @@ init -5 python hide:
 
     # Saves last label in a variable "last_label". Might be useful to jump back to from labels with multiple entry points.
     def label_callback(name, abnormal):
+        store.last_label_pure = name
+
         if "pytfall" in globals():
             labels = list(event.label for event in pytfall.world_events.events_cache) # implement as a fixed list on the first sign of delays
         else:

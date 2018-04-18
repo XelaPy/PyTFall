@@ -354,7 +354,9 @@ label mc_action_beach_start_fishing:
                 $ hero.say("I caught %s!" % item.id)
                 # the less item's chance field, the more additional bonus to fishing;
                 # with 90 chance it will be +1, with less than 1 chance about 10
-                $ hero.fishingskill += round((200-item.chance)*0.1) + randint(1, 5)
+                python hide:
+                    temp = round_int((200-item.chance)*0.1) + randint(1, 5)
+                    hero.stats.mod_full_skill("fishing", temp)
 
 label end_fishing:
     $ temp = getattr(store, "exit_string", "This is all for now.")
