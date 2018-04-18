@@ -347,7 +347,7 @@ init -9 python:
             '''Restock this shop
             Chance for an item appearing and amount of items are taken from the Item class
             '''
-            self.invetory.clear()
+            self.inventory.clear()
 
             items = store.items
             for item in items.itervalues():
