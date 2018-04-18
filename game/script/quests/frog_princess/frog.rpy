@@ -13,7 +13,7 @@ init python:
                        locations=["forest_entrance"], trigger_type="auto",
                        restore_priority=1, priority=300,
                        start_day=choice([15, 25, 35]), jump=True,
-                       dice=65, max_runs=20)
+                       dice=90, max_runs=20)
 
 label show_frog_deathfight:
     $ menu_extensions.add_extension("Xeona Main", ("Deathfight vs Goblin Champ!", Jump("frog_deathfight")))
