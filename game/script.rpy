@@ -371,6 +371,10 @@ label after_load:
             if isinstance(building, Flags) and not hasattr(building, "flags"):
                 building.flags = dict()
 
+    python hide:
+        pytfall.economy.property_tax = {"slaves": .01,
+                                        "real_estate": .015}
+
 
     stop music
     return
