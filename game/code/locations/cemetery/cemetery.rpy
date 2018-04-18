@@ -18,10 +18,12 @@ label graveyard_town:
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.finish()
 
+    $ dungeon_access = day >= global_flags.get_flag("can_access_cemetery_dungeon", 0)
+
     scene bg graveyard_town
     with dissolve
     show screen graveyard_town
-    $ number=0
+    $ number = 0
 
     while 1:
         $ result = ui.interact()
@@ -52,11 +54,12 @@ label show_dead_list_without_shuffle:
     while 1:
         $ result = ui.interact()
 
-screen cemetry_list_of_dead_chars (dead_list, number): # the list should not be empty!
+screen cemetry_list_of_dead_chars(dead_list, number): # the list should not be empty!
     on "show":
         action Hide("graveyard_town", dissolve)
     # on "hide":
         # action Show("graveyard_town", dissolve)
+
     frame:
         align (.5, .5)
         xysize (234, 420)
@@ -64,16 +67,20 @@ screen cemetry_list_of_dead_chars (dead_list, number): # the list should not be 
         vbox:
             align (.54, .65)
             $ character = dead_list[number]
+
             if character.has_image('portrait', 'indifferent'):
                 $ char_profile_img = character.show('portrait', 'indifferent', resize=(99, 99), cache=True)
             else:
                 $ char_profile_img = character.show('portrait', 'happy', resize=(99, 99), cache=True, type="reduce")
+
             frame:
                 background Frame("content/gfx/frame/MC_bg.png")
                 add im.Sepia(char_profile_img) align .5, .5
                 xalign .5
                 xysize (102, 102)
+
             spacing 5
+
             frame:
                 background Frame("content/gfx/frame/namebox3.png")
                 xsize 160
@@ -81,6 +88,7 @@ screen cemetry_list_of_dead_chars (dead_list, number): # the list should not be 
                     text ([character.name]) xalign .5 style "stats_value_text" color silver
                 else:
                     text ([character.name]) xalign .5 style "stats_value_text" color silver size 12
+
             frame:
                 background Frame("content/gfx/frame/namebox3.png")
                 xsize 160
@@ -143,8 +151,12 @@ screen graveyard_town():
             pos(1090, 180)
             idle (img_mausoleum)
             hover (im.MatrixColor(img_mausoleum, im.matrix.brightness(.15)))
-            action [Hide("graveyard_town"), Jump("enter_dungeon")]
-            tooltip "Dungeon\nBeware all who enter here"
+            if dungeon_access:
+                tooltip "Dungeon\nBeware all who enter here"
+                action [Hide("graveyard_town"), Jump("enter_dungeon")]
+            else:
+                tooltip "You may re-enter in {} days.".format(global_flags.flag("can_access_cemetery_dungeon")-day)
+                action NullAction()
 
     if gm.show_girls:
         key "mousedown_3" action ToggleField(gm, "show_girls")

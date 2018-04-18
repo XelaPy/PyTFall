@@ -315,10 +315,8 @@ style move_button_text:
 label enter_dungeon:
     menu:
         "This old dungeon looks dangerous. Are you sure you want to go in?"
-        
         "Yes":
-            $ pass
-            
+            $ global_flags.set_flag("can_access_cemetery_dungeon", day+randint(3, 5))
         "No":
             $ global_flags.set_flag("keep_playing_music")
             jump graveyard_town

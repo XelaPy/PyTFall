@@ -229,6 +229,10 @@ init -999 python:
             else:
                 self.set_flag(flag, value)
 
+        def get_flag(self, flag, default=None):
+            # works similar to dicts .get method
+            return self.flags.get(flag, default)
+
         def set_flag(self, flag, value=True):
             self.flags[flag] = value
 
