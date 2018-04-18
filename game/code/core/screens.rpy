@@ -439,7 +439,9 @@ init:
             $ temp = "happy"
         else:
             $ temp = "indifferent"
+
         $ p_img = entry.show("portrait", temp, label_cache=True, resize=(90, 90), type="reduce")
+
         default align = (0, 0)
         vbox:
             frame:
