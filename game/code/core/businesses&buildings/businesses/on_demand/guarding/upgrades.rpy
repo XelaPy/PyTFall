@@ -28,6 +28,7 @@ init 5 python:
             super(SparringQuarters, self).__init__(**kwargs)
             # We just check for instance and award stats.
             # It's prolly more confusing to add modifier here unless logic changes.
+            self.expands_capacity = False # Force the matter.
 
     class EnforcedOrder(BusinessUpgrade):
         SORTING_ORDER = 5
@@ -58,5 +59,6 @@ init 5 python:
         def __init__(self, **kwargs):
             super(EnforcedOrder, self).__init__(**kwargs)
             self.job_power_mod = kwargs.get("job_power_mod", 5)
+            self.expands_capacity = False # Force the matter.
             # We just check for instance and award stats.
             # It's prolly more confusing to add modifier here unless logic changes.

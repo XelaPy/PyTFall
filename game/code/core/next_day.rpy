@@ -80,8 +80,8 @@ label next_day:
         show screen next_day_calculations
         $ counter = 1
         while counter:
-            call next_day_effects_check
-            call next_day_calculations
+            call next_day_effects_check from _call_next_day_effects_check
+            call next_day_calculations from _call_next_day_calculations
             $ counter -= 1
 
     # Preparing to display ND.
@@ -96,7 +96,7 @@ label next_day:
 
     hide screen next_day_calculations
 
-    call next_day_controls
+    call next_day_controls from _call_next_day_controls
 
     # Lets free some memory...
     if not day%50:
@@ -108,7 +108,7 @@ label next_day:
     hide screen next_day
 
     if persistent.auto_saves:
-        call special_auto_save
+        call special_auto_save from _call_special_auto_save
 
     jump mainscreen
 
@@ -349,6 +349,8 @@ label next_day_effects_check:  # all traits and effects which require some unusu
     return
 
 label special_auto_save: # since built-in autosave works like shit, I use normal saves to save in auto slots
+    if special_save_number > 6:
+        $ special_save_number = 1
     python hide:
         temp = "auto-" + str(special_save_number)
         renpy.save(temp)

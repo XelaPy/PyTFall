@@ -19,7 +19,6 @@ label char_profile:
                     if result[1] == "gallery":
                         $ gallery = PytGallery(char)
                         jump gallery
-
                     elif result[1] == "get_rid":
                         if renpy.call_screen("yesno_prompt", message="Are you sure you wish to stop looking for %s?"%char.name, yes_action=Return(True), no_action=Return(False)):
                             python:
@@ -78,11 +77,11 @@ label char_profile:
                                     if char.disposition >= 500:
                                         $ char.disposition -= 50
                                     $ block_say = True
-                                    call interactions_good_goodbye
+                                    call interactions_good_goodbye from _call_interactions_good_goodbye
                                     $ block_say = False
                                 else:
                                     $ block_say = True
-                                    call interactions_bad_goodbye
+                                    call interactions_bad_goodbye from _call_interactions_bad_goodbye
                                     $ block_say = False
                                 python:
                                     char.home = locations["City Apartments"]

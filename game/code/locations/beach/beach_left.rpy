@@ -48,7 +48,7 @@ screen city_beach_left():
             action [Hide("city_beach_left"), Jump("city_beach_cafe_main")]
             tooltip "Beach Café"
 
-        $img = im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80)
+        $ img = im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80)
         imagebutton:
             align (.99, .5)
             idle (img)
@@ -80,33 +80,36 @@ screen city_beach_left():
         add "content/gfx/images/bg_gradient.png" yalign .45
 
         $ j = 0
-
         for entry in gm.display_girls():
             hbox:
                 align (coords[j])
                 $ j += 1
                 if not entry.flag("beach_left_tags") or entry.flag("beach_left_tags")[0] < day:
-                    $beach_left_tags_list = []
+                    $ beach_left_tags_list = []
                     # main set
                     if entry.has_image("girlmeets","beach"):
-                        $beach_left_tags_list.append(("girlmeets","beach"))
+                        $ beach_left_tags_list.append(("girlmeets","beach"))
                     if entry.has_image("girlmeets","swimsuit","simple bg"):
-                        $beach_left_tags_list.append(("girlmeets","swimsuit","simple bg"))
+                        $ beach_left_tags_list.append(("girlmeets","swimsuit","simple bg"))
                     if entry.has_image("girlmeets","swimsuit","outdoors"):
-                        $beach_left_tags_list.append(("girlmeets","swimsuit","outdoors"))
+                        $ beach_left_tags_list.append(("girlmeets","swimsuit","outdoors"))
                     # secondary set if nothing found
                     if not beach_left_tags_list:
                         if entry.has_image("girlmeets","outdoors"):
-                            $beach_left_tags_list.append(("girlmeets","outdoors"))
+                            $ beach_left_tags_list.append(("girlmeets","outdoors"))
                         if entry.has_image("girlmeets","simple bg"):
-                            $beach_left_tags_list.append(("girlmeets","simple bg"))
+                            $ beach_left_tags_list.append(("girlmeets","simple bg"))
                     # giveup
                     if not beach_left_tags_list:
-                        $beach_left_tags_list.append(("girlmeets"))
+                        $ beach_left_tags_list.append(("girlmeets"))
 
                     $ entry.set_flag("beach_left_tags", (day, choice(beach_left_tags_list)))
 
-                use rg_lightbutton(img=entry.show(*entry.flag("beach_left_tags")[1], exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show(*entry.flag("beach_left_tags")[1],
+                                                  exclude=["urban", "wildness", "suburb", "nature", "winter",
+                                                           "night", "formal", "indoor", "indoors"],
+                                                   type="first_default", label_cache=True, resize=(300, 400)),
+                             return_value=['jump', entry])
 
 label mc_action_city_beach_rest:
     show bg beach_rest with dissolve
@@ -351,7 +354,9 @@ label mc_action_beach_start_fishing:
                 $ hero.say("I caught %s!" % item.id)
                 # the less item's chance field, the more additional bonus to fishing;
                 # with 90 chance it will be +1, with less than 1 chance about 10
-                $ hero.fishing += round((100-item.chance)*0.1)
+                python hide:
+                    temp = round_int((200-item.chance)*0.1) + randint(1, 5)
+                    hero.stats.mod_full_skill("fishing", temp)
 
 label end_fishing:
     $ temp = getattr(store, "exit_string", "This is all for now.")

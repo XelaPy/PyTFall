@@ -5,7 +5,7 @@ label interactions_smalltalk:
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_general")
     if m >= (randint(3,5) + interactions_set_repeating_lines_limit(char)):
-        call interactions_too_many_lines
+        call interactions_too_many_lines from _call_interactions_too_many_lines_1
         $ char.disposition -= randint(1,m)
         if char.joy > 80:
             $ char.joy -= randint(0,1)
@@ -59,7 +59,7 @@ label girl_interactions_aboutjob: # TO DO: here would help additional logic base
     # $ char.show_portrait_overlay("shy", "reset")
     $ m = interactions_flag_count_checker(char, "flag_girl_interactions_aboutjob")
     if m > 1:
-        call interactions_too_many_lines
+        call interactions_too_many_lines from _call_interactions_too_many_lines_2
         $ char.disposition -= randint(0,m)
         $ del m
         jump girl_interactions
@@ -167,7 +167,7 @@ label girl_interactions_aboutjob: # TO DO: here would help additional logic base
 label interactions_howshefeels:
     $ m = interactions_flag_count_checker(char, "flag_interactions_howshefeels")
     if m >= randint(5, 6): # we don't have to limit it because of bonuses (there are none), but because of the common sense
-        call interactions_too_many_lines
+        call interactions_too_many_lines from _call_interactions_too_many_lines_3
         $ char.disposition -= randint(0,m)
         $ del m
         jump girl_interactions
@@ -243,7 +243,7 @@ label interactions_abouther:
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_abouther")
     if m > (randint(2,3) + interactions_set_repeating_lines_limit(char)):
-        call interactions_too_many_lines
+        call interactions_too_many_lines from _call_interactions_too_many_lines_4
         $ char.disposition -= randint(2,m+1)
         if char.joy > 40:
             $ char.joy -= randint(0,2)
@@ -495,7 +495,7 @@ label interactions_aboutoccupation:
     $ interactions_check_for_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_aboutoccupation")
     if m > randint(2,3):
-        call interactions_too_many_lines
+        call interactions_too_many_lines from _call_interactions_too_many_lines_5
         $ char.disposition -= randint(1,m)
         $ del m
         jump girl_interactions
@@ -535,7 +535,7 @@ label interactions_interests:
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_interests")
     if m > (randint(2,3) + interactions_set_repeating_lines_limit(char)):
-        call interactions_too_many_lines
+        call interactions_too_many_lines from _call_interactions_too_many_lines_6
         $ char.disposition -= randint(2,m+1)
         if char.joy > 40:
             $ char.joy -= randint(1,2)
@@ -659,7 +659,7 @@ label interactions_flirt:
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_flirt")
     if m > (randint(2,3) + interactions_set_repeating_lines_limit(char)):
-        call interactions_too_many_lines
+        call interactions_too_many_lines from _call_interactions_too_many_lines_7
         $ char.disposition -= randint(3,m+3) + randint(1,2)
         if char.joy > 30:
             $ char.joy -= randint(2,4)

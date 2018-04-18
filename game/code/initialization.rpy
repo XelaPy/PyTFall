@@ -229,6 +229,10 @@ init -999 python:
             else:
                 self.set_flag(flag, value)
 
+        def get_flag(self, flag, default=None):
+            # works similar to dicts .get method
+            return self.flags.get(flag, default)
+
         def set_flag(self, flag, value=True):
             self.flags[flag] = value
 
@@ -247,7 +251,7 @@ init -999 python:
             This can keep track of max and delete a flag upon meeting it.
             """
             result = self.flags.get(flag, 0) + value
-            if max and result >= max:
+            if max is not None and result >= max:
                 if delete:
                     self.del_flag(flag)
                 else:
@@ -262,7 +266,7 @@ init -999 python:
             """
             result = self.flags.get(flag, 0) - value
 
-            if min and result <= min:
+            if min is not None and result <= min:
                 if delete:
                     self.del_flag(flag)
                 else:
@@ -491,6 +495,7 @@ init:
     default reset_building_management = True
     default block_say = False
     define PytPix = renpy.display.transition.Pixellate
+    default last_label_pure = ""
 
     default special_save_number = 1
 

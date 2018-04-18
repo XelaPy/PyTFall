@@ -25,3 +25,4 @@ init 5 python:
         def __init__(self, **kwargs):
             super(BroomCloset, self).__init__(**kwargs)
             self.job_power_mod = 2
+            self.expands_capacity = False # Force the matter.

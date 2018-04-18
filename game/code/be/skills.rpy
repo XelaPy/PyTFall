@@ -210,13 +210,13 @@ python: # Rapier attacks:
 python: # Bow Attacks:
     BE_Action("Bow Shot", attributes=["ranged", "physical"], critpower=0, effect=5, range=3,
             vitality_cost=1, menu_pos=0, multiplier=.5,
-            desc="An arrow shot.", item_only=True,
+            desc="An arrow shot.", item_only=True, piercing=True,
             main_effect={"gfx": "simple_bow_attack_webm", "sfx": "content/sfx/sound/be/bow_attack.mp3",
                          "duration": .48, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .43},
             target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
     MultiAttack("Bow Shot 2X", attributes=["ranged", "physical"], critpower=.02, multiplier=.65,
-            effect=20, range=3, vitality_cost=2, menu_pos=.1,
+            effect=20, range=3, vitality_cost=2, menu_pos=.1, piercing=True,
             desc="Shooting two arrows in quick succession.", item_only=True,
             main_effect={"gfx": ProportionalScale("content/gfx/be/bows.webp", 150, 150),
                          "sfx": "content/sfx/sound/be/bow_attack.mp3",
@@ -224,21 +224,21 @@ python: # Bow Attacks:
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .0, "duration": .65},
             target_death_effect={"gfx": "dissolve", "initial_pause": .6, "duration": .5})
     MultiAttack("Bow Shot 4X", attributes=["ranged", "physical"], critpower=.04,
-            multiplier=.8, effect=50, range=4, vitality_cost=5, menu_pos=.2,
+            multiplier=.8, effect=50, range=4, vitality_cost=5, menu_pos=.2, piercing=True,
             desc="Shooting four arrows in quick succession.", item_only=True,
             main_effect={"gfx": ProportionalScale("content/gfx/be/bows.webp", 150, 150),
                          "sfx": "content/sfx/sound/be/bow_attack.mp3",
                          "duration": 1.2, "times": 4, "sd_duration": .4, "interval": .3},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": 1.1},
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.1, "duration": .5})
-    BE_Action(u"Light Shot", range=4, attributes=["ranged", "physical", "light"],
+    BE_Action(u"Light Shot", range=4, attributes=["ranged", "physical", "light"], piercing=True,
             critpower=.2, multiplier=.9, effect=60, vitality_cost=5, menu_pos=1.0,
             desc="Shot an arrow made of light.", item_only=True,
             main_effect={"gfx": Transform("angel_bow_attack_webm", zoom=1.1), "sfx": "content/sfx/sound/be/light3.mp3",
                          "duration": .96, "aim": {"point": "center", "anchor": (.5, .5)}},
             target_sprite_damage_effect={"gfx": "on_light", "initial_pause": .3, "duration": .96},
             target_death_effect={"gfx": "dissolve", "initial_pause": .9, "duration": .5})
-    BE_Action(u"Dark Shot", range=4, attributes=["ranged", "physical", "darkness"], critpower=.4,
+    BE_Action(u"Dark Shot", range=4, attributes=["ranged", "physical", "darkness"], critpower=.4, piercing=True,
             multiplier=.95, effect=70, vitality_cost=4, health_cost=2, menu_pos=1.0,
             desc="Shot an arrow made of darkness.", item_only=True,
             main_effect={"gfx": Transform("demon_bow_attack_webm", zoom=1.1), "sfx": "content/sfx/sound/be/demon_sword.ogg",
@@ -251,7 +251,7 @@ python: # Bow Attacks:
             main_effect={"gfx": Transform("green_hit_webm", zoom=1.1), "sfx": "content/sfx/sound/be/elf_arrow.ogg",
                          "duration": .56, "hflip": True},
             target_sprite_damage_effect={"gfx": "poisoned_with_shake", "initial_pause": .1, "duration": .46})
-    ArrowsSkill(u"Emerald Arrow", menu_pos=1.6, attributes=["ranged", "air", "earth"], critpower=.3,
+    ArrowsSkill(u"Emerald Arrow", menu_pos=1.6, attributes=["ranged", "air", "earth"], critpower=.3, true_pierce=True, 
             effect=55, multiplier=.95, vitality_cost=12, mp_cost=3, range=4, piercing=True,
             desc="Shot an arrow empowered with nature itself.", item_only=True,
             firing_effects={"gfx": "emerald_bow_webm", "sfx": "content/sfx/sound/be/elf_bow.ogg", "duration": .86}, # Maybe realign a bit closer to caster TODO (be-skill)
@@ -263,7 +263,7 @@ python: # Bow Attacks:
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .86, "duration": .76},
             target_death_effect={"gfx": "dissolve", "initial_pause": 2.0, "duration": .5},
             dodge_effect={"initial_pause": .9})
-    ArrowsSkill(u"Trinity Arrow", menu_pos=2, attributes=["ranged", "light"], effect=95,
+    ArrowsSkill(u"Trinity Arrow", menu_pos=2, attributes=["ranged", "light"], effect=95, true_pierce=True,
             critpower=.3, multiplier=1.3, vitality_cost=30, mp_cost=5, range=4, piercing=True,
             desc="Shot a triple arrow made of highly concentrated light.", item_only=True,
             firing_effects={"gfx": Transform("angel_bow_webm", zoom=1.3),
@@ -276,9 +276,9 @@ python: # Bow Attacks:
             target_sprite_damage_effect={"gfx": "on_light", "initial_pause": 1.2, "duration": .5},
             target_death_effect={"gfx": "dissolve", "initial_pause": 2.0, "duration": .5},
             dodge_effect={"initial_pause": .9})
-    P2P_Skill(u"Midnight Arrow", menu_pos=2, range=3, attributes=["ranged", "physical", "darkness"],
+    P2P_Skill(u"Midnight Arrow", menu_pos=2, range=3, attributes=["ranged", "physical", "darkness"], true_pierce=True,
             effect=100, multiplier=1.3, vitality_cost=20, health_cost=10, critpower=.3,
-            desc="Releases explosive arrow made of dark energy.", item_only=True,
+            desc="Releases explosive arrow made of dark energy.", item_only=True, piercing=True,
             projectile_effects={"gfx": "demon_bow_arrow_webm", "sfx": "content/sfx/sound/be/elf_bow.ogg",
                                 "duration": .56, "aim": {"point": "center", "anchor": (.5, .5)}},
             main_effect={"gfx": "demon_bow_hit_webm", "sfx":"content/sfx/sound/be/demon_core.ogg",
@@ -288,21 +288,21 @@ python: # Bow Attacks:
             dodge_effect={"initial_pause": .56})
     BE_Action("Fire Shot", attributes=["ranged", "physical", "fire"],
             critpower=.1, multiplier=.85, effect=30, range=3, vitality_cost=3, menu_pos=1.0,
-            desc="Shot a fire arrow.", item_only=True,
+            desc="Shot a fire arrow.", item_only=True, piercing=True,
             main_effect={"gfx": Transform("simple_fire_bow_attack_webm", zoom=.8),
                          "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": .67, "hflip": True},
             target_sprite_damage_effect={"gfx": "on_fire_with_shake", "initial_pause": .1, "duration": .57},
             target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
     BE_Action("Ice Shot", attributes=["ranged", "physical", "ice"], critpower=.1,
             multiplier=.85, effect=30, range=3, vitality_cost=3, menu_pos=1.0,
-            desc="Shot an ice arrow.", item_only=True,
+            desc="Shot an ice arrow.", item_only=True, piercing=True,
             main_effect={"gfx": Transform("simple_ice_bow_attack_webm", zoom=.8),
                          "sfx": "content/sfx/sound/be/bow_attack.mp3", "duration": .57, "hflip": True},
             target_sprite_damage_effect={"gfx": "iced_with_shake", "initial_pause": .05, "duration": .5},
             target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5})
     # Arrow skills are setup poorly! Everything is handle in main_effect method!!!
     # Attacker Effect: .6 (Default)
-    ArrowsSkill(u"Fire Arrow", menu_pos=1.2, attributes=["ranged", "fire", "air"],
+    ArrowsSkill(u"Fire Arrow", menu_pos=1.2, attributes=["ranged", "fire", "air"], true_pierce=True,
             effect=45, multiplier=1.0, critpower=.2, mp_cost=5, vitality_cost=10, range=4, piercing=True,
             desc="Shot an arrow of scorching air.", item_only=True,
             firing_effects={"gfx": "Fire Arrow cast", "sfx": "content/sfx/sound/be/fire_arrow.mp3"},
@@ -313,7 +313,7 @@ python: # Bow Attacks:
             target_sprite_damage_effect={"gfx": "burning_with_shake", "initial_pause": 1.0, "duration": .5},
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": .5},
             dodge_effect={"initial_pause": 1.0})
-    ArrowsSkill("Ice Arrow", menu_pos=1.2, attributes=["ranged", "ice", "water"],
+    ArrowsSkill("Ice Arrow", menu_pos=1.2, attributes=["ranged", "ice", "water"], true_pierce=True,
             effect=45, multiplier=1.0, critpower=.2, mp_cost=5, vitality_cost=10, range=4, piercing=True,
             desc="Shot an arrow of frozen water.", item_only=True,
             firing_effects={"gfx": "Ice Arrow cast", "sfx": "content/sfx/sound/be/ice_arrow.mp3"},
@@ -325,9 +325,9 @@ python: # Bow Attacks:
             target_sprite_damage_effect={"gfx": "frozen_with_shake", "initial_pause": 1.0, "duration": .5},
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": .5},
             dodge_effect={"initial_pause": 1.0})
-    BE_Action(u"Arc Strike", menu_pos=1.0, range=3, attributes=["ranged", "physical"], effect=35,
+    BE_Action(u"Arc Strike", menu_pos=1.0, range=3, attributes=["ranged", "physical"], effect=35, true_pierce=True,
             multiplier=.9, critpower=.15, vitality_cost=10, mp_cost=5, type="all_enemies",
-            desc="Countless enchanted arrows are coming from above.", item_only=True,
+            desc="Countless enchanted arrows are coming from above.", item_only=True, piercing=True,
             main_effect={"gfx": Transform("magic_bow_webm", zoom=1.1), "sfx": "content/sfx/sound/be/enc_arrows.ogg",
                          "duration": .67, "aim": {"point": "center", "anchor": (.5, .5)}},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .1, "duration": .57},
@@ -336,13 +336,13 @@ python: # Bow Attacks:
 python: # Crossbow Attacks:
     BE_Action("Crossbow Shot", attributes=["ranged", "physical"], critpower=.1,
             multiplier=.55, effect=10, range=4, vitality_cost=1, menu_pos=0,
-            desc="Shot a bolt.", item_only=True,
+            desc="Shot a bolt.", item_only=True, piercing=True,
             main_effect={"gfx": "simple_crossbow_attack_webm",
                          "sfx": "content/sfx/sound/be/crossbow_attack.mp3", "duration": .37, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .32},
             target_death_effect={"gfx": "dissolve", "initial_pause": .35, "duration": .5})
     BE_Action(u"Penetrating Bolt", range=3, attributes=["ranged", "physical"], critpower=.5,
-            multiplier=.65, piercing=True, effect=20, vitality_cost=6, menu_pos=1,
+            multiplier=.65, piercing=True, effect=20, vitality_cost=6, menu_pos=1, true_pierce=True,
             desc="Releases special high-density bolt with high critical damage.", item_only=True,
             main_effect={"gfx": Transform("crossbow_hit_webm", zoom=1.3), "sfx": "content/sfx/sound/be/crossbow_1.ogg",
                          "duration": .56, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
@@ -563,7 +563,7 @@ python: # Bite Attacks:
             target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5})
 
 python: # Gun Attacks:
-    BE_Action("Gun Shot", attributes=["ranged", "physical"], critpower=.3,
+    BE_Action("Gun Shot", attributes=["ranged", "physical"], critpower=.3, true_pierce=True,
             effect=50, range=3, vitality_cost=2, menu_pos=0, multiplier=.5,
             desc="Shot a bullet.", item_only=True,
             main_effect={"gfx": "simple_gun_attack_webm",
@@ -634,7 +634,7 @@ python: # Throw attacks:
             target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5})
     ArrowsSkill("Shadow Shuriken", menu_pos=.5, attributes=["ranged", "darkness"],
             effect=60, critpower=.5, multiplier=.95, mp_cost=.05, vitality_cost=15, range=4, piercing=True,
-            desc="Throw an explosive shadow projectile.", item_only=True,
+            desc="Throw an explosive shadow projectile.", item_only=True, true_pierce=True,
             firing_effects={"gfx": "shuriken_throw_webm", "sfx": "content/sfx/sound/be/kunai_throw.mp3"},
             projectile_effects={"gfx": "shuriken_fly_webm", "sfx": None, "duration": .4},
             main_effect={"gfx": "shuriken_hit_webm", "sfx": "content/sfx/sound/be/kunai_exp.mp3",
@@ -644,7 +644,7 @@ python: # Throw attacks:
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": .5},
             dodge_effect={"initial_pause": .95, "duration": .75})
     BE_Action(u"Cloud of Knives", range=3, attributes=["ranged", "physical"], critpower=.4,
-            effect=100, multiplier=1.05, vitality_cost=15, menu_pos=.5,
+            effect=100, multiplier=1.05, vitality_cost=15, menu_pos=.5, true_pierce=True, piercing=True,
             desc="Throw multiple knives in quick succession.", item_only=True,
             main_effect={"gfx": Transform("throwing_knives_webm", zoom=1.3),
                          "sfx": "content/sfx/sound/be/knives_cloud.mp3",
@@ -711,7 +711,7 @@ python: ##### Mobs-only attacks:
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .2, "duration": .57},
             target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5})
     BE_Action(u"Web Vortex", menu_pos=3, range=1, attributes=["melee", "poison", "physical"],
-            effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True,
+            effect=90, critpower=.1, multiplier=1.3, vitality_cost=15, piercing=True, true_pierce=True,
             desc="A vortex of spider web crashes the target.", mob_only=True,
             main_effect={"gfx":  Transform("web_webm", zoom=1.5), "sfx": "content/sfx/sound/be/web.ogg",
                          "duration": .97, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},

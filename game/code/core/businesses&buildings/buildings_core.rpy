@@ -115,6 +115,8 @@ init -10 python:
             **kwargs = Excess arguments.
             """
             super(BaseBuilding, self).__init__(id=id)
+            Flags.__init__(self)
+
             self.name = name
             self.desc = desc
             self._price = price
@@ -429,8 +431,9 @@ init -10 python:
 
 
     class AdvertableBuilding(_object):
+        # Devnote: clumsy and outdated...
         def add_adverts(self, adverts):
-            self._adverts = adverts
+            self._adverts = store.adverts
 
             for adv in self._adverts:
 
@@ -448,30 +451,7 @@ init -10 python:
 
         @property
         def can_advert(self):
-            return len(self._adverts) != 0
-
-        def toggle_advert(self, advert):
-            """
-            toggle advertation, returns whether it worked
-            """
-
-            if self._adverts[advert]['active']:
-                self._adverts[advert]['active'] = False
-                return True
-
-            if hero.gold < advert['price'] + advert['upkeep']:
-                return False
-
-            self._adverts[advert]['active'] = True
-            return True
-
-        def advertising(self, advert):
-            return self._adverts[advert]['active']
-
-        def use_adverts(self):
-            """Whether this building has any adverts.
-            """
-            return len(self._adverts) > 0
+            return bool(self._adverts)
 
 
     class UpgradableBuilding(BaseBuilding):
@@ -648,12 +628,24 @@ init -10 python:
 
             return True
 
-        def add_business(self, business, normalize_jobs=True):
+        def pay_for_extension(self, cost, materials):
+            # This does assume that we checked and know that MC has the resources.
+            if cost:
+                hero.take_money(cost, "Building Upgrades")
+
+            if materials:
+                for item, amount in materials.items():
+                    hero.remove_item(item, amount)
+
+        def add_business(self, business, normalize_jobs=True, pay=False):
             """Add business to the building.
             """
             cost, materials, in_slots, ex_slots = self.get_extension_cost(business)
             self.in_slots += in_slots
             self.ex_slots += ex_slots
+
+            if pay:
+                self.pay_for_extension(cost, materials)
 
             business.building = self
             self._businesses.append(business)
@@ -671,10 +663,13 @@ init -10 python:
             if normalize_jobs:
                 self.normalize_jobs()
 
-        def add_upgrade(self, upgrade):
+        def add_upgrade(self, upgrade, pay=False):
             cost, materials, in_slots, ex_slots = self.get_extension_cost(upgrade)
             self.in_slots += in_slots
             self.ex_slots += ex_slots
+
+            if pay:
+                self.pay_for_extension(cost, materials)
 
             upgrade.building = self
             self._upgrades.append(upgrade)
@@ -736,6 +731,20 @@ init -10 python:
             """
             return any(i.workable for i in self._businesses)
 
+        @property
+        def capacity(self):
+            # Full capacity, habitable and workable:
+            capacity = 0
+
+            workable = [i for i in self._businesses if i.workable]
+            if workable:
+                capacity = sum([i.capacity for i in workable])
+
+            habitable = [i for i in self._businesses if i.habitable]
+            if habitable:
+                capacity = sum([i.capacity for i in habitable])
+            return capacity
+
         # Clients related:
         def get_client_count(self, write_to_nd=False):
             """Get the amount of clients that will visit the building the next day.
@@ -747,21 +756,17 @@ init -10 python:
                     This makes having businesses that attract loads of clients
                     hugely favorable to have when running a business that does not.
             """
-            clients = 0
+            clients = .0
 
             if not any(a['name'] == 'Sign' and a['active'] for a in self.adverts):
-                min_clients = 0
+                min_clients = -1
                 if write_to_nd:
                     self.log("{}".format(set_font_color("You may want to put up a sign!\n", "red")))
                     self.flag_red = True
             else:
                 min_clients = 2 # We expect at least two walk-ins otherwise.
 
-            # clients = 10*round_int(self.mod*1.5)
-            # if write_to_nd:
-            #     self.log("{} clients came to brothel just because its there!".format(set_font_color(clients, "green")))
-
-            if DSNBR:
+            if DSNBR: # DEBUGMODE:
                 debug_add = 10
                 devlog.info("Debug adds {} pure clients for {}".format(debug_add, self.name))
                 if write_to_nd and DSNBR:
@@ -772,12 +777,34 @@ init -10 python:
             for u in [u for u in self._businesses if u.expects_clients]:
                 temp = u.get_client_count()
                 clients += temp
+                min_clients += 1 # Throw in at least one min client for each business.
                 if DSNBR:
                     devlog.info("{} pure clients for {}".format(temp, u.name))
 
-            expected_clients = clients
-            expected_clients = expected_clients/100.0*temp
-            clients = round_int(max(min_clients, expected_clients))
+            # Fame percentage mod (linear scale):
+            fame_percentage = self.fame_percentage
+            clients = clients/100.0*fame_percentage
+
+            # Special check for larger buildings:
+            if fame_percentage > 80 and self.maxfame > 400:
+                if write_to_nd:
+                    self.log("Extra clients are coming in! You business is getting very popular with the people".format(set_font_color(debug_add, "green")))
+                clients += float(clients)/self.maxfame*self.fame*.1
+
+            # Upgrades:
+            temp = False
+            for u in self._upgrades:
+                mod = getattr(u, "client_flow_mod", 0)
+                if mod:
+                    temp = True
+                    clnts = round_int(clnts*mod)
+            if temp and write_to_nd:
+                self.log("Your building upgrades are attracting extra clients!")
+
+            # Normalize everything:
+            min_clients = max(0, min_clients)
+            clients = round_int(max(min_clients, clients))
+
             if clients and write_to_nd:
                 self.log("Total of {} clients are expected to visit this establishment!".format(set_font_color(clients, "lawngreen")))
 
@@ -842,6 +869,11 @@ init -10 python:
                 self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
                 self.log("--- {} ---".format(set_font_color(self.name, "lawngreen")))
 
+                # handle ads:
+                # if isinstance(self, AdvertableBuilding):
+                #     for ad in self.adverts:
+                #         if ad['name'] == """Sign"
+
                 # Building Stats:
                 self.log("Reputation: {}%".format(self.rep_percentage))
                 self.log("Fame: {}%".format(self.fame_percentage))
@@ -868,11 +900,6 @@ init -10 python:
                 tl.start("Generating clients in {}".format(self.name))
                 self.get_client_count(write_to_nd=True)
                 clnts = self.total_clients
-
-                for u in self._upgrades:
-                    mod = getattr(u, "client_flow_mod", 0)
-                    if mod:
-                        clnts = round_int(clnts*mod)
 
                 # TODO B&B-clients: Generate and add regulars!
                 # Note (Beta): Basically what happened with this code is that all clients,
@@ -971,14 +998,14 @@ init -10 python:
 
                 # Clear threat and dirt for smaller buildings:
                 # Maybe require any kind of manager???
-                if self.env.now == 101 and self.capacity < 10:
-                    if (self.threat > 500 or self.dirt > 500) and dice(20):
-                        temp = "Your employees took care of the building for you after work hours!"
-                        self.log(temp)
-                        temp = "You are still working with a small businesses, so don't expect this trend to continue as your business empire grows and expands!"
-                        self.log(temp)
-                        self.threat = 0
-                        self.dirt = 0
+                if self.capacity < 10 and not self.env.now % 100 and self.get_all_chars():
+                    temp = "The building is relatively small."
+                    temp += " Your employees took care of the it (Threat/Dirt cleared)!"
+                    self.log(temp)
+                    temp = "Don't expect this trend to continue as your business empire grows and expands!"
+                    self.log(temp)
+                    self.threat = 0
+                    self.dirt = 0
 
         def clients_dispatcher(self, end=100):
             """This method provides stream of clients to the building following it's own algorithm.

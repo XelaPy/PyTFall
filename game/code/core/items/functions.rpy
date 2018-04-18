@@ -413,7 +413,7 @@ label shop_control:
                             shop.gold += item_price
                 else:
                     $ focus = None
-                    $ renpy.say("", choice(["Not enought money.", "No freebees.", "You'll need more money for this purchase"]))
+                    $ renpy.say("", choice(["Not enough money.", "No freebees.", "You'll need more money for this purchase"]))
                 $ amount = 1
                 $ focus = False
 

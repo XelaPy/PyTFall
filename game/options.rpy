@@ -74,7 +74,8 @@ init -5 python hide:
     # getting rid of auto-saves
     config.has_autosave = False
     config.autosave_frequency = None
-    renpy.config.autosave_on_choice = False
+    config.autosave_on_choice = False
+    config.autosave_on_quit = False
 
     # causes a really odd crash otherwise:
     # config.screenshot_callback = None
@@ -105,6 +106,8 @@ init -5 python hide:
 
     # Saves last label in a variable "last_label". Might be useful to jump back to from labels with multiple entry points.
     def label_callback(name, abnormal):
+        store.last_label_pure = name
+
         if "pytfall" in globals():
             labels = list(event.label for event in pytfall.world_events.events_cache) # implement as a fixed list on the first sign of delays
         else:
@@ -397,7 +400,7 @@ init python:
     build.classify('**devlog**', None)
     build.classify("game/cache/", None)
     build.classify("game/saves/", None)
-    build.classify("game/**.rpy", None)
+    # build.classify("game/**.rpy", None)
     build.classify("game/**.rpy_", None)
 
     ## To archive files, classify them as 'archive'.

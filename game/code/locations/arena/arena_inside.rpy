@@ -352,7 +352,7 @@ init: # Main Screens:
                 viewport id "vp_matches":
                     draggable True
                     mousewheel True
-                    child_size (710, 5000)
+                    child_size (710, 10000)
                     has vbox spacing 5
 
                     # for lineup in pytfall.arena.matches_3v3:
@@ -475,7 +475,7 @@ init: # Main Screens:
                     id "arena_lineups"
                     draggable True
                     mousewheel True
-                    child_size (700, 5000)
+                    child_size (700, 10000)
                     has vbox spacing 5
                     for index, team in enumerate(container):
                         $ index += 1
@@ -611,7 +611,7 @@ init: # Main Screens:
                     id "vp_dogfights"
                     draggable True
                     mousewheel True
-                    child_size (700, 5000)
+                    child_size (700, 10000)
                     has vbox spacing 5
                     for team in container:
                         frame:

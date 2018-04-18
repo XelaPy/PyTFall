@@ -120,6 +120,7 @@ init -12 python:
             if not self.time:
                 raise Exception("Zero Modulo Division Detected #02")
             amount = round_int(((101.0/self.time)*self.capacity)*.7)
+
             return amount
 
         @property
@@ -318,12 +319,15 @@ init -12 python:
                 yield self.env.timeout(100)
 
         # Business MainUpgrade related:
-        def add_upgrade(self, upgrade):
+        def add_upgrade(self, upgrade, pay=False):
             building = self.building
 
             cost, materials, in_slots, ex_slots = building.get_extension_cost(upgrade)
             self.in_slots += in_slots
             self.ex_slots += ex_slots
+
+            if pay:
+                building.pay_for_extension(cost, materials)
 
             upgrade.building = building
             upgrade_business = self

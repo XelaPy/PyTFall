@@ -148,7 +148,7 @@
     # Battle Skills:
     $ tl.start("Loading: Battle Skills")
     $ battle_skills = dict()
-    call load_battle_skills
+    call load_battle_skills from _call_load_battle_skills
     $ tiered_magic_skills = {}
     python:
         for s in battle_skills.values():
@@ -229,7 +229,7 @@
         tl.end("Loading: GirlsMeets")
 
     # Loading apartments/guilds:
-    call load_resources
+    call load_resources from _call_load_resources
     jump dev_testing_menu_and_load_mc
 
 label dev_testing_menu_and_load_mc:
@@ -242,10 +242,10 @@ label dev_testing_menu_and_load_mc:
             "Content":
                 menu:
                     "Test Intro":
-                        call intro
-                        call mc_setup
+                        call intro from _call_intro
+                        call mc_setup from _call_mc_setup
                     "MC Setup":
-                        call mc_setup
+                        call mc_setup from _call_mc_setup_1
                     "Skip MC Setup":
                         $ pass
                     "Back":
@@ -261,8 +261,8 @@ label dev_testing_menu_and_load_mc:
                         "Back":
                             jump dev_testing_menu_and_load_mc
     else:
-        call intro
-        call mc_setup
+        call intro from _call_intro_1
+        call mc_setup from _call_mc_setup_2
 
     python: # We run this in case we skipped MC setup in devmode!
         if not getattr(hero, "_path_to_imgfolder", None):
@@ -307,7 +307,7 @@ label continue_with_start:
         $ temp = all_chars.pop()
         $ chars_unique_label = "_".join(["start", temp.id])
         if renpy.has_label(chars_unique_label):
-            call expression chars_unique_label
+            call expression chars_unique_label from _call_expression_1
 
     # Clean up globals after loading chars:
     python:
@@ -317,7 +317,7 @@ label continue_with_start:
     #  --------------------------------------
     # Put here to facilitate testing:
     if DEBUG and renpy.has_label("testing"):
-        call testing
+        call testing from _call_testing
 
     python in _console:
         if store.DEBUG:
@@ -348,6 +348,33 @@ label after_load:
         for id, char in updated_chars.items():
             if id not in store.chars:
                 store.chars[id] = char
+
+    # Complete hack:
+    python hide:
+        if not hasattr(store.hero, "autocontrol"):
+            store.hero.autocontrol = {"Rest": False,
+                                        "Tips": False,
+                                        "SlaveDriver": False,
+                                        "Acts": {"normalsex": True, "anal": True, "blowjob": True, "lesbian": True},
+                                        "S_Tasks": {"clean": True, "bar": True, "waitress": True}}
+
+    python hide:
+        for building in store.buildings.values():
+            if isinstance(building, Flags) and not hasattr(building, "flags"):
+                building.flags = dict()
+
+        for building in store.businesses.values():
+            if isinstance(building, Flags) and not hasattr(building, "flags"):
+                building.flags = dict()
+
+        for building in hero.buildings:
+            if isinstance(building, Flags) and not hasattr(building, "flags"):
+                building.flags = dict()
+
+    python hide:
+        pytfall.economy.property_tax = {"slaves": .01,
+                                        "real_estate": .015}
+
 
     stop music
     return

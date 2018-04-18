@@ -130,7 +130,7 @@ label city_beach_swimming_checks:
             "You are too wounded at the moment."
         else:
             scene bg open_sea with dissolve
-            call mc_action_hero_ocean_skill_checks
+            call mc_action_hero_ocean_skill_checks from _call_mc_action_hero_ocean_skill_checks
     $ global_flags.set_flag("keep_playing_music")
     jump city_beach
 

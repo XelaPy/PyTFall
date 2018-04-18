@@ -100,7 +100,8 @@ label building_management:
             # Looks pretty ugly... this might be worth improving upon just for the sake of esthetics.
             building = hero.upgradable_buildings[index]
             char = None
-            workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3, size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 15))
+            workers = CoordsForPaging(all_chars_for_se(), columns=6, rows=3,
+                            size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 15))
             fg_filters = CharsSortingForGui(all_chars_for_se)
             fg_filters.status_filters.add("free")
             fg_filters.target_container = [workers, "content"]
@@ -168,20 +169,25 @@ label building_management_loop:
                 show screen building_management
             elif result[1] == "sign":
                 python:
+                    ad = result[2]
+
                     if building.flag('bought_sign'):
-                        if hero.take_money(20, reason="Ads"):
-                            building.toggle_advert(result[1])
-
-                        else:
-                            renpy.show_screen("message_screen", "Not enough cash on hand!")
-
+                        price = ad['price']/10
                     else:
-                        if hero.take_money(200, reason="Ads"):
-                            building.set_flag('bought_sign')
-                            building.toggle_advert(result[1])
+                        price = ad['price']
 
-                        else:
-                            renpy.show_screen("message_screen", "Not enough cash on hand!")
+                    if hero.take_money(price, reason="Building Ads"):
+                        building.set_flag('bought_sign', True)
+                        ad['active'] = not ad['active']
+                    else:
+                        renpy.show_screen("message_screen", "Not enough cash on hand!")
+            elif result[1] == "celeb":
+                python:
+                    ad = result[2]
+                    if hero.take_money(ad['price'], reason="Building Ads"):
+                        ad['active'] = True
+                    else:
+                        renpy.show_screen("message_screen", "Not enough cash on hand!")
             elif result[1] == "sell":
                 python:
                     price = int(building.price*0.9)
@@ -213,11 +219,11 @@ label building_management_loop:
                 python hide:
                     temp = result[2]()
                     if isinstance(temp, BusinessUpgrade):
-                        result[3].add_upgrade(temp)
+                        result[3].add_upgrade(temp, pay=True)
                     elif isinstance(temp, Business):
-                        building.add_business(temp)
+                        building.add_business(temp, pay=True)
                     elif isinstance(temp, BuildingUpgrade):
-                        building.add_upgrade(temp)
+                        building.add_upgrade(temp, pay=True)
                     else:
                         raise Exception("Unknown extension class detected: {}".format(result[2]))
         elif result[0] == "maintenance":
@@ -230,7 +236,6 @@ label building_management_loop:
                         building.dirt = 0
                     else:
                         renpy.show_screen("message_screen", "You do not have the required funds!")
-
                 elif result[1] == "clean_all":
                     if hero.take_money(result[2], reason="Pro-Cleaning"):
                         for i in hero.dirty_buildings:
@@ -238,10 +243,8 @@ label building_management_loop:
                             i.dirt = 0
                     else:
                         renpy.show_screen("message_screen", "You do not have the required funds!")
-
                 elif result[1] == "rename_building":
                     building.name = renpy.call_screen("pyt_input", default=building.name, text="Enter Building name:")
-
                 elif result[1] == "retrieve_jail":
                     pytfall.ra.retrieve_jail = not pytfall.ra.retrieve_jail
         elif result[0] == 'control':
@@ -413,6 +416,7 @@ init: # Screens:
                         text "No manager" align (.5, .5) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
                 if building.manager:
                     text "Current manager" align (.5, .5) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
+
     screen building_management_rightframe_businesses_mode:
         $ frgr = Fixed(xysize=(315, 680))
         $ frgr.add(ProportionalScale("content/gfx/images/e1.png", 315, 600, align=(.5, .0)))
@@ -1127,96 +1131,97 @@ init: # Screens:
                     mousewheel True
                     xalign .5
                     has vbox xsize 618
-                    for u in bm_mid_frame_mode.all_possible_extensions():
-                        if not bm_mid_frame_mode.has_extension(u):
-                            frame:
-                                xalign .5
-                                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-                                has fixed xysize 500, 150
-
-                                $ cost, materials, in_slots, ex_slots = building.get_extension_cost(u)
-
+                    if hasattr(bm_mid_frame_mode, "all_possible_extensions"):
+                        for u in bm_mid_frame_mode.all_possible_extensions():
+                            if not bm_mid_frame_mode.has_extension(u):
                                 frame:
-                                    align .3, 0
+                                    xalign .5
                                     background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-                                    xpadding 10
-                                    text "Resources Needed:" align .5, .5 style "stats_text" size 15
+                                    has fixed xysize 500, 150
 
-                                # Materials and GOLD
-                                vbox:
-                                    pos 5, 30
-                                    box_wrap True
-                                    xysize 340, 100
-                                    spacing 2
+                                    $ cost, materials, in_slots, ex_slots = building.get_extension_cost(u)
+
                                     frame:
-                                        background Frame("content/gfx/frame/p_frame5.png", 5, 5)
-                                        xsize 100
-                                        has hbox xsize 90
-                                        button:
-                                            background Frame("content/gfx/animations/coin_top 0.13 1/1.webp")
-                                            xysize 25, 25
-                                            align 0, .5
-                                            action NullAction()
-                                            tooltip "{} Gold required!".format(cost)
-                                        text "[cost]" align .95, .5 style "proper_stats_text"
-                                    # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
-                                    for r in sorted(materials):
-                                        $ r = items[r]
-                                        $ amount = u.MATERIALS[r.id]
+                                        align .3, 0
+                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
+                                        xpadding 10
+                                        text "Resources Needed:" align .5, .5 style "stats_text" size 15
+
+                                    # Materials and GOLD
+                                    vbox:
+                                        pos 5, 30
+                                        box_wrap True
+                                        xysize 340, 100
+                                        spacing 2
                                         frame:
                                             background Frame("content/gfx/frame/p_frame5.png", 5, 5)
                                             xsize 100
                                             has hbox xsize 90
                                             button:
+                                                background Frame("content/gfx/animations/coin_top 0.13 1/1.webp")
                                                 xysize 25, 25
-                                                background Frame(r.icon)
                                                 align 0, .5
                                                 action NullAction()
-                                                tooltip "{} of {} required!".format(amount, r.id)
-                                            text "[amount]" align .95, .5 style "proper_stats_text"
+                                                tooltip "{} Gold required!".format(cost)
+                                            text "[cost]" align .95, .5 style "proper_stats_text"
+                                        # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
+                                        for r, amount in materials.items():
+                                            $ r = items[r]
+                                            # $ amount = u.MATERIALS[r.id]
+                                            frame:
+                                                background Frame("content/gfx/frame/p_frame5.png", 5, 5)
+                                                xsize 100
+                                                has hbox xsize 90
+                                                button:
+                                                    xysize 25, 25
+                                                    background Frame(r.icon)
+                                                    align 0, .5
+                                                    action NullAction()
+                                                    tooltip "{} of {} required!".format(amount, r.id)
+                                                text "[amount]" align .95, .5 style "proper_stats_text"
 
-                                hbox:
-                                    align .01, .98
-                                    spacing 2
-                                    style_prefix "proper_stats"
-                                    if in_slots:
-                                        text "Indoor Slots: {}".format(in_slots)
-                                    if ex_slots:
-                                        text "Exterior Slots: {}".format(ex_slots)
+                                    hbox:
+                                        align .01, .98
+                                        spacing 2
+                                        style_prefix "proper_stats"
+                                        if in_slots:
+                                            text "Indoor Slots: {}".format(in_slots)
+                                        if ex_slots:
+                                            text "Exterior Slots: {}".format(ex_slots)
 
-                                vbox:
-                                    align 1.0, .5
-                                    xsize 150
-                                    button:
-                                        xalign .5
-                                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 3, 3)
-                                        xpadding 10
-                                        python:
-                                            if len(u.NAME) >= 15:
-                                                t_size = 14
-                                            else:
-                                                t_size = 15
-                                        textbutton "[u.NAME]":
-                                            align .5, .5
-                                            style "stats_text"
-                                            ypadding 3
-                                            text_size t_size
+                                    vbox:
+                                        align 1.0, .5
+                                        xsize 150
+                                        button:
+                                            xalign .5
+                                            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 3, 3)
+                                            xpadding 10
+                                            python:
+                                                if len(u.NAME) >= 15:
+                                                    t_size = 14
+                                                else:
+                                                    t_size = 15
+                                            textbutton "[u.NAME]":
+                                                align .5, .5
+                                                style "stats_text"
+                                                ypadding 3
+                                                text_size t_size
+                                                action NullAction()
+                                                tooltip u.DESC
+                                        button:
+                                            xalign .5
+                                            xysize 133, 83
+                                            background Frame("content/gfx/frame/MC_bg3.png", 3, 3)
+                                            foreground Transform(u.IMG, size=(120, 75), align=(.5, .5))
                                             action NullAction()
                                             tooltip u.DESC
-                                    button:
-                                        xalign .5
-                                        xysize 133, 83
-                                        background Frame("content/gfx/frame/MC_bg3.png", 3, 3)
-                                        foreground Transform(u.IMG, size=(120, 75), align=(.5, .5))
-                                        action NullAction()
-                                        tooltip u.DESC
-                                    textbutton "Build":
-                                        xalign .5
-                                        style "pb_button"
-                                        text_size 15
-                                        action [Return(["upgrade", "build", u, bm_mid_frame_mode]),
-                                                SensitiveIf(building.eval_extension_build(u,
-                                                            price=(cost, materials, in_slots, ex_slots)))]
+                                        textbutton "Build":
+                                            xalign .5
+                                            style "pb_button"
+                                            text_size 15
+                                            action [Return(["upgrade", "build", u, bm_mid_frame_mode]),
+                                                    SensitiveIf(building.eval_extension_build(u,
+                                                                price=(cost, materials, in_slots, ex_slots)))]
 
                 # textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Back":
                 #     background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=.8)
@@ -1347,30 +1352,42 @@ init: # Screens:
                     vbox:
                         style_group "basic"
                         align (.5, .5)
-                        if advert['active']:
+                        # if advert['active']:
+                        #     button:
+                        #         xysize(280, 32)
+                        #         hovered tt.action(advert['desc'])
+                        #         action ToggleDict(advert, "active")
+                        #         text ("Stop %s!" % advert['name']) color black align (.5, .5)
+                        # else:
+                        if advert['name'] == "Sign" and not advert['active']:
+                            button:
+                                xysize(280, 32)
+                                hovered tt.action(advert['desc'])
+                                action Return(["building", 'sign', advert])
+                                text "Put Up Sign!" color black align (.5, .5) size 15
+                        elif advert['name'] == "Celebrity":
+                            button:
+                                xysize(280, 32)
+                                hovered tt.action(advert['desc'])
+                                action Return(["building", 'celeb', advert])
+                                sensitive not advert['active']
+                                if not not advert['active']:
+                                    text "Hire a Celeb!" color black align (.5, .5) size 15
+                                else:
+                                    text "Celebrity hired!" color black align (.5, .5) size 15
+                        else:
                             button:
                                 xysize(280, 32)
                                 hovered tt.action(advert['desc'])
                                 action ToggleDict(advert, "active")
-                                text ("Stop %s!" % advert['name']) color black align (.5, .5)
-                        else:
-                            if advert['name'] == "sign":
-                                button:
-                                    xysize(280, 32)
-                                    hovered tt.action(advert['desc'])
-                                    action Return(["building", "sign"])
-                                    text "Put Up Sign!" color black align (.5, .5) size 15
-                            else:
-                                button:
-                                    xysize(280, 32)
-                                    hovered tt.action(advert['desc'])
-                                    action ToggleDict(advert, "active")
-                                    if advert['price'] == 0:
-                                        text ("Use %s for %s Gold a day!" % (advert['name'], advert['upkeep'])) color black align (.5, .5) size 15
-                                    elif advert['upkeep'] == 0:
-                                        text ("Use %s for %s Gold!" % (advert['name'], advert['price'])) color black align (.5, .5) size 15
-                                    else:
-                                        text ("Use %s for %s Gold and %s a day!" % (advert['name'], advert['price'], advert['upkeep'])) color black align (.5, .5) size 15
+                                if advert['active']:
+                                    text ("Stop %s!" % advert['name']) color black align (.5, .5)
+                                elif advert['price'] == 0:
+                                    text ("Use %s for %s Gold a day!" % (advert['name'], advert['upkeep'])) color black align (.5, .5) size 15
+                                elif advert['upkeep'] == 0:
+                                    text ("Use %s for %s Gold!" % (advert['name'], advert['price'])) color black align (.5, .5) size 15
+                                else:
+                                    text ("Use %s for %s Gold and %s a day!" % (advert['name'], advert['price'], advert['upkeep'])) color black align (.5, .5) size 15
 
             button:
                 style_group "dropdown_gm"

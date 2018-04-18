@@ -46,7 +46,7 @@ label girl_interactions:
 
     if char.flag("quest_cannot_be_fucked") != True and interactions_silent_check_for_bad_stuff(char): # chars with flag will propose sex once per day once you try to talk to them
         if char.effects['Horny']['active'] and interactions_silent_check_for_bad_stuff(char) and check_lovers(char, hero):
-            call interactions_girl_proposes_sex
+            call interactions_girl_proposes_sex from _call_interactions_girl_proposes_sex
             menu:
                 "Do you wish to have sex with [char.name]?"
                 "Yes":

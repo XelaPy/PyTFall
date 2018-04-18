@@ -23,7 +23,7 @@ label interactions_giftmoney:
         jump girl_interactions
     if char.gold >= locked_random("randint", 500, 1000):
         if round(char.gold/temp) > 5:
-            call interactions_not_enough_gold
+            call interactions_not_enough_gold from _call_interactions_not_enough_gold
             $ char.disposition -= (randint(9, 25))
             $ del temp
             jump girl_interactions
@@ -48,7 +48,7 @@ label interactions_giftmoney:
             $ b = 15
             $ hero.exp += randint(2, 5)
             $ char.exp += randint(2, 5)
-        call interactions_enough_gold
+        call interactions_enough_gold from _call_interactions_enough_gold
         if char.disposition >= 90:
             $ char.disposition += round(randint(a, b)/(char.disposition*0.01))
         else:
@@ -65,13 +65,13 @@ label interactions_askmoney:
     if (day - char.flag("flag_interactions_askmoney")) > 7 or char.flag("flag_interactions_askmoney") == 0:
         $char.set_flag("flag_interactions_askmoney", value=day)
     else:
-        call interactions_recently_gave_money
+        call interactions_recently_gave_money from _call_interactions_recently_gave_money
         $ char.disposition -= randint(2, 5)
         jump girl_interactions
     "You asked her to help you with money."
     if char.disposition >= 400 or check_lovers(char, hero) or check_friends(char, hero):
         if char.gold < locked_random("randint", 500, 1000):
-            call interactions_girl_is_too_poor_to_give_money
+            call interactions_girl_is_too_poor_to_give_money from _call_interactions_girl_is_too_poor_to_give_money
             jump girl_interactions
         elif char.gold > hero.gold*2:
             $ temp = randint (round(char.gold*0.01), round(char.gold*0.1))
@@ -85,7 +85,7 @@ label interactions_askmoney:
                 $ del temp
         else:
             "But it looks like she needs money more than you."
-            call interactions_girl_is_too_poor_to_give_money
+            call interactions_girl_is_too_poor_to_give_money from _call_interactions_girl_is_too_poor_to_give_money_1
             $ char.disposition -= randint (10, 20)
             jump girl_interactions
     else:

@@ -13,7 +13,7 @@ init python:
                        locations=["forest_entrance"], trigger_type="auto",
                        restore_priority=1, priority=300,
                        start_day=choice([15, 25, 35]), jump=True,
-                       dice=65, max_runs=20)
+                       dice=90, max_runs=20)
 
 label show_frog_deathfight:
     $ menu_extensions.add_extension("Xeona Main", ("Deathfight vs Goblin Champ!", Jump("frog_deathfight")))
@@ -85,7 +85,7 @@ label start_frog_event:
     jump forest_entrance
 
 label frog1_event_poke:
-    define f1 = Character("Frog", color=green, what_color=lawngreen, show_two_window=True)
+    $ f1 = Character("Frog", color=green, what_color=lawngreen, show_two_window=True)
     hero.say "How do you like that?."
     "It easily dodges your stick and..."
     f1 "Another one came to laugh at my misfortune. Come on. Let's be done with it."
@@ -228,13 +228,13 @@ label frog_deathfight:
 
     ax "Well, I hope that you're ready! Best of luck!"
     $ enemy_team = Team(name="Enemy Team", max_size=3)
-    $ mob = build_mob("Goblin Warrior", level=80)
+    $ mob = build_mob("Goblin Warrior", level=50)
     $ mob.controller = Complex_BE_AI(mob)
     $ enemy_team.add(mob)
 
     python:
         for i in xrange(2):
-            mob = build_mob("Goblin Archer", level=60)
+            mob = build_mob("Goblin Archer", level=20)
             mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
 
@@ -289,7 +289,7 @@ label final_frog_event:
     "Having a solution to the frog princes' problem you enter the forest with confidence."
     "Finding her wasn't really a problem, she was sitting on the same rock when you met for the first time."
 
-    define f1 = Character("Frog", color=green, what_color=lawngreen, show_two_window=True)
+    $ f1 = Character("Frog", color=green, what_color=lawngreen, show_two_window=True)
 
     show frog
     f1 "So why did you come today?"
@@ -315,7 +315,7 @@ label final_frog_event:
             "It worked. A bright flash and the frog was gone. In her place was…"
 
             show stranger
-            define b = Character("Stranger", color=red, what_color=green, show_two_window=True)
+            $ b = Character("Stranger", color=red, what_color=green, show_two_window=True)
             b "Thanks, dude. You really saved me. About that princess and gold..."
             $ pytfall.world_quests.get("Frog Princess!").finish_in_label("{color=[blue]}You've completed the Quest... but the whole thing was a scam...{/color}")
             extend " {color=[red]} It was all crap! Sorry, gotta go!"

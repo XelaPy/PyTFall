@@ -95,7 +95,7 @@ label single_swim_pool:
         play world "underwater.mp3"
         scene bg pool_swim
         with dissolve
-        call mc_action_swimming_pool_skill_checks
+        call mc_action_swimming_pool_skill_checks from _call_mc_action_swimming_pool_skill_checks
     else:
         "You don't have enough gold."
     jump swimming_pool
@@ -109,7 +109,7 @@ label instructor_swim_pool:
         play world "underwater.mp3"
         scene bg pool_swim
         with dissolve
-        call mc_action_instructor_swimming_pool_skill_checks
+        call mc_action_instructor_swimming_pool_skill_checks from _call_mc_action_instructor_swimming_pool_skill_checks
     else:
         "You don't have enough gold."
     jump swimming_pool

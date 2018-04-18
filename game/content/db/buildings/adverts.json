@@ -1,7 +1,7 @@
 [
     {
         "name": "Sign",
-        "desc": "Put up a sign above entrance. Sensible advertisement for every brothel that you own. You obviously pay full fee for this only once and then 10% of the fee if you removed the sign for some reason and put it up again.",
+        "desc": "Put up a sign above entrance. Sensible advertisement for every business that you own. You obviously pay full fee for this only once and then 10% of the fee if you removed the sign for some reason and put it up again.",
         "price": 200,
         "fame": [0, 1]
     },

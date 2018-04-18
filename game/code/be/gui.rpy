@@ -41,6 +41,8 @@ init: # screens:
                 textbutton "Cancel":
                     style "basic_button"
                     action Return(False)
+                    
+            key "mouseup_3" action Return(False)
 
     screen pick_skill(char):
         zorder 2

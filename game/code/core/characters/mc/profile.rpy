@@ -623,6 +623,15 @@ init:
                                 hovered tt.Action("Toggle between rows in battle, currently selected front row")
                             else:
                                 hovered tt.Action("Toggle between rows in battle, currently selected back row")
+                                
+                        if member != hero:
+                            imagebutton:
+                                align (1.0, 1.0)
+                                idle Transform("content/gfx/interface/buttons/Profile.png", alpha=.9)
+                                hover Transform("content/gfx/interface/buttons/Profile.png", alpha=1.05)
+                                insensitive im.Sepia(img)
+                                action If(member not in pytfall.ra, true=[Hide("hero_profile"), Hide("hero_team"), SetVariable("char", member), SetVariable("char_profile", "hero_profile"), Jump("char_profile")], false=NullAction())
+                                hovered tt.Action("See character profile")
 
                     # Name/Status:
                     frame:

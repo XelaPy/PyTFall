@@ -1191,7 +1191,7 @@ init -9 python:
                     val = value - self.exp
                     value = self.exp + int(round(val*1.1))
 
-            if value and last_label.startswith(AUTO_OVERLAY_STAT_LABELS):
+            if value and last_label_pure.startswith(AUTO_OVERLAY_STAT_LABELS):
                 temp = value - self.exp
                 gfx_overlay.mod_stat("exp", temp, self.instance)
 
@@ -1264,7 +1264,7 @@ init -9 python:
             if key in self.stats: # As different character types may come with different stats.
                 value = self.settle_effects(key, value)
 
-                if value and last_label.startswith(AUTO_OVERLAY_STAT_LABELS):
+                if value and last_label_pure.startswith(AUTO_OVERLAY_STAT_LABELS):
                     gfx_overlay.mod_stat(key, value, self.instance)
 
                 val = self.stats[key] + value
@@ -1289,7 +1289,7 @@ init -9 python:
 
                 self.stats[key] = val
 
-        def _mod_raw_skill(self, key, value, from__setattr__=True):
+        def _mod_raw_skill(self, key, value, from__setattr__=True, use_overlay=True):
             """Modifies a skill.
 
             # DEVNOTE: THIS SHOULD NOT BE CALLED DIRECTLY! ASSUMES INPUT FROM PytCharacter.__setattr__
@@ -1320,7 +1320,7 @@ init -9 python:
                 at_zero = skill_max - threshold
                 value *= max(.1, 1 - float(beyond_training)/at_zero)
 
-            if value and last_label.startswith(AUTO_OVERLAY_STAT_LABELS):
+            if use_overlay and value and last_label_pure.startswith(AUTO_OVERLAY_STAT_LABELS):
                 gfx_overlay.mod_stat(key, value, self.instance)
 
             self.skills[key][at] += value
@@ -1328,8 +1328,14 @@ init -9 python:
         def mod_full_skill(self, skill, value):
             """This spreads the skill bonus over both action and training.
             """
-            self._mod_raw_skill(skill.lower(), value*(2/3.0), from__setattr__=False)
-            self._mod_raw_skill(skill.capitalize(), value*(1/3.0), from__setattr__=False)
+            # raise Exception("MEOW")
+            if last_label_pure.startswith(AUTO_OVERLAY_STAT_LABELS):
+                gfx_overlay.mod_stat(skill.capitalize(), value, self.instance)
+
+            self._mod_raw_skill(skill.lower(), value*(2/3.0),
+                                from__setattr__=False, use_overlay=False)
+            self._mod_raw_skill(skill.capitalize(), value*(1/3.0),
+                                from__setattr__=False, use_overlay=False)
 
         def eval_inventory(self, inventory, weighted, target_stats, target_skills,
                            exclude_on_skills, exclude_on_stats,
@@ -2374,9 +2380,13 @@ init -9 python:
 
         # Logging and updating daily stats change on next day:
         def log_stats(self):
-            self.stats.log = copy.copy(self.stats.stats)
+            # Devnote: It is possible to mod this as stats change
+            # Could be messier to code though...
+            self.stats.log = shallowcopy(self.stats.stats)
             self.stats.log["exp"] = self.exp
             self.stats.log["level"] = self.level
+            for skill in self.SKILLS:
+                self.stats.log[skill] = self.stats.get_skill(skill)
 
         # Items/Equipment related, Inventory is assumed!
         def eq_items(self):
@@ -4014,10 +4024,6 @@ init -9 python:
             if not self.origin:
                 self.origin = choice(["Alkion", "PyTFall", "Crossgate"])
 
-            # Stats log:
-            self.log_stats()
-            self.restore_ap()
-
         def next_day(self):
             self.jobpoints = 0
 
@@ -4093,9 +4099,14 @@ init -9 python:
             # Change in stats during the day:
             charmod = dict()
             for stat, value in self.stats.log.items():
-                if stat == "exp": charmod[stat] = self.exp - value
-                elif stat == "level": charmod[stat] = self.level - value
-                else: charmod[stat] = self.stats[stat] - value
+                if stat == "exp":
+                    charmod[stat] = self.exp - value
+                elif stat == "level":
+                    charmod[stat] = self.level - value
+                elif stat in self.SKILLS:
+                    charmod[stat] = round_int(self.stats.get_skill(stat) - value)
+                else:
+                    charmod[stat] = self.stats.stats[stat] - value
 
             # Create the event:
             evt = NDEvent()
@@ -4226,7 +4237,15 @@ init -9 python:
             # Exp Bar:
             self.exp_bar = ExpBarController(self)
 
-        # Girls/Borthels/Buildings Ownership
+            self.autocontrol = {
+            "Rest": False,
+            "Tips": False,
+            "SlaveDriver": False,
+            "Acts": {"normalsex": True, "anal": True, "blowjob": True, "lesbian": True},
+            "S_Tasks": {"clean": True, "bar": True, "waitress": True},
+            }
+
+        # Girls/Brothels/Buildings Ownership
         @property
         def buildings(self):
             """
@@ -4451,13 +4470,13 @@ init -9 python:
             # Training with NPCs --------------------------------------->
             self.nd_auto_train(txt)
 
-            # Finances related ---->
-            self.fin.next_day()
-
             # Taxes:
             if all([calendar.weekday() == "Monday",
                     day != 1]):
                 self.nd_pay_taxes(txt)
+
+            # Finances related ---->
+            self.fin.next_day()
 
             # ------------
             self.nd_log_report(txt, img, flag_red, type='mcndreport')
@@ -4662,6 +4681,9 @@ init -9 python:
 
             # Calculate upkeep.
             self.fin.calc_upkeep()
+
+            # AP restore:
+            self.restore_ap()
 
             super(Char, self).init()
 
