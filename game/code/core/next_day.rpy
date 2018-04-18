@@ -349,16 +349,14 @@ label next_day_effects_check:  # all traits and effects which require some unusu
     return
 
 label special_auto_save: # since built-in autosave works like shit, I use normal saves to save in auto slots
-    if persistent.special_save_number is None:
-        $ persistent.special_save_number = 1
-    if persistent.special_save_number > 6:
-        $ persistent.special_save_number = 1
+    if special_save_number > 6:
+        $ special_save_number = 1
     python hide:
-        temp = "auto-" + str(persistent.special_save_number)
+        temp = "auto-" + str(special_save_number)
         renpy.save(temp)
-    $ persistent.special_save_number += 1
-    if persistent.special_save_number > 6:
-        $ persistent.special_save_number = 1
+    $ special_save_number += 1
+    if special_save_number > 6:
+        $ special_save_number = 1
     return
 
 

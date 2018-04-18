@@ -55,8 +55,6 @@ init -999 python:
         persistent.auto_saves = False
     if persistent.intro is None:
         persistent.intro = False
-    if persistent.special_save_number is None:
-        persistent.special_save_number = 1
 
     def content_path(path):
         '''Returns proper path for a file in the content directory *To be used with os module.'''
@@ -493,6 +491,8 @@ init:
     default reset_building_management = True
     default block_say = False
     define PytPix = renpy.display.transition.Pixellate
+
+    default special_save_number = 1
 
 init 999 python:
     # ensure that all initialization debug messages have been written to disk
