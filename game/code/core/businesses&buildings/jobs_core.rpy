@@ -324,7 +324,7 @@
             ability = 0
 
             if not difficulty:
-                difficulty = 1 # Risking ZeroDev error otherwise
+                difficulty = .001 # Risking ZeroDev error otherwise
 
             matched_gen_occ = worker.occupations.intersection(self.occupations)
 
