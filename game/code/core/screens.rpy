@@ -541,6 +541,7 @@ init:
                 key "P" action Function(renpy.scene, "screens"), Jump("main_street")
                 key "з" action Function(renpy.scene, "screens"), Jump("main_street")
                 key "З" action Function(renpy.scene, "screens"), Jump("main_street")
+            key "i" action Function(renpy.scene, "screens"), Return(["hero_eq"])
 
         # Top Stripe Frame:
         add "content/gfx/frame/top_stripe.png"
