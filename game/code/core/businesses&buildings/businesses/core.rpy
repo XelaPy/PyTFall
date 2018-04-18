@@ -120,6 +120,7 @@ init -12 python:
             if not self.time:
                 raise Exception("Zero Modulo Division Detected #02")
             amount = round_int(((101.0/self.time)*self.capacity)*.7)
+
             return amount
 
         @property

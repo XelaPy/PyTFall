@@ -431,6 +431,7 @@ init -10 python:
 
 
     class AdvertableBuilding(_object):
+        # Devnote: clumsy and outdated...
         def add_adverts(self, adverts):
             self._adverts = store.adverts
 
@@ -755,21 +756,17 @@ init -10 python:
                     This makes having businesses that attract loads of clients
                     hugely favorable to have when running a business that does not.
             """
-            clients = 0
+            clients = .0
 
             if not any(a['name'] == 'Sign' and a['active'] for a in self.adverts):
-                min_clients = 0
+                min_clients = -1
                 if write_to_nd:
                     self.log("{}".format(set_font_color("You may want to put up a sign!\n", "red")))
                     self.flag_red = True
             else:
                 min_clients = 2 # We expect at least two walk-ins otherwise.
 
-            # clients = 10*round_int(self.mod*1.5)
-            # if write_to_nd:
-            #     self.log("{} clients came to brothel just because its there!".format(set_font_color(clients, "green")))
-
-            if DSNBR:
+            if DSNBR: # DEBUGMODE:
                 debug_add = 10
                 devlog.info("Debug adds {} pure clients for {}".format(debug_add, self.name))
                 if write_to_nd and DSNBR:
@@ -780,12 +777,34 @@ init -10 python:
             for u in [u for u in self._businesses if u.expects_clients]:
                 temp = u.get_client_count()
                 clients += temp
+                min_clients += 1 # Throw in at least one min client for each business.
                 if DSNBR:
                     devlog.info("{} pure clients for {}".format(temp, u.name))
 
-            expected_clients = clients
-            expected_clients = expected_clients/100.0*temp
-            clients = round_int(max(min_clients, expected_clients))
+            # Fame percentage mod (linear scale):
+            fame_percentage = self.fame_percentage
+            clients = clients/100.0*fame_percentage
+
+            # Special check for larger buildings:
+            if fame_percentage > 80 and self.maxfame > 400:
+                if write_to_nd:
+                    self.log("Extra clients are coming in! You business is getting very popular with the people".format(set_font_color(debug_add, "green")))
+                clients += float(clients)/self.maxfame*self.fame*.1
+
+            # Upgrades:
+            temp = False
+            for u in self._upgrades:
+                mod = getattr(u, "client_flow_mod", 0)
+                if mod:
+                    temp = True
+                    clnts = round_int(clnts*mod)
+            if temp and write_to_nd:
+                self.log("Your building upgrades are attracting extra clients!")
+
+            # Normalize everything:
+            min_clients = max(0, min_clients)
+            clients = round_int(max(min_clients, clients))
+
             if clients and write_to_nd:
                 self.log("Total of {} clients are expected to visit this establishment!".format(set_font_color(clients, "lawngreen")))
 
@@ -881,11 +900,6 @@ init -10 python:
                 tl.start("Generating clients in {}".format(self.name))
                 self.get_client_count(write_to_nd=True)
                 clnts = self.total_clients
-
-                for u in self._upgrades:
-                    mod = getattr(u, "client_flow_mod", 0)
-                    if mod:
-                        clnts = round_int(clnts*mod)
 
                 # TODO B&B-clients: Generate and add regulars!
                 # Note (Beta): Basically what happened with this code is that all clients,
