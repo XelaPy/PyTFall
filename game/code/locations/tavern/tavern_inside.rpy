@@ -193,7 +193,7 @@ label city_tavern_brawl_fight:
     else:
         "You nod to your teammates and go inside. A few thugs immediately notice you."
 
-    call city_tavern_thugs_fight
+    call city_tavern_thugs_fight from _call_city_tavern_thugs_fight
     if hero.flag("fought_in_tavern") == day:
         if hero.take_money(randint(50, 250), reason="Tavern"):
             "You were beaten and robbed..."
@@ -221,7 +221,7 @@ label city_tavern_brawl_fight:
                 "You quickly leave the tavern."
                 $ hero.set_flag("fought_in_tavern", value = day)
                 jump city
-        call city_tavern_thugs_fight
+        call city_tavern_thugs_fight from _call_city_tavern_thugs_fight_1
         $ i += 1
 
     "The fight is finally over. You found a few coins in thugs pockets."

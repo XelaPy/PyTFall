@@ -38,7 +38,7 @@ label interactions_clever:
             "She looks a bit happier than before."
         else:
             "She's not impressed at all."
-            call praise_nope
+            call praise_nope from _call_praise_nope
             jump girl_interactions
         if char.disposition < 250:
             if char.character*2 > hero.get_skill("refinement"): # refinement tries to overcome character's stubbornness
@@ -52,12 +52,12 @@ label interactions_clever:
                 $ char.joy += randint (10, 20)
             else:
                 $ char.joy += randint (15, 20)
-        call praise_yes
+        call praise_yes from _call_praise_yes
         $ del inter_praise
         jump girl_interactions
     else:
         "You already complimented her recently, so she's not impressed."
-        call praise_nope
+        call praise_nope from _call_praise_nope_1
         jump girl_interactions
 
 label interactions_strong:
@@ -100,7 +100,7 @@ label interactions_strong:
             "She looks a bit happier than before."
         else:
             "She's not impressed at all."
-            call praise_nope
+            call praise_nope from _call_praise_nope_2
             jump girl_interactions
 
         if char.disposition < 250:
@@ -115,12 +115,12 @@ label interactions_strong:
                 $ char.joy += randint (10, 20)
             else:
                 $ char.joy += randint (15, 20)
-        call praise_yes
+        call praise_yes from _call_praise_yes_1
         $ del inter_praise
         jump girl_interactions
     else:
         "You already complimented her recently, so she's not impressed."
-        call praise_nope
+        call praise_nope from _call_praise_nope_3
         jump girl_interactions
 
 label interactions_cute:
@@ -163,7 +163,7 @@ label interactions_cute:
             "She looks a bit happier than before."
         else:
             "She's not impressed at all."
-            call praise_nope
+            call praise_nope from _call_praise_nope_4
             jump girl_interactions
 
         if char.disposition < 250:
@@ -179,12 +179,12 @@ label interactions_cute:
             else:
                 $ char.joy += randint (15, 20)
 
-        call praise_yes
+        call praise_yes from _call_praise_yes_2
         $ del inter_praise
         jump girl_interactions
     else:
         "You already complimented her recently, so she's not impressed."
-        call praise_nope
+        call praise_nope from _call_praise_nope_5
         jump girl_interactions
 
 label praise_nope:

@@ -54,7 +54,7 @@ label aine_shop:
         char.inventory.apply_filter(filter)
     show screen shopping(left_ref=hero, right_ref=shop)
     with dissolve
-    call shop_control
+    call shop_control from _call_shop_control_10
     hide screen shopping
     with dissolve
     a " Come back with more gold!"
@@ -62,7 +62,7 @@ label aine_shop:
 
 label aine_training:
     if not global_flags.has_flag("aine_training_explained"):
-        call about_aine_personal_training
+        call about_aine_personal_training from _call_about_aine_personal_training
         $ global_flags.set_flag("aine_training_explained")
     else:
         a "Let's see what I can do, dear."
@@ -80,9 +80,9 @@ label aine_training:
     while loop:
         menu:
             "About training sessions":
-                call about_personal_training
+                call about_personal_training from _call_about_personal_training_2
             "About Aine training":
-                call about_aine_personal_training
+                call about_aine_personal_training from _call_about_aine_personal_training_1
             "{color=[green]}Setup sessions for [char.name]{/color}" if not char.has_flag("train_with_aine"):
                 $ char.set_flag("train_with_aine")
                 $ char.apply_trait(traits["Aine Training"])

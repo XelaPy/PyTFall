@@ -2,13 +2,13 @@ label interactions_kiss:
     if ct("Lesbian") and not "Yuri Expert" in hero.traits:
         $ m = interactions_flag_count_checker(char, "flag_interactions_kiss_lesbian_refuses")
         if m > 2:
-            call interactions_too_many_lines
+            call interactions_too_many_lines from _call_interactions_too_many_lines
             $ char.disposition -= randint(4, m+6)
             $ char.joy -= randint(0,1)
             $ del m
             jump girl_interactions
         else:
-            call interactions_lesbian_refuse_because_of_gender
+            call interactions_lesbian_refuse_because_of_gender from _call_interactions_lesbian_refuse_because_of_gender
             jump girl_interactions
         
     $ interactions_check_for_bad_stuff(char)
@@ -22,7 +22,7 @@ label interactions_kiss:
         $ n = 0
     
     if m > (randint(2,3)+n):
-        call interactions_too_many_sex_lines
+        call interactions_too_many_sex_lines from _call_interactions_too_many_sex_lines
         $ char.disposition -= randint(4, m+5)
         if char.joy>30:
             $ char.joy -= randint(2,4)

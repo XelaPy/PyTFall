@@ -93,7 +93,7 @@ label peevish_menu:
         char.inventory.apply_filter(filter)
     show screen shopping(left_ref=hero, right_ref=shop)
     with dissolve
-    call shop_control
+    call shop_control from _call_shop_control_7
     hide screen shopping
     with dissolve
 

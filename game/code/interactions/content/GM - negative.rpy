@@ -57,7 +57,7 @@ label interactions_harrasment_after_battle: # after MC provoked a free character
 
 label interactions_escalation: # character was provoked to attack MC
     $ gm.set_img("battle", "confident", "angry", exclude=["happy", "suggestive"], type="first_default")
-    call interactions_provoked_character_line
+    call interactions_provoked_character_line from _call_interactions_provoked_character_line
     hide screen girl_interactions
     $ back = interactions_pick_background_for_fight(gm.label_cache)
 
@@ -80,14 +80,14 @@ label interactions_escalation: # character was provoked to attack MC
                     else:
                         member.disposition -= randint(10, 20)
         $ char.disposition -= randint(100, 200) # that's the beaten character, big penalty to disposition
-        call interactions_fight_lost
+        call interactions_fight_lost from _call_interactions_fight_lost
         jump interactions_harrasment_after_battle
     else:
         $ char.exp += hero.level*10
         show expression gm.bg_cache
         show screen girl_interactions
         $ gm.restore_img()
-        call interactions_fight_won
+        call interactions_fight_won from _call_interactions_fight_won
         $ char.set_flag("_day_countdown_interactions_blowoff", 1)
         jump girl_interactions_end
 
@@ -100,25 +100,25 @@ label interactions_insult:
     if (char.disposition >= 250 and char.status<>"slave") or check_lovers(char, hero) or (char.disposition >= 700 and char.status=="slave"):
         $ char.disposition -= randint(1,5)
         if m < 3:
-            call interactions_got_insulted_hdisp
+            call interactions_got_insulted_hdisp from _call_interactions_got_insulted_hdisp
         else:
-            call interactions_too_many_lines
+            call interactions_too_many_lines from _call_interactions_too_many_lines_9
             $ char.disposition -= randint(1,m)
     elif char.disposition > -100 and char.status=="slave":
         $ char.disposition -= randint(1,5)
         if m < 3:
-            call interactions_got_insulted_slave
+            call interactions_got_insulted_slave from _call_interactions_got_insulted_slave
         else:
-            call interactions_too_many_lines
+            call interactions_too_many_lines from _call_interactions_too_many_lines_10
             $ char.disposition -= randint(1,m)
     else:
         $ char.disposition -= (randint(15,25))
         if ct("Aggressive") and m>1 and char.status != "slave" and dice(50):
             jump interactions_escalation
         elif m < randint(2,3):
-            call interactions_got_insulted
+            call interactions_got_insulted from _call_interactions_got_insulted
         else:
-            call interactions_got_insulted
+            call interactions_got_insulted from _call_interactions_got_insulted_1
             $ char.set_flag("_day_countdown_interactions_blowoff", (2+sub))
             jump girl_interactions_end
     jump girl_interactions

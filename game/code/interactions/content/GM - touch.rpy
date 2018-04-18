@@ -8,7 +8,7 @@ label interactions_hug:
     else:
         $ n = 0
     if m > (randint(2,3)+n):
-        call interactions_too_many_sex_lines
+        call interactions_too_many_sex_lines from _call_interactions_too_many_sex_lines_3
         $ char.disposition -= randint(4, m+4)
         if char.joy > 40:
             $ char.joy -= randint(1,3)
@@ -119,7 +119,7 @@ label interactions_grabbutt:
     else:
         $ n = 0
     if m > (randint(2,3)+n):
-        call interactions_too_many_sex_lines
+        call interactions_too_many_sex_lines from _call_interactions_too_many_sex_lines_4
         $ char.disposition -= randint(4, m+5)
         if char.joy>30:
             $ char.joy -= randint(1,3)
@@ -230,7 +230,7 @@ label interactions_grabbreasts:
     else:
         $ n = 0
     if m > (randint(2,3)+n):
-        call interactions_too_many_sex_lines
+        call interactions_too_many_sex_lines from _call_interactions_too_many_sex_lines_5
         $ char.disposition -= randint(4, m+5)
         if char.joy > 30:
             $ char.joy -= randint(1,3)

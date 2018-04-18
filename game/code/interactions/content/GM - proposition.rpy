@@ -50,15 +50,15 @@ label interactions_sparring: # sparring with MC, for Combatant occupations only
     $ interactions_check_for_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_girlfriend")
     if char.health < char.get_max("health")*.5:
-        call interactions_refused_because_tired
+        call interactions_refused_because_tired from _call_interactions_refused_because_tired
         jump girl_interactions
     elif hero.health < hero.get_max("health")*.5:
         "Unfortunately, you are not in shape for sparring."
         jump girl_interactions
     elif m > 1:
-        call interactions_refused_because_tired
+        call interactions_refused_because_tired from _call_interactions_refused_because_tired_1
         jump girl_interactions
-    call interactions_presparring_lines
+    call interactions_presparring_lines from _call_interactions_presparring_lines
     hide screen girl_interactions
     $ last_track = renpy.music.get_playing("world")
     $ back = interactions_pick_background_for_fight(gm.label_cache)
@@ -86,7 +86,7 @@ label interactions_sparring: # sparring with MC, for Combatant occupations only
         scene expression select_girl_room(char, gm.img)
     else:
         show expression gm.bg_cache
-    call interactions_postsparring_lines
+    call interactions_postsparring_lines from _call_interactions_postsparring_lines
     jump girl_interactions
 
 label interactions_presparring_lines: # lines before sparring
@@ -143,14 +143,14 @@ label interactions_girlfriend:
         jump girl_interactions
     $ m = interactions_flag_count_checker(char, "flag_interactions_girlfriend")
     if m > 1:
-        call interactions_too_many_lines
+        call interactions_too_many_lines from _call_interactions_too_many_lines_8
         $ char.disposition -= randint(1,m)
         if char.joy > 50:
             $ char.joy -= randint(0,1)
         $ del m
         jump girl_interactions
     if ct("Lesbian") and not "Yuri Expert" in hero.traits:
-        call interactions_lesbian_refuse_because_of_gender
+        call interactions_lesbian_refuse_because_of_gender from _call_interactions_lesbian_refuse_because_of_gender_1
         jump girl_interactions
     $ l_ch = 0
     if ct("Shy"):
@@ -272,7 +272,7 @@ label int_girl_proposes_girlfriend: # character proposes to become lovers
 ##### j3
 label interactions_hire:
     if char.flag("quest_cannot_be_hired") == True:
-        call interactions_refuses_to_be_hired
+        call interactions_refuses_to_be_hired from _call_interactions_refuses_to_be_hired
         jump girl_interactions
 
     python:
@@ -315,7 +315,7 @@ label interactions_hire:
 
     # Solve chance
     if char.disposition > 500 - mod_chance:
-        call interactions_agrees_to_be_hired
+        call interactions_agrees_to_be_hired from _call_interactions_agrees_to_be_hired
 
         $ del mod_chance
 
@@ -335,7 +335,7 @@ label interactions_hire:
     else:
         $ del mod_chance
 
-        call interactions_refuses_to_be_hired
+        call interactions_refuses_to_be_hired from _call_interactions_refuses_to_be_hired_1
         jump girl_interactions
 
 label interactions_agrees_to_be_hired:

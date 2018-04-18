@@ -80,8 +80,8 @@ label next_day:
         show screen next_day_calculations
         $ counter = 1
         while counter:
-            call next_day_effects_check
-            call next_day_calculations
+            call next_day_effects_check from _call_next_day_effects_check
+            call next_day_calculations from _call_next_day_calculations
             $ counter -= 1
 
     # Preparing to display ND.
@@ -96,7 +96,7 @@ label next_day:
 
     hide screen next_day_calculations
 
-    call next_day_controls
+    call next_day_controls from _call_next_day_controls
 
     # Lets free some memory...
     if not day%50:
@@ -108,7 +108,7 @@ label next_day:
     hide screen next_day
 
     if persistent.auto_saves:
-        call special_auto_save
+        call special_auto_save from _call_special_auto_save
 
     jump mainscreen
 

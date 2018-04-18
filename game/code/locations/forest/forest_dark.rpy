@@ -156,7 +156,7 @@ label city_dark_forest_hideout:
             $ global_flags.set_flag("keep_playing_music")
             jump forest_dark_continue
 
-    call city_dark_forest_hideout_fight
+    call city_dark_forest_hideout_fight from _call_city_dark_forest_hideout_fight
 
     $ N = randint(1, 3)
     $ j = 0
@@ -164,7 +164,7 @@ label city_dark_forest_hideout:
         scene bg forest_hideout
         with dissolve
         "Another group is approaching you!"
-        call city_dark_forest_hideout_fight
+        call city_dark_forest_hideout_fight from _call_city_dark_forest_hideout_fight_1
         $ j += 1
 
     if persistent.battle_results:
@@ -176,16 +176,16 @@ label city_dark_forest_hideout:
 
     "After killing all bandits, you found stash with loot."
 
-    call give_to_mc_item_reward(type="loot", price=300)
+    call give_to_mc_item_reward(type="loot", price=300) from _call_give_to_mc_item_reward
     if locked_dice(50):
-        call give_to_mc_item_reward(type="loot", price=300)
-    call give_to_mc_item_reward(type="restore", price=100)
+        call give_to_mc_item_reward(type="loot", price=300) from _call_give_to_mc_item_reward_1
+    call give_to_mc_item_reward(type="restore", price=100) from _call_give_to_mc_item_reward_2
     if locked_dice(50):
-        call give_to_mc_item_reward(type="restore", price=200)
+        call give_to_mc_item_reward(type="restore", price=200) from _call_give_to_mc_item_reward_3
     if locked_dice(50):
-        call give_to_mc_item_reward(type="armor", price=300)
+        call give_to_mc_item_reward(type="armor", price=300) from _call_give_to_mc_item_reward_4
     if locked_dice(50):
-        call give_to_mc_item_reward(type="weapon", price=300)
+        call give_to_mc_item_reward(type="weapon", price=300) from _call_give_to_mc_item_reward_5
     jump forest_dark_continue
 
 label city_dark_forest_hideout_fight:

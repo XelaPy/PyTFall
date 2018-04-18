@@ -2,7 +2,7 @@ label mc_setup:
     $ persistent.intro = True
     $ male_fighters, female_fighters, json_fighters = load_special_arena_fighters()
 
-    call build_mc_stories
+    call build_mc_stories from _call_build_mc_stories
 
     scene bg mc_setup
     show screen mc_setup
@@ -48,7 +48,7 @@ label mc_setup_end:
     $ renpy.scene(layer='screens')
     scene black
 
-    call set_mc_basetraits
+    call set_mc_basetraits from _call_set_mc_basetraits
 
     # Call all the labels:
     python:
@@ -62,19 +62,19 @@ label mc_setup_end:
 
     $ temp = mc_stories[main_story].get('label', '')
     if "label" in temp and renpy.has_label(temp["label"]):
-        call expression temp["label"]
+        call expression temp["label"] from _call_expression_2
 
     $ temp = mc_stories[main_story][sub_story].get('label', '')
     if renpy.has_label(temp):
-        call expression temp
+        call expression temp from _call_expression_3
 
     $ temp = mc_stories[main_story]["MC"][sub_story][mc_story].get('label', '')
     if renpy.has_label(temp):
-        call expression temp
+        call expression temp from _call_expression_4
 
     $ temp = mc_stories[main_story]["MC"][sub_story][mc_story][mc_substory].get('label', '')
     if renpy.has_label(temp):
-        call expression temp
+        call expression temp from _call_expression_5
 
     $ restore_battle_stats(hero) # We never really want to start with weakened MC?
 
@@ -98,7 +98,7 @@ label mc_setup_end:
 
     # Add default workable building to MC, but only if we didn't add one in special labels.
     if not [b for b in hero.upgradable_buildings if b.workable]:
-        call set_mc_start_building
+        call set_mc_start_building from _call_set_mc_start_building
 
     # Add Home apartment (Slums) to MC, unless we have set him up with a home in special labels.
     python hide:
