@@ -88,6 +88,9 @@ label xeona_talking:
     while loop:
         menu:
             ax "Well?"
+            "Xeona Main":
+                $ pass
+            
             "Tell me about Arena":
                 ax "The arena, other than our sex industry, is the biggest source of entertainment for locals and tourists alike."
                 ax "Many warriors come here to test their mettle against all challengers. Mages come to test their wisdom and training against all kinds of a foe. Though most come"
