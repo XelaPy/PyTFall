@@ -62,7 +62,7 @@ label dungeon_battle(player, enemy):
     "[enemy.name] appeared"
 
     # Main phase
-    call _dungeon_battle(player, enemy)
+    call _dungeon_battle(player, enemy) from _call__dungeon_battle
 
     # Result
     if _return is "lose":

@@ -675,7 +675,7 @@ label load_resources:
         "light": str("One of the two elements born from men desires, thoughts and deeds. Light nests itself inside everyone souls. Gaining its force from good acts and pure thoughts. Evenly matched and locked in the ethereal struggle Light and Darkness, these opposites can cause chaotic damage against each other.")
         }
 
-    call load_building_upgrades
+    call load_building_upgrades from _call_load_building_upgrades
     return
 
 label load_building_upgrades:

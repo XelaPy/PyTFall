@@ -81,7 +81,7 @@ label storyi_bossroom:
         "Continue":
             $ pass
         "Return to the ground floor":
-            call storyi_show_bg
+            call storyi_show_bg from _call_storyi_show_bg
             play world "Theme2.ogg" fadein 2.0 loop
             stop events2
             hide sinister_star
@@ -132,7 +132,7 @@ label storyi_bossroom:
     extend " You pick it up and put in your pocket."
     $ hero.add_item("Red Star")
     stop events2
-    call storyi_show_bg
+    call storyi_show_bg from _call_storyi_show_bg_1
     play world "Theme2.ogg" fadein 2.0 loop
     "You return to the ground floor."
     show screen prison_break_controls
@@ -146,7 +146,7 @@ label mc_action_storyi_rest: # resting inside the dungeon; team may be attacked 
             i.mp +=  int(i.get_max("mp")*0.1)
     "You set up a small camp and rest for a bit."
     $ fight_chance += 10
-    call storyi_show_bg
+    call storyi_show_bg from _call_storyi_show_bg_2
     if dice(fight_chance):
         hide screen prison_break_controls
         "You have been ambushed by enemies!"
@@ -171,7 +171,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
         python:
             exp = exp_reward(hero.team, enemy_team)
 
-        call storyi_show_bg
+        call storyi_show_bg from _call_storyi_show_bg_3
         play world "Theme2.ogg" fadein 2.0 loop
 
         if storyi_prison_location in [6, 14, 2, 8, 15, 16, 11, 18] and dice(80):
@@ -250,7 +250,7 @@ label storyi_gui_loop: # the gui loop; we jump here every time we need to show c
             jump char_equip
 
 label storyi_continue: # the label where we return after visiting characters equipment screens
-    call storyi_show_bg
+    call storyi_show_bg from _call_storyi_show_bg_4
     $ equipment_safe_mode = False
     show screen prison_break_controls
     jump storyi_gui_loop
@@ -308,40 +308,40 @@ label storyi_search_items:
     "You look around the room in search of something useful."
     if storyi_prison_location == 1:
         "There is something shiny in the corner of the prison cell..."
-        call give_to_mc_item_reward(type="loot", price=100)
-        call give_to_mc_item_reward(type="loot", price=200)
+        call give_to_mc_item_reward(type="loot", price=100) from _call_give_to_mc_item_reward_6
+        call give_to_mc_item_reward(type="loot", price=200) from _call_give_to_mc_item_reward_7
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="loot", price=300)
+            call give_to_mc_item_reward(type="loot", price=300) from _call_give_to_mc_item_reward_8
     if storyi_prison_location == 3:
         "Surveying the room, you found a few portable restoration items. Sadly, others are too heavy and big to carry around."
-        call give_to_mc_item_reward(type="restore", price=100)
-        call give_to_mc_item_reward(type="restore", price=200)
+        call give_to_mc_item_reward(type="restore", price=100) from _call_give_to_mc_item_reward_9
+        call give_to_mc_item_reward(type="restore", price=200) from _call_give_to_mc_item_reward_10
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="restore", price=400)
+            call give_to_mc_item_reward(type="restore", price=400) from _call_give_to_mc_item_reward_11
     elif storyi_prison_location == 7:
         "You see some old armor on the shelves."
-        call give_to_mc_item_reward(type="armor", price=500)
-        call give_to_mc_item_reward(type="armor", price=700)
+        call give_to_mc_item_reward(type="armor", price=500) from _call_give_to_mc_item_reward_12
+        call give_to_mc_item_reward(type="armor", price=700) from _call_give_to_mc_item_reward_13
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="armor", price=1000)
+            call give_to_mc_item_reward(type="armor", price=1000) from _call_give_to_mc_item_reward_14
     elif storyi_prison_location == 11:
         "Among a heap of rusty blades, you see some good weapons."
-        call give_to_mc_item_reward(type="weapon", price=500)
-        call give_to_mc_item_reward(type="weapon", price=700)
+        call give_to_mc_item_reward(type="weapon", price=500) from _call_give_to_mc_item_reward_15
+        call give_to_mc_item_reward(type="weapon", price=700) from _call_give_to_mc_item_reward_16
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="weapon", price=1000)
+            call give_to_mc_item_reward(type="weapon", price=1000) from _call_give_to_mc_item_reward_17
     elif storyi_prison_location == 13:
         "Most of the food is spoiled, but some of it is still edible."
-        call give_to_mc_item_reward(type="food", price=500)
-        call give_to_mc_item_reward(type="food", price=500)
+        call give_to_mc_item_reward(type="food", price=500) from _call_give_to_mc_item_reward_18
+        call give_to_mc_item_reward(type="food", price=500) from _call_give_to_mc_item_reward_19
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="food", price=500)
+            call give_to_mc_item_reward(type="food", price=500) from _call_give_to_mc_item_reward_20
     elif storyi_prison_location == 10:
         "There is a pile of clothes in the corner, probably remained from the former prisoners."
-        call give_to_mc_item_reward(type="dress", price=500)
-        call give_to_mc_item_reward(type="dress", price=500)
+        call give_to_mc_item_reward(type="dress", price=500) from _call_give_to_mc_item_reward_21
+        call give_to_mc_item_reward(type="dress", price=500) from _call_give_to_mc_item_reward_22
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="dress", price=500)
+            call give_to_mc_item_reward(type="dress", price=500) from _call_give_to_mc_item_reward_23
     $ treasures.remove(storyi_prison_location)
     show screen prison_break_controls
     jump storyi_gui_loop
@@ -388,7 +388,7 @@ label storyi_move_map_point: # moves green point to show team location on the ma
 label storyi_map: # shows dungeon map and calls matrix to control it
     show map_scroll at truecenter
     show blueprint at blueprint_position
-    call storyi_move_map_point
+    call storyi_move_map_point from _call_storyi_move_map_point
     call screen poly_matrix("script/story/prison_break/coordinates_1.json", cursor="content/gfx/interface/icons/zoom_pen.png", xoff=0, yoff=0, show_exit_button=(1.0, 1.0))
     $ setattr(config, "mouse", None)
     $ fight_chance += randint(10, 20)
@@ -567,32 +567,32 @@ label storyi_map: # shows dungeon map and calls matrix to control it
 
 label prison_storyi_passage_1:
     $ storyi_prison_location = 14
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_1
+    call storyi_show_bg from _call_storyi_show_bg_5
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_passage_2:
     $ storyi_prison_location = 15
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_2
+    call storyi_show_bg from _call_storyi_show_bg_6
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_passage_3:
     $ storyi_prison_location = 16
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_3
+    call storyi_show_bg from _call_storyi_show_bg_7
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_passage_4:
     $ storyi_prison_location = 18
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_4
+    call storyi_show_bg from _call_storyi_show_bg_8
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map
@@ -600,8 +600,8 @@ label prison_storyi_passage_4:
 label prison_storyi_event_cell:
     $ storyi_prison_location = 1
     play events2 "events/prison_cell_door.mp3"
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_5
+    call storyi_show_bg from _call_storyi_show_bg_9
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map
@@ -609,8 +609,8 @@ label prison_storyi_event_cell:
 label prison_storyi_event_prisonblock:
     $ storyi_prison_location = 2
     play events2 "events/prison_cell_door.mp3"
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_6
+    call storyi_show_bg from _call_storyi_show_bg_10
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map
@@ -618,15 +618,15 @@ label prison_storyi_event_prisonblock:
 label prison_storyi_event_infirmary:
     $ storyi_prison_location = 3
     play events2 "events/door_open.mp3"
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_7
+    call storyi_show_bg from _call_storyi_show_bg_11
     jump storyi_map
 
 label prison_storyi_event_groom2:
     $ storyi_prison_location = 4
     play events2 "events/door_open.mp3"
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_8
+    call storyi_show_bg from _call_storyi_show_bg_12
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map
@@ -634,16 +634,16 @@ label prison_storyi_event_groom2:
 label prison_storyi_event_groom3:
     $ storyi_prison_location = 17
     play events2 "events/door_open.mp3"
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_9
+    call storyi_show_bg from _call_storyi_show_bg_13
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map
 
 label prison_storyi_event_dungentr:
     $ storyi_prison_location = 6
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_10
+    call storyi_show_bg from _call_storyi_show_bg_14
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map
@@ -651,15 +651,15 @@ label prison_storyi_event_dungentr:
 label prison_storyi_event_storage:
     $ storyi_prison_location = 7
     play events2 "events/door_open.mp3"
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_11
+    call storyi_show_bg from _call_storyi_show_bg_15
     jump storyi_map
 
 label prison_storyi_event_barracks:
     $ storyi_prison_location = 5
     play events2 "events/prison_cell_door.mp3"
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_12
+    call storyi_show_bg from _call_storyi_show_bg_16
     if not hero.has_flag("defeated_boss_1"):
         hero.say "I see old stairs. I wonder where they lead."
     if dice(fight_chance):
@@ -669,8 +669,8 @@ label prison_storyi_event_barracks:
 label prison_storyi_event_iroom:
     $ storyi_prison_location = 9
     play events2 "events/prison_cell_door.mp3"
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_13
+    call storyi_show_bg from _call_storyi_show_bg_17
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map
@@ -678,8 +678,8 @@ label prison_storyi_event_iroom:
 label prison_storyi_event_mentrance:
     $ storyi_prison_location = 8
     play events2 "events/prison_cell_door.mp3"
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_14
+    call storyi_show_bg from _call_storyi_show_bg_18
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map
@@ -687,8 +687,8 @@ label prison_storyi_event_mentrance:
 label prison_storyi_event_troom:
     $ storyi_prison_location = 10
     play events2 "events/prison_cell_door.mp3"
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_15
+    call storyi_show_bg from _call_storyi_show_bg_19
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map
@@ -696,8 +696,8 @@ label prison_storyi_event_troom:
 label prison_storyi_event_wroom:
     $ storyi_prison_location = 11
     play events2 "events/prison_cell_door.mp3"
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_16
+    call storyi_show_bg from _call_storyi_show_bg_20
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map
@@ -705,8 +705,8 @@ label prison_storyi_event_wroom:
 label prison_storyi_event_groom_1:
     $ storyi_prison_location = 13
     play events2 "events/prison_cell_door.mp3"
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_17
+    call storyi_show_bg from _call_storyi_show_bg_21
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map
@@ -714,8 +714,8 @@ label prison_storyi_event_groom_1:
 label prison_storyi_event_croom:
     $ storyi_prison_location = 12
     play events2 "events/prison_cell_door.mp3"
-    call storyi_move_map_point
-    call storyi_show_bg
+    call storyi_move_map_point from _call_storyi_move_map_point_18
+    call storyi_show_bg from _call_storyi_show_bg_22
     if dice(fight_chance):
         jump storyi_randomfight
     jump storyi_map

@@ -52,7 +52,7 @@ label witches_hut_shopping:
     show screen shopping(left_ref=hero, right_ref=shop)
 
     with dissolve
-    call shop_control
+    call shop_control from _call_shop_control_8
 
     $ global_flags.del_flag("keep_playing_music")
     hide screen shopping
@@ -77,7 +77,7 @@ label witches_hut_shopping_spells:
     show screen shopping(left_ref=hero, right_ref=shop)
     with dissolve
     $ pytfall.world_events.run_events("auto")
-    call shop_control
+    call shop_control from _call_shop_control_9
 
     $ global_flags.del_flag("keep_playing_music")
     hide screen shopping
@@ -108,7 +108,7 @@ label witch_training:
     while loop:
         menu:
             "About training sessions":
-                call about_personal_training
+                call about_personal_training from _call_about_personal_training_1
             "About Abby training":
                 w "I will train magic, intelligence and restore some MP."
                 w "I can also guarantee you agility will go up if you pay attention in class!"

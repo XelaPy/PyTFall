@@ -74,7 +74,8 @@ init -5 python hide:
     # getting rid of auto-saves
     config.has_autosave = False
     config.autosave_frequency = None
-    renpy.config.autosave_on_choice = False
+    config.autosave_on_choice = False
+    config.autosave_on_quit = False
 
     # causes a really odd crash otherwise:
     # config.screenshot_callback = None
@@ -397,7 +398,7 @@ init python:
     build.classify('**devlog**', None)
     build.classify("game/cache/", None)
     build.classify("game/saves/", None)
-    build.classify("game/**.rpy", None)
+    # build.classify("game/**.rpy", None)
     build.classify("game/**.rpy_", None)
 
     ## To archive files, classify them as 'archive'.

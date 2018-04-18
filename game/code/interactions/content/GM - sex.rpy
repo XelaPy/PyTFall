@@ -45,7 +45,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
     else:
         $ n = 2
     if m > n:
-        call interactions_too_many_sex_lines
+        call interactions_too_many_sex_lines from _call_interactions_too_many_sex_lines_1
         $ char.disposition -= randint(5,m+5) + randint(1,2)
         if char.joy > 50:
             $ char.joy -= randint(2,4)
@@ -55,17 +55,17 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
 
 
     if char.flag("quest_cannot_be_fucked") == True or (ct("Half-Sister") and not "Sister Lover" in hero.traits): # cannot hire h-s for that stuff, only seduce, seems reasonable
-        call interactions_sex_disagreement
+        call interactions_sex_disagreement from _call_interactions_sex_disagreement
         jump girl_interactions
 
     if char.disposition<0: # for negative disposition
         if dice(abs(char.disposition*0.2)): # if it's low enough to make the dice work she refuses
-            call interactions_sex_disagreement
+            call interactions_sex_disagreement from _call_interactions_sex_disagreement_1
             $ char.disposition -= randint(15, 35)
             $ char.set_flag("_day_countdown_interactions_blowoff", 2)
             jump girl_interactions_end
     elif char.vitality <= round(char.get_max("vitality")*0.25) or char.AP <= 0: # no sex with low vitality
-        call interactions_refused_because_tired
+        call interactions_refused_because_tired from _call_interactions_refused_because_tired_2
         jump girl_interactions
     $ price = 500 #a placeholder, the price should be close to whore job prices, which are calculated weirdly atm
 
@@ -106,7 +106,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         $ rc("You want to hire me? Very well, it will be %d G." % price, "Of course. For you my body costs %d G." % price)
     if hero.gold < price:
         "You don't have that much money."
-        call interactions_girl_dissapointed
+        call interactions_girl_dissapointed from _call_interactions_girl_dissapointed
         $ m = interactions_flag_count_checker(char, "flag_interactions_hireforsex") # additionally reduce the amount of tries
         $ del price
         $ del m
@@ -122,14 +122,14 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
                     jump interactions_sex_scene_select_place
                 else:
                     "You don't have that much money."
-                    call interactions_girl_dissapointed
+                    call interactions_girl_dissapointed from _call_interactions_girl_dissapointed_1
                     $ m = interactions_flag_count_checker(char, "flag_interactions_hireforsex")
                     $ del m
                     $ del price
                     jump girl_interactions
             "No":
                 $ char.disposition -= randint(1, 3)
-                call interactions_girl_dissapointed
+                call interactions_girl_dissapointed from _call_interactions_girl_dissapointed_2
                 $ del price
                 jump girl_interactions
     $ del price
@@ -168,19 +168,19 @@ label interactions_sex: # we go to this label from GM menu propose sex
         $ n += 2
 
     if m > n:
-        call interactions_too_many_sex_lines
+        call interactions_too_many_sex_lines from _call_interactions_too_many_sex_lines_2
         $ char.disposition -= randint(5,m+5) + randint(1,5)
         if char.joy > 50:
             $ char.joy -= randint(2,4)
         jump girl_interactions
     if char.flag("quest_cannot_be_fucked") == True: # a special flag for chars we don't want to be accessible unless a quest will be finished
-        call interactions_sex_disagreement
+        call interactions_sex_disagreement from _call_interactions_sex_disagreement_2
         jump girl_interactions
     if ct("Lesbian") and not ct("Open Minded") and not "Yuri Expert" in hero.traits:
-        call interactions_lesbian_refuse_because_of_gender # you can hire them, but they will never do it for free with wrong orientation
+        call interactions_lesbian_refuse_because_of_gender from _call_interactions_lesbian_refuse_because_of_gender_2 # you can hire them, but they will never do it for free with wrong orientation
         jump girl_interactions
     if char.vitality < round(char.get_max("vitality")*0.25) or char.AP <= 0:
-        call interactions_refused_because_tired
+        call interactions_refused_because_tired from _call_interactions_refused_because_tired_3
         jump girl_interactions
 
     $ sub = check_submissivity(char)
@@ -216,7 +216,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
     if disposition_level_for_sex < 100:
         $ disposition_level_for_sex = 100 # normalization, no free sex with too low disposition no matter the character
     if char.disposition < disposition_level_for_sex:
-        call interactions_sex_disagreement
+        call interactions_sex_disagreement from _call_interactions_sex_disagreement_3
         $ dif = disposition_level_for_sex - char.disposition # the difference between required for sex and current disposition
         if dif <= 100:
             $ char.disposition -= randint(1, dif+1) # if it's low, then disposition penalty will be low too
@@ -227,7 +227,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
         jump girl_interactions
     else:
         $ del disposition_level_for_sex
-    call interactions_sex_agreement
+    call interactions_sex_agreement from _call_interactions_sex_agreement
     if ct("Nymphomaniac") or check_lovers(char, hero) or char.disposition >= 600:
         menu:
             "Where would you like to do it?"
@@ -292,7 +292,7 @@ label interactions_sex_scene_begins: # here we set initial picture before the sc
     else:
         $ char.set_flag("flag_int_had_sex_with_mc", char.flag("flag_int_had_sex_with_mc")+1)
 
-    call interactions_sex_begins
+    call interactions_sex_begins from _call_interactions_sex_begins
 
     jump interaction_scene_choice
 
@@ -429,7 +429,7 @@ label interaction_scene_finish_sex:
                 $ gm.set_img("profile", "living", "happy", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
             else:
                 $ gm.set_img("girlmeets", "happy", "indoors", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
-        call interactions_after_good_sex
+        call interactions_after_good_sex from _call_interactions_after_good_sex
         $ char.disposition += randint(20, 40)
         $ char.vitality -= randint(5, 10)
     elif girl_count < 1 and guy_count > 0:
@@ -448,7 +448,7 @@ label interaction_scene_finish_sex:
                 $ gm.set_img("profile", "living", "angry", exclude=["happy", "scared", "in pain", "ecstatic", "suggestive"], type="reduce")
             else:
                 $ gm.set_img("girlmeets", "angry", "indoors", exclude=["happy", "scared", "in pain", "ecstatic", "suggestive"], type="reduce")
-            call interactions_girl_never_come
+            call interactions_girl_never_come from _call_interactions_girl_never_come
             $ char.disposition -= randint(20, 50)
             $ char.joy -= randint(2, 5)
             $ char.vitality -= randint(5, 10)
@@ -468,7 +468,7 @@ label interaction_scene_finish_sex:
                 $ gm.set_img("profile", "living", "sad", exclude=["happy", "scared", "in pain", "ecstatic", "suggestive"], type="reduce")
             else:
                 $ gm.set_img("girlmeets", "sad", "indoors", exclude=["happy", "scared", "in pain", "ecstatic", "suggestive"], type="reduce")
-        call interactions_guy_never_came
+        call interactions_guy_never_came from _call_interactions_guy_never_came
         $ char.disposition += randint(10, 20)
         $ char.joy -= randint(10, 15)
         $ char.vitality -= randint(5, 15)
@@ -488,7 +488,7 @@ label interaction_scene_finish_sex:
                 $ gm.set_img("profile", "living", "shy", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
             else:
                 $ gm.set_img("girlmeets", "shy", "indoors", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
-        call interactions_guy_cum_alot
+        call interactions_guy_cum_alot from _call_interactions_guy_cum_alot
         $ char.disposition += randint(10, 20)
         $ char.vitality -= randint(5, 10)
     elif sex_count < 1:
@@ -531,7 +531,7 @@ label interaction_scene_finish_sex:
             else:
                 $ gm.set_img("girlmeets", "shy", "indoors", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
         "She did nothing but masturbated in front of you. Be prepared for rumours about your impotence or orientation."
-        call interactions_girl_dissapointed
+        call interactions_girl_dissapointed from _call_interactions_girl_dissapointed_3
         $ char.disposition -= randint(10, 15)
         $ char.vitality -= 5
     else:
@@ -550,7 +550,7 @@ label interaction_scene_finish_sex:
                 $ gm.set_img("profile", "living", "happy", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
             else:
                 $ gm.set_img("girlmeets", "happy", "indoors", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
-        call interactions_after_normal_sex
+        call interactions_after_normal_sex from _call_interactions_after_normal_sex
         $ char.disposition += randint(10, 20)
         $ char.vitality -= randint(5, 10)
 
@@ -777,7 +777,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
                 extend " She begins to lick and suck your dick."
             else:
                 extend " She begins to lick and suck your dick."
-        call interaction_sex_scene_check_skill_jobs
+        call interaction_sex_scene_check_skill_jobs from _call_interaction_sex_scene_check_skill_jobs
         if dice(20):
             $ char.oral += 1
         if dice(10):
@@ -832,7 +832,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             $ char.sex += 1
         if dice(5):
             $ hero.sex += 1
-        call interaction_sex_scene_check_skill_jobs
+        call interaction_sex_scene_check_skill_jobs from _call_interaction_sex_scene_check_skill_jobs_1
     elif current_action == "hand":
         $ get_single_sex_picture(char, act="handjob", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
@@ -859,7 +859,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             $ char.oral += 1
         if dice(5):
             $ hero.oral += 1
-        call interaction_sex_scene_check_skill_jobs
+        call interaction_sex_scene_check_skill_jobs from _call_interaction_sex_scene_check_skill_jobs_2
     elif current_action == "foot":
         $ get_single_sex_picture(char, act="footjob", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
@@ -911,7 +911,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             $ char.oral += 1
         if dice(5):
             $ hero.oral += 1
-        call interaction_sex_scene_check_skill_jobs
+        call interaction_sex_scene_check_skill_jobs from _call_interaction_sex_scene_check_skill_jobs_3
     elif current_action == "vag":
         if ct("Lesbian"):
             $ skill_for_checking = round(char.get_skill("vaginal")*0.6 + char.get_skill("sex")*0.15)
@@ -992,7 +992,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
                 extend " She sits on your lap while you prepare your dick for going inside her."
             else:
                 extend " You enter her pussy, and you two begin to move."
-        call interaction_sex_scene_check_skill_acts
+        call interaction_sex_scene_check_skill_acts from _call_interaction_sex_scene_check_skill_acts
 
     elif current_action == "anal":
         if ct("Lesbian"):
@@ -1074,7 +1074,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
                 extend " She sits on your lap while you prepare your dick for going inside her."
             else:
                 extend " You enter her anus, and you two begin to move."
-        call interaction_sex_scene_check_skill_acts
+        call interaction_sex_scene_check_skill_acts from _call_interaction_sex_scene_check_skill_acts_1
     $ sex_scene_libido -= 1
     jump interaction_scene_choice
 
@@ -1280,7 +1280,7 @@ label interaction_sex_scene_check_skill_acts: # skill level check for two sides 
         $ guy_count += 1
     if hasattr(store, 'just_lost_virginity'):
         $ del just_lost_virginity
-        call interactions_after_virginity_was_taken
+        call interactions_after_virginity_was_taken from _call_interactions_after_virginity_was_taken
     return
 
 label interactions_sex_agreement: # the character agrees to do it
@@ -1393,7 +1393,7 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
                     menu:
                         "She warns you that this is her first time. She does not mind, but her value at the market might decrease. Do you want to continue?"
                         "Yes":
-                            call interactions_girl_virgin_line
+                            call interactions_girl_virgin_line from _call_interactions_girl_virgin_line
                         "No":
                             if check_lovers(hero, char) or check_friends(hero, char) or char.disposition >= 600:
                                 "You changed your mind. She looks a bit disappointed."
@@ -1424,7 +1424,7 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
                     menu:
                         "It looks like this is her first time, and she does not mind. Do you want to continue?"
                         "Yes":
-                            call interactions_girl_virgin_line
+                            call interactions_girl_virgin_line from _call_interactions_girl_virgin_line_1
                         "No":
                             "You changed your mind. She looks a bit disappointed."
                             jump interaction_scene_choice

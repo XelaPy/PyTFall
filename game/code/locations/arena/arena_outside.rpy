@@ -199,7 +199,7 @@ label xeona_training:
     while loop:
         menu:
             "About training sessions":
-                call about_personal_training
+                call about_personal_training from _call_about_personal_training
             "About Xeona training":
                 ax "I train battle skills."
                 ax "Don't expect to learn any magic, but I can teach you how to fight on level with any silly mage!"

@@ -60,7 +60,7 @@ label angelica_spells:
     show screen shopping(left_ref=hero, right_ref=shop)
 
     with dissolve
-    call shop_control
+    call shop_control from _call_shop_control_1
 
     $ global_flags.del_flag("keep_playing_music")
     hide screen shopping
