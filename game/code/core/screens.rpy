@@ -1294,14 +1294,7 @@ init:
                                     style "smenu2_button"
                                     align (.5, .5)
                                     xysize (220, 100)
-                                    if s_menu == "Save":
-                                        action FileSave(i)
-                                        text " - [file_name] -" align (1.0, 0) style "TisaOTMol" size 14 outlines [(3, "#3a3a3a", 0, 0), (2, "#458B00", 0, 0), (1, "#3a3a3a", 0, 0)]
-                                        text "[file_time!t]\n[save_name!t]" style "TisaOTMol" size 12 align (1.05, 1.25)
-                                    elif s_menu == "Load":
-                                        action FileLoad(i)
-                                        text " - [file_name] -" align (1.0, 0) style "TisaOTMol" size 14 outlines [(3, "#3a3a3a", 0, 0),(2, "#009ACD", 0, 0), (1, "#3a3a3a", 0, 0)]
-                                        text "[file_time!t]\n[save_name!t]" style "TisaOTMol" size 12 align (1.05, 1.25)
+                                    # Save info if we have it:
                                     vbox:
                                         xpos 0
                                         yalign .5
@@ -1318,6 +1311,17 @@ init:
                                             text "Buildings: [json_info[buildings]]" style "TisaOTMol" ypos 0
 
                                     key "save_delete" action FileDelete(i)
+
+                                    # Bottom-right:
+                                    if s_menu == "Save":
+                                        action FileSave(i)
+                                        text " - [file_name] -" align (1.0, 0) style "TisaOTMol" size 14 outlines [(3, "#3a3a3a", 0, 0), (2, "#458B00", 0, 0), (1, "#3a3a3a", 0, 0)]
+                                        text "[file_time!t]\n[save_name!t]" style "TisaOTMol" size 12 align (1.05, 1.25)
+                                    elif s_menu == "Load":
+                                        # action NullAction()
+                                        action FileLoad(i)
+                                        text " - [file_name] -" align (1.0, 0) style "TisaOTMol" size 14 outlines [(3, "#3a3a3a", 0, 0),(2, "#009ACD", 0, 0), (1, "#3a3a3a", 0, 0)]
+                                        text "[file_time!t]\n[save_name!t]" style "TisaOTMol" size 12 align (1.05, 1.25)
         frame:
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
             align (.765, .505)
