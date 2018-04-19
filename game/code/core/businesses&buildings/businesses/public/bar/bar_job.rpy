@@ -239,9 +239,11 @@ init -5 python:
                     log.logloc('fame', 1)
                 log.append("Your girl looked beautiful, this will not go unnoticed. \n")
             elif charisma > 75:
-                if dice(70):
-                    log.logloc('fame', -1)
+                if dice(20):
+                    log.logloc('fame', 1)
                 log.append("Your girl was easy on the eyes, not bad for a bartender. \n")
+            elif charisma > 50:
+                log.append("Your may consider buying some items for your worker. She's not exactly pleasant to look at. \n")
             else:
                 log.logloc('fame', -2)
                 log.append("Customers did not appreciate a hag serving them. Consider sending this girl to a beauty school. \n")

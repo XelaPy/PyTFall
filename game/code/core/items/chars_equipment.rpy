@@ -272,6 +272,9 @@ label char_equip_loop:
 
         elif result[0] == 'control':
             if result[1] == 'return':
+                python:
+                    if hasattr(store, "dummy"):
+                        del dummy
                 jump char_equip_finish
             elif equip_girls:
                 python:
@@ -507,7 +510,7 @@ screen char_equip_left_frame(tt, stats_display):
                             xysize 204, 25
                             text "Health:" xalign .02 color "#CD4F39"
                             $ tempc = red if eqtarget.health <= eqtarget.get_max("health")*0.3 else "#F5F5DC"
-                            if dummy:
+                            if getattr(store, "dummy", None) is not None:
                                 $ tempstr = build_str_for_eq(eqtarget, dummy, "health", tempc)
                                 text tempstr style_suffix "value_text" xalign .98 yoffset 3
                             else:
@@ -518,7 +521,7 @@ screen char_equip_left_frame(tt, stats_display):
                             xysize 204, 25
                             text "Vitality:" xalign .02 color "#43CD80"
                             $ tempc = red if eqtarget.vitality <= eqtarget.get_max("vitality")*0.3 else "#F5F5DC"
-                            if dummy:
+                            if getattr(store, "dummy", None) is not None:
                                 $ tempstr = build_str_for_eq(eqtarget, dummy, "vitality", tempc)
                                 text tempstr style_suffix "value_text" xalign .98 yoffset 3
                             else:
@@ -530,7 +533,7 @@ screen char_equip_left_frame(tt, stats_display):
                                 xysize 204, 25
                                 text "{}".format(stat.capitalize()) xalign .02 color "#79CDCD"
                                 $ tempc = "#F5F5DC"
-                                if dummy:
+                                if getattr(store, "dummy", None) is not None:
                                     $ tempstr = build_str_for_eq(eqtarget, dummy, stat, "#F5F5DC")
                                     text tempstr style_suffix "value_text" xalign .98 yoffset 3
                                 else:
@@ -558,7 +561,7 @@ screen char_equip_left_frame(tt, stats_display):
                                     $ tempc = red if eqtarget.mp <= eqtarget.get_max("mp")*0.3 else color
                                 else:
                                     $ tempc = color
-                                if dummy:
+                                if getattr(store, "dummy", None) is not None:
                                     $ tempstr = build_str_for_eq(eqtarget, dummy, stat, tempc)
                                     text tempstr style_suffix "value_text" xalign .98 yoffset 3
                                 else:
@@ -573,14 +576,14 @@ screen char_equip_left_frame(tt, stats_display):
                         vbox:
                             xsize 208
                             text ("Select an item to check its skills") size 18 color goldenrod bold True xalign .45 text_align .5
-                    
+
                     elif not getattr(focusitem, "mod_skills", {}):
                         vbox:
                             xsize 208
                             text ("Current item doesn't affect skills. Try to select another one?") size 18 color goldenrod bold True xalign .45 text_align .5
                     else:
                         for skill, data in getattr(focusitem, "mod_skills", {}).iteritems():
-                                    
+
 
                             frame:
                                 xysize 208, 22
@@ -714,7 +717,7 @@ screen char_equip_right_frame(tt):
 
         if tt.value:
             text "{color=#ecc88a}%s"%tt.value size 14 align (.5, .5) font "fonts/TisaOTM.otf" line_leading -5
-        elif dummy:
+        elif getattr(store, "dummy", None) is not None:
             # Traits and skills:
             vbox:
                 hbox:

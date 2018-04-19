@@ -375,6 +375,9 @@ label after_load:
         pytfall.economy.property_tax = {"slaves": .01,
                                         "real_estate": .015}
 
+    python:
+        if hasattr(store, "dummy"):
+            del dummy
 
     stop music
     return
