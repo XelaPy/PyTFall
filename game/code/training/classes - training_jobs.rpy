@@ -641,7 +641,6 @@ init python:
             # Check for girl AP
             if self.course.AP > 0:
                 if self.girl.AP < self.course.AP:
-                    raise Exception("AP: {}, JP: {}".format(self.girl.AP, self.girl.jobpoints))
                     self.txt.append("%s couldn't attend the %s as she didn't have enough AP! \n"%(self.girl.name, self.course.action))
                     self.rg()
                     self.finish_job()
