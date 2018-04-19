@@ -191,7 +191,7 @@ label char_equip_loop:
                     item_direction = 'equip'
 
                     # # To Calc the effects:
-                    dummy = copy_char(eqtarget._first if isinstance(eqtarget, PytGroup) else eqtarget)
+                    dummy = copy_char(eqtarget)
                     equip_item(focusitem, dummy, silent=True)
                     # renpy.show_screen("diff_item_effects", eqtarget, dummy)
 
