@@ -121,22 +121,25 @@ label storyi_bossroom:
         enemy_team.add(mob)
         result = run_default_be(enemy_team, background="content/gfx/bg/story/p_b.webp", slaves=True, track="content/sfx/music/be/battle (5)b.ogg", prebattle=False, death=False)
 
-    show bg story p4 with sflash
-    show sinister_star at Position(xpos = 704, xanchor=.5, ypos=375, yanchor=.5):
-        anchor (0.5, 0.5)
-        zoom 1.0
-        alpha 1.0
-    $ hero.set_flag("defeated_boss_1")
-    "The star loses its strength, and the air temperature drops."
-    hide sinister_star with dissolve
-    extend " You pick it up and put in your pocket."
-    $ hero.add_item("Red Star")
-    stop events2
-    call storyi_show_bg from _call_storyi_show_bg_1
-    play world "Theme2.ogg" fadein 2.0 loop
-    "You return to the ground floor."
-    show screen prison_break_controls
-    jump storyi_gui_loop
+    if result == True:
+        show bg story p4 with sflash
+        show sinister_star at Position(xpos = 704, xanchor=.5, ypos=375, yanchor=.5):
+            anchor (0.5, 0.5)
+            zoom 1.0
+            alpha 1.0
+        $ hero.set_flag("defeated_boss_1")
+        "The star loses its strength, and the air temperature drops."
+        hide sinister_star with dissolve
+        extend " You pick it up and put in your pocket."
+        $ hero.add_item("Red Star")
+        stop events2
+        call storyi_show_bg from _call_storyi_show_bg_1
+        play world "Theme2.ogg" fadein 2.0 loop
+        "You return to the ground floor."
+        show screen prison_break_controls
+        jump storyi_gui_loop
+    else:
+        jump game_over
 
 label mc_action_storyi_rest: # resting inside the dungeon; team may be attacked during the rest
     show bg tent with q_dissolve
