@@ -991,10 +991,20 @@ init -9 python:
             self.stored_upkeep = round_int(upkeep)
 
         def next_day(self):
-            self.game_main_income_log[day] = self.todays_main_income_log.copy()
-            self.game_main_expense_log[day] = self.todays_main_expense_log.copy()
-            self.game_logical_income_log[day] = self.todays_logical_income_log.copy()
-            self.game_logical_expense_log[day] = self.todays_logical_expense_log.copy()
+            # We log total to -1 key...
+            cut_off_day = store.day - 10
+
+            self.game_main_income_log[store.day] = self.todays_main_income_log.copy()
+            self.game_main_expense_log[store.day] = self.todays_main_expense_log.copy()
+            self.game_logical_income_log[store.day] = self.todays_logical_income_log.copy()
+            self.game_logical_expense_log[store.day] = self.todays_logical_expense_log.copy()
+
+            for log in [self.game_main_income_log, self.game_main_expense_log,
+                        self.game_logical_income_log, self.game_logical_expense_log]:
+                for day, info in log.items():
+                    if day > 0 and day < cut_off_day:
+                        log[-1] = add_dicts([log.get(-1, {}), info])
+                        del log[day]
 
             self.todays_main_income_log = dict()
             self.todays_main_expense_log = dict()
