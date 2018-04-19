@@ -686,7 +686,7 @@ init: # Main Screens:
                         frame:
                             background "content/gfx/frame/bst.png"
                             xysize 230, 249
-                            if not data["defeated"]: # <------------------------------ Note for faster search, change here to test the whole beasts screen without the need to kill mobs
+                            if not defeated_mobs.get(data["id"], 0): # <------------------------------ Note for faster search, change here to test the whole beasts screen without the need to kill mobs
                                 vbox:
                                     xalign .5
                                     xysize 230, 240

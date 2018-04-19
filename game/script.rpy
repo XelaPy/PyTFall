@@ -1,4 +1,15 @@
-﻿label start:
+init 100 python:
+    tagdb = TagDatabase()
+    for tag in tags_dict.values():
+        tagdb.tagmap[tag] = set()
+
+    tl.start("Loading: Mobs")
+    mobs = load_mobs()
+    tl.end("Loading: Mobs")
+
+default defeated_mobs = {}
+
+label start:
     $ renpy.block_rollback()
     $ locked_random("random") # Just making sure that we have set the variable...
 
@@ -179,23 +190,22 @@
         pytRelayProxyStore = shallowcopy(pytRelayProxyStore)
         tl.end("Loading: Training")
 
-    python: # Picked Tags and maps (afk atm):
-        pass
-        # maps = xml_to_dict(content_path('db/map.xml'))
-
-        # import cPickle as pickle
-        # tl.start("Loading: Binary Tag Database")
-        # # pickle.dump(tagdb.tagmap, open(config.gamedir + "/save.p", "wb"))
-        # tagdb = TagDatabase()
-        # tagdb.tagmap = pickle.load(open(config.gamedir + "/save.p", "rb"))
-        # tagslog.info("loaded %d images from binary files" % tagdb.count_images())
-        # tl.end("Loading: Binary Tag Database")
+    # python: # Picked Tags and maps (afk atm):
+    #     maps = xml_to_dict(content_path('db/map.xml'))
+    #
+    #     import cPickle as pickle
+    #     tl.start("Loading: Binary Tag Database")
+    #     # pickle.dump(tagdb.tagmap, open(config.gamedir + "/save.p", "wb"))
+    #     tagdb = TagDatabase()
+    #     tagdb.tagmap = pickle.load(open(config.gamedir + "/save.p", "rb"))
+    #     tagslog.info("loaded %d images from binary files" % tagdb.count_images())
+    #     tl.end("Loading: Binary Tag Database")
 
     python: # Tags/Loading Chars/Mobs/Quests.first_day
         # Loading characters:
-        tagdb = TagDatabase()
-        for tag in tags_dict.values():
-            tagdb.tagmap[tag] = set()
+        # tagdb = TagDatabase()
+        # for tag in tags_dict.values():
+        #     tagdb.tagmap[tag] = set()
 
         tl.start("Loading: All Characters!")
         chars = load_characters("chars", Char)
@@ -208,15 +218,15 @@
         # Start auto-quests
         pytfall.world_quests.first_day()
 
-        tl.start("Loading: Mobs")
-        mobs = load_mobs()
-        tl.end("Loading: Mobs")
+        # tl.start("Loading: Mobs")
+        # mobs = load_mobs()
+        # tl.end("Loading: Mobs")
 
-    python: # SE (Areas)
-        tl.start("Loading: Exploration Areas")
-        # pytfall.forest_1 = Exploration()
-        fg_areas = load_fg_areas()
-        tl.end("Loading: Exploration Areas")
+    # python: # SE (Areas)
+    #     tl.start("Loading: Exploration Areas")
+    #     # pytfall.forest_1 = Exploration()
+    #     fg_areas = load_fg_areas()
+    #     tl.end("Loading: Exploration Areas")
 
     python: # Move to a World AI method:
         tl.start("Loading: Populating World with RChars")

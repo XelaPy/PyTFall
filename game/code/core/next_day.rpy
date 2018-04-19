@@ -78,11 +78,13 @@ label next_day:
         $ just_view_next_day = False
     else: # Do the calculations:
         show screen next_day_calculations
-        $ counter = 1
-        while counter:
+        $ nd_turns = getattr(store, "nd_turns", 1)
+        while nd_turns:
             call next_day_effects_check from _call_next_day_effects_check
             call next_day_calculations from _call_next_day_calculations
-            $ counter -= 1
+            $ nd_turns -= 1
+
+    $ nd_turns = 1
 
     # Preparing to display ND.
     ####### - - - - - #######
