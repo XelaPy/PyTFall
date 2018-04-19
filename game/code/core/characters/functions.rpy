@@ -748,8 +748,9 @@ init -11 python:
             char = char._first
 
         # new = deepcopy(char)
-        # Trying to improve the performace:
-        new = pickle.loads(pickle.dumps(char, -1))
+        # Trying to improve the performance:
+        pickled = pickle.dumps(char, -1)
+        new = pickle.loads(pickled)
 
         # One More Attempt through class Instantiation, does not work yet:
         # new = char.__class__()

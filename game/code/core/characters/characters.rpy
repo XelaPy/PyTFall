@@ -4245,7 +4245,7 @@ init -9 python:
             "S_Tasks": {"clean": True, "bar": True, "waitress": True},
             }
 
-        # Girls/Borthels/Buildings Ownership
+        # Girls/Brothels/Buildings Ownership
         @property
         def buildings(self):
             """
@@ -4470,13 +4470,13 @@ init -9 python:
             # Training with NPCs --------------------------------------->
             self.nd_auto_train(txt)
 
-            # Finances related ---->
-            self.fin.next_day()
-
             # Taxes:
             if all([calendar.weekday() == "Monday",
                     day != 1]):
                 self.nd_pay_taxes(txt)
+
+            # Finances related ---->
+            self.fin.next_day()
 
             # ------------
             self.nd_log_report(txt, img, flag_red, type='mcndreport')

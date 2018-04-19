@@ -757,7 +757,6 @@ init -5 python:
                 log.append("%s good looks clearly was pleasing to the customer." %worker.name)
             elif charisma >= 50:
                 log.append("%s did her best to make the customer like her, but her beauty could definitely be enhanced." % worker.name)
-                log.logloc("fame", choice([-1, 0, 0, 1]))
             else:
                 log.logws("joy", -2)
                 log.logloc("fame", choice([-1, 0]))

@@ -439,8 +439,8 @@ init -9 python:
             self.income_tax = [(25000, .1), (50000, .2),
                                (100000, .3), (200000, .4),
                                (float("inf"), .45)]
-            self.property_tax = {"slaves": .04,
-                                 "real_estate": .05}
+            self.property_tax = {"slaves": .01,
+                                 "real_estate": .015}
             self.confiscation_range = (.5, .7)
 
         def get_clients_pay(self, job, difficulty=1):

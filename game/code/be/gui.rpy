@@ -400,14 +400,14 @@ init: # screens:
                 align (.99, 0)
                 textbutton "Terminate":
                     action SetField(be, "terminate", True)
-
-            # Why do we need a weird button in BE that goes to MM?
-            button:
-                style_group "dropdown_gm"
-                align (.0, 1.0)
-                xysize 130, 30
-                text "Main Menu" size 14
-                action MainMenu()
+                    
+        $ img = im.Scale("content/gfx/interface/buttons/close.png", 35, 35) 
+        imagebutton: # Don't touch this button, Xela! People do need to exist to main menu during BE, and pressing Esc is not obvious!
+            align(.995, .005)
+            idle img
+            hover im.MatrixColor(img, im.matrix.brightness(.25))
+            insensitive_background im.Sepia(img)
+            action MainMenu()
 
         # Pos visualization:
         # if True:

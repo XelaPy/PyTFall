@@ -102,9 +102,10 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
 
     style basic_choice2_button:
         background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
-        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.15)), 5, 5)
-        selected_idle_background Frame(Transform("content/gfx/interface/buttons/choice_buttons2s.png", alpha=1.12), 5, 5)
-        selected_hover_background Frame(Transform("content/gfx/interface/buttons/choice_buttons2s.png", alpha=1.32), 5, 5)
+        idle_background Frame("content/gfx/interface/buttons/choice_buttons2.png", 5, 5)
+        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.1)), 5, 5)
+        selected_background Frame("content/gfx/interface/buttons/choice_buttons2s.png", 5, 5)
+        selected_hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2s.png", im.matrix.brightness(.1)), 5, 5)
         insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/choice_buttons2.png"), 5, 5)
 
     # Presently used in Main Menu.
@@ -119,7 +120,7 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
         take flashing
         background Frame("content/gfx/interface/buttons/s_menu1.png", 5, 5)
         hover_background  Fixed(Frame("content/gfx/interface/buttons/s_menu1.png", 5, 5),
-                                                  flashing(Frame("content/gfx/interface/buttons/flashing2.png", 5, 5)))
+                                flashing(Frame("content/gfx/interface/buttons/flashing2.png", 5, 5)))
         insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/s_menu1.png"), 5, 5)
 
     # Parent for the cool buttons in MCs Profile.
@@ -130,12 +131,13 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
                                                   flashing(Frame("content/gfx/interface/buttons/flashing2.png", 5, 5)))
         insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/hp_1s.png"), 5, 5)
 
-    # Black button with a thin outlines, not used anywhere.
+    # Button used in game menu saves.
     style smenu2_button:
         background Frame("content/gfx/interface/buttons/s_menu2.png", 5, 5)
-        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/s_menu2h.png", im.matrix.brightness(.19)), 5, 5)
-        selected_idle_background Frame(Transform("content/gfx/interface/buttons/choice_buttons2s.png", alpha=1.12), 5, 5)
-        selected_hover_background Frame(Transform("content/gfx/interface/buttons/choice_buttons2s.png", alpha=1.32), 5, 5)
+        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/s_menu2h.png", im.matrix.brightness(.1)), 5, 5)
+        selected_idle_background Frame("content/gfx/interface/buttons/choice_buttons2s.png", 5, 5)
+        selected_hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2s.png", im.matrix.brightness(.1)), 5, 5)
+        insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/s_menu2.png"), 5, 5)
 
     # Based Wooden buttons we inherited from WM Wood Skin.
     style wood_button:

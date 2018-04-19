@@ -19,7 +19,6 @@ label char_profile:
                     if result[1] == "gallery":
                         $ gallery = PytGallery(char)
                         jump gallery
-
                     elif result[1] == "get_rid":
                         if renpy.call_screen("yesno_prompt", message="Are you sure you wish to stop looking for %s?"%char.name, yes_action=Return(True), no_action=Return(False)):
                             python:
