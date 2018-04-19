@@ -788,7 +788,7 @@ init -10 python:
             # Special check for larger buildings:
             if fame_percentage > 80 and self.maxfame > 400:
                 if write_to_nd:
-                    self.log("Extra clients are coming in! You business is getting very popular with the people".format(set_font_color(debug_add, "green")))
+                    self.log("Extra clients are coming in! You business is getting very popular with the people")
                 clients += float(clients)/self.maxfame*self.fame*.1
 
             # Upgrades:
