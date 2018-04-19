@@ -112,10 +112,12 @@ label found_sad_cat_4:
         hero.say "I can heal it with healing potion..."
         menu:
             "Heal it":
+                $ hero.remove_item(choice(fish))
                 $ flash = Fade(.25, 0, .75, color=red)
                 scene bg street_alley
                 with flash
                 hide expression temp
+                $ del fish
                 $ temp = npcs["sad_cat"].show("profile", "happy", resize = (295, 340))
                 show expression temp at left
                 $ npcs["sad_cat"].override_portrait("portrait", "happy")
