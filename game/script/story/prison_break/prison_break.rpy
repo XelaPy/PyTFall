@@ -119,7 +119,7 @@ label storyi_bossroom:
         mob.mod_stat("mp", 100)
         mob.controller = Complex_BE_AI(mob)
         enemy_team.add(mob)
-        result = run_default_be(enemy_team, background="content/gfx/bg/story/p_b.webp", slaves=True, track="content/sfx/music/be/battle (5)b.ogg", prebattle=False, death=False)
+        result = run_default_be(enemy_team, background="content/gfx/bg/story/p_b.webp", slaves=True, track="content/sfx/music/be/battle (5)b.ogg", prebattle=False, death=True)
 
     if result == True:
         show bg story p4 with sflash
@@ -168,7 +168,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
             mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
 
-        result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.webp", slaves=True, prebattle=False, death=True, skill_lvl=3)
+        result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.webp", slaves=True, prebattle=False, death=True, skill_lvl=4, give_up="escape")
 
     if result is True:
         python:
@@ -191,8 +191,13 @@ label storyi_randomfight:  # initiates fight with random enemy team
 
         show screen prison_break_controls
         jump storyi_gui_loop
-    else:
+    elif result is False:
         jump game_over
+    else:
+        $ be_hero_escaped(hero.team)
+        scene black
+        pause 1.0
+        jump forest_entrance
 
 label give_to_mc_item_reward(type="consumable", price=1000): # va calls gives to mc a random item based on type and max price
     $ item = get_item_drops(type, price=price)

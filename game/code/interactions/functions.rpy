@@ -644,8 +644,15 @@ init -11 python:
             n = randint(1,6)
             back = "content/gfx/bg/be/b_city_" + str(n) + ".webp" # city streets are default backgrounds; always used for hired chars from the characters menu atm.
         return back
+        
+    def be_hero_escaped(team):
+        '''Punished Hero team for escaping'''
+        for i in team:
+            i.AP = 0
+            i.vitality -= int(i.get_max("vitality")*.3)
+            i.mp -= int(i.get_max("mp")*.3)
 
-    def run_default_be(enemy_team, slaves=False, background="content/gfx/bg/be/battle_arena_1.webp", track="random", prebattle=True, death=False, skill_lvl=float("inf")):
+    def run_default_be(enemy_team, slaves=False, background="content/gfx/bg/be/battle_arena_1.webp", track="random", prebattle=True, death=False, skill_lvl=float("inf"), give_up=None):
         """
         Launches BE with MC team vs provided enemy team, returns True if MC won and vice versa
         - if slaves == True, slaves in MC team will be inside BE with passive AI, otherwise they won't be there
@@ -671,7 +678,7 @@ init -11 python:
                     your_team.add(member)
             your_team.reset_controller()
 
-        battle = BE_Core(Image(background), start_sfx=get_random_image_dissolve(1.5), music=track, end_sfx=dissolve, quotes=prebattle, max_skill_lvl=skill_lvl)
+        battle = BE_Core(Image(background), start_sfx=get_random_image_dissolve(1.5), music=track, end_sfx=dissolve, quotes=prebattle, max_skill_lvl=skill_lvl, give_up=give_up)
         store.battle = battle
         battle.teams.append(your_team)
         battle.teams.append(enemy_team)
@@ -687,7 +694,4 @@ init -11 python:
                     if member <> hero:
                         member.joy -= randint(5, 15)
 
-        if battle.winner != your_team:
-            return False
-        else:
-            return True
+        return battle.win

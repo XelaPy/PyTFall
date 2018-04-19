@@ -128,13 +128,16 @@ init -1 python: # Core classes:
                         w, h = fighter.besprite_size
                         renpy.show("its_my_turn", at_list=[Transform(additive=.6, alpha=.7, size=(int(w*1.5), h/3), pos=battle.get_cp(fighter, type="bc", yo=20), anchor=(.5, 1.0))], zorder=fighter.besk["zorder"]+1)
 
-                        while not (s and t) and s != "surrender":
+                        while not (s and t) and s not in ["surrender", "escape"]:
                             s = renpy.call_screen("pick_skill", fighter, self.give_up)
                             if s == "surrender":
                                 if renpy.call_screen("yesno_prompt", message="Are you sure you wish to surrender?", yes_action=Return(True), no_action=Return(False)):
                                     break
-
-                            if s != "surrender":
+                            elif s == "escape":
+                                if renpy.call_screen("yesno_prompt", message="Are you sure you wish to escape?", yes_action=Return(True), no_action=Return(False)):
+                                    break
+                                    
+                            if s not in ["surrender", "escape"]:
                                 s.source = fighter
 
                                 # Unique check for Skip Skill:
@@ -148,7 +151,7 @@ init -1 python: # Core classes:
                             else:
                                 s = None
 
-                        if s == "surrender":
+                        if s in ["surrender", "escape"]:
                             break
 
                         # We don't need to see status icons during skill executions!
@@ -192,6 +195,8 @@ init -1 python: # Core classes:
 
             if s == "surrender":
                 self.win = False
+            elif s == "escape":
+                self.win = None
 
             self.end_battle()
 
@@ -275,11 +280,16 @@ init -1 python: # Core classes:
                                "outline_color": cyan}
                     gfx_overlay.notify("You Lose!", tkwargs=tkwargs)
                 else:
+                    renpy.show("escape_gates", what="portal_webm",  at_list=[Transform(align=(.5, .5))], zorder=100)
+                
                     tkwargs = {"color": gray,
                                "outline_color": black}
                     gfx_overlay.notify("Meh :(", tkwargs=tkwargs)
 
-                renpy.pause(.6) # Small pause before terminating the engine.
+                if self.win is None:
+                    renpy.pause(2.7)
+                else:
+                    renpy.pause(.6) # Small pause before terminating the engine.
 
                 renpy.scene(layer='screens')
 
