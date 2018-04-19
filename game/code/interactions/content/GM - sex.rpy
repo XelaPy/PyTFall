@@ -305,6 +305,7 @@ label interactions_sex_scene_begins: # here we set initial picture before the sc
         $ get_picture_before_sex(char, location=sex_scene_location)
 
     $ sex_count = guy_count = girl_count = together_count = cum_count = mast_count = 0 # these variable will decide the outcome of sex scene
+    $ sex_prelude = False
     $ max_sex_scene_libido = sex_scene_libido = get_character_libido(char)
     $ char.AP -= 1
 
@@ -389,12 +390,14 @@ label interaction_sex_scene_choice:
     menu:
         "What would you like to do now?"
 
-        "Ask for striptease" if max_sex_scene_libido == sex_scene_libido:
+        "Ask for striptease" if max_sex_scene_libido == sex_scene_libido and not sex_prelude:
             $ current_action = "strip"
+            $ sex_prelude = True
             jump interactions_sex_scene_logic_part
 
-        "Ask her to play with herself" if max_sex_scene_libido == sex_scene_libido:
+        "Ask her to play with herself" if max_sex_scene_libido == sex_scene_libido and not sex_prelude:
             $ current_action = "mast"
+            $ sex_prelude = True
             jump interactions_sex_scene_logic_part
 
         "Ask for a blowjob":
