@@ -740,6 +740,62 @@ init -11 python:
         return client
 
     def copy_char(char):
+        """Attempt to copy a character by remaking it anew in his own image.
+        """
+        if isinstance(char, PytGroup):
+            char = char._first
+
+        new = char.__class__()
+
+        for attr, value in char.__dict__.items():
+            if attr == "effects":
+                new.effects = deepcopy(value)
+            elif isinstance(value, (bool, float, basestring, int)):
+                setattr(new, attr, value)
+            elif isinstance(value, (dict, set)):
+                setattr(new, attr, value.copy())
+            elif isinstance(value, list):
+                devlog.info("{}".format(value))
+                setattr(new, attr, value[:])
+
+        if new.inventory == char.inventory:
+            raise Exception("Fuck this sideways 2!")
+
+        assign_to = new.stats
+        for attr, value in char.stats.__dict__.items():
+            if attr == "skills":
+                assign_to.skills = deepcopy(value)
+            if attr == "skills_multipliers":
+                assign_to.skills_multipliers = deepcopy(value)
+            elif isinstance(value, (bool, float, basestring, int)):
+                setattr(assign_to, attr, value)
+            elif isinstance(value, (dict, set)):
+                setattr(assign_to, attr, deepcopy(value))
+            elif isinstance(value, list):
+                setattr(assign_to, attr, value[:])
+
+        # Smart Trackers:
+        new.traits[:] = list(char.traits)
+        new.traits.normal = char.traits.normal.copy()
+        new.traits.items = char.traits.items.copy()
+        new.traits.ab_traits = char.traits.ab_traits.copy()
+        new.traits.blocked_traits = char.traits.blocked_traits.copy()
+        new.traits.basetraits = char.traits.basetraits.copy()
+
+        new.resist[:] = list(char.resist)
+        new.attack_skills.normal = char.attack_skills.normal.copy()
+        new.attack_skills.items = char.attack_skills.items.copy()
+
+        new.attack_skills[:] = list(char.attack_skills)
+        new.attack_skills.normal = char.attack_skills.normal.copy()
+        new.attack_skills.items = char.attack_skills.items.copy()
+        new.magic_skills[:] = list(char.magic_skills)
+        new.magic_skills.normal = char.magic_skills.normal.copy()
+        new.magic_skills.items = char.magic_skills.items.copy()
+
+        return new
+
+    def copy_char_oldshit(char):
         """Due to some sh!tty coding on my part, just a simple deepcopy/copy will not do :(
 
         This func cannot be used to make a playable character that can properly interact with the game world.
