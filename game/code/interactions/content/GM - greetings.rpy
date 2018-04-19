@@ -538,27 +538,27 @@ label interactions_girl_dissapointed: # a universal answer when character is dis
     $ char.override_portrait("portrait", "indifferent")
     $ char.show_portrait_overlay("sweat", "reset")
     if ct("Impersonal"):
-        $ rc("... *you see disappointment in her eyes before she turns away*", "I see. A waste of time after all.")
+        $ rc("... *you see disappointment in her eyes before she turns away*")
     elif ct("Shy") and dice(50):
         $ rc("I suppose you have your reasons...", "Err... Do you... nothing. Never mind.")
     elif ct("Imouto"):
         $ rc("Whaaa? Are you serious?", "What, that's it? Boring and stupid!") 
     elif ct("Dandere"):
-        $ rc("Pathetic...", "You are a boring person.")
+        $ rc("Pathetic...", "You are a bad person.")
     elif ct("Tsundere"):
-        $ rc("You really must have a lot of free time to fool around like this...", "Hmph! Stop wasting my time!")
+        $ rc("You really must have a lot of free time to fool around like this...", "Hmph! Whatever!")
     elif ct("Kuudere"):
         $ rc("How unreliable...", "That was quite pathetic, admit it.")
     elif ct("Kamidere"):
-        $ rc("As expected... You are wasting my time, you know that?", "It was entirely unsightly. Refrain from doing it from now on.")
+        $ rc("I expected more from you...", "It was entirely unsightly.")
     elif ct("Bokukko"):
         $ rc("Man, that was lame. I mean, really lame.", "Oh c'mon, it's not even funny!")
     elif ct("Ane"):
         $ rc("My, is that it? I expected something... better.", "*sigh* How troublesome...")
     elif ct("Yandere"):
-        $ rc("My time is precious for something like that, you know?", "Could you refrain from acting so in the future?")
+        $ rc("Such a waste of time...", "... *glares with hostility*")
     else:
-        $ rc("*sign* No wonder, my horoscope predicted a bad day.", "What a nuisance...")
+        $ rc("*sign* No wonder, my horoscope predicted a bad day.", "... *you see disappointment in her eyes before she turns away*")
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
     return
@@ -824,7 +824,7 @@ label interactions_alone_together:
     $ char.restore_portrait()
     return
 
-label interactions_study_together: # used in the village, char invites mc to house
+label interactions_study_together: # not used atm
     $ char.override_portrait("portrait", "confident")
     if ct("Impersonal"):
         $ rc("Want to study at my house?", "If it's you, I'm sure we'll be able to work together. Let's study at my house.")
@@ -851,7 +851,7 @@ label interactions_study_together: # used in the village, char invites mc to hou
     $ char.restore_portrait()
     return
     
-label interactions_study_sex: # used in the village, char invites mc to house for sex
+label interactions_study_sex: # not used atm
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
         $ rc("Come to my room. To study.")
@@ -878,7 +878,7 @@ label interactions_study_sex: # used in the village, char invites mc to house fo
     $ char.restore_portrait()
     return
     
-label interactions_study_sex_lines: # used in the village, char invites mc to house and does it
+label interactions_study_sex_lines: # not used atm
     $ char.override_portrait("portrait", "suggestive")
     if ct("Impersonal"):
         $ rc("Doesn't look like you can concentrate well... That's because...of this, isn't it?", "You looked like you wanted it. I just thought I'd make it easier on you.")
@@ -905,7 +905,7 @@ label interactions_study_sex_lines: # used in the village, char invites mc to ho
     $ char.restore_portrait()
     return
 
-label interactions_teaching_lines: # used in the village, mc teaches a character
+label interactions_teaching_lines: # not used atm
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
         $ rc("Understood. It all makes sense now.")

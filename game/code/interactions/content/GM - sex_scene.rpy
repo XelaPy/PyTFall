@@ -611,7 +611,6 @@ init python:
             
     def get_sex_img_4int(char, *args, **kwargs):
         """Tries to find the best possible sex image following a complex set of logic.
-        http://www.pinkpetal.org/index.php?topic=1291.msg37131#msg37131
         
         Coded for interactions module.
         """

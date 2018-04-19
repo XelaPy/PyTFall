@@ -36,6 +36,7 @@ screen int_libido_level_zero:
 
 
 label interactions_hireforsex: # we go to this label from GM menu hire for sex. it's impossible to hire lovers, however they never refuse to do it for free, unless too tired or something like that
+    $ char.del_flag("raped_by_player")
     $ interactions_check_for_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_hireforsex")
     if ct("Nymphomaniac"): # how many times one can hire the character per day
@@ -58,7 +59,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         call interactions_sex_disagreement from _call_interactions_sex_disagreement
         jump girl_interactions
 
-    if char.disposition<0: # for negative disposition
+    if char.disposition<0 and char.status == "free": # for negative disposition
         if dice(abs(char.disposition*0.2)): # if it's low enough to make the dice work she refuses
             call interactions_sex_disagreement from _call_interactions_sex_disagreement_1
             $ char.disposition -= randint(15, 35)
@@ -106,7 +107,6 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         $ rc("You want to hire me? Very well, it will be %d G." % price, "Of course. For you my body costs %d G." % price)
     if hero.gold < price:
         "You don't have that much money."
-        call interactions_girl_dissapointed from _call_interactions_girl_dissapointed
         $ m = interactions_flag_count_checker(char, "flag_interactions_hireforsex") # additionally reduce the amount of tries
         $ del price
         $ del m
@@ -122,14 +122,12 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
                     jump interactions_sex_scene_select_place
                 else:
                     "You don't have that much money."
-                    call interactions_girl_dissapointed from _call_interactions_girl_dissapointed_1
                     $ m = interactions_flag_count_checker(char, "flag_interactions_hireforsex")
                     $ del m
                     $ del price
                     jump girl_interactions
             "No":
                 $ char.disposition -= randint(1, 3)
-                call interactions_girl_dissapointed from _call_interactions_girl_dissapointed_2
                 $ del price
                 jump girl_interactions
     $ del price
@@ -156,6 +154,7 @@ label interactions_sex_scene_select_place: # we go here if price for hiring is l
     jump interactions_sex_scene_begins
 
 label interactions_sex: # we go to this label from GM menu propose sex
+    $ char.del_flag("raped_by_player")
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_sex")
@@ -176,9 +175,10 @@ label interactions_sex: # we go to this label from GM menu propose sex
     if char.flag("quest_cannot_be_fucked") == True: # a special flag for chars we don't want to be accessible unless a quest will be finished
         call interactions_sex_disagreement from _call_interactions_sex_disagreement_2
         jump girl_interactions
-    if ct("Lesbian") and not ct("Open Minded") and not "Yuri Expert" in hero.traits:
-        call interactions_lesbian_refuse_because_of_gender from _call_interactions_lesbian_refuse_because_of_gender_2 # you can hire them, but they will never do it for free with wrong orientation
-        jump girl_interactions
+    if ct("Lesbian") and not ct("Open Minded") and not "Yuri Expert" in hero.traits and char.status != "slave":
+            call interactions_lesbian_refuse_because_of_gender from _call_interactions_lesbian_refuse_because_of_gender_2 # you can hire them, but they will never do it for free with wrong orientation
+            jump girl_interactions
+
     if char.vitality < round(char.get_max("vitality")*0.25) or char.AP <= 0:
         call interactions_refused_because_tired from _call_interactions_refused_because_tired_3
         jump girl_interactions
@@ -193,7 +193,9 @@ label interactions_sex: # we go to this label from GM menu propose sex
         $ disposition_level_for_sex -= randint(200, 300)
 
     if char.status == "slave":
-        $ disposition_level_for_sex -= randint(50, 100)
+        $ disposition_level_for_sex -= 500
+        if cgo("SIW"):
+            $ disposition_level_for_sex -= 500
 
     if char.flag("quest_sex_anytime"): # special flag for cases when we don't want character to refuse unless disposition is ridiculously low
         $ disposition_level_for_sex -= 1000
@@ -201,7 +203,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
     if char.effects['Drunk']['active']: # a bit less disposition for drunk ones
         $ disposition_level_for_sex -= randint(50, 100)
 
-    if cgo("SIW"): # SIWs won't be against it if they know MC well, but at the same time would prefer to get paid if they don't
+    if cgo("SIW") and char.status == "free":
         if char.disposition >= 400:
             $ disposition_level_for_sex -= randint(50, 100)
         else:
@@ -213,22 +215,41 @@ label interactions_sex: # we go to this label from GM menu propose sex
     # so normal (without flag) required level of disposition could be from 200 to 1200 for non lovers
     if ct("Open Minded"): # open minded trait greatly reduces the needed disposition level
         $ disposition_level_for_sex -= randint(400, 500)
-    if disposition_level_for_sex < 100:
-        $ disposition_level_for_sex = 100 # normalization, no free sex with too low disposition no matter the character
+    if disposition_level_for_sex < -250:
+        $ disposition_level_for_sex = -250 # normalization, no free sex with too low disposition no matter the character
+        
     if char.disposition < disposition_level_for_sex:
-        call interactions_sex_disagreement from _call_interactions_sex_disagreement_3
-        $ dif = disposition_level_for_sex - char.disposition # the difference between required for sex and current disposition
-        if dif <= 100:
-            $ char.disposition -= randint(1, dif+1) # if it's low, then disposition penalty will be low too
+        if char.status == "free":
+            call interactions_sex_disagreement from _call_interactions_sex_disagreement_3
+            $ dif = disposition_level_for_sex - char.disposition # the difference between required for sex and current disposition
+            if dif <= 100:
+                $ char.disposition -= randint(1, dif+1) # if it's low, then disposition penalty will be low too
+            else:
+                $ char.disposition -= randint(15, (40+15*sub)) # otherwise it will be significant
+            $ del dif
+            $ del disposition_level_for_sex
+            jump girl_interactions
         else:
-            $ char.disposition -= randint(15, (40+15*sub)) # otherwise it will be significant
-        $ del dif
-        $ del disposition_level_for_sex
-        jump girl_interactions
+            "She doesn't like you enough yet, but as a slave she has no choice. Do you wish to force her?"
+            menu:
+                "Yes":
+                    call interactions_girl_dissapointed
+                    $ char.joy -= randint(20, 30)
+                    $ char.disposition -= randint(50, 100)
+                    $ char.set_flag("raped_by_player") 
+                "No":
+                    jump girl_interactions
     else:
         $ del disposition_level_for_sex
-    call interactions_sex_agreement from _call_interactions_sex_agreement
-    if ct("Nymphomaniac") or check_lovers(char, hero) or char.disposition >= 600:
+        if ct("Lesbian") and not ct("Open Minded") and not "Yuri Expert" in hero.traits and char.status == "slave":
+            "Although she prefers females, she reluctantly agrees."
+            $ char.joy -= 10
+            $ char.disposition -= randint(35, 50)
+            
+    if not char.has_flag("raped_by_player"):
+        call interactions_sex_agreement from _call_interactions_sex_agreement
+        
+    if ct("Nymphomaniac") or check_lovers(char, hero) or char.disposition >= 600 or char.has_flag("raped_by_player"):
         menu:
             "Where would you like to do it?"
 
@@ -278,6 +299,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
 
 label interactions_sex_scene_begins: # here we set initial picture before the scene and set local variables
     $ scene_picked_by_character = True # when it's false, there is a chance that the character might wish to do something on her own
+        
     $ sub = check_submissivity(char)
 
     if picture_before_sex:
@@ -292,7 +314,8 @@ label interactions_sex_scene_begins: # here we set initial picture before the sc
     else:
         $ char.set_flag("flag_int_had_sex_with_mc", char.flag("flag_int_had_sex_with_mc")+1)
 
-    call interactions_sex_begins from _call_interactions_sex_begins
+    if not char.has_flag("raped_by_player"):
+        call interactions_sex_begins from _call_interactions_sex_begins
 
     jump interaction_scene_choice
 
@@ -330,7 +353,8 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
 
     if not(scene_picked_by_character):
         $ scene_picked_by_character = True
-        if dice(sex_scene_libido*10 + 20*sub) and sex_scene_libido > 1: # strong willed and/or very horny characters may pick action on their own from time to time
+            
+        if dice(sex_scene_libido*10 + 20*sub) and sex_scene_libido > 1  and char.status == "free": # strong willed and/or very horny characters may pick action on their own from time to time
             $ available = get_character_wishes(char)
             if available == "sex":
                 $ current_action = choice(["hand", "foot"])
@@ -358,7 +382,8 @@ label interaction_sex_scene_choice:
         hide screen int_libido_level
         show screen int_libido_level_zero
 
-    $ scene_picked_by_character = False
+    if not char.has_flag("raped_by_player"):
+        $ scene_picked_by_character = False
 
     if char.effects['Horny']['active']:
         $ char.disable_effect("Horny")
@@ -408,7 +433,7 @@ label interaction_scene_finish_sex:
     hide screen int_libido_level
     hide screen int_libido_level_zero
 
-    if sex_scene_libido > 3 and char.vitality >= 50 and ct("Nymphomaniac"):
+    if sex_scene_libido > 3 and char.vitality >= 50 and ct("Nymphomaniac") and not char.has_flag("raped_by_player"):
         $ get_single_sex_picture(char, act="masturbation", location=sex_scene_location, hidden_partner=True)
         "[char.name] is not satisfied yet, so she quickly masturbates right in front of you."
         $ char.disposition -= round(sex_scene_libido*3)
@@ -429,8 +454,12 @@ label interaction_scene_finish_sex:
                 $ gm.set_img("profile", "living", "happy", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
             else:
                 $ gm.set_img("girlmeets", "happy", "indoors", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
-        call interactions_after_good_sex from _call_interactions_after_good_sex
-        $ char.disposition += randint(20, 40)
+                
+        if not char.has_flag("raped_by_player"):
+            call interactions_after_good_sex from _call_interactions_after_good_sex
+            $ char.disposition += randint(20, 40)
+        else:
+            "She quickly dresses up and leaves."
         $ char.vitality -= randint(5, 10)
     elif girl_count < 1 and guy_count > 0:
         if sex_scene_location == "beach":
@@ -448,9 +477,13 @@ label interaction_scene_finish_sex:
                 $ gm.set_img("profile", "living", "angry", exclude=["happy", "scared", "in pain", "ecstatic", "suggestive"], type="reduce")
             else:
                 $ gm.set_img("girlmeets", "angry", "indoors", exclude=["happy", "scared", "in pain", "ecstatic", "suggestive"], type="reduce")
-            call interactions_girl_never_come from _call_interactions_girl_never_come
-            $ char.disposition -= randint(20, 50)
-            $ char.joy -= randint(2, 5)
+                
+            if not char.has_flag("raped_by_player"):
+                call interactions_girl_never_come from _call_interactions_girl_never_come
+                $ char.disposition -= randint(20, 50)
+                $ char.joy -= randint(2, 5)
+            else:
+                "She quickly dresses up and leaves."
             $ char.vitality -= randint(5, 10)
     elif girl_count > 0 and guy_count < 1 and cum_count < 1 and sex_count > 0:
         if sex_scene_location == "beach":
@@ -468,9 +501,12 @@ label interaction_scene_finish_sex:
                 $ gm.set_img("profile", "living", "sad", exclude=["happy", "scared", "in pain", "ecstatic", "suggestive"], type="reduce")
             else:
                 $ gm.set_img("girlmeets", "sad", "indoors", exclude=["happy", "scared", "in pain", "ecstatic", "suggestive"], type="reduce")
-        call interactions_guy_never_came from _call_interactions_guy_never_came
-        $ char.disposition += randint(10, 20)
-        $ char.joy -= randint(10, 15)
+        if not char.has_flag("raped_by_player"):
+            call interactions_guy_never_came from _call_interactions_guy_never_came
+            $ char.disposition += randint(10, 20)
+            $ char.joy -= randint(10, 15)
+        else:
+            "She quickly dresses up and leaves."
         $ char.vitality -= randint(5, 15)
     elif (cum_count >=5) and (cum_count > girl_count):
         if sex_scene_location == "beach":
@@ -488,8 +524,11 @@ label interaction_scene_finish_sex:
                 $ gm.set_img("profile", "living", "shy", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
             else:
                 $ gm.set_img("girlmeets", "shy", "indoors", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
-        call interactions_guy_cum_alot from _call_interactions_guy_cum_alot
-        $ char.disposition += randint(10, 20)
+        if not char.has_flag("raped_by_player"):
+            call interactions_guy_cum_alot from _call_interactions_guy_cum_alot
+            $ char.disposition += randint(10, 20)
+        else:
+            "She quickly dresses up and leaves."
         $ char.vitality -= randint(5, 10)
     elif sex_count < 1:
         if sex_scene_location == "beach":
@@ -530,9 +569,10 @@ label interaction_scene_finish_sex:
                 $ gm.set_img("profile", "living", "shy", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
             else:
                 $ gm.set_img("girlmeets", "shy", "indoors", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
-        "She did nothing but masturbated in front of you. Be prepared for rumours about your impotence or orientation."
+        "She did nothing but masturbated in front of you. Be prepared for rumors about your impotence or orientation."
         call interactions_girl_dissapointed from _call_interactions_girl_dissapointed_3
-        $ char.disposition -= randint(10, 15)
+        if not char.has_flag("raped_by_player"):
+            $ char.disposition -= randint(10, 15)
         $ char.vitality -= 5
     else:
         if sex_scene_location == "beach":
@@ -550,8 +590,11 @@ label interaction_scene_finish_sex:
                 $ gm.set_img("profile", "living", "happy", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
             else:
                 $ gm.set_img("girlmeets", "happy", "indoors", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
-        call interactions_after_normal_sex from _call_interactions_after_normal_sex
-        $ char.disposition += randint(10, 20)
+        if not char.has_flag("raped_by_player"):
+            call interactions_after_normal_sex from _call_interactions_after_normal_sex
+            $ char.disposition += randint(10, 20)
+        else:
+            "She quickly dresses up and leaves."
         $ char.vitality -= randint(5, 10)
 
     $ gm.restore_img()
@@ -698,27 +741,30 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         $ char.health -= 2
     $ sex_count += 1
     if current_action in ["blow", "tits", "hand", "foot", "vag", "anal"] and "Mana Source" in hero.traits:
-        $ char.mp += int(char.get_max("mp")*0.2)
+        $ char.mp += int(char.get_max("mp")*0.5)
     if current_action == "mast":
         $ get_single_sex_picture(char, act="masturbation", location=sex_scene_location, hidden_partner=True)
-        if sub > 0:
-            "She leisurely pleasures herself for a while, seductively glancing at you."
-        elif sub < 0:
-            "She diligently pleasures herself for a while until you tell her to stop."
-        else:
+        if char.has_flag("raped_by_player"):
             "She pleasures herself briefly, hesitantly avoiding your glance."
-        if dice(40):
-            extend " She is more aroused now."
-            $ sex_scene_libido += 2
+        else:
+            if sub > 0:
+                "She leisurely pleasures herself for a while, seductively glancing at you."
+            elif sub < 0:
+                "She diligently pleasures herself for a while until you tell her to stop."
+            else:
+                "She pleasures herself briefly, hesitantly avoiding your glance."
+            if dice(60):
+                extend " She is more aroused now."
+                $ sex_scene_libido += 2
         $ char.vitality -= randint(5, 10)
         $ girl_count +=1
     elif current_action == "strip":
         $ get_single_sex_picture(char, act="stripping", location=sex_scene_location, hidden_partner=True)
         $ skill_for_checking = char.get_skill("strip")
         $ male_skill_for_checking = char.get_skill("strip")
-        if skill_for_checking >= 2000:
+        if skill_for_checking >= 1000:
             "She looks unbearably hot and sexy. After a short time, you cannot withstand it anymore and begin to masturbate, quickly cumming. She looks at you with a smile and superiority in her eyes."
-        elif skill_for_checking >= 1000:
+        elif skill_for_checking >= 750:
             "Her movements are so fascinating that you cannot look away from her. She looks proud and pleased."
         elif skill_for_checking >= 500:
             "Looking at her graceful and elegant moves is nice."
@@ -728,72 +774,69 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             "She tried her best, but the moves were quite clumsy and unnatural. At least she learned something new today."
         else:
             "It looks like [char.name] barely knows what she's doing. Even just standing still without clothes would have made a better impression."
-        if dice(20):
-            $ char.strip += 1
-        if dice(10):
-            $ hero.strip += 1
+        $ temp = randint(2, 8)
         if (skill_for_checking - male_skill_for_checking) > 250 and dice(50):
-            $ hero.strip += 1
+            $ hero.strip += 5
         if (male_skill_for_checking - skill_for_checking) > 250 and dice(75):
-            $ char.strip += 1
+            $ temp += randint(5, 15)
+        $ char.strip += temp
+        $ del temp
     elif current_action == "blow":
         $ get_single_sex_picture(char, act="blowjob", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
         if ct("Lesbian"):
-            $ skill_for_checking = round(char.get_skill("oral")*0.65 + char.get_skill("sex")*0.1)
+            $ skill_for_checking = round(char.get_skill("oral")*0.8 + char.get_skill("sex")*0.8)
         else:
-            $ skill_for_checking = round(char.get_skill("oral")*0.8 + char.get_skill("sex")*0.2)
-        $ male_skill_for_checking = round(hero.get_skill("oral")*0.8 + hero.get_skill("sex")*0.2)
+            $ skill_for_checking = round(char.get_skill("oral") + char.get_skill("sex"))
+        $ male_skill_for_checking = round(hero.get_skill("oral") + hero.get_skill("sex"))
+
         if sub > 0:
-            if sex_scene_libido > 0:
+            if sex_scene_libido > 0 and not char.has_flag("raped_by_player"):
                 "[char.name] licks her lips, defiantly looking at your crotch."
             else:
                 "[char.name] joylessly looks at your crotch."
             if "bc deepthroat" in image_tags:
                 extend " She shoves it all the way into her throat."
-            elif "after sex" in image_tags:
+            elif not char.has_flag("raped_by_player"):
                 extend " She enthusiastically begins to lick and suck it."
             else:
-                extend " She enthusiastically begins to lick and suck it."
+                extend " She begins to lick and suck it."
         elif sub < 0:
-            if sex_scene_libido > 0:
+            if sex_scene_libido > 0 and not char.has_flag("raped_by_player"):
                 "Glancing at your crotch, [char.name] is patiently waiting for your orders."
             else:
                 "[char.name] is waiting for your orders."
             if "bc deepthroat" in image_tags:
                 extend " You told her to take your dick in her mouth as deeply as she can, and she diligently obeyed."
-            elif "after sex" in image_tags:
-                extend " You told her to lick and suck your dick."
-            else:
+            elif not char.has_flag("raped_by_player"):
                 extend " You told her to lick and suck your dick, and she immediately obeyed."
+            else:
+                extend " You told her to lick and suck your dick."
         else:
-            if sex_scene_libido > 0:
+            if sex_scene_libido > 0 and not char.has_flag("raped_by_player"):
                 "[char.name] quickly approached your crotch."
             else:
                 "[char.name] slowly approached your crotch."
             if "bc deepthroat" in image_tags:
                 extend " You shove your dick deep into her throat."
-            elif "after sex" in image_tags:
-                extend " She begins to lick and suck your dick."
             else:
                 extend " She begins to lick and suck your dick."
         call interaction_sex_scene_check_skill_jobs from _call_interaction_sex_scene_check_skill_jobs
-        if dice(20):
-            $ char.oral += 1
-        if dice(10):
-            $ hero.oral += 1
+        
+        $ temp = randint(2, 8)
         if (skill_for_checking - male_skill_for_checking) > 250 and dice(50):
-            $ hero.oral += 1
+            $ hero.oral += 5
         if (male_skill_for_checking - skill_for_checking) > 250 and dice(75):
-            $ char.oral += 1
-        if dice(10):
-            $ char.sex += 1
-        if dice(5):
-            $ hero.sex += 1
+            $ temp += randint(5, 15)
+        $ char.oral += temp
+        $ del temp
+        $ char.sex += randint(2, 8)
+        $ hero.sex += randint(2, 8)
+
     elif current_action == "tits":
         $ get_single_sex_picture(char, act="titsjob", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
-        if sex_scene_libido > 0:
+        if sex_scene_libido > 0 and not char.has_flag("raped_by_player"):
             if sub > 0:
                 "[char.name] massages her boobs, defiantly looking at your crotch."
             elif sub < 0:
@@ -816,22 +859,21 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         else:
             extend " She squeezes you between her soft breasts."
         if ct("Lesbian"):
-            $ skill_for_checking = round(char.get_skill("oral")*0.6 + char.get_skill("sex")*0.1)
+            $ skill_for_checking = round(char.get_skill("oral")*0.8 + char.get_skill("sex")*0.8)
         else:
-            $ skill_for_checking = round(char.get_skill("oral")*0.75 + char.get_skill("sex")*0.25)
-        $ male_skill_for_checking = round(hero.get_skill("oral")*0.75 + hero.get_skill("sex")*0.25)
-        if dice(20):
-            $ char.oral += 1
-        if dice(10):
-            $ hero.oral += 1
+            $ skill_for_checking = round(char.get_skill("oral") + char.get_skill("sex"))
+        $ male_skill_for_checking = round(hero.get_skill("oral") + hero.get_skill("sex"))
+        
+        $ temp = randint(2, 8)
         if (skill_for_checking - male_skill_for_checking) > 250 and dice(50):
-            $ hero.oral += 1
+            $ hero.oral += 5
         if (male_skill_for_checking - skill_for_checking) > 250 and dice(75):
-            $ char.oral += 1
-        if dice(10):
-            $ char.sex += 1
-        if dice(5):
-            $ hero.sex += 1
+            $ temp += randint(5, 15)
+        $ char.oral += temp
+        $ del temp
+        $ char.sex += randint(2, 8)
+        $ hero.sex += randint(2, 8)
+        
         call interaction_sex_scene_check_skill_jobs from _call_interaction_sex_scene_check_skill_jobs_1
     elif current_action == "hand":
         $ get_single_sex_picture(char, act="handjob", location=sex_scene_location, hidden_partner=True)
@@ -843,28 +885,27 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         else:
             "[char.name] takes your dick in her soft hands."
         if ct("Lesbian"):
-            $ skill_for_checking = round(char.get_skill("oral")*0.1 + char.get_skill("sex")*0.6)
+            $ skill_for_checking = round(char.get_skill("oral")*0.8 + char.get_skill("sex")*0.8)
         else:
-            $ skill_for_checking = round(char.get_skill("oral")*0.25 + char.get_skill("sex")*0.75)
-        $ male_skill_for_checking = round(hero.get_skill("oral")*0.25 + hero.get_skill("sex")*0.75)
-        if dice(20):
-            $ char.sex += 1
-        if dice(10):
-            $ hero.sex += 1
+            $ skill_for_checking = round(char.get_skill("oral") + char.get_skill("sex"))
+        $ male_skill_for_checking = round(hero.get_skill("oral") + hero.get_skill("sex"))
+        
+        $ temp = randint(2, 8)
         if (skill_for_checking - male_skill_for_checking) > 250 and dice(50):
-            $ hero.sex += 1
+            $ hero.sex += 5
+        else:
+            $ hero.sex += randint(1, 4)
         if (male_skill_for_checking - skill_for_checking) > 250 and dice(75):
-            $ char.sex += 1
-        if dice(10):
-            $ char.oral += 1
-        if dice(5):
-            $ hero.oral += 1
+            $ temp += randint(10, 15)
+        $ char.sex += temp
+        $ del temp
+        
         call interaction_sex_scene_check_skill_jobs from _call_interaction_sex_scene_check_skill_jobs_2
     elif current_action == "foot":
         $ get_single_sex_picture(char, act="footjob", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
         if sub > 0:
-            if sex_scene_libido > 0:
+            if sex_scene_libido > 0 and not char.has_flag("raped_by_player"):
                 "With a sly smile [char.name] gets closer to you."
             else:
                 "[char.name] gets closer to you."
@@ -895,45 +936,43 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         if "after sex" in image_tags:
             extend " You generously cover her body with your thick liquid."
         if ct("Lesbian"):
-            $ skill_for_checking = round(char.get_skill("oral")*0.1 + char.get_skill("sex")*0.6)
+            $ skill_for_checking = round(char.get_skill("oral")*0.8 + char.get_skill("sex")*0.8)
         else:
-            $ skill_for_checking = round(char.get_skill("oral")*0.25 + char.get_skill("sex")*0.75)
-        $ male_skill_for_checking = round(hero.get_skill("oral")*0.25 + hero.get_skill("sex")*0.75)
-        if dice(20):
-            $ char.sex += 1
-        if dice(10):
-            $ hero.sex += 1
+            $ skill_for_checking = round(char.get_skill("oral") + char.get_skill("sex"))
+        $ male_skill_for_checking = round(hero.get_skill("oral") + hero.get_skill("sex"))
+        
+        $ temp = randint(2, 8)
         if (skill_for_checking - male_skill_for_checking) > 250 and dice(50):
-            $ hero.sex += 1
+            $ hero.sex += 5
+        else:
+            $ hero.sex += randint(1, 4)
         if (male_skill_for_checking - skill_for_checking) > 250 and dice(75):
-            $ char.sex += 1
-        if dice(10):
-            $ char.oral += 1
-        if dice(5):
-            $ hero.oral += 1
+            $ temp += randint(10, 15)
+        $ char.sex += temp
+        $ del temp
+        
         call interaction_sex_scene_check_skill_jobs from _call_interaction_sex_scene_check_skill_jobs_3
     elif current_action == "vag":
         if ct("Lesbian"):
-            $ skill_for_checking = round(char.get_skill("vaginal")*0.6 + char.get_skill("sex")*0.15)
+            $ skill_for_checking = round(char.get_skill("vaginal")*0.8 + char.get_skill("sex")*0.8)
         else:
-            $ skill_for_checking = round(char.get_skill("vaginal")*0.75 + char.get_skill("sex")*0.25)
-        $ male_skill_for_checking = round(hero.get_skill("vaginal")*0.75 + hero.get_skill("sex")*0.25)
-        if dice(20):
-            $ char.vaginal += 1
-        if dice(10):
-            $ hero.vaginal += 1
+            $ skill_for_checking = round(char.get_skill("vaginal") + char.get_skill("sex"))
+        $ male_skill_for_checking = round(hero.get_skill("vaginal") + hero.get_skill("sex"))
+        
+        $ temp = randint(2, 8)
         if (skill_for_checking - male_skill_for_checking) > 250 and dice(50):
-            $ hero.vaginal += 1
+            $ hero.vaginal += 5
         if (male_skill_for_checking - skill_for_checking) > 250 and dice(75):
-            $ char.vaginal += 1
-        if dice(10):
-            $ char.sex += 1
-        if dice(5):
-            $ hero.sex += 1
+            $ temp += randint(10, 15)
+        $ char.vaginal += temp
+        $ del temp
+        $ char.sex += randint(2, 8)
+        $ hero.sex += randint(2, 8)
+        
         $ get_single_sex_picture(char, act="vaginal", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
         if sub > 0:
-            if sex_scene_libido > 0:
+            if sex_scene_libido > 0 and not char.has_flag("raped_by_player"):
                 "[char.name] looking forward to something big inside her pussy."
             else:
                 "[char.name] unenthusiastically prepares her pussy."
@@ -972,7 +1011,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             else:
                 extend " You entered her and asked to start moving."
         else:
-            if sex_scene_libido > 0:
+            if sex_scene_libido > 0 and not char.has_flag("raped_by_player"):
                 "[char.name] doesn't mind you to do her pussy."
             else:
                 "[char.name] silently offers her pussy."
@@ -996,26 +1035,25 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
 
     elif current_action == "anal":
         if ct("Lesbian"):
-            $ skill_for_checking = round(char.get_skill("anal")*0.6 + char.get_skill("sex")*0.15)
+            $ skill_for_checking = round(char.get_skill("anal")*0.8 + char.get_skill("sex")*0.8)
         else:
-            $ skill_for_checking = round(char.get_skill("anal")*0.75 + char.get_skill("sex")*0.25)
-        $ male_skill_for_checking = round(hero.get_skill("anal")*0.75 + hero.get_skill("sex")*0.25)
-        if dice(20):
-            $ char.anal += 1
-        if dice(10):
-            $ hero.anal += 1
+            $ skill_for_checking = round(char.get_skill("anal") + char.get_skill("sex"))
+        $ male_skill_for_checking = round(hero.get_skill("anal") + hero.get_skill("sex"))
+        
+        $ temp = randint(2, 8)
         if (skill_for_checking - male_skill_for_checking) > 250 and dice(50):
-            $ hero.anal += 1
+            $ hero.anal += 5
         if (male_skill_for_checking - skill_for_checking) > 250 and dice(75):
-            $ char.anal += 1
-        if dice(10):
-            $ char.sex += 1
-        if dice(5):
-            $ hero.sex += 1
+            $ temp += randint(10, 15)
+        $ char.anal += temp
+        $ del temp
+        $ char.sex += randint(2, 8)
+        $ hero.sex += randint(2, 8)
+        
         $ get_single_sex_picture(char, act="anal", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
         if sub > 0:
-            if sex_scene_libido > 0:
+            if sex_scene_libido > 0 and not char.has_flag("raped_by_player"):
                 "[char.name] looking forward to something big inside her ass."
             else:
                 "[char.name] unenthusiastically prepares her ass."
@@ -1054,7 +1092,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
             else:
                 extend " You entered her and asked to start moving."
         else:
-            if sex_scene_libido > 0:
+            if sex_scene_libido > 0 and not char.has_flag("raped_by_player"):
                 "[char.name] doesn't mind you to do her ass."
             else:
                 "[char.name] silently offers her ass."
@@ -1088,7 +1126,7 @@ label interaction_sex_scene_check_skill_jobs: # skill level check for one side a
                 $ narrator(choice(["She strokes you gently. She isn't quite sure however what to make of the balls.", "She makes up for her inexperience with determination, carefully stroking your cock."]))
             else:
                 $ narrator(choice(["She squeezes one of your balls too tightly, but stops when you wince.", "She has a firm grip, and she's not letting go."]))
-        elif skill_for_checking < 1000:
+        elif skill_for_checking < 500:
             if sub > 0:
                 $ narrator(choice(["Her fingers cause tingles as they caress the shaft.", "She quickly strokes you, with a very deft pressure."]))
             elif sub < 0:
@@ -1112,7 +1150,7 @@ label interaction_sex_scene_check_skill_jobs: # skill level check for one side a
                 $ narrator(choice(["She slides the cock up and down between her cleavage.", "She squeezes her cleavage as tight as she can and rubs up and down."]))
             else:
                 $ narrator(choice(["She sort of squishes her breasts back and forth around your cock.", "She slaps her tits against your dick, bouncing her whole body up and down."]))
-        elif skill_for_checking < 1000:
+        elif skill_for_checking < 500:
             if sub > 0:
                 $ narrator(choice(["She juggles her breasts up and down around your cock.", "She moves her boobs up and down in a fluid rocking motion."]))
             elif sub < 0:
@@ -1141,7 +1179,7 @@ label interaction_sex_scene_check_skill_jobs: # skill level check for one side a
                 $ narrator(choice(["She tentatively kisses and licks around the head.", "She licks all over your dick, but she doesn't really have a handle on it."]))
             else:
                 $ narrator(choice(["She bobs quickly on your cock, but clamps down a bit too tight.", "She puts the tip in her mouth and starts suck in as hard as she can. She's a little rough at this, but at least she tries her best."]))
-        elif skill_for_checking < 1000:
+        elif skill_for_checking < 500:
             if sub > 0:
                 $ narrator(choice(["She licks her way down the shaft, and gently teases the balls.", "Her mouth envelopes the head, then she quickly draws it in and draws back with a pop."]))
             elif sub < 0:
@@ -1162,19 +1200,19 @@ label interaction_sex_scene_check_skill_jobs: # skill level check for one side a
                 "At the last moment, you pull it out from her mouth, covering her body with your thick liquid."
             else:
                 "She asked you to pull it out from her mouth at the last moment to cover her body with your thick liquid."
-    if skill_for_checking >= 4000:
+    if skill_for_checking >= 2000:
         "She was so good that you profusely came after a few seconds. Pretty impressive."
         $ char.joy += randint(3, 5)
-    elif skill_for_checking >= 2000:
+    elif skill_for_checking >= 1000:
         "You barely managed to hold out for half a minute in the face of her amazing skills."
         $ char.joy += randint(2, 4)
-    elif skill_for_checking >= 1000:
+    elif skill_for_checking >= 500:
         "It was very fast and very satisfying."
         $ char.joy += randint(1, 2)
-    elif skill_for_checking >= 500:
+    elif skill_for_checking >= 200:
         "Nothing extraordinary, but it wasn't half bad either."
         $ char.joy += randint(0, 1)
-    elif skill_for_checking >= 200:
+    elif skill_for_checking >= 100:
         "It took some time and effort on her part. Her skills could be improved."
     elif skill_for_checking >= 50:
         "It looks like [char.name] barely knows what she's doing. Still, she somewhat managed to get the job done."
@@ -1191,19 +1229,19 @@ label interaction_sex_scene_check_skill_jobs: # skill level check for one side a
 
 label interaction_sex_scene_check_skill_acts: # skill level check for two sides actions
     if current_action == "vag":
-        if skill_for_checking >= 4000:
+        if skill_for_checking >= 2000:
             "Her technique is fantastic, your bodies move in perfect synchronization, and her pussy feels like velvet."
             $ char.joy += randint(3, 5)
-        elif skill_for_checking >= 2000:
+        elif skill_for_checking >= 1000:
             "Her refined skills, rhythmic movements, and wet hot pussy quickly brought you to the finish."
             $ char.joy += randint(2, 4)
-        elif skill_for_checking >= 1000:
+        elif skill_for_checking >= 500:
             "Her pussy felt very good, her movement patterns and amazing skills quickly exhausted your ability to hold back."
             $ char.joy += randint(1, 2)
-        elif skill_for_checking >= 500:
+        elif skill_for_checking >= 200:
             "Her movements were pretty good. Nothing extraordinary, but it wasn't half bad either."
             $ char.joy += randint(0, 1)
-        elif skill_for_checking >= 200:
+        elif skill_for_checking >= 100:
             "It took some time and effort on her part. Her pussy could use some training."
             $ char.vitality -= randint(5, 10)
         elif skill_for_checking >= 50:
@@ -1214,19 +1252,19 @@ label interaction_sex_scene_check_skill_acts: # skill level check for two sides 
             $ char.joy -= randint(2, 4)
             $ char.vitality -= randint(10, 15)
     elif current_action == "anal":
-        if skill_for_checking >= 4000:
+        if skill_for_checking >= 2000:
             "Her technique is fantastic, your bodies move in perfect synchronization, and her pussy feels like velvet."
             $ char.joy += randint(3, 5)
-        elif skill_for_checking >= 2000:
+        elif skill_for_checking >= 1000:
             "Her refined skills, rhythmic movements, and tight hot ass quickly brought you to the finish."
             $ char.joy += randint(2, 4)
-        elif skill_for_checking >= 1000:
+        elif skill_for_checking >= 500:
             "Her anus felt very good, her movement patterns and amazing skills quickly exhausted your ability to hold back."
             $ char.joy += randint(1, 2)
-        elif skill_for_checking >= 500:
+        elif skill_for_checking >= 200:
             "Her movements were pretty good. Nothing extraordinary, but it wasn't half bad either."
             $ char.joy += randint(0, 1)
-        elif skill_for_checking >= 200:
+        elif skill_for_checking >= 100:
             "It took some time and effort on her part. Her anus could use some training."
             $ char.vitality -= randint(5, 10)
         elif skill_for_checking >= 50:
@@ -1236,19 +1274,19 @@ label interaction_sex_scene_check_skill_acts: # skill level check for two sides 
             "Her moves were clumsy and untimely, and her anus wasn't quite ready for that. Sadly, she was unable to satisfy you adequately."
             $ char.vitality -= randint(10, 15)
     if sex_scene_libido > 0:
-        if male_skill_for_checking >= 4000:
+        if male_skill_for_checking >= 2000:
             extend " Your bodies merged into a single entity, filling each other with pleasure and satisfaction."
             $ char.joy += randint(3, 5)
-        elif male_skill_for_checking >= 2000:
+        elif male_skill_for_checking >= 1000:
             extend " In the end, you both cum together multiple times."
             $ char.joy += randint(2, 4)
-        elif male_skill_for_checking >= 1000:
+        elif male_skill_for_checking >= 500:
             extend " In the end, you both cum together."
             $ char.joy += randint(1, 2)
-        elif male_skill_for_checking >= 500:
+        elif male_skill_for_checking >= 200:
             extend " You fucked her until you both came. It felt good."
             $ char.joy += randint(0, 1)
-        elif male_skill_for_checking >= 200:
+        elif male_skill_for_checking >= 100:
             extend " You fucked her until you both came."
             $ hero.vitality -= randint(5, 10)
         elif male_skill_for_checking >= 50:
