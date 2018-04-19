@@ -36,8 +36,8 @@
     "goodtraits": ["Broken", "Masochist"]
     },
     {
-    "id": "Ancle Manacles",
-    "desc": "A set of ancle manacles that help to prevent a slave from running away.",
+    "id": "Ankle Manacles",
+    "desc": "A set of manacles that help to prevent a slave from running away.",
     "icon": "content/items/training/am.png",
     "price": 30,
     "sex": "female",
