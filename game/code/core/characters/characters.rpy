@@ -813,6 +813,7 @@ init -9 python:
             # MC's Income Tax
             char = self.instance
             ec = store.pytfall.economy
+            tax = 0
             income = 0
             for b in [i for i in char.buildings if hasattr(i, "fin")]:
                 fin_log = b.fin.game_logical_income_log
@@ -820,9 +821,7 @@ init -9 python:
                     if _day > store.day - days:
                         income += sum(fin_log[_day].values())
 
-            if income < 5000:
-                tax = 0
-            else:
+            if income > 5000:
                 for delimiter, mod in ec.income_tax:
                     if income <= delimiter:
                         tax = round_int(income*mod)
