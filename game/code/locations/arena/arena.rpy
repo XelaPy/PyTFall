@@ -1027,7 +1027,7 @@ init -9 python:
                 mob.controller = Complex_BE_AI(mob)
 
             global battle
-            battle = BE_Core(ImageReference("chainfights"), start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
+            battle = BE_Core(ImageReference("chainfights"), start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve, give_up = "surrender")
             battle.teams.append(hero.team)
             battle.teams.append(team)
             exp_result = exp_reward(hero.team, team)
@@ -1179,7 +1179,7 @@ init -9 python:
                 member.controller = Complex_BE_AI(member)
 
             global battle
-            battle = BE_Core(ImageReference("bg battle_dogfights_1"), start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
+            battle = BE_Core(ImageReference("bg battle_dogfights_1"), start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve, give_up = "surrender")
             battle.teams.append(hero.team)
             battle.teams.append(team)
             exp_result = exp_reward(hero.team, team)
@@ -1257,7 +1257,7 @@ init -9 python:
                 member.controller = Complex_BE_AI(member)
 
             global battle
-            battle = BE_Core(ImageReference("bg battle_arena_1"), start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
+            battle = BE_Core(ImageReference("bg battle_arena_1"), start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve, give_up = "surrender")
             battle.teams.append(hero.team)
             battle.teams.append(team)
             exp_result = exp_reward(hero.team, team)

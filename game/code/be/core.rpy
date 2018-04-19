@@ -28,13 +28,15 @@ init -1 python: # Core classes:
         """
         def __init__(self, bg=Null(), music=None, row_pos=None, start_sfx=None,
                      end_sfx=None, logical=False, quotes=False,
-                     max_skill_lvl=float("inf"), max_turns=1000):
+                     max_skill_lvl=float("inf"), max_turns=1000, give_up=None):
             """Creates an instance of BE scenario.
 
             logical: Just the calculations, without pause/gfx/sfx.
             """
             self.teams = list() # Each team represents a faction on the battlefield. 0 index for left team and 1 index for right team.
             self.queue = list() # List of events in BE..
+            self.give_up = give_up # allows to avoid battle in one way or another
+            
             self.max_turn = max_turns
 
             if not logical:
@@ -124,18 +126,28 @@ init -1 python: # Core classes:
                         w, h = fighter.besprite_size
                         renpy.show("its_my_turn", at_list=[Transform(additive=.6, alpha=.7, size=(int(w*1.5), h/3), pos=battle.get_cp(fighter, type="bc", yo=20), anchor=(.5, 1.0))], zorder=fighter.besk["zorder"]+1)
 
-                        while not (s and t):
-                            s = renpy.call_screen("pick_skill", fighter)
-                            s.source = fighter
+                        while not (s and t) and s != "surrender":
+                            s = renpy.call_screen("pick_skill", fighter, self.give_up)
+                            if s == "surrender":
+                                if renpy.call_screen("yesno_prompt", message="Are you sure you wish to surrender?", yes_action=Return(True), no_action=Return(False)):
+                                    break
+                                    
+                            if s != "surrender":
+                                s.source = fighter
 
-                            # Unique check for Skip Skill:
-                            if isinstance(s, BE_Skip):
-                                break
+                                # Unique check for Skip Skill:
+                                if isinstance(s, BE_Skip):
+                                    break
 
-                            # Call the targeting screen:
-                            targets = s.get_targets()
+                                # Call the targeting screen:
+                                targets = s.get_targets()
 
-                            t = renpy.call_screen("target_practice", s, fighter, targets)
+                                t = renpy.call_screen("target_practice", s, fighter, targets)
+                            else:
+                                s = None
+                                
+                        if s == "surrender":
+                            break
 
                         # We don't need to see status icons during skill executions!
                         if not self.logical:
@@ -175,7 +187,8 @@ init -1 python: # Core classes:
                 # We check the conditions for terminating the BE scenario, this should prolly be end turn event as well, but I've added this before I've added events :)
                 if self.check_break_conditions():
                     break
-
+            if s == "surrender":
+                self.win = False
             self.end_battle()
 
         def start_battle(self):

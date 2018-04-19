@@ -44,7 +44,7 @@ init: # screens:
                     
             key "mouseup_3" action Return(False)
 
-    screen pick_skill(char):
+    screen pick_skill(char, give_up):
         zorder 2
 
         default tt = Tooltip("")
@@ -154,6 +154,10 @@ init: # screens:
                 textbutton "Skip":
                     xminimum 100
                     action Return(BE_Skip(char))
+                if give_up == "surrender":
+                    textbutton "Surrender":
+                        xminimum 100
+                        action Return("surrender")
 
         elif menu_mode == "attacks":
             frame:
