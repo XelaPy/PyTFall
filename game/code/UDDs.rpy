@@ -73,7 +73,7 @@ init -999 python:
             fi = Fixed(xysize=(70, 70), pos=(10, -60))
             frame = Transform("content/gfx/frame/p_frame.png", size=(70, 70))
             fi.add(frame)
-            portrait = attacker.show("portrait", "angry", resize=(65, 65))
+            portrait = attacker.show("portrait", "angry", resize=(65, 65), type='reduce')
             portrait = Transform(portrait, align=(.5, .5))
             fi.add(portrait)
 
