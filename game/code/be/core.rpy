@@ -36,7 +36,7 @@ init -1 python: # Core classes:
             self.teams = list() # Each team represents a faction on the battlefield. 0 index for left team and 1 index for right team.
             self.queue = list() # List of events in BE..
             self.give_up = give_up # allows to avoid battle in one way or another
-            
+
             self.max_turn = max_turns
 
             if not logical:
@@ -99,6 +99,8 @@ init -1 python: # Core classes:
             """
             Handles events on the battlefield until something that can break the loop is found.
             """
+            s = None # Clear this on first BE review.
+
             while 1:
                 # We run events queued at the start of the turn first:
                 for event in self.start_turn_events[:]:
@@ -131,7 +133,7 @@ init -1 python: # Core classes:
                             if s == "surrender":
                                 if renpy.call_screen("yesno_prompt", message="Are you sure you wish to surrender?", yes_action=Return(True), no_action=Return(False)):
                                     break
-                                    
+
                             if s != "surrender":
                                 s.source = fighter
 
@@ -145,7 +147,7 @@ init -1 python: # Core classes:
                                 t = renpy.call_screen("target_practice", s, fighter, targets)
                             else:
                                 s = None
-                                
+
                         if s == "surrender":
                             break
 
@@ -187,8 +189,10 @@ init -1 python: # Core classes:
                 # We check the conditions for terminating the BE scenario, this should prolly be end turn event as well, but I've added this before I've added events :)
                 if self.check_break_conditions():
                     break
+
             if s == "surrender":
                 self.win = False
+
             self.end_battle()
 
         def start_battle(self):
