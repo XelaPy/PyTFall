@@ -248,7 +248,7 @@ label dev_testing_menu_and_load_mc:
             "Debug Mode":
                 $ hero.traits.basetraits.add(traits["Mage"])
                 $ hero.apply_trait(traits["Mage"])
-                $ tier_up_to(hero, 2.5, level_bios=(.9, 1.1), skill_bios=(.8, 1.2), stat_bios=(.8, 1.0))
+                $ tier_up_to(hero, 10, level_bios=(.9, 1.1), skill_bios=(.8, 1.2), stat_bios=(.8, 1.0))
             "Content":
                 menu:
                     "Test Intro":

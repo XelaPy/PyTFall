@@ -281,13 +281,15 @@ init -1 python: # Core classes:
                     gfx_overlay.notify("You Lose!", tkwargs=tkwargs)
                 else:
                     renpy.show("escape_gates", what="portal_webm",  at_list=[Transform(align=(.5, .5))], zorder=100)
+                    renpy.sound.play("content/sfx/sound/be/escape_portal.ogg")
                 
                     tkwargs = {"color": gray,
                                "outline_color": black}
-                    gfx_overlay.notify("Meh :(", tkwargs=tkwargs)
+                    gfx_overlay.notify("Escaped...", tkwargs=tkwargs)
 
                 if self.win is None:
-                    renpy.pause(2.7)
+                    renpy.pause(0.1, hard=True)
+                    renpy.pause(1.3)
                 else:
                     renpy.pause(.6) # Small pause before terminating the engine.
 
