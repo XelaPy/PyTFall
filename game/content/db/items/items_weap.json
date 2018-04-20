@@ -793,7 +793,7 @@
     "locations": ["Exploration", "Arena"],
     "tier": 4,
     "pref_class":["Warrior", "Assassin"],
-    "addtraits": ["Grim Reaper"]
+    "addtraits": ["Grim Reaper", "Healing Immunity"]
     },
     {
     "id": "Wooden Club",

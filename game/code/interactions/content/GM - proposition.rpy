@@ -66,13 +66,13 @@ label interactions_sparring: # sparring with MC, for Combatant occupations only
     python:
         enemy_team = Team(name="Enemy Team")
         enemy_team.add(char)
-        result = run_default_be(enemy_team, background=back)
+        result = run_default_be(enemy_team, background=back, give_up="surrender")
 
-    if result == True:
+    if result is True:
         python:
             for member in hero.team:
                 member.exp += char.level*10
-    else:
+    elif result is False:
         $ char.exp += hero.level*10
     if char.health < char.get_max("health")*.5:
         $ char.health = int(char.get_max("health")*.5)
@@ -86,6 +86,7 @@ label interactions_sparring: # sparring with MC, for Combatant occupations only
         scene expression select_girl_room(char, gm.img)
     else:
         show expression gm.bg_cache
+
     call interactions_postsparring_lines from _call_interactions_postsparring_lines
     jump girl_interactions
 
@@ -113,7 +114,10 @@ label interactions_presparring_lines: # lines before sparring
     return
 
 label interactions_postsparring_lines: # lines after sparring
-    $ char.disposition += randint(15, 30)
+    if result:
+        $ char.disposition += randint(15, 30)
+    else:
+        $ char.disposition += randint(2, 5)
     if ct("Impersonal") in  char.traits:
         $ rc("Practice is over. Switching to standby mode.", "An unsurprising victory.")
     elif ct("Imouto"):
