@@ -158,7 +158,11 @@ init: # screens:
                     textbutton "Surrender":
                         xminimum 100
                         action Return("surrender")
-
+                elif give_up == "escape":
+                    textbutton "Escape":
+                        xminimum 100
+                        action Return("escape")
+                        
         elif menu_mode == "attacks":
             frame:
                 at fade_in_out(t1=.6, t2=.3)
