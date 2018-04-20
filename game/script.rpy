@@ -250,7 +250,7 @@ label dev_testing_menu_and_load_mc:
                 $ hero.apply_trait(traits["Mage"])
                 menu:
                     "Level 1":
-                        $ n=1
+                        $ n=0
                     "Overpowered":
                         $ n=10
                 $ tier_up_to(hero, n, level_bios=(.9, 1.1), skill_bios=(.8, 1.2), stat_bios=(.8, 1.0))

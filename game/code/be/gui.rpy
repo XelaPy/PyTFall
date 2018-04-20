@@ -410,12 +410,14 @@ init: # screens:
                     action SetField(be, "terminate", True)
                     
         $ img = im.Scale("content/gfx/interface/buttons/close.png", 35, 35) 
-        imagebutton: # Don't touch this button, Xela! People do need to exist to main menu during BE, and pressing Esc is not obvious!
-            align(.995, .005)
-            idle img
-            hover im.MatrixColor(img, im.matrix.brightness(.25))
-            insensitive_background im.Sepia(img)
-            action MainMenu()
+        
+        if DEBUG:
+            imagebutton:
+                align(.995, .005)
+                idle img
+                hover im.MatrixColor(img, im.matrix.brightness(.25))
+                insensitive_background im.Sepia(img)
+                action MainMenu()
 
         # Pos visualization:
         # if True:
