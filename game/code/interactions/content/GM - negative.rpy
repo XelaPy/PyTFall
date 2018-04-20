@@ -64,9 +64,9 @@ label interactions_escalation: # character was provoked to attack MC
     python:
         enemy_team = Team(name="Enemy Team")
         enemy_team.add(char)
-        result = run_default_be(enemy_team, background=back)
+        result = run_default_be(enemy_team, background=back, give_up="surrender")
 
-    if result == True:
+    if result is True:
         python:
             for member in hero.team:
                 member.exp += char.level*10
