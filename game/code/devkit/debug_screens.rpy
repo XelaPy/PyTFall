@@ -19,9 +19,11 @@ screen debug_tools():
                 textbutton "R":
                     action ui.callsinnewcontext("_save_reload_game")
             add DynamicDisplayable(dd_cursor_position)
-            # $ screen_link(last_label) # PICKLING ISSUES!
             text "[last_label]" size 10
+            text "{}".format(renpy.get_filename_line()) size 10
             text "Call Stack: " + str(renpy.call_stack_depth()) size 10
+            for i in renpy.game.context().return_stack:
+                text str(i) size 10
 
 
 style chars_debug_text:

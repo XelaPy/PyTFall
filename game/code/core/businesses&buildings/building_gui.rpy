@@ -1165,6 +1165,7 @@ init: # Screens:
                                                 action NullAction()
                                                 tooltip "{} Gold required!".format(cost)
                                             text "[cost]" align .95, .5 style "proper_stats_text"
+
                                         # We presently allow for 3 resources each upgrade. If more, this needs to be a conditioned viewport:
                                         for r, amount in materials.items():
                                             $ r = items[r]

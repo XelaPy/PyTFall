@@ -141,19 +141,6 @@ init -999 python:
 
                 return resolve_lib_file(r.filename, r.linenumber)
 
-    def screen_link(name):
-
-        r = get_screen_src(name) or get_label_src(name)
-
-        if r:
-            def clicked():
-                renpy.exports.launch_editor([r[0]], r[1], transient=1)
-
-            return ui.textbutton("{size=10}"+name+"{/size}", clicked=clicked,
-                                 xpos=10, background="#00000033")
-
-        return ui.text(name, xpos=10, size=10)
-
     # Object to specify a lack of value when None can be considered valid.
     # Use as "x is undefined".
     undefined = object()
