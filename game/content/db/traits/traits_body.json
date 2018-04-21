@@ -37,7 +37,7 @@
     "blocks": ["Abnormally Large Boobs", "Average Boobs", "Big Boobs"],
     "min": {"agility": 5},
     "max": {"charisma": -10, "agility": 10},
-    "mod_stats": {"charisma": [-2, 2], "agility": [1, 2]},
+    "mod_stats": {"charisma": [-1, 5], "agility": [1, 2]},
     "mod_skills": {"strip": [-0.2, 0, -0.1], "dancing": [0.05, 0, 0.05]},
     "breasts": true,
     "evasion_bonus": [5, 5, 1],
