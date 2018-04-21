@@ -601,7 +601,7 @@ init -10 python:
                 materials[k] = round_int(v*min(tier, 4))
 
             in_slots = ext.in_slots + cap*ext.exp_cap_in_slots
-            ex_slots = ext.ex_slots * cap*ext.exp_cap_ex_slots
+            ex_slots = ext.ex_slots + cap*ext.exp_cap_ex_slots
 
             return cost, materials, in_slots, ex_slots
 
