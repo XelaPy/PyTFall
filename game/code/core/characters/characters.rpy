@@ -1124,7 +1124,7 @@ init -9 python:
                 training += training_range + beyond_training / 3.0
             else:
                 training += action
-            return training * max(min(self.skills_multipliers[skill][2], 1.5), .5)
+            return training * max(min(self.skills_multipliers[skill][2], 2.5), .5)
 
         def is_skill(self, key):
             # Easy check for skills.
@@ -1321,7 +1321,7 @@ init -9 python:
 
             if from__setattr__:
                 value -= self.skills[key][at]
-            value *= max(.5, min(self.skills_multipliers[key][at], 1.5))
+            value *= max(.5, min(self.skills_multipliers[key][at], 2.5))
 
             threshold = SKILLS_THRESHOLD[key]
             beyond_training = current_full_value - threshold
@@ -1497,7 +1497,7 @@ init -9 python:
                                     mod_training += training_range - mod_action + beyond_training/3.0
 
                             mod_training += mod_action
-                            new_skill = mod_training*max(min(mod_skill_multiplier, 1.5), .5)
+                            new_skill = mod_training*max(min(mod_skill_multiplier, 2.5), .5)
                             if new_skill < min_value:
                                 weights.append(-111)
                                 continue
