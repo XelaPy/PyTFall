@@ -304,7 +304,7 @@ init:
                     xalign .5
                     has vbox spacing 4 xfill True
                     $ temp = sorted(list(hero.friends | hero.lovers), key=attrgetter("name"))
-                    $ temp = list(i for i in temp if i not in hero.chars)
+                    $ temp = list(i for i in temp if (i not in hero.chars) and i.is_available)
                     for char in temp:
                         $ not_escaped = char not in pytfall.ra
                         frame:
@@ -623,7 +623,7 @@ init:
                                 hovered tt.Action("Toggle between rows in battle, currently selected front row")
                             else:
                                 hovered tt.Action("Toggle between rows in battle, currently selected back row")
-                                
+
                         if member != hero:
                             imagebutton:
                                 align (1.0, 1.0)
