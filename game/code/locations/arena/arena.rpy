@@ -1356,7 +1356,7 @@ init -9 python:
             # Line-up positioning:
             self.update_setups(winner, loser)
 
-            hero.fighting_days.remove(day)
+            hero.fighting_days = []
             jump("arena_inside")
 
         def next_day(self):
