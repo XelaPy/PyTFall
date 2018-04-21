@@ -248,7 +248,13 @@ label dev_testing_menu_and_load_mc:
             "Debug Mode":
                 $ hero.traits.basetraits.add(traits["Mage"])
                 $ hero.apply_trait(traits["Mage"])
-                $ tier_up_to(hero, 10, level_bios=(.9, 1.1), skill_bios=(.8, 1.2), stat_bios=(.8, 1.0))
+                menu:
+                    "Level 1":
+                        $ n=0
+                    "Overpowered":
+                        $ n=10
+                $ tier_up_to(hero, n, level_bios=(.9, 1.1), skill_bios=(.8, 1.2), stat_bios=(.8, 1.0))
+                $ del n
             "Content":
                 menu:
                     "Test Intro":
@@ -358,10 +364,6 @@ label after_load:
         for id, char in updated_chars.items():
             if id not in store.chars:
                 store.chars[id] = char
-
-        load_characters("npc", NPC)
-        store.rchars = load_random_characters()
-        load_special_arena_fighters()
 
     # Complete hack:
     python hide:

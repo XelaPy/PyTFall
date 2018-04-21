@@ -157,14 +157,27 @@ label city_dark_forest_hideout:
             jump forest_dark_continue
 
     call city_dark_forest_hideout_fight from _call_city_dark_forest_hideout_fight
-
+    if result is None:
+        $ be_hero_escaped(hero.team)
+        scene black
+        pause 1.0
+        jump forest_dark_continue
+    
     $ N = randint(1, 3)
     $ j = 0
     while j < N:
         scene bg forest_hideout
         with dissolve
+
         "Another group is approaching you!"
+                
         call city_dark_forest_hideout_fight from _call_city_dark_forest_hideout_fight_1
+        if result is None:
+            $ be_hero_escaped(hero.team)
+            scene black
+            pause 1.0
+            jump forest_dark_continue
+        
         $ j += 1
 
     if persistent.battle_results:
@@ -199,13 +212,15 @@ label city_dark_forest_hideout_fight:
             enemy_team.add(mob)
 
     $ place = interactions_pick_background_for_fight("forest")
-    $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=True)
+    $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=True, give_up="escape")
     if result is True:
         $ exp = exp_reward(hero.team, enemy_team)
         scene expression forest_location
         if persistent.battle_results:
             show screen give_exp_after_battle(hero.team, exp)
-        return
+    elif result is False:
+        jump game_over
+    return
 
 label city_dark_forest_fight:
     $ forest_bg_change = False
@@ -301,7 +316,7 @@ label city_dark_forest_fight:
                 enemy_team.add(mob)
 
     $ place = interactions_pick_background_for_fight("forest")
-    $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=True)
+    $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=True, give_up="escape")
 
     if result is True:
         scene expression forest_location
@@ -315,8 +330,13 @@ label city_dark_forest_fight:
         if persistent.battle_results:
             show screen give_exp_after_battle(hero.team, exp)
         jump forest_dark_continue
-    else:
+    elif result is False:
         jump game_over
+    else:
+        $ be_hero_escaped(hero.team)
+        scene black
+        pause 1.0
+        jump forest_dark_continue
 
 label dark_forest_girl_meet:
     $ hero.set_flag("dark_forest_met_girl", value=day)

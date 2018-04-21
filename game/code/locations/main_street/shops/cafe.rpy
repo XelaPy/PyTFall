@@ -32,7 +32,7 @@ label cafe:
         w "Welcome to the Cafe!"
         "Here you can buy food and tasty beverages!"
     $ inviting_character = hero
-    if dice(30) and len(hero.team)>1 and hero.flag("ate_in_cafe") != day: # the chance for a member of MC team to invite team
+    if dice(50) and len(hero.team)>1 and hero.flag("ate_in_cafe") != day: # the chance for a member of MC team to invite team
         python:
             members = [] # all chars willing to invite will be in this list
             for member in hero.team:
@@ -48,7 +48,7 @@ label cafe:
 
             "Yes":
                 $ del members
-                jump cafe_invitation
+                jump mc_action_cafe_invitation
             "No":
                 $ del members
 

@@ -581,7 +581,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "permanent",
-    "mod": {"luck": 5},
+    "mod": {"luck": 10},
     "locations": ["Exploration", "Arena"]
     },
     {
@@ -1108,7 +1108,7 @@
     "chance": 10,
     "badness": 10,
     "eqchance": 90,
-    "mod": {"joy": 40, "luck": 1},
+    "mod": {"joy": 40, "luck": 5},
     "hidden": true,
     "infinite": false,
     "slot": "consumable",
