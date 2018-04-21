@@ -62,6 +62,13 @@ screen prison_break_controls(): # control buttons screen
                 action [Hide("prison_break_controls"), Jump("forest_dark")]
                 text "Exit" size 15
 
+            if DEBUG:
+                button:
+                    xysize (120, 40)
+                    yalign 0.5
+                    action [Hide("prison_break_controls"), Jump("storyi_bossroom")]
+                    text "Test Boss" size 15
+
 label storyi_bossroom:
     stop music
     stop world fadeout 2.0
