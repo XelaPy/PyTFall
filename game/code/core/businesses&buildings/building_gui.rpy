@@ -328,7 +328,7 @@ init: # Screens:
                     xysize (135, 40)
                     action Show("building_adverts")
                     hovered tt.action('Advertise this building to attract more and better customers')
-                    sensitive building.can_advert
+                    sensitive building.can_advert and building.workable
                     text "Advertise"
                 button:
                     xysize (135, 40)
