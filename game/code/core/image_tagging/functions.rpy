@@ -65,23 +65,23 @@ init -11 python:
         tagslog.debug(msg % ", ".join(sorted(tagmap.keys())))
         return tagmap
 
-    def rebuild_tagsjson():
-        # No longer used...
-        '''Rebuilds the JSON files storing the image tags.
-        '''
-        tagdb = TagDatabase()
-        charsdir = os.path.join(gamedir, "content", "chars")
-        datafiles = locate_files("data.xml", charsdir)
-        # generate tags based on filename
-        tagmap = generate_tags()
-        for tag in tagmap:
-            imgpaths = tagmap[tag]
-            for p in imgpaths:
-                tagdb.add_tag(tag, p)
-        # dump the tags in the database into their respective JSON file
-        targetdirs = [os.path.dirname(df) for df in datafiles]
-        targets = [os.path.join(td, "tags.json") for td in targetdirs]
-        tagdb.dump_json(targets)
+    # def rebuild_tagsjson():
+    #     # No longer used...
+    #     '''Rebuilds the JSON files storing the image tags.
+    #     '''
+    #     tagdb = TagDatabase()
+    #     charsdir = os.path.join(gamedir, "content", "chars")
+    #     datafiles = locate_files("data.xml", charsdir)
+    #     # generate tags based on filename
+    #     tagmap = generate_tags()
+    #     for tag in tagmap:
+    #         imgpaths = tagmap[tag]
+    #         for p in imgpaths:
+    #             tagdb.add_tag(tag, p)
+    #     # dump the tags in the database into their respective JSON file
+    #     targetdirs = [os.path.dirname(df) for df in datafiles]
+    #     targets = [os.path.join(td, "tags.json") for td in targetdirs]
+    #     tagdb.dump_json(targets)
 
     def normalize_path(path, start=""):
         # No longer used...

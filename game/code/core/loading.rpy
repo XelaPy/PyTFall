@@ -681,35 +681,35 @@ label load_resources:
 label load_building_upgrades:
     return
 
-label load_json_tags:
-    python:
-        # -----------------------------------------------
-        # load image tags into the tag database
-        tl.start("Loading: JSON Tags (OldStyle)")
-        charsdir = os.path.join(gamedir, "content", "chars")
-        rcharsdir = os.path.join(gamedir, "content", "rchars")
-        jsonfiles = locate_files("tags.json", charsdir)
-        rg_jsonfiles = locate_files("tags.json", rcharsdir)
-
-        jsontagdb = TagDatabase.from_json([jsonfiles, rg_jsonfiles])
-        tagslog.info("loaded %d images from tags.json files" % jsontagdb.count_images())
-
-        del charsdir
-        del rcharsdir
-        del jsonfiles
-        del rg_jsonfiles
-
-        # raise Exception, tagdb.__dict__["tagmap"].keys()[1:10]
-        for tag in jsontagdb.tagmap.keys():
-            if tag.startswith("("):
-                del jsontagdb.tagmap[tag]
-            try:
-                int(tag)
-                del jsontagdb.tagmap[tag]
-            except ValueError:
-                pass
-        tl.end("Loading: JSON Tags (OldStyle)")
-    return
+# label load_json_tags:
+#     python:
+#         # -----------------------------------------------
+#         # load image tags into the tag database
+#         tl.start("Loading: JSON Tags (OldStyle)")
+#         charsdir = os.path.join(gamedir, "content", "chars")
+#         rcharsdir = os.path.join(gamedir, "content", "rchars")
+#         jsonfiles = locate_files("tags.json", charsdir)
+#         rg_jsonfiles = locate_files("tags.json", rcharsdir)
+#
+#         jsontagdb = TagDatabase.from_json([jsonfiles, rg_jsonfiles])
+#         tagslog.info("loaded %d images from tags.json files" % jsontagdb.count_images())
+#
+#         del charsdir
+#         del rcharsdir
+#         del jsonfiles
+#         del rg_jsonfiles
+#
+#         # raise Exception, tagdb.__dict__["tagmap"].keys()[1:10]
+#         for tag in jsontagdb.tagmap.keys():
+#             if tag.startswith("("):
+#                 del jsontagdb.tagmap[tag]
+#             try:
+#                 int(tag)
+#                 del jsontagdb.tagmap[tag]
+#             except ValueError:
+#                 pass
+#         tl.end("Loading: JSON Tags (OldStyle)")
+#     return
 
 label convert_json_to_filenames:
     if not jsontagdb.tagmap:
