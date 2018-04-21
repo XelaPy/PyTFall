@@ -51,7 +51,7 @@ init -5 python:
                 if dirt >= 900:
                     if building.auto_clean:
                         price = building.get_cleaning_price()
-                        if hero.take_money(price):
+                        if hero.take_money(price, "Hired Cleaners"):
                             building.dirt = 0
                             dirt = 0
                             temp = "{}: {} Building was auto-cleaned!".format(self.env.now,

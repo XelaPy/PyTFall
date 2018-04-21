@@ -56,7 +56,7 @@ init -5 python:
                     if True:
                         price = 500*building.get_max_client_capacity()*(building.tier or 1)
                         price = min(hero.gold, price)
-                        if hero.take_money(price):
+                        if hero.take_money(price, "Police"):
                             building.threat = 0
                             threat = 0
                             temp = "Police arrived at {}!".format(building.name)
