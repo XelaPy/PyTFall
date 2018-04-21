@@ -544,7 +544,7 @@
     "max": {"agility": 25},
     "locations": ["Exploration", "Arena"],
     "tier": 3,
-    "addtraits": ["Water Focus"],
+    "addtraits": ["Electricity Focus"],
     "pref_class":["Mage"]
     },
     {

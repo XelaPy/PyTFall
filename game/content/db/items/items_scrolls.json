@@ -1185,7 +1185,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Life Wind"]
+    "add_be_spells": ["Life Wind"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Curer Scroll",
@@ -1201,7 +1202,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Curer"]
+    "add_be_spells": ["Curer"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Restoration Scroll",
@@ -1217,7 +1219,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Restoration"]
+    "add_be_spells": ["Restoration"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Revive Scroll",
@@ -1233,7 +1236,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Revive"]
+    "add_be_spells": ["Revive"],
+    "locations": ["Aine Shop"]
     },
     {
     "id": "Poison Scroll",
@@ -1242,14 +1246,15 @@
     "price": 500,
     "tier": 0,
     "sex": "unisex",
-    "chance": 30,
+    "chance": 90,
     "badness": 80,
     "eqchance": 40,
     "hidden": false,
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Poison"]
+    "add_be_spells": ["Poison"],
+    "locations": ["Ninja Shop"]
     },
     {
     "id": "Deadly Poison Scroll",
@@ -1265,7 +1270,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Deadly Poison"]
+    "add_be_spells": ["Deadly Poison"],
+    "locations": ["Ninja Shop"]
     },
     {
     "id": "Aery Field Scroll",
@@ -1281,7 +1287,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Aery Field"]
+    "add_be_spells": ["Aery Field"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Aery Shield Scroll",
@@ -1297,7 +1304,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Aery Shield"]
+    "add_be_spells": ["Aery Shield"],
+    "locations": ["Witch Spells Shop"]
     },
     {
     "id": "Arcane Field Scroll",
@@ -1313,7 +1321,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Arcane Field"]
+    "add_be_spells": ["Arcane Field"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Arcane Shield Scroll",
@@ -1329,7 +1338,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Arcane Shield"]
+    "add_be_spells": ["Arcane Shield"],
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Solid Field Scroll",
@@ -1345,7 +1355,8 @@
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Solid Field"]
+    "add_be_spells": ["Solid Field"],
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Solid Shield Scroll",
@@ -1361,6 +1372,7 @@
     "infinite": false,
     "slot": "consumable",
     "type": "scroll",
-    "add_be_spells": ["Solid Shield"]
+    "add_be_spells": ["Solid Shield"],
+    "locations": ["Peevish Shop"]
     }
   ]
