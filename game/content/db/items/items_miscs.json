@@ -610,7 +610,7 @@
     "slot": "misc",
     "type": "upgrade",
     "mtemp": 1,
-    "mreusable": false,
+    "mreusable": true,
     "mdestruct": false,
     "mod": {"vitality": -5},
     "mod_skills": {"anal": [0, 0, 0, 1, 0]},

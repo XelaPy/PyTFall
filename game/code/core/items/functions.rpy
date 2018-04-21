@@ -86,12 +86,11 @@ init -11 python:
                         renpy.show_screen("message_screen", "This item has been used recently by {}, it cannot be used again for one turn.".format(character.name))
                 return
 
-        # TODO items: why is this disabled, exactly? miscblock is a legit thing
-        # elif item.slot == 'misc':
-            # if item.id in character.miscblock:
-                # if not silent:
-                    # renpy.show_screen("message_screen", "This item has been already used by {}, and cannot be used again.".format(character.name))
-                # return
+        elif item.slot == 'misc':
+            if item in character.miscblock:
+                if not silent:
+                    renpy.show_screen("message_screen", "This item has been already used by {}, and cannot be used again.".format(character.name))
+                return
 
         if isinstance(character, PytGroup):
             if item.jump_to_label:
