@@ -1471,3 +1471,72 @@ screen tutorial(level=1):
             background None
             xysize (1280, 720)
             action Hide("tutorial")
+            
+screen digital_keyboard(line= ""):
+    default current_number = "0"
+    modal True
+    
+    if line:
+        frame:
+            background Frame("content/gfx/frame/MC_bg3.png", 5, 5)
+            align(.5, .1)
+            xysize (600, 100)
+            text line color gold xalign .5 size 20 outlines [(1, "#000000", 0, 0)] align (.5, .5) text_align .5
+    
+    frame:
+        xysize (250, 250)
+        background Frame("content/gfx/frame/MC_bg3.png")
+        align (.5, .5)
+        
+        frame:
+            align (.5, .05)
+            background Frame("content/gfx/frame/rank_frame.png")
+            xysize (200, 45)
+            text current_number color gold xalign .5 size 20 outlines [(1, "#000000", 0, 0)] align (1.0, .5)
+        
+        vpgrid:
+            rows 4
+            cols 3
+            spacing 5
+            align (.5, .7)
+            xysize (190, 135)
+            for i in range(1, 10):
+                button:
+                    xysize(60, 30)
+                    background "content/gfx/interface/buttons/hp_1s.png"
+                    hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/hp_1s.png", im.matrix.brightness(.10)))
+                    text str(i) color gold size 22 outlines [(1, "#000000", 0, 0)] align (.5, .5) text_align .5
+                    action SetScreenVariable("current_number", digital_screen_logic(current_number, str(i)))
+            button:
+                xysize(60, 30)
+                background "content/gfx/interface/buttons/hp_1s.png"
+                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/hp_1s.png", im.matrix.brightness(.10)))
+                text str("C") color gold size 22 outlines [(1, "#000000", 0, 0)] align (.5, .5) text_align .5
+                action SetScreenVariable("current_number", "0")
+            button:
+                xysize(60, 30)
+                background "content/gfx/interface/buttons/hp_1s.png"
+                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/hp_1s.png", im.matrix.brightness(.10)))
+                text "0" color gold size 22 outlines [(1, "#000000", 0, 0)] align (.5, .5) text_align .5
+                action SetScreenVariable("current_number", digital_screen_logic(current_number, "0"))
+            button:
+                xysize(60, 30)
+                background "content/gfx/interface/buttons/hp_1s.png"
+                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/hp_1s.png", im.matrix.brightness(.10)))
+                text str("E") color gold size 22 outlines [(1, "#000000", 0, 0)] align (.5, .5) text_align .5
+                action Return(int(current_number))
+                
+    key "mousedown_3" action Return(0)
+    key "K_ESCAPE" action Return(0)
+    key "1" action SetScreenVariable("current_number", digital_screen_logic(current_number, "1"))
+    key "2" action SetScreenVariable("current_number", digital_screen_logic(current_number, "2"))
+    key "3" action SetScreenVariable("current_number", digital_screen_logic(current_number, "3"))
+    key "4" action SetScreenVariable("current_number", digital_screen_logic(current_number, "4"))
+    key "5" action SetScreenVariable("current_number", digital_screen_logic(current_number, "5"))
+    key "6" action SetScreenVariable("current_number", digital_screen_logic(current_number, "6"))
+    key "7" action SetScreenVariable("current_number", digital_screen_logic(current_number, "7"))
+    key "8" action SetScreenVariable("current_number", digital_screen_logic(current_number, "8"))
+    key "9" action SetScreenVariable("current_number", digital_screen_logic(current_number, "9"))
+    key "0" action SetScreenVariable("current_number", digital_screen_logic(current_number, "0"))
+    key "K_RETURN" action Return(int(current_number))
+    key "K_SPACE" action SetScreenVariable("current_number", "0")
