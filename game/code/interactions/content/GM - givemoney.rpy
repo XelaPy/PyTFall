@@ -4,39 +4,35 @@ label interactions_giftmoney:
     else:
         "You already did it recently, she does not want to abuse your generosity."
         jump girl_interactions
+    
+    $ line = "You have " + str(hero.gold) + " gold.How much money you want to give?"
+    
+    $ money = renpy.call_screen("digital_keyboard", line=line)
 
-    $ temp = renpy.input("You proposed to help her with money. You have {} G.".format(hero.gold), allow="1234567890")
-
-    if not temp:
+    if money <= 0 or not money:
         "You changed your mind."
+        $ del money
         jump girl_interactions
-    else:
-        $ temp = int(temp)
-
-    if temp == 0:
-        "You changed your mind."
-        $ del temp
-        jump girl_interactions
-    if temp > hero.gold:
+    if money > hero.gold:
         "You don't have that amount of gold."
-        $ del temp
+        $ del money
         jump girl_interactions
     if char.gold >= locked_random("randint", 500, 1000):
-        if round(char.gold/temp) > 5:
+        if round(char.gold/money) > 5:
             call interactions_not_enough_gold from _call_interactions_not_enough_gold
             $ char.disposition -= (randint(9, 25))
-            $ del temp
+            $ del money
             jump girl_interactions
-    if hero.take_money(temp, reason="Charity"):
-        $ char.add_money(temp, reason="Charity")
-        "You gave her [temp] G."
-        if round(char.gold/temp) <= 1:
+    if hero.take_money(money, reason="Charity"):
+        $ char.add_money(money, reason="Charity")
+        "You gave her [money] G."
+        if round(char.gold/money) <= 1:
             "She enthusiastically accepts money. It looks like it's a considerable sum for her."
             $ a = 20
             $ b = 50
             $ hero.exp += randint(10, 20)
             $ char.exp += randint(10, 20)
-        elif round(char.gold/temp) <= 3:
+        elif round(char.gold/money) <= 3:
             "She gratefully accepts your money. Times are tough."
             $ a = 10
             $ b = 25
@@ -55,10 +51,10 @@ label interactions_giftmoney:
             $ char.disposition += randint(a, b)
         $ del a
         $ del b
-        $ del temp
+        $ del money
     else:
         "You don't have that amount of gold."
-        $ del temp
+        $ del money
     jump girl_interactions
 
 label interactions_askmoney:
@@ -95,37 +91,31 @@ label interactions_askmoney:
     jump girl_interactions
 
 label interactions_give_money:
-    python:
-        try:
-            temp = int(renpy.input("You decided to give her some money. You have [hero.gold] G.", allow="1234567890"))
-        except ValueError:
-            "You changed your mind."
-            renpy.jump("girl_interactions")
-    if temp == 0:
+    $ line = "You have " + str(hero.gold) + " gold.How much money you want to give?"
+    $ money = renpy.call_screen("digital_keyboard", line=line)
+
+    if money <= 0  or not money:
         "You changed your mind."
         jump girl_interactions
-    if hero.take_money(temp, reason="Exchange"):
-        $ char.add_money(temp, reason="Exchange")
-        "You gave her [temp] G."
-        $ del temp
+    if hero.take_money(money, reason="Exchange"):
+        $ char.add_money(money, reason="Exchange")
+        "You gave her [money] G."
+        $ del money
     else:
         "You don't have that amount of gold."
     jump girl_interactions
 
 label interactions_take_money:
-    python:
-        try:
-            temp = int(renpy.input("You decided to take her money. She has [char.gold] G.", allow="1234567890"))
-        except ValueError:
-            "You changed your mind."
-            renpy.jump("girl_interactions")
-    if temp == 0:
+    $ line = "She has " + str(char.gold) + " gold.How much money you want to give?"
+    $ money = renpy.call_screen("digital_keyboard", line=line)
+    
+    if temp == 0  or not money:
         "You changed your mind."
         jump girl_interactions
-    if char.take_money(temp, reason="Exchange"):
-        $ hero.add_money(temp, reason="Exchange")
-        "You took [temp] G."
-        $ del temp
+    if char.take_money(money, reason="Exchange"):
+        $ hero.add_money(money, reason="Exchange")
+        "You took [money] G."
+        $ del money
     else:
         "She doesn't have that amount of gold."
     jump girl_interactions
