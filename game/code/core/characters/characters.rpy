@@ -37,6 +37,9 @@ init -9 python:
             We will aim at specific values and interpolate.
             In case of one basetrait, we multiply result by 2!
             """
+            if self.tier >= 10:
+                return False
+
             target_tier = self.tier+1.0 # To get a float for Py2.7
             target_level = (target_tier)*20
             tier_points = 0 # We need 100 to tier up!
@@ -90,7 +93,7 @@ init -9 python:
             #                                                                                             round(skill_bonus),
             #                                                                                             round(stats_skills_points)))
 
-            if total_points >= 100 and tier <= 10:
+            if total_points >= 100:
                 self.tier += 1 # we tier up and return True!
                 return True
             else:
