@@ -5,7 +5,7 @@ label interactions_giftmoney:
         "You already did it recently, she does not want to abuse your generosity."
         jump girl_interactions
     
-    $ line = "You have " + str(hero.gold) + " gold.How much money you want to give?"
+    $ line = "You have " + str(hero.gold) + " gold. How much money you want to give?"
     
     $ money = renpy.call_screen("digital_keyboard", line=line)
 
@@ -91,7 +91,7 @@ label interactions_askmoney:
     jump girl_interactions
 
 label interactions_give_money:
-    $ line = "You have " + str(hero.gold) + " gold.How much money you want to give?"
+    $ line = "You have " + str(hero.gold) + " gold. How much money you want to give?"
     $ money = renpy.call_screen("digital_keyboard", line=line)
 
     if money <= 0  or not money:
@@ -106,7 +106,7 @@ label interactions_give_money:
     jump girl_interactions
 
 label interactions_take_money:
-    $ line = "She has " + str(char.gold) + " gold.How much money you want to give?"
+    $ line = "She has " + str(char.gold) + " gold. How much money you want to give?"
     $ money = renpy.call_screen("digital_keyboard", line=line)
     
     if temp == 0  or not money:
