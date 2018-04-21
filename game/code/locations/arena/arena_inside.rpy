@@ -593,7 +593,7 @@ init: # Main Screens:
                 text  "Close"
         key "mousedown_3" action Hide("arena_rep_ladder")
 
-    screen arena_dogfights(container={}):
+    screen arena_dogfights(container):
         modal True
         zorder 1
 
@@ -613,7 +613,7 @@ init: # Main Screens:
                     mousewheel True
                     child_size (700, 10000)
                     has vbox spacing 5
-                    for team in container:
+                    for team in sorted(container, key=methodcaller("get_level")):
                         frame:
                             style_group "content"
                             padding 5, 3

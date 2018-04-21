@@ -23,7 +23,7 @@ init -999 python:
     import functools
     from functools import partial
     import operator
-    from operator import attrgetter, itemgetter
+    from operator import attrgetter, itemgetter, methodcaller
     import collections
     from collections import OrderedDict, defaultdict, deque
     import xml.etree.ElementTree as ET
