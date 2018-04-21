@@ -338,7 +338,7 @@
     {
     "id": "Grim Reaper",
     "desc": "The power of Death helps in battle, reducing physical damage.",
-    "el_absorbs": {"physical": 0.2},
+    "el_defence": {"physical": 0.4},
     "character_trait": true,
     "client": false,
     "market": false

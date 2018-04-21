@@ -270,7 +270,7 @@ label mc_action_city_beach_diving_checks:
         $ i = int(hero.get_skill("swimming")+1)
 
     if has_items("Underwater Lantern", [hero]):
-        $ j = 90
+        $ j = 120
     else:
         $ j = 60
 

@@ -282,7 +282,7 @@
     "locations": ["Tailor Store"],
     "goodtraits": ["Neat"],
     "tier": 4,
-    "pref_class":["Server", "Cleaner"]
+    "pref_class":["Server", "Maid", "Cleaner"]
     },
     {
     "id": "Viny-patterned Corset",
