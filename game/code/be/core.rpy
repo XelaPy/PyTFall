@@ -294,6 +294,7 @@ init -1 python: # Core classes:
                     renpy.pause(.6) # Small pause before terminating the engine.
 
                 renpy.scene(layer='screens')
+                renpy.scene()
 
                 if self.end_sfx:
                     renpy.with_statement(self.end_sfx)
