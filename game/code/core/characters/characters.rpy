@@ -322,11 +322,13 @@ init -9 python:
             else:
                 self.items[item] = self.items.get(item, 0) + 1
 
-            # The above is enough for magic/battle skills, but for traits... we need to know if the effects should be applied.
-            if item in self.normal or self.items.get(item, 0) > 0:
-                if not item in self.list:
-                    self.list.append(item)
-                    return True
+            # The above is enough for magic/battle skills, but for traits...
+            # we need to know if the effects should be applied.
+            c_absolute = item not in self.list # DO NOTHING otherwise.
+            total = bool(item in self.normal) + self.items.get(item, 0)
+            if c_absolute and total > 0:
+                self.list.append(item)
+                return True
 
         def remove(self, item, normal=True):
             # Overwriting default list method.
@@ -344,11 +346,13 @@ init -9 python:
             else:
                 self.items[item] = self.items.get(item, 0) - 1
 
-            # The above is enough for magic/battle skills, but for traits... we need to know if the effects should be applied.
-            if not item in self.normal and self.items.get(item, 0) <= 0:
-                if item in self.list:
-                    self.list.remove(item)
-                    return True
+            # The above is enough for magic/battle skills, but for traits...
+            # we need to know if the effects should be applied.
+            c_absolute = item in self.list # DO NOTHING otherwise.
+            total = bool(item in self.normal) + self.items.get(item, 0)
+            if c_absolute and total <= 0:
+                self.list.remove(item)
+                return True
 
 
     class Trait(_object):
@@ -3467,7 +3471,8 @@ init -9 python:
             # Traits:
             for trait in item.removetraits + item.addtraits:
                 if trait not in store.traits:
-                    devlog.warning(str("Item: {} has tried to apply an invalid trait: {}!".format(item.id, trait)))
+                    devlog.warning("Item: {} has tried to apply an invalid trait: {}!".format(item.id, trait))
+                    continue
 
                 if item.slot not in ['consumable', 'misc'] or (item.slot == 'consumable' and item.ctemp):
                     truetrait = False
