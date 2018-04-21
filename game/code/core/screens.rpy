@@ -651,13 +651,16 @@ init:
                         action Show("s_menu", transition=dissolve)
                         tooltip "Game Preferences"
 
-
                 if renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "dungeon"] and show_lead_away_buttons:
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/MS.png", 38, 37)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png", 38, 37), im.matrix.brightness(.25))
-                        action (Hide(renpy.current_screen().tag), Function(global_flags.del_flag, "keep_playing_music"),  Jump("mainscreen"))
                         tooltip "Return to Main Screen"
+                        if 'next_day' in last_label:
+                            action return_action
+                        else:
+                            action (Function(renpy.scene, layer="screens"), Function(global_flags.del_flag, "keep_playing_music"), Jump("mainscreen"))
+
 
                 if renpy.current_screen().tag in ["char_profile", "char_equip"] and char.is_available:
                     imagebutton:
@@ -751,33 +754,6 @@ init:
                                 left_gutter 0
                                 right_gutter 0
                                 xysize (102, 14)
-        # if renpy.current_screen().tag == "mainscreen":
-        #     frame:
-        #         background None
-        #         align(.5, .997)
-        #         xysize (750, 100)
-        #         text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(.5, .5)
-        # elif renpy.current_screen().tag == "building_management":
-        #     frame:
-        #         pos (960, 300)
-        #         background None
-        #         xpadding 10
-        #         xysize (310, 200)
-        #         text (u"{=content_text}{size=20}{color=[goldenrod]}%s" % tt.value) yalign .02 size 14
-        # elif renpy.current_screen().tag == "char_profile":
-        #     frame:
-        #         background None
-        #         pos 332, 622
-        #         xpadding 10
-        #         xysize (951, 100)
-        #         has hbox spacing 1
-        #         text (u"{=content_text}{color=[ivory]}%s" % tt.value)
-        # elif renpy.current_screen().tag == "chars_list":
-        #     frame:
-        #         background None
-        #         align(.1, 1.0)
-        #         xysize (946, 65)
-        #         text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(.5, .5)
 
     screen message_screen(msg, size=(500, 300), use_return=False):
         modal True
@@ -1471,29 +1447,29 @@ screen tutorial(level=1):
             background None
             xysize (1280, 720)
             action Hide("tutorial")
-            
+
 screen digital_keyboard(line= ""):
     default current_number = "0"
     modal True
-    
+
     if line:
         frame:
             background Frame("content/gfx/frame/MC_bg3.png", 5, 5)
             align(.5, .1)
             xysize (600, 100)
             text line color gold xalign .5 size 20 outlines [(1, "#000000", 0, 0)] align (.5, .5) text_align .5
-    
+
     frame:
         xysize (250, 250)
         background Frame("content/gfx/frame/MC_bg3.png")
         align (.5, .5)
-        
+
         frame:
             align (.5, .05)
             background Frame("content/gfx/frame/rank_frame.png")
             xysize (200, 45)
             text current_number color gold xalign .5 size 20 outlines [(1, "#000000", 0, 0)] align (1.0, .5)
-        
+
         vpgrid:
             rows 4
             cols 3
@@ -1525,7 +1501,7 @@ screen digital_keyboard(line= ""):
                 hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/hp_1s.png", im.matrix.brightness(.10)))
                 text str("E") color gold size 22 outlines [(1, "#000000", 0, 0)] align (.5, .5) text_align .5
                 action Return(int(current_number))
-                
+
     key "mousedown_3" action Return(0)
     key "K_ESCAPE" action Return(0)
     key "1" action SetScreenVariable("current_number", digital_screen_logic(current_number, "1"))
