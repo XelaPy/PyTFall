@@ -41,7 +41,7 @@ init: # screens:
                 textbutton "Cancel":
                     style "basic_button"
                     action Return(False)
-                    
+
             key "mouseup_3" action Return(False)
 
     screen pick_skill(char, give_up):
@@ -104,47 +104,47 @@ init: # screens:
                         text "Target: One" size 14 color gold style "TisaOTM"
 
         # Skillz Menu:
-        frame:
-            style_group "dropdown_gm"
-            pos (.5, .2) anchor (.5, .0)
-            ymaximum 400
-            has hbox box_wrap True
+        # frame:
+        #     style_group "dropdown_gm"
+        #     pos (.5, .2) anchor (.5, .0)
+        #     ymaximum 400
+        #     has hbox box_wrap True
+        #
+        #     at fade_in_out(t1=.6, t2=.3)
 
-            at fade_in_out(t1=.6, t2=.3)
+        # First we'll get all the skills and sort them into: @Review: Might be a good idea to move this sorting off the screen!
+        # *Attack (battle) skills.
+        # *Magic skills.
+        python:
+            attacks = list(char.attack_skills)
+            attacks =  list(set(attacks)) # This will make sure that we'll never get two of the same attack skills.
+            attacks.sort(key=attrgetter("name"))
+            magic = list(char.magic_skills)
+            try:
+                magic.sort(key=attrgetter("name"))
+            except AttributeError:
+                raise Exception, char.name
 
-            # First we'll get all the skills and sort them into: @Review: Might be a good idea to move this sorting off the screen!
-            # *Attack (battle) skills.
-            # *Magic skills.
-            python:
-                attacks = list(char.attack_skills)
-                attacks =  list(set(attacks)) # This will make sure that we'll never get two of the same attack skills.
-                attacks.sort(key=attrgetter("name"))
-                magic = list(char.magic_skills)
-                try:
-                    magic.sort(key=attrgetter("name"))
-                except AttributeError:
-                    raise Exception, char.name
-
-                # We'll also try to figure out if there is at least one usable attack for them:
-                # list(a for a in attacks if battle_skills[a].check_conditions(char)) # BUG IN REN'PY!
-                active_attacks = list()
-                for i in attacks:
-                    if i.check_conditions(char):
-                        active_attacks.append(i)
-                        break
-                # active_magic = list(s for s in magic if battle_skills[s].check_conditions(char)) # BUG IN REN'PY!
-                active_magic = list()
-                for i in magic:
-                    if i.check_conditions(char):
-                        active_magic.append(i)
-                        break
+            # We'll also try to figure out if there is at least one usable attack for them:
+            # list(a for a in attacks if battle_skills[a].check_conditions(char)) # BUG IN REN'PY!
+            active_attacks = list()
+            for i in attacks:
+                if i.check_conditions(char):
+                    active_attacks.append(i)
+                    break
+            # active_magic = list(s for s in magic if battle_skills[s].check_conditions(char)) # BUG IN REN'PY!
+            active_magic = list()
+            for i in magic:
+                if i.check_conditions(char):
+                    active_magic.append(i)
+                    break
 
         if menu_mode == "top":
             frame:
                 style_group "dropdown_gm"
-                pos (.5, .2) anchor (.5, .0)
+                align .5, .3
                 ymaximum 400
-                has hbox box_wrap True
+                has vbox
 
                 at fade_in_out(t1=.6, t2=.3)
                 textbutton "Attacks":
@@ -162,7 +162,6 @@ init: # screens:
                     textbutton "Escape":
                         xminimum 100
                         action Return("escape")
-                        
         elif menu_mode == "attacks":
             frame:
                 at fade_in_out(t1=.6, t2=.3)
@@ -193,7 +192,6 @@ init: # screens:
                                 xysize 200, 25
                                 action SensitiveIf(skill.check_conditions(char)), Return(skill)
                                 hovered tt.action(skill)
-
         elif menu_mode == "magic":
             python:
                 d = OrderedDict()
@@ -408,9 +406,9 @@ init: # screens:
                 align (.99, 0)
                 textbutton "Terminate":
                     action SetField(be, "terminate", True)
-                    
-        $ img = im.Scale("content/gfx/interface/buttons/close.png", 35, 35) 
-        
+
+        $ img = im.Scale("content/gfx/interface/buttons/close.png", 35, 35)
+
         if DEBUG:
             imagebutton:
                 align(.995, .005)

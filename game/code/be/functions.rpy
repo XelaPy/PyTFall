@@ -83,3 +83,11 @@ init -11 python:
             fighter.controller = "player"
 
         return battle
+
+    def get_random_battle_track():
+        # get a list of all battle tracks:
+        battle_tracks = list()
+        for fn in renpy.list_files():
+            if "sfx/music/be/battle" in fn:
+                battle_tracks.append(fn)
+        return choice(battle_tracks)
