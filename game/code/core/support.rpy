@@ -258,10 +258,9 @@ init -9 python:
 
             # get a list of all battle tracks:
             self.battle_tracks = list()
-            path = content_path("sfx/music/be")
-            for track in os.listdir(path):
-                if track.startswith("battle"):
-                    self.battle_tracks.append("/".join([path, track]))
+            for fn in renpy.list_files():
+                if "sfx/music/be/battle" in fn:
+                    self.battle_tracks.append(fn)
 
             # Dict for music locations ( :0 )
             self.world_music = dict()
