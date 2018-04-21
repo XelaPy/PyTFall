@@ -13,8 +13,8 @@ label interactions_harrasment_after_battle: # after MC provoked a free character
                     $ g = char.gold
                     while g >= randint(500, 1000):
                         $ g = round(g*0.1)
-                    $ char.take_money(g)
-                    $ hero.add_money(g)
+                    $ char.take_money(g, reason="Robbery")
+                    $ hero.add_money(g, reason="Robbery")
                     "In her pockets, you found [g] G. Lucky!"
             "Search her for items.":
                 # We unequip all of the inventory first:

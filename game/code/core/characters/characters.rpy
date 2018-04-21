@@ -3947,7 +3947,7 @@ init -9 python:
 
             elif effect == "Kleptomaniac":
                 if dice(self.luck+55):
-                    self.add_money(randint(5, 25))
+                    self.add_money(randint(5, 25), reason="Stealing")
 
             elif effect == "Injured":
                 if self.health > int(self.get_max("health")*0.2):
