@@ -365,6 +365,10 @@ label after_load:
             if id not in store.chars:
                 store.chars[id] = char
 
+        load_characters("npc", NPC)
+        store.rchars = load_random_characters()
+        load_special_arena_fighters()
+
     # Complete hack:
     python hide:
         if not hasattr(store.hero, "autocontrol"):
