@@ -28,15 +28,15 @@ label arena_outside:
             jump xeona_talking
     else:
         $ global_flags.del_flag("menu_return")
-        
+
     scene bg arena_outside
     python:
         # Build the actions
         if pytfall.world_actions.location("arena_outside"):
-            pytfall.world_actions.add("xeona", "Find Xeona", Jump("find_xeona"))
-            pytfall.world_actions.add("arena", "Enter Arena", Return(["control", "enter_arena"]))
             pytfall.world_actions.meet_girls()
             pytfall.world_actions.look_around()
+            pytfall.world_actions.add("0xeona", "Find Xeona", Jump("find_xeona"))
+            pytfall.world_actions.add("0arena", "Enter Arena", Return(["control", "enter_arena"]))
             pytfall.world_actions.finish()
 
     show screen arena_outside
@@ -90,7 +90,7 @@ label xeona_talking:
             ax "Well?"
             "Xeona Main":
                 $ pass
-            
+
             "Tell me about Arena":
                 ax "The arena, other than our sex industry, is the biggest source of entertainment for locals and tourists alike."
                 ax "Many warriors come here to test their mettle against all challengers. Mages come to test their wisdom and training against all kinds of a foe. Though most come"
