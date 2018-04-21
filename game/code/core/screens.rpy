@@ -796,7 +796,7 @@ init:
                 spacing 30
                 align(.5, .5)
                 vbox:
-                    xmaximum (size[0] - 50)
+                    xmaximum (size[0] - 100)
                     text msg xalign .5 color lightgoldenrodyellow size 20
                 textbutton "Ok" action If(use_return, true=Return(), false=Hide("message_screen")) minimum(120, 30) xalign .5 style "yesno_button"
         key "K_RETURN" action If(use_return, true=Return(), false=Hide("message_screen"))
