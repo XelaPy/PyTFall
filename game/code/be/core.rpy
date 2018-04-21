@@ -46,10 +46,10 @@ init -1 python: # Core classes:
                                                         "mirage": Mirage(bg, resize=get_size(bg),
                                                         amplitude=.04, wavelength=10, ycrop=10)})
 
-            if music == "random":
-                self.music = get_random_battle_track()
-            else:
-                self.music = music
+                if music == "random":
+                    self.music = get_random_battle_track()
+                else:
+                    self.music = music
 
             self.corpses = set() # Anyone died in the BE.
 
