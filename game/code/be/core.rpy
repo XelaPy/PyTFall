@@ -47,7 +47,7 @@ init -1 python: # Core classes:
                                                         amplitude=.04, wavelength=10, ycrop=10)})
 
             if music == "random":
-                self.music = choice(ilists.battle_tracks)
+                self.music = get_random_battle_track()
             else:
                 self.music = music
 
@@ -136,7 +136,7 @@ init -1 python: # Core classes:
                             elif s == "escape":
                                 if renpy.call_screen("yesno_prompt", message="Are you sure you wish to escape?", yes_action=Return(True), no_action=Return(False)):
                                     break
-                                    
+
                             if s not in ["surrender", "escape"]:
                                 s.source = fighter
 
@@ -282,7 +282,7 @@ init -1 python: # Core classes:
                 else:
                     renpy.show("escape_gates", what="portal_webm",  at_list=[Transform(align=(.5, .5))], zorder=100)
                     renpy.sound.play("content/sfx/sound/be/escape_portal.ogg")
-                
+
                     tkwargs = {"color": gray,
                                "outline_color": black}
                     gfx_overlay.notify("Escaped...", tkwargs=tkwargs)

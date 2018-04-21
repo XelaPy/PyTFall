@@ -256,12 +256,6 @@ init -9 python:
             self.clientCastes = ['None', 'Peasant', 'Merchant', 'Nomad', 'Wealthy Merchant', 'Clerk', 'Noble', 'Royal']
             self.battlestats = ['health', 'mp', 'attack', 'magic', 'defence', 'agility', "luck", "charisma"]
 
-            # get a list of all battle tracks:
-            self.battle_tracks = list()
-            for fn in renpy.list_files():
-                if "sfx/music/be/battle" in fn:
-                    self.battle_tracks.append(fn)
-
             # Dict for music locations ( :0 )
             self.world_music = dict()
 
