@@ -813,7 +813,7 @@
     "locations": ["Exploration", "Arena"],
     "goodtraits": ["Alien"],
     "tier": 4,
-    "pref_class":["Caster"]
+    "pref_class":["Mage", "Healer"]
     },
     {
     "id": "Godward Shell",
@@ -855,7 +855,7 @@
     "mod": {"magic": 25, "constitution": 15, "agility": -15, "attack": -15, "defence": 25},
     "locations": ["Work Shop"],
     "tier": 1,
-    "pref_class":["Caster"]
+    "pref_class":["Mage", "Healer"]
     },
     {
     "id": "Starlit Robes",
@@ -876,7 +876,7 @@
     "mod": {"magic": 40, "constitution": 15, "defence": 40, "attack": -50},
     "locations": ["Exploration", "Arena"],
     "tier": 2,
-    "pref_class":["Caster"]
+    "pref_class":["Mage", "Healer"]
     },
     {
     "id": "Organic Lingerie",
