@@ -122,7 +122,7 @@
     "mdestruct": false,
     "mod": {"mp": 20, "vitality": -5, "joy": -5, "gold": -5},
     "locations": ["Witches Hut", "Exploration"],
-    "pref_class":["Caster"]
+    "pref_class":["Mage", "Healer"]
     },
     {
     "id": "Cat",
@@ -515,7 +515,7 @@
     "mdestruct": false,
     "mod": {"mp": 10},
     "locations": ["Witches Hut", "Exploration"],
-    "pref_class": ["Caster"]
+    "pref_class": ["Mage", "Healer"]
     },
     {
     "id": "Water of Life",
@@ -574,7 +574,7 @@
     "mdestruct": false,
     "mod": {"intelligence": 2, "mp": -10},
     "locations": ["Exploration", "Arena"],
-    "pref_class": ["Caster"]
+    "pref_class": ["Mage", "Healer"]
     },
     {
     "id": "Ancient Purse",
