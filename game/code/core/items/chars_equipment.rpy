@@ -305,7 +305,7 @@ label char_equip_finish:
         # eqtarget.inventory.female_filter = False
         # hero.inventory.female_filter = False
         if eqtarget.location == locations["After Life"]:
-            renpy.show_screen("message_screen", "{} dies as a result of items manipulations...".format(eqtarget.fullname))
+            renpy.show_screen("message_screen", "{} dies as a result of item manipulations...".format(eqtarget.fullname))
             jump("mainscreen")
 
     python:
