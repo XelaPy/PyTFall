@@ -593,28 +593,30 @@ init -9 python:
 
             self.start_dogfight(team)
 
-        def match_challenge(self, n=False):
+        def match_challenge(self, setup):
             """
             Checks if player already has fight setup on a given day.
             Handles confirmation screen for the fight.
+
             Adds player team to a setup.
             Now also checks if player has an Arena permit.
             """
-            if hero.arena_permit:
-                pass
-            else:
+            if not hero.arena_permit:
                 renpy.call_screen("message_screen", "Arena Permit is required to fight in the official matches!")
                 return
 
-            if n:
-                if self.setup[2] in hero.fighting_days:
-                    renpy.call_screen("message_screen", "You already have a fight planned for day %d. Having two official matches on the same day is not allowed!"%self.setup[2])
-                    return
-                renpy.show_screen("yesno_prompt", "Are you sure you want to schedule a fight? Backing out of it later will mean a hit on reputation!", [Return(["challenge", "confirm_match"]), Hide("yesno_prompt")], Hide("yesno_prompt"))
-            else:
-                renpy.hide_screen("yesno_prompt")
-                self.setup[0] = hero.team
-                hero.fighting_days.append(self.setup[2])
+            fight_day = setup[2]
+
+            if fight_day in hero.fighting_days:
+                renpy.call_screen("message_screen", "You already have a fight planned for day %d. Having two official matches on the same day is not allowed!"%fight_day)
+                return
+
+            result = renpy.call_screen("yesno_prompt",
+                "Are you sure you want to schedule a fight? Backing out of it later will mean a hit on reputation!",
+                Return(["Yes"]), Return(["No"]))
+            if result == ["Yes"]:
+                setup[0] = hero.team
+                hero.fighting_days.append(fight_day)
 
         def check_before_matchfight(self):
             """

@@ -50,9 +50,7 @@ label arena_inside:
                 # pytfall.arena.start_dogfight(result[2])
             elif result[1] == "match":
                 $ pytfall.arena.setup = result[2]
-                $ pytfall.arena.match_challenge(n=True)
-            elif result[1] == "confirm_match":
-                $ pytfall.arena.match_challenge()
+                $ pytfall.arena.match_challenge(result[2])
             elif result[1] == "start_match":
                 $ pytfall.arena.check_before_matchfight()
             elif result[1] == "start_chainfight":
@@ -1063,7 +1061,7 @@ init: # Main Screens:
                 if not len(pytfall.arena.daily_report):
                     text "Nothing interesting happened yesterday..." color goldenrod align .5, .5
                 else:
-                    text "{size=-4}[pytfall.arena.daily_report]" color goldenrod
+                    text "{size=-4}%s" % pytfall.arena.daily_report color goldenrod
 
             button:
                 style_group "basic"
