@@ -4622,7 +4622,7 @@ init -9 python:
                     self.apply_trait(i)
 
             if self.status not in self.STATUS:
-                if "Combatant" in self.gen_occs:
+                if set(["Combatant", "Specialist"]).intersection(self.gen_occs):
                     self.status = "free"
                 else:
                     self.status = random.sample(self.STATUS, 1).pop()
