@@ -1270,19 +1270,20 @@ init -9 python:
 
         def _mod_base_stat(self, key, value):
             # Modifies the first layer of stats (self.stats)
-            if key in self.stats: # As different character types may come with different stats.
+            # As different character types may come with different stats.
+            if key in self.stats:
+                char = self.instance
                 value = self.settle_effects(key, value)
 
                 if value and last_label_pure.startswith(AUTO_OVERLAY_STAT_LABELS):
-                    gfx_overlay.mod_stat(key, value, self.instance)
+                    gfx_overlay.mod_stat(key, value, char)
 
                 val = self.stats[key] + value
 
                 if key == 'health' and val <= 0:
-                    if isinstance(self.instance, Player):
+                    if isinstance(char, Player):
                         jump("game_over")
-                    elif isinstance(self.instance, Char):
-                        char = self.instance
+                    elif isinstance(char, Char):
                         kill_char(char)
                         return
 
