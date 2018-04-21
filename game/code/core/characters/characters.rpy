@@ -90,7 +90,7 @@ init -9 python:
             #                                                                                             round(skill_bonus),
             #                                                                                             round(stats_skills_points)))
 
-            if total_points >= 100:
+            if total_points >= 100 and tier <= 10:
                 self.tier += 1 # we tier up and return True!
                 return True
             else:
