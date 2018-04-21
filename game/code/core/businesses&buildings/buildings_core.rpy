@@ -797,7 +797,7 @@ init -10 python:
                 mod = getattr(u, "client_flow_mod", 0)
                 if mod:
                     temp = True
-                    clnts = round_int(clnts*mod)
+                    clients = clients*mod
             if temp and write_to_nd:
                 self.log("Your building upgrades are attracting extra clients!")
 
