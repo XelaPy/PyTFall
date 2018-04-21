@@ -78,7 +78,8 @@
     "mod": {"charisma": 1, "vitality": 1, "gold": -15},
     "mod_skills": {"service": [0, 0, 0, 5, 5]},
     "locations": ["Witches Hut", "Exploration"],
-    "goodtraits": ["Neat"]
+    "goodtraits": ["Neat"],
+    "pref_class":["Maid"]
     },
     {
     "id": "Nymph Fairy",
@@ -100,7 +101,8 @@
     "mod_skills": {"sex": [0, 0, 0, 5, 0]},
     "locations": ["Witches Hut", "Ninja Shop", "Exploration"],
     "goodtraits": ["Nymphomaniac"],
-    "badtraits": ["Frigid"]
+    "badtraits": ["Frigid"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Frost Fairy",
@@ -119,7 +121,8 @@
     "mreusable": true,
     "mdestruct": false,
     "mod": {"mp": 20, "vitality": -5, "joy": -5, "gold": -5},
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Witches Hut", "Exploration"],
+    "pref_class":["Caster"]
     },
     {
     "id": "Cat",
@@ -138,7 +141,8 @@
     "mreusable": true,
     "mdestruct": false,
     "mod": {"joy": 5, "vitality": 5, "gold": -5},
-    "locations": ["General Store", "Look around"]
+    "locations": ["General Store", "Look around"],
+    "pref_class":["Any"]
     },
     {
     "id": "Guard Dog",
@@ -158,7 +162,8 @@
     "mdestruct": false,
     "mod_skills": {"security": [0, 0, 0, 5, 5]},
     "mod": {"joy": 3, "character": 1, "gold": -25},
-    "locations": ["General Store", "Ninja Shop"]
+    "locations": ["General Store", "Ninja Shop"],
+    "pref_class":["Warrior", "Mage", "Shooter", "Assassin"]
     },
     {
     "id": "Codex of Eros",
@@ -425,7 +430,8 @@
     "mod": {"vitality": -20},
     "mod_skills": {"strip": [0, 0, 0, 5, 0], "dancing": [0, 0, 0, 5, 0]},
     "locations": ["General Store"],
-    "goodtraits": ["Exhibitionist"]
+    "goodtraits": ["Exhibitionist"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Double Dildo",
@@ -447,7 +453,8 @@
     "mod_skills": {"vaginal": [0, 0, 0, 5, 0], "anal": [0, 0, 0, 5, 0]},
     "locations": ["General Store", "Fishing"],
     "goodtraits": ["Lesbian", "Bisexual"],
-    "badtraits": ["Frigid"]
+    "badtraits": ["Frigid"],
+    "pref_class":["SIW"]
     },
     {
     "id": "Free Weights",
@@ -468,7 +475,8 @@
     "mod": {"constitution": 1, "vitality": -10},
     "locations": ["General Store"],
     "goodtraits": ["Manly"],
-    "badtraits": ["Lolita"]
+    "badtraits": ["Lolita"],
+    "pref_class":["Warrior"]
     },
     {
     "id": "Dream Orb",
@@ -506,7 +514,8 @@
     "mreusable": true,
     "mdestruct": false,
     "mod": {"mp": 10},
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Witches Hut", "Exploration"],
+    "pref_class": ["Caster"]
     },
     {
     "id": "Water of Life",
@@ -525,7 +534,8 @@
     "mreusable": true,
     "mdestruct": false,
     "mod": {"health": 15},
-    "locations": ["Witches Hut", "Exploration", "Ninja Shop"]
+    "locations": ["Witches Hut", "Exploration", "Ninja Shop"],
+    "pref_class":["Any"]
     },
     {
     "id": "Willbreaker Spice",
@@ -563,7 +573,8 @@
     "mreusable": true,
     "mdestruct": false,
     "mod": {"intelligence": 2, "mp": -10},
-    "locations": ["Exploration", "Arena"]
+    "locations": ["Exploration", "Arena"],
+    "pref_class": ["Caster"]
     },
     {
     "id": "Ancient Purse",
@@ -582,7 +593,8 @@
     "mreusable": true,
     "mdestruct": false,
     "mod": {"gold": 200},
-    "locations": ["Exploration", "Arena"]
+    "locations": ["Exploration", "Arena"],
+    "pref_class": ["Any"]
     },
     {
     "id": "Anal Training Kit",
@@ -598,11 +610,12 @@
     "slot": "misc",
     "type": "upgrade",
     "mtemp": 1,
-    "mreusable": true,
+    "mreusable": false,
     "mdestruct": false,
     "mod": {"vitality": -5},
     "mod_skills": {"anal": [0, 0, 0, 1, 0]},
-    "locations": ["General Store"]
+    "locations": ["General Store"],
+    "pref_class": ["SIW"]
     },
     {
     "id": "Encyclopedia of Fishes",
@@ -659,5 +672,6 @@
     "mreusable": true,
     "mdestruct": false,
     "mod": {"exp": 300},
-    "locations": ["Fishing", "Exploration"]
+    "locations": ["Fishing", "Exploration"],
+    "pref_class": ["Any"]
     }]
