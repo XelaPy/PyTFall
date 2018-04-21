@@ -340,7 +340,7 @@ init: # Screens:
                     xysize (135, 40)
                     action Show("building_maintenance")
                     hovered tt.action('Perform maintenance of this building')
-                    sensitive isinstance(building, BuildingStats)
+                    sensitive isinstance(building, BuildingStats) and building.workable
                     text "Maintenance"
             vbox:
                 spacing 5
@@ -354,6 +354,7 @@ init: # Screens:
                     xysize (135, 40)
                     action Show("finances", None, building, mode="logical")
                     hovered tt.action('Show finance log for this building')
+                    sensitive building.workable
                     text "Finance Log"
                 button:
                     xysize (135, 40)
