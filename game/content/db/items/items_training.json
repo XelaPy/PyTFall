@@ -12,7 +12,6 @@
     "hidden": false,
     "infinite": true,
     "slot": "amulet",
-    "dismod": -50,
     "addtraits": ["Restrained"],
     "locations": ["General Store"],
     "goodtraits": ["Broken", "Masochist"]
@@ -30,7 +29,6 @@
     "hidden": false,
     "infinite": true,
     "slot": "wrist",
-    "dismod": -50,
     "addtraits": ["Restrained"],
     "locations": ["General Store"],
     "goodtraits": ["Broken", "Masochist"]
@@ -48,7 +46,6 @@
     "hidden": false,
     "infinite": true,
     "slot": "feet",
-    "dismod": -50,
     "addtraits": ["Restrained"],
     "locations": ["General Store"],
     "goodtraits": ["Broken", "Masochist"]
@@ -66,7 +63,6 @@
     "infinite": true,
     "type": "tool",
     "slot": "body",
-    "dismod": 50,
     "addtraits": ["Easy to Reward"],
     "locations": ["General Store"],
     "goodtraits": ["Nymphomaniac"],
@@ -85,7 +81,6 @@
     "type": "tool",
     "infinite": true,
     "slot": "body",
-    "dismod": -50,
     "addtraits": ["Easy to Punish"],
     "locations": ["General Store"],
     "goodtraits": ["Broken", "Masochist"],

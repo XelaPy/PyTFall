@@ -238,7 +238,6 @@
     "slot": "feet",
     "type": "dress",
     "evasion_bonus": 1,
-    "dismod": 20,
     "max": {"agility": 5, "joy": 5},
     "mod_skills": {"dancing": [0.09, 0.04, 0.1, 0, 0], "strip": [0.02, 0, 0.01, 0, 0]},
     "mod": {"charisma": 5},
