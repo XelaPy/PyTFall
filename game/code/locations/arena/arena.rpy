@@ -299,16 +299,37 @@ init -9 python:
             if len(self.dogfights_1v1) < 20:
                 dogfighters = list(chain.from_iterable(t.members for t in self.dogfights_1v1))
                 candidates = [f for f in self.arena_fighters.values() if f not in dogfighters]
-                candidates = random.sample(self.arena_fighters.values(), 20)
+                # candidates = random.sample(self.arena_fighters.values(), 20)
                 chars_fighters = self.get_arena_candidates_from_chars()
                 chars_fighters = [f for f in chars_fighters if f not in dogfighters]
                 candidates.extend(chars_fighters)
 
+                amount = randint(15, 20)
+                level_range = range(hero.level-10, hero.level+10)
+
+                # do first pass over those candidates who's level is near Hero's
+                for i in candidates[:]:
+                    if i.level in level_range:
+                        amount -= 1
+                        team = Team(max_size=1)
+                        team.add(i)
+                        candidates.remove(i)
+                        self.dogfights_1v1.append(team)
+
+                    if not amount or len(self.dogfights_1v1) >= 20:
+                        break
+
                 shuffle(candidates)
-                for i in range(randint(10, 20)):
-                    team = Team(max_size=1)
-                    team.add(candidates.pop())
-                    self.dogfights_1v1.append(team)
+
+                if amount:
+                    for i in candidates[:]:
+                        amount -= 1
+                        team = Team(max_size=1)
+                        team.add(candidates.pop())
+                        self.dogfights_1v1.append(team)
+
+                        if not amount or len(self.dogfights_1v1) >= 20:
+                            break
 
             # 2v2
             if len(self.dogfights_2v2) < 15:
