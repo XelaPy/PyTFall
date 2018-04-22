@@ -558,7 +558,7 @@ init -9 python:
                 return
             for member in hero.team:
                 if member != hero and member.status == "slave":
-                    renpy.call_screen("message_screen", "%s is a slave and slaves are not allowed to fight in the Arena under the penalty of death to both slave and the owner!"%member.name)
+                    renpy.call_screen("message_screen", "%s is a slave and slaves are not allowed to fight in the Arena under the penalty of death to both a slave and the owner!"%member.name)
                     return
             for member in hero.team:
                 if member.AP < 2:
@@ -567,14 +567,14 @@ init -9 python:
 
             hlvl = hero.team.get_level()
             elvl = team.get_level()
-            if elvl > hlvl * 2:
+            if elvl > max(hlvl+12, hlvl*1.3):
                 if len(team) == 1:
                     team.leader.say("You're not worth my time, go train some.")
                     return
                 else:
                     team.leader.say("You guys need to grow up before challenging the likes of us.")
                     return
-            if elvl * 2 < hlvl:
+            if max(elvl+12, elvl*1.3) < hlvl:
                 if len(team) == 1:
                     team.leader.say("I am not feeling up to it... really!")
                     return
@@ -586,10 +586,7 @@ init -9 python:
             for member in hero.team:
                 member.AP -= 2
 
-            renpy.hide_screen("arena_inside")
-            renpy.hide_screen("arena_1v1_dogfights")
-            renpy.hide_screen("arena_2v2_dogfights")
-            renpy.hide_screen("arena_3v3_dogfights")
+            renpy.scene(layer="screens")
 
             self.start_dogfight(team)
 
@@ -1194,6 +1191,8 @@ init -9 python:
             '''
             Bridge to battle engine + rewards/penalties
             '''
+            global battle
+
             renpy.music.stop(channel="world")
             renpy.play(choice(["content/sfx/sound/world/arena/prepare.mp3",
                                "content/sfx/sound/world/arena/new_opp.mp3"]))
@@ -1204,7 +1203,6 @@ init -9 python:
             for member in enemy_team:
                 member.controller = Complex_BE_AI(member)
 
-            global battle
             battle = BE_Core(ImageReference("bg battle_dogfights_1"),
                              start_sfx=get_random_image_dissolve(1.5),
                              end_sfx=dissolve, give_up="surrender")
@@ -1228,7 +1226,7 @@ init -9 python:
                     if member not in battle.corpses:
                         statdict = dict()
                         statdict["gold"] = money
-                        if dice(team.get_level()):
+                        if dice(enemy_team.get_level()):
                             statdict["fame"] = randint(0, 1)
                             statdict["reputation"] = randint(0, 1)
                         statdict["Arena Rep"] = rep
