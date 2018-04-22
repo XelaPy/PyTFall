@@ -339,35 +339,35 @@ init -9 python:
                             break
 
             # 2v2
-            if len(self.dogfights_2v2) < 15:
-                # Add proper teams:
-                candidates = [team for team in self.teams_2v2 if team not in self.dogfights_2v2]
-                shuffle(candidates)
-                for i in range(randint(8, 15)):
-                    if candidates:
-                        self.dogfights_2v2.append(candidates.pop())
-                #
-                # dogfighters = list(chain.from_iterable(t.members for t in self.get_dogfights_fighters("all")))
-                # candidates = [f for f in self.arena_fighters.values() if f not in dogfighters]
-                # chars_fighters = self.get_arena_candidates_from_chars()
-                # chars_fighters = [f for f in chars_fighters if f not in dogfighters]
-                # candidates.extend(chars_fighters)
+            for teams, teams_setup in ([self.teams_2v2, self.dogfights_2v2],
+                                       [self.teams_3v3, self.dogfights_3v3]):
+                if len(teams_setup) < 15:
+                    candidates = [team for team in teams if team not in teams_setup]
+                    amount = randint(8, 15)
+                    in_range_exists = len([t for t in teams_setup if t.get_level() in level_range])
 
-            # 3v3
-            if len(self.dogfights_3v3) < 15:
-                candidates = [team for team in self.teams_3v3 if team not in self.dogfights_3v3]
-                shuffle(candidates)
-                for i in xrange(randint(8, 15)):
-                    if candidates:
-                        self.dogfights_3v3.append(candidates.pop())
+                    for team in candidates[:]:
+                        if in_range_exists >= 4:
+                            break
 
-            # busy_teams = set()
-            # for team in self.dogfights_3v3:
-            #     for fighter in team:
-            #         if day in fighter.fighting_days:
-            #             busy_teams.add(team)
-            # for team in busy_teams:
-            #     self.dogfights_3v3.remove(team)
+                        if team.get_level() in level_range:
+                            amount -= 1
+                            in_range_exists += 1
+                            candidates.remove(team)
+                            teams_setup.append(team)
+
+                        if not amount or len(teams_setup) >= 15:
+                            break
+
+                    shuffle(candidates)
+
+                    if amount:
+                        for team in candidates[:]:
+                            amount -= 1
+                            teams_setup.append(team)
+
+                            if not amount or len(teams_setup) >= 15:
+                                break
 
         def update_matches(self):
             # 1vs1:
