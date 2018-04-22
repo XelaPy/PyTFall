@@ -769,12 +769,18 @@ init -999 python:
     class ProportionalScale(im.ImageBase):
         '''Resizes a renpy image to fit into the specified width and height.
         The aspect ratio of the image will be conserved.'''
-        def __init__(self, img, maxwidth, maxheight, bilinear=True, **properties):
-            self.image = renpy.easy.displayable(img)
-            super(ProportionalScale, self).__init__(self.image, maxwidth, maxheight, bilinear, **properties)
+        def __init__(self, im, maxwidth, maxheight, bilinear=True, **properties):
+
+            im = store.im.image(im)
+            super(ProportionalScale, self).__init__(im, maxwidth, maxheight, bilinear, **properties)
+
+            self.image = im
             self.maxwidth = int(maxwidth)
             self.maxheight = int(maxheight)
             self.bilinear = bilinear
+
+        def get_hash(self):
+            return self.image.get_hash()
 
         def load(self):
             surf = im.cache.get(self.image)
