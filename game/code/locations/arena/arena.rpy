@@ -264,6 +264,7 @@ init -9 python:
             '''
             if len(self.teams_2v2) < 30:
                 candidates = self.get_arena_candidates_from_chars()
+                candidates.extend(self.arena_fighters.values())
                 inteams_2v2 = self.get_teams_fighters(teams="2v2")
                 templist = [fighter for fighter in candidates if fighter not in inteams_2v2]
                 shuffle(templist)
@@ -278,6 +279,7 @@ init -9 python:
 
             if len(self.teams_3v3) < 30:
                 candidates = self.get_arena_candidates_from_chars()
+                candidates.extend(self.arena_fighters.values())
                 inteams_3v3 = self.get_teams_fighters(teams="3v3")
                 templist = [fighter for fighter in candidates if fighter not in inteams_3v3]
                 shuffle(templist)
@@ -295,18 +297,17 @@ init -9 python:
             """
             Just populates dogfights, no more checking for anything...
             """
+            level_range = range(hero.level-10, hero.level+10)
+
             # 1v1
             if len(self.dogfights_1v1) < 20:
-                dogfighters = list(chain.from_iterable(t.members for t in self.dogfights_1v1))
+                dogfighters = list(chain.from_iterable(t.members for t in self.get_dogfights_fighters("all")))
                 candidates = [f for f in self.arena_fighters.values() if f not in dogfighters]
-                # candidates = random.sample(self.arena_fighters.values(), 20)
                 chars_fighters = self.get_arena_candidates_from_chars()
                 chars_fighters = [f for f in chars_fighters if f not in dogfighters]
                 candidates.extend(chars_fighters)
 
                 amount = randint(15, 20)
-                level_range = range(hero.level-10, hero.level+10)
-
                 in_range_exists = len([f for f in dogfighters if f.level in level_range])
 
                 # do first pass over those candidates who's level is near Hero's
@@ -339,19 +340,18 @@ init -9 python:
 
             # 2v2
             if len(self.dogfights_2v2) < 15:
+                # Add proper teams:
                 candidates = [team for team in self.teams_2v2 if team not in self.dogfights_2v2]
                 shuffle(candidates)
                 for i in range(randint(8, 15)):
                     if candidates:
                         self.dogfights_2v2.append(candidates.pop())
-
-            # busy_teams = set()
-            # for team in self.dogfights_2v2:
-            #     for fighter in team:
-            #         if day in fighter.fighting_days:
-            #             busy_teams.add(team)
-            # for team in busy_teams:
-            #     self.dogfights_2v2.remove(team)
+                #
+                # dogfighters = list(chain.from_iterable(t.members for t in self.get_dogfights_fighters("all")))
+                # candidates = [f for f in self.arena_fighters.values() if f not in dogfighters]
+                # chars_fighters = self.get_arena_candidates_from_chars()
+                # chars_fighters = [f for f in chars_fighters if f not in dogfighters]
+                # candidates.extend(chars_fighters)
 
             # 3v3
             if len(self.dogfights_3v3) < 15:
@@ -1229,7 +1229,7 @@ init -9 python:
             max_gold = (enemy_team.get_level()+hero.team.get_level())*2
 
             # Awards:
-            money = round_int(min(max_gold*2, max_gold*(float(enemy_team.get_level())/hero.team.get_level())))
+            money = round_int(min(max_gold, max_gold*(float(enemy_team.get_level())/hero.team.get_level())))
             rep = min(50, max(3, 50*(hero.team.get_rep()/50)))
             exp = exp_reward(hero.team, enemy_team)
 
