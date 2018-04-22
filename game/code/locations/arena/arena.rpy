@@ -1256,7 +1256,7 @@ init -9 python:
                 if member not in hero.team:
                     restore_battle_stats(member)
 
-            if winner = hero.team:
+            if winner == hero.team:
                 renpy.call_screen("arena_aftermatch", hero.team, enemy_team, "Victory")
             else:
                 renpy.call_screen("arena_aftermatch", enemy_team, hero.team, "Loss")
