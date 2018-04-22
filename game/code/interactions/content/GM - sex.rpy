@@ -234,9 +234,14 @@ label interactions_sex: # we go to this label from GM menu propose sex
             menu:
                 "Yes":
                     call interactions_girl_dissapointed
-                    $ char.joy -= randint(20, 30)
-                    $ char.disposition -= randint(50, 100)
-                    $ char.set_flag("raped_by_player") 
+                    if cgo("SIW"):
+                        $ char.joy -= randint(1, 5)
+                        if char.disposition > 50:
+                            $ char.disposition -= randint(25, 50)
+                    else:
+                        $ char.joy -= randint(20, 30)
+                        $ char.disposition -= randint(50, 100)
+                        $ char.set_flag("raped_by_player") 
                 "No":
                     jump girl_interactions
     else:
