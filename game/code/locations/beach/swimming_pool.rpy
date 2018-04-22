@@ -174,7 +174,14 @@ label mc_action_instructor_swimming_pool_skill_checks:
     return
 
 label mc_action_work_swim_pool: # here we could use an option to meet characters with a certain probability
-    if hero.vitality < 20 or hero.AP <= 0 or  hero.health < hero.get_max("health")*0.5:
+    if hero.vitality < 20:
+        "You are too tired for work."
+        jump swimming_pool
+    elif hero.AP <= 0:
+        "You don't have enough Action Points. Try again tomorrow."
+        jump swimming_pool
+    elif hero.health < hero.get_max("health")*0.5:
+        "You are too wounded at the moment."
         jump swimming_pool
 
     $ result = randint(5, round(hero.get_skill("swimming")*0.1))
