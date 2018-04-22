@@ -252,7 +252,7 @@ label special_items_emerald_tincture:
     $ eqtarget.health += int(.5*h)
     $ h = eqtarget.get_max("vitality") - eqtarget.vitality
     $ eqtarget.vitality += int(.5*h)
-    $ eqtarget.mp = 0
+    $ eqtarget.mp = int(eqtarget.get_max("mp")*0.25)
     play events "events/item_2.wav"
     jump char_equip
 
@@ -270,7 +270,7 @@ label special_items_flashing_extract:
 
 label special_items_puke_cola:
     if not eqtarget.effects['Food Poisoning']['active']:
-        $ eqtarget.health += randint(15, 100)
+        $ eqtarget.health += randint(85, 255)
         $ eqtarget.effects['Food Poisoning']['activation_count'] += 5
         if eqtarget.effects['Food Poisoning']['activation_count'] >= 7:
             $ eqtarget.enable_effect('Food Poisoning')
