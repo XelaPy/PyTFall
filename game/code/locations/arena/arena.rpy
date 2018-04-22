@@ -307,10 +307,16 @@ init -9 python:
                 amount = randint(15, 20)
                 level_range = range(hero.level-10, hero.level+10)
 
+                in_range_exists = len([f for f in dogfighters if f.level in level_range])
+
                 # do first pass over those candidates who's level is near Hero's
                 for i in candidates[:]:
+                    if in_range_exists >= 5:
+                        break
+
                     if i.level in level_range:
                         amount -= 1
+                        in_range_exists += 1
                         team = Team(max_size=1)
                         team.add(i)
                         candidates.remove(i)
