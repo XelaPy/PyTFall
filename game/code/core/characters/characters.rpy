@@ -4440,12 +4440,12 @@ init -9 python:
             txt = []
             flag_red = False
 
-            for event in self.guard_relay:
-                for stat in self.guard_relay[event]["stats"]:
-                    if stat == "exp":
-                        self.exp += self.guard_relay[event]["stats"][stat]
-                    elif stat in self.STATS:
-                        self.mod_stat(stat, self.guard_relay[event]["stats"][stat])
+            # for event in self.guard_relay:
+            #     for stat in self.guard_relay[event]["stats"]:
+            #         if stat == "exp":
+            #             self.exp += self.guard_relay[event]["stats"][stat]
+            #         elif stat in self.STATS:
+            #             self.mod_stat(stat, self.guard_relay[event]["stats"][stat])
 
             # -------------------->
             txt.append("Hero Report:\n\n")
