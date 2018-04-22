@@ -588,7 +588,7 @@ init -9 python:
 
             renpy.scene(layer="screens")
 
-            self.start_dogfight(team)
+            self.run_dogfight(team)
 
         def match_challenge(self, setup):
             """
@@ -1187,7 +1187,7 @@ init -9 python:
 
             return winner, loser
 
-        def start_dogfight(self, enemy_team):
+        def run_dogfight(self, enemy_team):
             '''
             Bridge to battle engine + rewards/penalties
             '''
@@ -1212,70 +1212,54 @@ init -9 python:
 
             renpy.music.stop(fadeout=1.0)
 
+            winner = battle.winner
+            if winner == hero.team:
+                loser = enemy_team
+            else:
+                loser = hero.team
+
             # Idea for awards in DF: Decent cash, low a-rep and normal EXP.
             # Max gold as a constant:
             max_gold = (enemy_team.get_level()+hero.team.get_level())*2
 
-            if battle.winner == hero.team:
-                # Awards:
-                money = round_int(min(max_gold*2, max_gold*(float(enemy_team.get_level())/hero.team.get_level())))
-                rep = min(50, max(3, 50*(hero.team.get_rep()/50)))
-                exp = exp_reward(hero.team, enemy_team)
+            # Awards:
+            money = round_int(min(max_gold*2, max_gold*(float(enemy_team.get_level())/hero.team.get_level())))
+            rep = min(50, max(3, 50*(hero.team.get_rep()/50)))
+            exp = exp_reward(hero.team, enemy_team)
 
-                for member in hero.team:
-                    if member not in battle.corpses:
-                        statdict = dict()
-                        statdict["gold"] = money
-                        if dice(enemy_team.get_level()):
-                            statdict["fame"] = randint(0, 1)
-                            statdict["reputation"] = randint(0, 1)
-                        statdict["Arena Rep"] = rep
-                        statdict["exp"] = exp
-                        for stat in statdict:
-                            if stat == "exp":
-                                member.exp += statdict[stat]
-                            elif stat == "Arena Rep":
-                                member.arena_rep += statdict[stat]
-                            elif stat == "gold":
-                                member.add_money(statdict[stat], reason="Arena")
-                            else:
-                                member.mod_stat(stat, statdict[stat])
-                        member.combat_stats = statdict
-                    else:
-                        member.combat_stats = "K.O."
-
-                for member in enemy_team:
-                    member.arena_rep -= rep
-                    member.exp += round_int(exp*.15)
-                    self.remove_team_from_dogfights(member)
-
-                renpy.call_screen("arena_aftermatch", hero.team, enemy_team, "Victory")
-            else: # Player lost -->
-                # Rewards:
-                money = round_int(min(max_gold*2, max_gold*(float(hero.team.get_level())/enemy_team.get_level()))*.2)
-                rep = min(50, max(3, 50*(enemy_team.get_rep()/50)))
-                exp = exp_reward(enemy_team, hero.team)
-
-                for member in enemy_team:
-                    if member not in battle.corpses:
-                        statdict = dict()
-                        statdict["gold"] = money
-                        statdict["exp"] = exp
-                        for stat in statdict:
-                            if stat == "exp":
-                                member.exp += statdict[stat]
-                            elif stat == "Arena Rep":
-                                member.arena_rep += statdict[stat]
-                            elif stat == "gold":
-                                member.add_money(statdict[stat], reason="Arena")
-                            else:
-                                member.mod_stat(stat, statdict[stat])
-                    self.remove_team_from_dogfights(member)
-
-                for member in hero.team:
+            for member in winner:
+                if member not in battle.corpses:
+                    statdict = dict()
+                    statdict["gold"] = money
+                    if dice(enemy_team.get_level()):
+                        statdict["fame"] = randint(0, 1)
+                        statdict["reputation"] = randint(0, 1)
+                    statdict["Arena Rep"] = rep
+                    statdict["exp"] = exp
+                    for stat in statdict:
+                        if stat == "exp":
+                            member.exp += statdict[stat]
+                        elif stat == "Arena Rep":
+                            member.arena_rep += statdict[stat]
+                        elif stat == "gold":
+                            member.add_money(statdict[stat], reason="Arena")
+                        else:
+                            member.mod_stat(stat, statdict[stat])
+                    member.combat_stats = statdict
+                else:
                     member.combat_stats = "K.O."
-                    member.exp += max(10, round_int(exp*.15))
-                    member.arena_rep -= rep
+
+            for member in loser:
+                member.arena_rep -= rep
+                member.exp += round_int(exp*.15)
+                self.remove_team_from_dogfights(member)
+                if member not in hero.team:
+                    restore_battle_stats(member)
+
+            if winner = hero.team:
+                renpy.call_screen("arena_aftermatch", hero.team, enemy_team, "Victory")
+            else:
+                renpy.call_screen("arena_aftermatch", enemy_team, hero.team, "Loss")
 
             jump("arena_inside")
 
