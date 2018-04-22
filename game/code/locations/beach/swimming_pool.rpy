@@ -130,7 +130,7 @@ label mc_action_swimming_pool_skill_checks:
         $ hero.swimming += randint(2,3)
         $ hero.vitality -= randint (20, 30)
     elif hero.get_skill("swimming") < 100:
-        "You are somewhat confident about your swimming skills, but big waves and playful dolphins are still bad news."
+        "You are somewhat confident about your swimming skills."
         $ hero.swimming += randint(2,4)
         $ hero.vitality -= randint (15, 20)
     else:
