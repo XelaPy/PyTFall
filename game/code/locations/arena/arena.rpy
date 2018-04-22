@@ -1197,9 +1197,9 @@ init -9 python:
             renpy.play(choice(["content/sfx/sound/world/arena/prepare.mp3",
                                "content/sfx/sound/world/arena/new_opp.mp3"]))
             track = get_random_battle_track()
-            renpy.pause(.5)
             renpy.music.play(track, fadein=1.5)
-
+            renpy.pause(.5)
+            
             for member in enemy_team:
                 member.controller = Complex_BE_AI(member)
 
