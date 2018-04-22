@@ -102,16 +102,29 @@ screen city_beach_swim():
     frame:
         pos (.98, .98) anchor (1.0, 1.0)
         has vbox
+        
         textbutton "Swim":
             action Hide("city_beach_swim"), Jump("city_beach_swimming_checks")
-        if hero.get_skill("swimming") >= 100:
+            
+        if hero.get_skill("swimming") >= 150:
             textbutton "Diving":
                 action Hide("city_beach_swim"), Jump("mc_action_city_beach_diving_checks")
+        
+        if global_flags.has_flag('swam_city_beach'):
+            textbutton "About swimming":
+                action Hide("city_beach_swim"), Jump("city_beach_about_swimming")
+                
         textbutton "Leave":
             action Hide("city_beach_swim"), Show("city_beach"), With(dissolve)
             keysym "mousedown_3"
 
-
+label city_beach_about_swimming:
+    "By swimming here you can increase max constitution and, if you manage to avoid sea monsters, agility."
+    "But you need high enough swimming skill. Consider practicing in the swimming pool first."
+    "With high enough swimming skill you can try diving, where you can obtain some valuable items."
+    $ global_flags.set_flag("keep_playing_music")
+    jump city_beach
+            
 label city_beach_swimming_checks:
 
     if not global_flags.flag('swam_city_beach'):
@@ -124,13 +137,15 @@ label city_beach_swimming_checks:
         with dissolve
         "You stay in shallow water not too far from land to get used to the water. It feels nice, but the real swimming will require some skills next time."
     else:
-        if hero.vitality < 30 or hero.AP <= 0:
+        if hero.vitality < 30:
             "You are too tired at the moment."
-        elif hero.health < hero.get_max("health")*0.5:
+        elif hero.AP <= 0:
+            "You don't have Action Points at the moment. Try again tomorrow."
+        elif hero.health < hero.get_max("health")*0.25:
             "You are too wounded at the moment."
         else:
             scene bg open_sea with dissolve
-            call mc_action_hero_ocean_skill_checks from _call_mc_action_hero_ocean_skill_checks
+            jump mc_action_hero_ocean_skill_checks
     $ global_flags.set_flag("keep_playing_music")
     jump city_beach
 
@@ -139,60 +154,62 @@ label mc_action_hero_ocean_skill_checks:
     if locked_dice(20):
         $ narrator ("A group of sea monsters surrounded you!")
         if hero.get_skill("swimming") < 50:
-            if hero.health > 30 and locked_dice(75):
+            if hero.health > 40 and locked_dice(75):
                 $ narrator ("They managed to attack you a few times before you got a chance to react.")
                 $ hero.health -= randint(15, 30)
             jump city_beach_monsters_fight
-        elif hero.get_skill("swimming") < 100:
+        elif hero.get_skill("swimming") < 200:
             jump city_beach_monsters_fight
         else:
             menu:
                 "You are fast enough to avoid the fight."
                 "Swim away":
-                    $ narrator ("You quickly increase the distance between you and the monsters {color=[green]}(agility +1){/color}.")
+                    $ narrator ("You quickly increase the distance between you and the monsters {color=[green]}(max agility +1){/color}.")
                     $ hero.swimming += randint(2, 4)
-                    $ hero.agility += 1
+                    $ hero.stats.lvl_max["agility"] += 1
+                    $ hero.stats.max["agility"] += 1
+                    $ hero.mod_stat("agility", 1)
                 "Fight":
                     jump city_beach_monsters_fight
     if hero.get_skill("swimming") < 50:
-        if locked_dice(50):
+        if locked_dice(40):
             $ narrator ("You try to swim, but strong tide keeps you away {color=[red]}(no bonus to swimming skill this time){/color}.")
+            $ narrator ("You need higher swimming skill to prevent it. Consider training in the swimming pool.")
         else:
             scene bg ocean_underwater with dissolve
             "Waves are pretty big today. You try fighting them, but quickly lose, pulling you under the water."
-            $ narrator ("Nearly drowned, you get out of the ocean {color=[red]}(-25% health){/color}.")
-            $ hero.health -= int(hero.get_max("health")*0.25) # we don't allow MC to do it unless his health is more than 50%, so it's fine to take 25% due to low skill
+            $ narrator ("Nearly drowned, you get out of the ocean {color=[red]}(- health){/color}.")
+            $ narrator ("You need higher swimming skill to prevent it. Consider training in the swimming pool.")
+            $ hero.health = max(1, hero.health - 50)
             $ hero.swimming += randint(1, 2)
         $ hero.vitality -= randint (40, 50)
     elif hero.get_skill("swimming") < 100:
         "You try to swim, but rapid underwater currents make it very difficult for a novice swimmer."
-        if locked_dice(30):
-            scene bg ocean_underwater with dissolve
-            "Waves are pretty big today. You try to fight them, but they win, sending you under the water."
-            $ narrator ("Nearly drowned, you get out of the ocean {color=[red]}(-20% health){/color}.")
-            $ hero.health -= int(hero.get_max("health")*0.2)
-        $ hero.swimming += randint(3, 5)
-        $ hero.vitality -= randint (40, 50)
-    elif hero.get_skill("swimming") < 150:
-        "You cautiously swim in the ocean, trying to stay close to the shore just in case."
         if locked_dice(10):
             scene bg ocean_underwater with dissolve
-            "Waves are pretty big today. You try to fight them, but eventually, they win, sending you under the water."
-            $ narrator ("Nearly drowned, you get out of the ocean {color=[red]}(-15% health){/color}.")
-            $ hero.health -= int(hero.get_max("health")*0.15)
+            "Waves are pretty big today. You try to fight them, but they win, sending you under the water."
+            $ narrator ("You need higher swimming skill to prevent it. Consider training in the swimming pool.")
+            $ narrator ("Nearly drowned, you get out of the ocean {color=[red]}(- health){/color}.")
+            $ hero.health = max(1, hero.health - 50)
         $ hero.swimming += randint(4, 8)
         $ hero.vitality -= randint (30, 40)
+    elif hero.get_skill("swimming") < 200:
+        "You cautiously swim in the ocean, trying to stay close to the shore just in case."
+        $ hero.swimming += randint(6, 12)
+        $ hero.vitality -= randint (20, 30)
     else:
         "You take your time enjoying the water. Even big ocean waves are no match for your swimming skill."
-        $ hero.swimming += randint(6, 10)
-        $ hero.vitality -= randint (20, 30)
+        $ hero.swimming += randint(10, 15)
+        $ hero.vitality -= randint (15, 25)
     if locked_dice(hero.get_skill("swimming")) and hero.flag("constitution_bonus_from_swimming_at_beach") <= 30:
         $ hero.stats.lvl_max["constitution"] += 1
         $ hero.stats.max["constitution"] += 1
         $ hero.mod_stat("constitution", 1)
         $ hero.set_flag("constitution_bonus_from_swimming_at_beach", value=hero.flag("constitution_bonus_from_swimming_at_beach")+1)
         $ narrator ("You feel more endurant than before {color=[green]}(max constitution +1){/color}.")
-    return
+        
+    $ global_flags.set_flag("keep_playing_music")
+    jump city_beach
 
 label city_beach_monsters_fight:
     hide screen city_beach
@@ -206,6 +223,7 @@ label city_beach_monsters_fight:
             enemy_team.add(mob)
         back = interactions_pick_background_for_fight("beach")
         result = run_default_be(enemy_team, background=back, give_up="escape")
+    scene bg city_beach
     if result is True:
         python:
             for member in hero.team:
@@ -230,6 +248,7 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
 
     timer .1 repeat True action If(oxigen > 0, true=SetScreenVariable('oxigen', oxigen - 1), false=(Hide("diving_progress_bar"), Return("All out of Air!")))
     key "mousedown_3" action (Hide("diving_progress_bar"), Return("Swim Out"))
+    key "K_ESCAPE" action (Hide("diving_progress_bar"), Return("Swim Out"))
     if DEBUG:
         vbox:
             xalign .5
@@ -254,7 +273,7 @@ label mc_action_city_beach_diving_checks:
     if hero.AP <= 0:
         "You don't have Action Points at the moment. Try again tomorrow."
         jump city_beach
-    elif hero.vitality < 10:
+    elif hero.vitality < 20:
         "You're too tired at the moment."
         jump city_beach
     elif hero.health < hero.get_max("health")*0.5:
@@ -265,14 +284,14 @@ label mc_action_city_beach_diving_checks:
     $ hero.AP -= 1
     scene bg ocean_underwater_1 with dissolve
     if has_items("Snorkel Mask", [hero]):
-        $ i = int(hero.get_skill("swimming")+1) + 50
+        $ i = int(hero.get_skill("swimming")+1) + 200
     else:
         $ i = int(hero.get_skill("swimming")+1)
 
     if has_items("Underwater Lantern", [hero]):
         $ j = 120
     else:
-        $ j = 60
+        $ j = 50
 
     show screen diving_progress_bar(i, i)
     while hero.vitality > 10:
