@@ -4045,25 +4045,6 @@ init -9 python:
         def next_day(self):
             self.jobpoints = 0
 
-            # We assume this to be safe for any character...
-            # Day counter flags:
-            for flag in self.flags.keys():
-                if flag.startswith("_day_countdown"):
-                    self.down_counter(flag, value=1, min=0, delete=True)
-                # Deleting _jobs flags once all jobs are complete.
-                elif flag.startswith("_jobs"):
-                    self.del_flag(flag)
-
-            # Run the effects if they are available:
-            if hasattr(self, "effects"):
-                for key in self.effects:
-                    if self.effects[key]['active']:
-                        self.apply_effects(key)
-
-            # Log stats to display changes on the next day (Only for chars to whom it's useful):
-            if self in hero.chars:
-                self.log_stats()
-
         def nd_auto_train(self, txt):
             if self.flag("train_with_witch"):
                 if self.get_free_ap():
@@ -4459,12 +4440,12 @@ init -9 python:
             txt = []
             flag_red = False
 
-            for event in self.guard_relay:
-                for stat in self.guard_relay[event]["stats"]:
-                    if stat == "exp":
-                        self.exp += self.guard_relay[event]["stats"][stat]
-                    elif stat in self.STATS:
-                        self.mod_stat(stat, self.guard_relay[event]["stats"][stat])
+            # for event in self.guard_relay:
+            #     for stat in self.guard_relay[event]["stats"]:
+            #         if stat == "exp":
+            #             self.exp += self.guard_relay[event]["stats"][stat]
+            #         elif stat in self.STATS:
+            #             self.mod_stat(stat, self.guard_relay[event]["stats"][stat])
 
             # -------------------->
             txt.append("Hero Report:\n\n")

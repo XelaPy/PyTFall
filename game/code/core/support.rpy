@@ -201,16 +201,28 @@ init -9 python:
 
             # Girls, Buildings income and Hero:
             tl.start("MC's Chars .next_day")
-            for char in chars.values():
-                if char in hero.chars:
+            for char in chars.values() + [hero]:
+                # Run the effects if they are available:
+                if hasattr(char, "effects"):
+                    for key in char.effects:
+                        if char.effects[key]['active']:
+                            char.apply_effects(key)
+
+                if char in hero.chars or char == hero:
                     char.next_day()
-            tl.end("MC's Chars .next_day")
+                for flag in char.flags.keys():
+                    if flag.startswith("_day_countdown"):
+                        char.down_counter(flag, value=1, min=0, delete=True)
+                    elif flag.startswith("_jobs"):
+                        char.del_flag(flag)
+
+                char.log_stats()
 
             businesses = [b for b in hero.buildings if isinstance(b, UpgradableBuilding)]
             for b in businesses:
                 b.nd_log_income()
 
-            hero.next_day()
+            tl.end("MC's Chars .next_day")
 
             # Restoring world girls:
             self.restore_all_chars()
