@@ -150,8 +150,8 @@ label interactions_kiss:
         else:
             $ char.override_portrait("portrait", "indifferent")
             $ rc("With you? Of course not!", "Huh?! No, I don't want to! Pervert...", "Woah, hold on there. Maybe after we get to know each other better.")
-        if char.disposition <= (350+50*sub) or (char.disposition <500 and m>1):
-            $ char.set_flag("_day_countdown_interactions_blowoff", 3)
+        if (char.disposition <= (350+50*sub) or (char.disposition <500 and m>1)) and not cgo("SIW"):
+            $ char.set_flag("_day_countdown_interactions_blowoff", 2)
             $ del sub
             $ del m
             $ char.restore_portrait()
