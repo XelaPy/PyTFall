@@ -301,7 +301,7 @@ init -9 python:
 
             # 1v1
             if len(self.dogfights_1v1) < 20:
-                dogfighters = list(chain.from_iterable(t.members for t in self.get_dogfights_fighters("all")))
+                dogfighters = list(self.get_dogfights_fighters("all"))
                 candidates = [f for f in self.arena_fighters.values() if f not in dogfighters]
                 chars_fighters = self.get_arena_candidates_from_chars()
                 chars_fighters = [f for f in chars_fighters if f not in dogfighters]
@@ -1226,10 +1226,10 @@ init -9 python:
 
             # Idea for awards in DF: Decent cash, low a-rep and normal EXP.
             # Max gold as a constant:
-            max_gold = (enemy_team.get_level()+hero.team.get_level())*2
+            max_gold = (enemy_team.get_level()+hero.team.get_level())*5
 
             # Awards:
-            money = round_int(min(max_gold, max_gold*(float(enemy_team.get_level())/hero.team.get_level())))
+            money = round_int(max_gold*(float(loser.get_level())/winner.get_level()))
             rep = min(50, max(3, 50*(hero.team.get_rep()/50)))
             exp = exp_reward(hero.team, enemy_team)
 

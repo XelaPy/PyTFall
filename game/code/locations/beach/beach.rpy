@@ -42,7 +42,6 @@ label city_beach:
                 hide screen city_beach
                 jump city
 
-
 screen city_beach():
     use top_stripe(True)
     if not gm.show_girls:
@@ -102,18 +101,18 @@ screen city_beach_swim():
     frame:
         pos (.98, .98) anchor (1.0, 1.0)
         has vbox
-        
+
         textbutton "Swim":
             action Hide("city_beach_swim"), Jump("city_beach_swimming_checks")
-            
+
         if hero.get_skill("swimming") >= 150:
             textbutton "Diving":
                 action Hide("city_beach_swim"), Jump("mc_action_city_beach_diving_checks")
-        
+
         if global_flags.has_flag('swam_city_beach'):
             textbutton "About swimming":
                 action Hide("city_beach_swim"), Jump("city_beach_about_swimming")
-                
+
         textbutton "Leave":
             action Hide("city_beach_swim"), Show("city_beach"), With(dissolve)
             keysym "mousedown_3"
@@ -124,7 +123,7 @@ label city_beach_about_swimming:
     "With high enough swimming skill you can try diving, where you can obtain some valuable items."
     $ global_flags.set_flag("keep_playing_music")
     jump city_beach
-            
+
 label city_beach_swimming_checks:
 
     if not global_flags.flag('swam_city_beach'):
@@ -207,7 +206,7 @@ label mc_action_hero_ocean_skill_checks:
         $ hero.mod_stat("constitution", 1)
         $ hero.set_flag("constitution_bonus_from_swimming_at_beach", value=hero.flag("constitution_bonus_from_swimming_at_beach")+1)
         $ narrator ("You feel more endurant than before {color=[green]}(max constitution +1){/color}.")
-        
+
     $ global_flags.set_flag("keep_playing_music")
     jump city_beach
 
