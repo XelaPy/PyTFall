@@ -59,7 +59,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         call interactions_sex_disagreement from _call_interactions_sex_disagreement
         jump girl_interactions
 
-    if char.disposition<0 and char.status == "free": # for negative disposition
+    if char.disposition<0 and char.status == "free" and not cgo("SIW"): # for negative disposition
         if dice(abs(char.disposition*0.2)): # if it's low enough to make the dice work she refuses
             call interactions_sex_disagreement from _call_interactions_sex_disagreement_1
             $ char.disposition -= randint(15, 35)
