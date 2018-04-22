@@ -1259,8 +1259,9 @@ init -9 python:
                 member.arena_rep -= rep
                 member.exp += round_int(exp*.15)
                 self.remove_team_from_dogfights(member)
-                if member not in hero.team:
-                    restore_battle_stats(member)
+
+            for member in enemy_team:
+                restore_battle_stats(member)
 
             if winner == hero.team:
                 renpy.call_screen("arena_aftermatch", hero.team, enemy_team, "Victory")
