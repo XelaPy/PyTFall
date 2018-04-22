@@ -1199,7 +1199,7 @@ init -9 python:
             track = get_random_battle_track()
             renpy.music.play(track, fadein=1.5)
             renpy.pause(.5)
-            
+
             for member in enemy_team:
                 member.controller = Complex_BE_AI(member)
 
@@ -1219,7 +1219,7 @@ init -9 python:
             if battle.winner == hero.team:
                 # Awards:
                 money = round_int(min(max_gold*2, max_gold*(float(enemy_team.get_level())/hero.team.get_level())))
-                rep = min(50, 50*(hero.team.get_rep()/50))
+                rep = min(50, max(3, 50*(hero.team.get_rep()/50)))
                 exp = exp_reward(hero.team, enemy_team)
 
                 for member in hero.team:
@@ -1253,7 +1253,7 @@ init -9 python:
             else: # Player lost -->
                 # Rewards:
                 money = round_int(min(max_gold*2, max_gold*(float(hero.team.get_level())/enemy_team.get_level()))*.2)
-                rep = min(50, 50*(enemy_team.get_rep()/50))
+                rep = min(50, max(3, 50*(enemy_team.get_rep()/50)))
                 exp = exp_reward(enemy_team, hero.team)
 
                 for member in enemy_team:
