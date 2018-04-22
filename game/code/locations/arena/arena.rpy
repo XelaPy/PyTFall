@@ -1195,7 +1195,8 @@ init -9 python:
             Bridge to battle engine + rewards/penalties
             '''
             renpy.music.stop(channel="world")
-            renpy.play(choice(["content/sfx/sound/world/arena/prepare.mp3", "content/sfx/sound/world/arena/new_opp.mp3"]))
+            renpy.play(choice(["content/sfx/sound/world/arena/prepare.mp3",
+                               "content/sfx/sound/world/arena/new_opp.mp3"]))
             track = get_random_battle_track()
             renpy.pause(1.3)
             renpy.music.play(track, fadein=1.5)
@@ -1204,7 +1205,9 @@ init -9 python:
                 member.controller = Complex_BE_AI(member)
 
             global battle
-            battle = BE_Core(ImageReference("bg battle_dogfights_1"), start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve, give_up="surrender")
+            battle = BE_Core(ImageReference("bg battle_dogfights_1"),
+                             start_sfx=get_random_image_dissolve(1.5),
+                             end_sfx=dissolve, give_up="surrender")
             battle.teams.append(hero.team)
             battle.teams.append(enemy_team)
             battle.start_battle()
@@ -1251,7 +1254,7 @@ init -9 python:
                 renpy.call_screen("arena_aftermatch", hero.team, enemy_team, "Victory")
             else: # Player lost -->
                 # Rewards:
-                money = round_int(min(max_gold*2, max_gold*(float(enemy_team.get_level())/hero.team.get_level()))*.2)
+                money = round_int(min(max_gold*2, max_gold*(float(hero.team.get_level())/enemy_team.get_level()))*.2)
                 rep = min(50, 50*(enemy_team.get_rep()/50))
                 exp = exp_reward(enemy_team, hero.team)
 

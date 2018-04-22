@@ -204,6 +204,20 @@ init -9 python:
             for char in chars.values():
                 if char in hero.chars:
                     char.next_day()
+                for flag in char.flags.keys():
+                    if flag.startswith("_day_countdown"):
+                        char.down_counter(flag, value=1, min=0, delete=True)
+                    elif flag.startswith("_jobs"):
+                        char.del_flag(flag)
+
+                # Run the effects if they are available:
+                if hasattr(char, "effects"):
+                    for key in char.effects:
+                        if char.effects[key]['active']:
+                            char.apply_effects(key)
+
+                char.log_stats()
+
             tl.end("MC's Chars .next_day")
 
             businesses = [b for b in hero.buildings if isinstance(b, UpgradableBuilding)]
