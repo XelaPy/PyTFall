@@ -670,7 +670,7 @@
     },
     {
     "id": "Flippers",
-    "desc": "Make swimming a bit easier and helps to learn swimming faster when equipped, but useless otherwise.",
+    "desc": "Helps to learn swimming faster when equipped, but useless otherwise.",
     "icon": "content/items/feet/flippers.png",
     "price": 500,
     "sex": "male",

@@ -388,9 +388,9 @@
     },
     {
     "id": "Underwater Lantern",
-    "desc": "Helps to find items underwater, but useless otherwise.",
+    "desc": "Helps to find items underwater by increasing the area of search, but useless otherwise.",
     "icon": "content/items/sweapon/u_lantern.png",
-    "price": 500,
+    "price": 250,
     "sex": "male",
     "chance": 30,
     "badness": 100,
