@@ -604,6 +604,7 @@ init -11 python:
                     item = Item()
                     item.slot = "gift"
                     item.type = "gift"
+                    item.sellable = True
                     item.__dict__.update(key)
                     content[item.id] = item
         return content
