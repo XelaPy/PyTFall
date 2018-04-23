@@ -59,7 +59,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         call interactions_sex_disagreement from _call_interactions_sex_disagreement
         jump girl_interactions
 
-    if char.disposition<0 and char.status == "free"): # for negative disposition
+    if char.disposition<0 and char.status == "free": # for negative disposition
         if dice(abs(char.disposition*0.2)): # if it's low enough to make the dice work she refuses
             call interactions_sex_disagreement from _call_interactions_sex_disagreement_1
             $ char.disposition -= randint(15, 35)
@@ -1058,7 +1058,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         
         $ temp = randint(1, 5)
         if (skill_for_checking - male_skill_for_checking) > 250 and dice(50):
-            $ hero.oral += randint(5, 10)
+            $ hero.anal += randint(5, 10)
         else:
             $ hero.anal += randint(2, 6)
         if (male_skill_for_checking - skill_for_checking) > 250 and dice(75):
