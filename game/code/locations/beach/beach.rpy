@@ -293,7 +293,7 @@ label mc_action_city_beach_diving_checks:
     if has_items("Underwater Lantern", [hero]):
         $ j = 120
     else:
-        $ j = 50
+        $ j = 60
 
     show screen diving_progress_bar(i, i)
     while hero.vitality > 10:
@@ -328,9 +328,11 @@ label mc_action_city_beach_diving_checks:
             $ gfx_overlay.notify("You caught %s!" % item.id, tkwargs=tkwargs)
             $ gfx_overlay.random_find(item, 'fishy')
         else:
-            $ hero.say("There is nothing there.")
+            $ tkwargs = {"color": blue,
+                               "outlines": [(1, black, 0, 0)]}
+            $ gfx_overlay.notify("There is nothing there...", tkwargs=tkwargs)
 
-        $ hero.vitality -= randint(10, 20)
+        $ hero.vitality -= randint(10, 15)
     $ setattr(config, "mouse", None)
     hide screen hidden_area
     hide screen diving_progress_bar
