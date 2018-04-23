@@ -253,15 +253,18 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
             xalign .5
             text str(oxigen)
             text str(max_oxigen)
-
-    bar:
-        right_bar im.Scale("content/gfx/interface/bars/oxigen_bar_empty.png", 300, 50)
-        left_bar im.Scale("content/gfx/interface/bars/oxigen_bar_full.png", 300, 50)
-        value oxigen
-        range max_oxigen
-        thumb None
-        xysize (300, 50)
-        at alpha_dissolve
+    vbox:
+        xsize 300
+        bar:
+            right_bar im.Scale("content/gfx/interface/bars/oxigen_bar_empty.png", 300, 50)
+            left_bar im.Scale("content/gfx/interface/bars/oxigen_bar_full.png", 300, 50)
+            value oxigen
+            range max_oxigen
+            thumb None
+            xysize (300, 50)
+            at alpha_dissolve
+        label "Find hidden items!" text_color gold text_size 18 xalign .5 yalign .5 
+        label "Right click or Esc to exit" text_color gold text_size 18 xalign .5 yalign .5
 
 label mc_action_city_beach_diving_checks:
     if not global_flags.flag('diving_city_beach'):
@@ -320,9 +323,10 @@ label mc_action_city_beach_diving_checks:
             $ item = result
             $ hero.add_item(item)
             $ our_image = ProportionalScale(item.icon, 150, 150)
-            show expression our_image at truecenter with dissolve
-            $ hero.say("I caught %s!" % item.id)
-            hide expression our_image with dissolve
+            $ tkwargs = {"color": blue,
+                               "outlines": [(1, black, 0, 0)]}
+            $ gfx_overlay.notify("You caught %s!" % item.id, tkwargs=tkwargs)
+            $ gfx_overlay.random_find(item, 'fishy')
         else:
             $ hero.say("There is nothing there.")
 
