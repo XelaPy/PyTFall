@@ -179,14 +179,14 @@
     },
     {
     "id": "Summer Eternality",
-    "desc": "Your body inherited some of your mother's unchangeability. Your body restores 1/3 of health every day, but healing items are less effective.",
+    "desc": "Your body inherited some of your mother's unchangeability. Your body restores 1/2 of health every day, but healing items are less effective.",
     "effects": ["Regeneration"],
     "MC_only_trait": true,
     "permanent": true
     },
     {
     "id": "Winter Eternality",
-    "desc": "Your body inherited some of your mother's unchangeability. Your body restores 1/3 of mp every day, but items that restore it are less effective.",
+    "desc": "Your body inherited some of your mother's unchangeability. Your body restores 1/2 of mp every day, but items that restore it are less effective.",
     "effects": ["MP Regeneration"],
     "MC_only_trait": true,
     "permanent": true

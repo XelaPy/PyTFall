@@ -1141,7 +1141,7 @@
     },
     {
     "id": "Regeneration Potion",
-    "desc": "A bottle of viscous liquid. Restores 10 health points every day.",
+    "desc": "A bottle of viscous liquid. Restores 15 health points every day.",
     "icon": "content/items/cons/reg.png",
     "price": 250,
     "sex": "unisex",

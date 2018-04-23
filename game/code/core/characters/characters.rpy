@@ -1755,7 +1755,7 @@ init -9 python:
                 "Calm": {"active": False, "desc": "Harder to decrease and increase joy."},
                 "Regeneration": {"active": False, "desc": "Restores some health every day."},
                 "MP Regeneration": {"active": False, "desc": "Restores some mp every day."},
-                "Small Regeneration": {"active": False, "desc": "Restores 10 health every day for 20 days."},
+                "Small Regeneration": {"active": False, "desc": "Restores 15 health every day."},
                 "Blood Connection": {"active": False, "desc": "Disposition increases and character decreases every day."},
                 "Horny": {"active": False, "desc": "She's in the mood for sex."},
                 "Chastity": {"active": False, "desc": "Special enchantment preserves her virginity intact."},
@@ -3878,11 +3878,11 @@ init -9 python:
                     self.joy += 1
 
             elif effect == "Blood Connection":
-                self.disposition += 1
+                self.disposition += 2
                 self.character -=1
 
             elif effect == "Regeneration":
-                h = 0
+                h = 30
                 if "Summer Eternality" in self.traits:
                     h += int(self.get_max("health")*0.5)
                 if h <= 0:
@@ -3890,7 +3890,7 @@ init -9 python:
                 self.health += h
 
             elif effect == "MP Regeneration":
-                h = 0
+                h = 30
                 if "Winter Eternality" in self.traits:
                     h += int(self.get_max("mp")*0.5)
                 if h <= 0:
@@ -3898,7 +3898,7 @@ init -9 python:
                 self.mp += h
 
             elif effect == "Small Regeneration":
-                self.health += 10
+                self.health += 15
 
             elif effect == "Depression":
                 if self.joy >= 30:
@@ -3916,15 +3916,16 @@ init -9 python:
                 if self.joy > 80:
                     self.joy -= 2
                 elif self.joy > 10:
-                    self.joy -= 1
+                    if dice(60):
+                        self.joy -= 1
 
             elif effect == "Assertive":
                 if self.character < self.get_max("character")*0.5:
                     self.character += 2
 
             elif effect == "Diffident":
-                if self.character > self.get_max("character")*0.6:
-                    self.character -= 1
+                if self.character > self.get_max("character")*0.55:
+                    self.character -= 2
 
             elif effect == "Composure":
                 if self.joy < 50:
@@ -3942,7 +3943,7 @@ init -9 python:
                 if self.effects['Down with Cold']['healthy_again'] <= self.effects['Down with Cold']['count']:
                     self.disable_effect('Down with Cold')
                     return
-                if self.health > 50:
+                if self.health > 100:
                     self.health -= self.effects['Down with Cold']['health']
                 self.vitality -= self.effects['Down with Cold']['vitality']
                 self.joy -= self.effects['Down with Cold']['joy']
@@ -3965,7 +3966,7 @@ init -9 python:
             elif effect == "Exhausted":
                 self.vitality -= int(self.get_max("vitality")*0.2)
 
-            elif effect == "Lactation": # TO DO: add milking activiies, to use this fetish more widely
+            elif effect == "Lactation": # TO DO: add milking activities, to use this fetish more widely
                 if self.health >= 30 and self.vitality >= 30:
                     if self.status == "slave" or check_lovers(self, hero):
                         if "Small Boobs" in self.traits:
@@ -4002,7 +4003,7 @@ init -9 python:
 
             elif effect == "Drunk":
                 self.vitality -= self.effects['Drunk']['activation_count']
-                if self.health > 50:
+                if self.health > 100:
                     self.health -= 10
                 self.joy -= 5
                 self.mp -= 20
