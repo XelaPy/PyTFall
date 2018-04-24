@@ -47,12 +47,6 @@ label start:
         random_team_names = load_team_names(50)
         tl.end("Loading: Random Name Files")
 
-        # Load random names selections for Teams:
-        file = open(content_path("db/RandomTeamNames_1.txt"))
-        randomTeamNames = file.readlines()
-        shuffle(randomTeamNames)
-        file.close()
-
         tl.start("Loading: PyTFallWorld")
         pytfall = PyTFallWorld()
         tl.end("Loading: PyTFallWorld")
