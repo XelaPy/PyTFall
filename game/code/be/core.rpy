@@ -195,8 +195,10 @@ init -1 python: # Core classes:
 
             if s == "surrender":
                 self.win = False
+                self.winner = self.teams[1]
             elif s == "escape":
                 self.win = None
+                self.winner = self.teams[1]
 
             self.end_battle()
 
