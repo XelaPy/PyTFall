@@ -393,5 +393,15 @@ label after_load:
         if hasattr(store, "dummy"):
             del dummy
 
+    python hide:
+        for b in hero.buildings:
+            temp = getattr(b, "workable", False)
+            if temp:
+                b.needs_management = True
+        for b in businesses.values():
+            temp = getattr(b, "workable", False)
+            if temp:
+                b.needs_management = True
+
     stop music
     return
