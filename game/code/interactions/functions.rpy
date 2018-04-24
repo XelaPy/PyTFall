@@ -652,7 +652,7 @@ init -11 python:
             i.vitality -= int(i.get_max("vitality")*.3)
             i.mp -= int(i.get_max("mp")*.3)
 
-    def run_default_be(enemy_team, slaves=False,
+    def run_default_be(enemy_team, slaves=False, your_team=None,
                        background="content/gfx/bg/be/battle_arena_1.webp",
                        track="random", prebattle=True, death=False,
                        skill_lvl=float("inf"), give_up=None):
@@ -666,22 +666,24 @@ init -11 python:
         - if prebattle is true, there will be prebattle quotes inside BE from characters before battle starts
         - if death == True, characters in MC team will die if defeated, otherwise they will have 1 hp left
         """
+        if your_team is None:
+            your_team = Team(name="Your Team")
+            if slaves:
+                for member in hero.team:
+                    your_team.add(member)
+                your_team.reset_controller() # to make sure everything's fine with AI
+                for member in hero.team:
+                    if member != hero and member.status == "slave":
+                        member.controller = Slave_BE_AI(member)
+            else:
+                for member in hero.team:
+                    if member.status != "slave" or member == hero:
+                        your_team.add(member)
+
+        # Controllers:
         for member in enemy_team:
             member.controller = BE_AI(member)
-
-        your_team = Team(name="Your Team")
-        if slaves:
-            for member in hero.team:
-                your_team.add(member)
-            your_team.reset_controller() # to make sure everything's fine with AI
-            for member in hero.team:
-                if member <> hero and member.status == "slave":
-                    member.controller = Slave_BE_AI(member)
-        else:
-            for member in hero.team:
-                if member.status != "slave" or member == hero:
-                    your_team.add(member)
-            your_team.reset_controller()
+        your_team.reset_controller()
 
         battle = BE_Core(Image(background), start_sfx=get_random_image_dissolve(1.5),
                     music=track, end_sfx=dissolve, quotes=prebattle,
