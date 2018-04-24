@@ -664,6 +664,7 @@ init: # Main Screens:
 
     screen arena_bestiary():
         default in_focus_mob = False
+        default mob = None
 
         add("content/gfx/bg/locations/arena_bestiary.webp")
         hbox:
@@ -701,7 +702,8 @@ init: # Main Screens:
                                         align .5, .6
                                         idle img
                                         hover (im.MatrixColor(img, im.matrix.brightness(.25)))
-                                        action SetScreenVariable("in_focus_mob", creature)
+                                        action [SetScreenVariable("in_focus_mob", creature),
+                                                SetScreenVariable("mob", build_mob(id=data["id"], level=data['min_lvl']))]
                         null height 2
 
             null width 1
@@ -785,7 +787,7 @@ init: # Main Screens:
                     hbox:
                         null width 2
                         vbox:
-                            $ stats = ["attack", "defence", "magic", "agility"]
+                            $ stats = ["health", "vitality", "attack", "defence", "agility"]
                             style_group "proper_stats"
                             box_wrap 1
                             spacing 1
@@ -794,13 +796,13 @@ init: # Main Screens:
                                     xysize (130, 22)
                                     xalign .5
                                     text '{}'.format(stat.capitalize()) xalign .02 color "#43CD80" size 16
-                                    if stat in data["stats"]:
-                                        text str(data["stats"][stat]) xalign .98 style "stats_value_text" color "#79CDCD" size 17
-                                    else:
-                                        text str(20) xalign .98 style "stats_value_text" color "#79CDCD" size 17
+                                    # if stat in data["stats"]:
+                                    text "{}".format(getattr(mob, stat)) xalign .98 style "stats_value_text" color "#79CDCD" size 17
+                                    # else:
+                                    #     text str(20) xalign .98 style "stats_value_text" color "#79CDCD" size 17
                         null width 2
                         vbox:
-                            $ stats = ["charisma", "constitution", "intelligence", "luck"]
+                            $ stats = ["mp", "charisma", "magic", "intelligence", "luck"]
                             style_group "proper_stats"
                             box_wrap 1
                             spacing 1
@@ -809,10 +811,11 @@ init: # Main Screens:
                                     xysize (130, 22)
                                     xalign .5
                                     text '{}'.format(stat.capitalize()) xalign .02 color "#43CD80" size 16
-                                    if stat in data["stats"]:
-                                        text str(data["stats"][stat]) xalign .98 style "stats_value_text" color "#79CDCD" size 17
-                                    else:
-                                        text str(20) xalign .98 style "stats_value_text" color "#79CDCD" size 17
+                                    text "{}".format(getattr(mob, stat)) xalign .98 style "stats_value_text" color "#79CDCD" size 17
+                                    # if stat in data["stats"]:
+                                    #     text str(data["stats"][stat]) xalign .98 style "stats_value_text" color "#79CDCD" size 17
+                                    # else:
+                                    #     text str(20) xalign .98 style "stats_value_text" color "#79CDCD" size 17
                     null height 5
 
                     # Bottom Viewport:
