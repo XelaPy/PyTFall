@@ -137,7 +137,7 @@ init -5 python:
             if worker.effects['Drowsy']['active']:
                 log.logws('vitality', worker.baseAP*2)
             else:
-                log.logws('vitality', worker.baseAP*3)
+                log.logws('vitality', worker.baseAP*5)
                 
             for i in range(ap_range): # every left AP gives additional health, mp and joy
                 value = round_int(worker.get_max("health")*.1) or 1
@@ -147,9 +147,9 @@ init -5 python:
                 log.logws('joy', randint(1, 2))
                 
                 if worker.effects['Drowsy']['active']:
-                    log.logws('vitality', 4)
+                    log.logws('vitality', 12)
                 else:
-                    log.logws('vitality', 3)
+                    log.logws('vitality', 8)
                 
                 worker.AP -= 1
 
