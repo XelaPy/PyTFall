@@ -668,22 +668,17 @@ init -11 python:
         """
         if your_team is None:
             your_team = Team(name="Your Team")
-            if slaves:
-                for member in hero.team:
+            for member in hero.team:
+                if member.status == "slave" and slaves:
+                    member.controller = Slave_BE_AI(member)
                     your_team.add(member)
-                your_team.reset_controller() # to make sure everything's fine with AI
-                for member in hero.team:
-                    if member != hero and member.status == "slave":
-                        member.controller = Slave_BE_AI(member)
-            else:
-                for member in hero.team:
-                    if member.status != "slave" or member == hero:
-                        your_team.add(member)
+                elif member.status == "free":
+                    member.controller = "player"
+                    your_team.add(member)
 
         # Controllers:
         for member in enemy_team:
             member.controller = BE_AI(member)
-        your_team.reset_controller()
 
         battle = BE_Core(Image(background), start_sfx=get_random_image_dissolve(1.5),
                     music=track, end_sfx=dissolve, quotes=prebattle,
