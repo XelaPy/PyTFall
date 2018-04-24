@@ -3200,37 +3200,47 @@ init -9 python:
 
         def load_equip(self, eqsave):
             # load equipment from save, if possible
+            ordered = collections.OrderedDict(sorted(eqsave.items()))
 
-            for i in self.eqslots: # we unequip all rings, or the game will prevent equipping them properly
-                currently_equipped = self.eqslots[i]
-                if "ring" in i:
-                    if self.eqslots[i] and equipment_access(self, item=currently_equipped, silent=True, allowed_to_equip=False):
-                        self.unequip(item=currently_equipped, slot=i)
-                    
-                    
-                    
-            for slot, desired_item in eqsave.iteritems():
-                
-                if not "ring" in slot: # no need for rings checks, we unequipped them
-                    currently_equipped = self.eqslots[slot]
-                    if currently_equipped == desired_item:
-                        continue
+            for slot, desired_item in ordered.iteritems():
 
+                currently_equipped = self.eqslots[slot]
+                if currently_equipped == desired_item:
+                    continue
 
-                    # if we have something equipped, see if we're allowed to unequip
-                    if currently_equipped and equipment_access(self, item=currently_equipped, silent=True, allowed_to_equip=False):
-                        self.unequip(item=currently_equipped, slot=slot)
+                # rings can be on other fingers. swapping them is allowed in any case
+                if slot == "ring":
+
+                    # if the wanted ring is on the next finger, or the next finger requires current ring, swap
+                    if self.eqslots["ring1"] == desired_item or ordered["ring1"] == currently_equipped:
+                        (self.eqslots["ring1"], self.eqslots[slot]) = (self.eqslots[slot], self.eqslots["ring1"])
+
+                        currently_equipped = self.eqslots[slot]
+                        if currently_equipped == desired_item:
+                            continue
+
+                if slot == "ring" or slot == "ring1":
+
+                    if self.eqslots["ring2"] == desired_item or ordered["ring2"] == currently_equipped:
+                        (self.eqslots["ring2"], self.eqslots[slot]) = (self.eqslots[slot], self.eqslots["ring2"])
+
+                        currently_equipped = self.eqslots[slot]
+                        if currently_equipped == desired_item:
+                            continue
+
+                # if we have something equipped, see if we're allowed to unequip
+                if currently_equipped and equipment_access(self, item=currently_equipped, silent=True, allowed_to_equip=False):
+                    self.unequip(item=currently_equipped, slot=slot)
 
                 if desired_item:
                     # if we want something else and have it in inventory..
                     if not self.inventory[desired_item]:
                         continue
 
-                # ..see if we're allowed to equip what we want
-                        
-                if equipment_access(self, item=desired_item, silent=True):
-                    if can_equip(item=desired_item, character=self, silent=False):
-                        self.equip(desired_item)
+                    # ..see if we're allowed to equip what we want
+                    if equipment_access(self, item=desired_item, silent=True):
+                        if can_equip(item=desired_item, character=self, silent=False):
+                            self.equip(desired_item)
 
         # Applies Item Effects:
         def apply_item_effects(self, item, direction=True, misc_mode=False):
