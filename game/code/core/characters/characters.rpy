@@ -1734,7 +1734,7 @@ init -9 python:
                 'Food Poisoning': {'active': False, 'activation_count': 0, "desc": "Intemperance in eating or low quality food often lead to problems."},
                 'Down with Cold': {'active': False, "desc": "Causes weakness and aches, will be held in a week or two."},
                 "Unstable": {"active": False, "desc": "From time to time mood chaotically changes."},
-                "Optimist": {"active": False, "desc": "Joy increases over time, unless it's too low. Grants immunity to Elation."},
+                "Optimist": {"active": False, "desc": "Joy increases over time, unless it's too low."},
                 "Pessimist": {"active": False, "desc": "Joy decreases over time, unless it's already low enough. Grants immunity to Depression."},
                 "Composure": {"active": False, "desc": "Over time joy decreases if it's too high and increases if it's too low."},
                 "Kleptomaniac": {"active": False, "desc": "With some luck, her gold increases every day."},
@@ -1747,7 +1747,7 @@ init -9 python:
                 "Fast Metabolism": {"active": False, "desc": "Any food is more effective than usual."},
                 "Drunk": {"active": False, 'activation_count': 0, "desc": "It might feel good right now, but tomorrow's hangover is fast approaching (-1AP for every next drink)."},
                 "Depression": {"active": False, "desc": "She's in a very low mood right now (-1AP).", 'activation_count': 0},
-                "Elation": {"active": False, "desc": "She's in a very high mood right now (+1AP).", 'activation_count': 0},
+                "Elation": {"active": False, "desc": "She's in a very high mood right now (10% chance of +1AP).", 'activation_count': 0},
                 "Drinker": {"active": False, "desc": "Neutralizes the AP penalty of Drunk effect. But hangover is still the same."},
                 "Injured": {"active": False, "desc": "Some wounds cannot be healed easily. In such cases special medicines are needed."},
                 "Exhausted": {"active": False, "desc": "Sometimes anyone needs a good long rest.", 'activation_count': 0},
@@ -3777,9 +3777,8 @@ init -9 python:
                         self.effects["Depression"][key] = False
 
             elif effect == "Elation":
-                for key in self.effects["Elation"]:
-                    if key != "desc":
-                        self.effects["Elation"][key] = False
+                self.effects['Elation']['activation_count'] = 0
+                self.effects['Elation']['active'] = False
 
             elif effect == "Intelligent":
                 self.effects['Intelligent']['active'] = False
@@ -3901,14 +3900,10 @@ init -9 python:
             elif effect == "Depression":
                 if self.joy >= 30:
                     self.disable_effect('Depression')
-                else:
-                    self.AP -= 1
 
             elif effect == "Elation":
                 if self.joy < 95:
                     self.disable_effect('Elation')
-                else:
-                    self.AP += 1
 
             elif effect == "Pessimist":
                 if self.joy > 80:
