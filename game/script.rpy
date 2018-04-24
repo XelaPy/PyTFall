@@ -398,10 +398,14 @@ label after_load:
             temp = getattr(b, "workable", False)
             if temp:
                 b.needs_management = True
+            if hasattr(b, "_adverts"):
+                b._adverts = deepcopy(b._adverts)
         for b in businesses.values():
             temp = getattr(b, "workable", False)
             if temp:
                 b.needs_management = True
+            if hasattr(b, "_adverts"):
+                b._adverts = deepcopy(b._adverts)
 
     stop music
     return
