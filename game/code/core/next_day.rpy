@@ -80,8 +80,8 @@ label next_day:
         show screen next_day_calculations
         $ nd_turns = getattr(store, "nd_turns", 1)
         while nd_turns:
-            call next_day_effects_check from _call_next_day_effects_check
             call next_day_calculations from _call_next_day_calculations
+            call next_day_effects_check from _call_next_day_effects_check
             $ nd_turns -= 1
 
     $ nd_turns = 1
@@ -317,16 +317,23 @@ label next_day_effects_check:  # all traits and effects which require some unusu
             mod_by_max(hero, "health", .1)
 
         for i in hero.chars: # chars with low or high joy get joy-related effects every day
-            if not "Pessimist" in i.traits and i.joy <= randint(15, 20) and not i.effects['Depression']['active']:
+        
+            if i.effects['Depression']['active']:
+                self.AP -= 1
+            elif not "Pessimist" in i.traits and i.joy <= randint(15, 20):
                 i.effects['Depression']['activation_count'] += 1
-            elif i.joy > 20:
+            elif i.joy > 25:
                 i.effects['Depression']['activation_count'] = 0
+                
             if i.effects['Depression']['activation_count'] >= 3 and not i.effects['Depression']['active']:
                 i.enable_effect('Depression')
-
-            if not "Optimist" in i.traits and i.joy >= 95 and not i.effects['Elation']['active']:
+                
+            if i.effects['Elation']['active']:
+                if dice(10):
+                    i.AP += 1
+            elif i.joy >= 95:
                 i.effects['Elation']['activation_count'] += 1
-            elif i.joy < 95:
+            else:
                 i.effects['Elation']['activation_count'] = 0
             if i.effects['Elation']['activation_count'] >= 3 and not i.effects['Elation']['active']:
                 i.enable_effect('Elation')

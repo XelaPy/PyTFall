@@ -1734,7 +1734,7 @@ init -9 python:
                 'Food Poisoning': {'active': False, 'activation_count': 0, "desc": "Intemperance in eating or low quality food often lead to problems."},
                 'Down with Cold': {'active': False, "desc": "Causes weakness and aches, will be held in a week or two."},
                 "Unstable": {"active": False, "desc": "From time to time mood chaotically changes."},
-                "Optimist": {"active": False, "desc": "Joy increases over time, unless it's too low. Grants immunity to Elation."},
+                "Optimist": {"active": False, "desc": "Joy increases over time, unless it's too low."},
                 "Pessimist": {"active": False, "desc": "Joy decreases over time, unless it's already low enough. Grants immunity to Depression."},
                 "Composure": {"active": False, "desc": "Over time joy decreases if it's too high and increases if it's too low."},
                 "Kleptomaniac": {"active": False, "desc": "With some luck, her gold increases every day."},
@@ -1747,7 +1747,7 @@ init -9 python:
                 "Fast Metabolism": {"active": False, "desc": "Any food is more effective than usual."},
                 "Drunk": {"active": False, 'activation_count': 0, "desc": "It might feel good right now, but tomorrow's hangover is fast approaching (-1AP for every next drink)."},
                 "Depression": {"active": False, "desc": "She's in a very low mood right now (-1AP).", 'activation_count': 0},
-                "Elation": {"active": False, "desc": "She's in a very high mood right now (+1AP).", 'activation_count': 0},
+                "Elation": {"active": False, "desc": "She's in a very high mood right now (10% chance of +1AP).", 'activation_count': 0},
                 "Drinker": {"active": False, "desc": "Neutralizes the AP penalty of Drunk effect. But hangover is still the same."},
                 "Injured": {"active": False, "desc": "Some wounds cannot be healed easily. In such cases special medicines are needed."},
                 "Exhausted": {"active": False, "desc": "Sometimes anyone needs a good long rest.", 'activation_count': 0},
@@ -3200,37 +3200,47 @@ init -9 python:
 
         def load_equip(self, eqsave):
             # load equipment from save, if possible
+            ordered = collections.OrderedDict(sorted(eqsave.items()))
 
-            for i in self.eqslots: # we unequip all rings, or the game will prevent equipping them properly
-                currently_equipped = self.eqslots[i]
-                if "ring" in i:
-                    if self.eqslots[i] and equipment_access(self, item=currently_equipped, silent=True, allowed_to_equip=False):
-                        self.unequip(item=currently_equipped, slot=i)
-                    
-                    
-                    
-            for slot, desired_item in eqsave.iteritems():
-                
-                if not "ring" in slot: # no need for rings checks, we unequipped them
-                    currently_equipped = self.eqslots[slot]
-                    if currently_equipped == desired_item:
-                        continue
+            for slot, desired_item in ordered.iteritems():
 
+                currently_equipped = self.eqslots[slot]
+                if currently_equipped == desired_item:
+                    continue
 
-                    # if we have something equipped, see if we're allowed to unequip
-                    if currently_equipped and equipment_access(self, item=currently_equipped, silent=True, allowed_to_equip=False):
-                        self.unequip(item=currently_equipped, slot=slot)
+                # rings can be on other fingers. swapping them is allowed in any case
+                if slot == "ring":
+
+                    # if the wanted ring is on the next finger, or the next finger requires current ring, swap
+                    if self.eqslots["ring1"] == desired_item or ordered["ring1"] == currently_equipped:
+                        (self.eqslots["ring1"], self.eqslots[slot]) = (self.eqslots[slot], self.eqslots["ring1"])
+
+                        currently_equipped = self.eqslots[slot]
+                        if currently_equipped == desired_item:
+                            continue
+
+                if slot == "ring" or slot == "ring1":
+
+                    if self.eqslots["ring2"] == desired_item or ordered["ring2"] == currently_equipped:
+                        (self.eqslots["ring2"], self.eqslots[slot]) = (self.eqslots[slot], self.eqslots["ring2"])
+
+                        currently_equipped = self.eqslots[slot]
+                        if currently_equipped == desired_item:
+                            continue
+
+                # if we have something equipped, see if we're allowed to unequip
+                if currently_equipped and equipment_access(self, item=currently_equipped, silent=True, allowed_to_equip=False):
+                    self.unequip(item=currently_equipped, slot=slot)
 
                 if desired_item:
                     # if we want something else and have it in inventory..
                     if not self.inventory[desired_item]:
                         continue
 
-                # ..see if we're allowed to equip what we want
-                        
-                if equipment_access(self, item=desired_item, silent=True):
-                    if can_equip(item=desired_item, character=self, silent=False):
-                        self.equip(desired_item)
+                    # ..see if we're allowed to equip what we want
+                    if equipment_access(self, item=desired_item, silent=True):
+                        if can_equip(item=desired_item, character=self, silent=False):
+                            self.equip(desired_item)
 
         # Applies Item Effects:
         def apply_item_effects(self, item, direction=True, misc_mode=False):
@@ -3767,9 +3777,8 @@ init -9 python:
                         self.effects["Depression"][key] = False
 
             elif effect == "Elation":
-                for key in self.effects["Elation"]:
-                    if key != "desc":
-                        self.effects["Elation"][key] = False
+                self.effects['Elation']['activation_count'] = 0
+                self.effects['Elation']['active'] = False
 
             elif effect == "Intelligent":
                 self.effects['Intelligent']['active'] = False
@@ -3891,14 +3900,10 @@ init -9 python:
             elif effect == "Depression":
                 if self.joy >= 30:
                     self.disable_effect('Depression')
-                else:
-                    self.AP -= 1
 
             elif effect == "Elation":
                 if self.joy < 95:
                     self.disable_effect('Elation')
-                else:
-                    self.AP += 1
 
             elif effect == "Pessimist":
                 if self.joy > 80:
