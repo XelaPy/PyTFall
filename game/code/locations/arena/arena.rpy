@@ -1358,7 +1358,11 @@ init -9 python:
             # Line-up positioning:
             self.update_setups(winner, loser)
 
-            hero.fighting_days = []
+            fday = setup[2]
+            for d in hero.fighting_days[:]:
+                if d == fday:
+                    hero.fighting_days.remove(d)
+
             jump("arena_inside")
 
         def next_day(self):

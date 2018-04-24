@@ -245,7 +245,7 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
     default oxigen = o2
     default max_oxigen = max_o2
 
-    timer .1 repeat True action If(oxigen > 0, true=SetScreenVariable('oxigen', oxigen - 1), false=(Hide("diving_progress_bar"), Return("All out of Air!")))
+    timer .1 repeat True action If(oxigen > 0, true=SetScreenVariable('oxigen', oxigen-1), false=(Hide("diving_progress_bar"), Return("All out of Air!")))
     key "mousedown_3" action (Hide("diving_progress_bar"), Return("Swim Out"))
     key "K_ESCAPE" action (Hide("diving_progress_bar"), Return("Swim Out"))
     if DEBUG:
@@ -263,7 +263,7 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
             thumb None
             xysize (300, 50)
             at alpha_dissolve
-        label "Find hidden items!" text_color gold text_size 18 xalign .5 yalign .5 
+        label "Find hidden items!" text_color gold text_size 18 xalign .5 yalign .5
         label "Right click or Esc to exit" text_color gold text_size 18 xalign .5 yalign .5
 
 label mc_action_city_beach_diving_checks:
