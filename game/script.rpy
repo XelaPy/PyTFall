@@ -7,6 +7,26 @@ init 100 python:
     mobs = load_mobs()
     tl.end("Loading: Mobs")
 
+    pytRelayProxyStore = list()
+    class PytRelayProxy(_object):
+        """
+        A class that acts as a proxy for character event relays.
+        """
+
+        def __init__(self, event, relay="guard_relay", use_against=False):
+            """
+            Creates a new PytRelayProxy.
+            event = The event to access.
+            relay = The relay to access the event in.
+            use_against = Whether to use the against list instead of helped.
+            """
+            self.event = event
+            self._relay = relay
+            self.use_against = use_against
+
+            # Add to store
+            pytRelayProxyStore.append(self)
+
 default defeated_mobs = {}
 
 label start:
@@ -181,7 +201,6 @@ label start:
         tl.start("Loading: Training")
         schools = load_schools()
         pytFlagProxyStore = shallowcopy(pytFlagProxyStore)
-        pytRelayProxyStore = shallowcopy(pytRelayProxyStore)
         tl.end("Loading: Training")
 
     # python: # Picked Tags and maps (afk atm):
@@ -410,6 +429,15 @@ label after_load:
     python hide:
         for skill in store.battle_skills.values():
             skill.source = None
+
+    python:
+        if hasattr(store, "pytRelayProxyStore"):
+            pytRelayProxyStore = []
+
+    python hide:
+        for c in chars.values() + pytfall.arena.arena_fighters.values():
+            if hasattr(c, "guard_relay"):
+                delattr(c, "guard_relay")
 
     stop music
     return

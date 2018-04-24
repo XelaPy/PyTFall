@@ -4209,15 +4209,6 @@ init -9 python:
             self._buildings = list()
             self._chars = list()
 
-            # TODO jobs (Guard) Doesn't look like this is in use anymore?
-            self.guard_relay = {"bar_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
-                                           "whore_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
-                                           "club_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0}
-                                           }
-
-            for p in pytRelayProxyStore:
-                p.reset(self)
-
             self.fin = Finances(self)
 
             # Team:
@@ -4431,13 +4422,6 @@ init -9 python:
             txt = []
             flag_red = False
 
-            # for event in self.guard_relay:
-            #     for stat in self.guard_relay[event]["stats"]:
-            #         if stat == "exp":
-            #             self.exp += self.guard_relay[event]["stats"][stat]
-            #         elif stat in self.STATS:
-            #             self.mod_stat(stat, self.guard_relay[event]["stats"][stat])
-
             # -------------------->
             txt.append("Hero Report:\n\n")
 
@@ -4477,17 +4461,6 @@ init -9 python:
             self.restore_ap()
             self.reservedAP = 0
             self.log_stats()
-
-            self.guard_relay = {"bar_event": {"count": 0, "helped": list(),
-                                              "stats": dict(), "won": 0, "lost": 0},
-                                "whore_event": {"count": 0, "helped": list(),
-                                                "stats": dict(), "won": 0, "lost": 0},
-                                "club_event": {"count": 0, "helped": list(),
-                                               "stats": dict(), "won": 0, "lost": 0},
-                                }
-
-            for p in pytRelayProxyStore:
-                p.reset(self)
 
             self.arena_stats = dict()
 
@@ -4539,17 +4512,6 @@ init -9 python:
             # courseid = specific course id girl is currently taking -- DEPRECATED: Training now uses flags
             # wagemod = Percentage to change wage payout
             self.wagemod = 100
-
-            # Guard job relay:
-            self.guard_relay = {
-                "bar_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
-                "whore_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
-                "club_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
-            }
-
-            # Set relays that use the RelayProxy:
-            for p in pytRelayProxyStore:
-                p.reset(self)
 
             # Unhappy/Depressed counters:
             self.days_unhappy = 0
@@ -4908,15 +4870,6 @@ init -9 python:
             self.set_flag("day_since_shopping", self.flag("day_since_shopping") + 1)
 
             self.effects['Food Poisoning']['activation_count'] = 0
-            self.guard_relay = {
-                                "bar_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
-                                "whore_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
-                                "club_event": {"count": 0, "helped": list(), "stats": dict(), "won": 0, "lost": 0},
-                                }
-
-            # Reset relays that use the RelayProxy.
-            for p in pytRelayProxyStore:
-                p.reset(self)
 
             # And Finally, we run the parent next_day() method that should hold things that are native to all of it's children!
             super(Char, self).next_day()
