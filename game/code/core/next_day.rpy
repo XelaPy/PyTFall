@@ -319,7 +319,7 @@ label next_day_effects_check:  # all traits and effects which require some unusu
         for i in hero.chars: # chars with low or high joy get joy-related effects every day
 
             if i.effects['Depression']['active']:
-                self.AP -= 1
+                i.AP -= 1
             elif not "Pessimist" in i.traits and i.joy <= randint(15, 20):
                 i.effects['Depression']['activation_count'] += 1
             elif i.joy > 25:
