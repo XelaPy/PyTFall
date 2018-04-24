@@ -407,5 +407,9 @@ label after_load:
             if hasattr(b, "_adverts"):
                 b._adverts = deepcopy(b._adverts)
 
+    python hide:
+        for skill in store.battle_skills.values():
+            skill.source = None
+
     stop music
     return

@@ -304,12 +304,15 @@ init -1 python: # Core classes:
                 if self.music:
                     renpy.music.stop()
 
-            for team in self.teams:
-                for i in team:
-                    i.betag = None
-                    i.besk = None
-                    # i.besprite_size = None
-                    i.status_overlay = [] # Clear the overlay.
+            for f in self.get_fighters("all"):
+                for s in f.magic_skills:
+                    s.source = None
+                for s in f.attack_skills:
+                    s.source = None
+
+                f.betag = None
+                f.besk = None
+                f.status_overlay = []
 
         def next_turn(self):
             """
