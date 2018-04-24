@@ -49,6 +49,7 @@
 label interactions_sparring: # sparring with MC, for Combatant occupations only
     $ interactions_check_for_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_girlfriend")
+
     if char.health < char.get_max("health")*.5:
         call interactions_refused_because_tired from _call_interactions_refused_because_tired
         jump girl_interactions
@@ -58,15 +59,21 @@ label interactions_sparring: # sparring with MC, for Combatant occupations only
     elif m > 1:
         call interactions_refused_because_tired from _call_interactions_refused_because_tired_1
         jump girl_interactions
+
     call interactions_presparring_lines from _call_interactions_presparring_lines
     hide screen girl_interactions
+
     $ last_track = renpy.music.get_playing("world")
     $ back = interactions_pick_background_for_fight(gm.label_cache)
 
     python:
         enemy_team = Team(name="Enemy Team")
         enemy_team.add(char)
-        result = run_default_be(enemy_team, background=back, give_up="surrender")
+
+        your_team = Team(name="Your Team")
+        your_team.add(hero)
+        result = run_default_be(enemy_team, your_team=your_team,
+                                background=back, give_up="surrender")
 
     if result is True:
         python:
@@ -74,14 +81,18 @@ label interactions_sparring: # sparring with MC, for Combatant occupations only
                 member.exp += char.level*10
     elif result is False:
         $ char.exp += hero.level*10
+
     if char.health < char.get_max("health")*.5:
         $ char.health = int(char.get_max("health")*.5)
     if hero.health < hero.get_max("health")*.5:
         $ hero.health = int(hero.get_max("health")*.5)
     if last_track:
         play world last_track
+
     $ gm.restore_img()
+
     show screen girl_interactions
+
     if gm.mode == "girl_interactions":
         scene expression select_girl_room(char, gm.img)
     else:
@@ -312,7 +323,7 @@ label interactions_hire:
 
     if DEBUG:
         $ notify("Hero|Char| Mod: {}|{}| {}".format(heroskillz, girlskillz, mod_chance))
-        
+
     python:
        del girlskillz
        del heroskillz
