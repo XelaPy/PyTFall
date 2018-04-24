@@ -688,7 +688,7 @@ init: # Main Screens:
                     background Frame("content/gfx/frame/bst.png", 5, 5)
                     margin 2, 2
                     has vbox spacing 2 xysize 230, 250
-                    if not defeated_mobs.get(data["id"], 0):
+                    if  defeated_mobs.get(data["id"], 0): # <------------------------------ Note for faster search, change here to test the whole beasts screen without the need to kill mobs
                         text "-Unknown-" xalign .5  style "TisaOTM" color indianred
                         add im.Twocolor(img, black, black) xalign .5
                     else:
@@ -774,7 +774,7 @@ init: # Main Screens:
                     yfill True
                     background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                     xysize (260, 30)
-                    text (u"{color=#CDAD00} Relative stats") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5# align (.5, 1.0)
+                    text (u"{color=#CDAD00}Stats at level %s" % data['min_lvl']) font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5# align (.5, 1.0)
                 hbox:
                     null width 2
                     vbox:
@@ -897,7 +897,34 @@ init: # Main Screens:
                                         xalign .5
                                         xysize (130, 22)
                                         yfill True
-                                        text "-None-" size 17 xalign .5 yalign .5 style "stats_value_text" color indianred
+                                            text "-None-" size 17 xalign .5 yalign .5 style "stats_value_text" color indianred
+                    frame:
+                        xalign .5
+                        yfill True
+                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                        xysize (130, 30)
+                        text (u"{color=#CDAD00} Traits") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
+                        
+                    vbox:
+                        style_group "proper_stats"
+                        xalign .5
+                        spacing 1
+                        
+                        if data["traits"]:
+                            for s in sorted(data["traits"]):
+                                frame:
+                                    xalign .5
+                                    xysize (260, 22)
+                                    yfill True
+                                    text s size 16 xalign .5 yalign .5 style "stats_value_text" color "#79CDCD":
+                                        if len(s) > 12:
+                                            size 12
+                        else:
+                            frame:
+                                xalign .5
+                                xysize (260, 22)
+                                yfill True
+                                text "-None-" size 17 xalign .5 yalign .5 style "stats_value_text" color indianred
 
         imagebutton:
             pos (1233, 670)
