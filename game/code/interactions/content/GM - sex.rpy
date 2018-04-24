@@ -829,7 +829,6 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
                 extend " You shove your dick deep into her throat."
             else:
                 extend " She begins to lick and suck your dick."
-        call interaction_sex_scene_check_skill_jobs from _call_interaction_sex_scene_check_skill_jobs
         
         $ temp = randint(1, 5)
         if (skill_for_checking - male_skill_for_checking) > 250 and dice(50):
@@ -842,6 +841,9 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         $ del temp
         $ char.sex += randint(1, 4)
         $ hero.sex += randint(2, 6)
+                
+        call interaction_sex_scene_check_skill_jobs from _call_interaction_sex_scene_check_skill_jobs
+
 
     elif current_action == "tits":
         $ get_single_sex_picture(char, act="titsjob", location=sex_scene_location, hidden_partner=True)
