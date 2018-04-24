@@ -153,7 +153,7 @@ label mc_action_hero_ocean_skill_checks:
     if locked_dice(20):
         $ narrator ("A group of sea monsters surrounded you!")
         if hero.get_skill("swimming") < 50:
-            if hero.health > 40 and locked_dice(75):
+            if hero.health > 100 and locked_dice(75):
                 $ narrator ("They managed to attack you a few times before you got a chance to react.")
                 $ hero.health -= randint(15, 30)
             jump city_beach_monsters_fight
@@ -300,7 +300,7 @@ label mc_action_city_beach_diving_checks:
         if not renpy.get_screen("diving_progress_bar"):
             hide screen hidden_area
             "You've run out of air! (health -10)"
-            $ hero.health -= 10
+            $ hero.health = max(1, hero.health - 10)
             jump city_beach
 
         $ underwater_loot = tuple([choice(list(i for i in items.values() if "Diving" in i.locations and dice(i.chance)) or [False]), (j, j), (random.random(), random.random())] for i in range(4))
@@ -311,7 +311,7 @@ label mc_action_city_beach_diving_checks:
         if result == "All out of Air!":
             hide screen hidden_area
             "You've run out of air! {color=[red]}(health -10)"
-            $ hero.health -= 10
+            $ hero.health = max(1, hero.health - 10)
             jump city_beach
         elif result == "Swim Out":
             hide screen hidden_area

@@ -123,7 +123,7 @@ label mc_action_swimming_pool_skill_checks:
         else:
             "You can barely stay afloat. After a while, you lose your cool and start drowning, but the swimming instructor immediately comes to your aid."
             $ hero.swimming += 1
-            $ hero.health -= 5
+            $ hero.health = max(1, hero.health - 5)
         $ hero.vitality -= randint (25, 35)
     elif hero.get_skill("swimming") < 50:
         "You can swim well enough to not drown in a swimming pool, but more practice is needed."

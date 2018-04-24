@@ -1306,7 +1306,7 @@ init -1 python: # Core classes:
                 vitality_cost = self.vitality_cost
 
             self.source.mp -= mp_cost
-            self.source.health -= health_cost
+            self.source.health = max(1, self.source.health - health_cost)
             self.source.vitality -= vitality_cost
 
             if not battle.logical:

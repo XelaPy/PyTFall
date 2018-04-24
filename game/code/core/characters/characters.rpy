@@ -3857,10 +3857,7 @@ init -9 python:
             if effect == "Poisoned":
                 self.effects['Poisoned']['duration'] += 1
                 self.effects['Poisoned']['penalty'] += self.effects['Poisoned']['duration'] * 5
-                if self.health > self.effects['Poisoned']['penalty']:
-                    self.health -= self.effects['Poisoned']['penalty']
-                else:
-                    self.health = 1
+                self.health = max(1, self.health - self.effects['Poisoned']['penalty'])
                 if self.effects['Poisoned']['duration'] > 10:
                     self.disable_effect('Poisoned')
 
@@ -3943,8 +3940,7 @@ init -9 python:
                 if self.effects['Down with Cold']['healthy_again'] <= self.effects['Down with Cold']['count']:
                     self.disable_effect('Down with Cold')
                     return
-                if self.health > 100:
-                    self.health -= self.effects['Down with Cold']['health']
+                self.health = max(1, self.health - self.effects['Down with Cold']['health'])
                 self.vitality -= self.effects['Down with Cold']['vitality']
                 self.joy -= self.effects['Down with Cold']['joy']
                 self.effects['Down with Cold']['count'] += 1
@@ -4003,8 +3999,7 @@ init -9 python:
 
             elif effect == "Drunk":
                 self.vitality -= self.effects['Drunk']['activation_count']
-                if self.health > 100:
-                    self.health -= 10
+                self.health = max(1, self.health - 10)
                 self.joy -= 5
                 self.mp -= 20
                 self.disable_effect('Drunk')
@@ -4013,8 +4008,7 @@ init -9 python:
                 if self.effects['Food Poisoning']['healthy_again'] <= self.effects['Food Poisoning']['count']:
                     self.disable_effect('Food Poisoning')
                     return
-                if self.health > 10:
-                    self.health -= self.effects['Food Poisoning']['health']
+                self.health = max(1, self.health - self.effects['Food Poisoning']['health'])
                 self.vitality -= self.effects['Food Poisoning']['vitality']
                 self.joy -= self.effects['Food Poisoning']['joy']
                 self.effects['Food Poisoning']['count'] += 1
@@ -4760,7 +4754,7 @@ init -9 python:
 
             # If escaped:
             if self in pytfall.ra:
-                self.health -= randint(3, 5)
+                self.health = max(1, self.health - randint(3, 5))
                 txt.append("\n{color=[red]}This girl has escaped! Assign guards to search for her or do so yourself.{/color}\n\n")
                 flag_red = True
             # TODO se/Char.nd(): This can't be right? This is prolly set to the exploration log object.
@@ -4836,7 +4830,7 @@ init -9 python:
                         else:
                             self.joy -= 20
                             self.disposition -= randint(25, 50)
-                            self.health -= 10
+                            char.health = max(1, char.health - 10)
                             self.vitality -= 25
                             txt.append("\nYou've failed to provide even the most basic needs for your slave. This will end badly... \n")
 
