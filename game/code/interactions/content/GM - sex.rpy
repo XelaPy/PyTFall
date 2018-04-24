@@ -59,7 +59,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         call interactions_sex_disagreement from _call_interactions_sex_disagreement
         jump girl_interactions
 
-    if char.disposition<0 and char.status == "free"): # for negative disposition
+    if char.disposition<0 and char.status == "free": # for negative disposition
         if dice(abs(char.disposition*0.2)): # if it's low enough to make the dice work she refuses
             call interactions_sex_disagreement from _call_interactions_sex_disagreement_1
             $ char.disposition -= randint(15, 35)
@@ -672,8 +672,7 @@ label interactions_lesbian_choice:
         $ char.joy -= 5
     if char.joy <= 10:
         $ char.disposition -= 5
-    if char.vitality <= 15 and char.health >= 50:
-        $ char.health -= 2
+    $ char.health = max(1, char.health - 2)
     if char.oral < 100 and char.sex < 100 and char2.oral < 100 and char2.sex < 100:
         "They both were not skilled enough to give each other enough pleasure, no matter how they tried. That was quite awkward."
         $ char.oral += randint (0,1)
@@ -744,8 +743,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
     if sex_scene_libido <= 0:
         $ char.vitality -= randint(5, 25)
         $ char.joy -= randint(3, 6)
-    if char.vitality <= 15 and char.health >= 50:
-        $ char.health -= 2
+    $ char.health = max(1, char.health - 2)
     if current_action != "strip":
         $ sex_count += 1
     if current_action in ["blow", "tits", "hand", "foot", "vag", "anal"] and "Mana Source" in hero.traits:
@@ -1058,7 +1056,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         
         $ temp = randint(1, 5)
         if (skill_for_checking - male_skill_for_checking) > 250 and dice(50):
-            $ hero.oral += randint(5, 10)
+            $ hero.anal += randint(5, 10)
         else:
             $ hero.anal += randint(2, 6)
         if (male_skill_for_checking - skill_for_checking) > 250 and dice(75):
@@ -1461,10 +1459,7 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
                         "She tells you that this is her first time, and asks plaintively to do something else instead. You can force her, but it will not be without consequences. Do you want to use force?"
                         "Yes":
                             "You violated her."
-                            if char.health >=20:
-                                $ char.health -= 10
-                            else:
-                                $ char.vitality -= 20
+                            $ char.health = max(1, char.health - 10)
                             if ct("Masochist"):
                                 $ sex_scene_libido += 1
                                 $ char.disposition -= 50
@@ -1491,10 +1486,7 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
         $ char.remove_trait(traits["Virgin"])
         if "Blood Master" in hero.traits:
             $ char.enable_effect("Blood Connection")
-        if char.health >=15:
-            $ char.health -= 10
-        else:
-            $ char.vitality -= 20
+        $ char.health = max(1, char.health - 10)
     $ current_action = "vag"
     $ just_lost_virginity = True
     jump interactions_sex_scene_logic_part

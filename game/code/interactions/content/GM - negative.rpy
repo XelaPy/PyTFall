@@ -36,7 +36,7 @@ label interactions_harrasment_after_battle: # after MC provoked a free character
             "Kill her" if (char not in hero.chars): # direct killing of hired free chars is unavailable, only in dungeon on via other special means
                 "She stopped moving. Serves her right."
                 $ hero.exp += char.level*100
-                $ char.health = 0 # killing doesn't work atm, should be fixed for release
+                $ char.health = 0
                 python:
                     for member in hero.team:
                         if all([member.status <> "slave", not("Vicious" in member.traits), not("Yandere" in member.traits), member<>hero]):

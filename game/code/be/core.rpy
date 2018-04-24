@@ -277,14 +277,14 @@ init -1 python: # Core classes:
                     gfx_overlay.notify("You Win!")
                 elif self.win is False:
                     tkwargs = {"color": blue,
-                               "outline_color": cyan}
+                               "outlines": [(1, cyan, 0, 0)]}
                     gfx_overlay.notify("You Lose!", tkwargs=tkwargs)
                 else:
                     renpy.show("escape_gates", what="portal_webm",  at_list=[Transform(align=(.5, .5))], zorder=100)
                     renpy.sound.play("content/sfx/sound/be/escape_portal.ogg")
 
                     tkwargs = {"color": gray,
-                               "outline_color": black}
+                               "outlines": [(1, black, 0, 0)]}
                     gfx_overlay.notify("Escaped...", tkwargs=tkwargs)
 
                 if self.win is None:
@@ -1306,7 +1306,7 @@ init -1 python: # Core classes:
                 vitality_cost = self.vitality_cost
 
             self.source.mp -= mp_cost
-            self.source.health -= health_cost
+            self.source.health = max(1, self.source.health - health_cost)
             self.source.vitality -= vitality_cost
 
             if not battle.logical:

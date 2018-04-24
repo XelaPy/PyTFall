@@ -16,36 +16,36 @@
     {
     "id": "Artificial Body Structure",
     "desc": "Due to your unusual heritage, you have additional supply of health, vitality, and mp.",
-    "max": {"mp": 35, "health": 35, "vitality": 35},
+    "max": {"mp": 50, "health": 50, "vitality": 50},
     "MC_only_trait": true,
     "permanent": true
     },
     {
     "id": "Liquid Body Structure",
     "desc": "Due to liquid structure, your body can sustain significant damage by quickly replacing damaged body tissues with unimportant undamaged ones.",
-    "max": {"health": 100},
+    "max": {"health": 200},
     "MC_only_trait": true,
     "permanent": true
     },
     {
     "id": "Yuri Expert",
     "desc": "You know a lot about lesbians from your Amazon mother. Lesbian characters will not reject you due to your gender, and your oral skill is pretty good.",
-    "mod_skills": {"oral": [0, 0.1, 0.1]},
+    "mod_skills": {"oral": [0.5, 0.5, 0.5]},
     "MC_only_trait": true,
     "permanent": true
     },
     {
     "id": "Amazon Blood",
     "desc": "Your mother was a muscular woman with huge knockers. Fortunately, you have inherited only her muscles.",
-    "max": {"attack": 15, "constitution": 15, "vitality": 15},
+    "max": {"attack": 25, "constitution": 25, "vitality": 25},
     "MC_only_trait": true,
     "permanent": true
     },
     {
     "id": "Royal Blood",
     "desc": "Noble blood gives you certain social perks.",
-    "mod_skills": {"dancing": [0, 0.02, 0.02], "refinement": [0, 0.02, 0.02]},
-    "max": {"charisma": 15, "intelligence": 15},
+    "mod_skills": {"dancing": [0.2, 0.2, 0.2], "refinement": [0.2, 0.2, 0.2]},
+    "max": {"charisma": 25, "intelligence": 25},
     "mod_stats": {"charisma": [1, 1]},
     "MC_only_trait": true,
     "permanent": true
@@ -156,8 +156,8 @@
     {
     "id": "Poison Master",
     "desc": "You know a lot about poisons from your mother. Poison is much less effective against you, and your poison attacks much are stronger.",
-    "el_defence": {"poison": 0.65},
-    "el_damage": {"poison": 0.65},
+    "el_defence": {"poison": 0.85},
+    "el_damage": {"poison": 0.85},
     "MC_trait": true
     },
     {
@@ -172,21 +172,21 @@
     {
     "id": "Fae Blood",
     "desc": "All Fae are naturally resistant to most forms of magic. Magic is not very effective against you, including healing spells.",
-    "defence_multiplier": {"magic":0.2},
+    "defence_multiplier": {"magic":0.25},
     "el_defence": {"healing": 0.25},
     "MC_only_trait": true,
     "permanent": true
     },
     {
     "id": "Summer Eternality",
-    "desc": "Your body inherited some of your mother's unchangeability. Your body restores 1/3 of health every day, but healing items are less effective.",
+    "desc": "Your body inherited some of your mother's unchangeability. Your body restores 1/2 of health every day, but healing items are less effective.",
     "effects": ["Regeneration"],
     "MC_only_trait": true,
     "permanent": true
     },
     {
     "id": "Winter Eternality",
-    "desc": "Your body inherited some of your mother's unchangeability. Your body restores 1/3 of mp every day, but items that restore it are less effective.",
+    "desc": "Your body inherited some of your mother's unchangeability. Your body restores 1/2 of mp every day, but items that restore it are less effective.",
     "effects": ["MP Regeneration"],
     "MC_only_trait": true,
     "permanent": true
@@ -217,7 +217,7 @@
     "desc": "The wind itself is your ally. It makes Air magic ineffective against you and more powerful against your enemies, and weakens enemies ranged attacks.",
     "el_defence": {"air": 0.4},
     "el_damage": {"air": 0.4},
-    "defence_multiplier": {"ranged": 0.2},
+    "defence_multiplier": {"ranged": 0.25},
     "MC_only_trait": true,
     "permanent": true
     },
@@ -370,7 +370,7 @@
     {
     "id": "Kitsune Blood",
     "desc": "Due to your foxy heritage, you possess more magical energy than others.",
-    "max": {"mp": 100, "magic": 50},
+    "max": {"mp": 150, "magic": 50},
     "MC_only_trait": true,
     "permanent": true
     },

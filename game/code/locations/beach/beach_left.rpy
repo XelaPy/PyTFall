@@ -293,7 +293,7 @@ label mc_action_beach_start_fishing:
         jump city_beach_left
     else:
         $ min_fish_price = 0
-        $ fishing_attempts = 2
+        $ fishing_attempts = 3
 
         # bites increase min price of available items;
         # bites increase min price of available items; they are useless if skill is too low
@@ -310,20 +310,23 @@ label mc_action_beach_start_fishing:
 
         if use_baits:
             menu:
+                "Don't use baits":
+                    $ fishing_attempts = 3
                 "Use Simple Bait" if c0:
                     $ min_fish_price += 10
                     $ hero.remove_item("Simple Bait")
-                    $ fishing_attempts = 3
+                    $ fishing_attempts = 4
                 "Use Good Bait" if c1:
                     $ min_fish_price += 50
                     $ hero.remove_item("Good Bait")
-                    $ fishing_attempts = 4
+                    $ fishing_attempts = 5
                 "Use Magic Bait" if c2:
                     $ min_fish_price += 100
                     $ hero.remove_item("Magic Bait")
-                    $ fishing_attempts = 5
-                "Don't use baits":
-                    $ fishing_attempts = 2
+                    $ fishing_attempts = 6
+                "Cancel":
+                    $ global_flags.set_flag("keep_playing_music")
+                    jump city_beach_left
 
         $ hero.AP -= 1
 
@@ -351,12 +354,14 @@ label mc_action_beach_start_fishing:
                     $ hero.add_item(item)
                     $ gfx_overlay.random_find(item, 'fishy')
 
-                $ hero.say("I caught %s!" % item.id)
+                $ renpy.pause(.5, hard = True)
+                pause .5
+                
                 # the less item's chance field, the more additional bonus to fishing;
                 # with 90 chance it will be +1, with less than 1 chance about 10
                 python hide:
-                    temp = round_int((200-item.chance)*0.1) + randint(1, 5)
-                    hero.stats.mod_full_skill("fishing", temp)
+                    temp = round_int((100-item.chance)*0.1) + randint(1, 2)
+                    hero.fishing += temp
 
 label end_fishing:
     $ temp = getattr(store, "exit_string", "This is all for now.")
@@ -371,6 +376,7 @@ label end_fishing:
                 delattr(store, i)
             except:
                 pass
+    $ global_flags.set_flag("keep_playing_music")
     jump city_beach_left
 
 image fishing_circles_webm = Transform(Movie(channel="main_gfx_attacks", play="content/gfx/animations/bubbles_webm/movie.webm", mask="content/gfx/animations/bubbles_webm/mask.webm"), zoom=.4, alpha=.4)

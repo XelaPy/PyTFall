@@ -1882,7 +1882,7 @@ init -9 python:
                                 girlmod["joy"] -= choice([0,2,2,4,6])
 
                             else:
-                                girl.health -= randint(20, 30)
+                                girl.health = max(1, girl.health - randint(20, 30))
                                 girl.vitality -= randint(20, 30)
                                 girl.joy -= choice([0,2,2,4,6])
 
@@ -1906,7 +1906,7 @@ init -9 python:
                                 girlmod["joy"] -= choice([0,1,1,2,3])
 
                             else:
-                                girl.health -= randint(10, 20)
+                                girl.health = max(1, girl.health - randint(10, 20))
                                 girl.vitality -= randint(10, 20)
                                 girl.joy -= choice([0,1,2,2,3])
 
@@ -1929,7 +1929,7 @@ init -9 python:
                                 girlmod["exp"] += exp
 
                             else:
-                                girl.health -= randint(10, 20)
+                                girl.health = max(1, girl.health - randint(10, 20))
                                 girl.vitality -= randint(10, 20)
                                 girl.exp += exp
 
@@ -1953,7 +1953,7 @@ init -9 python:
                                 girlmod["joy"] += choice([0,1,1,2,3])
 
                             else:
-                                girl.health -= randint(10, 20)
+                                girl.health = max(1, girl.health - randint(10, 20))
                                 girl.vitality -= randint(10, 20)
                                 girl.exp += exp
                                 girl.joy += choice([0,1,1,2,3])
@@ -2003,7 +2003,7 @@ init -9 python:
                                 girlmod["joy"] -= choice([0,1,1,2,3])
 
                             else:
-                                girl.health -= randint(10, 20)
+                                girl.health = max(1, girl.health - randint(10, 20))
                                 girl.joy -= choice([0,1,1,2,3])
 
                             return True, self.DEFEATED

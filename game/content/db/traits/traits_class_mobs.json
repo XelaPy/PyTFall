@@ -11,12 +11,12 @@
         "mod_stats": {"attack": [4, 1], "defence": [1, 1]
         },
         "init_lvlmax": {
-            "attack": 300,
+            "attack": 100,
             "defence": 40,
             "agility": 40
         },
         "init_max": {
-            "attack": 150,
+            "attack": 100,
             "defence": 40,
             "agility": 40
         },
@@ -61,11 +61,11 @@
         "desc": "Juggernauts may be slow, but very difficult to kill.",
         "basetrait": true,
         "mob_only": true,
-        "defence_multiplier": {"melee":0.35, "ranged":0.35, "magic":0.15},
+        "defence_multiplier": {"melee":0.15, "ranged":0.15, "magic":0.1},
         "mod_stats": {"attack": [1, 1], "defence": [4, 1]
         },
         "init_lvlmax": {
-            "defence": 300,
+            "defence": 100,
             "attack": 40,
             "health": 100,
             "constitution": 100,
@@ -74,14 +74,14 @@
         
         "init_max": {
             "attack": 40,
-            "defence": 200,
+            "defence": 100,
             "health": 100,
             "constitution": 100,
             "agility": -10
         },
         "init_mod": {
             "attack": 50,
-            "defence": 150,
+            "defence": 100,
             "agility": -20,
             "constitution": 30
         },
@@ -125,11 +125,11 @@
         "desc": "This creature has magic in its blood, flesh, and soul.",
         "basetrait": true,
         "mob_only": true,
-        "defence_multiplier": {"magic":0.4},
+        "defence_multiplier": {"magic":0.3},
         "mod_stats": {"defence": [1, 1], "magic": [2, 1], "attack": [-1, 1]
         },
         "init_lvlmax": {
-            "magic": 150,
+            "magic": 100,
             "mp": 100,
             "attack": 10,
             "defence": 25,
@@ -141,7 +141,7 @@
             "magic": 40
         },
         "init_max": {
-            "magic": 150,
+            "magic": 100,
             "mp": 100,
             "attack": 10,
             "defence": 25,
@@ -244,15 +244,15 @@
         "desc": "This creature does not have any weaknesses.",
         "basetrait": true,
         "mob_only": true,
-        "defence_multiplier": {"magic":0.5, "status":0.5, "melee":0.5, "ranged":0.5},
-        "mod_stats": {"defence": [3, 1], "agility": [3, 1], "attack": [3, 1], "magic": [3, 1]
+        "defence_multiplier": {"magic":0.25, "status":0.25, "melee":0.25, "ranged":0.25},
+        "mod_stats": {"defence": [2, 1], "agility": [2, 1], "attack": [2, 1], "magic": [2, 1]
         },
         "init_lvlmax": {
             "magic": 100,
             "mp": 100,
             "attack": 100,
             "defence": 100,
-            "health": 200,
+            "health": 100,
             "agility": 50,
             "intelligence": 75
         },
@@ -268,7 +268,7 @@
             "mp": 100,
             "attack": 100,
             "defence": 100,
-            "health": 200,
+            "health": 100,
             "agility": 50,
             "intelligence": 75
         },
@@ -277,7 +277,7 @@
             "mp": 100,
             "attack": 50,
             "defence": 50,
-            "health": 200,
+            "health": 100,
             "agility": 25,
             "intelligence": 35
         },

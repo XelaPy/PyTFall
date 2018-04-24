@@ -153,7 +153,7 @@ label mc_action_hero_ocean_skill_checks:
     if locked_dice(20):
         $ narrator ("A group of sea monsters surrounded you!")
         if hero.get_skill("swimming") < 50:
-            if hero.health > 40 and locked_dice(75):
+            if hero.health > 100 and locked_dice(75):
                 $ narrator ("They managed to attack you a few times before you got a chance to react.")
                 $ hero.health -= randint(15, 30)
             jump city_beach_monsters_fight
@@ -253,15 +253,18 @@ screen diving_progress_bar(o2, max_o2): # oxygen bar for diving
             xalign .5
             text str(oxigen)
             text str(max_oxigen)
-
-    bar:
-        right_bar im.Scale("content/gfx/interface/bars/oxigen_bar_empty.png", 300, 50)
-        left_bar im.Scale("content/gfx/interface/bars/oxigen_bar_full.png", 300, 50)
-        value oxigen
-        range max_oxigen
-        thumb None
-        xysize (300, 50)
-        at alpha_dissolve
+    vbox:
+        xsize 300
+        bar:
+            right_bar im.Scale("content/gfx/interface/bars/oxigen_bar_empty.png", 300, 50)
+            left_bar im.Scale("content/gfx/interface/bars/oxigen_bar_full.png", 300, 50)
+            value oxigen
+            range max_oxigen
+            thumb None
+            xysize (300, 50)
+            at alpha_dissolve
+        label "Find hidden items!" text_color gold text_size 18 xalign .5 yalign .5 
+        label "Right click or Esc to exit" text_color gold text_size 18 xalign .5 yalign .5
 
 label mc_action_city_beach_diving_checks:
     if not global_flags.flag('diving_city_beach'):
@@ -290,14 +293,14 @@ label mc_action_city_beach_diving_checks:
     if has_items("Underwater Lantern", [hero]):
         $ j = 120
     else:
-        $ j = 50
+        $ j = 60
 
     show screen diving_progress_bar(i, i)
     while hero.vitality > 10:
         if not renpy.get_screen("diving_progress_bar"):
             hide screen hidden_area
             "You've run out of air! (health -10)"
-            $ hero.health -= 10
+            $ hero.health = max(1, hero.health - 10)
             jump city_beach
 
         $ underwater_loot = tuple([choice(list(i for i in items.values() if "Diving" in i.locations and dice(i.chance)) or [False]), (j, j), (random.random(), random.random())] for i in range(4))
@@ -308,7 +311,7 @@ label mc_action_city_beach_diving_checks:
         if result == "All out of Air!":
             hide screen hidden_area
             "You've run out of air! {color=[red]}(health -10)"
-            $ hero.health -= 10
+            $ hero.health = max(1, hero.health - 10)
             jump city_beach
         elif result == "Swim Out":
             hide screen hidden_area
@@ -320,13 +323,16 @@ label mc_action_city_beach_diving_checks:
             $ item = result
             $ hero.add_item(item)
             $ our_image = ProportionalScale(item.icon, 150, 150)
-            show expression our_image at truecenter with dissolve
-            $ hero.say("I caught %s!" % item.id)
-            hide expression our_image with dissolve
+            $ tkwargs = {"color": blue,
+                               "outlines": [(1, black, 0, 0)]}
+            $ gfx_overlay.notify("You caught %s!" % item.id, tkwargs=tkwargs)
+            $ gfx_overlay.random_find(item, 'fishy')
         else:
-            $ hero.say("There is nothing there.")
+            $ tkwargs = {"color": blue,
+                               "outlines": [(1, black, 0, 0)]}
+            $ gfx_overlay.notify("There is nothing there...", tkwargs=tkwargs)
 
-        $ hero.vitality -= randint(10, 20)
+        $ hero.vitality -= randint(10, 15)
     $ setattr(config, "mouse", None)
     hide screen hidden_area
     hide screen diving_progress_bar
