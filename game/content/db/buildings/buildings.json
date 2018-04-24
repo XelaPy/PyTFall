@@ -314,6 +314,7 @@
 		"build_businesses": [{
 			"class": "SlaveQuarters",
 			"kwargs": {
+				"needs_management": false,
 				"capacity": 2,
 				"in_slots": 2,
 				"desc": "Home for slaves to live in."
@@ -345,6 +346,7 @@
 		"build_businesses": [{
 			"class": "SlaveQuarters",
 			"kwargs": {
+				"needs_management": false,
 				"capacity": 5,
 				"in_slots": 5,
 				"desc": "Home for slaves to live in.",
@@ -377,6 +379,7 @@
 		"build_businesses": [{
 			"class": "SlaveQuarters",
 			"kwargs": {
+				"needs_management": false,
 				"capacity": 10,
 				"in_slots": 10,
 				"desc": "Home for slaves to live in.",

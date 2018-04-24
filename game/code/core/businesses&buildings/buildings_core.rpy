@@ -488,7 +488,7 @@ init -10 python:
             if hasattr(self, "building_jobs"):
                 self.building_jobs = self.building_jobs.union(self.building_jobs)
 
-            if kwargs.get("needs_management", False):
+            if kwargs.get("needs_management", True):
                 self.add_job(simple_jobs["Manager"])
                 self.worker_slots_max[simple_jobs["Manager"]] = 1
                 self.normalize_jobs()
