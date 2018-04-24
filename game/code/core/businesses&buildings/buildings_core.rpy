@@ -433,18 +433,18 @@ init -10 python:
     class AdvertableBuilding(_object):
         # Devnote: clumsy and outdated...
         def add_adverts(self, adverts):
-            self._adverts = store.adverts
+            if not hasattr(self, "_adverts"):
+                self._adverts = []
 
-            for adv in self._adverts:
-
+            for adv in adverts:
+                adv = deepcopy(adv)
                 adv['active'] = False
-
                 if not 'price' in adv:
                     adv['price'] = 0
-
                 if not 'upkeep' in adv:
                     adv['upkeep'] = 0
-
+                self._adverts.append(adv)
+                
         @property
         def adverts(self):
             return self._adverts
