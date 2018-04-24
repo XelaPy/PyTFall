@@ -212,7 +212,7 @@ label city_dark_forest_hideout_fight:
             enemy_team.add(mob)
 
     $ place = interactions_pick_background_for_fight("forest")
-    $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=True, give_up="escape")
+    $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=False, give_up="escape")
     if result is True:
         $ exp = exp_reward(hero.team, enemy_team)
         scene expression forest_location
@@ -316,7 +316,7 @@ label city_dark_forest_fight:
                 enemy_team.add(mob)
 
     $ place = interactions_pick_background_for_fight("forest")
-    $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=True, give_up="escape")
+    $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=False, give_up="escape")
 
     if result is True:
         scene expression forest_location

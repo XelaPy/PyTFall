@@ -175,7 +175,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
             mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
 
-        result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.webp", slaves=True, prebattle=False, death=True, skill_lvl=4, give_up="escape")
+        result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.webp", slaves=True, prebattle=False, death=False, skill_lvl=4, give_up="escape")
 
     if result is True:
         python:
