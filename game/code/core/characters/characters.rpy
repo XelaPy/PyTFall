@@ -1738,7 +1738,7 @@ init -9 python:
                 "Pessimist": {"active": False, "desc": "Joy decreases over time, unless it's already low enough. Grants immunity to Depression."},
                 "Composure": {"active": False, "desc": "Over time joy decreases if it's too high and increases if it's too low."},
                 "Kleptomaniac": {"active": False, "desc": "With some luck, her gold increases every day."},
-                "Drowsy": {"active": False, "desc": "Rest restores more vitality than usual."},
+                "Drowsy": {"active": False, "desc": "Rest restores more vitality than usual if unspent APs left."},
                 "Loyal": {"active": False, "desc": "Harder to decrease disposition."},
                 "Lactation": {"active": False, "desc": "Her breasts produce milk. If she's your slave or lover, you will get a free sample every day."},
                 "Vigorous": {"active": False, "desc": "If vitality is too low, it slowly increases over time."},
