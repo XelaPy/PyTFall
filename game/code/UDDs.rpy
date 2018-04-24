@@ -806,10 +806,9 @@ init -999 python:
             I use this for the BE. Will do the calculations but not render anything.
             """
             width, height = get_size(self.image)
-
             ratio = min(self.maxwidth/float(width), self.maxheight/float(height))
-            width = int(round(ratio * width))
-            height = int(round(ratio * height))
+            width = int(round(ratio*width))
+            height = int(round(ratio*height))
             return width, height
 
         def get_image_name(self):
