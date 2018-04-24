@@ -132,26 +132,26 @@ init -5 python:
 
             # Resting effects (Must be calculated over AP so not to allow anything going to waste, however AP themselves cannot restore vitality):
 
-            ap_range = worker.AP + round_int(worker.jobpoints/100.0)
-            
             if worker.effects['Drowsy']['active']:
                 log.logws('vitality', worker.baseAP*2)
             else:
                 log.logws('vitality', worker.baseAP*5)
-                
+
+            ap_range = worker.AP + round_int(worker.jobpoints/100.0)
             for i in range(ap_range): # every left AP gives additional health, mp and joy
                 value = round_int(worker.get_max("health")*.1) or 1
                 log.logws('health', value)
                 value = round_int(worker.get_max("mp")*.1) or 1
                 log.logws('mp', value)
                 log.logws('joy', randint(1, 2))
-                
+
                 if worker.effects['Drowsy']['active']:
                     log.logws('vitality', 12)
                 else:
                     log.logws('vitality', 8)
-                
-                    worker.AP -= 1
+
+                worker.AP -= 1
+                worker.jobpoints -= 100
 
                 if self.is_rested(worker):
                     break
