@@ -275,10 +275,13 @@ init python:
                 battle.log(msg)
             else:
                 t.health = 1
-                death = RPG_Death(self.target,
+                death = RPG_Death(t,
                                   msg="{color=[red]}Poison took out %s!\n{/color}" % t.name,
                                   death_effect="dissolve")
                 death.apply_effects()
+
+            if not battle.logical:
+                t.stats.update_delayed()
 
             self.counter -= 1
 
