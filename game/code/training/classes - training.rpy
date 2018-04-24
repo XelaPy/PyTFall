@@ -64,28 +64,6 @@ init -9 python:
 
         return courses
 
-    # The store for relay proxies for easy access.
-    pytRelayProxyStore = list()
-
-    class PytRelayProxy(_object):
-        """
-        A class that acts as a proxy for character event relays.
-        """
-
-        def __init__(self, event, relay="guard_relay", use_against=False):
-            """
-            Creates a new PytRelayProxy.
-            event = The event to access.
-            relay = The relay to access the event in.
-            use_against = Whether to use the against list instead of helped.
-            """
-            self.event = event
-            self._relay = relay
-            self.use_against = use_against
-
-            # Add to store
-            pytRelayProxyStore.append(self)
-
         def against(self, girl, add=None, clear=False):
             """
             Accesses the against property.
@@ -306,13 +284,13 @@ init -9 python:
         return "Broken" in girl.traits
 
     # RelayProxy for escape events.
-    guard_escape_event = PytRelayProxy("escape_event", use_against=True)
+    # guard_escape_event = PytRelayProxy("escape_event", use_against=True)
 
     # RelayProxy for obey events.
-    trainer_obey_event = PytRelayProxy("obey_event")
+    # trainer_obey_event = PytRelayProxy("obey_event")
 
     # RelayProxy for disobey events.
-    trainer_disobey_event = PytRelayProxy("disobey_event", use_against=True)
+    # trainer_disobey_event = PytRelayProxy("disobey_event", use_against=True)
 
     # FlagProxy for the course the girl is currently taking.
     char_is_training = PytFlagProxy("training_course", None)

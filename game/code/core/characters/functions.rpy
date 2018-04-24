@@ -735,6 +735,11 @@ init -11 python:
             client.likes = client.likes.union(likes)
             # We pick some of the traits to like/dislike at random.
 
+        if gender == "female":
+            client.likes.add(traits["Lesbian"])
+        elif gender == "male" and traits["Lesbian"] in client.likes:
+            client.likes.remove(traits["Lesbian"])
+
         tier_up_to(client, tier)
 
         return client
