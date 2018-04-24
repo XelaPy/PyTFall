@@ -662,257 +662,249 @@ init: # Main Screens:
                 text  "Close"
         key "mousedown_3" action Hide("arena_dogfights")
 
+    python:
+        def set_bestiary_mob(data):
+            id = data["id"]
+            level = data['min_lvl']
+            store.mob = build_mob(id=id, level=level)
+
     screen arena_bestiary():
         default in_focus_mob = False
-        default mob = None
+        default scr_mobs = sorted(mobs.values(), key=itemgetter("min_lvl"))
 
         add("content/gfx/bg/locations/arena_bestiary.webp")
-        hbox:
-            viewport:
-                at fade_in_out()
-                xysize 1008, 720
-                draggable True
-                mousewheel True
-                scrollbars "vertical"
-                has hbox xysize 995, 720 box_wrap True spacing 2
 
-                # Prepare the list of mobs:
-                $ _mobs = sorted(mobs.values(), key=itemgetter("min_lvl"))
-                for data in _mobs:
-                    $ creature = data["name"]
-                    $ img = ProportionalScale(data["battle_sprite"], 200, 200)
-                    vbox:
-                        frame:
-                            background "content/gfx/frame/bst.png"
-                            xysize 230, 249
-                            if defeated_mobs.get(data["id"], 0): # <------------------------------ Note for faster search, change here to test the whole beasts screen without the need to kill mobs
-                                vbox:
-                                    xalign .5
-                                    xysize 230, 240
-                                    spacing 2
-                                    text "-Unknown-" xalign .5  style "TisaOTM" color indianred
-                                    add im.Twocolor(img, black, black) align .5, .6
-                            else:
-                                vbox:
-                                    xalign .5
-                                    xysize 230, 240
-                                    spacing 2
-                                    text creature xalign .5  style "TisaOTM" color gold
-                                    imagebutton:
-                                        align .5, .6
-                                        idle img
-                                        hover (im.MatrixColor(img, im.matrix.brightness(.25)))
-                                        action [SetScreenVariable("in_focus_mob", creature),
-                                                SetScreenVariable("mob", build_mob(id=data["id"], level=data['min_lvl']))]
-                        null height 2
+        vpgrid:
+            at fade_in_out()
+            cols 4
+            ysize 720
+            draggable True
+            mousewheel True
+            scrollbars "vertical"
+            for data in scr_mobs:
+                $ creature = data["name"]
+                $ img = ProportionalScale(data["battle_sprite"], 200, 200)
+                frame:
+                    background Frame("content/gfx/frame/bst.png", 5, 5)
+                    margin 2, 2
+                    has vbox spacing 2 xysize 230, 250
+                    if not defeated_mobs.get(data["id"], 0):
+                        text "-Unknown-" xalign .5  style "TisaOTM" color indianred
+                        add im.Twocolor(img, black, black) xalign .5
+                    else:
+                        text creature xalign .5 style "TisaOTM" color gold
+                        imagebutton:
+                            xalign .5
+                            idle img
+                            hover (im.MatrixColor(img, im.matrix.brightness(.15)))
+                            action [SetScreenVariable("in_focus_mob", creature),
+                                    Function(set_bestiary_mob, data)]
 
-            null width 1
-
+        frame:
+            xalign 1.0
+            background Frame("content/gfx/frame/p_frame5.png")
+            xysize 277, 720
+            has vbox
             if in_focus_mob:
                 $ data = mobs[in_focus_mob]
                 $ img = ProportionalScale(data["battle_sprite"], 200, 200)
                 $ portrait = im.Scale(data["portrait"], 100, 100)
-                frame:
-                    xalign 1.0
-                    background Frame("content/gfx/frame/p_frame5.png")
-                    xysize 277, 720
-                    xoffset -5
-                    has vbox
 
-                    null height 5
-                    hbox:
-                        frame:
-                            xalign .5
-                            yalign .0
-                            background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                            add portrait
-
-                        vbox:
-                            style_group "proper_stats"
-                            xalign .0
-                            spacing 1
-                            frame:
-                                xalign .5
-                                yfill True
-                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
-                                xysize (145, 30)
-                                text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
-                            frame:
-                                xalign .5
-                                yfill True
-                                xysize (148, 30)
-                                text (data["race"]) xalign .5 yalign .5 style "stats_value_text" color "#79CDCD" size 15
-
-
-                    null height 5
-                    hbox:
-                        frame:
-                            $ els = [traits[el] for el in data["traits"] if traits[el] in tgs.elemental]
-                            $ els_transforms = [Transform(e.icon, size=(100, 100)) for e in els]
-                            $ other_traits = data["traits"]
-                            style_group "content"
-                            background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 10, 10)
-                            xysize 110, 110
-                            xalign .5
-
-                            $ x = 0
-                            $ els_args = [Transform(i, crop=(100/len(els_transforms)*els_transforms.index(i), 0, 100/len(els), 100), subpixel=True, xpos=(x + 100/len(els)*els_transforms.index(i))) for i in els_transforms]
-                            $ f = Fixed(*els_args, xysize=(100, 100))
-                            add f align (.5, .5)
-                            add ProportionalScale("content/gfx/interface/images/elements/hover.png", 100, 100) align (.5, .5)
-                        vbox:
-                            style_group "proper_stats"
-                            xalign .0
-                            spacing 1
-                            frame:
-                                xalign .5
-                                yfill True
-                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
-                                xysize (145, 30)
-                                text (u"{color=#CDAD00} Class") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
-                            for t in data["basetraits"]:
-                                frame:
-                                    xalign .5
-                                    xysize (148, 30)
-                                    yfill True
-                                    text t xalign .5 yalign .5 style "stats_value_text" color "#79CDCD" size 15
-                    null height 5
-                    # Stats:
+                null height 5
+                hbox:
                     frame:
                         xalign .5
-                        yfill True
-                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
-                        xysize (260, 30)
-                        text (u"{color=#CDAD00} Relative stats") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5# align (.5, 1.0)
-                    hbox:
-                        null width 2
-                        vbox:
-                            $ stats = ["health", "vitality", "attack", "defence", "agility"]
-                            style_group "proper_stats"
-                            box_wrap 1
-                            spacing 1
-                            for stat in stats:
-                                frame:
-                                    xysize (130, 22)
-                                    xalign .5
-                                    text '{}'.format(stat.capitalize()) xalign .02 color "#43CD80" size 16
-                                    # if stat in data["stats"]:
-                                    text "{}".format(getattr(mob, stat)) xalign .98 style "stats_value_text" color "#79CDCD" size 17
-                                    # else:
-                                    #     text str(20) xalign .98 style "stats_value_text" color "#79CDCD" size 17
-                        null width 2
-                        vbox:
-                            $ stats = ["mp", "charisma", "magic", "intelligence", "luck"]
-                            style_group "proper_stats"
-                            box_wrap 1
-                            spacing 1
-                            for stat in stats:
-                                frame:
-                                    xysize (130, 22)
-                                    xalign .5
-                                    text '{}'.format(stat.capitalize()) xalign .02 color "#43CD80" size 16
-                                    text "{}".format(getattr(mob, stat)) xalign .98 style "stats_value_text" color "#79CDCD" size 17
-                                    # if stat in data["stats"]:
-                                    #     text str(data["stats"][stat]) xalign .98 style "stats_value_text" color "#79CDCD" size 17
-                                    # else:
-                                    #     text str(20) xalign .98 style "stats_value_text" color "#79CDCD" size 17
-                    null height 5
+                        yalign .0
+                        background Frame("content/gfx/frame/MC_bg.png", 10, 10)
+                        add portrait
 
-                    # Bottom Viewport:
-                    viewport:
-                        xalign .5
-                        xoffset 3
-                        edgescroll (100, 100)
-                        draggable True
-                        mousewheel True
-                        xysize 278, 350
-                        child_size 278, 1000
-                        has vbox
-                        # Desc:
+                    vbox:
+                        style_group "proper_stats"
+                        xalign .0
+                        spacing 1
                         frame:
                             xalign .5
                             yfill True
                             background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
-                            xysize (155, 30)
-                            text (u"{color=#CDAD00} Description") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
-                        vbox:
-                            style_group "proper_stats"
+                            xysize (145, 30)
+                            text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
+                        frame:
                             xalign .5
-                            if data["desc"]:
+                            yfill True
+                            xysize (148, 30)
+                            text (data["race"]) xalign .5 yalign .5 style "stats_value_text" color "#79CDCD" size 15
+
+
+                null height 5
+                hbox:
+                    frame:
+                        $ els = [traits[el] for el in data["traits"] if traits[el] in tgs.elemental]
+                        $ els_transforms = [Transform(e.icon, size=(100, 100)) for e in els]
+                        $ other_traits = data["traits"]
+                        style_group "content"
+                        background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 10, 10)
+                        xysize 110, 110
+                        xalign .5
+
+                        $ x = 0
+                        $ els_args = [Transform(i, crop=(100/len(els_transforms)*els_transforms.index(i), 0, 100/len(els), 100), subpixel=True, xpos=(x + 100/len(els)*els_transforms.index(i))) for i in els_transforms]
+                        $ f = Fixed(*els_args, xysize=(100, 100))
+                        add f align (.5, .5)
+                        add ProportionalScale("content/gfx/interface/images/elements/hover.png", 100, 100) align (.5, .5)
+                    vbox:
+                        style_group "proper_stats"
+                        xalign .0
+                        spacing 1
+                        frame:
+                            xalign .5
+                            yfill True
+                            background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                            xysize (145, 30)
+                            text (u"{color=#CDAD00} Class") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
+                        for t in data["basetraits"]:
+                            frame:
+                                xalign .5
+                                xysize (148, 30)
+                                yfill True
+                                text t xalign .5 yalign .5 style "stats_value_text" color "#79CDCD" size 15
+                null height 5
+                # Stats:
+                frame:
+                    xalign .5
+                    yfill True
+                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                    xysize (260, 30)
+                    text (u"{color=#CDAD00} Relative stats") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5# align (.5, 1.0)
+                hbox:
+                    null width 2
+                    vbox:
+                        $ stats = ["health", "vitality", "attack", "defence", "agility"]
+                        style_group "proper_stats"
+                        box_wrap 1
+                        spacing 1
+                        for stat in stats:
+                            frame:
+                                xysize (130, 22)
+                                xalign .5
+                                text '{}'.format(stat.capitalize()) xalign .02 color "#43CD80" size 16
+                                # if stat in data["stats"]:
+                                text "{}".format(getattr(mob, stat)) xalign .98 style "stats_value_text" color "#79CDCD" size 17
+                                # else:
+                                #     text str(20) xalign .98 style "stats_value_text" color "#79CDCD" size 17
+                    null width 2
+                    vbox:
+                        $ stats = ["mp", "charisma", "magic", "intelligence", "luck"]
+                        style_group "proper_stats"
+                        box_wrap 1
+                        spacing 1
+                        for stat in stats:
+                            frame:
+                                xysize (130, 22)
+                                xalign .5
+                                text '{}'.format(stat.capitalize()) xalign .02 color "#43CD80" size 16
+                                text "{}".format(getattr(mob, stat)) xalign .98 style "stats_value_text" color "#79CDCD" size 17
+                                # if stat in data["stats"]:
+                                #     text str(data["stats"][stat]) xalign .98 style "stats_value_text" color "#79CDCD" size 17
+                                # else:
+                                #     text str(20) xalign .98 style "stats_value_text" color "#79CDCD" size 17
+                null height 5
+
+                # Bottom Viewport:
+                viewport:
+                    xalign .5
+                    xoffset 3
+                    edgescroll (100, 100)
+                    draggable True
+                    mousewheel True
+                    xysize 278, 350
+                    child_size 278, 1000
+                    has vbox
+                    # Desc:
+                    frame:
+                        xalign .5
+                        yfill True
+                        background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                        xysize (155, 30)
+                        text (u"{color=#CDAD00} Description") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
+                    vbox:
+                        style_group "proper_stats"
+                        xalign .5
+                        if data["desc"]:
+                                frame:
+                                    xalign .5
+                                    xsize 261
+                                    text (data["desc"]) size 14 xalign .5 yalign .5 style "stats_value_text" color "#79CDCD"
+                        else:
+                            frame:
+                                xalign .5
+                                xysize (150, 30)
+                                yfill True
+                                text "-None-" size 17 xalign .5 yalign .5 style "stats_value_text" color indianred
+                    null height 5
+                    hbox:
+                    # Attacks:
+                        vbox:
+                            frame:
+                                xalign .5
+                                yfill True
+                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                                xysize (130, 30)
+                                text (u"{color=#CDAD00} Attacks") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
+
+                            vbox:
+                                style_group "proper_stats"
+                                xalign .5
+                                if data["attack_skills"]:
+                                    for s in sorted(data["attack_skills"]):
+                                        frame:
+                                            xalign .5
+                                            xysize (130, 22)
+                                            yfill True
+                                            text s size 16 xalign .5 yalign .5 style "stats_value_text" color "#79CDCD":
+                                                if len(s) > 12:
+                                                    size 12
+                                else:
                                     frame:
                                         xalign .5
-                                        xsize 261
-                                        text (data["desc"]) size 14 xalign .5 yalign .5 style "stats_value_text" color "#79CDCD"
-                            else:
-                                frame:
-                                    xalign .5
-                                    xysize (150, 30)
-                                    yfill True
-                                    text "-None-" size 17 xalign .5 yalign .5 style "stats_value_text" color indianred
-                        null height 5
-                        hbox:
-                        # Attacks:
-                            vbox:
-                                frame:
-                                    xalign .5
-                                    yfill True
-                                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
-                                    xysize (130, 30)
-                                    text (u"{color=#CDAD00} Attacks") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
+                                        xysize (130, 22)
+                                        yfill True
+                                        text "-None-" size 17 xalign .5 yalign .5 style "stats_value_text" color indianred
 
-                                vbox:
-                                    style_group "proper_stats"
-                                    xalign .5
-                                    if data["attack_skills"]:
-                                        for s in sorted(data["attack_skills"]):
-                                            frame:
-                                                xalign .5
-                                                xysize (130, 22)
-                                                yfill True
-                                                text s size 16 xalign .5 yalign .5 style "stats_value_text" color "#79CDCD":
-                                                    if len(s) > 12:
-                                                        size 12
-                                    else:
+                    # Spells:
+                        vbox:
+                            frame:
+                                xalign .5
+                                yfill True
+                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
+                                xysize (130, 30)
+                                text (u"{color=#CDAD00} Spells") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
+
+                            vbox:
+                                style_group "proper_stats"
+                                xalign .5
+                                spacing 1
+                                if data["magic_skills"]:
+                                    for s in sorted(data["magic_skills"]):
                                         frame:
                                             xalign .5
                                             xysize (130, 22)
                                             yfill True
-                                            text "-None-" size 17 xalign .5 yalign .5 style "stats_value_text" color indianred
+                                            text s size 16 xalign .5 yalign .5 style "stats_value_text" color "#79CDCD":
+                                                if len(s) > 12:
+                                                    size 12
+                                else:
+                                    frame:
+                                        xalign .5
+                                        xysize (130, 22)
+                                        yfill True
+                                        text "-None-" size 17 xalign .5 yalign .5 style "stats_value_text" color indianred
 
-                        # Spells:
-                            vbox:
-                                frame:
-                                    xalign .5
-                                    yfill True
-                                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
-                                    xysize (130, 30)
-                                    text (u"{color=#CDAD00} Spells") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
-
-                                vbox:
-                                    style_group "proper_stats"
-                                    xalign .5
-                                    spacing 1
-                                    if data["magic_skills"]:
-                                        for s in sorted(data["magic_skills"]):
-                                            frame:
-                                                xalign .5
-                                                xysize (130, 22)
-                                                yfill True
-                                                text s size 16 xalign .5 yalign .5 style "stats_value_text" color "#79CDCD":
-                                                    if len(s) > 12:
-                                                        size 12
-                                    else:
-                                        frame:
-                                            xalign .5
-                                            xysize (130, 22)
-                                            yfill True
-                                            text "-None-" size 17 xalign .5 yalign .5 style "stats_value_text" color indianred
         imagebutton:
             pos (1233, 670)
             idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
             hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
             action Return(["show", "arena"])
-        key "mousedown_3" action Return(["show", "arena"])
+            keysym "mousedown_3"
 
     screen arena_aftermatch(w_team, l_team, condition):
         modal True
