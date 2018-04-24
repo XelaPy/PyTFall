@@ -135,7 +135,7 @@ init -5 python:
             ap_range = worker.AP + round_int(worker.jobpoints/100.0)
             
             if worker.effects['Drowsy']['active']:
-                log.logws('vitality', worker.baseAP*4)
+                log.logws('vitality', worker.baseAP*2)
             else:
                 log.logws('vitality', worker.baseAP*3)
                 
