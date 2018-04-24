@@ -144,7 +144,11 @@ init -5 python:
                 value = round_int(worker.get_max("mp")*.1) or 1
                 log.logws('mp', value)
                 log.logws('joy', randint(1, 2))
-                worker.AP -= 1
+
+                if worker.jobpoints >= 100:
+                    worker.jobpoints -= 100
+                if worker.AP >= 1:
+                    worker.AP -= 1
 
                 if self.is_rested(worker):
                     break

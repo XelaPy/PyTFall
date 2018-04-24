@@ -864,29 +864,22 @@ init -11 python:
             return
 
         if job is False:
-            available_jobs = list(j for j in building.jobs if j.all_occs & char.occupations)
-            job = choice(available_jobs) if available_jobs else None
-
-        sj = store.simple_jobs
-        if job is False:
-            available_jobs = list(j for j in building.jobs if j.all_occs & char.occupations)
-            if sj["Manager"] in available_jobs and building.manager: # We already have a manager!
-                available_jobs.remove(sj["Manager"])
+            jobs = building.get_valid_jobs(char)
+            if not jobs:
+                job = None
+            else:
+                job = choice(jobs)
 
         # We prolly still want to set a workplace...
         char.workplace = building
         char.action = job
 
-        if job is None:
-            return
-
-        if hasattr(building, "all_workers"):
-            if char not in building.all_workers:
-                building.all_workers.append(char)
-
-        # Make sure that the manager is set:
-        if job == simple_jobs["Manager"]:
-            building.manager = char
+        # if job is None:
+        #     return
+        #
+        # # Make sure that the manager is set:
+        # if job == simple_jobs["Manager"]:
+        #     building.manager = char
 
     def tier_up_to(char, tier, level_bios=(.9, 1.1),
                    skill_bios=(.8, 1.2), stat_bios=(.8, 1.0)):

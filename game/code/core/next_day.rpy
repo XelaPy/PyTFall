@@ -22,7 +22,7 @@ init python:
             if setup == "ALL":
                 container = hero.chars
             else:
-                container = [g for g in hero.chars if setup in (char.home, char.workplace)]
+                container = [c for c in hero.chars if setup in (c.home, c.workplace)]
 
             for char in container:
                 cat = 0
@@ -40,12 +40,12 @@ init python:
                         cat = "Managers"
                         a["Managers"] += 1
                     elif char.action.type == "Resting":
-                        # This needs to be handled separetly:
+                        # This needs to be handled separately:
                         if char.action.__class__ == Rest:
                             cat = "IDLE"
                             r["IDLE"] += 1
                         elif char.action.__class__ == AutoRest:
-                            # We need to loop over it separetly, based on previous occupation:
+                            # We need to loop over it separately, based on previous occupation:
                             if hasattr(char.previousaction, "type"):
                                 if char.previousaction.type == "Combat":
                                     cat = "Warriors"
@@ -317,17 +317,17 @@ label next_day_effects_check:  # all traits and effects which require some unusu
             mod_by_max(hero, "health", .1)
 
         for i in hero.chars: # chars with low or high joy get joy-related effects every day
-        
+
             if i.effects['Depression']['active']:
                 self.AP -= 1
             elif not "Pessimist" in i.traits and i.joy <= randint(15, 20):
                 i.effects['Depression']['activation_count'] += 1
             elif i.joy > 25:
                 i.effects['Depression']['activation_count'] = 0
-                
+
             if i.effects['Depression']['activation_count'] >= 3 and not i.effects['Depression']['active']:
                 i.enable_effect('Depression')
-                
+
             if i.effects['Elation']['active']:
                 if dice(10):
                     i.AP += 1

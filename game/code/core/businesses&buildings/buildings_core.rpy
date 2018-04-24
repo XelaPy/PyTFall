@@ -192,8 +192,8 @@ init -10 python:
                 if c.workplace == self:
                     all_chars.add(c)
 
-            if self.manager:
-                all_chars.add(self.manager)
+            # if self.manager:
+            #     all_chars.add(self.manager)
 
             return all_chars
 
@@ -444,7 +444,7 @@ init -10 python:
                 if not 'upkeep' in adv:
                     adv['upkeep'] = 0
                 self._adverts.append(adv)
-                
+
         @property
         def adverts(self):
             return self._adverts
@@ -881,10 +881,11 @@ init -10 python:
                 self.log("Threat: {}%".format(self.get_threat_percentage()))
                 self.log("")
 
+                self.all_workers = self.get_workers()
+
                 # All workers and workable businesses:
+                # This basically roots out Resting/None chars!
                 self.available_workers = list(c for c in self.all_workers if
-                                              c.is_available and
-                                              c.workplace == self and
                                               c.action in self.jobs)
                 for w in self.all_workers:
                     self.convert_AP(w)
