@@ -805,8 +805,7 @@ init -999 python:
             """
             I use this for the BE. Will do the calculations but not render anything.
             """
-            surf = im.cache.get(self.image)
-            width, height = surf.get_size()
+            width, height = get_size(self.image)
 
             ratio = min(self.maxwidth/float(width), self.maxheight/float(height))
             width = int(round(ratio * width))
