@@ -287,12 +287,13 @@
 
             elif worker.status in ("free", "various"): ~==various==~ was added by pico to handle groups!
             """
-            if worker.status == 'slave' and worker.status in self.allowed_status:
-                return True
+            if worker.status not in self.allowed_status:
+                return False
 
             if not isinstance(worker, PytGroup):
                 # if worker.disposition >= self.calculate_disposition_level(worker):
                 #     return True
+                # Considering the next check, this is more or less useless.
                 if set(self.occupation_traits).intersection(worker.traits):
                     return True
                 if set(self.occupations).intersection(worker.gen_occs):
