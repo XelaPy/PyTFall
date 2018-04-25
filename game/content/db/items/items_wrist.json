@@ -181,7 +181,7 @@
     "mod_skills": {"service": [0.05, 0, 0.05, 0, 0], "refinement": [-0.05, 0, 0, 0, 0]},
     "tier": 1,
     "locations": ["General Store", "Look around"],
-    "pref_class":["Server", "Cleaner"]
+    "pref_class":["Service", "Cleaner"]
     },
     {
     "id": "Bracer of Toughness",
@@ -424,7 +424,7 @@
     "mod_skills": {"refinement": [0, 0, 0.05, 0, 0], "service": [0, 0, 0.05, 0, 0]},
     "tier": 2,
     "locations": ["Tailor Store"],
-    "pref_class":["SIW", "Casual", "Server"]
+    "pref_class":["SIW", "Casual", "Service"]
     },
     {
     "id": "Tiger Gloves",
@@ -462,7 +462,7 @@
     "tier": 4,
     "mod_skills": {"refinement": [0, 0, 0.05, 0, 0], "service": [0, 0, 0.05, 0, 0]},
     "locations": ["Tailor Store"],
-    "pref_class":["SIW", "Casual", "Server"]
+    "pref_class":["SIW", "Casual", "Service"]
     },
     {
     "id": "Maid Gloves",
@@ -483,7 +483,7 @@
     "locations": ["Tailor Store"],
     "tier": 4,
     "goodtraits": ["Neat"],
-    "pref_class":["Server", "Maid", "Cleaner"]
+    "pref_class":["Service", "Maid", "Cleaner"]
     },
     {
     "id": "Elven Gloves",
