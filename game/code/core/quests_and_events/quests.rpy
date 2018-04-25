@@ -171,7 +171,7 @@ init -9 python:
                             break
 
             while garbage:
-                devlog.warning("Garbage Quest found! \"%s\" was failed."%garbage[-1].name)
+                qe_debug("Garbage Quest found! \"%s\" was failed."%garbage[-1].name, "warning")
                 self.fail_quest(garbage.pop())
 
         def run_quests(self, param=None):
@@ -288,7 +288,7 @@ init -9 python:
             for i in flags: self.flag(i)
             self.stage = kwargs.get("to", self.stage+1)
 
-            devlog.info("Quest Complete: %s"%self.name)
+            qe_debug("Quest Complete: %s"%self.name)
 
             if renpy.get_screen("quest_notifications"):
                 renpy.hide_screen("quest_notifications")
@@ -307,7 +307,7 @@ init -9 python:
             """
             if not self.failed: pytfall.world_quests.fail_quest(self)
             self.prompts.append(prompt)
-            devlog.info("Quest Failed: %s"%self.name)
+            qe_debug("Quest Failed: %s"%self.name)
 
             if renpy.get_screen("quest_notifications"):
                 renpy.hide_screen("quest_notifications")
@@ -345,7 +345,7 @@ init -9 python:
             self.stage = kwargs.get("to", self.stage+1)
             self.manual = kwargs.get("manual", self.manual)
 
-            devlog.info("Update Quest: %s to %s"%(self.name, str(self.stage)))
+            qe_debug("Update Quest: %s to %s"%(self.name, str(self.stage)))
 
             if renpy.get_screen("quest_notifications"):
                 renpy.hide_screen("quest_notifications")
@@ -400,7 +400,7 @@ init -9 python:
             else:
                 self.next(self.auto)
 
-            devlog.info("Auto-Start Quest: %s"%self.name)
+            qe_debug("Auto-Start Quest: %s"%self.name)
 
             if renpy.get_screen("quest_notifications"):
                 renpy.hide_screen("quest_notifications")

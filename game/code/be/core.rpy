@@ -1937,7 +1937,7 @@ init -1 python: # Core classes:
                                     gfx = event.gfx_effect
                                     break
                     else:
-                        raise devlog.warning("No Effect GFX detected for magic_shield dodge_effect!")
+                        be_debug("No Effect GFX detected for magic_shield dodge_effect!")
 
                     # We need to find out if it's reasonable to show shields at all based on damage effects!
                     tsde = self.target_sprite_damage_effect.get("gfx", None)

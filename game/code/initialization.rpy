@@ -63,16 +63,17 @@ init -999 python:
         return renpy.loader.transfn('content/' + path)
 
     # enable logging via the 'logging' module
-    logging.basicConfig(level=logging.DEBUG, format='%(levelname)-8s %(name)-15s %(message)s')
-    devlog = logging.getLogger(" ".join([config.name, config.version]))
-    devlogfile = logging.FileHandler(os.path.join(gamedir, "devlog.txt"))
-    devlogfile.setLevel(logging.DEBUG)
-    devlog.addHandler(devlogfile)
-    devlog.critical("\n--- launch game ---")
-    fm = logging.Formatter('%(levelname)-8s %(name)-15s %(message)s')
-    devlogfile.setFormatter(fm)
-    del fm
-    devlog.info("game directory: %s" % str(gamedir)) # Added str() call to avoid cp850 encoding
+    if DEBUG_LOG:
+        logging.basicConfig(level=logging.DEBUG, format='%(levelname)-8s %(name)-15s %(message)s')
+        devlog = logging.getLogger(" ".join([config.name, config.version]))
+        devlogfile = logging.FileHandler(os.path.join(gamedir, "devlog.txt"))
+        devlogfile.setLevel(logging.DEBUG)
+        devlog.addHandler(devlogfile)
+        devlog.critical("\n--- launch game ---")
+        fm = logging.Formatter('%(levelname)-8s %(name)-15s %(message)s')
+        devlogfile.setFormatter(fm)
+        del fm
+        devlog.info("game directory: %s" % str(gamedir)) # Added str() call to avoid cp850 encoding
 
     class TimeLog(_object):
         '''
@@ -207,7 +208,7 @@ init -999 python:
 
             Simply changes the value of the flag otherwise.
             """
-            if DEBUG:
+            if DEBUG_LOG:
                 if not self.has_flag(flag) and "next" not in last_label:
                     devlog.warning("{} flag modded before setting it's value!".format(flag))
 
@@ -266,7 +267,7 @@ init -999 python:
 
             If a flag exists, expects it to be a set() and creates a union with it.
             """
-            if DEBUG:
+            if DEBUG_LOG:
                 if not self.has_flag(flag) and "next" not in last_label:
                     devlog.warning("{} flag modded before setting it's value!".format(flag))
 
@@ -488,7 +489,8 @@ init:
 
 init 999 python:
     # ensure that all initialization debug messages have been written to disk
-    devlogfile.flush()
+    if DEBUG_LOG:
+        devlogfile.flush()
 
     # Build Maps:
     # tilemap = TileMap("my_map.json")

@@ -225,8 +225,8 @@ label start:
         npcs = load_characters("npc", NPC)
         rchars = load_random_characters()
         tl.end("Loading: All Characters!")
-
-        devlog.info("Loaded %d images from filenames!" % tagdb.count_images())
+        if DEBUG_LOG:
+            devlog.info("Loaded %d images from filenames!" % tagdb.count_images())
 
         # Start auto-quests
         pytfall.world_quests.first_day()

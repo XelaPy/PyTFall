@@ -472,7 +472,8 @@ init -9 python:
                     matrix = m
                     break
             else:
-                devlog.warning("Removal of matrix named: {} from Menu Extensions failed!".format(name))
+                if DEBUG_LOG:
+                    devlog.warning("Removal of matrix named: {} from Menu Extensions failed!".format(name))
             if matrix:
                 self[ext].remove(matrix)
 

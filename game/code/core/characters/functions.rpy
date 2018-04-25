@@ -175,7 +175,7 @@ init -11 python:
             if mob.stats.is_skill(skill):
                 mob.stats.mod_full_skill(skill, value)
             else:
-                devlog.warning(str("Skill: {} for Mob with id: {} is invalid! ".format(skill, id)))
+                char_debug(str("Skill: {} for Mob with id: {} is invalid! ".format(skill, id)))
 
         # Get and normalize basetraits:
         mob.traits.basetraits = set(traits[t] for t in data.get("basetraits", []))
@@ -270,7 +270,7 @@ init -11 python:
                     if t in store.traits:
                         _traits.add(store.traits[t])
                     else:
-                        devlog.warning("%s trait is unknown for %s (In %s)!" % (t, id, key))
+                        char_debug("%s trait is unknown for %s (In %s)!" % (t, id, key))
                 setattr(rg.traits, key, _traits)
 
         # Traits next:
@@ -282,7 +282,7 @@ init -11 python:
                         rg.apply_trait(traits[trait])
                     else:
                         # Added str() call to avoid cp850 encoding
-                        devlog.warning("Trait: {} for random girl with id: {} is not a valid trait for this game!".format(str(trait), str(id)))
+                        char_debug("Trait: {} for random girl with id: {} is not a valid trait for this game!".format(str(trait), str(id)))
 
         # Names/Origin:
         if not name:
@@ -355,7 +355,7 @@ init -11 python:
             if skill in store.battle_skills:
                 rg.default_attack_skill = store.battle_skills[skill]
             else:
-                devlog.warning(str("%s Random Girl tried to apply unknown battle skill: %s!" % (id, skill)))
+                char_debug(str("%s Random Girl tried to apply unknown battle skill: %s!" % (id, skill)))
 
         if "magic_skills" in data:
             d = data["magic_skills"]
@@ -364,7 +364,7 @@ init -11 python:
                     if skill in store.battle_skills:
                         rg.magic_skills.append(store.battle_skills[skill])
                     else:
-                        devlog.warning(str("%s Random Girl tried to apply unknown battle skill: %s!" % (id, skill)))
+                        char_debug(str("%s Random Girl tried to apply unknown battle skill: %s!" % (id, skill)))
 
         # Rest of the expected data:
         for i in ("gold", "desc", "height", "full_race"):
@@ -380,7 +380,7 @@ init -11 python:
                     try:
                         color = Color(data[key])
                     except:
-                        devlog.warning("{} color supplied to {} is invalid!".format(gd[key], gd["id"]))
+                        char_debug("{} color supplied to {} is invalid!".format(gd[key], gd["id"]))
                         color = ivory
                 rg.say_style[key] = color
 
@@ -503,7 +503,7 @@ init -11 python:
                 raise Exception(char.name, char.__class__)
         if char.status == "slave" and gen_occ == "Combatant":
             problem = (char.name, char.__class__)
-            devlog.warning("Giving tiered items to a Combatant Slave failed: {}".format(problem))
+            char_debug("Giving tiered items to a Combatant Slave failed: {}".format(problem))
             return
         # See if we can get a perfect occupation:
         if occ is None:
@@ -760,7 +760,7 @@ init -11 python:
             elif isinstance(value, (dict, set)):
                 setattr(new, attr, value.copy())
             elif isinstance(value, list):
-                devlog.info("{}".format(value))
+                char_debug("{}".format(value))
                 setattr(new, attr, value[:])
 
         if new.inventory == char.inventory:

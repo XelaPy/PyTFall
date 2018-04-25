@@ -315,7 +315,7 @@ init -9 python:
                     if item in store.battle_skills:
                         item = store.battle_skills[item]
                     else:
-                        devlog.warning("Tried to apply unknown skill %s to %s!" % (item, self.instance.__class__))
+                        char_debug("Tried to apply unknown skill %s to %s!" % (item, self.instance.__class__), "warning")
                         return
             if normal: #  Item applied by anything other than that
                 self.normal.add(item)
@@ -338,7 +338,7 @@ init -9 python:
                     if item in store.battle_skills:
                         item = store.battle_skills[item]
                     else:
-                        devlog.warning("Tried to remove unknown skill %s from %s!" % (item, self.instance.__class__))
+                        char_debug("Tried to remove unknown skill %s from %s!" % (item, self.instance.__class__), "warning")
                         return
             if normal:
                 if item in self.normal:
@@ -513,7 +513,7 @@ init -9 python:
                         if bt == allowed:
                             return
                         elif bt > allowed:
-                            devlog.warning("BASE TRAITS OVER THE ALLOWED MAX! CHECK Traits.apply method!")
+                            char_debug("BASE TRAITS OVER THE ALLOWED MAX! CHECK Traits.apply method!", "warning")
                             return
 
             if not super(Traits, self).append(trait, truetrait):
@@ -530,21 +530,21 @@ init -9 python:
                         stats.lvl_max[stat] += trait.init_lvlmax[stat] * multiplier
                     else:
                         msg = "'%s' trait tried to apply unknown init lvl max stat: %s!"
-                        devlog.warning(str(msg % (trait.id, stat)))
+                        char_debug(str(msg % (trait.id, stat)), "warning")
 
                 for stat in trait.init_max: # Mod value setting
                     if stat in stats:
                         stats.max[stat] += trait.init_max[stat] * multiplier
                     else:
                         msg = "'%s' trait tried to apply unknown init max stat: %s!"
-                        devlog.warning(str(msg % (trait.id, stat)))
+                        char_debug(str(msg % (trait.id, stat)), "warning")
 
                 for stat in trait.init_mod: # Mod value setting
                     if stat in stats:
                         stats.stats[stat] += trait.init_mod[stat] * multiplier
                     else:
                         msg = "'%s' trait tried to apply unknown init max stat: %s!"
-                        devlog.warning(str(msg % (trait.id, stat)))
+                        char_debug(str(msg % (trait.id, stat)), "warning")
 
                 for skill in trait.init_skills: # Mod value setting
                     if skill in stats.skills:
@@ -552,7 +552,7 @@ init -9 python:
                         stats.skills[skill][1] += trait.init_skills[skill][1] * multiplier
                     else:
                         msg = "'%s' trait tried to apply unknown init skillt: %s!"
-                        devlog.warning(str(msg % (trait.id, skill)))
+                        char_debug(str(msg % (trait.id, skill)), "warning")
 
             # Only for body traits:
             if trait.body:
@@ -564,7 +564,7 @@ init -9 python:
                    stats.max[key] += trait.max[key]
                 else:
                     msg = "'%s' trait tried to apply unknown max stat: %s!"
-                    devlog.warning(str(msg % (trait.id, key)))
+                    char_debug(str(msg % (trait.id, key)), "warning")
 
             for key in trait.min:
                 # Preventing traits from messing up minimums of stats by pushing them into negative territory. @Review: No longer required as per new stats code.
@@ -572,13 +572,13 @@ init -9 python:
                     stats.min[key] += trait.min[key]
                 else:
                     msg = "'%s' trait tried to apply unknown min stat: %s!"
-                    devlog.warning(str(msg % (trait.id, key)))
+                    char_debug(str(msg % (trait.id, key)), "warning")
 
             for entry in trait.blocks:
                 if entry in traits:
                     self.blocked_traits.add(traits[entry])
                 else:
-                    devlog.warning(str("Tried to block unknown trait: %s, id: %s, class: %s" % (entry, char.id, char.__class__)))
+                    char_debug(str("Tried to block unknown trait: %s, id: %s, class: %s" % (entry, char.id, char.__class__)), "warning")
 
             # For now just the girls get effects...
             if hasattr(char, "effects"):
@@ -603,7 +603,7 @@ init -9 python:
                         sm[2] += m[2]
                     else:
                         msg = "'%s' trait tried to apply unknown skill: %s!"
-                        devlog.warning(str(msg % (trait.id, key)))
+                        char_debug(str(msg % (trait.id, key)), "warning")
 
             # Adding resisting elements and attacks:
             for i in trait.resist:
@@ -646,7 +646,7 @@ init -9 python:
                 if key in stats.max:
                     stats.max[key] -= trait.max[key]
                 else:
-                    devlog.warning(str('Maximum Value: %s for Trait: %s does not exist' % (key, trait.id)))
+                    char_debug(str('Maximum Value: %s for Trait: %s does not exist' % (key, trait.id)), "warning")
 
             for key in trait.min:
                 if key in stats.min:
@@ -655,7 +655,7 @@ init -9 python:
                     stats.min[key] -= trait.min[key]
                 else:
                     msg = "'%s' trait tried to apply unknown min stat: %s!"
-                    devlog.warning(str(msg % (trait.id, key)))
+                    char_debug(str(msg % (trait.id, key)), "char_debug")
 
             if trait.blocks:
                 _traits = set()
@@ -663,7 +663,7 @@ init -9 python:
                     if entry in traits:
                         _traits.add(traits[entry])
                     else:
-                        devlog.warning(str("Tried to block unknown trait: %s, id: %s, class: %s" % (entry, char.id, char.__class__)))
+                        char_debug(str("Tried to block unknown trait: %s, id: %s, class: %s" % (entry, char.id, char.__class__)), "warning")
                 self.blocked_traits -= _traits
 
             # Ensure that blocks forced by other traits were not removed:
@@ -693,7 +693,7 @@ init -9 python:
                         sm[2] -= m[2]
                     else:
                         msg = "'%s' trait tried to apply unknown skill: %s!"
-                        devlog.warning(str(msg % (trait.id, key)))
+                        char_debug(str(msg % (trait.id, key)), "warning")
 
             # Remove resisting elements and attacks:
             for i in trait.resist:
@@ -1248,7 +1248,7 @@ init -9 python:
                                 self.max[stat] += trait.leveling_stats[stat][1] * multiplier
                             else:
                                 msg = "'%s' stat applied on leveling up (max mods) to %s (%s)!"
-                                devlog.warning(str(msg % (stat, self.instance.__class__, trait.id)))
+                                char_debug(str(msg % (stat, self.instance.__class__, trait.id)))
 
                         # Super Skill Bonuses:
                         for skill in trait.init_skills:
@@ -1259,7 +1259,7 @@ init -9 python:
                                 self.skills[skill][1] = self.skills[skill][1] + tr_val
                             else:
                                 msg = "'{}' skill applied on leveling up to {} ({})!"
-                                devlog.warning(str(msg.format(stat, self.instance.__class__, trait.id)))
+                                char_debug(str(msg.format(stat, self.instance.__class__, trait.id)))
 
                 self.stats["health"] = self.get_max("health")
                 self.stats["mp"] = self.get_max("mp")
@@ -2023,7 +2023,7 @@ init -9 python:
                 elif self.height == "short":
                     resize = (200, 150)
                 else:
-                    devlog.warning("Unknown height setting for %s" % self.id)
+                    char_debug("Unknown height setting for %s" % self.id)
                     resize = (200, 180)
             elif tag == "vnsprite":
                 if self.height == "average":
@@ -2033,7 +2033,7 @@ init -9 python:
                 elif self.height == "short":
                     resize = (1000, 400)
                 else:
-                    devlog.warning("Unknown height setting for %s" % self.id)
+                    char_debug("Unknown height setting for %s" % self.id)
                     resize = (1000, 500)
             else:
                 raise Exception("get_sprite_size got unknown type for resizing!")
@@ -2282,14 +2282,14 @@ init -9 python:
                         if not imgpath:
                             imgpath = self.select_image(self.id, 'profile')
                 else:
-                    devlog.warning(str(msg % sorted(tags)))
+                    char_debug(str(msg % sorted(tags)))
                     return default
 
             # If we got here without being able to find an image ("profile" lookup failed is the only option):
             if "force_battle_sprite" in locals(): # New rule (Default Battle Sprites):
                 imgpath = "content/gfx/images/" + "default_{}_battle_sprite.png".format(self.gender)
             elif not imgpath:
-                devlog.warning(str("Total failure while looking for image with %s tags!!!" % tags))
+                char_debug(str("Total failure while looking for image with %s tags!!!" % tags))
                 imgpath = "content/gfx/interface/images/no_image.png"
             else: # We have an image, time to convert it to full path.
                 imgpath = "/".join([self.path_to_imgfolder, imgpath])
@@ -2447,7 +2447,7 @@ init -9 python:
                 return
 
             if item.slot not in self.eqslots:
-                devlog.warning(str("Unknown Items slot: %s, %s" % (item.slot, self.__class__.__name__)))
+                char_debug(str("Unknown Items slot: %s, %s" % (item.slot, self.__class__.__name__)))
                 return
 
             # AEQ considerations:
@@ -2464,7 +2464,7 @@ init -9 python:
                                    Character: %s/%s, Item:%s""" % self.id, self.__class__, item.id)
 
             if item.sex not in ["unisex", self.gender]:
-                devlog.warning(str("False character sex value: %s, %s, %s" % (item.sex, item.id, self.__class__.__name__)))
+                char_debug(str("False character sex value: %s, %s, %s" % (item.sex, item.id, self.__class__.__name__)))
                 return
 
             if item.slot == 'consumable':
@@ -2752,7 +2752,7 @@ init -9 python:
                             c0 = slot in ("weapon", "smallweapon")
                             c1 = not real_weapons and item.type != "tool"
                             if c0 and c1:
-                                if AUTO_ITEM_DEBUG:
+                                if DEBUG_AUTO_ITEM:
                                     msg = []
                                     msg.append("Skipping AE Weapons!")
                                     msg.append("Real Weapons: {}".format(real_weapons))
@@ -2902,7 +2902,7 @@ init -9 python:
                 elif "Combatant" in occs:
                     purpose = "Barbarian"
                 else: # Safe option.
-                    if AUTO_ITEM_DEBUG:
+                    if DEBUG_AUTO_ITEM:
                         temp = "Supplied unknown aeq purpose: %s for %s, (Class: %s)" % (purpose,
                                                                     self.name, self.__class__.__name__)
                         temp += " ~Casual will be used."
@@ -3256,7 +3256,7 @@ init -9 python:
             for battle_skill in attack_skills:
                 if battle_skill not in store.battle_skills:
                     msg = "Item: {} applied invalid {} battle skill to: {} ({})!".format(item.id, battle_skill, self.fullname, self.__class__)
-                    devlog.warning(msg)
+                    char_debug(msg)
                     continue
                 else:
                     battle_skill = store.battle_skills[battle_skill]
@@ -3274,7 +3274,7 @@ init -9 python:
             for battle_skill in item.add_be_spells + item.remove_be_spells:
                 if battle_skill not in store.battle_skills:
                     msg = "Item: {} applied invalid {} battle skill to: {} ({})!".format(item.id, battle_skill, self.fullname, self.__class__)
-                    devlog.warning(msg)
+                    char_debug(msg)
                     continue
                 else:
                     battle_skill = store.battle_skills[battle_skill]
@@ -3454,7 +3454,7 @@ init -9 python:
             for skill, data in item.mod_skills.items():
                 if not self.stats.is_skill(skill):
                     msg = "'%s' item tried to apply unknown skill: %s!"
-                    devlog.warning(str(msg % (item.id, skill)))
+                    char_debug(str(msg % (item.id, skill)))
                     continue
 
                 if not direction:
@@ -3472,7 +3472,7 @@ init -9 python:
             # Traits:
             for trait in item.removetraits + item.addtraits:
                 if trait not in store.traits:
-                    devlog.warning("Item: {} has tried to apply an invalid trait: {}!".format(item.id, trait))
+                    char_debug("Item: {} has tried to apply an invalid trait: {}!".format(item.id, trait))
                     continue
 
                 if item.slot not in ['consumable', 'misc'] or (item.slot == 'consumable' and item.ctemp):
@@ -4644,7 +4644,7 @@ init -9 python:
 
         def get_availible_pics(self):
             """
-            Determines (per category) what pictures are availible for the fixed events (like during the jobs).
+            Determines (per category) what pictures are available for the fixed events (like during the jobs).
             This is ran once during the game startup, should also run in the after_load label...
             Meant to decrease the amount of checks during the Next Day jobs. Should be activated in post Alpha code review.
             PS: It's better to simply add tags to a set instead of booleans as dict values.
@@ -4652,7 +4652,8 @@ init -9 python:
             # Lets start with the normal sex category:
             if self.has_image("sex"):
                 self.picture_base["sex"] = dict(sex=True)
-            else: self.picture_base["sex"] = dict(sex=False) # This is not really required as this should be  taken care of by the show method, maybe for the fututre.
+            else:
+                self.picture_base["sex"] = dict(sex=False)
 
             # Lets check for the more specific tags:
             if self.build_image_base["sex"]["sex"]:

@@ -32,7 +32,7 @@ init -20 python:
 
         if isinstance(actor.location, basestring):
             # We still allow string location by design, but we may get rid of those one day as well.
-            if DEBUG:
+            if DEBUG_LOG:
                 devlog.warn("%s has a string location: %s"%(actor.name, actor.location))
         # elif actor.location and hasattr(actor.location, "remove"):
         #     try:
@@ -71,11 +71,11 @@ init -20 python:
             else:
                 return str(self.id)
 
-        def add(self, actor):
-            self.actors.add(actor)
-
-        def remove(self, actor):
-            self.actors.remove(actor)
+        # def add(self, actor):
+        #     self.actors.add(actor)
+        #
+        # def remove(self, actor):
+        #     self.actors.remove(actor)
 
 
     class HabitableLocation(Location):

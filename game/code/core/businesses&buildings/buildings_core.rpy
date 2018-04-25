@@ -405,8 +405,8 @@ init -10 python:
         def clean(self, value):
             result = self.dirt + value
             self.dirt = result
-            if DEBUG_SIMPY and self.env:
-                devlog.info("{}: Clean Function: result: {}, self.dirt: {}".format(self.env.now, result, self.dirt))
+            if self.env:
+                simpy_debug("{}: Clean Function: result: {}, self.dirt: {}".format(self.env.now, result, self.dirt))
 
         def nd_log_stats(self):
             # Get a list of stats, usually all 4.
@@ -1044,7 +1044,8 @@ init -10 python:
                             client = self.clients.pop()
                             self.env.process(self.client_manager(client, has_garden=has_garden))
 
-                devlog.info("Client Distribution running: {}".format(running))
+                if DSNBR:
+                    devlog.info("Client Distribution running: {}".format(running))
                 yield self.env.timeout(1)
 
         def client_manager(self, client, has_garden=False):

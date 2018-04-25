@@ -243,4 +243,5 @@ init -9 python:
             return allimages
 
     # enable logging
-    tagslog = devlog.getChild("tags")
+    if DEBUG_LOG:
+        tagslog = devlog.getChild("tags")

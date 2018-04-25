@@ -100,7 +100,7 @@
                     return ProportionalScale(d, width, height)
                 else:
                     return self.char.show(self.img, resize=size, cache=True)
-            devlog.warning("Unknown Image Type: {} Provided to Event (Next Day Events class)".format(self.img))
+            nd_debug("Unknown Image Type: {} Provided to Event (Next Day Events class)".format(self.img), "warning")
             return ProportionalScale("content/gfx/interface/images/no_image.png", width, height)
 
         # Data logging and application:

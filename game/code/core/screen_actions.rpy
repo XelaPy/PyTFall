@@ -407,7 +407,8 @@ init -9 python:
                     self.nest = [self.locations[index]]
 
                 else:
-                    devlog.warning("Tried to access WorldActions(\"%s\") before existence."%index)
+                    if DEBUG_LOG:
+                        devlog.warning("Tried to access WorldActions(\"%s\") before existence."%index)
 
             else:
                 ls = self.nest[index]

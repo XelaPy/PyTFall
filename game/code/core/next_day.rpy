@@ -127,7 +127,7 @@ label next_day_calculations:
     python:
         global_flags.set_flag("keep_playing_music")
 
-        devlog.info("Day: %s, Girls (Player): %s, Girls (Game): %s" % (day, len(hero.chars), len(chars)))
+        nd_debug("Day: %s, Girls (Player): %s, Girls (Game): %s" % (day, len(hero.chars), len(chars)))
         NextDayEvents = list()
 
         ################## Restore before the jobs ##################
@@ -278,14 +278,14 @@ label next_day_controls:
                     order = {"fg_report": 1, "exploration_report": 2, "fg_job": 3}
                     FilteredList = sorted([e for e in NextDayEvents if e.type in order], key=lambda e: order[e.type])
                 else:
-                    devlog.warn("unhandled event:"+result[1])
+                    nd_debug("unhandled event:"+result[1], "warn")
 
                 if FilteredList:
                     event = FilteredList[0]
                     gimg = event.load_image()
                     index = 0
                 else:
-                    devlog.warn("all NextDayEvents were filtered for: "+result[0]+", "+result[1])
+                    nd_debug("all NextDayEvents were filtered for: "+result[0]+", "+result[1], "warn")
                     # if result[1] == 'gndreports':
                     # Preventing Index Exception on empty filter
                     FilteredList = NextDayEvents

@@ -66,8 +66,8 @@ init -11 python:
         dirlist = os.listdir(dir)
         content = dict()
 
-        tagdb = store.tagdb
         tags_dict = store.tags_dict
+        tagdb = store.tagdb
 
         for packfolder in dirlist:
             kind = None
@@ -80,19 +80,22 @@ init -11 python:
 
                         # Load the file:
                         in_file = os.sep.join([dir, packfolder, file])
-                        devlog.info("Loading from %s!"%str(in_file)) # Str call to avoid unicode
+                        char_debug("Loading from %s!"%str(in_file)) # Str call to avoid unicode
                         with open(in_file) as f:
                             ugirls = json.load(f)
 
                         # Apply the content of the file to the character:
                         for gd in ugirls: # We go over each dict one mainaining correct order of application:
-
-                            char = cls()
-
                             if "id" not in gd:
                                 # Only time we throw an error instead of writing to log.
                                 raise Exception("No id was specified in %s JSON Datafile!" % str(in_file))
-                            char.id = gd["id"]
+
+                            char = cls()
+                            char.id = id = gd["id"]
+                            if id in getattr(store, "chars", {}):
+                                continue
+                            if id in getattr(store, "npcs", {}):
+                                continue
 
                             # Check if there is a gender:
                             if "gender" in gd:
@@ -106,7 +109,7 @@ init -11 python:
                                         if t in store.traits:
                                             _traits.add(store.traits[t])
                                         else:
-                                            devlog.warning("%s trait is unknown for %s (In %s)!" % (t, gd["id"], key))
+                                            char_debug("%s trait is unknown for %s (In %s)!" % (t, gd["id"], key))
                                     setattr(char.traits, key, _traits)
 
                             # Get and normalize basetraits:
@@ -117,7 +120,7 @@ init -11 python:
                                         if trait in traits:
                                             basetraits.add(traits[trait])
                                         else:
-                                            devlog.warning("%s besetrait is unknown for %s!" % (trait, gd["id"]))
+                                            char_debug("%s besetrait is unknown for %s!" % (trait, gd["id"]))
 
                                 if len(basetraits) > 2:
                                     while len(basetraits) > 2:
@@ -136,21 +139,21 @@ init -11 python:
                                     if trait in traits:
                                         char.apply_trait(traits[trait])
                                     else:
-                                        devlog.warning("%s %s is unknown for %s!" % (trait, key, gd["id"]))
+                                        char_debug("%s %s is unknown for %s!" % (trait, key, gd["id"]))
 
                             if "elements" in gd:
                                 for trait in gd["elements"]:
                                     if trait in traits:
                                         char.apply_trait(traits[trait])
                                     else:
-                                        devlog.warning("%s element is unknown for %s!" % (trait, gd["id"]))
+                                        char_debug("%s element is unknown for %s!" % (trait, gd["id"]))
 
                             if "traits" in gd:
                                 for trait in gd["traits"]:
                                     if trait in traits:
                                         char.apply_trait(traits[trait])
                                     else:
-                                        devlog.warning("%s trait is unknown for %s!" % (trait, gd["id"]))
+                                        char_debug("%s trait is unknown for %s!" % (trait, gd["id"]))
 
                             # if "stats" in gd:
                             #     for stat in gd["stats"]:
@@ -176,7 +179,7 @@ init -11 python:
                                 if skill in store.battle_skills:
                                     char.default_attack_skill = store.battle_skills[skill]
                                 else:
-                                    devlog.warning("%s JSON Loading func tried to apply unknown default attack skill: %s!" % (gd["id"], skill))
+                                    char_debug("%s JSON Loading func tried to apply unknown default attack skill: %s!" % (gd["id"], skill))
 
                             if "magic_skills" in gd:
                                 # Skills can be either a list or a dict:
@@ -190,7 +193,7 @@ init -11 python:
                                         skill = store.battle_skills[skill]
                                         char.magic_skills.append(skill)
                                     else:
-                                        devlog.warning("%s JSON Loading func tried to apply unknown battle skill: %s!" % (gd["id"], skill))
+                                        char_debug("%s JSON Loading func tried to apply unknown battle skill: %s!" % (gd["id"], skill))
 
                             for key in ("color", "what_color"):
                                 if key in gd:
@@ -200,7 +203,7 @@ init -11 python:
                                         try:
                                             color = Color(gd[key])
                                         except:
-                                            devlog.warning("{} color supplied to {} is invalid!".format(gd[key], gd["id"]))
+                                            char_debug("{} color supplied to {} is invalid!".format(gd[key], gd["id"]))
                                             color = ivory
                                     char.say_style[key] = color
 
@@ -276,7 +279,7 @@ init -11 python:
         random_girls = {}
         tags_dict = store.tags_dict
 
-        devlog.info("Loading Random Characters:")
+        char_debug("Loading Random Characters:")
 
         # Loading all rgirls into the game:
         for packfolder in dirlist:
@@ -285,7 +288,7 @@ init -11 python:
                 for file in girlfolders:
                     if file.startswith('data') and file.endswith('.json'):
                         in_file = os.sep.join([dir, packfolder, file])
-                        devlog.info("Loading from %s!"%str(in_file)) # Str call to avoid unicode
+                        char_debug("Loading from %s!"%str(in_file)) # Str call to avoid unicode
                         with open(in_file) as f:
                             rgirls = json.load(f)
 
@@ -322,6 +325,12 @@ init -11 python:
         return random_girls
 
     def load_special_arena_fighters():
+        exist = getattr(store, "female_fighters", {}).keys()
+        exist.extend(getattr(store, "male_fighters", {}).keys())
+        exist.extend(getattr(store, "json_fighters", {}).keys())
+        h = getattr(store, "hero")
+        if h:
+            exist.append(h.id)
         male_fighters = {}
         female_fighters = {}
         json_fighters = {}
@@ -357,6 +366,11 @@ init -11 python:
                 gender_db[id] = "JSON"
 
         for id, images in img_db.items():
+            if id in exist:
+                continue
+            elif last_label_pure == "after_load":
+                raise Exception(id)
+
             path = path_db[id]
             gender = gender_db[id]
             for fn in images:
@@ -373,9 +387,11 @@ init -11 python:
                     tagdb.tagmap[tags_dict[tag]].add(fn)
                 # Adding filenames to girls id:
                 tagdb.tagmap.setdefault(id, set()).add(fn)
+
             el = list(i.id for i in tgs.elemental)
             elements = []
             random_traits = ["Courageous", "Aggressive", "Vicious"]
+
             if gender == "JSON":
                 base = [traits[t] for t in json_data[id]]
             elif "assassins" in path:
@@ -414,6 +430,7 @@ init -11 python:
                 base = [traits["Warrior"]]
             if not elements:
                 elements = [traits["Neutral"]]
+
             fighter = NPC()
             fighter._path_to_imgfolder = path
             fighter.id = id
@@ -728,7 +745,7 @@ label convert_json_to_filenames:
                 f = normalize_path("".join([gamedir, "/", img]))
                 tags = list(alltags & jsontagdb.get_tags_per_path(img))
                 if not tags:
-                    devlog.warning("Deleting the file (No tags found): %s" % f)
+                    char_debug("Deleting the file (No tags found): %s" % f)
                     os.remove(f)
                     continue
                 tags.sort()
@@ -753,7 +770,7 @@ label convert_json_to_filenames:
                     try:
                         os.rename(f, newdir)
                     except:
-                        devlog.warning("Could not find: %s"%str(f))
+                        char_debug("Could not find: %s"%str(f))
 
             # Delete the tagfiles:
             charsdir = os.path.join(gamedir, "content", "chars")

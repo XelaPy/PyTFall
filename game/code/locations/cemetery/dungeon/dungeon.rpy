@@ -65,7 +65,8 @@ init -1 python:
 
         def _move_npc(self, at_str, m):
             if not at_str in self.spawn:
-                devlog.warn("spawn at %s already died?" % at_str)
+                if DEBUG_LOG:
+                    devlog.warn("spawn at %s already died?" % at_str)
                 return
 
             hero_loc = (self.hero['x'], self.hero['y'])

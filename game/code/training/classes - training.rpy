@@ -35,7 +35,8 @@ init -9 python:
 
                         if ptr.name not in training: training[ptr.name] = ptr
                         else:
-                            devlog.warning("Duplicate training option \"%s\" was found in %s. Original from %s."%(ptr.name, ptr.file, training[ptr.name].file))
+                            # devlog.warning("Duplicate training option \"%s\" was found in %s. Original from %s."%(ptr.name, ptr.file, training[ptr.name].file))
+                            pass
 
         return training
 
@@ -675,7 +676,7 @@ init -9 python:
                 o = False
 
             else:
-                devlog.error("No response for PytTrainingLesson(%s, %s).get_label(%s)"%(self.type, self.name, state))
+                # devlog.error("No response for PytTrainingLesson(%s, %s).get_label(%s)"%(self.type, self.name, state))
                 l = self.labels[TrainingJobFlags.NORMAL]
                 o = False
 
@@ -720,7 +721,7 @@ init -9 python:
             if isinstance(self.based, basestring):
                 if hasattr(store, self.based): f = getattr(store, self.based)(girl)
                 else:
-                    devlog.error("No scaling function found for PytTrainingScaling \"%s\"."%self.based)
+                    # devlog.error("No scaling function found for PytTrainingScaling \"%s\"."%self.based)
                     f = 1.0
 
             else:
@@ -730,13 +731,12 @@ init -9 python:
                     if girl.stats.is_stat(i):
                         s += girl.stats._get_stat(i)
                         m += girl.stats.max[i]
-
                     elif girl.stats.is_skill(i):
                         s += girl.stats.get_skill(i)
                         m += girl.stats.get_skill(i)
-
                     else:
-                        devlog.warning(str("Attempt to access \"%s\" in STATS and SKILLS for %s in TrainingLesson.get_scaling."%(i, girl.fullname)))
+                        pass
+                        # devlog.warning(str("Attempt to access \"%s\" in STATS and SKILLS for %s in TrainingLesson.get_scaling."%(i, girl.fullname)))
 
                 f = float(s)/float(m) # Ensure float
 
@@ -749,7 +749,7 @@ init -9 python:
                         else: return 0
 
                     else:
-                        devlog.error("No check function found for PytTrainingLesson \"%s\"."%self.check)
+                        # devlog.error("No check function found for PytTrainingLesson \"%s\"."%self.check)
                         return f
 
                 else:
@@ -763,7 +763,7 @@ init -9 python:
                         else: return 0
 
                     else:
-                        devlog.error("No check function found for PytTrainingLesson \"%s\"."%self.check)
+                        # devlog.error("No check function found for PytTrainingLesson \"%s\"."%self.check)
                         return f
 
                 else:
@@ -833,7 +833,8 @@ init -9 python:
                 if hero.stats.is_stat(i): s += hero.stats._get_stat(i.lower())
                 elif hero.stats.is_skill(i): s += hero.stats.get_skill(i)
                 else:
-                    devlog.warning(str("Tried to access \"%s\" in STATS and SKILLS for %s."%(i, hero.fullname)))
+                    # devlog.warning(str("Tried to access \"%s\" in STATS and SKILLS for %s."%(i, hero.fullname)))
+                    pass
 
             return int(s/len(self.knowledge))
 
@@ -850,13 +851,12 @@ init -9 python:
                 if hero.stats.is_stat(i):
                     s += hero.stats._get_stat(i.lower())
                     m += hero.stats.max[i.lower()]
-
                 elif hero.stats.is_skill(i):
                     s += hero.stats.get_skill(i) * .75
                     m += hero.stats.get_skill(i)
-
                 else:
-                    devlog.warning(str("Tried to access \"%s\" in STATS and SKILLS for %s."%(i, hero.fullname)))
+                    # devlog.warning(str("Tried to access \"%s\" in STATS and SKILLS for %s."%(i, hero.fullname)))
+                    pass
 
             if s == 0 or m == 0: return 0
             else: return int(s/m) * 100
@@ -1104,7 +1104,8 @@ init -9 python:
             if mult == 0: return
 
             if mult < 0 or mult > 1:
-                devlog.warning("PytStatChanges encountered a multiplier out of traditional bounds. Mult: %s"%str(mult))
+                # devlog.warning("PytStatChanges encountered a multiplier out of traditional bounds. Mult: %s"%str(mult))
+                pass
 
             if random is not None: can = lambda: dice(randint(*random)+chance)
             elif chance > 0: can = lambda: dice(chance)
@@ -1193,7 +1194,9 @@ init -9 python:
                     elif isinstance(v, float): v = v*mult
 
                     if hasattr(girl, k): setattr(girl, k, v)
-                    else: devlog.warning("Attempt to set non-existant flag in StatChanges: %s = %s"(k, v))
+                    else:
+                        # devlog.warning("Attempt to set non-existant flag in StatChanges: %s = %s"(k, v))
+                        pass
 
             if self.flags is not None:
                 for k, v in self.flags.iteritems():
@@ -1232,7 +1235,9 @@ init -9 python:
             if self.funcs is not None:
                 for k in iter(self.funcs):
                     if hasattr(store, k): getattr(store, k)(girl, can())
-                    else: devlog.warning("Attempt to call non-existent function in global store \"%s\"."%k)
+                    else:
+                        # devlog.warning("Attempt to call non-existent function in global store \"%s\"."%k)
+                        pass
 
         def __str__(self):
             s = "PytStatChanges:"
@@ -1469,10 +1474,11 @@ init -9 python:
             """
             for i in sub:
                 if hasattr(store, i):
-                    if not getattr(store, i)(girl): return False
-
+                    if not getattr(store, i)(girl):
+                        return False
                 else:
-                    devlog.warning("Attempt to call non-existant function in global store \"%s\"."%i)
+                    # devlog.warning("Attempt to call non-existant function in global store \"%s\"."%i)
+                    pass
 
             return True
 
@@ -1485,7 +1491,7 @@ init -9 python:
             if girl.stats.is_stat(key): return girl.stats._get_stat(key.lower())
             elif girl.stats.is_skill(key): return girl.get_skill(key)
             else:
-                devlog.warning("Tried to access \"%s\" in SKILLS or STATS for %s in StatCheck."%(key, girl.fullname))
+                # devlog.warning("Tried to access \"%s\" in SKILLS or STATS for %s in StatCheck."%(key, girl.fullname))
                 return 0
 
         def has(self, sub, girl, nott=False):
@@ -1573,7 +1579,7 @@ init -9 python:
                     else:
                         if hasattr(girl, k): a = getattr(girl, k);
                         else:
-                            devlog.warning("Attempt to access a non-existant property in PytStatCheck: %s"%str(k))
+                            # devlog.warning("Attempt to access a non-existant property in PytStatCheck: %s"%str(k))
                             a = 0
 
 

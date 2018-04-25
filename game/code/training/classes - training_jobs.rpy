@@ -630,7 +630,8 @@ init python:
             try:
                 self.course.chars[str(self.girl)] += 1
             except KeyError:
-                devlog.error("TrainingJob.__init__ cannot increase girl (%s) training amount in course %s."%(self.girl.id, self.course.action))
+                if DEBUG_LOG:
+                    devlog.error("TrainingJob.__init__ cannot increase girl (%s) training amount in course %s."%(self.girl.id, self.course.action))
 
         def check_success(self):
             """
