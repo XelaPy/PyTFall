@@ -136,7 +136,7 @@
     "mod": {"defence": 5, "agility": 10, "charisma": 5},
     "locations": ["Tailor Store", "Look around"],
     "tier": 1,
-    "pref_class":["Server", "Assassin"]
+    "pref_class":["Service", "Assassin"]
     },
     {
     "id": "General Helmet",
@@ -333,7 +333,7 @@
     "mod_skills": {"refinement": [0.05, 0.05, 0.05, 0, 0], "service": [0, 0, 0.05, 0, 0]},
     "locations": ["General Store"],
     "tier": 2,
-    "pref_class":["SIW", "Server", "Casual"]
+    "pref_class":["SIW", "Service", "Casual"]
     },
     {
     "id": "Golden Tiara",
@@ -451,7 +451,7 @@
     "mod_skills": {"service": [0, 0, 0.05, 0, 0], "cleaning": [0.05, 0.05, 0.05, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class":["Server", "Cleaner"]
+    "pref_class":["Service", "Cleaner"]
     },
     {
     "id": "Leprechaun Hat",
@@ -491,7 +491,7 @@
     "locations": ["Tailor Store"],
     "goodtraits": ["Neat"],
     "tier": 3,
-    "pref_class":["Server", "Maid", "Cleaner"]
+    "pref_class":["Service", "Maid", "Cleaner"]
     },
     {
     "id": "Elven Vail",
@@ -554,7 +554,7 @@
     "max": {"defence": 5},
     "locations": ["Work Shop", "Fishing"],
     "tier": 2,
-    "pref_class":["Server"]
+    "pref_class":["Service"]
     },
     {
     "id": "Snorkel Mask",

@@ -163,7 +163,7 @@
     "mod_skills": {"refinement": [0.05, 0, 0.05, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class":["SIW", "Server", "Casual"]
+    "pref_class":["SIW", "Service", "Casual"]
     },
     {
     "id": "Velvet Cape",
@@ -183,7 +183,7 @@
     "mod_skills": {"refinement": [0.05, 0.05, 0.05, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class":["SIW", "Server", "Casual"]
+    "pref_class":["SIW", "Service", "Casual"]
     },
     {
     "id": "Witch's Cloak",

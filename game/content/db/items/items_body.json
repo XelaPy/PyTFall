@@ -56,7 +56,7 @@
     "mod_skills": {"service": [0, 0, 0.05, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class": ["SIW", "Server", "Casual"]
+    "pref_class": ["SIW", "Service", "Casual"]
     },
     {
     "id": "Bourgeoise Gown",
@@ -97,7 +97,7 @@
     "mod_skills": {"refinement": [0, 0, 0.05, 0, 0], "sex": [0, 0, 0.05, 0, 0], "service": [0, 0, 0.05, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 1,
-    "pref_class":["SIW", "Server", "Casual"]
+    "pref_class":["SIW", "Service", "Casual"]
     },
     {
     "id": "Velvet Dress",
@@ -117,7 +117,7 @@
     "mod_skills": {"refinement": [0, 0, 0.1, 0, 0], "service": [0, 0, 0.1, 0, 0]},
     "locations": ["Tailor Store"],
     "tier": 2,
-    "pref_class":["SIW", "Server", "Casual"]
+    "pref_class":["SIW", "Service", "Casual"]
     },
     {
     "id": "Long Foreign Dress",
@@ -282,7 +282,7 @@
     "locations": ["Tailor Store"],
     "goodtraits": ["Neat"],
     "tier": 4,
-    "pref_class":["Server", "Maid", "Cleaner"]
+    "pref_class":["Service", "Maid", "Cleaner"]
     },
     {
     "id": "Viny-patterned Corset",
@@ -519,7 +519,7 @@
     "locations": ["Ninja Shop"],
     "badtraits": ["Shy"],
     "tier": 3,
-    "pref_class":["SIW", "Server"]
+    "pref_class":["SIW", "Service"]
     },
     {
     "id": "Elven Armor",
@@ -694,7 +694,7 @@
     "goodtraits": ["Human"],
     "badtraits": ["Not Human"],
     "tier": 1,
-    "pref_class":["Server"]
+    "pref_class":["Service"]
     },
     {
     "id": "Sailor Uniform",
