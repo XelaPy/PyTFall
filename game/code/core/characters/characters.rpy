@@ -1419,7 +1419,10 @@ init -9 python:
                         aeq_debug("Ignoring item {} on money.".format(item.id))
                         continue
 
-                weights = chance_func(item) if chance_func else [item.eqchance]
+                if "Slave" in base_purpose and "Slave" in item.pref_class:
+                    weights = [200] # As all slave items are shit anyway...
+                else:
+                    weights = chance_func(item) if chance_func else [item.eqchance]
                 if weights is None: # We move to the next item!
                     aeq_debug("Ignoring item {} on weights.".format(item.id))
                     continue
