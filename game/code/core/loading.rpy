@@ -69,6 +69,9 @@ init -11 python:
         tags_dict = store.tags_dict
         tagdb = store.tagdb
 
+        exist = getattr(store, "chars", {}).keys()
+        exist.extend(getattr(store, "npcs", {}).keys())
+
         for packfolder in dirlist:
             kind = None
             if os.path.isdir('/'.join([dir, packfolder])):
@@ -90,12 +93,35 @@ init -11 python:
                                 # Only time we throw an error instead of writing to log.
                                 raise Exception("No id was specified in %s JSON Datafile!" % str(in_file))
 
+                            folder = id = gd["id"]
+                            if os.path.isdir("/".join([dir, packfolder, folder])):
+                                # We load the new tags!:
+                                for fn in os.listdir("/".join([dir, packfolder, folder])):
+                                    if check_image_extension(fn):
+                                        rp_path = "/".join(["content/{}".format(path), packfolder, folder, fn])
+                                        tags = fn.split("-")
+                                        try:
+                                            del tags[0]
+                                            tags[-1] = tags[-1].split(".")[0]
+                                        except IndexError:
+                                            raise Exception("Invalid file path for image: %s" % rp_path)
+                                        for tag in tags:
+                                            if tag not in tags_dict:
+                                                raise Exception("Unknown image tag: %s, path: %s" % (tag, rp_path))
+                                            tagdb.tagmap[tags_dict[tag]].add(fn)
+                                        # Adding filenames to girls id:
+                                        tagdb.tagmap.setdefault(folder, set()).add(fn)
+
+                            if id in exist:
+                                continue
+
                             char = cls()
-                            char.id = id = gd["id"]
-                            if id in getattr(store, "chars", {}):
-                                continue
-                            if id in getattr(store, "npcs", {}):
-                                continue
+                            char.id = id
+                            # We set the path to the character
+                            # so we know where to draw images from:
+                            setattr(char, "_path_to_imgfolder",
+                                    "/".join(["content/{}".format(path),
+                                              packfolder, folder]))
 
                             # Check if there is a gender:
                             if "gender" in gd:
@@ -217,27 +243,6 @@ init -11 python:
                                         setattr(char, key, gd[key])
                                 elif key in gd:
                                     setattr(char, key, gd[key])
-
-                            folder = char.id
-                            if os.path.isdir("/".join([dir, packfolder, folder])):
-                                # We set the path to the character so we know where to draw images from:
-                                setattr(char, "_path_to_imgfolder", "/".join(["content/{}".format(path), packfolder, folder]))
-                                # We load the new tags!:
-                                for fn in os.listdir("/".join([dir, packfolder, folder])):
-                                    if check_image_extension(fn):
-                                        rp_path = "/".join(["content/{}".format(path), packfolder, folder, fn])
-                                        tags = fn.split("-")
-                                        try:
-                                            del tags[0]
-                                            tags[-1] = tags[-1].split(".")[0]
-                                        except IndexError:
-                                            raise Exception("Invalid file path for image: %s" % rp_path)
-                                        for tag in tags:
-                                            if tag not in tags_dict:
-                                                raise Exception("Unknown image tag: %s, path: %s" % (tag, rp_path))
-                                            tagdb.tagmap[tags_dict[tag]].add(fn)
-                                        # Adding filenames to girls id:
-                                        tagdb.tagmap.setdefault(folder, set()).add(fn)
 
                             char.init() # Normalize!
 
@@ -366,11 +371,6 @@ init -11 python:
                 gender_db[id] = "JSON"
 
         for id, images in img_db.items():
-            if id in exist:
-                continue
-            elif last_label_pure == "after_load":
-                raise Exception(id)
-
             path = path_db[id]
             gender = gender_db[id]
             for fn in images:
@@ -387,6 +387,10 @@ init -11 python:
                     tagdb.tagmap[tags_dict[tag]].add(fn)
                 # Adding filenames to girls id:
                 tagdb.tagmap.setdefault(id, set()).add(fn)
+
+            # Allow database to be rebuilt but go no further.
+            if id in exist:
+                continue
 
             el = list(i.id for i in tgs.elemental)
             elements = []
