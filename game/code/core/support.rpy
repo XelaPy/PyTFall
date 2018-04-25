@@ -54,7 +54,7 @@ init -9 python:
 
         def init_shops(self):
             # Shops:
-            self.shops = ['General Store', 'Cafe', 'Work Shop', 'Witches Hut', 'Tailor Store', 'Tavern', 'Ninja Shop', 'Peevish Shop', 'Witch Spells Shop', 'Aine Shop', 'Angelica Shop']
+            self.shops = ['General Store', 'Cafe', 'Work Shop', 'Witches Hut', 'Tailor Store', 'Tavern', 'Ninja Tools Shop', 'Peevish Shop', 'Witch Spells Shop', 'Aine Shop', 'Angelica Shop']
             self.general_store = GeneralStore('General Store', 18, ['General Store'], sell_margin=.7)
             self.cafe = ItemShop('Cafe', 18, ['Cafe'], sells=["food"], sell_margin=1.1)
             self.tavern = ItemShop('Tavern', 18, ['Tavern'], sells=["alcohol"], sell_margin=1.1)
@@ -172,7 +172,7 @@ init -9 python:
                              spells_to_tier=False)
 
         # ----------------------------------------->
-        def next_day(self):
+        def next_day(self): # TODO for review: why restocking can't be automatic for all existing shops?
             '''Next day logic for our PyTFall World
             '''
             self.ms_text = ""
@@ -180,9 +180,15 @@ init -9 python:
             # Shops and SlaveMarket:
             self.general_store.next_day()
             self.cafe.next_day()
+            self.tavern.next_day()
             self.workshop.next_day()
             self.witches_hut.next_day()
             self.tailor_store.next_day()
+            self.hidden_village_shop.next_day()
+            self.peevish_shop.next_day()
+            self.witch_spells_shop.next_day()
+            self.aine_shop.next_day()
+            self.angelica_shop.next_day()
             self.sm.next_day()
             self.ra.next_day()
             store.jail.next_day()

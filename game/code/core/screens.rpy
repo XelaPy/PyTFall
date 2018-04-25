@@ -323,7 +323,7 @@ init:
         frame:
             background Frame("content/gfx/frame/BG_choicebuttons.png", 10, 10)
             ypadding 15
-
+            ypos 5
             style_group "content"
             xpadding 15
             xysize xysize
@@ -331,6 +331,7 @@ init:
 
             vbox:
                 align .5, .5
+                null height 10
                 # Filter
                 if use_filter:
                     hbox:
@@ -397,7 +398,6 @@ init:
             xalign x
             yfill True
             has vbox
-
             use paging(ref=ref.inventory, xysize=(260, 90))
 
             null height 5
