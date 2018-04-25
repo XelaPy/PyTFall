@@ -403,64 +403,51 @@ init -999 python:
 
 
     class ArenaBarMinigame(renpy.Displayable):
-        def __init__(self, d, length_multiplier, change_max, interval, **properties):
+        def __init__(self, data, length, **properties):
             super(ArenaBarMinigame, self).__init__(**properties)
-            # Slider:
-            self.slider = im.Twocolor("content/gfx/interface/bars/thvslider_thumb.png",
-                                        store.white, store.red)
-            self.slider = renpy.displayable("content/gfx/interface/bars/thvslider_thumb.png")
-            self.length_multiplier = length_multiplier
+            self.slider = "content/gfx/interface/bars/thvslider_thumb.png"
+            bar = Transform("content/gfx/interface/bars/vcryslider_full.png", size=(40, length))
+            vbox = VBox(xysize=(40, length))
+            white = Solid("000", xysize=((40, data["white"])))
 
-            # Bar:
-            # bar = "content/gfx/interface/bars/testbar.png"
-            bar = Transform("content/gfx/interface/bars/vcryslider_full.png", size=(40, 300))
-            # fixed = Fixed(xysize=(40, 300))
-            # fixed.add(bar)
+            vbox.add(white)
+            for color, value in data.items():
+                if color == "white":
+                    continue
+                what = Transform(Solid(getattr(store, color)), size=(40, value), additive=.5)
+                vbox.add(what)
+            vbox.add(white)
 
-            vbox = VBox()
-            white = renpy.displayable(bar)
-            white = Solid("000", xysize=((40, d["white"] * length_multiplier)))
-            # Transform(white, size=(40, d["white"] * length_multiplier), alpha=0)
-            # white = Transform(white, alpha=0)
-            vbox.add(white)
-            for i in d:
-                if i != "white":
-                    # what = im.Twocolor(renpy.displayable(bar),
-                    #                     getattr(store, i), getattr(store, i))
-                    what = Transform(Solid(getattr(store, i)), size=(40, d[i]*length_multiplier), additive=.5)
-                    vbox.add(what)
-            vbox.add(white)
-            # fixed.add(vbox)
-            # fixed = AlphaMask(vbox, bar)
             fixed = AlphaBlend(bar, bar, vbox, alpha=True)
-            self.vbox = fixed
+            self.displayable = fixed
 
             # Tracking:
             self.next_st = 0
-            self.step = 2.5 # Can control the speed.
+            self.step = 10 # Can control the speed.
             self.change = self.step
-            self.interval = interval
-            self.slider_y = 0
-            self.change_max = change_max
+            self.interval = .01
+            self.max_length = length
             self.value = 0
             self.update = True
 
         def render(self, width, height, st, at):
-            render = renpy.Render(width, height)
-            render.place(self.vbox)
+            render = renpy.Render(50, self.max_length)
+            render.place(self.displayable)
 
-            if self.value >= self.change_max:
+            if self.value >= self.max_length:
+                self.value = self.max_length
                 self.change = -self.step
             if self.value <= 0:
+                self.value = 0
                 self.change = self.step
 
             if self.update and st >= self.next_st:
                 self.value += self.change
-                self.next_st += self.interval
+                self.next_st = st+self.interval
 
-            pos = (30, round_int(self.value * self.length_multiplier))
-            what = Transform(self.slider, pos=pos)
-            render.place(what)
+            pos = (42, round_int(self.value))
+            slider = Transform(self.slider, pos=pos, anchor=(1.0, .5))
+            render.place(slider)
 
             renpy.redraw(self, 0)
             return render

@@ -904,12 +904,12 @@ init: # Main Screens:
                         background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                         xysize (130, 30)
                         text (u"{color=#CDAD00} Traits") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5
-                        
+
                     vbox:
                         style_group "proper_stats"
                         xalign .5
                         spacing 1
-                        
+
                         if data["traits"]:
                             for s in sorted(data["traits"]):
                                 frame:
@@ -1157,11 +1157,11 @@ init: # ChainFights vs Mobs:
             timer .5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
         key "mousedown_3" action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
 
-    screen arena_minigame(maxval, interval, length_multiplier, d):
+    screen arena_minigame(data, length):
         zorder 2
         modal True
 
-        default rolled = False
+        default rolled = None
 
         add "content/gfx/bg/be/battle_arena_1.webp"
         text "Special Bonus Time!":
@@ -1172,7 +1172,7 @@ init: # ChainFights vs Mobs:
             size 75
 
         # Bonus Roll: ===========================================================================>>>
-        default my_udd = ArenaBarMinigame(d, length_multiplier, maxval, interval)
+        default my_udd = ArenaBarMinigame(data, length)
         style_prefix "dropdown_gm"
         frame:
             align .5, .9
@@ -1189,11 +1189,13 @@ init: # ChainFights vs Mobs:
                     size 35
             else:
                 timer 3.0 action Return()
-                if rolled == "HP":
+                key "mousedown_1" action Return()
+                
+                if rolled == "hp":
                     text "Rolled: HP" style "arena_header_text" color red size 30 xalign .5 ypos 10
-                elif rolled == "MP":
+                elif rolled == "mp":
                     text "Rolled: MP" style "arena_header_text" color blue size 30 xalign .5 ypos 10
-                elif rolled == "Restore":
+                elif rolled == "vp":
                     text "Rolled: Vitality" style "arena_header_text" color green size 30 xalign .5 ypos 10
                 else:
                     text "Rolled: Bupkis" style "arena_header_text" color black size 30 xalign .5 ypos 10
@@ -1203,8 +1205,8 @@ init: # ChainFights vs Mobs:
                 xsize 100
                 sensitive my_udd.update
                 action [SetField(my_udd, "update", False),
-                        SetScreenVariableC("rolled", pytfall.arena.award_cf_bonus,
-                            udd=my_udd, d=d)]
+                        SetScreenVariableC("rolled", pytfall.arena.settle_minigame,
+                            udd=my_udd, d=data)]
 
         # Legenda:
         frame:
