@@ -176,8 +176,7 @@ init: # screens:
                     vbox:
                         for skill in attacks:
                             textbutton "[skill.mn]":
-                                sensitive skill.check_conditions(char)
-                                action Return(skill)
+                                action SensitiveIf(skill.check_conditions(char)), Return(skill)
                                 hovered tt.action(skill)
                 else:
                     vpgrid:
