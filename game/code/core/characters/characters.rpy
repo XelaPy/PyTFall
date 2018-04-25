@@ -2181,6 +2181,13 @@ init -9 python:
             type = kwargs.get("type", "normal")
             default = kwargs.get("default", None)
 
+            if not all([maxw, maxh]):
+                t0 = "Width or Height were not provided to an Image when calling .show method!\n"
+                t1 = "Character id: {}; Action: {}; Tags: {}; Last Label: {}.".format(self.id, str(self.action),
+                                                                    ", ".join(tags), str(last_label))
+                raise Exception(t0 + t1)
+
+            # Direct image request:
             if "-" in tags[0]:
                 _path = "/".join([self.path_to_imgfolder, tags[0]])
                 if renpy.loadable(_path):
@@ -2188,7 +2195,8 @@ init -9 python:
                 else:
                     return ProportionalScale("content/gfx/interface/images/no_image.png", maxw, maxh)
 
-            add_mood = kwargs.get("add_mood", True) # Mood will never be checked in auto-mode when that is not sensible
+            # Mood will never be checked in auto-mode when that is not sensible
+            add_mood = kwargs.get("add_mood", True)
             if set(tags).intersection(self.MOOD_TAGS):
                 add_mood = False
 
@@ -2199,9 +2207,6 @@ init -9 python:
                 tags.append(mood_tag)
             original_tags = tags[:]
             imgpath = ""
-
-            if not any([maxw, maxh]):
-                raise Exception("Width or Height were not provided to an Image when calling .show method!\n Character id: {}; Action: {}; Tags: {}; Last Label: {}.".format(self.id, str(self.action), ", ".join(tags), str(last_label)))
 
             if label_cache:
                 for entry in self.img_cache:

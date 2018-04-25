@@ -6,7 +6,7 @@ init -9 python:
         sample entry of self.tagmap:
         tag : set([relative path to image 1, relative path to image 2, ...])
         '''
-        @classmethod
+        @classmethod # Not Used:
         def from_json(cls, filepaths=[]):
             '''Returns a new TagDatabase instance with data from JSON files.
 
@@ -47,13 +47,13 @@ init -9 python:
             # maps image tags to sets of image paths
             self.all_tags = set(tags_dict.values())
             self.tagmap = {}
+
             # stores relative paths to untagged images
             self.untagged = set()
 
         # add images with or without tags to the database
         #-----------------------------------
-
-        def add_image(self, relpath, tags=[]):
+        def add_image(self, relpath, tags=[]): # Not Used:
             '''Adds the image at relpath to the database.
 
             If tags is defined, it must be an iterable containing strings.
@@ -67,7 +67,7 @@ init -9 python:
                 for t in tags:
                     self.add_tag(t, relpath)
 
-        def add_tag(self, tag, relpath):
+        def add_tag(self, tag, relpath): # Not Used:
             '''Stores the tag for the image at relpath in the database.
             '''
             assert isinstance(tag, basestring) or isinstance(tag, unicode)
@@ -80,18 +80,17 @@ init -9 python:
 
         # access the database
         #-----------------------------------
-
-        def has_tag(self, tag):
+        def has_tag(self, tag): # Not Used:
             '''Returns True if the database contains images tagged with this tag.
             '''
             return tag in self.tagmap
 
-        def get_tags(self):
+        def get_tags(self): # Not Used:
             '''Returns a set of all tags in this database.
             '''
             return set(self.tagmap.keys())
 
-        def get_imgset_without_tags(self):
+        def get_imgset_without_tags(self): # Not Used:
             '''Returns a set of paths to all untagged images.
             '''
             return self.untagged.copy()
@@ -99,46 +98,25 @@ init -9 python:
         def get_imgset_with_tag(self, tag):
             '''Returns a set of paths to images, all of which are tagged
             '''
-            try:
-                imgpathset = self.tagmap[tag]
-            except KeyError:
-                imgpathset = set([])
-            return imgpathset.copy()
+            return self.tagmap.get(tag, set()).copy()
 
-        def get_imgset_with_all_tags(self, requiredtags):
+        def get_imgset_with_all_tags(self, tags):
             '''Returns a set of images that are all tagged with all specified tags.
             '''
-            # for every required tag...
-            pathsetlist = []
-            for tag in requiredtags:
-                # ...fetch a set of images with tag from imgdb
-                pathset = self.get_imgset_with_tag(tag)
-                pathsetlist.append(pathset)
-            # find paths contained in all pathsets and therefore images tagged
-            # with all required tags
-            try:
-                pathset = pathsetlist.pop()
-            except IndexError:
-                msg = "none of the required tags is in this database! tags: %s"
-                tagslog.warning(msg % sorted(requiredtags))
-                return set([])
-            requiredpathset = pathset.intersection(*pathsetlist)
-            return requiredpathset.copy()
+            data = [self.get_imgset_with_tag(tag) for tag in tags]
+            return set.intersection(*data).copy()
 
-        def remove_excluded_images(self, pathset, excludedtags):
-            '''Removes all paths pointing to images with at least one excluded tag.
-            '''
-            # get a set of image paths that are tagged with any excluded tag
-            excludedlist = [self.get_imgset_with_tag(t) for t in excludedtags]
-            es = excludedlist.pop(0)
-            excludedpaths = es.union(*excludedlist)
-            # remove all imgpaths in excludedpaths from pathset
-            pathset.difference_update(excludedpaths)
-            return pathset
+        def remove_excluded_images(self, data, excludedtags):
+            """Get rid of all images tagged with excludedtags.
+            """
+            exclude = [self.get_imgset_with_tag(tag) for tag in excludedtags]
+            exclude = set.union(*exclude)
+            data.difference_update(exclude)
+            return data
 
         def get_tags_per_character(self, character):
             """
-            Returns a dict of tags as keys and amount of tags in the datebase
+            Returns a dict of tags as keys and amount of tags in the database
             character = character object
             4 Post-@ code review: Is this a stupid way of doing it? ==> It was...
             """
