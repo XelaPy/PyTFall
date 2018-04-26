@@ -64,40 +64,28 @@ screen chars_list(source=None):
 
     key "mousedown_3" action Return(['control', 'return'])
 
+    # Normalize pages.
     default page_size = 10
-    default max_page = len(source.sorted)/page_size
-    if len(source.sorted)%page_size == 0:
-        $ max_page = len(source.sorted)/page_size - 1
-    else:
-        $ max_page = len(source.sorted)/page_size
-    default page = min(chars_list_last_page_viewed, max_page)
-    if page > max_page:
-        $ page = max_page
-    if chars_list_last_page_viewed > max_page:
-        $ chars_list_last_page_viewed = max_page
-
+    default page = chars_list_last_page_viewed
     default tt = Tooltip("")
 
+    $ max_page = len(source.sorted)/page_size-1
+    if len(source.sorted)%page_size:
+        $ max_page += 1
+    if page > max_page:
+        $ page = max_page
+
     python:
-        charz_lists = []
+        listed_chars = []
         for start in xrange(0, len(source.sorted), page_size):
-             charz_lists.append(source.sorted[start:start+page_size])
+             listed_chars.append(source.sorted[start:start+page_size])
 
     fixed:
         pos 5, 70
         xysize 1010, 670
-
-        if len(source.sorted)%page_size == 0 and max_page !=0:
-            $ max_page = len(source.sorted)/page_size - 1
-        else:
-            $ max_page = len(source.sorted)/page_size
-        if page < 0:
-            $ page = 0
-
         # Chars:
-        if charz_lists:
-            $ charz_list = charz_lists[page]
-
+        if listed_chars:
+            $ charz_list = listed_chars[page]
             hbox:
                 style_group "content"
                 spacing 14
@@ -398,12 +386,7 @@ screen chars_list(source=None):
                         selected False
                         hovered tt.Action('Manage group training')
 
-    # Keybinds:
-    key "mousedown_4" action If(page < max_page, true=SetScreenVariable("page", page+1), false=NullAction())
-    key "mousedown_5" action If(page > 0, true=SetScreenVariable("page", page-1), false=NullAction())
-
-    $ store.chars_list_last_page_viewed = page # At Darks Request!
-
+    # Tooltips:
     frame:
         background Frame("content/gfx/frame/window_frame1.png", 10, 10)
         align(.09, 1.0)
@@ -421,15 +404,19 @@ screen chars_list(source=None):
             sensitive page > 0
             action SetScreenVariable("page", page-1)
             hovered tt.Action('Previous page')
-        $ temp = page+1
-        textbutton "[temp]":
-            action NullAction()
-        # if len(source.sorted)%page_size == 0 and max_page !=0:
-            # $ max_page = len(source.sorted)/page_size - 1
-        # else:
-            # $ max_page = len(source.sorted)/page_size
+            keysym "mousedown_5"
 
+        $ temp = page + 1
+        textbutton "[temp]":
+            xsize 40
+            action NullAction()
         textbutton "-->":
             sensitive page < max_page
             action SetScreenVariable("page", page+1)
             hovered tt.Action('Next page')
+            keysym "mousedown_4"
+
+    $ store.chars_list_last_page_viewed = page # At Darks Request!
+    # Normalize stored page, should we done 'on hide' but we can't trust those atm.
+    if chars_list_last_page_viewed > max_page:
+        $ chars_list_last_page_viewed = max_page
