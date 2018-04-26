@@ -2379,7 +2379,7 @@ init -9 python:
                 self.intelligence += randint(1, 2)
                 mod_by_max(self, "mp", .5)
                 if dice(50):
-                    self.agility += 1
+                    self.character += randint(1, 2)
 
             if kind == "train_with_aine":
                 self.charisma += randint(1, 3)
@@ -2400,7 +2400,7 @@ init -9 python:
                     self.constitution += randint(1, 2)
 
         def get_training_price(self):
-            base = 150
+            base = 250
             return base + base*(self.tier*2)
 
         # Logging and updating daily stats change on next day:

@@ -101,21 +101,21 @@
     },
     {
     "id": "Xeona Training",
-    "desc": "Every turn this character spends 1 AP to increase combat stats. Speak to Xeona to disable it.",
+    "desc": "Every turn this character spends 1 AP and some gold to increase combat stats. Speak to Xeona to disable it.",
     "character_trait": true,
     "client": false,
     "market": false
     },
     {
     "id": "Abby Training",
-    "desc": "Every turn this character spends 1 AP to increase magic stats. Speak to Abby to disable it.",
+    "desc": "Every turn this character spends 1 AP and some gold to increase magic stats. Speak to Abby to disable it.",
     "character_trait": true,
     "client": false,
     "market": false
     },
     {
     "id": "Aine Training",
-    "desc": "Every turn this character spends 1 AP to increase social stats. Speak to Aine to disable it.",
+    "desc": "Every turn this character spends 1 AP and some gold to increase social stats. Speak to Aine to disable it.",
     "character_trait": true,
     "client": false,
     "market": false

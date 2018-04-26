@@ -111,7 +111,7 @@ label witch_training:
                 call about_personal_training from _call_about_personal_training_1
             "About Abby training":
                 w "I will train magic, intelligence and restore some MP."
-                w "I can also guarantee you agility will go up if you pay attention in class!"
+                w "I can also guarantee your character will go up if you pay attention in class!"
                 extend " That, however, does not often happen for reasons unknown..."
                 w "Yeap! I am That good!"
             "{color=[green]}Setup sessions for [char.name]{/color}" if not char.has_flag("train_with_witch"):
