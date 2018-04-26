@@ -1430,12 +1430,13 @@ screen give_exp_after_battle(group, exp=0, money=0):
             xalign .5
             xysize (120, 40)
             if all(c.finished for c in bars):
-                action [Hide("give_exp_after_battle")]
+                action Return()
+                keysym ("K_ESCAPE", "K_RETURN", "mousedown_3")
             text "OK" size 15
 
-    if all(c.finished for c in bars):
-        key "K_ESCAPE" action [Hide("give_exp_after_battle")]
-        key "K_RETURN" action [Hide("give_exp_after_battle")]
+    # if all(c.finished for c in bars):
+    #     key "K_ESCAPE" action Return()
+    #     key "K_RETURN" action Return()
 
 screen tutorial(level=1):
     if not DEBUG:

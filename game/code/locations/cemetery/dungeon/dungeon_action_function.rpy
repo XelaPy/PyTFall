@@ -18,7 +18,7 @@ init python:
         if result is True:
             exp = exp_reward(hero.team, enemy_team)
             if persistent.battle_results:
-                renpy.show_screen("give_exp_after_battle", hero.team, exp)
+                renpy.call_screen("give_exp_after_battle", hero.team, exp)
             return
             # hero.say("Serves you right!")
         else:

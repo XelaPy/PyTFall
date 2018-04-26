@@ -162,7 +162,7 @@ label city_dark_forest_hideout:
         scene black
         pause 1.0
         jump forest_dark_continue
-    
+
     $ N = randint(1, 3)
     $ j = 0
     while j < N:
@@ -170,18 +170,18 @@ label city_dark_forest_hideout:
         with dissolve
 
         "Another group is approaching you!"
-                
+
         call city_dark_forest_hideout_fight from _call_city_dark_forest_hideout_fight_1
         if result is None:
             $ be_hero_escaped(hero.team)
             scene black
             pause 1.0
             jump forest_dark_continue
-        
+
         $ j += 1
 
     if persistent.battle_results:
-        show screen give_exp_after_battle(hero.team, exp)
+        call screen give_exp_after_battle(hero.team, exp)
 
     show screen city_dark_forest
     scene bg forest_hideout
@@ -217,7 +217,7 @@ label city_dark_forest_hideout_fight:
         $ exp = exp_reward(hero.team, enemy_team)
         scene expression forest_location
         if persistent.battle_results:
-            show screen give_exp_after_battle(hero.team, exp)
+            call screen give_exp_after_battle(hero.team, exp)
     elif result is False:
         jump game_over
     return
@@ -328,7 +328,7 @@ label city_dark_forest_fight:
 
         $ exp = exp_reward(hero.team, enemy_team)
         if persistent.battle_results:
-            show screen give_exp_after_battle(hero.team, exp)
+            call screen give_exp_after_battle(hero.team, exp)
         jump forest_dark_continue
     elif result is False:
         jump game_over
