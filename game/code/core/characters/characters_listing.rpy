@@ -144,7 +144,9 @@ screen chars_list(source=None):
                                     add ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50)
                                 else:
                                     add ProportionalScale("content/gfx/interface/icons/free.png", 50, 50)
-                                text "AP: [c.AP]" size 17 color ivory
+                                vbox:
+                                    text "AP: [c.AP]" size 17 color ivory
+                                    text "Tier: [c.tier]" size 17 color ivory
                                 button:
                                     style_group "basic"
                                     xysize (25, 25)
