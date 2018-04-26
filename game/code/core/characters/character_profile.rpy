@@ -1121,6 +1121,27 @@ screen char_control():
                     add cd_unchecked align 1.0, .5
             # Wagemod, basically it allows you to pay more/less to your workers,
             # effecting disposition.
+            hbox:
+                align (.5, .5)
+                imagebutton:
+                    yalign .5
+                    
+                    idle ('content/gfx/interface/buttons/prev.png')
+                    hover (im.MatrixColor('content/gfx/interface/buttons/prev.png', im.matrix.brightness(.15)))
+                    action SetField(char, "wagemod", max(0, char.wagemod-1))
+                null width 5
+                bar:
+                    align .5, 1.0
+                    value FieldValue(char, 'wagemod', 200, max_is_zero=False, style='scrollbar', offset=0, step=1)
+                    xmaximum 150
+                    thumb 'content/gfx/interface/icons/move15.png'
+                    tooltip "What percentage of a fair wage are you willing to pay?"
+                null width 5
+                imagebutton:
+                    yalign .5
+                    idle ('content/gfx/interface/buttons/next.png')
+                    hover (im.MatrixColor('content/gfx/interface/buttons/next.png', im.matrix.brightness(.15)))
+                    action SetField(char, "wagemod", min(200, char.wagemod+1))
             fixed:
                 align .5, 1.0
                 xysize 200, 30
@@ -1132,12 +1153,7 @@ screen char_control():
                         text (u"Wage percentage:") outlines [(1, "#424242", 0, 0)] color ivory
                     vbox:
                         text "[char.wagemod]%" outlines [(1, "#424242", 0, 0)] color ivory
-                bar:
-                    align .5, 1.0
-                    value FieldValue(char, 'wagemod', 200, max_is_zero=False, style='scrollbar', offset=0, step=1)
-                    xmaximum 150
-                    thumb 'content/gfx/interface/icons/move15.png'
-                    tooltip "What percentage of a fair wage are you willing to pay?"
+
 
         # BE Row, Job controls + Auto-Buy/Equip
         vbox:
