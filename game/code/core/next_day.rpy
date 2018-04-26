@@ -50,7 +50,7 @@ init python:
                                 if char.previousaction.type == "Combat":
                                     cat = "Warriors"
                                     r["Warriors"] += 1
-                                elif char.previousaction.type == "Service":
+                                elif char.previousaction.type in ["Service", "SIW"]:
                                     cat = "Service"
                                     r["Service"] += 1
                                 elif char.previousaction.type == "Management":

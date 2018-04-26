@@ -2,11 +2,11 @@ init -999 python:
     ## Should we enable the use of developer tools? This should be
     ## set to False before the game is released, so the user can't
     ## cheat using developer tools.
-    config.developer = False
+    config.developer = True
     # config.debug = False
 
-    DEBUG = False # General debugging.
-    DEBUG_LOG = False # Logging general. Crash if devlog is used and this is False.
+    DEBUG = True # General debugging.
+    DEBUG_LOG = True # Logging general. Crash if devlog is used and this is False.
     DEBUG_PROFILING = False # Loading time of various game elements.
     DEBUG_INTERACTIONS = False
 
@@ -43,7 +43,7 @@ init -999 python:
             devlog.info("|AEQ DEBUG| {}".format(msg))
 
     # Battle Engine:
-    DEBUG_BE = False
+    DEBUG_BE = True
     def be_debug(msg):
         if DEBUG_BE:
             devlog.info("|BE DEBUG| {}".format(msg))
