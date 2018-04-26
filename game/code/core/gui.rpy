@@ -46,25 +46,23 @@ init -1 python:
             """
             Searches for chars to add to the slavemarket.
             """
-            candidates = list()
+            uniques = []
+            randoms = []
+            total = randint(9, 12)
             for c in chars.values():
                 if c in hero.chars:
                     continue
                 if c.home == self:
-                    candidates.append(c)
-            # candidates = list(self.actors)
-            shuffle(candidates)
-            sglist = list()
-            uniques = randoms = 0
-            for c in candidates:
-                if c.__class__ == Char and uniques < 5:
-                    sglist.append(c)
-                    uniques += 1
-                if c.__class__ == rChar and randoms < 5:
-                    sglist.append(c)
-                    randoms += 1
-            shuffle(sglist)
-            return sglist
+                    if c.__class__ == Char:
+                        uniques.append(c)
+                    if c.__class__ == rChar:
+                        randoms.append(c)
+
+            # Prioritize unique chars:
+            slaves = random.sample(uniques, min(len(uniques), 7))
+            slaves.extend(random.sample(randoms, min(len(randoms), total-len(slaves))))
+            shuffle(slaves)
+            return slaves
 
         @property
         def girlfin(self):
@@ -77,11 +75,7 @@ init -1 python:
             """
             Populates the list of girls that are available.
             """
-            chars_list = self.get_random_slaves()
-            self.chars_list = list()
-            for i in range(randint(6, 8)):
-                if chars_list:
-                    self.chars_list.append(chars_list.pop())
+            self.chars_list = self.get_random_slaves()
 
         def next_day(self):
             """
