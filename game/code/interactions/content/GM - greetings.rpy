@@ -245,13 +245,14 @@ label girl_meets_greeting: # also lines for sad and angry flags are needed. but 
             else:
                 $ rc("What is it, [char.mc_ref]?", "Yes?")
                 
-    if hero.effects["Fluffy Companion"]['active'] and m < 2 and not(check_friends(hero, char)) and not(check_lovers(hero, char)) and char.disposition <= 400:
+    if hero.effects["Fluffy Companion"]['active'] and m < 2:
         $ cat = npcs["sad_cat"]
         $ cat.override_portrait("portrait", "happy")
         $ char.override_portrait("portrait", "happy")
         $ char.show_portrait_overlay("note", "reset")
         cat.say "Meow!"
-        $ char.disposition += locked_random("randint", 5, 10)
+        if char.disposition <= 500:
+            $ char.disposition += locked_random("randint", 5, 10)
         if ct("Impersonal"):
             $ rc("Oh? I'm sorry, cat, I don't have any treats.")
         elif ct("Shy") and dice(50):
