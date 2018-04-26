@@ -91,3 +91,60 @@ init -11 python:
             if "sfx/music/be/battle" in fn:
                 battle_tracks.append(fn)
         return choice(battle_tracks)
+
+    def be_hero_escaped(team):
+        '''Punished Hero team for escaping'''
+        for i in team:
+            i.AP = 0
+            i.vitality -= int(i.get_max("vitality")*.3)
+            i.mp -= int(i.get_max("mp")*.3)
+
+    def run_default_be(enemy_team, slaves=False, your_team=None,
+                       background="content/gfx/bg/be/battle_arena_1.webp",
+                       track="random", prebattle=True, death=False,
+                       skill_lvl=float("inf"), give_up=None):
+        """
+        Launches BE with MC team vs provided enemy team, returns True if MC won and vice versa
+        - if slaves == True, slaves in MC team will be inside BE with passive AI, otherwise they won't be there
+        - background by default is arena, otherwise could be anything,
+            like interactions_pick_background_for_fight(gm.label_cache) for GMs
+            or interactions_pick_background_for_fight(pytfall.world_events.get("event name").label_cache) for events
+        - track by default is random, otherwise it could be a path to some track
+        - if prebattle is true, there will be prebattle quotes inside BE from characters before battle starts
+        - if death == True, characters in MC team will die if defeated, otherwise they will have 1 hp left
+        """
+        if your_team is None:
+            your_team = Team(name="Your Team")
+            for member in hero.team:
+                if member.status == "slave" and slaves:
+                    member.controller = Slave_BE_AI(member)
+                    your_team.add(member)
+                elif member.status == "free":
+                    member.controller = "player"
+                    your_team.add(member)
+
+        # Controllers:
+        for member in enemy_team:
+            member.controller = BE_AI(member)
+
+        battle = BE_Core(Image(background), start_sfx=get_random_image_dissolve(1.5),
+                    music=track, end_sfx=dissolve, quotes=prebattle,
+                    max_skill_lvl=skill_lvl, give_up=give_up)
+
+        store.battle = battle
+        battle.teams.append(your_team)
+        battle.teams.append(enemy_team)
+        battle.start_battle()
+
+        your_team.reset_controller()
+        enemy_team.reset_controller()
+        for member in your_team:
+            if member in battle.corpses:
+                if death:
+                    member.health = 0
+                else:
+                    member.health = 1
+                    if member <> hero:
+                        member.joy -= randint(5, 15)
+
+        return battle.win

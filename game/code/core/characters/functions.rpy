@@ -114,7 +114,9 @@ init -11 python:
 
     def take_team_ap(value):
         """
-        Checks the whole hero team for enough AP; if at least one teammate doesn't have enough AP, AP won't decrease, and function will return False, otherwise True
+        Checks the whole hero team for enough AP;
+        if at least one teammate doesn't have enough AP, AP won't decrease,
+        and function will return False, otherwise True
         """
         for i in hero.team:
             if i.AP - value < 0:
@@ -138,7 +140,7 @@ init -11 python:
                 store.male_first_names = load_male_first_names(200)
             return store.male_first_names.pop()
         else:
-            raise Exception("Unknow argument passed to get_first_name func!")
+            raise Exception("Unknown argument passed to get_first_name func!")
 
     def get_last_name():
         if not store.random_last_names:
@@ -763,9 +765,6 @@ init -11 python:
                 char_debug("{}".format(value))
                 setattr(new, attr, value[:])
 
-        if new.inventory == char.inventory:
-            raise Exception("Fuck this sideways 2!")
-
         assign_to = new.stats
         for attr, value in char.stats.__dict__.items():
             if attr == "skills":
@@ -794,61 +793,6 @@ init -11 python:
         new.attack_skills[:] = list(char.attack_skills)
         new.attack_skills.normal = char.attack_skills.normal.copy()
         new.attack_skills.items = char.attack_skills.items.copy()
-        new.magic_skills[:] = list(char.magic_skills)
-        new.magic_skills.normal = char.magic_skills.normal.copy()
-        new.magic_skills.items = char.magic_skills.items.copy()
-
-        return new
-
-    def copy_char_oldshit(char):
-        """Due to some sh!tty coding on my part, just a simple deepcopy/copy will not do :(
-
-        This func cannot be used to make a playable character that can properly interact with the game world.
-        """
-        if isinstance(char, PytGroup):
-            char = char._first
-
-        # new = deepcopy(char)
-        # Trying to improve the performance:
-        pickled = pickle.dumps(char, -1)
-        new = pickle.loads(pickled)
-
-        # One More Attempt through class Instantiation, does not work yet:
-        # new = char.__class__()
-        # Stats copy (Only for the new instance attempt)
-        # new.id = char.id
-        # new.location = shallowcopy(char.location)
-        # new.stats = shallowcopy(char.stats)
-        # new.stats.instance = new
-        # # Effects (Also, just for the new instance attempt)
-        # if hasattr(char, "effects"):
-            # new.effects = char.effects.copy()
-
-        # Traits copy:
-        # real_traits = list(traits[t] for t in [trait.id for trait in char.traits])
-        # new.traits[:] = real_traits
-        new.traits[:] = list(char.traits)
-        new.traits.normal = char.traits.normal.copy()
-        new.traits.items = char.traits.items.copy()
-        new.traits.ab_traits = char.traits.ab_traits.copy()
-        new.traits.blocked_traits = char.traits.blocked_traits.copy()
-        new.traits.basetraits = char.traits.basetraits.copy()
-
-        # Equipment slots/Item mods:
-        new.eqslots = char.eqslots.copy()
-        new.miscitems = char.miscitems.copy()
-        new.consblock = char.consblock.copy()
-        new.constemp = char.constemp.copy()
-
-        # Skills:
-        # real_attack_skills = list(battle_skills[s] for s in [skill.name for skill in char.attack_skills])
-        # new.attack_skills[:] = real_attack_skills
-        new.attack_skills[:] = list(char.attack_skills)
-        new.attack_skills.normal = char.attack_skills.normal.copy()
-        new.attack_skills.items = char.attack_skills.items.copy()
-
-        # real_magic_skills = list(battle_skills[s] for s in [skill.name for skill in char.magic_skills])
-        # new.magic_skills[:] = real_magic_skills
         new.magic_skills[:] = list(char.magic_skills)
         new.magic_skills.normal = char.magic_skills.normal.copy()
         new.magic_skills.items = char.magic_skills.items.copy()
