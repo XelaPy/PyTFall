@@ -496,6 +496,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     xysize 1001, 150
                     draggable True
                     mousewheel True
+                    edgescroll [60, 100]
                     has hbox spacing 5
                     for c in store.chars_list:
                         $ img = c.show("vnsprite", resize=(180, 138), cache=True)

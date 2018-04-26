@@ -959,75 +959,20 @@ init -9 python:
             # Get team luck:
             for member in hero.team:
                 luck += member.luck
-            luck = luck / len(hero.team)
+            luck = float(luck)/len(hero.team)
 
             # Bonus:
             bonus = False
 
-            if self.cf_count == 7:
-                if dice(75 + luck*0.5):
-                    bonus = True
+            if dice(25+self.cf_count*3 + luck*.5):
+                bonus = True
             else:
-                if dice(25 + luck*0.5):
-                    bonus = True
+                bonus = False
+
             # if DEBUG:
-                # bonus = True
+            #     bonus = True
             if bonus:
-                d = OrderedDict()
-                # Color: range (int) pares =======>>>
-                full = 4
-                hp = 2
-                mp = 3
-
-                health= 0
-                magic_points = 0
-                vit = 0
-                for member in hero.team:
-                    health = health + member.health
-                    magic_points = magic_points + member.mp
-                    vit = vit + member.vitality
-
-                # Luck mod:
-                if dice(luck):
-                    full += 4
-                if dice(luck):
-                    hp += 2
-                if dice(luck):
-                    mp += 3
-
-                # Stat mod:
-                if health / len(hero.team) < 100:
-                    hp += 1
-                if health / len(hero.team) < 50:
-                    hp += 2
-                if magic_points / len(hero.team) < 50:
-                    mp += 2
-                if magic_points / len(hero.team) < 20:
-                    mp += 3
-                if vit / len(hero.team) < 100:
-                    full += 1
-                if vit / len(hero.team) < 50:
-                    full += 2
-
-                # Attempt to stabilize the bar:
-                if (hp + mp + full) % 2:
-                    hp += 1
-                d["red"] = hp # HP
-                d["blue"] = mp # MP
-                d["green"] = full # Restore vitality
-                d["white"] = 50 - sum(d.values()) # Bupkis
-                c = copy.copy(d)
-
-                # Mutating to a new dict of color: value pairs
-                d = OrderedDict()
-                d["white"] = c["white"] / 2
-                for i in c:
-                    if i != "white":
-                        d[i] = c[i]
-                d["white"] = c["white"] / 2
-                # Pass the dict to the award method:
-                renpy.play("win_screen.mp3", channel="world")
-                renpy.call_screen("arena_minigame", 50, .01, 6, d)
+                self.setup_minigame(luck)
 
             renpy.show_screen("confirm_chainfight")
 
@@ -1133,41 +1078,93 @@ init -9 python:
                     member.combat_stats = "K.O."
                 jump("arena_inside")
 
-        def award_cf_bonus(self, udd, d):
+        def setup_minigame(self, luck):
+            # Color: range (int) pares =======>>>
+            data = OrderedDict()
+
+            hp = mp = vp = 0
+            maxhp = maxmp = maxvp = 0
+            for member in hero.team:
+                hp += member.health
+                mp += member.mp
+                vp += member.vitality
+
+                maxhp += member.get_max("health")
+                maxmp += member.get_max("mp")
+                maxvp += member.get_max("vitality")
+
+            # New total is 300, each of the stats may get 50!
+            # Here max possible is 40, rest is luck.
+            # The smaller the stats, the larger the bonus area.
+            length = 300
+            hpbar = 40-hp*40/maxhp
+            mpbar = 40-mp*40/maxmp
+            vpbar = 40-vp*40/maxvp
+
+            # Luck mod:
+            if dice(luck):
+                hpbar += 10
+            if dice(luck):
+                mpbar += 10
+            if dice(luck):
+                vpbar += 10
+
+            # Stabilize:
+            data["red"] = max(round_int(hpbar), 20)
+            data["blue"] = max(round_int(mpbar), 20)
+            data["green"] = max(round_int(vpbar), 20)
+            white = (length-sum(data.values()))/2 # Bupkis
+
+            # Mutating to a new dict of color: value pairs
+            colors = OrderedDict()
+            colors["white"] = white
+            for color, value in data.items():
+                colors[color] = value
+
+            # Pass the minigame screen:
+            renpy.play("win_screen.mp3", channel="world")
+            renpy.call_screen("arena_minigame", colors, length)
+
+        def settle_minigame(self, udd, d):
             # Award the bonuses:
             value = udd.value
             result = None
             # And lastly, mutating to a bonus: range pair, pairs dict :)
+            white = d.pop("white")
             bonus = dict()
-            bonus["bupkis"] = (0, d["white"])
-            level = d["white"]
+
+            bonus["bupkis"] = (0, white)
+
+            level = white
             newlevel = level + d["red"]
-            bonus["HP"] = (level, newlevel)
+            bonus["hp"] = (level, newlevel)
+
             level = newlevel
-            newlevel = newlevel + d["blue"]
-            bonus["MP"] = (level, newlevel)
+            newlevel = level + d["blue"]
+            bonus["mp"] = (level, newlevel)
+
             level = newlevel
-            newlevel = newlevel + d["green"]
-            bonus["Restore"] = (level, newlevel)
+            newlevel = level + d["green"]
+            bonus["vp"] = (level, newlevel)
+
             level = newlevel
-            newlevel = newlevel + d["white"]
+            newlevel = newlevel + white
             bonus["bupkis_2"] = (level, newlevel)
 
-            for i in bonus:
-                if bonus[i][0] <= value <= bonus[i][1]:
-                    result = i
+            for reward, levels in bonus.items():
+                if levels[0] <= value <= levels[1]:
                     break
 
-            if result == "HP":
+            if reward == "hp":
                 for member in hero.team:
                     member.health = member.get_max("health")
-            elif result == "MP":
+            elif reward == "mp":
                 for member in hero.team:
                     member.mp = member.get_max("mp")
-            elif result == "Restore":
+            elif reward == "vp":
                 for member in hero.team:
                     member.vitality = member.get_max("vitality")
-            return result
+            return reward
 
         # -------------------------- Battle/Next Day ------------------------------->
         def auto_resolve_combat(self, off_team, def_team, type="dog_fight"):
