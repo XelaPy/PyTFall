@@ -638,17 +638,17 @@ screen char_profile():
                     button:
                         xysize (150, 40)
                         action Hide("show_trait_info"), If(not_escaped, true=Show("char_control"))
-                        hovered tt.action('Set desired behavior for [char.nickname].')
+                        hovered tt.action('Set desired behavior for [char.nickname]!')
                         text "Girl Control"
                     button:
                         xysize (150, 40)
                         action If(not_escaped, true=[Hide("char_profile"), With(dissolve), SetVariable("eqtarget", char), Jump('char_equip')])
-                        hovered tt.action('Access girls inverntory and equipment screen!')
+                        hovered tt.action("Manage this girl's inventory and equipment!")
                         text "Equipment"
                     button:
                         xysize (150, 40)
                         action [Hide("char_profile"), With(dissolve), Return(["girl", "gallery"])]
-                        hovered tt.action("View this girl's gallery! (building a gallery may take some time for big packs)")
+                        hovered tt.action("View this girl's gallery! (building a gallery may take some time for large packs)")
                         text "Gallery"
 
                 vbox:
