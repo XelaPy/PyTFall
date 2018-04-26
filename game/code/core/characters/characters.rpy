@@ -2369,7 +2369,7 @@ init -9 python:
         def auto_training(self, kind):
             """
             Training, right now by NPCs.
-            *kind = is a string refering to the NPC
+            *kind = is a string referring to the NPC
             """
             # Any training:
             self.exp += self.adjust_exp(randint(20, max(25, self.luck)))
@@ -2377,18 +2377,17 @@ init -9 python:
             if kind == "train_with_witch":
                 self.magic += randint(1, 3)
                 self.intelligence += randint(1, 2)
-                self.mp += randint(7, 15)
-
+                mod_by_max(self, "mp", .5)
                 if dice(50):
                     self.agility += 1
 
             if kind == "train_with_aine":
                 self.charisma += randint(1, 3)
-                self.vitality += randint(10, 20)
+                mod_by_max(self, "vitality", .5)
                 if dice(max(10, self.luck)):
                     self.reputation += 1
                     self.fame += 1
-                if dice(1 + self.luck*0.05):
+                if dice(1 + self.luck*.05):
                     self.luck += randint(1, 2)
 
             if kind == "train_with_xeona":
@@ -2396,12 +2395,13 @@ init -9 python:
                 self.defence += randint(1, 2)
                 if dice(50):
                     self.agility += 1
-                self.health += randint(10, 20)
+                mod_by_max(self, "health", .5)
                 if dice(25 + max(5, int(self.luck/3))):
                     self.constitution += randint(1, 2)
 
         def get_training_price(self):
-            return 500 + 500 * (self.level/5)
+            base = 150
+            return base + base*(self.tier*2)
 
         # Logging and updating daily stats change on next day:
         def log_stats(self):
