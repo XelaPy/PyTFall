@@ -3967,7 +3967,7 @@ init -9 python:
                 self.vitality -= int(self.get_max("vitality")*0.2)
 
             elif effect == "Lactation": # TO DO: add milking activities, to use this fetish more widely
-                if self.health >= 30 and self.vitality >= 30:
+                if self.health >= 30 and self.vitality >= 30 and self in hero.chars and self.is_available:
                     if self.status == "slave" or check_lovers(self, hero):
                         if "Small Boobs" in self.traits:
                             hero.add_item("Bottle of Milk")
