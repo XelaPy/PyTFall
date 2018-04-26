@@ -106,7 +106,7 @@ label interactions_give_money:
     jump girl_interactions
 
 label interactions_take_money:
-    $ line = "She has " + str(char.gold) + " gold. How much money you want to give?"
+    $ line = "She has " + str(char.gold) + " gold. How much money you want to take?"
     $ money = renpy.call_screen("digital_keyboard", line=line)
 
     if not money:
