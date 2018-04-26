@@ -1284,7 +1284,7 @@ init: # Screens:
                         xysize (200, 32)
                         yalign .5
                         action ToggleField(building, "auto_clean")
-                        hovered tt.action("Enable automatic hiring of cleaners if building gets to dirty!")
+                        hovered tt.action("Enable automatic hiring of cleaners if the building gets too dirty!")
                         text "Auto-Cleaning:" align (.0, .5)
                         if not building.auto_clean:
                             add (im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align (1.0, .5)
@@ -1335,7 +1335,7 @@ init: # Screens:
             label (u"{size=20}{color=[ivory]}{b}Advertise!") text_outlines [(2, "#424242", 0, 0)] align (.5, .16)
 
             # Tooltip related ---------------------------------->
-            default tt = Tooltip("Attract more and better clients. Choose your advertisement budget carefully so your girls can keep up with quality and quantity of customers!")
+            default tt = Tooltip("Attract the attention of even more and possibly higher class clients. Choose your advertisement budget carefully so the girls can keep up with quality and quantity of your customers!")
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                 align(.5, .88)
