@@ -925,7 +925,7 @@ init -10 python:
                     up.pre_nd()
 
                 self.env.process(self.building_manager(end=101))
-                self.env.run(until=101) # 101 will run events at 100 which it is more intuitive to manage.
+                self.env.run(until=110) # 101 will run events at 100 which it is more intuitive to manage.
                 self.log("{}".format(set_font_color("Ending the simulation.", "green")))
 
                 # Building Stats:
