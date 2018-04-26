@@ -244,20 +244,20 @@ init -11 python:
     def interactions_check_for_bad_stuff(char_name): # we check major issues when the character will refuse almost anything
         if char_name.effects["Food Poisoning"]['active']:
             char_name.override_portrait("portrait", "indifferent")
-            rc("But [char.name] was too ill to pay any serious attention to you.", "But her aching stomach completely occupies her thoughts.")
+            char_name.say(choice(["But [char.name] was too ill to pay any serious attention to you.", "But her aching stomach completely occupies her thoughts."]))
             char_name.restore_portrait()
             char_name.disposition -= randint(2, 5)
             renpy.jump("girl_interactions_end")
         elif char_name.vitality <= round(char_name.get_max("vitality")*0.1):
             char_name.override_portrait("portrait", "indifferent")
-            rc("But [char.name] was too tired to even talk.", "Sadly, [char.name] was not very happy that you interrupted her rest.", "But she is simply too tired to pay any serious attention to you.", "Unfortunately she so tired she almost falls asleep on the move.")
+            char_name.say(choice(["But [char.name] was too tired to even talk.", "Sadly, [char.name] was not very happy that you interrupted her rest.", "But she is simply too tired to pay any serious attention to you.", "Unfortunately she so tired she almost falls asleep on the move."]))
             char_name.restore_portrait()
             char_name.disposition -= randint(5, 10)
             char_name.vitality -= 2
             renpy.jump("girl_interactions_end")
         elif char_name.health < (round(char_name.get_max("health")*0.2)):
             char_name.override_portrait("portrait", "indifferent")
-            rc("But [char.name] is too wounded for that.", "But her wounds completely occupy her thoughts.")
+            char_name.say(choice(["But [char.name] is too wounded for that.", "But her wounds completely occupy her thoughts."]))
             char_name.restore_portrait()
             char_name.disposition -= randint(5, 15)
             char_name.vitality -= 2
@@ -312,27 +312,27 @@ init -11 python:
     def interactions_checks_for_bad_stuff_greetings(char_name): # Special beginnings for greetings if something is off, True/False show that sometimes we even will need to skip a normal greeting altogether
         if char_name.effects["Food Poisoning"]['active']:
             char_name.override_portrait("portrait", "indifferent")
-            rc("She does not look good...")
+            char_name.say("She does not look good...")
             char_name.restore_portrait()
             return True
         elif char_name.vitality <= 40:
             char_name.override_portrait("portrait", "indifferent")
-            rc("She looks very tired...")
+            char_name.say("She looks very tired...")
             char_name.restore_portrait
             return True
         elif char_name.health < (round(char_name.get_max("health")*0.2)):
             char_name.override_portrait("portrait", "indifferent")
-            rc("She does not look good...")
+            char_name.say("She does not look good...")
             char_name.restore_portrait()
             return True
         elif char_name.effects["Down with Cold"]['active']:
             char_name.override_portrait("portrait", "indifferent")
-            rc("She looks a bit pale...")
+            char_name.say("She looks a bit pale...")
             char_name.restore_portrait
             return False
         elif char_name.joy <= 25:
             char_name.override_portrait("portrait", "sad")
-            rc("She looks pretty sad...")
+            char_name.say("She looks pretty sad...")
             char_name.restore_portrait()
             return False
         else:

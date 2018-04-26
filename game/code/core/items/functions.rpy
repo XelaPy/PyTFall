@@ -257,7 +257,7 @@ init -11 python:
         # Always refuse if character hates the player:
         if character.disposition <= -500:
             if not silent:
-                interactions_girl_disp_is_too_low_to_give_money() # turns out money lines are perfect here
+                interactions_girl_disp_is_too_low_to_give_money(character) # turns out money lines are perfect here
             return False
 
         if item:
@@ -275,7 +275,7 @@ init -11 python:
                 # Bad Traits:
                 if item.badtraits.intersection(character.traits):
                     if not silent:
-                        interactions_character_doesnt_want_bad_item()
+                        interactions_character_doesnt_want_bad_item(character)
                     return not allowed_to_equip
 
                 # Always allow restorative items:
@@ -298,12 +298,12 @@ init -11 python:
                     return allowed_to_equip
                 elif item.eqchance <= 0: # 0 eqchance will make item unavailable, unless there is good trait or slave status
                     if not silent:
-                        interactions_character_doesnt_want_bad_item()
+                        interactions_character_doesnt_want_bad_item(character)
                     return not allowed_to_equip
 
         if character.disposition < 900 and not check_lovers(character, hero):
             if not silent:
-                interactions_character_doesnt_want_to_equip_item()
+                interactions_character_doesnt_want_to_equip_item(character)
             return False
 
         return True
