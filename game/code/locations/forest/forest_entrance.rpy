@@ -41,6 +41,30 @@ label forest_entrance:
         elif result[0] == 'location':
             $ renpy.music.stop(channel="world")
             $ jump(result[1])
+            
+label mc_action_wood_cutting:
+    if not has_items("Woodcutting Axe", [hero], equipped=True):
+        "You need a Woodcutting Axe before doing anything."
+    elif hero.AP <= 0:
+        "You don't have Action Points left. Try again tomorrow."
+    elif hero.vitality < int(hero.get_max("vitality")*0.4):
+        "You are too tired for that."
+    
+    else:
+        $ hero.AP -= 1
+        $ hero.vitality -= int(hero.get_max("vitality")*0.4)
+        "You grab your axe and start working."
+        $ wood = (hero.constitution+hero.attack) // 10 + randint(1, 2)
+        if dice(50):
+            $ hero.attack += randint(0, 2)
+        if dice(50):
+            $ hero.constitution += 1
+        $ hero.add_item("Wood", wood)
+        $ gfx_overlay.random_find(items["Wood"], 'items', wood)
+        $ del wood
+        
+    $ global_flags.set_flag("keep_playing_music")
+    jump forest_entrance
 
 screen forest_entrance():
     use top_stripe(True)
@@ -90,3 +114,11 @@ screen forest_entrance():
                 hover (im.MatrixColor(img_peev_shop, im.matrix.brightness(.15)))
                 action [Hide("forest_entrance"), Jump("peevish_menu"), With(dissolve)]
                 tooltip "Peevishes Shop"
+                
+    $ img_forest_wood = ProportionalScale("content/gfx/interface/icons/wood_cut.png", 90, 90)
+    imagebutton:
+        pos(1120, 460)
+        idle (img_forest_wood)
+        hover (im.MatrixColor(img_forest_wood, im.matrix.brightness(.15)))
+        action [Hide("forest_entrance"), Jump("mc_action_wood_cutting"), With(dissolve)]
+        tooltip "Trees Cutting"

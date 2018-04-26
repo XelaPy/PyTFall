@@ -243,7 +243,7 @@ init -999 python:
             kwargs["duration"] = duration
             self.add_atl(dispostion_effect, duration, kwargs)
 
-        def random_find(self, item, mode='gold'):
+        def random_find(self, item, mode='gold', count=None):
             # Can be used to show that we've found something.
             kwargs = {}
 
@@ -273,7 +273,11 @@ init -999 python:
             elif mode == 'item':
                 main_icon = pscale(item.icon,
                               80, 80, align=(.5, .5))
-                main_text = Text(item.id, font="fonts/rubius.ttf", color=gold,
+                if count:
+                    t = item.id + " x " + str(count)
+                else:
+                    t = item.id
+                main_text = Text(t, font="fonts/rubius.ttf", color=gold,
                                          size=40, align=(.5, 1.0))
                 support_icons = pscale("content/gfx/interface/buttons/IT2.png",
                               40, 40, align=(.5, .5))
@@ -281,7 +285,11 @@ init -999 python:
                 # Different mode, similar to MC's Stats:
                 main_icon = pscale(item.icon,
                               80, 80, align=(.5, .5))
-                main_text = Text(item.id, font="fonts/rubius.ttf", color=gold,
+                if count:
+                    t = item.id + " x " + str(count)
+                else:
+                    t = item.id
+                main_text = Text(t, font="fonts/rubius.ttf", color=gold,
                                          size=40, align=(.5, 1.0))
                 support_icons = pscale("content/gfx/interface/buttons/IT2.png",
                               40, 40, align=(.5, .5))
