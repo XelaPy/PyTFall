@@ -112,6 +112,7 @@ label about_aine_personal_training:
     a "Your vitality will be boosted, and your fame and reputation may also increase."
     extend " Due to my magical nature, there is a tiny chance that you will get luckier in your life endeavors!!!"
     a "That I dare say is a truly rare feat!"
+    "The training will cost you 250 gold per tier of the trained character every day."
     return
 
 label aine_goodbye:

@@ -91,6 +91,7 @@ label witch_training:
         w "I can also guarantee you agility will go up if you pay attention in class!"
         extend " That, however, is rare."
         w "Yeap! I am That good!"
+        "The training will cost you 250 gold per tier of the trained character every day."
         $ global_flags.set_flag("witches_training_explained")
     else:
         w "You know the deal!"
@@ -114,6 +115,7 @@ label witch_training:
                 w "I can also guarantee your character will go up if you pay attention in class!"
                 extend " That, however, does not often happen for reasons unknown..."
                 w "Yeap! I am That good!"
+                "The training will cost you 250 gold per tier of the trained character every day."
             "{color=[green]}Setup sessions for [char.name]{/color}" if not char.has_flag("train_with_witch"):
                 $ char.set_flag("train_with_witch")
                 $ char.apply_trait(traits["Abby Training"])

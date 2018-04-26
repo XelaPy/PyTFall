@@ -2401,7 +2401,7 @@ init -9 python:
 
         def get_training_price(self):
             base = 250
-            return base + base*(self.tier*2)
+            return base + base*self.tier
 
         # Logging and updating daily stats change on next day:
         def log_stats(self):

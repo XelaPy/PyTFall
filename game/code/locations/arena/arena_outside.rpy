@@ -182,6 +182,7 @@ label xeona_training:
         ax "Don't expect to learn any magic, but I can teach you how to fight on level with any silly mage!"
         ax "Due to my the nature of training, there is always a chance of your constitution increasing as well."
         ax "Potions we drink to increase stamina during the training might also restore your health."
+        "The training will cost you 250 gold per tier of the trained character every day."
         $ global_flags.set_flag("xeona_training_explained")
     else:
         ax "I am ready if you are!"
@@ -205,6 +206,7 @@ label xeona_training:
                 ax "Don't expect to learn any magic, but I can teach you how to fight on level with any silly mage!"
                 ax "Due to my the nature of training, there is always a chance of your constitution increasing as well."
                 ax "Potions we drink to increase stamina during the training might also restore your health."
+                "The training will cost you 250 gold per tier of the trained character every day."
             "{color=[green]}Setup sessions for [char.name]{/color}" if not char.has_flag("train_with_xeona"):
                 $ char.set_flag("train_with_xeona")
                 $ char.apply_trait(traits["Xeona Training"])
