@@ -398,10 +398,6 @@ screen chars_list(source=None):
                         selected False
                         hovered tt.Action('Manage group training')
 
-    # Keybinds:
-    key "mousedown_4" action If(page < max_page, true=SetScreenVariable("page", page+1), false=NullAction())
-    key "mousedown_5" action If(page > 0, true=SetScreenVariable("page", page-1), false=NullAction())
-
     $ store.chars_list_last_page_viewed = page # At Darks Request!
 
     frame:
@@ -421,6 +417,8 @@ screen chars_list(source=None):
             sensitive page > 0
             action SetScreenVariable("page", page-1)
             hovered tt.Action('Previous page')
+            keysym "mousedown_5"
+
         $ temp = page+1
         textbutton "[temp]":
             action NullAction()
@@ -433,3 +431,4 @@ screen chars_list(source=None):
             sensitive page < max_page
             action SetScreenVariable("page", page+1)
             hovered tt.Action('Next page')
+            keysym "mousedown_4"
