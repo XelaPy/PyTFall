@@ -373,6 +373,10 @@ label after_load:
         $ renpy.random.setstate(stored_random_seed)
 
     python hide:
+        for c in store.chars.values():
+            c.clear_img_cache()
+
+    python hide:
         updated_chars = load_characters("chars", Char)
         for id, char in updated_chars.items():
             if id not in store.chars:
