@@ -1814,7 +1814,7 @@ init -9 python:
                 return stats._raw_skill(key)
             elif key in self.FULLSKILLS:
                 return self.stats.get_skill(key[:-5])
-            raise AttributeError("%r object has no attribute %r" %
+            raise AttributeError("Object of %r class has no attribute %r" %
                                           (self.__class__, key))
 
         def __setattr__(self, key, value):

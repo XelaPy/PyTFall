@@ -757,7 +757,7 @@ init -11 python:
         for attr, value in char.__dict__.items():
             if attr == "effects":
                 new.effects = deepcopy(value)
-            elif isinstance(value, (bool, float, basestring, int)):
+            elif isinstance(value, (bool, float, basestring, int, Trait)):
                 setattr(new, attr, value)
             elif isinstance(value, (dict, set)):
                 setattr(new, attr, value.copy())
