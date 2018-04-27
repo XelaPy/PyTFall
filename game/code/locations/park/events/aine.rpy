@@ -101,7 +101,7 @@ label aine_training:
     jump aine_menu_return
 
 label about_personal_training:
-    "You can arrange for daily training sessions at the cost of 1 AP and 500 gold pare day, plus 500 gold per 5 levels."
+    "You can arrange for daily training sessions at the cost of 1 AP and 250 gold per tier of the trained character every day."
     "It will be automatically terminated if you lack the gold to continue."
     "Sessions can be arranged with multiple trainers on the same day. But you'd be running a risk of not leaving AP to do anything else."
     return
