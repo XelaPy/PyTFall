@@ -494,7 +494,7 @@
     "mtemp": 1,
     "mreusable": true,
     "mdestruct": false,
-    "mod": {"disposition": 10, "mp": -5, "vitality": -5},
+    "mod": {"disposition": 35, "mp": -5, "vitality": -5},
     "locations": ["Witches Hut", "Exploration"]
     },
     {
