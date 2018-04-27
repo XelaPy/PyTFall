@@ -58,8 +58,8 @@ init -999 python:
 
     def content_path(path):
         '''Returns proper path for a file in the content directory *To be used with os module.'''
-        if os.pathsep+"conent"+os.pathsep in path:
-            renpy.error("conent already in path: "+path)
+        if os.pathsep+"content"+os.pathsep in path:
+            renpy.error("content already in path: "+path)
         return renpy.loader.transfn('content/' + path)
 
     # enable logging via the 'logging' module
