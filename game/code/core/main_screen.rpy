@@ -34,6 +34,13 @@ label mainscreen:
         main_img_predict.append("content/gfx/frame/h2.png")
         main_img_predict.append("content/gfx/interface/buttons/compass.png")
         main_img_predict.append("content/gfx/images/m_2.png")
+        main_img_predict.append("content/gfx/frame/p_frame.png")
+        main_img_predict.append("content/gfx/interface/buttons/sl_idle.png")
+        main_img_predict.append("content/gfx/frame/rank_frame.png")
+        main_img_predict.append("content/gfx/interface/icons/gold.png")
+        main_img_predict.append("content/gfx/interface/images/work.png")
+        main_img_predict.append("content/gfx/images/fishy.png")
+        main_img_predict.append("content/gfx/interface/buttons/IT2.png")
         renpy.start_predict(*main_img_predict)
 
         main_scr_predict = ["city_screen", "chars_list"]
