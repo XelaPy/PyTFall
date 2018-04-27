@@ -1798,6 +1798,8 @@ init -9 python:
 
             self.jobpoints = 0
 
+            self.clear_img_cache()
+
             # Say style properties:
             self.say_style = {"color": ivory}
 
@@ -4513,7 +4515,6 @@ init -9 python:
             self.alive = True
 
             # Image related:
-            self.clear_img_cache()
             # self.picture_base = dict()
 
             self.nickname = ""
