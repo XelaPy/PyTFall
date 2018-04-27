@@ -333,10 +333,10 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
         show screen int_libido_level_zero
 
     if char.vitality <=10:
-        jump interaction_scene_finish_sex
+        jump mc_action_scene_finish_sex
     elif hero.vitality <= 30:
         "You are too tired to continue."
-        jump interaction_scene_finish_sex
+        jump mc_action_scene_finish_sex
 
     if char.status == "slave":
         if sex_scene_libido == 0:
@@ -348,13 +348,13 @@ label interaction_scene_choice: # here we select specific scene, show needed ima
     else:
         if sex_scene_libido <= 0:
             "[char.name] doesn't want to do it any longer."
-            jump interaction_scene_finish_sex
+            jump mc_action_scene_finish_sex
         elif char.joy < 30:
             "[char.name] looks upset. Not the best mood for sex."
-            jump interaction_scene_finish_sex
+            jump mc_action_scene_finish_sex
         if char.vitality < 30:
             "[char.name] is too tired to continue."
-            jump interaction_scene_finish_sex
+            jump mc_action_scene_finish_sex
 
     if not(scene_picked_by_character):
         $ scene_picked_by_character = True
@@ -436,7 +436,7 @@ label interaction_sex_scene_choice:
             if 'current_action' in locals():
                 $ del current_action
 
-label interaction_scene_finish_sex:
+label mc_action_scene_finish_sex:
     hide screen int_libido_level
     hide screen int_libido_level_zero
 
@@ -463,8 +463,8 @@ label interaction_scene_finish_sex:
                 $ gm.set_img("girlmeets", "happy", "indoors", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
                 
         if not char.has_flag("raped_by_player"):
+            $ char.disposition += randint(50, 100)
             call interactions_after_good_sex from _call_interactions_after_good_sex
-            $ char.disposition += randint(20, 40)
         else:
             "She quickly dresses up and leaves."
         $ char.vitality -= randint(5, 10)
@@ -486,9 +486,9 @@ label interaction_scene_finish_sex:
                 $ gm.set_img("girlmeets", "angry", "indoors", exclude=["happy", "scared", "in pain", "ecstatic", "suggestive"], type="reduce")
                 
             if not char.has_flag("raped_by_player"):
-                call interactions_girl_never_come from _call_interactions_girl_never_come
-                $ char.disposition -= randint(20, 50)
+                $ char.disposition -= randint(15, 35)
                 $ char.joy -= randint(2, 5)
+                call interactions_girl_never_come from _call_interactions_girl_never_come
             else:
                 "She quickly dresses up and leaves."
             $ char.vitality -= randint(5, 10)
@@ -509,9 +509,9 @@ label interaction_scene_finish_sex:
             else:
                 $ gm.set_img("girlmeets", "sad", "indoors", exclude=["happy", "scared", "in pain", "ecstatic", "suggestive"], type="reduce")
         if not char.has_flag("raped_by_player"):
-            call interactions_guy_never_came from _call_interactions_guy_never_came
-            $ char.disposition += randint(10, 20)
+            $ char.disposition += randint(15, 30)
             $ char.joy -= randint(10, 15)
+            call interactions_guy_never_came from _call_interactions_guy_never_came
         else:
             "She quickly dresses up and leaves."
         $ char.vitality -= randint(5, 15)
@@ -532,8 +532,8 @@ label interaction_scene_finish_sex:
             else:
                 $ gm.set_img("girlmeets", "shy", "indoors", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
         if not char.has_flag("raped_by_player"):
+            $ char.disposition += randint(25, 50)
             call interactions_guy_cum_alot from _call_interactions_guy_cum_alot
-            $ char.disposition += randint(10, 20)
         else:
             "She quickly dresses up and leaves."
         $ char.vitality -= randint(5, 10)
@@ -557,7 +557,7 @@ label interaction_scene_finish_sex:
             "She is puzzled and confused by the fact that you didn't do anything. She quickly leaves, probably thinking that you teased her."
         else:
             "She is quite upset and irritated because you didn't do anything. She quickly leaves, probably thinking that you teased her."
-            $ char.disposition -= randint(20, 50)
+            $ char.disposition -= randint(50, 100)
             $ char.joy -= randint(15, 30)
             $ char.vitality -= 5
     elif mast_count > 0 and guy_count < 1 and girl_count < 1:
@@ -577,9 +577,9 @@ label interaction_scene_finish_sex:
             else:
                 $ gm.set_img("girlmeets", "shy", "indoors", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
         "She did nothing but masturbated in front of you. Be prepared for rumors about your impotence or orientation."
-        call interactions_girl_dissapointed from _call_interactions_girl_dissapointed_3
         if not char.has_flag("raped_by_player"):
-            $ char.disposition -= randint(10, 15)
+            $ char.disposition -= randint(10, 25)
+        call interactions_girl_dissapointed from _call_interactions_girl_dissapointed_3
         $ char.vitality -= 5
     else:
         if sex_scene_location == "beach":
@@ -598,8 +598,8 @@ label interaction_scene_finish_sex:
             else:
                 $ gm.set_img("girlmeets", "happy", "indoors", exclude=["angry", "sad", "scared", "in pain"], type="reduce")
         if not char.has_flag("raped_by_player"):
+            $ char.disposition += randint(30, 60)
             call interactions_after_normal_sex from _call_interactions_after_normal_sex
-            $ char.disposition += randint(10, 20)
         else:
             "She quickly dresses up and leaves."
         $ char.vitality -= randint(5, 10)
