@@ -2212,7 +2212,7 @@ init -9 python:
             imgpath = ""
 
             if label_cache:
-                for entry in self.img_cache:
+                for entry in self.label_cache:
                     if entry[0] == tags and entry[1] == last_label:
                         return ProportionalScale(entry[2], maxw, maxh)
 
@@ -2303,7 +2303,7 @@ init -9 python:
                 imgpath = "/".join([self.path_to_imgfolder, imgpath])
 
             if label_cache:
-                self.img_cache.append([tags, last_label, imgpath])
+                self.label_cache.append([tags, last_label, imgpath])
 
             if cache:
                 self.cache.append([tags, imgpath])
@@ -2314,7 +2314,7 @@ init -9 python:
             """
             Returns imgpath!!! from cache based on the label provided.
             """
-            for entry in self.img_cache:
+            for entry in self.label_cache:
                 if entry[1] == label:
                     return entry[2]
 
@@ -4511,8 +4511,8 @@ init -9 python:
 
             # Image related:
             self.cache = list()
-            self.img_cache = list()
-            self.picture_base = dict()
+            self.label_cache = list()
+            # self.picture_base = dict()
 
             self.nickname = ""
             self.fullname = ""
@@ -4651,29 +4651,29 @@ init -9 python:
         def update_sayer(self):
             self.say = Character(self.nickname, show_two_window=True, show_side_image=self, **self.say_style)
 
-        def get_availible_pics(self):
-            """
-            Determines (per category) what pictures are available for the fixed events (like during the jobs).
-            This is ran once during the game startup, should also run in the after_load label...
-            Meant to decrease the amount of checks during the Next Day jobs. Should be activated in post Alpha code review.
-            PS: It's better to simply add tags to a set instead of booleans as dict values.
-            """
-            # Lets start with the normal sex category:
-            if self.has_image("sex"):
-                self.picture_base["sex"] = dict(sex=True)
-            else:
-                self.picture_base["sex"] = dict(sex=False)
-
-            # Lets check for the more specific tags:
-            if self.build_image_base["sex"]["sex"]:
-                if self.has_image("sex", "doggy"):
-                    self.picture_base["sex"]["doggy"] = True
-                else:
-                    self.picture_base["sex"]["doggy"] = False
-                if self.has_image("sex", "missionary"):
-                    self.picture_base["sex"]["missionary"] = True
-                else:
-                    self.picture_base["sex"]["missionary"] = False
+        # def get_availible_pics(self):
+        #     """
+        #     Determines (per category) what pictures are available for the fixed events (like during the jobs).
+        #     This is ran once during the game startup, should also run in the after_load label...
+        #     Meant to decrease the amount of checks during the Next Day jobs. Should be activated in post Alpha code review.
+        #     PS: It's better to simply add tags to a set instead of booleans as dict values.
+        #     """
+        #     # Lets start with the normal sex category:
+        #     if self.has_image("sex"):
+        #         self.picture_base["sex"] = dict(sex=True)
+        #     else:
+        #         self.picture_base["sex"] = dict(sex=False)
+        #
+        #     # Lets check for the more specific tags:
+        #     if self.build_image_base["sex"]["sex"]:
+        #         if self.has_image("sex", "doggy"):
+        #             self.picture_base["sex"]["doggy"] = True
+        #         else:
+        #             self.picture_base["sex"]["doggy"] = False
+        #         if self.has_image("sex", "missionary"):
+        #             self.picture_base["sex"]["missionary"] = True
+        #         else:
+        #             self.picture_base["sex"]["missionary"] = False
 
         # Logic assists:
         def allowed_to_view_personal_finances(self):
@@ -4875,7 +4875,7 @@ init -9 python:
             self.reservedAP = 0
             self.item_counter()
             self.txt = list()
-            self.img_cache = list()
+            self.label_cache = list()
             self.cache = list()
             self.set_flag("day_since_shopping", self.flag("day_since_shopping") + 1)
 
