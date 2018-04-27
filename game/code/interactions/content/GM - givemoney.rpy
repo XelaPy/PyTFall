@@ -2,10 +2,10 @@ label interactions_giftmoney:
     if (day - char.flag("flag_interactions_giftmoney")) > 3 or char.flag("flag_interactions_giftmoney") == 0:
         $ char.set_flag("flag_interactions_giftmoney", value=day)
     else:
-        "You already did it recently, she does not want to abuse your generosity."
+        "You already did this recently, she does not want to abuse your generosity."
         jump girl_interactions
 
-    $ line = "You have " + str(hero.gold) + " gold. How much money you want to give?"
+    $ line = "You have " + str(hero.gold) + " gold. How much money do you want to give?"
 
     $ money = renpy.call_screen("digital_keyboard", line=line)
 
@@ -27,7 +27,7 @@ label interactions_giftmoney:
         $ char.add_money(money, reason="Charity")
         "You gave her [money] G."
         if round(char.gold/money) <= 1:
-            "She enthusiastically accepts money. It looks like it's a considerable sum for her."
+            "She enthusiastically accepts your money. It looks like it's a considerable sum for her."
             $ a = 20
             $ b = 50
             $ hero.exp += randint(10, 20)
@@ -64,7 +64,7 @@ label interactions_askmoney:
         call interactions_recently_gave_money from _call_interactions_recently_gave_money
         $ char.disposition -= randint(2, 5)
         jump girl_interactions
-    "You asked her to help you with money."
+    "You asked for her help with money."
     if char.disposition >= 400 or check_lovers(char, hero) or check_friends(char, hero):
         if char.gold < locked_random("randint", 500, 1000):
             call interactions_girl_is_too_poor_to_give_money from _call_interactions_girl_is_too_poor_to_give_money
@@ -80,7 +80,7 @@ label interactions_askmoney:
                 $ char.disposition -= randint (20, 40)
                 $ del temp
         else:
-            "But it looks like she needs money more than you."
+            "But it looks like she needs the money more than you."
             call interactions_girl_is_too_poor_to_give_money from _call_interactions_girl_is_too_poor_to_give_money_1
             $ char.disposition -= randint (10, 20)
             jump girl_interactions
@@ -91,7 +91,7 @@ label interactions_askmoney:
     jump girl_interactions
 
 label interactions_give_money:
-    $ line = "You have " + str(hero.gold) + " gold. How much money you want to give?"
+    $ line = "You have " + str(hero.gold) + " gold. How much money do you want to give?"
     $ money = renpy.call_screen("digital_keyboard", line=line)
 
     if money <= 0  or not money:
@@ -106,7 +106,7 @@ label interactions_give_money:
     jump girl_interactions
 
 label interactions_take_money:
-    $ line = "She has " + str(char.gold) + " gold. How much money you want to take?"
+    $ line = "She has " + str(char.gold) + " gold. How much money do you want to take?"
     $ money = renpy.call_screen("digital_keyboard", line=line)
 
     if not money:
@@ -125,7 +125,7 @@ label interactions_not_enough_gold:
     $ char.override_portrait("portrait", "indifferent")
     $ char.show_portrait_overlay("puzzled", "reset")
     if ct("Impersonal"):
-        $ rc("I don't need it.", "What do you expect me to do with these money?")
+        $ rc("I don't need it.", "What do you expect me to do with this money?")
     elif ct("Shy") and dice(50):
         $ rc("It's... for me? ...Um, thanks, but I cannot accept it.", "Oh... th-thank you, but I d-don't need it.")
     elif ct("Tsundere"):
