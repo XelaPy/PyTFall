@@ -952,7 +952,7 @@ screen next_day():
                     background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
                     text "+" color green size 40 style "stats_text"
                     action NullAction()
-                    hovered tt.action(u"New Cources availible!")
+                    hovered tt.action(u"New Courses available!")
             hbox:
                 yalign .5
                 xalign 0
@@ -961,7 +961,7 @@ screen next_day():
                         background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
                         text "!" color yellow size 40 style "proper_stats_text"
                         action NullAction()
-                        hovered tt.action(u"One of your girls has successfully completed her cource (this doesn't mean that a cource has ended)!")
+                        hovered tt.action(u"One of your girls has successfully completed her course (this doesn't mean that a course has ended)!")
                 if "is attending is at it's end" in school.txt:
                     button:
                         background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
