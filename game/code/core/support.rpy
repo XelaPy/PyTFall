@@ -83,8 +83,7 @@ init -9 python:
                 # Resets and Counters
                 char.restore_ap()
                 char.item_counter()
-                char.label_cache = list()
-                char.cache = list()
+                char.clear_img_cache()
                 for key in char.effects:
                     if char.effects[key]['active']:
                         char.apply_effects(key)
@@ -92,8 +91,7 @@ init -9 python:
 
             # Same for Arena Fighters:
             for fighter in pytfall.arena.arena_fighters.values():
-                fighter.cache = list()
-                fighter.label_cache = list()
+                fighter.clear_img_cache()
                 fighter.health = fighter.get_max("health")
                 fighter.mp = fighter.get_max("mp")
                 fighter.vitality = fighter.get_max("vitality")

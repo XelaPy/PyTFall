@@ -2042,7 +2042,7 @@ init -9 python:
                 raise Exception("get_sprite_size got unknown type for resizing!")
             return resize
 
-        ### Displaying images
+        ### Displaying images:
         @property
         def path_to_imgfolder(self):
             if isinstance(self, rChar):
@@ -2319,6 +2319,10 @@ init -9 python:
                     return entry[2]
 
             return ""
+
+        def clear_img_cache(self):
+            self.cache = list()
+            self.label_cache = list()
 
         def get_vnsprite(self, mood=("indifferent")):
             """
@@ -4044,6 +4048,7 @@ init -9 python:
 
         def next_day(self):
             self.jobpoints = 0
+            self.clear_img_cache()
 
         def nd_auto_train(self, txt):
             if self.flag("train_with_witch"):
@@ -4202,7 +4207,6 @@ init -9 python:
 
             self.img_db = None
             self.id = "mc" # Added for unique items methods.
-            self.cache = list()
             self.name = 'Player'
             self.fullname = 'Player'
             self.nickname = 'Player'
@@ -4465,7 +4469,6 @@ init -9 python:
             self.nd_log_report(txt, img, flag_red, type='mcndreport')
 
             # -------------
-            self.cache = list()
             self.item_counter()
             self.restore_ap()
             self.reservedAP = 0
@@ -4510,8 +4513,7 @@ init -9 python:
             self.alive = True
 
             # Image related:
-            self.cache = list()
-            self.label_cache = list()
+            self.clear_img_cache()
             # self.picture_base = dict()
 
             self.nickname = ""
@@ -4875,8 +4877,6 @@ init -9 python:
             self.reservedAP = 0
             self.item_counter()
             self.txt = list()
-            self.label_cache = list()
-            self.cache = list()
             self.set_flag("day_since_shopping", self.flag("day_since_shopping") + 1)
 
             self.effects['Food Poisoning']['activation_count'] = 0
