@@ -98,7 +98,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
     elif ct("Kamidere"):
         $ rc("What's that? You want to hire me? I want %d G then, money up front." % price, "Hm? You want my body? Well of course you do. %d G, and you can have it." % price)
     elif ct("Bokukko"):
-        $ rc("Sure thing. That will cost ya %d G." % price, "What'ya wanna? Ohoh, you wanna me, don't you? ♪ Alrighty, %d G and we good to go.")
+        $ rc("Sure thing. That will cost ya %d G." % price, "What'ya wanna? Ohoh, you wanna me, don't you? ♪ Alrighty, %d G and we good to go."  % price)
     elif ct("Ane"):
         $ rc("Let's see... How about %d G? Can you afford me? ♪" % price, "Hm? What's the matter? Need some... special service? For you my price is %d G ♪" % price)
     elif ct("Yandere"):
