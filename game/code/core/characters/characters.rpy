@@ -2399,7 +2399,8 @@ init -9 python:
                 if dice(25 + max(5, int(self.luck/3))):
                     self.constitution += randint(1, 2)
 
-        def get_training_price(self):
+        @property
+        def npc_training_price(self):
             base = 250
             return base + base*self.tier
 
@@ -4047,7 +4048,7 @@ init -9 python:
         def nd_auto_train(self, txt):
             if self.flag("train_with_witch"):
                 if self.get_free_ap():
-                    if hero.take_money(self.get_training_price(), "Training"):
+                    if hero.take_money(self.npc_training_price, "Training"):
                         self.auto_training("train_with_witch")
                         self.reservedAP += 1
                         txt.append("\nSuccessfully completed scheduled training with Abby the Witch!")
@@ -4063,7 +4064,7 @@ init -9 python:
 
             if self.flag("train_with_aine"):
                 if self.get_free_ap():
-                    if hero.take_money(self.get_training_price(), "Training"):
+                    if hero.take_money(self.npc_training_price, "Training"):
                         self.auto_training("train_with_aine")
                         self.reservedAP += 1
                         txt.append("\nSuccessfully completed scheduled training with Aine!")
@@ -4079,7 +4080,7 @@ init -9 python:
 
             if self.flag("train_with_xeona"):
                 if self.get_free_ap():
-                    if hero.take_money(self.get_training_price(), "Training"):
+                    if hero.take_money(self.npc_training_price, "Training"):
                         self.auto_training("train_with_xeona")
                         self.reservedAP += 1
                         txt.append("\nSuccessfully completed scheduled combat training with Xeona!")

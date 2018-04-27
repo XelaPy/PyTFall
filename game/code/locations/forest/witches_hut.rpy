@@ -109,7 +109,7 @@ label witch_training:
     while loop:
         menu:
             "About training sessions":
-                call about_personal_training from _call_about_personal_training_1
+                call about_personal_training(w) from _call_about_personal_training_1
             "About Abby training":
                 w "I will train magic, intelligence and restore some MP."
                 w "I can also guarantee your character will go up if you pay attention in class!"
@@ -119,8 +119,7 @@ label witch_training:
             "{color=[green]}Setup sessions for [char.name]{/color}" if not char.has_flag("train_with_witch"):
                 $ char.set_flag("train_with_witch")
                 $ char.apply_trait(traits["Abby Training"])
-                $ training_price = char.get_training_price()
-                w "I will take [training_price] gold per day. Be sure to use my training only on wicked stuff!"
+                w "I will take [char.npc_training_price] gold per day. Be sure to use my training only on wicked stuff!"
             "{color=[red]}Cancel sessions for [char.name]{/color}" if char.flag("train_with_witch"):
                 $ char.del_flag("train_with_witch")
                 $ char.remove_trait(traits["Abby Training"])

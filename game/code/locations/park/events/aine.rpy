@@ -80,14 +80,13 @@ label aine_training:
     while loop:
         menu:
             "About training sessions":
-                call about_personal_training from _call_about_personal_training_2
+                call about_personal_training(a) from _call_about_personal_training_2
             "About Aine training":
                 call about_aine_personal_training from _call_about_aine_personal_training_1
             "{color=[green]}Setup sessions for [char.name]{/color}" if not char.has_flag("train_with_aine"):
                 $ char.set_flag("train_with_aine")
                 $ char.apply_trait(traits["Aine Training"])
-                $ training_price = char.get_training_price()
-                a "It will require [training_price] gold per day. Don't you dare misuse skills you've learned here!"
+                a "It will require [char.npc_training_price] gold per day. Don't you dare misuse skills you've learned here!"
             "{color=[red]}Cancel sessions for [char.name]{/color}" if char.flag("train_with_aine"):
                 $ char.del_flag("train_with_aine")
                 $ char.remove_trait(traits["Aine Training"])
@@ -100,10 +99,12 @@ label aine_training:
                 $ loop = False
     jump aine_menu_return
 
-label about_personal_training:
-    "You can arrange for daily training sessions at the cost of 1 AP and 500 gold pare day, plus 500 gold per 5 levels."
-    "It will be automatically terminated if you lack the gold to continue."
-    "Sessions can be arranged with multiple trainers on the same day. But you'd be running a risk of not leaving AP to do anything else."
+label about_personal_training(speaker):
+    speaker "You can arrange for daily training sessions!"
+    speaker "It will cost you One AP and {color=[gold]}[char.npc_training_price] Gold{/color}."
+    speaker "Price will increase as you level up. Feel free to ask me about this any time!"
+    speaker "Training will be automatically terminated if you lack the gold to continue."
+    speaker "Sessions can be arranged with multiple trainers on the same day. But you'll be running a risk of not leaving Action Points to do anything else."
     return
 
 label about_aine_personal_training:

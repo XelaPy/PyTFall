@@ -200,7 +200,7 @@ label xeona_training:
     while loop:
         menu:
             "About training sessions":
-                call about_personal_training from _call_about_personal_training
+                call about_personal_training(ax) from _call_about_personal_training
             "About Xeona training":
                 ax "I train battle skills."
                 ax "Don't expect to learn any magic, but I can teach you how to fight on level with any silly mage!"
@@ -210,8 +210,7 @@ label xeona_training:
             "{color=[green]}Setup sessions for [char.name]{/color}" if not char.has_flag("train_with_xeona"):
                 $ char.set_flag("train_with_xeona")
                 $ char.apply_trait(traits["Xeona Training"])
-                $ training_price = char.get_training_price()
-                ax "Great, it will be [training_price] gold per day."
+                ax "Great, it will be [char.npc_training_price] gold per day."
             "{color=[red]}Cancel sessions for [char.name]{/color}" if char.flag("train_with_xeona"):
                 $ char.del_flag("train_with_xeona")
                 $ char.remove_trait(traits["Xeona Training"])
