@@ -73,7 +73,7 @@ init -999 python:
             fi = Fixed(xysize=(70, 70), pos=(10, -60))
             frame = Transform("content/gfx/frame/p_frame.png", size=(70, 70))
             fi.add(frame)
-            portrait = attacker.show("portrait", "angry", resize=(65, 65), type='reduce')
+            portrait = attacker.show("portrait", "angry", resize=(65, 65), type='reduce', cache=True)
             portrait = Transform(portrait, align=(.5, .5))
             fi.add(portrait)
 
@@ -141,10 +141,10 @@ init -999 python:
             fi.add(frame)
 
             if value > 0:
-                portrait = char.show("portrait", "happy", resize=(65, 65))
+                portrait = char.show("portrait", "happy", resize=(65, 65), cache=True)
                 portrait = Transform(portrait, align=(.5, .5))
             else:
-                portrait = char.show("portrait", "sad", resize=(65, 65))
+                portrait = char.show("portrait", "sad", resize=(65, 65), cache=True)
                 portrait = Transform(portrait, align=(.5, .5))
             fi.add(portrait)
 
