@@ -1934,15 +1934,17 @@ init -9 python:
             wp = self.workplace
             mj = simple_jobs["Manager"]
 
-            # Check if we already have a manager in the building:
-            if value == mj:
-                if wp.manager:
-                    wp.manager.action = None
-                    wp.manager = None
             if getattr(wp, "manager", None) == self:
                 # Works as a Manager so special considerations are needed:
                 wp.manager = None
                 wp.manager_effectiveness = 0
+            elif value == mj:
+                # Check if we already have a manager in the building:
+                if wp.manager:
+                    wp.manager.action = None
+                    wp.manager.previousaction = None
+                    wp.manager = None
+                wp.manager = self
 
             self._action = value
 
