@@ -8,7 +8,7 @@ label simple_beach_event(event):
         img = get_random_event_image("simple_beach")
         renpy.show("event", what=img, at_list=[center])
         renpy.with_statement(dissolve)
-        n(choice(["This looks like fun!", "Damn, don't you wish could join them...", "Fun on the beach :)", "Awesome!", "... speachless", "Cute!"]))
+        n(choice(["This looks like fun!", "Damn, don't you wish could join them...", "Fun on the beach :)", "Awesome!", "... speechless", "Cute!"]))
     return
 
 label creatures_beach_event(event):
