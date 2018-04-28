@@ -79,7 +79,7 @@ label city_events_thugs_robbery_lost:
     show expression npcs["street_thug"].get_vnsprite() as npc with dissolve
     t "Huuh? That's it?!"
     if hero.gold > 0:
-        t "I'm taking you gold to give you a lesson: don't start a battle you can't win, idiot."
+        t "I'm taking your gold to give you a lesson: don't start a battle you can't win, idiot."
     $ g = randint (500, 800)
     if hero.gold < g:
         $ hero.take_money(hero.gold, reason="Robbery")
