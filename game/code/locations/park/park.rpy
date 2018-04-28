@@ -30,7 +30,7 @@ label city_park:
                 $ jump('city_parkgates')
 
             if result[1] == 'return':
-                $ global_flags.set_flag("keep_music_playing")
+                $ global_flags.set_flag("keep_playing_music")
                 hide screen city_park
                 jump city_parkgates
 
