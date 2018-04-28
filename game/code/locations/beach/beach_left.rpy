@@ -239,11 +239,11 @@ label fishing_logic_mor_dialogue:
             m "You won't catch anything useful at first, but don't let it discourage you."
             m "Besides, my dad sometimes drinks in the tavern with his friends, you can ask them for some tips."
             jump Mor_dialogue_usual
-        "Ask about bites":
-            m "You don't have to use bites. Fishing poles already have simple artificial bait attached. But the real thing can help a lot."
-            m "They give more attempts than usual, and the chance to catch something good is higher."
-            m "But the better bait, the higher skill it requires. You won't be able to use it if your skill is too low."
-            m "The General Shop sells them sometimes. But really good bites are not so easy to find."
+        "Ask about bait":
+            m "You don't have to use bait. Fishing poles already have a basic lure attached. But the real thing can help a lot."
+            m "They allow more attempts than usual, plus the chance to catch something amazing is higher."
+            m "But the better the bait, the more skill it requires. You won't be able to use them if your skill is too low."
+            m "The General Shop sells them sometimes. But really good bait is not so easy to find."
             jump Mor_dialogue_usual
         "That's all for now":
             m "Okay. Bye!"
@@ -310,7 +310,7 @@ label mc_action_beach_start_fishing:
 
         if use_baits:
             menu:
-                "Don't use baits":
+                "Don't use any bait":
                     $ fishing_attempts = 3
                 "Use Simple Bait" if c0:
                     $ min_fish_price += 10
