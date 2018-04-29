@@ -1190,9 +1190,15 @@ init -9 python:
             track = get_random_battle_track()
             renpy.music.play(track, fadein=1.5)
             renpy.pause(.5)
-
+            
+            start_health = 0
+            finish_health = 0
+            
             for member in enemy_team:
                 member.controller = Complex_BE_AI(member)
+                
+            for member in hero_team:
+                start_health += member.health
 
             battle = BE_Core(ImageReference("bg battle_dogfights_1"),
                              start_sfx=get_random_image_dissolve(1.5),
@@ -1208,13 +1214,19 @@ init -9 python:
                 loser = enemy_team
             else:
                 loser = hero.team
+                
+            for member in hero_team:
+                finish_health += member.health
 
             # Idea for awards in DF: Decent cash, low a-rep and normal EXP.
             # Max gold as a constant:
             max_gold = (enemy_team.get_level()+hero.team.get_level())*5
-
+            blood = start_health - finish_health
             # Awards:
             money = round_int(max_gold*(float(loser.get_level())/winner.get_level()))
+            if blood > 0:
+                money += blood
+            
             rep = round_int(min(50, max(3, hero.team.get_rep())))
             exp = exp_reward(hero.team, enemy_team)
 
