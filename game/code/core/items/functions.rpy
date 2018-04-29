@@ -307,6 +307,15 @@ init -11 python:
             return False
 
         return True
+        
+    def give_to_mc_item_reward(type="consumable", price=1000):
+        item = get_item_drops(type, price)
+        if item:
+            hero.add_item(item)
+            gfx_overlay.random_find(item, 'items')
+            hero.say("I found %s..." % item.id)
+        return
+        
 
     def get_item_drops(types, price=None, tier=None, locations=None, amount=1): # va calls gives to mc a random item based on type and max price
         """Sort out items for drops/rewards in places such as Arena/Forest/Quests and etc.
