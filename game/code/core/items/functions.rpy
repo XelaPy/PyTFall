@@ -308,13 +308,15 @@ init -11 python:
 
         return True
 
-    def get_item_drops(types, price=None, tier=None, amount=1): # va calls gives to mc a random item based on type and max price
+    def get_item_drops(types, price=None, tier=None, locations=None, amount=1): # va calls gives to mc a random item based on type and max price
         """Sort out items for drops/rewards in places such as Arena/Forest/Quests and etc.
 
         types are item types we want enemies to drop, a list.
         We expect it to be a list, or shove it in one otherwise
         'all' will check for all types available here
         (look in the code for types you can use)
+
+        locatons: a list/set is expected, we'll match it vs item.location field.
 
         Can be sorted on price or tier or both (price will have the priority).
         Well return a list of items if amount is greater than 1 (be careful with this)
@@ -331,6 +333,10 @@ init -11 python:
 
             if tier is not None:
                 if item.tier > tier:
+                    continue
+
+            if locations is not None:
+                if not set(locations).intersection(item.locations):
                     continue
 
             if getattr(item, "jump_to_label", False):

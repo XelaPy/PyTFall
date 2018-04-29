@@ -1014,7 +1014,7 @@ init -9 python:
                     # Awards:
                     if member not in battle.corpses:
                         statdict = {} # no gold for mobs, and only little bit of reputation. because they give items, unlike all other modes
-                        statdict["Arena Rep"] = max(int(self.mob_power*0.2), 1)
+                        statdict["Arena Rep"] = max(int(self.mob_power*.2), 1)
                         statdict["exp"] = exp_result
                         for stat in statdict:
                             if stat == "exp":
@@ -1035,24 +1035,12 @@ init -9 python:
                 self.cf_count += 1
 
                 if self.cf_count > 5:
-                    self.cf_rewards = list()
-                    tier = self.mob_power/20.0
-                    temp = [i for i in items.values() if "Arena" in i.locations and i.tier <= tier]
-                    arena_items = dict()
-                    for i in temp:
-                        arena_items.setdefault(i.tier, []).append(i)
-
                     amount = 2
                     amount += min(round_int(hero.arena_rep/15000.0), 3)
-
-                    for tier in sorted(arena_items.keys(), reverse=True):
-                        pool = arena_items[tier]
-                        temp = min(len(pool), amount)
-                        amount -= temp
-                        self.cf_rewards.extend(random.sample(pool, temp))
-                        if not amount:
-                            break
-
+                    tier = self.mob_power/40.0
+                    self.cf_rewards = get_item_drops(['scroll', 'restore', 'armor', 'weapon'],
+                                                      tier=tier, locations=["Arena"],
+                                                      amount=amount)
                     for i in self.cf_rewards:
                         hero.inventory.append(i)
 
