@@ -206,14 +206,6 @@ label storyi_randomfight:  # initiates fight with random enemy team
         pause 1.0
         jump forest_entrance
 
-label give_to_mc_item_reward(kind="consumable", price=1000): # va calls gives to mc a random item based on type and max price
-    $ item = get_item_drops(kind, price=price)
-    if item:
-        $ hero.add_item(item)
-        $ gfx_overlay.random_find(item, 'items')
-        $ hero.say("I found %s..." % item.id)
-    return
-
 label storyi_treat_wounds:
     $ j = False
     python:
@@ -323,40 +315,40 @@ label storyi_search_items:
     "You look around the room in search of something useful."
     if storyi_prison_location == 1:
         "There is something shiny in the corner of the prison cell..."
-        call give_to_mc_item_reward(type="loot", price=100) from _call_give_to_mc_item_reward_6
-        call give_to_mc_item_reward(type="loot", price=200) from _call_give_to_mc_item_reward_7
+        $ give_to_mc_item_reward(type="loot", price=100)
+        $ give_to_mc_item_reward(type="loot", price=200)
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="loot", price=300) from _call_give_to_mc_item_reward_8
+            $ give_to_mc_item_reward(type="loot", price=300)
     if storyi_prison_location == 3:
         "Surveying the room, you found a few portable restoration items. Sadly, others are too heavy and big to carry around."
-        call give_to_mc_item_reward(type="restore", price=100) from _call_give_to_mc_item_reward_9
-        call give_to_mc_item_reward(type="restore", price=200) from _call_give_to_mc_item_reward_10
+        $ give_to_mc_item_reward(type="restore", price=100)
+        $ give_to_mc_item_reward(type="restore", price=200)
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="restore", price=400) from _call_give_to_mc_item_reward_11
+            $ give_to_mc_item_reward(type="restore", price=400)
     elif storyi_prison_location == 7:
         "You see some old armor on the shelves."
-        call give_to_mc_item_reward(type="armor", price=500) from _call_give_to_mc_item_reward_12
-        call give_to_mc_item_reward(type="armor", price=700) from _call_give_to_mc_item_reward_13
+        $ give_to_mc_item_reward(type="armor", price=500)
+        $ give_to_mc_item_reward(type="armor", price=700)
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="armor", price=1000) from _call_give_to_mc_item_reward_14
+            $ give_to_mc_item_reward(type="armor", price=1000)
     elif storyi_prison_location == 11:
         "Among a heap of rusty blades, you see some good weapons."
-        call give_to_mc_item_reward(type="weapon", price=500) from _call_give_to_mc_item_reward_15
-        call give_to_mc_item_reward(type="weapon", price=700) from _call_give_to_mc_item_reward_16
+        $ give_to_mc_item_reward(type="weapon", price=500)
+        $ give_to_mc_item_reward(type="weapon", price=700)
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="weapon", price=1000) from _call_give_to_mc_item_reward_17
+            $ give_to_mc_item_reward(type="weapon", price=1000)
     elif storyi_prison_location == 13:
         "Most of the food is spoiled, but some of it is still edible."
-        call give_to_mc_item_reward(type="food", price=500) from _call_give_to_mc_item_reward_18
-        call give_to_mc_item_reward(type="food", price=500) from _call_give_to_mc_item_reward_19
+        $ give_to_mc_item_reward(type="food", price=500)
+        $ give_to_mc_item_reward(type="food", price=500)
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="food", price=500) from _call_give_to_mc_item_reward_20
+            $ give_to_mc_item_reward(type="food", price=500)
     elif storyi_prison_location == 10:
         "There is a pile of clothes in the corner, probably remained from the former prisoners."
-        call give_to_mc_item_reward(type="dress", price=500) from _call_give_to_mc_item_reward_21
-        call give_to_mc_item_reward(type="dress", price=500) from _call_give_to_mc_item_reward_22
+        $ give_to_mc_item_reward(type="dress", price=500)
+        $ give_to_mc_item_reward(type="dress", price=500)
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="dress", price=500) from _call_give_to_mc_item_reward_23
+            $ give_to_mc_item_reward(type="dress", price=500)
     $ treasures.remove(storyi_prison_location)
     show screen prison_break_controls
     jump storyi_gui_loop

@@ -189,16 +189,16 @@ label city_dark_forest_hideout:
 
     "After killing all bandits, you found stash with loot."
 
-    call give_to_mc_item_reward(type="loot", price=300) from _call_give_to_mc_item_reward
+    $ give_to_mc_item_reward(type="loot", price=300)
     if locked_dice(50):
-        call give_to_mc_item_reward(type="loot", price=300) from _call_give_to_mc_item_reward_1
-    call give_to_mc_item_reward(type="restore", price=100) from _call_give_to_mc_item_reward_2
+        $ give_to_mc_item_reward(type="loot", price=300)
+    $ give_to_mc_item_reward(type="restore", price=100)
     if locked_dice(50):
-        call give_to_mc_item_reward(type="restore", price=200) from _call_give_to_mc_item_reward_3
+        $ give_to_mc_item_reward(type="restore", price=200)
     if locked_dice(50):
-        call give_to_mc_item_reward(type="armor", price=300) from _call_give_to_mc_item_reward_4
+        $ give_to_mc_item_reward(type="armor", price=300)
     if locked_dice(50):
-        call give_to_mc_item_reward(type="weapon", price=300) from _call_give_to_mc_item_reward_5
+        $ give_to_mc_item_reward(type="weapon", price=300)
     jump forest_dark_continue
 
 label city_dark_forest_hideout_fight:
