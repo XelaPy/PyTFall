@@ -253,7 +253,7 @@
     {
     "id": "Darkness Weakness",
     "desc": "Darkness is very effective.",
-    "el_defence": {"darkness": 0.3}
+    "el_defence": {"darkness": -0.3}
     },
     {
     "id": "Fire Resistance",

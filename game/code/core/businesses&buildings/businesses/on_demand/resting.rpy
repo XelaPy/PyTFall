@@ -62,8 +62,9 @@ init -5 python:
                     available.append("bathing")
                 if worker.has_image("rest", **kwargs):
                     available.append("rest")
+
                 if not(available):
-                    available.append("profile", exclude=["sad", "angry", "in pain"]) # no rest at all? c'mon...
+                    available = ["profile"] # no rest at all? c'mon...
 
                 log.img = worker.show(choice(available), resize=(740, 685), **kwargs)
                 image_tags = log.img.get_image_tags()
