@@ -33,24 +33,26 @@ screen prison_break_controls(): # control buttons screen
                 yalign 0.5
                 action [Hide("prison_break_controls"), Play("events2", "events/letter.mp3"), Jump("storyi_map")]
                 text "Show map" size 15
-            button:
-                xysize (120, 40)
-                yalign 0.5
-                action [Hide("prison_break_controls"), Jump("mc_action_storyi_rest")]
-                text "Rest" size 15
-            if storyi_prison_location == 3:
+            if not hero.has_flag("ndd_storyi_rest"):
                 button:
                     xysize (120, 40)
                     yalign 0.5
-                    action [Hide("prison_break_controls"), Jump("storyi_treat_wounds")]
-                    text "Heal" size 15
+                    action [Hide("prison_break_controls"), Jump("mc_action_storyi_rest")]
+                    text "Rest" size 15
+            if not hero.has_flag("ndd_storyi_heal"):
+                if storyi_prison_location == 3:
+                    button:
+                        xysize (120, 40)
+                        yalign 0.5
+                        action [Hide("prison_break_controls"), Jump("storyi_treat_wounds")]
+                        text "Heal" size 15
             if storyi_prison_location == 5 and not hero.has_flag("defeated_boss_1"):
                 button:
                     xysize (120, 40)
                     yalign 0.5
                     action [Hide("prison_break_controls"), Jump("storyi_bossroom")]
                     text "Go Up" size 15
-            if storyi_prison_location in treasures:
+            if storyi_prison_location in storyi_treasures:
                 button:
                     xysize (120, 40)
                     yalign 0.5
@@ -149,6 +151,7 @@ label storyi_bossroom:
         jump game_over
 
 label mc_action_storyi_rest: # resting inside the dungeon; team may be attacked during the rest
+    $ hero.set_flag("ndd_storyi_rest")
     show bg tent with q_dissolve
     python:
         for i in hero.team:
@@ -217,6 +220,8 @@ label storyi_treat_wounds:
         python:
             for i in hero.team:
                 i.health = i.get_max("health")
+        $ hero.set_flag("ndd_storyi_heal")
+        "Health is restored!"
     else:
         "Everyone is healthy already."
     show screen prison_break_controls
@@ -224,7 +229,6 @@ label storyi_treat_wounds:
     jump storyi_gui_loop
 
 label storyi_start: # beginning point of the dungeon;
-    $ treasures = [1, 3, 7, 10, 11, 13]
     $ enemies = ["Skeleton", "Skeleton Warrior", "Will-o-wisp"]
     $ fight_chance = 100
     stop music
@@ -241,6 +245,7 @@ label storyi_start: # beginning point of the dungeon;
     $ storyi_prison_location = 6
     if not hero.has_flag("been_in_old_ruins"):
         $ hero.set_flag("been_in_old_ruins")
+        $ storyi_treasures = [1, 3, 7, 10, 11, 13]
         hero.say "I've found the ruins of a tower near the city."
         hero.say "It may be not safe here, but I bet there is something valuable deep inside!"
         "You can enter and exit the ruins at any point, but it will consume your AP."
@@ -307,18 +312,20 @@ label storyi_show_bg: # shows bg depending on matrix location; due to use of BE 
         $ enemies = ["Fire Spirit", "Flame Spirit", "Fiery Shadow"]
     else:
         $ enemies = ["Slime", "Alkaline Slime", "Acid Slime"]
-    if storyi_prison_location in treasures:
+    if storyi_prison_location in storyi_treasures:
         $ notify("It might be worth to search this room...")
     return
 
 label storyi_search_items:
     "You look around the room in search of something useful."
-    if storyi_prison_location == 1:
+    if not hero.has_flag("storyi_items_room_1"):
         "There is something shiny in the corner of the prison cell..."
         $ give_to_mc_item_reward(type="loot", price=100)
         $ give_to_mc_item_reward(type="loot", price=200)
         if dice(hero.luck + 100):
             $ give_to_mc_item_reward(type="loot", price=300)
+        $ hero.set_flag("storyi_items_room_1")
+
     if storyi_prison_location == 3:
         "Surveying the room, you found a few portable restoration items. Sadly, others are too heavy and big to carry around."
         $ give_to_mc_item_reward(type="restore", price=100)
@@ -349,7 +356,7 @@ label storyi_search_items:
         $ give_to_mc_item_reward(type="dress", price=500)
         if dice(hero.luck + 100):
             $ give_to_mc_item_reward(type="dress", price=500)
-    $ treasures.remove(storyi_prison_location)
+    $ storyi_treasures.remove(storyi_prison_location)
     show screen prison_break_controls
     jump storyi_gui_loop
 
