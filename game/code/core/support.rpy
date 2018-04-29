@@ -146,7 +146,7 @@ init -9 python:
                     elif dice(20): # Decent char.
                         tier = hero.tier + uniform(1.0, 2.5)
                     else: # Ok char...
-                        tier = hero.tier + uniform(.2, 1.5)
+                        tier = hero.tier + uniform(.2, 1.0)
                     tier += tier_offset
 
                     if bt_group in ["Combatant", "Specialist", "Healer"]:
