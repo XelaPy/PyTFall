@@ -688,7 +688,7 @@ init: # Main Screens:
                     background Frame("content/gfx/frame/bst.png", 5, 5)
                     margin 2, 2
                     has vbox spacing 2 xysize 230, 250
-                    if not defeated_mobs.get(data["id"], 0): # <------------------------------ Note for faster search, change here to test the whole beasts screen without the need to kill mobs
+                    if defeated_mobs.get(data["id"], 0): # <------------------------------ Note for faster search, change here to test the whole beasts screen without the need to kill mobs
                         text "-Unknown-" xalign .5  style "TisaOTM" color indianred
                         add im.Twocolor(img, black, black) xalign .5
                     else:
@@ -774,7 +774,7 @@ init: # Main Screens:
                     yfill True
                     background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                     xysize (260, 30)
-                    text (u"{color=#CDAD00}Stats at level %s" % data['min_lvl']) font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5# align (.5, 1.0)
+                    text (u"{color=#CDAD00}Level %s" % data['min_lvl']) font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5# align (.5, 1.0)
                 hbox:
                     null width 2
                     vbox:

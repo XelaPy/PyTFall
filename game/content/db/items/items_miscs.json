@@ -633,7 +633,7 @@
     "mtemp": 1,
     "mreusable": true,
     "mdestruct": false,
-    "mod_skills": {"fishing": [0, 0, 0, 0, 5]},
+    "mod_skills": {"fishing": [0, 0, 0, 0, 3]},
     "locations": ["General Store"]
     },
     {
@@ -652,7 +652,7 @@
     "mtemp": 1,
     "mreusable": true,
     "mdestruct": false,
-    "mod_skills": {"swimming": [0, 0, 0, 0, 5]},
+    "mod_skills": {"swimming": [0, 0, 0, 0, 3]},
     "locations": ["General Store"]
     },
     {

@@ -298,8 +298,8 @@ label city_dark_forest_fight:
                 mob = build_mob(id=mob_id, level=levels)
                 mob.controller = Complex_BE_AI(mob)
                 enemy_team.add(mob)
-    elif mob == "rat":
-        "A pack of foul-smelling rats picks you for dinner."
+    elif mob == "undead":
+        "A group of decayed skeletons rise from the ground."
         python:
             for i in range(3):
                 mob_id = choice(["Skeleton", "Skeleton Warrior"])
