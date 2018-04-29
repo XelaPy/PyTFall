@@ -247,9 +247,9 @@ init -9 python:
             if self.max_runs:
                 if self.runs >= self.max_runs: return False
 
-            if not self.dice and not dice(self.dice): return False
+            if self.dice and not dice(self.dice): return False
 
-            if not self.run_conditions and not all(list(bool(renpy.python.py_eval_bytecode(c)) for c in self.run_conditions)): return False
+            if self.run_conditions and not all(list(bool(renpy.python.py_eval_bytecode(c)) for c in self.run_conditions)): return False
 
             return True
 
