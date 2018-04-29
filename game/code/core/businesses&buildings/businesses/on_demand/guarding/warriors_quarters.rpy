@@ -125,28 +125,13 @@ init -5 python:
                             self.log(temp)
                             workers.remove(w)
 
-                if SparringQuarters_active and self.env.now > 0 and not self.env.now % 25:
-                    for w in all_workers:
-                        if dice(25):
-                            log.logws("security", 1, char=w)
-                            log.logws("attack", 1, char=w)
-                            log.logws("agility", 1, char=w)
-                            log.logws("defence", 1, char=w)
-                            log.logws("magic", 1, char=w)
-                            if dice(10):
-                                log.logws("constitution", 1, char=w)
-                            log.logws("exp", 10, char=w)
-
-                            log.logws("vitality", -5, char=w)
-                            if dice(20): # Small chance to get hurt.
-                                log.logws("health", round_int(-w.get_max("health")*.2), char=w)
-
                 if EnforcedOrder_active and self.env.now > 0 and not self.env.now % 50:
+                    self.log("Enforced order is making your civilian workers uneasy...")
                     for w in building.all_workers:
                         if not "Combatant" in w.gen_occs:
-                            log.logws("disposition", -1, char=w)
+                            w.disposition -= 1
                             if dice(50):
-                                log.logws("joy", -1, char=w)
+                                w.joy -= 1
 
                 # Create actual report:
                 c0 = make_nd_report_at and threat_cleared
@@ -155,7 +140,14 @@ init -5 python:
                     if DSNBR:
                         temp = "DEBUG! WRITING GUARDING REPORT! c0: {}, c1: {}".format(c0, c1)
                         self.log(temp, True)
-                    self.write_nd_report(pure_workers, all_workers, -threat_cleared)
+
+                    c0 = self.env.now > 0 and not self.env.now % 25
+                    if all([SparringQuarters_active, c0, threat < 500]):
+                        use_SQ = True
+                    else:
+                        use_SQ = False
+                    self.write_nd_report(pure_workers, all_workers,
+                                         -threat_cleared, use_SQ=use_SQ)
                     make_nd_report_at = 0
                     threat_cleared = 0
 
@@ -178,7 +170,7 @@ init -5 python:
                 else:
                     yield self.env.timeout(1)
 
-        def write_nd_report(self, pure_workers, all_workers, threat_cleared):
+        def write_nd_report(self, pure_workers, all_workers, threat_cleared, **kwargs):
             simpy_debug("Entering WarriorQuarters.write_nd_report at {}".format(self.env.now))
             job, loc = self.job, self.building
             log = NDEvent(job=job, loc=loc, team=all_workers, business=self)
@@ -219,6 +211,23 @@ init -5 python:
 
             temp = "\nA total of {} threat was removed.".format(set_font_color(threat_cleared, "red"))
             log.append(temp)
+
+            if kwargs.get("use_SQ", False):
+                log.append("Your guards managed to sneak in a friendly sparring match between their patrol duties!")
+                for w in pure_workers:
+                    if dice(25):
+                        log.logws("security", 1, char=w)
+                        log.logws("attack", 1, char=w)
+                        log.logws("agility", 1, char=w)
+                        log.logws("defence", 1, char=w)
+                        log.logws("magic", 1, char=w)
+                        if dice(10):
+                            log.logws("constitution", 1, char=w)
+                        log.logws("exp", 10, char=w)
+
+                        log.logws("vitality", -5, char=w)
+                        if dice(20): # Small chance to get hurt.
+                            log.logws("health", round_int(-w.get_max("health")*.2), char=w)
 
             if not len(all_workers):
                 raise Exception("Zero Modulo Division Detected #01")
