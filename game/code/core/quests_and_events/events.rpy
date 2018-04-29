@@ -242,17 +242,16 @@ init -9 python:
             if not self.priority: return False
 
             if self.tpd:
-                if self.resolve_tpd():
-                    if self.dice and dice(self.dice): return True
-                    elif self.run_conditions and all(list(bool(renpy.python.py_eval_bytecode(c)) for c in self.run_conditions)): return True
+                if not self.resolve_tpd(): return False
 
-                else: return False
+            if self.max_runs:
+                if self.runs >= self.max_runs: return False
 
-            elif self.dice and dice(self.dice): return True
+            if not self.dice and dice(self.dice): return False
 
-            elif self.run_conditions and all(list(bool(renpy.python.py_eval_bytecode(c)) for c in self.run_conditions)): return True
+            if not self.run_conditions and all(list(bool(renpy.python.py_eval_bytecode(c)) for c in self.run_conditions)): return False
 
-            return False
+            return True
 
         def resolve_tpd(self):
             """
