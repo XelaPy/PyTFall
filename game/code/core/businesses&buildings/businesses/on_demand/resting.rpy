@@ -65,7 +65,6 @@ init -5 python:
 
                 if not(available):
                     available = ["profile"] # no rest at all? c'mon...
-                    kwargs = {"exclude": ["sad", "angry", "in pain"]}
 
                 log.img = worker.show(choice(available), resize=(740, 685), **kwargs)
                 image_tags = log.img.get_image_tags()
