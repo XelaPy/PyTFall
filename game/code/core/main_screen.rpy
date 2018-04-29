@@ -150,6 +150,11 @@ screen mainscreen():
                 action Show("se_debugger")
             textbutton "Examples":
                 action [Hide("mainscreen"), Jump("examples")]
+            textbutton "Return on callstack":
+                action [Hide("mainscreen"), Jump("debug_callstack")]
+            textbutton "Show Chars Debug":
+                action Show("chars_debug")
+
     showif pytfall.ms_text and pytfall.todays_first_view:
         frame:
             pos (500, 60)

@@ -50,3 +50,6 @@ init -999 python:
 
     # Simulated exploration:
     DEBUG_SE = False
+
+label debug_callstack:
+    return
