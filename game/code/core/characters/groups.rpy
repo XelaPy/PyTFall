@@ -20,33 +20,23 @@ init -8 python:
 
             if isinstance(first, (list, tuple)):
                 typical = len(first)
-
             elif isinstance(first, (dict, set)):
                 typical = set(first)
-
             elif isinstance(first, Char): # also includes rChar
                 typical = Char
-
             elif isinstance(first, basestring): # also includes unicode
                 typical = basestring
-
             else:
                 typical = type(first)
 
             for var in arr:
-
                 if isinstance(typical, type):
-
                     if not isinstance(var, typical) or cmp(first, var) != 0:
                         break
-
                 elif isinstance(var, (list, tuple)):
-
                     if not isinstance(typical, int) or typical != len(var):
                         break
-
                 elif isinstance(var, (dict, set)):
-
                     if not isinstance(typical, set) or any(k not in typical for k in var):
                         break
             else:
