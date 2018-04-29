@@ -1227,7 +1227,7 @@ init -9 python:
 
             # Awards:
             money = round_int(max_gold*(float(loser.get_level())/winner.get_level()))
-            rep = min(50, max(3, 50*(hero.team.get_rep()/50)))
+            rep = round_int(min(50, max(3, hero.team.get_rep())))
             exp = exp_reward(hero.team, enemy_team)
 
             for member in winner:
