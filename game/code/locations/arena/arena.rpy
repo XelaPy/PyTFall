@@ -1197,7 +1197,7 @@ init -9 python:
             for member in enemy_team:
                 member.controller = Complex_BE_AI(member)
                 
-            for member in hero_team:
+            for member in hero.team:
                 start_health += member.health
 
             battle = BE_Core(ImageReference("bg battle_dogfights_1"),
@@ -1215,7 +1215,7 @@ init -9 python:
             else:
                 loser = hero.team
                 
-            for member in hero_team:
+            for member in hero.team:
                 finish_health += member.health
 
             # Idea for awards in DF: Decent cash, low a-rep and normal EXP.
