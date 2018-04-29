@@ -216,6 +216,46 @@
     "el_defence": {"physical": -0.6}
     },
     {
+    "id": "Fire Weakness",
+    "desc": "Fire is very effective.",
+    "el_defence": {"fire": -0.3}
+    },
+    {
+    "id": "Water Weakness",
+    "desc": "Water is very effective.",
+    "el_defence": {"water": -0.3}
+    },
+    {
+    "id": "Earth Weakness",
+    "desc": "Earth is very effective.",
+    "el_defence": {"earth": -0.3}
+    },
+    {
+    "id": "Air Weakness",
+    "desc": "Air is very effective.",
+    "el_defence": {"air": -0.3}
+    },
+    {
+    "id": "Ice Weakness",
+    "desc": "Ice is very effective.",
+    "el_defence": {"ice": -0.3}
+    },
+    {
+    "id": "Electricity Weakness",
+    "desc": "Electricity is very effective.",
+    "el_defence": {"electricity": -0.3}
+    },
+    {
+    "id": "Light Weakness",
+    "desc": "Light is very effective.",
+    "el_defence": {"light": -0.3}
+    },
+    {
+    "id": "Darkness Weakness",
+    "desc": "Darkness is very effective.",
+    "el_defence": {"darkness": 0.3}
+    },
+    {
     "id": "Fire Resistance",
     "desc": "Fire is not very effective.",
     "el_defence": {"fire": 0.3}
