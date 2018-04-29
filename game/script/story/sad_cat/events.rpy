@@ -25,7 +25,7 @@ label found_sad_cat_1:
             $ temp = npcs["sad_cat"].show("profile", "scared", resize = (295, 340))
             show expression temp at left
             "The cat is frightened as you approach, and quickly runs away."
-            $ pytfall.world_events.kill_event("found_sad_cat_1", cached=True)
+            $ pytfall.world_events.kill_event("found_sad_cat_1")
     $ global_flags.set_flag("keep_playing_music")
     jump main_street
 
@@ -59,7 +59,7 @@ label found_sad_cat_2:
                 $ temp = npcs["sad_cat"].show("profile", "scared", resize = (295, 340))
                 show expression temp at left
                 "The cat is frightened as you approach, and quickly runs away."
-                $ pytfall.world_events.kill_event("found_sad_cat_2", cached=True)
+                $ pytfall.world_events.kill_event("found_sad_cat_2")
     $ global_flags.set_flag("keep_playing_music")
     jump main_street
 
@@ -93,7 +93,7 @@ label found_sad_cat_3:
                 $ temp = npcs["sad_cat"].show("profile", "scared", resize = (295, 340))
                 show expression temp at left
                 "The cat is frightened as you approach, and quickly runs away."
-                $ pytfall.world_events.kill_event("found_sad_cat_3", cached=True)
+                $ pytfall.world_events.kill_event("found_sad_cat_3")
     $ global_flags.set_flag("keep_playing_music")
     jump main_street
 
