@@ -917,10 +917,6 @@ init -9 python:
                     renpy.call_screen("message_screen", "%s is a Slave forbidden from participation in Combat!"%member.name)
                     return
 
-            # If we got this far, we can safely take AP off teammembers:
-            for member in hero.team:
-                member.AP -= 2
-
             self.cf_count = 1
 
             self.setup_chainfight()
@@ -938,10 +934,12 @@ init -9 python:
 
                 if result == "break":
                     self.result = None
-                    for member in hero.team:
-                        member.AP += 2
                     renpy.show_screen("arena_inside")
                     return
+
+                # If we got this far, we can safely take AP off teammembers:
+                for member in hero.team:
+                    member.AP -= 2
 
                 self.cf_setup = self.chain_fights[result]
                 self.result = None
