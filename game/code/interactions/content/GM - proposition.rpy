@@ -335,7 +335,7 @@ label interactions_hire:
         $ del mod_chance
 
         menu:
-            "Hire her?":
+            "Hire her? Her average wage will be [char.expected_wage]":
                 $ gm.remove_girl(char)
                 $ hero.add_char(char)
                 hide screen girl_interactions
