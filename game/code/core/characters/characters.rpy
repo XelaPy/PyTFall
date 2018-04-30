@@ -2931,7 +2931,7 @@ init -9 python:
         def auto_buy(self, item=None, amount=1, slots=None, casual=False,
                      equip=False, container=None, purpose=None,
                      check_money=True, inv=None,
-                     limit_tier=False, direct_equip=False):
+                     limit_tier=False, direct_equip=False, limit_number=True):
             """Gives items a char, usually by 'buying' those,
             from the container that host all items that can be
             sold in PyTFall.
@@ -2991,6 +2991,8 @@ init -9 python:
             for slot, _items in weighted.iteritems():
                 if not _items:
                     continue
+                    
+                
 
                 per_slot_amount = slots_to_buy[slot]
                 if slot in store.EQUIP_SLOTS:
@@ -4928,6 +4930,8 @@ init -9 python:
                 self.action = None
                 self.workplace = None
                 set_location(self, locations["City"])
+                if self in hero.team:
+                    hero.team.remove(self)
             elif self.disposition < -500:
                 if self.status != "slave":
                     txt.append("{color=[red]}She has left your employment because she no longer trusts or respects you!{/color}")
@@ -4938,6 +4942,8 @@ init -9 python:
                     self.action = None
                     self.workplace = None
                     set_location(self, locations["City"])
+                    if self in hero.team:
+                        hero.team.remove(self)
                 elif self.days_unhappy > 7:
                     if dice(50):
                         txt.append("\n{color=[red]}Took her own life because she could no longer live as your slave!{/color}")
@@ -4949,6 +4955,8 @@ init -9 python:
                         img = self.show("profile", "sad", resize=(500, 600))
                         flag_red = True
                         self.health = 1
+                    if self in hero.team: # won't hurt to remove from the team anyway
+                        hero.team.remove(self)
 
             # This is temporary code, better and more reasonable system is needed,
             # especially if we want different characters to befriend each other.
