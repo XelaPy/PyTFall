@@ -1359,7 +1359,8 @@ init -9 python:
                            base_purpose, sub_purpose, limit_tier=False,
                            chance_func=None, min_value=-5,
                            upto_skill_limit=False,
-                           check_money=False):
+                           check_money=False,
+                           smart_ownership_limit=True):
             """
             weigh items in inventory based on stats.
 
@@ -1393,7 +1394,17 @@ init -9 python:
             # most_weights = {slot: 0 for slot in weighted}
 
             for item in inventory:
-                if item.slot not in weighted:
+                slot = item.slot
+                if smart_ownership_limit:
+                    owned = count_owned_items(char, item)
+                    if slot == "ring" and owned >= 3:
+                        continue
+                    elif slot == "consumable" and owned >= 5:
+                        continue
+                    elif owned >= 1:
+                        continue
+
+                if slot not in weighted:
                     aeq_debug("Ignoring item {} on slot.".format(item.id))
                     continue
 
@@ -1402,7 +1413,7 @@ init -9 python:
                     continue
 
                 # If no purpose is valid for the item, we want nothing to do with it.
-                if item.slot not in ("misc", "consumable"):
+                if slot not in ("misc", "consumable"):
                     purpose = base_purpose.union(sub_purpose.union(["Any"]))
                     if not purpose.intersection(item.pref_class):
                         aeq_debug("Ignoring item {} on purpose.".format(item.id))
@@ -1428,7 +1439,7 @@ init -9 python:
                     continue
 
                 # Handle purposes:
-                if item.slot not in ("misc", "consumable"):
+                if slot not in ("misc", "consumable"):
                     temp = base_purpose.intersection(item.pref_class)
                     if temp:
                         # Perfect match, could be important for
@@ -1518,7 +1529,7 @@ init -9 python:
                                 aeq_debug("Unusual mod value for skill {}: {}".format(skill, mod_val))
                             weights.append(mod_val)
 
-                weighted[item.slot].append([weights, item])
+                weighted[slot].append([weights, item])
 
 
     class Pronouns(_object):
@@ -2671,7 +2682,7 @@ init -9 python:
             real_weapons: Do we equip real weapon types (*Broom is now considered a weapon as well)
             base_purpose: What we're equipping for, used to check vs item.pref_class (list)
             sub_purpose: Same as above but less weight (list)
-            If not purpose is matched only 'Any' items will be used.
+                If not purpose is matched only 'Any' items will be used.
 
 
             So basically the way this works ATM is like this:
@@ -2745,7 +2756,8 @@ init -9 python:
                                       upto_skill_limit=upto_skill_limit,
                                       min_value=min_value,
                                       base_purpose=base_purpose,
-                                      sub_purpose=sub_purpose)
+                                      sub_purpose=sub_purpose,
+                                      smart_ownership_limit=False)
 
             returns = list() # We return this list with all items used during the method.
 
@@ -2931,7 +2943,8 @@ init -9 python:
         def auto_buy(self, item=None, amount=1, slots=None, casual=False,
                      equip=False, container=None, purpose=None,
                      check_money=True, inv=None,
-                     limit_tier=False, direct_equip=False):
+                     limit_tier=False, direct_equip=False,
+                     smart_ownership_limit=True):
             """Gives items a char, usually by 'buying' those,
             from the container that host all items that can be
             sold in PyTFall.
@@ -2949,6 +2962,12 @@ init -9 python:
                 we use.
             direct_equip: Special arg, only when building the char, we can just equip
                 the item they 'auto_buy'.
+            smart_ownership_limit: Limit the total amount of item char can buy.
+                if char has this amount or more of that item:
+                    3 of the same rings max.
+                    1 per any eq_slot.
+                    5 cons items max.
+                item will not be concidered for purchase.
 
             Simplify!
 
@@ -2984,6 +3003,7 @@ init -9 python:
                                       upto_skill_limit=upto_skill_limit,
                                       min_value=min_value, check_money=check_money,
                                       limit_tier=limit_tier,
+                                      smart_ownership_limit=smart_ownership_limit,
                                       **kwargs)
 
             rv = [] # List of item name strings we return in case we need to report

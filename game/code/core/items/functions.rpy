@@ -1,5 +1,16 @@
 init -11 python:
-    # Equipment checks and area effects!
+    def count_owned_items(char, item):
+        # Includes iventory and equipped.
+        if isinstance(item, basestring):
+            item = items[item]
+
+        rv = char.inventory[item]
+        for i in char.eqslots.values():
+            if item == i:
+                rv += 1
+
+        return rv
+
     def has_items(item, chars, equipped=True):
         if isinstance(item, basestring):
             item = items[item]
@@ -307,7 +318,7 @@ init -11 python:
             return False
 
         return True
-        
+
     def give_to_mc_item_reward(type="consumable", price=1000):
         item = get_item_drops(type, price)
         if item:
@@ -315,7 +326,6 @@ init -11 python:
             gfx_overlay.random_find(item, 'items')
             hero.say("I found %s..." % item.id)
         return
-        
 
     def get_item_drops(types, price=None, tier=None, locations=None, amount=1): # va calls gives to mc a random item based on type and max price
         """Sort out items for drops/rewards in places such as Arena/Forest/Quests and etc.
