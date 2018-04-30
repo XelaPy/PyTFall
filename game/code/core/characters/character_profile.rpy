@@ -25,7 +25,8 @@ label char_profile:
                                 hero.remove_char(char)
                                 girls.remove(char)
                                 char.dispoition -= 300
-                                if char in hero.team: hero.team.remove(char)
+                                if char in hero.team:
+                                    hero.team.remove(char)
                             if girls:
                                 $ index = (index+1) % len(girls)
                                 $ char = girls[index]
