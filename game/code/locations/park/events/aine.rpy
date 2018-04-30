@@ -108,9 +108,9 @@ label about_personal_training(speaker):
     return
 
 label about_aine_personal_training:
-    a "Well dear, I can teach you manners and proper care so to increase your charisma."
-    a "Being thought by a leprechaun Princess has its perks!"
-    a "Your vitality will be boosted, and your fame and reputation may also increase."
+    a "Well dear, I can teach you manners and proper care so as to increase your charisma."
+    a "Being taught by a leprechaun Princess has its perks!"
+    a "Your vitality will be boosted, plus your fame and reputation may also increase."
     extend " Due to my magical nature, there is a tiny chance that you will get luckier in your life endeavors!!!"
     a "That I dare say is a truly rare feat!"
     "The training will cost you 250 gold per tier of the trained character every day."
