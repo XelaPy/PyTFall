@@ -1084,7 +1084,7 @@ screen next_day():
                     frame:
                         xysize 240, 30
                         xalign .5
-                        text ("Expences") color red xoffset 2
+                        text ("Expenses") color red xoffset 2
                         text ("[total_expenses]") color red style_suffix "value_text" xoffset -2
 
                 null height 2
