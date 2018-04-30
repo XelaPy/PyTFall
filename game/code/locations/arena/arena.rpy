@@ -917,17 +917,12 @@ init -9 python:
                     renpy.call_screen("message_screen", "%s is a Slave forbidden from participation in Combat!"%member.name)
                     return
 
-            # If we got this far, we can safely take AP off teammembers:
-            for member in hero.team:
-                member.AP -= 2
-
             self.cf_count = 1
 
             self.setup_chainfight()
 
         def setup_chainfight(self):
-            """
-            Setting up a chainfight.
+            """Setting up a chainfight.
             """
             # Case: First battle:
             if not pytfall.arena.cf_mob:
@@ -938,9 +933,12 @@ init -9 python:
 
                 if result == "break":
                     self.result = None
-                    hero.AP += 2
                     renpy.show_screen("arena_inside")
                     return
+
+                # If we got this far, we can safely take AP off teammembers:
+                for member in hero.team:
+                    member.AP -= 2
 
                 self.cf_setup = self.chain_fights[result]
                 self.result = None
@@ -1192,13 +1190,13 @@ init -9 python:
             track = get_random_battle_track()
             renpy.music.play(track, fadein=1.5)
             renpy.pause(.5)
-            
+
             start_health = 0
             finish_health = 0
-            
+
             for member in enemy_team:
                 member.controller = Complex_BE_AI(member)
-                
+
             for member in hero.team:
                 start_health += member.health
 
@@ -1216,7 +1214,7 @@ init -9 python:
                 loser = enemy_team
             else:
                 loser = hero.team
-                
+
             for member in hero.team:
                 finish_health += member.health
 
@@ -1228,7 +1226,7 @@ init -9 python:
             money = round_int(max_gold*(float(loser.get_level())/winner.get_level()))
             if blood > 0:
                 money += blood
-            
+
             rep = round_int(min(50, max(3, hero.team.get_rep())))
             exp = exp_reward(hero.team, enemy_team)
 
