@@ -47,10 +47,12 @@ init -9 python:
             self.show_text = False
             self.todays_first_view = True
 
-            self.rc_pop_distr = {"SIW": 30, "Specialist": 10,
-                                   "Combatant": 30, "Server": 15,
-                                   "Healer": 5}
-            self.rc_population = 70
+            self.rc_free_pop_distr = {"SIW": 30, "Specialist": 10,
+                                      "Combatant": 30, "Server": 15,
+                                      "Healer": 5}
+            self.rc_free_population = 50
+            self.rc_slave_pop_distr = {"SIW": 60, "Server": 40}
+            self.rc_slave_population = 20
 
         def init_shops(self):
             # Shops:
@@ -103,7 +105,7 @@ init -9 python:
                        not c.arena_active and
                        c not in hero.chars)
 
-            required = self.rc_population - len(rcs)
+            required = self.rc_free_population - len(rcs)
             if required <= 0:
                 return
 
@@ -127,12 +129,12 @@ init -9 python:
                     rcd["Healer"] += 1
             total = sum(rcd.values())
             if not total:
-                distr = self.rc_pop_distr
+                distr = self.rc_free_pop_distr
             else:
                 for key, value in rcd.items():
                     distr[key] = 100.0*value/total
-                for key, value in self.rc_pop_distr.items():
-                    distr[key] = max(1, value-distr[key])
+                for key, value in self.rc_free_pop_distr.items():
+                    distr[key] = max(.01, value-distr[key])
 
             total = float(sum(distr.values()))
             for key, value in distr.items():

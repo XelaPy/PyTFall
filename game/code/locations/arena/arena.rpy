@@ -938,7 +938,8 @@ init -9 python:
 
                 if result == "break":
                     self.result = None
-                    hero.AP += 2
+                    for member in hero.team:
+                        member.AP += 2
                     renpy.show_screen("arena_inside")
                     return
 
@@ -1192,13 +1193,13 @@ init -9 python:
             track = get_random_battle_track()
             renpy.music.play(track, fadein=1.5)
             renpy.pause(.5)
-            
+
             start_health = 0
             finish_health = 0
-            
+
             for member in enemy_team:
                 member.controller = Complex_BE_AI(member)
-                
+
             for member in hero.team:
                 start_health += member.health
 
@@ -1216,7 +1217,7 @@ init -9 python:
                 loser = enemy_team
             else:
                 loser = hero.team
-                
+
             for member in hero.team:
                 finish_health += member.health
 
@@ -1228,7 +1229,7 @@ init -9 python:
             money = round_int(max_gold*(float(loser.get_level())/winner.get_level()))
             if blood > 0:
                 money += blood
-            
+
             rep = round_int(min(50, max(3, hero.team.get_rep())))
             exp = exp_reward(hero.team, enemy_team)
 
