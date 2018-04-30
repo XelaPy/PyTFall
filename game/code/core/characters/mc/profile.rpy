@@ -492,27 +492,27 @@ init:
             button:
                 action SetScreenVariable("lframe_display", "status"), With(dissolve)
                 text "Stats" style "pb_button_text"
-                hovered tt.Action("Show Hero Stats")
+                hovered tt.Action("Inspect your personal statistics and place of residence")
             button:
                 action SetScreenVariable("lframe_display", "skills"), With(dissolve)
                 text "Skills" style "pb_button_text"
-                hovered tt.Action("Show Hero Skills")
+                hovered tt.Action("Check the progress of your skills")
             button:
                 action Hide("show_trait_info"), Show("hero_team", transition=dissolve)#, With(dissolve)
                 text "Team" style "pb_button_text"
-                hovered tt.Action("Show [hero.team.name]")#, With(dissolve)
+                hovered tt.Action("Display your team's current composition; Team Name: [hero.team.name]")#, With(dissolve)
             button:
                 action Hide("show_trait_info"), Return(['hero', 'equip'])#, With(dissolve)
                 text "Equipment" style "pb_button_text"
-                hovered tt.Action("Take a look at your inventory")
+                hovered tt.Action("Browse and manage your own inventory and equipment")
             button:
                 action Hide("show_trait_info"), Show("finances", None, hero, mode="main")#, With(dissolve)
                 text "Finance" style "pb_button_text"
-                hovered tt.Action("Show finances log")
+                hovered tt.Action("View the log of financial information, letting you see your income and expenses")
             button:
                 action Hide("show_trait_info"), [SetScreenVariable("lframe_display", "friends"), With(dissolve)]
                 text "Friends" style "pb_button_text"
-                hovered tt.Action("Show the list friends and lovers who don't work for [hero.name], allowing to find them immediately when needed")
+                hovered tt.Action("Show the list friends and lovers who don't work for [hero.name], allowing you to find them immediately when needed")
             # Items Transfer to Home Location Inventory:
 
         frame:
