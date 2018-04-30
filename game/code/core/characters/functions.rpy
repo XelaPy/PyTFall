@@ -407,7 +407,9 @@ init -11 python:
         # And add to char! :)
         if add_to_gameworld:
             rg.log_stats()
-            store.chars["_".join([rg.id, rg.name, rg.fullname.split(" ")[1]])] = rg
+            dict_id = "_".join([rg.id, rg.name, rg.fullname.split(" ")[1]])
+            rg.dict_id = dict_id
+            store.chars[dict_id] = rg
 
         return rg
 
