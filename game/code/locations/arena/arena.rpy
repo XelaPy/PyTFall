@@ -922,8 +922,7 @@ init -9 python:
             self.setup_chainfight()
 
         def setup_chainfight(self):
-            """
-            Setting up a chainfight.
+            """Setting up a chainfight.
             """
             # Case: First battle:
             if not pytfall.arena.cf_mob:
