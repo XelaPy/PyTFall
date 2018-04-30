@@ -4898,7 +4898,7 @@ init -9 python:
                                "\n\n%s went to town to relax, take her mind of things and maybe even do some shopping!\n" % self.nickname])
                 txt.append(temp)
 
-                result = self.auto_buy(amount=randint(3, 7))
+                result = self.auto_buy(amount=randint(1, 2))
                 if result:
                     temp = choice(["{color=[green]}She bought {color=[blue]}%s %s{/color} for herself. This brightened her mood a bit!{/color}\n\n"%(", ".join(result), plural("item",len(result))),
                                    "{color=[green]}She got her hands on {color=[blue]}%s %s{/color}! She's definitely in better mood because of that!{/color}\n\n"%(", ".join(result),
