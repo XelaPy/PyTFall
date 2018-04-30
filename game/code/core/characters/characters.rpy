@@ -822,7 +822,9 @@ init -9 python:
             ec = store.pytfall.economy
             tax = 0
             income = 0
-            for b in [i for i in char.buildings if hasattr(i, "fin")]:
+            taxable_buildings = [i for i in char.buildings if hasattr(i, "fin")]
+
+            for b in taxable_buildings:
                 fin_log = b.fin.game_logical_income_log
                 for _day in fin_log:
                     if _day > store.day - days:
@@ -838,7 +840,7 @@ init -9 python:
                 # We have no choice but to do the whole routine again :(
                 # Final value may be off but +/- 1 gold due to rounding
                 # in this simplefied code. I may perfect this one day...
-                for b in [i for i in char.buildings if hasattr(i, "fin")]:
+                for b in taxable_buildings:
                     fin_log = b.fin.game_logical_income_log
                     for _day in fin_log:
                         if _day > store.day - days:
@@ -4327,11 +4329,11 @@ init -9 python:
             if self.fin.income_tax_debt:
                 temp = "Your standing income tax debt to the government: %d Gold." % self.fin.income_tax_debt
                 txt.append(temp)
+
             # Income Taxes:
             income, tax = self.fin.get_income_tax(log_finances=True)
             temp = "Over the past week your taxable income amounted to: {color=[gold]}%d Gold{/color}.\n" % income
             txt.append(temp)
-
             if income < 5000:
                 s0 = "You may consider yourself lucky as any sum below 5000 Gold is not taxable."
                 s1 = "Otherwise the government would have totally ripped you off :)"
@@ -4354,7 +4356,7 @@ init -9 python:
                 else:
                     s0 = "\nYou've did not have enough money..."
                     s1 = "Be advised that if your debt to the government reaches 50000,"
-                    s2 = "they will start indiscriminately confiscate your property."
+                    s2 = "they will indiscriminately confiscate your property until it is paid in full."
                     s3 = "(meaning that you will loose everything that you own at repo prices).\n"
                     else_srt = " ".join([s0, s1, s2, s3])
 
