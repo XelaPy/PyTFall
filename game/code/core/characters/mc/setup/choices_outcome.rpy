@@ -179,7 +179,7 @@ label mc_setup_mage_arc_ghost_light:
     python hide:
         temp = []
         for i in items.values():
-            if i.type == "scroll" and "Angelica Shop" in i.locations:
+            if i.type == "scroll" and "Angelica Shop" in i.locations and i.tier < 3:
                 temp.append(i)
         if len(temp) >= 3: # Should always be a case unless we chance the concept.
             temp = random.sample(temp, 3)
@@ -198,7 +198,7 @@ label mc_setup_mage_arc_vampire_night:
     python hide:
         temp = []
         for i in items.values():
-            if i.type == "scroll" and "Angelica Shop" in i.locations:
+            if i.type == "scroll" and "Angelica Shop" in i.locations and i.tier < 3:
                 temp.append(i)
         if len(temp) >= 3: # Should always be a case unless we chance the concept.
             temp = random.sample(temp, 3)
@@ -225,7 +225,7 @@ label mc_setup_mage_sorcerer_kitsune_fire:
     python hide:
         temp = []
         for i in items.values():
-            if i.type == "scroll" and "Peevish Shop" in i.locations:
+            if i.type == "scroll" and "Peevish Shop" in i.locations and i.tier < 3:
                 temp.append(i)
         if len(temp) >= 3: # Should always be a case unless we chance the concept.
             temp = random.sample(temp, 3)
@@ -252,7 +252,7 @@ label mc_setup_mage_sorcerer_winter_ice:
     python hide:
         temp = []
         for i in items.values():
-            if i.type == "scroll" and "Aine Shop" in i.locations:
+            if i.type == "scroll" and "Aine Shop" in i.locations and i.tier < 3:
                 temp.append(i)
         if len(temp) >= 3: # Should always be a case unless we chance the concept.
             temp = random.sample(temp, 3)
@@ -279,7 +279,7 @@ label mc_setup_mage_researcher_android_ele:
     python hide:
         temp = []
         for i in items.values():
-            if i.type == "scroll" and "Aine Shop" in i.locations:
+            if i.type == "scroll" and "Aine Shop" in i.locations and i.tier < 3:
                 temp.append(i)
         if len(temp) >= 3: # Should always be a case unless we chance the concept.
             temp = random.sample(temp, 3)
@@ -306,7 +306,7 @@ label mc_setup_mage_researcher_slime_water:
     python hide:
         temp = []
         for i in items.values():
-            if i.type == "scroll" and "Peevish Shop" in i.locations:
+            if i.type == "scroll" and "Peevish Shop" in i.locations and i.tier < 3:
                 temp.append(i)
         if len(temp) >= 3: # Should always be a case unless we chance the concept.
             temp = random.sample(temp, 3)

@@ -102,11 +102,10 @@ init -9 python:
                 fighter.vitality = fighter.get_max("vitality")
 
         def populate_world(self, tier_offset=.0):
-            # TODO Remove some chars from the gameworld. We'll need new days in gw counter.
-
             # Get all rcahrs in the game and sort by status.
             rc_free = []
             rc_slaves = []
+            sm = pytfall.sm
             for c in chars.values():
                 if c.__class__ != rChar:
                     continue
@@ -119,6 +118,23 @@ init -9 python:
                     rc_free.append(c)
                 else:
                     rc_slaves.append(c)
+
+            for c in rc_slaves[:]:
+                if c.get_flag("days_in_game", 0) > 10:
+                    id = getattr(c, "dict_id", "_".join([c.id, c.name, c.fullname.split(" ")[1]]))
+                    rc_slaves.remove(c)
+                    if c in sm.chars_list:
+                        sm.chars_list.remove(c)
+                    if id in store.chars:
+                        del(store.chars[id])
+
+            for c in rc_free[:]:
+                if c.get_flag("days_in_game", 0) > 20 and c.disposition <= 0:
+                    id = getattr(c, "dict_id", "_".join([c.id, c.name, c.fullname.split(" ")[1]]))
+                    rc_free.remove(c)
+                    store.gm.remove_girl(c) # gm is poorly named and can be overwritten...
+                    if id in store.chars:
+                        del(store.chars[id])
 
             self.populate_rchars(rc_free, "free", tier_offset=tier_offset)
             self.populate_rchars(rc_slaves, "slave", tier_offset=tier_offset)
@@ -138,7 +154,7 @@ init -9 python:
             # Distribution of the above:
             current_distibution_raw = self.RCD.copy()
             wanted_distibution_perc = self.RCD.copy()
-            distibution = self.RCD.copy() # Seems a useless dict...
+            distibution = self.RCD.copy()
 
             for c in ingame_rchars:
                 if "SIW" in c.gen_occs:
@@ -163,7 +179,7 @@ init -9 python:
 
             total = float(sum(wanted_distibution_perc.values()))
             for key, value in wanted_distibution_perc.items():
-                distibution[key] = round_int(total*value/required)
+                distibution[key] = round_int(required*value/total)
 
             # We are done with distibution, now tiers:
             for bt_group, amount in distibution.items():
@@ -247,6 +263,7 @@ init -9 python:
                     elif flag.startswith("_jobs"):
                         char.del_flag(flag)
 
+                char.up_counter("days_in_game")
                 char.log_stats()
 
             businesses = [b for b in hero.buildings if isinstance(b, UpgradableBuilding)]
