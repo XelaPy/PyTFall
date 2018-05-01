@@ -178,7 +178,7 @@ init -10 python:
         def get_workers(self):
             # I may want better handing for this...
             # Returns a list of all chars in heros service that have their workplaces set to this building.
-            return [c for c in hero.chars if c.workplace==self and c.is_available]
+            return [c for c in hero.chars + [hero] if c.workplace==self and c.is_available]
 
         def get_all_chars(self):
             all_chars = set()
@@ -1117,7 +1117,7 @@ init -10 python:
 
                 # Matron case:
                 # Wait for the business to open in case of a favorite:
-                if self.manager and business == fav_business and business.res.count < business.capacity and self.env.now < 85:
+                if self.manager and (business == fav_business) and (business.res.count < business.capacity) and self.env.now < 85:
                     wait_till = min(self.env.now + 7, 85)
                     temp = "Your manager convinced {} to wait till {} for a slot in {} favorite {} to open up!".format(
                                     set_font_color(client.name, "beige"), wait_till, client.op, fav_business.name)
