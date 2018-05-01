@@ -27,7 +27,7 @@
     {
     "id": "Dandere",
     "desc": "Very quiet and silent personality that rarely talks because of extreme social aloofness.",
-    "mod_stats": {"character": [-2, 1]},
+    "mod_stats": {"character": [-2, 2]},
     "max": {"character": -15},
     "mod_skills": {"management": [-0.2, -0.05, -0.15], "bartending": [0, 0, -0.1], "cleaning": [0.1, 0.1, 0.2], "refinement": [-0.15, -0.05, -0.25], "service": [-0.05, 0.05, 0.1], "security": [-0.05, -0.05, -0.05]},
     "effects": ["Introvert"],
