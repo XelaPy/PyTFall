@@ -869,10 +869,14 @@ init -10 python:
                 self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
                 self.log("--- {} ---".format(set_font_color(self.name, "lawngreen")))
 
-                # handle ads:
-                # if isinstance(self, AdvertableBuilding):
-                #     for ad in self.adverts:
-                #         if ad['name'] == """Sign"
+                self.log("")
+                if self.manager:
+                    self.log("This building is managed by {} at {}% effectiveness!".format(
+                                self.manager.name, self.manager_effectiveness
+                    ))
+                else:
+                    self.log("This building has no manager assigned to it.")
+                self.log("")
 
                 # Building Stats:
                 self.log("Reputation: {}%".format(self.rep_percentage))
