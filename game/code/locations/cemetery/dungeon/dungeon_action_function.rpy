@@ -16,9 +16,8 @@ init python:
         result = run_default_be(enemy_team, background=place, slaves=False, prebattle=False, death=False) # TODO: maybe make escape working here too?
 
         if result is True:
-            exp = exp_reward(hero.team, enemy_team)
             if persistent.battle_results:
-                renpy.call_screen("give_exp_after_battle", hero.team, exp)
+                renpy.call_screen("give_exp_after_battle", hero.team, enemy_team)
             return
             # hero.say("Serves you right!")
         else:

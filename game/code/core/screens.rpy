@@ -1392,14 +1392,14 @@ screen panic_screen():
     key "Й" action Hide("panic_screen")
 
 init python:
-    def meowzaaa(group):
+    def get_exp_bars(group):
         return [c.exp_bar for c in group]
 
-screen give_exp_after_battle(group, exp=0, money=0):
+screen give_exp_after_battle(group, enemy_team, ap_used=1, money=0):
     modal True
     zorder 100
 
-    default bars = meowzaaa(group)
+    default bars = get_exp_bars(group)
 
     frame:
         align (.5, .5)
@@ -1407,7 +1407,8 @@ screen give_exp_after_battle(group, exp=0, money=0):
         xpadding 75
         ypadding 75
         has vbox
-        text "You gained [exp] exp" size 20 align (.5, .5) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
+        # text "You gained [exp] exp" size 20 align (.5, .5) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
+        text "You've won the battle!" size 20 align (.5, .5) style "proper_stats_value_text" bold True outlines [(1, "#181818", 0, 0)] color "#DAA520"
         null height 15
 
         for b in bars:
@@ -1415,7 +1416,7 @@ screen give_exp_after_battle(group, exp=0, money=0):
 
         # actually give the EXP:
         for c in group:
-            timer .01 action Function(c.exp_bar.mod_exp, exp) repeat False
+            timer .01 action Function(c.exp_bar.mod_exp, exp_reward(c, enemy_team, ap_used=ap_used)) repeat False
 
         if money > 0:
             hbox:

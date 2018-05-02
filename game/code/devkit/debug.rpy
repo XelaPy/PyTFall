@@ -2,10 +2,10 @@ init -999 python:
     ## Should we enable the use of developer tools? This should be
     ## set to False before the game is released, so the user can't
     ## cheat using developer tools.
-    config.developer = False
+    config.developer = True
     # config.debug = False
 
-    DEBUG = False # General debugging.
+    DEBUG = True # General debugging.
     DEBUG_LOG = False # Logging general. Crash if devlog is used and this is False.
     DEBUG_PROFILING = False # Loading time of various game elements.
     DEBUG_INTERACTIONS = False

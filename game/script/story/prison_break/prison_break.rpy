@@ -181,9 +181,6 @@ label storyi_randomfight:  # initiates fight with random enemy team
         result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.webp", slaves=True, prebattle=False, death=False, skill_lvl=4, give_up="escape")
 
     if result is True:
-        python:
-            exp = exp_reward(hero.team, enemy_team)
-
         call storyi_show_bg from _call_storyi_show_bg_3
         play world "Theme2.ogg" fadein 2.0 loop
 
@@ -197,7 +194,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
         $ hero.add_money(money, reason="Loot")
 
         if persistent.battle_results:
-            call screen give_exp_after_battle(hero.team, exp, money)
+            call screen give_exp_after_battle(hero.team, enemy_team, money=money)
 
         show screen prison_break_controls
         jump storyi_gui_loop
