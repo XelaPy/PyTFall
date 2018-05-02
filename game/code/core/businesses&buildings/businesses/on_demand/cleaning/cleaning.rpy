@@ -197,21 +197,22 @@ init -5 python:
             temp = "\nA total of {} dirt was cleaned.".format(set_font_color(dirt_cleaned, "red"))
             log.append(temp)
 
-            exp = dirt_cleaned/wlen
+            # exp = dirt_cleaned/wlen
             for w in pure_workers:
                 log.logws("cleaning", randint(1, 3), char=w)
                 if dice(30):
                     log.logws("agility", 1, char=w)
                 if dice(10):
                     log.logws("constitution", 1, char=w)
-                log.logws("exp", min(50, exp), char=w)
+                log.logws("exp", exp_reward(w, loc.tier), char=w) # This is imperfect...
             for w in extra_workers:
                 log.logws("cleaning", 1, char=w)
                 if dice(10):
                     log.logws("agility", 1, char=w)
                 if dice(10):
                     log.logws("constitution", 1, char=w)
-                log.logws("exp", min(25, exp/2), char=w)
+                # This is imperfect. We need to track jobpoints spent to get this right...
+                log.logws("exp", exp_reward(w, loc.tier, final_mod=.5), char=w)
 
             # Stat mods
             log.logloc('dirt', dirt_cleaned)

@@ -223,7 +223,7 @@ init -5 python:
                         log.logws("magic", 1, char=w)
                         if dice(10):
                             log.logws("constitution", 1, char=w)
-                        log.logws("exp", 10, char=w)
+                        log.logws("exp", exp_reward(w, loc.tier, value=10), char=w)
 
                         log.logws("vitality", -5, char=w)
                         if dice(20): # Small chance to get hurt.
@@ -231,7 +231,7 @@ init -5 python:
 
             if not len(all_workers):
                 raise Exception("Zero Modulo Division Detected #01")
-            exp = threat_cleared/len(all_workers)
+            # exp = threat_cleared/len(all_workers)
             for w in pure_workers:
                 log.logws("security", randint(1, 3), char=w)
                 if dice(30):
@@ -244,7 +244,7 @@ init -5 python:
                     log.logws("agility", 1, char=w)
                 if dice(10):
                     log.logws("constitution", 1, char=w)
-                log.logws("exp", min(50, exp), char=w)
+                log.logws("exp", exp_reward(w, loc.tier), char=w)
             for w in extra_workers:
                 log.logws("security", 1, char=w)
                 if dice(10):
@@ -257,7 +257,8 @@ init -5 python:
                     log.logws("agility", 1, char=w)
                 if dice(10):
                     log.logws("constitution", 1, char=w)
-                log.logws("exp", min(25, exp/2), char=w)
+                # Same imperfection as with Cleaning.
+                log.logws("exp", exp_reward(w, loc.tier, final_mod=.5), char=w)
 
             # Stat mods
             log.logloc('threat', threat_cleared)

@@ -10,7 +10,7 @@ label interactions_kiss:
         else:
             call interactions_lesbian_refuse_because_of_gender from _call_interactions_lesbian_refuse_because_of_gender
             jump girl_interactions
-        
+
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_kiss")
@@ -20,7 +20,7 @@ label interactions_kiss:
         $ n = -1
     else:
         $ n = 0
-    
+
     if m > (randint(2,3)+n):
         call interactions_too_many_sex_lines from _call_interactions_too_many_sex_lines
         $ char.disposition -= randint(4, m+5)
@@ -29,7 +29,7 @@ label interactions_kiss:
         $ del m
         $ del n
         jump girl_interactions
-    
+
     if check_lovers(char, hero):
         $ temp = .6
     elif check_friends(char, hero):
@@ -38,21 +38,23 @@ label interactions_kiss:
         $ temp = .15
 
     $ sub = check_submissivity(char)
-    
+
     if char.disposition > (350+50*sub) and dice((char.disposition-100*sub)*temp + (hero.charisma*0.1) - 10*m):
         $ result = round(randint(20, 35)+ char.joy*0.06 - m*4 - char.disposition*0.01)
         if result <= 0:
             $ result = randint(1,2)
-        $ hero.exp += randint(10, 20)
-        $ char.exp += randint(10, 20)
+        # $ hero.exp += randint(10, 20)
+        # $ char.exp += randint(10, 20)
+        $ hero.exp += exp_reward(hero, char, ap_used=.33)
+        $ char.exp += exp_reward(char, hero, ap_used=.33)
         $ char.disposition += result
         $ del temp
         $ del m
         $ del sub
-        
+
         $ char.override_portrait("portrait", "shy")
         $ char.show_portrait_overlay("love", "reset")
-        
+
         if check_lovers(char, hero):
             char.say "Your hands slide down her body as your lips press hers."
         elif char.disposition < (300+n*100):
@@ -86,9 +88,9 @@ label interactions_kiss:
                 $ rc("What's it like to kiss your sister? Does it taste good?", "Going after your sister? Man, what a hopeless [hero.hs] you are... ♪")
             else:
                 $ rc("Isn't it a bit strange to kiss your sister?", "I'm your sis... Are you really okay with that?")
-        
+
         elif ct("Yandere"):
-            $ rc("*kiss* *slurp* *slosh* <[char.p]'s making patterns with her tongue>", "*kiss* ... *giggle* *kiss*", "momph *kiss* dufu *kiss* gae *kiss* mnn... <trying to talk, perhaps?>", "...Haah... It tastes like you... Hehe ♪", "Huff, *smooch*, *slurp*... Hehe, I got my tongue inside...")    
+            $ rc("*kiss* *slurp* *slosh* <[char.p]'s making patterns with her tongue>", "*kiss* ... *giggle* *kiss*", "momph *kiss* dufu *kiss* gae *kiss* mnn... <trying to talk, perhaps?>", "...Haah... It tastes like you... Hehe ♪", "Huff, *smooch*, *slurp*... Hehe, I got my tongue inside...")
         elif ct("Impersonal"):
             $ rc("*kiss* Kissing is nothing that special.", "*kiss* My body's getting hotter.", "*kiss*... Hn... I can still taste you.", "*kiss* Your lips feel a little dry... *lick lick lick* That's much better.")
         elif ct("Shy") and dice(50):
@@ -110,7 +112,7 @@ label interactions_kiss:
         elif ct("Kamidere"):
             $ rc("*kiss* How about at least trying to look a bit happier?", "*kiss*... Felt good, right?", "*smooch*... Getting excited?", "*kiss*... I'll leave you with that much.", "Hn, *smoooch*...  Uhuh, now you've got a hickey ♪", "*Kiss*... Haha, why's your face getting so red? ♪", "I, too, can be sweet sometimes... *kiss*, ahm... *smooch*...")
         else:
-            $ rc("Don't say anything.... *kiss*", "*kiss*, *lick*, I like, *kiss*, this...", "*kiss*, hmm... *sigh*, kissing feels so good...", "*kiss*...  My heart's racing ♪", "Hmm... *kiss, kiss*, ahm,.. I like... kissing... Hn, *smooch*...", "*slurp, kiss* Kissing this rough... feels so good.", "*kiss* You're sweet...", "Ahm... *kiss, lick*... nnn... Do you think touching tongues is a little... sexy?") 
+            $ rc("Don't say anything.... *kiss*", "*kiss*, *lick*, I like, *kiss*, this...", "*kiss*, hmm... *sigh*, kissing feels so good...", "*kiss*...  My heart's racing ♪", "Hmm... *kiss, kiss*, ahm,.. I like... kissing... Hn, *smooch*...", "*slurp, kiss* Kissing this rough... feels so good.", "*kiss* You're sweet...", "Ahm... *kiss, lick*... nnn... Do you think touching tongues is a little... sexy?")
 
     else:
         $ char.show_portrait_overlay("sweat", "reset")
@@ -125,7 +127,7 @@ label interactions_kiss:
             $ rc("I... I don't want!", "W-we can't do that. ", "I-I don't want to... Sorry.")
         elif ct("Imouto"):
             $ char.override_portrait("portrait", "angry")
-            $ rc("Noooo way!", "...I-I'm gonna get mad if you that that stuff, you know? Jeez!", "Y-you dummy! Stay away!") 
+            $ rc("Noooo way!", "...I-I'm gonna get mad if you that that stuff, you know? Jeez!", "Y-you dummy! Stay away!")
         elif ct("Dandere"):
             $ char.override_portrait("portrait", "indifferent")
             $ rc("You're no good...", "You should really settle down.", "No, not with you.")
@@ -162,4 +164,3 @@ label interactions_kiss:
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
     jump girl_interactions
-    

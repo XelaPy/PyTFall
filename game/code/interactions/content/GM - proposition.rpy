@@ -76,11 +76,9 @@ label interactions_sparring: # sparring with MC, for Combatant occupations only
                                 background=back, give_up="surrender")
 
     if result is True:
-        python:
-            for member in hero.team:
-                member.exp += char.level*10
+        $ hero.exp += exp_reward(hero, char, ap_used=.33)
     elif result is False:
-        $ char.exp += hero.level*10
+        $ char.exp += exp_reward(char, hero, ap_used=.33)
 
     if char.health < char.get_max("health")*.5:
         $ char.health = int(char.get_max("health")*.5)
@@ -203,8 +201,10 @@ label interactions_girlfriend:
 
     if (char.flag("quest_cannot_be_lover") != True) and (char.disposition >= (600 - l_ch)) and (dice(round((l_ch + char.disposition)*0.2))):
         $ set_lovers(hero, char)
-        $ hero.exp += randint(15, 35)
-        $ char.exp += randint(15, 35)
+        # $ hero.exp += randint(15, 35)
+        # $ char.exp += randint(15, 35)
+        $ hero.exp += exp_reward(hero, char, ap_used=.33)
+        $ char.exp += exp_reward(char, hero, ap_used=.33)
         $ char.joy += 25
         $ char.override_portrait("portrait", "shy")
         if ct("Impersonal") in  char.traits:

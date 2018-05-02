@@ -233,8 +233,10 @@ label city_tavern_brawl_fight:
 label mc_action_tavern_look_around: # various bonuses to theoretical skills for drinking with others in the lively mode
     if hero.take_money(randint(10, 20), reason="Tavern"):
         hide drunkards with dissolve
+
         $ interactions_drinking_outside_of_inventory(character=hero, count=randint(15, 25))
         $ N = random.choice(["fishing", "sex", "exp"])
+
         if N == "fishing":
             $ name = "content/gfx/images/tavern/fish_" + str(renpy.random.randint(1, 4)) + ".webp"
             show expression name as sign at truecenter with dissolve
@@ -251,11 +253,13 @@ label mc_action_tavern_look_around: # various bonuses to theoretical skills for 
         else:
             show expression "content/gfx/images/tavern/exp.webp" as sign at truecenter with dissolve
             "You are sharing fresh rumors with patrons over a beer."
-            $ hero.adjust_exp(randint(10, 30))
+            $ hero.exp += exp_reward(hero, hero)
             hide sign with dissolve
+
         $ del N
     else:
         "You don't have enough money to join others, so there is nothing interesting for you at the moment."
+
     jump city_tavern_menu
 
 label city_tavern_thugs_fight: # fight with random thugs in the brawl mode
@@ -276,7 +280,7 @@ label city_tavern_thugs_fight: # fight with random thugs in the brawl mode
     if result is True:
         python:
             for member in hero.team:
-                member.exp += adjust_exp(member, 150)
+                member.exp += exp_reward(member, enemy_team)
 
     else:
         $ hero.set_flag("fought_in_tavern", value = day)

@@ -1216,7 +1216,7 @@ init -9 python:
             self.exp = value
 
             while self.exp >= self.goal:
-                self.goal_increase += 1000
+                # self.goal_increase += 1000
                 self.goal += self.goal_increase
                 self.level += 1
 
@@ -2395,7 +2395,7 @@ init -9 python:
             *kind = is a string referring to the NPC
             """
             # Any training:
-            self.exp += self.adjust_exp(randint(20, max(25, self.luck)))
+            self.exp += exp_reward(self, self.tier)
 
             if kind == "train_with_witch":
                 self.magic += randint(1, 3)

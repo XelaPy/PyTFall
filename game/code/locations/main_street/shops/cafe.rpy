@@ -89,15 +89,15 @@ screen cafe_eating():
         has vbox
         textbutton "Shop":
             action [Hide("cafe_eating"), Jump("cafe_shopping")]
-        
+
         textbutton "Eat alone":
             sensitive hero.flag("ate_in_cafe") != day
             action [Hide("cafe_eating"), Jump("mc_action_cafe_eat_alone")]
-                
+
         textbutton "Eat with group":
             sensitive len(hero.team)>1 and hero.flag("ate_in_cafe") != day
             action [Hide("cafe_eating"), Jump("cafe_eat_group")]
-                
+
         textbutton "Leave":
             action [Hide("cafe_eating"), Jump("main_street")]
             keysym "mousedown_3"
@@ -127,8 +127,8 @@ label mc_action_cafe_eat_alone:
                     $ result += "{color=[green]} +%d Vitality{/color}" % result_v
                 if result_m > 0:
                     $ result += "{color=[blue]} +%d MP{/color}" % result_m
-                $ hero.say ("%s" % result)
-                $ hero.exp +=5
+                $ hero.say("%s" % result)
+                $ hero.exp += exp_reward(hero, hero)
                 $ del result
                 $ del result_v
                 $ del result_m
@@ -165,7 +165,7 @@ label mc_action_cafe_eat_alone:
                 if result_h > 0:
                     $ result += "{color=[red]} +%d Health{/color}" % result_h
                 $ hero.say ("%s" % result)
-                $ hero.exp +=10
+                $ hero.exp += exp_reward(hero, hero)
                 $ del result
                 $ del result_v
                 $ del result_m
@@ -215,7 +215,7 @@ label mc_action_cafe_eat_alone:
                 if result_h > 0:
                     $ result += "{color=[red]} +%d Health{/color}" % result_h
                 $ hero.say ("%s" % result)
-                $ hero.exp +=15
+                $ hero.exp += exp_reward(hero, hero)
                 $ del result
                 $ del result_v
                 $ del result_m

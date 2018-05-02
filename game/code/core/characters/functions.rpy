@@ -632,12 +632,13 @@ init -11 python:
         """
         This levels up the character, usually when it's first created.
         """
-        exp = level*(level-1)*500
-        char.stats.level = 1
-        char.exp = 0
-        char.stats.goal = 1000
-        char.stats.goal_increase = 1000
+        # exp = level*(level-1)*500
+        # char.stats.level = 1
+        # char.exp = 0
+        # char.stats.goal = 1000
+        # char.stats.goal_increase = 1000
 
+        exp = level*1000
         char.exp += exp
 
         if max_out_stats:
@@ -651,38 +652,39 @@ init -11 python:
         Adjusts experience according to a level of character.
         We will find a better way to handle experience in the future.
         '''
-        if isinstance(char, int): # A level was provided directly
-            level = char
-        else:
-            level = char.level
+        return exp
+        # if isinstance(char, int): # A level was provided directly
+        #     level = char
+        # else:
+        #     level = char.level
 
-        if char == hero:
-            if level < 10:
-                mod = 1.4
-            elif level < 30:
-                mod = 1.3
-            elif level < 40:
-                mod = 1.2
-            else:
-                mod = 1.1
-        else:
-            if level < 10:
-                mod = .9
-            elif level < 20:
-                mod = .8
-            elif level < 30:
-                mod = .75
-            elif level < 40:
-                mod = .70
-            elif level < 50:
-                mod = .65
-            elif level < 60:
-                mod = .6
-            elif level < 70:
-                mod = .5
-            else:
-                mod = .4
-        return int(math.ceil(level*exp))
+        # if char == hero:
+        #     if level < 10:
+        #         mod = 1.4
+        #     elif level < 30:
+        #         mod = 1.3
+        #     elif level < 40:
+        #         mod = 1.2
+        #     else:
+        #         mod = 1.1
+        # else:
+        #     if level < 10:
+        #         mod = .9
+        #     elif level < 20:
+        #         mod = .8
+        #     elif level < 30:
+        #         mod = .75
+        #     elif level < 40:
+        #         mod = .70
+        #     elif level < 50:
+        #         mod = .65
+        #     elif level < 60:
+        #         mod = .6
+        #     elif level < 70:
+        #         mod = .5
+        #     else:
+        #         mod = .4
+        # return int(math.ceil(level*exp))
 
     def build_client(id=None, gender="male", caste="Peasant",
                      name=None, last_name=None,
@@ -906,10 +908,10 @@ init -11 python:
 
         char.tier = round_int(tier) # Makes sure we can use float tiers
 
-    def exp_reward_new(char, difficulty, value=None,
-                       ap_adjust=True, ap_used=1,
-                       char_tier_override=False,
-                       final_mod=None):
+    def exp_reward(char, difficulty, value=None,
+                   ap_adjust=True, ap_used=1,
+                   char_tier_override=False,
+                   final_mod=None):
         """Adjusts the XP earned by an actor.
 
         char: Always an actor. S(he) will gain the EXP.

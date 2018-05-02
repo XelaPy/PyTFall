@@ -71,7 +71,7 @@ label special_items_slime_bottle:
                 $ enemy_team.add(new_slime)
                 $ result = run_default_be(enemy_team, slaves=True, background="content/gfx/bg/be/b_dungeon_1.webp", track="random", prebattle=True, death=False)
 
-                if not(result):
+                if not (result):
                     jump game_over
                 else:
                     scene bg h_profile
@@ -79,7 +79,7 @@ label special_items_slime_bottle:
                     $ new_slime.health = 0
                     python:
                         for member in hero.team:
-                            member.exp += adjust_exp(member, 200)
+                            member.exp += exp_reward(member, enemy_team)
         "No":
             "Maybe another time."
             $ inv_source.add_item("Unusual Bottle")
@@ -91,6 +91,7 @@ label special_items_slime_bottle:
 label special_items_empty_extractor:
     if eqtarget.exp <= 2000:
         $ inv_source.add_item("Empty Extractor")
+
         if eqtarget <> hero:
             $ spr = eqtarget.get_vnsprite()
             show expression spr at center with dissolve
@@ -110,6 +111,7 @@ label special_items_empty_extractor:
                 $ eqtarget.joy -= 10
         else:
             "This device will extract some of your experience."
+
         menu:
             "Do you want to use it?"
             "Yes":
@@ -133,6 +135,7 @@ label special_items_full_extractor:
         $ renpy.show_screen('message_screen', "Experience already has been transferred to this person today. It cannot be done too often.")
         $ inv_source.add_item("Full Extractor")
         jump char_equip
+
     $ inv_source.add_item("Empty Extractor")
     if eqtarget <> hero:
         $ spr = eqtarget.get_vnsprite()
@@ -144,7 +147,9 @@ label special_items_full_extractor:
             $ eqtarget.joy += 10
     else:
         $ renpy.show_screen('message_screen', "The energy of knowledge slowly flows inside you. You became more experienced.")
+
     $ eqtarget.exp += 1500
+
     jump char_equip
 
 label special_items_one_for_all:
