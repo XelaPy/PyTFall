@@ -940,7 +940,7 @@ init -11 python:
         if isinstance(difficulty, Team):
             difficulty = difficulty.get_level()/20.0
         elif isinstance(difficulty, PytCharacter):
-            difficulty = char.tier
+            difficulty = difficulty.tier
         elif isinstance(difficulty, (float, int)):
             difficulty = max(0, min(10, difficulty))
         else:
