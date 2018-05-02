@@ -1645,6 +1645,9 @@ init -9 python:
             self.AP = 3
             self.baseAP = 3
             self.reservedAP = 0
+            self.setAP = 0 # This is set to the AP calculated for that day.
+            self.jobpoints = 0
+
 
             # Locations and actions, most are properties with setters and getters.
             self._location = None # Present Location.
@@ -1808,8 +1811,6 @@ init -9 python:
 
             # Action tracking (AutoRest job for instance):
             self.previousaction = ''
-
-            self.jobpoints = 0
 
             self.clear_img_cache()
 
@@ -2368,7 +2369,8 @@ init -9 python:
             # if str(self.home) == "Studio Apartment":
             #     ap += 1
 
-            return self.baseAP + ap
+            self.setAP = self.baseAP + ap
+            return self.setAP
 
         def get_free_ap(self):
             """

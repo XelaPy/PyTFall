@@ -905,3 +905,62 @@ init -11 python:
                     char.mod_skill(skill, value)
 
         char.tier = round_int(tier) # Makes sure we can use float tiers
+
+    def exp_reward_new(char, difficulty, value=None,
+                       ap_adjust=True, ap_used=1,
+                       char_tier_override=False,
+                       final_mod=None):
+        """Adjusts the XP earned by an actor.
+
+        char: Always an actor. S(he) will gain the EXP.
+        difficulty: Ranged 1 to 10. (will be normalized otherwise).
+            This can be a number, Team or Char.
+        value: Value to award, if None, we interpolate.
+        ap_adjust: Makes sure that chars with loads of AP don't snowball.
+        ap_used: AP used for the action, can be a float!
+        char_tier_override: If not False, should be a number between 1 - 10.
+            It will be used to match difficulty against.
+        final_mod: We multiply the result with it. Could be useful when failing
+            a task, give at least 10% of the exp (for example) is to set this mod
+            to .1 in case of a failed action.
+        """
+        # Figure out the value:
+        if value is None:
+            value = DAILY_EXP_CORE
+
+        if ap_adjust:
+            value = float(value)/char.setAP or 3
+
+        value *= ap_used
+
+        # Now let's see about the difficulty:
+        char_tier = char_tier_override or char.tier
+        if isinstance(difficulty, Team):
+            difficulty = difficulty.get_level()/20.0
+        elif isinstance(difficulty, Char):
+            difficulty = char.tier
+        elif isinstance(difficulty, (float, int)):
+            difficulty = max(0, min(10, difficulty))
+        else:
+            raise Exception("Invalid difficulty type {} provided to exp_reward function.")
+
+        # Difficulty modifier:
+        # Completed task oh higher difficulty:
+        if difficulty >= char_tier:
+            diff = difficulty - char_tier
+            diff = min(2, diff)
+            mod = 1+diff/2.0 # max bonus mod possible is 2x the EXP.
+        else: # Difficulty was lower
+            diff = char_tier - difficulty
+            diff = min(2, diff)
+            if diff > 2:
+                diff = 2
+            mod = 1-diff/2.0
+
+        value *= mod
+
+        # Apply the final mod:
+        if final_mod is not None:
+            value *= final_mod
+
+        return round_int(value)
