@@ -16,9 +16,8 @@ label cafe:
     if global_flags.flag("waitress_chosen_today") != day:
 
         $ cafe_waitress_who = npcs[(choice(["Mel_cafe", "Monica_cafe", "Chloe_cafe"]))]
-        $ w = cafe_waitress_who.say
-        # $ cafe_waitress_who = (choice(["npc cafe_mel_novel", "npc cafe_monica_novel", "npc cafe_chloe_novel"]))
         $ global_flags.set_flag("waitress_chosen_today", value=day)
+    $ w = cafe_waitress_who.say
 
     # $ renpy.show(cafe_waitress_who, at_list=[left])
     show expression cafe_waitress_who.get_vnsprite() as npc

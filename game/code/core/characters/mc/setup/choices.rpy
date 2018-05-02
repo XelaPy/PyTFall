@@ -324,6 +324,7 @@ init:
         dragon["header"] = "Dragon"
         dragon["text"] = "It was there that he met your mother, one of the last half-dragons. Being a monster, she was supposed to fight him to the death, but her dislike for clothes changed his mind."
         dragon["text"] += set_font_color("\n+ Dragon Blood Trait", "green")
+        dragon["text"] += set_font_color("\n+ Assassin Class", "green")
         dragon["label"] = "mc_setup_warrior_warrior_dragon"
         dragon["class"] = "Assassin"
 
