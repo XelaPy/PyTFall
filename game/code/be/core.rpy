@@ -885,7 +885,7 @@ init -1 python: # Core classes:
                 # Critical Strike and Evasion checks:
                 if self.delivery in ["melee", "ranged"]:
                     # Critical Hit Chance:
-                    ch = max(35, (a.luck - t.luck + 10) * .75) # No more than 35% chance? Dark: we can add items/traits field capable to increase the max chance of crit hit
+                    ch = max(0, min((a.luck - t.luck + 10) * .75, 35)) # No more than 35% chance? Dark: we can add items/traits field capable to increase the max chance of crit hit
 
                     # Items bonuses:
                     m = .0
@@ -905,7 +905,7 @@ init -1 python: # Core classes:
                         multiplier += 1.1 + self.critpower
                         effects.append("critical_hit")
                     elif ("inevitable" not in attributes): # inevitable attribute makes skill/spell undodgeable/unresistable
-                        ev = min(t.agility*.05-a.agility*.05, 15) + max(0, min(t.luck-a.luck, 15)) # Max 15 for agility and luck each...
+                        ev = max(0, min(t.agility*.05-a.agility*.05, 15) + min(t.luck-a.luck, 15)) # Max 15 for agility and luck each...
 
                         # Items bonuses:
                         temp = 0
@@ -929,6 +929,8 @@ init -1 python: # Core classes:
                         ev += temp
 
                         if t.health <= t.get_max("health")*0.25:
+                            if ev < 0:
+                                ev = 0 # Even when weighed down adrenaline takes over and allows for temporary superhuman movements
                             ev += randint(1,5) # very low health provides additional random evasion, 1-5%
 
                         if dice(ev):
