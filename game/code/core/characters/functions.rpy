@@ -939,7 +939,7 @@ init -11 python:
         char_tier = char_tier_override or char.tier
         if isinstance(difficulty, Team):
             difficulty = difficulty.get_level()/20.0
-        elif isinstance(difficulty, Char):
+        elif isinstance(difficulty, PytCharacter):
             difficulty = char.tier
         elif isinstance(difficulty, (float, int)):
             difficulty = max(0, min(10, difficulty))
