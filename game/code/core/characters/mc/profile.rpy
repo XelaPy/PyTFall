@@ -62,6 +62,7 @@ init:
         default tt = Tooltip("")
         default lframe_display = "status"
         default rframe_display = "skills"
+        default base_ss = hero.stats.get_base_ss()
 
         key "mousedown_3" action Return(['control', 'return'])
 
@@ -88,33 +89,97 @@ init:
             frame:
                 pos (375, 402)
                 background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
-                has hbox
-                add ProportionalScale("content/gfx/interface/images/atk.png", 24, 24)
-                text("{size=-5}{font=fonts/Rubius.ttf}{color=[red]}[hero.attack]|%d"%(hero.get_max("attack"))) outlines [(1, "#0d0d0d", 0, 0)]
+                xysize 100, 30
+                hbox:
+                    align .5, .5
+                    add pscale("content/gfx/interface/images/atk.png", 24, 24)
+                    text("{size=-5}[hero.attack]|%d"%(hero.get_max("attack"))):
+                        yalign .5
+                        font "fonts/Rubius.ttf"
+                        color red
+                        outlines [(1, "#0d0d0d", 0, 0)]
+                if "attack" in base_ss:
+                    button:
+                        xysize 20, 20
+                        offset -10, -16
+                        background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                        action NullAction()
+                        tooltip "This is a Class Stat!"
             frame:
                 pos (223, 483)
                 background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
-                has hbox
-                add ProportionalScale("content/gfx/interface/images/def.png", 24, 24)
-                text("{size=-5}{font=fonts/Rubius.ttf}{color=#dc762c}[hero.defence]|%d"%(hero.get_max("defence"))) outlines [(1, "#0d0d0d", 0, 0)]
+                xysize 100, 30
+                hbox:
+                    align .5, .5
+                    add pscale("content/gfx/interface/images/def.png", 24, 24)
+                    text("{size=-5}[hero.defence]|%d"%(hero.get_max("defence"))):
+                        yalign .5
+                        color "#dc762c"
+                        font "fonts/Rubius.ttf"
+                        outlines [(1, "#0d0d0d", 0, 0)]
+                if "defence" in base_ss:
+                    button:
+                        xysize 20, 20
+                        offset -10, -16
+                        background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                        action NullAction()
+                        tooltip "This is a Class Stat!"
             frame:
                 pos (255, 643)
                 background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
-                has hbox
-                add ProportionalScale("content/gfx/interface/images/agi.png", 24, 24)
-                text("{size=-5}{font=fonts/Rubius.ttf}{color=#1E90FF} [hero.agility]|%d"%(hero.get_max("agility"))) outlines [(1, "#0d0d0d", 0, 0)]
+                xysize 100, 30
+                hbox:
+                    align .5, .5
+                    add pscale("content/gfx/interface/images/agi.png", 24, 24)
+                    text("{size=-5}[hero.agility]|%d"%(hero.get_max("agility"))):
+                        yalign .5
+                        color "#1E90FF"
+                        font "fonts/Rubius.ttf"
+                        outlines [(1, "#0d0d0d", 0, 0)]
+                if "agility" in base_ss:
+                    button:
+                        xysize 20, 20
+                        offset -10, -16
+                        background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                        action NullAction()
+                        tooltip "This is a Class Stat!"
             frame:
                 pos (495, 643)
                 background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
-                has hbox
-                add ProportionalScale("content/gfx/interface/images/luck.png", 24, 24)
-                text("{size=-5}{font=fonts/Rubius.ttf}{color=#00FA9A}[hero.luck]|%d"%(hero.get_max("luck"))) outlines [(1, "#0d0d0d", 0, 0)]
+                xysize 100, 30
+                hbox:
+                    align .5, .5
+                    add pscale("content/gfx/interface/images/luck.png", 24, 24)
+                    text("{size=-5}[hero.luck]|%d" % (hero.get_max("luck"))):
+                        yalign .5
+                        color "#00FA9A"
+                        font "fonts/Rubius.ttf"
+                        outlines [(1, "#0d0d0d", 0, 0)]
+                if "luck" in base_ss:
+                    button:
+                        xysize 20, 20
+                        offset -10, -16
+                        background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                        action NullAction()
+                        tooltip "This is a Class Stat!"
             frame:
                 pos (526, 483)
                 background Frame(Transform("content/gfx/frame/stat_box_proper.png", alpha=.9), 10, 10)
-                has hbox
-                add ProportionalScale("content/gfx/interface/images/mag.png", 24, 24)
-                text("{size=-5}{font=fonts/Rubius.ttf}{color=#8470FF}[hero.magic]|%d"%(hero.get_max("magic"))) outlines [(1, "#0d0d0d", 0, 0)]
+                xysize 100, 30
+                hbox:
+                    align .5, .5
+                    add pscale("content/gfx/interface/images/mag.png", 24, 24)
+                    text("{size=-5}{color=#8470FF}[hero.magic]|%d" % (hero.get_max("magic"))):
+                        yalign .5
+                        font "fonts/Rubius.ttf"
+                        outlines [(1, "#0d0d0d", 0, 0)]
+                if "magic" in base_ss:
+                    button:
+                        xysize 20, 20
+                        offset -10, -16
+                        background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                        action NullAction()
+                        tooltip "This is a Class Stat!"
 
         # LEFT FRAME (Stats/Friends/Etc) ====================================>
         vbox:
@@ -141,7 +206,7 @@ init:
                 label "{color=#CDAD00}Tier " text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
                 label "{color=#CDAD00}[hero.tier]" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
 
-            default base_ss = hero.stats.get_base_ss()
+
             if lframe_display == "status":
                 # STATS ====================================>
                 null height 20
@@ -908,7 +973,7 @@ init:
                 text "OK"
 
 screen mc_friends_list:
-    
+
     modal True
     key "mousedown_3" action Hide("mc_friends_list")
     frame:
@@ -935,9 +1000,9 @@ screen mc_friends_list:
             mousewheel True
             scrollbars "vertical"
             xysize (930, 400)
-            
-            
-            
+
+
+
             for char in temp:
                 frame:
                     background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.6), 5, 5)
