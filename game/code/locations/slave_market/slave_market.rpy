@@ -77,7 +77,6 @@ label slave_market:
         g "Ah, visit our club as well, we do presentations, and you can do 'some sampling' if you have the Gold."
         g "You won't be disappointed!"
         g "Goodbye!"
-
 label slavel_market_controls:
     hide blue
     with dissolve
@@ -90,6 +89,7 @@ label slavel_market_controls:
         if pytfall.world_actions.location("slave_market"):
             pytfall.world_actions.add("blue", "Find Blue", Jump("blue_menu"), condition=Iff(global_flag_complex("visited_sm")))
             pytfall.world_actions.work(Iff(global_flag_complex("visited_sm")))
+            pytfall.world_actions.work(Iff(global_flag_complex("visited_sm")), index="work_all", name="Work all day", returned="mc_action_work_in_slavemarket_all_day")
             pytfall.world_actions.slave_market(pytfall.sm, "Get these girls while they're still Young and Hot!")
             pytfall.world_actions.look_around()
             pytfall.world_actions.finish()
@@ -134,6 +134,8 @@ label slavel_market_controls:
         if result[0] == "control":
             if result[1] == "work":
                 jump mc_action_work_in_slavemarket
+            elif result[1] == "mc_action_work_in_slavemarket_all_day":
+                jump mc_action_work_in_slavemarket_all_day
             elif result[1] == "jumpclub":
                 hide screen slavemarket
                 jump slave_market_club
@@ -534,3 +536,33 @@ screen se_captured_retrieval(pos=(900, 300)):
                     action Function(jail.retrieve_captured, direction="Blue"), Hide("se_captured_retrieval")
             textbutton "Close":
                 action Hide("se_captured_retrieval")
+                
+label mc_action_work_in_slavemarket_all_day:
+    $ temp = hero.AP
+    python:
+        wage = (randint(5, 12) + hero.charisma/7 + hero.sex/20 + hero.level*5)*temp
+        if dice(hero.luck*.1):
+            wage += (hero.level*5)*temp
+
+        if dice(.5 + hero.luck*.1):
+            hero.charisma += 1*temp
+            hero.sex += 1*temp
+
+        hero.add_money(wage, reason="Job")
+        gfx_overlay.random_find(wage, 'work')
+        hero.exp += temp*exp_reward(hero, hero)
+
+        hero.take_ap(temp)
+        del temp
+
+    python:
+        if dice(50):
+            renpy.say("", choice(["You did some chores around the slavemarket!",
+                      "Pay might be crap, but it's still money.",
+                      "You've helped out in da Club!"]))
+        else:
+            hero.say(choice(["What a shitty job...",
+            "There's gotta be better way to make money..."]))
+
+    $ global_flags.set_flag("came_from_sc")
+    jump slavel_market_controls

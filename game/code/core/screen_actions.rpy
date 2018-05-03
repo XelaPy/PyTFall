@@ -662,13 +662,15 @@ init -9 python:
 
             return level
 
-        def work(self, condition=True, index="work"):
+        def work(self, condition=True, index="work", name=None, returned="work"):
             """
             Adds the default "Word" action.
             condition = The condition to check if the player can work here.
             index = The index to use. Defaults to "work".
             """
-            self.add(index, WorldAction("Work", Return(["control", "work"]), condition=condition, null_button="Work", null_condition=Iff(S((hero, "AP")), "==", 0)))
+            if not name:
+                name = "Work"
+            self.add(index, WorldAction(name, Return(["control", returned]), condition=condition, null_button="Work", null_condition=Iff(S((hero, "AP")), "==", 0)))
 
 
     class WorldAction(_object):
