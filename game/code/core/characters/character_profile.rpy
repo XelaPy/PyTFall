@@ -82,7 +82,7 @@ label char_profile:
                                     $ block_say = True
                                     call interactions_bad_goodbye from _call_interactions_bad_goodbye
                                     $ block_say = False
-                                    
+
                                 python:
                                     char.disposition -= 400
                                     char.home = locations["City Apartments"]
@@ -177,7 +177,6 @@ screen char_profile():
                         img = char.show('profile', resize=(600, 514), exclude=["nude", "revealing", "lingerie", "swimsuit"], cache=True)
 
                 $ image_tags = img.get_image_tags()
-
 
                 button:
                     align (.5, .5)
@@ -387,6 +386,7 @@ screen char_profile():
                         hovered tt.action("Show skills (dev mode only)")
 
             null height 15
+            $ base_ss = char.stats.get_base_ss()
             vbox:
                 style_prefix "proper_stats"
                 xsize 318
@@ -478,7 +478,6 @@ screen char_profile():
                                     hovered tt.action("[ele]")
 
                     null height 4
-
                 elif stats_display == "stats":
                     frame:
                         style_suffix "main_frame"
@@ -491,6 +490,13 @@ screen char_profile():
                             xysize (270, 27)
                             xpadding 7
                             text "Health:" color "#CD4F39"
+                            if "health" in base_ss:
+                                button:
+                                    xysize 20, 20
+                                    offset -10, -5
+                                    background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                                    action NullAction()
+                                    tooltip "This is a Class Stat!"
                             if char.health <= char.get_max("health")*0.3:
                                 text (u"{color=[red]}%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style_suffix "value_text"
                             else:
@@ -500,6 +506,13 @@ screen char_profile():
                             xysize (270, 27)
                             xpadding 7
                             text "Vitality:" color "#43CD80"
+                            if "vitality" in base_ss:
+                                button:
+                                    xysize 20, 20
+                                    offset -10, -5
+                                    background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                                    action NullAction()
+                                    tooltip "This is a Class Stat!"
                             if char.vitality < char.get_max("vitality")*0.3:
                                 text (u"{color=[red]}%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style_suffix "value_text"
                             else:
@@ -510,6 +523,13 @@ screen char_profile():
                                 xysize (270, 27)
                                 xpadding 7
                                 text '{}'.format(stat.capitalize()) color "#79CDCD"
+                                if stat.lower() in base_ss:
+                                    button:
+                                        xysize 20, 20
+                                        offset -10, -5
+                                        background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                                        action NullAction()
+                                        tooltip "This is a Class Stat!"
                                 text ('%d/%d'%(getattr(char, stat), char.get_max(stat))) xalign 1.0 style_suffix "value_text"
                         frame:
                             xoffset 4
@@ -553,6 +573,13 @@ screen char_profile():
                                 xysize (270, 27)
                                 xpadding 7
                                 text "[stat]" color color
+                                if stat.lower() in base_ss:
+                                    button:
+                                        xysize 20, 20
+                                        offset -10, -5
+                                        background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                                        action NullAction()
+                                        tooltip "This is a Class Stat!"
                                 text "{}/{}".lower().format(getattr(char, stat.lower()), char.get_max(stat.lower())) style_suffix "value_text" color color
 
                     null height 4
@@ -577,15 +604,16 @@ screen char_profile():
                     frame:
                         style_suffix "main_frame"
                         xsize 300
-                        has viewport scrollbars "vertical" xysize(310, 392) mousewheel True child_size (300, 1000)
-                        vbox spacing 1:
+                        has viewport scrollbars "vertical" xysize (310, 392) mousewheel True child_size (300, 1000)
+                        vbox:
+                            spacing 1
+                            xpos 10
                             for skill in char.stats.skills:
                                 $ skill_val = int(char.get_skill(skill))
                                 $ skill_limit = int(char.get_max_skill(skill))
                                 # We don't care about the skill if it's less than 10% of limit:
-                                if skill_val/float(skill_limit) > .1:
+                                if skill in base_ss or skill_val/float(skill_limit) > .1:
                                     hbox:
-                                        align .0, .9
                                         xsize 250
                                         text "{}:".format(skill.capitalize()):
                                             style_suffix "value_text"
@@ -605,6 +633,23 @@ screen char_profile():
                                                     $ skill_val -= step
                                                 else:
                                                     add Transform("content/gfx/interface/icons/stars/star1.png", size=(18, 18))
+                        vbox:
+                            spacing 1
+                            for skill in char.stats.skills:
+                                $ skill_val = int(char.get_skill(skill))
+                                $ skill_limit = int(char.get_max_skill(skill))
+                                # We don't care about the skill if it's less than 10% of limit:
+                                if skill in base_ss or skill_val/float(skill_limit) > .1:
+                                    if skill in base_ss:
+                                        fixed:
+                                            xysize 20, 26
+                                            button:
+                                                xysize 20, 20
+                                                background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                                                action NullAction()
+                                                tooltip "This is a Class Skill!"
+                                    else:
+                                        null height 26
 
         # Level, experience ====================================>
         fixed:
@@ -1126,7 +1171,7 @@ screen char_control():
                 align (.5, .5)
                 imagebutton:
                     yalign .5
-                    
+
                     idle ('content/gfx/interface/buttons/prev.png')
                     hover (im.MatrixColor('content/gfx/interface/buttons/prev.png', im.matrix.brightness(.15)))
                     action SetField(char, "wagemod", max(0, char.wagemod-1))

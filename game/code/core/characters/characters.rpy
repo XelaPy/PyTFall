@@ -1089,6 +1089,9 @@ init -9 python:
                     skills.add(s)
             return skills
 
+        def get_base_ss(self):
+            return self.get_base_stats().union(self.get_base_skills())
+
         def _raw_skill(self, key):
             """Raw Skills:
             [action_value, training_value]

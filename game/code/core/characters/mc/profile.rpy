@@ -120,6 +120,7 @@ init:
         vbox:
             xsize 217
             pos (8, 110)
+            style_prefix "proper_stats"
 
             # NAME^   LVL   (ok for 1m lvls) ====================================>
             text (u"[hero.name]") style "TisaOTMol" size 28  xalign .492 ypos 5
@@ -140,6 +141,7 @@ init:
                 label "{color=#CDAD00}Tier " text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
                 label "{color=#CDAD00}[hero.tier]" text_font "fonts/Rubius.ttf" text_size 16 text_outlines [(1, "#3a3a3a", 0, 0)]
 
+            default base_ss = hero.stats.get_base_ss()
             if lframe_display == "status":
                 # STATS ====================================>
                 null height 20
@@ -152,6 +154,13 @@ init:
                         xysize (212, 27)
                         xalign .5
                         text "Health:" xalign .02 color "#CD4F39"
+                        if "health" in base_ss:
+                            button:
+                                xysize 20, 20
+                                offset -5, -5
+                                background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                                action NullAction()
+                                tooltip "This is a Class Stat!"
                         if hero.health <= hero.get_max("health")*0.3:
                             text (u"{color=[red]}%s/%s"%(hero.health, hero.get_max("health"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                         else:
@@ -160,6 +169,13 @@ init:
                         xysize (212, 27)
                         xalign .5
                         text "MP:" xalign .02 color "#009ACD"
+                        if "mp" in base_ss:
+                            button:
+                                xysize 20, 20
+                                offset -5, -5
+                                background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                                action NullAction()
+                                tooltip "This is a Class Stat!"
                         if hero.mp <= hero.get_max("mp")*0.3:
                             text (u"{color=[red]}%s/%s"%(hero.mp, hero.get_max("mp"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                         else:
@@ -168,6 +184,13 @@ init:
                         xysize (212, 27)
                         xalign .5
                         text "{color=#43CD80}Vitality:" xalign (.02)
+                        if "vitality" in base_ss:
+                            button:
+                                xysize 20, 20
+                                offset -5, -5
+                                background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                                action NullAction()
+                                tooltip "This is a Class Stat!"
                         if hero.vitality <= hero.get_max("vitality")*0.3:
                             text (u"{color=[red]}%s/%s"%(hero.vitality, hero.get_max("vitality"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                         else:
@@ -177,6 +200,13 @@ init:
                             xysize (212, 27)
                             xalign .5
                             text '{}'.format(stat.capitalize()) xalign .02 color "#79CDCD"
+                            if stat in base_ss:
+                                button:
+                                    xysize 20, 20
+                                    offset -5, -5
+                                    background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                                    action NullAction()
+                                    tooltip "This is a Class Stat!"
                             text ('%d/%d'%(getattr(hero, stat), hero.get_max(stat))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
 
                 null height 5
@@ -266,32 +296,51 @@ init:
             elif lframe_display == "skills":
                 null height 26
                 viewport:
-                    scrollbars "vertical"
-                    xysize(200, 500)
+                    xysize (230, 500)
                     mousewheel True
-                    has vbox spacing 4 xfill True
-
-                    for skill in hero.stats.skills:
-                        $ skill_val = int(hero.get_skill(skill))
-                        $ skill_limit = int(hero.get_max_skill(skill))
-                        # We don't care about the skill if it's less than 10% of limit:
-                        if skill_val/float(skill_limit) > .1:
-                            hbox:
-                                align .0, .9
-                                xsize 180
-                                text "{}:".format(skill.capitalize()) style_suffix "value_text" color gold xalign .0 size 12 yoffset 2
+                    vbox:
+                        xpos 10
+                        spacing 1
+                        for skill in hero.stats.skills:
+                            $ skill_val = int(hero.get_skill(skill))
+                            $ skill_limit = int(hero.get_max_skill(skill))
+                            # We don't care about the skill if it's less than 10% of limit:
+                            if skill in base_ss or skill_val/float(skill_limit) > .1:
                                 hbox:
-                                    xalign 1.0
-                                    $ step = skill_limit/10.0
-                                    for i in range(5):
-                                        if (2*step) <= skill_val:
-                                            add Transform("content/gfx/interface/icons/stars/star2.png", size=(18, 18))
-                                            $ skill_val -= 2*step
-                                        elif step <= skill_val:
-                                            add Transform("content/gfx/interface/icons/stars/star3.png", size=(18, 18))
-                                            $ skill_val -= step
-                                        else:
-                                            add Transform("content/gfx/interface/icons/stars/star1.png", size=(18, 18))
+                                    xsize 200
+                                    text "{}:".format(skill.capitalize()) style_suffix "value_text" color gold xalign .0 size 18
+                                    hbox:
+                                        xalign 1.0
+                                        yoffset 8
+                                        $ step = skill_limit/10.0
+                                        for i in range(5):
+                                            if (2*step) <= skill_val:
+                                                add Transform("content/gfx/interface/icons/stars/star2.png", size=(18, 18))
+                                                $ skill_val -= 2*step
+                                            elif step <= skill_val:
+                                                add Transform("content/gfx/interface/icons/stars/star3.png", size=(18, 18))
+                                                $ skill_val -= step
+                                            else:
+                                                add Transform("content/gfx/interface/icons/stars/star1.png", size=(18, 18))
+                    vbox:
+                        spacing 1
+                        for skill in hero.stats.skills:
+                            $ skill_val = int(hero.get_skill(skill))
+                            $ skill_limit = int(hero.get_max_skill(skill))
+                            # We don't care about the skill if it's less than 10% of limit:
+                            if skill in base_ss or skill_val/float(skill_limit) > .1:
+                                if skill in base_ss:
+                                    fixed:
+                                        xysize 20, 26
+                                        button:
+                                            xysize 20, 20
+                                            background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                                            action NullAction()
+                                            tooltip "This is a Class Skill!"
+                                else:
+                                    null height 26
+
+
 
             elif lframe_display == "friends":
                 # FRIEND LIST ====================================>
