@@ -601,9 +601,9 @@ init -11 python:
         for _ in reversed(range(tier+1)):
             if amount > 0:
                 if "neutral" in attributes:
-                    spells = tiered_magic_skills[_]
+                    spells = [s for s in tiered_magic_skills[_] if s.tier <= 10] # testing spells have tier higher than 10
                 else:
-                    spells = [s for s in tiered_magic_skills[_] if attributes.intersection(s.attributes)]
+                    spells = [s for s in tiered_magic_skills[_] if attributes.intersection(s.attributes) and s.tier <= 10]
                 shuffle(spells)
                 for s in spells:
                     if s not in char.magic_skills:

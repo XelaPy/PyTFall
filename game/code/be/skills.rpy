@@ -1206,7 +1206,7 @@ python: # Light:
     if DEBUG_BE:
         BE_Action(u"Holy Touch", menu_pos=0, attributes=["magic", "light"], effect=100000,
                   multiplier=1000.0, mp_cost=12, range=4, type="all_enemies",
-                desc="Simple way to kill all his enemies.", tier=0,
+                desc="Simple way to kill all his enemies.", tier=50,
                 attacker_effects={"gfx": "light_1", "sfx": "default"},
                 main_effect={"gfx": Transform("light_1", zoom=1.5),
                              "sfx": "content/sfx/sound/be/light1.mp3",
@@ -1313,7 +1313,7 @@ python: # Healing:
         BE_Action(u"DarkTouch", menu_pos=-99, attributes=["magic", "darkness"], effect=999999999, mp_cost=10, range=5,
             type="sa", piercing=True, true_pierce=True, test_only=True,
             desc="Sacrifices a party member in the name of an ancient dark creature from another dimension.",
-            attacker_action={"gfx": None},
+            attacker_action={"gfx": None}, tier=50,
             attacker_effects={"gfx": "runes_1", "sfx": "default"},
             main_effect={"gfx": Transform("heal_2", zoom=1.4), "sfx": "content/sfx/sound/be/heal2.mp3", "duration": 2.5, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
             target_sprite_damage_effect={"gfx": None},
