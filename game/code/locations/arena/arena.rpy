@@ -1014,7 +1014,7 @@ init -9 python:
                     if member not in battle.corpses:
                         statdict = {} # no gold for mobs, and only little bit of reputation. because they give items, unlike all other modes
                         statdict["Arena Rep"] = max(int(self.mob_power*.2), 1)
-                        statdict["exp"] = exp_reward(member, team, ap_used=.3)
+                        statdict["exp"] = exp_reward(member, loser, ap_used=.3)
                         for stat in statdict:
                             if stat == "exp":
                                 member.exp += statdict[stat]
@@ -1236,7 +1236,7 @@ init -9 python:
                         statdict["fame"] = randint(0, 1)
                         statdict["reputation"] = randint(0, 1)
                     statdict["Arena Rep"] = rep
-                    statdict["exp"] = exp_reward(member, team, ap_used=2)
+                    statdict["exp"] = exp_reward(member, loser, ap_used=2)
                     for stat, value in statdict.items():
                         if stat == "exp":
                             member.exp += value
@@ -1252,7 +1252,7 @@ init -9 python:
 
             for member in loser:
                 member.arena_rep -= rep
-                member.exp += exp_reward(member, team, ap_used=2, final_mod=.15)
+                member.exp += exp_reward(member, winner, ap_used=2, final_mod=.15)
                 self.remove_team_from_dogfights(member)
 
             for member in enemy_team:
