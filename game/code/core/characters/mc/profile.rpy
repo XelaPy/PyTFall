@@ -293,47 +293,6 @@ init:
                                         else:
                                             add Transform("content/gfx/interface/icons/stars/star1.png", size=(18, 18))
 
-            elif lframe_display == "friends":
-                # FRIEND LIST ====================================>
-                null height 26
-                viewport:
-                    xysize (200, 500)
-                    scrollbars "vertical"
-                    draggable True
-                    mousewheel True
-                    xalign .5
-                    has vbox spacing 4 xfill True
-                    $ temp = sorted(list(hero.friends | hero.lovers), key=attrgetter("name"))
-                    $ temp = list(i for i in temp if (i not in hero.chars) and i.is_available)
-                    for char in temp:
-                        $ not_escaped = char not in pytfall.ra
-                        frame:
-                            background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.6), 5, 5)
-                            top_padding 10
-                            bottom_padding 3
-                            xpadding 5
-                            xmargin 0
-                            ymargin 0
-                            xminimum 180
-                            align (.5, .5)
-                            has vbox spacing 1 xalign .5
-                            button:
-                                ypadding 1
-                                xpadding 1
-                                xmargin 0
-                                ymargin 0
-                                align (.5, .5)
-                                style "basic_choice2_button"
-                                add char.show("portrait", resize=(120, 120), cache=True) align (.5, .5)
-                                action [Hide("hero_profile"), With(dissolve), Function(friends_list_gms, char)]
-                                hovered tt.Action("Click to meet [char.name] in the city")
-
-                            text "{=TisaOTMolxm}[char.nickname]" align (.5, 1.0) yoffset 5 xmaximum 190
-                            if char in hero.lovers:
-                                add ProportionalScale("content/gfx/interface/images/love.png", 35, 35) xalign .5
-                            else:
-                                add ProportionalScale("content/gfx/interface/images/friendship.png", 35, 35) xalign .5
-
         # BUTTONS on the "bottom layer" ------------------------------------>
         hbox:
             style_group "pb"
@@ -510,7 +469,7 @@ init:
                 text "Finance" style "pb_button_text"
                 hovered tt.Action("View the log of financial information, letting you see your income and expenses")
             button:
-                action Hide("show_trait_info"), [SetScreenVariable("lframe_display", "friends"), With(dissolve)]
+                action Hide("show_trait_info"), [Show("mc_friends_list")]
                 text "Friends" style "pb_button_text"
                 hovered tt.Action("Show the list friends and lovers who don't work for [hero.name], allowing you to find them immediately when needed")
             # Items Transfer to Home Location Inventory:
@@ -898,3 +857,61 @@ init:
                 minimum (250, 30)
                 align (.5, .96)
                 text "OK"
+
+screen mc_friends_list:
+    
+    modal True
+    key "mousedown_3" action Hide("mc_friends_list")
+    frame:
+        at slide(so1=(-2000, 0), t1=.7, so2=(0, 0), t2=.3, eo2=(-2000, 0))
+        xysize (930, 450)
+        pos(210, 115)
+        background Frame("content/gfx/frame/p_frame7.png", 5, 5)
+        $ temp = sorted(list(hero.friends | hero.lovers), key=attrgetter("name"))
+        $ temp = list(i for i in temp if (i not in hero.chars) and i.is_available)
+        if temp:
+            text "Click on the character to meet her in the city" style "TisaOTMol" size 23 xalign .5
+        else:
+            text "No unhired friends/lovers" style "TisaOTMol" size 23 xalign .5
+        imagebutton:
+            align (1.0, .0)
+            idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
+            hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
+            action Hide("mc_friends_list")
+
+        vpgrid:
+            yalign 1.0
+            cols 5
+            draggable True
+            mousewheel True
+            scrollbars "vertical"
+            xysize (930, 400)
+            
+            
+            
+            for char in temp:
+                frame:
+                    background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.6), 5, 5)
+                    top_padding 10
+                    bottom_padding 3
+                    xpadding 5
+                    xmargin 0
+                    ymargin 0
+                    xminimum 180
+                    align (.5, .5)
+                    has vbox spacing 1 xalign .5
+                    button:
+                        ypadding 1
+                        xpadding 1
+                        xmargin 0
+                        ymargin 0
+                        align (.5, .5)
+                        style "basic_choice2_button"
+                        add char.show("portrait", resize=(120, 120), cache=True) align (.5, .5)
+                        action [Hide("mc_friends_list"), Hide("hero_profile"), With(dissolve), Function(friends_list_gms, char)]
+
+                    text "{=TisaOTMolxm}[char.nickname]" align (.5, 1.0) yoffset 5 xmaximum 190
+                    if char in hero.lovers:
+                        add ProportionalScale("content/gfx/interface/images/love.png", 35, 35) xalign .5
+                    else:
+                        add ProportionalScale("content/gfx/interface/images/friendship.png", 35, 35) xalign .5
