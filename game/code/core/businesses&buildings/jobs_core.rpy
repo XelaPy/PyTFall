@@ -149,7 +149,7 @@
             for key, value in self.locmod.iteritems():
                 if key == 'fame':
                     self.loc.modfame(value)
-                elif key == 'reputation':
+                elif key in ['reputation', 'rep']:
                     self.loc.modrep(value)
                 elif key in self.loc.stats: # We Handle Dirt/Security Directly now!
                     pass # self.loc.clean(value)
