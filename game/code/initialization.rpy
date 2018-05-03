@@ -30,6 +30,7 @@ init -999 python:
     import simpy
     import cPickle as pickle
     import bisect
+    import types
 
     ############## Settings and other useful stuff ###############
     # absolute path to the pytfall/game directory, which is formatted according
@@ -476,6 +477,7 @@ init python: # Locking random seed of internal renpys random
 init:
     default SKILLS_MAX = {k: 5000 for k in PytCharacter.SKILLS}
     default SKILLS_THRESHOLD = {k: 2000 for k in PytCharacter.SKILLS} # Must be exceeded before skills becomes harder to gain.
+    default DAILY_EXP_CORE = 50 # 1 lvl per 20 days give or take. This is a simple way to rebalance. 
     default just_view_next_day = False
     default char = None
     default char_equip = None

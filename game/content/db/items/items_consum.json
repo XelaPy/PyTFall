@@ -1023,7 +1023,7 @@
     "slot": "consumable",
     "type": "food",
     "cblock": 1,
-    "mod": {"exp": 300, "joy": -10},
+    "mod": {"exp": 100, "joy": -10},
     "locations": ["Cafe", "Fishing"]
     },
     {
@@ -1040,7 +1040,7 @@
     "slot": "consumable",
     "type": "food",
     "cblock": 2,
-    "mod": {"exp": 600, "vitality": 20},
+    "mod": {"exp": 250, "vitality": 20},
     "locations": ["Cafe", "Fishing"]
     },
     {

@@ -33,24 +33,26 @@ screen prison_break_controls(): # control buttons screen
                 yalign 0.5
                 action [Hide("prison_break_controls"), Play("events2", "events/letter.mp3"), Jump("storyi_map")]
                 text "Show map" size 15
-            button:
-                xysize (120, 40)
-                yalign 0.5
-                action [Hide("prison_break_controls"), Jump("mc_action_storyi_rest")]
-                text "Rest" size 15
-            if storyi_prison_location == 3:
+            if not hero.has_flag("ndd_storyi_rest"):
                 button:
                     xysize (120, 40)
                     yalign 0.5
-                    action [Hide("prison_break_controls"), Jump("storyi_treat_wounds")]
-                    text "Heal" size 15
+                    action [Hide("prison_break_controls"), Jump("mc_action_storyi_rest")]
+                    text "Rest" size 15
+            if not hero.has_flag("ndd_storyi_heal"):
+                if storyi_prison_location == 3:
+                    button:
+                        xysize (120, 40)
+                        yalign 0.5
+                        action [Hide("prison_break_controls"), Jump("storyi_treat_wounds")]
+                        text "Heal" size 15
             if storyi_prison_location == 5 and not hero.has_flag("defeated_boss_1"):
                 button:
                     xysize (120, 40)
                     yalign 0.5
                     action [Hide("prison_break_controls"), Jump("storyi_bossroom")]
                     text "Go Up" size 15
-            if storyi_prison_location in treasures:
+            if storyi_prison_location in storyi_treasures:
                 button:
                     xysize (120, 40)
                     yalign 0.5
@@ -149,6 +151,7 @@ label storyi_bossroom:
         jump game_over
 
 label mc_action_storyi_rest: # resting inside the dungeon; team may be attacked during the rest
+    $ hero.set_flag("ndd_storyi_rest")
     show bg tent with q_dissolve
     python:
         for i in hero.team:
@@ -178,9 +181,6 @@ label storyi_randomfight:  # initiates fight with random enemy team
         result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.webp", slaves=True, prebattle=False, death=False, skill_lvl=4, give_up="escape")
 
     if result is True:
-        python:
-            exp = exp_reward(hero.team, enemy_team)
-
         call storyi_show_bg from _call_storyi_show_bg_3
         play world "Theme2.ogg" fadein 2.0 loop
 
@@ -194,7 +194,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
         $ hero.add_money(money, reason="Loot")
 
         if persistent.battle_results:
-            call screen give_exp_after_battle(hero.team, exp, money)
+            call screen give_exp_after_battle(hero.team, enemy_team, money=money)
 
         show screen prison_break_controls
         jump storyi_gui_loop
@@ -205,14 +205,6 @@ label storyi_randomfight:  # initiates fight with random enemy team
         scene black
         pause 1.0
         jump forest_entrance
-
-label give_to_mc_item_reward(type="consumable", price=1000): # va calls gives to mc a random item based on type and max price
-    $ item = get_item_drops(type, price=price)
-    if item:
-        $ hero.add_item(item)
-        $ gfx_overlay.random_find(item, 'items')
-        $ hero.say("I found %s..." % item.id)
-    return
 
 label storyi_treat_wounds:
     $ j = False
@@ -225,6 +217,8 @@ label storyi_treat_wounds:
         python:
             for i in hero.team:
                 i.health = i.get_max("health")
+        $ hero.set_flag("ndd_storyi_heal")
+        "Health is restored!"
     else:
         "Everyone is healthy already."
     show screen prison_break_controls
@@ -232,7 +226,6 @@ label storyi_treat_wounds:
     jump storyi_gui_loop
 
 label storyi_start: # beginning point of the dungeon;
-    $ treasures = [1, 3, 7, 10, 11, 13]
     $ enemies = ["Skeleton", "Skeleton Warrior", "Will-o-wisp"]
     $ fight_chance = 100
     stop music
@@ -249,6 +242,7 @@ label storyi_start: # beginning point of the dungeon;
     $ storyi_prison_location = 6
     if not hero.has_flag("been_in_old_ruins"):
         $ hero.set_flag("been_in_old_ruins")
+        $ storyi_treasures = [1, 3, 7, 10, 11, 13]
         hero.say "I've found the ruins of a tower near the city."
         hero.say "It may be not safe here, but I bet there is something valuable deep inside!"
         "You can enter and exit the ruins at any point, but it will consume your AP."
@@ -315,49 +309,51 @@ label storyi_show_bg: # shows bg depending on matrix location; due to use of BE 
         $ enemies = ["Fire Spirit", "Flame Spirit", "Fiery Shadow"]
     else:
         $ enemies = ["Slime", "Alkaline Slime", "Acid Slime"]
-    if storyi_prison_location in treasures:
+    if storyi_prison_location in storyi_treasures:
         $ notify("It might be worth to search this room...")
     return
 
 label storyi_search_items:
     "You look around the room in search of something useful."
-    if storyi_prison_location == 1:
+    if not hero.has_flag("storyi_items_room_1"):
         "There is something shiny in the corner of the prison cell..."
-        call give_to_mc_item_reward(type="loot", price=100) from _call_give_to_mc_item_reward_6
-        call give_to_mc_item_reward(type="loot", price=200) from _call_give_to_mc_item_reward_7
+        $ give_to_mc_item_reward(type="loot", price=100)
+        $ give_to_mc_item_reward(type="loot", price=200)
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="loot", price=300) from _call_give_to_mc_item_reward_8
+            $ give_to_mc_item_reward(type="loot", price=300)
+        $ hero.set_flag("storyi_items_room_1")
+
     if storyi_prison_location == 3:
         "Surveying the room, you found a few portable restoration items. Sadly, others are too heavy and big to carry around."
-        call give_to_mc_item_reward(type="restore", price=100) from _call_give_to_mc_item_reward_9
-        call give_to_mc_item_reward(type="restore", price=200) from _call_give_to_mc_item_reward_10
+        $ give_to_mc_item_reward(type="restore", price=100)
+        $ give_to_mc_item_reward(type="restore", price=200)
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="restore", price=400) from _call_give_to_mc_item_reward_11
+            $ give_to_mc_item_reward(type="restore", price=400)
     elif storyi_prison_location == 7:
         "You see some old armor on the shelves."
-        call give_to_mc_item_reward(type="armor", price=500) from _call_give_to_mc_item_reward_12
-        call give_to_mc_item_reward(type="armor", price=700) from _call_give_to_mc_item_reward_13
+        $ give_to_mc_item_reward(type="armor", price=500)
+        $ give_to_mc_item_reward(type="armor", price=700)
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="armor", price=1000) from _call_give_to_mc_item_reward_14
+            $ give_to_mc_item_reward(type="armor", price=1000)
     elif storyi_prison_location == 11:
         "Among a heap of rusty blades, you see some good weapons."
-        call give_to_mc_item_reward(type="weapon", price=500) from _call_give_to_mc_item_reward_15
-        call give_to_mc_item_reward(type="weapon", price=700) from _call_give_to_mc_item_reward_16
+        $ give_to_mc_item_reward(type="weapon", price=500)
+        $ give_to_mc_item_reward(type="weapon", price=700)
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="weapon", price=1000) from _call_give_to_mc_item_reward_17
+            $ give_to_mc_item_reward(type="weapon", price=1000)
     elif storyi_prison_location == 13:
         "Most of the food is spoiled, but some of it is still edible."
-        call give_to_mc_item_reward(type="food", price=500) from _call_give_to_mc_item_reward_18
-        call give_to_mc_item_reward(type="food", price=500) from _call_give_to_mc_item_reward_19
+        $ give_to_mc_item_reward(type="food", price=500)
+        $ give_to_mc_item_reward(type="food", price=500)
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="food", price=500) from _call_give_to_mc_item_reward_20
+            $ give_to_mc_item_reward(type="food", price=500)
     elif storyi_prison_location == 10:
         "There is a pile of clothes in the corner, probably remained from the former prisoners."
-        call give_to_mc_item_reward(type="dress", price=500) from _call_give_to_mc_item_reward_21
-        call give_to_mc_item_reward(type="dress", price=500) from _call_give_to_mc_item_reward_22
+        $ give_to_mc_item_reward(type="dress", price=500)
+        $ give_to_mc_item_reward(type="dress", price=500)
         if dice(hero.luck + 100):
-            call give_to_mc_item_reward(type="dress", price=500) from _call_give_to_mc_item_reward_23
-    $ treasures.remove(storyi_prison_location)
+            $ give_to_mc_item_reward(type="dress", price=500)
+    $ storyi_treasures.remove(storyi_prison_location)
     show screen prison_break_controls
     jump storyi_gui_loop
 

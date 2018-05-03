@@ -30,20 +30,26 @@ label interactions_giftmoney:
             "She enthusiastically accepts your money. It looks like it's a considerable sum for her."
             $ a = 20
             $ b = 50
-            $ hero.exp += randint(10, 20)
-            $ char.exp += randint(10, 20)
+            # $ hero.exp += randint(10, 20)
+            # $ char.exp += randint(10, 20)
+            $ hero.exp += exp_reward(hero, char, ap_used=.33, final_mod=1.5)
+            $ char.exp += exp_reward(char, hero, ap_used=.33, final_mod=1.5)
         elif round(char.gold/money) <= 3:
             "She gratefully accepts your money. Times are tough."
             $ a = 10
             $ b = 25
-            $ hero.exp += randint(5, 10)
-            $ char.exp += randint(5, 10)
+            $ hero.exp += exp_reward(hero, char, ap_used=.33, final_mod=1.25)
+            $ char.exp += exp_reward(char, hero, ap_used=.33, final_mod=1.25)
+            # $ hero.exp += randint(5, 10)
+            # $ char.exp += randint(5, 10)
         else:
             "She takes your money."
             $ a = 5
             $ b = 15
-            $ hero.exp += randint(2, 5)
-            $ char.exp += randint(2, 5)
+            $ hero.exp += exp_reward(hero, char, ap_used=.33)
+            $ char.exp += exp_reward(char, hero, ap_used=.33)
+            # $ hero.exp += randint(2, 5)
+            # $ char.exp += randint(2, 5)
         call interactions_enough_gold from _call_interactions_enough_gold
         if char.disposition >= 90:
             $ char.disposition += round(randint(a, b)/(char.disposition*0.01))
@@ -76,7 +82,8 @@ label interactions_askmoney:
             if char.take_money(temp, reason="Charity"):
                 $ hero.add_money(temp, reason="Charity")
                 "She gave you [temp] G."
-                $ hero.exp += randint(3, 8)
+                # $ hero.exp += randint(3, 8)
+                $ hero.exp += exp_reward(hero, char, ap_used=.33)
                 $ char.disposition -= randint (20, 40)
                 $ del temp
         else:

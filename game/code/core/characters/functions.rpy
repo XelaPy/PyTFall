@@ -407,7 +407,9 @@ init -11 python:
         # And add to char! :)
         if add_to_gameworld:
             rg.log_stats()
-            store.chars["_".join([rg.id, rg.name, rg.fullname.split(" ")[1]])] = rg
+            dict_id = "_".join([rg.id, rg.name, rg.fullname.split(" ")[1]])
+            rg.dict_id = dict_id
+            store.chars[dict_id] = rg
 
         return rg
 
@@ -630,12 +632,13 @@ init -11 python:
         """
         This levels up the character, usually when it's first created.
         """
-        exp = level*(level-1)*500
-        char.stats.level = 1
-        char.exp = 0
-        char.stats.goal = 1000
-        char.stats.goal_increase = 1000
+        # exp = level*(level-1)*500
+        # char.stats.level = 1
+        # char.exp = 0
+        # char.stats.goal = 1000
+        # char.stats.goal_increase = 1000
 
+        exp = level*1000
         char.exp += exp
 
         if max_out_stats:
@@ -649,38 +652,39 @@ init -11 python:
         Adjusts experience according to a level of character.
         We will find a better way to handle experience in the future.
         '''
-        if isinstance(char, int): # A level was provided directly
-            level = char
-        else:
-            level = char.level
+        return exp
+        # if isinstance(char, int): # A level was provided directly
+        #     level = char
+        # else:
+        #     level = char.level
 
-        if char == hero:
-            if level < 10:
-                mod = 1.4
-            elif level < 30:
-                mod = 1.3
-            elif level < 40:
-                mod = 1.2
-            else:
-                mod = 1.1
-        else:
-            if level < 10:
-                mod = .9
-            elif level < 20:
-                mod = .8
-            elif level < 30:
-                mod = .75
-            elif level < 40:
-                mod = .70
-            elif level < 50:
-                mod = .65
-            elif level < 60:
-                mod = .6
-            elif level < 70:
-                mod = .5
-            else:
-                mod = .4
-        return int(math.ceil(level*exp))
+        # if char == hero:
+        #     if level < 10:
+        #         mod = 1.4
+        #     elif level < 30:
+        #         mod = 1.3
+        #     elif level < 40:
+        #         mod = 1.2
+        #     else:
+        #         mod = 1.1
+        # else:
+        #     if level < 10:
+        #         mod = .9
+        #     elif level < 20:
+        #         mod = .8
+        #     elif level < 30:
+        #         mod = .75
+        #     elif level < 40:
+        #         mod = .70
+        #     elif level < 50:
+        #         mod = .65
+        #     elif level < 60:
+        #         mod = .6
+        #     elif level < 70:
+        #         mod = .5
+        #     else:
+        #         mod = .4
+        # return int(math.ceil(level*exp))
 
     def build_client(id=None, gender="male", caste="Peasant",
                      name=None, last_name=None,
@@ -903,3 +907,62 @@ init -11 python:
                     char.mod_skill(skill, value)
 
         char.tier = round_int(tier) # Makes sure we can use float tiers
+
+    def exp_reward(char, difficulty, value=None,
+                   ap_adjust=True, ap_used=1,
+                   char_tier_override=False,
+                   final_mod=None):
+        """Adjusts the XP earned by an actor.
+
+        char: Always an actor. S(he) will gain the EXP.
+        difficulty: Ranged 1 to 10. (will be normalized otherwise).
+            This can be a number, Team or Char.
+        value: Value to award, if None, we interpolate.
+        ap_adjust: Makes sure that chars with loads of AP don't snowball.
+        ap_used: AP used for the action, can be a float!
+        char_tier_override: If not False, should be a number between 1 - 10.
+            It will be used to match difficulty against.
+        final_mod: We multiply the result with it. Could be useful when failing
+            a task, give at least 10% of the exp (for example) is to set this mod
+            to .1 in case of a failed action.
+        """
+        # Figure out the value:
+        if value is None:
+            value = DAILY_EXP_CORE
+
+        if ap_adjust:
+            value = float(value)/getattr(char, "setAP", 3) or 3 # TODO Remove getattr after Schools.
+
+        value *= ap_used
+
+        # Now let's see about the difficulty:
+        char_tier = char_tier_override or char.tier
+        if isinstance(difficulty, Team):
+            difficulty = difficulty.get_level()/20.0
+        elif isinstance(difficulty, PytCharacter):
+            difficulty = difficulty.tier
+        elif isinstance(difficulty, (float, int)):
+            difficulty = max(0, min(10, difficulty))
+        else:
+            raise Exception("Invalid difficulty type {} provided to exp_reward function.")
+
+        # Difficulty modifier:
+        # Completed task oh higher difficulty:
+        if difficulty >= char_tier:
+            diff = difficulty - char_tier
+            diff = min(2, diff)
+            mod = 1+diff/2.0 # max bonus mod possible is 2x the EXP.
+        else: # Difficulty was lower
+            diff = char_tier - difficulty
+            diff = min(2, diff)
+            if diff > 2:
+                diff = 2
+            mod = 1-diff/2.0
+
+        value *= mod
+
+        # Apply the final mod:
+        if final_mod is not None:
+            value *= final_mod
+
+        return round_int(value)

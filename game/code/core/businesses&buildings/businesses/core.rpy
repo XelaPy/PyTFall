@@ -323,14 +323,14 @@ init -12 python:
             building = self.building
 
             cost, materials, in_slots, ex_slots = building.get_extension_cost(upgrade)
-            self.in_slots += in_slots
-            self.ex_slots += ex_slots
+            building.in_slots += in_slots
+            building.ex_slots += ex_slots
 
             if pay:
                 building.pay_for_extension(cost, materials)
 
             upgrade.building = building
-            upgrade_business = self
+            upgrade.business = self
             self.upgrades.append(upgrade)
             self.upgrades.sort(key=attrgetter("SORTING_ORDER"), reverse=True)
 

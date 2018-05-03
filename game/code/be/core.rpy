@@ -885,7 +885,7 @@ init -1 python: # Core classes:
                 # Critical Strike and Evasion checks:
                 if self.delivery in ["melee", "ranged"]:
                     # Critical Hit Chance:
-                    ch = max(35, (a.luck - t.luck + 10) * .75) # No more than 35% chance? Dark: we can add items/traits field capable to increase the max chance of crit hit
+                    ch = max(0, min((a.luck - t.luck + 10) * .75, 35)) # No more than 35% chance? Dark: we can add items/traits field capable to increase the max chance of crit hit
 
                     # Items bonuses:
                     m = .0
@@ -905,7 +905,7 @@ init -1 python: # Core classes:
                         multiplier += 1.1 + self.critpower
                         effects.append("critical_hit")
                     elif ("inevitable" not in attributes): # inevitable attribute makes skill/spell undodgeable/unresistable
-                        ev = min(t.agility*.05-a.agility*.05, 15) + max(0, min(t.luck-a.luck, 15)) # Max 15 for agility and luck each...
+                        ev = max(0, min(t.agility*.05-a.agility*.05, 15) + min(t.luck-a.luck, 15)) # Max 15 for agility and luck each...
 
                         # Items bonuses:
                         temp = 0
@@ -929,6 +929,8 @@ init -1 python: # Core classes:
                         ev += temp
 
                         if t.health <= t.get_max("health")*0.25:
+                            if ev < 0:
+                                ev = 0 # Even when weighed down adrenaline takes over and allows for temporary superhuman movements
                             ev += randint(1,5) # very low health provides additional random evasion, 1-5%
 
                         if dice(ev):
@@ -2081,27 +2083,3 @@ init -1 python: # Core classes:
     def get_char_with_lowest_attr(chars, attr="hp"):
         chars.sort(key=attrgetter(attr))
         return chars[0]
-
-    def exp_reward(team, enemies): # calculates exp reward after a battle
-        team_level = team.get_level()
-        enemy_level = enemies.get_level()
-
-        if team_level <= 0:
-            team_level = 1
-        if enemy_level <= 0:
-            enemy_level = 1
-
-        difficulty = team_level - enemy_level
-        base_exp = max(20, min(difficulty*10, 200)) # Between 20 and 200.
-
-        # We can check if there were more enemies on the opfor
-        diff = len(enemies) - len(team)
-        if diff > 0: # there were more enemies, we can give more EXP for that.
-            base_exp += base_exp * (.3*diff)
-
-        if team_level >= enemy_level: # Case where we fought weak(er) enemies:
-            exp = base_exp*.7 # bit of a penalty
-            return round_int(adjust_exp(team_level, exp))
-        else:
-            exp = base_exp*1.15 # bit of a bonus
-            return round_int(adjust_exp(team_level, exp))

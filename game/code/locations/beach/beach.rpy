@@ -213,6 +213,7 @@ label mc_action_hero_ocean_skill_checks:
 label city_beach_monsters_fight:
     hide screen city_beach
     hide screen city_beach_swim
+
     python:
         enemy_team = Team(name="Enemy Team", max_size=3)
         for i in range(randint(2, 3)):
@@ -222,11 +223,13 @@ label city_beach_monsters_fight:
             enemy_team.add(mob)
         back = interactions_pick_background_for_fight("beach")
         result = run_default_be(enemy_team, background=back, give_up="escape")
+
     scene bg city_beach
+
     if result is True:
         python:
             for member in hero.team:
-                member.exp += 150
+                member.exp += exp_reward(member, enemy_team)
     elif result is False:
         "The guards managed to drive away monsters, but your wounds are deep..."
     else:

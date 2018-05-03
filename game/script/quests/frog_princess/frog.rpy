@@ -243,7 +243,7 @@ label frog_deathfight:
     if result:
         python:
             for member in hero.team:
-                member.exp += adjust_exp(member, 500)
+                member.exp += exp_reward(member, enemy_team, value=200)
     else:
         jump game_over
 
@@ -322,6 +322,7 @@ label final_frog_event:
             hide stranger
             with fade
             "You had lost a lot of time, money, and had an intimate moment with a huge man-frog. But look at the bright side. Now you know that you shouldn't trust a talking frog."
+            $ pytfall.world_events.kill_event("show_frog_final")
         "It's too disgusting":
             "The first kiss was disgusting enough. This is just too much for you. After dropping the frog you head back home thinking about what a crappy ordeal this was."
             $ pytfall.world_quests.get("Frog Princess!").finish_in_label("You could not bring yourself to kiss the frog properly...")

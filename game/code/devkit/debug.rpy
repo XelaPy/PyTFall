@@ -6,7 +6,7 @@ init -999 python:
     # config.debug = False
 
     DEBUG = True # General debugging.
-    DEBUG_LOG = True # Logging general. Crash if devlog is used and this is False.
+    DEBUG_LOG = False # Logging general. Crash if devlog is used and this is False.
     DEBUG_PROFILING = False # Loading time of various game elements.
     DEBUG_INTERACTIONS = False
 
@@ -50,3 +50,6 @@ init -999 python:
 
     # Simulated exploration:
     DEBUG_SE = False
+
+label debug_callstack:
+    return

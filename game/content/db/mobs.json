@@ -22,7 +22,7 @@
             "intelligence": 0
         },
         "skills": {},
-        "traits": ["Unknown", "Neutral", "Physical Resistance"],
+        "traits": ["Unknown", "Neutral", "Physical Resistance", "Light Weakness"],
         "attack_skills": [
 
         ],
@@ -52,7 +52,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Earth Weakness"],
         "attack_skills": [
             "Claw Slash"
         ],
@@ -82,7 +82,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Earth Weakness"],
         "attack_skills": [
             "Bow Shot"
         ],
@@ -112,7 +112,7 @@
             "intelligence": 10
         },
         "skills": {},
-        "traits": ["Monster", "Fire"],
+        "traits": ["Monster", "Fire", "Earth Weakness"],
         "attack_skills": [
             "Blunt Strike"
         ],
@@ -142,7 +142,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Earth Weakness"],
         "attack_skills": [
             "Axe Strike"
         ],
@@ -172,7 +172,7 @@
             "intelligence": 75
         },
         "skills": {},
-        "traits": ["Furry", "Air Immunity", "Ice Immunity", "Neutral"],
+        "traits": ["Furry", "Air Immunity", "Ice Immunity", "Neutral", "Fire Weakness"],
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
@@ -202,7 +202,7 @@
             "intelligence": 15
         },
         "skills": {},
-        "traits": ["Monster", "Water"],
+        "traits": ["Monster", "Water", "Ice Weakness"],
         "attack_skills": [
             "Throw"
         ],
@@ -232,7 +232,7 @@
             "intelligence": 2
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Fire Weakness"],
         "attack_skills": [
             "Claw Slash", "Bite"
         ],
@@ -262,7 +262,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Monster", "Darkness"],
+        "traits": ["Monster", "Darkness", "Fire Weakness"],
         "attack_skills": [
             "Claw Slash", "Bite"
         ],
@@ -292,7 +292,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Electricity Weakness"],
         "attack_skills": [
             "Bite"
         ],
@@ -322,7 +322,7 @@
             "intelligence": 10
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Electricity Weakness"],
         "attack_skills": [
             "Bite"
         ],
@@ -352,7 +352,7 @@
             "intelligence": 10
         },
         "skills": {},
-        "traits": ["Human", "Neutral"],
+        "traits": ["Human", "Neutral", "Electricity Weakness"],
         "attack_skills": [
             "Sword Slash 2X", "Sword Slash 6X"
         ],
@@ -382,7 +382,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Demonic Creature", "Neutral"],
+        "traits": ["Demonic Creature", "Neutral", "Earth Weakness"],
         "attack_skills": [
             "Throw"
         ],
@@ -412,7 +412,7 @@
             "intelligence": 4
         },
         "skills": {},
-        "traits": ["Furry", "Neutral"],
+        "traits": ["Furry", "Neutral", "Fire Weakness"],
         "attack_skills": [
             "Bite"
         ],
@@ -442,7 +442,7 @@
             "intelligence": 6
         },
         "skills": {},
-        "traits": ["Furry", "Neutral"],
+        "traits": ["Furry", "Neutral", "Fire Weakness"],
         "attack_skills": [
             "Bite", "Power Pack"
         ],
@@ -472,7 +472,7 @@
             "intelligence": 30
         },
         "skills": {},
-        "traits": ["Furry", "Earth"],
+        "traits": ["Furry", "Earth", "Air Weakness"],
         "attack_skills": [
             "Claw Slash", "Bite"
         ],
@@ -502,7 +502,7 @@
             "intelligence": 25
         },
         "skills": {},
-        "traits": ["Furry", "Fire", "Earth", "Minor Physical Resistance"],
+        "traits": ["Furry", "Fire", "Earth", "Minor Physical Resistance", "Air Weakness"],
         "attack_skills": [
             "Claw Slash", "Bite", "Power Pack"
         ],
@@ -532,7 +532,7 @@
             "intelligence": 6
         },
         "skills": {},
-        "traits": ["Furry", "Neutral"],
+        "traits": ["Furry", "Neutral", "Fire Weakness"],
         "attack_skills": [
             "Claw Slash", "Bite", "Power Bear"
         ],
@@ -562,7 +562,7 @@
             "intelligence": 15
         },
         "skills": {},
-        "traits": ["Monster", "Fire", "Ice Immunity", "Fire Resistance"],
+        "traits": ["Monster", "Fire", "Ice Immunity", "Fire Resistance", "Electricity Weakness"],
         "attack_skills": [
             "Cannon Shot", "Claw Slash"
         ],
@@ -592,7 +592,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Monster", "Water", "Air"],
+        "traits": ["Monster", "Water", "Air", "Electricity Weakness"],
         "attack_skills": [
             "Bite"
         ],
@@ -622,7 +622,7 @@
             "intelligence": 45
         },
         "skills": {},
-        "traits": ["Monster", "Fire", "Minor Physical Resistance"],
+        "traits": ["Monster", "Fire", "Minor Physical Resistance", "Ice Weakness"],
         "attack_skills": [
             "Cannon Shot", "Bite"
         ],
@@ -652,7 +652,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Monster", "Electricity"],
+        "traits": ["Monster", "Electricity", "Air Weakness"],
         "attack_skills": [
                    ],
         "magic_skills": ["Thunder", "Thundara", "Thundaja"
@@ -681,7 +681,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Water", "Slime"],
+        "traits": ["Water", "Slime", "Ice Weakness"],
         "attack_skills": [
             "Fist Attack"
         ],
@@ -711,7 +711,7 @@
             "intelligence": 10
         },
         "skills": {},
-        "traits": ["Water", "Slime", "Poison Absorption"],
+        "traits": ["Water", "Slime", "Poison Absorption", "Ice Weakness"],
         "attack_skills": [
             "Fist Attack"
         ],
@@ -742,7 +742,7 @@
             "intelligence": 10
         },
         "skills": {},
-        "traits": ["Water", "Slime", "Minor Physical Resistance"],
+        "traits": ["Water", "Slime", "Minor Physical Resistance", "Ice Weakness"],
         "attack_skills": [
             "Fist Attack"
         ],
@@ -773,7 +773,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Water", "Slime", "Poison Absorption"],
+        "traits": ["Water", "Slime", "Poison Absorption", "Ice Weakness"],
         "attack_skills": [
             "Fist Attack"
         ],
@@ -804,7 +804,7 @@
             "intelligence": 15
         },
         "skills": {},
-        "traits": ["Water", "Slime"],
+        "traits": ["Water", "Slime", "Ice Weakness"],
         "attack_skills": [
             "Fist Attack"
         ],
@@ -835,7 +835,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Water", "Slime", "Minor Physical Resistance"],
+        "traits": ["Water", "Slime", "Minor Physical Resistance", "Ice Weakness"],
         "attack_skills": [
             "Fist Attack"
         ],
@@ -868,7 +868,7 @@
             "intelligence": 25
         },
         "skills": {},
-        "traits": ["Demonic Creature", "Darkness"],
+        "traits": ["Demonic Creature", "Darkness", "Light Weakness"],
         "attack_skills": [
             "Sword Slash", "Toxic Core"
         ],
@@ -898,7 +898,7 @@
             "intelligence": 0
         },
         "skills": {},
-        "traits": ["Undead", "Darkness Immunity", "Neutral", "Healing Immunity", "Poison Immunity"],
+        "traits": ["Undead", "Darkness Immunity", "Neutral", "Healing Immunity", "Poison Immunity", "Light Weakness"],
         "attack_skills": [
             "Bite", "Poison"
         ],
@@ -928,7 +928,7 @@
             "intelligence": 0
         },
         "skills": {},
-        "traits": ["Undead", "Darkness Immunity", "Neutral", "Healing Immunity", "Poison Immunity"],
+        "traits": ["Undead", "Darkness Immunity", "Neutral", "Healing Immunity", "Poison Immunity", "Light Weakness"],
         "attack_skills": [
             "Sword Slash", "Sword Slash 2X"
         ],
@@ -958,7 +958,7 @@
             "intelligence": 0
         },
         "skills": {},
-        "traits": ["Undead", "Darkness Immunity", "Neutral", "Healing Immunity", "Poison Immunity"],
+        "traits": ["Undead", "Darkness Immunity", "Neutral", "Healing Immunity", "Poison Immunity", "Light Weakness"],
         "attack_skills": [
             "Blunt Strike", "Ground Shockwave"
         ],
@@ -1048,7 +1048,7 @@
             "intelligence": 60
         },
         "skills": {},
-        "traits": ["Monster", "Electricity"],
+        "traits": ["Monster", "Electricity", "Water Weakness"],
         "attack_skills": [
             "Fist Attack"
         ],
@@ -1078,7 +1078,7 @@
             "intelligence": 65
         },
         "skills": {},
-        "traits": ["Human", "Neutral"],
+        "traits": ["Human", "Neutral", "Earth Weakness"],
         "attack_skills": [
             "Dagger Strike", "Dagger Strike 4X"
         ],
@@ -1108,7 +1108,7 @@
             "intelligence": 55
         },
         "skills": {},
-        "traits": ["Human", "Neutral"],
+        "traits": ["Human", "Neutral", "Earth Weakness"],
         "attack_skills": [
             "Axe Strike", "Axe Strike 2X"
         ],
@@ -1138,7 +1138,7 @@
             "intelligence": 55
         },
         "skills": {},
-        "traits": ["Human", "Neutral"],
+        "traits": ["Human", "Neutral", "Earth Weakness"],
         "attack_skills": [
             "Bow Shot", "Poison Arrow"
         ],
@@ -1168,7 +1168,7 @@
             "intelligence": 35
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Earth Weakness"],
         "attack_skills": [
             "Sword Slash", "Projective Slash"
         ],
@@ -1198,7 +1198,7 @@
             "intelligence": 25
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Earth Weakness"],
         "attack_skills": [
             "Bow Shot", "Bow Shot 4X", "Arc Strike"
         ],
@@ -1228,7 +1228,7 @@
             "intelligence": 25
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Earth Weakness"],
         "attack_skills": [
             "Chop Rush", "Weapon Dance"
         ],
@@ -1258,7 +1258,7 @@
             "intelligence": 3
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Fire Weakness"],
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X", "Claw Slash 4X", "Sharpest Claws"
         ],
@@ -1288,7 +1288,7 @@
             "intelligence": 3
         },
         "skills": {},
-        "traits": ["Monster", "Water"],
+        "traits": ["Monster", "Water", "Fire Weakness"],
         "attack_skills": [
             "Bite"
         ],
@@ -1318,7 +1318,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity", "Neutral", "Poison Resistance", "Minor Physical Resistance"],
+        "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity", "Neutral", "Poison Resistance", "Minor Physical Resistance", "Light Weakness"],
         "attack_skills": [
             "Spray"
         ],
@@ -1348,7 +1348,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity", "Neutral", "Poison Resistance", "Minor Physical Resistance"],
+        "traits": ["Undead", "Air Immunity", "Water Immunity", "Electricity Immunity", "Neutral", "Poison Resistance", "Minor Physical Resistance", "Light Weakness"],
         "attack_skills": [
             "Bite"
         ],
@@ -1378,7 +1378,7 @@
             "intelligence": 3
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Fire Weakness"],
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X", "Sharpest Claws"
         ],
@@ -1408,7 +1408,7 @@
             "intelligence": 40
         },
         "skills": {},
-        "traits": ["Monster", "Fire", "Air Resistance"],
+        "traits": ["Monster", "Fire", "Air Resistance", "Earth Weakness"],
         "attack_skills": [
             "Claw Slash", "Bite", "Claw Slash 2X"
         ],
@@ -1438,7 +1438,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Monster", "Neutral", "Poison Resistance"],
+        "traits": ["Monster", "Neutral", "Poison Resistance", "Fire Weakness"],
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
@@ -1468,7 +1468,7 @@
             "intelligence": 3
         },
         "skills": {},
-        "traits": ["Monster", "Neutral", "Poison Resistance"],
+        "traits": ["Monster", "Neutral", "Poison Resistance", "Fire Weakness"],
         "attack_skills": [
             "Bite", "Web Vortex"
         ],
@@ -1498,7 +1498,7 @@
             "intelligence": 3
         },
         "skills": {},
-        "traits": ["Monster", "Neutral", "Poison Resistance"],
+        "traits": ["Monster", "Neutral", "Poison Resistance", "Fire Weakness"],
         "attack_skills": [
             "Bite", "Web Vortex"
         ],
@@ -1528,7 +1528,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Fire Weakness"],
         "attack_skills": [
             "Scythe Slash", "Scythe Slash 2X"
         ],
@@ -1558,7 +1558,7 @@
             "intelligence": 60
         },
         "skills": {},
-        "traits": ["Slime", "Water", "Water Immunity"],
+        "traits": ["Slime", "Water", "Water Immunity", "Electricity Weakness"],
         "attack_skills": [
             "Spray"
         ],
@@ -1588,7 +1588,7 @@
             "intelligence": 75
         },
         "skills": {},
-        "traits": ["Slime", "Water", "Darkness", "Water Immunity"],
+        "traits": ["Slime", "Water", "Darkness", "Water Immunity", "Light Weakness"],
         "attack_skills": [
             "Spray"
         ],
@@ -1618,7 +1618,7 @@
             "intelligence": 65
         },
         "skills": {},
-        "traits": ["Slime", "Water", "Electricity", "Water Immunity", "Electricity Absorption"],
+        "traits": ["Slime", "Water", "Electricity", "Water Immunity", "Electricity Absorption", "Earth Weakness"],
         "attack_skills": [
             "Spray"
         ],
@@ -1648,7 +1648,7 @@
             "intelligence": 35
         },
         "skills": {},
-        "traits": ["Monster", "Water", "Ice", "Ice Immunity", "Water Resistance"],
+        "traits": ["Monster", "Water", "Ice", "Ice Immunity", "Water Resistance", "Fire Weakness"],
         "attack_skills": [
             "Ice Slash", "Ice Slash 4X"
         ],
@@ -1678,7 +1678,7 @@
             "intelligence": 15
         },
         "skills": {},
-        "traits": ["Furry", "Air"],
+        "traits": ["Furry", "Air", "Darkness Weakness"],
         "attack_skills": [
             "Claw Slash"
         ],
@@ -1708,7 +1708,7 @@
             "intelligence": 25
         },
         "skills": {},
-        "traits": ["Furry", "Air"],
+        "traits": ["Furry", "Air", "Darkness Weakness"],
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
@@ -1738,7 +1738,7 @@
             "intelligence": 35
         },
         "skills": {},
-        "traits": ["Furry", "Air"],
+        "traits": ["Furry", "Air", "Darkness Weakness"],
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X", "Claw Slash 4X"
         ],
@@ -1768,7 +1768,7 @@
             "intelligence": 30
         },
         "skills": {},
-        "traits": ["Monster", "Earth Resistance", "Neutral", "Minor Physical Resistance"],
+        "traits": ["Monster", "Earth Resistance", "Neutral", "Minor Physical Resistance", "Water Weakness"],
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
@@ -1798,7 +1798,7 @@
             "intelligence": 80
         },
         "skills": {},
-        "traits": ["Furry", "Air", "Air Resistance"],
+        "traits": ["Furry", "Air", "Air Resistance", "Electricity Weakness"],
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
@@ -1828,7 +1828,7 @@
             "intelligence": 10
         },
         "skills": {},
-        "traits": ["Monster", "Darkness", "Minor Physical Resistance", "Poison Resistance"],
+        "traits": ["Monster", "Darkness", "Minor Physical Resistance", "Poison Resistance", "Light Weakness"],
         "attack_skills": [
             "Claw Slash", "Bite"
         ],
@@ -1858,7 +1858,7 @@
             "intelligence": 50
         },
         "skills": {},
-        "traits": ["Furry", "Darkness"],
+        "traits": ["Furry", "Darkness", "Light Weakness"],
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
@@ -1888,7 +1888,7 @@
             "intelligence": 55
         },
         "skills": {},
-        "traits": ["Furry", "Earth"],
+        "traits": ["Furry", "Earth", "Ice Weakness"],
         "attack_skills": [
             "Bow Shot", "Poison Arrow"
         ],
@@ -1918,7 +1918,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Air Weakness"],
         "attack_skills": [
             "Axe Strike", "Axe Strike 2X", "Axe Strike 4X"
         ],
@@ -1948,7 +1948,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Furry", "Neutral"],
+        "traits": ["Furry", "Neutral", "Air Weakness"],
         "attack_skills": [
             "Axe Strike", "Axe Strike 2X"
         ],
@@ -1978,7 +1978,7 @@
             "intelligence": 15
         },
         "skills": {},
-        "traits": ["Monster", "Fire", "Fire Immunity"],
+        "traits": ["Monster", "Fire", "Fire Immunity", "Air Weakness"],
         "attack_skills": [
             "Bite"
         ],
@@ -2008,7 +2008,7 @@
             "intelligence": 50
         },
         "skills": {},
-        "traits": ["Monster", "Air"],
+        "traits": ["Monster", "Air", "Darkness Weakness"],
         "attack_skills": [
             "Bite"
         ],
@@ -2038,7 +2038,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Furry", "Neutral"],
+        "traits": ["Furry", "Neutral", "Fire Weakness"],
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X", "Power Bear"
         ],
@@ -2068,7 +2068,7 @@
             "intelligence": 75
         },
         "skills": {},
-        "traits": ["Monster", "Water"],
+        "traits": ["Monster", "Water", "Fire Weakness"],
         "attack_skills": [
             "Gun Shot"
         ],
@@ -2098,7 +2098,7 @@
             "intelligence": 30
         },
         "skills": {},
-        "traits": ["Monster", "Poison Immunity"],
+        "traits": ["Monster", "Poison Immunity", "Fire Weakness"],
         "attack_skills": ["Claw Slash 2X", "Claw Slash 4X", "Rapid Strikes", "Sharpest Claws"
             
         ],
@@ -2128,7 +2128,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Android", "Neutral", "Electricity Immunity"],
+        "traits": ["Android", "Neutral", "Electricity Immunity", "Earth Weakness"],
         "attack_skills": [
             "Throw"
         ],
@@ -2158,7 +2158,7 @@
             "intelligence": 70
         },
         "skills": {},
-        "traits": ["Android", "Electricity"],
+        "traits": ["Android", "Electricity", "Earth Weakness"],
         "attack_skills": [
 
         ],
@@ -2188,7 +2188,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Monster", "Earth", "Poison Immunity"],
+        "traits": ["Monster", "Earth", "Poison Immunity", "Air Weakness"],
         "attack_skills": [
             "Fist Attack", "Stone Fist"
         ],
@@ -2218,7 +2218,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Monster", "Earth", "Earth Immunity", "Poison Immunity"],
+        "traits": ["Monster", "Earth", "Earth Immunity", "Poison Immunity", "Water Weakness"],
         "attack_skills": [
             "Fist Attack", "Stone Fist"
         ],
@@ -2248,7 +2248,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Monster", "Earth", "Fire", "Fire Immunity", "Earth Absorption", "Poison Immunity"],
+        "traits": ["Monster", "Earth", "Fire", "Fire Immunity", "Earth Absorption", "Poison Immunity", "Ice Weakness"],
         "attack_skills": [
             "Fist Attack", "Stone Fist"
         ],
@@ -2278,7 +2278,7 @@
             "intelligence": 10
         },
         "skills": {},
-        "traits": ["Monster", "Earth", "Earth Resistance"],
+        "traits": ["Monster", "Earth", "Earth Resistance", "Electricity Weakness"],
         "attack_skills": [
             "Fist Attack 2X", "Fist Attack 4X", "Fire Barrage"
         ],
@@ -2308,7 +2308,7 @@
             "intelligence": 80
         },
         "skills": {},
-        "traits": ["Fire Absorption", "Fire", "Physical Resistance"],
+        "traits": ["Fire Absorption", "Fire", "Physical Resistance", "Ice Weakness"],
         "attack_skills": [
 
         ],
@@ -2338,7 +2338,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Monster", "Earth", "Earth Absorption", "Physical Resistance"],
+        "traits": ["Monster", "Earth", "Earth Absorption", "Physical Resistance", "Electricity Weakness"],
         "attack_skills": [
             "Bite"
         ],
@@ -2368,7 +2368,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Air Weakness"],
         "attack_skills": [
             "Sword Slash"
         ],
@@ -2398,7 +2398,7 @@
             "intelligence": 25
         },
         "skills": {},
-        "traits": ["Darkness", "Monster", "Poison Resistance"],
+        "traits": ["Darkness", "Monster", "Poison Resistance", "Air Weakness"],
         "attack_skills": [
             "Claw Slash", "Bite", "Claw Slash 2X"
         ],
@@ -2428,7 +2428,7 @@
             "intelligence": 10
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Air Weakness"],
         "attack_skills": [
             "Fist Attack 2X", "Fist Attack 4X"
         ],
@@ -2458,7 +2458,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Air Weakness"],
         "attack_skills": [
             "Blunt Strike"
         ],
@@ -2488,7 +2488,7 @@
             "intelligence": 15
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Air Weakness"],
         "attack_skills": [
             "Fist Attack 2X", "Fist Attack 4X"
         ],
@@ -2518,7 +2518,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Darkness", "Undead", "Darkness Immunity", "Minor Physical Resistance", "Healing Immunity", "Poison Immunity"],
+        "traits": ["Darkness", "Undead", "Darkness Immunity", "Minor Physical Resistance", "Healing Immunity", "Poison Immunity", "Light Weakness"],
         "attack_skills": [
             "Claw Slash", "Bite", "Claw Slash 2X", "Claw Slash 4X"
         ],
@@ -2548,7 +2548,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Monster", "Neutral", "Minor Physical Resistance"],
+        "traits": ["Monster", "Neutral", "Minor Physical Resistance", "Electricity Weakness"],
         "attack_skills": [
             "Blunt Strike"
         ],
@@ -2578,7 +2578,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Monster", "Neutral"],
+        "traits": ["Monster", "Neutral", "Electricity Weakness"],
         "attack_skills": [
             "Axe Strike", "Axe Strike 2X"
         ],
@@ -2608,7 +2608,7 @@
             "intelligence": 40
         },
         "skills": {},
-        "traits": ["Elf", "Earth", "Earth Immunity", "Water Absorption", "Poison Absorption"],
+        "traits": ["Elf", "Earth", "Earth Immunity", "Water Absorption", "Poison Absorption", "Fire Weakness"],
         "attack_skills": [
             "Whip Strike"
         ],
@@ -2638,7 +2638,7 @@
             "intelligence": 45
         },
         "skills": {},
-        "traits": ["Monster", "Earth"],
+        "traits": ["Monster", "Earth", "Fire Weakness"],
         "attack_skills": [
             "Spray"
         ],
@@ -2668,7 +2668,7 @@
             "intelligence": 45
         },
         "skills": {},
-        "traits": ["Human", "Earth", "Water", "Air", "Poison Immunity"],
+        "traits": ["Human", "Earth", "Water", "Air", "Poison Immunity", "Fire Weakness"],
         "attack_skills": [
             "Blunt Strike"
         ],
@@ -2698,7 +2698,7 @@
             "intelligence": 40
         },
         "skills": {},
-        "traits": ["Elf", "Earth", "Minor Physical Resistance"],
+        "traits": ["Elf", "Earth", "Minor Physical Resistance", "Fire Weakness"],
         "attack_skills": [
             
         ],
@@ -2728,7 +2728,7 @@
             "intelligence": 0
         },
         "skills": {},
-        "traits": ["Monster", "Water Absorption", "Earth Absorption", "Air Absorption", "Light Absorption", "Earth"],
+        "traits": ["Monster", "Water Absorption", "Earth Absorption", "Air Absorption", "Light Absorption", "Earth", "Fire Weakness", "Ice Weakness"],
         "attack_skills": [
             "Bite"
         ],
@@ -2758,7 +2758,7 @@
             "intelligence": 40
         },
         "skills": {},
-        "traits": ["Monster", "Earth", "Earth Immunity", "Water Absorption", "Poison Absorption"],
+        "traits": ["Monster", "Earth", "Earth Immunity", "Water Absorption", "Poison Absorption", "Fire Weakness"],
         "attack_skills": [
             "Whip Strike"
         ],
@@ -2788,7 +2788,7 @@
             "intelligence": 40
         },
         "skills": {},
-        "traits": ["Monster", "Earth", "Water", "Water Resistance"],
+        "traits": ["Monster", "Earth", "Water", "Water Resistance", "Fire Weakness"],
         "attack_skills": [
         ],
         "magic_skills": ["Water", "Watera", "Stone", "Stonera", "Solid Shield"
@@ -2907,7 +2907,7 @@
             "intelligence": 85
         },
         "skills": {},
-        "traits": ["Elf", "Darkness"],
+        "traits": ["Elf", "Darkness", "Light Weakness"],
         "attack_skills": [
             "Dark Shot", "Midnight Arrow"
         ],
@@ -3057,7 +3057,7 @@
             "intelligence": 85
         },
         "skills": {},
-        "traits": ["Human", "Neutral"],
+        "traits": ["Human", "Neutral", "Light Weakness"],
         "attack_skills": [
             "Poisoned Dagger", "Shadow Kunai"
         ],
@@ -3177,7 +3177,7 @@
             "intelligence": 40
         },
         "skills": {},
-        "traits": ["Air", "Air Immunity", "Undead"],
+        "traits": ["Air", "Air Immunity", "Undead", "Earth Weakness"],
         "attack_skills": [
 
         ],
@@ -3207,7 +3207,7 @@
             "intelligence": 30
         },
         "skills": {},
-        "traits": ["Water", "Water Immunity", "Undead"],
+        "traits": ["Water", "Water Immunity", "Undead", "Fire Weakness"],
         "attack_skills": [
 
         ],
@@ -3237,7 +3237,7 @@
             "intelligence": 35
         },
         "skills": {},
-        "traits": ["Fire", "Fire Immunity", "Undead"],
+        "traits": ["Fire", "Fire Immunity", "Undead", "Ice Weakness"],
         "attack_skills": [
 
         ],
@@ -3297,7 +3297,7 @@
             "intelligence": 60
         },
         "skills": {},
-        "traits": ["Divine Creature", "Light", "Light Immunity"],
+        "traits": ["Divine Creature", "Light", "Light Immunity", "Darkness Weakness"],
         "attack_skills": [
             "Light Slash"
         ],
@@ -3327,7 +3327,7 @@
             "intelligence": 70
         },
         "skills": {},
-        "traits": ["Divine Creature", "Light", "Light Absorption", "Minor Physical Resistance"],
+        "traits": ["Divine Creature", "Light", "Light Absorption", "Minor Physical Resistance", "Darkness Weakness"],
         "attack_skills": [
             "Light Slash", "Angelic Rain"
         ],
@@ -3357,7 +3357,7 @@
             "intelligence": 80
         },
         "skills": {},
-        "traits": ["Divine Creature", "Light", "Light Absorption", "Minor Physical Resistance"],
+        "traits": ["Divine Creature", "Light", "Light Absorption", "Minor Physical Resistance", "Darkness Weakness"],
         "attack_skills": [
             "Blunt Strike"
         ],
@@ -3387,7 +3387,7 @@
             "intelligence": 75
         },
         "skills": {},
-        "traits": ["Furry", "Fire", "Fire Absorption", "Electricity Immunity", "Air Immunity", "Physical Resistance", "Poison Immunity"],
+        "traits": ["Furry", "Fire", "Fire Absorption", "Electricity Immunity", "Air Immunity", "Physical Resistance", "Poison Immunity", "Ice Weakness", "Water Weakness"],
         "attack_skills": [
             "Claw Slash", "Bite"
         ],
@@ -3417,7 +3417,7 @@
             "intelligence": 77
         },
         "skills": {},
-        "traits": ["Divine Creature", "Light", "Light Absorption", "Darkness Immunity", "Minor Physical Resistance"],
+        "traits": ["Divine Creature", "Light", "Light Absorption", "Darkness Immunity", "Minor Physical Resistance", "Darkness Weakness"],
         "attack_skills": [
             "Light Slash"
         ],
@@ -3447,7 +3447,7 @@
             "intelligence": 40
         },
         "skills": {},
-        "traits": ["Demonic Creature", "Darkness"],
+        "traits": ["Demonic Creature", "Darkness", "Light Weakness"],
         "attack_skills": [
 
         ],
@@ -3477,7 +3477,7 @@
             "intelligence": 50
         },
         "skills": {},
-        "traits": ["Demonic Creature", "Darkness", "Darkness Immunity"],
+        "traits": ["Demonic Creature", "Darkness", "Darkness Immunity", "Light Weakness"],
         "attack_skills": [
 
         ],
@@ -3507,7 +3507,7 @@
             "intelligence": 60
         },
         "skills": {},
-        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption", "Minor Physical Resistance"],
+        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption", "Minor Physical Resistance", "Light Weakness"],
         "attack_skills": [
 
         ],
@@ -3537,7 +3537,7 @@
             "intelligence": 66
         },
         "skills": {},
-        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption", "Physical Absorption"],
+        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption", "Physical Absorption", "Light Weakness"],
         "attack_skills": [
 
         ],
@@ -3567,7 +3567,7 @@
             "intelligence": 66
         },
         "skills": {},
-        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption", "Physical Immunity"],
+        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption", "Physical Immunity", "Light Weakness"],
         "attack_skills": [
             "Whip Strike", "Shocker Whip"
         ],
@@ -3597,7 +3597,7 @@
             "intelligence": 10
         },
         "skills": {},
-        "traits": ["Android", "Neutral", "Electricity Absorption", "Air Absorption", "Water Absorption", "Minor Physical Resistance"],
+        "traits": ["Android", "Neutral", "Electricity Absorption", "Air Absorption", "Water Absorption", "Minor Physical Resistance", "Earth Weakness"],
         "attack_skills": [
             "Blunt Strike", "Ground Shockwave"
         ],
@@ -3627,7 +3627,7 @@
             "intelligence": 15
         },
         "skills": {},
-        "traits": ["Furry", "Ice Resistance"],
+        "traits": ["Furry", "Ice Resistance", "Earth Weakness"],
         "attack_skills": [
             "Claw Slash", "Bite", "Power Pack"
         ],
@@ -3657,7 +3657,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Furry", "Ice Resistance"],
+        "traits": ["Furry", "Ice Resistance", "Earth Weakness"],
         "attack_skills": [
             "Claw Slash", "Bite", "Power Bear"
         ],
@@ -3687,7 +3687,7 @@
             "intelligence": 15
         },
         "skills": {},
-        "traits": ["Monster", "Ice Immunity", "Neutral"],
+        "traits": ["Monster", "Ice Immunity", "Neutral", "Earth Weakness"],
         "attack_skills": [
             "Axe Strike", "Axe Strike 4X", "Axe Strike 2X"
         ],
@@ -3717,7 +3717,7 @@
             "intelligence": 15
         },
         "skills": {},
-        "traits": ["Monster", "Ice Immunity", "Neutral"],
+        "traits": ["Monster", "Ice Immunity", "Neutral", "Air Weakness"],
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
@@ -3747,7 +3747,7 @@
             "intelligence": 55
         },
         "skills": {},
-        "traits": ["Monster", "Fire Immunity", "Ice Immunity", "Neutral", "Air Resistance"],
+        "traits": ["Monster", "Fire Immunity", "Ice Immunity", "Neutral", "Air Resistance", "Air Weakness"],
         "attack_skills": [
             "Axe Strike", "Axe Strike 2X"
         ],
@@ -3777,7 +3777,7 @@
             "intelligence": 25
         },
         "skills": {},
-        "traits": ["Monster", "Ice Immunity", "Neutral"],
+        "traits": ["Monster", "Ice Immunity", "Neutral", "Air Weakness"],
         "attack_skills": [
             "Ice Axe Strike"
         ],
@@ -3807,7 +3807,7 @@
             "intelligence": 65
         },
         "skills": {},
-        "traits": ["Human", "Ice Absorption", "Ice", "Poison Resistance", "Minor Physical Resistance"],
+        "traits": ["Human", "Ice Absorption", "Ice", "Poison Resistance", "Minor Physical Resistance", "Fire Weakness"],
         "attack_skills": [
 
         ],
@@ -3837,7 +3837,7 @@
             "intelligence": 5
         },
         "skills": {},
-        "traits": ["Monster", "Ice Absorption", "Ice", "Physical Resistance"],
+        "traits": ["Monster", "Ice Absorption", "Ice", "Physical Resistance", "Fire Weakness"],
         "attack_skills": [
             "Claw Slash 2X", "Claw Slash 4X"
         ],
@@ -3867,7 +3867,7 @@
             "intelligence": 85
         },
         "skills": {},
-        "traits": ["Monster", "Ice Absorption", "Ice", "Physical Weakness"],
+        "traits": ["Monster", "Ice Absorption", "Ice", "Physical Weakness", "Fire Weakness"],
         "attack_skills": [
 
         ],
@@ -3897,7 +3897,7 @@
             "intelligence": 85
         },
         "skills": {},
-        "traits": ["Human", "Ice Absorption", "Ice", "Physical Immunity", "Poison Resistance"],
+        "traits": ["Human", "Ice Absorption", "Ice", "Physical Immunity", "Poison Resistance", "Fire Weakness"],
         "attack_skills": [
 
         ],
@@ -3927,7 +3927,7 @@
             "intelligence": 35
         },
         "skills": {},
-        "traits": ["Undead", "Darkness", "Poison Resistance", "Minor Physical Resistance"],
+        "traits": ["Undead", "Darkness", "Poison Resistance", "Minor Physical Resistance", "Light Weakness"],
         "attack_skills": [
 
         ],
@@ -3957,7 +3957,7 @@
             "intelligence": 0
         },
         "skills": {},
-        "traits": ["Undead", "Darkness", "Darkness Immunity", "Healing Immunity", "Poison Immunity", "Minor Physical Resistance"],
+        "traits": ["Undead", "Darkness", "Darkness Immunity", "Healing Immunity", "Poison Immunity", "Minor Physical Resistance", "Light Weakness"],
         "attack_skills": [
             "Claw Slash"
         ],
@@ -3987,7 +3987,7 @@
             "intelligence": 50
         },
         "skills": {},
-        "traits": ["Undead", "Darkness Immunity", "Neutral", "Poison Immunity"],
+        "traits": ["Undead", "Darkness Immunity", "Neutral", "Poison Immunity", "Light Weakness"],
         "attack_skills": [
             "Bite"
         ],
@@ -4017,7 +4017,7 @@
             "intelligence": 40
         },
         "skills": {},
-        "traits": ["Undead", "Darkness", "Darkness Absorption", "Minor Physical Resistance"],
+        "traits": ["Undead", "Darkness", "Darkness Absorption", "Minor Physical Resistance", "Light Weakness"],
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
@@ -4047,7 +4047,7 @@
             "intelligence": 50
         },
         "skills": {},
-        "traits": ["Undead", "Darkness", "Darkness Absorption", "Poison Immunity", "Physical Resistance"],
+        "traits": ["Undead", "Darkness", "Darkness Absorption", "Poison Immunity", "Physical Resistance", "Light Weakness"],
         "attack_skills": [
             "Claw Slash"
         ],
@@ -4077,7 +4077,7 @@
             "intelligence": 10
         },
         "skills": {},
-        "traits": ["Undead", "Darkness Immunity", "Darkness", "Physical Immunity", "Poison Absorption", "Healing Immunity"],
+        "traits": ["Undead", "Darkness Immunity", "Darkness", "Physical Immunity", "Poison Absorption", "Healing Immunity", "Light Weakness", "Fire Weakness"],
         "attack_skills": [
             "Claw Slash 4X", "Bite"
         ],
@@ -4107,7 +4107,7 @@
             "intelligence": 35
         },
         "skills": {},
-        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption", "Minor Physical Resistance"],
+        "traits": ["Demonic Creature", "Darkness", "Darkness Absorption", "Minor Physical Resistance", "Light Weakness"],
         "attack_skills": [
             "Sword Slash", "Solar Incision", "Soul Blade"
         ],
@@ -4137,7 +4137,7 @@
             "intelligence": 70
         },
         "skills": {},
-        "traits": ["Monster", "Fire Absorption", "Fire", "Light Absorption", "Light"],
+        "traits": ["Monster", "Fire Absorption", "Fire", "Light Absorption", "Light", "Ice Weakness"],
         "attack_skills": [
             "Claw Slash", "Claw Slash 2X"
         ],
@@ -4167,7 +4167,7 @@
             "intelligence": 50
         },
         "skills": {},
-        "traits": ["Unknown", "Electricity", "Electricity Absorption", "Physical Immunity", "Poison Resistance"],
+        "traits": ["Unknown", "Electricity", "Electricity Absorption", "Physical Immunity", "Poison Resistance", "Earth Weakness"],
         "attack_skills": [
 
         ],
@@ -4197,7 +4197,7 @@
             "intelligence": 50
         },
         "skills": {},
-        "traits": ["Unknown", "Water", "Fire", "Water Absorption", "Physical Immunity", "Poison Resistance"],
+        "traits": ["Unknown", "Water", "Fire", "Water Absorption", "Physical Immunity", "Poison Resistance", "Air Weakness"],
         "attack_skills": [
 
         ],
@@ -4227,7 +4227,7 @@
             "intelligence": 30
         },
         "skills": {},
-        "traits": ["Monster", "Darkness Absorption", "Darkness", "Healing Immunity", "Poison Immunity", "Physical Resistance"],
+        "traits": ["Monster", "Darkness Absorption", "Darkness", "Healing Immunity", "Poison Immunity", "Physical Resistance", "Light Weakness"],
         "attack_skills": [
 
         ],
@@ -4317,7 +4317,7 @@
             "intelligence": 85
         },
         "skills": {},
-        "traits": ["Monster", "Fire", "Fire Absorption", "Physical Resistance", "Poison Resistance"],
+        "traits": ["Monster", "Fire", "Fire Absorption", "Physical Resistance", "Poison Resistance", "Ice Weakness", "Water Weakness"],
         "attack_skills": [
 
         ],
@@ -4347,7 +4347,7 @@
             "intelligence": 40
         },
         "skills": {},
-        "traits": ["Monster", "Fire", "Fire Absorption", "Darkness", "Darkness Immunity", "Air Immunity", "Minor Physical Resistance"],
+        "traits": ["Monster", "Fire", "Fire Absorption", "Darkness", "Darkness Immunity", "Air Immunity", "Minor Physical Resistance", "Light Weakness"],
         "attack_skills": [
             "Claw Slash 2X"
         ],
@@ -4377,7 +4377,7 @@
             "intelligence": 20
         },
         "skills": {},
-        "traits": ["Darkness Absorption", "Darkness", "Physical Absorption", "Poison Absorption"],
+        "traits": ["Darkness Absorption", "Darkness", "Physical Absorption", "Poison Absorption", "Light Weakness"],
         "attack_skills": [
             "Scythe Slash", "Scythe Slash 2X", "Steel Assault"
         ],
@@ -4407,7 +4407,7 @@
             "intelligence": 80
         },
         "skills": {},
-        "traits": ["Undead", "Fire", "Darkness", "Healing Immunity", "Poison Immunity", "Physical Resistance"],
+        "traits": ["Undead", "Fire", "Darkness", "Healing Immunity", "Poison Immunity", "Physical Resistance", "Light Weakness", "Water Weakness"],
         "attack_skills": [
             "Spray"
         ],
@@ -4437,7 +4437,7 @@
             "intelligence": 80
         },
         "skills": {},
-        "traits": ["Undead", "Electricity", "Darkness", "Healing Immunity", "Poison Immunity", "Physical Resistance"],
+        "traits": ["Undead", "Electricity", "Darkness", "Healing Immunity", "Poison Immunity", "Physical Resistance", "Earth Weakness"],
         "attack_skills": [
             "Spray"
         ],
@@ -4467,7 +4467,7 @@
             "intelligence": 55
         },
         "skills": {},
-        "traits": ["Monster", "Fire", "Fire Immunity", "Poison Immunity", "Physical Resistance"],
+        "traits": ["Monster", "Fire", "Fire Immunity", "Poison Immunity", "Physical Resistance", "Water Weakness"],
         "attack_skills": [
             "Bite"
         ],
@@ -4497,7 +4497,7 @@
             "intelligence": 55
         },
         "skills": {},
-        "traits": ["Monster", "Electricity", "Electricity Immunity", "Poison Immunity", "Physical Resistance"],
+        "traits": ["Monster", "Electricity", "Electricity Immunity", "Poison Immunity", "Physical Resistance", "Earth Weakness"],
         "attack_skills": [
             "Bite"
         ],
@@ -4527,7 +4527,7 @@
             "intelligence": 55
         },
         "skills": {},
-        "traits": ["Monster", "Darkness", "Darkness Immunity", "Poison Immunity", "Physical Resistance"],
+        "traits": ["Monster", "Darkness", "Darkness Immunity", "Poison Immunity", "Physical Resistance", "Light Weakness"],
         "attack_skills": [
             "Bite"
         ],
@@ -4557,7 +4557,7 @@
             "intelligence": 55
         },
         "skills": {},
-        "traits": ["Monster", "Water", "Water Immunity", "Poison Immunity", "Physical Resistance"],
+        "traits": ["Monster", "Water", "Water Immunity", "Poison Immunity", "Physical Resistance", "Electricity Weakness"],
         "attack_skills": [
             "Bite"
         ],
@@ -4587,7 +4587,7 @@
             "intelligence": 55
         },
         "skills": {},
-        "traits": ["Monster", "Air", "Air Immunity", "Poison Immunity", "Physical Resistance"],
+        "traits": ["Monster", "Air", "Air Immunity", "Poison Immunity", "Physical Resistance", "Earth Weakness"],
         "attack_skills": [
             "Bite"
         ],

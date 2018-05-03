@@ -13,7 +13,7 @@ label escaped_girl_recapture(event):
     else:
         hero.say "Wait! Is that?..{w} It is!"
 
-        "You sneak forwards carefully, trying hard not to alert your pray.\nWhen you get close enough..."
+        "You sneak forwards carefully, trying hard not to alert your prey.\nWhen you get close enough..."
 
         hero.say "Ah ha!{nw}"
 

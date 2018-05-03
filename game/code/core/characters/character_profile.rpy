@@ -24,8 +24,9 @@ label char_profile:
                             python:
                                 hero.remove_char(char)
                                 girls.remove(char)
-                                char.dispoition -= 300
-                                if char in hero.team: hero.team.remove(char)
+                                char.disposition -= 400
+                                if char in hero.team:
+                                    hero.team.remove(char)
                             if girls:
                                 $ index = (index+1) % len(girls)
                                 $ char = girls[index]
@@ -73,9 +74,7 @@ label char_profile:
                                     char.workplace = None
                                     set_location(char, char.home)
                             else:
-                                if char.disposition >= 0:
-                                    if char.disposition >= 500:
-                                        $ char.disposition -= 50
+                                if char.disposition >= 500:
                                     $ block_say = True
                                     call interactions_good_goodbye from _call_interactions_good_goodbye
                                     $ block_say = False
@@ -83,7 +82,9 @@ label char_profile:
                                     $ block_say = True
                                     call interactions_bad_goodbye from _call_interactions_bad_goodbye
                                     $ block_say = False
+                                    
                                 python:
+                                    char.disposition -= 400
                                     char.home = locations["City Apartments"]
                                     char.action = None
                                     char.workplace = None

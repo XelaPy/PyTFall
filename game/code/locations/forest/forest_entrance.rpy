@@ -115,10 +115,10 @@ screen forest_entrance():
                 action [Hide("forest_entrance"), Jump("peevish_menu"), With(dissolve)]
                 tooltip "Peevishes Shop"
                 
-    $ img_forest_wood = ProportionalScale("content/gfx/interface/icons/wood_cut.png", 90, 90)
-    imagebutton:
-        pos(1120, 460)
-        idle (img_forest_wood)
-        hover (im.MatrixColor(img_forest_wood, im.matrix.brightness(.15)))
-        action [Hide("forest_entrance"), Jump("mc_action_wood_cutting"), With(dissolve)]
-        tooltip "Trees Cutting"
+        $ img_forest_wood = ProportionalScale("content/gfx/interface/icons/wood_cut.png", 90, 90)
+        imagebutton:
+            pos(1120, 460)
+            idle (img_forest_wood)
+            hover (im.MatrixColor(img_forest_wood, im.matrix.brightness(.15)))
+            action [Hide("forest_entrance"), Jump("mc_action_wood_cutting"), With(dissolve)]
+            tooltip "Trees Cutting"

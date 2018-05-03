@@ -822,7 +822,9 @@ init -9 python:
             ec = store.pytfall.economy
             tax = 0
             income = 0
-            for b in [i for i in char.buildings if hasattr(i, "fin")]:
+            taxable_buildings = [i for i in char.buildings if hasattr(i, "fin")]
+
+            for b in taxable_buildings:
                 fin_log = b.fin.game_logical_income_log
                 for _day in fin_log:
                     if _day > store.day - days:
@@ -838,7 +840,7 @@ init -9 python:
                 # We have no choice but to do the whole routine again :(
                 # Final value may be off but +/- 1 gold due to rounding
                 # in this simplefied code. I may perfect this one day...
-                for b in [i for i in char.buildings if hasattr(i, "fin")]:
+                for b in taxable_buildings:
                     fin_log = b.fin.game_logical_income_log
                     for _day in fin_log:
                         if _day > store.day - days:
@@ -1214,7 +1216,7 @@ init -9 python:
             self.exp = value
 
             while self.exp >= self.goal:
-                self.goal_increase += 1000
+                # self.goal_increase += 1000
                 self.goal += self.goal_increase
                 self.level += 1
 
@@ -1359,7 +1361,8 @@ init -9 python:
                            base_purpose, sub_purpose, limit_tier=False,
                            chance_func=None, min_value=-5,
                            upto_skill_limit=False,
-                           check_money=False):
+                           check_money=False,
+                           smart_ownership_limit=True):
             """
             weigh items in inventory based on stats.
 
@@ -1393,7 +1396,17 @@ init -9 python:
             # most_weights = {slot: 0 for slot in weighted}
 
             for item in inventory:
-                if item.slot not in weighted:
+                slot = item.slot
+                if smart_ownership_limit:
+                    owned = count_owned_items(char, item)
+                    if slot == "ring" and owned >= 3:
+                        continue
+                    elif slot == "consumable" and owned >= 5:
+                        continue
+                    elif owned >= 1:
+                        continue
+
+                if slot not in weighted:
                     aeq_debug("Ignoring item {} on slot.".format(item.id))
                     continue
 
@@ -1402,7 +1415,7 @@ init -9 python:
                     continue
 
                 # If no purpose is valid for the item, we want nothing to do with it.
-                if item.slot not in ("misc", "consumable"):
+                if slot not in ("misc", "consumable"):
                     purpose = base_purpose.union(sub_purpose.union(["Any"]))
                     if not purpose.intersection(item.pref_class):
                         aeq_debug("Ignoring item {} on purpose.".format(item.id))
@@ -1428,7 +1441,7 @@ init -9 python:
                     continue
 
                 # Handle purposes:
-                if item.slot not in ("misc", "consumable"):
+                if slot not in ("misc", "consumable"):
                     temp = base_purpose.intersection(item.pref_class)
                     if temp:
                         # Perfect match, could be important for
@@ -1518,7 +1531,7 @@ init -9 python:
                                 aeq_debug("Unusual mod value for skill {}: {}".format(skill, mod_val))
                             weights.append(mod_val)
 
-                weighted[item.slot].append([weights, item])
+                weighted[slot].append([weights, item])
 
 
     class Pronouns(_object):
@@ -1632,6 +1645,9 @@ init -9 python:
             self.AP = 3
             self.baseAP = 3
             self.reservedAP = 0
+            self.setAP = 0 # This is set to the AP calculated for that day.
+            self.jobpoints = 0
+
 
             # Locations and actions, most are properties with setters and getters.
             self._location = None # Present Location.
@@ -1795,8 +1811,6 @@ init -9 python:
 
             # Action tracking (AutoRest job for instance):
             self.previousaction = ''
-
-            self.jobpoints = 0
 
             self.clear_img_cache()
 
@@ -2355,7 +2369,8 @@ init -9 python:
             # if str(self.home) == "Studio Apartment":
             #     ap += 1
 
-            return self.baseAP + ap
+            self.setAP = self.baseAP + ap
+            return self.setAP
 
         def get_free_ap(self):
             """
@@ -2380,7 +2395,7 @@ init -9 python:
             *kind = is a string referring to the NPC
             """
             # Any training:
-            self.exp += self.adjust_exp(randint(20, max(25, self.luck)))
+            self.exp += exp_reward(self, self.tier)
 
             if kind == "train_with_witch":
                 self.magic += randint(1, 3)
@@ -2671,7 +2686,7 @@ init -9 python:
             real_weapons: Do we equip real weapon types (*Broom is now considered a weapon as well)
             base_purpose: What we're equipping for, used to check vs item.pref_class (list)
             sub_purpose: Same as above but less weight (list)
-            If not purpose is matched only 'Any' items will be used.
+                If not purpose is matched only 'Any' items will be used.
 
 
             So basically the way this works ATM is like this:
@@ -2745,7 +2760,8 @@ init -9 python:
                                       upto_skill_limit=upto_skill_limit,
                                       min_value=min_value,
                                       base_purpose=base_purpose,
-                                      sub_purpose=sub_purpose)
+                                      sub_purpose=sub_purpose,
+                                      smart_ownership_limit=False)
 
             returns = list() # We return this list with all items used during the method.
 
@@ -2931,7 +2947,8 @@ init -9 python:
         def auto_buy(self, item=None, amount=1, slots=None, casual=False,
                      equip=False, container=None, purpose=None,
                      check_money=True, inv=None,
-                     limit_tier=False, direct_equip=False):
+                     limit_tier=False, direct_equip=False,
+                     smart_ownership_limit=True):
             """Gives items a char, usually by 'buying' those,
             from the container that host all items that can be
             sold in PyTFall.
@@ -2949,6 +2966,12 @@ init -9 python:
                 we use.
             direct_equip: Special arg, only when building the char, we can just equip
                 the item they 'auto_buy'.
+            smart_ownership_limit: Limit the total amount of item char can buy.
+                if char has this amount or more of that item:
+                    3 of the same rings max.
+                    1 per any eq_slot.
+                    5 cons items max.
+                item will not be concidered for purchase.
 
             Simplify!
 
@@ -2984,6 +3007,7 @@ init -9 python:
                                       upto_skill_limit=upto_skill_limit,
                                       min_value=min_value, check_money=check_money,
                                       limit_tier=limit_tier,
+                                      smart_ownership_limit=smart_ownership_limit,
                                       **kwargs)
 
             rv = [] # List of item name strings we return in case we need to report
@@ -4307,11 +4331,11 @@ init -9 python:
             if self.fin.income_tax_debt:
                 temp = "Your standing income tax debt to the government: %d Gold." % self.fin.income_tax_debt
                 txt.append(temp)
+
             # Income Taxes:
             income, tax = self.fin.get_income_tax(log_finances=True)
             temp = "Over the past week your taxable income amounted to: {color=[gold]}%d Gold{/color}.\n" % income
             txt.append(temp)
-
             if income < 5000:
                 s0 = "You may consider yourself lucky as any sum below 5000 Gold is not taxable."
                 s1 = "Otherwise the government would have totally ripped you off :)"
@@ -4334,7 +4358,7 @@ init -9 python:
                 else:
                     s0 = "\nYou've did not have enough money..."
                     s1 = "Be advised that if your debt to the government reaches 50000,"
-                    s2 = "they will start indiscriminately confiscate your property."
+                    s2 = "they will indiscriminately confiscate your property until it is paid in full."
                     s3 = "(meaning that you will loose everything that you own at repo prices).\n"
                     else_srt = " ".join([s0, s1, s2, s3])
 
@@ -4898,7 +4922,7 @@ init -9 python:
                                "\n\n%s went to town to relax, take her mind of things and maybe even do some shopping!\n" % self.nickname])
                 txt.append(temp)
 
-                result = self.auto_buy(amount=randint(3, 7))
+                result = self.auto_buy(amount=randint(1, 2))
                 if result:
                     temp = choice(["{color=[green]}She bought {color=[blue]}%s %s{/color} for herself. This brightened her mood a bit!{/color}\n\n"%(", ".join(result), plural("item",len(result))),
                                    "{color=[green]}She got her hands on {color=[blue]}%s %s{/color}! She's definitely in better mood because of that!{/color}\n\n"%(", ".join(result),

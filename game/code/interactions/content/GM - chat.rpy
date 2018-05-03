@@ -11,25 +11,37 @@ label interactions_smalltalk:
             $ char.joy -= randint(0,1)
         $ del m
         jump girl_interactions
-    if dice(randint(40,60)) and dice(char.joy) and m < 3:
+    if dice(randint(40, 60)) and dice(char.joy) and m < 3:
         if char.disposition >= 50:
             $ narrator(choice(["You feel especially close."]))
             $ char.joy += randint(0, 1)
             $ char.disposition += randint(0, 1)
-            $ hero.exp += randint(0, 1)
-            $ char.exp += randint(0, 1)
+            # $ hero.exp += randint(0, 1)
+            # $ char.exp += randint(0, 1)
+            $ hero.exp += exp_reward(hero, char, ap_used=.33)
+            $ char.exp += exp_reward(char, hero, ap_used=.33)
+
         else:
             $ narrator(choice(["[char.pC] was much more approachable."]))
-            $ hero.exp += randint(0, 1)
-            $ char.exp += randint(0, 1)
+            # $ hero.exp += randint(0, 1)
+            # $ char.exp += randint(0, 1)
+            $ hero.exp += exp_reward(hero, char, ap_used=.33)
+            $ char.exp += exp_reward(char, hero, ap_used=.33)
             $ char.disposition += randint(1, 4)
 
     if char.disposition >= 100:
         if ct("Impersonal") or ct("Dandere") or ct("Shy"):
-            $ narrator(choice(["[char.pC] didn't talked much, but [char.pC] enjoyed your company nevertheless.", "You had to do most of the talking, but [char.p] listened you with a smile.", "[char.pC] welcomed the chance to spend some time with you.", "[char.pC] is visibly at ease when talking to you, even though [char.p] didn't talked much."]))
+            $ narrator(choice(["[char.pC] didn't talked much, but [char.pC] enjoyed your company nevertheless.",
+                               "You had to do most of the talking, but [char.p] listened you with a smile.",
+                               "[char.pC] welcomed the chance to spend some time with you.",
+                               "[char.pC] is visibly at ease when talking to you, even though [char.p] didn't talked much."]))
         else:
-            $ narrator(choice(["It was quite a friendly chat.", "You gossiped like close friends.", "[char.pC] welcomed the chance to spend some time with you.", "[char.pC] is visibly at ease when talking to you.", "You both have enjoyed the conversation."]))
-    elif char.disposition >=-100:
+            $ narrator(choice(["It was quite a friendly chat.",
+                               "You gossiped like close friends.",
+                               "[char.pC] welcomed the chance to spend some time with you.",
+                               "[char.pC] is visibly at ease when talking to you.",
+                               "You both have enjoyed the conversation."]))
+    elif char.disposition >= -100:
         if ct("Impersonal") or ct("Dandere") or ct("Shy"):
             $ narrator(choice(["But there was a lot of awkward silence.", "But you had to do most of the talking.", "There is no sign of [char.op] opening up to you yet.", "But it was kind of one-sided."]))
         else:
@@ -48,8 +60,10 @@ label interactions_smalltalk:
         $ char.disposition += 1
     else:
         $ char.joy += 1
-    $ hero.exp += randint(1, 3)
-    $ char.exp += randint(1, 3)
+    # $ hero.exp += randint(1, 3)
+    # $ char.exp += randint(1, 3)
+    $ hero.exp += exp_reward(hero, char, ap_used=.33)
+    $ char.exp += exp_reward(char, hero, ap_used=.33)
     $ del m
     jump girl_interactions
 
@@ -64,7 +78,10 @@ label girl_interactions_aboutjob: # TO DO: here would help additional logic base
         $ del m
         jump girl_interactions
     $ del m
-    $ hero.exp += randint(1, 2)
+
+    # $ hero.exp += randint(1, 2)
+    $ hero.exp += exp_reward(hero, char, ap_used=.33)
+
     if char.flag("daysemployed") < 5:
         # Less than 10 days in service:
         $ char.override_portrait("portrait", "indifferent")
@@ -254,14 +271,18 @@ label interactions_abouther:
         if dice(randint(40,60)) and dice(char.joy-20) and m < 2:
             if char.disposition >= 400:
                 $ narrator(choice(["You feel especially close."]))
-                $ hero.exp += randint(2, 4)
-                $ char.exp += randint(2, 4)
+                # $ hero.exp += randint(2, 4)
+                # $ char.exp += randint(2, 4)
+                $ hero.exp += exp_reward(hero, char, ap_used=.33)
+                $ char.exp += exp_reward(char, hero, ap_used=.33)
                 $ char.joy += randint(0, 1)
                 $ char.disposition += randint(1, 2)
             else:
                 $ narrator(choice(["She was much more approachable."]))
-                $ hero.exp += randint(2, 4)
-                $ char.exp += randint(2, 4)
+                # $ hero.exp += randint(2, 4)
+                # $ char.exp += randint(2, 4)
+                $ hero.exp += exp_reward(hero, char, ap_used=.33)
+                $ char.exp += exp_reward(char, hero, ap_used=.33)
                 $ char.disposition += randint(2, 6)
 
         $ result = round(randint(4, 10)+ char.joy*0.04 - m - char.disposition*0.015)
@@ -269,8 +290,10 @@ label interactions_abouther:
             $ result = randint(1,2)
         $ char.disposition += result
         $ del m
-        $ hero.exp += randint(4, 8)
-        $ char.exp += randint(4, 8)
+        # $ hero.exp += randint(4, 8)
+        # $ char.exp += randint(4, 8)
+        $ hero.exp += exp_reward(hero, char, ap_used=.33)
+        $ char.exp += exp_reward(char, hero, ap_used=.33)
         $ gm_abouther_list = []
         if ct("Half-Sister"):
             if ct("Yandere"):
@@ -499,7 +522,10 @@ label interactions_aboutoccupation:
         $ char.disposition -= randint(1,m)
         $ del m
         jump girl_interactions
-    $ hero.exp += randint(1, 2)
+
+    # $ hero.exp += randint(1, 2)
+    $ hero.exp += exp_reward(hero, char, ap_used=.33)
+
     if char.disposition > -250:
         if cgo("Combatant") and not (cgo("Caster")):
             $ rc("I was trained to fight.", "I have combat training.", "I know how to fight.", "I know how to behave on the battlefield.")
@@ -546,15 +572,20 @@ label interactions_interests:
         if dice(randint(40,60)) and dice(char.joy-20) and m < 2:
             if char.disposition >= 400:
                 $ narrator(choice(["You feel especially close."]))
-                $ hero.exp += randint(2, 4)
-                $ char.exp += randint(2, 4)
+                # $ hero.exp += randint(2, 4)
+                # $ char.exp += randint(2, 4)
+                $ hero.exp += exp_reward(hero, char, ap_used=.15)
+                $ char.exp += exp_reward(char, hero, ap_used=.15)
                 $ char.joy += randint(0, 1)
                 $ char.disposition += randint(1, 2)
             else:
                 $ narrator(choice(["She was much more approachable."]))
-                $ hero.exp += randint(2, 4)
-                $ char.exp += randint(2, 4)
+                # $ hero.exp += randint(2, 4)
+                # $ char.exp += randint(2, 4)
+                $ hero.exp += exp_reward(hero, char, ap_used=.15)
+                $ char.exp += exp_reward(char, hero, ap_used=.15)
                 $ char.disposition += randint(2, 6)
+
         $ line = rts(char, {
         "Exhibitionist": ["[char.pC] tells you pretty hot stories about [char.op] exhibitionistic adventures in a local park."],
         "Athletic": ["You discuss beach volleyball which became quite popular among local girls lately.", "You discuss places for swimming. It looks like most girls prefer beaches to pools because it's free."],
@@ -607,8 +638,10 @@ label interactions_interests:
         if result <= 0:
             $ result = 1
         $ char.disposition += result
-        $ hero.exp += randint(4, 8)
-        $ char.exp += randint(4, 8)
+
+        $ hero.exp += exp_reward(hero, char, ap_used=.20)
+        $ char.exp += exp_reward(char, hero, ap_used=.20)
+
         $ del m
         if char.joy >= 65:
             if dice(char.joy-20):
@@ -668,13 +701,18 @@ label interactions_flirt:
 
     if char.disposition > 100 and dice(char.disposition*0.4 + (hero.charisma*0.1) - 5*m):
         $ char.override_portrait("portrait", "shy")
-        $ hero.exp += randint(5, 15)
-        $ char.exp += randint(5, 15)
+        # $ hero.exp += randint(5, 15)
+        # $ char.exp += randint(5, 15)
+
+        $ hero.exp += exp_reward(hero, char, ap_used=.33)
+        $ char.exp += exp_reward(char, hero, ap_used=.33)
         $ result = round(randint(8, 20)+ char.joy*0.04 - m*2 - char.disposition*0.015)
         if result <= 0:
-            $ result = randint(1,2)
+            $ result = randint(1, 2)
         $ char.disposition += result
+
         $ del m
+        
         if ct("Impersonal"):
             $ rc("To express it in words is very difficult...", "Infatuation and love are different. Infatuation will fade, but love's memory continues forever.", "I think it is a good thing to be loved by someone.")
         elif ct("Shy") and dice(40):

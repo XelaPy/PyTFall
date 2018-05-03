@@ -16,9 +16,8 @@ label cafe:
     if global_flags.flag("waitress_chosen_today") != day:
 
         $ cafe_waitress_who = npcs[(choice(["Mel_cafe", "Monica_cafe", "Chloe_cafe"]))]
-        $ w = cafe_waitress_who.say
-        # $ cafe_waitress_who = (choice(["npc cafe_mel_novel", "npc cafe_monica_novel", "npc cafe_chloe_novel"]))
         $ global_flags.set_flag("waitress_chosen_today", value=day)
+    $ w = cafe_waitress_who.say
 
     # $ renpy.show(cafe_waitress_who, at_list=[left])
     show expression cafe_waitress_who.get_vnsprite() as npc
@@ -30,7 +29,7 @@ label cafe:
         $ global_flags.set_flag('visited_cafe')
         $ hero.set_flag("health_bonus_from_eating_in_cafe", value=0)
         w "Welcome to the Cafe!"
-        "Here you can buy food and tasty beverages!"
+        "Here you can find delicious food and tasty beverages!"
     $ inviting_character = hero
     if dice(50) and len(hero.team)>1 and hero.flag("ate_in_cafe") != day: # the chance for a member of MC team to invite team
         python:
@@ -90,15 +89,15 @@ screen cafe_eating():
         has vbox
         textbutton "Shop":
             action [Hide("cafe_eating"), Jump("cafe_shopping")]
-        
+
         textbutton "Eat alone":
             sensitive hero.flag("ate_in_cafe") != day
             action [Hide("cafe_eating"), Jump("mc_action_cafe_eat_alone")]
-                
+
         textbutton "Eat with group":
             sensitive len(hero.team)>1 and hero.flag("ate_in_cafe") != day
             action [Hide("cafe_eating"), Jump("cafe_eat_group")]
-                
+
         textbutton "Leave":
             action [Hide("cafe_eating"), Jump("main_street")]
             keysym "mousedown_3"
@@ -128,8 +127,8 @@ label mc_action_cafe_eat_alone:
                     $ result += "{color=[green]} +%d Vitality{/color}" % result_v
                 if result_m > 0:
                     $ result += "{color=[blue]} +%d MP{/color}" % result_m
-                $ hero.say ("%s" % result)
-                $ hero.exp +=5
+                $ hero.say("%s" % result)
+                $ hero.exp += exp_reward(hero, hero)
                 $ del result
                 $ del result_v
                 $ del result_m
@@ -166,7 +165,7 @@ label mc_action_cafe_eat_alone:
                 if result_h > 0:
                     $ result += "{color=[red]} +%d Health{/color}" % result_h
                 $ hero.say ("%s" % result)
-                $ hero.exp +=10
+                $ hero.exp += exp_reward(hero, hero)
                 $ del result
                 $ del result_v
                 $ del result_m
@@ -216,7 +215,7 @@ label mc_action_cafe_eat_alone:
                 if result_h > 0:
                     $ result += "{color=[red]} +%d Health{/color}" % result_h
                 $ hero.say ("%s" % result)
-                $ hero.exp +=15
+                $ hero.exp += exp_reward(hero, hero)
                 $ del result
                 $ del result_v
                 $ del result_m

@@ -7,6 +7,9 @@ init -9 python:
         This really looks like this should be a function at the moment,
             but we will add more relevant methods in the future.
         '''
+        RCD = {"SIW": 0, "Specialist": 0,
+               "Combatant": 0, "Server": 0,
+               "Healer": 0} # All genereal occupations for rchar population
         def __init__(self):
             # Maps
             # self.maps = xml_to_dict(content_path('db/maps.xml'))
@@ -47,10 +50,12 @@ init -9 python:
             self.show_text = False
             self.todays_first_view = True
 
-            self.rc_pop_distr = {"SIW": 30, "Specialist": 10,
-                                   "Combatant": 30, "Server": 15,
-                                   "Healer": 5}
-            self.rc_population = 70
+            self.rc_free_pop_distr = {"SIW": 30, "Specialist": 10,
+                                      "Combatant": 30, "Server": 15,
+                                      "Healer": 5}
+            self.rc_free_population = 40
+            self.rc_slave_pop_distr = {"SIW": 60, "Server": 40}
+            self.rc_slave_population = 30
 
         def init_shops(self):
             # Shops:
@@ -97,69 +102,107 @@ init -9 python:
                 fighter.vitality = fighter.get_max("vitality")
 
         def populate_world(self, tier_offset=.0):
-            # all world rchars in the game:
-            rcs = list(c for c in chars.values() if
-                       c.__class__ == rChar and
-                       not c.arena_active and
-                       c not in hero.chars)
+            # Get all rcahrs in the game and sort by status.
+            rc_free = []
+            rc_slaves = []
+            sm = pytfall.sm
+            for c in chars.values():
+                if c.__class__ != rChar:
+                    continue
+                if c.arena_active: # Check if this is correct...
+                    continue
+                if c in hero.chars:
+                    continue
 
-            required = self.rc_population - len(rcs)
+                if c.status == "free":
+                    rc_free.append(c)
+                else:
+                    rc_slaves.append(c)
+
+            for c in rc_slaves[:]:
+                if c.get_flag("days_in_game", 0) > 10:
+                    id = getattr(c, "dict_id", "_".join([c.id, c.name, c.fullname.split(" ")[1]]))
+                    rc_slaves.remove(c)
+                    if c in sm.chars_list:
+                        sm.chars_list.remove(c)
+                    if id in store.chars:
+                        del(store.chars[id])
+
+            for c in rc_free[:]:
+                if c.get_flag("days_in_game", 0) > 20 and c.disposition <= 0:
+                    id = getattr(c, "dict_id", "_".join([c.id, c.name, c.fullname.split(" ")[1]]))
+                    rc_free.remove(c)
+                    store.gm.remove_girl(c) # gm is poorly named and can be overwritten...
+                    if id in store.chars:
+                        del(store.chars[id])
+
+            self.populate_rchars(rc_free, "free", tier_offset=tier_offset)
+            self.populate_rchars(rc_slaves, "slave", tier_offset=tier_offset)
+
+        def populate_rchars(self, ingame_rchars, status, tier_offset=.0):
+            if status == "free":
+                distibution_wanted = self.rc_free_pop_distr.copy()
+                rchar_wanted = self.rc_free_population
+            else:
+                distibution_wanted = self.rc_slave_pop_distr.copy()
+                rchar_wanted = self.rc_slave_population
+
+            required = rchar_wanted - len(ingame_rchars)
             if required <= 0:
                 return
 
             # Distribution of the above:
-            rcd = {"SIW": 0, "Specialist": 0,
-                   "Combatant": 0, "Server": 0,
-                   "Healer": 0}
-            distr = rcd.copy()
-            new_rcs = rcd.copy()
+            current_distibution_raw = self.RCD.copy()
+            wanted_distibution_perc = self.RCD.copy()
+            distibution = self.RCD.copy()
 
-            for c in rcs:
+            for c in ingame_rchars:
                 if "SIW" in c.gen_occs:
-                    rcd["SIW"] += 1
+                    current_distibution_raw["SIW"] += 1
                 if "Specialist" in c.gen_occs:
-                    rcd["Specialist"] += 1
+                    current_distibution_raw["Specialist"] += 1
                 if "Combatant" in c.gen_occs:
-                    rcd["Combatant"] += 1
+                    current_distibution_raw["Combatant"] += 1
                 if "Server" in c.gen_occs:
-                    rcd["Server"] += 1
+                    current_distibution_raw["Server"] += 1
                 if "Healer" in c.traits:
-                    rcd["Healer"] += 1
-            total = sum(rcd.values())
-            if not total:
-                distr = self.rc_pop_distr
-            else:
-                for key, value in rcd.items():
-                    distr[key] = 100.0*value/total
-                for key, value in self.rc_pop_distr.items():
-                    distr[key] = max(1, value-distr[key])
+                    current_distibution_raw["Healer"] += 1
 
-            total = float(sum(distr.values()))
-            for key, value in distr.items():
-                new_rcs[key] = round_int(total*value/required)
+            total = sum(current_distibution_raw.values())
+            if not total:
+                wanted_distibution_perc = distibution_wanted
+            else:
+                for key, value in current_distibution_raw.items():
+                    wanted_distibution_perc[key] = 100.0*value/total
+                for key, value in distibution_wanted.items():
+                    wanted_distibution_perc[key] = max(0, value-wanted_distibution_perc[key])
+
+            total = float(sum(wanted_distibution_perc.values()))
+            for key, value in wanted_distibution_perc.items():
+                distibution[key] = round_int(required*value/total)
 
             # We are done with distibution, now tiers:
-            for bt_group, amount in new_rcs.items():
+            for bt_group, amount in distibution.items():
                 for i in range(amount):
                     if dice(1): # Super char!
-                        tier = hero.tier + uniform(3.0, 5.0)
+                        tier = hero.tier + uniform(2.5, 4.0)
                     elif dice(20): # Decent char.
                         tier = hero.tier + uniform(1.0, 2.5)
                     else: # Ok char...
-                        tier = hero.tier + uniform(.2, 1.5)
+                        tier = hero.tier + uniform(.1, 1.0)
                     tier += tier_offset
 
                     if bt_group in ["Combatant", "Specialist", "Healer"]:
+                        if DEBUG and status == "slave":
+                            devlog.warning("Tried to populate with weird slave {}!".format())
                         status = "free"
-                    else:
-                        status = "slave" if dice(55) else "free"
 
-                    if status == "slave":
-                        give_civilian_items = True
-                        give_bt_items = False
-                    else:
+                    if status == "free":
                         give_civilian_items = True
                         give_bt_items = True
+                    else:
+                        give_civilian_items = True
+                        give_bt_items = False
 
                     build_rc(bt_group=bt_group,
                              set_locations=True,
@@ -167,7 +210,7 @@ init -9 python:
                              tier=tier, tier_kwargs=None,
                              give_civilian_items=give_civilian_items,
                              give_bt_items=give_bt_items,
-                             spells_to_tier=False)
+                             spells_to_tier=False) # Do we want this for mages?
 
         # ----------------------------------------->
         def next_day(self): # TODO for review: why restocking can't be automatic for all existing shops?
@@ -220,6 +263,7 @@ init -9 python:
                     elif flag.startswith("_jobs"):
                         char.del_flag(flag)
 
+                char.up_counter("days_in_game")
                 char.log_stats()
 
             businesses = [b for b in hero.buildings if isinstance(b, UpgradableBuilding)]

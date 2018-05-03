@@ -180,8 +180,9 @@ label city_dark_forest_hideout:
 
         $ j += 1
 
-    if persistent.battle_results:
-        call screen give_exp_after_battle(hero.team, exp)
+    # Could be wrong... but this looks like double :(
+    # if persistent.battle_results:
+    #     call screen give_exp_after_battle(hero.team, exp)
 
     show screen city_dark_forest
     scene bg forest_hideout
@@ -189,16 +190,16 @@ label city_dark_forest_hideout:
 
     "After killing all bandits, you found stash with loot."
 
-    call give_to_mc_item_reward(type="loot", price=300) from _call_give_to_mc_item_reward
+    $ give_to_mc_item_reward(type="loot", price=300)
     if locked_dice(50):
-        call give_to_mc_item_reward(type="loot", price=300) from _call_give_to_mc_item_reward_1
-    call give_to_mc_item_reward(type="restore", price=100) from _call_give_to_mc_item_reward_2
+        $ give_to_mc_item_reward(type="loot", price=300)
+    $ give_to_mc_item_reward(type="restore", price=100)
     if locked_dice(50):
-        call give_to_mc_item_reward(type="restore", price=200) from _call_give_to_mc_item_reward_3
+        $ give_to_mc_item_reward(type="restore", price=200)
     if locked_dice(50):
-        call give_to_mc_item_reward(type="armor", price=300) from _call_give_to_mc_item_reward_4
+        $ give_to_mc_item_reward(type="armor", price=300)
     if locked_dice(50):
-        call give_to_mc_item_reward(type="weapon", price=300) from _call_give_to_mc_item_reward_5
+        $ give_to_mc_item_reward(type="weapon", price=300)
     jump forest_dark_continue
 
 label city_dark_forest_hideout_fight:
@@ -214,10 +215,9 @@ label city_dark_forest_hideout_fight:
     $ place = interactions_pick_background_for_fight("forest")
     $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=False, give_up="escape")
     if result is True:
-        $ exp = exp_reward(hero.team, enemy_team)
         scene expression forest_location
         if persistent.battle_results:
-            call screen give_exp_after_battle(hero.team, exp)
+            call screen give_exp_after_battle(hero.team, enemy_team)
     elif result is False:
         jump game_over
     return
@@ -298,8 +298,8 @@ label city_dark_forest_fight:
                 mob = build_mob(id=mob_id, level=levels)
                 mob.controller = Complex_BE_AI(mob)
                 enemy_team.add(mob)
-    elif mob == "rat":
-        "A pack of foul-smelling rats picks you for dinner."
+    elif mob == "undead":
+        "A group of decayed skeletons rise from the ground."
         python:
             for i in range(3):
                 mob_id = choice(["Skeleton", "Skeleton Warrior"])
@@ -326,9 +326,9 @@ label city_dark_forest_fight:
             $ gfx_overlay.random_find(item, 'items')
             $ hero.add_item(item)
 
-        $ exp = exp_reward(hero.team, enemy_team)
         if persistent.battle_results:
-            call screen give_exp_after_battle(hero.team, exp)
+            call screen give_exp_after_battle(hero.team, enemy_team)
+
         jump forest_dark_continue
     elif result is False:
         jump game_over

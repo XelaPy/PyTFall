@@ -245,33 +245,39 @@ init -5 python:
                 log.logws("joy", -2)
                 log.append("Customers clearly were unimpressed by %s looks, to say at least. Such a cold reception was not encouraging for the poor girl at all..." % worker.name)
 
+            # Award EXP:
+            if effectiveness >= 90:
+                log.logws("exp", exp_reward(worker, log.loc.tier))
+            else:
+                log.logws("exp", exp_reward(worker, log.loc.tier, final_mod=.5))
+
             log.append("\n")
             if skill >= 170:
                 log.append("She gave an amazing performance, her sexy and elegant moves forced a few customers to come right away to their own embarrassment.")
-                log.logws("exp", randint(250, 500))
+                # log.logws("exp", randint(250, 500))
                 log.logloc("reputation", choice([0, 1]))
                 log.logws("joy", 3)
             elif skill >= 150:
                 log.append("She gave a performance worthy of kings and queens as the whole hall was cheering for her.")
-                log.logws("exp", randint(100, 200))
+                # log.logws("exp", randint(100, 200))
                 log.logloc("reputation", choice([0, 0, 1]))
                 log.logws("joy", 2)
             elif skill >= 130:
                 log.append("She lost all of her clothing piece by piece as she gracefully danced on the floor, the whole hall was cheering for her.")
-                log.logws("exp", randint(50, 120))
+                # log.logws("exp", randint(50, 120))
                 log.logws("joy", 2)
             elif skill >= 100:
                 log.append("She lost all of her clothing piece by piece as she danced on the floor, some mildly drunk clients cheered for her.")
-                log.logws("exp", randint(40, 75))
+                # log.logws("exp", randint(40, 75))
                 log.logws("joy", 1)
             elif skill >= 75:
                 log.append("She danced to the best of her ability but her skills could definitely be improved.")
-                log.logws("exp", randint(35, 45))
+                # log.logws("exp", randint(35, 45))
             elif skill >= 50:
                 log.append("She barely knew what she was doing. Her performance can hardly be called a striptease, but at least she showed enough skin to arouse some men and women in the club.")
-                log.logws("exp", randint(20, 35))
+                # log.logws("exp", randint(20, 35))
             else:
-                log.logws("exp", randint(15, 25))
+                # log.logws("exp", randint(15, 25))
                 if worker.charisma >= 200:
                     log.append("She tripped several times while trying to undress herself as she 'stripdanced' on the floor. Still, she was pretty enough to arouse some men and women in the club.")
                 else:

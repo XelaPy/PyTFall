@@ -1,5 +1,5 @@
 init -1 python:
-    register_event("found_sad_cat_1", locations=["main_street"], run_conditions=["dice(100)"], priority=5000, dice=0, start_day=1, restore_priority=0, jump=True, max_runs=1)
+    register_event("found_sad_cat_1", locations=["main_street"], run_conditions=["dice(100)"], priority=5000, dice=0, start_day=1, restore_priority=0, jump=True, times_per_days=(1,0))
 
 label found_sad_cat_1:
     hide screen main_street
@@ -17,7 +17,7 @@ label found_sad_cat_1:
             hide expression temp with dissolve
             hero.say "Maybe a treat of some kind will help? I suppose cats like fish..."
             $ pytfall.world_events.kill_event("found_sad_cat_1", cached=True)
-            $ register_event_in_label("found_sad_cat_2", locations=["main_street"], run_conditions=["dice(100)"], priority=5000, dice=0, start_day=1, restore_priority=0, jump=True)
+            $ register_event_in_label("found_sad_cat_2", locations=["main_street"], run_conditions=["dice(100)"], priority=5000, dice=0, start_day=day+1, restore_priority=0, jump=True, times_per_days=(1,0))
         "Ignore it":
             "There are plenty of cats in the city. No need to pay any attention."
         "Drive it away":
@@ -50,7 +50,7 @@ label found_sad_cat_2:
                 hero.say "What an ungrateful animal..."
                 $ hero.remove_item(random.choice(fish).id)
                 $ pytfall.world_events.kill_event("found_sad_cat_2", cached=True)
-                $ register_event_in_label("found_sad_cat_3", locations=["main_street"], run_conditions=["dice(100)"], priority=5000, dice=0, start_day=1, restore_priority=0, jump=True)
+                $ register_event_in_label("found_sad_cat_3", locations=["main_street"], run_conditions=["dice(100)"], priority=5000, dice=0, start_day=day+1, restore_priority=0, jump=True, times_per_days=(1,0))
             "Maybe later":
                 hero.say "I have a more important business to attend right now."
                 hide temp with dissolve
@@ -84,7 +84,7 @@ label found_sad_cat_3:
                 hero.say "It wasn't as frightened today... I guess."
                 $ hero.remove_item(random.choice(fish).id)
                 $ pytfall.world_events.kill_event("found_sad_cat_3", cached=True)
-                $ register_event_in_label("found_sad_cat_4", locations=["main_street"], run_conditions=["dice(100)"], priority=5000, dice=0, start_day=1, restore_priority=0, jump=True)
+                $ register_event_in_label("found_sad_cat_4", locations=["main_street"], run_conditions=["dice(100)"], priority=5000, dice=0, start_day=day+1, restore_priority=0, jump=True)
             "Maybe later":
                 hero.say "I have a more important business to attend right now."
                 hide temp with dissolve

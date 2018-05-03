@@ -60,7 +60,7 @@ label city_events_thugs_robbery:
                         renpy.jump("city_events_thugs_robbery_lost")
                     else:
                         for member in your_team:
-                            member.exp += adjust_exp(member, 50)
+                            member.exp += exp_reward(member, enemy_team)
                             if member in battle.corpses:
                                 member.health = 1
                         renpy.jump("city_events_thugs_robbery_win")
@@ -79,7 +79,7 @@ label city_events_thugs_robbery_lost:
     show expression npcs["street_thug"].get_vnsprite() as npc with dissolve
     t "Huuh? That's it?!"
     if hero.gold > 0:
-        t "I'm taking you gold to give you a lesson: don't start a battle you can't win, idiot."
+        t "I'm taking your gold to give you a lesson: don't start a battle you can't win, idiot."
     $ g = randint (500, 800)
     if hero.gold < g:
         $ hero.take_money(hero.gold, reason="Robbery")
@@ -127,7 +127,7 @@ label city_events_thugs_robbery_attack:
             renpy.jump("city_events_thugs_robbery_attack_lost")
         else:
             for member in your_team:
-                member.exp += adjust_exp(member, 10)
+                member.exp += exp_reward(member, enemy_team)
                 if member in battle.corpses:
                     member.health = 1
             renpy.jump("city_events_thugs_robbery_attack_win")

@@ -770,12 +770,18 @@ init -5 python:
                 log.append("Her impeccable manners also made a very good impression.")
                 log.logloc("reputation", 1)
 
+            # Award EXP:
+            if effectiveness >= 90:
+                log.logws("exp", exp_reward(worker, log.loc.tier))
+            else:
+                log.logws("exp", exp_reward(worker, log.loc.tier, final_mod=.5))
+
             if effectiveness >= 190:
                 if client.gender == "male":
                     log.append("The client was at the girls mercy. She brought him to the heavens and he remained there, unconscious from sensory overload.")
                 else:
                     log.append("The client was at the girls mercy. She brought her to the heavens and she remained there, unconscious from sensory overload.")
-                log.logws("exp", randint(250, 500))
+                # log.logws("exp", randint(250, 500))
                 log.logloc("reputation", choice([0, 1]))
                 log.logws("joy", 3)
             elif effectiveness >= 150:
@@ -783,25 +789,25 @@ init -5 python:
                     log.append("She playfully took the customer into embrace and made him forget about the rest of the world until they were finished.")
                 else:
                     log.append("She playfully took the customer into embrace and made her forget about the rest of the world until they were finished.")
-                log.logws("exp", randint(100, 200))
+                # log.logws("exp", randint(100, 200))
                 log.logloc("reputation", choice([0, 0, 1]))
                 log.logws("joy", 2)
             elif effectiveness >= 130:
                 log.append("She performed wonderfully with her unmatched carnal skills, making the customer exhausted and completely satisfied.")
-                log.logws("exp", randint(50, 120))
+                # log.logws("exp", randint(50, 120))
                 log.logws("joy", 2)
             elif effectiveness >= 100:
                 log.append("Her well honed sexual tricks and techniques were very pleasing to the customer, and she was quite pleased in return by client's praises.")
-                log.logws("exp", randint(40, 75))
+                # log.logws("exp", randint(40, 75))
                 log.logws("joy", 1)
             elif effectiveness >= 65:
                 log.append("%s did the job to the best of her ability, making a good impression, but her skills could definitely be improved." % worker.name)
-                log.logws("exp", randint(35, 45))
+                # log.logws("exp", randint(35, 45))
             elif effectiveness >= 35:
                 log.append("The girl performed quite poorly. Still, %s somewhat managed to provide required service, following impatient instructions of the client." % worker.name)
-                log.logws("exp", randint(20, 35))
+                # log.logws("exp", randint(20, 35))
             else:
-                log.logws("exp", randint(15, 25))
+                # log.logws("exp", randint(15, 25))
                 if worker.charisma >= 200:
                     log.append("Even though %s failed to satisfy the client, her performance was however somewhat saved by her looks." % worker.name)
                 else:

@@ -774,7 +774,7 @@ init: # Main Screens:
                     yfill True
                     background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
                     xysize (260, 30)
-                    text (u"{color=#CDAD00}Stats at level %s" % data['min_lvl']) font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5# align (.5, 1.0)
+                    text (u"{color=#CDAD00}Level %s" % data['min_lvl']) font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] xalign .5# align (.5, 1.0)
                 hbox:
                     null width 2
                     vbox:

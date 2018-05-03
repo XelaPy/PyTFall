@@ -35,7 +35,7 @@ label interactions_harrasment_after_battle: # after MC provoked a free character
                     "You didn't find anything..."
             "Kill her" if (char not in hero.chars): # direct killing of hired free chars is unavailable, only in dungeon on via other special means
                 "She stopped moving. Serves her right."
-                $ hero.exp += char.level*100
+                $ hero.exp += exp_reward(hero, char)
                 $ char.health = 0
                 python:
                     for member in hero.team:
@@ -69,12 +69,12 @@ label interactions_escalation: # character was provoked to attack MC
     if result is True:
         python:
             for member in hero.team:
-                member.exp += char.level*10
+                member.exp += exp_reward(member, enemy_team, ap_used=.33)
             char.health = 1
         show expression gm.bg_cache
         python:
             for member in hero.team:
-                if all([member.status <> "slave", not("Vicious" in member.traits), not("Yandere" in member.traits), member<>hero]): # they don't like when MC harasses and then beats other chars, unless they are evil
+                if all([member.status != "slave", not("Vicious" in member.traits), not("Yandere" in member.traits), member != hero]): # they don't like when MC harasses and then beats other chars, unless they are evil
                     if "Virtuous" in member.traits:
                         member.disposition -= randint(20, 40) # double for kind characters
                     else:
@@ -83,7 +83,7 @@ label interactions_escalation: # character was provoked to attack MC
         call interactions_fight_lost from _call_interactions_fight_lost
         jump interactions_harrasment_after_battle
     else:
-        $ char.exp += hero.level*10
+        $ char.exp += exp_reward(char, hero.team, ap_used=.33)
         show expression gm.bg_cache
         show screen girl_interactions
         $ gm.restore_img()

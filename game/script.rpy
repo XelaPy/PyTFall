@@ -447,5 +447,8 @@ label after_load:
             if hasattr(c, "guard_relay"):
                 delattr(c, "guard_relay")
 
+    # TODO Delete after Schools Rewrite!
+    $ type = types.TypeType
+
     stop music
     return
