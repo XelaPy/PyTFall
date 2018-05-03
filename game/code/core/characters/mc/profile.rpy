@@ -994,7 +994,7 @@ screen mc_friends_list:
             action Hide("mc_friends_list")
 
         vpgrid:
-            yalign 1.0
+            ypos 50
             cols 5
             draggable True
             mousewheel True
