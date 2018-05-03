@@ -671,7 +671,7 @@
     "mtemp": 1,
     "mreusable": true,
     "mdestruct": false,
-    "mod": {"exp": 200},
+    "mod": {"exp": 50},
     "locations": ["Fishing", "Exploration"],
     "pref_class": ["Any"]
     }]
