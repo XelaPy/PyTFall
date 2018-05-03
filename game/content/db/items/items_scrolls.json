@@ -1203,7 +1203,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Curer"],
-    "locations": ["Angelica Shop"]
+    "locations": ["Peevish Shop"]
     },
     {
     "id": "Restoration Scroll",
@@ -1220,7 +1220,7 @@
     "slot": "consumable",
     "type": "scroll",
     "add_be_spells": ["Restoration"],
-    "locations": ["Peevish Shop"]
+    "locations": ["Angelica Shop"]
     },
     {
     "id": "Revive Scroll",
