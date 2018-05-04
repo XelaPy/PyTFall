@@ -11,7 +11,7 @@
             "oral": 40
         },
         "base_stats": {
-            "charisma": 100
+            "charisma": 50
         },
         "basetrait": true,
         "mod": {
@@ -84,26 +84,65 @@
         "desc": "She specializes in striptease.",
         "base_skills": {
             "strip": 80,
-            "refinement": 20
+            "refinement": 20,
+            "sex": 40
         },
         "base_stats": {
             "charisma": 50,
             "agility": 50
         },
         "basetrait": true,
+        "mod": {
+            "charisma": 20,
+            "agility": 10
+        },
+        "max": {
+            "charisma": 40,
+            "agility": 20
+        },
         "mod_skills": {
             "strip": [
+                0.2,
+                0.2,
+                0.2
+            ],
+            "dancing": [
                 0.1,
                 0.1,
                 0.1
             ]
         },
+        "init_lvlmax": {
+            "charisma": 30,
+            "agility": 10
+        },
+        "init_max": {
+            "charisma": 25,
+            "agility": 10
+        },
+        "init_mod": {
+            "charisma": 10,
+            "agility": 5
+        },
         "init_skills": {
             "strip": [
+                75,
+                150
+            ],
+            "dancing": [
                 50,
                 100
             ]
-        }
+        },
+        "leveling_stats": {
+            "charisma": [
+                0,
+                1
+            ],
+            "agility": [
+                0,
+                1
+            ]}
     },
     {
         "id": "Maid",
