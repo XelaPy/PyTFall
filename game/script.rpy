@@ -372,6 +372,9 @@ label after_load:
     if hasattr(store, "stored_random_seed"):
         $ renpy.random.setstate(stored_random_seed)
 
+    # TODO Delete after schools and recheck the label:
+    $ DAILY_EXP_CORE = 100
+
     python hide:
         for c in store.chars.values():
             c.clear_img_cache()
