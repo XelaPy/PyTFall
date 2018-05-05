@@ -53,7 +53,7 @@ init -5 python:
                     self.log(temp, True)
 
                 if threat >= 900:
-                    if True:
+                    if True: # Add a condition similar to auto-cleaning? Or should this be forced?
                         price = 500*building.get_max_client_capacity()*(building.tier or 1)
                         price = min(hero.gold, price)
                         if hero.take_money(price, "Police"):
@@ -118,6 +118,7 @@ init -5 python:
 
                         # Adjust JP and Remove the clear after running out of jobpoints:
                         w.jobpoints -= 5
+                        w.up_counter("jobs_points_spent", 5)
                         if w.jobpoints <= 0:
                             temp = "{} is done guarding for the day!".format(
                                                 w.nickname)
@@ -215,6 +216,7 @@ init -5 python:
             if kwargs.get("use_SQ", False):
                 log.append("Your guards managed to sneak in a friendly sparring match between their patrol duties!")
                 for w in pure_workers:
+                    ap_used = w.get_flag("jobs_points_spent", 0)/100.0
                     if dice(25):
                         log.logws("security", 1, char=w)
                         log.logws("attack", 1, char=w)
@@ -223,7 +225,8 @@ init -5 python:
                         log.logws("magic", 1, char=w)
                         if dice(10):
                             log.logws("constitution", 1, char=w)
-                        log.logws("exp", exp_reward(w, loc.tier, value=10), char=w)
+                        log.logws("exp", exp_reward(w, loc.tier, value=10,
+                                                    ap_used=ap_used), char=w)
 
                         log.logws("vitality", -5, char=w)
                         if dice(20): # Small chance to get hurt.
@@ -233,6 +236,7 @@ init -5 python:
                 raise Exception("Zero Modulo Division Detected #01")
             # exp = threat_cleared/len(all_workers)
             for w in pure_workers:
+                ap_used = w.get_flag("jobs_points_spent", 0)/100.0
                 log.logws("security", randint(1, 3), char=w)
                 if dice(30):
                     log.logws("attack", 1, char=w)
@@ -244,8 +248,10 @@ init -5 python:
                     log.logws("agility", 1, char=w)
                 if dice(10):
                     log.logws("constitution", 1, char=w)
-                log.logws("exp", exp_reward(w, loc.tier), char=w)
+                log.logws("exp", exp_reward(w, loc.tier, ap_used=ap_used), char=w)
+                w.del_flag("jobs_points_spent")
             for w in extra_workers:
+                ap_used = w.get_flag("jobs_points_spent", 0)/100.0
                 log.logws("security", 1, char=w)
                 if dice(10):
                     log.logws("attack", 1, char=w)
@@ -258,7 +264,9 @@ init -5 python:
                 if dice(10):
                     log.logws("constitution", 1, char=w)
                 # Same imperfection as with Cleaning.
-                log.logws("exp", exp_reward(w, loc.tier, final_mod=.5), char=w)
+                log.logws("exp", exp_reward(w, loc.tier,
+                                        ap_used=ap_used, final_mod=.5), char=w)
+                w.del_flag("jobs_points_spent")
 
             # Stat mods
             log.logloc('threat', threat_cleared)
