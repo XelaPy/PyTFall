@@ -450,7 +450,7 @@ init -1 python: # Constants:
                    'cape', 'weapon', 'misc', 'ring', 'smallweapon']
     SLOTALIASES = {"smallweapon": "Left Hand", "weapon": "Right Hand",
                    "amulet": "Neck", "feet": "Legs", "quest": "Special"}
-    AUTO_OVERLAY_STAT_LABELS = ("mc_action_", "interactions_")
+    AUTO_OVERLAY_STAT_LABELS = ("mc_action_", "interactions_", "girl_interactions_aboutjob")
     BLOCKED_OVERLAY_STAT = ("health", "mp", "vitality",
                              'mood', 'alignment')
 

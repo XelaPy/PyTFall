@@ -1,9 +1,9 @@
 label interactions_kiss:
     if ct("Lesbian") and not "Yuri Expert" in hero.traits and char.status == "free":
         $ m = interactions_flag_count_checker(char, "flag_interactions_kiss_lesbian_refuses")
-        if m > 2:
+        if m > 1:
             call interactions_too_many_lines from _call_interactions_too_many_lines
-            $ char.disposition -= randint(4, m+6)
+            $ char.disposition -= randint(5, 15)
             $ char.joy -= randint(0,1)
             $ del m
             jump girl_interactions
@@ -21,34 +21,26 @@ label interactions_kiss:
     else:
         $ n = 0
 
-    if m > (randint(2,3)+n):
+    if m > (2 + n + interactions_set_repeating_lines_limit(char)):
         call interactions_too_many_sex_lines from _call_interactions_too_many_sex_lines
-        $ char.disposition -= randint(4, m+5)
+        $ char.disposition -= randint(10, 25)
         if char.joy>30:
             $ char.joy -= randint(2,4)
         $ del m
         $ del n
         jump girl_interactions
 
-    if check_lovers(char, hero):
-        $ temp = .6
-    elif check_friends(char, hero):
-        $ temp = .2
-    else:
-        $ temp = .15
-
     $ sub = check_submissivity(char)
+    
+    if cgo("SIW"):
+        $ m = 100
+    else:
+        $ m = 350
 
-    if char.disposition > (350+50*sub) and dice((char.disposition-100*sub)*temp + (hero.charisma*0.1) - 10*m):
-        $ result = round(randint(20, 35)+ char.joy*0.06 - m*4 - char.disposition*0.01)
-        if result <= 0:
-            $ result = randint(1,2)
-        # $ hero.exp += randint(10, 20)
-        # $ char.exp += randint(10, 20)
+    if char.disposition > (m+50*sub) or slave_siw_check(char):
         $ hero.exp += exp_reward(hero, char, ap_used=.33)
         $ char.exp += exp_reward(char, hero, ap_used=.33)
-        $ char.disposition += result
-        $ del temp
+        $ char.disposition += randint(40, 55)
         $ del m
         $ del sub
 
@@ -57,14 +49,14 @@ label interactions_kiss:
 
         if check_lovers(char, hero):
             char.say "Your hands slide down her body as your lips press hers."
-        elif char.disposition < (300+n*100):
+        elif char.disposition < 400:
             char.say "Your lips gently slide across hers."
-        elif char.disposition < (500+n*100):
+        elif char.disposition < 600:
             char.say "You two kiss deeply and passionately."
         else:
             char.say "You two kiss deeply and passionately. Her tongue dances around yours."
 
-        if ct("Half-Sister") and not(check_lovers(char, hero)) and char.disposition < (500+n*100) and not "Sister Lover" in hero.traits:
+        if ct("Half-Sister") and not(check_lovers(char, hero)) and char.disposition < 650 and not "Sister Lover" in hero.traits:
             "She looks a bit uncomfortable."
             if ct("Impersonal"):
                 $ rc("It's okay for siblings to kiss, isn't it?", "Do you like your sister's kisses?")
@@ -116,49 +108,53 @@ label interactions_kiss:
 
     else:
         $ char.show_portrait_overlay("sweat", "reset")
-        $ char.disposition -= randint(15, 25)
-        $ del temp
         $ del n
-        if ct("Impersonal"):
-            $ char.override_portrait("portrait", "indifferent")
-            $ rc("I see no possible benefit in doing that with you so I will have to decline.", "Denied. Please refrain from this in the future.")
-        elif ct("Shy") and dice(50):
-            $ char.override_portrait("portrait", "shy")
-            $ rc("I... I don't want!", "W-we can't do that. ", "I-I don't want to... Sorry.")
-        elif ct("Imouto"):
-            $ char.override_portrait("portrait", "angry")
-            $ rc("Noooo way!", "...I-I'm gonna get mad if you that that stuff, you know? Jeez!", "Y-you dummy! Stay away!")
-        elif ct("Dandere"):
-            $ char.override_portrait("portrait", "indifferent")
-            $ rc("You're no good...", "You should really settle down.", "No, not with you.")
-        elif ct("Tsundere"):
-            $ char.override_portrait("portrait", "angry")
-            $ rc("I'm afraid I must inform you of your utter lack of common sense. Hmph!", "You are so... disgusting!", "You pervy little scamp! Not in a million years!")
-        elif ct("Kuudere"):
-            $ char.override_portrait("portrait", "angry")
-            $ rc("...Perv. Stay away from me, got it?", "...It looks like I'll have to teach you about this little thing called reality.", "O-of course the answer is no!")
-        elif ct("Kamidere"):
-            $ char.override_portrait("portrait", "angry")
-            $ rc("Wh-who do you think you are!?", "W-what? Of course I'm against that!", "The meaning of 'not knowing your place' must be referring to this, eh...?")
-        elif ct("Bokukko"):
-            $ char.override_portrait("portrait", "indifferent")
-            $ rc("He-hey, settle down a bit, okay?", "You should keep it in your pants, okay?", "Hmph! Well no duh!")
-        elif ct("Ane"):
-            $ char.override_portrait("portrait", "indifferent")
-            $ rc("If I was interested in that sort of thing I might, but unfortunately...", "No. I have decided that it would not be appropriate.", "I think that you are being way too aggressive.")
-        elif ct("Yandere"):
-            $ char.override_portrait("portrait", "indifferent")
-            $ rc("I've never met someone who knew so little about how pathetic they are.", "...I'll thank you to turn those despicable eyes away from me.", "Stay away from me.")
+        if char.status == "free":
+            $ char.disposition -= randint(25, 35)
+            if ct("Impersonal"):
+                $ char.override_portrait("portrait", "indifferent")
+                $ rc("I see no possible benefit in doing that with you so I will have to decline.", "Denied. Please refrain from this in the future.")
+            elif ct("Shy") and dice(50):
+                $ char.override_portrait("portrait", "shy")
+                $ rc("I... I don't want!", "W-we can't do that. ", "I-I don't want to... Sorry.")
+            elif ct("Imouto"):
+                $ char.override_portrait("portrait", "angry")
+                $ rc("Noooo way!", "...I-I'm gonna get mad if you that that stuff, you know? Jeez!", "Y-you dummy! Stay away!")
+            elif ct("Dandere"):
+                $ char.override_portrait("portrait", "indifferent")
+                $ rc("You're no good...", "You should really settle down.", "No, not with you.")
+            elif ct("Tsundere"):
+                $ char.override_portrait("portrait", "angry")
+                $ rc("I'm afraid I must inform you of your utter lack of common sense. Hmph!", "You are so... disgusting!", "You pervy little scamp! Not in a million years!")
+            elif ct("Kuudere"):
+                $ char.override_portrait("portrait", "angry")
+                $ rc("...Perv. Stay away from me, got it?", "...It looks like I'll have to teach you about this little thing called reality.", "O-of course the answer is no!")
+            elif ct("Kamidere"):
+                $ char.override_portrait("portrait", "angry")
+                $ rc("Wh-who do you think you are!?", "W-what? Of course I'm against that!", "The meaning of 'not knowing your place' must be referring to this, eh...?")
+            elif ct("Bokukko"):
+                $ char.override_portrait("portrait", "indifferent")
+                $ rc("He-hey, settle down a bit, okay?", "You should keep it in your pants, okay?", "Hmph! Well no duh!")
+            elif ct("Ane"):
+                $ char.override_portrait("portrait", "indifferent")
+                $ rc("If I was interested in that sort of thing I might, but unfortunately...", "No. I have decided that it would not be appropriate.", "I think that you are being way too aggressive.")
+            elif ct("Yandere"):
+                $ char.override_portrait("portrait", "indifferent")
+                $ rc("I've never met someone who knew so little about how pathetic they are.", "...I'll thank you to turn those despicable eyes away from me.", "Stay away from me.")
+            else:
+                $ char.override_portrait("portrait", "indifferent")
+                $ rc("With you? Of course not!", "Huh?! No, I don't want to! Pervert...", "Woah, hold on there. Maybe after we get to know each other better.")
+                
+            if char.disposition < (350+50*sub) and not cgo("SIW"):
+                $ char.set_flag("_day_countdown_interactions_blowoff", 2)
+                $ del sub
+                $ del m
+                $ char.restore_portrait()
+                $ char.hide_portrait_overlay()
+                jump girl_interactions_end
+                
         else:
-            $ char.override_portrait("portrait", "indifferent")
-            $ rc("With you? Of course not!", "Huh?! No, I don't want to! Pervert...", "Woah, hold on there. Maybe after we get to know each other better.")
-        if (char.disposition <= (350+50*sub) or (char.disposition <500 and m>1)) and not cgo("SIW"):
-            $ char.set_flag("_day_countdown_interactions_blowoff", 2)
-            $ del sub
-            $ del m
-            $ char.restore_portrait()
-            $ char.hide_portrait_overlay()
-            jump girl_interactions_end
+            "She doesn't resist, but also doesn't respond to your kiss."
         $ del sub
         $ del m
     $ char.restore_portrait()

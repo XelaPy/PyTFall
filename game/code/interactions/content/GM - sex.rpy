@@ -47,13 +47,12 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         $ n = 2
     if m > n:
         call interactions_too_many_sex_lines from _call_interactions_too_many_sex_lines_1
-        $ char.disposition -= randint(5,m+5) + randint(1,2)
+        $ char.disposition -= randint(15, 35)
         if char.joy > 50:
             $ char.joy -= randint(2,4)
         $ del m
         $ del n
         jump girl_interactions
-
 
     if char.flag("quest_cannot_be_fucked") == True or (ct("Half-Sister") and not "Sister Lover" in hero.traits): # cannot hire h-s for that stuff, only seduce, seems reasonable
         call interactions_sex_disagreement from _call_interactions_sex_disagreement
@@ -168,16 +167,18 @@ label interactions_sex: # we go to this label from GM menu propose sex
 
     if m > n:
         call interactions_too_many_sex_lines from _call_interactions_too_many_sex_lines_2
-        $ char.disposition -= randint(5,m+5) + randint(1,5)
+        $ char.disposition -= randint(15, 30)
         if char.joy > 50:
             $ char.joy -= randint(2,4)
         jump girl_interactions
+        
     if char.flag("quest_cannot_be_fucked") == True: # a special flag for chars we don't want to be accessible unless a quest will be finished
         call interactions_sex_disagreement from _call_interactions_sex_disagreement_2
         jump girl_interactions
+        
     if ct("Lesbian") and not ct("Open Minded") and not "Yuri Expert" in hero.traits and char.status != "slave":
-            call interactions_lesbian_refuse_because_of_gender from _call_interactions_lesbian_refuse_because_of_gender_2 # you can hire them, but they will never do it for free with wrong orientation
-            jump girl_interactions
+        call interactions_lesbian_refuse_because_of_gender from _call_interactions_lesbian_refuse_because_of_gender_2 # you can hire them, but they will never do it for free with wrong orientation
+        jump girl_interactions
 
     if char.vitality < round(char.get_max("vitality")*0.25) or char.AP <= 0:
         call interactions_refused_because_tired from _call_interactions_refused_because_tired_3
@@ -215,17 +216,17 @@ label interactions_sex: # we go to this label from GM menu propose sex
     # so normal (without flag) required level of disposition could be from 200 to 1200 for non lovers
     if ct("Open Minded"): # open minded trait greatly reduces the needed disposition level
         $ disposition_level_for_sex -= randint(400, 500)
-    if disposition_level_for_sex < -250:
-        $ disposition_level_for_sex = -250 # normalization, no free sex with too low disposition no matter the character
+    if disposition_level_for_sex < -500:
+        $ disposition_level_for_sex = -500 # normalization, no free sex with too low disposition no matter the character
 
     if char.disposition < disposition_level_for_sex:
         if char.status == "free":
             call interactions_sex_disagreement from _call_interactions_sex_disagreement_3
             $ dif = disposition_level_for_sex - char.disposition # the difference between required for sex and current disposition
             if dif <= 100:
-                $ char.disposition -= randint(1, dif+1) # if it's low, then disposition penalty will be low too
+                $ char.disposition -= randint(20, 35) # if it's low, then disposition penalty will be low too
             else:
-                $ char.disposition -= randint(15, (40+15*sub)) # otherwise it will be significant
+                $ char.disposition -= randint(30, 60) # otherwise it will be significant
             $ del dif
             $ del disposition_level_for_sex
             jump girl_interactions
