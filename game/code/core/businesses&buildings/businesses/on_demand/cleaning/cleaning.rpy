@@ -107,8 +107,8 @@ init -5 python:
                         dirt_cleaned += value
                         building.clean(value)
 
-                        # Adjust JP and Remove the clear after running out of jobpoints:
                         w.jobpoints -= 5
+                        w.up_counter("jobs_points_spent", 5)
                         if w.jobpoints <= 0:
                             temp = "{} is done cleaning for the day!".format(
                                             w.nickname)
@@ -199,20 +199,24 @@ init -5 python:
 
             # exp = dirt_cleaned/wlen
             for w in pure_workers:
+                ap_used = w.get_flag("jobs_points_spent", 0)/100.0
                 log.logws("cleaning", randint(1, 3), char=w)
                 if dice(30):
                     log.logws("agility", 1, char=w)
                 if dice(10):
                     log.logws("constitution", 1, char=w)
-                log.logws("exp", exp_reward(w, loc.tier), char=w) # This is imperfect...
+                log.logws("exp", exp_reward(w, loc.tier, ap_used=ap_used), char=w) # This is imperfect...
+                w.del_flag("jobs_points_spent")
             for w in extra_workers:
+                ap_used = w.get_flag("jobs_points_spent", 0)/100.0
                 log.logws("cleaning", 1, char=w)
                 if dice(10):
                     log.logws("agility", 1, char=w)
                 if dice(10):
                     log.logws("constitution", 1, char=w)
                 # This is imperfect. We need to track jobpoints spent to get this right...
-                log.logws("exp", exp_reward(w, loc.tier, final_mod=.5), char=w)
+                log.logws("exp", exp_reward(w, loc.tier, ap_used=ap_used, final_mod=.5), char=w)
+                w.del_flag("jobs_points_spent")
 
             # Stat mods
             log.logloc('dirt', dirt_cleaned)
