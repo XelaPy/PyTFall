@@ -198,6 +198,9 @@ label interactions_girlfriend:
         $ l_ch += 80
     else:
         $ l_ch += 70
+        
+    if char.status == "slave":
+        $ l_ch += 200
 
     if (char.flag("quest_cannot_be_lover") != True) and (char.disposition >= (600 - l_ch)) and (dice(round((l_ch + char.disposition)*0.2))):
         $ set_lovers(hero, char)

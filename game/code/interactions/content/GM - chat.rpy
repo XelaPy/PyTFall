@@ -507,6 +507,8 @@ label interactions_abouther:
         $ char.disposition -= randint(3, 10)
         $ char.joy -= randint(0,1)
         $ del m
+        if char.status != "free":
+            "You tried to know [char.nickname] better."
         jump interactions_refused
 
     $ g(choice(gm_abouther_list))
@@ -526,7 +528,7 @@ label interactions_aboutoccupation:
     # $ hero.exp += randint(1, 2)
     $ hero.exp += exp_reward(hero, char, ap_used=.33)
 
-    if char.disposition > -250:
+    if char.disposition > -250 or char.status == "slave":
         if cgo("Combatant") and not (cgo("Caster")):
             $ rc("I was trained to fight.", "I have combat training.", "I know how to fight.", "I know how to behave on the battlefield.")
             if co("Knight"):
@@ -590,13 +592,13 @@ label interactions_interests:
         "Exhibitionist": ["[char.pC] tells you pretty hot stories about [char.op] exhibitionistic adventures in a local park."],
         "Athletic": ["You discuss beach volleyball which became quite popular among local girls lately.", "You discuss places for swimming. It looks like most girls prefer beaches to pools because it's free."],
         "Manly": ["[char.pC] gives you a lecture on how to build your muscles properly. You feel a bit offended, but keep your cool.", "[char.pC] casually remarks that you should exercise more often, and gives you some advice."],
-        "Chubby": ["You have a lively discussion about your favourite local bakeries and pastry shops.", "Your conversation turns toward cooking, and [char.p] shares some of her recipes. They are all pretty high in calories..."],
+        "Chubby": ["You have a lively discussion about your favorite local bakeries and pastry shops.", "Your conversation turns toward cooking, and [char.p] shares some of her recipes. They are all pretty high in calories..."],
         "Slim": ["You compliment [char.op] figure, and the conversation quickly turns toward healthy lifestyle. Ugh.", "[char.pC] brags about [char.op] metabolism, allowing [char.op] to eat sweets and not get fat. You envy her."],
         "Alien": ["[char.pC] talks about her homeland. You are listening with interest.", "You discuss local events she witnessed. [char.pC] doesn't understand the meaning of some of them, and you spend some of your time to explain."],
         "Half-Sister": ["You discuss your common father. The sad discussion quickly turns into a sarcastic one, when you try to count all his lovers and daughters.", "[char.pC] tells you about her mother. You listen in silence, trying to imagine yours.", "You spend time together you reminiscing about fun and embarrassing moments from your childhood."],
         "Scars": ["She complains about how her scars cause inconvenience. You comfort her."],
         "Artificial Body": ["Tempted by curiosity, you ask about [char.op] artificial body. [char.opC] explanations are very long and confusing.", "You discuss the regular maintenance required by [char.op] body. It's a pretty complex, but piquant conversation."],
-        "Lolita": ["[char.pC] complains about how hard it is to find adult clothes for [char.op] figure. You're trying to take [char.op] away from this sensitive topic.", "[char.pC] tells you funny stories about disappointed (and imprisoned) paedophiles confused by [char.op] body size. What a strange topic."],
+        "Lolita": ["[char.pC] complains about how hard it is to find adult clothes for [char.op] figure. You're trying to take [char.op] away from this sensitive topic.", "[char.pC] tells you funny stories about disappointed (and imprisoned) pedophiles confused by [char.op] body size. What a strange topic."],
         "Strange Eyes": ["[char.pC] notices how you look at [char.op] unusual eyes. Embarrassed, [char.p] refuses to look at you or discuss anything."],
         "Great Arse": ["You try to keep it to small talk, trying not to think about [char.op] gorgeous butt and what would you do if you were behind [char.op]."],
         "Long Legs": ["During your small conversation you can't help but glance at [char.op] long legs. It looks like [char.p] is used to it and doesn't care much."],
@@ -664,27 +666,9 @@ label interactions_interests:
         $ del m
         $ char.disposition -= randint(3, 10)
         $ char.joy -= randint(0,1)
+        if char.status != "free":
+            "You tried to know [char.nickname] better."
         jump interactions_refused
-###### j5           Until we actually will have real, existing places where they hang out, better to not use this stuff
-#label interactions_hangouts:
-#    if char.disposition < 200:
-#        jump interactions_refused
-#
-#    else:
-#        if ct("Nymphomaniac") and dice(40):
-#            $ rc("Wherever there is something or someone I can shag.", "At the sex-club, oh no--I've said too much...#1 rule...Never talk about the sex club! WTF was I thinking?")
-#        elif ct("Nerd"):
-#            $ rc("Library, where do {color=[red]}you{/color} go for fun?", "I cozy under a tree with a good book.")
-#        elif cgo("Combatant"):
-#            $ rc("The Arena, where else?", "Window shopping at the blacksmith's!")
-#        elif cgo("SIW"):
-#            $ rc("Wherever men with full pockets are hanging.", 'Us "Fancy Girls" usually hang around in the Red Light District', "Building...Don't look at me like that!")
-#        elif ct("Dancer"):
-#            $ rc("Exotic Dancing academy", "Close to a pole and not any of the two you're thinking.", "Strip Club.")
-#        elif cgo("Server"):
-#            $ rc("At the bar, tending to it.", "I love broom and dustbins exhibits.", "Wherever cleaning is required.")
-#
-#    jump girl_interactions
 
 # flirt
 label interactions_flirt:
@@ -743,35 +727,41 @@ label interactions_flirt:
         jump girl_interactions
     else:
         $ del m
-        $ char.disposition -= randint(5, 13)
+        $ char.disposition -= randint(5, 10)
         $ char.joy -= randint(0,1)
+        if char.status != "free":
+            "You tried to flirt with [char.nickname]."
         jump interactions_refused
+            
 # interaction check fail
 label interactions_refused:
     $ char.override_portrait("portrait", "indifferent")
-    if ct("Impersonal"):
-        $ rc("Denied.", "It's none of your business.", "...")
-    elif ct("Shy"):
-        $ char.override_portrait("portrait", "shy")
-        $ rc("I-I won't tell you... ", "I don't want to talk... sorry.", "W-Well... I d-don't want to tell you...", "Ah, ugh... Do I have to tell you...?")
-    elif ct("Dandere"):
-        $ rc("I don't feel the need to answer that question.", "...Let's talk later...maybe.", "I'm not going to tell you.")
-    elif ct("Kuudere"):
-        $ rc("I've got no reason to tell you.", "I'm not in the mood for that right now.", "Why do I have to tell you?")
-    elif ct("Tsundere"):
-        $ rc("Hmph! Who would tell you!", "Eh? You expect me to tell you?", "It's none of your business.")
-    elif ct("Imouto"):
-        $ rc("Uhuhu, I won't tell you!", "It's a secret!", "Umm, is it bad if I don't answer...?")
-    elif ct("Yandere"):
-        $ rc("I'm not in a mood for chatting.", "...I don't feel like answering.")
-    elif ct("Kamidere"):
-        $ rc("And what will hearing that do for you?", "And what good would knowing that do you?")
-    elif ct("Ane"):
-        $ rc("Sorry, can we talk later?", "Sorry, but I don't want to answer.", "*sigh*... Don't you have anything else to do?")
-    elif ct("Bokukko"):
-        $ rc("Eh, say what?", "Why do I hafta give you an answer?", "I'm not gonna answer that.")
+    if char.status == "free":
+        if ct("Impersonal"):
+            $ rc("Denied.", "It's none of your business.", "...")
+        elif ct("Shy"):
+            $ char.override_portrait("portrait", "shy")
+            $ rc("I-I won't tell you... ", "I don't want to talk... sorry.", "W-Well... I d-don't want to tell you...", "Ah, ugh... Do I have to tell you...?")
+        elif ct("Dandere"):
+            $ rc("I don't feel the need to answer that question.", "...Let's talk later...maybe.", "I'm not going to tell you.")
+        elif ct("Kuudere"):
+            $ rc("I've got no reason to tell you.", "I'm not in the mood for that right now.", "Why do I have to tell you?")
+        elif ct("Tsundere"):
+            $ rc("Hmph! Who would tell you!", "Eh? You expect me to tell you?", "It's none of your business.")
+        elif ct("Imouto"):
+            $ rc("Uhuhu, I won't tell you!", "It's a secret!", "Umm, is it bad if I don't answer...?")
+        elif ct("Yandere"):
+            $ rc("I'm not in a mood for chatting.", "...I don't feel like answering.")
+        elif ct("Kamidere"):
+            $ rc("And what will hearing that do for you?", "And what good would knowing that do you?")
+        elif ct("Ane"):
+            $ rc("Sorry, can we talk later?", "Sorry, but I don't want to answer.", "*sigh*... Don't you have anything else to do?")
+        elif ct("Bokukko"):
+            $ rc("Eh, say what?", "Why do I hafta give you an answer?", "I'm not gonna answer that.")
+        else:
+            $ rc("I don't want to answer.", "I don't want to talk now.", "Must I give you an answer?")
     else:
-        $ rc("I don't want to answer.", "I don't want to talk now.", "Must I give you an answer?")
+        $ narrator(choice(["But it only led to awkward silence.", "But it had no positive effect whatsoever.", "But it was kind of one-sided."]))
     $ char.restore_portrait()
     jump girl_interactions
 

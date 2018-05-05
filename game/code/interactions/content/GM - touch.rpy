@@ -73,15 +73,16 @@ label interactions_hug:
         $ del n
         $ char.override_portrait("portrait", "indifferent")
         $ char.show_portrait_overlay("sweat", "reset")
+
         if ct("Impersonal"):
-            $ rc("Please get off me, I can't breathe.", "<she moved back you as you tried to hug her>", "<she grabs your shoulders and shoves you back>")
+            $ rc("Please get off me, I can't breathe.", "<she moved back you as you tried to hug her>")
         elif ct("Shy") and dice(50):
             $ char.override_portrait("portrait", "shy")
             $ rc("Ah... ah! W... what are you doing!?", "Please, leave me alone...", "W-w-w-what are you doing so suddenly?!")
         elif ct("Dandere"):
             $ rc("...Please don't get so close.", "I won't let you.", "<Steps back> No.")
         elif ct("Kuudere"):
-            $ rc("<Shrinks back> Don't get weird.", "I don't think so.", "Hands off.")
+            $ rc("<Shrinks back> Don't get weird.", "Hands off.")
         elif ct("Ane"):
             $ rc("[char.mc_ref], I don't need comforting or anything....", "I'm sorry, I'm not really in the mood right now.", "Sorry, but I don't want to.", "Please, keep your distance.")
         elif ct("Kamidere"):
@@ -96,7 +97,7 @@ label interactions_hug:
             $ rc("<Steps back> Don't think so.", "Let me go at once!", "You're making me uncomfortable.")
         else:
             $ rc("What are you doing all of a sudden!?", "[char.mc_ref], you're too close, too clooose.", "What are you doing! Please don't touch me!", "<Steps back> I don't want to.")
-        if char.disposition <= (200+50*sub) and not cgo("SIW"):
+        if char.disposition <= (200+50*sub) and not cgo("SIW") and char.status == "free":
             $ char.set_flag("_day_countdown_interactions_blowoff", 1)
             $ del sub
             $ char.restore_portrait()
@@ -212,7 +213,7 @@ label interactions_grabbutt:
             $ rc("Geez! If you don't stop, I'm gonna get mad!", "Nooo, what are you doing!?", "Hya! Don't touch me there!", "*sob* that hurts...", "O-owowowowow! Sto-, Wai-, AGYAAA!!", "Hey! Where are you aiming?!")
         else:
             $ rc("Geez! If you don't stop, I'll get angry.", "Whoa! Hey, don't just touch me out of the blue!", "[char.mc_ref]...! I'd rather you do this sort of thing with someone else...!", "Hey! Quit it, already!", "Aah! C...cut it out! ", "What are you doing over there, you sneak?", "Hmph, how unromantic! Know some shame!")
-        if char.disposition <= (200+50*sub and not cgo("SIW")):
+        if char.disposition <= (200+50*sub) and not cgo("SIW") and char.status == "free":
             $ char.set_flag("_day_countdown_interactions_blowoff", 2)
             $ char.restore_portrait()
             $ char.hide_portrait_overlay()
@@ -325,7 +326,7 @@ label interactions_grabbreasts:
             $ rc("How filthy. Get away from me!", "What an idiot. What do you mean by 'Oops'?", "How dare you?! Know your place your filthy piece of trash!", "Piss off you fucktard!", "<jumps away> Ha! Like I'll ever let a loser like you touch me.")
         else:
             $ rc("You certainly have courage, asshole!", "What are you doing!!! They are not an invitation, asshole!", "Hey! Where are those hands of yours going?", "Don't touch me, asshole!", "You're... terrible! Must you do such a thing!", "What are you trying to...?! To hell with you!", "You filthy pig! Who gave you permission to touch me?!")
-        if char.disposition <= (200+50*sub) and not cgo("SIW"):
+        if char.disposition <= (200+50*sub) and not cgo("SIW") and char.status == "free":
             $ char.set_flag("_day_countdown_interactions_blowoff", 2)
             $ del sub
             $ char.restore_portrait()

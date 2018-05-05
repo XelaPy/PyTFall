@@ -290,10 +290,6 @@ label interactions_control:
                     flag_name = "_day_countdown_{}".format(item.id)
                     flag_value = int(char.flag(flag_name))
 
-                    # We never award more than 70 disposition for a single gift:
-                    if dismod > 70:
-                        dismod = 70
-
                     # Add the appropriate dismod value:
                     if flag_value != 0:
                         if flag_value < item.cblock:
