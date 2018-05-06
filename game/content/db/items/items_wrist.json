@@ -578,6 +578,28 @@
     "pref_class":["Mage"]
     },
     {
+    "id": "Fae Bracers",
+    "desc": "The enchanted bracers were additionally enforced by human magic.",
+    "icon": "content/items/wrist/fam.png",
+    "price": 1700,
+    "sex": "male",
+    "chance": 0,
+    "badness": 30,
+    "eqchance": 90,
+    "hidden": true,
+    "infinite": false,
+    "slot": "wrist",
+    "type": "armor",
+    "evasion_bonus": 1,
+    "max": {"mp": 25, "magic": 35, "joy": 25, "charisma": 20, "defence": 40},
+    "mod": {"character": 25, "agility": -10, "defence": 15, "magic": 15, "charisma": 15, "attack": -40},
+    "mod_skills": {"refinement": [0, 0, 0.05, 0, 0], "security": [0.05, 0, 0.05, 0, 0]},
+    "defence_multiplier": {"magic": 0.1},
+    "delivery_multiplier": {"magic": 0.1},
+    "tier": 4,
+    "pref_class":["Mage", "Healer"]
+    },
+    {
     "id": "Ninja Gloves",
     "desc": "A part of the ninja outfit, extremely light and flexible. Only a few copies exist outside of their villages as smuggling them is very dangerous.",
     "icon": "content/items/wrist/nig.png",

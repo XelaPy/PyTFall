@@ -587,6 +587,28 @@
     "pref_class":["Mage"]
     },
     {
+    "id": "Fae Boots",
+    "desc": "Magical boots enforced with special materials and adapted for males.",
+    "icon": "content/items/feet/fam.png",
+    "price": 1750,
+    "sex": "male",
+    "chance": 0,
+    "badness": 30,
+    "eqchance": 90,
+    "hidden": true,
+    "infinite": false,
+    "slot": "feet",
+    "type": "armor",
+    "evasion_bonus": 1,
+    "max": {"mp": 25, "magic": 35, "charisma": 20, "defence": 30},
+    "mod": {"character": 25, "agility": -15, "defence": 15, "magic": 15, "charisma": 15, "attack": -30},
+    "mod_skills": {"refinement": [0, 0, 0.05, 0, 0], "security": [0.01, 0, 0.01, 0, 0]},
+    "defence_multiplier": {"magic": 0.1},
+    "delivery_multiplier": {"magic": 0.1},
+    "tier": 4,
+    "pref_class":["Mage"]
+    },
+    {
     "id": "Ninja Boots",
     "desc": "A part of the ninja outfit, extremely light and flexible. Only a few copies exist outside of their villages as smuggling them is very dangerous.",
     "icon": "content/items/feet/nib.png",
