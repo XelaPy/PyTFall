@@ -231,10 +231,10 @@ label interactions_sex: # we go to this label from GM menu propose sex
             $ del disposition_level_for_sex
             jump girl_interactions
         else:
+            call interactions_sex_disagreement_slave
             "She doesn't like you enough yet, but as a slave she has no choice. Do you wish to force her?"
             menu:
                 "Yes":
-                    call interactions_girl_dissapointed
                     if cgo("SIW"):
                         $ char.joy -= randint(1, 5)
                         if char.disposition > 50:
@@ -1438,6 +1438,35 @@ label interactions_sex_disagreement: # the character disagrees to do it
         $ rc("No! Absolutely NOT!", "With you? Don't make me laugh.", "Get lost, pervert!", "Woah, hold on there. Maybe after we get to know each other better.", "Don't tell me that you thought I was a slut...?", "How about you fix that 'anytime's fine' attitude of yours, hmm?")
     $ char.restore_portrait()
     return
+    
+label interactions_sex_disagreement_slave: # the character disagrees to do it
+    $ char.show_portrait_overlay("sweat", "reset")
+    $ char.override_portrait("portrait", "indifferent")
+    if ct("Impersonal"):
+        $ rc("Understood.")
+    elif ct("Shy") and dice(50):
+        $ rc("Um... I-I see... ")
+    elif ct("Imouto"):
+        $ rc("If that is your order, [char.mc_ref]...")
+    elif ct("Dandere"):
+        $ rc("...Do as you please, [char.mc_ref].")
+    elif ct("Tsundere"):
+        $ rc("Hmph. Go ahead [char.mc_ref], I won't stop you.")
+    elif ct("Kuudere"):
+        $ rc("I won't resist, [char.mc_ref].")
+    elif ct("Kamidere"):
+        $ rc("*sigh* If that's how you wish to treat me, [char.mc_ref], then let's do it.")
+    elif ct("Bokukko"):
+        $ rc("Gotcha. Cant's be helped, I guess.")
+    elif ct("Ane"):
+        $ rc("Very well, [char.mc_ref]. I obey your order.")
+    elif ct("Yandere"):
+        $ rc("I see. If I must, [char.mc_ref].")
+    else:
+        $ rc("Yes, [char.mc_ref]...")
+    $ char.restore_portrait()
+    $ char.hide_portrait_overlay()
+    return
 
 label interaction_check_for_virginity: # here we do all checks and actions with virgin trait when needed
     if ct("Virgin"):
@@ -1446,46 +1475,30 @@ label interaction_check_for_virginity: # here we do all checks and actions with 
             jump interactions_sex_scene_logic_part
         else:
             if char.status == "slave":
-                if ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 200) or (char.disposition >= 300) or (check_lovers(hero, char)) or (check_friends(hero, char)) or ct("Open Minded"):
-                    menu:
-                        "She warns you that this is her first time. She does not mind, but her value at the market might decrease. Do you want to continue?"
-                        "Yes":
-                            call interactions_girl_virgin_line from _call_interactions_girl_virgin_line
-                        "No":
-                            if check_lovers(hero, char) or check_friends(hero, char) or char.disposition >= 600:
-                                "You changed your mind. She looks a bit disappointed."
-                            else:
-                                "You changed your mind."
-                            jump interaction_scene_choice
-                else:
-                    menu:
-                        "She tells you that this is her first time, and asks plaintively to do something else instead. You can force her, but it will not be without consequences. Do you want to use force?"
-                        "Yes":
-                            "You violated her."
-                            $ char.health = max(1, char.health - 10)
-                            if ct("Masochist"):
-                                $ sex_scene_libido += 1
-                                $ char.disposition -= 50
-                            else:
-                                $ char.disposition -= 150
-                                $ char.joy -= 50
-                                $ sex_scene_libido -= 2
-                        "No":
-                            "You agreed to do something else instead. She sighs with relief."
-                            jump interaction_scene_choice
+                menu:
+                    "She warns you that this is her first time. Her value at the market will decrease. Do you want to continue?"
+                    "Yes":
+                        call interactions_girl_virgin_line from _call_interactions_girl_virgin_line
+                    "No":
+                        if check_lovers(hero, char) or check_friends(hero, char) or char.disposition >= 600:
+                            "You changed your mind. She looks a bit disappointed."
+                        else:
+                            "You changed your mind."
+                        jump interaction_scene_choice
             else:
                 if (check_lovers(hero, char)) or (check_friends(hero, char) and char.disposition >= 600) or ((cgo("SIW") or ct("Nymphomaniac")) and char.disposition >= 250) or (ct("Open Minded") and char.disposition >= 350):
                     menu:
                         "It looks like this is her first time, and she does not mind. Do you want to continue?"
                         "Yes":
                             call interactions_girl_virgin_line from _call_interactions_girl_virgin_line_1
+                            $ char.disposition += 50
                         "No":
                             "You changed your mind. She looks a bit disappointed."
                             jump interaction_scene_choice
                 else:
                     "Unfortunately, she's still a virgin and is not ready to part with her virtue just yet."
                     jump interaction_scene_choice
-        $ char.disposition += 50
+
         $ char.remove_trait(traits["Virgin"])
         if "Blood Master" in hero.traits:
             $ char.enable_effect("Blood Connection")

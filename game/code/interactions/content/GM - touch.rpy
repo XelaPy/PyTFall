@@ -96,6 +96,7 @@ label interactions_hug:
                 $ char.hide_portrait_overlay()
                 jump girl_interactions_end
         else:
+            char.say "..."
             "She doesn't resist, but also doesn't respond to your hug."
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
@@ -209,6 +210,7 @@ label interactions_grabbutt:
                 $ char.hide_portrait_overlay()
                 jump girl_interactions_end
         else:
+            char.say "..."
             "She doesn't resist, but also doesn't react to your actions."
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
@@ -321,6 +323,7 @@ label interactions_grabbreasts:
                 jump girl_interactions_end
                 
         else:
+            char.say "..."
             "She doesn't resist, but also doesn't react to your actions."
                 
     $ char.restore_portrait()

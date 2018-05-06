@@ -154,6 +154,7 @@ label interactions_kiss:
                 jump girl_interactions_end
                 
         else:
+            char.say "..."
             "She doesn't resist, but also doesn't respond to your kiss."
         $ del sub
         $ del m
