@@ -244,7 +244,7 @@ label girl_meets_greeting: # also lines for sad and angry flags are needed. but 
                 $ rc("Yes? What's wrong, [char.mc_ref]?", "[char.mc_ref]?")
             else:
                 $ rc("What is it, [char.mc_ref]?", "Yes?")
-                
+
     if hero.effects["Fluffy Companion"]['active'] and m < 2:
         $ cat = npcs["sad_cat"]
         $ cat.override_portrait("portrait", "happy")
@@ -278,9 +278,9 @@ label girl_meets_greeting: # also lines for sad and angry flags are needed. but 
         $ cat.restore_portrait()
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
-    return    
-    
-label interactions_girl_never_come: 
+    return
+
+label interactions_girl_never_come:
     $ char.override_portrait("portrait", "indifferent")
     $ char.show_portrait_overlay("angry", "reset")
     if ct("Impersonal"):
@@ -308,7 +308,7 @@ label interactions_girl_never_come:
     $ char.hide_portrait_overlay()
     $ char.restore_portrait()
     return
-    
+
 label interactions_girl_virgin_line:  # character agrees to get rid of virgin trait
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
@@ -334,10 +334,10 @@ label interactions_girl_virgin_line:  # character agrees to get rid of virgin tr
     elif ct("Kamidere"):
         $ rc("My first time... Will be tested on your body.", "Hmph, you'll do as my first partner.", "I don't really like pain... I'm okay. let's do it.", "Hurry up and do it, or I'll give my virginity away to whoever.", "Right now, an unplucked fruit is standing before you. Hungry?")
     else:
-        $ rc("I've never done it before, but... I think I could do it with you.", "It's my first, so... Be gentle, alright?", "Hmm... well, it should be fine if it's with you you, first time or not.", "I-it's okay with you if I make you my first partner... Right...?") 
+        $ rc("I've never done it before, but... I think I could do it with you.", "It's my first, so... Be gentle, alright?", "Hmm... well, it should be fine if it's with you you, first time or not.", "I-it's okay with you if I make you my first partner... Right...?")
     $ char.restore_portrait()
     return
-    
+
 label interactions_guy_never_came: # due to low sex skill character was unable to make MC come
     $ char.override_portrait("portrait", "shy")
     $ char.show_portrait_overlay("scared", "reset")
@@ -362,11 +362,11 @@ label interactions_guy_never_came: # due to low sex skill character was unable t
     elif ct("Kamidere"):
         $ rc( "Hmph, if you didn't want it you could've refused, you know?", "It's your own fault for masturbating so much you can't finish.", "W-what's with this face that says 'She did her best...'?!")
     else:
-        $ rc("Um. I'm sorry! I'll study up for next time.", "Sorry... I'll do some more studying, so...") 
+        $ rc("Um. I'm sorry! I'll study up for next time.", "Sorry... I'll do some more studying, so...")
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
     return
-    
+
 label interactions_guy_cum_alot: # guy cum a lot
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
@@ -392,7 +392,7 @@ label interactions_guy_cum_alot: # guy cum a lot
     elif ct("Kamidere"):
         $ rc("Ew, I'm all sticky... Does the smell even come off...?", "Ahh, you're so naughty to cum this much...", "Nha... H-haven't you got anything to wipe with?", "I need to take a shower...", "Geez, to cum just from a little teasing... That's pathetic.", "Heh, should I tie a ribbon on it so you don't cum so fast?", "You REALLY let loose a lot of this stuff, huh...")
     else:
-        $ rc("Wow, look, look! Look at all of it... How did you even cum this much ♪...", "You came so much...", "Are you okay? Want some water? Are you going to be okay without rehydrating yourself?", "If it felt good for you, then that makes me feel good, too.") 
+        $ rc("Wow, look, look! Look at all of it... How did you even cum this much ♪...", "You came so much...", "Are you okay? Want some water? Are you going to be okay without rehydrating yourself?", "If it felt good for you, then that makes me feel good, too.")
     $ char.restore_portrait()
     return
 
@@ -421,10 +421,10 @@ label interactions_after_good_sex: # after very good sex
     elif ct("Kamidere"):
         $ rc("There there, that felt pretty damn good, hey?", "Aau... I thought I was going to break...",  "Mmh... I could become addicted to this pleasure.", "Ah... If it's this good, I guess it's ok to do it everyday.", "It just so happened that I got more sensitive all of a sudden, alright?")
     else:
-        $ rc("Ahh... My hips are all worn out... Ahaha", "It kinda feels like we're one body one mind now ♪", "Haah... Well done... Was it good for you...?", "Haah... Your sexual technique is simply admirable...", "Sorry, it felt so good that I didn't want to stop...", "Haa... It looks like the two of us are pretty compatible...", "Ah, I can't even move... That felt too amazing...") 
+        $ rc("Ahh... My hips are all worn out... Ahaha", "It kinda feels like we're one body one mind now ♪", "Haah... Well done... Was it good for you...?", "Haah... Your sexual technique is simply admirable...", "Sorry, it felt so good that I didn't want to stop...", "Haa... It looks like the two of us are pretty compatible...", "Ah, I can't even move... That felt too amazing...")
     $ char.restore_portrait()
     return
-    
+
 label interactions_after_normal_sex: # after not good and not bad sex, not via raping
     $ char.override_portrait("portrait", "happy")
     if ct("Impersonal"):
@@ -450,10 +450,10 @@ label interactions_after_normal_sex: # after not good and not bad sex, not via r
     elif ct("Kamidere"):
         $ rc("Aaaah, that was great... It was really awesome.", "Kuuh... Y-you're fucking like a cat in heat! There's no way I can continue after this...", "It felt really good. Well done.", "It wasn't bad, I guess... Yeah... I won't turn you down if you ask again.", "I expect next time will be equally enjoyable.")
     else:
-        $ rc("That felt so good... Let's do it again someday.", "Hey, it felt good, right?", "Well, I'm looking forward to the next time.", "We really, really have to do this again ♪", "Ehehe, I'll let you borrow me again sometime.") 
+        $ rc("That felt so good... Let's do it again someday.", "Hey, it felt good, right?", "Well, I'm looking forward to the next time.", "We really, really have to do this again ♪", "Ehehe, I'll let you borrow me again sometime.")
     $ char.restore_portrait()
     return
-    
+
 label interactions_after_virginity_was_taken: # right after removing virgin trait not via raping
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
@@ -477,15 +477,15 @@ label interactions_after_virginity_was_taken: # right after removing virgin trai
     elif ct("Kamidere"):
         $ rc("Ugh. Can this really begin to feel good...?", "Haa... Geez, It hurt and it's disgusting, that's the worst...", "Hng... It hurt and I'm tired... Do people really enjoy this sorta thing...?", "Tch... Huhu, I guess, I won't be called a virgin anymore...", "Nnn.... It's my first time, of course it hurts.")
     else:
-        $ rc( "Khh... That, that hurt a little bit...", "Ouch... I need to get more practice taking it in...", "Aauu... It hurt even more than I expected...", "I'm fine... This pain is something I have to overcome, so...") 
+        $ rc( "Khh... That, that hurt a little bit...", "Ouch... I need to get more practice taking it in...", "Aauu... It hurt even more than I expected...", "I'm fine... This pain is something I have to overcome, so...")
     $ char.restore_portrait()
     return
-    
+
 label interactions_lesbian_refuse_because_of_gender: # for lesbians, when they refuse lover or sex propositions
         $ char.override_portrait("portrait", "indifferent") # obviously will be needed alternative for female MC
         if ct("Impersonal"):
             $ rc("Opposite sex... Dismissed.", "You are a male. Denied.")
-        elif ct("Shy"):  
+        elif ct("Shy"):
             $ rc("Ah, I'm sorry, I can't do that with a boy...", "Um, I-I like girls... Sorry!")
         elif ct("Imouto"):
             $ rc("If you were a girl...it'd be alright, but...", "I don't really like boys... So no.")
@@ -495,15 +495,15 @@ label interactions_lesbian_refuse_because_of_gender: # for lesbians, when they r
             $ rc("Men for me are...well...", "I'm afraid men are not attractive to me.", "Doing that with a man is... a bit...")
         elif ct("Tsundere"):
             $ rc("Hmph. And that's why I don't like men.", "Ugh, not again... I like girls, understood?", "Huh? You're a guy, so no way!")
-        elif ct("Bokukko"):  
+        elif ct("Bokukko"):
             $ rc("Ew, don't wanna. You're a guy.", "Nah, I'm not interested in boys. Do you have a sister, by the way?", "Aah, I'm a lesbo, y'know.")
         elif ct("Ane"):
             $ rc("My apologies, I'm a lesbian.", "I'm terribly sorry, but... I can't do that with a man.")
-        elif ct("Yandere"):  
+        elif ct("Yandere"):
             $ rc("Sorry, I only like girls.", "I dislike men, nothing personal.", "I... I can't do men.")
         elif ct("Kamidere"):
             $ rc("I have no interest in men.", "Eww. I prefer girls, is it clear?", "Because you're a guy, no.")
-        else: 
+        else:
             $ rc("Sorry. I'm weird, so... I'm not into guys.", "Well, I kinda prefer girls... If you know what I mean.", "If you were a girl... it'd be alright, but...")
         $ char.restore_portrait()
         return
@@ -515,7 +515,7 @@ label interactions_refused_because_tired: # a universal answer for tired charact
     elif ct("Shy") and dice(50):
         $ rc("W-well, I'm a bit tired right now... Maybe some other time...", "Um, I-I don't think I can do it, I'm exhausted. Sorry...")
     elif ct("Imouto"):
-        $ rc("Noooo, I'm tired. I want to sleep.", "Z-z-z *she falls asleep on the feet*") 
+        $ rc("Noooo, I'm tired. I want to sleep.", "Z-z-z *she falls asleep on the feet*")
     elif ct("Dandere"):
         $ rc("No. Too tired.", "Not enough strength. I need to rest.")
     elif ct("Tsundere"):
@@ -534,7 +534,7 @@ label interactions_refused_because_tired: # a universal answer for tired charact
         $ rc("*sign* I'm soo tired lately, all I can think about is a cozy warm bed...", "I am ready to drop. Some other time perhaps.")
     $ char.restore_portrait()
     return
-    
+
 label interactions_girl_dissapointed: # a universal answer when character is displeased by something
     $ char.override_portrait("portrait", "indifferent")
     $ char.show_portrait_overlay("sweat", "reset")
@@ -543,7 +543,7 @@ label interactions_girl_dissapointed: # a universal answer when character is dis
     elif ct("Shy") and dice(50):
         $ rc("I suppose you have your reasons...", "Err... Do you... nothing. Never mind.")
     elif ct("Imouto"):
-        $ rc("Whaaa? Are you serious?", "What, that's it? Boring and stupid!") 
+        $ rc("Whaaa? Are you serious?", "What, that's it? Boring and stupid!")
     elif ct("Dandere"):
         $ rc("Pathetic...", "You are a bad person.")
     elif ct("Tsundere"):
@@ -563,7 +563,7 @@ label interactions_girl_dissapointed: # a universal answer when character is dis
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
     return
-    
+
 label interactions_girl_proposes_sex: # character proposes MC sex
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
@@ -571,7 +571,7 @@ label interactions_girl_proposes_sex: # character proposes MC sex
     elif ct("Shy"):
         $ rc("Uh... p-please d-do it for me... my whole body's aching right now...", "Aah... p-please... I-I want it... I can't think of anything else now!", "Ummm.... do you... not wish to do it...? ...I... really want it...", "I-I want to... be... with you...", "Right now... I want you to do it with me now... Please...", "I-I'm actually really good at sex! So... I-I'd like to show you...", "Um, I-I want to do it... So... Could we have sex?")
     elif ct("Imouto"):
-        $ rc("Let's do kinky things... Come on? Puh-leaaase.", "I've got a huge favor to ask! Fuck me right now! Pleaaase!", "So, um... are you interested in sex? I mean, uhm... I'd kinda like to... do it with you?", "Uuu... I'm boooored! Let's do something fun! Like um...maybe have sex or something...") 
+        $ rc("Let's do kinky things... Come on? Puh-leaaase.", "I've got a huge favor to ask! Fuck me right now! Pleaaase!", "So, um... are you interested in sex? I mean, uhm... I'd kinda like to... do it with you?", "Uuu... I'm boooored! Let's do something fun! Like um...maybe have sex or something...")
     elif ct("Dandere"):
         $ rc("Looking at you... makes me want to do it. Do you want to?", "You want to feel good too, don't you?", "How about we do *it*? It'll be fine, leave it to me.", "Let's... feel good together.", "Do you want to spend some time inside of me?", "You are interested in sex and stuff, right? In that case, come on...")
     elif ct("Tsundere"):
@@ -590,7 +590,7 @@ label interactions_girl_proposes_sex: # character proposes MC sex
         $ rc("Hey... Let's have sex.", "Say... d-do you want to do it... too?", "Um.. w-would you mind... having sex with me?", "Um... Please, have sex with me.", "Hey... do you think... we could do it?", "H-hey... Hmm, do I really need to be the one to say it... F-fuck me!", "Hey... I wanna have sex with you. Is that okay?")
     $ char.restore_portrait()
     return
-    
+
 label interactions_sex_begins: # lines in the beginning of a non-rape scene
     $ char.override_portrait("portrait", "shy")
     $ char.show_portrait_overlay("like", "reset")
@@ -599,7 +599,7 @@ label interactions_sex_begins: # lines in the beginning of a non-rape scene
     elif ct("Shy"):
         $ rc("I-I'll do my best... for your sake!", "Uhm... I want you... to be gentle...", "Uuh... Don't stare at me so much, it's embarrassing...", "...I'm ready now... Do it any time...", "Uh, uhm, how should I...? Eh? You want it like this...? O-okay! Then, h-here I go...", "As I thought, I'm nervous... B-but that's ok... I prepared myself...", "P-Please look... It's become so gushy just from thinking about you...♪", "Sorry if I'm no good at this...")
     elif ct("Imouto"):
-        $ rc("Uhuhu, well then, what should I tease first ♪", "Hm hmm! Be amazed at my fabulous technique!", "Umm... please do perverted things to me ♪", "Hehe, I'm going to move a lot for you...", "Aah... I want you...To love me lots...", "Ehehe... now my clothes are all soaked...", "Ehehe, make me feel really good, okay?", "Please be gentle, ok?") 
+        $ rc("Uhuhu, well then, what should I tease first ♪", "Hm hmm! Be amazed at my fabulous technique!", "Umm... please do perverted things to me ♪", "Hehe, I'm going to move a lot for you...", "Aah... I want you...To love me lots...", "Ehehe... now my clothes are all soaked...", "Ehehe, make me feel really good, okay?", "Please be gentle, ok?")
     elif ct("Dandere"):
         $ rc("Be sure to make me feel good too, ok?", "There's no reason for us to hold back... Come on, let's do this.", "I can't wait any more. Look how wet I am just thinking about you...", "Come on... Let's be one, body and soul.", "I will handle... all of your urges.", "My body can't wait any longer...")
     elif ct("Tsundere"):
@@ -619,7 +619,7 @@ label interactions_sex_begins: # lines in the beginning of a non-rape scene
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
     return
-    
+
 label interactions_seen_mast_propose:
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
@@ -627,7 +627,7 @@ label interactions_seen_mast_propose:
     elif ct("Shy") and dice(50):
         $ rc("...T-these perverted feelings... You can make them go away, can't you...?", "I- I'm sorry, I just couldn't hold it in any more... So, please, can we...")
     elif ct("Imouto"):
-        $ rc("I can't ask for it any more obviously than this! Just fuck me already, pleaaaaaase!", "Hey, come on, won't you touch me? I can't satisfy myself alone...") 
+        $ rc("I can't ask for it any more obviously than this! Just fuck me already, pleaaaaaase!", "Hey, come on, won't you touch me? I can't satisfy myself alone...")
     elif ct("Dandere"):
         $ rc("You caught me... Hey, please, can you take over from here?", "Watching me masturbate got you going, right? You wanna mess me up now, don't you?")
     elif ct("Tsundere"):
@@ -646,7 +646,7 @@ label interactions_seen_mast_propose:
         $ rc("Uuu, it's not enough by myself... Help me out here ♪", "Oh, it's you, [char.mc_ref]... What to join?")
     $ char.restore_portrait()
     return
-    
+
 label interactions_seen_mast:
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
@@ -654,7 +654,7 @@ label interactions_seen_mast:
     elif ct("Shy"):
         $ rc("Hyah!? I-I'm sorry! I'll wipe it off right away...!", "I-I... what an embarrassing thing to do...")
     elif ct("Imouto"):
-        $ rc("Ehehe, I'm all sticky...♪", "I-It's nothing, I was just a little itchy...") 
+        $ rc("Ehehe, I'm all sticky...♪", "I-It's nothing, I was just a little itchy...")
     elif ct("Dandere"):
         $ rc("Aw, I was almost there...", "...Even you have times when you need to...do it yourself, right?")
     elif ct("Tsundere"):
@@ -673,7 +673,7 @@ label interactions_seen_mast:
         $ rc("Hyaa!?　Eh, ah, um, I just, well... Ahaha...", "Hyaaah!? I, I don't do anything..!")
     $ char.restore_portrait()
     return
-    
+
 label interactions_too_many_lines: # overused non-sexual line
     $ char.override_portrait("portrait", "indifferent")
     $ char.show_portrait_overlay("angry", "reset")
@@ -682,7 +682,7 @@ label interactions_too_many_lines: # overused non-sexual line
     elif ct("Shy") and dice(50):
         $ rc("Um... Can you stop already?", "Um... Please, this is honestly too much...")
     elif ct("Imouto"):
-        $ rc("Stop it, that's annoying and boring!", "Uuuh, aren't you bored, talking about it again and again?") 
+        $ rc("Stop it, that's annoying and boring!", "Uuuh, aren't you bored, talking about it again and again?")
     elif ct("Dandere"):
         $ rc("...You want to talk about that again?", "...It is a bother talking so much about the same thing.")
     elif ct("Tsundere"):
@@ -703,7 +703,7 @@ label interactions_too_many_lines: # overused non-sexual line
     $ char.hide_portrait_overlay()
     $ char.restore_portrait()
     return
-    
+
 label interactions_too_many_sex_lines: # overused sexual line
     $ char.override_portrait("portrait", "indifferent")
     $ char.show_portrait_overlay("sweat", "reset")
@@ -712,7 +712,7 @@ label interactions_too_many_sex_lines: # overused sexual line
     elif ct("Shy") and dice(50):
         $ rc("S-sorry, let's do it later m-maybe..?", "Um... Please, this is honestly too much for today...")
     elif ct("Imouto"):
-        $ rc("Stop it, that's annoying and boring!", "Uuuh, aren't you bored, doing it again and again?") 
+        $ rc("Stop it, that's annoying and boring!", "Uuuh, aren't you bored, doing it again and again?")
     elif ct("Dandere"):
         $ rc("...You want to do it again? I don't want to.", "...Let's stop here. I'm tired of it.")
     elif ct("Tsundere"):
@@ -732,7 +732,7 @@ label interactions_too_many_sex_lines: # overused sexual line
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
     return
-    
+
 label interactions_frigid_sex_refuse:
     $ char.override_portrait("portrait", "indifferent")
     $ char.show_portrait_overlay("sweat", "reset")
@@ -741,7 +741,7 @@ label interactions_frigid_sex_refuse:
     elif ct("Shy") and dice(50):
         $ rc("S-sorry, let's do it later m-maybe..?")
     elif ct("Imouto"):
-        $ rc("Stop it, that's annoying and boring!", "Uuuh, aren't you bored, doing it again and again?") 
+        $ rc("Stop it, that's annoying and boring!", "Uuuh, aren't you bored, doing it again and again?")
     elif ct("Dandere"):
         $ rc("I don't want to.")
     elif ct("Tsundere"):
@@ -762,13 +762,14 @@ label interactions_frigid_sex_refuse:
     $ char.restore_portrait()
     $ char.hide_portrait_overlay()
     return
-    
+
 label interactions_blowoff(char=None, exit=None):
     $ hs()
     show expression char.get_vnsprite() as vn_sprite
     $ char.override_portrait("portrait", "angry")
     $ char.show_portrait_overlay("angry")
     with dissolve
+
     if ct("Yandere"):
         $ rc("Stay away. It's your final warning.", "You want to die? If not, go away.")
     elif ct("Impersonal"):
@@ -791,13 +792,14 @@ label interactions_blowoff(char=None, exit=None):
         $ rc("You just won't shut up, will you...", "Geez, you're pissing me off!")
     else:
         $ rc("Leave. I don't want to talk to you.", "Why do you keep bothering me?")
+        
     $ last_label = exit
     hide vn_sprite
     $ char.hide_portrait_overlay()
     $ renpy.show_screen(exit)
     with dissolve
     return
-    
+
 label interactions_alone_together:
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
@@ -805,7 +807,7 @@ label interactions_alone_together:
     elif ct("Shy") and dice(50):
         $ rc("Ah, it seems, um... Just us, huh...", "I-I get sort of nervous when we're alone...")
     elif ct("Imouto"):
-        $ rc("Ehehe... Come on now, there's nobody here but us.", "Hey, hey... We're all alone, aren't we?") 
+        $ rc("Ehehe... Come on now, there's nobody here but us.", "Hey, hey... We're all alone, aren't we?")
     elif ct("Dandere"):
         $ rc("We're all by our lonesome, huh...?", "Hm? There's nobody here...")
     elif ct("Tsundere"):
@@ -832,7 +834,7 @@ label interactions_study_together: # not used atm
     elif ct("Shy") and dice(50):
         $ rc("Um... Want to study at my place...?", "Um, if you're free, would you like to come to my place? Just thought we could study together...")
     elif ct("Imouto"):
-        $ rc("How about it? If you're free, want to come over and study?", "Hey, you free? You're free, right? You wanna study at my place? Right?") 
+        $ rc("How about it? If you're free, want to come over and study?", "Hey, you free? You're free, right? You wanna study at my place? Right?")
     elif ct("Dandere"):
         $ rc("Come study at my place?", "How about studying in my house?")
     elif ct("Tsundere"):
@@ -851,7 +853,7 @@ label interactions_study_together: # not used atm
         $ rc("I was just about to go home. Mind tutoring me for a bit?", "If you're free, want to come to my house to study?")
     $ char.restore_portrait()
     return
-    
+
 label interactions_study_sex: # not used atm
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
@@ -859,7 +861,7 @@ label interactions_study_sex: # not used atm
     elif ct("Shy") and dice(50):
         $ rc("Right now, there's no one home... 　So we could study, or do other stuff...", "Would you like to...come to my place? ...T-There's nobody... home right now...")
     elif ct("Imouto"):
-        $ rc("H-hey... Want to come over and study? Just so you know, don't do anything perverted, okay?　I'm serious!", "Should we study at my place? Oh, but there's no one else at home, you see...") 
+        $ rc("H-hey... Want to come over and study? Just so you know, don't do anything perverted, okay?　I'm serious!", "Should we study at my place? Oh, but there's no one else at home, you see...")
     elif ct("Dandere"):
         $ rc("...Come to my house. ...To study, of course.", "Come study and do various other things at my place?")
     elif ct("Tsundere"):
@@ -878,7 +880,7 @@ label interactions_study_sex: # not used atm
         $ rc("Are you free? If you are, then... How about you come over?", "Hey, wanna do something at my house? You know, like, studying or something?")
     $ char.restore_portrait()
     return
-    
+
 label interactions_study_sex_lines: # not used atm
     $ char.override_portrait("portrait", "suggestive")
     if ct("Impersonal"):
@@ -886,7 +888,7 @@ label interactions_study_sex_lines: # not used atm
     elif ct("Shy") and dice(50):
         $ rc("Um... I'm sorry. I just wanted to know more about you.", "S-sorry, I couldn't control myself... P-please don't hate me...")
     elif ct("Imouto"):
-        $ rc("Hey, I bored... Maybe we should do something else, like, you know...", "Okay, okay! I think we should study some naughty stuff too! Don't you agree?") 
+        $ rc("Hey, I bored... Maybe we should do something else, like, you know...", "Okay, okay! I think we should study some naughty stuff too! Don't you agree?")
     elif ct("Dandere"):
         $ rc("Studying is important, but... So is studying this here.", "Let's study physical education today.")
     elif ct("Tsundere"):
@@ -913,7 +915,7 @@ label interactions_teaching_lines: # not used atm
     elif ct("Shy"):
         $ rc("Ah...that's...really easy to understand... You're amazing...")
     elif ct("Imouto"):
-        $ rc("...Wow, that really helped, it's a lot easier to understand now!") 
+        $ rc("...Wow, that really helped, it's a lot easier to understand now!")
     elif ct("Dandere"):
         $ rc("I see... Thanks for the explanation.")
     elif ct("Tsundere"):
@@ -932,7 +934,7 @@ label interactions_teaching_lines: # not used atm
         $ rc("Ah, I see... I think I kinda get it now ♪")
     $ char.restore_portrait()
     return
-    
+
 label interactions_visit_house: # not used atm, maybe will be useful later
     $ char.override_portrait("portrait", "shy")
     if ct("Impersonal"):
@@ -940,7 +942,7 @@ label interactions_visit_house: # not used atm, maybe will be useful later
     elif ct("Shy") and dice(50):
         $ rc("Er, um, so... There's no one at my house today... so... I was thinking we could be alone, maybe...", "H-hey! ...Th-there's no one home... at my place... S-so, maybe we could...")
     elif ct("Imouto"):
-        $ rc("Hey, hey, want to come to my house? Muhuhu, actually today there's no one home.", "So, you know, there's no one at my house right now... So... okay?") 
+        $ rc("Hey, hey, want to come to my house? Muhuhu, actually today there's no one home.", "So, you know, there's no one at my house right now... So... okay?")
     elif ct("Dandere"):
         $ rc("I want you to come to my house... Don't mind the reason, just answer the invitation.", "Come to my bedroom. You don't have to worry... no one's there.")
     elif ct("Tsundere"):
@@ -959,7 +961,7 @@ label interactions_visit_house: # not used atm, maybe will be useful later
         $ rc("Um, er... There's no one home at my place right now... Wanna come over?", "You know... right now... There's nobody at my house...")
     $ char.restore_portrait()
     return
-    
+
 label interactions_invite_to_sparring: # used in hidden village at very least, might be useful for other places
     $ char.override_portrait("portrait", "happy")
     if ct("Impersonal"):
@@ -967,7 +969,7 @@ label interactions_invite_to_sparring: # used in hidden village at very least, m
     elif ct("Shy") and dice(50):
         $ rc("I thought I would exercise a bit... Um... What do you say we go together...?", "I was t-thinking of doing a bit of exercise... D-do you wanna come along?", "Um, I'd like to practice with you... is that okay...?")
     elif ct("Imouto"):
-        $ rc("Hey, It's training time! Together, of course!", "Hey hey, come work out with me for a bit!", "Hey, help me practice a little!") 
+        $ rc("Hey, It's training time! Together, of course!", "Hey hey, come work out with me for a bit!", "Hey, help me practice a little!")
     elif ct("Dandere"):
         $ rc("Excuse me, I want to build up my strength... Would you like to join me?", "I wish to train my body. Join me?", "Wanna practice with me?")
     elif ct("Tsundere"):
@@ -986,7 +988,7 @@ label interactions_invite_to_sparring: # used in hidden village at very least, m
         $ rc("How about it? Want to go for some light exercise?", "Um, would you like to go exercise?", "Come on, let's practice together?")
     $ char.restore_portrait()
     return
-    
+
 label interactions_invite_to_beach: # used in hidden village atm, will be useful for other places
     $ char.override_portrait("portrait", "happy")
     if ct("Impersonal"):
@@ -994,7 +996,7 @@ label interactions_invite_to_beach: # used in hidden village atm, will be useful
     elif ct("Shy"):
         $ rc("Swimsuits are s-so embarrassing... P-please don't look at me too much...", "I was t-thinking of swimming a bit... D-do you want to join?")
     elif ct("Imouto"):
-        $ rc("Yay! The water is great, let's go swim!", "Hey, you like my swimsuit, don't you? I think it's pretty cool!") 
+        $ rc("Yay! The water is great, let's go swim!", "Hey, you like my swimsuit, don't you? I think it's pretty cool!")
     elif ct("Dandere"):
         $ rc("The weather is nice. Perfect for swimming.", "Do you like this swimsuit? Me? I think it's ok.")
     elif ct("Tsundere"):
@@ -1013,7 +1015,7 @@ label interactions_invite_to_beach: # used in hidden village atm, will be useful
         $ rc("How about it? Do you like my swimsuit? It wasn't easy to pick a good one, you know.", "Come on, let's swim together! I bet the water feels nice! ♪")
     $ char.restore_portrait()
     return
-    
+
 label interactions_bad_goodbye: # character leaves with bad disposition
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
@@ -1021,7 +1023,7 @@ label interactions_bad_goodbye: # character leaves with bad disposition
     elif ct("Shy"):
         $ rc("I-I'm sorry. I can't stay here anymore. Goodbye!", "I guess it couldn't be helped... Haah, I can finally relax...")
     elif ct("Imouto"):
-        $ rc("Alright, I'm leaving. I don't want to hear any complaints, okay?", "Hey, could you not get involved with me anymore? Goodbye.") 
+        $ rc("Alright, I'm leaving. I don't want to hear any complaints, okay?", "Hey, could you not get involved with me anymore? Goodbye.")
     elif ct("Dandere"):
         $ rc("This is the end of our partnership. I want nothing more to do with you.", "Our agreement is now done. I want nothing more to do with you.")
     elif ct("Tsundere"):
@@ -1040,7 +1042,7 @@ label interactions_bad_goodbye: # character leaves with bad disposition
         $ rc("I no longer want to stay here. Goodbye.", "We're complete strangers now. Bye.")
     $ char.restore_portrait()
     return
-    
+
 label interactions_good_goodbye: # character leaves with good disposition
     $ char.override_portrait("portrait", "indifferent")
     if ct("Impersonal"):
@@ -1048,7 +1050,7 @@ label interactions_good_goodbye: # character leaves with good disposition
     elif ct("Shy"):
         $ rc("S-see you later.")
     elif ct("Imouto"):
-        $ rc("Bye-bye♪") 
+        $ rc("Bye-bye♪")
     elif ct("Dandere"):
         $ rc("Goodbye then...")
     elif ct("Tsundere"):
@@ -1067,7 +1069,7 @@ label interactions_good_goodbye: # character leaves with good disposition
         $ rc("Alright, see you.")
     $ char.restore_portrait()
     return
-    
+
 label interactions_character_recovers: # char recovers from wound
     $ char.override_portrait("portrait", "happy")
     if ct("Impersonal"):
@@ -1076,7 +1078,7 @@ label interactions_character_recovers: # char recovers from wound
         $ rc("Um, what happened to me... Oh, I see...")
     elif ct("Imouto"):
         $ char.override_portrait("portrait", "sad")
-        $ rc("I-I was really scared, you know?! Uuh, I was so scared～") 
+        $ rc("I-I was really scared, you know?! Uuh, I was so scared～")
     elif ct("Dandere"):
         $ rc("I'm sorry for making you worry... I'm okay now.")
     elif ct("Tsundere"):

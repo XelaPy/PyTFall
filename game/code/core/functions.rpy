@@ -80,13 +80,14 @@ init -11 python:
         overrides = A list of words to return "an" for, overriding the default logic.
         """
         string = string.lower()
-        if string[:1] in ("a", "e", "i", "o", "u"): return "an"
-        else:
-            if overrides is not None:
-                for i in overrides:
-                    if string.startswith(i): return "an"
+        if string[:1] in ("a", "e", "i", "o", "u"):
+            return "an"
 
-            return "a"
+        if overrides is not None:
+            for i in overrides:
+                if string.startswith(i): return "an"
+
+        return "a"
 
     def hs():
         # Hides the current renpy screen.

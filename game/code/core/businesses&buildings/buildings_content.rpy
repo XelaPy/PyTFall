@@ -202,6 +202,13 @@ init -9 python:
     class School(BaseBuilding):
         """
         Building that represents the school.
+
+        Convert to SimPy?
+
+        Issues:
+            Courses are infinite.
+            Too much EXP.
+            Courses may not correspond to modern jobs.
         """
 
         #"primary": [1,1,1,0,1,1,1,1,1,1,1,1,2,0],
