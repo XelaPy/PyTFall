@@ -1363,6 +1363,9 @@ screen keymap_override():
     key "toggle_skip" action NullAction()
     key "fast_skip" action NullAction()
     key "mouseup_3" action NullAction()
+    key "mousedown_3" action NullAction()
+    key "mouseup_2" action NullAction()
+    key "mousedown_2" action NullAction()
 
 screen panic_screen():
     modal True
@@ -1399,8 +1402,10 @@ screen give_exp_after_battle(group, enemy_team, ap_used=1, money=0):
     modal True
     zorder 100
 
-    default bars = get_exp_bars(group)
+    use keymap_override
 
+    default bars = get_exp_bars(group)
+    
     frame:
         align (.5, .5)
         background Frame("content/gfx/frame/post_battle.png", 75, 75)
@@ -1434,6 +1439,8 @@ screen give_exp_after_battle(group, enemy_team, ap_used=1, money=0):
                 action Return()
                 keysym ("K_ESCAPE", "K_RETURN", "mousedown_3")
             text "OK" size 15
+
+
 
     # if all(c.finished for c in bars):
     #     key "K_ESCAPE" action Return()
