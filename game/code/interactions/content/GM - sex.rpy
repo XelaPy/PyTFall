@@ -57,30 +57,29 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
     if char.flag("quest_cannot_be_fucked") == True or (ct("Half-Sister") and not "Sister Lover" in hero.traits): # cannot hire h-s for that stuff, only seduce, seems reasonable
         call interactions_sex_disagreement from _call_interactions_sex_disagreement
         jump girl_interactions
-
-    if char.disposition<100 and char.status == "free": # for negative disposition
-        if dice(abs(char.disposition*0.2)): # if it's low enough to make the dice work she refuses
-            call interactions_sex_disagreement from _call_interactions_sex_disagreement_1
-            $ char.disposition -= randint(15, 35)
-            $ char.set_flag("_day_countdown_interactions_blowoff", 2)
-            jump girl_interactions_end
-    elif char.vitality <= round(char.get_max("vitality")*0.25) or char.AP <= 0: # no sex with low vitality
+        
+    if char.vitality <= round(char.get_max("vitality")*0.25) or char.AP <= 0: # no sex with low vitality
         call interactions_refused_because_tired from _call_interactions_refused_because_tired_2
         jump girl_interactions
-    $ price = 500 #a placeholder, the price should be close to whore job prices, which are calculated weirdly atm
+
+    $ price = 200 + 200 * char.tier 
 
     if check_friends(char, hero):
-        $ price = round(price * .7)
+        $ price = round(price * .9)
     elif char.disposition < -50:
         $ price = round(price * 1.3)
+        
     if ct("Lesbian") and not "Yuri Expert" in hero.traits:
         $ price = round(price * 2.5)
     if ct("Nymphomaniac"):
-        $ price = round(price * .9)
+        $ price = round(price * .95)
     elif ct("Frigid"):
-        $ price = round(price * 1.2)
+        $ price = round(price * 1.25)
     if ct("Virgin"):
-        $ price = round(price * 1.1)
+        $ price = round(price * 1.2)
+        
+    $ temp = round(hero.charisma/10)
+    $ price = round(max(price*.35, price - temp))
 
     if ct("Impersonal"):
         $ rc("Affirmative. It will be %d G." % price, "Calculations completed. %d G to proceed." % price)
