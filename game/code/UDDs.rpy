@@ -560,9 +560,6 @@ init -999 python:
                         char.exp += self.active_pool
                         self.active_pool = 0
 
-                    if self.active_pool == 0:
-                        renpy.music.stop(channel="sound")
-
                     if self.last_known_level != char.level:
                         self.last_known_level = char.level
                         self.level_changed = True
@@ -576,6 +573,8 @@ init -999 python:
             if not self.finished and self.check_finished():
                 self.update_st = 0
                 self.finished = True
+
+                renpy.music.stop(channel="sound")
                 renpy.restart_interaction()
 
             if not self.finished:
