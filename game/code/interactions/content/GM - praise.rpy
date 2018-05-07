@@ -40,18 +40,10 @@ label interactions_clever:
             "She's not impressed at all."
             call praise_nope from _call_praise_nope
             jump girl_interactions
-        if char.disposition < 250:
-            if char.character*2 > hero.get_skill("refinement"): # refinement tries to overcome character's stubbornness
-                $ char.disposition += (randint (5, 10))*inter_praise
-                $ char.joy += randint (10, 20)
-            else:
-                $ char.disposition += (randint (10, 15))*inter_praise
-                $ char.joy += randint (15, 20)
-        else:
-            if char.character*2 > hero.get_skill("refinement"):
-                $ char.joy += randint (10, 20)
-            else:
-                $ char.joy += randint (15, 20)
+
+        $ char.disposition += (randint (10, 15))*inter_praise
+        $ char.joy += randint (15, 20)
+
         call praise_yes from _call_praise_yes
         $ del inter_praise
         jump girl_interactions
@@ -103,18 +95,9 @@ label interactions_strong:
             call praise_nope from _call_praise_nope_2
             jump girl_interactions
 
-        if char.disposition < 250:
-            if char.character*2 > hero.get_skill("refinement"): # refinement tries to overcome character's stubbornness
-                $ char.disposition += (randint (5, 10))*inter_praise
-                $ char.joy += randint (10, 20)
-            else:
-                $ char.disposition += (randint (10, 15))*inter_praise
-                $ char.joy += randint (15, 20)
-        else:
-            if char.character*2 > hero.get_skill("refinement"):
-                $ char.joy += randint (10, 20)
-            else:
-                $ char.joy += randint (15, 20)
+        $ char.disposition += (randint (10, 15))*inter_praise
+        $ char.joy += randint (15, 20)
+        
         call praise_yes from _call_praise_yes_1
         $ del inter_praise
         jump girl_interactions
@@ -166,18 +149,8 @@ label interactions_cute:
             call praise_nope from _call_praise_nope_4
             jump girl_interactions
 
-        if char.disposition < 250:
-            if char.character*2 > hero.get_skill("refinement"): # refinement tries to overcome character's stubbornness
-                $ char.disposition += (randint (5, 10))*inter_praise
-                $ char.joy += randint (10, 20)
-            else:
-                $ char.disposition += (randint (10, 15))*inter_praise
-                $ char.joy += randint (15, 20)
-        else:
-            if char.character*2 > hero.get_skill("refinement"):
-                $ char.joy += randint (10, 20)
-            else:
-                $ char.joy += randint (15, 20)
+        $ char.disposition += (randint (10, 15))*inter_praise
+        $ char.joy += randint (15, 20)
 
         call praise_yes from _call_praise_yes_2
         $ del inter_praise

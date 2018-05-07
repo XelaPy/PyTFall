@@ -63,53 +63,65 @@ label tailor_store_shopping:
 
 screen shopkeeper_items_upgrades(upgrades_list):
     modal True
+    key "mouseup_3" action Return(-1)
     frame:
         align (.5, .5)
         background Frame("content/gfx/frame/frame_dec_1.png", 75, 75)
         xpadding 75
         ypadding 75
-        has vbox
-        hbox:
-            xalign .5
-            add "content/gfx/animations/coin_top 0.13 1/1.webp" yalign .6
-            null width 15
-            text "%d" % hero.gold style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 30
-        null height 15
-        for i in upgrades_list:
-            frame:
-                style_prefix "wood"
-                background Frame("content/gfx/frame/cry_box.png", 5, 5)
-                xpadding 10
-                ypadding 10
-                hbox:
-                    spacing 0
-                    xsize 600
-                    xalign .5
-                    vbox:
-                        add ProportionalScale(items[i["first_item"]].icon, 80, 80) xalign .5
-                        text "%s" %i["first_item"] style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 15 xalign .5
-                    hbox:
-                        yalign .5
-                        text "+ %s " %i["price"] style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 25 yalign .5 xalign .0
-                        add "content/gfx/animations/coin_top 0.13 1/1.webp" yalign .7
-                        text "  =" style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 25 yalign .5 xalign .0
-                    add ProportionalScale(items[i["second_item"]].icon, 80, 80) xalign .5
-                    null width 10
-                    button:
-                        xysize (100, 50)
-                        xalign 1.0
-                        yalign .5
-                        text "Order" size 16 color goldenrod
-                        action Return(i["first_item"])
-                        padding (10, 10)
-                    null height 1
-        null height 5
+        xysize (800, 700)
+
         button:
             xysize (180, 50)
             style_prefix "wood"
             text "Cancel" size 16 color goldenrod
-            xalign .5
+            xalign .3
+            yoffset -40
             action Return(-1)
+        hbox:
+            xalign .7
+            add "content/gfx/animations/coin_top 0.13 1/1.webp" yalign .6
+            null width 15
+            yoffset -40
+            text "%d" % hero.gold style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 30
+        
+        viewport:
+            ypos 25 
+            mousewheel True
+            scrollbars "vertical"
+            draggable True
+            xysize (600, 600)
+            has vbox
+            for i in upgrades_list:
+                frame:
+                    style_prefix "wood"
+                    background Frame("content/gfx/frame/cry_box.png", 5, 5)
+                    xpadding 10
+                    ypadding 10
+                    hbox:
+                        spacing 0
+                        xsize 600
+                        xalign .5
+                        vbox:
+                            add ProportionalScale(items[i["first_item"]].icon, 80, 80) xalign .5
+                            text "%s" %i["first_item"] style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 15 xalign .5
+                        hbox:
+                            yalign .5
+                            text "+ %s " %i["price"] style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 25 yalign .5 xalign .0
+                            add "content/gfx/animations/coin_top 0.13 1/1.webp" yalign .7
+                            text "  =" style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 25 yalign .5 xalign .0
+                        add ProportionalScale(items[i["second_item"]].icon, 80, 80) xalign .5
+                        null width 10
+                        button:
+                            xysize (100, 50)
+                            xalign 1.0
+                            yalign .5
+                            text "Order" size 16 color goldenrod
+                            action Return(i["first_item"])
+                            padding (10, 10)
+                        null height 1
+        null height 5
+
 
 label tailor_special_order:
     if npcs["Kayo_Sudou"].has_flag("tailor_special_order"):

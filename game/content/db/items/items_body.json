@@ -814,6 +814,28 @@
     "pref_class":["Mage", "Healer"]
     },
     {
+    "id": "Fae Robe",
+    "desc": "Special robe made from ",
+    "icon": "content/items/body/fgm.png",
+    "price": 6000,
+    "sex": "male",
+    "chance": 0,
+    "badness": 30,
+    "eqchance": 90,
+    "hidden": true,
+    "infinite": false,
+    "slot": "body",
+    "type": "armor",
+    "max": {"charisma": 60, "mp": 180, "magic": 150, "defence": 80},
+    "mod": {"charisma": 40, "character": 60, "agility": -30, "attack": -120, "magic": 100, "defence": 80},
+    "evasion_bonus": 4,
+    "defence_multiplier": {"magic": 0.3, "status": 0.3, "ranged": 0.15},
+    "delivery_multiplier": {"magic": 0.25},
+    "mod_skills": {"refinement": [0.15, 0.15, 0.2, 0, 0], "security": [0.4, 0.4, 0.5, 0, 0]},
+    "tier": 4,
+    "pref_class":["Mage", "Healer"]
+    },
+    {
     "id": "Godward Shell",
     "desc": "This heavy armor is made from the shell of an ancient beast, said to have survived a duel with the God of War. The legends don't tell how the creature finally met its end, though.",
     "icon": "content/items/body/gs.png",

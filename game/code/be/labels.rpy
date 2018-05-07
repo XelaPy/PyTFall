@@ -157,6 +157,7 @@ screen battle_report():
         frame:
             background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
             style "dropdown_gm_frame"
+            
             has viewport:
                 xysize (540, 400)
                 scrollbars "vertical"

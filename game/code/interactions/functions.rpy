@@ -198,9 +198,8 @@ init -11 python:
 
     # Interactions (Girlsmeets Helper Functions):
     def interactions_set_repeating_lines_limit(c): # returns the number of character "patience", ie how many repeating lines she's willing to listen in addition to default value
+        global hero
         if check_lovers(c, hero):
-            patience = locked_random("randint", 1, 2)
-        elif check_friends(c, hero):
             patience = 1
         else:
             patience = 0
@@ -209,6 +208,10 @@ init -11 python:
             patience += locked_random("randint", 0, 1)
         elif "Ill-mannered" in c.traits:
             patience -= locked_random("randint", 0, 1)
+            
+        if c.status == "slave":
+            patience += 1
+        patience += int(hero.charisma/100) 
         return patience
 
     def interactions_drinking_outside_of_inventory(character, count): # allows to raise activation count and become drunk without using real items
@@ -223,9 +226,11 @@ init -11 python:
         global day
         if not(char_name.flag(char_flag)) or char_name.flag(char_flag)["day"] != day:
             char_name.set_flag(char_flag, {"day": day, "times": 1})
+            result = 0
         else:
+            result = char_name.flag(char_flag)["times"]
             char_name.set_flag(char_flag, {"day": day, "times": char_name.flag(char_flag)["times"] + 1})
-        return char_name.flag(char_flag)["times"]
+        return result
 
     def interactions_silent_check_for_bad_stuff(char_name): # we check issues without outputting any lines or doing something else, and just return True/False
         if char_name.effects["Food Poisoning"]['active']:

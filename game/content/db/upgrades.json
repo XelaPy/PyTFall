@@ -22,5 +22,29 @@
     "price": 900,
     "second_item": "Proper Mercenary Clothes",
     "location": "Tailor"
+    },
+    {
+    "first_item": "Faerie Gown",
+    "price": 2000,
+    "second_item": "Fae Robe",
+    "location": "Tailor"
+    },
+    {
+    "first_item": "Faerie Cloak",
+    "price": 900,
+    "second_item": "Fae Hood",
+    "location": "Tailor"
+    },
+    {
+    "first_item": "Faerie Boots",
+    "price": 800,
+    "second_item": "Fae Boots",
+    "location": "Tailor"
+    },
+    {
+    "first_item": "Faerie Bracers",
+    "price": 800,
+    "second_item": "Fae Bracers",
+    "location": "Tailor"
     }
   ]

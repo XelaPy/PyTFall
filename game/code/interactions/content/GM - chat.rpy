@@ -4,30 +4,26 @@ label interactions_smalltalk:
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_general")
-    if m >= (randint(3,5) + interactions_set_repeating_lines_limit(char)):
+    if m >= (2 + interactions_set_repeating_lines_limit(char)):
         call interactions_too_many_lines from _call_interactions_too_many_lines_1
-        $ char.disposition -= randint(1,m)
+        $ char.disposition -= 5
         if char.joy > 80:
-            $ char.joy -= randint(0,1)
+            $ char.joy -= 1
         $ del m
         jump girl_interactions
-    if dice(randint(40, 60)) and dice(char.joy) and m < 3:
+    if dice(50) and dice(char.joy):
         if char.disposition >= 50:
             $ narrator(choice(["You feel especially close."]))
             $ char.joy += randint(0, 1)
-            $ char.disposition += randint(0, 1)
-            # $ hero.exp += randint(0, 1)
-            # $ char.exp += randint(0, 1)
+            $ char.disposition += randint(1, 2)
             $ hero.exp += exp_reward(hero, char, ap_used=.33)
             $ char.exp += exp_reward(char, hero, ap_used=.33)
 
         else:
             $ narrator(choice(["[char.pC] was much more approachable."]))
-            # $ hero.exp += randint(0, 1)
-            # $ char.exp += randint(0, 1)
             $ hero.exp += exp_reward(hero, char, ap_used=.33)
             $ char.exp += exp_reward(char, hero, ap_used=.33)
-            $ char.disposition += randint(1, 4)
+            $ char.disposition += randint(2, 4)
 
     if char.disposition >= 100:
         if ct("Impersonal") or ct("Dandere") or ct("Shy"):
@@ -60,8 +56,6 @@ label interactions_smalltalk:
         $ char.disposition += 1
     else:
         $ char.joy += 1
-    # $ hero.exp += randint(1, 3)
-    # $ char.exp += randint(1, 3)
     $ hero.exp += exp_reward(hero, char, ap_used=.33)
     $ char.exp += exp_reward(char, hero, ap_used=.33)
     $ del m
@@ -70,16 +64,14 @@ label interactions_smalltalk:
 # ask about job
 label girl_interactions_aboutjob: # TO DO: here would help additional logic based on actual recent jobs events
     $ interactions_check_for_bad_stuff(char)
-    # $ char.show_portrait_overlay("shy", "reset")
     $ m = interactions_flag_count_checker(char, "flag_girl_interactions_aboutjob")
-    if m > 1:
+    if m >= 1:
         call interactions_too_many_lines from _call_interactions_too_many_lines_2
-        $ char.disposition -= randint(0,m)
+        $ char.disposition -= 5
         $ del m
         jump girl_interactions
     $ del m
 
-    # $ hero.exp += randint(1, 2)
     $ hero.exp += exp_reward(hero, char, ap_used=.33)
 
     if char.flag("daysemployed") < 5:
@@ -183,9 +175,9 @@ label girl_interactions_aboutjob: # TO DO: here would help additional logic base
 # ask how she feels
 label interactions_howshefeels:
     $ m = interactions_flag_count_checker(char, "flag_interactions_howshefeels")
-    if m >= randint(5, 6): # we don't have to limit it because of bonuses (there are none), but because of the common sense
+    if m >= 5: # we don't have to limit it because of bonuses (there are none), but because of the common sense
         call interactions_too_many_lines from _call_interactions_too_many_lines_3
-        $ char.disposition -= randint(0,m)
+        $ char.disposition -= 5
         $ del m
         jump girl_interactions
     $ del m
@@ -259,7 +251,7 @@ label interactions_abouther:
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_abouther")
-    if m > (randint(2,3) + interactions_set_repeating_lines_limit(char)):
+    if m > (2 + interactions_set_repeating_lines_limit(char)):
         call interactions_too_many_lines from _call_interactions_too_many_lines_4
         $ char.disposition -= randint(2,m+1)
         if char.joy > 40:
@@ -267,33 +259,26 @@ label interactions_abouther:
         $ del m
         jump girl_interactions
 
-    if char.disposition > 40 and dice(char.disposition*0.5 + (hero.charisma*0.1) - 5*m):
-        if dice(randint(40,60)) and dice(char.joy-20) and m < 2:
+    if char.disposition > 50:
+        if dice(50) and dice(char.joy-20):
             if char.disposition >= 400:
                 $ narrator(choice(["You feel especially close."]))
-                # $ hero.exp += randint(2, 4)
-                # $ char.exp += randint(2, 4)
                 $ hero.exp += exp_reward(hero, char, ap_used=.33)
                 $ char.exp += exp_reward(char, hero, ap_used=.33)
                 $ char.joy += randint(0, 1)
                 $ char.disposition += randint(1, 2)
             else:
                 $ narrator(choice(["She was much more approachable."]))
-                # $ hero.exp += randint(2, 4)
-                # $ char.exp += randint(2, 4)
                 $ hero.exp += exp_reward(hero, char, ap_used=.33)
                 $ char.exp += exp_reward(char, hero, ap_used=.33)
                 $ char.disposition += randint(2, 6)
 
-        $ result = round(randint(4, 10)+ char.joy*0.04 - m - char.disposition*0.015)
-        if result <= 0:
-            $ result = randint(1,2)
-        $ char.disposition += result
+        $ char.disposition += randint(5, 15)
         $ del m
-        # $ hero.exp += randint(4, 8)
-        # $ char.exp += randint(4, 8)
+
         $ hero.exp += exp_reward(hero, char, ap_used=.33)
         $ char.exp += exp_reward(char, hero, ap_used=.33)
+        
         $ gm_abouther_list = []
         if ct("Half-Sister"):
             if ct("Yandere"):
@@ -519,13 +504,13 @@ label interactions_abouther:
 label interactions_aboutoccupation:
     $ interactions_check_for_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_aboutoccupation")
-    if m > randint(2,3):
+    if m > 5:
         call interactions_too_many_lines from _call_interactions_too_many_lines_5
-        $ char.disposition -= randint(1,m)
+        $ char.disposition -= 5
         $ del m
         jump girl_interactions
+    $ del m
 
-    # $ hero.exp += randint(1, 2)
     $ hero.exp += exp_reward(hero, char, ap_used=.33)
 
     if char.disposition > -250 or char.status == "slave":
@@ -554,7 +539,7 @@ label interactions_aboutoccupation:
         if not(cgo("Server") or cgo("SIW") or cgo("Combatant") or cgo("Caster") or co("Manager")): #you never know
             $ rc("I don't really have a profession...")
     else:
-        $ char.disposition -= randint(0, 1)
+        $ char.disposition -= 5
         jump interactions_refused
     jump girl_interactions
 
@@ -562,28 +547,24 @@ label interactions_interests:
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_interests")
-    if m > (randint(2,3) + interactions_set_repeating_lines_limit(char)):
+    if m > (2 + interactions_set_repeating_lines_limit(char)):
         call interactions_too_many_lines from _call_interactions_too_many_lines_6
-        $ char.disposition -= randint(2,m+1)
+        $ char.disposition -= 10
         if char.joy > 40:
             $ char.joy -= randint(1,2)
         $ del m
         jump girl_interactions
 
-    if char.disposition > 60 and dice(char.disposition*0.45 + (hero.charisma*0.1) - 5*m):
-        if dice(randint(40,60)) and dice(char.joy-20) and m < 2:
+    if char.disposition > 100:
+        if dice(50) and dice(char.joy-20):
             if char.disposition >= 400:
                 $ narrator(choice(["You feel especially close."]))
-                # $ hero.exp += randint(2, 4)
-                # $ char.exp += randint(2, 4)
                 $ hero.exp += exp_reward(hero, char, ap_used=.15)
                 $ char.exp += exp_reward(char, hero, ap_used=.15)
                 $ char.joy += randint(0, 1)
                 $ char.disposition += randint(1, 2)
             else:
                 $ narrator(choice(["She was much more approachable."]))
-                # $ hero.exp += randint(2, 4)
-                # $ char.exp += randint(2, 4)
                 $ hero.exp += exp_reward(hero, char, ap_used=.15)
                 $ char.exp += exp_reward(char, hero, ap_used=.15)
                 $ char.disposition += randint(2, 6)
@@ -636,10 +617,7 @@ label interactions_interests:
 
         $ narrator(line)
         $ del line
-        $ result = round(randint(6, 15)+ char.joy*0.04 - m*2 - char.disposition*0.015)
-        if result <= 0:
-            $ result = 1
-        $ char.disposition += result
+        $ char.disposition += randint(10, 20)
 
         $ hero.exp += exp_reward(hero, char, ap_used=.20)
         $ char.exp += exp_reward(char, hero, ap_used=.20)
@@ -675,25 +653,20 @@ label interactions_flirt:
     $ interactions_check_for_bad_stuff(char)
     $ interactions_check_for_minor_bad_stuff(char)
     $ m = interactions_flag_count_checker(char, "flag_interactions_flirt")
-    if m > (randint(2,3) + interactions_set_repeating_lines_limit(char)):
+    if m > (2 + interactions_set_repeating_lines_limit(char)):
         call interactions_too_many_lines from _call_interactions_too_many_lines_7
-        $ char.disposition -= randint(3,m+3) + randint(1,2)
+        $ char.disposition -= randint(5,15)
         if char.joy > 30:
             $ char.joy -= randint(2,4)
         $ del m
         jump girl_interactions
 
-    if char.disposition > 100 and dice(char.disposition*0.4 + (hero.charisma*0.1) - 5*m):
+    if char.disposition > 150:
         $ char.override_portrait("portrait", "shy")
-        # $ hero.exp += randint(5, 15)
-        # $ char.exp += randint(5, 15)
 
         $ hero.exp += exp_reward(hero, char, ap_used=.33)
         $ char.exp += exp_reward(char, hero, ap_used=.33)
-        $ result = round(randint(8, 20)+ char.joy*0.04 - m*2 - char.disposition*0.015)
-        if result <= 0:
-            $ result = randint(1, 2)
-        $ char.disposition += result
+        $ char.disposition += randint(15, 25)
 
         $ del m
         

@@ -298,6 +298,28 @@
     "pref_class":["Warrior", "Shooter", "Assassin"]
     },
     {
+    "id": "Fae Hood",
+    "desc": "The magical cloth was reworked into this stylish and powerful hood.",
+    "icon": "content/items/head/fam.png",
+    "price": 1150,
+    "sex": "male",
+    "chance": 0,
+    "badness": 0,
+    "eqchance": 90,
+    "hidden": true,
+    "infinite": false,
+    "slot": "head",
+    "type": "armor",
+    "max": {"mp": 35, "magic": 25, "defence": 20, "agility": 15, "character": 10},
+    "mod": {"defence": 20, "magic": 25, "character": 10, "agility": -15, "attack": -15},
+    "mod_skills": {"refinement": [0.05, 0.05, 0.05, 0, 0], "security": [0, 0, 0.05, 0, 0]},
+    "evasion_bonus": 1,
+    "defence_multiplier": {"magic": 0.15, "ranged": 0.1},
+    "delivery_multiplier": {"magic": 0.15},
+    "tier": 4,
+    "pref_class":["Mage", "Healer"]
+    },
+    {
     "id": "Top Hat",
     "desc": "Top hat for gentlemen, all men with good taste and those that can afford to look rich.",
     "icon": "content/items/head/silk_hat.png",
