@@ -966,3 +966,9 @@ init -11 python:
             value *= final_mod
 
         return round_int(value)
+
+    def gold_reward():
+        """
+        TODO: Do the same as above for money using one or more functions.
+        """
+        pass
