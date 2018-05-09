@@ -274,8 +274,8 @@ init -9 python:
 
             # Restoring world girls:
             self.restore_all_chars()
-            # if not day % 14:
-            #     self.add_random_girls()
+            if not day % 14:
+                self.populate_world(tier_offset=.0)
 
             # Last we construct the main screen report:
             self.ms_text = "\n".join(self.temp_text)
