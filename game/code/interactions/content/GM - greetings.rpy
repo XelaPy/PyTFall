@@ -3,6 +3,8 @@ label girl_meets_greeting: # also lines for sad and angry flags are needed. but 
     if interactions_checks_for_bad_stuff_greetings(char):
         return
     $ m = interactions_flag_count_checker(char, "flag_interactions_greeting") # probably not the most elegant way to count how many times greeting was shown this day already
+    if m < 1:
+        call klepto_stealing
     if check_lovers(hero, char) and dice(60):
         $ char.override_portrait("portrait", "shy")
         if ct("Half-Sister") and dice(50):
@@ -215,7 +217,7 @@ label girl_meets_greeting: # also lines for sad and angry flags are needed. but 
                     $ rc("Is something wrong?", "What is it, [char.mc_ref]?", "...Spit it out already... Er, yes, [char.mc_ref]?")
                 else:
                     $ rc("You called, [char.mc_ref]?", "Is something the matter, [char.mc_ref]?", "Yes, what is it, [char.mc_ref]?")
-    elif m < 4:
+    elif m < 3:
  # when MC approaches character not the first time; after 4 times we stop showing greetings at all
         if char.disposition <= -50:
             $ char.override_portrait("portrait", "angry")
@@ -1096,4 +1098,11 @@ label interactions_character_recovers: # char recovers from wound
     else:
         $ rc("Yeah... I'm okay now. Sorry to make you worried.")
     $ char.restore_portrait()
+    return
+
+label klepto_stealing:
+    if ct("Kleptomaniac") and dice(char.luck + 100):
+        $ temp = randint(1, 5)
+        $ hero.take_money(temp, reason="Stolen!")
+        $ char.add_money(temp, reason="Stealing")
     return
