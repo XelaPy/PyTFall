@@ -382,7 +382,7 @@ init -11 python:
                     try:
                         color = Color(data[key])
                     except:
-                        char_debug("{} color supplied to {} is invalid!".format(gd[key], gd["id"]))
+                        char_debug("{} color supplied to girl {} is an invalid color!".format(str(data[key]), str(id)))
                         color = ivory
                 rg.say_style[key] = color
 
