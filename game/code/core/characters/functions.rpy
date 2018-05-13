@@ -77,7 +77,8 @@ init -11 python:
             fixed.add(i)
         return fixed
 
-    def calculate_elementals(char): # returns a dict of character elemental defences and attacks, based on elemental traits
+    def calculate_elementals(char):
+        # returns a dict of character elemental defenses and attacks, based on elemental traits
         el_attacks = {}
         el_defence = {}
         el_keys = []
@@ -92,8 +93,8 @@ init -11 python:
                     el_defence[element] += int(trait.el_defence[element]*100)
                 else:
                     el_defence[element] = int(trait.el_defence[element]*100)
-        el_attacks = {x:y for x,y in el_attacks.items() if y!=0}
-        el_defence = {x:y for x,y in el_defence.items() if y!=0}
+        el_attacks = {x: y for x, y in el_attacks.items() if y != 0}
+        el_defence = {x: y for x, y in el_defence.items() if y != 0}
         el_keys = el_attacks.keys() + list(set(el_defence.keys()) - set(el_attacks.keys()))
         return el_attacks, el_defence, el_keys
 
