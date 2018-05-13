@@ -356,7 +356,6 @@ init -9 python:
                         if course.chars[str(girl)] >= cdays:
                             if str(girl) in course.complete:
                                 pass
-
                             else:
                                 course.complete[str(girl)] = True
                                 self.events_relay["finish"][0] += 1
@@ -377,7 +376,7 @@ init -9 python:
 
             # End courses and remove girls
             for course in self.courses:
-                if course.daysLeft() <= 0:
+                if course._daysLeft <= 0:
                     for girl in girls:
                         if girl_course_id(girl) == course.id:
                             txt += "Course that %s is attending is at it's end! "%girl.name
