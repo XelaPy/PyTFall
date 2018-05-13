@@ -1,14 +1,15 @@
 init python:
     class SchoolCourseNew(_object):
-        def __init__(self, trainer):
-            self.trainer = trainer
+        def __init__(self, name, difficulty, data):
+            self.name = name
+            # self.trainer = trainer # restore after ST.
+            self.difficulty = difficulty
             self.students = []
             self.students_progress = {}
             self.completed = set() # Students that completed this course
-            self.duration = 30
+            self.duration = self.days_remaining = 30
 
-            self.stats = {}
-            self.skills = {}
+            self.data = data
 
         def add_student(self, student):
             self.students.append(student)
@@ -19,7 +20,7 @@ init python:
             self.students.remove(student)
 
         def next_day(self):
-            pass
+            self.days_remaining -= 1
 
 
     class SchoolNew(BaseBuilding):
@@ -42,7 +43,18 @@ init python:
                 self.create_course()
 
         def create_course(self):
-            pass
+            id = choice(school_courses.keys())
+            data = school_courses[id]
+
+            v0 = max(0, hero.tier - 1)
+            v1 = min(10, hero.tier + 3)
+            difficulty = randint(v0, v1)
+
+            course = SchoolCourseNew(id, difficulty, data)
+            self.courses.append(course)
 
         def next_day(self):
-            pass
+            for c in self.courses[:]:
+                c.next_day()
+                if c.days_remaining <= 0:
+                    self.courses.remove(c)
