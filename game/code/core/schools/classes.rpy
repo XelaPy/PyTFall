@@ -45,6 +45,8 @@ init python:
             self.days_remaining -= 1
 
             students = [s for s in self.students if s.AP > 0]
+            if not students:
+                return
 
             if len(students) >= 3 and dice(25):
                 best_student = choice(students)
@@ -69,7 +71,8 @@ init python:
         IMG = "content/schools/school.webp"
 
         def __init__(self):
-            super(School, self).__init__(id=ID, name=IMG)
+            super(School, self).__init__(id=self.ID, name=self.ID)
+            self.img = self.IMG
             self.courses = []
 
         def add_cources(self):
@@ -85,7 +88,6 @@ init python:
 
         def create_course(self):
             id = choice(school_courses.keys())
-            data = school_courses[id]
 
             v0 = max(0, hero.tier - 1)
             v1 = min(10, hero.tier + 3)
@@ -93,10 +95,12 @@ init python:
 
             duration = randint(20, 40)
             days_to_complete = round_int(duration*random.uniform(.5, .85))
+            effectiveness = randint(60, 100)
+            data = school_courses[id]
 
             course = SchoolCourseNew(id, difficulty, duration,
                                      days_to_complete, effectiveness,
-                                     base_price, data)
+                                     data)
             self.courses.append(course)
 
         def next_day(self):
