@@ -1,6 +1,7 @@
 init python:
     class SchoolCourseNew(_object):
-        def __init__(self, name, difficulty, data):
+        def __init__(self, name, difficulty, duration, days_to_complete,
+                     effectiveness, base_price, data):
             self.name = name
             # self.trainer = trainer # restore after ST.
             self.difficulty = difficulty
@@ -8,8 +9,29 @@ init python:
             self.students_progress = {}
             self.completed = set() # Students that completed this course
             self.duration = self.days_remaining = 30
+            self.days_to_complete = days_to_complete # 25 or about 80% of duration is normal.
+            self.effectiveness = effectiveness
 
             self.data = data
+
+        @property
+        def price(self):
+            # For implementation:
+            # Average Wage vs difficulty.
+            return 100
+
+        def status(self, char):
+            days_to_complete = self.days_to_complete
+            duration = self.duration
+
+            if days_to_complete < duration*.65:
+                dtc = "fast"
+            elif days_to_complete < duration*.75:
+                dtc = ""
+            else:
+                dtc = "slow"
+
+            # Add
 
         def add_student(self, student):
             self.students.append(student)
@@ -21,6 +43,25 @@ init python:
 
         def next_day(self):
             self.days_remaining -= 1
+
+            students = [s for s in self.students if s.AP > 0]
+
+            if len(students) >= 3 and dice(25):
+                best_student = choice(students)
+            else:
+                best_student = None
+
+            for char in self.students:
+                self.students_progress[char] += 1
+                days_to_complete = self.days_to_complete # Mod on traits?
+                ap_spent = char.AP
+
+                if char == best_student:
+                    pass
+
+                # Add stats/skills/exp mods.
+
+                char.AP = 0
 
 
     class SchoolNew(BaseBuilding):
@@ -50,7 +91,12 @@ init python:
             v1 = min(10, hero.tier + 3)
             difficulty = randint(v0, v1)
 
-            course = SchoolCourseNew(id, difficulty, data)
+            duration = randint(20, 40)
+            days_to_complete = round_int(duration*random.uniform(.5, .85))
+
+            course = SchoolCourseNew(id, difficulty, duration,
+                                     days_to_complete, effectiveness,
+                                     base_price, data)
             self.courses.append(course)
 
         def next_day(self):
@@ -58,3 +104,5 @@ init python:
                 c.next_day()
                 if c.days_remaining <= 0:
                     self.courses.remove(c)
+
+            self.add_courses()
