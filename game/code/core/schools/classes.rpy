@@ -15,12 +15,12 @@ init python:
             self.data = data
 
             self.set_image()
+            self.set_price()
 
-        @property
-        def price(self):
+        def set_price(self):
             # For implementation:
             # Average Wage vs difficulty.
-            return 100
+            self.price = 100
 
         def set_image(self):
             images = []
