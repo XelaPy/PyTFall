@@ -14,11 +14,26 @@ init python:
 
             self.data = data
 
+            self.set_image()
+
         @property
         def price(self):
             # For implementation:
             # Average Wage vs difficulty.
             return 100
+
+        def set_image(self):
+            images = []
+            folder = "content/schools/" + self.data["image"]
+            for fn in renpy.list_files():
+                if folder in fn and fn.endswith(IMAGE_EXTENSIONS):
+                    images.append(fn)
+
+            if not images:
+                self.img = renpy.displayable("no_image")
+            else:
+                img = choice(images)
+                self.img = renpy.displayable(img)
 
         def status(self, char):
             days_to_complete = self.days_to_complete
