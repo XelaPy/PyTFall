@@ -194,7 +194,7 @@ init -11 python:
         # Free girls should always refuse giving up their items unless MC gave it to them:
         # (Unless action is forced):
         if not force:
-            if all([isinstance(source, Char), source.status != "slave", not(check_lovers(source, hero))]):
+            if all([isinstance(source, Char), source.status != "slave", not(item.price <= (hero.charisma-source.character)*10 and check_lovers(source, hero))]):
                 if any([item.slot == "consumable", (item.slot == "misc" and item.mdestruct), source.given_items.get(item.id, 0) - amount < 0]):
                     if not silent:
                         source.override_portrait("portrait", "indifferent")

@@ -211,7 +211,7 @@ init -11 python:
             
         if c.status == "slave":
             patience += 1
-        patience += int(hero.charisma/100) 
+        patience += int((hero.charisma-c.character)/100)
         return patience
 
     def interactions_drinking_outside_of_inventory(character, count): # allows to raise activation count and become drunk without using real items
