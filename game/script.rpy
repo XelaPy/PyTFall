@@ -197,7 +197,7 @@ label start:
         businesses = load_buildings()
         tl.end("Loading: Businesses")
 
-    tl.start("Loading: Schools")
+    $ tl.start("Loading: Schools")
     $ schools = {}
     python hide: # Training/Schools/Weird Proxies by Thewlis:
         school = School()
@@ -205,7 +205,7 @@ label start:
         schools[school.name] = school
         # schools = load_schools()
         # pytFlagProxyStore = shallowcopy(pytFlagProxyStore)
-    tl.end("Loading: Schools")
+    $ tl.end("Loading: Schools")
 
     # python: # Picked Tags and maps (afk atm):
     #     maps = xml_to_dict(content_path('db/map.xml'))

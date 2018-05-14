@@ -1,7 +1,7 @@
 init python:
-    class SchoolCourseNew(_object):
+    class SchoolCourse(_object):
         def __init__(self, name, difficulty, duration, days_to_complete,
-                     effectiveness, base_price, data):
+                     effectiveness, data):
             self.name = name
             # self.trainer = trainer # restore after ST.
             self.difficulty = difficulty
@@ -81,7 +81,7 @@ init python:
                 char.AP = 0
 
 
-    class SchoolNew(BaseBuilding):
+    class School(BaseBuilding):
         def __init__(self, id="-PyTFall Educators-",
                      img="content/schools/school.webp"):
             super(School, self).__init__(id=id, name=id)
@@ -111,9 +111,9 @@ init python:
             effectiveness = randint(60, 100)
             data = school_courses[id]
 
-            course = SchoolCourseNew(id, difficulty, duration,
-                                     days_to_complete, effectiveness,
-                                     data)
+            course = SchoolCourse(id, difficulty, duration,
+                                  days_to_complete, effectiveness,
+                                  data)
             self.courses.append(course)
 
         def next_day(self):
