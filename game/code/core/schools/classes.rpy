@@ -82,12 +82,10 @@ init python:
 
 
     class SchoolNew(BaseBuilding):
-        ID = "-PyTFall Educators-"
-        IMG = "content/schools/school.webp"
-
-        def __init__(self):
-            super(School, self).__init__(id=self.ID, name=self.ID)
-            self.img = self.IMG
+        def __init__(self, id="-PyTFall Educators-",
+                     img="content/schools/school.webp"):
+            super(School, self).__init__(id=id, name=id)
+            self.img = renpy.displayable(img)
             self.courses = []
 
         def add_cources(self):

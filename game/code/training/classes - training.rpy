@@ -1,18 +1,4 @@
 init -9 python:
-    def load_schools():
-        """
-        Creates the valid schools.
-        """
-        schools = load_training("school", School)
-
-        # Creates courses
-        for school in schools:
-            if schools[school].is_school:
-                for _ in range(7):
-                    schools[school].create_course()
-
-        return schools
-
     def load_training(type, clazz):
         """
         Load all the training information from the json files in content/db.
