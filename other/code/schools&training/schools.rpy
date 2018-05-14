@@ -1,4 +1,31 @@
 init python:
+    def load_training(type, clazz):
+        """
+        Load all the training information from the json files in content/db.
+        type = The type of file to load. "(school)_*.json", "(training)_*.json", etc.
+        clazz = The class to parse the json objects with.
+        """
+        dir = content_path("db")
+        dirlist = os.listdir(dir)
+        training = dict()
+
+        for file in dirlist:
+            if file.startswith(type) and file.endswith(".json"):
+                file = os.path.join(dir, file)
+                with open(file) as f:
+                    tr = json.load(f)
+                    if not isinstance(tr, list): tr = [tr] # Ensure list
+
+                    for i in tr:
+                        ptr = clazz(file=str(file), **i)
+
+                        if ptr.name not in training: training[ptr.name] = ptr
+                        else:
+                            # devlog.warning("Duplicate training option \"%s\" was found in %s. Original from %s."%(ptr.name, ptr.file, training[ptr.name].file))
+                            pass
+
+        return training
+
     class School(BaseBuilding):
         """
         Building that represents the school.
