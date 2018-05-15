@@ -8,7 +8,7 @@ init python:
             self.students = []
             self.students_progress = {}
             self.completed = set() # Students that completed this course
-            self.duration = self.days_remaining = 30
+            self.duration = self.days_remaining = duration
             self.days_to_complete = days_to_complete # 25 or about 80% of duration is normal.
             self.effectiveness = effectiveness
 
@@ -18,9 +18,9 @@ init python:
             self.set_price()
 
         def set_price(self):
-            # For implementation:
-            # Average Wage vs difficulty.
-            self.price = 100
+            price = get_average_wage()
+            price = price + price*self.difficulty
+            self.price = round_int(price)
 
         def set_image(self):
             images = []
@@ -35,18 +35,42 @@ init python:
                 img = choice(images)
                 self.img = renpy.displayable(img)
 
-        def status(self, char):
+        def get_status(self, char):
+            if char in self.students:
+                return "Active!"
+
             days_to_complete = self.days_to_complete
             duration = self.duration
 
             if days_to_complete < duration*.65:
-                dtc = "fast"
+                dtc = " and Fast"
             elif days_to_complete < duration*.75:
                 dtc = ""
             else:
-                dtc = "slow"
+                dtc = " and Slow"
 
-            # Add
+            if self.difficulty >= char.tier+2:
+                temp = "Great"
+            elif self.difficulty >= char.tier:
+                temp = "Good"
+            else:
+                temp = "Bad"
+
+            return temp + dtc
+
+        @property
+        def tooltip(self):
+            tt = self.data.get("desc", "No Description Available")
+
+            temp = []
+            for s in self.students:
+                temp.append(s.nickname)
+
+            if temp:
+                tt += "\nStudents: "
+                tt += ", ".join(temp)
+
+            return tt
 
         def add_student(self, student):
             self.students.append(student)

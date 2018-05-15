@@ -1,4 +1,9 @@
 init -11 python:
+    def get_average_wage():
+        wages = Tier.BASE_WAGES.values()
+        wage = sum(wages)/len(wages)
+        return round_int(wage)
+
     def friends_disp_check(char):
         """Sets up friendship with characters based on disposition"""
         if char.disposition > 400 and not char in hero.friends:
