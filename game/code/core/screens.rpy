@@ -394,7 +394,7 @@ init:
 
         frame at fade_in_out(t1=.5, t2=.5):
             style_group "content"
-            background Frame(Transform("content/gfx/frame/mes11.jpg", alpha=.5), 5, 5)
+            background Frame(Transform("content/gfx/frame/mes11.webp", alpha=.5), 5, 5)
             xalign x
             yfill True
             has vbox

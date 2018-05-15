@@ -75,7 +75,7 @@ screen school_training():
 
     frame:
         style_prefix "content"
-        background Frame("content/gfx/frame/mes11.jpg", 10, 10)
+        background Frame("content/gfx/frame/mes11.webp", 10, 10)
         xpos 1280-8 xanchor 1.0 ypos 48
         padding 10, 10
         xysize (750, 666)
