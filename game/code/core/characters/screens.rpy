@@ -42,7 +42,7 @@ screen set_action_dropdown(char, pos=()):
                         Hide("charslist"),
                         Hide("char_profile"),
                         SetField(store, "char", char, True),
-                        Jump("girl_training")]
+                        Jump("school_training")]
                 tooltip "Change training course to a different one."
             textbutton "Stop Course":
                 action [SetField(char, "location", None),
