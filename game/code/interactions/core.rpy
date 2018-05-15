@@ -137,7 +137,8 @@ init -1 python:
         """
 
         # List of modes to use the girl_interactions label with.
-        USE_GI = ["girl_meets", "girl_interactions", "girl_trainings"]
+        # USE_GI = ["girl_meets", "girl_interactions", "girl_trainings"]
+        USE_GI = ["girl_meets", "girl_interactions"]
 
         def __init__(self):
             """

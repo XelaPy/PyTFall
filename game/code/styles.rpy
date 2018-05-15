@@ -42,6 +42,13 @@ init -3:
         # clear
 
 init -2: # Base Styles like Texts and Buttons just with the basic properties.
+    style overframe_1:
+        is default
+        # padding (0, 0)
+        # margin (0, 0)
+        background Null()
+        foreground Frame("content/gfx/frame/MC_bg2.png", 10, 10)
+
     # ----------------------------------- Buttons:
     style flashing:
         activate_sound "content/sfx/sound/sys/click_1.ogg"
@@ -65,6 +72,7 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
         background Frame(interfacebuttons + "arrow_left2x.png")
         hover_background im.MatrixColor(interfacebuttons + "arrow_left2x.png", im.matrix.brightness(.10))
         insensitive_background im.Sepia(interfacebuttons + "arrow_left2x.png")
+
     style paging_green_button_right:
         clear
         xysize (29, 43)
@@ -79,7 +87,7 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
         insensitive_background im.Sepia(interfacebuttons + "arrow_right2x.png")
 
     # Simple button we use to call the dropdowns:
-    # This is a really basic, stipped down button.
+    # This is a really basic, stripped down button.
     style ddlist_button:
         is button
         left_padding -2
@@ -277,26 +285,23 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
         align (.5, .5)
 
 
-init 2: # Advanced style that can carry a lot of properies to be used in screens/labels.
+init 2: # Advanced style that can carry a lot of properties to be used in screens/labels.
     # ----
-    # Cutsomized to specific screens from default choices:
+    # Customized to specific screens from default choices:
     # Default dropdown/interactions and etc.
     style dropdown_gm_frame:
         is default
         background Frame("content/gfx/frame/BG_choicebuttons.png", 10, 10)
         padding (10, 10)
-
     style dropdown_gm_text:
         is black_serpent
         xalign .5
-
     style dropdown_gm_button:
         is basic_choice_button
         size_group "dropdown_gm"
         padding (10, 1)
         xminimum 200
         # xalign 0
-
     style dropdown_gm_button_text:
         is TisaOTMc
         color black
@@ -307,7 +312,6 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         is basic_choice2_button
         padding (2, 0)
         margin (1, 1)
-
     style dropdown_gm2_button_text:
         is TisaOTMc
         drop_shadow [(1, 1)]
@@ -317,14 +321,12 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         size 16
         outlines [(1, "#3a3a3a", 0, 0)]
         selected_outlines [(1, "#8B3E2F", 0, 0)]
-
     style dropdown_gm2_button_value_text:
         is della_respira
         color "#EEE8CD"
         size 16
         outlines [(1, "#3a3a3a", 0, 0)]
         selected_outlines [(1, "#8B3E2F", 0, 0)]
-
     style dropdown_gm2_slider:
         is bar
         left_bar im.Scale("content/gfx/interface/bars/pref_full.png", 166, 21)
@@ -341,12 +343,10 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
     style basic_button:
         is basic_choice_button
         ypadding 1
-
     style basic_button_text:
         is TisaOTMc
         color black
         size 18
-
     style basic_text:
         is TisaOTMc
         color black
@@ -423,7 +423,6 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
     style pb_button:
         is hframe_button
         padding (6, 5)
-
     style pb_button_text:
         font "fonts/rubius.ttf"
         size 17
@@ -466,7 +465,6 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         idle_background Frame("content/gfx/interface/images/story12.png", 1, 1)
         hover_background Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.1)), 1, 1)
         insensitive_background Frame(im.Sepia("content/gfx/interface/images/story12.png"), 1, 1)
-
     style mcsetup_text:
         is text
         size 16
@@ -486,7 +484,6 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         # This is for girlsmeets:
         is frame
         background Null()
-
     style main_screen_3_button:
         is blue1
         xalign .5
@@ -494,7 +491,6 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         xpadding 20
         ypadding 8
         activate_sound "content/sfx/sound/sys/hover_2.wav"
-
     style main_screen_3_button_text:
         is TisaOTBc
         size 20
@@ -508,7 +504,6 @@ init 2: # Advanced style that can carry a lot of properies to be used in screens
         xpadding 20
         ypadding 10
         activate_sound "content/sfx/sound/sys/hover_2.wav"
-
     style main_screen_4_button_text:
         is TisaOTBc
         size 20
@@ -686,14 +681,12 @@ init: # Ren'Py Styles (Or replacements):
         is mmenu1_button
         ypadding 5
         xsize 170
-
     style mmenu_button_text:
         is smenu_text
 
     style smenu_button:
         is smenu1_button
         xysize (134, 44)
-
     style smenu_text:
         is TisaOTMc
         color "#66CDAA"
