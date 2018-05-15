@@ -7,26 +7,6 @@ init 100 python:
     mobs = load_mobs()
     tl.end("Loading: Mobs")
 
-    pytRelayProxyStore = list()
-    class PytRelayProxy(_object):
-        """
-        A class that acts as a proxy for character event relays.
-        """
-
-        def __init__(self, event, relay="guard_relay", use_against=False):
-            """
-            Creates a new PytRelayProxy.
-            event = The event to access.
-            relay = The relay to access the event in.
-            use_against = Whether to use the against list instead of helped.
-            """
-            self.event = event
-            self._relay = relay
-            self.use_against = use_against
-
-            # Add to store
-            pytRelayProxyStore.append(self)
-
 default defeated_mobs = {}
 
 label start:
