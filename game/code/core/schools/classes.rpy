@@ -97,10 +97,42 @@ init python:
                 days_to_complete = self.days_to_complete # Mod on traits?
                 ap_spent = char.AP
 
+                primary_stats = []
+                secondary_stats = []
+
+                primary_skills = []
+                secondary_skills = []
+
+                for s in self.data.primary:
+                    if char.stats.is_stat(s):
+                        if getattr(char, s) < char.get_max(s):
+                            secondary_stats.append(s)
+                    elif char.stats.is_skill(s):
+                        primary_skills.append(s)
+                    else:
+                        raise Exception("{} is not a valid stat/skill for {} course.".format(
+                                s, self.name
+                        ))
+                for s in self.data.secondary:
+                    if char.stats.is_stat(s):
+                        if getattr(char, s) < char.get_max(s):
+                            secondary_stats.append(s)
+                    elif char.stats.is_skill(s):
+                        secondary_skills.append(s)
+                    else:
+                        raise Exception("{} is not a valid stat/skill for {} course.".format(
+                                s, self.name
+                        ))
+                secondary = self.data.secondary
+                ss = primary + secon
+
+
                 if char == best_student:
                     pass
 
                 # Add stats/skills/exp mods.
+                stat_pool = 1*ap_spent # Adjusts to difficulty (teacher tier)
+                skills_pool = 2*ap_spent  # Adjusts to difficulty (teacher tier)
 
                 char.AP = 0
 
