@@ -1,4 +1,13 @@
 init -11 python:
+    def stop_training(char):
+        #since there is no slave training yet, this does nothing
+        pass
+        
+    def char_is_training(char):
+        #since there is no slave training yet, this is always false.
+        #Should be updated when Slave Training is implemented.
+        return False
+    
     def get_average_wage():
         wages = Tier.BASE_WAGES.values()
         wage = sum(wages)/len(wages)
@@ -233,7 +242,7 @@ init -11 python:
         bt_go_patterns: General occupation patterns to use when creating the character!
             Expects general occupation or list of the same.
             Use create_traits_base function to build basetraits.
-            Input could be ["Combatant", "Specialist"] for example, we'll pick from all
+            Input could be ["Combatant", "Specialist"] for example, we will pick from all
             Combatant and Specialist bts in the game randomly.
         bt_group: Groups of custom selections of basetraits.
         bt_preset: Random choice from custom presets of basetraits.
