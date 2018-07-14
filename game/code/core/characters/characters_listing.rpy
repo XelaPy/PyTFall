@@ -80,149 +80,156 @@ screen chars_list(source=None):
         for start in xrange(0, len(source.sorted), page_size):
              listed_chars.append(source.sorted[start:start+page_size])
 
-    fixed:
-        pos 5, 70
-        xysize 1010, 670
-        # Chars:
-        if listed_chars:
-            $ charz_list = listed_chars[page]
-            hbox:
-                style_group "content"
-                spacing 14
-                pos (17, 15)
-                xsize 970
-                box_wrap True
-                for c in charz_list:
-                    $ char_profile_img = c.show('portrait', resize=(98, 98), cache=True)
-                    $ img = "content/gfx/frame/ink_box.png"
-                    button:
-                        ymargin 0
-                        idle_background Frame(Transform(img, alpha=.4), 10 ,10)
-                        hover_background Frame(Transform(img, alpha=.9), 10 ,10)
-                        xysize (470, 115)
-                        action Return(['choice', c])
-                        hovered tt.Action('Show character profile')
+    # Chars:
+    if listed_chars:
+        $ charz_list = listed_chars[page]
+        hbox:
+            style_group "content"
+            spacing 14
+            pos (25, 60)
+            xsize 970
+            box_wrap True
+            for c in charz_list:
+                $ char_profile_img = c.show('portrait', resize=(98, 98), cache=True)
+                $ img = "content/gfx/frame/ink_box.png"
+                button:
+                    ymargin 0
+                    idle_background Frame(Transform(img, alpha=.4), 10 ,10)
+                    hover_background Frame(Transform(img, alpha=.9), 10 ,10)
+                    xysize (470, 115)
+                    action Return(['choice', c])
+                    hovered tt.Action('Show character profile')
 
-                        # Image:
-                        frame:
-                            background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-                            padding 0, 0
-                            align 0, .5
-                            xysize 100, 100
-                            add char_profile_img align .5, .5 alpha .96
+                    # Image:
+                    frame:
+                        background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+                        padding 0, 0
+                        align 0, .5
+                        xysize 100, 100
+                        add char_profile_img align .5, .5 alpha .96
 
-                        # Texts/Status:
-                        frame:
-                            xpos 120
-                            xysize (335, 110)
-                            background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 10, 10)
-                            label "[c.name]":
-                                text_size 18
-                                xpos 10
-                                yalign .06
-                                if c.__class__ == Char:
-                                    text_color pink
+                    # Texts/Status:
+                    frame:
+                        xpos 120
+                        xysize (335, 110)
+                        background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 10, 10)
+                        label "[c.name]":
+                            text_size 18
+                            xpos 10
+                            yalign .06
+                            if c.__class__ == Char:
+                                text_color pink
+                            else:
+                                text_color ivory
+
+                        vbox:
+                            align (.96, .035)
+                            spacing 5
+                            if c.status == "slave":
+                                add ProportionalScale("content/gfx/interface/icons/slave.png", 40, 40)
+                            else:
+                                add ProportionalScale("content/gfx/interface/icons/free.png", 40, 40)
+
+                        vbox:
+                            align 1.0, .6 xoffset 5
+                            hbox:
+                                xsize 60
+                                text "AP:" xalign .0 color ivory
+                                text "[c.AP]" xalign .1 color ivory
+                            hbox:
+                                xsize 60
+                                text "Tier:" xalign .0 color ivory
+                                text "[c.tier]" xalign .1 color ivory
+                            # text "AP: [c.AP]" size 17 color ivory
+                            # text "Tier: [c.tier]" size 17 color ivory
+
+                        vbox:
+                            yalign .98
+                            xpos 10
+                            # Prof-Classes
+                            python:
+                                if len(c.traits.basetraits) == 1:
+                                    classes = list(c.traits.basetraits)[0].id
+                                elif len(c.traits.basetraits) == 2:
+                                    classes = list(c.traits.basetraits)
+                                    classes.sort()
+                                    classes = ", ".join([str(t) for t in classes])
                                 else:
-                                    text_color ivory
+                                    raise Exception("Character without prof basetraits detected! line: 211, chars_lists screen")
+                            text "Classes: [classes]" color ivory size 18
 
-                            vbox:
-                                align (.96, .035)
-                                spacing 5
-                                if c.status == "slave":
-                                    add ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50)
-                                else:
-                                    add ProportionalScale("content/gfx/interface/icons/free.png", 50, 50)
-                                vbox:
-                                    text "AP: [c.AP]" size 17 color ivory
-                                    text "Tier: [c.tier]" size 17 color ivory
-                                button:
-                                    style_group "basic"
-                                    xysize (25, 25)
-                                    xpos 30
-                                    if c.status == "slave":
-                                        ypos 11
-                                    action ToggleSetMembership(the_chosen, c)
-                                    if c in the_chosen:
-                                        add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align .5, .5
-                                    else:
-                                        add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align .5, .5
-                                    hovered tt.Action('Select the character')
+                            null height 2
+                            if c not in pytfall.ra:
+                                if not c.flag("last_chars_list_geet_icon"):
+                                    $ c.set_flag("last_chars_list_geet_icon", "work")
+                                if c.status == "free" and c.flag("last_chars_list_geet_icon") != "work":
+                                    $ c.set_flag("last_chars_list_geet_icon", "work")
 
-                            vbox:
-                                yalign .98
-                                xpos 10
-                                # Prof-Classes
-                                python:
-                                    if len(c.traits.basetraits) == 1:
-                                        classes = list(c.traits.basetraits)[0].id
-                                    elif len(c.traits.basetraits) == 2:
-                                        classes = list(c.traits.basetraits)
-                                        classes.sort()
-                                        classes = ", ".join([str(t) for t in classes])
-                                    else:
-                                        raise Exception("Character without prof basetraits detected! line: 211, chars_lists screen")
-                                text "Classes: [classes]" color ivory size 18
-
-                                null height 2
-                                if c not in pytfall.ra:
-                                    if not c.flag("last_chars_list_geet_icon"):
-                                        $ c.set_flag("last_chars_list_geet_icon", "work")
-                                    if c.status == "free" and c.flag("last_chars_list_geet_icon") != "work":
-                                        $ c.set_flag("last_chars_list_geet_icon", "work")
-
-                                    if getattr(c.location, "is_school", False):
-                                        button:
-                                            style_group "ddlist"
-                                            action NullAction()
-                                            hovered tt.Action("%s is in training!" % c.nickname)
-                                            text "{image=button_circle_green}Location: School"
-                                    else:
-                                        if c.flag("last_chars_list_geet_icon") == "home":
-                                            button:
-                                                style_group "ddlist"
-                                                if c.status == "slave":
-                                                    action Return(["dropdown", "home", c])
-                                                    hovered tt.Action("Choose a place for %s to live at (RMB to set Work)!" % c.nickname)
-                                                else: # Can't set home for free cs, they decide it on their own.
-                                                    action NullAction()
-                                                    hovered tt.Action("%s is free and decides on where to live at!" % c.nickname)
-                                                alternate [Function(c.set_flag, "last_chars_list_geet_icon", "work"),
-                                                           Return(["dropdown", "workplace", c])]
-                                                text "{image=button_circle_green}Home: [c.home]":
-                                                    if len(str(c.home)) > 18:
-                                                        size 15
-                                                    else:
-                                                        size 18
-                                        elif c.flag("last_chars_list_geet_icon") == "work":
-                                            $ tt_hint = "Choose a place for %s to work at" % c.nickname
-                                            if c.status == "slave":
-                                                $ tt_hint += " (RMB to set Home)!"
-                                            else:
-                                                $ tt_hint += "!"
-                                            button:
-                                                style_group "ddlist"
-                                                action Return(["dropdown", "workplace", c])
-                                                if c.status == "slave":
-                                                    alternate [Function(c.set_flag, "last_chars_list_geet_icon", "home"),
-                                                               Return(["dropdown", "home", c])]
-                                                hovered tt.Action(tt_hint)
-                                                text "{image=button_circle_green}Work: [c.workplace]":
-                                                    if len(str(c.workplace)) > 18:
-                                                        size 15
-                                                    else:
-                                                        size 18
+                                if getattr(c.location, "is_school", False):
                                     button:
                                         style_group "ddlist"
-                                        action Return(["dropdown", "action", c])
-                                        hovered tt.Action("Choose a task for %s to do!" % c.nickname)
-                                        text "{image=button_circle_green}Action: [c.action]":
-                                            if c.action is not None and len(str(c.action)) > 18:
-                                                size 15
-                                            else:
-                                                size 18
+                                        action NullAction()
+                                        hovered tt.Action("%s is in training!" % c.nickname)
+                                        text "{image=button_circle_green}Location: School"
                                 else:
-                                    text "{size=15}Location: Unknown"
-                                    text "{size=15}Action: Hiding"
+                                    if c.flag("last_chars_list_geet_icon") == "home":
+                                        button:
+                                            style_group "ddlist"
+                                            if c.status == "slave":
+                                                action Return(["dropdown", "home", c])
+                                                hovered tt.Action("Choose a place for %s to live at (RMB to set Work)!" % c.nickname)
+                                            else: # Can't set home for free cs, they decide it on their own.
+                                                action NullAction()
+                                                hovered tt.Action("%s is free and decides on where to live at!" % c.nickname)
+                                            alternate [Function(c.set_flag, "last_chars_list_geet_icon", "work"),
+                                                       Return(["dropdown", "workplace", c])]
+                                            text "{image=button_circle_green}Home: [c.home]":
+                                                if len(str(c.home)) > 18:
+                                                    size 15
+                                                else:
+                                                    size 18
+                                    elif c.flag("last_chars_list_geet_icon") == "work":
+                                        $ tt_hint = "Choose a place for %s to work at" % c.nickname
+                                        if c.status == "slave":
+                                            $ tt_hint += " (RMB to set Home)!"
+                                        else:
+                                            $ tt_hint += "!"
+                                        button:
+                                            style_group "ddlist"
+                                            action Return(["dropdown", "workplace", c])
+                                            if c.status == "slave":
+                                                alternate [Function(c.set_flag, "last_chars_list_geet_icon", "home"),
+                                                           Return(["dropdown", "home", c])]
+                                            hovered tt.Action(tt_hint)
+                                            text "{image=button_circle_green}Work: [c.workplace]":
+                                                if len(str(c.workplace)) > 18:
+                                                    size 15
+                                                else:
+                                                    size 18
+                                button:
+                                    style_group "ddlist"
+                                    action Return(["dropdown", "action", c])
+                                    hovered tt.Action("Choose a task for %s to do!" % c.nickname)
+                                    text "{image=button_circle_green}Action: [c.action]":
+                                        if c.action is not None and len(str(c.action)) > 18:
+                                            size 15
+                                        else:
+                                            size 18
+                            else:
+                                text "{size=15}Location: Unknown"
+                                text "{size=15}Action: Hiding"
+
+                    # Add to Group Button:
+                    button:
+                        style_group "basic"
+                        xysize (25, 25)
+                        align 1.0, 1.0 offset 9, -2
+                        action ToggleSetMembership(the_chosen, c)
+                        if c in the_chosen:
+                            add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align .5, .5
+                        else:
+                            add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align .5, .5
+                        hovered tt.Action('Select the character')
 
     # Filters:
     frame:
@@ -381,7 +388,7 @@ screen chars_list(source=None):
                         hovered tt.Action('Manage group equipment')
                     button:
                         xysize (150, 40)
-                        action If(len(the_chosen), [Hide("chars_list"), With(dissolve), Jump('girl_training')])
+                        action If(len(the_chosen), [Hide("chars_list"), With(dissolve), Jump('school_training')])
                         text "Training"
                         selected False
                         hovered tt.Action('Manage group training')

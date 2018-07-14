@@ -1,4 +1,18 @@
 init -11 python:
+    def stop_training(char):
+        #since there is no slave training yet, this does nothing
+        pass
+        
+    def char_is_training(char):
+        #since there is no slave training yet, this is always false.
+        #Should be updated when Slave Training is implemented.
+        return False
+    
+    def get_average_wage():
+        wages = Tier.BASE_WAGES.values()
+        wage = sum(wages)/len(wages)
+        return round_int(wage)
+
     def friends_disp_check(char):
         """Sets up friendship with characters based on disposition"""
         if char.disposition > 400 and not char in hero.friends:
@@ -77,7 +91,8 @@ init -11 python:
             fixed.add(i)
         return fixed
 
-    def calculate_elementals(char): # returns a dict of character elemental defences and attacks, based on elemental traits
+    def calculate_elementals(char):
+        # returns a dict of character elemental defenses and attacks, based on elemental traits
         el_attacks = {}
         el_defence = {}
         el_keys = []
@@ -92,8 +107,8 @@ init -11 python:
                     el_defence[element] += int(trait.el_defence[element]*100)
                 else:
                     el_defence[element] = int(trait.el_defence[element]*100)
-        el_attacks = {x:y for x,y in el_attacks.items() if y!=0}
-        el_defence = {x:y for x,y in el_defence.items() if y!=0}
+        el_attacks = {x: y for x, y in el_attacks.items() if y != 0}
+        el_defence = {x: y for x, y in el_defence.items() if y != 0}
         el_keys = el_attacks.keys() + list(set(el_defence.keys()) - set(el_attacks.keys()))
         return el_attacks, el_defence, el_keys
 
@@ -227,7 +242,7 @@ init -11 python:
         bt_go_patterns: General occupation patterns to use when creating the character!
             Expects general occupation or list of the same.
             Use create_traits_base function to build basetraits.
-            Input could be ["Combatant", "Specialist"] for example, we'll pick from all
+            Input could be ["Combatant", "Specialist"] for example, we will pick from all
             Combatant and Specialist bts in the game randomly.
         bt_group: Groups of custom selections of basetraits.
         bt_preset: Random choice from custom presets of basetraits.
@@ -382,7 +397,7 @@ init -11 python:
                     try:
                         color = Color(data[key])
                     except:
-                        char_debug("{} color supplied to {} is invalid!".format(gd[key], gd["id"]))
+                        char_debug("{} color supplied to girl {} is an invalid color!".format(str(data[key]), str(id)))
                         color = ivory
                 rg.say_style[key] = color
 
@@ -931,7 +946,7 @@ init -11 python:
             value = DAILY_EXP_CORE
 
         if ap_adjust:
-            value = float(value)/getattr(char, "setAP", 3) or 3 # TODO Remove getattr after Schools.
+            value = float(value)/(getattr(char, "setAP", 3) or 3) # TODO Remove getattr after Schools.
 
         value *= ap_used
 
@@ -966,3 +981,9 @@ init -11 python:
             value *= final_mod
 
         return round_int(value)
+
+    def gold_reward():
+        """
+        TODO: Do the same as above for money using one or more functions.
+        """
+        pass

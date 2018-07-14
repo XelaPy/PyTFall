@@ -7,26 +7,6 @@ init 100 python:
     mobs = load_mobs()
     tl.end("Loading: Mobs")
 
-    pytRelayProxyStore = list()
-    class PytRelayProxy(_object):
-        """
-        A class that acts as a proxy for character event relays.
-        """
-
-        def __init__(self, event, relay="guard_relay", use_against=False):
-            """
-            Creates a new PytRelayProxy.
-            event = The event to access.
-            relay = The relay to access the event in.
-            use_against = Whether to use the against list instead of helped.
-            """
-            self.event = event
-            self._relay = relay
-            self.use_against = use_against
-
-            # Add to store
-            pytRelayProxyStore.append(self)
-
 default defeated_mobs = {}
 
 label start:
@@ -197,11 +177,15 @@ label start:
         businesses = load_buildings()
         tl.end("Loading: Businesses")
 
-    python: # Training/Schools/Weird Proxies by Thewlis:
-        tl.start("Loading: Training")
-        schools = load_schools()
-        pytFlagProxyStore = shallowcopy(pytFlagProxyStore)
-        tl.end("Loading: Training")
+    $ tl.start("Loading: Schools")
+    $ schools = {}
+    python hide: # Training/Schools/Weird Proxies by Thewlis:
+        school = School()
+        school.add_cources()
+        schools[school.name] = school
+        # schools = load_schools()
+        # pytFlagProxyStore = shallowcopy(pytFlagProxyStore)
+    $ tl.end("Loading: Schools")
 
     # python: # Picked Tags and maps (afk atm):
     #     maps = xml_to_dict(content_path('db/map.xml'))

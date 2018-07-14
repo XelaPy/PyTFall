@@ -960,7 +960,7 @@ init: # Screens:
                                 $ temp = sorted([a for a in fg_areas.values() if a.area == bm_mid_frame_focus.name], key=attrgetter("stage"))
                                 for area in temp:
                                     $ fbg = "content/gfx/frame/mes12.jpg"
-                                    $ hfbg = im.MatrixColor("content/gfx/frame/mes11.jpg", im.matrix.brightness(.10))
+                                    $ hfbg = im.MatrixColor("content/gfx/frame/mes11.webp", im.matrix.brightness(.10))
                                     button:
                                         background Transform(Frame(fbg, 10, 10), alpha=.9)
                                         hover_background Transform(Frame(hfbg, 10, 10), alpha=.9)
@@ -1595,7 +1595,7 @@ init: # Screens:
             style_prefix "content"
             xysize (630, 680)
 
-            $ fbg = "content/gfx/frame/mes11.jpg"
+            $ fbg = "content/gfx/frame/mes11.webp"
             frame:
                 background Transform(Frame(fbg, 10, 10), alpha=.9)
                 xysize (620, 90)
@@ -1727,7 +1727,7 @@ init: # Screens:
             style_prefix "content"
             xysize (630, 680)
 
-            $ fbg = "content/gfx/frame/mes11.jpg"
+            $ fbg = "content/gfx/frame/mes11.webp"
             frame:
                 background Transform(Frame(fbg, 10, 10), alpha=.9)
                 xysize (620, 90)

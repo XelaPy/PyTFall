@@ -701,7 +701,7 @@ screen char_profile():
                     spacing 5
                     button:
                         xysize (150, 40)
-                        action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Jump('girl_training')])
+                        action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Jump('school_training')])
                         hovered tt.action("Send her to School!")
                         text "Training"
                     button:

@@ -115,7 +115,7 @@ screen realtor_agency():
                                         label (u"[building.name]") text_size 23 text_color ivory align(.5, .5)
                                     null height 5
                                     frame:
-                                        background Frame("content/gfx/frame/mes11.jpg", 5, 5)
+                                        background Frame("content/gfx/frame/mes11.webp", 5, 5)
                                         xpadding 5
                                         ypadding 5
                                         xalign .5

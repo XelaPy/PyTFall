@@ -31,22 +31,27 @@ init 11 python:
 
 init -11 python:
     # ---------------------- Loading game data:
+    def load_json(path):
+        file = renpy.file(path)
+        data = json.load(file)
+        return data
+
+    def load_db_json(fn):
+        path = "content/db/" + fn
+        return load_json(path)
+
     def load_team_names(amount):
-        with open(content_path("db/names/team_names.json")) as f:
-            rn = json.load(f)
+        rn = load_db_json("names/team_names.json")
         return random.sample(rn, amount)
 
     def load_male_first_names(amount):
-        with open(content_path("db/names/male_first_names.json")) as f:
-            rn = json.load(f)
+        rn = load_db_json("names/male_first_names.json")
         return random.sample(rn, amount)
 
     def load_female_first_names(amount):
-        with open(content_path("db/names/female_first_names_1.json")) as f:
-            rn1 = json.load(f)
-        with open(content_path("db/names/female_first_names_2.json")) as f:
-            rn2 = json.load(f)
-        rn = rn1 + rn2
+        file_1 = "names/female_first_names_1.json"
+        file_2 = "names/female_first_names_2.json"
+        rn = load_db_json(file_1) + load_db_json(file_2)
         return random.sample(rn, amount)
 
     def load_random_last_names(amount):
@@ -339,7 +344,7 @@ init -11 python:
         male_fighters = {}
         female_fighters = {}
         json_fighters = {}
-        json_data_raw = json.load(renpy.file("content/db/arena_fighters.json"))
+        json_data_raw = load_db_json("arena_fighters.json")
         json_data = {}
         for i in json_data_raw:
             json_data[i["name"]] = i["basetraits"]
@@ -469,10 +474,8 @@ init -11 python:
         return male_fighters, female_fighters, json_fighters
 
     def load_mobs():
-        in_file = content_path("db/mobs.json")
+        content = load_db_json("mobs.json")
         mobs = dict()
-        with open(in_file) as f:
-            content = json.load(f)
 
         for mob in content:
             if "id" not in mob:
@@ -483,8 +486,8 @@ init -11 python:
 
     def load_buildings():
         # Load json content
-        buildings_data = json.load(renpy.file("content/db/buildings/buildings.json"))
-        adverts_data = json.load(renpy.file("content/db/buildings/adverts.json"))
+        buildings_data = load_db_json("buildings/buildings.json")
+        adverts_data = load_db_json("buildings/adverts.json")
 
         # Populate into brothel objects:
         buildings = dict()
@@ -524,10 +527,7 @@ init -11 python:
 
     def load_tiles():
         # Load json content
-        in_file = content_path('db/tiles.json')
-        with open(in_file) as f:
-            content = json.load(f)
-
+        content = load_db_json("tiles.json")
         tiles = {}
         for tile in content:
             t = Tile()
@@ -536,16 +536,6 @@ init -11 python:
             t.init()
             tiles[t.id] = t
         return tiles
-
-    def load_json(file):
-        """
-        Directly returns contents of JSON located in db folder
-        """
-        in_file = content_path("/".join(["db", file]))
-        with open(in_file) as f:
-            content = json.load(f)
-
-        return content
 
     def load_traits():
         content = list()

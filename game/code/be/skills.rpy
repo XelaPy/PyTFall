@@ -63,7 +63,7 @@ python: # Sword attacks:
             target_death_effect={"gfx": "dissolve", "initial_pause": .4, "duration": .5},
             dodge_effect={"initial_pause": .005})
     BE_Action(u"Moon Slice", menu_pos=1.5, range=3, attributes=["melee", "light", "ice", "electricity"],
-            critpower=.4, effect=85, multiplier=1.2, vitality_cost=20, mp_cost=.15,
+            critpower=.4, effect=85, multiplier=1.2, vitality_cost=20, mp_cost=.1,
             desc="Uses the rotation energy of the Moon to perform a deadly strike.", item_only=True,
             main_effect={"gfx": Transform("moon_slash_webm", zoom=1.1), "sfx": "content/sfx/sound/be/moon.ogg", "duration": .77, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
             target_sprite_damage_effect={"gfx": "on_light", "initial_pause": .1, "duration": .6},
@@ -83,7 +83,7 @@ python: # Sword attacks:
             target_death_effect={"gfx": "dissolve", "initial_pause": .55, "duration": .5},
             dodge_effect={"initial_pause": .005})
     BE_Action(u"Demonic Core", menu_pos=2, range=1, attributes=["melee", "physical", "darkness", "fire", "inevitable"],
-            critpower=1.0, effect=150, multiplier=1.35, vitality_cost=35, health_cost=.15,
+            critpower=1.0, effect=150, multiplier=1.35, vitality_cost=25, health_cost=.01,
             desc="Concentrates inner powers of the weapon to perform a powerful attack. Critical strikes are especially dangerous.", item_only=True,
             main_effect={"gfx": Transform("demon_slash_webm", zoom=1.1), "sfx": "content/sfx/sound/be/demon_core.ogg", "duration": 1.6, "aim": {"point": "tc", "anchor": (.5, .5), "xo": 80}, "hflip": True},
             target_sprite_damage_effect={"gfx": "on_dark_with_shake", "initial_pause": .3, "duration": 1.0},
@@ -161,7 +161,7 @@ python: # Sword attacks:
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .3, "duration": .5},
             target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
     BE_Action(u"Weapon Dance", menu_pos=1.8, range=3, attributes=["melee", "physical"],
-            effect=65, multiplier=1.0, critpower=-0.2, vitality_cost=25, type="all_enemies",
+            effect=65, multiplier=1.0, critpower=0.2, vitality_cost=25, type="all_enemies",
             desc="Multiple elegant strikes in quick succession.", item_only=True,
             main_effect={"gfx": Transform("weapon_dance_webm", zoom=1.1), "sfx": "content/sfx/sound/be/multi.mp3",
                          "duration": 1.5, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
@@ -200,7 +200,7 @@ python: # Rapier attacks:
             target_sprite_damage_effect={"gfx": "poisoned_with_shake", "initial_pause": .15, "duration": .8},
             target_death_effect={"gfx": "dissolve", "initial_pause": .7, "duration": .5})
     BE_Action(u"Air Assault", range=1, attributes=["melee", "physical", "air"], critpower=.1,
-            effect=30, vitality_cost=20,  multiplier=1.0, health_cost=15, menu_pos=1.2, type="all_enemies",
+            effect=30, vitality_cost=20,  multiplier=1.0, health_cost=5, menu_pos=1.2, type="all_enemies",
             desc="Countless quick slashes rip the air itself, sending rapid shockwaves.", item_only=True,
             main_effect={"gfx": Transform("elven_combo_webm", zoom=1.1), "sfx": "content/sfx/sound/be/elven_combo.mp3",
                          "duration": 1.4, "aim": {"point": "center", "anchor": (.5, .5)}, "hflip": True},
@@ -239,7 +239,7 @@ python: # Bow Attacks:
             target_sprite_damage_effect={"gfx": "on_light", "initial_pause": .3, "duration": .96},
             target_death_effect={"gfx": "dissolve", "initial_pause": .9, "duration": .5})
     BE_Action(u"Dark Shot", range=4, attributes=["ranged", "physical", "darkness"], critpower=.4, piercing=True,
-            multiplier=.95, effect=70, vitality_cost=4, health_cost=2, menu_pos=1.0,
+            multiplier=.95, effect=70, vitality_cost=2, health_cost=2, menu_pos=1.0,
             desc="Shot an arrow made of darkness.", item_only=True,
             main_effect={"gfx": Transform("demon_bow_attack_webm", zoom=1.1), "sfx": "content/sfx/sound/be/demon_sword.ogg",
                          "duration": .96, "aim": {"point": "center", "anchor": (.5, .5)}},
@@ -277,7 +277,7 @@ python: # Bow Attacks:
             target_death_effect={"gfx": "dissolve", "initial_pause": 2.0, "duration": .5},
             dodge_effect={"initial_pause": .9})
     P2P_Skill(u"Midnight Arrow", menu_pos=2, range=3, attributes=["ranged", "physical", "darkness"], true_pierce=True,
-            effect=100, multiplier=1.3, vitality_cost=20, health_cost=10, critpower=.3,
+            effect=100, multiplier=1.3, vitality_cost=20, health_cost=5, critpower=.3,
             desc="Releases explosive arrow made of dark energy.", item_only=True, piercing=True,
             projectile_effects={"gfx": "demon_bow_arrow_webm", "sfx": "content/sfx/sound/be/elf_bow.ogg",
                                 "duration": .56, "aim": {"point": "center", "anchor": (.5, .5)}},
@@ -460,7 +460,7 @@ python: # Claw Attacks:
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.35, "duration": .5})
 
 python: # Fist Attacks:
-    BE_Action("Fist Attack", attributes=["melee", "physical"], critpower=-0.2,
+    BE_Action("Fist Attack", attributes=["melee", "physical"], critpower=0,
             effect=5, range=1, menu_pos=0, multiplier=.4,
             desc="An attack with bare hands.", item_only=True,
             main_effect={"gfx": "simple_fist_attack_webm",
@@ -468,7 +468,7 @@ python: # Fist Attacks:
                          "duration": .567, "hflip": True},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .067, "duration": .5},
             target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
-    MultiAttack("Fist Attack 2X", attributes=["melee", "physical"], critpower=-0.2,
+    MultiAttack("Fist Attack 2X", attributes=["melee", "physical"], critpower=0.01,
             effect=5, range=1, vitality_cost=1, menu_pos=.1,  multiplier=.5,
             desc="Two quick attacks with bare hands.", item_only=True,
             main_effect={"gfx": ProportionalScale("content/gfx/be/fists.webp", 150, 150),
@@ -476,7 +476,7 @@ python: # Fist Attacks:
                          "duration": .65, "times": 2, "sd_duration": .4, "interval": .3},
             target_sprite_damage_effect={"gfx": "shake", "initial_pause": .05, "duration": .55},
             target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
-    MultiAttack("Fist Attack 4X", attributes=["melee", "physical"], critpower=-.2,
+    MultiAttack("Fist Attack 4X", attributes=["melee", "physical"], critpower=.02,
             multiplier=.6, effect=5, range=1, vitality_cost=2, menu_pos=.2,
             desc="Two quick attacks with bare hands.", item_only=True,
             main_effect={"gfx": ProportionalScale("content/gfx/be/fists.webp", 150, 150),
@@ -615,7 +615,7 @@ python: # Scythe Attacks:
             target_sprite_damage_effect={"gfx": "on_death", "initial_pause": .3, "duration": 1.16})
 
 python: # Spray Attacks:
-    BE_Action("Spray", attributes=["ranged", "poison"], critpower=-0.3,
+    BE_Action("Spray", attributes=["ranged", "poison"], critpower=0.15,
             effect=100, range=2, vitality_cost=3, menu_pos=0, multiplier=.65,
             desc="Spray a dangerous substance.", item_only=True,
             main_effect={"gfx": "simple_spray_attack", "sfx": "content/sfx/sound/be/spray_attack.mp3",

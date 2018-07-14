@@ -6,7 +6,7 @@ init -999 python:
     # config.debug = False
 
     DEBUG = True # General debugging.
-    DEBUG_LOG = False # Logging general. Crash if devlog is used and this is False.
+    DEBUG_LOG = True # Logging general. Crash if devlog is used and this is False.
     DEBUG_PROFILING = False # Loading time of various game elements.
     DEBUG_INTERACTIONS = False
 
@@ -43,7 +43,7 @@ init -999 python:
             devlog.info("|AEQ DEBUG| {}".format(msg))
 
     # Battle Engine:
-    DEBUG_BE = False
+    DEBUG_BE = True
     def be_debug(msg):
         if DEBUG_BE:
             devlog.info("|BE DEBUG| {}".format(msg))

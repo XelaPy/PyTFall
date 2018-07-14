@@ -292,8 +292,8 @@
         "desc": "A little spark of magic within one's soul gives the ability to manipulate arcane energies.",
         "basetrait": true,
         "base_stats": {
-            "magic": 70,
-            "intelligence": 20,
+            "magic": 40,
+            "intelligence": 10,
             "mp": 10
         },
         "base_skills": {
@@ -315,8 +315,8 @@
             ]
         },
         "init_lvlmax": {
-            "magic": 30,
-            "intelligence": 30,
+            "magic": 20,
+            "intelligence": 10,
             "mp": 50
         },
         "init_max": {
@@ -357,9 +357,9 @@
         "basetrait": true,
         "higher_tiers": ["Mage"],
         "base_stats": {
-            "magic": 40,
-            "intelligence": 40,
-            "mp": 20
+            "magic": 10,
+            "intelligence": 10,
+            "mp": 50
         },
         "base_skills": {
             "security": 50
@@ -420,8 +420,8 @@
             "ranged": 0.05
         },
         "base_stats": {
-            "attack": 40,
-            "defence": 40,
+            "attack": 20,
+            "defence": 20,
             "health": 10,
             "agility": 10
         },
@@ -441,8 +441,8 @@
             "agility": 10
         },
         "init_mod": {
-            "attack": 10,
-            "defence": 10,
+            "attack": 5,
+            "defence": 5,
             "agility": 5
         },
         "mod_skills": {
@@ -491,8 +491,8 @@
             "attack": [1, 1]
         },
         "base_stats": {
-            "attack": 20,
-            "defence": 40,
+            "attack": 10,
+            "defence": 20,
             "health": 40
         },
         "base_skills": {
@@ -560,9 +560,9 @@
             "ranged": 0.1
         },
         "base_stats": {
-            "attack": 30,
-            "defence": 30,
-            "agility": 30
+            "attack": 10,
+            "defence": 10,
+            "agility": 10
         },
         "base_skills": {
             "security": 150
@@ -587,7 +587,7 @@
             "agility": 20
         },
         "init_mod": {
-            "attack": 20,
+            "attack": 10,
             "defence": 5,
             "agility": 10
         },
@@ -630,9 +630,9 @@
         "evasion_bonus": [5, 10, 50],
         "ch_multiplier": 0.5,
         "base_stats": {
-            "attack": 50,
-            "defence": 20,
-            "agility": 50
+            "attack": 20,
+            "defence": 5,
+            "agility": 20
         },
         "base_skills": {
             "security": 150
@@ -663,8 +663,8 @@
         "init_mod": {
             "attack": 10,
             "defence": 5,
-            "agility": 15,
-            "luck": 10
+            "agility": 10,
+            "luck": 5
         },
         "init_skills": {},
         "leveling_stats": {

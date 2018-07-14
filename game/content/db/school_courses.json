@@ -1,0 +1,209 @@
+{
+	"Beauty": {
+		"desc": "This course focuses on training charisma. May also improve refinement.",
+		"image": "Beauty/",
+		"imageTags": [
+			"beauty",
+			"studying"
+		],
+		"primary": [
+			"charisma"
+		],
+		"secondary": [
+			"refinement"
+		]
+	},
+	"Combat": {
+		"desc": "This course focuses on training attack and defence. May also improve agility.",
+		"image": "Combat/",
+		"imageMode": "normal",
+		"imageTags": [
+			"sfw",
+			"battle",
+			"armor",
+			"ninja"
+		],
+		"primary": [
+			"defence",
+			"attack"
+		],
+		"secondary": [
+			"agility"
+		]
+	},
+	"Leadership": {
+		"desc": "This course focuses on training management and character.",
+		"image": "Leader/",
+		"imageMode": "normal",
+		"imageTags": [
+			"sfw",
+			"profile",
+			"confident",
+			"defiant"
+		],
+		"noImageTags": [
+			"rest"
+		],
+		"primary": [
+			"character",
+			"management"
+		],
+		"secondary": [
+
+		]
+	},
+	"Guard": {
+		"desc": "This course focuses on training defence and security. May also improve constitution and intelligence.",
+		"image": "Combat/",
+		"imageTags": [
+			"battle",
+			"armor",
+			"ninja"
+		],
+		"noImageTags": [
+			"sex",
+			"nude",
+			"rest"
+		],
+		"primary": [
+			"defence",
+			"security"
+		],
+		"secondary": [
+			"constitution",
+			"intelligence"
+		]
+	},
+	"Kunoichi": {
+		"desc": "This course focuses on training attack and agility. May also improve general sex and security.",
+		"image": "Kunoichi/",
+		"imageTags": [
+			"ninja",
+			"battle",
+			"exercising"
+		],
+		"primary": [
+			"attack",
+			"agility"
+		],
+		"secondary": [
+			"security", "sex"
+		]
+	},
+
+	"Striptease": {
+		"desc": "This course focuses on training striptease skill. May also improve agility.",
+		"image": "Strip/",
+		"imageTags": [
+			"stripping"
+		],
+		"primary": [
+			"strip"
+		],
+		"secondary": [
+			"agility",
+			"dancing"
+		]
+	},
+	"Etiquette": {
+		"desc": "This course focuses on refinement. May also improve service and intelligence.",
+		"image": "Etiquette/",
+		"imageTags": [
+			"etiquette",
+			"studying"
+		],
+		"primary": [
+			"refinement"
+		],
+		"secondary": [
+			"service",
+			"intelligence"
+		]
+	},
+	"Maid": {
+		"desc": "This course focuses on service and cleanings skills. May also improve waiting and bartending.",
+		"image": "Service/",
+		"imageTags": [
+			"sfw",
+			"maid",
+			"cleaning",
+			"bunny"
+		],
+		"primary": [
+			"service",
+			"cleaning"
+		],
+		"secondary": [
+			"waiting",
+			"bartending"
+		]
+	},
+	"Oral Sex": {
+		"desc": "This course focuses on training oral sex skills. May also improve general sex.",
+		"image": "Oral/",
+		"imageMode": "any",
+		"imageTags": [
+			"bc blowjob",
+			"bc lickanus",
+			"bc lickpussy",
+			"2c lickpussy",
+			"2c lickanus"
+		],
+		"noImageTags": [
+			"rape"
+		],
+		"primary": [
+			"oral"
+		],
+		"secondary": [
+			"sex"
+		]
+	},
+	"Anal Sex": {
+		"desc": "This course focuses on training anal sex skills. May also improve general sex.",
+		"image": "Anal/",
+		"imageMode": "any",
+		"imageTags": [
+			"2c analfingering",
+			"2c analtoy",
+			"2c anal",
+			"bc analfootjob",
+			"bc analhandjob",
+			"bc toyanal",
+			"bc anal"
+		],
+		"noImageTags": [
+			"rape"
+		],
+		"primary": [
+			"anal"
+		],
+		"secondary": [
+			"sex"
+		]
+	},
+	"Vaginal Sex": {
+		"desc": "This course focuses on training vaginal sex skills. May also improve sex.",
+		"image": "Vaginal/",
+		"imageMode": "any",
+		"imageTags": [
+			"2c lickpussy",
+			"2c vaginaltoy",
+			"2c vaginal",
+			"2c vaginalfingering",
+			"bc vaginalfootjob",
+			"bc vaginalhandjob",
+			"bc toypussy",
+			"bc vaginal"
+		],
+		"noImageTags": [
+			"rape"
+		],
+		"primary": [
+			"vaginal"
+		],
+		"secondary": [
+			"sex"
+		]
+	}
+}

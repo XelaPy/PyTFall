@@ -1,126 +1,126 @@
 [
     {
     "id": "Horde of Goblins",
-    "level": 10,
+    "level": 20,
     "mobs": ["Goblin", "Goblin Archer", "Goblin Shaman"],
     "boss": "Goblin Warrior",
     "boss_name": "The Great One"
     },
     {
     "id": "Wolves Pack",
-    "level": 20,
+    "level": 30,
     "mobs": ["Wolf", "Black Wolf", "Link Wolf"],
     "boss": "Feonix",
     "boss_name": "Alpha"
     },
     {
     "id": "Slime Time",
-    "level": 30,
+    "level": 40,
     "mobs": ["Slime", "Alkaline Slime", "Seductive Slime", "Acid Slime", "Treasure Slime"],
     "boss": "King Slime",
     "boss_name": "His Highness Viciousness"
     },
     {
     "id": "Unlive",
-    "level": 40,
+    "level": 50,
     "mobs": ["Undead Rat", "Skeleton", "Skeleton Warrior", "Will-o-wisp"],
     "boss": "Spectre",
     "boss_name": "Holy Ghost"
     },
     {
     "id": "Amazon Tribe",
-    "level": 50,
+    "level": 60,
     "mobs": ["Amazon Thief", "Amazon Archer", "Amazon Warrior"],
     "boss": "Lamia",
     "boss_name": "Amazon Princess"
     },
     {
     "id": "Abominations",
-    "level": 60,
+    "level": 70,
     "mobs": ["Secateuris", "Cetus", "Crawler", "Chimera"],
     "boss": "Giant Spider",
     "boss_name": "Master of Web"
     },
     {
     "id": "Waterfest",
-    "level": 70,
+    "level": 80,
     "mobs": ["Undine", "Dark Undine", "Energized Undine"],
     "boss": "Frozen Undine",
     "boss_name": "Ice Queen"
     },
     {
     "id": "Air Raid",
-    "level": 80,
+    "level": 90,
     "mobs": ["Vixen", "Hag", "Harpy"],
     "boss": "Gargoyle",
     "boss_name": "Shooting Star"
     },
     {
     "id": "Monster Girls",
-    "level": 90,
+    "level": 100,
     "mobs": ["Weregirl", "Horny Medusa", "Minotauress", "Beargirl", "Naiad"],
     "boss": "Insect Queen",
     "boss_name": "Poisonous Sting"
     },
     {
     "id": "Earthlings",
-    "level": 100,
+    "level": 110,
     "mobs": ["Mud Elemental", "Earth Elemental", "Lava Elemental"],
     "boss": "Stone Eater",
     "boss_name": "Diamond"
     },
     {
     "id": "Elf Eaters",
-    "level": 110,
+    "level": 120,
     "mobs": ["Orc", "Werecat", "Ogre", "Cyclop"],
     "boss": "Undead Werecat",
     "boss_name": "Tireless Hunter"
     },
     {
     "id": "Forces of Nature",
-    "level": 120,
+    "level": 130,
     "mobs": ["Wild Dryad", "Druid", "Forest Fairy", "Flytrap"],
     "boss": "Poison Ivy",
     "boss_name": "Forest Lady"
     },
     {
     "id": "Rogue Shinobi",
-    "level": 130,
+    "level": 140,
     "mobs": ["Warrior", "Archer", "Soldier", "Barbarian", "Assassin"],
     "boss": "Samurai",
     "boss_name": "The Shadow of A Shadow"
     },
     {
     "id": "Elemental Spirits",
-    "level": 140,
+    "level": 150,
     "mobs": ["Wind Spirit", "Water Spirit", "Fire Spirit"],
     "boss": "Quick Silver",
     "boss_name": "Anti Elemental"
     },
     {
     "id": "Divine Champions",
-    "level": 150,
+    "level": 160,
     "mobs": ["Angel", "Heaven Guardian", "Archangel", "Flaming Fox"],
     "boss": "Seraph",
     "boss_name": "Holy Spirit"
     },
     {
     "id": "Envoys of the Lust",
-    "level": 160,
+    "level": 170,
     "mobs": ["Succubus", "Mare", "Lilith", "Horny Succubus"],
     "boss": "Night Mare",
     "boss_name": "The Lust"
     },
     {
     "id": "Icebound",
-    "level": 170,
+    "level": 180,
     "mobs": ["Frost Giant", "Ice Maiden", "Ice Golem", "Frozen Heart"],
     "boss": "Winter Queen",
     "boss_name": "Eternal Winter"
     },
     {
     "id": "Corpse Party",
-    "level": 180,
+    "level": 190,
     "mobs": ["Phantasm", "Undead Unicorn", "Lesser Vampire", "Shadowman"],
     "boss": "Undead Cemetery",
     "boss_name": "Awakened Mass"

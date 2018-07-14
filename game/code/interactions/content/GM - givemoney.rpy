@@ -6,23 +6,26 @@ label interactions_giftmoney:
         jump girl_interactions
 
     $ line = "You have " + str(hero.gold) + " gold. How much money do you want to give?"
-
+    
     $ money = renpy.call_screen("digital_keyboard", line=line)
 
     if money <= 0 or not money:
         "You changed your mind."
         $ del money
         jump girl_interactions
+
     if money > hero.gold:
         "You don't have that amount of gold."
         $ del money
         jump girl_interactions
+
     if char.gold >= locked_random("randint", 500, 1000):
         if round(char.gold/money) > 5:
             call interactions_not_enough_gold from _call_interactions_not_enough_gold
             $ char.disposition -= (randint(9, 25))
             $ del money
             jump girl_interactions
+
     if hero.take_money(money, reason="Charity"):
         $ char.add_money(money, reason="Charity")
         "You gave her [money] G."

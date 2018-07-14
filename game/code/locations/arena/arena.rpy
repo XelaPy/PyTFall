@@ -53,7 +53,7 @@ init -9 python:
             self.result = None
 
             # Chanfighting:
-            self.chain_fights = {f["id"]: f for f in load_json("arena_chainfights.json")}
+            self.chain_fights = {f["id"]: f for f in load_db_json("arena_chainfights.json")}
             self.chain_fights_order = list(f["id"] for f in sorted(self.chain_fights.values(), key=itemgetter("level")))
             self.chain_fights_order_portraits = []
             for i in self.chain_fights_order:
