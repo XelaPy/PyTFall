@@ -1366,7 +1366,7 @@ init: # Screens:
                                 xysize(280, 32)
                                 hovered tt.action(advert['desc'])
                                 action Return(["building", 'sign', advert])
-                                text "Put Up Sign!" color black align (.5, .5) size 15
+                                text "Put Up Sign for 200 gold" color black align (.5, .5) size 15
                         elif advert['name'] == "Celebrity":
                             button:
                                 xysize(280, 32)
