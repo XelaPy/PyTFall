@@ -177,7 +177,7 @@ label next_day_calculations:
         tl.start("Training")
         for school in schools:
             school = schools[school]
-            if not school.available: continue
+            # if not school.available: continue
 
             girls = school.get_girls("Course")
             guards = school.get_girls("Guard")
@@ -193,10 +193,10 @@ label next_day_calculations:
             while trainers:
                 TrainerJob(choice(trainers), school, trainers)
 
-            if school.is_school:
-                school.next_day()
-            else:
-                school.next_day()
+            # if school.is_school:
+                # school.next_day()
+            # else:
+                # school.next_day()
 
         tl.end("Training")
         ################## Training events End ##################
