@@ -604,10 +604,10 @@ init -9 python:
 
                 girl.action = None
 
-                if schools[TrainingDungeon.NAME] in hero.buildings:
-                    girl.location = schools[TrainingDungeon.NAME]
-                else:
-                    girl.location = hero
+                # if schools[TrainingDungeon.NAME] in hero.buildings:
+                    # girl.location = schools[TrainingDungeon.NAME]
+                # else:
+                girl.location = hero
 
         def set_girl(self, girl):
             """

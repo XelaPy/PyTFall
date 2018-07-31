@@ -5,8 +5,8 @@ init -999 python:
     config.developer = True
     # config.debug = False
 
-    DEBUG = False # General debugging.
-    DEBUG_LOG = False # Logging general. Crash if devlog is used and this is False.
+    DEBUG = True # General debugging.
+    DEBUG_LOG = True # Logging general. Crash if devlog is used and this is False.
     
     DEBUG_PROFILING = False # Loading time of various game elements.
     DEBUG_INTERACTIONS = False

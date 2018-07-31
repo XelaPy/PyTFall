@@ -210,11 +210,18 @@ screen chars_list(source=None):
                                     style_group "ddlist"
                                     action Return(["dropdown", "action", c])
                                     hovered tt.Action("Choose a task for %s to do!" % c.nickname)
-                                    text "{image=button_circle_green}Action: [c.action]":
-                                        if c.action is not None and len(str(c.action)) > 18:
-                                            size 15
-                                        else:
-                                            size 18
+                                    if getattr(c.location, "is_school", False):
+                                        text "{image=button_circle_green}Action: [c.action.name] Course":
+                                            if c.action.name is not None and len(str(c.action.name)) > 18:
+                                                size 15
+                                            else:
+                                                size 18
+                                    else:
+                                        text "{image=button_circle_green}Action: [c.action]":
+                                            if c.action is not None and len(str(c.action)) > 18:
+                                                size 15
+                                            else:
+                                                size 18
                             else:
                                 text "{size=15}Location: Unknown"
                                 text "{size=15}Action: Hiding"

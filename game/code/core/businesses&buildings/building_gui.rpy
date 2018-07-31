@@ -1299,18 +1299,18 @@ init: # Screens:
                     hovered tt.Action("Give new name to your Building!")
                     text "Rename Building"
 
-            if isinstance(building, TrainingDungeon):
-                button:
-                    style_group "basic"
-                    xysize (200, 32)
-                    align (.5, .5)
-                    action Return(["maintenance", "retrieve_jail"])
-                    hovered tt.action("Allow your guards to bail your escaped girls out of jail?")
-                    text "Auto-bail" align (.0, .5)
-                    if not pytfall.ra.retrieve_jail:
-                        add im.Scale("content/gfx/interface/icons/checkbox_unchecked.png", 25, 25) align (1.0, .5)
-                    else:
-                        add im.Scale("content/gfx/interface/icons/checkbox_checked.png", 25, 25) align (1.0, .5)
+            # if isinstance(building, TrainingDungeon):
+                # button:
+                    # style_group "basic"
+                    # xysize (200, 32)
+                    # align (.5, .5)
+                    # action Return(["maintenance", "retrieve_jail"])
+                    # hovered tt.action("Allow your guards to bail your escaped girls out of jail?")
+                    # text "Auto-bail" align (.0, .5)
+                    # if not pytfall.ra.retrieve_jail:
+                        # add im.Scale("content/gfx/interface/icons/checkbox_unchecked.png", 25, 25) align (1.0, .5)
+                    # else:
+                        # add im.Scale("content/gfx/interface/icons/checkbox_checked.png", 25, 25) align (1.0, .5)
 
             button:
                 style_group "dropdown_gm"

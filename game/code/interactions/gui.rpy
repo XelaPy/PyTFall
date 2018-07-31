@@ -131,21 +131,21 @@ label girl_interactions_after_greetings: # when character wants to say something
             #for k,c in get_all_courses(no_school=True, real=True).iteritems():
 
             # Loop through all courses in the training dungeon:
-            for b in hero.buildings:
-                if isinstance(b, TrainingDungeon):
-                    for k,c in schools[TrainingDungeon.NAME].all_courses.iteritems():
-                        # Get the lessons that are one off events
-                        ev = [l for l in c.options if l.is_one_off_event]
+            # for b in hero.buildings:
+                # if isinstance(b, TrainingDungeon):
+                    # for k,c in schools[TrainingDungeon.NAME].all_courses.iteritems():
+                        # # Get the lessons that are one off events
+                        # ev = [l for l in c.options if l.is_one_off_event]
 
-                        if ev:
-                            # Create the menu for the course
-                            pytfall.world_actions.menu((m, n), k, condition=OneOffTrainingAction("menu", c))
+                        # if ev:
+                            # # Create the menu for the course
+                            # pytfall.world_actions.menu((m, n), k, condition=OneOffTrainingAction("menu", c))
 
-                            for l in range(len(ev)):
-                                # Add the lesson
-                                pytfall.world_actions.add((m, n, l), ev[l].name, OneOffTrainingAction("action", ev[l]), condition=OneOffTrainingAction("condition", ev[l]))
+                            # for l in range(len(ev)):
+                                # # Add the lesson
+                                # pytfall.world_actions.add((m, n, l), ev[l].name, OneOffTrainingAction("action", ev[l]), condition=OneOffTrainingAction("condition", ev[l]))
 
-                            n += 1
+                            # n += 1
 
             # PRAISE
             m = 2

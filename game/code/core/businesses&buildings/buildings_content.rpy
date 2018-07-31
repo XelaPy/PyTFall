@@ -109,13 +109,13 @@ init -9 python:
                     self.worker = None
 
                 if set_location:
-                    if schools[TrainingDungeon.NAME] in hero.buildings:
-                        char.location = schools[TrainingDungeon.NAME]
-                        char.home = schools[TrainingDungeon.NAME]
-                    else:
-                        char.home = locations["Streets"]
-                        char.action = None
-                        char.workplace = None
+                    # if schools[TrainingDungeon.NAME] in hero.buildings:
+                        # char.location = schools[TrainingDungeon.NAME]
+                        # char.home = schools[TrainingDungeon.NAME]
+                    # else:
+                    char.home = locations["Streets"]
+                    char.action = None
+                    char.workplace = None
 
         def set_girl(self, girl):
             """

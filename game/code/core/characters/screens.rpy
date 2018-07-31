@@ -45,7 +45,8 @@ screen set_action_dropdown(char, pos=()):
                         Jump("school_training")]
                 tooltip "Change training course to a different one."
             textbutton "Stop Course":
-                action [SetField(char, "location", None),
+                action [Function(stop_courses, char),
+                        SetField(char, "location", None),
                         SetField(char, "workplace", None),
                         SetField(char, "action", None),
                         Hide("set_action_dropdown")]

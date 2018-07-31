@@ -76,9 +76,11 @@ init python:
             self.students.append(student)
             if student not in self.students_progress:
                 self.students_progress[student] = 0
+                student.action = self
 
-        def remove_student(self):
+        def remove_student(self, student):
             self.students.remove(student)
+            student.action = None
 
         def next_day(self):
             self.days_remaining -= 1
@@ -135,6 +137,9 @@ init python:
                 skills_pool = 2*ap_spent  # Adjusts to difficulty (teacher tier)
 
                 char.AP = 0
+                
+                if days_remaining <= 0:
+                    self.remove_student(char)
 
 
     class School(BaseBuilding):
@@ -143,6 +148,7 @@ init python:
             super(School, self).__init__(id=id, name=id)
             self.img = renpy.displayable(img)
             self.courses = []
+            self.students = {}
 
         def add_cources(self):
             forced = max(0, 12-len(self.courses))
@@ -179,3 +185,17 @@ init python:
                     self.courses.remove(c)
 
             self.add_courses()
+            
+        @property
+        def is_school(self):
+            """
+            Whether or not this building is a school.
+            """
+            return True
+            
+    def stop_courses(char):
+        global schools
+        sch = schools["-PyTFall Educators-"]
+        if char in sch.students.keys():
+            sch.students[char].remove_student(char)
+            del sch.students[char]

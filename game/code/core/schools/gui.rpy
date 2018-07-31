@@ -6,7 +6,14 @@ label school_training:
         $ result = ui.interact()
 
         if result[0] == "set_course":
-            pass
+            "[result]"
+            $ char.location = school
+            
+            $ stop_courses(char)
+            $ sch = schools["-PyTFall Educators-"]
+            $ sch.students[char] = result[1]
+            $ char.action = result[1]
+            $ result[1].add_student(char)
 
         if result == ["control", "return"]:
             jump return_from_school_training
@@ -69,7 +76,10 @@ screen school_training():
                         fixed:
                             xsize 180
                             text (u"[c.fullname]:") color ivory
-                        text (u"[c.action]") color ivory
+                        if c.action is not None:
+                            text (u"[c.action.name]") color ivory
+                        else:
+                            text (u"[c.action]") color ivory
 
     frame:
         style_prefix "content"
@@ -86,7 +96,7 @@ screen school_training():
                     margin 2, 2
                     padding 5, 5
                     xysize 180, 350
-                    action NullAction()
+                    action Return(["set_course", course])
                     tooltip course.tooltip
                     vbox:
                         xalign .5
