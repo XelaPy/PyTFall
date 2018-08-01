@@ -169,7 +169,7 @@ init python:
             difficulty = randint(v0, v1)
 
             duration = randint(20, 40)
-            days_to_complete = round_int(duration*random.uniform(.5, .85))
+            days_to_complete = round_int(duration*random.uniform(.5, .75))
             effectiveness = randint(60, 100)
             data = school_courses[id]
 
@@ -185,13 +185,6 @@ init python:
                     self.courses.remove(c)
 
             self.add_courses()
-            
-        @property
-        def is_school(self):
-            """
-            Whether or not this building is a school.
-            """
-            return True
             
     def stop_courses(char):
         global schools
