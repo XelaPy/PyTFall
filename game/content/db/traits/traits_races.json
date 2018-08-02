@@ -5,7 +5,7 @@
     "type": "race",
     "mod_stats": {"charisma": [1, 3], "constitution": [-1, 3]},
     "icon": "content/races/elf.webp",
-    "el_damage": {"earth": 0.1, "wind": 0.1, "water": 0.1},
+    "el_damage": {"earth": 0.1, "air": 0.1, "water": 0.1},
     "el_defence": {"healing": -0.1},
     "race": true
     },

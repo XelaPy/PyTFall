@@ -5,7 +5,7 @@
     "icon": "content/gfx/interface/images/elements/fire.png",
     "elemental": true,
     "el_damage": {"fire": 0.25, "ice": -0.25},
-    "el_defence": {"fire": 0.15, "wind": 0.15, "water": -0.3},
+    "el_defence": {"fire": 0.15, "air": 0.15, "water": -0.3},
     "font_color": "orangered"
     },
     {
