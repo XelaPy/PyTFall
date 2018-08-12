@@ -7,7 +7,7 @@ label school_training:
 
         if result[0] == "set_course":
             "[result]"
-            $ char.location = school
+            $ char.workplace = school
             
             $ stop_courses(char)
             $ sch = schools["-PyTFall Educators-"]

@@ -36,7 +36,7 @@ screen set_action_dropdown(char, pos=()):
         anchor (xval, yval)
         has vbox
 
-        if getattr(char.location, "is_school", False):
+        if getattr(char.workplace, "is_school", False):
             textbutton "Change Course":
                 action [Hide("set_action_dropdown"),
                         Hide("charslist"),
@@ -46,7 +46,6 @@ screen set_action_dropdown(char, pos=()):
                 tooltip "Change training course to a different one."
             textbutton "Stop Course":
                 action [Function(stop_courses, char),
-                        SetField(char, "location", None),
                         SetField(char, "workplace", None),
                         SetField(char, "action", None),
                         Hide("set_action_dropdown")]

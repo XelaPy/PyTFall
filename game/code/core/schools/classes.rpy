@@ -149,6 +149,14 @@ init python:
             self.img = renpy.displayable(img)
             self.courses = []
             self.students = {}
+            
+        @property
+        def is_school(self):
+            """
+            Whether or not this building is a school. Used in training screen.
+            """
+            return True
+
 
         def add_cources(self):
             forced = max(0, 12-len(self.courses))
