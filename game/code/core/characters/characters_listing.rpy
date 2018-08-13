@@ -165,7 +165,7 @@ screen chars_list(source=None):
                                 if c.status == "free" and c.flag("last_chars_list_geet_icon") != "work":
                                     $ c.set_flag("last_chars_list_geet_icon", "work")
 
-                                if getattr(c.location, "is_school", False):
+                                if getattr(c.workplace, "is_school", False):
                                     button:
                                         style_group "ddlist"
                                         action NullAction()
@@ -210,7 +210,7 @@ screen chars_list(source=None):
                                     style_group "ddlist"
                                     action Return(["dropdown", "action", c])
                                     hovered tt.Action("Choose a task for %s to do!" % c.nickname)
-                                    if getattr(c.location, "is_school", False):
+                                    if getattr(c.workplace, "is_school", False):
                                         text "{image=button_circle_green}Action: [c.action.name] Course":
                                             if c.action.name is not None and len(str(c.action.name)) > 18:
                                                 size 15

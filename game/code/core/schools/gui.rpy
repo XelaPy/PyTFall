@@ -6,7 +6,6 @@ label school_training:
         $ result = ui.interact()
 
         if result[0] == "set_course":
-            "[result]"
             $ char.workplace = school
             
             $ stop_courses(char)
@@ -68,18 +67,17 @@ screen school_training():
             draggable False
             mousewheel True
             scrollbars "vertical"
+            $ sch = schools["-PyTFall Educators-"]
             vbox:
                 xmaximum 610
                 spacing 10
-                for c in list(c for c in chain.from_iterable(course.students for course in school.courses)):
+                for c in sch.students.keys():
                     hbox:
-                        fixed:
-                            xsize 180
-                            text (u"[c.fullname]:") color ivory
-                        if c.action is not None:
-                            text (u"[c.action.name]") color ivory
+                        text ("[c.fullname]:") color goldenrod
+                        if c.action != None:
+                            text (" [c.action.name] Course") color lawngreen
                         else:
-                            text (u"[c.action]") color ivory
+                            text (" None") color Red
 
     frame:
         style_prefix "content"

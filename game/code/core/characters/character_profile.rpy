@@ -303,7 +303,7 @@ screen char_profile():
                 xanchor -0.01
                 xysize (300, 60)
                 vbox:
-                    if getattr(char.location, "is_school", False):
+                    if getattr(char.workplace, "is_school", False):
                         button:
                             style_group "ddlist"
                             action NullAction()
@@ -336,11 +336,14 @@ screen char_profile():
                         style_group "ddlist"
                         action Return(["dropdown", "action", char])
                         hovered tt.Action("Choose a task for %s to do!" % char.nickname)
-                        text "{image=button_circle_green}Action: [char.action]":
-                            if char.action is not None and len(str(char.action)) > 18:
-                                size 15
-                            else:
-                                size 18
+                        if getattr(char.workplace, "is_school", False):
+                            text "{image=button_circle_green}Action: [char.action.name] Course"
+                        else:
+                            text "{image=button_circle_green}Action: [char.action]":
+                                if char.action is not None and len(str(char.action)) > 18:
+                                    size 15
+                                else:
+                                    size 18
 
                 imagebutton:
                     align(.99, .45)
@@ -1119,7 +1122,6 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=F
                 action Hide("show_trait_info")
 
 screen char_control():
-    default char = PytGroup(the_chosen) if the_chosen else char
     modal True
     zorder 1
 
@@ -1223,12 +1225,15 @@ screen char_control():
                         style_group "basic"
                         action Return(["dropdown", "action", char])
                         tooltip "Choose a task for %s to do" % char.nickname
-                        if len(str(char.action)) > 18:
-                            text "[char.action]" size 15
-                        elif len(str(char.action)) > 12:
-                            text "[char.action]" size 18
+                        if getattr(char.workplace, "is_school", False):
+                            text "Action: [c.action.name] Course"
                         else:
-                            text "Action: [char.action]" size 18
+                            if len(str(char.action)) > 18:
+                                text "[char.action]" size 15
+                            elif len(str(char.action)) > 12:
+                                text "[char.action]" size 18
+                            else:
+                                text "Action: [char.action]" size 18
                 else:
                     text "{size=15}Location: Unknown"
                     text "{size=15}Action: Hiding"
