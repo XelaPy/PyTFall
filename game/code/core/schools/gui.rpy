@@ -7,7 +7,7 @@ label school_training:
 
         if result[0] == "set_course":
             $ char.workplace = school
-            
+
             $ stop_courses(char)
             $ sch = schools["-PyTFall Educators-"]
             $ sch.students[char] = result[1]
@@ -28,12 +28,12 @@ label return_from_school_training:
 init python:
     def school_desc_string():
         temp = []
-        temp.append("The Beautiful educational facilities in PyTFall offer any")
-        temp.append("training one may require for free citizens,")
-        temp.append("foreigners and slaves alike. Century old traditions will make sure")
-        temp.append("that no girl taking classes here will ever be sad or unhappy.")
-        temp.append("Nothing in this world is free however, so courses here")
-        temp.append("might cost you a dime and if you wish to be trained")
+        temp.append("The Beautiful educational facilities in PyTFall offer")
+        temp.append("training for free citizens,")
+        temp.append("foreigners and slaves alike. Centuries old traditions will make certain")
+        temp.append("that no student taking classes here will ever be sad or unhappy.")
+        temp.append("Nothing in this world is free and courses here")
+        temp.append("will cost you a dime and if you wish to be trained")
         temp.append("by the Masters, a small fortune.")
         rv = " ".join(temp)
 
