@@ -98,8 +98,8 @@ init python:
                 # Pay for the class:
                 if hero.take_money(self.price, reason="-PyTFall Educators-"):
                     char.fin.log_logical_expense(self.price, "-PyTFall Educators-")
-                    self.remove_student(char)
                 else:
+                    self.remove_student(char)
                     self.build_nd_report(char, type="failed_to_pay")
                     continue
 
