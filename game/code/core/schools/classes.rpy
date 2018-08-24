@@ -172,8 +172,14 @@ init python:
                 evt.red_flag = False
                 evt.loc = schools["-PyTFall Educators-"]
                 evt.char = char
-                evt.img = self.img # TODO Replace with char image
                 evt.txt = str(self.name) + " Testing string." # TODO Replace with a fitting texts.
+
+                # Get char image from data:
+                tags = self.data.get("imageTags", ["profile"])
+                kwargs = dict(exclude=self.data.get("noImageTags", []),
+                              resize=(820, 705), type="reduce", add_mood=False)
+                evt.img = char.show(*tags, **kwargs)
+
                 NextDayEvents.append(evt)
             elif type == "failed_to_pay":
                 evt = NDEvent()
