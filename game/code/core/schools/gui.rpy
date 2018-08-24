@@ -84,7 +84,11 @@ screen school_training():
                                         text "(Completed)" color goldenrod
                                     else:
                                         $ days_left = c.days_to_complete - c.students_progress.get(s, 0)
-                                        text "([days_left] days to complete)" color ivory xalign 1.0
+                                        $ can_complete = c.days_remaining >= days_left
+                                        if can_complete:
+                                            text "([days_left] days to complete)" color ivory xalign 1.0
+                                        else:
+                                            text "(can't complete)" color ivory xalign 1.0
 
     frame:
         style_prefix "content"
@@ -128,7 +132,7 @@ screen school_training():
                                 color "#79CDCD"
                                 hover_color ivory
                                 size 15
-                            text "[course.duration]/[course.days_remaining]":
+                            text "[course.days_remaining]/[course.duration]":
                                 style_suffix "value_text"
                                 hover_color green
                                 size 14
