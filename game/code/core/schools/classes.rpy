@@ -94,7 +94,15 @@ init python:
             else:
                 best_student = None
 
-            for char in self.students:
+            for char in self.students[:]:
+                # Pay for the class:
+                if hero.take_money(self.price, reason="-PyTFall Educators-"):
+                    char.fin.log_logical_expense(self.price, "-PyTFall Educators-")
+                    self.remove_student(char)
+                else:
+                    self.build_nd_report(char, type="failed_to_pay")
+                    continue
+
                 self.students_progress[char] += 1
                 days_to_complete = self.days_to_complete # Mod on traits?
                 ap_spent = char.AP
@@ -144,16 +152,27 @@ init python:
 
                 self.build_nd_report(char)
 
-        def build_nd_report(self, char):
-            evt = NDEvent()
-            evt.type = "course_nd_report"
-            # evt.charmod = charmod
-            # evt.red_flag = self.flag_red
-            evt.loc = schools["-PyTFall Educators-"]
-            evt.char = char
-            evt.img = self.img # TODO Replace with char image
-            evt.txt = str(self.name) + " Testing string." # TODO Replace with a fitting texts.
-            NextDayEvents.append(evt)
+        def build_nd_report(self, char, type="normal"):
+            if type == "normal":
+                evt = NDEvent()
+                evt.type = "course_nd_report"
+                # evt.charmod = charmod
+                # evt.red_flag = self.flag_red
+                evt.loc = schools["-PyTFall Educators-"]
+                evt.char = char
+                evt.img = self.img # TODO Replace with char image
+                evt.txt = str(self.name) + " Testing string." # TODO Replace with a fitting texts.
+                NextDayEvents.append(evt)
+            elif type == "failed_to_pay":
+                evt = NDEvent()
+                evt.type = "course_nd_report"
+                # evt.charmod = charmod
+                evt.red_flag = True
+                evt.loc = schools["-PyTFall Educators-"]
+                evt.char = char
+                evt.img = self.img # TODO Replace with char image?
+                evt.txt = "You failed to cover the cost of {} Course. {} has been kicked from the class!"
+                NextDayEvents.append(evt)
 
 
     class School(BaseBuilding):
