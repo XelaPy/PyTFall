@@ -921,7 +921,7 @@ screen next_day():
                 else:
                     text ("{color=[green]}Unassigned: -") style "agrevue"
 
-        # School (extra info) ---------------------------------------->>>
+        # School (extra info) ---------------------------------------->>> # TODO Update?
             # Prepearing info:
             python:
                 for school in NextDayEvents:
@@ -1109,7 +1109,8 @@ screen next_day():
                 add gimg align .5, .5
 
         # Stat Frames:
-        showif report_stats:
+        $ show_stat_frame = event.charmod or event.team_charmod or event.locmod
+        showif show_stat_frame and report_stats:
             # Chars/Teams Stats Frame:
             frame:
                 at slide(so1=(136, 0), eo1=(0, 0), t1=.4,
