@@ -245,7 +245,7 @@ label next_day_controls:
                 elif result[1] == 'mc':
                     FilteredList = [e for e in NextDayEvents if e.type == 'mcndreport']
                 elif result[1] == 'school':
-                    order = {"schoolndreport": 1, "course_nd_report": 2}
+                    order = {"school_nd_report": 1, "course_nd_report": 2}
                     temp = [e for e in NextDayEvents if e.type in order]
                     # temp.sort(key=itemgetter(1))
                     # FilteredList = temp

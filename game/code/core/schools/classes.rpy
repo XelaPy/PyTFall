@@ -243,6 +243,35 @@ init python:
                     self.courses.remove(c)
 
             self.add_courses()
+            self.build_nd_report()
+
+        def build_nd_report(self):
+            txt = []
+            type = "school_nd_report"
+
+            temp = "{} Report: \n".format(self.name)
+            txt.append(temp)
+
+            students = self.get_all_chars()
+
+            if not students:
+                txt.append("Excellent courses are available here today! Remember our Motto: Education is Gold!")
+            else:
+                temp = choice(["You currently have %d students training with us!" % len(students),
+                               "Excellent courses are available today! Remember our Motto: Education is Gold!"])
+                txt.append(temp)
+
+            if students:
+                txt.append("\n")
+                txt.append("Students:")
+                for s in students:
+                    txt.append("  {}".format(s.name))
+
+            img = pscale(self.img, 820, 705)
+            txt = "\n".join(txt)
+
+            evt = NDEvent(type=type, txt=txt, img=img)
+            NextDayEvents.append(evt)
 
     def stop_courses(char):
         global schools
