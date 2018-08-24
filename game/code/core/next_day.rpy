@@ -266,8 +266,12 @@ label next_day_controls:
                 elif result[1] == 'mc':
                     FilteredList = [e for e in NextDayEvents if e.type == 'mcndreport']
                 elif result[1] == 'school':
-                    order = {"schoolndreport":1, "schoolreport":2}
-                    FilteredList = sorted([e for e in NextDayEvents if e.type in order], key=lambda e: order[e.type])
+                    order = {"schoolndreport": 1, "course_nd_report": 2}
+                    temp = [e for e in NextDayEvents if e.type in order]
+                    # temp.sort(key=itemgetter(1))
+                    # FilteredList = temp
+                    temp.sort(key=lambda e: order[e.type])
+                    FilteredList = temp
                 elif result[1] == 'gndreports': # Girl Next Day Reports
                     FilteredList = [e for e in NextDayEvents if e.type == 'girlndreport']
                 elif result[1] == 'building':

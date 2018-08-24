@@ -83,6 +83,7 @@ init python:
             student.action = None
 
         def next_day(self):
+            raise Exception()
             self.days_remaining -= 1
 
             students = [s for s in self.students if s.AP > 0]
@@ -115,6 +116,7 @@ init python:
                         raise Exception("{} is not a valid stat/skill for {} course.".format(
                                 s, self.name
                         ))
+
                 for s in self.data.secondary:
                     if char.stats.is_stat(s):
                         if getattr(char, s) < char.get_max(s):
@@ -125,9 +127,9 @@ init python:
                         raise Exception("{} is not a valid stat/skill for {} course.".format(
                                 s, self.name
                         ))
+
                 secondary = self.data.secondary
                 ss = primary + secon
-
 
                 if char == best_student:
                     pass
@@ -137,9 +139,23 @@ init python:
                 skills_pool = 2*ap_spent  # Adjusts to difficulty (teacher tier)
 
                 char.AP = 0
-                
+
                 if days_remaining <= 0:
                     self.remove_student(char)
+
+                self.build_nd_report(char)
+
+        def build_nd_report(self, char):
+            evt = NDEvent()
+            evt.type = "course_nd_report"
+            # evt.charmod = charmod
+            # evt.red_flag = self.flag_red
+            evt.loc = schools["-PyTFall Educators-"]
+            evt.char = char
+            evt.img = self.img # TODO Replace with char image
+            evt.txt = str(self.name) + " Testing string." # TODO Replace with a fitting texts.
+            raise Exception()
+            NextDayEvents.append(evt)
 
 
     class School(BaseBuilding):
@@ -149,14 +165,13 @@ init python:
             self.img = renpy.displayable(img)
             self.courses = []
             self.students = {}
-            
+
         @property
         def is_school(self):
             """
             Whether or not this building is a school. Used in training screen.
             """
             return True
-
 
         def add_cources(self):
             forced = max(0, 12-len(self.courses))
@@ -193,7 +208,7 @@ init python:
                     self.courses.remove(c)
 
             self.add_courses()
-            
+
     def stop_courses(char):
         global schools
         sch = schools["-PyTFall Educators-"]
