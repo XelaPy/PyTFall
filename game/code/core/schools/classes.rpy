@@ -106,6 +106,7 @@ init python:
                 self.students_progress[char] += 1
                 days_to_complete = self.days_to_complete # Mod on traits?
                 ap_spent = char.AP
+                char.AP = 0
 
                 primary_stats = []
                 secondary_stats = []
@@ -135,29 +136,40 @@ init python:
                                 s, self.name
                         ))
 
-                # secondary = self.data["secondary"]
-                # ss = primary + secon
-
-                if char == best_student:
-                    pass
+                stats = primary_stats*3 + secondary_stats
+                skills = primary_skills*3 + secondary_skills
+                charmod = defaultdict(int) # Dict of changes of stats and skills for ND
 
                 # Add stats/skills/exp mods.
-                stat_pool = 1*ap_spent # Adjusts to difficulty (teacher tier)
-                skills_pool = 2*ap_spent  # Adjusts to difficulty (teacher tier)
+                points = max(1, self.difficulty-char.tier)
+                if char == best_student: # TODO Adds text to report
+                    points *= 1.5
 
-                char.AP = 0
+                stats_pool = round_int(points*ap_spent)
+                skills_pool = round_int(points*2*ap_spent)
+
+                if stats:
+                    for i in xrange(stats_pool):
+                        stat = choice(stats)
+                        char.mod_stat(stat, 1)
+                        charmod[stat] += 1
+                if skills:
+                    for i in xrange(skills_pool):
+                        skill = choice(skills)
+                        char.mod_skill(skill, 1)
+                        charmod[skill] += 1
 
                 if self.days_remaining <= 0:
                     self.remove_student(char)
 
-                self.build_nd_report(char)
+                self.build_nd_report(char, charmod=charmod)
 
-        def build_nd_report(self, char, type="normal"):
+        def build_nd_report(self, char, charmod=None, type="normal"):
             if type == "normal":
                 evt = NDEvent()
                 evt.type = "course_nd_report"
-                # evt.charmod = charmod
-                # evt.red_flag = self.flag_red
+                evt.charmod = charmod
+                evt.red_flag = False
                 evt.loc = schools["-PyTFall Educators-"]
                 evt.char = char
                 evt.img = self.img # TODO Replace with char image
