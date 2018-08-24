@@ -174,31 +174,10 @@ label next_day_calculations:
         #
         ################## Training events Start ##################
     python:
-        tl.start("Training")
-        for school in schools:
-            school = schools[school]
-            # if not school.available: continue
-
-            girls = school.get_girls("Course")
-            guards = school.get_girls("Guard")
-            trainers = school.get_girls("Training")
-
-            while girls:
-                TrainingJob(choice(girls), school, girls)
-
-            while guards:
-                SchoolGuardJob(choice(guards), school, guards)
-
-            # Trainers last for disobey events
-            while trainers:
-                TrainerJob(choice(trainers), school, trainers)
-
-            # if school.is_school:
-                # school.next_day()
-            # else:
-                # school.next_day()
-
-        tl.end("Training")
+        tl.start("Schools ND")
+        for school in schools.values():
+            school.next_day()
+        tl.end("Schools ND")
         ################## Training events End ##################
         #
         #

@@ -83,7 +83,6 @@ init python:
             student.action = None
 
         def next_day(self):
-            raise Exception()
             self.days_remaining -= 1
 
             students = [s for s in self.students if s.AP > 0]
@@ -106,10 +105,10 @@ init python:
                 primary_skills = []
                 secondary_skills = []
 
-                for s in self.data.primary:
+                for s in self.data["primary"]:
                     if char.stats.is_stat(s):
                         if getattr(char, s) < char.get_max(s):
-                            secondary_stats.append(s)
+                            primary_stats.append(s)
                     elif char.stats.is_skill(s):
                         primary_skills.append(s)
                     else:
@@ -117,7 +116,7 @@ init python:
                                 s, self.name
                         ))
 
-                for s in self.data.secondary:
+                for s in self.data["secondary"]:
                     if char.stats.is_stat(s):
                         if getattr(char, s) < char.get_max(s):
                             secondary_stats.append(s)
@@ -128,8 +127,8 @@ init python:
                                 s, self.name
                         ))
 
-                secondary = self.data.secondary
-                ss = primary + secon
+                # secondary = self.data["secondary"]
+                # ss = primary + secon
 
                 if char == best_student:
                     pass
@@ -140,7 +139,7 @@ init python:
 
                 char.AP = 0
 
-                if days_remaining <= 0:
+                if self.days_remaining <= 0:
                     self.remove_student(char)
 
                 self.build_nd_report(char)
@@ -154,7 +153,6 @@ init python:
             evt.char = char
             evt.img = self.img # TODO Replace with char image
             evt.txt = str(self.name) + " Testing string." # TODO Replace with a fitting texts.
-            raise Exception()
             NextDayEvents.append(evt)
 
 
@@ -173,7 +171,7 @@ init python:
             """
             return True
 
-        def add_cources(self):
+        def add_courses(self):
             forced = max(0, 12-len(self.courses))
             for i in range(forced):
                 self.create_course()
@@ -211,6 +209,7 @@ init python:
 
     def stop_courses(char):
         global schools
+
         sch = schools["-PyTFall Educators-"]
         if char in sch.students.keys():
             sch.students[char].remove_student(char)

@@ -181,7 +181,7 @@ label start:
     $ schools = {}
     python hide: # Training/Schools/Weird Proxies by Thewlis:
         school = School()
-        school.add_cources()
+        school.add_courses()
         schools[school.name] = school
         # schools = load_schools()
         # pytFlagProxyStore = shallowcopy(pytFlagProxyStore)
