@@ -59,25 +59,32 @@ screen school_training():
         null height 8
         default desc = school_desc_string()
         text "[desc]" color ivory
-        null height 3
+        null height 5
         text "Girls currently taking courses here:" color ivory
         null height 3
         viewport:
-            xsize 580
+            xsize 480
             draggable False
             mousewheel True
             scrollbars "vertical"
             $ sch = schools["-PyTFall Educators-"]
             vbox:
-                xmaximum 610
                 spacing 10
-                for c in sch.students.keys():
-                    hbox:
-                        text ("[c.fullname]:") color goldenrod
-                        if c.action != None:
-                            text (" [c.action.name] Course") color lawngreen
-                        else:
-                            text (" None") color Red
+                for c in sch.courses:
+                    if c.students:
+                        vbox:
+                            xsize 450
+                            text ("[c.name] Course:") color goldenrod xalign .0
+                            for s in c.students:
+                                hbox:
+                                    xalign .05
+                                    xsize 450
+                                    text ("[s.fullname]") color lawngreen
+                                    if s in c.completed:
+                                        text "(Completed)" color goldenrod
+                                    else:
+                                        $ days_left = c.days_to_complete - c.students_progress.get(s, 0)
+                                        text "([days_left] days to complete)" color ivory xalign 1.0
 
     frame:
         style_prefix "content"
