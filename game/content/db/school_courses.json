@@ -16,6 +16,7 @@
     "Combat": {
         "desc": "This course focuses on training attack and defence. May also improve agility.",
         "image": "Combat/",
+        "type": "combat",
         "imageMode": "normal",
         "imageTags": [
             "sfw",
@@ -55,6 +56,7 @@
     "Guard": {
         "desc": "This course focuses on training defence and security. May also improve constitution and intelligence.",
         "image": "Combat/",
+        "type": "combat",
         "imageTags": [
             "battle",
             "armor",
@@ -77,6 +79,7 @@
     "Kunoichi": {
         "desc": "This course focuses on training attack and agility. May also improve general sex and security.",
         "image": "Kunoichi/",
+        "type": "combat",
         "imageTags": [
             "ninja",
             "battle",
@@ -94,6 +97,7 @@
     "Striptease": {
         "desc": "This course focuses on training striptease skill. May also improve agility.",
         "image": "Strip/",
+        "type": "xxx",
         "imageTags": [
             "stripping"
         ],
@@ -141,6 +145,7 @@
     "Oral Sex": {
         "desc": "This course focuses on training oral sex skills. May also improve general sex skill.",
         "image": "Oral/",
+        "type": "xxx",
         "imageMode": "any",
         "imageTags": [
             "bc blowjob",
@@ -162,6 +167,7 @@
     "Anal Sex": {
         "desc": "This course focuses on training anal sex skills. May also improve general sex skill.",
         "image": "Anal/",
+        "type": "xxx",
         "imageMode": "any",
         "imageTags": [
             "2c analfingering",
@@ -185,6 +191,7 @@
     "Vaginal Sex": {
         "desc": "This course focuses on training vaginal sex skills. May also improve general sex skill.",
         "image": "Vaginal/",
+        "type": "xxx",
         "imageMode": "any",
         "imageTags": [
             "2c lickpussy",

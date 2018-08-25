@@ -11,6 +11,9 @@ label school_training:
         $ result = ui.interact()
 
         if result[0] == "set_course":
+            $ course = result[1]
+            $ course_type = course.data.get("type", None)
+            
             if isinstance(char, PytCharacter):
                 $ students = [char]
             else:
@@ -18,13 +21,25 @@ label school_training:
 
             python:
                 for s in students:
+                    # Blocks bad matches between student and course:
+                    # Slaves can't do combat:
+                    if course_type == "combat" and s.status == "slave":
+                        continue
+
+                    # Free girls without naughty basetraits won't do xxx
+                    c0 = course_type == "xxx"
+                    c1 = s.status == "free"
+                    c2 = "SIW" not in s.gen_occs
+                    if all([c0, c1, c2]):
+                        continue
+
                     s.workplace = school
 
                     stop_courses(s)
                     sch = schools["-PyTFall Educators-"]
-                    sch.students[s] = result[1]
-                    s.action = result[1]
-                    result[1].add_student(s)
+                    sch.students[s] = course
+                    s.action = course
+                    course.add_student(s)
 
         if result == ["control", "return"]:
             jump return_from_school_training
