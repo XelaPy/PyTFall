@@ -229,8 +229,9 @@ init python:
                 evt.txt = txt
                 # Get char image from data:
                 tags = self.data.get("imageTags", ["profile"])
+                mode = self.data.get("imageMode", "reduce")
                 kwargs = dict(exclude=self.data.get("noImageTags", []),
-                              resize=(820, 705), type="reduce", add_mood=False)
+                              resize=(820, 705), type=mode, add_mood=False)
                 evt.img = char.show(*tags, **kwargs)
 
                 NextDayEvents.append(evt)
