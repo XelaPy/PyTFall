@@ -96,6 +96,7 @@ init python:
 
             for char in self.students[:]:
                 txt = [] # Append all events we want to relay to the player.
+                flag_green = False
 
                 temp = "{} is taking a {} Course!".format(char.fullname,
                                                           self.name)
@@ -153,7 +154,11 @@ init python:
 
                 # Add stats/skills/exp mods.
                 points = max(1, self.difficulty-char.tier)
-                if char == best_student: # TODO Adds text to report
+                if char == best_student:
+                    temp = "%s has been a perfect student today and went every extra mile she could.".format(char.name)
+                    temp += " {color=[lawngreen]}+50% Stats/Skills Bonus!{/color}"
+                    flag_green = True
+                    txt.append(temp)
                     points *= 1.5
 
                 stats_pool = round_int(points*ap_spent)
@@ -171,9 +176,11 @@ init python:
                         charmod[skill] += 1
 
                 if self.days_remaining <= 0:
+                    txt.append("This Course has ended, all students have been sent back home.")
                     self.remove_student(char)
 
-                self.build_nd_report(char, charmod=charmod)
+                self.build_nd_report(char, charmod=charmod,
+                                     flag_green=flag_green, txt=txt)
 
         def build_nd_report(self, char, charmod=None, type="normal",
                             txt=None, flag_green=False):
