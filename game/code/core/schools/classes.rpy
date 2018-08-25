@@ -326,6 +326,7 @@ init python:
             evt = NDEvent(type=type, txt=txt, img=img)
             NextDayEvents.append(evt)
 
+
     def stop_courses(char):
         global schools
 

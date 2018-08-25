@@ -2,17 +2,29 @@ label school_training:
     $ school = schools.values().pop()
     show screen school_training
 
+    # if we came from char listings and just have the one char,
+    # normal functionality of the screen can be permitted:
+    if not isinstance(char, PytCharacter) and len(char) == 1:
+        $ char = char.pop()
+
     while 1:
         $ result = ui.interact()
 
         if result[0] == "set_course":
-            $ char.workplace = school
+            if isinstance(char, PytCharacter):
+                $ students = [char]
+            else:
+                $ students = list(char)
 
-            $ stop_courses(char)
-            $ sch = schools["-PyTFall Educators-"]
-            $ sch.students[char] = result[1]
-            $ char.action = result[1]
-            $ result[1].add_student(char)
+            python:
+                for s in students:
+                    s.workplace = school
+
+                    stop_courses(s)
+                    sch = schools["-PyTFall Educators-"]
+                    sch.students[s] = result[1]
+                    s.action = result[1]
+                    result[1].add_student(s)
 
         if result == ["control", "return"]:
             jump return_from_school_training
@@ -145,15 +157,22 @@ screen school_training():
                                 color "#79CDCD"
                                 hover_color ivory
                                 size 15
-                            $ days_left = course.days_to_complete - course.students_progress.get(char, 0)
-                            text "[days_left]/[course.days_to_complete]":
-                                style_suffix "value_text"
-                                if char.tier <= course.difficulty:
-                                    hover_color green
-                                else:
-                                    hover_color red
-                                size 14
-                                xalign .99 yoffset -1
+                            if isinstance(char, PytCharacter):
+                                $ days_left = course.days_to_complete - course.students_progress.get(char, 0)
+                                text "[days_left]/[course.days_to_complete]":
+                                    style_suffix "value_text"
+                                    if char.tier <= course.difficulty:
+                                        hover_color green
+                                    else:
+                                        hover_color red
+                                    size 14
+                                    xalign .99 yoffset -1
+                            else:
+                                text "--/[course.days_to_complete]":
+                                    style_suffix "value_text"
+                                    size 14
+                                    xalign .99 yoffset -1
+
                         frame:
                             xysize (160, 20)
                             xalign .5
@@ -164,10 +183,11 @@ screen school_training():
                                 size 15
                             text "[course.difficulty]":
                                 style_suffix "value_text"
-                                if char.tier <= course.difficulty:
-                                    hover_color green
-                                else:
-                                    hover_color red
+                                if isinstance(char, PytCharacter):
+                                    if char.tier <= course.difficulty:
+                                        hover_color green
+                                    else:
+                                        hover_color red
                                 size 14
                                 xalign .99 yoffset -1
                         frame:
@@ -204,12 +224,17 @@ screen school_training():
                                 color "#79CDCD"
                                 hover_color ivory
                                 size 15
-                            $ status = course.get_status(char)
-                            text "[status]":
-                                style_suffix "value_text"
-                                hover_color green
-                                size 14
-                                xalign .99 yoffset -1
+                            if isinstance(char, PytCharacter):
+                                $ status = course.get_status(char)
+                                text "[status]":
+                                    style_suffix "value_text"
+                                    hover_color green size 14
+                                    xalign .99 yoffset -1
+                            else:
+                                text "N/A":
+                                    style_suffix "value_text"
+                                    hover_color green size 14
+                                    xalign .99 yoffset -1
 
                     if char in course.completed:
                         add pscale("content/gfx/interface/images/completed_stamp.webp", 130, 130):
