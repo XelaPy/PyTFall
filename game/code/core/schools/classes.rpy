@@ -95,12 +95,23 @@ init python:
                 best_student = None
 
             for char in self.students[:]:
+                txt = [] # Append all events we want to relay to the player.
+
+                temp = "{} is taking a {} Course!".format(char.fullname,
+                                                          self.name)
+                txt.append(temp)
+
                 # Pay for the class:
                 if hero.take_money(self.price, reason="-PyTFall Educators-"):
                     char.fin.log_logical_expense(self.price, "-PyTFall Educators-")
+                    temp = "You've covered a fee of {color=[gold]}%s Gold!{/color}"
+                    txt.append(temp)
                 else:
                     self.remove_student(char)
-                    self.build_nd_report(char, type="failed_to_pay")
+                    temp = "\nYou failed to cover the fee of {color=[gold]}%d Gold!{/color}. The student has been kicked from the class!"
+                    txt.append(temp)
+
+                    self.build_nd_report(char, type="failed_to_pay", txt=txt)
                     continue
 
                 self.students_progress[char] += 1
@@ -164,16 +175,22 @@ init python:
 
                 self.build_nd_report(char, charmod=charmod)
 
-        def build_nd_report(self, char, charmod=None, type="normal"):
+        def build_nd_report(self, char, charmod=None, type="normal",
+                            txt=None, flag_green=False):
+            if txt is None:
+                txt = str(self.name) + " Testing string."
+            else:
+                txt = "\n".join(txt)
+
             if type == "normal":
                 evt = NDEvent()
                 evt.type = "course_nd_report"
                 evt.charmod = charmod
                 evt.red_flag = False
+                evt.green_glag = flag_green
                 evt.loc = schools["-PyTFall Educators-"]
                 evt.char = char
-                evt.txt = str(self.name) + " Testing string." # TODO Replace with a fitting texts.
-
+                evt.txt = txt
                 # Get char image from data:
                 tags = self.data.get("imageTags", ["profile"])
                 kwargs = dict(exclude=self.data.get("noImageTags", []),
@@ -189,7 +206,7 @@ init python:
                 evt.loc = schools["-PyTFall Educators-"]
                 evt.char = char
                 evt.img = self.img # TODO Replace with char image?
-                evt.txt = "You failed to cover the cost of {} Course. {} has been kicked from the class!"
+                evt.txt = ""
                 NextDayEvents.append(evt)
 
 
