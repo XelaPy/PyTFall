@@ -177,6 +177,9 @@ init python:
                     temp += " {color=[red]}-20% Stats/Skills Bonus!{/color}"
                     txt.append(temp)
 
+                # Effectiveness mod (simple)
+                effectiveness = self.effectiveness/100.0
+                points *= effectiveness
 
                 stats_pool = round_int(points*ap_spent)
                 skills_pool = round_int(points*2*ap_spent)
