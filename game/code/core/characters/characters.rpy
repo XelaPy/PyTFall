@@ -1648,7 +1648,7 @@ init -9 python:
             self.AP = 3
             self.baseAP = 3
             self.reservedAP = 0
-            self.setAP = 0 # This is set to the AP calculated for that day.
+            self.setAP = 1 # This is set to the AP calculated for that day.
             self.jobpoints = 0
 
 

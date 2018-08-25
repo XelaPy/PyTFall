@@ -946,7 +946,7 @@ init -11 python:
             value = DAILY_EXP_CORE
 
         if ap_adjust:
-            value = float(value)/(getattr(char, "setAP", 3) or 3) # TODO Remove getattr after Schools.
+            value = float(value)/(char.setAP or 3)
 
         value *= ap_used
 

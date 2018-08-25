@@ -13,7 +13,7 @@ label school_training:
         if result[0] == "set_course":
             $ course = result[1]
             $ course_type = course.data.get("type", None)
-            
+
             if isinstance(char, PytCharacter):
                 $ students = [char]
             else:
@@ -50,6 +50,7 @@ label return_from_school_training:
     if the_chosen == None:
         jump char_profile
     else:
+        $ del char
         jump chars_list
 
 init python:
