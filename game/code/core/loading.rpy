@@ -234,7 +234,8 @@ init -11 python:
                                         try:
                                             color = Color(gd[key])
                                         except:
-                                            char_debug("{} color supplied to {} is invalid!".format(gd[key], gd["id"]))
+                                            debug_str = "{} color supplied to {} is invalid!".format(gd[key], gd["id"])
+                                            char_debug(debug_str)
                                             color = ivory
                                     char.say_style[key] = color
 
