@@ -223,7 +223,7 @@ init python:
                 evt.type = "course_nd_report"
                 evt.charmod = charmod
                 evt.red_flag = False
-                evt.green_glag = flag_green
+                evt.green_flag = flag_green
                 evt.loc = schools["-PyTFall Educators-"]
                 evt.char = char
                 evt.txt = txt
