@@ -2,12 +2,12 @@ init -11 python:
     def stop_training(char):
         #since there is no slave training yet, this does nothing
         pass
-        
+
     def char_is_training(char):
         #since there is no slave training yet, this is always false.
         #Should be updated when Slave Training is implemented.
         return False
-    
+
     def get_average_wage():
         wages = Tier.BASE_WAGES.values()
         wage = sum(wages)/len(wages)
@@ -927,9 +927,9 @@ init -11 python:
                    ap_adjust=True, ap_used=1,
                    char_tier_override=False,
                    final_mod=None):
-        """Adjusts the XP earned by an actor.
+        """Adjusts the XP to be given to an actor. Doesn't actually award the EXP.
 
-        char: Always an actor. S(he) will gain the EXP.
+        char: Target actor.
         difficulty: Ranged 1 to 10. (will be normalized otherwise).
             This can be a number, Team or Char.
         value: Value to award, if None, we interpolate.
