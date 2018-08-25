@@ -105,15 +105,18 @@ init python:
                 # Pay for the class:
                 if hero.take_money(self.price, reason="-PyTFall Educators-"):
                     char.fin.log_logical_expense(self.price, "-PyTFall Educators-")
-                    temp = "You've covered a fee of {color=[gold]}%s Gold!{/color}"
+                    temp = "You've covered a fee of {color=[gold]}%s Gold!{/color}" % self.price
                     txt.append(temp)
                 else:
                     self.remove_student(char)
-                    temp = "\nYou failed to cover the fee of {color=[gold]}%d Gold!{/color}. The student has been kicked from the class!"
+                    temp = "\nYou failed to cover the fee of {color=[gold]}%d Gold!{/color}." % self.price
+                    temp += " The student has been kicked from the class!"
                     txt.append(temp)
 
                     self.build_nd_report(char, type="failed_to_pay", txt=txt)
                     continue
+
+                completed = self.days_to_complete - self.students_progress.get(char, 0) <= 0
 
                 self.students_progress[char] += 1
                 days_to_complete = self.days_to_complete # Mod on traits?
@@ -155,11 +158,25 @@ init python:
                 # Add stats/skills/exp mods.
                 points = max(1, self.difficulty-char.tier)
                 if char == best_student:
-                    temp = "%s has been a perfect student today and went every extra mile she could.".format(char.name)
+                    temp = "%s has been a perfect student today and went every extra mile she could." % char.name
                     temp += " {color=[lawngreen]}+50% Stats/Skills Bonus!{/color}"
                     flag_green = True
                     txt.append(temp)
                     points *= 1.5
+
+                if completed and char not in self.completed:
+                    self.completed.add(char)
+                    points *= 2
+                    temp = "%s has completed the course today!" % char.nickname
+                    temp += " {color=[lawngreen]}+100% Stats/Skills Bonus!{/color}"
+                    flag_green = True
+                    txt.append(temp)
+                elif char in self.completed:
+                    points *= .8
+                    temp = "%s has already finished this course!" % char.nickname
+                    temp += " {color=[red]}-20% Stats/Skills Bonus!{/color}"
+                    txt.append(temp)
+
 
                 stats_pool = round_int(points*ap_spent)
                 skills_pool = round_int(points*2*ap_spent)
