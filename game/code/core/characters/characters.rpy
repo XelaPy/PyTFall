@@ -937,7 +937,7 @@ init -9 python:
                 dismod = .09
                 joymod = .06
                 if diff > 0:
-                    img = char.show("profile", "happy", resize=(500, 600))
+                    img = char.show("profile", "happy", resize=size)
                     dismod = min(1, round_int(diff*dismod))
                     joymod = min(1, round_int(diff*joymod))
                     if DEBUG:
@@ -946,7 +946,7 @@ init -9 python:
                     char.disposition += dismod
                     char.joy += joymod
                 elif diff < 0:
-                    img = char.show("profile", "angry", resize=(500, 600))
+                    img = char.show("profile", "angry", resize=size)
                     dismod = min(-2, round_int(diff*dismod)) * (char.tier or 1)
                     joymod = min(-1, round_int(diff*joymod)) * (char.tier or 1)
                     if DEBUG:
@@ -959,7 +959,7 @@ init -9 python:
                         char.disposition += 1
                         char.joy += 1
             else: # Slave case:
-                img = char.show("profile", "happy", resize=(500, 600))
+                img = char.show("profile", "happy", resize=size)
                 diff = real_wagemod # Slaves just get the raw value.
                 dismod = .1
                 joymod = .1
@@ -4939,9 +4939,11 @@ init -9 python:
                     txt.append(temp)
 
         def nd_joy_disposition_checks(self, txt, img):
+            size = ND_IMAGE_SIZE
+
             if self.joy <= 25:
                 txt.append("\n\nThis girl is unhappy!")
-                img = self.show("profile", "sad", resize=(500, 600))
+                img = self.show("profile", "sad", resize=size)
                 self.days_unhappy += 1
             else:
                 if self.days_unhappy - 1 >= 0:
@@ -4959,7 +4961,7 @@ init -9 python:
                 if self.status != "slave":
                     txt.append("{color=[red]}She has left your employment because she no longer trusts or respects you!{/color}")
                     flag_red = True
-                    img = self.show("profile", "sad", resize=(500, 600))
+                    img = self.show("profile", "sad", resize=size)
                     hero.remove_char(self)
                     self.home = locations["City Apartments"]
                     self.action = None
@@ -4968,12 +4970,12 @@ init -9 python:
                 elif self.days_unhappy > 7:
                     if dice(50):
                         txt.append("\n{color=[red]}Took her own life because she could no longer live as your slave!{/color}")
-                        img = self.show("profile", "sad", resize=(500, 600))
+                        img = self.show("profile", "sad", resize=size)
                         flag_red = True
                         self.health = 0
                     else:
                         txt.append("\n{color=[red]}Tried to take her own life because she could no longer live as your slave!{/color}")
-                        img = self.show("profile", "sad", resize=(500, 600))
+                        img = self.show("profile", "sad", resize=size)
                         flag_red = True
                         self.health = 1
 
