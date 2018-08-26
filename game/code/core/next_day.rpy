@@ -1097,15 +1097,15 @@ screen next_day():
         # Image frame:
         frame:
             pos 0, 0
-            xysize 835, 720
+            xysize 839, 720
             background Frame("content/gfx/frame/p_frame7.png", 10, 10)
             padding 0, 0
             margin 0, 0
             frame:
                 align .5, .5
-                padding 7, 7
+                padding 5, 5
                 margin 0, 0
-                background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
+                background Frame("content/gfx/frame/MC_bg3.png", 10 , 10)
                 add gimg align .5, .5
 
         # Stat Frames:
