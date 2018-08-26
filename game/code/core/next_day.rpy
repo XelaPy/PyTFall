@@ -1089,6 +1089,7 @@ screen next_day():
             text (u"{size=20}{color=[ivory]}%s" % tt.value) style "TisaOTM"
 
         use top_stripe(True)
+        
     #  Reports  =============================================================================>>>>
     else:
         key "mousedown_4" action Return(['control', 'right'])

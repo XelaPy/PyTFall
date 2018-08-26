@@ -185,9 +185,10 @@ init -5 python:
             temp = "{} Workers kept your businesses safe today.".format(set_font_color(wlen, "red"))
             log.append(temp)
 
-            log.img = Fixed(xysize=(820, 705))
-            log.img.add(Transform(loc.img, size=(820, 705)))
-            vp = vp_or_fixed(all_workers, ["fighting"], {"exclude": ["sex"], "resize": (150, 150)}, xmax=820)
+            log.img = Fixed(xysize=ND_IMAGE_SIZE)
+            log.img.add(Transform(loc.img, size=ND_IMAGE_SIZE))
+            vp = vp_or_fixed(all_workers, ["fighting"],
+                    {"exclude": ["sex"], "resize": (150, 150)}, xmax=ND_IMAGE_SIZE[0])
             log.img.add(Transform(vp, align=(.5, .9)))
 
             log.team = all_workers

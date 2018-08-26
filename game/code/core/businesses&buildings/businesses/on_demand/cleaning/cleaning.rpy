@@ -164,8 +164,8 @@ init -5 python:
             temp = "{} Workers cleaned the building today.".format(set_font_color(wlen, "red"))
             log.append(temp)
 
-            log.img = Fixed(xysize=(820, 705))
-            log.img.add(Transform(loc.img, size=(820, 705)))
+            log.img = Fixed(xysize=ND_IMAGE_SIZE)
+            log.img.add(Transform(loc.img, size=ND_IMAGE_SIZE))
             vp = vp_or_fixed(all_workers, ["maid", "cleaning"],
                              {"exclude": ["sex"], "resize": (150, 150),
                              "type": "any"})

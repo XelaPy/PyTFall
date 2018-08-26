@@ -453,7 +453,8 @@ init -1 python: # Constants:
     AUTO_OVERLAY_STAT_LABELS = ("mc_action_", "interactions_", "girl_interactions_aboutjob")
     BLOCKED_OVERLAY_STAT = ("health", "mp", "vitality",
                              'mood', 'alignment')
-
+    ND_IMAGE_SIZE = (820, 705)
+    
     equipSlotsPositions = dict()
     equipSlotsPositions['head'] = [u'Head', .2, .1]
     equipSlotsPositions['body'] = [u'Body', .2, .3]
@@ -477,7 +478,7 @@ init python: # Locking random seed of internal renpys random
 init:
     default SKILLS_MAX = {k: 5000 for k in PytCharacter.SKILLS}
     default SKILLS_THRESHOLD = {k: 2000 for k in PytCharacter.SKILLS} # Must be exceeded before skills becomes harder to gain.
-    $ DAILY_EXP_CORE = 100 # 1 lvl per 10 days give or take. This is a simple way to rebalance. 
+    $ DAILY_EXP_CORE = 100 # 1 lvl per 10 days give or take. This is a simple way to rebalance.
     default just_view_next_day = False
     default char = None
     default char_equip = None

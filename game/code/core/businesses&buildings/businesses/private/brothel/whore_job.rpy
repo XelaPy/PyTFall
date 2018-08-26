@@ -206,10 +206,7 @@ init -5 python:
             # log.append(worker.flag("jobs_whoreintro"))
             log.append("\n")
 
-            width = 820
-            height = 705
-
-            size = (width, height)
+            size = ND_IMAGE_SIZE
             # Acts, Images, Tags and things Related:
             # Straight Sex Act
             if client.act == 'sex':

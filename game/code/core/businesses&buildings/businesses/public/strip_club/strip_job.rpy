@@ -305,7 +305,7 @@ init -5 python:
                 log.logws("joy", 1)
 
             available = list()
-            kwargs = dict(exclude=["sad", "angry", "in pain"], resize=(740, 685),
+            kwargs = dict(exclude=["sad", "angry", "in pain"], resize=ND_IMAGE_SIZE,
                           type="first_default", add_mood=False)
             if worker.has_image("stripping", "stage", exclude=["sad", "angry", "in pain"]):
                 available.append("stage")

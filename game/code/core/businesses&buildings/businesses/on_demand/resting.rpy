@@ -35,7 +35,7 @@ init -5 python:
 
             # if vitality is really low, they try to sleep, assuming there is a sleeping picture
             if worker.vitality < worker.get_max("vitality")*0.2 and worker.has_image("sleeping", **kwargs):
-                log.img = worker.show("sleeping", resize=(740, 685), **kwargs)
+                log.img = worker.show("sleeping", resize=ND_IMAGE_SIZE, **kwargs)
                 log.append("{} is too tired to do anything but sleep at her free time.".format(worker.name))
             else:
             # otherwise we build a list of usable tags
@@ -66,7 +66,7 @@ init -5 python:
                 if not(available):
                     available = ["profile"] # no rest at all? c'mon...
 
-                log.img = worker.show(choice(available), resize=(740, 685), **kwargs)
+                log.img = worker.show(choice(available), resize=ND_IMAGE_SIZE, **kwargs)
                 image_tags = log.img.get_image_tags()
                 if "sleeping" in image_tags:
                     if "living" in image_tags:
@@ -129,7 +129,7 @@ init -5 python:
                                            "{} is taking a break during her free time.".format(worker.name)]))
 
             if not log.img:
-                log.img = worker.show("rest", resize=(740, 685))
+                log.img = worker.show("rest", resize=ND_IMAGE_SIZE)
 
             # Resting effects (Must be calculated over AP so not to allow anything going to waste, however AP themselves cannot restore vitality):
 

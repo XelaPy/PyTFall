@@ -82,10 +82,8 @@
             """
 
             # select/load an image according to img
-            width = 820
-            height = 705
+            width, height = size = ND_IMAGE_SIZE
 
-            size = (width, height)
             d = self.img
             # Try to analyze self.img in order to figure out what it represents:
             if isinstance(d, renpy.display.core.Displayable):
