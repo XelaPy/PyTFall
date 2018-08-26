@@ -396,7 +396,7 @@ screen chars_list(source=None):
                     button:
                         xysize (150, 40)
                         action If(len(the_chosen), [Hide("chars_list"), With(dissolve),
-                                  SetVariable("char", the_chosen), Jump('school_training')])
+                                  Jump('school_training')])
                         text "Training"
                         selected False
                         hovered tt.Action('Manage group training')

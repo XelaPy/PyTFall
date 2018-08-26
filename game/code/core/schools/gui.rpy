@@ -2,8 +2,11 @@ label school_training:
     $ school = schools.values().pop()
     show screen school_training
 
+    # Make sure we set char to the_chosen (means we came from listing in Pico's code)
     # if we came from char listings and just have the one char,
     # normal functionality of the screen can be permitted:
+    if getattr(store, "the_chosen", None) is not None:
+        $ char = the_chosen
     if not isinstance(char, PytCharacter) and len(char) == 1:
         $ char = char.pop()
 
