@@ -880,6 +880,7 @@ init -9 python:
             Called during next day method per each individual girl.
             """
             char = self.instance
+            size = ND_IMAGE_SIZE
 
             # expected_wage_mod = 100 if char.status == "free" else 0
             expected_wage_mod = 0
