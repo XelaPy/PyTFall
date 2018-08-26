@@ -55,7 +55,6 @@ label return_from_school_training:
     if the_chosen == None:
         jump char_profile
     else:
-        $ del char
         jump chars_list
 
 init python:
