@@ -356,16 +356,9 @@ label after_load:
     if hasattr(store, "stored_random_seed"):
         $ renpy.random.setstate(stored_random_seed)
 
-    # TODO Delete after schools and recheck the label:
-    $ DAILY_EXP_CORE = 100
-
     python hide:
         for c in store.chars.values():
             c.clear_img_cache()
-
-        # TODO: Remove this after schools recode
-        for c in store.pytfall.arena.arena_fighters.values():
-            c.label_cache = []
 
     python hide:
         updated_chars = load_characters("chars", Char)
@@ -377,65 +370,13 @@ label after_load:
         store.rchars = load_random_characters()
         load_special_arena_fighters()
 
-    # Complete hack:
-    python hide:
-        if not hasattr(store.hero, "autocontrol"):
-            store.hero.autocontrol = {"Rest": False,
-                                        "Tips": False,
-                                        "SlaveDriver": False,
-                                        "Acts": {"normalsex": True, "anal": True, "blowjob": True, "lesbian": True},
-                                        "S_Tasks": {"clean": True, "bar": True, "waitress": True}}
-
-    python hide:
-        for building in store.buildings.values():
-            if isinstance(building, Flags) and not hasattr(building, "flags"):
-                building.flags = dict()
-
-        for building in store.businesses.values():
-            if isinstance(building, Flags) and not hasattr(building, "flags"):
-                building.flags = dict()
-
-        for building in hero.buildings:
-            if isinstance(building, Flags) and not hasattr(building, "flags"):
-                building.flags = dict()
-
-    python hide:
-        pytfall.economy.property_tax = {"slaves": .01,
-                                        "real_estate": .015}
-
     python:
         if hasattr(store, "dummy"):
             del dummy
 
-    python hide:
-        for b in hero.buildings:
-            temp = getattr(b, "workable", False)
-            if temp:
-                b.needs_management = True
-            if hasattr(b, "_adverts"):
-                b._adverts = deepcopy(b._adverts)
-        for b in businesses.values():
-            temp = getattr(b, "workable", False)
-            if temp:
-                b.needs_management = True
-            if hasattr(b, "_adverts"):
-                b._adverts = deepcopy(b._adverts)
-
-    python hide:
+    python hide: # Do we need/want this?
         for skill in store.battle_skills.values():
             skill.source = None
-
-    python:
-        if hasattr(store, "pytRelayProxyStore"):
-            pytRelayProxyStore = []
-
-    python hide:
-        for c in chars.values() + pytfall.arena.arena_fighters.values():
-            if hasattr(c, "guard_relay"):
-                delattr(c, "guard_relay")
-
-    # TODO Delete after Schools Rewrite!
-    $ type = types.TypeType
 
     stop music
     return
