@@ -77,6 +77,7 @@ label slave_market:
         g "Ah, visit our club as well, we do presentations, and you can do 'some sampling' if you have the Gold."
         g "You won't be disappointed!"
         g "Goodbye!"
+
 label slavel_market_controls:
     hide blue
     with dissolve
@@ -164,6 +165,8 @@ label mc_action_work_in_slavemarket:
     $ hero.exp += exp_reward(hero, hero)
 
     $ hero.take_ap(1)
+
+    pause 0.01
 
     python:
         if dice(50):
@@ -536,7 +539,7 @@ screen se_captured_retrieval(pos=(900, 300)):
                     action Function(jail.retrieve_captured, direction="Blue"), Hide("se_captured_retrieval")
             textbutton "Close":
                 action Hide("se_captured_retrieval")
-                
+
 label mc_action_work_in_slavemarket_all_day:
     $ temp = hero.AP
     python:
