@@ -101,6 +101,7 @@ init -9 python:
 
         def calc_expected_wage(self, kind=None):
             """Amount of money each character expects to get paid for her skillset.
+                        (per day)
 
             Keeping it simple for now:
             - We'll set defaults for all basic occupation types.
