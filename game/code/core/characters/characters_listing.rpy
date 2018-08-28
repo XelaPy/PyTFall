@@ -45,6 +45,7 @@ label chars_list:
                 elif result[1] == "home":
                     renpy.show_screen("set_home_dropdown", result[2], pos=renpy.get_mouse_pos())
                 elif result[1] == "action":
+                    the_chosen = set()
                     renpy.show_screen("set_action_dropdown", result[2], pos=renpy.get_mouse_pos())
             elif result[0] == 'choice':
                 renpy.hide_screen("chars_list")
