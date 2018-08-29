@@ -350,6 +350,7 @@ label enter_dungeon_r:
             areas = deque([[0, 0]])
             show = []
             hotspots = []
+
             if config.developer and dungeon.show_map == "teleport":
                 hs = [3, 43, len(dungeon._map[0])*6, len(dungeon._map)*6]
                 hotspots.append({ 'spot': hs, 'actions': [{ "function": "dungeon.teleport", "arguments": [] }] })
@@ -385,15 +386,16 @@ label enter_dungeon_r:
                                 actions.insert(0, { "function": "dungeon.%s.__delitem__" % k, "arguments": [front_str]})
 
                 situ = dungeon.map(x, y)
+
                 if situ in dungeon.container:
                     # FIXME use position lookup, for some container may first have to add front (cover) image (or modify image)
-
                     pt = str((x, y))
                     if pt in dungeon.renderitem:
                         for ri in dungeon.renderitem[pt]:
-                            img_name = sided[lateral+3] % ('dungeon_'+ri['name'], dungeon.light, distance)
-                            if 'function' in ri and ri['function'][:10] == "im.matrix.":
 
+                            img_name = sided[lateral+3] % ('dungeon_'+ri['name'], dungeon.light, distance)
+
+                            if 'function' in ri and ri['function'][:10] == "im.matrix.":
                                 img_name = 'content/dungeon/'+ri['name']+dungeon.light+'/'+img_name+'.webp'
                                 if os.path.isfile(gamedir + '/'+img_name):
                                     # distance darkening
@@ -430,6 +432,7 @@ label enter_dungeon_r:
                 else:
                     dungeon.arrowtext.set_text("←")
                     dungeon.arrow.y = (pc['y'] - .5)*6 + 43
+
                 dungeon.arrow.x = (pc['x'] - .2)*6 + 3
 
                 if situ in dungeon.visible: # a wall or so, need to draw.
@@ -443,6 +446,7 @@ label enter_dungeon_r:
                         show.append(sided[lateral+3] % ('dungeon_'+blend[situ], dungeon.light, distance))
 
                 transparent_area = dungeon.transparent[abs(pc['dx'])]
+
                 if situ in transparent_area or (situ in dungeon.visible and not renpy.has_image(show[-1])): # need to draw what's behind it.
                     # after `or' prevents adding areas twice. If the area diagonally nearer to hero is
                     # a wall, the area is not yet drawn, draw it, unless we cannot see it.
@@ -451,14 +455,17 @@ label enter_dungeon_r:
                                          and dungeon.map(bx-pc['dy'], by+pc['dx']) not in transparent_area
                                          and ((distance == 1 and lateral == 0) or dungeon.map(bx, by) in transparent_area)):
                         areas.append([distance, lateral + 1])
+
                     if lateral <= 0 and (distance == -lateral*2 or distance > -lateral*2
                                          and dungeon.map(bx+pc['dy'], by-pc['dx']) not in transparent_area
                                          and ((distance == 1 and lateral == 0) or dungeon.map(bx, by) in transparent_area)):
                         areas.append([distance, lateral - 1])
+
                     if distance < 5:
                         areas.append([distance + 1, lateral])
 
         $ renpy.block_rollback()
+
         call screen dungeon_move(hotspots)
 
         python:
