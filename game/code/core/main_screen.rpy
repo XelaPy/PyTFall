@@ -154,6 +154,8 @@ screen mainscreen():
                 action [Hide("mainscreen"), Jump("debug_callstack")]
             textbutton "Show Chars Debug":
                 action Show("chars_debug")
+            textbutton "Clear Console":
+                action Jump("force_clear_console")
 
     showif pytfall.ms_text and pytfall.todays_first_view:
         frame:

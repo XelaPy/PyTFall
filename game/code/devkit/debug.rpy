@@ -44,7 +44,7 @@ init -999 python:
             devlog.info("|AEQ DEBUG| {}".format(msg))
 
     # Battle Engine:
-    DEBUG_BE = True
+    DEBUG_BE = False
     def be_debug(msg):
         if DEBUG_BE:
             devlog.info("|BE DEBUG| {}".format(msg))
@@ -54,3 +54,11 @@ init -999 python:
 
 label debug_callstack:
     return
+    
+label force_clear_console:
+    python in _console:
+         stdio_lines = []
+         stderr_lines = []
+         console.history = []
+         
+    jump mainscreen
