@@ -80,6 +80,7 @@ init python:
 
         def remove_student(self, student):
             self.students.remove(student)
+            student.workplace = None
             student.action = None
 
         def next_day(self):
@@ -273,6 +274,10 @@ init python:
             if dice(10) and len(self.courses) < 30:
                 self.create_course()
 
+        def remove_course(self, course):
+            if course in self.courses:
+                self.courses.remove(course)
+
         def create_course(self):
             id = choice(school_courses.keys())
 
@@ -294,7 +299,7 @@ init python:
             for c in self.courses[:]:
                 c.next_day()
                 if c.days_remaining <= 0:
-                    self.courses.remove(c)
+                    self.remove_course(c)
 
             self.add_courses()
             self.build_nd_report()
