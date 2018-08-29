@@ -1,0 +1,410 @@
+[{
+	"id": "Mausoleum1",
+	"transparent": [
+		".4679bcABCD^",
+		".4679bcABCD^"
+	],
+	"r": "0....5...10...15...2v...25...30...35...4v...45...50...55...60...65...70...75...80...85...90...95..100 -> x",
+	"map": [
+		"###.##...c..........##d####2.222222....##......#....",
+		".....c...#222222222.3c.ccc.3......8....3..####...##b",
+		"##a####.#2...2..7...e#####322222f22########....####b",
+		"........#2...2......#......#....3...........####d##b",
+		".########2828274.674#.....4#....#############.......",
+		"....c...c..2...2#d##d.....6#....#.............222222",
+		"#####b#####22222#####......#.####bbbbbbbbbbbbb2.....",
+		"....#....#.......#..3.....4#.####.............2.9.9.",
+		"......##.a.#####...##......#....#...C.........2..9..",
+		"....###..#...cccccccccc.cccc....#..B2D...c....2.9.9.",
+		"....#...##...#......#......#....#...A...b2b...2..9..",
+		".4..#.###d.....#.##C#......3....a........c....8....."
+	],
+	"area": {
+		"#": "mossy",
+		"2": "bluegrey",
+		"3": "door",
+		"4": "barrel",
+		"6": "more_barrels",
+		"7": "barrel_crate",
+		"8": "bluegrey_door2",
+		"9": "pilar",
+		"a": "mossy_door2",
+		"b": ["portal", "portal_turned"],
+		"c": ["portal_turned", "portal"],
+		"d": "mossy_alcove",
+		"e": "mossy_button",
+		"f": "bluegrey_button",
+		"A": ["ladderb", "ladderl", "ladderr", "ladderf"],
+		"B": ["ladderl", "ladderf", "ladderb", "ladderr"],
+		"C": ["ladderf", "ladderr", "ladderl", "ladderb"],
+		"D": ["ladderr", "ladderb", "ladderf", "ladderl"],
+		"^": "ladderdownf"
+	},
+	"background": "dungeon_bluegrey%s_background",
+	"visible": "#2346789abcdefABCD^",
+	"container": ".d",
+	"area_hotspots": {
+		"(20, 2)": [{
+			"spot": [591, 287, 30, 30],
+			"actions": [{
+				"function": "renpy.play",
+				"arguments": ["content/sfx/sound/dungeon/button_click2.ogg", "voice"]
+			}, {
+				"function": "renpy.play",
+				"arguments": ["content/sfx/sound/dungeon/open_door.ogg", "sound"]
+			}, {
+				"function": "dungeon.access_condition.__setitem__",
+				"arguments": ["(20, 1)", {
+					"access": true
+				}]
+			}]
+		}],
+		"(32, 2)": [{
+			"spot": [591, 287, 30, 30],
+			"actions": [{
+				"function": "renpy.play",
+				"arguments": ["content/sfx/sound/dungeon/button_click2.ogg", "voice"]
+			}, {
+				"function": "renpy.play",
+				"arguments": ["content/sfx/sound/dungeon/open_door.ogg", "sound"]
+			}, {
+				"function": "dungeon.access_condition.__setitem__",
+				"arguments": ["(32, 3)", {
+					"access": true
+				}]
+			}, {
+				"function": "dungeon.access_condition.__setitem__",
+				"arguments": ["(32, 11)", {
+					"access": true
+				}]
+			}]
+		}]
+	},
+	"item_hotspots": {
+		"Replica Sword": {
+			"spot": [614, 576, 127, 95],
+			"actions": [{
+				"function": "dungeon_grab_item",
+				"arguments": ["Replica Sword"],
+				"sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+			}]
+		},
+		"Shuriken": {
+			"spot": [621, 631, 91, 49],
+			"actions": [{
+				"function": "dungeon_grab_item",
+				"arguments": ["Shuriken"],
+				"sound": ["content/sfx/sound/dungeon/shuriken.ogg", "voice"]
+			}]
+		}
+	},
+	"renderitem_hotspots": {
+		"dagger": {
+			"spot": [628, 420, 186, 20],
+			"actions": [{
+				"function": "dungeon_grab_item",
+				"arguments": ["Courtesan Dagger"],
+				"sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+			}]
+		},
+		"ring": {
+			"spot": [695, 429, 41, 11],
+			"actions": [{
+				"function": "dungeon_grab_item",
+				"arguments": ["Rogue's Ring"],
+				"sound": ["content/sfx/sound/dungeon/ring.ogg", "voice"]
+			}]
+		},
+		"bottle": {
+			"spot": [670, 309, 58, 127],
+			"actions": [{
+				"function": "dungeon_grab_item",
+				"arguments": ["Great Mana Potion"],
+				"sound": ["content/sfx/sound/dungeon/bottle.ogg", "voice"]
+			}]
+		}
+	},
+	"spawn_hotspots": {
+		"Goblin": {
+			"spot": [520, 442, 234, 269],
+			"actions": [{
+				"function": "dungeon_combat",
+				"arguments": ["Goblin"],
+				"sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+			}]
+		},
+		"Devil Rat": {
+			"spot": [540, 376, 212, 278],
+			"actions": [{
+				"function": "dungeon_combat",
+				"arguments": ["Devil Rat"],
+				"sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+			}]
+		},
+		"Bats": {
+			"spot": [536, 40, 226, 249],
+			"actions": [{
+				"function": "dungeon_combat",
+				"arguments": ["Bats"],
+				"sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+			}]
+		},
+		"Bear": {
+			"spot": [562, 321, 184, 339],
+			"actions": [{
+				"function": "dungeon_combat",
+				"arguments": ["Bear"],
+				"sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+			}]
+		}
+	},
+	"access": [".79bABCD^", ".79cABCD^", ".79cABCD^", ".79bABCD^"],
+	"conditional_access": ["3a8", "3a8", "3a8", "3a8"],
+	"access_condition": {
+		"(20, 1)": {
+			"access": false
+		},
+		"(32, 3)": {
+			"access": false
+		},
+		"(32, 11)": {
+			"access": false
+		}
+	},
+	"minimap": {
+		"#2def": "#4444",
+		"38a": "#5C4425",
+		"bcABCD": "#6a548e",
+		"ground": "#fff4"
+	},
+	"sound": {
+		"bump": "content/sfx/sound/dungeon/bump.ogg",
+		"locked": "content/sfx/sound/dungeon/locked.ogg"
+	},
+	"item": {
+		"(2, 1)": [{
+			"name": "Replica Sword"
+		}],
+		"(23, 3)": [{
+			"name": "Shuriken"
+		}]
+	},
+	"spawn": {
+		"(36, 1)": {
+			"name": "Goblin",
+			"level": 1,
+			"timer": 0.5
+		},
+		"(5, 11)": {
+			"name": "Devil Rat",
+			"level": 1,
+			"timer": 0.2
+		},
+		"(24, 5)": {
+			"name": "Bats",
+			"level": 1,
+			"yoffs": -400,
+			"timer": 0.3
+		},
+		"(2, 8)": {
+			"name": "Bear",
+			"level": 3,
+			"size": 2,
+			"timer": 0.8
+		}
+	},
+	"renderitem": {
+		"(20, 5)": [{
+			"name": "ring"
+		}, {
+			"name": "dagger"
+		}],
+		"(22, 0)": [{
+			"name": "dagger"
+		}],
+		"(9, 11)": [{
+			"name": "bottle",
+			"function": "im.matrix.tint",
+			"arguments": [0.1, 0.5, 0.1]
+		}],
+		"(48, 3)": [{
+			"name": "bottle",
+			"function": "im.matrix.tint",
+			"arguments": [0.5, 0.1, 0.1]
+		}]
+	},
+	"event": {
+		"(19, 11)": [{
+			"function": "dungeon.say",
+			"arguments": ["", "Finally, there's a hatch here, you climb out of the catacombs."]
+		}, {
+			"function": "dungeon.__delattr__",
+			"arguments": ["hero"]
+		}, {
+			"function": "renpy.jump",
+			"arguments": ["graveyard_town"]
+		}],
+		"(25, 1)": [{
+			"function": "renpy.play",
+			"arguments": ["content/sfx/sound/dungeon/open_door.ogg", "sound"]
+		}, {
+			"function": "dungeon.access_condition.__setitem__",
+			"arguments": ["(20, 1)", {
+				"access": false
+			}]
+		}],
+		"(13, 0)": [{
+			"function": "dungeon.say",
+			"arguments": ["", "Something in here smells really bad."]
+		}]
+	}
+}, {
+	"id": "Mausoleum2",
+	"transparent": [
+		".4679bcABCD<",
+		".4679bcABCD<"
+	],
+	"r": "0....5...10...15...2v...25...30...35...4v...45...50...55...60...65...70...75...80...85...90...95..100 -> x",
+	"map": [
+		"        ################  #####        #########        ########",
+		"  #######......##......# ##...# ###### #.......#        #......#",
+		"###....##......##......###....# #....###.#.....##       #......#",
+		"#......d#......##.......8.....# #....##..#......## ######......#",
+		"#.#....##......##.......###...# #.......##.......###...##......#",
+		"#.#....##......###b###.## #...# #....######8####.......#####.###",
+		"#.#########.####  b  #.#  ##..# #....#    #.#  ####....#   #.#  ",
+		"#.#       #.#     b  #.#dddd#.# #.####    #.#     ######   #.#  ",
+		"#.###### ##.##### b  #.#...7#.# #.##      #.#    ###### ####.## ",
+		"#......# #...#..22b22282b..7#.# #..#      #8###  #....# #.....# ",
+		"#......d #...#..2......2bddd#.# ##.#      #...####....# #.....# ",
+		"#......# #...#..2......2b  ##.####.##     #...........# #.....# ",
+		"#......# #...cc.2bbbbbbbb###...##...#######....###....# #.....# ",
+		"#......# #...cccc..............##...8.....8...## #....# #.....# ",
+		"#......cccccccccc......#####...##...###########22#....# #.....# ",
+		"22b.2222        ########   ###.##.###    #.....2.ccccccccc.#### ",
+		" 2b.222  #####  #######      #.##.#      #d.d#b2b#####   #.#    ",
+		" 2b...2  #...#  #.....#  #####.##.#      d...dbc.#...#  ##.##   ",
+		" 2b2..2  #...#  #.....#  #.....##.####   d...db2b#...####...#   ",
+		" 2.2..2###...#  #.....#  #.....##....#   d...dbc.#...##.....#   ",
+		" 2b2..8......#  #.....####.....##....#   d...db2b#......#...#   ",
+		" 2.2..2###...#  #..........##a###....#   d...dbc.#...#####.##   ",
+		" 2b2..2  ##3##  ####.#######..# #....#   #ddd#b2b#...#   #.#    ",
+		" 2.2222   #.#      #.#   #...## ####.#    #.#2.c.#####   #.#    ",
+		" 2b2222## #.#    ###.#####.####  ###.###########b#####   #.##   ",
+		" 2.2....###3#    #.....##..A..#  #.....##.....2c.#...#   #..####",
+		" 2b2..2.##..######.....##.....#  #.....##.....2#b#...######...7#",
+		" 2.2..2................##.....#  #.............#b.............6#",
+		" 2b2..2#.......###.....##.....#  #.....##...<..#b....#####....4#",
+		" 2.2..2##.....## #.....##.....#  #.....##......#b....#   #.....#",
+		" 2.2..22#.....#  ########.....#  #.....##......#b##.##   ##....#",
+		" 2b22..2###.###         #######  ##.############..#..#    ######",
+		" 2.222.2  #.#          #########  #.#   ########..##.#  ########",
+		" 2.2...2 ##.############.......#  #.#  ##......#...#.#  #......#",
+		" 2.2...2 #......#........#.....####.# ##.......#####.####......#",
+		" 2.2...222..............##........#.###..........##............#",
+		" 2b2.......22222.....#####.....##.......########......###......#",
+		" 2.cccccccc.c.c.cccccc.# #.....###.....##      ##.....# #......#",
+		" 2222222222222222......# ####### #.....#        #.....# #....74#",
+		"                #dddddd#         #######        ####### ########"
+	],
+	"visible": "#2346789abcdABCD<",
+	"area": {
+		"#": "mossy",
+		"2": "bluegrey",
+		"3": "door",
+		"4": "barrel",
+		"6": "more_barrels",
+		"7": "barrel_crate",
+		"8": "bluegrey_door2",
+		"9": "pilar",
+		"a": "mossy_door2",
+		"b": ["portal", "portal_turned"],
+		"c": ["portal_turned", "portal"],
+		"d": "mossy_alcove",
+		"A": ["ladderb", "ladderl", "ladderr", "ladderf"],
+		"B": ["ladderl", "ladderf", "ladderb", "ladderr"],
+		"C": ["ladderf", "ladderr", "ladderl", "ladderb"],
+		"D": ["ladderr", "ladderb", "ladderf", "ladderl"],
+		"<": "ladderdownf"
+	},
+	"background": "dungeon_mossy%s_background",
+	"access": [".79bABCD<", ".79cABCD<", ".79cABCD<", ".79bABCD<"],
+	"conditional_access": ["3a8", "3a8", "3a8", "3a8"],
+	"access_condition": {},
+	"area_hotspots": {},
+	"item_hotspots": {},
+	"renderitem_hotspots": {},
+	"spawn_hotspots": {
+		"Blast Beetle": {
+			"spot": [517, 453, 210, 192],
+			"actions": [{
+				"function": "dungeon_combat",
+				"arguments": ["Blast Beetle"],
+				"sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+			}]
+		},
+		"Wikkawak": {
+			"spot": [585, 390, 192, 202],
+			"actions": [{
+				"function": "dungeon_combat",
+				"arguments": ["Wikkawak"],
+				"sound": ["content/sfx/sound/dungeon/dagger.ogg", "voice"]
+			}]
+		}
+
+	},
+	"container": "d.",
+	"minimap": {
+		"#2def": "#4444",
+		"38a": "#5C4425",
+		"bcABCD": "#6a548e",
+		"ground": "#fff4"
+	},
+	"sound": {
+		"bump": "content/sfx/sound/dungeon/bump.ogg",
+		"locked": "content/sfx/sound/dungeon/locked.ogg"
+	},
+	"item": {
+		"(34, 25)": [{
+			"name": "Replica Sword",
+			"rot": 30
+		}],
+		"(35, 25)": [{
+			"name": "Small Cane",
+			"rot": 30
+		}],
+		"(34, 30)": [{
+			"name": "Elven Rapier"
+		}],
+		"(35, 30)": [{
+			"name": "Ornate Gladius"
+		}]
+	},
+	"spawn": {
+		"(26, 20)": {
+			"name": "Blast Beetle",
+			"level": 1,
+			"timer": 0.5
+		},
+		"(27, 5)": {
+			"name": "Wikkawak",
+			"level": 1,
+			"timer": 0.7
+		}
+	},
+	"renderitem": {},
+	"event": {
+		"(27, 25)": [{
+			"function": "dungeon.say",
+			"arguments": ["", "You ascend the stairs."]
+		}, {
+			"load": "Mausoleum1",
+			"at": {
+				"x": 0,
+				"y": 10,
+				"dx": 0,
+				"dy": -1
+			}
+		}]
+	}
+}]
