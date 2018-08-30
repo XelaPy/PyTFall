@@ -257,7 +257,7 @@ label special_items_emerald_tincture:
     $ eqtarget.health += int(.5*h)
     $ h = eqtarget.get_max("vitality") - eqtarget.vitality
     $ eqtarget.vitality += int(.5*h)
-    $ eqtarget.mp = int(eqtarget.get_max("mp")*0.25)
+    $ eqtarget.mp = int(eqtarget.get_max("mp")*.25)
     play events "events/item_2.wav"
     jump char_equip
 

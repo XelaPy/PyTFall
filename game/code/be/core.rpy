@@ -928,7 +928,7 @@ init -1 python: # Core classes:
                                     temp += max(minv, float(t.level)*maxv/lvl)
                         ev += temp
 
-                        if t.health <= t.get_max("health")*0.25:
+                        if t.health <= t.get_max("health")*.25:
                             if ev < 0:
                                 ev = 0 # Even when weighed down adrenaline takes over and allows for temporary superhuman movements
                             ev += randint(1,5) # very low health provides additional random evasion, 1-5%
@@ -1020,13 +1020,13 @@ init -1 python: # Core classes:
             a = self.source
 
             if "melee" in self.attributes:
-                attack = (a.attack*0.7 + a.agility*.3 + self.effect) * self.multiplier
+                attack = (a.attack*.7 + a.agility*.3 + self.effect) * self.multiplier
             elif "ranged" in self.attributes:
-                attack = (a.attack*0.7 + a.intelligence*.3 + self.effect) * self.multiplier
+                attack = (a.attack*.7 + a.intelligence*.3 + self.effect) * self.multiplier
             elif "magic" in self.attributes:
-                attack = (a.magic*0.7 + a.intelligence*.3 + self.effect) * self.multiplier
+                attack = (a.magic*.7 + a.intelligence*.3 + self.effect) * self.multiplier
             elif "status" in self.attributes:
-                attack = (a.intelligence*0.7 + a.agility*.3 + self.effect) * self.multiplier
+                attack = (a.intelligence*.7 + a.agility*.3 + self.effect) * self.multiplier
 
             delivery = self.delivery
 
@@ -1061,7 +1061,7 @@ init -1 python: # Core classes:
             # attack *= uniform(.90, 1.10) # every time attack is random from 90 to 110% Alex: Why do we do this? Dark: we make damage calculations unpredictable (within reasonable limits); many games use much more harsh ways to add randomness to BE.
 
             # Decreasing based of current health:
-            # healthlevel=(1.0*a.health)/(1.0*a.get_max("health"))*0.5 # low health decreases attack power, down to 50% at close to 0 health.
+            # healthlevel=(1.0*a.health)/(1.0*a.get_max("health"))*.5 # low health decreases attack power, down to 50% at close to 0 health.
             # attack *= (.5+healthlevel)
 
             return int(attack) if attack >= 1 else 1
@@ -2037,7 +2037,7 @@ init -1 python: # Core classes:
                 for skill in healing_skills:
                     targets = skill.get_targets(source=self.source)
                     for t in targets:
-                        if t.health < t.get_max("health")*0.5:
+                        if t.health < t.get_max("health")*.5:
                             skill.source = self.source
                             targets = targets if "all" in skill.type else t
                             skill(ai=True, t=targets)

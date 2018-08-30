@@ -34,7 +34,7 @@ init -5 python:
                 kwargs = dict(exclude=["dungeon", "nude", "angry", "in pain", "after sex", "group", "normalsex", "bdsm"], add_mood=False)
 
             # if vitality is really low, they try to sleep, assuming there is a sleeping picture
-            if worker.vitality < worker.get_max("vitality")*0.2 and worker.has_image("sleeping", **kwargs):
+            if worker.vitality < worker.get_max("vitality")*.2 and worker.has_image("sleeping", **kwargs):
                 log.img = worker.show("sleeping", resize=ND_IMAGE_SIZE, **kwargs)
                 log.append("{} is too tired to do anything but sleep at her free time.".format(worker.name))
             else:
@@ -45,13 +45,13 @@ init -5 python:
                     available.append("sleeping")
                 if worker.has_image("reading", **kwargs):
                     available.append("reading")
-                if worker.vitality >= worker.get_max("vitality")*0.3: # not too tired for more active rest
+                if worker.vitality >= worker.get_max("vitality")*.3: # not too tired for more active rest
                     if worker.has_image("shopping", **kwargs) and (worker.gold >= 200): # eventually there should be a real existing event about going to shop and buy a random item there for gold. after all we do have an algorithm for that. but atm it might be broken, so...
                         available.append("shopping")
                     if "Nymphomaniac" in worker.traits or worker.effects['Horny']['active']:
                         if worker.has_image("masturbation", **kwargs):
                             available.append("masturbation")
-                if worker.vitality >= worker.get_max("vitality")*0.5: # not too tired for sport stuff
+                if worker.vitality >= worker.get_max("vitality")*.5: # not too tired for sport stuff
                     if worker.has_image("sport", **kwargs):
                         available.append("sport")
                     if worker.has_image("exercising", **kwargs):

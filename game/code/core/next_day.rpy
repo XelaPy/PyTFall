@@ -321,7 +321,7 @@ label next_day_effects_check:  # all traits and effects which require some unusu
             if i.effects['Elation']['activation_count'] >= 3 and not i.effects['Elation']['active']:
                 i.enable_effect('Elation')
 
-            if i.vitality < i.get_max("vitality")*0.3 and not i.effects['Exhausted']['active']: # 5+ days with vitality < .3 max lead to Exhausted effect, can be removed by one day of rest or some items
+            if i.vitality < i.get_max("vitality")*.3 and not i.effects['Exhausted']['active']: # 5+ days with vitality < .3 max lead to Exhausted effect, can be removed by one day of rest or some items
                 i.effects['Exhausted']['activation_count'] += 1
             if i.effects['Exhausted']['activation_count'] >= 5 and not i.effects['Exhausted']['active']:
                 i.enable_effect('Exhausted')
@@ -804,7 +804,7 @@ screen next_day():
                                     thumb None
                                     xysize (150, 20)
                                 text "HP" size 14 color ivory bold True yalign .1 xpos 8
-                                if hero.health <= hero.get_max("health")*0.2:
+                                if hero.health <= hero.get_max("health")*.2:
                                     text "[hero.health]" size 14 color red bold True style_suffix "value_text" yoffset -3 xpos 102
                                 else:
                                     text "[hero.health]" size 14 color ivory bold True style_suffix "value_text" yoffset -3 xpos 102
@@ -821,7 +821,7 @@ screen next_day():
                                     thumb None
                                     xysize (150, 20)
                                 text "MP" size 14 color ivory bold True yalign .8 xpos 7
-                                if hero.mp <= hero.get_max("mp")*0.2:
+                                if hero.mp <= hero.get_max("mp")*.2:
                                     text "[hero.mp]" size 14 color red bold True style_suffix "value_text" yoffset 2 xpos 99
                                 else:
                                     text "[hero.mp]" size 14 color ivory bold True style_suffix "value_text" yoffset 2 xpos 99
@@ -838,7 +838,7 @@ screen next_day():
                                     thumb None
                                     xysize (150, 20)
                                 text "VP" size 14 color ivory bold True yalign .8 xpos 7
-                                if hero.vitality <= hero.get_max("vitality")*0.2:
+                                if hero.vitality <= hero.get_max("vitality")*.2:
                                     text "[hero.vitality]" size 14 color red bold True style_suffix "value_text" yoffset 2 xpos 99
                                 else:
                                     text "[hero.vitality]" size 14 color ivory bold True style_suffix "value_text" yoffset 2 xpos 99

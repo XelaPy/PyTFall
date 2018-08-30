@@ -509,7 +509,7 @@ screen char_equip_left_frame(tt, stats_display):
                         frame:
                             xysize 204, 25
                             text "Health:" xalign .02 color "#CD4F39"
-                            $ tempc = red if eqtarget.health <= eqtarget.get_max("health")*0.3 else "#F5F5DC"
+                            $ tempc = red if eqtarget.health <= eqtarget.get_max("health")*.3 else "#F5F5DC"
                             if getattr(store, "dummy", None) is not None:
                                 $ tempstr = build_str_for_eq(eqtarget, dummy, "health", tempc)
                                 text tempstr style_suffix "value_text" xalign .98 yoffset 3
@@ -520,7 +520,7 @@ screen char_equip_left_frame(tt, stats_display):
                         frame:
                             xysize 204, 25
                             text "Vitality:" xalign .02 color "#43CD80"
-                            $ tempc = red if eqtarget.vitality <= eqtarget.get_max("vitality")*0.3 else "#F5F5DC"
+                            $ tempc = red if eqtarget.vitality <= eqtarget.get_max("vitality")*.3 else "#F5F5DC"
                             if getattr(store, "dummy", None) is not None:
                                 $ tempstr = build_str_for_eq(eqtarget, dummy, "vitality", tempc)
                                 text tempstr style_suffix "value_text" xalign .98 yoffset 3
@@ -558,7 +558,7 @@ screen char_equip_left_frame(tt, stats_display):
                                 text "[stat]" color color
                                 $ stat = stat.lower()
                                 if stat == "mp":
-                                    $ tempc = red if eqtarget.mp <= eqtarget.get_max("mp")*0.3 else color
+                                    $ tempc = red if eqtarget.mp <= eqtarget.get_max("mp")*.3 else color
                                 else:
                                     $ tempc = color
                                 if getattr(store, "dummy", None) is not None:

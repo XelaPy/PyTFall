@@ -1663,7 +1663,7 @@ init -10 python:
             elif self.name == "MP Regeneration":
                 h = 30
                 if "Winter Eternality" in char.traits:
-                    h += int(char.get_max("mp")*0.5)
+                    h += int(char.get_max("mp")*.5)
                 if h <= 0:
                     h = 1
                 char.mp += h
@@ -1681,10 +1681,10 @@ init -10 python:
                 elif char.joy > 10 and dice(60):
                     char.joy -= 1
             elif self.name == "Assertive":
-                if char.character < char.get_max("character")*0.5:
+                if char.character < char.get_max("character")*.5:
                     char.character += 2
             elif self.name == "Diffident":
-                if char.character > char.get_max("character")*0.55:
+                if char.character > char.get_max("character")*.55:
                     char.character -= 2
             elif self.name == "Composure":
                 if char.joy < 50:
@@ -1692,9 +1692,9 @@ init -10 python:
                 elif char.joy > 70:
                     char.joy -= 1
             elif self.name == "Vigorous":
-                if char.vitality < char.get_max("vitality")*0.25:
+                if char.vitality < char.get_max("vitality")*.25:
                     char.vitality += randint(2, 3)
-                elif char.vitality < char.get_max("vitality")*0.5:
+                elif char.vitality < char.get_max("vitality")*.5:
                     char.vitality += randint(1, 2)
             elif self.name == "Down with Cold":
                 if self.effects['Down with Cold']['healthy_again'] <= self.effects['Down with Cold']['count']:
@@ -1710,14 +1710,14 @@ init -10 python:
                 if dice(self.luck+55):
                     self.add_money(randint(5, 25), reason="Stealing")
             elif self.name == "Injured":
-                if self.health > int(self.get_max("health")*0.2):
-                    self.health = int(self.get_max("health")*0.2)
-                if self.vitality > int(self.get_max("vitality")*0.5):
-                    self.vitality = int(self.get_max("vitality")*0.5)
+                if self.health > int(self.get_max("health")*.2):
+                    self.health = int(self.get_max("health")*.2)
+                if self.vitality > int(self.get_max("vitality")*.5):
+                    self.vitality = int(self.get_max("vitality")*.5)
                 self.AP -= 1
                 self.joy -= 10
             elif self.name == "Exhausted":
-                self.vitality -= int(self.get_max("vitality")*0.2)
+                self.vitality -= int(self.get_max("vitality")*.2)
             elif self.name == "Lactation": # TO DO: add milking activities, to use this fetish more widely
                 if self.health >= 30 and self.vitality >= 30 and self in hero.chars and self.is_available:
                     if self.status == "slave" or check_lovers(self, hero):
@@ -1741,7 +1741,7 @@ init -10 python:
                 else:
                     self.intelligence = 20
             elif self.name == "Intelligent":
-                if self.joy >= 75 and self.vitality >= self.get_max("vitality")*0.75 and self.health >= self.get_max("health")*0.75:
+                if self.joy >= 75 and self.vitality >= self.get_max("vitality")*.75 and self.health >= self.get_max("health")*.75:
                     self.intelligence += 1
             elif self.name == "Sibling":
                 if self.disposition < 100:

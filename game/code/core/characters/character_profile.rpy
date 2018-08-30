@@ -62,7 +62,7 @@ label char_profile:
                         jump gallery
                     elif result[1] == "get_rid":
                         if char.status == "slave":
-                            $ message = "Are you sure you wish to sell {} for {}?".format(char.name, int(char.fin.get_price()*0.8))
+                            $ message = "Are you sure you wish to sell {} for {}?".format(char.name, int(char.fin.get_price()*.8))
                         else:
                             $ message = "Are you sure that you wish to fire {}?".format(char.name)
                         if renpy.call_screen("yesno_prompt",
@@ -71,7 +71,7 @@ label char_profile:
                                              no_action=Return(False)):
                             if char.status == 'slave':
                                 python:
-                                    hero.add_money(int(char.fin.get_price()*0.8), reason="SlaveTrade")
+                                    hero.add_money(int(char.fin.get_price()*.8), reason="SlaveTrade")
                                     char.home = pytfall.sm
                                     char.action = None
                                     char.workplace = None
@@ -503,7 +503,7 @@ screen char_profile():
                                     background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
                                     action NullAction()
                                     tooltip "This is a Class Stat!"
-                            if char.health <= char.get_max("health")*0.3:
+                            if char.health <= char.get_max("health")*.3:
                                 text (u"{color=[red]}%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style_suffix "value_text"
                             else:
                                 text (u"%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style_suffix "value_text"
@@ -519,7 +519,7 @@ screen char_profile():
                                     background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
                                     action NullAction()
                                     tooltip "This is a Class Stat!"
-                            if char.vitality < char.get_max("vitality")*0.3:
+                            if char.vitality < char.get_max("vitality")*.3:
                                 text (u"{color=[red]}%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style_suffix "value_text"
                             else:
                                 text (u"%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style_suffix "value_text"
@@ -1372,7 +1372,7 @@ screen confirm_girl_sale():
         yfill True
 
         if char.status == "slave":
-            text("{size=-5}Are you sure you want to sell [char.name] for %d Gold?"%(int(char.fin.get_price()*0.8))) align(.5, .1)
+            text("{size=-5}Are you sure you want to sell [char.name] for %d Gold?"%(int(char.fin.get_price()*.8))) align(.5, .1)
 
             hbox:
                 align(.5, .85)

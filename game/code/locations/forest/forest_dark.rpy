@@ -134,9 +134,9 @@ label mc_action_city_dark_forest_rest:
 
     python:
         for i in hero.team:
-            i.vitality += int(i.get_max("vitality")*0.25)
-            i.health += int(i.get_max("health")*0.05)
-            i.mp += int(i.get_max("mp")*0.2)
+            i.vitality += int(i.get_max("vitality")*.25)
+            i.health += int(i.get_max("health")*.05)
+            i.mp += int(i.get_max("mp")*.2)
     jump forest_dark_continue
 
 label city_dark_forest_hideout:
@@ -376,5 +376,5 @@ label mc_action_city_dark_forest_river:
     "You found a river. Fresh, clean water restores some of your vitality."
     python:
         for i in hero.team:
-            i.vitality += int(i.get_max("vitality")*0.5)
+            i.vitality += int(i.get_max("vitality")*.5)
     jump forest_dark_continue

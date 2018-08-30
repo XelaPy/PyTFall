@@ -383,7 +383,7 @@ label mc_action_beach_start_fishing:
                 # the less item's chance field, the more additional bonus to fishing;
                 # with 90 chance it will be +1, with less than 1 chance about 10
                 python hide:
-                    temp = round_int((100-item.chance)*0.1) + randint(1, 2)
+                    temp = round_int((100-item.chance)*.1) + randint(1, 2)
                     hero.fishing += temp
 
 label end_fishing:

@@ -320,7 +320,7 @@ init -5 python:
                         oralmod = 1 if dice(20) else 0
                         sexmod = 1 if dice(8) else 0
                     else:
-                        skill = round(worker.get_skill("oral")*0.25 + worker.get_skill("sex")*0.75)
+                        skill = round(worker.get_skill("oral")*.25 + worker.get_skill("sex")*.75)
                         oralmod = 1 if dice(25) else 0
                         sexmod = 1 if dice(10) else 0
                     log.img = worker.show("bc footjob", **kwargs)
@@ -435,7 +435,7 @@ init -5 python:
                         oralmod = 1 if dice(25) else 0
                         vaginalmod = 1 if dice(10) else 0
                     elif "Bisexual" in worker.traits:
-                        skill = round(worker.get_skill("oral")*0.7 + worker.get_skill("vaginal")*0.15 + worker.get_skill("sex")*0.15)
+                        skill = round(worker.get_skill("oral")*.7 + worker.get_skill("vaginal")*.15 + worker.get_skill("sex")*.15)
                         sexmod = 1 if dice(9) else 0
                         oralmod = 1 if dice(22) else 0
                         vaginalmod = 1 if dice(9) else 0

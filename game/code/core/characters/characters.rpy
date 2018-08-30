@@ -1760,7 +1760,7 @@ init -9 python:
                 if "Left-Handed" in self.traits and item.slot == "smallweapon":
                     self.stats.min[stat] += value*2
                 elif "Left-Handed" in self.traits and item.slot == "weapon":
-                    self.stats.min[stat] += int(value*0.5)
+                    self.stats.min[stat] += int(value*.5)
                 elif "Knightly Stance" in self.traits and stat == "defence":
                     self.stats.min[stat] += int(value*1.3)
                 elif "Berserk" in self.traits and stat == "defence":
@@ -1839,11 +1839,11 @@ init -9 python:
                         if "Left-Handed" in self.traits and item.slot == "smallweapon":
                             self.stats.imod[stat] += value*2
                         elif "Left-Handed" in self.traits and item.slot == "weapon":
-                            self.stats.imod[stat] += int(value*0.5)
+                            self.stats.imod[stat] += int(value*.5)
                         elif "Knightly Stance" in self.traits and stat == "defence":
                             self.stats.imod[stat] += int(value*1.3)
                         elif "Berserk" in self.traits and stat == "defence":
-                            self.stats.imod[stat] += int(value*0.5)
+                            self.stats.imod[stat] += int(value*.5)
                         elif "Berserk" in self.traits and stat == "attack":
                             self.stats.imod[stat] += int(value*2)
                         elif "Hollow Bones" in self.traits and stat == "agility" and original_value < 0:
@@ -2317,7 +2317,7 @@ init -9 python:
             elif effect == "Regeneration":
                 h = 30
                 if "Summer Eternality" in self.traits:
-                    h += int(self.get_max("health")*0.5)
+                    h += int(self.get_max("health")*.5)
                 if h <= 0:
                     h = 1
                 self.health += h
@@ -2325,7 +2325,7 @@ init -9 python:
             elif effect == "MP Regeneration":
                 h = 30
                 if "Winter Eternality" in self.traits:
-                    h += int(self.get_max("mp")*0.5)
+                    h += int(self.get_max("mp")*.5)
                 if h <= 0:
                     h = 1
                 self.mp += h
@@ -2349,11 +2349,11 @@ init -9 python:
                         self.joy -= 1
 
             elif effect == "Assertive":
-                if self.character < self.get_max("character")*0.5:
+                if self.character < self.get_max("character")*.5:
                     self.character += 2
 
             elif effect == "Diffident":
-                if self.character > self.get_max("character")*0.55:
+                if self.character > self.get_max("character")*.55:
                     self.character -= 2
 
             elif effect == "Composure":
@@ -2363,9 +2363,9 @@ init -9 python:
                     self.joy -= 1
 
             elif effect == "Vigorous":
-                if self.vitality < self.get_max("vitality")*0.25:
+                if self.vitality < self.get_max("vitality")*.25:
                     self.vitality += randint(2, 3)
-                elif self.vitality < self.get_max("vitality")*0.5:
+                elif self.vitality < self.get_max("vitality")*.5:
                     self.vitality += randint(1, 2)
 
             elif effect == "Down with Cold":
@@ -2384,15 +2384,15 @@ init -9 python:
                     self.add_money(randint(5, 25), reason="Stealing")
 
             elif effect == "Injured":
-                if self.health > int(self.get_max("health")*0.2):
-                    self.health = int(self.get_max("health")*0.2)
-                if self.vitality > int(self.get_max("vitality")*0.5):
-                    self.vitality = int(self.get_max("vitality")*0.5)
+                if self.health > int(self.get_max("health")*.2):
+                    self.health = int(self.get_max("health")*.2)
+                if self.vitality > int(self.get_max("vitality")*.5):
+                    self.vitality = int(self.get_max("vitality")*.5)
                 self.AP -= 1
                 self.joy -= 10
 
             elif effect == "Exhausted":
-                self.vitality -= int(self.get_max("vitality")*0.2)
+                self.vitality -= int(self.get_max("vitality")*.2)
 
             elif effect == "Lactation": # TO DO: add milking activities, to use this fetish more widely
                 if self.health >= 30 and self.vitality >= 30 and self in hero.chars and self.is_available:
@@ -2419,7 +2419,7 @@ init -9 python:
                     self.intelligence = 20
 
             elif effect == "Intelligent":
-                if self.joy >= 75 and self.vitality >= self.get_max("vitality")*0.75 and self.health >= self.get_max("health")*0.75:
+                if self.joy >= 75 and self.vitality >= self.get_max("vitality")*.75 and self.health >= self.get_max("health")*.75:
                     self.intelligence += 1
 
             elif effect == "Sibling":
@@ -3112,13 +3112,13 @@ init -9 python:
             # Called whenever character needs to have on of the main stats restored.
             l = list()
             if self.autoequip:
-                if self.health < self.get_max("health")*0.3:
+                if self.health < self.get_max("health")*.3:
                     l.extend(self.auto_equip(["health"]))
-                if self.vitality < self.get_max("vitality")*0.2:
+                if self.vitality < self.get_max("vitality")*.2:
                     l.extend(self.auto_equip(["vitality"]))
-                if self.mp < self.get_max("mp")*0.1:
+                if self.mp < self.get_max("mp")*.1:
                     l.extend(self.auto_equip(["mp"]))
-                if self.joy < self.get_max("joy")*0.4:
+                if self.joy < self.get_max("joy")*.4:
                     l.extend(self.auto_equip(["joy"]))
             if l:
                 self.txt.append("She used: %s %s during the day!" % (", ".join(l), plural("item", len(l))))

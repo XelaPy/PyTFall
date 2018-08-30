@@ -156,17 +156,17 @@ init -5 python:
                 log.append("Her performance was rather poor and it most definitely has cost you income. \n")
 
             if worker.charisma > 300:
-                tips = tips + clubfees*0.05
+                tips = tips + clubfees*.05
                 self.locmod['fame'] += choice([0, 1, 1])
                 log.append("Your girl was stunningly pretty, customers couldn't keep their eyes off her. \n")
 
             elif worker.charisma > 150:
-                tips = tips + clubfees*0.03
+                tips = tips + clubfees*.03
                 self.locmod['fame'] += choice([0 ,0, 1])
                 log.append("Your girl looked beautiful, this will not go unnoticed. \n")
 
             elif worker.charisma > 45:
-                tips = tips + clubfees*0.02
+                tips = tips + clubfees*.02
                 self.locmod['fame'] += choice([0, 0, 0, 1])
                 log.append("Your girl was easy on the eyes, not bad for a bartender. \n")
 

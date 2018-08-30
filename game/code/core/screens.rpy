@@ -77,11 +77,11 @@ init:
                     xysize (frame_size[0], frame_size[1])
                     if active_mode and equipment:
                         if not isinstance(char, dict):
-                            use r_lightbutton(img=ProportionalScale(img, frame_size[0]*0.78, frame_size[1]*0.78), return_value=return_value+equipment)
+                            use r_lightbutton(img=ProportionalScale(img, frame_size[0]*.78, frame_size[1]*.78), return_value=return_value+equipment)
                         else:
-                            add ProportionalScale(img, frame_size[0]*0.71, frame_size[1]*0.71) align (.5, .5)
+                            add ProportionalScale(img, frame_size[0]*.71, frame_size[1]*.71) align (.5, .5)
                     else:
-                        add Transform(ProportionalScale("content/gfx/interface/buttons/filters/%s_bg.png"%key, frame_size[0]*0.71, frame_size[1]*0.71), alpha=.35) align (.5, .5)
+                        add Transform(ProportionalScale("content/gfx/interface/buttons/filters/%s_bg.png"%key, frame_size[0]*.71, frame_size[1]*.71), alpha=.35) align (.5, .5)
 
     screen shopping(left_ref=None, right_ref=None):
         use shop_inventory(ref=left_ref, x=.0)

@@ -47,12 +47,12 @@ label mc_action_wood_cutting:
         "You need a Woodcutting Axe before doing anything."
     elif hero.AP <= 0:
         "You don't have Action Points left. Try again tomorrow."
-    elif hero.vitality < int(hero.get_max("vitality")*0.4):
+    elif hero.vitality < int(hero.get_max("vitality")*.4):
         "You are too tired for that."
     
     else:
         $ hero.AP -= 1
-        $ hero.vitality -= int(hero.get_max("vitality")*0.4)
+        $ hero.vitality -= int(hero.get_max("vitality")*.4)
         "You grab your axe and start working."
         $ wood = (hero.constitution+hero.attack) // 10 + randint(1, 2)
         if dice(50):

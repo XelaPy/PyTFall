@@ -140,7 +140,7 @@ label city_beach_swimming_checks:
             "You are too tired at the moment."
         elif hero.AP <= 0:
             "You don't have Action Points at the moment. Try again tomorrow."
-        elif hero.health < hero.get_max("health")*0.25:
+        elif hero.health < hero.get_max("health")*.25:
             "You are too wounded at the moment."
         else:
             scene bg open_sea with dissolve
@@ -281,7 +281,7 @@ label mc_action_city_beach_diving_checks:
     elif hero.vitality < 20:
         "You're too tired at the moment."
         jump city_beach
-    elif hero.health < hero.get_max("health")*0.5:
+    elif hero.health < hero.get_max("health")*.5:
         "You are too wounded at the moment."
         jump city_beach
 

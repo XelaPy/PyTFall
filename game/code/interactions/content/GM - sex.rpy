@@ -58,7 +58,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         call interactions_sex_disagreement from _call_interactions_sex_disagreement
         jump girl_interactions
         
-    if char.vitality <= round(char.get_max("vitality")*0.25) or char.AP <= 0: # no sex with low vitality
+    if char.vitality <= round(char.get_max("vitality")*.25) or char.AP <= 0: # no sex with low vitality
         call interactions_refused_because_tired from _call_interactions_refused_because_tired_2
         jump girl_interactions
 
@@ -179,7 +179,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
         call interactions_lesbian_refuse_because_of_gender from _call_interactions_lesbian_refuse_because_of_gender_2 # you can hire them, but they will never do it for free with wrong orientation
         jump girl_interactions
 
-    if char.vitality < round(char.get_max("vitality")*0.25) or char.AP <= 0:
+    if char.vitality < round(char.get_max("vitality")*.25) or char.AP <= 0:
         call interactions_refused_because_tired from _call_interactions_refused_because_tired_3
         jump girl_interactions
 
@@ -747,7 +747,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
     if current_action != "strip":
         $ sex_count += 1
     if current_action in ["blow", "tits", "hand", "foot", "vag", "anal"] and "Mana Source" in hero.traits:
-        $ char.mp += int(char.get_max("mp")*0.5)
+        $ char.mp += int(char.get_max("mp")*.5)
     if current_action == "mast":
         $ get_single_sex_picture(char, act="masturbation", location=sex_scene_location, hidden_partner=True)
         if char.has_flag("raped_by_player"):
@@ -793,7 +793,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         $ get_single_sex_picture(char, act="blowjob", location=sex_scene_location, hidden_partner=True)
         $ image_tags = gm.img.get_image_tags()
         if ct("Lesbian"):
-            $ skill_for_checking = round(char.get_skill("oral")*0.8 + char.get_skill("sex")*0.8)
+            $ skill_for_checking = round(char.get_skill("oral")*.8 + char.get_skill("sex")*.8)
         else:
             $ skill_for_checking = round(char.get_skill("oral") + char.get_skill("sex"))
         $ male_skill_for_checking = round(hero.get_skill("oral") + hero.get_skill("sex"))
@@ -871,7 +871,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         else:
             extend " She squeezes you between her soft breasts."
         if ct("Lesbian"):
-            $ skill_for_checking = round(char.get_skill("oral")*0.8 + char.get_skill("sex")*0.8)
+            $ skill_for_checking = round(char.get_skill("oral")*.8 + char.get_skill("sex")*.8)
         else:
             $ skill_for_checking = round(char.get_skill("oral") + char.get_skill("sex"))
         $ male_skill_for_checking = round(hero.get_skill("oral") + hero.get_skill("sex"))
@@ -899,7 +899,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         else:
             "[char.name] takes your dick in her soft hands."
         if ct("Lesbian"):
-            $ skill_for_checking = round(char.get_skill("oral")*0.8 + char.get_skill("sex")*0.8)
+            $ skill_for_checking = round(char.get_skill("oral")*.8 + char.get_skill("sex")*.8)
         else:
             $ skill_for_checking = round(char.get_skill("oral") + char.get_skill("sex"))
         $ male_skill_for_checking = round(hero.get_skill("oral") + hero.get_skill("sex"))
@@ -950,7 +950,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         if "after sex" in image_tags:
             extend " You generously cover her body with your thick liquid."
         if ct("Lesbian"):
-            $ skill_for_checking = round(char.get_skill("oral")*0.8 + char.get_skill("sex")*0.8)
+            $ skill_for_checking = round(char.get_skill("oral")*.8 + char.get_skill("sex")*.8)
         else:
             $ skill_for_checking = round(char.get_skill("oral") + char.get_skill("sex"))
         $ male_skill_for_checking = round(hero.get_skill("oral") + hero.get_skill("sex"))
@@ -968,7 +968,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
         call interaction_sex_scene_check_skill_jobs from _call_interaction_sex_scene_check_skill_jobs_3
     elif current_action == "vag":
         if ct("Lesbian"):
-            $ skill_for_checking = round(char.get_skill("vaginal")*0.8 + char.get_skill("sex")*0.8)
+            $ skill_for_checking = round(char.get_skill("vaginal")*.8 + char.get_skill("sex")*.8)
         else:
             $ skill_for_checking = round(char.get_skill("vaginal") + char.get_skill("sex"))
         $ male_skill_for_checking = round(hero.get_skill("vaginal") + hero.get_skill("sex"))
@@ -1051,7 +1051,7 @@ label interactions_sex_scene_logic_part: # here we resolve all logic for changin
 
     elif current_action == "anal":
         if ct("Lesbian"):
-            $ skill_for_checking = round(char.get_skill("anal")*0.8 + char.get_skill("sex")*0.8)
+            $ skill_for_checking = round(char.get_skill("anal")*.8 + char.get_skill("sex")*.8)
         else:
             $ skill_for_checking = round(char.get_skill("anal") + char.get_skill("sex"))
         $ male_skill_for_checking = round(hero.get_skill("anal") + hero.get_skill("sex"))

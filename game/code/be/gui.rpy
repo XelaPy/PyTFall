@@ -358,7 +358,7 @@ init: # screens:
                                 xysize (150, 20)
                             text "HP" size 14 color ivory bold True xpos 8
 
-                            if health <= member.get_max("health")*0.2:
+                            if health <= member.get_max("health")*.2:
                                 text "[health]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
                             else:
                                 text "[health]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
@@ -375,7 +375,7 @@ init: # screens:
                                 thumb None
                                 xysize (150, 20)
                             text "MP" size 14 color ivory bold True xpos 8
-                            if mp <= member.get_max("mp")*0.2:
+                            if mp <= member.get_max("mp")*.2:
                                 text "[mp]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
                             else:
                                 text "[mp]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
@@ -392,7 +392,7 @@ init: # screens:
                                 thumb None
                                 xysize (150, 20)
                             text "VP" size 14 color ivory bold True xpos 8
-                            if vitality <= member.get_max("vitality")*0.2:
+                            if vitality <= member.get_max("vitality")*.2:
                                 text "[vitality]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
                             else:
                                 text "[vitality]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8

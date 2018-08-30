@@ -131,7 +131,7 @@ init -9 python:
                     return True, self.ESCAPED
 
                 # If girl is too injured to fight
-                elif girl.health < girl.get_max("health")*0.25 or girl.vitality < girl.get_max("vitality")*0.25 :
+                elif girl.health < girl.get_max("health")*.25 or girl.vitality < girl.get_max("vitality")*.25 :
                     # Girl was caight without fighting
                     return False, self.CAUGHT
 
@@ -560,7 +560,7 @@ init -9 python:
                 ev = NDEvent()
                 ev.type = type
                 ev.char = None
-                ev.img = im.Scale("content/gfx/bg/locations/dungeoncell.webp", int(config.screen_width*0.6), int(config.screen_height*0.8))
+                ev.img = im.Scale("content/gfx/bg/locations/dungeoncell.webp", int(config.screen_width*.6), int(config.screen_height*.8))
                 ev.txt = "\n".join(txt)
                 NextDayEvents.append(ev)
 

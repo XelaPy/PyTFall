@@ -226,7 +226,7 @@ init:
                                 background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
                                 action NullAction()
                                 tooltip "This is a Class Stat!"
-                        if hero.health <= hero.get_max("health")*0.3:
+                        if hero.health <= hero.get_max("health")*.3:
                             text (u"{color=[red]}%s/%s"%(hero.health, hero.get_max("health"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                         else:
                             text (u"{color=#F5F5DC}%s/%s"%(hero.health, hero.get_max("health"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
@@ -241,7 +241,7 @@ init:
                                 background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
                                 action NullAction()
                                 tooltip "This is a Class Stat!"
-                        if hero.mp <= hero.get_max("mp")*0.3:
+                        if hero.mp <= hero.get_max("mp")*.3:
                             text (u"{color=[red]}%s/%s"%(hero.mp, hero.get_max("mp"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                         else:
                             text (u"{color=#F5F5DC}%s/%s"%(hero.mp, hero.get_max("mp"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
@@ -256,7 +256,7 @@ init:
                                 background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
                                 action NullAction()
                                 tooltip "This is a Class Stat!"
-                        if hero.vitality <= hero.get_max("vitality")*0.3:
+                        if hero.vitality <= hero.get_max("vitality")*.3:
                             text (u"{color=[red]}%s/%s"%(hero.vitality, hero.get_max("vitality"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
                         else:
                             text (u"{color=#F5F5DC}%s/%s"%(hero.vitality, hero.get_max("vitality"))) xalign 1.0 style_suffix "value_text" xoffset -6 yoffset 4
@@ -736,7 +736,7 @@ init:
                                 thumb None
                                 xysize (150, 20)
                             text "HP" size 14 color "#F5F5DC" bold True xpos 8
-                            $ tmb = red if member.health <= member.get_max("health")*0.3 else "#F5F5DC"
+                            $ tmb = red if member.health <= member.get_max("health")*.3 else "#F5F5DC"
                             text "[member.health]" size 14 color tmb bold True style_suffix "value_text" xpos 125 yoffset -8
 
                         # MP:
@@ -750,7 +750,7 @@ init:
                                 thumb None
                                 xysize (150, 20)
                             text "{color=#F5F5DC}MP" size 14 bold True xpos 8
-                            $ tmb = red if member.mp <= member.get_max("mp")*0.3 else "#F5F5DC"
+                            $ tmb = red if member.mp <= member.get_max("mp")*.3 else "#F5F5DC"
                             text "[member.mp]" size 14 color tmb bold True style_suffix "value_text" xpos 125 yoffset -8
 
                         # VP
@@ -764,7 +764,7 @@ init:
                                 thumb None
                                 xysize (150, 20)
                             text "{color=#F5F5DC}VP" size 14 bold True xpos 8
-                            $ tmb = red if member.vitality <= member.get_max("vitality")*0.3 else "#F5F5DC"
+                            $ tmb = red if member.vitality <= member.get_max("vitality")*.3 else "#F5F5DC"
                             text "[member.vitality]" size 14 color tmb bold True style_suffix "value_text" xpos 125 yoffset -8
 
             button:

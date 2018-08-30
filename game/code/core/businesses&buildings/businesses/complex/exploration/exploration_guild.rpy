@@ -611,11 +611,11 @@ init -6 python:
                         # 0 Chance atm.
 
                         # String location? TODO
-                        if c in chars and dice(area.girls[c] + tracker.day*0.1 - 1000) and g.location == "se":
+                        if c in chars and dice(area.girls[c] + tracker.day*.1 - 1000) and g.location == "se":
                             tracker.captured_char = None # chars[g] # TODO: Properly create the rchar...
                             self.env.exit("captured char")
                         # Randoms!
-                        elif c in rchars and dice(area.girls[c] + tracker.day*0.1 + 100): # We ensure capture for testing purposes.
+                        elif c in rchars and dice(area.girls[c] + tracker.day*.1 + 100): # We ensure capture for testing purposes.
                             tracker.captured_char = build_rc()
                             self.env.exit("captured rchar")
 

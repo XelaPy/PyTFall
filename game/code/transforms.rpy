@@ -352,7 +352,7 @@ init -997: # Transforms:
         anchor (.5, .5)
         subpixel True
         block:
-            linear (3.0/(t+1)) zoom (1.1 + t*0.05)
+            linear (3.0/(t+1)) zoom (1.1 + t*.05)
             linear (3.0/(t+1)) zoom 1
             repeat
 

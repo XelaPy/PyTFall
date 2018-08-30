@@ -235,9 +235,9 @@ init -11 python:
     def interactions_silent_check_for_bad_stuff(char_name): # we check issues without outputting any lines or doing something else, and just return True/False
         if char_name.effects["Food Poisoning"]['active']:
             return False
-        elif char_name.vitality <= round(char_name.get_max("vitality")*0.1):
+        elif char_name.vitality <= round(char_name.get_max("vitality")*.1):
             return False
-        elif char_name.health < (round(char_name.get_max("health")*0.2)):
+        elif char_name.health < (round(char_name.get_max("health")*.2)):
             return False
         elif (not("Pessimist" in char_name.traits) and char_name.joy <= 25) or (("Pessimist" in char_name.traits) and char_name.joy < 10):
             return False
@@ -253,14 +253,14 @@ init -11 python:
             char_name.restore_portrait()
             char_name.disposition -= randint(2, 5)
             renpy.jump("girl_interactions_end")
-        elif char_name.vitality <= round(char_name.get_max("vitality")*0.1):
+        elif char_name.vitality <= round(char_name.get_max("vitality")*.1):
             char_name.override_portrait("portrait", "indifferent")
             char_name.say(choice(["But [char.name] was too tired to even talk.", "Sadly, [char.name] was not very happy that you interrupted her rest.", "But she is simply too tired to pay any serious attention to you.", "Unfortunately she so tired she almost falls asleep on the move."]))
             char_name.restore_portrait()
             char_name.disposition -= randint(5, 10)
             char_name.vitality -= 2
             renpy.jump("girl_interactions_end")
-        elif char_name.health < (round(char_name.get_max("health")*0.2)):
+        elif char_name.health < (round(char_name.get_max("health")*.2)):
             char_name.override_portrait("portrait", "indifferent")
             char_name.say(choice(["But [char.name] is too wounded for that.", "But her wounds completely occupy her thoughts."]))
             char_name.restore_portrait()
@@ -285,7 +285,7 @@ init -11 python:
             else:
                 narrator(choice(["She is not feeling well today and not in the mood to do anything."]))
                 renpy.jump ("girl_interactions")
-        elif char_name.vitality <= round(char_name.get_max("vitality")*0.2) and dice (35):
+        elif char_name.vitality <= round(char_name.get_max("vitality")*.2) and dice (35):
             char.override_portrait("portrait", "tired")
             if ct("Impersonal"):
                 rc("I don't have required endurance at the moment. Let's postpone it.", "No. Not enough energy.")
@@ -325,7 +325,7 @@ init -11 python:
             char_name.say("She looks very tired...")
             char_name.restore_portrait
             return True
-        elif char_name.health < (round(char_name.get_max("health")*0.2)):
+        elif char_name.health < (round(char_name.get_max("health")*.2)):
             char_name.override_portrait("portrait", "indifferent")
             char_name.say("She does not look good...")
             char_name.restore_portrait()
@@ -492,7 +492,7 @@ init -11 python:
         willing_partners = set()
         for i in partners:
             lovers = (check_lovers(i, hero) or check_lovers(char, i))
-            stats = (i.vitality < 25 or i.health < i.get_max("health")*0.6)
+            stats = (i.vitality < 25 or i.health < i.get_max("health")*.6)
             disposition = (i.disposition <= -50)
             if lovers and not stats and not disposition:
                 willing_partners.add(i)

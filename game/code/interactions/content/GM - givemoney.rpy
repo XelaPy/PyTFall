@@ -49,7 +49,7 @@ label interactions_giftmoney:
             $ char.exp += exp_reward(char, hero, ap_used=.33)
         call interactions_enough_gold from _call_interactions_enough_gold
         if char.disposition >= 90:
-            $ char.disposition += round(randint(a, b)/(char.disposition*0.01))
+            $ char.disposition += round(randint(a, b)/(char.disposition*.01))
         else:
             $ char.disposition += randint(a, b)
         $ del a
@@ -73,9 +73,9 @@ label interactions_askmoney:
             call interactions_girl_is_too_poor_to_give_money from _call_interactions_girl_is_too_poor_to_give_money
             jump girl_interactions
         elif char.gold > hero.gold*2:
-            $ temp = randint (round(char.gold*0.01), round(char.gold*0.1))
+            $ temp = randint (round(char.gold*.01), round(char.gold*.1))
             while temp >= randint(500, 1000): # we will continue to divide it by 10 until it becomes less than 500-1000. a countermeasure against becoming too rich by persuading a high lvl rich character to give you money.
-                $ temp = round(temp*0.1)
+                $ temp = round(temp*.1)
             if char.take_money(temp, reason="Charity"):
                 $ hero.add_money(temp, reason="Charity")
                 "She gave you [temp] G."

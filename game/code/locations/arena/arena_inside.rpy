@@ -271,7 +271,7 @@ init: # Main Screens:
                             thumb None
                             xysize (150, 20)
                         text "HP" size 14 color ivory bold True xpos 8
-                        if hero.health <= hero.get_max("health")*0.2:
+                        if hero.health <= hero.get_max("health")*.2:
                             text "[hero.health]" size 14 color red style_suffix "value_text" xpos 125 yoffset -8
                         else:
                             text "[hero.health]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
@@ -286,7 +286,7 @@ init: # Main Screens:
                             thumb None
                             xysize (150, 20)
                         text "MP" size 14 color ivory bold True xpos 8
-                        if hero.mp <= hero.get_max("mp")*0.2:
+                        if hero.mp <= hero.get_max("mp")*.2:
                             text "[hero.mp]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
                         else:
                             text "[hero.mp]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8
@@ -301,7 +301,7 @@ init: # Main Screens:
                             thumb None
                             xysize (150, 20)
                         text "VP" size 14 color ivory bold True xpos 8
-                        if hero.vitality <= hero.get_max("vitality")*0.2:
+                        if hero.vitality <= hero.get_max("vitality")*.2:
                             text "[hero.vitality]" size 14 color red bold True style_suffix "value_text" xpos 125 yoffset -8
                         else:
                             text "[hero.vitality]" size 14 color ivory bold True style_suffix "value_text" xpos 125 yoffset -8

@@ -202,7 +202,7 @@ label interactions_girlfriend:
     if char.status == "slave":
         $ l_ch += 200
 
-    if (char.flag("quest_cannot_be_lover") != True) and (char.disposition >= (600 - l_ch)) and (dice(round((l_ch + char.disposition)*0.2))):
+    if (char.flag("quest_cannot_be_lover") != True) and (char.disposition >= (600 - l_ch)) and (dice(round((l_ch + char.disposition)*.2))):
         $ set_lovers(hero, char)
         # $ hero.exp += randint(15, 35)
         # $ char.exp += randint(15, 35)

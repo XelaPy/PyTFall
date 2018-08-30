@@ -89,7 +89,7 @@ screen swimmong_pool_swim():
 label single_swim_pool:
     if hero.vitality < 20 or hero.AP <= 0:
         "You are too tired at the moment."
-    elif hero.health < hero.get_max("health")*0.5:
+    elif hero.health < hero.get_max("health")*.5:
         "You are too wounded at the moment."
     elif hero.take_money(10, reason="Swimming Pool"):
         play world "underwater.mp3"
@@ -103,7 +103,7 @@ label single_swim_pool:
 label instructor_swim_pool:
     if hero.vitality < 20 or hero.AP <= 0:
         "You are too tired at the moment."
-    elif hero.health < hero.get_max("health")*0.5:
+    elif hero.health < hero.get_max("health")*.5:
         "You are too wounded at the moment."
     elif hero.take_money(50, reason="Swimming Pool"):
         play world "underwater.mp3"
@@ -180,11 +180,11 @@ label mc_action_work_swim_pool: # here we could use an option to meet characters
     elif hero.AP <= 0:
         "You don't have enough Action Points. Try again tomorrow."
         jump swimming_pool
-    elif hero.health < hero.get_max("health")*0.5:
+    elif hero.health < hero.get_max("health")*.5:
         "You are too wounded at the moment."
         jump swimming_pool
 
-    $ result = randint(5, round(hero.get_skill("swimming")*0.1))
+    $ result = randint(5, round(hero.get_skill("swimming")*.1))
     if result > 200:
         $ result = randint (190, 220)
     $ hero.AP -= 1

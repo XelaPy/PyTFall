@@ -186,7 +186,7 @@ label interactions_howshefeels:
         $ rc("I ate something wrong. Ow-ow-ow...", "Ouh. I think I need to use bathroom again...")
         $ char.restore_portrait()
         jump girl_interactions_end
-    elif char.effects["Down with Cold"]['active'] or char.vitality < round(char.get_max("vitality")*0.3) or (char.health < round(char.get_max("health")*0.2)) or char.joy<25: # we select one suitable image in the very beginning
+    elif char.effects["Down with Cold"]['active'] or char.vitality < round(char.get_max("vitality")*.3) or (char.health < round(char.get_max("health")*.2)) or char.joy<25: # we select one suitable image in the very beginning
         $ char.override_portrait("portrait", "sad")
     elif char.joy>70:
         if ct("Shy"):
@@ -203,22 +203,22 @@ label interactions_howshefeels:
         $ rc("I think I caught a cold...", "I'm not feeling well today. *sneezes*", "I have a fever... <She looks pale>")
 
     #body checks
-    if char.vitality <= round(char.get_max("vitality")*0.1):
+    if char.vitality <= round(char.get_max("vitality")*.1):
         $ rc("I want to sleep so badly... <yawns>", "I'm very tired lately... <yawns>")
-    elif char.vitality < round(char.get_max("vitality")*0.3):
+    elif char.vitality < round(char.get_max("vitality")*.3):
         $ rc("My body a bit tired.", "I could use some rest.", "I feel weakness, I really should rest more...")
-    elif char.vitality >= round(char.get_max("vitality")*0.9):
+    elif char.vitality >= round(char.get_max("vitality")*.9):
         $ rc("I'm full of strength and energy.", "My body rested very well lately.")
 
-    if char.health <= round(char.get_max("health")*0.3):
+    if char.health <= round(char.get_max("health")*.3):
         $ rc("My whole body hurts. I think I need a doctor.", "My body is not feeling very well lately... I could use some medical attention.")
-    elif char.health >= round(char.get_max("health")*0.9) and not(char.effects["Food Poisoning"]['active']) and not(char.effects["Down with Cold"]['active']):
+    elif char.health >= round(char.get_max("health")*.9) and not(char.effects["Food Poisoning"]['active']) and not(char.effects["Down with Cold"]['active']):
         $ rc("My body is in top condition.", "My health is pretty good lately.")
 
     if cgo("Caster"):
-        if char.mp <= round(char.get_max("mp")*0.2):
+        if char.mp <= round(char.get_max("mp")*.2):
             $ rc("I feel drained.", "My mind is tired. Perhaps I should use magic less frequently.")
-        elif char.mp >= round(char.get_max("mp")*0.9):
+        elif char.mp >= round(char.get_max("mp")*.9):
             $ rc("I feel like magic overflows me.", "I'm filled with magic energy.")
 
     if char.joy <= 30: #begin joy checks
