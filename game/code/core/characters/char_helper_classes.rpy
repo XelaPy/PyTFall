@@ -1634,8 +1634,8 @@ init -10 python:
             self.days_active += 1
 
             if self.name == "Poisoned":
-                self.ss_mod["health"] += self.duration*5
-                char.health = max(1, char.health - self.ss_mod["health"])
+                self.ss_mod["health"] -= self.duration*5
+                char.health = max(1, char.health+self.ss_mod["health"])
                 if self.days_active >= self.duration:
                     self.end(char)
             elif self.name == "Unstable":

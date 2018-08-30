@@ -1982,7 +1982,7 @@ init -9 python:
                 duration = kwargs.get("duration", 10)
                 if ss_mod is None:
                     ss_mod = {}
-                    ss_mod["health"] = locked_random("randint", 5, 10)
+                    ss_mod["health"] = -locked_random("randint", 5, 10)
                 obj = CharEffect(name, duration=duration, ss_mod=ss_mod)
                 obj.enable(self)
             elif name == "Unstable":
