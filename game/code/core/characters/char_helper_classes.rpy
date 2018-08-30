@@ -1708,7 +1708,6 @@ init -10 python:
                     char.health = int(char.get_max("health")*.2)
                 if char.vitality > char.get_max("vitality")*.5:
                     char.vitality = int(char.get_max("vitality")*.5)
-                char.AP -= 1 # Does this work? TODO Find out.
                 char.joy -= 10
             elif self.name == "Exhausted":
                 char.vitality -= int(char.get_max("vitality")*.2)

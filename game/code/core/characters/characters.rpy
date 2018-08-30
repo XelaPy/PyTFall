@@ -704,7 +704,10 @@ init -9 python:
 
         # AP + Training ------------------------------------------------------------->
         def restore_ap(self):
-            self.AP = self.get_free_ap()
+            ap = self.get_free_ap()
+            if ap > 0 and "Injured" in self.effects:
+                ap -= 1
+            self.AP = ap
 
         def get_ap(self):
             ap = 0
