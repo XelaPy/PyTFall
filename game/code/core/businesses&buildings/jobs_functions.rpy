@@ -151,7 +151,7 @@ init -10 python:
                 if log:
                     log.append("And going to take few days off to recover. ")
             return False
-        if 'Food Poisoning' in worker.effects:
+        if 'Food Poisoning' in c.effects:
             if log:
                 log.append("%s is suffering from Food Poisoning! "%c.name)
             # self.img = c.show("profile", "sad", resize=(740, 685))

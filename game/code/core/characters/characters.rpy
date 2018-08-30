@@ -2010,11 +2010,7 @@ init -9 python:
                 obj.enable(self)
 
         def disable_effect(self, name):
-            effect = None
-            for e in self.effects:
-                if e.name == name:
-                    effect = e
-                    break
+            effect = self.effects.get(name, None)
             if effect is not None:
                 effect.end(self)
 

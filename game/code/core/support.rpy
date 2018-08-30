@@ -90,7 +90,7 @@ init -9 python:
                 char.item_counter()
                 char.clear_img_cache()
                 for effect in char.effects.values():
-                    effect.next_day()
+                    effect.next_day(char)
                 char.del_flag("food_poison_counter")
 
             # Same for Arena Fighters:
@@ -250,7 +250,7 @@ init -9 python:
             for char in chars.values() + [hero]:
                 # Run the effects if they are available:
                 for effect in char.effects.values():
-                    effect.next_day()
+                    effect.next_day(char)
 
                 if char in hero.chars or char == hero:
                     char.next_day()
