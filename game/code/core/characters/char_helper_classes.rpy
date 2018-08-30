@@ -1750,8 +1750,8 @@ init -10 python:
                 self.end(self)
             elif self.name == "Food Poisoning":
                 char.health = max(1, char.health-self.ss_mod["health"])
-                char.vitality += char.ss_mod['vitality']
-                char.joy += char.ss_mod['joy']
+                char.vitality += self.ss_mod['vitality']
+                char.joy += self.ss_mod['joy']
                 if self.days_active >= self.duration:
                     self.end(char)
 
