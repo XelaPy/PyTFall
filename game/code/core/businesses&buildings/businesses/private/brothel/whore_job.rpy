@@ -142,7 +142,7 @@ init -5 python:
                     disposition += 100
                 else:
                     disposition -= 50
-            elif "Virgin" in worker.traits and not('Chastity' in worker.effects]):
+            elif "Virgin" in worker.traits and not('Chastity' in worker.effects):
                 disposition += 50
             return disposition
 

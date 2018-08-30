@@ -39,9 +39,3 @@ init python:
     effect_descs["Chastity"] = "Special enchantment preserves her virginity intact."
     effect_descs["Revealing Clothes"] = "Her clothes show off a lot of skin, attracting views."
     effect_descs["Fluffy Companion"] = "All girls love cute animals. Helps to increase disposition during interactions."
-
-
-label char_effects:
-    init python:
-        pass
-    return

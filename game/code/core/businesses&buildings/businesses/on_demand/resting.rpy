@@ -146,7 +146,7 @@ init -5 python:
                 log.logws('mp', value)
                 log.logws('joy', randint(1, 2))
 
-                if 'Drowsy' in worker.effects::
+                if 'Drowsy' in worker.effects:
                     log.logws('vitality', 12)
                 else:
                     log.logws('vitality', 8)

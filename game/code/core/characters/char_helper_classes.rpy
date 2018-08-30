@@ -1184,21 +1184,21 @@ init -10 python:
                 effects = self.instance.effects
 
                 if key == 'disposition':
-                    if effects['Insecure']['active']:
+                    if 'Insecure' in effects:
                         if value >= 5:
                             self.instance.joy += 1
                         elif value <= -5:
                             self.instance.joy -= 1
-                    if effects['Introvert']['active']:
+                    if 'Introvert' in effects:
                         value = round_int(value*.8)
-                    elif effects['Extrovert']['active']:
+                    elif 'Extrovert' in effects:
                         value = round_int(value*1.2)
-                    if effects['Loyal']['active'] and value < 0: # works together with other traits
+                    if 'Loyal' in effects and value < 0: # works together with other traits
                         value = round_int(value*.8)
                 elif key == 'joy':
-                    if effects['Impressible']['active']:
+                    if 'Impressible' in effects:
                         value = round_int(value*1.5)
-                    elif effects['Calm']['active']:
+                    elif 'Calm' in effects:
                         value = round_int(value*.5)
             return value
 
@@ -1206,10 +1206,10 @@ init -10 python:
             # Assumes input from setattr of self.instance:
             if hasattr(self.instance, "effects"):
                 effects = self.instance.effects
-                if effects["Slow Learner"]["active"]:
+                if "Slow Learner" in effects:
                     val = value - self.exp
                     value = self.exp + int(round(val*.9))
-                if effects["Fast Learner"]["active"]:
+                if "Fast Learner" in effects:
                     val = value - self.exp
                     value = self.exp + int(round(val*1.1))
 
@@ -1613,18 +1613,12 @@ init -10 python:
 
 
     class CharEffect(_object):
-        # TODO IMPORTANT: former activation_count must be flipped to char Flags!!!
         def __init__(self, name, duration=10, ss_mod=None):
             self.name = name
             self.duration = duration # For how long does the effect remain active (if desired)
             self.days_active = 0
 
-            # Special effects that can be customized.
-            # If True, we create a new instance of the effect with custom data,
-            # if False, we use an existing effect from the main dict.
-            self.custom = False # Might become a child class???
-
-            if self.ss_mod is None:
+            if ss_mod is None:
                 self.ss_mod = {} # Stats/Skills mod!
             else:
                 self.ss_mod = ss_mod
@@ -1746,7 +1740,7 @@ init -10 python:
                 elif char.disposition < 200:
                     char.disposition += 1
             elif self.name == "Drunk":
-                char.vitality -= self.effects['Drunk']['activation_count'] # TODO
+                char.vitality -= char.get_flag("drunk_counter", 0)
                 char.health = max(1, self.health-10)
                 char.joy -= 5
                 char.mp -= 20

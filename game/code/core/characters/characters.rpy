@@ -1981,12 +1981,12 @@ init -9 python:
                 ss_mod = {}
                 ss_mod["health"] = locked_random("randint", 5, 10)
                 obj = CharEffect(name, duration=10, ss_mod=ss_mod)
-                obj.enable(char)
+                obj.enable(self)
             elif name == "Unstable":
                 ss_mod = {}
                 ss_mod["joy"] = randint(20, 30) if randrange(2) else -randint(20, 30)
                 obj = CharEffect(name, duration=randint(2, 4), ss_mod=ss_mod)
-                obj.enable(char)
+                obj.enable(self)
             elif name == "Down with Cold":
                 ss_mod = {}
                 ss_mod["health"] = -randint(2, 5)
@@ -1994,7 +1994,7 @@ init -9 python:
                 ss_mod["joy"] = -randint(2, 5)
                 duration = locked_random("randint", 6, 14)
                 obj = CharEffect(name, duration=duration, ss_mod=ss_mod)
-                obj.enable(char)
+                obj.enable(self)
             elif name == "Food Poisoning":
                 ss_mod = {}
                 ss_mod["health"] = -randint(8, 12)
@@ -2002,12 +2002,12 @@ init -9 python:
                 ss_mod["joy"] = -randint(8, 12)
                 duration = locked_random("randint", 6, 14)
                 obj = CharEffect(name, duration=duration, ss_mod=ss_mod)
-                obj.enable(char)
+                obj.enable(self)
             else:
                 ss_mod = kwargs.get("ss_mod", {})
                 duration = kwargs.get("duration", 10)
                 obj = CharEffect(name, ss_mod, duration)
-                obj.enable(char)
+                obj.enable(self)
 
         def disable_effect(self, name):
             effect = None
