@@ -89,9 +89,8 @@ init -9 python:
                 char.restore_ap()
                 char.item_counter()
                 char.clear_img_cache()
-                for key in char.effects:
-                    if char.effects[key]['active']:
-                        char.apply_effects(key)
+                for effect in char.effects:
+                    effect.next_day()
                 char.effects['Food Poisoning']['activation_count'] = 0
 
             # Same for Arena Fighters:
@@ -250,10 +249,8 @@ init -9 python:
             tl.start("MC's Chars .next_day")
             for char in chars.values() + [hero]:
                 # Run the effects if they are available:
-                if hasattr(char, "effects"):
-                    for key in char.effects:
-                        if char.effects[key]['active']:
-                            char.apply_effects(key)
+                for effect in char.effects:
+                    effect.next_day()
 
                 if char in hero.chars or char == hero:
                     char.next_day()
