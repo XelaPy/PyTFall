@@ -155,7 +155,7 @@ screen graveyard_town():
                 tooltip "Dungeon\nBeware all who enter here"
                 action [Hide("graveyard_town"), Jump("enter_dungeon")]
             else:
-                if global_flags.flag("can_access_cemetery_dungeon")-day > 2:
+                if global_flags.flag("can_access_cemetery_dungeon")-day >= 2:
                     tooltip "You may re-enter in {} days.".format(global_flags.flag("can_access_cemetery_dungeon")-day)
                 else:
                     tooltip "You may re-enter tomorrow."
