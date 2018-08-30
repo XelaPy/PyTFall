@@ -234,7 +234,7 @@ init python:
                 tags = self.data.get("imageTags", ["profile"])
                 mode = self.data.get("imageMode", "reduce")
                 kwargs = dict(exclude=self.data.get("noImageTags", []),
-                              resize=(820, 705), type=mode, add_mood=False)
+                              resize=ND_IMAGE_SIZE, type=mode, add_mood=False)
                 evt.img = char.show(*tags, **kwargs)
 
                 NextDayEvents.append(evt)
@@ -245,8 +245,8 @@ init python:
                 evt.red_flag = True
                 evt.loc = schools["-PyTFall Educators-"]
                 evt.char = char
-                evt.img = self.img # TODO Replace with char image?
-                evt.txt = ""
+                evt.img = char.show("profile", "sad", resize=ND_IMAGE_SIZE)
+                evt.txt = txt
                 NextDayEvents.append(evt)
 
 
