@@ -2016,19 +2016,22 @@ init -9 python:
 
         # Effects:
         ### Effects Methods
-        def enable_effect(self, effect):
+        def enable_effect(self, effect, **kwargs):
             if effect == "Poisoned" and "Artificial Body" not in self.traits:
-                self.effects['Poisoned']['active'] = True
-                self.effects['Poisoned']['duration'] = 0
-                self.effects['Poisoned']['penalty'] = locked_random("randint", 5, 10)
-
+                ss_mod = {}
+                ss_mod["health"] = locked_random("randint", 5, 10)
+                obj = CharEffect("Poisoned", duration=10, ss_mod=ss_mod)
+                self.effects.append(obj)
             elif effect == "Unstable":
-                self.effects['Unstable']['active'] = True
-                self.effects['Unstable']['day_log'] = day
-                self.effects['Unstable']['day_target'] = day + randint(2,4)
-                self.effects['Unstable']['joy_mod'] = randint(20, 30)
-                if dice(50):
-                    self.effects['Unstable']['joy_mod'] = -self.effects['Unstable']['joy_mod']
+                ss_mod = {}
+                ss_mod["joy"] = randint(20, 30) if randrange(2) else -randint(20, 30)
+                obj = CharEffect("Unstable", duration=randint(2, 4), ss_mod=ss_mod)
+                self.effects.append(obj)
+            else:
+                ss_mod = kwargs.get("ss_mod", {})
+                duration = kwargs.get("duration", 10)
+                obj = CharEffect(effect, ss_mod, duration)
+                self.effects.append(obj)
 
             elif effect == "Optimist":
                 self.effects['Optimist']['active'] = True

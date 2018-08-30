@@ -1613,15 +1613,20 @@ init -10 python:
 
 
     class CharEffect(_object):
-        def __init__(self, name):
+        def __init__(self, name, duration=10, ss_mod=None):
             self.name = name
-            self.days_left = 0
-            self.activation_count = 0
+            self.duration = duration # For how long does the effect remain active (if desired)
+            self.days_active = 0
 
             # Special effects that can be customized.
             # If True, we create a new instance of the effect with custom data,
             # if False, we use an existing effect from the main dict.
             self.custom = False # Might become a child class???
+
+            if self.ss_mod is None:
+                self.ss_mod = {} # Stats/Skills mod!
+            else:
+                self.ss_mod = ss_mod
 
         @property
         def desc(self):
@@ -1629,11 +1634,148 @@ init -10 python:
             desc = effect_descs.get(self.name, "{} Desc".format(self.name))
             return str(desc)
 
-        def apply_effect(self):
-            pass
+        def next_day(self, char):
+            '''Called on next day, applies effects'''
+            self.days_active += 1
 
-        def remove_effect(self):
-            pass
+            if self.name == "Poisoned":
+                self.ss_mod["health"] += self.duration*5
+                char.health = max(1, char.health - self.ss_mod["health"])
+                if self.days_active > self.duration:
+                    self.remove_effect(char)
+            elif self.name == "Unstable":
+                if self.days_active == self.duration:
+                    char.joy += self.ss_mod["joy"]
+                    self.duration += randint(2, 4)
+                    self.ss_mod['joy'] = randint(20, 30) if randrange(2) else -randint(20, 30)
+            elif self.name == "Optimist":
+                if char.joy >= 30:
+                    char.joy += 1
+            elif self.name == "Blood Connection":
+                char.disposition += 2
+                char.character -=1
+            elif self.name == "Regeneration":
+                h = 30
+                if "Summer Eternality" in char.traits:
+                    h += int(char.get_max("health")*.5)
+                h = max(1, h)
+                char.health += h
+            elif self.name == "MP Regeneration":
+                h = 30
+                if "Winter Eternality" in char.traits:
+                    h += int(char.get_max("mp")*0.5)
+                if h <= 0:
+                    h = 1
+                char.mp += h
+            elif self.name == "Small Regeneration":
+                char.health += 15
+            elif self.name == "Depression":
+                if char.joy >= 30:
+                    self.remove_effect('Depression')
+            elif self.name == "Elation":
+                if char.joy < 95:
+                    self.remove_effect('Elation')
+            elif self.name == "Pessimist":
+                if char.joy > 80:
+                    char.joy -= 2
+                elif char.joy > 10 and dice(60):
+                    char.joy -= 1
+            elif self.name == "Assertive":
+                if char.character < char.get_max("character")*0.5:
+                    char.character += 2
+            elif self.name == "Diffident":
+                if char.character > char.get_max("character")*0.55:
+                    char.character -= 2
+            elif self.name == "Composure":
+                if char.joy < 50:
+                    char.joy += 1
+                elif char.joy > 70:
+                    char.joy -= 1
+            elif self.name == "Vigorous":
+                if char.vitality < char.get_max("vitality")*0.25:
+                    char.vitality += randint(2, 3)
+                elif char.vitality < char.get_max("vitality")*0.5:
+                    char.vitality += randint(1, 2)
+            elif self.name == "Down with Cold":
+                if self.effects['Down with Cold']['healthy_again'] <= self.effects['Down with Cold']['count']:
+                    self.disable_effect('Down with Cold')
+                    return
+                self.health = max(1, self.health - self.effects['Down with Cold']['health'])
+                self.vitality -= self.effects['Down with Cold']['vitality']
+                self.joy -= self.effects['Down with Cold']['joy']
+                self.effects['Down with Cold']['count'] += 1
+                if self.effects['Down with Cold']['healthy_again'] <= self.effects['Down with Cold']['count']:
+                    self.disable_effect('Down with Cold')
+            elif self.name == "Kleptomaniac":
+                if dice(self.luck+55):
+                    self.add_money(randint(5, 25), reason="Stealing")
+            elif self.name == "Injured":
+                if self.health > int(self.get_max("health")*0.2):
+                    self.health = int(self.get_max("health")*0.2)
+                if self.vitality > int(self.get_max("vitality")*0.5):
+                    self.vitality = int(self.get_max("vitality")*0.5)
+                self.AP -= 1
+                self.joy -= 10
+            elif self.name == "Exhausted":
+                self.vitality -= int(self.get_max("vitality")*0.2)
+            elif self.name == "Lactation": # TO DO: add milking activities, to use this fetish more widely
+                if self.health >= 30 and self.vitality >= 30 and self in hero.chars and self.is_available:
+                    if self.status == "slave" or check_lovers(self, hero):
+                        if "Small Boobs" in self.traits:
+                            hero.add_item("Bottle of Milk")
+                        elif "Average Boobs" in self.traits:
+                            hero.add_item("Bottle of Milk", randint(1, 2))
+                        elif "Big Boobs" in self.traits:
+                            hero.add_item("Bottle of Milk", randint(2, 3))
+                        else:
+                            hero.add_item("Bottle of Milk", randint(2, 5))
+                    elif not(has_items("Bottle of Milk", [self])): # in order to not stack bottles of milk into free chars inventories they get only one, and only if they had 0
+                        self.add_item("Bottle of Milk")
+            elif self.name == "Silly":
+                if self.intelligence >= 200:
+                    self.intelligence -= 20
+                if self.intelligence >= 100:
+                    self.intelligence -= 10
+                elif self.intelligence >= 25:
+                    self.intelligence -= 5
+                else:
+                    self.intelligence = 20
+            elif self.name == "Intelligent":
+                if self.joy >= 75 and self.vitality >= self.get_max("vitality")*0.75 and self.health >= self.get_max("health")*0.75:
+                    self.intelligence += 1
+            elif self.name == "Sibling":
+                if self.disposition < 100:
+                    self.disposition += 2
+                elif self.disposition < 200:
+                    self.disposition += 1
+            elif self.name == "Drunk":
+                self.vitality -= self.effects['Drunk']['activation_count']
+                self.health = max(1, self.health - 10)
+                self.joy -= 5
+                self.mp -= 20
+                self.disable_effect('Drunk')
+            elif self.name == "Food Poisoning":
+                if self.effects['Food Poisoning']['healthy_again'] <= self.effects['Food Poisoning']['count']:
+                    self.disable_effect('Food Poisoning')
+                    return
+                self.health = max(1, self.health - self.effects['Food Poisoning']['health'])
+                self.vitality -= self.effects['Food Poisoning']['vitality']
+                self.joy -= self.effects['Food Poisoning']['joy']
+                self.effects['Food Poisoning']['count'] += 1
+                if self.effects['Food Poisoning']['healthy_again'] <= self.effects['Food Poisoning']['count']:
+                    self.disable_effect('Food Poisoning')
+
+        def remove_effect(self, char):
+            if self in char.effects:
+                char.effects.remove(self)
+
+        def enable(self, char):
+            # Prevent same effect from being enable twice (and handle exceptions)
+            for e in char.effects:
+                if e.name == self.name:
+                    break
+            else:
+                char.effects.append(self)
 
         def next_day(self, char):
             pass

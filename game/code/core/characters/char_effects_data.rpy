@@ -32,7 +32,7 @@ init python:
     effect_descs["Impressible"] = "Easier to decrease and increase joy."
     effect_descs["Calm"] = "Harder to decrease and increase joy."
     effect_descs["Regeneration"] = "Restores some health every day."
-    effect_descs["MP Regeneration"] = "Restores some mp every day."
+    effect_descs["MP Regeneration"] = "Restores some MP every day."
     effect_descs["Small Regeneration"] = "Restores 15 health every day."
     effect_descs["Blood Connection"] = "Disposition increases and character decreases every day."
     effect_descs["Horny"] = "She's in the mood for sex."
