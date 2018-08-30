@@ -731,10 +731,10 @@ screen char_equip_right_frame(tt):
                     python:
                         eqt = eqtarget._first if isinstance(eqtarget, PytGroup) else eqtarget
                         t_old = set(t.id for t in eqt.traits)
-                        for effect in eqt.effects.itervalues():
+                        for effect in eqt.effects.iterkeys():
                             t_old.add(effect)
                         t_new = set(t.id for t in dummy.traits)
-                        for effect in dummy.effects.itervalues():
+                        for effect in dummy.effects.iterkeys():
                             t_new.add(effect)
                         temp = t_new.difference(t_old)
                         temp = sorted(list(temp))
@@ -745,10 +745,10 @@ screen char_equip_right_frame(tt):
 
                     python:
                         t_old = set(t.id for t in dummy.traits)
-                        for effect in dummy.effects.itervalues():
+                        for effect in dummy.effects.iterkeys():
                             t_old.add(effect)
                         t_new = set(t.id for t in eqt.traits)
-                        for effect in eqt.effects.itervalues():
+                        for effect in eqt.effects.iterkeys():
                             t_new.add(effect)
                         temp = t_new.difference(t_old)
                         temp = sorted(list(temp))
