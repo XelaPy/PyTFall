@@ -73,13 +73,15 @@ init python:
             return tt
 
         def add_student(self, student):
-            self.students.append(student)
+            if student not in self.students:
+                self.students.append(student)
             if student not in self.students_progress:
                 self.students_progress[student] = 0
-                student.action = self
+            student.action = self
 
         def remove_student(self, student):
-            self.students.remove(student)
+            if student in self.students:
+                self.students.remove(student)
             student.workplace = None
             student.action = None
 

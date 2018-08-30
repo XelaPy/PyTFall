@@ -24,7 +24,7 @@ label school_training:
 
             python:
                 for s in students:
-                    if isinstance(s.action, SchoolCourse):
+                    if s.workplace == school:
                         s.action.remove_student(s)
 
                     # Blocks bad matches between student and course:
