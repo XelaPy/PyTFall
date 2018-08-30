@@ -1637,7 +1637,7 @@ init -10 python:
                 self.ss_mod["health"] += self.duration*5
                 char.health = max(1, char.health - self.ss_mod["health"])
                 if self.days_active >= self.duration:
-                    self.remove_effect(char)
+                    self.end(char)
             elif self.name == "Unstable":
                 if self.days_active == self.duration:
                     char.joy += self.ss_mod["joy"]
@@ -1666,10 +1666,10 @@ init -10 python:
                 char.health += 15
             elif self.name == "Depression":
                 if char.joy >= 30:
-                    self.remove_effect('Depression')
+                    self.end(char)
             elif self.name == "Elation":
                 if char.joy < 95:
-                    self.remove_effect('Elation')
+                    self.end(char)
             elif self.name == "Pessimist":
                 if char.joy > 80:
                     char.joy -= 2
@@ -1696,7 +1696,7 @@ init -10 python:
                 char.vitality += self.ss_mod['vitality']
                 char.joy += self.ss_mod['joy']
                 if self.days_active >= self.duration:
-                    self.remove_effect(char)
+                    self.end(char)
             elif self.name == "Kleptomaniac":
                 if dice(char.luck+55):
                     char.add_money(randint(5, 25), reason="Kleptomania")
@@ -1744,13 +1744,13 @@ init -10 python:
                 char.health = max(1, self.health-10)
                 char.joy -= 5
                 char.mp -= 20
-                self.remove_effect(self)
+                self.end(self)
             elif self.name == "Food Poisoning":
                 char.health = max(1, char.health-self.ss_mod["health"])
                 char.vitality += char.ss_mod['vitality']
                 char.joy += char.ss_mod['joy']
                 if self.days_active >= self.duration:
-                    self.remove_effect(char)
+                    self.end(char)
 
         def end(self, char):
             if self.name in char.effects:
