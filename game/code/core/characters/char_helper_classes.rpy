@@ -1623,6 +1623,9 @@ init -10 python:
             else:
                 self.ss_mod = ss_mod
 
+        def __repr__(self):
+            return str(self.name)
+
         @property
         def desc(self):
             global effect_descs
