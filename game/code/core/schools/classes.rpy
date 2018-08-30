@@ -254,7 +254,6 @@ init python:
             super(School, self).__init__(id=id, name=id)
             self.img = renpy.displayable(img)
             self.courses = []
-            self.students = {}
 
         @property
         def is_school(self):
@@ -333,10 +332,6 @@ init python:
             NextDayEvents.append(evt)
 
 
-    def stop_courses(char):
-        global schools
-
-        sch = schools["-PyTFall Educators-"]
-        if char in sch.students.keys():
-            sch.students[char].remove_student(char)
-            del sch.students[char]
+    def stop_course(char):
+        course = char.action
+        course.remove_student(char)

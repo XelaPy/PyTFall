@@ -24,6 +24,9 @@ label school_training:
 
             python:
                 for s in students:
+                    if isinstance(s.action, SchoolCourse):
+                        s.action.remove_student(s)
+
                     # Blocks bad matches between student and course:
                     # Slaves can't do combat:
                     if course_type == "combat" and s.status == "slave":
@@ -39,11 +42,6 @@ label school_training:
                         continue
 
                     s.workplace = school
-
-                    stop_courses(s)
-                    sch = schools["-PyTFall Educators-"]
-                    sch.students[s] = course
-                    s.action = course
                     course.add_student(s)
 
         if result == ["control", "return"]:
