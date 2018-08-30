@@ -274,10 +274,10 @@ label special_items_flashing_extract:
         jump char_equip
 
 label special_items_puke_cola:
-    if not eqtarget.effects['Food Poisoning']['active']:
+    if not 'Food Poisoning' in eqtarget.effects:
         $ eqtarget.health += randint(85, 255)
-        $ eqtarget.effects['Food Poisoning']['activation_count'] += 5
-        if eqtarget.effects['Food Poisoning']['activation_count'] >= 7:
+        $ eqtarget.up_counter("food_poison_counter", 5)
+        if eqtarget.get_flag("food_poison_counter", 0) >= 7:
             $ eqtarget.enable_effect('Food Poisoning')
         play events "events/item_cola.mp3"
     else:

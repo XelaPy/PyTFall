@@ -26,10 +26,10 @@ init -5 python:
 
             effectiveness = 0
              # effects always work
-            if worker.effects['Food Poisoning']['active']:
+            if 'Food Poisoning' in worker.effects:
                 log.append("%s suffers from Food Poisoning, and is very far from her top shape." % worker.name)
                 effectiveness -= 50
-            elif worker.effects['Down with Cold']['active']:
+            elif 'Down with Cold' in worker.effects:
                 log.append("%s is not feeling well due to colds..." % worker.name)
                 effectiveness -= 15
 

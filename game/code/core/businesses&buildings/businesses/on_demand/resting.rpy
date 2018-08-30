@@ -48,7 +48,7 @@ init -5 python:
                 if worker.vitality >= worker.get_max("vitality")*.3: # not too tired for more active rest
                     if worker.has_image("shopping", **kwargs) and (worker.gold >= 200): # eventually there should be a real existing event about going to shop and buy a random item there for gold. after all we do have an algorithm for that. but atm it might be broken, so...
                         available.append("shopping")
-                    if "Nymphomaniac" in worker.traits or worker.effects['Horny']['active']:
+                    if "Nymphomaniac" in worker.traits or "Horny" in worker.effects:
                         if worker.has_image("masturbation", **kwargs):
                             available.append("masturbation")
                 if worker.vitality >= worker.get_max("vitality")*.5: # not too tired for sport stuff
@@ -113,17 +113,17 @@ init -5 python:
                                                     "{} is taking a break at the local beach.".format(worker.name)]))
                     elif "pool" in image_tags:
                             log.append(choice(["{} is relaxing in the local swimming pool.".format(worker.name),
-                                                    "{} is taking a break in the local swimming pool.".format(worker.name)]))
+                                               "{} is taking a break in the local swimming pool.".format(worker.name)]))
                     elif "nature" in image_tags:
                         if ("wildness" in image_tags):
                             log.append(choice(["{} is resting in the local forest.".format(worker.name),
-                                                    "{} is taking a break in the local forest.".format(worker.name)]))
+                                               "{} is taking a break in the local forest.".format(worker.name)]))
                         else:
                             log.append(choice(["{} is resting in the local park.".format(worker.name),
-                                                    "{} is taking a break in the local park.".format(worker.name)]))
+                                               "{} is taking a break in the local park.".format(worker.name)]))
                     elif ("urban" in image_tags) or ("public" in image_tags):
                             log.append(choice(["{} is relaxing somewhere in the city.".format(worker.name),
-                                                    "{} is taking a break somewhere in the city.".format(worker.name)]))
+                                               "{} is taking a break somewhere in the city.".format(worker.name)]))
                     else:
                         log.append(choice(["{} is relaxing during her free time.".format(worker.name),
                                            "{} is taking a break during her free time.".format(worker.name)]))
@@ -133,7 +133,7 @@ init -5 python:
 
             # Resting effects (Must be calculated over AP so not to allow anything going to waste, however AP themselves cannot restore vitality):
 
-            if worker.effects['Drowsy']['active']:
+            if 'Drowsy' in worker.effects: # TODO Looks like we have this twice?
                 log.logws('vitality', worker.baseAP*2)
             else:
                 log.logws('vitality', worker.baseAP*5)
@@ -146,7 +146,7 @@ init -5 python:
                 log.logws('mp', value)
                 log.logws('joy', randint(1, 2))
 
-                if worker.effects['Drowsy']['active']:
+                if 'Drowsy' in worker.effects::
                     log.logws('vitality', 12)
                 else:
                     log.logws('vitality', 8)
@@ -160,7 +160,7 @@ init -5 python:
         def is_rested(self, worker):
             c0 = worker.vitality >= worker.get_max("vitality")*.95
             c1 = worker.health >= worker.get_max('health')*.95
-            c2 = not worker.effects['Food Poisoning']['active']
+            c2 = not 'Food Poisoning' in worker.effects
 
             if all([c0, c1, c2]):
                 return True

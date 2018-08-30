@@ -972,12 +972,12 @@ init -9 python:
                 if item in self.consblock or item in self.constemp:
                     return None
                 if item.type == "alcohol":
-                    if self.effects['Drunk']['activation_count'] >= when_drunk:
+                    if self.get_flag("drunk_counter", 0) >= when_drunk:
                         return None
-                    if self.effects['Depression']['active']:
+                    if 'Depression' in self.effects:
                         chance.append(30 + when_drunk)
                 elif item.type == "food":
-                    food_poisoning = self.effects['Food Poisoning']['activation_count']
+                    food_poisoning = self.get_flag("food_poison_counter", 0)
                     if not food_poisoning:
                         chance.append(appetite)
                     else:
@@ -1775,7 +1775,7 @@ init -9 python:
                         self.exp += value
                     elif stat in ['health', 'mp', 'vitality', 'joy'] or (item.slot in ['consumable', 'misc'] and not (item.slot == 'consumable' and item.ctemp)):
                         if direction:
-                            if self.effects['Fast Metabolism']['active'] and item.type == "food":
+                            if 'Fast Metabolism' in self.effects and item.type == "food":
                                 self.mod_stat(stat, (2*value))
                             elif "Summer Eternality" in self.traits and stat == "health" and value > 0:
                                 self.mod_stat(stat, (int(.35*value)))
@@ -1883,25 +1883,25 @@ init -9 python:
             if hasattr(self, "effects"):
                 if direction:
                     if item.slot == 'consumable' and item.type == 'food':
-                        self.effects['Food Poisoning']['activation_count'] += 1
-                        if self.effects['Food Poisoning']['activation_count'] >= 7 and not (self.effects['Food Poisoning']['active']):
+                        self.up_counter("food_poison_counter", 1)
+                        if self.get_flag("food_poison_counter", 0) >= 7 and not ('Food Poisoning' in self.effects):
                             self.enable_effect('Food Poisoning')
 
                     if item.slot == 'consumable' and item.type == 'alcohol':
-                        self.effects['Drunk']['activation_count'] += item.mod["joy"]
-                        if self.effects['Drunk']['activation_count'] >= 35 and not self.effects['Drunk']['active']:
+                        self.up_counter("drunk_counter", item.mod["joy"])
+                        if self.get_flag("drunk_counter", 0) >= 35 and not ('Drunk' in self.effects):
                             self.enable_effect('Drunk')
-                        elif self.effects['Drunk']['active'] and self.AP > 0 and not self.effects['Drinker']['active']:
+                        elif 'Drunk' in self.effects and self.AP > 0 and not ('Drinker' in self.effects):
                             self.AP -=1
 
                 for effect in item.addeffects:
-                    if direction and not self.effects[effect]['active']:
+                    if direction and not effect in self.effects:
                         self.enable_effect(effect)
-                    elif not direction and self.effects[effect]['active']:
+                    elif not direction and effect in self.effects:
                         self.disable_effect(effect)
 
                 for effect in item.removeeffects:
-                    if direction and self.effects[effect]['active']:
+                    if direction and effect in self.effects:
                         self.disable_effect(effect)
 
             # Jump away from equipment screen if appropriate:
@@ -1969,7 +1969,7 @@ init -9 python:
             self.traits.apply(trait, truetrait=truetrait)
 
         def remove_trait(self, trait, truetrait=True):  # Removes trait effects
-            if self.effects['Chastity']['active'] and trait.id == "Virgin":
+            if 'Chastity' in self.effects and trait.id == "Virgin":
                 pass
             else:
                 self.traits.remove(trait, truetrait=truetrait)
@@ -2841,7 +2841,7 @@ init -9 python:
                 img = self.nd_joy_disposition_checks(txt, img)
 
                 # Effects:
-                if self.effects['Poisoned']['active']:
+                if 'Poisoned' in self.effects:
                     txt.append("\n{color=[red]}This girl is suffering from the effects of Poison!{/color}\n")
                     flag_red = True
                 if all([not self.autobuy, self.status != "slave", self.disposition < 950]):
@@ -2872,7 +2872,7 @@ init -9 python:
             self.txt = list()
             self.set_flag("day_since_shopping", self.flag("day_since_shopping") + 1)
 
-            self.effects['Food Poisoning']['activation_count'] = 0
+            self.del_flag("food_poison_counter")
 
             # And Finally, we run the parent next_day() method that should hold things that are native to all of it's children!
             super(Char, self).next_day()

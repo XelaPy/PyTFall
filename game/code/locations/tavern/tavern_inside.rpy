@@ -74,7 +74,7 @@ label tavern_town:
 
 label city_tavern_menu: # "lively" status is limited by drunk effect; every action rises drunk counter, and every action with drunk effect active decreases AP
     scene bg tavern_inside
-    if hero.effects['Drunk']['active'] and not(tavern_dizzy):
+    if 'Drunk' in hero.effects and not(tavern_dizzy):
         $ tavern_dizzy = True
         "You feel a little dizzy... Perhaps you should go easy on drinks."
         $ double_vision_on("bg tavern_inside")

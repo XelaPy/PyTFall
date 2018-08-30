@@ -91,7 +91,7 @@ init -9 python:
                 char.clear_img_cache()
                 for effect in char.effects.values():
                     effect.next_day()
-                char.effects['Food Poisoning']['activation_count'] = 0
+                char.del_flag("food_poison_counter")
 
             # Same for Arena Fighters:
             for fighter in pytfall.arena.arena_fighters.values():

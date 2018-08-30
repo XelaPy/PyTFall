@@ -3,7 +3,7 @@ label city_tavern_play_poker: # additional rounds continue from here
     if not global_flags.flag('played_poker_in_tavern'):
         $ global_flags.set_flag('played_poker_in_tavern')
         "The goal of the game is to get a better hand than the opponent. The best hand is all five dice showing the same value, and the worst scoring one is one pair. In case of draw wins the one with higher overall dice value. Optionally, after the initial throw, you and your opponent can choose one dice to throw again in hopes to get a better hand."
-    if hero.effects['Drunk']['active']: # dizzy screen does not look good with dices animation...
+    if 'Drunk' in hero.effects: # dizzy screen does not look good with dices animation...
         "You are too drunk for games at the moment."
         jump city_tavern_menu
     elif hero.gold < city_tavern_dice_bet:

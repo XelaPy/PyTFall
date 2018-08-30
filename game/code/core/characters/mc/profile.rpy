@@ -523,17 +523,16 @@ init:
                     draggable True
                     mousewheel True
                     has vbox spacing 1
-                    for effect, val in hero.effects.iteritems():
-                        if val['active']:
-                            frame:
+                    for effect in hero.effects.itervalues():
+                        frame:
+                            xysize (147, 25)
+                            button:
+                                background Null()
                                 xysize (147, 25)
-                                button:
-                                    background Null()
-                                    xysize (147, 25)
-                                    action NullAction()
-                                    text "[effect]" idle_color ivory size 15 align .5, .5 hover_color crimson
-                                    hovered tt.Action(u"%s"%val.get("desc", "No Description availible."))
-                                    hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
+                                action NullAction()
+                                text "[effect.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
+                                hovered tt.Action(u"%s"%effect.desc)
+                                hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
         # TOOLTIP TEXT ====================================>
         hbox:

@@ -133,7 +133,7 @@ init -11 python:
             if not silent:
                 renpy.show_screen("message_screen", "This item cannot be used or equipped.")
             return
-        elif item.type in ["food"] and character.effects['Food Poisoning']['active']:
+        elif item.type in ["food"] and 'Food Poisoning' in character.effects:
             if not silent:
                 renpy.show_screen('message_screen', "{} is already suffering from food poisoning. More food won't do any good.".format(character.name))
             return
@@ -294,7 +294,7 @@ init -11 python:
                     return True
 
                 if item.type == "alcohol" and item.eqchance > 0:
-                    if character.effects['Drunk']['active'] or character.effects['Depression']['active'] or "Heavy Drinker" in character.traits: # green light for booze in case of suitable effects
+                    if 'Drunk' in character.effects or 'Depression' in character.effects or "Heavy Drinker" in character.traits: # green light for booze in case of suitable effects
                         return True
 
                 if item.type == "food" and "Always Hungry" in character.traits and item.eqchance > 0: # same for food

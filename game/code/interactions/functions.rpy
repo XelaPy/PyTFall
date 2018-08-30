@@ -208,17 +208,17 @@ init -11 python:
             patience += locked_random("randint", 0, 1)
         elif "Ill-mannered" in c.traits:
             patience -= locked_random("randint", 0, 1)
-            
+
         if c.status == "slave":
             patience += 1
         patience += int((hero.charisma-c.character)/100)
         return patience
 
     def interactions_drinking_outside_of_inventory(character, count): # allows to raise activation count and become drunk without using real items
-        character.effects['Drunk']['activation_count'] += count
-        if character.effects['Drunk']['activation_count'] >= 35 and not character.effects['Drunk']['active']:
+        character.up_counter('drunk_counter', count)
+        if character.get_flag("drunk_counter", 0) >= 35 and not 'Drunk' in character.effects:
             character.enable_effect('Drunk')
-        elif character.effects['Drunk']['active'] and character.AP > 0 and not character.effects['Drinker']['active']:
+        elif 'Drunk' in character.effects and character.AP > 0 and not 'Drinker' in character.effects:
             character.AP -= 1
         return
 
@@ -232,22 +232,22 @@ init -11 python:
             char_name.set_flag(char_flag, {"day": day, "times": char_name.flag(char_flag)["times"] + 1})
         return result
 
-    def interactions_silent_check_for_bad_stuff(char_name): # we check issues without outputting any lines or doing something else, and just return True/False
-        if char_name.effects["Food Poisoning"]['active']:
+    def interactions_silent_check_for_bad_stuff(char): # we check issues without outputting any lines or doing something else, and just return True/False
+        if "Food Poisoning" in char.effects:
             return False
-        elif char_name.vitality <= round(char_name.get_max("vitality")*.1):
+        elif char.vitality <= round(char.get_max("vitality")*.1):
             return False
-        elif char_name.health < (round(char_name.get_max("health")*.2)):
+        elif char.health < (round(char.get_max("health")*.2)):
             return False
-        elif (not("Pessimist" in char_name.traits) and char_name.joy <= 25) or (("Pessimist" in char_name.traits) and char_name.joy < 10):
+        elif (not("Pessimist" in char.traits) and char.joy <= 25) or (("Pessimist" in char.traits) and char.joy < 10):
             return False
-        elif char_name.AP <= 0:
+        elif char.AP <= 0:
             return False
         else:
             return True
 
     def interactions_check_for_bad_stuff(char_name): # we check major issues when the character will refuse almost anything
-        if char_name.effects["Food Poisoning"]['active']:
+        if "Food Poisoning" in char_name.effects:
             char_name.override_portrait("portrait", "indifferent")
             char_name.say(choice(["But [char.name] was too ill to pay any serious attention to you.", "But her aching stomach completely occupies her thoughts."]))
             char_name.restore_portrait()
@@ -277,7 +277,7 @@ init -11 python:
             else:
                 narrator(choice(["It looks like she is in a bad mood today and not does not want to do anything."]))
                 renpy.jump ("girl_interactions")
-        elif char_name.effects["Down with Cold"]['active']: #if she's ill, there is a chance that she will disagree to chat
+        elif "Down with Cold" in char_name.effects: #if she's ill, there is a chance that she will disagree to chat
             if dice(hero.charisma-char.character) and dice(80):
                 narrator(choice(["It looks like she is not feeling well today, however you managed to cheer her up a bit."]))
                 char_name.disposition += 2
@@ -315,7 +315,7 @@ init -11 python:
             renpy.jump("girl_interactions")
 
     def interactions_checks_for_bad_stuff_greetings(char_name): # Special beginnings for greetings if something is off, True/False show that sometimes we even will need to skip a normal greeting altogether
-        if char_name.effects["Food Poisoning"]['active']:
+        if "Food Poisoning" in char_name.effects:
             char_name.override_portrait("portrait", "indifferent")
             char_name.say("She does not look good...")
             char_name.restore_portrait()
@@ -330,7 +330,7 @@ init -11 python:
             char_name.say("She does not look good...")
             char_name.restore_portrait()
             return True
-        elif char_name.effects["Down with Cold"]['active']:
+        elif "Down with Cold" in char_name.effects:
             char_name.override_portrait("portrait", "indifferent")
             char_name.say("She looks a bit pale...")
             char_name.restore_portrait

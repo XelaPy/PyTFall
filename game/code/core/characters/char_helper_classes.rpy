@@ -1632,7 +1632,7 @@ init -10 python:
         @property
         def desc(self):
             global effect_descs
-            desc = effect_descs.get(self.name, "{} Desc".format(self.name))
+            desc = effect_descs.get(self.name, "No Description available.")
             return str(desc)
 
         def next_day(self, char):

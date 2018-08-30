@@ -247,7 +247,7 @@ label girl_meets_greeting: # also lines for sad and angry flags are needed. but 
             else:
                 $ rc("What is it, [char.mc_ref]?", "Yes?")
 
-    if hero.effects["Fluffy Companion"]['active'] and m < 2:
+    if "Fluffy Companion" in hero.effects and m < 2:
         $ cat = npcs["sad_cat"]
         $ cat.override_portrait("portrait", "happy")
         $ char.override_portrait("portrait", "happy")
@@ -794,7 +794,7 @@ label interactions_blowoff(char=None, exit=None):
         $ rc("You just won't shut up, will you...", "Geez, you're pissing me off!")
     else:
         $ rc("Leave. I don't want to talk to you.", "Why do you keep bothering me?")
-        
+
     $ last_label = exit
     hide vn_sprite
     $ char.hide_portrait_overlay()

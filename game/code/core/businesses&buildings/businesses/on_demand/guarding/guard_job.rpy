@@ -33,17 +33,17 @@ init -5 python:
                 log = []
 
             effectiveness = 0
-             # effects always work
-            if worker.effects['Food Poisoning']['active']:
+             # effects always work TODO Are we ok with effects not being stacked?
+            if 'Food Poisoning' in worker.effects:
                 log.append("%s suffers from Food Poisoning, and is very far from her top shape." % worker.name)
                 effectiveness -= 50
-            elif worker.effects['Down with Cold']['active']:
+            elif 'Down with Cold' in worker.effects:
                 log.append("%s is not feeling well due to colds..." % worker.name)
                 effectiveness -= 15
-            elif worker.effects['Drunk']['active']:
+            elif 'Drunk' in worker.effects:
                 log.append("%s is drunk, which affects her coordination. Not the best thing when you need to guard something." % worker.name)
                 effectiveness -= 20
-            elif worker.effects['Revealing Clothes']['active']:
+            elif 'Revealing Clothes' in worker.effects:
                 if dice(50):
                     log.append("Her revealing clothes attract unneeded attention, interfering with work.")
                     effectiveness -= 10

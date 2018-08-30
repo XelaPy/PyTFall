@@ -154,7 +154,7 @@ label mc_action_city_beach_rest:
     else:
         "You're relaxing at the beach."
 
-    $ members = list(x for x in hero.team if (x != hero and x.effects['Horny']['active'] and (check_lovers(x, hero) or x.disposition >= 500) and interactions_silent_check_for_bad_stuff(x)))
+    $ members = list(x for x in hero.team if (x != hero and 'Horny' in x.effects and (check_lovers(x, hero) or x.disposition >= 500) and interactions_silent_check_for_bad_stuff(x)))
     if members:
         $ char = choice(members)
         hide temp1
@@ -187,7 +187,7 @@ label mc_action_city_beach_rest:
             if member != hero:
                 member.disposition += 1
     jump city_beach_left
-    
+
 label fishing_logic_mor_quest_part:
     $ m = npcs["Mor"].say
     show expression npcs["Mor"].get_vnsprite() as npc
@@ -379,7 +379,7 @@ label mc_action_beach_start_fishing:
 
                 $ renpy.pause(.5, hard = True)
                 pause .5
-                
+
                 # the less item's chance field, the more additional bonus to fishing;
                 # with 90 chance it will be +1, with less than 1 chance about 10
                 python hide:

@@ -24,16 +24,16 @@ init -5 python:
             """
             effectiveness = 0
             # effects always work
-            if worker.effects['Food Poisoning']['active']:
+            if 'Food Poisoning' in worker.effects:
                 log.append("%s suffers from Food Poisoning and doesn't feel like whoring." % worker.name)
                 effectiveness -= 50
-            elif worker.effects['Down with Cold']['active']:
+            elif 'Down with Cold' in worker.effects:
                 log.append("%s is not feeling well (down with cold)..." % worker.name)
                 effectiveness -= 15
-            elif worker.effects['Horny']['active']:
+            elif 'Horny' in worker.effects:
                 log.append("%s is horny. It's perfect mindset for her job!" % worker.name)
                 effectiveness += 20
-            elif worker.effects['Revealing Clothes']['active']:
+            elif 'Revealing Clothes' in worker.effects:
                 log.append("Her revealing clothes appeal to customers and make them really horny.")
                 effectiveness += 15
 
@@ -108,7 +108,7 @@ init -5 python:
         def calculate_disposition_level(self, worker):
             """calculating the needed level of disposition;
             since it's whoring we talking about, values are really close to max,
-            or even higher than max in some cases, making it impossible
+            or even higher than max in some cases, making it impossible.
             """
             sub = check_submissivity(worker)
             if "Shy" in worker.traits:
@@ -132,17 +132,17 @@ init -5 python:
                 if "Virgin" in worker.traits and "Dedicated" in worker.traits:
                     disposition += 2000 # not a typo; they never agree, even with Chastity effect
                     return disposition
-
-                if "Virgin" in worker.traits and not(worker.effects['Chastity']['active']):
+                    
+                if "Virgin" in worker.traits and not('Chastity' in worker.effects):
                     disposition += 300
                 else:
                     disposition -= 100
             elif check_friends(hero, worker):
-                if "Virgin" in worker.traits and worker.disposition >= 900 and not(worker.effects['Chastity']['active']):
+                if "Virgin" in worker.traits and worker.disposition >= 900 and not('Chastity' in worker.effects):
                     disposition += 100
                 else:
                     disposition -= 50
-            elif "Virgin" in worker.traits and not(worker.effects['Chastity']['active']):
+            elif "Virgin" in worker.traits and not('Chastity' in worker.effects]):
                 disposition += 50
             return disposition
 
@@ -862,7 +862,7 @@ init -5 python:
 
         def take_virginity(self, worker, loc, log):
             # let's just assume (for now) that dildos are too small to take virginity, otherwise it becomes too complicated in terms of girls control :)
-            if traits["Virgin"] in worker.traits and not (worker.effects['Chastity']['active']):
+            if traits["Virgin"] in worker.traits and not ('Chastity' in worker.effects):
                 tips = 100 + worker.charisma * 3
                 log.append("\n{color=[pink]}%s lost her virginity!{/color} Customer thought that was super hot and left a tip of {color=[gold]}%d Gold{/color} for the girl.\n\n" % (worker.nickname, tips))
                 worker.remove_trait(traits["Virgin"])

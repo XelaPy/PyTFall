@@ -301,36 +301,36 @@ label next_day_effects_check:  # all traits and effects which require some unusu
 
         for i in hero.chars: # chars with low or high joy get joy-related effects every day
 
-            if i.effects['Depression']['active']:
+            if 'Depression' in i.effects:
                 i.AP -= 1
             elif not "Pessimist" in i.traits and i.joy <= randint(15, 20):
-                i.effects['Depression']['activation_count'] += 1
+                i.up_counter("depression_counter", 1)
             elif i.joy > 25:
-                i.effects['Depression']['activation_count'] = 0
+                i.del_flag("depression_counter")
 
-            if i.effects['Depression']['activation_count'] >= 3 and not i.effects['Depression']['active']:
+            if i.get_flag("depression_counter", 0) >= 3 and not 'Depression' in i.effects:
                 i.enable_effect('Depression')
 
-            if i.effects['Elation']['active']:
+            if 'Elation' in i.effects:
                 if dice(10):
                     i.AP += 1
             elif i.joy >= 95:
-                i.effects['Elation']['activation_count'] += 1
+                i.up_counter("elation_counter", 1)
             else:
-                i.effects['Elation']['activation_count'] = 0
-            if i.effects['Elation']['activation_count'] >= 3 and not i.effects['Elation']['active']:
+                i.del_flag("elation_counter")
+            if i.get_flag("elation_counter", 0) >= 3 and not 'Elation' in i.effects:
                 i.enable_effect('Elation')
 
-            if i.vitality < i.get_max("vitality")*.3 and not i.effects['Exhausted']['active']: # 5+ days with vitality < .3 max lead to Exhausted effect, can be removed by one day of rest or some items
-                i.effects['Exhausted']['activation_count'] += 1
-            if i.effects['Exhausted']['activation_count'] >= 5 and not i.effects['Exhausted']['active']:
+            if i.vitality < i.get_max("vitality")*.3 and not 'Exhausted' in i.effects: # 5+ days with vitality < .3 max lead to Exhausted effect, can be removed by one day of rest or some items
+                i.up_counter("exhausted_counter", 1)
+            if i.get_flag("exhausted_counter", 0) >= 5 and not 'Exhausted' in i.effects:
                 i.enable_effect('Exhausted')
 
             if "Life Beacon" in hero.traits: # hero-only trait which heals everybody
                 mod_by_max(i, "health", .1)
                 i.joy += 1
 
-            if i.effects['Horny']['active']: # horny effect which affects various sex-related things and scenes
+            if 'Horny' in i.effects: # horny effect which affects various sex-related things and scenes
                 i.disable_effect("Horny")
             else:
                 if interactions_silent_check_for_bad_stuff(i):
@@ -1089,7 +1089,7 @@ screen next_day():
             text (u"{size=20}{color=[ivory]}%s" % tt.value) style "TisaOTM"
 
         use top_stripe(True)
-        
+
     #  Reports  =============================================================================>>>>
     else:
         key "mousedown_4" action Return(['control', 'right'])

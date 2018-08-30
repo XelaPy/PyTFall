@@ -181,12 +181,12 @@ label interactions_howshefeels:
         $ del m
         jump girl_interactions
     $ del m
-    if char.effects["Food Poisoning"]['active']: # at least no penalty to disposition, unlike other cases with food poisoning
+    if 'Food Poisoning' in char.effects: # at least no penalty to disposition, unlike other cases with food poisoning
         $ char.override_portrait("portrait", "sad")
         $ rc("I ate something wrong. Ow-ow-ow...", "Ouh. I think I need to use bathroom again...")
         $ char.restore_portrait()
         jump girl_interactions_end
-    elif char.effects["Down with Cold"]['active'] or char.vitality < round(char.get_max("vitality")*.3) or (char.health < round(char.get_max("health")*.2)) or char.joy<25: # we select one suitable image in the very beginning
+    elif 'Down with Cold' in char.effects or char.vitality < round(char.get_max("vitality")*.3) or (char.health < round(char.get_max("health")*.2)) or char.joy<25: # we select one suitable image in the very beginning
         $ char.override_portrait("portrait", "sad")
     elif char.joy>70:
         if ct("Shy"):
@@ -199,7 +199,7 @@ label interactions_howshefeels:
         else:
             $ char.override_portrait("portrait", "indifferent")
 
-    if char.effects["Down with Cold"]['active']: #illness
+    if 'Down with Cold' in char.effects: #illness
         $ rc("I think I caught a cold...", "I'm not feeling well today. *sneezes*", "I have a fever... <She looks pale>")
 
     #body checks
@@ -212,7 +212,7 @@ label interactions_howshefeels:
 
     if char.health <= round(char.get_max("health")*.3):
         $ rc("My whole body hurts. I think I need a doctor.", "My body is not feeling very well lately... I could use some medical attention.")
-    elif char.health >= round(char.get_max("health")*.9) and not(char.effects["Food Poisoning"]['active']) and not(char.effects["Down with Cold"]['active']):
+    elif char.health >= round(char.get_max("health")*.9) and not('Food Poisoning' in char.effects) and not('Down with Cold' in char.effects):
         $ rc("My body is in top condition.", "My health is pretty good lately.")
 
     if cgo("Caster"):
@@ -278,7 +278,7 @@ label interactions_abouther:
 
         $ hero.exp += exp_reward(hero, char, ap_used=.33)
         $ char.exp += exp_reward(char, hero, ap_used=.33)
-        
+
         $ gm_abouther_list = []
         if ct("Half-Sister"):
             if ct("Yandere"):
@@ -669,7 +669,7 @@ label interactions_flirt:
         $ char.disposition += randint(15, 25)
 
         $ del m
-        
+
         if ct("Impersonal"):
             $ rc("To express it in words is very difficult...", "Infatuation and love are different. Infatuation will fade, but love's memory continues forever.", "I think it is a good thing to be loved by someone.")
         elif ct("Shy") and dice(40):
@@ -705,7 +705,7 @@ label interactions_flirt:
         if char.status != "free":
             "You tried to flirt with [char.nickname]."
         jump interactions_refused
-            
+
 # interaction check fail
 label interactions_refused:
     $ char.override_portrait("portrait", "indifferent")

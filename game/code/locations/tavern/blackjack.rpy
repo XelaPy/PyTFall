@@ -82,7 +82,7 @@ label city_tavern_play_dice: # starting the dice game
     if not global_flags.flag('played_dice_in_tavern'):
         $ global_flags.set_flag('played_dice_in_tavern')
         "The goal of the game is to reach a final score higher than the opponent without exceeding 21 or let the opponent throw dices until his score exceeds 21."
-    if hero.effects['Drunk']['active']: # dizzy screen does not look good with dices animation...
+    if 'Drunk' in hero.effects: # dizzy screen does not look good with dices animation...
         "You are too drunk for games at the moment."
         jump city_tavern_menu
     elif hero.gold < city_tavern_dice_bet:

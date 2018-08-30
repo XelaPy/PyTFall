@@ -57,18 +57,18 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
     if char.flag("quest_cannot_be_fucked") == True or (ct("Half-Sister") and not "Sister Lover" in hero.traits): # cannot hire h-s for that stuff, only seduce, seems reasonable
         call interactions_sex_disagreement from _call_interactions_sex_disagreement
         jump girl_interactions
-        
+
     if char.vitality <= round(char.get_max("vitality")*.25) or char.AP <= 0: # no sex with low vitality
         call interactions_refused_because_tired from _call_interactions_refused_because_tired_2
         jump girl_interactions
 
-    $ price = 200 + 200 * char.tier 
+    $ price = 200 + 200 * char.tier
 
     if check_friends(char, hero):
         $ price = round(price * .9)
     elif char.disposition < -50:
         $ price = round(price * 1.3)
-        
+
     if ct("Lesbian") and not "Yuri Expert" in hero.traits:
         $ price = round(price * 2.5)
     if ct("Nymphomaniac"):
@@ -77,7 +77,7 @@ label interactions_hireforsex: # we go to this label from GM menu hire for sex. 
         $ price = round(price * 1.25)
     if ct("Virgin"):
         $ price = round(price * 1.2)
-        
+
     $ temp = round(hero.charisma/10)
     $ price = round(max(price*.35, price - temp))
 
@@ -170,11 +170,11 @@ label interactions_sex: # we go to this label from GM menu propose sex
         if char.joy > 50:
             $ char.joy -= randint(2,4)
         jump girl_interactions
-        
+
     if char.flag("quest_cannot_be_fucked") == True: # a special flag for chars we don't want to be accessible unless a quest will be finished
         call interactions_sex_disagreement from _call_interactions_sex_disagreement_2
         jump girl_interactions
-        
+
     if ct("Lesbian") and not ct("Open Minded") and not "Yuri Expert" in hero.traits and char.status != "slave":
         call interactions_lesbian_refuse_because_of_gender from _call_interactions_lesbian_refuse_because_of_gender_2 # you can hire them, but they will never do it for free with wrong orientation
         jump girl_interactions
@@ -189,7 +189,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
     else:
         $ disposition_level_for_sex = randint(600, 700) + sub*100 # thus weak willed characters will need from 500 to 600 disposition, strong willed ones from 700 to 800, if there are no other traits that change it
 
-    if char.effects['Horny']['active']:
+    if 'Horny' in char.effects:
         $ disposition_level_for_sex -= randint(200, 300)
 
     if char.status == "slave":
@@ -200,7 +200,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
     if char.flag("quest_sex_anytime"): # special flag for cases when we don't want character to refuse unless disposition is ridiculously low
         $ disposition_level_for_sex -= 1000
 
-    if char.effects['Drunk']['active']: # a bit less disposition for drunk ones
+    if 'Drunk' in char.effects: # a bit less disposition for drunk ones
         $ disposition_level_for_sex -= randint(50, 100)
 
     if cgo("SIW") and char.status == "free":
@@ -390,7 +390,7 @@ label interaction_sex_scene_choice:
     if not char.has_flag("raped_by_player"):
         $ scene_picked_by_character = False
 
-    if char.effects['Horny']['active']:
+    if 'Horny' in char.effects:
         $ char.disable_effect("Horny")
     menu:
         "What would you like to do now?"
@@ -1437,7 +1437,7 @@ label interactions_sex_disagreement: # the character disagrees to do it
         $ rc("No! Absolutely NOT!", "With you? Don't make me laugh.", "Get lost, pervert!", "Woah, hold on there. Maybe after we get to know each other better.", "Don't tell me that you thought I was a slut...?", "How about you fix that 'anytime's fine' attitude of yours, hmm?")
     $ char.restore_portrait()
     return
-    
+
 label interactions_sex_disagreement_slave: # the character disagrees to do it
     $ char.show_portrait_overlay("sweat", "reset")
     $ char.override_portrait("portrait", "indifferent")
@@ -1469,7 +1469,7 @@ label interactions_sex_disagreement_slave: # the character disagrees to do it
 
 label interaction_check_for_virginity: # here we do all checks and actions with virgin trait when needed
     if ct("Virgin"):
-        if "Illusive" in hero.traits or char.effects['Chastity']['active']:
+        if "Illusive" in hero.traits or 'Chastity' in char.effects:
             $ current_action = "vag"
             jump interactions_sex_scene_logic_part
         else:

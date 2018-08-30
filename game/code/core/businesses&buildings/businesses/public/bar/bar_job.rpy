@@ -21,13 +21,13 @@ init -5 python:
         def traits_and_effects_effectiveness_mod(self, worker, log):
             effectiveness = 0
 
-            if worker.effects['Food Poisoning']['active']:
+            if 'Food Poisoning' in worker.effects:
                 log.append("%s suffers from Food Poisoning, and is very far from her top shape." % worker.name)
                 effectiveness -= 50
-            elif worker.effects['Down with Cold']['active']:
+            elif 'Down with Cold' in worker.effects:
                 log.append("%s is not feeling well due to colds..." % worker.name)
                 effectiveness -= 15
-            elif worker.effects['Drunk']['active']:
+            elif 'Drunk' in worker.effects:
                 log.append("Being drunk, %s perfectly understands her customers who also are far from sobriety." % worker.name)
                 effectiveness += 20
 
