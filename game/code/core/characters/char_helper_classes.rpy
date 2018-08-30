@@ -1744,7 +1744,7 @@ init -10 python:
                     char.disposition += 1
             elif self.name == "Drunk":
                 char.vitality -= char.get_flag("drunk_counter", 0)
-                char.health = max(1, self.health-10)
+                char.health = max(1, char.health-10)
                 char.joy -= 5
                 char.mp -= 20
                 self.end(self)
