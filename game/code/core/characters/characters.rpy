@@ -2021,20 +2021,17 @@ init -9 python:
                 ss_mod = {}
                 ss_mod["health"] = locked_random("randint", 5, 10)
                 obj = CharEffect("Poisoned", duration=10, ss_mod=ss_mod)
-                self.effects.append(obj)
+                obj.enable(char)
             elif effect == "Unstable":
                 ss_mod = {}
                 ss_mod["joy"] = randint(20, 30) if randrange(2) else -randint(20, 30)
                 obj = CharEffect("Unstable", duration=randint(2, 4), ss_mod=ss_mod)
-                self.effects.append(obj)
+                obj.enable(char)
             else:
                 ss_mod = kwargs.get("ss_mod", {})
                 duration = kwargs.get("duration", 10)
                 obj = CharEffect(effect, ss_mod, duration)
-                self.effects.append(obj)
-
-            elif effect == "Optimist":
-                self.effects['Optimist']['active'] = True
+                obj.enable(char)
 
             elif effect == "Blood Connection":
                 self.effects['Blood Connection']['active'] = True
