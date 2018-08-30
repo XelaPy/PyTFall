@@ -1,0 +1,47 @@
+init python:
+    effect_descs = {}
+    effect_descs["Poisoned"] = "Poison decreases health every day. Make sure you cure it as fast as possible."
+    effect_descs["Slow Learner"] = "-10% experience"
+    effect_descs["Fast Learner"] = "+10% experience"
+    effect_descs["Introvert"] = "Harder to increase and decrease disposition."
+    effect_descs["Extrovert"] = "Easier to increase and decrease disposition."
+    effect_descs["Insecure"] = "Significant changes in disposition also affect joy."
+    effect_descs["Sibling"] = "If disposition is low enough, it gradually increases over time."
+    effect_descs["Assertive"] = "If character stat is low enough, it increases over time."
+    effect_descs["Diffident"] = "If character stat is high enough, it slowly decreases over time."
+    effect_descs["Food Poisoning"] = "Intemperance in eating or low quality food often lead to problems."
+    effect_descs["Down with Cold"] ="Causes weakness and aches, will be held in a week or two."
+    effect_descs["Unstable"] = "From time to time mood chaotically changes."
+    effect_descs["Optimist"] = "Joy increases over time, unless it's too low."
+    effect_descs["Pessimist"] = "Joy decreases over time, unless it's already low enough. Grants immunity to Depression."
+    effect_descs["Composure"] = "Over time joy decreases if it's too high and increases if it's too low."
+    effect_descs["Kleptomaniac"] = "With some luck, her gold increases every day."
+    effect_descs["Drowsy"] = "Rest restores more vitality than usual if unspent APs left."
+    effect_descs["Loyal"] = "Harder to decrease disposition."
+    effect_descs["Lactation"] = "Her breasts produce milk. If she's your slave or lover, you will get a free sample every day."
+    effect_descs["Vigorous"] = "If vitality is too low, it slowly increases over time."
+    effect_descs["Silly"] = "If intelligence is high enough, it rapidly decreases over time."
+    effect_descs["Intelligent"] = "If she feels fine, her intelligence increases over time."
+    effect_descs["Fast Metabolism"] = "Any food is more effective than usual."
+    effect_descs["Drunk"] = "It might feel good right now, but tomorrow's hangover is fast approaching (-1AP for every next drink)."
+    effect_descs["Depression"] = "She's in a very low mood right now (-1AP)."
+    effect_descs["Elation"] = "She's in a very high mood right now (10% chance of +1AP)."
+    effect_descs["Drinker"] = "Neutralizes the AP penalty of Drunk effect. But hangover is still the same."
+    effect_descs["Injured"] = "Some wounds cannot be healed easily. In such cases special medicines are needed."
+    effect_descs["Exhausted"] = "Sometimes anyone needs a good long rest."
+    effect_descs["Impressible"] = "Easier to decrease and increase joy."
+    effect_descs["Calm"] = "Harder to decrease and increase joy."
+    effect_descs["Regeneration"] = "Restores some health every day."
+    effect_descs["MP Regeneration"] = "Restores some mp every day."
+    effect_descs["Small Regeneration"] = "Restores 15 health every day."
+    effect_descs["Blood Connection"] = "Disposition increases and character decreases every day."
+    effect_descs["Horny"] = "She's in the mood for sex."
+    effect_descs["Chastity"] = "Special enchantment preserves her virginity intact."
+    effect_descs["Revealing Clothes"] = "Her clothes show off a lot of skin, attracting views."
+    effect_descs["Fluffy Companion"] = "All girls love cute animals. Helps to increase disposition during interactions."
+
+
+label char_effects:
+    init python:
+        pass
+    return
