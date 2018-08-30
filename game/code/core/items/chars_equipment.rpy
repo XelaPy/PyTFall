@@ -748,7 +748,7 @@ screen char_equip_right_frame(tt):
                         for effect in dummy.effects.itervalues():
                             t_old.add(effect)
                         t_new = set(t.id for t in eqt.traits)
-                        for effect eqt.effects.itervalues():
+                        for effect in eqt.effects.itervalues():
                             t_new.add(effect)
                         temp = t_new.difference(t_old)
                         temp = sorted(list(temp))
