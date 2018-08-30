@@ -1978,9 +1978,12 @@ init -9 python:
         ### Effects Methods
         def enable_effect(self, name, **kwargs):
             if name == "Poisoned" and "Artificial Body" not in self.traits:
-                ss_mod = {}
-                ss_mod["health"] = locked_random("randint", 5, 10)
-                obj = CharEffect(name, duration=10, ss_mod=ss_mod)
+                ss_mod = kwargs.get("ss_mod", None)
+                duration = kwargs.get("duration", 10)
+                if ss_mod is None:
+                    ss_mod = {}
+                    ss_mod["health"] = locked_random("randint", 5, 10)
+                obj = CharEffect(name, duration=duration, ss_mod=ss_mod)
                 obj.enable(self)
             elif name == "Unstable":
                 ss_mod = {}
