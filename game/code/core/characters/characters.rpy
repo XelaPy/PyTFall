@@ -132,47 +132,7 @@ init -9 python:
 
             if effects:
                 # Effects assets:
-                self.effects = {
-                'Poisoned': {"active": False, "penalty": False, "duration": False, 'desc': "Poison decreases health every day. Make sure you cure it as fast as possible."},
-                'Slow Learner': {'active': False, 'desc': "-10% experience"},
-                'Fast Learner': {'active': False, 'desc': "+10% experience"},
-                "Introvert": {'active': False, 'desc': "Harder to increase and decrease disposition."},
-                "Extrovert": {'active': False, 'desc': "Easier to increase and decrease disposition."},
-                "Insecure": {'active': False, 'desc': "Significant changes in disposition also affect joy."},
-                "Sibling": {'active': False, 'desc': "If disposition is low enough, it gradually increases over time."},
-                "Assertive": {'active': False, 'desc': "If character stat is low enough, it increases over time."},
-                "Diffident": {'active': False, 'desc': "If character stat is high enough, it slowly decreases over time."},
-                'Food Poisoning': {'active': False, 'activation_count': 0, "desc": "Intemperance in eating or low quality food often lead to problems."},
-                'Down with Cold': {'active': False, "desc": "Causes weakness and aches, will be held in a week or two."},
-                "Unstable": {"active": False, "desc": "From time to time mood chaotically changes."},
-                "Optimist": {"active": False, "desc": "Joy increases over time, unless it's too low."},
-                "Pessimist": {"active": False, "desc": "Joy decreases over time, unless it's already low enough. Grants immunity to Depression."},
-                "Composure": {"active": False, "desc": "Over time joy decreases if it's too high and increases if it's too low."},
-                "Kleptomaniac": {"active": False, "desc": "With some luck, her gold increases every day."},
-                "Drowsy": {"active": False, "desc": "Rest restores more vitality than usual if unspent APs left."},
-                "Loyal": {"active": False, "desc": "Harder to decrease disposition."},
-                "Lactation": {"active": False, "desc": "Her breasts produce milk. If she's your slave or lover, you will get a free sample every day."},
-                "Vigorous": {"active": False, "desc": "If vitality is too low, it slowly increases over time."},
-                "Silly": {"active": False, "desc": "If intelligence is high enough, it rapidly decreases over time."},
-                "Intelligent": {"active": False, "desc": "If she feels fine, her intelligence increases over time."},
-                "Fast Metabolism": {"active": False, "desc": "Any food is more effective than usual."},
-                "Drunk": {"active": False, 'activation_count': 0, "desc": "It might feel good right now, but tomorrow's hangover is fast approaching (-1AP for every next drink)."},
-                "Depression": {"active": False, "desc": "She's in a very low mood right now (-1AP).", 'activation_count': 0},
-                "Elation": {"active": False, "desc": "She's in a very high mood right now (10% chance of +1AP).", 'activation_count': 0},
-                "Drinker": {"active": False, "desc": "Neutralizes the AP penalty of Drunk effect. But hangover is still the same."},
-                "Injured": {"active": False, "desc": "Some wounds cannot be healed easily. In such cases special medicines are needed."},
-                "Exhausted": {"active": False, "desc": "Sometimes anyone needs a good long rest.", 'activation_count': 0},
-                "Impressible": {"active": False, "desc": "Easier to decrease and increase joy."},
-                "Calm": {"active": False, "desc": "Harder to decrease and increase joy."},
-                "Regeneration": {"active": False, "desc": "Restores some health every day."},
-                "MP Regeneration": {"active": False, "desc": "Restores some mp every day."},
-                "Small Regeneration": {"active": False, "desc": "Restores 15 health every day."},
-                "Blood Connection": {"active": False, "desc": "Disposition increases and character decreases every day."},
-                "Horny": {"active": False, "desc": "She's in the mood for sex."},
-                "Chastity": {"active": False, "desc": "Special enchantment preserves her virginity intact."},
-                "Revealing Clothes": {"active": False, "desc": "Her clothes show a lot of skin, attracting views."},
-                "Fluffy Companion": {"active": False, "desc": "All girls love cute animals. Helps to increase disposition during interactions."}
-                }
+                self.effects = {}
 
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
             self.besprite = None # Used to keep track of sprite displayable in the BE.

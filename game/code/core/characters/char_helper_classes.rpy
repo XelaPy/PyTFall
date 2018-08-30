@@ -1759,16 +1759,12 @@ init -10 python:
                     self.remove_effect(char)
 
         def end(self, char):
-            if self in char.effects:
-                char.effects.remove(self)
+            if self.name in char.effects:
+                del(char.effects[self.name])
 
         def enable(self, char):
             # Prevent same effect from being enable twice (and handle exceptions)
-            for e in char.effects:
-                if e.name == self.name:
-                    break
+            if self.name in char.effects:
+                return
             else:
-                char.effects.append(self)
-
-        def next_day(self, char):
-            pass
+                char.effects[self.name] = self

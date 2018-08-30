@@ -89,7 +89,7 @@ init -9 python:
                 char.restore_ap()
                 char.item_counter()
                 char.clear_img_cache()
-                for effect in char.effects:
+                for effect in char.effects.values():
                     effect.next_day()
                 char.effects['Food Poisoning']['activation_count'] = 0
 
@@ -249,7 +249,7 @@ init -9 python:
             tl.start("MC's Chars .next_day")
             for char in chars.values() + [hero]:
                 # Run the effects if they are available:
-                for effect in char.effects:
+                for effect in char.effects.values():
                     effect.next_day()
 
                 if char in hero.chars or char == hero:
