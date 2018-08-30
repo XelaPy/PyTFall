@@ -1613,6 +1613,7 @@ init -10 python:
 
 
     class CharEffect(_object):
+        # TODO IMPORTANT: former activation_count must be flipped to char Flags!!!
         def __init__(self, name, duration=10, ss_mod=None):
             self.name = name
             self.duration = duration # For how long does the effect remain active (if desired)
@@ -1641,7 +1642,7 @@ init -10 python:
             if self.name == "Poisoned":
                 self.ss_mod["health"] += self.duration*5
                 char.health = max(1, char.health - self.ss_mod["health"])
-                if self.days_active > self.duration:
+                if self.days_active >= self.duration:
                     self.remove_effect(char)
             elif self.name == "Unstable":
                 if self.days_active == self.duration:
@@ -1697,75 +1698,67 @@ init -10 python:
                 elif char.vitality < char.get_max("vitality")*.5:
                     char.vitality += randint(1, 2)
             elif self.name == "Down with Cold":
-                if self.effects['Down with Cold']['healthy_again'] <= self.effects['Down with Cold']['count']:
-                    self.disable_effect('Down with Cold')
-                    return
-                self.health = max(1, self.health - self.effects['Down with Cold']['health'])
-                self.vitality -= self.effects['Down with Cold']['vitality']
-                self.joy -= self.effects['Down with Cold']['joy']
-                self.effects['Down with Cold']['count'] += 1
-                if self.effects['Down with Cold']['healthy_again'] <= self.effects['Down with Cold']['count']:
-                    self.disable_effect('Down with Cold')
+                char.health = max(1, char.health+self.ss_mod["health"])
+                char.vitality += self.ss_mod['vitality']
+                char.joy += self.ss_mod['joy']
+                if self.days_active >= self.duration:
+                    self.remove_effect(char)
             elif self.name == "Kleptomaniac":
-                if dice(self.luck+55):
-                    self.add_money(randint(5, 25), reason="Stealing")
+                if dice(char.luck+55):
+                    char.add_money(randint(5, 25), reason="Kleptomania")
             elif self.name == "Injured":
-                if self.health > int(self.get_max("health")*.2):
-                    self.health = int(self.get_max("health")*.2)
-                if self.vitality > int(self.get_max("vitality")*.5):
-                    self.vitality = int(self.get_max("vitality")*.5)
-                self.AP -= 1
-                self.joy -= 10
+                if char.health > char.get_max("health")*.2:
+                    char.health = int(char.get_max("health")*.2)
+                if char.vitality > char.get_max("vitality")*.5:
+                    char.vitality = int(char.get_max("vitality")*.5)
+                char.AP -= 1 # Does this work? TODO Find out.
+                char.joy -= 10
             elif self.name == "Exhausted":
-                self.vitality -= int(self.get_max("vitality")*.2)
-            elif self.name == "Lactation": # TO DO: add milking activities, to use this fetish more widely
-                if self.health >= 30 and self.vitality >= 30 and self in hero.chars and self.is_available:
-                    if self.status == "slave" or check_lovers(self, hero):
-                        if "Small Boobs" in self.traits:
+                char.vitality -= int(char.get_max("vitality")*.2)
+            elif self.name == "Lactation": # TODO add milking activities, to use this fetish more widely
+                if char.health >= 30 and char.vitality >= 30 and char in hero.chars and char.is_available:
+                    if char.status == "slave" or check_lovers(char, hero):
+                        if "Small Boobs" in char.traits:
                             hero.add_item("Bottle of Milk")
-                        elif "Average Boobs" in self.traits:
+                        elif "Average Boobs" in char.traits:
                             hero.add_item("Bottle of Milk", randint(1, 2))
-                        elif "Big Boobs" in self.traits:
+                        elif "Big Boobs" in char.traits:
                             hero.add_item("Bottle of Milk", randint(2, 3))
                         else:
                             hero.add_item("Bottle of Milk", randint(2, 5))
-                    elif not(has_items("Bottle of Milk", [self])): # in order to not stack bottles of milk into free chars inventories they get only one, and only if they had 0
-                        self.add_item("Bottle of Milk")
+                    elif not(has_items("Bottle of Milk", [char])): # in order to not stack bottles of milk into free chars inventories they get only one, and only if they had 0
+                        char.add_item("Bottle of Milk")
             elif self.name == "Silly":
-                if self.intelligence >= 200:
-                    self.intelligence -= 20
-                if self.intelligence >= 100:
-                    self.intelligence -= 10
-                elif self.intelligence >= 25:
-                    self.intelligence -= 5
+                if char.intelligence >= 200:
+                    char.intelligence -= 20
+                if char.intelligence >= 100:
+                    char.intelligence -= 10
+                elif char.intelligence >= 25:
+                    char.intelligence -= 5
                 else:
-                    self.intelligence = 20
+                    char.intelligence = 20
             elif self.name == "Intelligent":
-                if self.joy >= 75 and self.vitality >= self.get_max("vitality")*.75 and self.health >= self.get_max("health")*.75:
-                    self.intelligence += 1
+                if char.joy >= 75 and char.vitality >= char.get_max("vitality")*.75 and char.health >= char.get_max("health")*.75:
+                    char.intelligence += 1
             elif self.name == "Sibling":
-                if self.disposition < 100:
-                    self.disposition += 2
-                elif self.disposition < 200:
-                    self.disposition += 1
+                if char.disposition < 100:
+                    char.disposition += 2
+                elif char.disposition < 200:
+                    char.disposition += 1
             elif self.name == "Drunk":
-                self.vitality -= self.effects['Drunk']['activation_count']
-                self.health = max(1, self.health - 10)
-                self.joy -= 5
-                self.mp -= 20
-                self.disable_effect('Drunk')
+                char.vitality -= self.effects['Drunk']['activation_count'] # TODO
+                char.health = max(1, self.health-10)
+                char.joy -= 5
+                char.mp -= 20
+                self.remove_effect(self)
             elif self.name == "Food Poisoning":
-                if self.effects['Food Poisoning']['healthy_again'] <= self.effects['Food Poisoning']['count']:
-                    self.disable_effect('Food Poisoning')
-                    return
-                self.health = max(1, self.health - self.effects['Food Poisoning']['health'])
-                self.vitality -= self.effects['Food Poisoning']['vitality']
-                self.joy -= self.effects['Food Poisoning']['joy']
-                self.effects['Food Poisoning']['count'] += 1
-                if self.effects['Food Poisoning']['healthy_again'] <= self.effects['Food Poisoning']['count']:
-                    self.disable_effect('Food Poisoning')
+                char.health = max(1, char.health-self.ss_mod["health"])
+                char.vitality += char.ss_mod['vitality']
+                char.joy += char.ss_mod['joy']
+                if self.days_active >= self.duration:
+                    self.remove_effect(char)
 
-        def remove_effect(self, char):
+        def end(self, char):
             if self in char.effects:
                 char.effects.remove(self)
 
