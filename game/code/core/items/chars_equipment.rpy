@@ -815,31 +815,6 @@ screen char_equip_right_frame(tt):
         pos 937, 150
         spacing 1
         style_prefix "pb"
-        button:
-            xysize 110, 30
-            action Function(inv_source.inventory.update_sorting, ("id", False))
-            text "Name" style "pb_button_text"
-            selected inv_source.inventory.final_sort_filter[0] == "id"
-            tooltip "Sort items by the Name!"
-        button:
-            xysize 110, 30
-            action Function(inv_source.inventory.update_sorting, ("price", True))
-            text "Price" style "pb_button_text"
-            selected inv_source.inventory.final_sort_filter[0] == "price"
-            tooltip "Sort items by the Price!"
-        button:
-            xysize 110, 30
-            action Function(inv_source.inventory.update_sorting, ("amount", True))
-            text "Amount" style "pb_button_text"
-            selected inv_source.inventory.final_sort_filter[0] == "amount"
-            tooltip "Sort items by the Amount owned!"
-
-    # Auto-Equip/Item Transfer Buttons and Paging: ================>
-    frame:
-        background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=.7)
-        pos (931, 184)
-        xysize (345, 80)
-        has vbox spacing 1 xalign .5
         hbox:
             style_prefix "pb"
             button:
@@ -854,6 +829,34 @@ screen char_equip_right_frame(tt):
                 xysize 110, 30
                 action If(eqtarget != hero, true=Return(["jump", "item_transfer"]))
                 text "Exchange" style "pb_button_text"
+
+    # Auto-Equip/Item Transfer Buttons and Paging: ================>
+    frame:
+        background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=.7)
+        pos (931, 184)
+        xysize (345, 80)
+        has vbox spacing 1 xalign .5
+        hbox:
+            spacing 1
+            style_prefix "pb"
+            button:
+                xysize 110, 30
+                action Function(inv_source.inventory.update_sorting, ("id", False))
+                text "Name" style "pb_button_text"
+                selected inv_source.inventory.final_sort_filter[0] == "id"
+                tooltip "Sort items by the Name!"
+            button:
+                xysize 110, 30
+                action Function(inv_source.inventory.update_sorting, ("price", True))
+                text "Price" style "pb_button_text"
+                selected inv_source.inventory.final_sort_filter[0] == "price"
+                tooltip "Sort items by the Price!"
+            button:
+                xysize 110, 30
+                action Function(inv_source.inventory.update_sorting, ("amount", True))
+                text "Amount" style "pb_button_text"
+                selected inv_source.inventory.final_sort_filter[0] == "amount"
+                tooltip "Sort items by the Amount owned!"
         use paging(ref=inv_source.inventory, use_filter=False, xysize=(250, 20), align=(.5, .5))
 
     # Filters: ====================================>
