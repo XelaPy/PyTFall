@@ -827,8 +827,9 @@ screen char_equip_right_frame(tt):
             tooltip "Sort items by the Price!"
         button:
             xysize 110, 30
-            # action SetField(inv_source.inventory, "final_sort_filter", "id")
-            text "TBI" style "pb_button_text"
+            action Function(inv_source.inventory.update_sorting, ("amount", True))
+            text "Amount" style "pb_button_text"
+            tooltip "Sort items by the Amount owned!"
 
     # Auto-Equip/Item Transfer Buttons and Paging: ================>
     frame:

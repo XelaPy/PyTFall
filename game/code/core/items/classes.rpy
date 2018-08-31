@@ -186,6 +186,13 @@ init -9 python:
             key, reverse = self.final_sort_filter
             if self.final_sort_filter[0] in ["id", "price"]:
                 self.filtered_items.sort(key=attrgetter(key), reverse=reverse)
+            elif self.final_sort_filter[0] == "amount":
+                sorted_items = {}
+                for item in self.filtered_items:
+                    sorted_items[item] = self.items[item]
+                sorted_items = OrderedDict(sorted(sorted_items.items(),
+                                key=itemgetter(1), reverse=self.final_sort_filter[1]))
+                self.filtered_items = sorted_items.keys()
 
         def apply_filter(self, direction):
             """Filter for items.
