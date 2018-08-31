@@ -110,12 +110,10 @@ label char_equip_loop:
                 $ eqtarget.inventory.set_page_size(16)
                 $ hero.inventory.set_page_size(16)
                 show screen char_equip
-
         elif result[0] == "equip_for":
             python:
                 renpy.show_screen("equip_for", renpy.get_mouse_pos())
                 dummy = None
-
         elif result[0] == "item":
             if result[1] == 'equip/unequip':
                 $ dummy = None # Must be set here so the items that jump away to a label work properly.
@@ -233,7 +231,6 @@ label char_equip_loop:
                         dummy.eqslots[unequip_slot] = focusitem
                         dummy.unequip(focusitem, unequip_slot)
                         #renpy.show_screen("diff_item_effects", eqtarget, dummy)
-
         elif result[0] == "unequip_all":
             python:
                 if isinstance(eqtarget, PytGroup):
@@ -253,7 +250,6 @@ label char_equip_loop:
                 selectedslot = None
                 unequip_slot = None
                 item_direction = None
-
         elif result[0] == 'con':
             if result[1] == 'return':
                 python:
@@ -263,7 +259,6 @@ label char_equip_loop:
                     item_direction = None
                     dummy = None
                     eqsave = {0:False, 1:False, 2:False}
-
         elif result[0] == 'control':
             if result[1] == 'return':
                 python:
@@ -875,14 +870,15 @@ screen char_equip_right_frame(tt):
                          "Items of Female and Unisex genders are shown!"]
     python:
         index = item_genders.index(inv_source.inventory.gender_filter)
-        next_gender = item_genders[index + 1 % len(item_genders)]
+        next_gender = item_genders[(index + 1) % len(item_genders)]
 
     button:
         pos 935, 260 anchor .0, 1.0
-        xysize 30, 30
+        xysize 40, 40
         style "pb_button"
         add pscale(gender_icons[index], 30, 30) align .5, .5
-        action Function(inv_source.inventory.update_sorting, gender=next_gender)
+        action Function(inv_source.inventory.apply_filter,
+                    direction=inv_source.inventory.slot_filter, gender=next_gender)
         tooltip gender_tt[index]
 
     # Filters: ====================================>

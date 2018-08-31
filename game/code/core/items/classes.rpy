@@ -198,7 +198,7 @@ init -9 python:
                                 key=itemgetter(1), reverse=self.final_sort_filter[1]))
                 self.filtered_items = sorted_items.keys()
 
-        def apply_filter(self, direction):
+        def apply_filter(self, direction, gender=None):
             """Filter for items.
 
             Presently filtered by slot.
@@ -218,9 +218,9 @@ init -9 python:
 
             self.filtered_items = list(item for item in self.items.iterkeys() if item.slot in self.SLOT_FILTERS.get(self.slot_filter, [self.slot_filter]))
 
-            self.update_sorting()
+            self.update_sorting(gender=gender)
 
-            self.page = 0
+            self.page = min(self.max_page, self.page)
 
         # Paging:
         @property
