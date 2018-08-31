@@ -296,7 +296,12 @@ init -9 python:
                 self._action = value
                 return
 
-            old_action = self.action
+            if isinstance(self._action, SchoolCourse):
+                course = self._action
+                self._action = None
+                course.remove_student(self)
+
+            old_action = self._action
             wp = self.workplace
             mj = simple_jobs["Manager"]
 
