@@ -76,25 +76,9 @@ label start:
         tl.start("Loading/Sorting: Traits")
         traits = load_traits()
 
-        # This should be reorganized later:
-        tgs = object() # TraitGoups!
-        tgs.breasts = [i for i in traits.values() if i.breasts]
-        tgs.body = [i for i in traits.values() if i.body]
-        tgs.base = [i for i in traits.values() if i.basetrait and not i.mob_only]
-        tgs.elemental = [i for i in traits.values() if i.elemental]
-        tgs.el_names = set([i.id.lower() for i in tgs.elemental])
-        tgs.ct = [i for i in traits.values() if i.character_trait]
-        tgs.sexual = [i for i in traits.values() if i.sexual] # This is a subset of character traits!
-        tgs.race = [i for i in traits.values() if i.race]
-        tgs.client = [i for i in traits.values() if i.client]
+    call sort_traits_for_gameplay
 
-        # Base classes such as: {"SIW": [Prostitute, Stripper]}
-        gen_occ_basetraits = defaultdict(set)
-        for t in tgs.base:
-            for occ in t.occupations:
-                gen_occ_basetraits[occ].add(t)
-        gen_occ_basetraits = dict(gen_occ_basetraits)
-        tl.end("Loading/Sorting: Traits")
+    $ tl.end("Loading/Sorting: Traits")
 
     python: # Items/Shops:
         tl.start("Loading/Sorting: Items")
@@ -357,6 +341,28 @@ label sort_items_for_gameplay:
             tiered_items.setdefault(i.tier, []).append(i)
     return
 
+label sort_traits_for_gameplay:
+    python:
+        # This should be reorganized later:
+        tgs = object() # TraitGoups!
+        tgs.breasts = [i for i in traits.values() if i.breasts]
+        tgs.body = [i for i in traits.values() if i.body]
+        tgs.base = [i for i in traits.values() if i.basetrait and not i.mob_only]
+        tgs.elemental = [i for i in traits.values() if i.elemental]
+        tgs.el_names = set([i.id.lower() for i in tgs.elemental])
+        tgs.ct = [i for i in traits.values() if i.character_trait]
+        tgs.sexual = [i for i in traits.values() if i.sexual] # This is a subset of character traits!
+        tgs.race = [i for i in traits.values() if i.race]
+        tgs.client = [i for i in traits.values() if i.client]
+
+        # Base classes such as: {"SIW": [Prostitute, Stripper]}
+        gen_occ_basetraits = defaultdict(set)
+        for t in tgs.base:
+            for occ in t.occupations:
+                gen_occ_basetraits[occ].add(t)
+        gen_occ_basetraits = dict(gen_occ_basetraits)
+    return
+
 label after_load:
     if hasattr(store, "stored_random_seed"):
         $ renpy.random.setstate(stored_random_seed)
@@ -383,6 +389,8 @@ label after_load:
         for id, trait in updated_traits.iteritems():
             if id not in store.traits:
                 store.traits[id] = trait
+
+    call sort_traits_for_gameplay
 
     # All kinds of chars:
     python hide:
