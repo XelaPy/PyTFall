@@ -840,16 +840,16 @@ screen char_equip_right_frame(tt):
         use paging(ref=inv_source.inventory, use_filter=False, xysize=(250, 20), align=(.5, .5))
 
     # Filters: ====================================>
-    hbox:
+    vpgrid:
         pos (935, 268)
-        box_wrap True
         style_group "dropdown_gm"
         xsize 340
+        cols 7 rows 2
         spacing 2
         for filter in inv_source.inventory.filters:
             frame:
-                xpadding 0
-                ymargin -8
+                padding 0, 0
+                margin 1, 1
                 background Null()
                 if renpy.loadable("content/gfx/interface/buttons/filters/%s.png" % filter):
                     $ img = ProportionalScale("content/gfx/interface/buttons/filters/%s.png" % filter, 44, 44)
