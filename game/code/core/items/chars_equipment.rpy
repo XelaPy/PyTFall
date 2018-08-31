@@ -819,16 +819,19 @@ screen char_equip_right_frame(tt):
             xysize 110, 30
             action Function(inv_source.inventory.update_sorting, ("id", False))
             text "Name" style "pb_button_text"
+            selected inv_source.inventory.final_sort_filter[0] == "id"
             tooltip "Sort items by the Name!"
         button:
             xysize 110, 30
             action Function(inv_source.inventory.update_sorting, ("price", True))
             text "Price" style "pb_button_text"
+            selected inv_source.inventory.final_sort_filter[0] == "price"
             tooltip "Sort items by the Price!"
         button:
             xysize 110, 30
             action Function(inv_source.inventory.update_sorting, ("amount", True))
             text "Amount" style "pb_button_text"
+            selected inv_source.inventory.final_sort_filter[0] == "amount"
             tooltip "Sort items by the Amount owned!"
 
     # Auto-Equip/Item Transfer Buttons and Paging: ================>
