@@ -30,7 +30,7 @@ label char_profile:
                                 char.disposition -= 400
                                 if char in hero.team:
                                     hero.team.remove(char)
-                                    
+
                                 char.action = None
 
                                 if char.status == "slave":
@@ -727,7 +727,10 @@ screen char_profile():
                         xysize (150, 40)
                         action If(not_escaped, true=Return(["girl", "get_rid"]))
                         hovered tt.action("Get rid of her!")
-                        text "Get Rid"
+                        if char.status == "slave":
+                            text "Sell"
+                        else:
+                            text "Dismiss"
 
             # AP ====================================>
             frame:
