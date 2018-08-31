@@ -197,6 +197,7 @@ init -9 python:
             self.slot_filter = self.filters[self.filter_index]
 
             self.filtered_items = list(item for item in self.items.iterkeys() if item.sex in self.gender_filter and item.slot in self.SLOT_FILTERS.get(self.slot_filter, [self.slot_filter]))
+            self.filtered_items.sort(key=attrgetter("id"))
 
             self.page = 0
 
