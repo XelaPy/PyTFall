@@ -105,45 +105,9 @@ label start:
         # Build shops:
         pytfall.init_shops()
 
-        # Items sorting for AutoBuy:
-        shop_items = [item for item in items.values() if (set(pytfall.shops) & set(item.locations))]
-        all_auto_buy_items = [item for item in shop_items if item.usable and not item.jump_to_label]
+    call sort_items_for_gameplay
 
-        trait_selections = {"goodtraits": {}, "badtraits": {}}
-        auto_buy_items = {k: [] for k in ("body", "restore", "food", "dress", "rest", "warrior", "scroll")}
-
-        for item in all_auto_buy_items:
-            for k in ("goodtraits", "badtraits"):
-                if hasattr(item, k):
-                    for t in getattr(item, k):
-                        # same item may occur multiple times for different traits.
-                        trait_selections[k].setdefault(t, []).append(item)
-
-            if item.type != "permanent":
-                if item.type == "armor" or item.slot == "weapon":
-                    auto_buy_items["warrior"].append(item)
-                else:
-                    if item.slot == "body":
-                        auto_buy_items["body"].append(item)
-                    if item.type in ("restore", "food", "scroll", "dress"):
-                        auto_buy_items[item.type].append(item)
-                    else:
-                        auto_buy_items["rest"].append(item)
-
-        for k in trait_selections:
-            for v in trait_selections[k].values():
-                v = sorted(v, key=lambda i: i.price)
-
-        for k in ("body", "restore", "food", "dress", "rest", "warrior", "scroll"):
-            auto_buy_items[k] = [(i.price, i) for i in auto_buy_items[k]]
-            auto_buy_items[k].sort()
-
-        # Items sorting per Tier:
-        tiered_items = {}
-        for i in items.values():
-            tiered_items.setdefault(i.tier, []).append(i)
-
-        tl.end("Loading/Sorting: Items")
+    $ tl.end("Loading/Sorting: Items")
 
     python: # Dungeons (Building (Old))
         tl.start("Loading: Dungeons")
@@ -352,6 +316,47 @@ label continue_with_start:
 
     jump mainscreen
 
+label sort_items_for_gameplay:
+    python:
+        # Items sorting for AutoBuy:
+        shop_items = [item for item in items.values() if (set(pytfall.shops) & set(item.locations))]
+        all_auto_buy_items = [item for item in shop_items if item.usable and not item.jump_to_label]
+
+        trait_selections = {"goodtraits": {}, "badtraits": {}}
+        auto_buy_items = {k: [] for k in ("body", "restore", "food", "dress", "rest", "warrior", "scroll")}
+
+        for item in all_auto_buy_items:
+            for k in ("goodtraits", "badtraits"):
+                if hasattr(item, k):
+                    for t in getattr(item, k):
+                        # same item may occur multiple times for different traits.
+                        trait_selections[k].setdefault(t, []).append(item)
+
+            if item.type != "permanent":
+                if item.type == "armor" or item.slot == "weapon":
+                    auto_buy_items["warrior"].append(item)
+                else:
+                    if item.slot == "body":
+                        auto_buy_items["body"].append(item)
+                    if item.type in ("restore", "food", "scroll", "dress"):
+                        auto_buy_items[item.type].append(item)
+                    else:
+                        auto_buy_items["rest"].append(item)
+
+        for k in trait_selections:
+            for v in trait_selections[k].values():
+                v = sorted(v, key=lambda i: i.price)
+
+        for k in ("body", "restore", "food", "dress", "rest", "warrior", "scroll"):
+            auto_buy_items[k] = [(i.price, i) for i in auto_buy_items[k]]
+            auto_buy_items[k].sort()
+
+        # Items sorting per Tier:
+        tiered_items = {}
+        for i in items.values():
+            tiered_items.setdefault(i.tier, []).append(i)
+    return
+
 label after_load:
     if hasattr(store, "stored_random_seed"):
         $ renpy.random.setstate(stored_random_seed)
@@ -369,6 +374,8 @@ label after_load:
         for id, item in updated_items.iteritems():
             if id not in store.items:
                 store.items[id] = item
+
+    call sort_items_for_gameplay
 
     # Traits:
     python hide:
