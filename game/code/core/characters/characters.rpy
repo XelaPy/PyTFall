@@ -307,8 +307,8 @@ init -9 python:
             elif value == mj:
                 # Check if we already have a manager in the building:
                 if wp.manager:
-                    wp.manager.action = None
                     wp.manager.previousaction = None
+                    wp.manager.action = None
                     wp.manager = None
                 wp.manager = self
 
