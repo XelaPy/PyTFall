@@ -106,7 +106,7 @@ label char_equip_loop:
         if result[0] == "jump":
             if result[1] == "item_transfer":
                 hide screen char_equip
-                $ items_transfer([hero] + (list(eqtarget.lst) if isinstance(eqtarget,PytGroup) else [eqtarget]))
+                $ items_transfer([hero] + (list(eqtarget.lst) if isinstance(eqtarget, PytGroup) else [eqtarget]))
                 $ eqtarget.inventory.set_page_size(16)
                 $ hero.inventory.set_page_size(16)
                 show screen char_equip
@@ -140,7 +140,6 @@ label char_equip_loop:
 
                             # If we got here, we just equip the item :D
                             equip_item(focusitem, eqtarget)
-
                     elif item_direction == 'unequip':
                         # Check if we are allowed to access inventory and act:
                         if equipment_access(eqtarget, focusitem, unequip=True):
@@ -155,7 +154,6 @@ label char_equip_loop:
                     selectedslot = None
                     unequip_slot = None
                     item_direction = None
-
             elif result[1] == "discard":
                 python:
                     # Check if we can access the inventory:
@@ -170,14 +168,12 @@ label char_equip_loop:
                     item_direction = None
                     dummy = None
                     eqsave = {0:False, 1:False, 2:False}
-
             elif result[1] == "transfer":
                 python:
                     if inv_source == hero:
                         transfer_items(hero, eqtarget, focusitem, silent=False)
                     else:
                         transfer_items(eqtarget, hero, focusitem, silent=False)
-
             elif result[1] == 'equip':
                 python:
                     focusitem = result[2]
@@ -194,13 +190,11 @@ label char_equip_loop:
                     dummy = copy_char(eqtarget)
                     equip_item(focusitem, dummy, silent=True)
                     # renpy.show_screen("diff_item_effects", eqtarget, dummy)
-
             elif result[1] == 'unequip':
                 python:
                     unequip_slot = result[3]
 
                     if isinstance(eqtarget, PytGroup):
-
                         if isinstance(result[2], list):
                             # chars have different items in the equipslots. Will show the most abundant in sepia
                             chosen_item = result[2][0]
@@ -816,6 +810,26 @@ screen char_equip_right_frame(tt):
                 action SelectedIf(inv_source != hero), SensitiveIf(eqtarget != hero), If(eqtarget != hero, true=[SetVariable("inv_source", eqtarget), Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter), Return(['con', 'return']), With(dissolve)])
                 hovered tt.Action("Equip from [eqtarget.nickname]'s Inventory")
                 text "Girl" style "pb_button_text"
+
+    # "Final" Filters (id/price/etc.)
+    hbox:
+        pos 937, 150
+        spacing 5
+        style_prefix "pb"
+        button:
+            xysize (110, 30)
+            action Function(inv_source.inventory.update_sorting, ("id", False))
+            text "Name" style "pb_button_text"
+            tooltip "Sort items by the Name!"
+        button:
+            xysize (110, 30)
+            action Function(inv_source.inventory.update_sorting, ("price", True))
+            text "Price" style "pb_button_text"
+            tooltip "Sort items by the Price!"
+        button:
+            xysize (110, 30)
+            # action SetField(inv_source.inventory, "final_sort_filter", "id")
+            text "TBI" style "pb_button_text"
 
     # Auto-Equip/Item Transfer Buttons and Paging: ================>
     frame:

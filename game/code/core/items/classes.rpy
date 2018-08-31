@@ -156,6 +156,7 @@ init -9 python:
 
             # Filters:
             self.slot_filter = 'all' # Active Slot filter.
+            self.final_sort_filter = ("id", False) # We feel second arg to reverse of sort!
             self.gender_filter = self.GENDER_FILTERS["any"]
 
         # Filters:
@@ -178,6 +179,14 @@ init -9 python:
 
             return filters + list(sorted(availible_item_slots))
 
+        def update_sorting(self, final_sort_filter=None):
+            if final_sort_filter is not None:
+                self.final_sort_filter = final_sort_filter
+
+            key, reverse = self.final_sort_filter
+            if self.final_sort_filter[0] in ["id", "price"]:
+                self.filtered_items.sort(key=attrgetter(key), reverse=reverse)
+
         def apply_filter(self, direction):
             """Filter for items.
 
@@ -191,13 +200,14 @@ init -9 python:
                 try: # We try to get the correct filter, but it could be a fail...
                     self.filter_index = self.filters.index(direction)
                 except:
-                    # Explicitly silenced Exception. We set the index to "all" (0) which is always availible!
+                    # Explicitly silenced Exception. We set the index to "all" (0) which is always available!
                     self.filter_index = 0
 
             self.slot_filter = self.filters[self.filter_index]
 
             self.filtered_items = list(item for item in self.items.iterkeys() if item.sex in self.gender_filter and item.slot in self.SLOT_FILTERS.get(self.slot_filter, [self.slot_filter]))
-            self.filtered_items.sort(key=attrgetter("id"))
+
+            self.update_sorting()
 
             self.page = 0
 
@@ -215,14 +225,14 @@ init -9 python:
 
         def next(self):
             """Next page"""
-            if self.max_page>0:
+            if self.max_page > 0:
                 self.page = (self.page + 1) % self.max_page
             else:
                 self.page = 0
 
         def prev(self):
             """Previous page"""
-            if self.max_page>0:
+            if self.max_page > 0:
                 self.page = (self.page - 1) % self.max_page
             else:
                 self.page = 0
