@@ -319,15 +319,14 @@ init:
                         text '[item.desc]' style "TisaOTM" size 16 color gold
 
     # Inventory paging
-    screen paging(path="content/gfx/interface/buttons/", use_filter=True, ref=None, xysize=(270, 60), root=None, align=(.5, .0)):
+    screen paging(path="content/gfx/interface/buttons/", use_filter=True,
+                  ref=None, xysize=(270, 60),
+                  root=None, align=(.5, .0)):
         frame:
-            background Frame("content/gfx/frame/BG_choicebuttons.png", 10, 10)
-            ypadding 15
-            ypos 5
-            style_group "content"
-            xpadding 15
+            background Frame("content/gfx/frame/BG_choicebuttons_flat.png", 10, 10, yoffset=5)
             xysize xysize
             align align
+            style_group "content"
 
             vbox:
                 align .5, .5
@@ -359,7 +358,7 @@ init:
                             action Function(ref.apply_filter, "next")
                 # Listing
                 hbox:
-                    xalign .5
+                    align .5, .5
                     xmaximum xysize[0] - 5
                     xfill True
                     hbox:
@@ -1405,7 +1404,7 @@ screen give_exp_after_battle(group, enemy_team, ap_used=1, money=0):
     use keymap_override
 
     default bars = get_exp_bars(group)
-    
+
     frame:
         align (.5, .5)
         background Frame("content/gfx/frame/post_battle.png", 75, 75)
