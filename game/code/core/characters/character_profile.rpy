@@ -30,6 +30,14 @@ label char_profile:
                                 char.disposition -= 400
                                 if char in hero.team:
                                     hero.team.remove(char)
+                                    
+                                char.action = None
+
+                                if char.status == "slave":
+                                    set_location(char, pytfall.sm)
+                                else:
+                                    set_location(char, store.locations["City"])
+
                             if girls:
                                 $ index = (index+1) % len(girls)
                                 $ char = girls[index]
