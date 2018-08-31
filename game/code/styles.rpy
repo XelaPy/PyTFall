@@ -435,8 +435,8 @@ init 2: # Advanced style that can carry a lot of properties to be used in screen
     style new_style_tooltip_frame:
         clear
 
-        padding (8, 5)
-        xsize 350
+        padding (20, 5)
+        xminimum 100
         background Frame("content/gfx/interface/buttons/hp_1s.png", 5, 5)
     style new_style_tooltip_text:
         font "fonts/rubius.ttf"
