@@ -793,20 +793,19 @@ screen char_equip_right_frame(tt):
 
     # Right Frame Buttons ====================================>
     vbox:
-        pos (931, 118)
+        pos 937, 118
         xsize 345
-        spacing 4
         style_prefix "pb"
         hbox:
             xalign .5
-            spacing 100
+            spacing 2
             button:
-                xsize 70
+                xysize 110, 30
                 action SelectedIf(eqtarget == hero or inv_source == hero), If(eqtarget != hero, true=[SetVariable("inv_source", hero), Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter), Return(['con', 'return']), With(dissolve)])
                 hovered tt.Action("Equip from [hero.nickname]'s Inventory")
                 text "Hero" style "pb_button_text"
             button:
-                xsize 70
+                xysize 110, 30
                 action SelectedIf(inv_source != hero), SensitiveIf(eqtarget != hero), If(eqtarget != hero, true=[SetVariable("inv_source", eqtarget), Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter), Return(['con', 'return']), With(dissolve)])
                 hovered tt.Action("Equip from [eqtarget.nickname]'s Inventory")
                 text "Girl" style "pb_button_text"
@@ -814,20 +813,20 @@ screen char_equip_right_frame(tt):
     # "Final" Filters (id/price/etc.)
     hbox:
         pos 937, 150
-        spacing 5
+        spacing 1
         style_prefix "pb"
         button:
-            xysize (110, 30)
+            xysize 110, 30
             action Function(inv_source.inventory.update_sorting, ("id", False))
             text "Name" style "pb_button_text"
             tooltip "Sort items by the Name!"
         button:
-            xysize (110, 30)
+            xysize 110, 30
             action Function(inv_source.inventory.update_sorting, ("price", True))
             text "Price" style "pb_button_text"
             tooltip "Sort items by the Price!"
         button:
-            xysize (110, 30)
+            xysize 110, 30
             # action SetField(inv_source.inventory, "final_sort_filter", "id")
             text "TBI" style "pb_button_text"
 
@@ -840,15 +839,15 @@ screen char_equip_right_frame(tt):
         hbox:
             style_prefix "pb"
             button:
-                xysize (110, 30)
+                xysize 110, 30
                 action Return(["equip_for"])
                 text "Auto equip" style "pb_button_text"
             button:
-                xysize (110, 30)
+                xysize 110, 30
                 action Return(["unequip_all"])
                 text "Unequip all" style "pb_button_text"
             button:
-                xysize (110, 30)
+                xysize 110, 30
                 action If(eqtarget != hero, true=Return(["jump", "item_transfer"]))
                 text "Exchange" style "pb_button_text"
         use paging(ref=inv_source.inventory, use_filter=False, xysize=(250, 20), align=(.5, .5))
