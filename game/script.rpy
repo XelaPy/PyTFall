@@ -360,6 +360,24 @@ label after_load:
         for c in store.chars.values():
             c.clear_img_cache()
 
+    # Updating Databases:
+    # Items:
+    python hide:
+        updated_items = load_items()
+        updated_items.update(load_gifts())
+
+        for id, item in updated_items.iteritems():
+            if id not in store.items:
+                store.items[id] = item
+
+    # Traits:
+    python hide:
+        updated_traits = load_traits()
+        for id, trait in updated_traits.iteritems():
+            if id not in store.traits:
+                store.traits[id] = trait
+
+    # All kinds of chars:
     python hide:
         updated_chars = load_characters("chars", Char)
         for id, char in updated_chars.items():
