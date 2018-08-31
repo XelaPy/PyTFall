@@ -801,12 +801,18 @@ screen char_equip_right_frame(tt):
             spacing 2
             button:
                 xysize 110, 30
-                action SelectedIf(eqtarget == hero or inv_source == hero), If(eqtarget != hero, true=[SetVariable("inv_source", hero), Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter), Return(['con', 'return']), With(dissolve)])
+                action SelectedIf(eqtarget == hero or inv_source == hero),
+                                  If(eqtarget != hero, true=[SetVariable("inv_source", hero),
+                                  Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter),
+                                  Return(['con', 'return']), With(dissolve)])
                 hovered tt.Action("Equip from [hero.nickname]'s Inventory")
                 text "Hero" style "pb_button_text"
             button:
                 xysize 110, 30
-                action SelectedIf(inv_source != hero), SensitiveIf(eqtarget != hero), If(eqtarget != hero, true=[SetVariable("inv_source", eqtarget), Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter), Return(['con', 'return']), With(dissolve)])
+                action SelectedIf(inv_source != hero), SensitiveIf(eqtarget != hero),
+                                  If(eqtarget != hero, true=[SetVariable("inv_source", eqtarget),
+                                  Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter),
+                                  Return(['con', 'return']), With(dissolve)])
                 hovered tt.Action("Equip from [eqtarget.nickname]'s Inventory")
                 text "Girl" style "pb_button_text"
 
@@ -858,6 +864,26 @@ screen char_equip_right_frame(tt):
                 selected inv_source.inventory.final_sort_filter[0] == "amount"
                 tooltip "Sort items by the Amount owned!"
         use paging(ref=inv_source.inventory, use_filter=False, xysize=(250, 20), align=(.5, .5))
+
+    # Gender filter
+    default item_genders = ["any", "male", "female"]
+    default gender_icons = ["content/gfx/interface/icons/both.png",
+                            "content/gfx/interface/icons/male.png",
+                            "content/gfx/interface/icons/female.png"]
+    default gender_tt = ["Items of all genders are shown!",
+                         "Items of Male and Unisex genders are shown!",
+                         "Items of Female and Unisex genders are shown!"]
+    python:
+        index = item_genders.index(inv_source.inventory.gender_filter)
+        next_gender = item_genders[index + 1 % len(item_genders)]
+
+    button:
+        pos 935, 260 anchor .0, 1.0
+        xysize 30, 30
+        style "pb_button"
+        add pscale(gender_icons[index], 30, 30) align .5, .5
+        action Function(inv_source.inventory.update_sorting, gender=next_gender)
+        tooltip gender_tt[index]
 
     # Filters: ====================================>
     vpgrid:

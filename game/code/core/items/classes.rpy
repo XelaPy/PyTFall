@@ -157,12 +157,9 @@ init -9 python:
             # Filters:
             self.slot_filter = 'all' # Active Slot filter.
             self.final_sort_filter = ("id", False) # We feel second arg to reverse of sort!
-            self.gender_filter = self.GENDER_FILTERS["any"]
+            self.gender_filter = "any"
 
         # Filters:
-        def set_gender_filter(self, filter):
-            self.gender_filter = self.GENDER_FILTERS[filter]
-
         @property
         def filters(self):
             """Returns a selection of available filters for the occasion"""
@@ -179,10 +176,17 @@ init -9 python:
 
             return filters + list(sorted(availible_item_slots))
 
-        def update_sorting(self, final_sort_filter=None):
+        def update_sorting(self, final_sort_filter=None, gender=None):
             if final_sort_filter is not None:
                 self.final_sort_filter = final_sort_filter
+            if gender is not None:
+                self.gender_filter = gender
 
+            # Genders:
+            gf = self.GENDER_FILTERS[self.gender_filter]
+            self.filtered_items = [i for i in self.filtered_items if i.sex in gf]
+
+            # Complex:
             key, reverse = self.final_sort_filter
             if self.final_sort_filter[0] in ["id", "price"]:
                 self.filtered_items.sort(key=attrgetter(key), reverse=reverse)
@@ -212,7 +216,7 @@ init -9 python:
 
             self.slot_filter = self.filters[self.filter_index]
 
-            self.filtered_items = list(item for item in self.items.iterkeys() if item.sex in self.gender_filter and item.slot in self.SLOT_FILTERS.get(self.slot_filter, [self.slot_filter]))
+            self.filtered_items = list(item for item in self.items.iterkeys() if item.slot in self.SLOT_FILTERS.get(self.slot_filter, [self.slot_filter]))
 
             self.update_sorting()
 
