@@ -1170,10 +1170,10 @@ init:
                                 xsize 150
                                 xalign .5
                                 text_size 16
-                                if persistent.tooltips:
-                                    tooltip "{}\nPanic screen transforms your game window into a system-log. If enabled, press Q whenever you need it.".format("Active" if persistent.unsafe_mode else "Inactive")
-                                else:
+                                if main_menu or not persistent.tooltips:
                                     hovered tt.Action("{}\nPanic screen transforms your game window into a system-log. If enabled, press Q whenever you need it.".format("Active" if persistent.unsafe_mode else "Inactive"))
+                                else:
+                                    tooltip "{}\nPanic screen transforms your game window into a system-log. If enabled, press Q whenever you need it.".format("Active" if persistent.unsafe_mode else "Inactive")
                         frame:
                             background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
@@ -1183,10 +1183,10 @@ init:
                                 xsize 150
                                 xalign .5
                                 text_size 16
-                                if persistent.tooltips:
-                                    tooltip "{}\nShows experience screen after combat.".format("Active" if persistent.battle_results else "Inactive")
-                                else:
+                                if main_menu or not persistent.tooltips:
                                     hovered tt.Action("{}\nShows experience screen after combat.".format("Active" if persistent.battle_results else "Inactive"))
+                                else:
+                                    tooltip "{}\nShows experience screen after combat.".format("Active" if persistent.battle_results else "Inactive")
                         frame:
                             background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
@@ -1196,10 +1196,10 @@ init:
                                 xsize 150
                                 xalign .5
                                 text_size 16
-                                if persistent.tooltips:
-                                    tooltip "{}\nSaves your game progress every day. This can be slow, disable if it bothers you.".format("Active" if persistent.auto_saves else "Inactive")
-                                else:
+                                if main_menu or not persistent.tooltips:
                                     hovered tt.Action("{}\nSaves your game progress every day. This can be slow, disable if it bothers you.".format("Active" if persistent.auto_saves else "Inactive"))
+                                else:
+                                    tooltip "{}\nSaves your game progress every day. This can be slow, disable if it bothers you.".format("Active" if persistent.auto_saves else "Inactive")
                         frame:
                             background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
@@ -1209,10 +1209,11 @@ init:
                                 xsize 150
                                 xalign .5
                                 text_size 16
-                                if persistent.tooltips:
-                                    tooltip "{}\nDisplay notifications as you make progress in Quests.".format("Active" if persistent.use_quest_popups else "Inactive")
-                                else:
+                                if main_menu or not persistent.tooltips:
                                     hovered tt.Action("{}\nDisplay notifications as you make progress in Quests.".format("Active" if persistent.use_quest_popups else "Inactive"))
+                                else:
+                                    tooltip "{}\nDisplay notifications as you make progress in Quests.".format("Active" if persistent.use_quest_popups else "Inactive")
+
                         frame:
                             background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                             xsize 194
@@ -1222,10 +1223,15 @@ init:
                                 xsize 150
                                 xalign .5
                                 text_size 16
-                                if persistent.tooltips:
-                                    tooltip "New-style tooltips enabled."
+                                if main_menu:
+                                    if persistent.tooltips:
+                                        hovered tt.action("New-style tooltips enabled.")
+                                    else:
+                                        hovered tt.action("New-style tooltips disabled.")
+                                elif not persistent.tooltips:
+                                    hovered tt.action("New-style tooltips disabled.")
                                 else:
-                                    hovered tt.action("Tooltips Disabled!")
+                                    tooltip "New-style tooltips enabled."
 
             elif s_menu in ("Save", "Load"):
                 vbox:
