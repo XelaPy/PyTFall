@@ -672,7 +672,7 @@ screen char_profile():
                 xsize 335 ypos 230 xalign .5
                 style_group "proper_stats"
                 padding 7, 8
-                has vbox spacing 2
+                has vbox spacing 2 xoffset 4
                 # Traits/Effects ====================================>
                 hbox:
                     # Traits:
