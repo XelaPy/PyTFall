@@ -87,8 +87,6 @@ init: # Main Screens:
         hover_background Frame("content/gfx/frame/p_frame4.png", 10, 10)
 
     screen arena_inside():
-        default tt = Tooltip("Get your ass kicked in our Arena!")
-        #use top_stripe(True)
         add "content/gfx/bg/be/battle_arena_1.webp"  xpos 100 ypos 35
 
         # Start match button:
@@ -113,8 +111,7 @@ init: # Main Screens:
             ypos 39
             background Frame("content/gfx/frame/Mc_bg.png", 10, 10)
             xysize (725, 120)
-            # text "Get your ass kicked in our Arena!" align .5, .5 font "fonts/badaboom.ttf" color crimson size 45
-            text (u"{=stats_text}{color=[crimson]}{size=25}%s" % tt.value) outlines [(2, "#000000", 0, 0)] align .5, .5
+            text "Get your ass kicked in our Arena!" align .5, .5 font "fonts/badaboom.ttf" color crimson size 45
 
         # LEFT FRAME:
         # Buttons:
@@ -142,10 +139,10 @@ init: # Main Screens:
                     spacing 5
                     textbutton "{size=20}{color=[black]}Bestiary":
                         action Return(["show", "bestiary"])
-                        hovered tt.Action("Info about known enemies")
+                        tooltip "Info about known enemies"
                     textbutton "{size=20}{color=[black]}Survival":
                         action Return(["challenge", "start_chainfight"])
-                        hovered tt.Action("Unranked fights vs beasts and monsters")
+                        tooltip "Unranked fights vs beasts and monsters"
 
             # Ladders (Just Info):
             frame:
@@ -164,13 +161,13 @@ init: # Main Screens:
                     spacing 5
                     textbutton "{size=20}{color=[black]}1v1":
                         action Show("arena_lineups", transition=dissolve, container=pytfall.arena.lineup_1v1)
-                        hovered tt.Action("Best 1v1 fighters")
+                        tooltip "Best 1v1 fighters"
                     textbutton "{size=20}{color=[black]}2v2":
                         action Show("arena_lineups", transition=dissolve, container=pytfall.arena.lineup_2v2)
-                        hovered tt.Action("Best 2v2 teams")
+                        tooltip "Best 2v2 teams"
                     textbutton "{size=20}{color=[black]}3v3":
                         action Show("arena_lineups", transition=dissolve, container=pytfall.arena.lineup_3v3)
-                        hovered tt.Action("Best 3v3 teams")
+                        tooltip "Best 3v3 teams"
 
             # Official matches:
             frame:
@@ -189,13 +186,14 @@ init: # Main Screens:
                     style_group "basic"
                     textbutton "{size=20}{color=[black]}1v1":
                         action Show("arena_matches", container=pytfall.arena.matches_1v1, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.png", 100, 100))
-                        hovered tt.Action("Ranked fights 1v1")
+                        tooltip "Ranked 1v1 fights"
                     textbutton "{size=20}{color=[black]}2v2":
                         action Show("arena_matches", container=pytfall.arena.matches_2v2, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.png", 100, 100))
-                        hovered tt.Action("Ranked team fights 2v2")
+                        tooltip "Ranked team 2v2 fights"
                     textbutton "{size=20}{color=[black]}3v3":
                         action Show("arena_matches", container=pytfall.arena.matches_3v3, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.png", 100, 100))
-                        hovered tt.Action("Ranked team fights 3v3")
+                        tooltip "Ranked team fights 3v3 fights"
+
 
             # Dogfights:
             frame:
@@ -214,13 +212,13 @@ init: # Main Screens:
                     spacing 5
                     textbutton "{size=20}{color=[black]}1v1":
                         action Show("arena_dogfights", transition=dissolve, container=pytfall.arena.dogfights_1v1)
-                        hovered tt.Action("Unranked fights 1v1")
+                        tooltip "Unranked 1v1 fights"
                     textbutton "{size=20}{color=[black]}2v2":
                         action Show("arena_dogfights", transition=dissolve, container=pytfall.arena.dogfights_2v2)
-                        hovered tt.Action("Unranked team fights 2v2")
+                        tooltip "Unranked team 2v2 fights"
                     textbutton "{size=20}{color=[black]}3v3":
                         action Show("arena_dogfights", transition=dissolve, container=pytfall.arena.dogfights_3v3)
-                        hovered tt.Action("Unranked team fights 3v3")
+                        tooltip "Unranked team 3v3 fights"
 
         # RIGHT FRAME::
         # Hero stats + Some Buttons:
@@ -325,11 +323,11 @@ init: # Main Screens:
                     textbutton "Show Daily Report":
                         xalign .5
                         action Show("arena_report")
-                        hovered tt.Action("Recent arena events")
+                        tooltip "View yesterday's Arena events"
                     textbutton "Reputation Ladder":
                         xalign .5
                         action Show("arena_rep_ladder")
-                        hovered tt.Action("Top fighters with highest reputation")
+                        tooltip "View top fighters by highest reputation"
 
         use top_stripe(True)
 
@@ -1190,7 +1188,7 @@ init: # ChainFights vs Mobs:
             else:
                 timer 3.0 action Return()
                 key "mousedown_1" action Return()
-                
+
                 if rolled == "hp":
                     text "Rolled: HP" style "arena_header_text" color red size 30 xalign .5 ypos 10
                 elif rolled == "mp":
