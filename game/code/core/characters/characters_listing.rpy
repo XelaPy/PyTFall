@@ -87,7 +87,7 @@ screen chars_list(source=None):
         hbox:
             style_group "content"
             spacing 14
-            pos (25, 60)
+            pos 27, 94
             xsize 970
             box_wrap True
             for c in charz_list:
@@ -99,7 +99,7 @@ screen chars_list(source=None):
                     hover_background Frame(Transform(img, alpha=.9), 10 ,10)
                     xysize (470, 115)
                     action Return(['choice', c])
-                    hovered tt.Action('Show character profile')
+                    tooltip "Show {}'s Profile!".format(c.name)
 
                     # Image:
                     frame:
@@ -170,7 +170,7 @@ screen chars_list(source=None):
                                     button:
                                         style_group "ddlist"
                                         action NullAction()
-                                        hovered tt.Action("%s is in training!" % c.nickname)
+                                        tooltip "%s is in training!" % c.nickname
                                         text "{image=button_circle_green}Location: School"
                                 else:
                                     if c.flag("last_chars_list_geet_icon") == "home":
@@ -178,10 +178,10 @@ screen chars_list(source=None):
                                             style_group "ddlist"
                                             if c.status == "slave":
                                                 action Return(["dropdown", "home", c])
-                                                hovered tt.Action("Choose a place for %s to live at (RMB to set Work)!" % c.nickname)
+                                                tooltip "Choose a place for %s to live at (RMB to set Work)!" % c.nickname
                                             else: # Can't set home for free cs, they decide it on their own.
                                                 action NullAction()
-                                                hovered tt.Action("%s is free and decides on where to live at!" % c.nickname)
+                                                tooltip "%s is free and decides on where to live at!" % c.nickname
                                             alternate [Function(c.set_flag, "last_chars_list_geet_icon", "work"),
                                                        Return(["dropdown", "workplace", c])]
                                             text "{image=button_circle_green}Home: [c.home]":
@@ -201,7 +201,7 @@ screen chars_list(source=None):
                                             if c.status == "slave":
                                                 alternate [Function(c.set_flag, "last_chars_list_geet_icon", "home"),
                                                            Return(["dropdown", "home", c])]
-                                            hovered tt.Action(tt_hint)
+                                            tooltip tt_hint
                                             text "{image=button_circle_green}Work: [c.workplace]":
                                                 if len(str(c.workplace)) > 18:
                                                     size 15
@@ -210,7 +210,7 @@ screen chars_list(source=None):
                                 button:
                                     style_group "ddlist"
                                     action Return(["dropdown", "action", c])
-                                    hovered tt.Action("Choose a task for %s to do!" % c.nickname)
+                                    tooltip "Choose a task for %s to do!" % c.nickname
                                     if getattr(c.workplace, "is_school", False):
                                         text "{image=button_circle_green}Action: [c.action.name] Course":
                                             if c.action.name is not None and len(str(c.action.name)) > 18:
@@ -237,7 +237,7 @@ screen chars_list(source=None):
                             add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align .5, .5
                         else:
                             add(im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)) align .5, .5
-                        hovered tt.Action('Select the character')
+                        tooltip 'Select the character'
 
     # Filters:
     frame:
@@ -275,14 +275,14 @@ screen chars_list(source=None):
                             action ToggleSetMembership(selected_filters, f)
                             text f color c size 18 outlines [(1, "#3a3a3a", 0, 0)]
                             xpadding 6
-                            hovered tt.Action(t)
+                            tooltip t
                     button:
                         xalign .5
                         yalign 1.0
                         style_group "basic"
                         action source.clear, renpy.restart_interaction
                         text "Reset"
-                        hovered tt.Action('Reset all filters')
+                        tooltip 'Reset all filters'
 
                 null height 20
 
@@ -295,7 +295,7 @@ screen chars_list(source=None):
                                 xsize 125
                                 action ModFilterSet(source, "status_filters", f)
                                 text f.capitalize() color green
-                                hovered tt.Action('Toggle the filter')
+                                tooltip 'Toggle the filter'
                     if "Home" in selected_filters:
                         for f in home_filters:
                             button:
@@ -304,7 +304,7 @@ screen chars_list(source=None):
                                 text "[f]" color saddlebrown:
                                     if len(str(f)) > 12:
                                         size 12
-                                hovered tt.Action('Toggle the filter')
+                                tooltip 'Toggle the filter'
                     if "Work" in selected_filters:
                         for f in work_filters:
                             button:
@@ -313,7 +313,7 @@ screen chars_list(source=None):
                                 text "[f]" color brown:
                                     if len(str(f)) > 12:
                                         size 10
-                                hovered tt.Action('Toggle the filter')
+                                tooltip 'Toggle the filter'
                     if "Action" in selected_filters:
                         for f in action_filters:
                             button:
@@ -323,26 +323,14 @@ screen chars_list(source=None):
                                 if t.lower().endswith(" job"):
                                     $ t = t[:-4]
                                 text "[t]" color darkblue
-                                hovered tt.Action('Toggle the filter')
+                                tooltip 'Toggle the filter'
                     if "Class" in selected_filters:
                         for f in class_filters:
                             button:
                                 xsize 125
                                 action ModFilterSet(source, "class_filters", f)
                                 text "[f]" color purple
-                                hovered tt.Action('Toggle the filter')
-                # for block_name, filters in source.display_filters:
-                    # label ("{=della_respira}{b}[block_name]:") xalign 0
-                    # for item_1, item_2 in izip_longest(fillvalue=None, *[iter(filters)]*2):
-                        # hbox:
-                            # style_group "basic"
-                            # for filter_item in [item_1, item_2]:
-                                # if filter_item:
-                                    # $ filter_name, filter_group, filter_key = filter_item
-                                    # $ focus = source.get_focus(filter_group, filter_key)
-                                    # button:
-                                        # action [SelectedIf(focus), Function(source.add_filter, filter_group, filter_key)]
-                                        # text "[filter_name]" size 16
+                                tooltip 'Toggle the filter'
             # Mass (de)selection Buttons ====================================>
             null height 3
             frame:
@@ -362,17 +350,18 @@ screen chars_list(source=None):
                         else:
                             action SetVariable("the_chosen", the_chosen.union(chars_on_page))
                         text "These"
-                        hovered tt.Action('Select all currently visible characters')
+                        tooltip 'Select all currently visible characters'
                     button: # every of currently filtered, also in next tabs
                         xysize (66, 40)
                         action If(set(source.sorted).difference(the_chosen), [SetVariable("the_chosen", set(source.sorted))])
                         text "All"
-                        hovered tt.Action('Select all characters')
+                        tooltip 'Select all characters'
                     button: # deselect all
                         xysize (66, 40)
                         action If(len(the_chosen), [SetVariable("the_chosen", set())])
                         text "None"
-                        hovered tt.Action('Unselect everyone')
+                        tooltip "Clear Selection"
+
             # Mass action Buttons ====================================>
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
@@ -387,27 +376,20 @@ screen chars_list(source=None):
                         action If(len(the_chosen), [SetVariable("char", PytGroup(the_chosen)), Show("char_control")])
                         text "Girl Control"
                         selected False
-                        hovered tt.Action('Set desired behavior for group')
+                        tooltip 'Set desired behavior for group'
                     button:
                         xysize (150, 40)
                         action If(len(the_chosen), [Hide("chars_list"), With(dissolve), SetVariable("eqtarget", None), Jump('char_equip')])
                         text "Equipment"
                         selected False
-                        hovered tt.Action('Manage group equipment')
+                        tooltip "Manage Group's Equipment"
                     button:
                         xysize (150, 40)
                         action If(len(the_chosen), [Hide("chars_list"), With(dissolve),
                                   Jump('school_training')])
                         text "Training"
                         selected False
-                        hovered tt.Action('Manage group training')
-
-    # Tooltips:
-    frame:
-        background Frame("content/gfx/frame/window_frame1.png", 10, 10)
-        align(.09, 1.0)
-        xysize (950, 65)
-        text (u"{=content_text}{size=24}{color=[ivory]}%s" % tt.value) align(.5, .5)
+                        tooltip "Send the entire group to School!"
 
     use top_stripe(True)
 
@@ -419,7 +401,7 @@ screen chars_list(source=None):
         textbutton "<--":
             sensitive page > 0
             action SetScreenVariable("page", page-1)
-            hovered tt.Action('Previous page')
+            tooltip 'Previous page'
             keysym "mousedown_5"
 
         $ temp = page + 1
@@ -429,7 +411,7 @@ screen chars_list(source=None):
         textbutton "-->":
             sensitive page < max_page
             action SetScreenVariable("page", page+1)
-            hovered tt.Action('Next page')
+            tooltip 'Next page'
             keysym "mousedown_4"
 
     $ store.chars_list_last_page_viewed = page # At Darks Request!
