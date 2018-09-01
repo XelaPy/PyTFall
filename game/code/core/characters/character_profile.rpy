@@ -608,16 +608,12 @@ screen char_profile():
             align 1.0, 1.0
             xysize 340, 680
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-            has vbox spacing 1
-            null height 1
 
             # Buttons ====================================>
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
-                xalign .5
-                xoffset -4
-                # ypos 5
-                xysize (325, 150)
+                xalign .5 ypos 1
+                xysize 325, 150
                 has hbox style_group "wood" align .5, .5 spacing 5
 
                 vbox:
@@ -661,8 +657,8 @@ screen char_profile():
 
             # AP ====================================>
             frame:
-                xalign .5
-                xysize (300, 90)
+                xalign .5 ypos 160
+                xysize 300, 90
                 background ProportionalScale("content/gfx/frame/frame_ap.png", 300, 100)
                 label ("[char.AP]"):
                     pos (200, 0)
@@ -671,24 +667,20 @@ screen char_profile():
                     text_size 28
 
             # Traits/Effects/Attacks/Magix ====================================>
-            null height -25
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6))
-                xsize 335
+                xsize 335 ypos 230 xalign .5
                 style_group "proper_stats"
-                xanchor 1
-                ypadding 7
-                xpadding 8
-                xoffset -3
-                has vbox xoffset 3 spacing 2
+                padding 7, 8
+                has vbox spacing 2
                 # Traits/Effects ====================================>
                 hbox:
                     # Traits:
                     vbox:
-                        xysize (160, 190)
+                        xysize (160, 210)
                         label (u"Traits:") text_size 20 text_color ivory text_bold True xalign .5
                         viewport:
-                            xysize (160, 155)
+                            xysize (160, 165)
                             scrollbars "vertical"
                             draggable True
                             mousewheel True
@@ -706,10 +698,10 @@ screen char_profile():
                                             hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
                     # Effects:
                     vbox:
-                        xysize (160, 190)
+                        xysize (160, 210)
                         label (u"Effects:") text_size 20 text_color ivory text_bold True xalign .5
                         viewport:
-                            xysize (160, 155)
+                            xysize (160, 165)
                             scrollbars "vertical"
                             draggable True
                             mousewheel True
@@ -728,10 +720,10 @@ screen char_profile():
                 # Attacks/Magic ====================================>
                 hbox:
                     vbox:
-                        xysize (160, 146)
+                        xysize (160, 210)
                         label (u"Attack:") text_size 20 text_color ivory text_bold True xalign .5 text_outlines [(3, "#3a3a3a", 0, 0), (2, "#8B0000", 0, 0), (1, "#3a3a3a", 0, 0)]
                         viewport:
-                            xysize (160, 104)
+                            xysize (160, 165)
                             scrollbars "vertical"
                             draggable True
                             mousewheel True
@@ -748,11 +740,11 @@ screen char_profile():
                                         hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
                     vbox:
-                        xysize (160, 146)
+                        xysize (160, 210)
                         xanchor 5
                         label (u"Magic:") text_size 20 text_color ivory text_bold True xalign .5 text_outlines [(3, "#3a3a3a", 0, 0), (2, "#104E8B", 0, 0), (1, "#3a3a3a", 0, 0)]
                         viewport:
-                            xysize (160, 104)
+                            xysize (160, 165)
                             scrollbars "vertical"
                             draggable True
                             mousewheel True
