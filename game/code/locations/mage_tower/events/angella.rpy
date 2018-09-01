@@ -147,7 +147,7 @@ screen alignment_choice(character):
             xysize (250, 40)
             yalign .5
             action Return("")
-            text "[tt.value]" size 15
+            text "Finish" size 15
 
     python:
         elements = list(el for el in traits.values() if el.elemental and el != traits["Neutral"] and el not in character.traits)
@@ -190,13 +190,11 @@ screen alignment_choice(character):
             button:
                 align .5, .5
                 xysize (90, 90)
-                # pos (5, 5)
                 action NullAction()
                 background Transform(f, align=(.5, .5))
                 hover_background Transform(f_a, align=(.5, .5))
 
 screen alignment_removal_choice(character):
-    default tt = Tooltip("Cancel")
     key "mousedown_3" action Return("")
 
     vbox:
@@ -206,7 +204,7 @@ screen alignment_removal_choice(character):
             xysize (250, 40)
             yalign .5
             action Return("")
-            text "[tt.value]" size 15
+            text "Finish" size 15
 
     python:
         elements = list(el for el in character.traits if el.elemental)
