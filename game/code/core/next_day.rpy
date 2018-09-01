@@ -397,7 +397,7 @@ screen next_day():
                             hover_background Frame(im.MatrixColor(img ,im.matrix.brightness(.20)), 5, 5)
                             text "All" align .5, .5 style "proper_stats_label_text" size 32
                             action [Return(['filter', 'all']), SetScreenVariable("show_summary", None)]
-                            hovered tt.action(u"Show full report tree!")
+                            tooltip "Show full report tree!"
 
                         null width 5
 
@@ -547,7 +547,7 @@ screen next_day():
                                 hover_background Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(.10)), 5, 5)
                                 text "!" align (.5, .5) color red size 60 style "stats_text"
                                 action [Return(['filter', 'red_flags']), SetScreenVariable("show_summary", None)]
-                                hovered tt.action(u"View All events flagged Red!!")
+                                tooltip "View All events flagged Red!!"
                         else:
                             button:
                                 yalign .5
@@ -591,7 +591,7 @@ screen next_day():
                                         idle img
                                         hover im.MatrixColor(img ,im.matrix.brightness(.15))
                                         action [Return(['filter', 'building', building]), SetScreenVariable("show_summary", None)]
-                                        hovered tt.action(u"View Events in %s building." % building.name)
+                                        tooltip "View Events in %s building." % building.name
 
                                     if building.flag_red:
                                         button:
@@ -599,7 +599,7 @@ screen next_day():
                                             background Null()
                                             text "!" color red size 40 italic True
                                             action NullAction()
-                                            hovered tt.action(u"There are building related events flagged Red!")
+                                            tooltip "There are building related events flagged Red!"
 
                                 null width 6
 
@@ -778,7 +778,7 @@ screen next_day():
                             idle img
                             hover im.MatrixColor(img, im.matrix.brightness(.15))
                             action [Return(['filter', 'mc']), SetScreenVariable("show_summary", None)]
-                            hovered tt.action(u"Show personal MC report!")
+                            tooltip "Show personal MC report!"
                     frame:
                         style_group "proper_stats"
                         yalign .5
@@ -858,7 +858,7 @@ screen next_day():
                         background Frame("content/gfx/frame/p_frame5.png", 5, 5)
                         text "!" color red size 40 style "stats_text"
                         action NullAction()
-                        hovered tt.action(u"Red flag in MC's Report!")
+                        tooltip "Red flag in MC's Report!"
 
             # School:
             frame:
@@ -872,7 +872,7 @@ screen next_day():
                     idle img
                     hover (im.MatrixColor(img ,im.matrix.brightness(.15)))
                     action [Return(['filter', 'school']), SetScreenVariable("show_summary", None)]
-                    hovered tt.action(u"View School and School Events!")
+                    tooltip "View School and School Events!"
 
             # Girlz/Other Data like flags/char types/unassigned and filters (bid-bottom frame):
             frame:
@@ -885,7 +885,7 @@ screen next_day():
                     idle img
                     hover (im.MatrixColor(img ,im.matrix.brightness(.15)))
                     action [Return(['filter', 'gndreports']), SetScreenVariable("show_summary", None)]
-                    hovered tt.action(u"Show personal girl reports!")
+                    tooltip "Show personal girl reports!"
 
             vbox:
                 align .5, .85
@@ -935,7 +935,7 @@ screen next_day():
                     background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
                     text "+" color green size 40 style "stats_text"
                     action NullAction()
-                    hovered tt.action(u"New Courses available!")
+                    tooltip "New Courses available!"
             hbox:
                 yalign .5
                 xalign 0
@@ -944,14 +944,13 @@ screen next_day():
                         background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
                         text "!" color yellow size 40 style "proper_stats_text"
                         action NullAction()
-                        hovered tt.action(u"One of your girls has successfully completed her course (this doesn't mean that a course has ended)!")
+                        tooltip "One of your girls has successfully completed her course (this doesn't mean that a course has ended)!"
                 if "is attending is at it's end" in school.txt:
                     button:
                         background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
                         text "!" color yellow size 40 style "stats_text"
                         action NullAction()
-                        hovered tt.action(u"A course one of your girls attended has ended!")
-
+                        tooltip "A course one of your girls attended has ended!"
 
         # Girlz (extra info) ------------------------------------------->>>
             # Prepearing info:
@@ -968,8 +967,7 @@ screen next_day():
                     background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
                     text "!" color red size 40 style "stats_text"
                     action NullAction()
-                    hovered tt.action(u"Red flag in Girlz personal Reports!")
-
+                    tooltip "Red flag in Girlz personal Reports!"
 
         # Left Frame ==========================================================================>>>>
         # Finances:
@@ -1078,15 +1076,6 @@ screen next_day():
                     frame:
                         text "Total" color cl size 24 xpos 2
                         text "[total]" color cl style_suffix "value_text" xoffset -3 size 19
-
-
-        # Tooltip Frame:
-        frame:
-            background Frame("content/gfx/frame/mes12.jpg", 5, 5)
-            xysize (700, 125)
-            padding 10, 5
-            pos (3, 594)
-            text (u"{size=20}{color=[ivory]}%s" % tt.value) style "TisaOTM"
 
         use top_stripe(True)
 
@@ -1283,7 +1272,7 @@ screen next_day():
                         xysize (120, 40)
                         style "left_wood_button"
                         action Return(['control', 'left'])
-                        hovered tt.action("<== View Previous Event")
+                        tooltip "<== View Previous Event"
                         text "Previous Event" style "wood_text" xalign(.6) size 10
                     frame:
                         align (.5, .5)
@@ -1294,14 +1283,14 @@ screen next_day():
                         xysize (120, 40)
                         style "right_wood_button"
                         action Return(['control', 'right'])
-                        hovered tt.action("View Next Event ==>")
+                        tooltip "View Next Event ==>"
                         text "Next Event" style "wood_text" xalign .4 size 10
                 hbox:
                     align .5, .5
                     spacing 20
                     textbutton "-Next Day-":
                         style "main_screen_4_button"
-                        hovered tt.action("Begin New day and watch the results.")
+                        tooltip "Begin New day and watch the results."
                         action [Hide("mainscreen"), Return(['control', "next_day_local"])]
                         text_size 16
                         ypadding 5
@@ -1313,11 +1302,11 @@ screen next_day():
                         idle img
                         hover im.MatrixColor(img, im.matrix.brightness(.25))
                         action Return(['control', 'return'])
-                        hovered tt.Action("Return to previous screen!")
+                        tooltip "Return to previous screen!"
 
                     textbutton "-Summary-":
                         style "main_screen_4_button"
-                        hovered tt.action("Back to ND Summary!")
+                        tooltip "Back to ND Summary!"
                         action SetScreenVariable("show_summary", True)
                         text_size 16
                         ypadding 5
