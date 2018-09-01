@@ -377,7 +377,6 @@ screen char_equip():
     key "mousedown_6" action Return(['con', 'return'])
 
     default stats_display = "stats"
-    default tt = Tooltip("")
 
     # BASE FRAME 2 "bottom layer" ====================================>
     add "content/gfx/frame/equipment2.png"
@@ -404,14 +403,14 @@ screen char_equip():
             at fade_in_out()
             background Transform(Frame(im.MatrixColor("content/gfx/frame/Mc_bg3.png", im.matrix.brightness(-0.2)), 5, 5), alpha=.3)
             xysize (710, 296)
-            use char_equip_item_info(item=focusitem, size=(703, 287), tt=tt)
+            use char_equip_item_info(item=focusitem, size=(703, 287))
 
     if not isinstance(eqtarget, PytGroup):
-        use char_equip_left_frame(tt, stats_display)
+        use char_equip_left_frame(stats_display)
     else:
-        use group_equip_left_frame(tt)
+        use group_equip_left_frame()
 
-screen char_equip_left_frame(tt, stats_display):
+screen char_equip_left_frame(stats_display):
     # Left Frame: =====================================>
     fixed:
         pos (0, 2)
@@ -591,7 +590,7 @@ screen char_equip_left_frame(tt, stats_display):
                                         xysize 20, 18
                                         action NullAction()
                                         yoffset 2
-                                        hovered tt.action("Icon represents skills modifier changes. Green means bonus, red means penalty. Left one is action counter, right one is training counter, top one is resulting value.")
+                                        tooltip "Icon represents skills modifier changes. Green means bonus, red means penalty. Left one is action counter, right one is training counter, top one is resulting value."
                                         if data[0] > 0:
                                             add PS(img_path + "left_green.png", 20, 20)
                                         elif data[0] < 0:
@@ -608,18 +607,18 @@ screen char_equip_left_frame(tt, stats_display):
                                         button:
                                             style "default"
                                             action NullAction()
-                                            hovered tt.action("Direct bonus to action skill values.")
+                                            tooltip "Direct bonus to action skill values."
                                             label "A: " + str(data[3]) text_size 15
                                     if data[4]:
                                         button:
                                             style "default"
                                             action NullAction()
-                                            hovered tt.action("Direct bonus to knowledge skill values.")
+                                            tooltip "Direct bonus to knowledge skill values."
                                             label "K: " + str(data[4]) text_size 15
 
-    use char_equip_right_frame(tt)
+    use char_equip_right_frame()
 
-screen group_equip_left_frame(tt):
+screen group_equip_left_frame():
 
     # Left Frame: =====================================>
     fixed:
@@ -675,9 +674,9 @@ screen group_equip_left_frame(tt):
                                         hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 0, 0)
 
 
-    use char_equip_right_frame(tt)
+    use char_equip_right_frame()
 
-screen char_equip_right_frame(tt):
+screen char_equip_right_frame():
     # Right Frame: =====================================>
     # TOOLTIP TEXT or Applied Traits and Skills ====================================>
     frame:
@@ -704,9 +703,7 @@ screen char_equip_right_frame(tt):
             else:
                 t = "{vspace=17}[eqtarget.name]{/color}"
 
-        if tt.value:
-            text "{color=#ecc88a}%s"%tt.value size 14 align (.5, .5) font "fonts/TisaOTM.otf" line_leading -5
-        elif getattr(store, "dummy", None) is not None:
+        if getattr(store, "dummy", None) is not None:
             # Traits and skills:
             vbox:
                 hbox:
@@ -778,9 +775,9 @@ screen char_equip_right_frame(tt):
                                 xalign .98
                                 xpadding 3
                                 text u'{color=#CD4F39}%s'%skill size 16 yalign .5
-        elif not tt.value:
+        else:
             if isinstance(eqtarget, PytGroup):
-                text (u"{color=#ecc88a}%s" % t) size 14 align (.55, .65) font "fonts/TisaOTM.otf" line_leading -5
+                text (u"{color=#ecc88a}%s" % t) size 14 align (.55, .65) font "fonts/TisaOTM.otf" # line_leading -5
             elif eqtarget.status == "slave":
                 text (u"{color=[gold]}[eqtarget.name]{/color}{color=#ecc88a}  is Slave%s" % t) size 14 align (.55, .65) font "fonts/TisaOTM.otf" line_leading -5
             elif eqtarget.status == "free":
@@ -800,7 +797,7 @@ screen char_equip_right_frame(tt):
                                   If(eqtarget != hero, true=[SetVariable("inv_source", hero),
                                   Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter),
                                   Return(['con', 'return']), With(dissolve)])
-                hovered tt.Action("Equip from [hero.nickname]'s Inventory")
+                tooltip "Equip from {}'s Inventory".format(hero.nickname)
                 text "Hero" style "pb_button_text"
             button:
                 xysize 110, 30
@@ -808,7 +805,7 @@ screen char_equip_right_frame(tt):
                                   If(eqtarget != hero, true=[SetVariable("inv_source", eqtarget),
                                   Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter),
                                   Return(['con', 'return']), With(dissolve)])
-                hovered tt.Action("Equip from [eqtarget.nickname]'s Inventory")
+                tooltip "Equip from {}'s Inventory".format(eqtarget.nickname)
                 text "Girl" style "pb_button_text"
 
     # "Final" Filters (id/price/etc.)
@@ -927,10 +924,10 @@ screen char_equip_right_frame(tt):
         idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
         hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
         action Return(['control', 'return'])
-        hovered tt.Action("Return to previous screen!")
+        tooltip "Return to previous screen!"
     key "mousedown_3" action Return(['control', 'return'])
 
-screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="content", mc_mode=False, tt=None):
+screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="content", mc_mode=False):
 
     key "mousedown_3" action Return(['con', 'return'])
 
@@ -952,8 +949,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                     idle ("content/gfx/interface/buttons/discard.png")
                     hover ("content/gfx/interface/buttons/discard_h.png")
                     action Return(["item", "discard"])
-                    if tt:
-                        hovered tt.Action("Discard item")
+                    tooltip "Discard item"
                 frame:
                     align .5, .5
                     xysize (439, 35)
@@ -964,8 +960,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                     idle ("content/gfx/interface/buttons/close3.png")
                     hover ("content/gfx/interface/buttons/close3_h.png")
                     action Return(['con', 'return'])
-                    if tt:
-                        hovered tt.Action("Close item info")
+                    tooltip "Close item info"
 
             # Separation Strip (Outside of alignments):
             label ('{color=#ecc88a}--------------------------------------------------------------------------------------------------') xalign .5 ypos 25
@@ -1026,14 +1021,14 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                     xysize (80, 45)
                     action SensitiveIf(eqtarget != hero and ((eqtarget.inventory[item] > 0 and inv_source == eqtarget) or (hero.inventory[item] > 0 and inv_source == hero))), Return(['item', 'transfer'])
                     if eqtarget == hero:
-                        hovered tt.Action("Disabled")
+                        tooltip "Disabled"
                         text "Disabled" style "pb_button_text" align (.5, .5)
                     elif inv_source == hero:
-                        hovered tt.Action("Transfer {} from {} to {}".format(item.id, hero.nickname, eqtarget.nickname))
+                        tooltip "Transfer {} from {} to {}".format(item.id, hero.nickname, eqtarget.nickname)
                         text "Give to\n {color=#FFAEB9}[eqtarget.nickname]{/color}" style "pb_button_text" align (.5, .5) line_leading 3
                     else:
                         text "Give to\n {color=#FFA54F}[hero.nickname]{/color}" style "pb_button_text" align (.5, .5) line_leading 3
-                        hovered tt.Action("Transfer {} from {} to {}".format(item.id, eqtarget.nickname, hero.nickname))
+                        tooltip "Transfer {} from {} to {}".format(item.id, eqtarget.nickname, hero.nickname)
 
                 frame:
                     align (.5, .5)
@@ -1055,8 +1050,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                     style_group "pb"
                     align (1.0, .5)
                     xysize (80, 45)
-                    if tt:
-                       hovered tt.Action(temp_msg)
+                    tooltip temp_msg
                     action SensitiveIf(focusitem), Return(['item', 'equip/unequip'])
                     if item_direction == 'equip' and not can_equip(focusitem, eqtarget):
                         text "[temp]" style "pb_button_text" align (.5, .5) color red strikethrough True
@@ -1357,7 +1351,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                 button:
                                     xysize (90, 30)
                                     action SelectedIf(eqsave[i] and any(eqtarget.eqsave[i].values())), ToggleDict(eqsave, i), With(dissolve)
-                                    hovered tt.Action("Show/hide equipment state if it's saved")
+                                    tooltip "Show/hide equipment state if it's saved"
                                     text "Outfit %d" % (i + 1) style "pb_button_text"
                                 button:
                                     align (.5, .5)
@@ -1365,8 +1359,7 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                     action Function(eqtarget.eqsave.__setitem__, i, eqtarget.eqslots.copy()), SetDict(eqsave, i, True), With(dissolve)
                                     text u"\u2193" align .5, .5
                                     padding (9, 1)
-                                    if tt:
-                                        hovered tt.Action("Save equipment state")
+                                    tooltip "Save equipment state"
                                 if any(eqtarget.eqsave[i].values()):
                                     button:
                                         align (.5, .5)
@@ -1374,16 +1367,14 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                                         action Function(eqtarget.load_equip, eqtarget.eqsave[i]), With(dissolve)
                                         text u"\u2191"
                                         padding (9, 1)
-                                        if tt:
-                                            hovered tt.Action("Load equipment state")
+                                        tooltip "Load equipment state"
                                     button:
                                         align (.5, .5)
                                         xysize (30, 30)
                                         action Function(eqtarget.eqsave.__setitem__, i, {k: False for k in eqtarget.eqslots}), SetDict(eqsave, i, False), With(dissolve)
                                         text u"\u00D7"
                                         padding (8, 1)
-                                        if tt:
-                                            hovered tt.Action("Discard equipment state")
+                                        tooltip "Discard equipment state"
                         frame:
                             xysize (234, 246)
                             background Null()
