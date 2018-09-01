@@ -228,16 +228,6 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
     modal True
     zorder 1
 
-    # Tooltip
-    default tt = Tooltip("%s"%tt_text)
-
-    frame:
-        background Frame("content/gfx/frame/black_frame.png", 10, 10)
-        align(.977, 1.0)
-        xysize (1003, 92)
-        vbox:
-            text "{=proper_stats_text}%s"%tt.value style "proper_stats_text" outlines [(1, "#3a3a3a", 0, 0)]
-
     if store.chars_list:
         # Stats and Info (Left Frame):
         frame:
@@ -441,7 +431,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                                         text trait.id idle_color bisque size 18 align .5, .5 hover_color crimson text_align .5
                                     else:
                                         text trait.id idle_color bisque size 15 align .5, .5 hover_color crimson text_align .5
-                                    hovered tt.Action(trait.desc)
+                                    tooltip trait.desc
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
         # Buttons:
@@ -458,7 +448,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     idle img
                     hover (im.MatrixColor(img, im.matrix.brightness(.15)))
                     action (Function(store.previous_index))
-                    hovered tt.Action("<== Previous Girl")
+                    tooltip "<== Previous Girl"
 
                 null width 10
 
@@ -472,16 +462,16 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                         textbutton "Retrieve":
                             xsize 150
                             action Show("se_captured_retrieval")
-                            hovered tt.Action("Retrieve %s for % gold." % (store.girl.name, store.get_fees4captured()))
+                            tooltip "Retrieve %s for % gold." % (store.girl.name, store.get_fees4captured())
                     else:
                         textbutton "[buy_button]":
                             xsize 150
                             action Return(["buy"])
-                            hovered tt.Action("" + buy_tt % store.girlfin.get_price())
+                            tooltip "" + buy_tt % store.girlfin.get_price()
                     textbutton "Back":
                         xsize 150
                         action Hide("slave_shopping", transition=Dissolve(1.0))
-                        hovered tt.Action("Exit Market")
+                        tooltip "Exit Market"
 
                 null width 10
 
@@ -491,7 +481,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     idle img
                     hover (im.MatrixColor(img, im.matrix.brightness(.15)))
                     action (Function(store.next_index))
-                    hovered tt.Action("Next Girl ==>")
+                    tooltip "Next Girl ==>"
 
         # Girl choice:
         frame:
@@ -501,20 +491,20 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
             side "c t":
                 yoffset -2
                 viewport id "sm_vp_glist":
-                    xysize 1001, 150
+                    xysize 1001, 230
                     draggable True
                     mousewheel True
-                    edgescroll [60, 100]
+                    edgescroll [100, 200]
                     has hbox spacing 5
                     for c in store.chars_list:
-                        $ img = c.show("vnsprite", resize=(180, 138), cache=True)
+                        $ img = c.show("vnsprite", resize=(180, 206), cache=True)
                         frame:
                             background Frame("content/gfx/frame/Mc_bg3.png", 10, 10)
                             imagebutton:
                                 idle img
                                 hover (im.MatrixColor(img, im.matrix.brightness(.15)))
                                 action Function(store.set_girl, c)
-                                hovered tt.Action(u"{=proper_stats_text}%s\n{size=-5}{=proper_stats_value_text}%s"%(c.name, c.desc))
+                                tooltip u"{=proper_stats_text}%s\n{size=-5}{=proper_stats_value_text}%s"%(c.name, c.desc)
                 bar value XScrollValue("sm_vp_glist")
 
     use top_stripe(show_return_button=True, return_button_action=Hide("slave_shopping"), show_lead_away_buttons=False)
