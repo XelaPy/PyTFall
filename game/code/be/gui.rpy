@@ -60,58 +60,6 @@ init: # screens:
                     action SetScreenVariable("menu_mode", "top")
                     keysym "mousedown_3"
 
-        # Tooltip:
-        if tt.value:
-            frame: # This is the spell/attack description frame:
-                pos (.5, .89) anchor (.5, 1.0)
-                style "dropdown_gm_frame"
-                ymaximum 400
-                has vbox spacing 1
-                # Elements:
-                text "Name: [tt.value.name]" style "TisaOTM" size 20 color ivory
-                $ temp = ""
-                for t in tt.value.damage:
-                    $ temp += tt.value.DAMAGE_20[t]
-                text "Damage: [temp]" style "TisaOTM" size 18 color ivory
-                text "Desc: [tt.value.desc]" size 14 color ivory style "TisaOTM"
-                hbox:
-                    if tt.value.health_cost > 0:
-                        if isinstance(tt.value.health_cost, int):
-                            text "HP: [tt.value.health_cost] " size 14 color red style "TisaOTM"
-                        else:
-                            $ value = int(tt.value.health_cost * 100)
-                            text "HP: [value] % " size 14 color red style "TisaOTM"
-                    if tt.value.mp_cost >0:
-                        if isinstance(tt.value.mp_cost, int):
-                            text "MP: [tt.value.mp_cost] " size 14 color blue style "TisaOTM"
-                        else:
-                            $ value = int(tt.value.mp_cost * 100)
-                            text "MP: [value] % " size 14 color blue style "TisaOTM"
-
-                    if tt.value.vitality_cost > 0:
-                        if isinstance(tt.value.vitality_cost, int):
-                            text "VP: [tt.value.vitality_cost] " size 14 color green style "TisaOTM"
-                        else:
-                            $ value = int(tt.value.vitality_cost * 100)
-                            text "VP: [value] % " size 14 color green style "TisaOTM"
-                    if (tt.value.type=="all_enemies" and tt.value.piercing) or tt.value.type=="all_allies":
-                        text "Target: All" size 14 color gold style "TisaOTM"
-                    elif tt.value.type=="all_enemies":
-                        text "Target: First Row" size 14 color gold style "TisaOTM"
-                    elif tt.value.piercing:
-                        text "Target: Any" size 14 color gold style "TisaOTM"
-                    else:
-                        text "Target: One" size 14 color gold style "TisaOTM"
-
-        # Skillz Menu:
-        # frame:
-        #     style_group "dropdown_gm"
-        #     pos (.5, .2) anchor (.5, .0)
-        #     ymaximum 400
-        #     has hbox box_wrap True
-        #
-        #     at fade_in_out(t1=.6, t2=.3)
-
         # First we'll get all the skills and sort them into: @Review: Might be a good idea to move this sorting off the screen!
         # *Attack (battle) skills.
         # *Magic skills.
@@ -177,7 +125,7 @@ init: # screens:
                         for skill in attacks:
                             textbutton "[skill.mn]":
                                 action SensitiveIf(skill.check_conditions(char)), Return(skill)
-                                hovered tt.action(skill)
+                                tooltip ["be", skill]
                 else:
                     vpgrid:
                         cols 6
@@ -190,7 +138,7 @@ init: # screens:
                             textbutton "%s"%skill.mn:
                                 xysize 200, 25
                                 action SensitiveIf(skill.check_conditions(char)), Return(skill)
-                                hovered tt.action(skill)
+                                tooltip ["be", skill]
         elif menu_mode == "magic":
             python:
                 d = OrderedDict()
@@ -245,7 +193,7 @@ init: # screens:
                                             xsize 138
                                             xalign .5
                                             action SensitiveIf(skill.check_conditions(char)), Return(skill)
-                                            hovered tt.action(skill)
+                                            tooltip ["be", skill]
                     if me:
                         frame:
                             margin 0, 0
@@ -262,19 +210,8 @@ init: # screens:
                                         xsize 125
                                         xalign .5
                                         action SensitiveIf(skill.check_conditions(char)), Return(skill)
-                                        hovered tt.action(skill)
-
-                # if ne:
-                    # frame:
-                        # xalign .5
-                        # has vbox
-                        # for skill in ne:
-                            # textbutton "{=text}{color=[black]}{size=-6}[skill.mn]":
-                                # xsize 130
-                                # xalign .5
-                                # action SensitiveIf(skill.check_conditions(char)), Return(skill)
-                                # hovered tt.action(skill)
-
+                                        tooltip ["be", skill]
+                                        
     screen battle_overlay(be):
         zorder 2
 
