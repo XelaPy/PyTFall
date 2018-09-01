@@ -457,13 +457,6 @@ init:
                 background Frame("content/gfx/frame/gm_frame.png")
                 label "Tier [entry.tier]" xalign .5 text_color "#DAA520"
 
-    screen rtt_lightbutton:
-        imagebutton yalign .5:
-            idle (img)
-            hover (im.MatrixColor(img, im.matrix.brightness(.15)))
-            action Return(return_value)
-            hovered tt.action(u"%s"%tooltip)
-
     python:
         def get_screens(*args):
             """
