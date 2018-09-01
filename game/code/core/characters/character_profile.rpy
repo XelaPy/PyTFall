@@ -799,17 +799,16 @@ screen race_and_elements():
             $ els_a = [Transform(i, crop=(90/len(els_a)*els_a.index(i), 0, 90/len(els_a), 90), subpixel=True, xpos=(x + 90/len(els_a)*els_a.index(i))) for i in els_a]
             $ f = Fixed(*els, xysize=(90, 90))
             $ f_a = Fixed(*els_a, xysize=(90, 90))
-            $ ele = ""
+            if len(char.elements) > 1:
+                $ ele = ""
+                for e in char.elements:
+                    $ ele += e.id + ", "
+                $ ele = ele[:-2]
+            else:
+                $ ele = char.elements[0].id
             button:
                 xysize 90, 90
                 align .5, .5 offset -1, -1
-                if len(char.elements) > 1:
-                    $ ele = ""
-                    for e in char.elements:
-                        $ ele += e.id + ", "
-                    $ ele = ele[:-2]
-                else:
-                    $ ele = char.elements[0].id
                 action Show("show_trait_info", trait=char, elemental_mode=True, place="race_trait")
                 background f
                 hover_background f_a
