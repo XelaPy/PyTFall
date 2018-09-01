@@ -693,7 +693,7 @@ screen char_profile():
                                             background Null()
                                             xsize 147
                                             action Show("show_trait_info", trait=trait.id)
-                                            text trait.id idle_color ivory size 15 align .5, .5 hover_color crimson text_align .5
+                                            text trait.id idle_color ivory align .5, .5 hover_color crimson text_align .5 size min(15, int(250 / max(1, len(trait.id))))
                                             tooltip "%s" % trait.desc
                                             hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
                     # Effects:
@@ -713,7 +713,7 @@ screen char_profile():
                                         background Null()
                                         xysize (147, 25)
                                         action NullAction()
-                                        text "[effect.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
+                                        text "[effect.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(effect.name))))
                                         tooltip "%s" % effect.desc
                                         hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
@@ -721,7 +721,7 @@ screen char_profile():
                 hbox:
                     vbox:
                         xysize (160, 210)
-                        label (u"Attack:") text_size 20 text_color ivory text_bold True xalign .5 text_outlines [(3, "#3a3a3a", 0, 0), (2, "#8B0000", 0, 0), (1, "#3a3a3a", 0, 0)]
+                        label (u"Attacks:") text_size 20 text_color ivory text_bold True xalign .5 text_outlines [(3, "#3a3a3a", 0, 0), (2, "#8B0000", 0, 0), (1, "#3a3a3a", 0, 0)]
                         viewport:
                             xysize (160, 165)
                             scrollbars "vertical"
@@ -735,14 +735,14 @@ screen char_profile():
                                         background Null()
                                         xysize (147, 25)
                                         action Return(["show_skill_info", entry])
-                                        text "[entry.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
+                                        text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
                                         tooltip "Click to see more info!"
                                         hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
                     vbox:
                         xysize (160, 210)
                         xanchor 5
-                        label (u"Magic:") text_size 20 text_color ivory text_bold True xalign .5 text_outlines [(3, "#3a3a3a", 0, 0), (2, "#104E8B", 0, 0), (1, "#3a3a3a", 0, 0)]
+                        label (u"Spells:") text_size 20 text_color ivory text_bold True xalign .5 text_outlines [(3, "#3a3a3a", 0, 0), (2, "#104E8B", 0, 0), (1, "#3a3a3a", 0, 0)]
                         viewport:
                             xysize (160, 165)
                             scrollbars "vertical"
@@ -756,7 +756,7 @@ screen char_profile():
                                         background Null()
                                         xysize (147, 25)
                                         action Return(["show_skill_info", entry])
-                                        text "[entry.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
+                                        text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
                                         tooltip "Click to see more info!"
                                         hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 

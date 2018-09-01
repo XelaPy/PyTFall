@@ -447,7 +447,7 @@ init:
                     background Frame("content/gfx/frame/hp_1.png", 5, 5)
                     xysize (160, 192)
                     has vbox
-                    label (u"Attack:") text_size 20 text_color ivory text_bold True xalign .45 text_outlines [(3, "#3a3a3a", 0, 0), (2, "#8B0000", 0, 0), (1, "#3a3a3a", 0, 0)]
+                    label (u"Attacks:") text_size 20 text_color ivory text_bold True xalign .45 text_outlines [(3, "#3a3a3a", 0, 0), (2, "#8B0000", 0, 0), (1, "#3a3a3a", 0, 0)]
                     viewport:
                         xysize (160, 155)
                         scrollbars "vertical"
@@ -469,7 +469,7 @@ init:
                     background Frame("content/gfx/frame/hp_1.png", 5, 5)
                     xysize (160, 192)
                     has vbox
-                    label (u"Magic:") text_size 20 text_color ivory text_bold True xalign .45 text_outlines [(3, "#3a3a3a", 0, 0), (2, "#104E8B", 0, 0), (1, "#3a3a3a", 0, 0)]
+                    label (u"Spells:") text_size 20 text_color ivory text_bold True xalign .45 text_outlines [(3, "#3a3a3a", 0, 0), (2, "#104E8B", 0, 0), (1, "#3a3a3a", 0, 0)]
                     viewport:
                         xysize (160, 155)
                         scrollbars "vertical"
@@ -511,7 +511,7 @@ init:
                                     background Null()
                                     xsize 147
                                     action Show("show_trait_info", trait=trait.id, place="mc_trait")
-                                    text trait.id idle_color ivory size 15 align .5, .5 hover_color crimson text_align .5
+                                    text trait.id idle_color ivory align .5, .5 hover_color crimson text_align .5 size min(15, int(250 / max(1, len(trait.id))))
                                     hovered tt.Action(u"%s"%trait.desc)
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
@@ -530,7 +530,7 @@ init:
                                 background Null()
                                 xysize (147, 25)
                                 action NullAction()
-                                text "[effect.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
+                                text "[effect.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(trait.id))))
                                 hovered tt.Action(u"%s"%effect.desc)
                                 hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
