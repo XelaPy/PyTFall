@@ -138,7 +138,6 @@ label angelica_remove_alignment:
     jump angelica_menu
 
 screen alignment_choice(character):
-    default tt = Tooltip("Cancel")
     key "mousedown_3" action Return("")
 
     vbox:
@@ -164,7 +163,7 @@ screen alignment_choice(character):
             idle img
             hover im.MatrixColor(img, im.matrix.brightness(.25))
             action Return(el)
-            hovered tt.Action("Add "+el.id)
+            tooltip "Add " + el.id
 
     vbox:
         align .5, .65
@@ -223,7 +222,7 @@ screen alignment_removal_choice(character):
             idle img
             hover im.MatrixColor(img, im.matrix.brightness(.25))
             action Return(el)
-            hovered tt.Action("Remove " + el.id)
+            tooltip "Remove " + el.id
 
     $ img = ProportionalScale(traits["Neutral"].icon, 120, 120)
     imagebutton:
@@ -231,7 +230,7 @@ screen alignment_removal_choice(character):
         idle img
         hover Transform(im.MatrixColor(img, im.matrix.brightness(.25)), zoom=1.2)
         action Return("clear_all")
-        hovered tt.Action("Remove all elements")
+        tooltip "Remove all elements"
 
 screen angelica_menu():
     style_prefix "dropdown_gm"

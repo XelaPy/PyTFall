@@ -163,8 +163,9 @@ screen city_screen():
                         xysize (160, 28)
                         idle_background Frame(im.MatrixColor(prefix + loc["id"] + ".png", im.matrix.brightness(.10)), 5, 5)
                         hover_background Frame(im.MatrixColor(prefix + loc["id"] + "_hover.png", im.matrix.brightness(.15)), 5, 5)
-                        hovered [tt.action(loc['name']), SetScreenVariable("selected", loc["id"])]
+                        hovered SetScreenVariable("selected", loc["id"])
                         unhovered SetScreenVariable("selected", None)
                         action Return(['location', loc["id"]])
+                        tooltip loc['name']
 
         vbar value YScrollValue("locations")
