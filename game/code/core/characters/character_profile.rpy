@@ -159,121 +159,101 @@ screen char_profile():
     on "hide":
         action Hide("show_trait_info")
 
-    default tt = Tooltip("")
     default stats_display = "main"
 
     $ not_escaped = char not in pytfall.ra
 
     if girls:
         # Picture and left/right buttons ====================================>
-        if True:
-            add "content/gfx/frame/p_frame6.png" xalign .495 yalign .185 size (613, 595)
-            # Alex: Code by Gismo, messy but gets the job done,
-            # I actually have no idea of how to get this done with just one frame and the image...
-            # Vbox is just for more convenient positioning.
-            vbox:
-                align (.496, .184)
-                yfill True
-                ymaximum 514
-                # in these cases we are less strict with NSFW pictures
-                $ frame_image = im.Scale("content/gfx/frame/MC_bg3.png", 1, 1)
-                if check_lovers(char, hero) or "Exhibitionist" in char.traits:
-                    $ img = char.show('profile', resize=(600, 514), cache=True)
-                elif check_friends(hero, char):
-                    $ img = char.show('profile', resize=(600, 514), exclude=["nude"], cache=True)
-                else:
-                    python:
-                        img = char.show('profile', resize=(600, 514),
-                                        exclude=["nude", "revealing", "lingerie", "swimsuit"], cache=True)
-
-                $ image_tags = img.get_image_tags()
+        frame:
+            background Frame("content/gfx/frame/p_frame6.png", 10, 10)
+            align .5, .5
+            xysize 620, 700
+            # in these cases we are less strict with NSFW pictures:
+            if check_lovers(char, hero) or "Exhibitionist" in char.traits:
+                $ img = char.show('profile', resize=(590, 600), cache=True)
+            elif check_friends(hero, char):
+                $ img = char.show('profile', resize=(590, 600), exclude=["nude"], cache=True)
+            else:
                 python:
-                    tt_str = "\n".join(["Click to interact with {}!".format(char.nickname),
-                                        "{}".format(char.desc)])
-                button:
-                    align (.5, .5)
+                    img = char.show('profile', resize=(590, 600),
+                                    exclude=["nude", "revealing", "lingerie", "swimsuit"], cache=True)
 
-                    idle_background frame_image
-                    idle_foreground Transform(img, align=(.5, .5))
+            python:
+                image_tags = img.get_image_tags()
+                tt_str = "\n".join(["Click to interact with {}!".format(char.nickname),
+                                    "{}".format(char.desc)])
 
-                    hover_background im.MatrixColor(frame_image, im.matrix.brightness(.1))
-                    hover_foreground Transform(im.MatrixColor(img, im.matrix.brightness(.1)), align=(.5, .5))
+            if "Exhibitionist" in char.traits:
+                $ gm_img = char.show("girlmeets", resize=gm.img_size)
+            elif check_friends(hero, char) or check_lovers(char, hero):
+                $ gm_img = char.show("girlmeets", exclude=["nude"], resize=gm.img_size)
+            else:
+                python:
+                    gm_img = char.show("girlmeets",
+                                       exclude=["nude",
+                                                "revealing",
+                                                "lingerie",
+                                                "swimsuit"],
+                                       resize=gm.img_size)
 
-                    insensitive_background frame_image
-                    insensitive_foreground Transform(img, align=(.5, .5))
-                    frame:
-                        align(.5, .5)
-                        if "no bg" in image_tags:
-                            background Frame("content/gfx/frame/MC_bg3_white.png", 10 ,10)
-                        else:
-                            background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                        add img align(.5, .5)
-                    if "Exhibitionist" in char.traits:
-                        action If(not_escaped,
-                                  true=[Hide("char_profile"),
-                                        With(dissolve),
-                                        Function(gm.start_int, char,
-                                                 img=char.show("girlmeets",
-                                                               resize=gm.img_size))],
-                                  false=NullAction())
-                    if check_friends(hero, char) or check_lovers(char, hero):
-                        action If(not_escaped,
-                                  true=[Hide("char_profile"),
-                                        With(dissolve),
-                                        Function(gm.start_int, char,
-                                                 img=char.show("girlmeets",
-                                                               exclude=["nude"],
-                                                               resize=gm.img_size))],
-                                  false=NullAction())
-                    else:
-                        action If(not_escaped,
-                                  true=[Hide("char_profile"),
-                                        With(dissolve),
-                                        Function(gm.start_int, char,
-                                                 img=char.show("girlmeets",
-                                                               exclude=["nude",
-                                                                        "revealing",
-                                                                        "lingerie",
-                                                                        "swimsuit"],
-                                                 resize=gm.img_size))],
-                                  false=NullAction())
-                    tooltip tt_str
+            if "no bg" in image_tags:
+                $ frame_image = "content/gfx/frame/MC_bg3_white.png"
+            else:
+                $ frame_image = "content/gfx/frame/MC_bg3.png"
+            $ bg = Frame(frame_image, 10, 10)
+            $ hbg = Frame(im.MatrixColor(frame_image, im.matrix.brightness(.1)), 10, 10)
 
-            frame:
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
-                xalign .489
-                ypos 560
-                xysize (628, 64)
-                hbox:
-                    xalign .46
-                    yalign .5
-                    button:
-                        xysize (140, 40)
-                        style "left_wood_button"
-                        action Hide("show_trait_info"), Return(['control', 'left'])
-                        text "Previous Girl" style "wood_text" xalign(.69)
-                        tooltip "<== Previous Girl"
+            button:
+                align .5, .38
+                padding 4, 4
+                background bg
+                hover_background hbg
+                action If(not_escaped,
+                          true=[Hide("char_profile"),
+                                With(dissolve),
+                                Function(gm.start_int, char, img=gm_img)],
+                          false=NullAction())
+                tooltip tt_str
+                add img
 
-                    null width 280
-
-                    button:
-                        xysize (140, 40)
-                        style "right_wood_button"
-                        action Hide("show_trait_info"), Return(['control', 'right'])
-                        text "Next Girl" style "wood_text" xalign(.19)
-                        tooltip "Next Girl ==>"
+        # Mid-Bottom Frame: Level, experience ====================================>
+        frame:
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
+            align .5, 1.0
+            xysize 630, 64
+            padding 15, 10
+            has hbox spacing 20 xalign .5
+            button:
+                xysize 140, 40
+                yalign .5
+                style "left_wood_button"
+                action Hide("show_trait_info"), Return(['control', 'left'])
+                text "Previous Girl" style "wood_text" xalign(.69)
+                tooltip "<== Previous Girl"
+            fixed:
+                align .5, .5
+                xysize 230, 45
+                add pscale("content/gfx/frame/level.png", 230, 45) align .5, .5
+                text "{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[char.level]" pos 38, 7
+                text "{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[char.exp]" pos 114, 7
+                text "{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[char.goal]" pos 114, 27
+            button:
+                xysize 140, 40
+                yalign .5
+                style "right_wood_button"
+                action Hide("show_trait_info"), Return(['control', 'right'])
+                text "Next Girl" style "wood_text" xalign .19
+                tooltip "Next Girl ==>"
 
         # Left Frame with most of the info ====================================>
         frame:
+            align .0, 1.0
+            xysize 340, 680
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-            xysize (337, 780)
-            xanchor .01
-            ypos 30
             style_group "content"
-            has vbox
-            null height 7
-            # Base frame ====================================>
-            # Prof-Classes ====================================>
+            # # Base frame ====================================>
+            # # Prof-Classes ==================================>
             python:
                 if len(char.traits.basetraits) == 1:
                     classes = list(char.traits.basetraits)[0].id
@@ -282,24 +262,27 @@ screen char_profile():
                     classes.sort()
                     classes = ", ".join([str(c) for c in classes])
                 else:
-                    raise Exception("Character without prof basetraits detected! line: 267, girlsprofile screen")
+                    raise Exception("Character without prof basetraits detected in girlsprofile screen")
+
+                trait = char.personality
+                img = ProportionalScale("".join(["content/gfx/interface/images/personality/", trait.id.lower(), ".png"]), 120, 120)
 
             fixed:
-                $ trait = char.personality
-                $ img = ProportionalScale("".join(["content/gfx/interface/images/personality/", trait.id.lower(), ".png"]), 120, 120)
+                xoffset 4
+                align .0, .0
+                xysize 330, 126
                 imagebutton:
                     at pers_effect()
+                    focus_mask True
                     xcenter 55
                     ycenter 65
                     idle img
                     hover img
-                    action Show("show_trait_info", trait=trait.id, place="main_trait", tt=tt)
+                    action Show("show_trait_info", trait=trait.id, place="main_trait")
                     tooltip "{}".format("\n".join([trait.id, trait.desc]))
-                align (.0, .0)
-                xysize (330, 126)
+
                 add Transform("content/gfx/frame/base_frame.png", alpha=.9, size=(330, 126)):
                     xoffset -5
-
 
                 label "[classes]":
                     text_color gold
@@ -313,15 +296,19 @@ screen char_profile():
                     pos 113, 100
                     anchor 0, 1.0
 
-                label "[char.name]":
-                    text_color gold
+                textbutton "[char.name]":
+                    background Null()
+                    text_style "content_label_text"
+                    text_color gold text_hover_color green
                     text_outlines [(2, "#424242", 0, 0)]
-                    pos 113, 47
+                    pos 100, 47
                     anchor 0, 1.0
                     if len(char.name) < 15:
                         text_size 21
                     else:
                         text_size 18
+                    action Show("char_rename", char=char)
+                    tooltip "Click to rename {} (renaming is limited for free girls).".format(char.fullname)
 
                 label "Tier:  [char.tier]":
                     text_color gold
@@ -329,12 +316,23 @@ screen char_profile():
                     pos 113, 77
                     anchor 0, 1.0
 
-            null height 13
+                imagebutton:
+                    if char.status == "slave":
+                        pos 80, 97
+                        idle ProportionalScale("content/gfx/interface/icons/slave.png", 30, 30)
+                        hover (im.MatrixColor(ProportionalScale("content/gfx/interface/icons/slave.png", 30, 30), im.matrix.brightness(.25)))
+                        tooltip "This girl is a slave!"
+                    else:
+                        pos 75, 95
+                        idle ProportionalScale("content/gfx/interface/icons/free.png", 30, 30)
+                        hover (im.MatrixColor(ProportionalScale("content/gfx/interface/icons/free.png", 30, 30), im.matrix.brightness(.25)))
+                        tooltip "This girl is free as a bird :)"
+                    action NullAction()
 
             # Locations/Action Buttons and Stats/Info ====================================>
             fixed:
-                xanchor -0.01
-                xysize (300, 60)
+                xysize 300, 60
+                ypos 130
                 vbox:
                     if getattr(char.workplace, "is_school", False):
                         button:
@@ -352,19 +350,13 @@ screen char_profile():
                                 action NullAction()
                                 tooltip "%s is a free citizen and decides on where to live at!" % char.nickname
                             text "{image=button_circle_green}Home: [char.home]":
-                                if len(str(char.home)) > 18:
-                                    size 15
-                                else:
-                                    size 18
+                                size 18
                         button:
                             style_group "ddlist"
                             action Return(["dropdown", "workplace", char])
                             tooltip "Choose a place for %s to work at!" % char.nickname
                             text "{image=button_circle_green}Work: [char.workplace]":
-                                if len(str(char.workplace)) > 18:
-                                    size 15
-                                else:
-                                    size 18
+                                size 18
                     button:
                         style_group "ddlist"
                         action Return(["dropdown", "action", char])
@@ -373,27 +365,11 @@ screen char_profile():
                             text "{image=button_circle_green}Action: [char.action.name] Course"
                         else:
                             text "{image=button_circle_green}Action: [char.action]":
-                                if char.action is not None and len(str(char.action)) > 18:
-                                    size 15
-                                else:
-                                    size 18
+                                size 18
 
-                imagebutton:
-                    align(.99, .45)
-                    if char.status == "slave":
-                        idle ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50)
-                        hover (im.MatrixColor(ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50), im.matrix.brightness(.25)))
-                        tooltip "This girl is a slave!"
-                    else:
-                        idle ProportionalScale("content/gfx/interface/icons/free.png", 50, 50)
-                        hover (im.MatrixColor(ProportionalScale("content/gfx/interface/icons/free.png", 50, 50), im.matrix.brightness(.25)))
-                        tooltip "This girl is free as a bird :)"
-                    action NullAction()
-
-            null height 5
             hbox:
                 style_group "basic"
-                xalign .5
+                xalign .5 ypos 196
                 button:
                     yalign .5
                     action SetScreenVariable("stats_display", "main"), With(dissolve)
@@ -406,297 +382,231 @@ screen char_profile():
                     tooltip "Show Stats!"
                 button:
                     yalign .5
-                    action SetScreenVariable("stats_display", "pro_stats"), With(dissolve)
-                    text "Special" size 15
-                    tooltip "Show Special Stats!"
-                button:
-                    yalign .5
-                    action SetScreenVariable("stats_display", "skillset"), With(dissolve)
+                    action SetScreenVariable("stats_display", "skills"), With(dissolve)
                     text "Skills" size 15
                     tooltip "Show Skills!"
                 if DEBUG:
                     button:
                         yalign .5
-                        action SetScreenVariable("stats_display", "skillstest"), With(dissolve)
+                        action SetScreenVariable("stats_display", "dev_skills"), With(dissolve)
                         text "S" size 15
                         tooltip "Show devmod skills"
 
-            null height 15
             $ base_ss = char.stats.get_base_ss()
-            vbox:
-                style_prefix "proper_stats"
-                xsize 318
-                xpos 18
-                if stats_display == "main":
-                    hbox:
-                        spacing 20
-                        frame:
-                            xalign .0
-                            yfill True
-                            background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
-                            xysize (100, 30)
-                            text (u"{color=#CDAD00} Full name:") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
-                        textbutton "{size=20}{font=fonts/TisaOTM.otf}{color=[green]}Rename":
-                            background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=.8)
-                            hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
-                            xysize (106, 40)
-                            yoffset -4
-                            action Show("char_rename", char=char)
-                            tooltip "Rename {} (renaming is limited for free girls).".format(char.name)
 
-                    if len(char.fullname) >= 17:
-                        null height 2
-                    text "[char.fullname]" xalign .0 style "TisaOTM" color "#79CDCD":
-                        if len(char.fullname) < 17:
-                            size 20
+            if stats_display == "main":
+                frame:
+                    style_prefix "proper_stats"
+                    style_suffix "main_frame"
+                    xsize 300
+                    ypos 230 xalign .5
+                    has vbox spacing 1
+
+                    frame:
+                        xoffset 4
+                        xysize (270, 27)
+                        xpadding 7
+                        text "Health:" color "#CD4F39"
+                        if "health" in base_ss:
+                            button:
+                                xysize 20, 20
+                                offset -10, -5
+                                background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                                action NullAction()
+                                tooltip "This is a Class Stat!"
+                        if char.health <= char.get_max("health")*.3:
+                            text (u"{color=[red]}%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style_suffix "value_text"
                         else:
-                            size 16
-                    if len(char.fullname) < 17:
-                        null height 2
-                    else:
-                        null height 5
-                    hbox:
-                        spacing 20
-                        vbox:
-                            frame:
-                                xalign .0
-                                yfill True
-                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
-                                xysize (100, 30)
-                                text (u"{color=#CDAD00} Race") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
-                            null height 3
-                            frame:
-                                xysize (100, 100)
-                                $ trait = char.race
-                                background Frame(Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
-                                $ img = ProportionalScale(trait.icon, 95, 95)
-                                button:
-                                    align (.5, .5)
-                                    xysize (95, 95)
-                                    background img
-                                    action Show("show_trait_info", trait=trait.id, place="race_trait", tt=tt)
-                                    hover_background im.MatrixColor(img, im.matrix.brightness(.10))
-                                    tooltip "{}".format(char.full_race)
-                        vbox:
-                            # Elements icon:
-                            $ els = [Transform(e.icon, size=(90, 90)) for e in char.elements]
-                            $ els_a = [Transform(im.MatrixColor(e.icon, im.matrix.brightness(.10)), size=(90, 90)) for e in char.elements]
-                            frame:
-                                xalign .0
-                                yfill True
-                                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.6), 10, 10)
-                                xysize (100, 30)
-                                text (u"{color=#CDAD00} Element") font "fonts/Rubius.ttf" size 20 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .7)
-                            null height 3
-                            frame:
-                                xysize (100, 100)
-                                background Frame(Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
-                                add ProportionalScale("content/gfx/interface/images/elements/hover.png", 98, 98) align (.5, .5)
-                                $ x = 0
-                                $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
-                                $ els_a = [Transform(i, crop=(90/len(els_a)*els_a.index(i), 0, 90/len(els_a), 90), subpixel=True, xpos=(x + 90/len(els_a)*els_a.index(i))) for i in els_a]
-                                $ f = Fixed(*els, xysize=(90, 90))
-                                $ f_a = Fixed(*els_a, xysize=(90, 90))
-
-                                button:
-                                    xysize (90, 90)
-                                    pos (5, 5)
-                                    if len(char.elements) > 1:
-                                        $ ele = ""
-                                        for e in char.elements:
-                                            $ ele += e.id + ", "
-                                        $ ele = ele[:-2]
-                                    else:
-                                        $ ele = char.elements[0].id
-                                    action Show("show_trait_info", trait=char, elemental_mode=True, place="race_trait")
-                                    background f
-                                    hover_background f_a
-                                    tooltip "{}".format(ele)
-
-                    null height 4
-                elif stats_display == "stats":
+                            text (u"%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style_suffix "value_text"
                     frame:
-                        style_suffix "main_frame"
-                        xsize 300
+                        xoffset 4
+                        xysize (270, 27)
+                        xpadding 7
+                        text "Vitality:" color "#43CD80"
+                        if "vitality" in base_ss:
+                            button:
+                                xysize 20, 20
+                                offset -10, -5
+                                background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                                action NullAction()
+                                tooltip "This is a Class Stat!"
+                        if char.vitality < char.get_max("vitality")*.3:
+                            text (u"{color=[red]}%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style_suffix "value_text"
+                        else:
+                            text (u"%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style_suffix "value_text"
 
-                        has vbox spacing 1
-                        $ stats = ["charisma", "character", "reputation", "constitution", "joy", "intelligence", "disposition"]
+                    $ stats = [("MP", "#009ACD"), ("Luck", "#00FA9A")]
+                    for stat, color in stats:
                         frame:
                             xoffset 4
                             xysize (270, 27)
                             xpadding 7
-                            text "Health:" color "#CD4F39"
-                            if "health" in base_ss:
+                            text "[stat]" color color
+                            if stat.lower() in base_ss:
                                 button:
                                     xysize 20, 20
                                     offset -10, -5
                                     background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
                                     action NullAction()
                                     tooltip "This is a Class Stat!"
-                            if char.health <= char.get_max("health")*.3:
-                                text (u"{color=[red]}%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style_suffix "value_text"
-                            else:
-                                text (u"%s/%s"%(char.health, char.get_max("health"))) xalign 1.0 style_suffix "value_text"
+                            text "{}/{}".lower().format(getattr(char, stat.lower()), char.get_max(stat.lower())) style_suffix "value_text" color color
+
+                    null height 10
+
+                    $ stats = ["joy", "disposition"]
+                    for stat in stats:
                         frame:
                             xoffset 4
                             xysize (270, 27)
                             xpadding 7
-                            text "Vitality:" color "#43CD80"
-                            if "vitality" in base_ss:
+                            text '{}'.format(stat.capitalize()) color "#79CDCD"
+                            if stat.lower() in base_ss:
                                 button:
                                     xysize 20, 20
                                     offset -10, -5
                                     background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
                                     action NullAction()
                                     tooltip "This is a Class Stat!"
-                            if char.vitality < char.get_max("vitality")*.3:
-                                text (u"{color=[red]}%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style_suffix "value_text"
-                            else:
-                                text (u"%s/%s"%(char.vitality, char.get_max("vitality"))) xalign 1.0 style_suffix "value_text"
-                        for stat in stats:
-                            frame:
-                                xoffset 4
-                                xysize (270, 27)
-                                xpadding 7
-                                text '{}'.format(stat.capitalize()) color "#79CDCD"
-                                if stat.lower() in base_ss:
-                                    button:
-                                        xysize 20, 20
-                                        offset -10, -5
-                                        background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
-                                        action NullAction()
-                                        tooltip "This is a Class Stat!"
-                                text ('%d/%d'%(getattr(char, stat), char.get_max(stat))) xalign 1.0 style_suffix "value_text"
+                            text ('%d/%d'%(getattr(char, stat), char.get_max(stat))) xalign 1.0 style_suffix "value_text"
+
+                    null height 10
+
+                    frame:
+                        xoffset 4
+                        xysize (270, 27)
+                        xpadding 7
+                        text "Gold:" color gold
+                        text (u"{color=[gold]}[char.gold]") xalign 1.0 style_suffix "value_text"
+                    frame:
+                        xoffset 4
+                        xysize (270, 27)
+                        xpadding 7
+                        text "{color=#79CDCD}Upkeep:"
+                        text u"%s"%(char.fin.get_upkeep()) xalign 1.0 style_suffix "value_text"
+                    if char.status == "slave":
                         frame:
                             xoffset 4
                             xysize (270, 27)
                             xpadding 7
-                            text "Gold:" color gold
-                            text (u"{color=[gold]}[char.gold]") xalign 1.0 style_suffix "value_text"
+                            text "{color=#79CDCD}Market Price:"
+                            text (u"%s"%(char.fin.get_price())) xalign 1.0 style_suffix "value_text"
 
-                    label (u"{size=20}{color=[ivory]}{b}Info:") xalign .48 text_outlines [(2, "#424242", 0, 0)]
-                    frame:
-                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
-                        xsize 300
-                        padding 12, 12
-                        has vbox spacing 1
+                use race_and_elements
+            elif stats_display == "stats":
+                frame:
+                    style_prefix "proper_stats"
+                    style_suffix "main_frame"
+                    xsize 300
+                    ypos 230 xalign .5
+                    has vbox spacing 1
+                    $ stats = ["charisma", "character", "reputation", "constitution", "intelligence"]
+                    for stat in stats:
                         frame:
                             xoffset 4
                             xysize (270, 27)
                             xpadding 7
-                            text "{color=#79CDCD}Upkeep:"
-                            text u"%s"%(char.fin.get_upkeep()) xalign 1.0 style_suffix "value_text"
-                        if char.status == "slave":
-                            frame:
-                                xoffset 4
-                                xysize (270, 27)
-                                xpadding 7
-                                text "{color=#79CDCD}Market Price:"
-                                text (u"%s"%(char.fin.get_price())) xalign 1.0 style_suffix "value_text"
-                elif stats_display == "pro_stats":
-                    label (u"{size=20}{color=[ivory]}{b}Battle Stats:") xalign(.48) text_outlines [(2, "#424242", 0, 0)]
-                    frame:
-                        style_suffix "main_frame"
-                        xsize 300
-                        has vbox spacing 1
-                        $ stats = [("Attack", "#CD4F39"), ("Defence", "#dc762c"), ("Magic", "#8470FF"), ("MP", "#009ACD"), ("Agility", "#1E90FF"), ("Luck", "#00FA9A")]
-                        for stat, color in stats:
-                            frame:
-                                xoffset 4
-                                xysize (270, 27)
-                                xpadding 7
-                                text "[stat]" color color
-                                if stat.lower() in base_ss:
-                                    button:
-                                        xysize 20, 20
-                                        offset -10, -5
-                                        background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
-                                        action NullAction()
-                                        tooltip "This is a Class Stat!"
-                                text "{}/{}".lower().format(getattr(char, stat.lower()), char.get_max(stat.lower())) style_suffix "value_text" color color
+                            text '{}'.format(stat.capitalize()) color "#79CDCD"
+                            if stat.lower() in base_ss:
+                                button:
+                                    xysize 20, 20
+                                    offset -10, -5
+                                    background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                                    action NullAction()
+                                    tooltip "This is a Class Stat!"
+                            text ('%d/%d'%(getattr(char, stat), char.get_max(stat))) xalign 1.0 style_suffix "value_text"
 
-                    null height 4
-                elif stats_display == "skillstest":
-                    frame:
-                        style_suffix "main_frame"
-                        xsize 300
-                        has viewport scrollbars "vertical" xysize(310, 392) mousewheel True child_size (300, 1000)
-                        vbox spacing 1:
-                            for skill in char.stats.skills:
-                                $ skill_val = int(char.get_skill(skill))
-                                if DEBUG or skill_val > char.level * 10:
-                                    frame:
-                                        xoffset 4
-                                        xysize (270, 27)
-                                        xpadding 7
-                                        text "{}:".format(skill.capitalize())
-                                        text "{true} <{action}, {training}>".format(true=skill_val, action=int(char.stats.skills[skill][0]), training=int(char.stats.skills[skill][1])) style_suffix "value_text"
-                elif stats_display == "skillset":
-                    frame:
-                        style_suffix "main_frame"
-                        xsize 300
-                        has viewport scrollbars "vertical" xysize (310, 392) mousewheel True child_size (300, 1000)
-                        vbox:
-                            spacing 1
-                            xpos 10
-                            for skill in char.stats.skills:
-                                $ skill_val = int(char.get_skill(skill))
-                                $ skill_limit = int(char.get_max_skill(skill))
-                                # We don't care about the skill if it's less than 10% of limit:
-                                if skill in base_ss or skill_val/float(skill_limit) > .1:
+                    null height 10
+
+                    $ stats = [("Attack", "#CD4F39"), ("Defence", "#dc762c"), ("Magic", "#8470FF"), ("Agility", "#1E90FF")]
+                    for stat, color in stats:
+                        frame:
+                            xoffset 4
+                            xysize (270, 27)
+                            xpadding 7
+                            text "[stat]" color color
+                            if stat.lower() in base_ss:
+                                button:
+                                    xysize 20, 20
+                                    offset -10, -5
+                                    background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                                    action NullAction()
+                                    tooltip "This is a Class Stat!"
+                            text "{}/{}".lower().format(getattr(char, stat.lower()), char.get_max(stat.lower())) style_suffix "value_text" color color
+                use race_and_elements
+            elif stats_display == "skills":
+                frame:
+                    style_prefix "proper_stats"
+                    style_suffix "main_frame"
+                    xsize 300
+                    ypos 230 xalign .5
+                    has viewport scrollbars "vertical" xysize (310, 392) mousewheel True child_size (300, 1000)
+                    vbox:
+                        spacing 1
+                        xpos 10
+                        for skill in char.stats.skills:
+                            $ skill_val = int(char.get_skill(skill))
+                            $ skill_limit = int(char.get_max_skill(skill))
+                            # We don't care about the skill if it's less than 10% of limit:
+                            if skill in base_ss or skill_val/float(skill_limit) > .1:
+                                hbox:
+                                    xsize 250
+                                    text "{}:".format(skill.capitalize()):
+                                        style_suffix "value_text"
+                                        color gold
+                                        xalign .0
+                                        size 18
                                     hbox:
-                                        xsize 250
-                                        text "{}:".format(skill.capitalize()):
-                                            style_suffix "value_text"
-                                            color gold
-                                            xalign .0
-                                            size 18
-                                        hbox:
-                                            xalign 1.0
-                                            yoffset 8
-                                            $ step = skill_limit/10.0
-                                            for i in range(5):
-                                                if (2*step) <= skill_val:
-                                                    add Transform("content/gfx/interface/icons/stars/star2.png", size=(18, 18))
-                                                    $ skill_val -= 2*step
-                                                elif step <= skill_val:
-                                                    add Transform("content/gfx/interface/icons/stars/star3.png", size=(18, 18))
-                                                    $ skill_val -= step
-                                                else:
-                                                    add Transform("content/gfx/interface/icons/stars/star1.png", size=(18, 18))
-                        vbox:
-                            spacing 1
-                            for skill in char.stats.skills:
-                                $ skill_val = int(char.get_skill(skill))
-                                $ skill_limit = int(char.get_max_skill(skill))
-                                # We don't care about the skill if it's less than 10% of limit:
-                                if skill in base_ss or skill_val/float(skill_limit) > .1:
-                                    if skill in base_ss:
-                                        fixed:
-                                            xysize 20, 26
-                                            button:
-                                                xysize 20, 20
-                                                background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
-                                                action NullAction()
-                                                tooltip "This is a Class Skill!"
-                                    else:
-                                        null height 26
-
-        # Level, experience ====================================>
-        fixed:
-            xalign .490
-            ypos 570
-            xysize (360, 45)
-            add(ProportionalScale("content/gfx/frame/level.png", 360, 45)) align(.5, .5)
-            text("{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[char.level]") pos(106, 7)
-            text("{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[char.exp]") pos(190, 7)
-            text("{font=fonts/Rubius.ttf}{color=[ivory]}{size=16}{b}[char.goal]") pos(190, 27)
+                                        xalign 1.0
+                                        yoffset 8
+                                        $ step = skill_limit/10.0
+                                        for i in range(5):
+                                            if (2*step) <= skill_val:
+                                                add Transform("content/gfx/interface/icons/stars/star2.png", size=(18, 18))
+                                                $ skill_val -= 2*step
+                                            elif step <= skill_val:
+                                                add Transform("content/gfx/interface/icons/stars/star3.png", size=(18, 18))
+                                                $ skill_val -= step
+                                            else:
+                                                add Transform("content/gfx/interface/icons/stars/star1.png", size=(18, 18))
+                    vbox:
+                        spacing 1
+                        for skill in char.stats.skills:
+                            $ skill_val = int(char.get_skill(skill))
+                            $ skill_limit = int(char.get_max_skill(skill))
+                            # We don't care about the skill if it's less than 10% of limit:
+                            if skill in base_ss or skill_val/float(skill_limit) > .1:
+                                if skill in base_ss:
+                                    fixed:
+                                        xysize 20, 26
+                                        button:
+                                            xysize 20, 20
+                                            background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                                            action NullAction()
+                                            tooltip "This is a Class Skill!"
+                                else:
+                                    null height 26
+            elif stats_display == "dev_skills":
+                frame:
+                    style_prefix "proper_stats"
+                    style_suffix "main_frame"
+                    xsize 300
+                    ypos 230 xalign .5
+                    has viewport scrollbars "vertical" xysize(310, 392) mousewheel True child_size (300, 1000)
+                    vbox spacing 1:
+                        for skill in char.stats.skills:
+                            $ skill_val = int(char.get_skill(skill))
+                            if DEBUG or skill_val > char.level * 10:
+                                frame:
+                                    xoffset 4
+                                    xysize (270, 27)
+                                    xpadding 7
+                                    text "{}:".format(skill.capitalize())
+                                    text "{true} <{action}, {training}>".format(true=skill_val, action=int(char.stats.skills[skill][0]), training=int(char.stats.skills[skill][1])) style_suffix "value_text"
 
         # Right frame ====================================>
         frame:
-            ypos 38
-            xalign 1.0
-            xysize (339, 586)
+            align 1.0, 1.0
+            xysize 340, 680
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
             has vbox spacing 1
             null height 1
@@ -790,7 +700,7 @@ screen char_profile():
                                         button:
                                             background Null()
                                             xsize 147
-                                            action Show("show_trait_info", trait=trait.id, tt=tt)
+                                            action Show("show_trait_info", trait=trait.id)
                                             text trait.id idle_color ivory size 15 align .5, .5 hover_color crimson text_align .5
                                             tooltip "%s" % trait.desc
                                             hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
@@ -858,27 +768,52 @@ screen char_profile():
                                         tooltip "Click to see more info!"
                                         hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
-        # Tooltip ====================================>
-        # frame:
-        #     background Frame("content/gfx/frame/black_frame.png")
-        #     pos 332, 622
-        #     xpadding 10
-        #     xysize (951, 100)
-        #     has hbox spacing 1
-        #     if isinstance(tt.value, BE_Action):
-        #         $ element = tt.value.get_element()
-        #         if element:
-        #             frame:
-        #                 background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-        #                 xysize (70, 70)
-        #                 if element.icon:
-        #                     $ img = ProportionalScale(element.icon, 70, 70)
-        #                     add img align (.5, .5)
-        #         text tt.value.desc style "content_text" size 20 color ivory yalign .1
-        #     else:
-        #         text (u"{=content_text}{color=[ivory]}%s" % tt.value)
-
     use top_stripe(True)
+
+screen race_and_elements():
+    hbox:
+        align .5, .99
+        spacing 20
+        frame:
+            xysize (100, 100)
+            $ trait = char.race
+            background Frame(Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
+            $ img = ProportionalScale(trait.icon, 95, 95)
+            button:
+                align (.5, .5)
+                xysize (95, 95)
+                background img
+                action Show("show_trait_info", trait=trait.id, place="race_trait")
+                hover_background im.MatrixColor(img, im.matrix.brightness(.10))
+                tooltip "Race:\n   {}".format(char.full_race)
+
+        # Elements icon:
+        $ els = [Transform(e.icon, size=(90, 90)) for e in char.elements]
+        $ els_a = [Transform(im.MatrixColor(e.icon, im.matrix.brightness(.10)), size=(90, 90)) for e in char.elements]
+        frame:
+            xysize (100, 100)
+            background Frame(Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
+            add ProportionalScale("content/gfx/interface/images/elements/hover.png", 98, 98) align (.5, .5)
+            $ x = 0
+            $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
+            $ els_a = [Transform(i, crop=(90/len(els_a)*els_a.index(i), 0, 90/len(els_a), 90), subpixel=True, xpos=(x + 90/len(els_a)*els_a.index(i))) for i in els_a]
+            $ f = Fixed(*els, xysize=(90, 90))
+            $ f_a = Fixed(*els_a, xysize=(90, 90))
+            $ ele = ""
+            button:
+                xysize 90, 90
+                align .5, .5 offset -1, -1
+                if len(char.elements) > 1:
+                    $ ele = ""
+                    for e in char.elements:
+                        $ ele += e.id + ", "
+                    $ ele = ele[:-2]
+                else:
+                    $ ele = char.elements[0].id
+                action Show("show_trait_info", trait=char, elemental_mode=True, place="race_trait")
+                background f
+                hover_background f_a
+                tooltip "Elements:\n   {}".format(ele)
 
 screen show_skill_info(skill):
     modal True
@@ -948,7 +883,7 @@ screen show_skill_info(skill):
             hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
             action Hide("show_skill_info")
 
-screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=False):
+screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
     if place == "girl_trait":
         if trait != "Manly":
             $ al = (.69, .4)
