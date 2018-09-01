@@ -436,7 +436,7 @@ init 2: # Advanced style that can carry a lot of properties to be used in screen
         clear
 
         padding (20, 5)
-        xminimum 100
+        xminimum 100 xmaximum 350
         background Frame("content/gfx/interface/buttons/hp_1s.png", 5, 5)
     style new_style_tooltip_text:
         font "fonts/rubius.ttf"

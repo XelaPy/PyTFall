@@ -878,7 +878,8 @@ screen char_equip_right_frame(tt):
         style "pb_button"
         add pscale(gender_icons[index], 30, 30) align .5, .5
         action Function(inv_source.inventory.apply_filter,
-                    direction=inv_source.inventory.slot_filter, gender=next_gender)
+                        direction=inv_source.inventory.slot_filter,
+                        gender=next_gender)
         tooltip gender_tt[index]
 
     # Filters: ====================================>
@@ -906,7 +907,9 @@ screen char_equip_right_frame(tt):
                     hover Transform(img_hover, alpha=1.1)
                     selected_idle img_selected
                     selected_hover Transform(img_selected, alpha=1.15)
-                    action [Function(inv_source.inventory.apply_filter, filter), SelectedIf(filter == inv_source.inventory.slot_filter), SetVariable("last_inv_filter", filter)], With(dissolve)
+                    action [Function(inv_source.inventory.apply_filter, filter),
+                            SelectedIf(filter == inv_source.inventory.slot_filter),
+                            SetVariable("last_inv_filter", filter), With(dissolve)]
                     focus_mask True
                     tooltip "{}".format(filter.capitalize())
 
