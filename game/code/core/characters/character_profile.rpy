@@ -168,30 +168,30 @@ screen char_profile():
         # Picture and left/right buttons ====================================>
         if True:
             add "content/gfx/frame/p_frame6.png" xalign .495 yalign .185 size (613, 595)
-            # Alex: Code by Gismo, messy but gets the job done, I actually have no idea of how to get this done with just one frame and the image...
+            # Alex: Code by Gismo, messy but gets the job done,
+            # I actually have no idea of how to get this done with just one frame and the image...
             # Vbox is just for more convenient positioning.
             vbox:
-                align (.496, .184) #0.487, .164
+                align (.496, .184)
                 yfill True
-                ymaximum 514 #569
-                if check_lovers(char, hero) or "Exhibitionist" in char.traits: # in these cases we are less strict with NSFW pictures
-                    python:
-                        frame_image = im.Scale("content/gfx/frame/MC_bg3.png", 1, 1)
-                        img = char.show('profile', resize=(600, 514), cache=True)
+                ymaximum 514
+                # in these cases we are less strict with NSFW pictures
+                $ frame_image = im.Scale("content/gfx/frame/MC_bg3.png", 1, 1)
+                if check_lovers(char, hero) or "Exhibitionist" in char.traits:
+                    $ img = char.show('profile', resize=(600, 514), cache=True)
                 elif check_friends(hero, char):
-                    python:
-                        frame_image = im.Scale("content/gfx/frame/MC_bg3.png", 1, 1)
-                        img = char.show('profile', resize=(600, 514), exclude=["nude"], cache=True)
+                    $ img = char.show('profile', resize=(600, 514), exclude=["nude"], cache=True)
                 else:
                     python:
-                        frame_image = im.Scale("content/gfx/frame/MC_bg3.png", 1, 1)
-                        img = char.show('profile', resize=(600, 514), exclude=["nude", "revealing", "lingerie", "swimsuit"], cache=True)
+                        img = char.show('profile', resize=(600, 514),
+                                        exclude=["nude", "revealing", "lingerie", "swimsuit"], cache=True)
 
                 $ image_tags = img.get_image_tags()
-
+                python:
+                    tt_str = "\n".join(["Click to interact with {}!".format(char.nickname),
+                                        "{}".format(char.desc)])
                 button:
                     align (.5, .5)
-
 
                     idle_background frame_image
                     idle_foreground Transform(img, align=(.5, .5))
@@ -207,15 +207,37 @@ screen char_profile():
                             background Frame("content/gfx/frame/MC_bg3_white.png", 10 ,10)
                         else:
                             background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                        add img align(.5, .5)#ProportionalScale(img, 600, 514) align(.5, .5)
+                        add img align(.5, .5)
                     if "Exhibitionist" in char.traits:
-                        action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Function(gm.start_int, char, img=char.show("girlmeets", resize=gm.img_size))], false=NullAction())
+                        action If(not_escaped,
+                                  true=[Hide("char_profile"),
+                                        With(dissolve),
+                                        Function(gm.start_int, char,
+                                                 img=char.show("girlmeets",
+                                                               resize=gm.img_size))],
+                                  false=NullAction())
                     if check_friends(hero, char) or check_lovers(char, hero):
-                        action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Function(gm.start_int, char, img=char.show("girlmeets", exclude=["nude"], resize=gm.img_size))], false=NullAction())
+                        action If(not_escaped,
+                                  true=[Hide("char_profile"),
+                                        With(dissolve),
+                                        Function(gm.start_int, char,
+                                                 img=char.show("girlmeets",
+                                                               exclude=["nude"],
+                                                               resize=gm.img_size))],
+                                  false=NullAction())
                     else:
-                        action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Function(gm.start_int, char, img=char.show("girlmeets", exclude=["nude", "revealing", "lingerie", "swimsuit"], resize=gm.img_size))], false=NullAction())
-
-                    hovered tt.action("{=library_book_header_main}{color=[goldenrod]}{size=17}Click to interact with [char.nickname]{/=}{/color}{/size}\n[char.desc]")
+                        action If(not_escaped,
+                                  true=[Hide("char_profile"),
+                                        With(dissolve),
+                                        Function(gm.start_int, char,
+                                                 img=char.show("girlmeets",
+                                                               exclude=["nude",
+                                                                        "revealing",
+                                                                        "lingerie",
+                                                                        "swimsuit"],
+                                                 resize=gm.img_size))],
+                                  false=NullAction())
+                    tooltip tt_str
 
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
@@ -229,8 +251,8 @@ screen char_profile():
                         xysize (140, 40)
                         style "left_wood_button"
                         action Hide("show_trait_info"), Return(['control', 'left'])
-                        hovered tt.action("<== Previous Girl")
                         text "Previous Girl" style "wood_text" xalign(.69)
+                        tooltip "<== Previous Girl"
 
                     null width 280
 
@@ -238,8 +260,8 @@ screen char_profile():
                         xysize (140, 40)
                         style "right_wood_button"
                         action Hide("show_trait_info"), Return(['control', 'right'])
-                        hovered tt.action("Next Girl ==>")
                         text "Next Girl" style "wood_text" xalign(.19)
+                        tooltip "Next Girl ==>"
 
         # Left Frame with most of the info ====================================>
         frame:
@@ -271,8 +293,8 @@ screen char_profile():
                     ycenter 65
                     idle img
                     hover img
-                    hovered tt.Action("{=library_book_header_main}{color=[goldenrod]}{size=17}%s{/=}{/color}{/size}"%trait.id + "\n" + trait.desc)
                     action Show("show_trait_info", trait=trait.id, place="main_trait", tt=tt)
+                    tooltip "{}".format("\n".join([trait.id, trait.desc]))
                 align (.0, .0)
                 xysize (330, 126)
                 add Transform("content/gfx/frame/base_frame.png", alpha=.9, size=(330, 126)):
@@ -318,17 +340,17 @@ screen char_profile():
                         button:
                             style_group "ddlist"
                             action NullAction()
-                            hovered tt.Action("%s is in training!" % char.nickname)
                             text "{image=button_circle_green}Location: School"
+                            tooltip "%s is in training!" % char.nickname
                     else:
                         button:
                             style_group "ddlist"
                             if char.status == "slave":
                                 action Return(["dropdown", "home", char])
-                                hovered tt.Action("Choose a place for %s to live at!" % char.nickname)
+                                tooltip "Choose a place for %s to live at!" % char.nickname
                             else: # Can't set home for free chars, they decide it on their own.
                                 action NullAction()
-                                hovered tt.Action("%s is free and decides on where to live at!" % char.nickname)
+                                tooltip "%s is a free citizen and decides on where to live at!" % char.nickname
                             text "{image=button_circle_green}Home: [char.home]":
                                 if len(str(char.home)) > 18:
                                     size 15
@@ -337,7 +359,7 @@ screen char_profile():
                         button:
                             style_group "ddlist"
                             action Return(["dropdown", "workplace", char])
-                            hovered tt.Action("Choose a place for %s to work at!" % char.nickname)
+                            tooltip "Choose a place for %s to work at!" % char.nickname
                             text "{image=button_circle_green}Work: [char.workplace]":
                                 if len(str(char.workplace)) > 18:
                                     size 15
@@ -346,7 +368,7 @@ screen char_profile():
                     button:
                         style_group "ddlist"
                         action Return(["dropdown", "action", char])
-                        hovered tt.Action("Choose a task for %s to do!" % char.nickname)
+                        tooltip "Choose a task for %s to do!" % char.nickname
                         if getattr(char.workplace, "is_school", False):
                             text "{image=button_circle_green}Action: [char.action.name] Course"
                         else:
@@ -361,11 +383,11 @@ screen char_profile():
                     if char.status == "slave":
                         idle ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50)
                         hover (im.MatrixColor(ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50), im.matrix.brightness(.25)))
-                        hovered tt.Action("This girl is a slave!")
+                        tooltip "This girl is a slave!"
                     else:
                         idle ProportionalScale("content/gfx/interface/icons/free.png", 50, 50)
                         hover (im.MatrixColor(ProportionalScale("content/gfx/interface/icons/free.png", 50, 50), im.matrix.brightness(.25)))
-                        hovered tt.Action("This girl is free as a bird :)")
+                        tooltip "This girl is free as a bird :)"
                     action NullAction()
 
             null height 5
@@ -376,28 +398,28 @@ screen char_profile():
                     yalign .5
                     action SetScreenVariable("stats_display", "main"), With(dissolve)
                     text "Main" size 15
-                    hovered tt.action("Show main info")
+                    tooltip "Show Main Info!"
                 button:
                     yalign .5
                     action SetScreenVariable("stats_display", "stats"), With(dissolve)
                     text "Stats" size 15
-                    hovered tt.action("Show stats")
+                    tooltip "Show Stats!"
                 button:
                     yalign .5
                     action SetScreenVariable("stats_display", "pro_stats"), With(dissolve)
                     text "Special" size 15
-                    hovered tt.action("Show special stats")
+                    tooltip "Show Special Stats!"
                 button:
                     yalign .5
                     action SetScreenVariable("stats_display", "skillset"), With(dissolve)
                     text "Skills" size 15
-                    hovered tt.action("Show skills levels")
+                    tooltip "Show Skills!"
                 if DEBUG:
                     button:
                         yalign .5
                         action SetScreenVariable("stats_display", "skillstest"), With(dissolve)
                         text "S" size 15
-                        hovered tt.action("Show skills (dev mode only)")
+                        tooltip "Show devmod skills"
 
             null height 15
             $ base_ss = char.stats.get_base_ss()
@@ -420,7 +442,7 @@ screen char_profile():
                             xysize (106, 40)
                             yoffset -4
                             action Show("char_rename", char=char)
-                            hovered tt.action("Rename [char.name] (renaming is limited for free girls)")
+                            tooltip "Rename {} (renaming is limited for free girls).".format(char.name)
 
                     if len(char.fullname) >= 17:
                         null height 2
@@ -453,8 +475,8 @@ screen char_profile():
                                     xysize (95, 95)
                                     background img
                                     action Show("show_trait_info", trait=trait.id, place="race_trait", tt=tt)
-                                    hovered tt.action("[char.full_race]")
                                     hover_background im.MatrixColor(img, im.matrix.brightness(.10))
+                                    tooltip "{}".format(char.full_race)
                         vbox:
                             # Elements icon:
                             $ els = [Transform(e.icon, size=(90, 90)) for e in char.elements]
@@ -489,7 +511,7 @@ screen char_profile():
                                     action Show("show_trait_info", trait=char, elemental_mode=True, place="race_trait")
                                     background f
                                     hover_background f_a
-                                    hovered tt.action("[ele]")
+                                    tooltip "{}".format(ele)
 
                     null height 4
                 elif stats_display == "stats":
@@ -571,9 +593,6 @@ screen char_profile():
                                 xpadding 7
                                 text "{color=#79CDCD}Market Price:"
                                 text (u"%s"%(char.fin.get_price())) xalign 1.0 style_suffix "value_text"
-
-                ##############################################################################
-                # Stats 2 (pro)
                 elif stats_display == "pro_stats":
                     label (u"{size=20}{color=[ivory]}{b}Battle Stats:") xalign(.48) text_outlines [(2, "#424242", 0, 0)]
                     frame:
@@ -597,7 +616,6 @@ screen char_profile():
                                 text "{}/{}".lower().format(getattr(char, stat.lower()), char.get_max(stat.lower())) style_suffix "value_text" color color
 
                     null height 4
-
                 elif stats_display == "skillstest":
                     frame:
                         style_suffix "main_frame"
@@ -613,7 +631,6 @@ screen char_profile():
                                         xpadding 7
                                         text "{}:".format(skill.capitalize())
                                         text "{true} <{action}, {training}>".format(true=skill_val, action=int(char.stats.skills[skill][0]), training=int(char.stats.skills[skill][1])) style_suffix "value_text"
-
                 elif stats_display == "skillset":
                     frame:
                         style_suffix "main_frame"
@@ -698,17 +715,17 @@ screen char_profile():
                     button:
                         xysize (150, 40)
                         action Hide("show_trait_info"), If(not_escaped, true=Show("char_control"))
-                        hovered tt.action('Set desired behavior for [char.nickname]!')
+                        tooltip "Set desired behavior for {}!".format(char.nickname)
                         text "Girl Control"
                     button:
                         xysize (150, 40)
                         action If(not_escaped, true=[Hide("char_profile"), With(dissolve), SetVariable("eqtarget", char), Jump('char_equip')])
-                        hovered tt.action("Manage this girl's inventory and equipment!")
+                        tooltip "Manage this girl's inventory and equipment!"
                         text "Equipment"
                     button:
                         xysize (150, 40)
                         action [Hide("char_profile"), With(dissolve), Return(["girl", "gallery"])]
-                        hovered tt.action("View this girl's gallery! (building a gallery may take some time for large packs)")
+                        tooltip "View this girl's gallery!\n(building a gallery may take some time for large packs)"
                         text "Gallery"
 
                 vbox:
@@ -716,17 +733,17 @@ screen char_profile():
                     button:
                         xysize (150, 40)
                         action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Jump('school_training')])
-                        hovered tt.action("Send her to School!")
+                        tooltip "Send her to School!"
                         text "Training"
                     button:
                         xysize (150, 40)
                         action Hide("show_trait_info"), If(not_escaped, true=Show("finances", None, char, mode="logical"))
-                        hovered tt.action("Review Finances!")
+                        tooltip "Review Finances!"
                         text "Finances"
                     button:
                         xysize (150, 40)
                         action If(not_escaped, true=Return(["girl", "get_rid"]))
-                        hovered tt.action("Get rid of her!")
+                        tooltip "Get rid of her!"
                         if char.status == "slave":
                             text "Sell"
                         else:
@@ -775,7 +792,7 @@ screen char_profile():
                                             xsize 147
                                             action Show("show_trait_info", trait=trait.id, tt=tt)
                                             text trait.id idle_color ivory size 15 align .5, .5 hover_color crimson text_align .5
-                                            hovered tt.Action(u"%s"%trait.desc)
+                                            tooltip "%s" % trait.desc
                                             hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
                     # Effects:
                     vbox:
@@ -795,7 +812,7 @@ screen char_profile():
                                         xysize (147, 25)
                                         action NullAction()
                                         text "[effect.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
-                                        hovered tt.Action(u"%s"%effect.desc)
+                                        tooltip "%s" % effect.desc
                                         hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
                 # Attacks/Magic ====================================>
@@ -817,7 +834,7 @@ screen char_profile():
                                         xysize (147, 25)
                                         action Return(["show_skill_info", entry])
                                         text "[entry.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
-                                        hovered tt.action("Click to see more info")
+                                        tooltip "Click to see more info!"
                                         hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
                     vbox:
@@ -838,28 +855,28 @@ screen char_profile():
                                         xysize (147, 25)
                                         action Return(["show_skill_info", entry])
                                         text "[entry.name]" idle_color ivory size 15 align .5, .5 hover_color crimson
-                                        hovered tt.action("Click to see more info")
+                                        tooltip "Click to see more info!"
                                         hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
         # Tooltip ====================================>
-        frame:
-            background Frame("content/gfx/frame/black_frame.png")
-            pos 332, 622
-            xpadding 10
-            xysize (951, 100)
-            has hbox spacing 1
-            if isinstance(tt.value, BE_Action):
-                $ element = tt.value.get_element()
-                if element:
-                    frame:
-                        background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
-                        xysize (70, 70)
-                        if element.icon:
-                            $ img = ProportionalScale(element.icon, 70, 70)
-                            add img align (.5, .5)
-                text tt.value.desc style "content_text" size 20 color ivory yalign .1
-            else:
-                text (u"{=content_text}{color=[ivory]}%s" % tt.value)
+        # frame:
+        #     background Frame("content/gfx/frame/black_frame.png")
+        #     pos 332, 622
+        #     xpadding 10
+        #     xysize (951, 100)
+        #     has hbox spacing 1
+        #     if isinstance(tt.value, BE_Action):
+        #         $ element = tt.value.get_element()
+        #         if element:
+        #             frame:
+        #                 background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
+        #                 xysize (70, 70)
+        #                 if element.icon:
+        #                     $ img = ProportionalScale(element.icon, 70, 70)
+        #                     add img align (.5, .5)
+        #         text tt.value.desc style "content_text" size 20 color ivory yalign .1
+        #     else:
+        #         text (u"{=content_text}{color=[ivory]}%s" % tt.value)
 
     use top_stripe(True)
 
@@ -1020,8 +1037,7 @@ screen show_trait_info(trait=None, place="girl_trait", tt=None, elemental_mode=F
                                     xysize 20, 18
                                     action NullAction()
                                     align .99, .5
-                                    if tt:
-                                        hovered tt.action("Icon represents skills changes. Green means bonus, red means penalty. Left one is action counter, right one is training counter, top one is resulting value.")
+                                    tooltip "Icon represents skills changes. Green means bonus, red means penalty. Left one is action counter, right one is training counter, top one is resulting value."
                                     if data[0] > 0:
                                         add PS(img_path + "left_green.png", 20, 20)
                                     elif data[0] < 0:
@@ -1157,8 +1173,6 @@ screen char_control():
             align (.5, .0)
             padding 40, 10
             text "Adjust your workers behavior here." align .5, .5 color ivory
-            # has vbox
-            # text ("%s" % tt.value) color white size 18
 
         # Tips/Wagemod
         frame:
