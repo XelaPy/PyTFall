@@ -80,7 +80,7 @@ screen city_screen():
                     selected_background hover_img
                 focus_mask True
                 selected key["id"] == selected
-                if key["id"].lower() == "forest entrance":
+                if key["name"].lower() == "forest entrance":
                     tooltip "Dark Forest"
                 else:
                     tooltip key["name"]
