@@ -2,8 +2,6 @@ screen new_style_tooltip():
     layer "tooltips"
     $ tooltip = GetTooltip()
 
-
-
     # Get mouse coords:
     python:
         x, y = renpy.get_mouse_pos()
@@ -26,41 +24,50 @@ screen new_style_tooltip():
                 xmaximum 400
                 has vbox spacing 1
 
+                $ temp = "".join([combat_skill.DAMAGE_20[t] for t in combat_skill.damage])
+                if "melee" in combat_skill.attributes:
+                    $ line = "{color=[red]}Melee skill{/color}"
+                elif "ranged" in combat_skill.attributes:
+                    $ line = "{color=[green]}Ranged skill{/color}"
+                elif "magic" in combat_skill.attributes:
+                    $ line = "{color=[green]}Magic skill{/color}"
+                else:
+                    $ line = "{color=[orange]}Status skill{/color}"
+
                 # Elements:
-                text "Name: [combat_skill.name]" size 20 color ivory
-                $ temp = ""
-                for t in combat_skill.damage:
-                    $ temp += combat_skill.DAMAGE_20[t]
-                text "Damage: [temp]" size 18 color ivory
-                text "Desc: [combat_skill.desc]" size 14 color ivory
+                text "[combat_skill.name]" size 20 color ivory
+                text "[combat_skill.desc]" color ivory
+                text "Type: {}".format(line)
+                text "Damage: [temp]" color ivory
+
                 hbox:
                     if combat_skill.health_cost > 0:
                         if isinstance(combat_skill.health_cost, int):
-                            text "HP: [combat_skill.health_cost] " size 14 color red
+                            text "HP: [combat_skill.health_cost] " color red
                         else:
                             $ value = int(combat_skill.health_cost * 100)
-                            text "HP: [value] % " size 14 color red
+                            text "HP: [value] % " color red
                     if combat_skill.mp_cost > 0:
                         if isinstance(combat_skill.mp_cost, int):
-                            text "MP: [combat_skill.mp_cost] " size 14 color blue
+                            text "MP: [combat_skill.mp_cost] " color blue
                         else:
                             $ value = int(combat_skill.mp_cost * 100)
-                            text "MP: [value] % " size 14 color blue
+                            text "MP: [value] % " color blue
 
                     if combat_skill.vitality_cost > 0:
                         if isinstance(combat_skill.vitality_cost, int):
-                            text "VP: [combat_skill.vitality_cost] " size 14 color green
+                            text "VP: [combat_skill.vitality_cost] " color green
                         else:
                             $ value = int(combat_skill.vitality_cost * 100)
-                            text "VP: [value] % " size 14 color green
+                            text "VP: [value] % " color green
                     if (combat_skill.type=="all_enemies" and combat_skill.piercing) or combat_skill.type=="all_allies":
-                        text "Target: All" size 14 color gold
+                        text "Target: All" color gold
                     elif combat_skill.type=="all_enemies":
-                        text "Target: First Row" size 14 color gold
+                        text "Target: First Row" color gold
                     elif combat_skill.piercing:
-                        text "Target: Any" size 14 color gold
+                        text "Target: Any" color gold
                     else:
-                        text "Target: One" size 14 color gold
+                        text "Target: One" color gold
 
 screen set_action_dropdown(char, pos=()):
     # Trying to create a drop down screen with choices of actions:
