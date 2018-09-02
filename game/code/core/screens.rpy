@@ -560,14 +560,15 @@ init:
                 null width 15
                 text u'Day [day]' size 20 color ivory yalign .5
                 null width 15
-                button:
-                    style "sound_button"
-                    xysize (37, 37)
-                    action [SelectedIf(not (_preferences.mute["music"] or _preferences.mute["sfx"])),
-                            If(_preferences.mute["music"] or _preferences.mute["sfx"],
-                            true=[Preference("sound mute", "disable"), Preference("music mute", "disable")],
-                            false=[Preference("sound mute", "enable"), Preference("music mute", "enable")])]
-                    tooltip "Mute All"
+            button:
+                style "sound_button"
+                pos 240, 3
+                xysize (37, 37)
+                action [SelectedIf(not (_preferences.mute["music"] or _preferences.mute["sfx"])),
+                        If(_preferences.mute["music"] or _preferences.mute["sfx"],
+                        true=[Preference("sound mute", "disable"), Preference("music mute", "disable")],
+                        false=[Preference("sound mute", "enable"), Preference("music mute", "enable")])]
+                tooltip "Mute All"
 
             # Left HBox: ======================================================>>>>>>
             # Add to and remove from Team Button.
