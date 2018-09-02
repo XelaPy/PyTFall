@@ -104,17 +104,21 @@ init -5 python hide:
     # Stop middle click hide menus
     config.keymap["hide_windows"] = None
 
+    BLOCKED_LABELS = ["after_load", "save_screen",
+                      "sort_items_for_gameplay",
+                      "sort_traits_for_gameplay"]
+
     # Saves last label in a variable "last_label". Might be useful to jump back to from labels with multiple entry points.
     def label_callback(name, abnormal):
         store.last_label_pure = name
 
         if "pytfall" in globals():
-            labels = list(event.label for event in pytfall.world_events.events_cache) # implement as a fixed list on the first sign of delays
+            labels = _list(event.label for event in pytfall.world_events.events_cache)
         else:
-            labels = list()
-        labels.append("after_load")
-        labels.append("save_screen")
-        # labels.append("work_in_slavemarket")
+            labels = _list()
+
+        labels.extend(BLOCKED_LABELS)
+
         if not name.startswith("_") and name not in labels:
             store.last_label = name
     config.label_callback = label_callback
