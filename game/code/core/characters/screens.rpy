@@ -22,7 +22,7 @@ screen new_style_tooltip():
                 pos (x, y)
                 anchor (xval, yval)
                 style "dropdown_gm_frame"
-                ymaximum 400
+                xmaximum 400
                 has vbox spacing 1
                 # Elements:
                 text "Name: [combat_skill.name]" style "TisaOTM" size 20 color ivory

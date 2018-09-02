@@ -51,8 +51,6 @@ label hero_profile:
         elif result[0] == "rename_team":
             if result[1] == "set_name":
                 $ hero.team.name = renpy.call_screen("pyt_input", hero.team.name, "Enter Team Name", 20, (350, 200))
-        elif result[0] == "show_skill_info":
-            $ renpy.show_screen("show_skill_info", result[1])
 
 
 # Screens:
@@ -403,12 +401,12 @@ screen hero_profile():
                         frame:
                             xysize (147, 25)
                             button:
-                                background Null()
                                 xysize (147, 25)
-                                action Return(["show_skill_info", entry])
-                                text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
-                                tooltip "Click to see more info"
+                                background Null()
                                 hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
+                                action NullAction()
+                                tooltip ["be", entry]
+                                text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
 
             frame:
                 background Frame("content/gfx/frame/hp_1.png", 5, 5)
@@ -425,12 +423,13 @@ screen hero_profile():
                         frame:
                             xysize (147, 25)
                             button:
-                                background Null()
                                 xysize (147, 25)
-                                action Return(["show_skill_info", entry])
-                                text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
-                                tooltip "Click to see more info"
+                                background Null()
                                 hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
+                                action NullAction()
+                                tooltip ["be", entry]
+                                text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
+
 
     # TRAITS ====================================>
     elif rframe_display == "traits":
