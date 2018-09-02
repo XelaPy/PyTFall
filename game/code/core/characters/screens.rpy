@@ -2,7 +2,7 @@ screen new_style_tooltip():
     layer "tooltips"
     $ tooltip = GetTooltip()
 
-    style_prefix "new_style_tooltip"
+
 
     # Get mouse coords:
     python:
@@ -13,51 +13,54 @@ screen new_style_tooltip():
     if persistent.tooltips and tooltip:
         if isinstance(tooltip, basestring):
             frame:
+                style_prefix "new_style_tooltip"
                 pos (x, y)
                 anchor (xval, yval)
                 text "[tooltip]"
         elif isinstance(tooltip, list) and tooltip[0] == "be":
             $ combat_skill = tooltip[1]
             frame:
+                style_prefix "new_style_tooltip_be_skills"
                 pos (x, y)
                 anchor (xval, yval)
                 xmaximum 400
                 has vbox spacing 1
+
                 # Elements:
-                text "Name: [combat_skill.name]" style "TisaOTM" size 20 color ivory
+                text "Name: [combat_skill.name]" size 20 color ivory
                 $ temp = ""
                 for t in combat_skill.damage:
                     $ temp += combat_skill.DAMAGE_20[t]
-                text "Damage: [temp]" style "TisaOTM" size 18 color ivory
-                text "Desc: [combat_skill.desc]" size 14 color ivory style "TisaOTM"
+                text "Damage: [temp]" size 18 color ivory
+                text "Desc: [combat_skill.desc]" size 14 color ivory
                 hbox:
                     if combat_skill.health_cost > 0:
                         if isinstance(combat_skill.health_cost, int):
-                            text "HP: [combat_skill.health_cost] " size 14 color red style "TisaOTM"
+                            text "HP: [combat_skill.health_cost] " size 14 color red
                         else:
                             $ value = int(combat_skill.health_cost * 100)
-                            text "HP: [value] % " size 14 color red style "TisaOTM"
+                            text "HP: [value] % " size 14 color red
                     if combat_skill.mp_cost > 0:
                         if isinstance(combat_skill.mp_cost, int):
-                            text "MP: [combat_skill.mp_cost] " size 14 color blue style "TisaOTM"
+                            text "MP: [combat_skill.mp_cost] " size 14 color blue
                         else:
                             $ value = int(combat_skill.mp_cost * 100)
-                            text "MP: [value] % " size 14 color blue style "TisaOTM"
+                            text "MP: [value] % " size 14 color blue
 
                     if combat_skill.vitality_cost > 0:
                         if isinstance(combat_skill.vitality_cost, int):
-                            text "VP: [combat_skill.vitality_cost] " size 14 color green style "TisaOTM"
+                            text "VP: [combat_skill.vitality_cost] " size 14 color green
                         else:
                             $ value = int(combat_skill.vitality_cost * 100)
-                            text "VP: [value] % " size 14 color green style "TisaOTM"
+                            text "VP: [value] % " size 14 color green
                     if (combat_skill.type=="all_enemies" and combat_skill.piercing) or combat_skill.type=="all_allies":
-                        text "Target: All" size 14 color gold style "TisaOTM"
+                        text "Target: All" size 14 color gold
                     elif combat_skill.type=="all_enemies":
-                        text "Target: First Row" size 14 color gold style "TisaOTM"
+                        text "Target: First Row" size 14 color gold
                     elif combat_skill.piercing:
-                        text "Target: Any" size 14 color gold style "TisaOTM"
+                        text "Target: Any" size 14 color gold
                     else:
-                        text "Target: One" size 14 color gold style "TisaOTM"
+                        text "Target: One" size 14 color gold
 
 screen set_action_dropdown(char, pos=()):
     # Trying to create a drop down screen with choices of actions:

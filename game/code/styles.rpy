@@ -443,6 +443,11 @@ init 2: # Advanced style that can carry a lot of properties to be used in screen
         size 14
         color "#CDAD00"
         xalign .5
+    style new_style_tooltip_be_skills_frame:
+        is new_style_tooltip_frame
+    style new_style_tooltip_be_skills_text:
+        is new_style_tooltip_text
+        xalign .0
 
     # Notifications:
     style notify_bubble:
