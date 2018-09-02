@@ -804,74 +804,7 @@ screen race_and_elements(align=(.5, .99), char=None):
                 background f
                 hover_background f_a
                 tooltip "Elements:\n   {}".format(ele)
-
-# screen show_skill_info(skill):
-#     modal True
-#     default DAMAGE = {"physical": "{image=physical_be_viewport}", "fire": "{image=fire_element_be_viewport}", "water": "{image=water_element_be_viewport}",
-#               "ice": "{image=ice_element_be_viewport}", "earth": "{image=earth_element_be_viewport}", "air": "{image=air_element_be_viewport}",
-#               "electricity": "{image=ele_element_be_viewport}", "light": "{image=light_element_be_viewport}", "darkness": "{image=darkness_element_be_viewport}",
-#               "healing": "{image=healing_be_viewport}", "poison": "{image=poison_be_viewport}"}
-#     fixed:
-#         xysize 300, 200
-#         align(.5, .5)
-#         frame:
-#             align(.5, .5)
-#             background Frame("content/gfx/frame/p_frame52.png", 10, 10)
-#             xysize 300, 200
-#
-#             has vbox style_prefix "proper_stats" spacing 1
-#             frame:
-#                 xsize 290
-#                 text "[skill.name]" size 18 color goldenrod bold True xalign .45
-#             null height 5
-#
-#             frame:
-#                 xsize 290
-#                 text "[skill.desc]" color ivory size 14 xalign .05
-#             null height 10
-#             frame:
-#                 xsize 290
-#                 $ line = ""
-#                 if "melee" in skill.attributes:
-#                     $ line += "  {color=[red]}Melee skill {/color}"
-#                 elif "ranged" in skill.attributes:
-#                     $ line += "  {color=[green]}Ranged skill {/color}"
-#                 elif "magic" in skill.attributes:
-#                     $ line += "  {color=[green]}Magic skill {/color}"
-#                 else:
-#                     $ line += "  {color=[orange]}Status skill {/color}"
-#
-#                 if "inevitable" in skill.attributes:
-#                     $ line += "Cannot be dodged. "
-#
-#                 $ attr = list(i for i in skill.attributes if i not in ["melee", "ranged", "magic", "status", "inevitable"])
-#                 if attr:
-#                     for i in attr:
-#                         $ line += DAMAGE[i]
-#
-#                 text line size 14 xalign .05
-#
-#             if skill.critpower != 0:
-#                 if skill.critpower >0:
-#                     $ line = "Crit damage: + [skill.critpower]%"
-#                 else:
-#                     $ line = "Crit damage: [skill.critpower]%"
-#                 frame:
-#                     xsize 290
-#                     text line size 14 color goldenrod bold True xalign .05
-#
-#             if skill.effect > 0:
-#                 $ line = "Relative power: [skill.effect]"
-#                 frame:
-#                     xsize 290
-#                     text line size 14 color goldenrod bold True xalign .05
-#
-#         imagebutton:
-#             align .99, .01
-#             xysize 22, 22
-#             idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
-#             hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
-#             action Hide("show_skill_info")
+                
 
 screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
     if place == "girl_trait":

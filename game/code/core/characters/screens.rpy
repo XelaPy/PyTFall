@@ -34,16 +34,34 @@ screen new_style_tooltip():
                 else:
                     $ line = "{color=[orange]}Status skill{/color}"
 
-                if "inevitable" in skill.attributes:
-                    $ line += " Can't' be dodged."
+                if "inevitable" in combat_skill.attributes:
+                    $ line += " Can't be dodged."
+
+                if combat_skill.critpower != 0:
+                    if combat_skill.critpower > 0:
+                        $ critpower = "Crit damage: +[combat_skill.critpower]%"
+                    else:
+                        $ critpower = "Crit damage: [combat_skill.critpower]%"
+                else:
+                    $ critpower = None
+
+                if combat_skill.effect > 0:
+                    $ effect = "Relative power: [combat_skill.effect]"
+                else:
+                    $ effect = None
 
                 # Elements:
-                text "[combat_skill.name]" size 20 color ivory
+                text "[combat_skill.name]" size 20 color ivory outlines [(2, "#3a3a3a", 0, 0)]
                 text "[combat_skill.desc]" color ivory
                 text "Type: {}".format(line)
-                text "Damage: [temp]" color ivory
+                text "Damage: [temp]" color goldenrod
+                if critpower:
+                    text "%s" % critpower size 14 color goldenrod
+                if effect:
+                    text "%s" % effect size 14 color goldenrod
 
                 hbox:
+                    spacing 10
                     if combat_skill.health_cost > 0:
                         if isinstance(combat_skill.health_cost, int):
                             text "HP: [combat_skill.health_cost] " color red
