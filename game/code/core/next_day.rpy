@@ -353,8 +353,6 @@ label special_auto_save: # since built-in autosave works like shit, I use normal
 
 
 screen next_day():
-
-    default tt = Tooltip("Review days events here!")
     default show_summary = True
     default summary_filter = "buildings" # Not applicable atm
     default report_stats = False

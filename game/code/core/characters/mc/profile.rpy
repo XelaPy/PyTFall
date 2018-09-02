@@ -59,7 +59,6 @@ init:
         on "hide":
             action Hide("show_trait_info")
 
-        default tt = Tooltip("")
         default lframe_display = "status"
         default rframe_display = "skills"
         default base_ss = hero.stats.get_base_ss()
@@ -281,7 +280,7 @@ init:
                 button:
                     style_group "ddlist"
                     action Return(["dropdown", "home"])
-                    hovered tt.Action("Choose a place to live at!")
+                    tooltip "Choose a place to live at!"
                     text "{image=button_circle_green}Home: [hero.home]":
                         if len(str(hero.home)) > 18:
                             size 14
@@ -290,7 +289,7 @@ init:
                 button:
                     style_group "ddlist"
                     action Return(["dropdown", "workplace"])
-                    hovered tt.Action("Choose a place to work at!")
+                    tooltip "Choose a place to work at!"
                     text "{image=button_circle_green}Work: [hero.workplace]":
                         if len(str(hero.workplace)) > 18:
                             size 14
@@ -299,7 +298,7 @@ init:
                 button:
                     style_group "ddlist"
                     action Return(["dropdown", "action"])
-                    hovered tt.Action("Pick a task!")
+                    tooltip "Pick a task!"
                     text "{image=button_circle_green}Action: [hero.action]":
                         if len(str(hero.action)) > 18:
                             size 14
@@ -331,33 +330,20 @@ init:
                             $ f = Fixed(*els, xysize=(90, 90))
                             $ f_a = Fixed(*els_a, xysize=(90, 90))
                         add ProportionalScale("content/gfx/interface/images/elements/hover.png", 98, 98) align (.5, .5)
+                        if len(hero.elements) > 1:
+                            $ ele = ""
+                            for e in hero.elements:
+                                $ ele += e.id + ", "
+                            $ ele = ele[:-2]
+                        else:
+                            $ ele = hero.elements[0].id
                         button:
                             xysize (90, 90)
                             align (.5, .5)
-                            if len(hero.elements) > 1:
-                                $ ele = ""
-                                for e in hero.elements:
-                                    $ ele += e.id + ", "
-                                $ ele = ele[:-2]
-                            else:
-                                $ ele = hero.elements[0].id
                             action Show("show_trait_info", trait=hero, elemental_mode=True, place="hero_element")
                             background f
                             hover_background f_a
-                            hovered tt.action("[ele]")
-
-                    # viewport:
-                        # draggable True
-                        # edgescroll (15, 10)
-                        # xysize (200, 110)
-                        # align (0, .5)
-                        # has vbox spacing -4
-                        # for e in hero.elements:
-                            # textbutton "{=TisaOTM}{size=14}[e.id]":
-                                # background None
-                                # action NullAction()
-                                # hovered tt.Action("%s" % e.desc)
-                    # add ProportionalScale("content/gfx/interface/images/elements/hover.png", 90, 90) pos (105, 10)
+                            tooltip str(ele)
             elif lframe_display == "skills":
                 null height 26
                 viewport:
@@ -462,7 +448,7 @@ init:
                                     xysize (147, 25)
                                     action Return(["show_skill_info", entry])
                                     text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
-                                    hovered tt.action("Click to see more info")
+                                    tooltip "Click to see more info"
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
                 frame:
@@ -484,7 +470,7 @@ init:
                                     xysize (147, 25)
                                     action Return(["show_skill_info", entry])
                                     text "[entry.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(entry.name))))
-                                    hovered tt.action("Click to see more info")
+                                    tooltip "Click to see more info"
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
         # TRAITS ====================================>
@@ -512,7 +498,7 @@ init:
                                     xsize 147
                                     action Show("show_trait_info", trait=trait.id, place="mc_trait")
                                     text trait.id idle_color ivory align .5, .5 hover_color crimson text_align .5 size min(15, int(250 / max(1, len(trait.id))))
-                                    hovered tt.Action(u"%s"%trait.desc)
+                                    tooltip "%s"%trait.desc
                                     hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
                 null height 10
@@ -531,27 +517,8 @@ init:
                                 xysize (147, 25)
                                 action NullAction()
                                 text "[effect.name]" idle_color ivory align .5, .5 hover_color crimson size min(15, int(250 / max(1, len(trait.id))))
-                                hovered tt.Action(u"%s"%effect.desc)
+                                tooltip "%s"%effect.desc
                                 hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
-
-        # TOOLTIP TEXT ====================================>
-        hbox:
-            spacing 1
-            pos (621, 602)
-            xysize (657, 114)
-            yfill True
-            if isinstance(tt.value, BE_Action):
-                $ element = tt.value.get_element()
-                if element:
-                    fixed:
-                        xysize (100, 100)
-                        yalign .5
-                        if element.icon:
-                            $ img = ProportionalScale(element.icon, 90, 90)
-                            add img align (.5, .5)
-                text tt.value.desc style "content_text" size 18 color "#ecc88a" yalign .1
-            else:
-                text (u"{=content_text}{color=#ecc88a}%s" % tt.value) size 18
 
         # BASE FRAME 1 "top layer" ====================================>
         add "content/gfx/frame/h_profile2.png"
@@ -564,27 +531,27 @@ init:
             button:
                 action SetScreenVariable("lframe_display", "status"), With(dissolve)
                 text "Stats" style "pb_button_text"
-                hovered tt.Action("Inspect your personal statistics and place of residence")
+                tooltip "Inspect your personal statistics and place of residence"
             button:
                 action SetScreenVariable("lframe_display", "skills"), With(dissolve)
                 text "Skills" style "pb_button_text"
-                hovered tt.Action("Check the progress of your skills")
+                tooltip "Check the progress of your skills"
             button:
                 action Hide("show_trait_info"), Show("hero_team", transition=dissolve)#, With(dissolve)
                 text "Team" style "pb_button_text"
-                hovered tt.Action("Display your team's current composition; Team Name: [hero.team.name]")#, With(dissolve)
+                tooltip "Display your team's current composition; Team Name: %s" % hero.team.name
             button:
                 action Hide("show_trait_info"), Return(['hero', 'equip'])#, With(dissolve)
                 text "Equipment" style "pb_button_text"
-                hovered tt.Action("Browse and manage your own inventory and equipment")
+                tooltip "Browse and manage your own inventory and equipment"
             button:
                 action Hide("show_trait_info"), Show("finances", None, hero, mode="main")#, With(dissolve)
                 text "Finance" style "pb_button_text"
-                hovered tt.Action("View the log of financial information, letting you see your income and expenses")
+                tooltip "View the log of financial information, letting you see your income and expenses"
             button:
                 action Hide("show_trait_info"), [Show("mc_friends_list")]
                 text "Friends" style "pb_button_text"
-                hovered tt.Action("Show the list friends and lovers who don't work for [hero.name], allowing you to find them immediately when needed")
+                tooltip "Show the list friends and lovers who don't work for {}, allowing you to find them immediately when needed".format(hero.name)
             # Items Transfer to Home Location Inventory:
 
         frame:
@@ -597,7 +564,7 @@ init:
                     align .5, .5
                     action Return(["item", "transfer"])
                     text "Storage" style "pb_button_text"
-                    hovered tt.Action("Open the location storage to leave or take items")
+                    tooltip "Open the location storage to leave or take items"
 
         # AP ====================================>
         frame:
@@ -615,7 +582,7 @@ init:
             idle im.Scale("content/gfx/interface/buttons/close2.png", 35, 35)
             hover im.Scale("content/gfx/interface/buttons/close2_h.png", 35, 35)
             action Hide("show_trait_info"), Return(['control', 'return'])
-            hovered tt.Action("Return to previous screen!")
+            tooltip "Return to previous screen!"
 
         # EXP BAR ====================================>
         fixed:
@@ -641,7 +608,6 @@ init:
 
         key "mousedown_3" action Hide("hero_team"), With(dissolve)
 
-        default tt = Tooltip("")
         add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
 
         # Hero team ====================================>
@@ -660,7 +626,7 @@ init:
                     idle im.Scale("content/gfx/interface/buttons/edit.png", 24, 30)
                     hover im.Scale("content/gfx/interface/buttons/edit_h.png", 24, 30)
                     action Return(["rename_team", "set_name"]), With(dissolve)
-                    hovered tt.Action("Rename the team")
+                    tooltip "Rename the team"
 
             for member in hero.team:
                 $ img = member.show("portrait", resize=(120, 120), cache=True)
@@ -690,11 +656,11 @@ init:
                             idle Transform(img, alpha=.9)
                             hover Transform(img, alpha=1.05)
                             insensitive im.Sepia(img)
-                            action If(hasattr(member, "front_row"), true=[ToggleField(member, "front_row"), tt.Action("Row has been changed!")])
+                            action If(hasattr(member, "front_row"), true=[ToggleField(member, "front_row")])
                             if member.front_row:
-                                hovered tt.Action("Toggle between rows in battle, currently selected front row")
+                                tooltip "Toggle between rows in battle, currently character fights from the front row"
                             else:
-                                hovered tt.Action("Toggle between rows in battle, currently selected back row")
+                                tooltip "Toggle between rows in battle, currently character fights from the back row"
 
                         if member != hero:
                             imagebutton:
@@ -704,7 +670,7 @@ init:
                                 insensitive im.Sepia("content/gfx/interface/buttons/Profile.png")
                                 sensitive member in hero.chars
                                 action If(member not in pytfall.ra, true=[Hide("hero_profile"), Hide("hero_team"), SetVariable("char", member), SetVariable("char_profile", "hero_profile"), Jump("char_profile")], false=NullAction())
-                                hovered tt.Action("See character profile")
+                                tooltip "See character profile"
 
                     # Name/Status:
                     frame:
@@ -722,7 +688,7 @@ init:
                                     idle ProportionalScale("content/gfx/interface/buttons/close4.png", 24, 30)
                                     hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 24, 30)
                                     action Return(["remove_from_team", member])
-                                    hovered tt.Action("Remove %s from %s"%(member.nickname, hero.team.name))
+                                    tooltip "Remove %s from %s"%(member.nickname, hero.team.name)
 
                         # HP:
                         fixed:
@@ -772,13 +738,7 @@ init:
                 xsize 120
                 action Hide("hero_team"), With(dissolve)
                 text "Close" style "pb_button_text"
-                hovered tt.Action("Close team screen")
-        hbox:
-            spacing 1
-            pos (621, 602)
-            xysize (657, 114)
-            yfill True
-            text (u"{=content_text}{color=#ecc88a}%s" % tt.value) size 18
+                tooltip "Close team screen"
 
     screen hero_finances():
         modal True

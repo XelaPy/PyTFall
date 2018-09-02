@@ -81,8 +81,6 @@ screen realtor_agency():
     modal True
     zorder 1
 
-    default tt = Tooltip("Please take a look at some of our offers!")
-
     if market_buildings:
         frame:
             style_group "content"

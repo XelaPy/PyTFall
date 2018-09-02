@@ -1093,7 +1093,6 @@ screen char_control():
         xysize(343, 675)
 
         # Tooltip Related:
-        default tt = Tooltip("Adjust your workers behavior here.")
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             align (.5, .0)

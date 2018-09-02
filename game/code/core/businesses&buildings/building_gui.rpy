@@ -265,8 +265,6 @@ label building_management_end:
 
 init: # Screens:
     screen building_management():
-        $ tt = Tooltip(getattr(building, "desc", ""))
-
         if hero.upgradable_buildings:
             # Main Building mode:
             if bm_mid_frame_mode == "building":

@@ -68,7 +68,6 @@ screen chars_list(source=None):
     # Normalize pages.
     default page_size = 10
     default page = chars_list_last_page_viewed
-    default tt = Tooltip("")
 
     $ max_page = len(source.sorted)/page_size-1
     if len(source.sorted)%page_size:

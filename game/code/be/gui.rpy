@@ -47,7 +47,6 @@ init: # screens:
     screen pick_skill(char, give_up):
         zorder 2
 
-        default tt = Tooltip("")
         default menu_mode = "top"
 
         if menu_mode != "top":
@@ -211,7 +210,7 @@ init: # screens:
                                         xalign .5
                                         action SensitiveIf(skill.check_conditions(char)), Return(skill)
                                         tooltip ["be", skill]
-                                        
+
     screen battle_overlay(be):
         zorder 2
 
