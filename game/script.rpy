@@ -195,9 +195,9 @@ label dev_testing_menu_and_load_mc:
                 $ hero.apply_trait(traits["Mage"])
                 menu:
                     "Level 1":
-                        $ n=0
+                        $ n = 0
                     "Overpowered":
-                        $ n=10
+                        $ n = 10
                 $ tier_up_to(hero, n, level_bios=(.9, 1.1), skill_bios=(.8, 1.2), stat_bios=(.8, 1.0))
                 $ del n
             "Content":
@@ -247,6 +247,12 @@ label dev_testing_menu_and_load_mc:
                 hero.buildings.append(ap)
                 hero.home = ap
                 del ap
+
+    # Set Human trait for the MC: (We may want to customize this in the future)
+    python:
+        if not isinstance(hero.race, Trait):
+            hero.apply_trait(traits["Human"])
+            hero.full_race = "Human"
 
     jump continue_with_start
 

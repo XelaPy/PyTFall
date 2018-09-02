@@ -24,15 +24,18 @@ init -9 python:
             self.img = ""
             self.portrait = ""
             self.gold = 0
+
             self.name = ""
             self.fullname = ""
             self.nickname = ""
+
             self._mc_ref = None # This is how characters refer to MC (hero). May depend on case per case basis and is accessed through obj.mc_ref property.
             self.height = "average"
-            self.full_race = ""
             self.gender = "female"
             self.origin = ""
             self.status = "free"
+            self.race = ""
+            self.full_race = ""
 
             self.AP = 3
             self.baseAP = 3
@@ -2496,7 +2499,6 @@ init -9 python:
             super(Char, self).__init__(arena=True, inventory=True, effects=True)
             # Game mechanics assets
             self.gender = 'female'
-            self.race = ""
             self.desc = ""
             self.status = ""
             self._location = "slavemarket"

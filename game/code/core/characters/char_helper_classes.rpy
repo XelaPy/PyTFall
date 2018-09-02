@@ -372,7 +372,7 @@ init -10 python:
             self.occupations = list() # GEN_OCCS (Misnamed here)
             self.higher_tiers = list() # Required higher tier basetraits to enable this trait.
 
-            self.sex = "unisex" # Untill we set this up in traits: this should be "unisex" by default.
+            self.sex = "unisex" # Until we set this up in traits: this should be "unisex" by default.
 
             # Types:
             self.type = "" # Specific type if specified.
@@ -466,7 +466,7 @@ init -10 python:
         def apply(self, trait, truetrait=True):
             """
             Activates trait and applies it's effects all the way up to a current level of the characters.
-            Truetraits basially means that the trait is not applied throught items (Jobs, GameStart, Events and etc.)
+            Truetraits basically means that the trait is not applied thought items (Jobs, GameStart, Events and etc.)
             """
             # If we got a string with a traits name. Let the game throw an error otherwise.
             if not isinstance(trait, Trait):
@@ -487,22 +487,26 @@ init -10 python:
                 return
 
             # Unique Traits:
-            if trait.personality and list(t for t in self if t.personality):
-                return
-            if trait.race and list(t for t in self if t.race):
-                return
-            if trait.breasts and list(t for t in self if t.breasts):
-                return
-            if trait.body and list(t for t in self if t.body):
-                return
             if trait.personality:
-                char.personality = trait
+                if list(t for t in self if t.personality):
+                    return
+                else:
+                    char.personality = trait
             if trait.race:
-                char.race = trait
+                if list(t for t in self if t.race):
+                    return
+                else:
+                    char.race = trait
             if trait.breasts:
-                char.breasts = trait
+                if list(t for t in self if t.breasts):
+                    return
+                else:
+                    char.breasts = trait
             if trait.body:
-                char.body = trait
+                if list(t for t in self if t.body):
+                    return
+                else:
+                    char.body = trait
 
             # We need to make sure that no more than x + len(basetraits) of basetraits can be applied, atm x is 4:
             if trait.basetrait:
@@ -519,7 +523,7 @@ init -10 python:
             if not super(Traits, self).append(trait, truetrait):
                 return
 
-            # If we got here... we can apply the effect? Maybe? Please? Just maybe? I am seriouslly pissed at this system right now... ===========>>>
+            # If we got here... we can apply the effect? Maybe? Please? Just maybe? I am seriously pissed at this system right now... ===========>>>
 
             stats = self.instance.stats
             # If the trait is a basetrait:

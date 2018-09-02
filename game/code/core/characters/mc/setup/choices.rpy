@@ -1,6 +1,3 @@
-label build_mc_stories:
-    return
-
 init:
     python:
         main_story = None # Fathers occupation
@@ -343,7 +340,6 @@ init:
         temp["text"] += set_font_color("\n+ Dragon Eyesight Trait", "green")
         temp["label"] = "mc_setup_warrior_warrior_dragon_sight"
 
-
     python hide: # Mage options:
         mc_stories["Mage"]["choices"]["Sorcerer"] = "content/gfx/interface/images/mc/sorc.png"
         mc_stories["Mage"]["choices"]["Researcher"] = "content/gfx/interface/images/mc/researcher.png"
@@ -581,6 +577,3 @@ init:
         temp["text"] = "You inherited your mother's reflexes, which help to evade attacks. Sadly, mortal body is not suitable for vampire speed, affecting your health."
         temp["text"] += set_font_color("\n+ Perfect Reflexes Trait", "green")
         temp["label"] = "mc_setup_mage_arc_vampire_reflex"
-
-    # TODO: UNCOMMENT AFTER WE'RE DONE!
-    # return

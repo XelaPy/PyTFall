@@ -491,7 +491,7 @@ screen char_profile():
                             text "{color=#79CDCD}Market Price:"
                             text (u"%s"%(char.fin.get_price())) xalign 1.0 style_suffix "value_text"
 
-                use race_and_elements
+                use race_and_elements(char=char)
             elif stats_display == "stats":
                 frame:
                     style_prefix "proper_stats"
@@ -532,7 +532,7 @@ screen char_profile():
                                     action NullAction()
                                     tooltip "This is a Class Stat!"
                             text "{}/{}".lower().format(getattr(char, stat.lower()), char.get_max(stat.lower())) style_suffix "value_text" color color
-                use race_and_elements
+                use race_and_elements(char=char)
             elif stats_display == "skills":
                 frame:
                     style_prefix "proper_stats"
@@ -762,10 +762,11 @@ screen char_profile():
 
     use top_stripe(True)
 
-screen race_and_elements():
+screen race_and_elements(align=(.5, .99), char=None):
     hbox:
-        align .5, .99
+        align align
         spacing 20
+        # Race:
         frame:
             xysize (100, 100)
             $ trait = char.race
