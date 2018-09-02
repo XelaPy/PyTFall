@@ -18,10 +18,9 @@ screen new_style_tooltip():
                 text "[tooltip]"
         elif isinstance(tooltip, list) and tooltip[0] == "be":
             $ combat_skill = tooltip[1]
-            frame: # This is the spell/attack description frame:
+            frame:
                 pos (x, y)
                 anchor (xval, yval)
-                style "dropdown_gm_frame"
                 xmaximum 400
                 has vbox spacing 1
                 # Elements:
@@ -38,7 +37,7 @@ screen new_style_tooltip():
                         else:
                             $ value = int(combat_skill.health_cost * 100)
                             text "HP: [value] % " size 14 color red style "TisaOTM"
-                    if combat_skill.mp_cost >0:
+                    if combat_skill.mp_cost > 0:
                         if isinstance(combat_skill.mp_cost, int):
                             text "MP: [combat_skill.mp_cost] " size 14 color blue style "TisaOTM"
                         else:
