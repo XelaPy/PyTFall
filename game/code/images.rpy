@@ -197,7 +197,7 @@ init:
     image earth_element_be_size20 = ProportionalScale("content/gfx/interface/images/elements/small_earth.png", 20, 20, yoffset=4)
     image darkness_element_be_size20 = ProportionalScale("content/gfx/interface/images/elements/small_darkness.png", 20, 20, yoffset=2)
     image ice_element_be_size20 = ProportionalScale("content/gfx/interface/images/elements/small_ice.png", 20, 20, yoffset=4)
-    image air_element_be_size20 = ProportionalScale("content/gfx/interface/images/elements/small_air.png", 20, 20, yoffset=4)
+    image air_element_be_size20 = ProportionalScale("content/gfx/interface/images/elements/small_air.png", 20, 20, yoffset=2)
     image ele_element_be_size20 = ProportionalScale("content/gfx/interface/images/elements/small_electricity.png", 20, 20, yoffset=4)
     image light_element_be_size20 = ProportionalScale("content/gfx/interface/images/elements/small_light.png", 20, 20, yoffset=4)
     image healing_be_size20 = ProportionalScale("content/gfx/interface/images/elements/healing.png", 18, 18, yoffset=4)

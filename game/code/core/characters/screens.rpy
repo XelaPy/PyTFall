@@ -34,6 +34,9 @@ screen new_style_tooltip():
                 else:
                     $ line = "{color=[orange]}Status skill{/color}"
 
+                if "inevitable" in skill.attributes:
+                    $ line += " Can't' be dodged."
+
                 # Elements:
                 text "[combat_skill.name]" size 20 color ivory
                 text "[combat_skill.desc]" color ivory
