@@ -1332,6 +1332,7 @@ screen next_day():
                         text_size 16
                         ypadding 5
                         xysize (150, 40)
+                        keysym "mousedown_3"
 
 screen next_day_calculations():
     zorder 20
