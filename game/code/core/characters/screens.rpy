@@ -22,7 +22,7 @@ screen new_style_tooltip():
                 pos (x, y)
                 anchor (xval, yval)
                 xmaximum 400
-                has vbox spacing 1
+                has vbox
 
                 $ temp = "".join([combat_skill.DAMAGE_20[t] for t in combat_skill.damage])
                 if "melee" in combat_skill.attributes:
@@ -39,26 +39,43 @@ screen new_style_tooltip():
 
                 if combat_skill.critpower != 0:
                     if combat_skill.critpower > 0:
-                        $ critpower = "Crit damage: +[combat_skill.critpower]%"
+                        $ critpower = "+[combat_skill.critpower]%"
                     else:
-                        $ critpower = "Crit damage: [combat_skill.critpower]%"
+                        $ critpower = "[combat_skill.critpower]%"
                 else:
                     $ critpower = None
 
                 if combat_skill.effect > 0:
-                    $ effect = "Relative power: [combat_skill.effect]"
+                    $ effect = "[combat_skill.effect]"
                 else:
                     $ effect = None
 
                 # Elements:
                 text "[combat_skill.name]" size 20 color ivory outlines [(2, "#3a3a3a", 0, 0)]
                 text "[combat_skill.desc]" color ivory
-                text "Type: {}".format(line)
-                text "Damage: [temp]" color goldenrod
+
+                null height 5
+
+                hbox:
+                    xsize 170
+                    text "Type:".format(line)
+                    text "{}".format(line) xalign 1.0
+                hbox:
+                    xsize 170
+                    text "Damage: "
+                    text "[temp]" xalign 1.0
                 if critpower:
-                    text "%s" % critpower size 14 color goldenrod
+                    hbox:
+                        xsize 170
+                        text "Critical damage:"
+                        text "%s" % critpower xalign 1.0
                 if effect:
-                    text "%s" % effect size 14 color goldenrod
+                    hbox:
+                        xsize 170
+                        text "Relative power:"
+                        text "%s" % effect xalign 1.0
+
+                null height 5
 
                 hbox:
                     spacing 10
