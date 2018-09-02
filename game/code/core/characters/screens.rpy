@@ -25,14 +25,14 @@ screen new_style_tooltip():
                 has vbox
 
                 $ temp = "".join([combat_skill.DAMAGE_20[t] for t in combat_skill.damage])
-                if "melee" in combat_skill.attributes:
-                    $ line = "{color=[red]}Melee skill{/color}"
-                elif "ranged" in combat_skill.attributes:
-                    $ line = "{color=[green]}Ranged skill{/color}"
-                elif "magic" in combat_skill.attributes:
-                    $ line = "{color=[green]}Magic skill{/color}"
-                else:
-                    $ line = "{color=[orange]}Status skill{/color}"
+                # if "melee" in combat_skill.attributes:
+                #     $ line = "{color=[red]}Melee skill{/color}"
+                # elif "ranged" in combat_skill.attributes:
+                #     $ line = "{color=[green]}Ranged skill{/color}"
+                # elif "magic" in combat_skill.attributes:
+                #     $ line = "{color=[green]}Magic skill{/color}"
+                # else:
+                #     $ line = "{color=[orange]}Status skill{/color}"
 
                 if "inevitable" in combat_skill.attributes:
                     $ line += " Can't be dodged."
@@ -56,22 +56,22 @@ screen new_style_tooltip():
 
                 null height 5
 
+                # hbox:
+                #     xsize 170
+                #     text "Type:".format(line)
+                #     text "{}".format(line) xalign 1.0
                 hbox:
-                    xsize 170
-                    text "Type:".format(line)
-                    text "{}".format(line) xalign 1.0
-                hbox:
-                    xsize 170
+                    xsize 200
                     text "Damage: "
                     text "[temp]" xalign 1.0
                 if critpower:
                     hbox:
-                        xsize 170
+                        xsize 200
                         text "Critical damage:"
                         text "%s" % critpower xalign 1.0
                 if effect:
                     hbox:
-                        xsize 170
+                        xsize 200
                         text "Relative power:"
                         text "%s" % effect xalign 1.0
 
