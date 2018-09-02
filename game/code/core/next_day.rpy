@@ -70,7 +70,7 @@ init python:
         return actions, rest, events
 
 label next_day:
-    scene bg profile_2
+    scene
 
     $ next_day_local = None
 
@@ -386,16 +386,6 @@ screen next_day():
                     background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
                     hbox:
                         xalign .5
-                        # ALL Reports button:
-                        $ img = "content/gfx/frame/MC_bg3.png"
-                        button:
-                            xysize 95, 95
-                            yalign .5
-                            idle_background Frame(img, 5 ,5)
-                            hover_background Frame(im.MatrixColor(img ,im.matrix.brightness(.20)), 5, 5)
-                            text "All" align .5, .5 style "proper_stats_label_text" size 32
-                            action [Return(['filter', 'all']), SetScreenVariable("show_summary", None)]
-                            tooltip "Show full report tree!"
 
                         null width 5
 
@@ -527,32 +517,6 @@ screen next_day():
                                 text "[clients]" style_suffix "value_text"  xpos 135
 
                         null width 4
-
-                        # RED FLAG Button:
-                        # View all red flagged events:
-                        python:
-                            red_flags = False
-                            for i in NextDayEvents:
-                                if i.red_flag:
-                                    red_flags = True
-                                    break
-
-                        if red_flags:
-                            button:
-                                yalign .5
-                                xysize (90, 90)
-                                idle_background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
-                                hover_background Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(.10)), 5, 5)
-                                text "!" align (.5, .5) color red size 60 style "stats_text"
-                                action [Return(['filter', 'red_flags']), SetScreenVariable("show_summary", None)]
-                                tooltip "View All events flagged Red!!"
-                        else:
-                            button:
-                                yalign .5
-                                xysize (90, 90)
-                                idle_background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
-                                hover_background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
-                                action NullAction()
 
             # Separate Buildings data ------------------------------------------------->>>
             side "c l":
@@ -744,7 +708,7 @@ screen next_day():
 
                 vbar value YScrollValue("Reports")
 
-        # Buttons will be drawn over the frame +==============================>>>
+        # Buttons will be drawn over the frame ================================================>>>>
         if summary_filter == "buildings":
             $ start_pos = 844
             for i in ("Servers", "Combatant", "Managers", "IDLE"):
@@ -756,222 +720,11 @@ screen next_day():
                     background Frame("content/gfx/interface/buttons/button_wood_right_hover.png", 3, 3)
                     text "[i]" size 12 bold True xalign .4
 
-        # Mid frame: ------------------------------------->>>
-        # Hero Filter/Portrait:
-        frame:
-            pos (275, 250)
-            xysize (430, 349)
-            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-            vbox:
-                xalign .5
-                frame:
-                    xalign .5
-                    xysize 414, 120
-                    background Frame("content/gfx/frame/ink_box.png", 10 ,10)
-                    $ img = hero.show("portrait", resize=(95, 95), cache=True)
-                    frame:
-                        background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
-                        align .23, .8
-                        imagebutton:
-                            idle img
-                            hover im.MatrixColor(img, im.matrix.brightness(.15))
-                            action [Return(['filter', 'mc']), SetScreenVariable("show_summary", None)]
-                            tooltip "Show personal MC report!"
-                    frame:
-                        style_group "proper_stats"
-                        yalign .5
-                        xpos 178
-                        xysize 155, 110
-                        background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 10, 10)
-                        vbox:
-                            label "[hero.name]":
-                                text_size 16
-                                text_bold True
-                                xpos 38
-                                yalign .03
-                                text_color ivory
-                            fixed: # HP
-                                xysize (150, 25)
-                                xanchor -8
-                                bar:
-                                    yalign .5
-                                    left_bar ProportionalScale("content/gfx/interface/bars/hp1.png", 150, 20)
-                                    right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
-                                    value hero.health
-                                    range hero.get_max("health")
-                                    thumb None
-                                    xysize (150, 20)
-                                text "HP" size 14 color ivory bold True yalign .1 xpos 8
-                                if hero.health <= hero.get_max("health")*.2:
-                                    text "[hero.health]" size 14 color red bold True style_suffix "value_text" yoffset -3 xpos 102
-                                else:
-                                    text "[hero.health]" size 14 color ivory bold True style_suffix "value_text" yoffset -3 xpos 102
-
-                            fixed: # MP
-                                xysize (150, 25)
-                                xanchor -5
-                                bar:
-                                    yalign .2
-                                    left_bar ProportionalScale("content/gfx/interface/bars/mp1.png", 150, 20)
-                                    right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
-                                    value hero.mp
-                                    range hero.get_max("mp")
-                                    thumb None
-                                    xysize (150, 20)
-                                text "MP" size 14 color ivory bold True yalign .8 xpos 7
-                                if hero.mp <= hero.get_max("mp")*.2:
-                                    text "[hero.mp]" size 14 color red bold True style_suffix "value_text" yoffset 2 xpos 99
-                                else:
-                                    text "[hero.mp]" size 14 color ivory bold True style_suffix "value_text" yoffset 2 xpos 99
-
-                            fixed: # VIT
-                                xysize (150, 25)
-                                xanchor -2
-                                bar:
-                                    yalign .5
-                                    left_bar ProportionalScale("content/gfx/interface/bars/vitality1.png", 150, 20)
-                                    right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
-                                    value hero.vitality
-                                    range hero.get_max("vitality")
-                                    thumb None
-                                    xysize (150, 20)
-                                text "VP" size 14 color ivory bold True yalign .8 xpos 7
-                                if hero.vitality <= hero.get_max("vitality")*.2:
-                                    text "[hero.vitality]" size 14 color red bold True style_suffix "value_text" yoffset 2 xpos 99
-                                else:
-                                    text "[hero.vitality]" size 14 color ivory bold True style_suffix "value_text" yoffset 2 xpos 99
-                                add ProportionalScale("content/gfx/images/c1.png", 123, 111) pos (-42, 55)
-
-        # MC (extra info) -------------------------------------------->>>
-                # Prepearing info:
-                python:
-                    for i in NextDayEvents:
-                        if i.type == "mcndreport":
-                            report = i
-
-                if  i.red_flag:
-                    button:
-                        anchor (-196, 50)
-                        yalign 1.0
-                        background Frame("content/gfx/frame/p_frame5.png", 5, 5)
-                        text "!" color red size 40 style "stats_text"
-                        action NullAction()
-                        tooltip "Red flag in MC's Report!"
-
-            # School:
-            frame:
-                align .02, .98
-                xysize (95, 95)
-                padding 2, 2
-                background Frame("content/gfx/frame/MC_bg3.png", 5, 5)
-                $ img = im.Scale(schools["-PyTFall Educators-"].img, 89, 89)
-                imagebutton:
-                    align .5, .5
-                    idle img
-                    hover (im.MatrixColor(img ,im.matrix.brightness(.15)))
-                    action [Return(['filter', 'school']), SetScreenVariable("show_summary", None)]
-                    tooltip "View School and School Events!"
-
-            # Girlz/Other Data like flags/char types/unassigned and filters (bid-bottom frame):
-            frame:
-                align .98, .98
-                xysize 95, 95
-                background Frame("content/gfx/frame/MC_bg3.png", 5, 5)
-                $ img = im.Scale("content/gfx/bg/gallery.webp", 89, 89)
-                imagebutton:
-                    align .5, .5
-                    idle img
-                    hover (im.MatrixColor(img ,im.matrix.brightness(.15)))
-                    action [Return(['filter', 'gndreports']), SetScreenVariable("show_summary", None)]
-                    tooltip "Show personal girl reports!"
-
-            vbox:
-                align .5, .85
-                spacing 3
-                # Getting data:
-                python:
-                    free = 0
-                    slaves = 0
-                    for girl in hero.chars:
-                        if girl.status == "slave":
-                            slaves = slaves + 1
-                        else:
-                            free = free + 1
-
-                hbox:
-                    spacing 5
-                    add ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50)
-                    text "[slaves]" style "agrevue"
-                    null width 240
-                    text "[free]" style "agrevue"
-                    add ProportionalScale("content/gfx/interface/icons/free.png", 50, 50)
-
-                null height 90
-
-                # Data:
-                python:
-                    unas = list()
-                    for girl in hero.chars:
-                        if not girl.action:
-                            unas.append(girl)
-                if unas:
-                    text ("{color=[red]}Unassigned: %d" % len(unas)) style "agrevue"
-                else:
-                    text ("{color=[green]}Unassigned: -") style "agrevue"
-
-        # School (extra info) ---------------------------------------->>> # TODO Update?
-            # Prepearing info:
-            python:
-                for school in NextDayEvents:
-                    if school.type == "schoolndreport":
-                        break
-
-            if  "We inform you about fresh courses starting today." in school.txt:
-                button:
-                    align .4, .5
-                    xalign 0
-                    background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
-                    text "+" color green size 40 style "stats_text"
-                    action NullAction()
-                    tooltip "New Courses available!"
-            hbox:
-                yalign .5
-                xalign 0
-                if "has successfully completed" in school.txt:
-                    button:
-                        background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
-                        text "!" color yellow size 40 style "proper_stats_text"
-                        action NullAction()
-                        tooltip "One of your girls has successfully completed her course (this doesn't mean that a course has ended)!"
-                if "is attending is at it's end" in school.txt:
-                    button:
-                        background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
-                        text "!" color yellow size 40 style "stats_text"
-                        action NullAction()
-                        tooltip "A course one of your girls attended has ended!"
-
-        # Girlz (extra info) ------------------------------------------->>>
-            # Prepearing info:
-            python:
-                red_flags = False
-                for i in NextDayEvents:
-                    if i.type == "girlndreport" and i.red_flag:
-                        red_flags = True
-
-            if red_flags:
-                button:
-                    yalign .7
-                    xalign .61
-                    background Frame("content/gfx/frame/p_frame5.png", 5 ,5)
-                    text "!" color red size 40 style "stats_text"
-                    action NullAction()
-                    tooltip "Red flag in Girlz personal Reports!"
-
         # Left Frame ==========================================================================>>>>
         # Finances:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-            xysize 277, 560
+            xysize 277, 683 xoffset 3
             ypos 37
 
             # Day Total ===========================================>>>
@@ -981,40 +734,42 @@ screen next_day():
             frame:
                 style_prefix "proper_stats"
                 background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
-                xysize 270, 550
-                has vbox spacing 1
-                # xoffset -3
+                xysize 270, 670
+                xoffset -4
 
                 null height 10
+
                 frame:
                     style "content_frame"
-                    xalign .55
+                    xalign .6 ypos 15
                     xysize 210, 40
                     background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
                     label (u"Daily Balance") text_size 23 text_color ivory xalign .5 yoffset -4
-                null height 4
 
-                $ counter = 0
-                for k, v in fin_inc.iteritems():
-                    if v:
-                        $ counter += 1
-                        frame:
-                            xysize 250, 25
-                            xoffset 10
-                            text "[k]" color green xoffset 3
-                            text "[v]" color green style_suffix "value_text" xoffset -3
+                vbox:
+                    ypos 60
+                    $ counter = 0
+                    $ max_fields = 21
+                    for k, v in fin_inc.iteritems():
+                        if v:
+                            $ counter += 1
+                            frame:
+                                xysize 250, 25
+                                xoffset 10
+                                text "[k]" color green xoffset 3
+                                text "[v]" color green style_suffix "value_text" xoffset -3
 
-                for k, v in fin_exp.iteritems():
-                    if v:
-                        $ counter += 1
-                        frame:
-                            xysize 250, 25
-                            xoffset 10
-                            text "[k]" color red xoffset 3
-                            text "[v]" color red style_suffix "value_text" xoffset -3
+                    for k, v in fin_exp.iteritems():
+                        if v:
+                            $ counter += 1
+                            frame:
+                                xysize 250, 25
+                                xoffset 10
+                                text "[k]" color red xoffset 3
+                                text "[v]" color red style_suffix "value_text" xoffset -3
 
-                if counter < 16:
-                    for i in xrange(16 - counter):
+                    # Empty field fillers:
+                    for i in xrange(max(0, max_fields-counter)):
                         frame:
                             xysize 250, 25
                             xoffset 10
@@ -1027,14 +782,25 @@ screen next_day():
                     for key in fin_exp:
                         total_expenses += fin_exp[key]
                     total = total_income - total_expenses
+                    if total < 0:
+                        color = red
+                    else:
+                        color = green
+
+                frame:
+                    xysize 250, 25
+                    yalign .98 xoffset 10
+                    text "Total" xoffset 3 color color
+                    text "[total]" style_suffix "value_text" xoffset -3 color color
 
                 add ProportionalScale("content/gfx/images/magic2.png", 120, 120) offset 140, -140
 
-        # Game Total (Top-Mid Frame)  =============================================>>>
+        # Middle Frames =======================================================================>>>>
+        # Middle Top: Game Total
         frame:
             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-            xysize (429, 220)
-            pos (276, 37)
+            xysize (430, 220)
+            pos (275, 37)
             style_group "content"
 
             frame:
@@ -1074,6 +840,263 @@ screen next_day():
                     frame:
                         text "Total" color cl size 24 xpos 2
                         text "[total]" color cl style_suffix "value_text" xoffset -3 size 19
+
+        # Middle Bottom Frame =================================================================>>>>
+        frame:
+            pos (275, 252)
+            xysize (430, 468)
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
+
+            # Hero Filter/Portrait:
+            frame:
+                xalign .5
+                xysize 414, 120
+                background Frame("content/gfx/frame/ink_box.png", 10 ,10)
+                $ img = hero.show("portrait", resize=(95, 95), cache=True)
+                frame:
+                    background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
+                    align .23, .8
+                    imagebutton:
+                        idle img
+                        hover im.MatrixColor(img, im.matrix.brightness(.15))
+                        action [Return(['filter', 'mc']), SetScreenVariable("show_summary", None)]
+                        tooltip "Show personal MC report!"
+                frame:
+                    style_group "proper_stats"
+                    yalign .5
+                    xpos 178
+                    xysize 155, 110
+                    background Frame(Transform("content/gfx/frame/P_frame2.png", alpha=.6), 10, 10)
+                    vbox:
+                        label "[hero.name]":
+                            text_size 16
+                            text_bold True
+                            xpos 38
+                            yalign .03
+                            text_color ivory
+                        fixed: # HP
+                            xysize (150, 25)
+                            xanchor -8
+                            bar:
+                                yalign .5
+                                left_bar ProportionalScale("content/gfx/interface/bars/hp1.png", 150, 20)
+                                right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                                value hero.health
+                                range hero.get_max("health")
+                                thumb None
+                                xysize (150, 20)
+                            text "HP" size 14 color ivory bold True yalign .1 xpos 8
+                            if hero.health <= hero.get_max("health")*.2:
+                                text "[hero.health]" size 14 color red bold True style_suffix "value_text" yoffset -3 xpos 102
+                            else:
+                                text "[hero.health]" size 14 color ivory bold True style_suffix "value_text" yoffset -3 xpos 102
+
+                        fixed: # MP
+                            xysize (150, 25)
+                            xanchor -5
+                            bar:
+                                yalign .2
+                                left_bar ProportionalScale("content/gfx/interface/bars/mp1.png", 150, 20)
+                                right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                                value hero.mp
+                                range hero.get_max("mp")
+                                thumb None
+                                xysize (150, 20)
+                            text "MP" size 14 color ivory bold True yalign .8 xpos 7
+                            if hero.mp <= hero.get_max("mp")*.2:
+                                text "[hero.mp]" size 14 color red bold True style_suffix "value_text" yoffset 2 xpos 99
+                            else:
+                                text "[hero.mp]" size 14 color ivory bold True style_suffix "value_text" yoffset 2 xpos 99
+
+                        fixed: # VIT
+                            xysize (150, 25)
+                            xanchor -2
+                            bar:
+                                yalign .5
+                                left_bar ProportionalScale("content/gfx/interface/bars/vitality1.png", 150, 20)
+                                right_bar ProportionalScale("content/gfx/interface/bars/empty_bar1.png", 150, 20)
+                                value hero.vitality
+                                range hero.get_max("vitality")
+                                thumb None
+                                xysize (150, 20)
+                            text "VP" size 14 color ivory bold True yalign .8 xpos 7
+                            if hero.vitality <= hero.get_max("vitality")*.2:
+                                text "[hero.vitality]" size 14 color red bold True style_suffix "value_text" yoffset 2 xpos 99
+                            else:
+                                text "[hero.vitality]" size 14 color ivory bold True style_suffix "value_text" yoffset 2 xpos 99
+                            add ProportionalScale("content/gfx/images/c1.png", 123, 111) pos (-42, 55)
+
+                # MC (extra info) -------------------------------------------->>>
+                # Preparing info:
+                python:
+                    for i in NextDayEvents:
+                        if i.type == "mcndreport":
+                            report = i
+
+                if i.red_flag:
+                    button:
+                        align .99, .99
+                        background Frame("content/gfx/frame/p_frame5.png", 5, 5)
+                        text "!" color red size 35 hover_size 40 style "proper_stats_text"
+                        action NullAction()
+                        tooltip "Red flag in MC's Report!"
+
+            # Group report buttons (School, All, Flagged Red)
+            hbox:
+                xalign .5 ypos 150
+                spacing 20
+                # ALL Reports button:
+                $ img = "content/gfx/frame/MC_bg3.png"
+                button:
+                    xysize 95, 95
+                    yalign .5
+                    idle_background Frame(img, 5 , 5)
+                    hover_background Frame(im.MatrixColor(img ,im.matrix.brightness(.2)), 5, 5)
+                    text "All" align .5, .5 style "proper_stats_label_text" size 32
+                    action [Return(['filter', 'all']), SetScreenVariable("show_summary", None)]
+                    tooltip "Show full report tree!"
+
+                # RED FLAG Button:
+                # View all red flagged events:
+                python:
+                    red_flags = False
+                    for i in NextDayEvents:
+                        if i.red_flag:
+                            red_flags = True
+                            break
+                button:
+                    yalign .5
+                    xysize (90, 90)
+                    idle_background Frame("content/gfx/frame/p_frame5.png", 5, 5)
+                    if red_flags:
+                        hover_background Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(.10)), 5, 5)
+                        tooltip "View all Events flagged Red!"
+                        action [Return(['filter', 'red_flags']), SetScreenVariable("show_summary", None)]
+                    else:
+                        action NullAction()
+                        tooltip "There are no events flagged Red!"
+                    text "!" align (.5, .5) color red size 60 style "proper_stats_text"
+
+                # School:
+                # Preparing info:
+                python:
+                    for school_report in NextDayEvents:
+                        if school_report.type == "school_nd_report":
+                            break
+
+                frame:
+                    align .02, .98
+                    xysize 95, 95
+                    padding 2, 2
+                    background Frame("content/gfx/frame/MC_bg3.png", 5, 5)
+                    $ img = schools["-PyTFall Educators-"].img
+                    button:
+                        xysize 90, 90
+                        align .5, .5
+                        background Frame(img, 10, 10)
+                        hover_background Frame(im.MatrixColor(img ,im.matrix.brightness(.15)), 10, 10)
+                        action [Return(['filter', 'school']), SetScreenVariable("show_summary", None)]
+                        tooltip "View School and School Events!"
+
+                    hbox:
+                        align 1.0, 1.0
+                        if "New Courses" in school_report.txt:
+                            button:
+                                xysize 30, 30
+                                yalign .5
+                                padding 0, 0
+                                margin 0, 0
+                                background Null()
+                                action NullAction()
+                                tooltip "New Courses available!"
+                                text "+" color green size 40 style "proper_stats_text" align .5, .5
+                        if "Student(s) completed" in school_report.txt:
+                            button:
+                                xysize 10, 36
+                                yalign .5
+                                background Null()
+                                action NullAction()
+                                tooltip "One of your girls has successfully completed her course (this doesn't mean that a course has ended)!"
+                                text "!" color green size 40 style "proper_stats_text" align .5, .5
+                        if "Student(s) were sent" in school_report.txt:
+                            button:
+                                xysize 10, 36
+                                yalign .5
+                                background Null()
+                                action NullAction()
+                                tooltip "A course one of your girls attended has ended!"
+                                text "!" color yellow size 40 style "proper_stats_text" align .5, .5
+
+            # # Girls and Other Related data:
+            hbox:
+                xalign .5 ypos 300
+                spacing 80
+                # Getting .status field data:
+                python:
+                    free = 0
+                    slaves = 0
+                    for girl in hero.chars:
+                        if girl.status == "slave":
+                            slaves = slaves + 1
+                        else:
+                            free = free + 1
+                python:
+                    red_flags = False
+                    for i in NextDayEvents:
+                        if i.type == "girlndreport" and i.red_flag:
+                            red_flags = True
+
+                hbox:
+                    spacing 5
+                    yalign .5
+                    add ProportionalScale("content/gfx/interface/icons/slave.png", 50, 50)
+                    text "[slaves]" style "agrevue"
+
+                frame:
+                    xysize 95, 95
+                    padding 2, 2
+                    background Frame("content/gfx/frame/MC_bg3.png", 5, 5)
+                    $ img = "content/gfx/interface/buttons/girls_reports.png"
+                    button:
+                        align .5, .5
+                        xysize 90, 90
+                        background Frame(img, 10, 10)
+                        hover_background Frame(im.MatrixColor(img ,im.matrix.brightness(.15)), 10, 10)
+                        action [Return(['filter', 'gndreports']), SetScreenVariable("show_summary", None)]
+                        tooltip "Show personal girl reports!"
+                    if red_flags:
+                        button:
+                            xysize 10, 36
+                            align 1.0, 1.0
+                            background Null()
+                            action NullAction()
+                            tooltip "Red flag in Girls personal Reports!"
+                            text "!":
+                                style "proper_stats_text"
+                                color red
+                                size 40
+                                align .5, .5
+
+                hbox:
+                    spacing 5
+                    yalign .5
+                    text "[free]" style "agrevue"
+                    add ProportionalScale("content/gfx/interface/icons/free.png", 50, 50)
+
+            # Data:
+            python:
+                unas = list()
+                for girl in hero.chars:
+                    if not girl.action:
+                        unas.append(girl)
+                unas = len(unas)
+            text "Unassigned: [unas]":
+                yalign .5 ypos 420
+                style "agrevue"
+                if unas:
+                    color red
+                else:
+                    color green
 
         use top_stripe(True)
 
@@ -1276,7 +1299,7 @@ screen next_day():
                         align (.5, .5)
                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 5, 5)
                         xysize (90, 40)
-                        text(u'Act: %d/%d'%(FilteredList.index(event)+1, len(FilteredList))) align (.5, .5) size 16 style "stats_text" text_align .5
+                        text(u'Act: %d/%d'%(FilteredList.index(event)+1, len(FilteredList))) align (.5, .5) size 16 style "proper_stats_text" text_align .5
                     button:
                         xysize (120, 40)
                         style "right_wood_button"

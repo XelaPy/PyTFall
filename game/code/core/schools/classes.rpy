@@ -88,6 +88,7 @@ init python:
         def next_day(self):
             self.days_remaining -= 1
 
+            school = schools["-PyTFall Educators-"]
             students = [s for s in self.students if s.AP > 0]
             if not students:
                 return
@@ -171,6 +172,7 @@ init python:
                     exp *= 1.5
 
                 if completed and char not in self.completed:
+                    school.successfully_completed += 1
                     self.completed.add(char)
                     points *= 2
                     exp *= 2
@@ -210,6 +212,8 @@ init python:
                 if self.days_remaining <= 0:
                     txt.append("This Course has ended, all students have been sent back home.")
                     self.remove_student(char)
+                    if self.students:
+                        school.students_dismissed += 1
 
                 self.build_nd_report(char, charmod=charmod,
                                      flag_green=flag_green, txt=txt)
@@ -256,6 +260,9 @@ init python:
             super(School, self).__init__(id=id, name=id)
             self.img = renpy.displayable(img)
             self.courses = []
+            self.new_courses_created = False
+            self.successfully_completed = 0 # Students --- Courses
+            self.students_dismissed = 0 # Due to courses end!
 
         @property
         def is_school(self):
@@ -294,6 +301,7 @@ init python:
             course = SchoolCourse(id, difficulty, duration,
                                   days_to_complete, effectiveness,
                                   data)
+            self.new_courses_created = True
             self.courses.append(course)
 
         def next_day(self):
@@ -304,6 +312,11 @@ init python:
 
             self.add_courses()
             self.build_nd_report()
+
+            # Resets:
+            self.new_courses_created = False
+            self.successfully_completed = 0
+            self.students_dismissed = 0
 
         def build_nd_report(self):
             txt = []
@@ -319,6 +332,17 @@ init python:
             else:
                 temp = choice(["You currently have %d students training with us!" % len(students),
                                "Excellent courses are available today! Remember our Motto: Education is Gold!"])
+                txt.append(temp)
+
+            if self.new_courses_created:
+                txt.append("New Courses are available here today!")
+
+            if self.successfully_completed:
+                temp = "Student(s) completed courses here today: {}!".format(self.successfully_completed)
+                txt.append(temp)
+
+            if self.students_dismissed:
+                temp = "{} Student(s) were sent home as their course has ended!".format(self.students_dismissed)
                 txt.append(temp)
 
             if students:
