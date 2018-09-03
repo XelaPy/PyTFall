@@ -230,7 +230,7 @@ label interactions_sex: # we go to this label from GM menu propose sex
             $ del disposition_level_for_sex
             jump girl_interactions
         else:
-            call interactions_sex_disagreement_slave
+            call interactions_sex_disagreement_slave from _call_interactions_sex_disagreement_slave
             "She doesn't like you enough yet, but as a slave she has no choice. Do you wish to force her?"
             menu:
                 "Yes":

@@ -76,7 +76,7 @@ label start:
         tl.start("Loading/Sorting: Traits")
         traits = load_traits()
 
-    call sort_traits_for_gameplay
+    call sort_traits_for_gameplay from _call_sort_traits_for_gameplay
 
     $ tl.end("Loading/Sorting: Traits")
 
@@ -89,7 +89,7 @@ label start:
         # Build shops:
         pytfall.init_shops()
 
-    call sort_items_for_gameplay
+    call sort_items_for_gameplay from _call_sort_items_for_gameplay
 
     $ tl.end("Loading/Sorting: Items")
 
@@ -387,7 +387,7 @@ label after_load:
             if id not in store.items:
                 store.items[id] = item
 
-    call sort_items_for_gameplay
+    call sort_items_for_gameplay from _call_sort_items_for_gameplay_1
 
     # Traits:
     python hide:
@@ -396,7 +396,7 @@ label after_load:
             if id not in store.traits:
                 store.traits[id] = trait
 
-    call sort_traits_for_gameplay
+    call sort_traits_for_gameplay from _call_sort_traits_for_gameplay_1
 
     # All kinds of chars:
     python hide:
