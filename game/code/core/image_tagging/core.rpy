@@ -120,15 +120,15 @@ init -9 python:
             character = character object
             4 Post-@ code review: Is this a stupid way of doing it? ==> It was...
             """
-            tags = dict()
+            tags = defaultdict(int)
             all_tags = self.all_tags.copy()
             all_tags.add(character.id)
             images = self.get_imgset_with_tag(character.id)
             for img in images:
                 tags_per_path = self.get_tags_per_path(img)
-                for tag in tags_per_path:
-                    if tag in all_tags:
-                        tags[tag] = tags.get(tag, 0) + 1
+                chars_tags = all_tags.intersection(tags_per_path)
+                for tag in chars_tags:
+                    tags[tag] += 1
             return tags
 
         def get_tags_per_path(self, path):
@@ -137,10 +137,9 @@ init -9 python:
             path = path to a file
             """
             tags = set([])
-            for key in self.tagmap:
-                for tag in self.tagmap[key]:
-                    if tag == path:
-                        tags.add(key)
+            for tag, images in self.tagmap.iteritems():
+                if path in images:
+                    tags.add(tag)
             return tags
 
         # dump the database

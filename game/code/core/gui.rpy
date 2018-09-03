@@ -202,7 +202,6 @@ init -1 python:
                         index = (index - 1) % len(self.pathlist)
                         self.imagepath = self.pathlist[index]
                         self.set_img()
-
                 elif result[0] == "tag":
                     self.tag = result[1]
                     self.pathlist = list(tagdb.get_imgset_with_all_tags(set([self.girl.id, result[1]])))
