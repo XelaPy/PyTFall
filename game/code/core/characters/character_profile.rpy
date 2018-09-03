@@ -66,7 +66,9 @@ label char_profile:
                             renpy.show_screen("set_action_dropdown", result[2], pos=renpy.get_mouse_pos())
                 elif result[0] == "girl":
                     if result[1] == "gallery":
+                        $ tl.start("Loading Gallery")
                         $ gallery = PytGallery(char)
+                        $ tl.end("Loading Gallery")
                         jump gallery
                     elif result[1] == "get_rid":
                         if char.status == "slave":
