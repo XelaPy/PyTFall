@@ -20,7 +20,7 @@ label char_profile:
             if char in pytfall.ra:
                 if result[0] == "girl":
                     if result[1] == "gallery":
-                        $ tl.start("Loading Gallery.")
+                        $ tl.start("Loading Gallery")
                         $ gallery = PytGallery(char)
                         $ tl.end("Loading Gallery")
                         jump gallery
