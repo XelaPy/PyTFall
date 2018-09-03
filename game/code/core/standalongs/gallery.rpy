@@ -116,9 +116,10 @@ screen gallery():
                 use r_lightbutton(img=im.Scale("content/gfx/interface/buttons/blue_arrow_left.png", 60, 60), return_value =['image', 'previous'])
                 use exit_button(size=(45, 45), align=(.5, .5))
                 use r_lightbutton(img=im.Scale("content/gfx/interface/buttons/blue_arrow_right.png", 60, 60),return_value =['image', 'next'])
-            textbutton "Lets Jig with this girl! :)":
-                xalign .5
-                action Jump("jigsaw_puzzle_start")
+            if config.developer:
+                textbutton "Lets Jig with this girl! :)":
+                    xalign .5
+                    action Jump("jigsaw_puzzle_start")
 
 
 screen gallery_trans():
