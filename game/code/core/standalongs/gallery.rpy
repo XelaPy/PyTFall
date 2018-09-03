@@ -112,8 +112,9 @@ screen gallery():
                 action Return(["view_trans"])
             hbox:
                 xalign .5
-                spacing 20
+                spacing 10
                 use r_lightbutton(img=im.Scale("content/gfx/interface/buttons/blue_arrow_left.png", 60, 60), return_value =['image', 'previous'])
+                null width 10
                 use exit_button(size=(45, 45), align=(.5, .5))
                 use r_lightbutton(img=im.Scale("content/gfx/interface/buttons/blue_arrow_right.png", 60, 60),return_value =['image', 'next'])
             if config.developer:
