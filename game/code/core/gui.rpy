@@ -198,7 +198,6 @@ init -1 python:
                         index = (index + 1) % len(self.pathlist)
                         self.imagepath = self.pathlist[index]
                         self.set_img()
-
                     elif result[1] == "previous":
                         index = (index - 1) % len(self.pathlist)
                         self.imagepath = self.pathlist[index]
@@ -209,10 +208,8 @@ init -1 python:
                     self.pathlist = list(tagdb.get_imgset_with_all_tags(set([self.girl.id, result[1]])))
                     self.imagepath = self.pathlist[0]
                     self.set_img()
-
                 elif result[0] == "view_trans":
                     gallery.trans_view()
-
                 # This is for the testing option (only in dev mode):
                 elif result[0] == "change_dict":
                     if result[1] == "full":
@@ -225,7 +222,6 @@ init -1 python:
                         for i in d:
                             if i in ["portrait", "vnsprite", "battle_sprite"]:
                                 self.tagsdict[i] = d[i]
-
                 elif result[0] == "control":
                     if result[1] == 'return':
                         break

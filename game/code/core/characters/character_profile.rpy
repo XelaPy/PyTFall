@@ -20,7 +20,9 @@ label char_profile:
             if char in pytfall.ra:
                 if result[0] == "girl":
                     if result[1] == "gallery":
+                        $ tl.start("Loading Gallery.")
                         $ gallery = PytGallery(char)
+                        $ tl.end("Loading Gallery")
                         jump gallery
                     elif result[1] == "get_rid":
                         if renpy.call_screen("yesno_prompt", message="Are you sure you wish to stop looking for %s?"%char.name, yes_action=Return(True), no_action=Return(False)):
@@ -804,7 +806,7 @@ screen race_and_elements(align=(.5, .99), char=None):
                 background f
                 hover_background f_a
                 tooltip "Elements:\n   {}".format(ele)
-                
+
 
 screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
     if place == "girl_trait":

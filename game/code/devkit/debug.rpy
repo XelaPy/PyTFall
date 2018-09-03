@@ -8,7 +8,7 @@ init -999 python:
     DEBUG = True # General debugging.
     DEBUG_LOG = True # Logging general. Crash if devlog is used and this is False.
 
-    DEBUG_PROFILING = False # Loading time of various game elements.
+    DEBUG_PROFILING = True # Loading time of various game elements.
     DEBUG_INTERACTIONS = False
 
     DEBUG_CHARS = False
@@ -54,11 +54,11 @@ init -999 python:
 
 label debug_callstack:
     return
-    
+
 label force_clear_console:
     python in _console:
          stdio_lines = []
          stderr_lines = []
          console.history = []
-         
+
     jump mainscreen
