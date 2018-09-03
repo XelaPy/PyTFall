@@ -35,7 +35,9 @@ screen new_style_tooltip():
                 #     $ line = "{color=[orange]}Status skill{/color}"
 
                 if "inevitable" in combat_skill.attributes:
-                    $ line += " Can't be dodged."
+                    $ line = "Can't be dodged!"
+                else:
+                    $ line = None
 
                 if combat_skill.critpower != 0:
                     if combat_skill.critpower > 0:
@@ -56,10 +58,11 @@ screen new_style_tooltip():
 
                 null height 5
 
-                # hbox:
-                #     xsize 170
-                #     text "Type:".format(line)
-                #     text "{}".format(line) xalign 1.0
+                if line:
+                    hbox:
+                        xsize 170
+                        text "{}".format(line)
+                        # text "{}".format(line) xalign 1.0
                 hbox:
                     xsize 200
                     text "Damage: "
