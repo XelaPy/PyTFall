@@ -864,27 +864,10 @@ init -10 python:
             # Setup and start the simulation
             self.flag_red = False
 
+            # Get businesses we wish SimPy to manage! business_manager method is expected here.
+            self.nd_ups = list(up for up in self._businesses if up.workable)
+
             if self.expects_clients:
-                self.log(set_font_color("===================", "lawngreen"))
-                self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
-                self.log("--- {} ---".format(set_font_color(self.name, "lawngreen")))
-
-                self.log("")
-                if self.manager:
-                    self.log("This building is managed by {} at {}% effectiveness!".format(
-                                self.manager.name, self.manager_effectiveness
-                    ))
-                else:
-                    self.log("This building has no manager assigned to it.")
-                self.log("")
-
-                # Building Stats:
-                self.log("Reputation: {}%".format(self.rep_percentage))
-                self.log("Fame: {}%".format(self.fame_percentage))
-                self.log("Dirt: {}%".format(self.get_dirt_percentage()[0]))
-                self.log("Threat: {}%".format(self.get_threat_percentage()))
-                self.log("")
-
                 self.all_workers = self.get_workers()
 
                 # All workers and workable businesses:
@@ -897,8 +880,6 @@ init -10 python:
                     if isinstance(w.action, Job):
                         w.action.auto_equip(w)
 
-                # Get businesses we wish SimPy to manage! business_manager method is expected here.
-                self.nd_ups = list(up for up in self._businesses if up.workable)
                 client_businesses = list(up for up in self._businesses if up.expects_clients)
 
                 # Clients:
@@ -922,6 +903,27 @@ init -10 python:
                 self.clients = self.all_clients.copy()
 
                 tl.end("Generating clients in {}".format(self.name))
+
+            if self.nd_ups or self.expects_clients:
+                self.log(set_font_color("===================", "lawngreen"))
+                self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
+                self.log("--- {} ---".format(set_font_color(self.name, "lawngreen")))
+
+                self.log("")
+                if self.manager:
+                    self.log("This building is managed by {} at {}% effectiveness!".format(
+                                self.manager.name, self.manager_effectiveness
+                    ))
+                else:
+                    self.log("This building has no manager assigned to it.")
+                self.log("")
+
+                # Building Stats:
+                self.log("Reputation: {}%".format(self.rep_percentage))
+                self.log("Fame: {}%".format(self.fame_percentage))
+                self.log("Dirt: {}%".format(self.get_dirt_percentage()[0]))
+                self.log("Threat: {}%".format(self.get_threat_percentage()))
+                self.log("")
 
                 # Create an environment and start the setup process:
                 self.env = simpy.Environment()
@@ -963,7 +965,7 @@ init -10 python:
             """
             for u in self.nd_ups:
                 # Trigger all public businesses:
-                if not u.active: # building is not active:
+                if not u.active: # business is not active:
                     self.env.process(self.inactive_process())
                 else: # Business as usual:
                     self.env.process(u.business_control())

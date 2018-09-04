@@ -322,32 +322,32 @@
             """
             ability = 0
 
-            if not difficulty:
-                difficulty = .001 # Risking ZeroDev error otherwise
+            matched_gen_occ = len(worker.occupations.intersection(self.occupations))
+            matched_base_traits = len(worker.basetraits.intersection(self.occupation_traits))
 
-            matched_gen_occ = worker.occupations.intersection(self.occupations)
+            # Class traits and Occs (Part 1)
+            bt_bonus = 0
+            if matched_base_traits:
+                bt_bonus += 35
+                if len(worker.basetraits) == 2 and matched_base_traits == 1:
+                    bt_bonus *= .5
+            bt_bonus += matched_gen_occ*15
 
-            # if we matched occupation:
-            if matched_gen_occ:
-                if worker.tier >= difficulty:
-                    gen_occ_ability = 70
-                else:
-                    gen_occ_ability = 50
-            else:
-                if worker.tier >= difficulty:
-                    gen_occ_ability = 25
-                else:
-                    gen_occ_ability = -50
-
-            # 25 points for difference between difficulty/tier:
+            # Tiers:
             diff = worker.tier - difficulty
-            gen_occ_ability += diff*25
+            tier_bonus = diff*10
 
-            # We give only 1/2 of the ability points if only one trait matched!
-            if len(worker.occupations) == 2 and len(matched_gen_occ) < 2:
-                if gen_occ_ability > 0:
-                    gen_occ_ability *= .5
+            # Class traits and Occs (Part 2)
+            if diff < 0: # Tier lower than the Building (difficulty)
+                bt_bonus /= 1+abs(diff)
+            elif diff > 0:
+                bt_bonus += tier_bonus*2
 
+
+            if not difficulty:
+                difficulty = 1 # Risking ZeroDev error otherwise + Throws off further calculations...
+
+            # Skills/Stats:
             default_points = 25
             skills = self.base_skills
             if not skills:
@@ -356,15 +356,15 @@
                 total_weight_points = sum(skills.values())
                 total_skills = 0
                 for skill, weight in skills.items():
-                    if not total_weight_points:
-                        raise Exception("Zero Dev #3")
+                    # if not total_weight_points:
+                    #     raise Exception("Zero Dev #3")
                     weight_ratio = float(weight)/total_weight_points
                     max_p = default_points*weight_ratio
 
                     sp = worker.get_skill(skill)
                     sp_required = worker.get_max_skill(skill, difficulty)
-                    if not sp_required:
-                        raise Exception("Zero Dev #4")
+                    # if not sp_required:
+                    #     raise Exception("Zero Dev #4")
                     total_skills += min(sp*max_p/sp_required, max_p*1.1)
 
             stats = self.base_stats
@@ -391,7 +391,6 @@
                     total_stats += min(sp*max_p/sp_required, max_p*1.1)
 
             # Bonuses:
-            bt_bonus = len(set(self.occupation_traits).intersection(worker.traits))*5
             traits_bonus = self.traits_and_effects_effectiveness_mod(worker, log)
 
             # manager effects:
@@ -402,7 +401,7 @@
             else:
                 manager_bonus = 0
 
-            total = round_int(sum([gen_occ_ability, bt_bonus, manager_bonus,
+            total = round_int(sum([bt_bonus, tier_bonus, manager_bonus,
                                    traits_bonus, total_skills, total_stats]))
             # Normalize:
             if total < 0:
@@ -416,8 +415,8 @@
                     temp[stat] = getattr(worker, stat)
                 devlog.info("Calculating Jobs Relative Ability, Char/Job: {}/{}:".format(worker.name, self.id))
                 devlog.info("Stats: {}:".format(temp))
-                args = (gen_occ_ability, bt_bonus, traits_bonus, total_skills, total_stats, total)
-                devlog.info("Gen Occ: {}, Base Traits: {}, Traits: {}, Skills: {}, Stats: {} ==>> {}".format(*args))
+                args = (bt_bonus, tier_bonus, traits_bonus, total_skills, total_stats, total)
+                devlog.info("Gen Occ/BT: {}, Tier: {}, Traits: {}, Skills: {}, Stats: {} ==>> {}".format(*args))
 
             if return_ratio:
                 total /= 100.0

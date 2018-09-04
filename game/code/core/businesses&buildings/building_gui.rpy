@@ -31,6 +31,7 @@ init python:
             self.status_filters = set()
             self.action_filters = set()
             self.class_filters = set()
+            self.occ_filters = set()
             self.location_filters = set()
             self.home_filters = set()
             self.work_filters = set()
@@ -61,6 +62,8 @@ init python:
                 filtered = [c for c in filtered if c.action in self.action_filters]
             if self.class_filters:
                 filtered = [c for c in filtered if c.traits.basetraits.intersection(self.class_filters)]
+            if self.occ_filters:
+                filtered = [c for c in filtered if self.occ_filters.intersection(c.gen_occs)]
             if self.location_filters:
                 filtered = [c for c in filtered if c.location in self.location_filters]
             if self.home_filters:
@@ -722,7 +725,7 @@ init: # Screens:
                             for area in areas:
                                 button:
                                     xysize (180, 18)
-                                    action SetVariable("selected_log_area", area), Show("fg_log", None, area, tt), SelectedIf(selected_log_area == area)
+                                    action SetVariable("selected_log_area", area), Show("fg_log", None, area), SelectedIf(selected_log_area == area)
                                     text str(area.stage) size 12 xalign .02
                                     label (u"{color=#66CD00}Meow!") text_size 12 align (1.0, .5)
 
@@ -752,12 +755,16 @@ init: # Screens:
                         style_prefix "basic"
                         xalign .5
                         textbutton "Reset":
+                            xsize 200
                             action Function(fg_filters.clear)
                         textbutton "Warriors":
-                            action ModFilterSet(fg_filters, "class_filters", "Warrior")
+                            xsize 100
+                            action ModFilterSet(fg_filters, "occ_filters", "Combatant")
                         textbutton "Free":
+                            xsize 200
                             action ModFilterSet(fg_filters, "status_filters", "free")
                         textbutton "Slaves":
+                            xsize 200
                             action ModFilterSet(fg_filters, "status_filters", "slave")
 
                 # Sorting:
@@ -775,8 +782,10 @@ init: # Screens:
                         style_prefix "basic"
                         xalign .5
                         textbutton "Name":
+                            xsize 200
                             action SetFilter(fg_filters, "alphabetical")
                         textbutton "Level":
+                            xsize 200
                             action SetFilter(fg_filters, "level")
 
             if bm_exploration_view_mode == "explore":
@@ -1519,7 +1528,7 @@ init: # Screens:
                     text "OK"
 
     # Customized screens for specific businesses:
-    screen fg_log(area, tt):
+    screen fg_log(area):
         on "hide":
             action SetVariable("selected_log_area", None)
 
