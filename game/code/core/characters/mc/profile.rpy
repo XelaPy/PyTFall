@@ -18,6 +18,23 @@ label hero_profile:
         # To kill input error during team renaming:
         if not result:
             pass
+        elif result[0] == "rename":
+            if result[1] == "name":
+                $ n = renpy.call_screen("pyt_input", hero.name, "Enter Name", 20)
+                if len(n):
+                    $ hero.name = n
+                    $ hero.nickname = hero.name
+                    $ hero.fullname = hero.name
+                    if hero.name.lower() == "darktl": # LoL! :D
+                        $ hero.gold += 888888888
+            if result[1] == "nick":
+                $ n = renpy.call_screen("pyt_input", hero.name, "Enter Name", 20)
+                if len(n):
+                    $ hero.nickname = renpy.call_screen("pyt_input", hero.name, "Enter Nick Name", 20)
+            if result[1] == "full":
+                $ n = renpy.call_screen("pyt_input", hero.name, "Enter Full Name", 20)
+                if len(n):
+                    $ hero.fullname = n
         elif result[0] == "item":
             if result[1] == "transfer":
                 hide screen hero_profile
@@ -186,7 +203,16 @@ screen hero_profile():
         style_prefix "proper_stats"
 
         # NAME^   LVL   (ok for 1m lvls) ====================================>
-        text (u"[hero.name]") style "TisaOTMol" size 28  xalign .492 ypos 5
+        textbutton "[hero.name]":
+            background Null()
+            text_style "TisaOTMol"
+            text_size 28
+            text_outlines [(2, "#424242", 0, 0)]
+            xalign .492
+            ypos 5
+            action Show("char_rename", char=hero)
+            tooltip "Click to rename yourself."
+            
         hbox:
             spacing 1
             if (hero.level) < 10:
