@@ -1750,7 +1750,7 @@ init -10 python:
                 char.health = max(1, char.health-10)
                 char.joy -= 5
                 char.mp -= 20
-                self.end(self)
+                self.end(char)
             elif self.name == "Food Poisoning":
                 char.health = max(1, char.health+self.ss_mod["health"])
                 char.vitality += self.ss_mod['vitality']
