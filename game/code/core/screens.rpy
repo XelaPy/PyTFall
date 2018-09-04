@@ -573,7 +573,7 @@ init:
             # Add to and remove from Team Button.
             hbox:
                 align(.3, .5)
-                if renpy.get_screen("char_profile") and char not in pytfall.ra:
+                if renpy.get_screen("char_profile") and char.is_available:
                     if char in hero.team:
                         imagebutton:
                             idle im.Scale("content/gfx/interface/buttons/RG.png" , 36, 40)
