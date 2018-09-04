@@ -793,18 +793,21 @@ screen char_equip_right_frame():
             spacing 2
             button:
                 xysize 110, 30
-                action SelectedIf(eqtarget == hero or inv_source == hero),
-                                  If(eqtarget != hero, true=[SetVariable("inv_source", hero),
-                                  Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter),
-                                  Return(['con', 'return']), With(dissolve)])
+                action If(eqtarget != hero, true=[SetVariable("inv_source", hero),
+                                                  Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter),
+                                                  Return(['con', 'return']),
+                                                  With(dissolve)])
                 tooltip "Equip from {}'s Inventory".format(hero.nickname)
+                selected eqtarget == hero or inv_source == hero
                 text "Hero" style "pb_button_text"
             button:
                 xysize 110, 30
-                action SelectedIf(inv_source != hero), SensitiveIf(eqtarget != hero),
-                                  If(eqtarget != hero, true=[SetVariable("inv_source", eqtarget),
-                                  Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter),
-                                  Return(['con', 'return']), With(dissolve)])
+                action If(eqtarget != hero, true=[SetVariable("inv_source", eqtarget),
+                                                  Function(eqtarget.inventory.apply_filter, hero.inventory.slot_filter),
+                                                  Return(['con', 'return']),
+                                                  With(dissolve)])
+                selected inv_source != hero
+                sensitive eqtarget != hero
                 tooltip "Equip from {}'s Inventory".format(eqtarget.nickname)
                 text "Girl" style "pb_button_text"
 
