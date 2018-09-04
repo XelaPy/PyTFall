@@ -124,7 +124,7 @@ init python:
                     continue
 
                 self.students_progress[char] += 1
-                completed = self.days_to_complete - self.students_progress[char]
+                completed = self.days_to_complete == self.students_progress[char]
                 ap_spent = char.AP
                 char.AP = 0
 
