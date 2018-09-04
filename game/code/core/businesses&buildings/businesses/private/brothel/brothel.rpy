@@ -76,8 +76,8 @@ init -5 python:
                 eff_mod += getattr(u, "job_effectiveness_mod", 0)
             effectiveness += eff_mod
 
-            result = job.work_brothel(worker=worker, client=client, building=building,
-                                      log=log, effectiveness=effectiveness)
+            effectiveness = job.work_brothel(worker=worker, client=client, building=building,
+                                             log=log, effectiveness=effectiveness)
 
             worker.jobpoints -= job.calc_jp_cost(worker, log,
                         manager_effectiveness=building.manager_effectiveness,
@@ -98,4 +98,4 @@ init -5 python:
 
             simpy_debug("Exiting BrothelBlock.run_job after-yield at {}".format(self.env.now))
 
-            return result
+            return effectiveness

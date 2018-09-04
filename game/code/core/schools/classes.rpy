@@ -123,10 +123,8 @@ init python:
                     self.build_nd_report(char, type="failed_to_pay", txt=txt)
                     continue
 
-                completed = self.days_to_complete - self.students_progress.get(char, 0) <= 0
-
                 self.students_progress[char] += 1
-                days_to_complete = self.days_to_complete # Mod on traits?
+                completed = self.days_to_complete == self.students_progress[char]
                 ap_spent = char.AP
                 char.AP = 0
 
