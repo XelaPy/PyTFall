@@ -358,10 +358,18 @@ screen equip_for(pos=()):
         vbox:
             text "Equip For:" xalign 0 style "della_respira" color ivory
             null height 5
+            
             for t in specializations:
                 textbutton "[t]":
                     xminimum 200
                     action [Function(eqtarget.equip_for, t), Hide("equip_for")]
+
+            if isinstance(eqtarget, Char):
+                null height 5
+                use aeq_button(eqtarget)
+
+            null height 5
+
             textbutton "Close":
                 action Hide("equip_for")
 

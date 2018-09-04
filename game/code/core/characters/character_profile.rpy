@@ -1079,7 +1079,6 @@ screen char_control():
                     vbox:
                         text "[char.wagemod]%" outlines [(1, "#424242", 0, 0)] color ivory
 
-
         # BE Row, Job controls + Auto-Buy/Equip
         vbox:
             style_group "basic"
@@ -1155,18 +1154,7 @@ screen char_control():
                     add cd_unchecked align (1.0, .5)
 
             # Autoequip:
-            button:
-                xysize (200, 32)
-                sensitive char.status == "slave" or char.disposition > 850
-                action ToggleField(char, "autoequip")
-                tooltip "Try to equip items favorable for the job automatically (results may vary)."
-                text "Auto Equip" align (.0, .5)
-                if isinstance(char.autoequip, list):
-                    add cb_some_checked align (1.0, .5)
-                elif char.autoequip:
-                    add cb_checked align (1.0, .5)
-                else:
-                    add cd_unchecked align (1.0, .5)
+            use aeq_button(char)
 
             # ------------------------------------------------------------------------------------------------------------------------------------->>>
             # TODO lt: If we ever restore this, char actions are not Jobs!
@@ -1230,6 +1218,26 @@ screen char_control():
             text  "OK"
 
     key "mousedown_3" action Hide("char_control")
+
+screen aeq_button(char):
+    style_prefix "basic"
+
+    default cb_checked = im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)
+    default cd_unchecked = im.Scale('content/gfx/interface/icons/checkbox_unchecked.png', 25, 25)
+    default cb_some_checked = im.Scale('content/gfx/interface/icons/checkbox_some_checked.png', 25, 25)
+
+    button:
+        xysize (200, 32)
+        sensitive char.status == "slave" or char.disposition > 850
+        action ToggleField(char, "autoequip")
+        tooltip "Try to equip items favorable for the job automatically (results may vary)."
+        text "Auto Equip" align (.0, .5)
+        if isinstance(char.autoequip, list):
+            add cb_some_checked align (1.0, .5)
+        elif char.autoequip:
+            add cb_checked align (1.0, .5)
+        else:
+            add cd_unchecked align (1.0, .5)
 
 screen confirm_girl_sale():
     modal True
