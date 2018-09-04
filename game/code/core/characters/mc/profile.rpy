@@ -207,9 +207,7 @@ screen hero_profile():
             background Null()
             text_style "TisaOTMol"
             text_size 28
-            # text_color gold text_hover_color green
-            # text_outlines [(2, "#424242", 0, 0)]
-        # text (u"[hero.name]") style "TisaOTMol" size 28  
+            text_outlines [(2, "#424242", 0, 0)]
             xalign .492
             ypos 5
             action Show("char_rename", char=hero)
