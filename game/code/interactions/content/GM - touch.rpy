@@ -125,7 +125,7 @@ label interactions_grabbutt:
         jump girl_interactions
         
     if ct("Lesbian") and not ct("Open Minded") and not "Yuri Expert" in hero.traits and char.status != "slave":
-        call interactions_lesbian_refuse_because_of_gender
+        call interactions_lesbian_refuse_because_of_gender from _call_interactions_lesbian_refuse_because_of_gender_3
         jump girl_interactions
         
     $ sub = check_submissivity(char)
@@ -239,7 +239,7 @@ label interactions_grabbreasts:
         jump girl_interactions
         
     if ct("Lesbian") and not ct("Open Minded") and not "Yuri Expert" in hero.traits and char.status != "slave":
-        call interactions_lesbian_refuse_because_of_gender
+        call interactions_lesbian_refuse_because_of_gender from _call_interactions_lesbian_refuse_because_of_gender_4
         jump girl_interactions
 
     $ sub = check_submissivity(char)

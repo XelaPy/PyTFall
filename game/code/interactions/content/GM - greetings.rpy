@@ -4,7 +4,7 @@ label girl_meets_greeting: # also lines for sad and angry flags are needed. but 
         return
     $ m = interactions_flag_count_checker(char, "flag_interactions_greeting") # probably not the most elegant way to count how many times greeting was shown this day already
     if m < 1:
-        call klepto_stealing
+        call klepto_stealing from _call_klepto_stealing
     if check_lovers(hero, char) and dice(60):
         $ char.override_portrait("portrait", "shy")
         if ct("Half-Sister") and dice(50):

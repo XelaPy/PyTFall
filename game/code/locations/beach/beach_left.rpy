@@ -218,7 +218,7 @@ label fishing_logic_mor_dialogue:
     menu Mor_dialogue_usual:
         "Fishing Requests" if pytfall.world_quests.check_stage("Fishery") != 1:
             if hero.flag("mor_fish_quest") != day: # no more than one quest per day
-                call fishing_logic_mor_quest_part
+                call fishing_logic_mor_quest_part from _call_fishing_logic_mor_quest_part
             else:
                 m "Sorry, I don't have anything else at the moment. Maybe tomorrow."
             jump Mor_dialogue_usual
@@ -285,7 +285,7 @@ label fishing_logic:
             jump fishing_logic_mor_dialogue
         "Check Mor requests" if pytfall.world_quests.check_stage("Fishery") != 1:
             if hero.flag("mor_fish_quest") != day: # no more than one quest per day
-                call fishing_logic_mor_quest_part
+                call fishing_logic_mor_quest_part from _call_fishing_logic_mor_quest_part_1
             else:
                 show expression npcs["Mor"].get_vnsprite() as npc
                 with dissolve
