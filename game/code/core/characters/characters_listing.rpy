@@ -165,63 +165,49 @@ screen chars_list(source=None):
                                 if c.status == "free" and c.flag("last_chars_list_geet_icon") != "work":
                                     $ c.set_flag("last_chars_list_geet_icon", "work")
 
-                                if getattr(c.workplace, "is_school", False):
+                                if c.flag("last_chars_list_geet_icon") == "home":
                                     button:
                                         style_group "ddlist"
-                                        action NullAction()
-                                        tooltip "%s is in training!" % c.nickname
-                                        text "{image=button_circle_green}Location: School"
-                                else:
-                                    if c.flag("last_chars_list_geet_icon") == "home":
-                                        button:
-                                            style_group "ddlist"
-                                            if c.status == "slave":
-                                                action Return(["dropdown", "home", c])
-                                                tooltip "Choose a place for %s to live at (RMB to set Work)!" % c.nickname
-                                            else: # Can't set home for free cs, they decide it on their own.
-                                                action NullAction()
-                                                tooltip "%s is free and decides on where to live at!" % c.nickname
-                                            alternate [Function(c.set_flag, "last_chars_list_geet_icon", "work"),
-                                                       Return(["dropdown", "workplace", c])]
-                                            text "{image=button_circle_green}Home: [c.home]":
-                                                if len(str(c.home)) > 18:
-                                                    size 15
-                                                else:
-                                                    size 18
-                                    elif c.flag("last_chars_list_geet_icon") == "work":
-                                        $ tt_hint = "Choose a place for %s to work at" % c.nickname
                                         if c.status == "slave":
-                                            $ tt_hint += " (RMB to set Home)!"
-                                        else:
-                                            $ tt_hint += "!"
-                                        button:
-                                            style_group "ddlist"
-                                            action Return(["dropdown", "workplace", c])
-                                            if c.status == "slave":
-                                                alternate [Function(c.set_flag, "last_chars_list_geet_icon", "home"),
-                                                           Return(["dropdown", "home", c])]
-                                            tooltip tt_hint
-                                            text "{image=button_circle_green}Work: [c.workplace]":
-                                                if len(str(c.workplace)) > 18:
-                                                    size 15
-                                                else:
-                                                    size 18
+                                            action Return(["dropdown", "home", c])
+                                            tooltip "Choose a place for %s to live at (RMB to set Work)!" % c.nickname
+                                        else: # Can't set home for free cs, they decide it on their own.
+                                            action NullAction()
+                                            tooltip "%s is free and decides on where to live at!" % c.nickname
+                                        alternate [Function(c.set_flag, "last_chars_list_geet_icon", "work"),
+                                                   Return(["dropdown", "workplace", c])]
+                                        text "{image=button_circle_green}Home: [c.home]":
+                                            if len(str(c.home)) > 18:
+                                                size 15
+                                            else:
+                                                size 18
+                                elif c.flag("last_chars_list_geet_icon") == "work":
+                                    $ tt_hint = "Choose a place for %s to work at" % c.nickname
+                                    if c.status == "slave":
+                                        $ tt_hint += " (RMB to set Home)!"
+                                    else:
+                                        $ tt_hint += "!"
+                                    button:
+                                        style_group "ddlist"
+                                        action Return(["dropdown", "workplace", c])
+                                        if c.status == "slave":
+                                            alternate [Function(c.set_flag, "last_chars_list_geet_icon", "home"),
+                                                       Return(["dropdown", "home", c])]
+                                        tooltip tt_hint
+                                        text "{image=button_circle_green}Work: [c.workplace]":
+                                            if len(str(c.workplace)) > 18:
+                                                size 15
+                                            else:
+                                                size 18
                                 button:
                                     style_group "ddlist"
                                     action Return(["dropdown", "action", c])
                                     tooltip "Choose a task for %s to do!" % c.nickname
-                                    if getattr(c.workplace, "is_school", False):
-                                        text "{image=button_circle_green}Action: [c.action.name] Course":
-                                            if c.action.name is not None and len(str(c.action.name)) > 18:
-                                                size 15
-                                            else:
-                                                size 18
-                                    else:
-                                        text "{image=button_circle_green}Action: [c.action]":
-                                            if c.action is not None and len(str(c.action)) > 18:
-                                                size 15
-                                            else:
-                                                size 18
+                                    text "{image=button_circle_green}Action: [c.action]":
+                                        if c.action is not None and len(str(c.action)) > 18:
+                                            size 15
+                                        else:
+                                            size 18
                             else:
                                 text "{size=15}Location: Unknown"
                                 text "{size=15}Action: Hiding"

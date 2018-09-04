@@ -336,38 +336,28 @@ screen char_profile():
                 xysize 300, 60
                 ypos 130
                 vbox:
-                    if getattr(char.workplace, "is_school", False):
-                        button:
-                            style_group "ddlist"
+                    button:
+                        style_group "ddlist"
+                        if char.status == "slave":
+                            action Return(["dropdown", "home", char])
+                            tooltip "Choose a place for %s to live at!" % char.nickname
+                        else: # Can't set home for free chars, they decide it on their own.
                             action NullAction()
-                            text "{image=button_circle_green}Location: School"
-                            tooltip "%s is in training!" % char.nickname
-                    else:
-                        button:
-                            style_group "ddlist"
-                            if char.status == "slave":
-                                action Return(["dropdown", "home", char])
-                                tooltip "Choose a place for %s to live at!" % char.nickname
-                            else: # Can't set home for free chars, they decide it on their own.
-                                action NullAction()
-                                tooltip "%s is a free citizen and decides on where to live at!" % char.nickname
-                            text "{image=button_circle_green}Home: [char.home]":
-                                size 18
-                        button:
-                            style_group "ddlist"
-                            action Return(["dropdown", "workplace", char])
-                            tooltip "Choose a place for %s to work at!" % char.nickname
-                            text "{image=button_circle_green}Work: [char.workplace]":
-                                size 18
+                            tooltip "%s is a free citizen and decides on where to live at!" % char.nickname
+                        text "{image=button_circle_green}Home: [char.home]":
+                            size 18
+                    button:
+                        style_group "ddlist"
+                        action Return(["dropdown", "workplace", char])
+                        tooltip "Choose a place for %s to work at!" % char.nickname
+                        text "{image=button_circle_green}Work: [char.workplace]":
+                            size 18
                     button:
                         style_group "ddlist"
                         action Return(["dropdown", "action", char])
                         tooltip "Choose a task for %s to do!" % char.nickname
-                        if getattr(char.workplace, "is_school", False):
-                            text "{image=button_circle_green}Action: [char.action.name] Course"
-                        else:
-                            text "{image=button_circle_green}Action: [char.action]":
-                                size 18
+                        text "{image=button_circle_green}Action: [char.action]":
+                            size 18
 
             hbox:
                 style_group "basic"
@@ -809,7 +799,6 @@ screen race_and_elements(align=(.5, .99), char=None):
                 hover_background f_a
                 tooltip "Elements:\n   {}".format(ele)
 
-
 screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
     if place == "girl_trait":
         if trait != "Manly":
@@ -1113,15 +1102,12 @@ screen char_control():
                         style_group "basic"
                         action Return(["dropdown", "action", char])
                         tooltip "Choose a task for %s to do" % char.nickname
-                        if getattr(char.workplace, "is_school", False):
-                            text "Action: [c.action.name] Course"
+                        if len(str(char.action)) > 18:
+                            text "[char.action]" size 15
+                        elif len(str(char.action)) > 12:
+                            text "[char.action]" size 18
                         else:
-                            if len(str(char.action)) > 18:
-                                text "[char.action]" size 15
-                            elif len(str(char.action)) > 12:
-                                text "[char.action]" size 18
-                            else:
-                                text "Action: [char.action]" size 18
+                            text "Action: [char.action]" size 18
                 else:
                     text "{size=15}Location: Unknown"
                     text "{size=15}Action: Hiding"

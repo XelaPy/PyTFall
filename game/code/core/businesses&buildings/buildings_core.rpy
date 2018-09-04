@@ -1176,8 +1176,8 @@ init -10 python:
                         c.del_flag(f)
 
         def convert_AP(self, worker):
-            # Do not convert AP when Char is in school.
-            if getattr(worker.location, "is_school", False):
-                return
+            # Do not convert AP when Char is in school. (can this really be called when they are?) TODO Find out
+            # if getattr(worker.location, "is_school", False):
+            #     return
             worker.jobpoints = worker.AP*100
             worker.AP = 0

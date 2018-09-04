@@ -17,6 +17,9 @@ init python:
             self.set_image()
             self.set_price()
 
+        def __repr__(self):
+            return str(self.name + " Course")
+
         def set_price(self):
             price = get_average_wage()
             price = price + price*self.difficulty
@@ -263,13 +266,6 @@ init python:
             self.new_courses_created = False
             self.successfully_completed = 0 # Students --- Courses
             self.students_dismissed = 0 # Due to courses end!
-
-        @property
-        def is_school(self):
-            """
-            Whether or not this building is a school. Used in training screen.
-            """
-            return True
 
         def add_courses(self):
             forced = max(0, 12-len(self.courses))
