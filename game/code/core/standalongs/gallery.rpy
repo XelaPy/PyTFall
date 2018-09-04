@@ -122,13 +122,15 @@ screen gallery():
                     xalign .5
                     action Jump("jigsaw_puzzle_start")
 
-
 screen gallery_trans():
     zorder 5000
+    layer "pytfall"
+    modal True
+
+    timer 3.0 action Return(True)
+
     button:
         align (.5, .5)
         background None
         xysize (config.screen_width, config.screen_height)
-        xfill True
-        yfill True
-        action SetVariable("stop_dis_shit", True)
+        action Return(False)

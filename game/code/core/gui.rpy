@@ -238,7 +238,6 @@ init -1 python:
             self._image = self.imagepath
             self.tags = " | ".join([i for i in tagdb.get_tags_per_path(self.imagepath)])
 
-
         def trans_view(self):
             """
             I want to try and create some form of automated transitions/pics loading for viewing mechanism.
@@ -261,17 +260,11 @@ init -1 python:
             renpy.hide_screen("gallery")
             renpy.with_statement(dissolve)
 
-            renpy.show_screen("gallery_trans")
-
             renpy.music.play("content/sfx/music/reflection.mp3", fadein=1.5)
 
-            global stop_dis_shit
-            stop_dis_shit = False
-
             first_run = True
-
-            while not stop_dis_shit:
-
+            loop = True
+            while loop:
                 if not images:
                     images = images_copy * 1
                 if not transitions:
@@ -292,36 +285,29 @@ init -1 python:
                     if int(round(x * ratio)) <= config.screen_width:
                         image = ProportionalScale(image, config.screen_width, config.screen_height)
                         renpy.show(tag, what=image, at_list=[truecenter, simple_zoom_from_to_with_linear(1.0, 1.5, rndm)])
-                        renpy.with_statement(ImageDissolve(transitions.pop(), 3))
-                        renpy.pause(rndm-3)
                     else:
                         image = ProportionalScale(image, 10000, config.screen_height)
                         renpy.show(tag, what=image, at_list=[move_from_to_align_with_linear((.0, .5), (1.0, .5), rndm)])
-                        renpy.with_statement(ImageDissolve(transitions.pop(), 3))
-                        renpy.pause(rndm-3)
                 elif y > x:
                     ratio = 1366/float(x)
                     if int(round(y * ratio)) <= 768:
                         image = ProportionalScale(image, config.screen_width, config.screen_height)
                         renpy.show(tag, what=image, at_list=[truecenter, simple_zoom_from_to_with_linear(1.0, 1.5, rndm)])
-                        renpy.with_statement(ImageDissolve(transitions.pop(), 3))
-                        renpy.pause(rndm-3)
                     else:
                         image = ProportionalScale(image, config.screen_width, 10000)
                         renpy.show(tag, what=image, at_list=[truecenter, move_from_to_align_with_linear((.5, 1.0), (.5, .0), rndm)])
-                        renpy.with_statement(ImageDissolve(transitions.pop(), 3))
-                        renpy.pause(rndm-3)
                 else:
                     image = ProportionalScale(image, config.screen_width, config.screen_height)
                     renpy.show(tag, what=image, at_list=[truecenter, simple_zoom_from_to_with_linear(1.0, 1.5, rndm)])
-                    renpy.with_statement(ImageDissolve(transitions.pop(), 3))
-                    renpy.pause(rndm-3)
 
+                renpy.with_statement(ImageDissolve(transitions.pop(), 3), always=True)
 
+                loop = renpy.call_screen("gallery_trans")
+                if not loop:
+                    renpy.hide(tag)
+                    renpy.with_statement(None)
 
-            renpy.hide_screen("gallery_trans")
             renpy.music.stop(fadeout=1.0)
-            renpy.hide(tag)
             renpy.show_screen("gallery")
             renpy.with_statement(dissolve)
 
