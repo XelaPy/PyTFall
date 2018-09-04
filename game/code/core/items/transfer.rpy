@@ -41,7 +41,7 @@ screen items_transfer(it_members):
         xalign .5
         ypos 41
         xysize 250, 157
-        text "Transfer Items betten Characters!" align .5, .5 style "content_text" color ivory
+        text "Transfer Items between Characters!" align .5, .5 style "content_text" color ivory
 
     # Left/Right employment info:
     frame:
