@@ -358,7 +358,7 @@ screen equip_for(pos=()):
         vbox:
             text "Equip For:" xalign 0 style "della_respira" color ivory
             null height 5
-            
+
             for t in specializations:
                 textbutton "[t]":
                     xminimum 200
@@ -829,7 +829,7 @@ screen char_equip_right_frame():
             button:
                 xysize 110, 30
                 action Return(["equip_for"])
-                text "Auto equip" style "pb_button_text"
+                text "Equip For" style "pb_button_text"
             button:
                 xysize 110, 30
                 action Return(["unequip_all"])
