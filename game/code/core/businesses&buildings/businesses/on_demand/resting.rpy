@@ -25,7 +25,7 @@ init -5 python:
         def rest(self, worker, loc, log):
             """Rests the worker.
             """
-            worker.disable_effect('Exhausted')  # rest immediately disables the effect and removes its counter
+            worker.disable_effect('Exhausted') # rest immediately disables the effect and removes its counter
 
             # at first we set excluded tags
             if (worker.disposition >= 500) or ("Exhibitionist" in worker.traits) or check_lovers(worker, hero):

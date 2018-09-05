@@ -1762,6 +1762,20 @@ init -10 python:
             if self.name in char.effects:
                 del(char.effects[self.name])
 
+                # Reset counters to be safe, usually done elsewhere...
+                if self.name == "Exhausted":
+                    char.del_flag("exhausted_counter")
+                elif self.name == "Drunk":
+                    char.del_flag("drunk_counter")
+                elif self.name == "Food Poisoning":
+                    char.del_counter("food_poison_counter")
+                elif self.name == "Poisoned":
+                    char.del_counter("food_poison_counter")
+                elif self.name == "Depression":
+                    char.del_counter("depression_counter")
+                elif self.name == "Elation":
+                    char.del_counter("elation_counter")
+
         def enable(self, char):
             # Prevent same effect from being enable twice (and handle exceptions)
             if self.name in char.effects:
