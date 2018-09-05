@@ -163,7 +163,7 @@ label next_day_calculations:
 
     python: # Sets to AutoRest amongst other things.
         for c in hero.chars:
-            if not isinstance(c.action, [Rest, SchoolCourse]):
+            if not isinstance(c.action, (Rest, SchoolCourse)):
                 can_do_work(c, check_ap=True, log=None)
 
     $ ndr_chars = list(c for c in hero.chars if auto_rest_conditions(c)) # Next Day Resting Chars
