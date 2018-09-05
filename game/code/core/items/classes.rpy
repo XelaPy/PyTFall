@@ -203,7 +203,6 @@ init -9 python:
 
             Presently filtered by slot.
             """
-            devlog.info(direction)
             if direction in EQUIP_SLOTS + self.SLOT_FILTERS.keys():
                 self.slot_filter = direction
             else:
