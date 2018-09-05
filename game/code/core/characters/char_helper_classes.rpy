@@ -1769,8 +1769,6 @@ init -10 python:
                     char.del_flag("drunk_counter")
                 elif self.name == "Food Poisoning":
                     char.del_flag("food_poison_counter")
-                elif self.name == "Poisoned":
-                    char.del_flag("food_poison_counter")
                 elif self.name == "Depression":
                     char.del_flag("depression_counter")
                 elif self.name == "Elation":
