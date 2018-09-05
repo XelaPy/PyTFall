@@ -92,6 +92,7 @@ init -9 python:
                 for effect in char.effects.values():
                     effect.next_day(char)
                 char.del_flag("food_poison_counter")
+                char.del_flag("drunk_counter")
 
             # Same for Arena Fighters:
             for fighter in pytfall.arena.arena_fighters.values():

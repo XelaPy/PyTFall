@@ -2054,6 +2054,9 @@ init -9 python:
             self.jobpoints = 0
             self.clear_img_cache()
 
+            self.del_flag("food_poison_counter")
+            self.del_flag("drunk_counter")
+
         def nd_auto_train(self, txt):
             if self.flag("train_with_witch"):
                 if self.get_free_ap():
@@ -2880,8 +2883,6 @@ init -9 python:
             self.item_counter()
             self.txt = list()
             self.set_flag("day_since_shopping", self.flag("day_since_shopping") + 1)
-
-            self.del_flag("food_poison_counter")
 
             # And Finally, we run the parent next_day() method that should hold things that are native to all of it's children!
             super(Char, self).next_day()
