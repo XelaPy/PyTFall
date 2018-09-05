@@ -264,7 +264,7 @@ init -9 python:
         @arena_rep.setter
         def arena_rep(self, value):
             if value <= -500:
-                self._arena_rep = - 500
+                self._arena_rep = -500
             else:
                 self._arena_rep = value
 
@@ -2468,6 +2468,14 @@ init -9 python:
             if all([calendar.weekday() == "Monday",
                     day != 1]):
                 self.nd_pay_taxes(txt)
+
+            if self.arena_rep == -500 and self.arena_permit:
+                txt.append("")
+                txt.append("{color=[red]}You've lost your Arena Permit... Try not to suck at it so much!{/color}")
+                self.arena_permit = False
+                self.arena_rep = 0
+                flag_red = True
+                txt.append("")
 
             # Finances related ---->
             self.fin.next_day()
