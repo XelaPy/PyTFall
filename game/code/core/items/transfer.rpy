@@ -209,7 +209,8 @@ screen items_transfer(it_members):
                 hover im.MatrixColor(img_hover, im.matrix.brightness(.10))
                 selected_idle img_selected
                 selected_hover im.MatrixColor(img_selected, im.matrix.brightness(.10))
-                action SetScreenVariable("slot_filter", filter), Function(rc.inventory.apply_filter, filter), Function(lc.inventory.apply_filter, filter), SelectedIf(filter == slot_filter)
+                action SetScreenVariable("slot_filter", filter), Function(rc.inventory.apply_filter, filter), Function(lc.inventory.apply_filter, filter)
+                selected filter == slot_filter
                 focus_mask True
 
     # Focused Item:
