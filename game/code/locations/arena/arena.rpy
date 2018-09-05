@@ -1269,14 +1269,14 @@ init -9 python:
             """
             Bridge to battle engine + rewards/penalties.
             """
-            team = setup[1]
+            enemy_team = setup[1]
             renpy.music.stop(channel="world")
             renpy.play(choice(["content/sfx/sound/world/arena/prepare.mp3", "content/sfx/sound/world/arena/new_opp.mp3"]))
             track = get_random_battle_track()
             renpy.pause(1.3)
             renpy.music.play(track, fadein=1.5)
 
-            for member in team:
+            for member in enemy_team:
                 member.controller = Complex_BE_AI(member)
 
             global battle
@@ -1284,7 +1284,7 @@ init -9 python:
                              start_sfx=get_random_image_dissolve(1.5),
                              end_sfx=dissolve, give_up="surrender")
             battle.teams.append(hero.team)
-            battle.teams.append(team)
+            battle.teams.append(enemy_team)
             battle.start_battle()
 
             renpy.music.stop(fadeout=1.0)
@@ -1301,8 +1301,8 @@ init -9 python:
                     continue
 
                 statdict = dict()
-                statdict["gold"] = int(max(200, 250*(float(team.get_level()) / loser.get_level())))
-                if dice(team.get_level()):
+                statdict["gold"] = int(max(200, 250*(float(enemy_team.get_level()) / loser.get_level())))
+                if dice(enemy_team.get_level()):
                     statdict["fame"] = randint(0, 2)
                     statdict["reputation"] = randint(0, 2)
                 statdict["Arena Rep"] = round_int(max(100, min(1000, (loser.get_rep()/10))))
@@ -1325,7 +1325,7 @@ init -9 python:
                 member.exp += exp_reward(member, winner, ap_used=2, final_mod=.15)
                 # self.remove_team_from_dogfights(member)
 
-            for member in team:
+            for member in enemy_team:
                 restore_battle_stats(member)
 
             if winner == hero.team:
