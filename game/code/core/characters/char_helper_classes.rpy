@@ -1768,13 +1768,13 @@ init -10 python:
                 elif self.name == "Drunk":
                     char.del_flag("drunk_counter")
                 elif self.name == "Food Poisoning":
-                    char.del_counter("food_poison_counter")
+                    char.del_flag("food_poison_counter")
                 elif self.name == "Poisoned":
-                    char.del_counter("food_poison_counter")
+                    char.del_flag("food_poison_counter")
                 elif self.name == "Depression":
-                    char.del_counter("depression_counter")
+                    char.del_flag("depression_counter")
                 elif self.name == "Elation":
-                    char.del_counter("elation_counter")
+                    char.del_flag("elation_counter")
 
         def enable(self, char):
             # Prevent same effect from being enable twice (and handle exceptions)
