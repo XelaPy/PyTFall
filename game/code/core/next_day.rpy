@@ -69,6 +69,14 @@ init python:
 
         return actions, rest, events
 
+    def auto_rest_conditions(char):
+        # returns True if a char can go AutoResting, False if not.
+        c0 = char.is_available
+        c1 = isinstance(char.action, Rest)
+        c2 = char.AP > 0
+        return all([c0, c1, c2])
+
+
 label next_day:
     scene
 
@@ -150,13 +158,15 @@ label next_day_calculations:
                 b.manager_effectiveness = job.effectiveness(b.manager,
                                                     difficulty, None, False)
 
-    # $ ndr_chars2 = list(c for c in hero.chars if not can_do_work(c)) # Revice this for characters who are set to work till the drop???
+    # $ ndr_chars2 = list(c for c in hero.chars if not can_do_work(c)) # Revise this for characters who are set to work till the drop???
     $ tl.start("ND-Rest (First pass)")
-    python:
+
+    python: # Sets to AutoRest amongst other things.
         for c in hero.chars:
-            if not isinstance(c.action, Rest):
+            if not isinstance(c.action, [Rest, SchoolCourse]):
                 can_do_work(c, check_ap=True, log=None)
-    $ ndr_chars = list(c for c in hero.chars if c.is_available and isinstance(c.action, Rest) and c.AP > 0) # Next Day Resting Chars
+
+    $ ndr_chars = list(c for c in hero.chars if auto_rest_conditions(c)) # Next Day Resting Chars
     while ndr_chars:
         $ resting_char = ndr_chars.pop()
         $ resting_char.action(resting_char) # <--- Looks odd and off?
@@ -191,7 +201,7 @@ label next_day_calculations:
 
     # Second iteration of Rest:
     $ tl.start("ND-Rest (Second pass)")
-    $ ndr_chars = list(c for c in hero.chars if c.is_available and isinstance(c.action, Rest) and c.AP > 0) # Next Day Resting Chars
+    $ ndr_chars = list(c for c in hero.chars if auto_rest_conditions(c)) # Next Day Resting Chars
     while ndr_chars:
         $ resting_char = ndr_chars.pop()
         $ resting_char.action(resting_char) # <--- Looks odd and off?
