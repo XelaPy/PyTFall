@@ -1009,7 +1009,7 @@ screen next_day():
                                 background Null()
                                 action NullAction()
                                 tooltip "New Courses available!"
-                                text "+" color green size 40 style "proper_stats_text" align .5, .5
+                                text "+" color yellow size 40 style "proper_stats_text" align .5, .5
                         if "Student(s) completed" in school_report.txt:
                             button:
                                 xysize 10, 36
@@ -1017,7 +1017,7 @@ screen next_day():
                                 background Null()
                                 action NullAction()
                                 tooltip "One of your girls has successfully completed her course (this doesn't mean that a course has ended)!"
-                                text "!" color green size 40 style "proper_stats_text" align .5, .5
+                                text "!" color yellow size 40 style "proper_stats_text" align .5, .5
                         if "Student(s) were sent" in school_report.txt:
                             button:
                                 xysize 10, 36
