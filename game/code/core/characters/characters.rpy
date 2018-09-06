@@ -294,7 +294,7 @@ init -9 python:
         def action(self, value):
             # Resting considerations:
             c0 = getattr(value, "type", None) == "Resting"
-            c1 = self.previousaction == value
+            c1 = self.previousaction == value # TODO This seems to be the last line why assignments fail... FIXME
             if c0 or c1:
                 self._action = value
                 return
