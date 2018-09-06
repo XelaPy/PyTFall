@@ -2303,7 +2303,7 @@ init -9 python:
                 raise Exception, "This char (ID: %s) is not in service to the player!!!" % self.id
 
         # ----------------------------------------------------------------------------------
-        def nd_pay_taxes(self, txt):
+        def nd_pay_taxes(self, txt, flag_red):
             txt.append("\nIt's time to pay taxes!")
             ec = store.pytfall.economy
 
@@ -2335,6 +2335,7 @@ init -9 python:
                     txt.append(temp)
                     self.fin.income_tax_debt = 0
                 else:
+                    flag_red = True
                     s0 = "\nYou've did not have enough money..."
                     s1 = "Be advised that if your debt to the government reaches 50000,"
                     s2 = "they will indiscriminately confiscate your property until it is paid in full."
@@ -2380,6 +2381,7 @@ init -9 python:
                 temp = "\n\nYour current total debt to the government is {color=[gold]}%d Gold{/color}!" % total_debt
                 txt.append(temp)
             if total_debt > 50000:
+                flag_red = True
                 temp = " {color=[red]}... And you're pretty much screwed because it is above 50000!{/color} Your property will now be confiscated!"
                 txt.append(temp)
 
@@ -2467,7 +2469,7 @@ init -9 python:
             # Taxes:
             if all([calendar.weekday() == "Monday",
                     day != 1]):
-                self.nd_pay_taxes(txt)
+                flag_red = self.nd_pay_taxes(txt, flag_red)
 
             if self.arena_rep == -500 and self.arena_permit:
                 txt.append("")
