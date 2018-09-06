@@ -25,7 +25,7 @@ init -999 python:
             func("|CHAR DEBUG| {}".format(msg))
 
     # SimPy:
-    DEBUG_SIMPY = False
+    DEBUG_SIMPY = True
     DEBUG_SIMPY_ND_BUILDING_REPORT = DSNBR = False
     def simpy_debug(msg):
         if DEBUG_SIMPY:

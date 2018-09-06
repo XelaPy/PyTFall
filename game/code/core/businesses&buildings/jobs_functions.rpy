@@ -141,7 +141,7 @@ init -10 python:
                 if log:
                     log.append("And going to take few days off to heal. ")
             return False
-        if c.vitality <= c.get_max("vitality")*.10:
+        if c.vitality <= c.get_max("vitality")*.2:
             if log:
                 log.append("%s is too tired! "%c.name)
             # self.img = c.show("profile", "sad", resize=(740, 685))

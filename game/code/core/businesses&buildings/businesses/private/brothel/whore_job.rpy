@@ -39,7 +39,7 @@ init -5 python:
 
             if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
 
-                traits = list(i.id for i in worker.traits if i in ["Ill-mannered",
+                traits = list(i.id for i in worker.traits if i.id in ["Ill-mannered",
                                 "Always Hungry", "Heavy Drinker", "Neat", "Messy", "Homebody",
                                 "Indifferent", "Open Minded", "Dawdler", "Energetic", "Sexy Air",
                                 "Frigid", "Nymphomaniac", "Psychic", "Flexible", "Lactation"])

@@ -167,11 +167,11 @@ label start:
         # mobs = load_mobs()
         # tl.end("Loading: Mobs")
 
-    # python: # SE (Areas)
-    #     tl.start("Loading: Exploration Areas")
-    #     # pytfall.forest_1 = Exploration()
-    #     fg_areas = load_fg_areas()
-    #     tl.end("Loading: Exploration Areas")
+    python: # SE (Areas)
+        tl.start("Loading: Exploration Areas")
+        # pytfall.forest_1 = Exploration()
+        fg_areas = load_fg_areas()
+        tl.end("Loading: Exploration Areas")
 
     python: # Move to a World AI method:
         tl.start("Loading: Populating World with RChars")

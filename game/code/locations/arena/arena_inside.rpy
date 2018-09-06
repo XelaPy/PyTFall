@@ -966,7 +966,7 @@ init: # Main Screens:
             ymargin 0
             has vbox spacing 5 align(.5, .5) box_reverse True
             $ i = 0
-            for member in w_team :
+            for member in w_team:
                 $ img = member.show("portrait", resize=(70, 70), cache=True)
                 fixed:
                     align (.5, .5)

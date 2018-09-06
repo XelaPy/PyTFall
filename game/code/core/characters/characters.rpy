@@ -264,7 +264,7 @@ init -9 python:
         @arena_rep.setter
         def arena_rep(self, value):
             if value <= -500:
-                self._arena_rep = - 500
+                self._arena_rep = -500
             else:
                 self._arena_rep = value
 
@@ -2054,6 +2054,9 @@ init -9 python:
             self.jobpoints = 0
             self.clear_img_cache()
 
+            self.del_flag("food_poison_counter")
+            self.del_flag("drunk_counter")
+
         def nd_auto_train(self, txt):
             if self.flag("train_with_witch"):
                 if self.get_free_ap():
@@ -2300,7 +2303,7 @@ init -9 python:
                 raise Exception, "This char (ID: %s) is not in service to the player!!!" % self.id
 
         # ----------------------------------------------------------------------------------
-        def nd_pay_taxes(self, txt):
+        def nd_pay_taxes(self, txt, flag_red):
             txt.append("\nIt's time to pay taxes!")
             ec = store.pytfall.economy
 
@@ -2332,6 +2335,7 @@ init -9 python:
                     txt.append(temp)
                     self.fin.income_tax_debt = 0
                 else:
+                    flag_red = True
                     s0 = "\nYou've did not have enough money..."
                     s1 = "Be advised that if your debt to the government reaches 50000,"
                     s2 = "they will indiscriminately confiscate your property until it is paid in full."
@@ -2377,6 +2381,7 @@ init -9 python:
                 temp = "\n\nYour current total debt to the government is {color=[gold]}%d Gold{/color}!" % total_debt
                 txt.append(temp)
             if total_debt > 50000:
+                flag_red = True
                 temp = " {color=[red]}... And you're pretty much screwed because it is above 50000!{/color} Your property will now be confiscated!"
                 txt.append(temp)
 
@@ -2464,7 +2469,15 @@ init -9 python:
             # Taxes:
             if all([calendar.weekday() == "Monday",
                     day != 1]):
-                self.nd_pay_taxes(txt)
+                flag_red = self.nd_pay_taxes(txt, flag_red)
+
+            if self.arena_rep == -500 and self.arena_permit:
+                txt.append("")
+                txt.append("{color=[red]}You've lost your Arena Permit... Try not to suck at it so much!{/color}")
+                self.arena_permit = False
+                self.arena_rep = 0
+                flag_red = True
+                txt.append("")
 
             # Finances related ---->
             self.fin.next_day()
@@ -2880,8 +2893,6 @@ init -9 python:
             self.item_counter()
             self.txt = list()
             self.set_flag("day_since_shopping", self.flag("day_since_shopping") + 1)
-
-            self.del_flag("food_poison_counter")
 
             # And Finally, we run the parent next_day() method that should hold things that are native to all of it's children!
             super(Char, self).next_day()

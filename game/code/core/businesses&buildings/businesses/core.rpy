@@ -781,4 +781,5 @@ init -12 python:
         # For lack of a better term... can't come up with a better name atm.
         def __init__(self, **kwargs):
             super(TaskBusiness, self).__init__(**kwargs)
+            self.workable = True
             self.res = None #*Throws an error?
