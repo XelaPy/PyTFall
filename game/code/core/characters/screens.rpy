@@ -190,21 +190,20 @@ screen set_workplace_dropdown(char, pos=()):
         anchor (xval, yval)
         has vbox
         for building in workable_buildings:
+            $ actions = []
             if char.action in building.jobs:
-                $ can_keep_action = True
+                $ actions.append(SetField(char, "workplace", building))
             else:
-                $ can_keep_action = False
+                $ actions.append(SetField(char, "action", None))
+                $ actions.append(SetField(char, "workplace", building))
+            $ actions.append(Hide("set_workplace_dropdown"))
             textbutton "[building.name]":
                 selected char.workplace == building
-                action [If(char_is_training(char), true=Function(stop_training, char)),
-                        If(not can_keep_action, true=SetField(char, "action", None)),
-                        SetField(char, "workplace", building),
-                        Hide("set_workplace_dropdown")]
+                action actions
         textbutton "None":
             selected char.workplace is None
-            action [If(char_is_training(char), true=Function(stop_training, char)),
+            action [SetField(char, "action", None),
                     SetField(char, "workplace", None),
-                    SetField(char, "action", None),
                     Hide("set_workplace_dropdown")]
         textbutton "Close":
             action Hide("set_workplace_dropdown")
