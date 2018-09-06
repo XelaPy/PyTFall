@@ -318,7 +318,6 @@ init -9 python:
                     wp.manager.previousaction = None
                     wp.manager.action = None
                     wp.manager = None
-                wp.manager = self
 
             self._action = value
 
@@ -327,6 +326,15 @@ init -9 python:
             return self._workplace
         @workplace.setter
         def workplace(self, value):
+            if value != self._workplace:
+                # We need to make sure that manager is reassigned:
+                mj = simple_jobs["Manager"]
+                old_action = self.action
+                if old_action == mj:
+                    self.action = None
+                elif isinstance(value, Job):
+                    if old_action not in value.get_valid_jobs():
+                        self.action = None
             self._workplace = value
 
         @property

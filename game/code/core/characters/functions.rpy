@@ -842,13 +842,6 @@ init -11 python:
         char.workplace = building
         char.action = job
 
-        # if job is None:
-        #     return
-        #
-        # # Make sure that the manager is set:
-        # if job == simple_jobs["Manager"]:
-        #     building.manager = char
-
     def tier_up_to(char, tier, level_bios=(.9, 1.1),
                    skill_bios=(.65, 1.0), stat_bios=(.65, 1.0)):
         """Tiers up a character trying to set them up smartly
@@ -858,7 +851,7 @@ init -11 python:
         tier: Tier number to level to (10 is max and basically a God)
         bios: When setting up stats and skills, uniform between the two values
               will be used.
-              Level, stats and skills bioses work in the same way
+              Level, stats and skills biases work in the same way
 
         Important: Should only be used right after the character was created!
         """

@@ -46,8 +46,7 @@ init -10 python:
             level_points = self.level*50.0/target_level
 
             default_points = 12.5
-            skill_bonus = 0
-            stat_bonus = 0
+            skill_bonus = stat_bonus = 0
             for trait in self.traits.basetraits:
                 # Skills first (We calc this as 12.5% of the total)
                 skills = trait.base_skills
@@ -84,7 +83,7 @@ init -10 python:
 
             total_points = level_points + stats_skills_points
 
-            # devlog.info("Name: {}, total tier points for Teir {}: {} (lvl: {}, st/sk=total: {}/{}==>{})".format(self.name,
+            # devlog.info("Name: {}, total tier points for Tier {}: {} (lvl: {}, st/sk=total: {}/{}==>{})".format(self.name,
             #                                                                                             int(target_tier),
             #                                                                                             round(total_points),
             #                                                                                             round(level_points),

@@ -173,5 +173,3 @@ screen chars_debug():
                     action Function(shown_chars.append, container)
         textbutton "X":
             action Hide("chars_debug")
-
-    # use new_style_tooltip

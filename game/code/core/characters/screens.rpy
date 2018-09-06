@@ -62,7 +62,6 @@ screen new_style_tooltip():
                     hbox:
                         xsize 170
                         text "{}".format(line)
-                        # text "{}".format(line) xalign 1.0
                 hbox:
                     xsize 200
                     text "Damage: "
@@ -148,19 +147,16 @@ screen set_action_dropdown(char, pos=()):
                 $ jobs.append(simple_jobs["Rest"])
             for i in jobs:
                 textbutton "[i.id]":
-                    action [Function(set_char_to_work, char, char.workplace, i),
+                    action [SetField(char, "action", i),
                             Hide("set_action_dropdown")]
                     tooltip i.desc
             textbutton "None":
                 action [SetField(char, "action", None),
-                        If(char_is_training(char), true=Function(stop_training, char)),
                         Hide("set_action_dropdown")]
                 tooltip "In case you are in a great need of a slacker..."
 
         textbutton "Close":
             action [Hide("set_action_dropdown")]
-
-    # use new_style_tooltip()
 
     key "K_ESCAPE" action [Hide("set_action_dropdown")]
 
