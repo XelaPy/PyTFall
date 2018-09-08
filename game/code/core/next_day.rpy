@@ -22,7 +22,7 @@ init python:
             if setup == "ALL":
                 container = hero.chars
             else:
-                container = [c for c in hero.chars if setup in (c.home, c.workplace)]
+                container = [c for c in hero.chars if setup in (c.workplace, )]
 
             for char in container:
                 cat = 0
@@ -60,6 +60,9 @@ init python:
                 # Events:
                 if cat:
                     for event in NextDayEvents:
+                        if isinstance(setup, UpgradableBuilding):
+                            if event.loc != setup:
+                                continue
                         if event.char == char:
                             e[cat]["count"] += 1
                             if event.red_flag:
@@ -367,8 +370,9 @@ screen next_day():
     default summary_filter = "buildings" # Not applicable atm
     default report_stats = False
 
-    # Right frame (Building/Businesses reports):
+
     if show_summary:
+        # Right frame (Building/Businesses reports):
         frame:
             background Frame(Transform("content/gfx/frame/p_frame6.png", alpha=.98), 10, 10)
             xysize (581, 683)
@@ -654,7 +658,6 @@ screen next_day():
                                                     text "{color=[green]}!" style "next_day_summary_text"
                                                     action NullAction()
 
-
                                         hbox:
                                             xpos 205
                                             xmaximum 40
@@ -676,7 +679,6 @@ screen next_day():
                                                     text "{color=[green]}!" style "next_day_summary_text"
                                                     action NullAction()
 
-
                                         hbox:
                                             xpos 245
                                             xmaximum 40
@@ -697,7 +699,6 @@ screen next_day():
                                                     background Null()
                                                     text "{color=[green]}!" style "next_day_summary_text"
                                                     action NullAction()
-
 
                                         hbox:
                                             xpos 284
