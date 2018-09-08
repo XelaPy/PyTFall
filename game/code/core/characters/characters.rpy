@@ -294,11 +294,12 @@ init -9 python:
         def action(self, value):
             # Resting considerations:
             c0 = getattr(value, "type", None) == "Resting"
-            c1 = self.previousaction == value # TODO This seems to be the last line why assignments fail... FIXME
+            c1 = self.previousaction == value
             if c0 or c1:
                 self._action = value
                 return
 
+            # SchoolCourses, we need to remove the student as action is being changed:
             if isinstance(self._action, SchoolCourse):
                 course = self._action
                 self._action = None
@@ -312,12 +313,13 @@ init -9 python:
                 # Works as a Manager so special considerations are needed:
                 wp.manager = None
                 wp.manager_effectiveness = 0
-            elif value == mj:
+            if value == mj:
                 # Check if we already have a manager in the building:
                 if wp.manager:
-                    wp.manager.previousaction = None
-                    wp.manager.action = None
+                    wp.manager.previousaction = ''
+                    wp.manager._action = None
                     wp.manager = None
+                wp.manager = self
 
             self._action = value
 
