@@ -81,6 +81,10 @@ init -1 python: # Core classes:
             self.end_sfx = end_sfx
 
             self.max_skill_lvl = max_skill_lvl
+            
+            for team in self.teams:
+                for char in team:
+                    char.dmg_font = "red"
 
         def log(self, report, delayed=False):
             be_debug(report)
