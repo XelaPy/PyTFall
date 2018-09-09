@@ -158,11 +158,17 @@ screen mainscreen():
                 action Jump("force_clear_console")
 
     showif pytfall.ms_text and pytfall.todays_first_view:
-        frame:
-            pos (500, 60)
+        fixed:
             xysize (500, 300)
-            background Frame("content/gfx/frame/settings1.png", 10, 10)
-            text "%s"%pytfall.ms_text align (.5, .1) style "content_text" color goldenrod size 19
+            pos (500, 60)
+            add Frame("content/gfx/frame/settings1.png", 10, 10)
+            viewport:
+                xysize (470, 280)
+                xalign .5
+                yoffset 5
+                scrollbars "vertical"
+                mousewheel True
+                text "%s"%pytfall.ms_text align (.5, .1) style "content_text" color goldenrod size 19
             timer 10 action ToggleField(pytfall, "todays_first_view")
 
     use top_stripe(False)
