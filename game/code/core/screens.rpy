@@ -589,7 +589,7 @@ init:
 
             # AP Frame/Next Day button:
             $ tc_0 = any([renpy.current_screen().tag == "next_day", hero.AP == 0])
-            $ tc_1 = renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log"]
+            $ tc_1 = renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "slave_shopping"]
             $ tc_2 = not show_team_status
             if all([tc_0, tc_1, tc_2]):
                 button:
