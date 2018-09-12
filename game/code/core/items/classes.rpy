@@ -203,20 +203,22 @@ init -9 python:
 
             Presently filtered by slot.
             """
+            filters = self.filters
+
             if direction in EQUIP_SLOTS + self.SLOT_FILTERS.keys():
                 self.slot_filter = direction
             else:
                 if direction == 'next':
-                    self.filter_index = (self.filter_index + 1) % len(self.filters)
+                    self.filter_index = (self.filter_index + 1) % len(filters)
                 elif direction == 'prev':
-                    self.filter_index = (self.filter_index - 1) % len(self.filters)
+                    self.filter_index = (self.filter_index - 1) % len(filters)
                 else:
                     try: # We try to get the correct filter, but it could be a fail...
-                        self.filter_index = self.filters.index(direction)
+                        self.filter_index = filters
                     except:
                         # Explicitly silenced Exception. We set the index to "all" (0) which is always available!
                         self.filter_index = 0
-                self.slot_filter = self.filters[self.filter_index]
+                self.slot_filter = filters[self.filter_index]
 
             self.filtered_items = list(item for item in self.items.iterkeys() if item.slot in self.SLOT_FILTERS.get(self.slot_filter, [self.slot_filter]))
 
