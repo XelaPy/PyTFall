@@ -296,7 +296,7 @@ init python:
                                   days_to_complete, effectiveness,
                                   data)
             self.new_courses_created = True
-            self.courses.append(course)
+            self.courses.insert(0, course)
 
         def next_day(self):
             for c in self.courses[:]:
