@@ -152,7 +152,7 @@
     {
     "id": "Golden Piranha",
     "desc": "A golden statue of extinct predatory fish remained from ancient civilisations.",
-    "icon": "content/items/loot/gs.png",
+    "icon": "content/items/loot/gp.png",
     "price": 200,
     "chance": 30,
     "slot": "loot",

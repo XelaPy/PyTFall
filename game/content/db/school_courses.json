@@ -13,8 +13,38 @@
             "refinement"
         ]
     },
+    "BDSM": {
+        "desc": "This course focuses on training constitution. May also improve general sex skill.",
+        "image": "BDSM/",
+        "imageTags": [
+            "bdsm",
+            "bdsm restrained"
+        ],
+        "primary": [
+            "constitution"
+        ],
+        "secondary": [
+            "sex"
+        ]
+    },
+    "Dance": {
+        "desc": "This course focuses on agility and constitution. May also improve charisma and striptease skill.",
+        "image": "Dance/",
+        "imageTags": [
+            "dancing",
+            "stripping",
+            "singing"
+            
+        ],
+        "primary": [
+            "agility, constitution"
+        ],
+        "secondary": [
+            "charisma", "strip"
+        ]
+    },
     "Combat": {
-        "desc": "This course focuses on training attack and defence. May also improve agility.",
+        "desc": "This course focuses on training attack and security. May also improve defense.",
         "image": "Combat/",
         "type": "combat",
         "imageMode": "normal",
@@ -25,11 +55,11 @@
             "ninja"
         ],
         "primary": [
-            "defence",
-            "attack"
+            "attack",
+            "security"
         ],
         "secondary": [
-            "agility"
+            "defense"
         ]
     },
     "Leadership": {
@@ -54,7 +84,7 @@
         ]
     },
     "Guard": {
-        "desc": "This course focuses on training defence and security. May also improve constitution and intelligence.",
+        "desc": "This course focuses on training defence and security. May also improve constitution.",
         "image": "Combat/",
         "type": "combat",
         "imageTags": [
@@ -72,8 +102,7 @@
             "security"
         ],
         "secondary": [
-            "constitution",
-            "intelligence"
+            "constitution"
         ]
     },
     "Kunoichi": {
@@ -95,18 +124,17 @@
     },
 
     "Striptease": {
-        "desc": "This course focuses on training striptease skill. May also improve agility.",
+        "desc": "This course focuses on training striptease skill and agility. May also improve general sex skill.",
         "image": "Strip/",
         "type": "xxx",
         "imageTags": [
             "stripping"
         ],
         "primary": [
-            "strip"
+            "strip", "agility"
         ],
         "secondary": [
-            "agility",
-            "dancing"
+        "sex"
         ]
     },
     "Etiquette": {
@@ -125,7 +153,7 @@
         ]
     },
     "Maid": {
-        "desc": "This course focuses on service and cleanings skills. May also improve waiting and bartending.",
+        "desc": "This course focuses on maid skills. May also improve constitution and agility.",
         "image": "Service/",
         "imageTags": [
             "sfw",
@@ -135,11 +163,13 @@
         ],
         "primary": [
             "service",
-            "cleaning"
+            "cleaning",
+            "waiting",
+            "refinement"
         ],
         "secondary": [
-            "waiting",
-            "bartending"
+            "constitution",
+            "agility"
         ]
     },
     "Oral Sex": {
