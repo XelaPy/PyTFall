@@ -33,7 +33,7 @@ init -5 python:
             for u in self.upgrades:
                 if isinstance(u, EnforcedOrder):
                     EnforcedOrder_active = True
-                elif isinstance(u, EnforcedOrder):
+                elif isinstance(u, SparringQuarters):
                     SparringQuarters_active = True
 
             # Brawl event:
