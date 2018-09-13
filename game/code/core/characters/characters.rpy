@@ -135,7 +135,7 @@ init -9 python:
 
             if effects:
                 # Effects assets:
-                self.effects = {}
+                self.effects = _dict()
 
             # BE Bridge assets: @Review: Note: Maybe move this to a separate class/dict?
             self.besprite = None # Used to keep track of sprite displayable in the BE.
@@ -2827,7 +2827,7 @@ init -9 python:
                         else:
                             self.joy -= 20
                             self.disposition -= randint(25, 50)
-                            char.health = max(1, char.health - 10)
+                            self.health = max(1, self.health - 10)
                             self.vitality -= 25
                             txt.append("\nYou've failed to provide even the most basic needs for your slave. This will end badly... \n")
 
