@@ -172,12 +172,12 @@ label mc_action_work_in_slavemarket:
 
     python:
         if dice(50):
-            renpy.say("", choice(["You did some chores around the slavemarket!",
-                      "Pay might be crap, but it's still money.",
-                      "You've helped out in da Club!"]))
+            renpy.say("", choice(["You did some chores around the Slave Market!",
+                                  "Pay might be crap, but it's still money.",
+                                  "You've helped out in da Club!"]))
         else:
             hero.say(choice(["What a shitty job...",
-            "There's gotta be better way to make money..."]))
+                             "There's gotta be better way to make money..."]))
 
     $ global_flags.set_flag("came_from_sc")
     $ del use_ap

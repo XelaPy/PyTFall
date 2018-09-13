@@ -93,14 +93,14 @@ label xeona_talking:
 
             "Tell me about Arena":
                 ax "The arena, other than our sex industry, is the biggest source of entertainment for locals and tourists alike."
-                ax "Many warriors come here to test their mettle against all challengers. Mages come to test their wisdom and training against all kinds of a foe. Though most come"
-                extend " just to unwind and see some kickass battles."
+                ax "Many warriors come here to test their mettle against all challengers. Mages come to test their wisdom and training against all kinds of a foe."
+                ax "Though most come just to unwind and see some kickass battles."
                 ax "The arena consists of two sections, one for the {color=[green]}matches{/color} and one for {color=[green]}dogfights{/color}."
                 ax "Both pay well, especially if you can please the crowd."
                 ax "There is also a survival challenge where you can fight against beasts and monsters from all around."
                 ax "Deaths are rare, due to regulations about pulling gladiators out before the monsters eat them."
-                ax "Most of our gladiators with {color=[green]}arena permits{/color} make a very decent living. However, those who are not at that level"
-                extend " usually have some extra source of income, like guard duties or treasure hunting."
+                ax "Most of our gladiators with {color=[green]}arena permits{/color} make a very decent living."
+                ax "However, those who are not at that level usually have some extra source of income, like guard duties or treasure hunting."
                 ax "Well, that about enough for you to form a general picture?"
                 ax "Are you going in?"
                 $ heard_about_arena = True
