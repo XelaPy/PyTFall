@@ -84,8 +84,8 @@
         "desc": "She specializes in striptease.",
         "base_skills": {
             "strip": 80,
-            "refinement": 20,
-            "sex": 40
+            "dancing": 40,
+            "sex": 10
         },
         "base_stats": {
             "charisma": 50,
@@ -145,65 +145,54 @@
             ]}
     },
     {
-        "id": "Maid",
+        "id": "Cleaner",
         "occupations": [
             "Server"
         ],
-        "desc": "She is ready to serve customers in any possible decorous way.",
+        "desc": "She leaves no change to dirt and dust!",
         "basetrait": true,
         "base_skills": {
-            "waiting": 20,
-            "service": 30,
-            "refinement": 30,
-            "cleaning": 20
+            "cleaning": 100,
+            "service": 50
         },
         "base_stats": {
             "constitution": 50,
-            "agility": 30
+            "agility": 25
         },
         "mod": {
             "constitution": 40,
-            "agility": 15
+            "agility": 20
         },
         "max": {
             "constitution": 40,
-            "agility": 15
+            "agility": 20
         },
         "mod_skills": {
-            "service": [
-                0.1,
-                0.1,
-                0.1
-            ],
-            "bartending": [
-                0.1,
-                0.1,
-                0.1
-            ],
             "cleaning": [
+                0.2,
+                0.2,
+                0.2
+            ],
+            "service": [
                 0.1,
                 0.1,
                 0.1
             ]
         },
         "init_lvlmax": {
-            "agility": 20,
-            "constitution": 35
+            "constitution": 35,
+            "agility": 20
         },
         "init_max": {
-            "agility": 10,
-            "constitution": 25
+            "constitution": 25,
+            "agility": 15
         },
         "init_mod": {
-            "agility": 5,
-            "constitution": 25
+            "constitution": 25,
+            "agility": 15
         },
         "init_skills": {
             "cleaning": [
-                50,
-                100
-            ],
-            "bartending": [
                 50,
                 100
             ],
@@ -216,6 +205,182 @@
             "constitution": [
                 0,
                 1
+            ],
+            "agility": [
+                0,
+                1
+            ]
+        }
+    },
+    {
+        "id": "Barmaid",
+        "occupations": [
+            "Server"
+        ],
+        "desc": "She serves drinks and food.",
+        "basetrait": true,
+        "base_skills": {
+            "bartending": 100,
+            "service": 50
+        },
+        "base_stats": {
+            "intelligence": 50,
+            "character": 50
+        },
+        "mod": {
+            "intelligence": 40,
+            "character": 40
+        },
+        "max": {
+            "intelligence": 40,
+            "character": 40
+        },
+        "mod_skills": {
+            "bartending": [
+                0.2,
+                0.2,
+                0.2
+            ],
+            "service": [
+                0.2,
+                0.2,
+                0.2
+            ]
+        },
+        "init_lvlmax": {
+            "intelligence": 35,
+            "character": 35
+        },
+        "init_max": {
+            "intelligence": 30,
+            "character": 30
+        },
+        "init_mod": {
+            "intelligence": 20,
+            "character": 20
+        },
+        "init_skills": {
+            "bartending": [
+                50,
+                100
+            ],
+            "service": [
+                50,
+                100
+            ]
+        },
+        "leveling_stats": {
+            "intelligence": [
+                0,
+                1
+            ],
+            "character": [
+                0,
+                1
+            ]
+        }
+    },
+    {
+        "id": "Maid",
+        "occupations": [
+            "Server"
+        ],
+        "desc": "She is ready to serve customers in any possible decorous way.",
+        "basetrait": true,
+        "base_skills": {
+            "service": 20,
+            "refinement": 20,
+            "cleaning": 20,
+            "bartending": 20
+        },
+        "base_stats": {
+            "intelligence": 20,
+            "character": 20,
+            "constitution": 20,
+            "agility": 20
+        },
+        "mod": {
+            "constitution": 40,
+            "agility": 15
+        },
+        "max": {
+            "constitution": 40,
+            "agility": 15
+        },
+        "mod_skills": {
+            "service": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "bartending": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "cleaning": [
+                0.5,
+                0.5,
+                0.5
+            ],
+            "refinement": [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "init_lvlmax": {
+            "agility": 70,
+            "constitution": 70,
+            "character": 70,
+            "intelligence": 70
+        },
+        "init_max": {
+            "agility": 50,
+            "constitution": 50,
+            "character": 50,
+            "intelligence": 50
+        },
+        "init_mod": {
+            "agility": 40,
+            "constitution": 40,
+            "character": 40,
+            "intelligence": 40
+        },
+        "init_skills": {
+            "cleaning": [
+                100,
+                200
+            ],
+            "bartending": [
+                100,
+                200
+            ],
+            "service": [
+                100,
+                200
+            ],
+            "refinement": [
+                100,
+                200
+            ]
+        },
+        "leveling_stats": {
+            "constitution": [
+                1,
+                2
+            ],
+            "agility": [
+                1,
+                2
+            ],
+            "character": [
+                1,
+                2
+            ],
+            "intelligence": [
+                1,
+                2
             ]
         }
     },
@@ -293,8 +458,7 @@
         "basetrait": true,
         "base_stats": {
             "magic": 40,
-            "intelligence": 10,
-            "mp": 10
+            "intelligence": 50
         },
         "base_skills": {
             "security": 150

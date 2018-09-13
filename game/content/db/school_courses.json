@@ -1,16 +1,15 @@
 {
     "Beauty": {
-        "desc": "This course focuses on training charisma. May also improve refinement.",
+        "desc": "This course focuses on training charisma and refinement.",
         "image": "Beauty/",
         "imageTags": [
             "beauty",
             "studying"
         ],
         "primary": [
-            "charisma"
+            "charisma", "refinement"
         ],
         "secondary": [
-            "refinement"
         ]
     },
     "BDSM": {
@@ -28,7 +27,7 @@
         ]
     },
     "Dance": {
-        "desc": "This course focuses on agility and constitution. May also improve charisma and striptease skill.",
+        "desc": "This course focuses on agility and charisma. May also improve constitution and striptease skill.",
         "image": "Dance/",
         "imageTags": [
             "dancing",
@@ -37,10 +36,10 @@
             
         ],
         "primary": [
-            "agility, constitution"
+            "agility", "charisma"
         ],
         "secondary": [
-            "charisma", "strip"
+            "strip", "constitution"
         ]
     },
     "Combat": {
@@ -124,7 +123,7 @@
     },
 
     "Striptease": {
-        "desc": "This course focuses on training striptease skill and agility. May also improve general sex skill.",
+        "desc": "This course focuses on training striptease skill and agility. May also improve general sex skill and charisma.",
         "image": "Strip/",
         "type": "xxx",
         "imageTags": [
@@ -134,7 +133,8 @@
             "strip", "agility"
         ],
         "secondary": [
-        "sex"
+        "sex",
+        "charisma"
         ]
     },
     "Etiquette": {
@@ -153,7 +153,7 @@
         ]
     },
     "Maid": {
-        "desc": "This course focuses on maid skills. May also improve constitution and agility.",
+        "desc": "This course focuses on maid skills. May also improve character and intelligence.",
         "image": "Service/",
         "imageTags": [
             "sfw",
@@ -164,14 +164,52 @@
         "primary": [
             "service",
             "cleaning",
-            "waiting",
+            "bartending",
             "refinement"
         ],
         "secondary": [
-            "constitution",
-            "agility"
+            "character",
+            "intelligence"
         ]
     },
+    "Cleaning": {
+        "desc": "This course focuses on cleaning and service skills, as well as agility and constitution.",
+        "image": "Service/",
+        "imageTags": [
+            "sfw",
+            "maid",
+            "cleaning",
+            "bunny"
+        ],
+        "primary": [
+            "constitution",
+            "agility",
+            "cleaning",
+            "service"
+        ],
+        "secondary": [
+        ]
+    },
+    "Barmaid": {
+        "desc": "This course focuses on bartending and service skills, intelligence and character. May also improve constitution.",
+        "image": "Service/",
+        "imageTags": [
+            "sfw",
+            "maid",
+            "cleaning",
+            "bunny"
+        ],
+        "primary": [
+            "bartending",
+            "intelligence",
+            "character",
+            "service"
+        ],
+        "secondary": [
+            "constitution"
+        ]
+    },
+
     "Oral Sex": {
         "desc": "This course focuses on training oral sex skills. May also improve general sex skill.",
         "image": "Oral/",

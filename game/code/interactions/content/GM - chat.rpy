@@ -534,6 +534,10 @@ label interactions_aboutoccupation:
             $ rc("I specialize in service industry.")
             if co("Maid"):
                 $ rc("I perform menial tasks around the household.", "I'm a professional maid.")
+            elif co("Cleaner"):
+                $ rc("I'm cleaning stuff.", "I'm a just a cleaner.")
+            elif co("Barmaid"):
+                $ rc("I'm looking over the bar.", "I'm serving tables.")
         if co("Manager"):
             $ rc("I know a thing or two about managing.", "I know how to manage people.")
         if not(cgo("Server") or cgo("SIW") or cgo("Combatant") or cgo("Caster") or co("Manager")): #you never know
