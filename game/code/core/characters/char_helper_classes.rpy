@@ -1054,9 +1054,15 @@ init -10 python:
                 self.lvl_max[stat] = values[3]
 
             # [action_value, training_value]
-            self.skills = {k: [0, 0] for k in self.instance.SKILLS}
+            self.skills = dict()
+            for s in self.instance.SKILLS:
+                self.skills[s] = list([0, 0])
+            # {k: [0, 0] for k in self.instance.SKILLS}
             # [actions_multi, training_multi, value_multi]
-            self.skills_multipliers = {k: [1, 1, 1] for k in self.skills}
+            # self.skills_multipliers = {k: [1, 1, 1] for k in self.skills}
+            self.skills_multipliers = dict()
+            for s in self.skills:
+                self.skills_multipliers[s] = list([1, 1, 1])
 
             # Leveling system assets:
             self.goal = 1000

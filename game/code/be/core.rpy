@@ -23,7 +23,7 @@ init -1 python: # Core classes:
     del perfect_middle_yr
 
 
-    class BE_Core(object):
+    class BE_Core(_object):
         """Main BE attrs, data and the loop!
         """
         def __init__(self, bg=Null(), music=None, row_pos=None, start_sfx=None,
@@ -81,7 +81,7 @@ init -1 python: # Core classes:
             self.end_sfx = end_sfx
 
             self.max_skill_lvl = max_skill_lvl
-            
+
             for team in self.teams:
                 for char in team:
                     char.dmg_font = "red"
@@ -507,7 +507,7 @@ init -1 python: # Core classes:
             return self.start_turn_events + self.mid_turn_events + self.end_turn_events
 
 
-    class BE_Event(object):
+    class BE_Event(_object):
         """
         Anything that happens in the BE.
         Can be executed in RT or added to queues where it will be called.
@@ -1137,7 +1137,7 @@ init -1 python: # Core classes:
             Before multipliers and effects are apllied.
             """
             a = self.source
-            
+
             if defense == 0:
                 defense = 1
 
@@ -1151,7 +1151,7 @@ init -1 python: # Core classes:
                 damage = -attack*1.0*(75/(75 + defense * 1.0))
 
             damage *= uniform(.90, 1.10)
-                
+
             # Items Bonus:
             m = 1.0
             for i in attacker_items:
@@ -1975,7 +1975,7 @@ init -1 python: # Core classes:
                     renpy.hide(tag)
 
 
-    class BE_AI(object):
+    class BE_AI(_object):
         # Not sure this even needs to be a class...
         def __init__(self, source):
             self.source = source

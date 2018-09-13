@@ -102,7 +102,7 @@ label start:
     $ tl.start("Loading: Battle Skills")
     $ battle_skills = dict()
     call load_battle_skills from _call_load_battle_skills
-    $ tiered_magic_skills = {}
+    $ tiered_magic_skills = dict()
     python:
         for s in battle_skills.values():
             tiered_magic_skills.setdefault(s.tier, []).append(s)

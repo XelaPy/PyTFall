@@ -312,7 +312,7 @@ init -1 python:
             renpy.with_statement(dissolve)
 
 
-    class CoordsForPaging(object):
+    class CoordsForPaging(_object):
         """ This class setups up x, y coordinates for items in content list.
 
         We use this in DragAndDrop.

@@ -1,5 +1,5 @@
 init -1 python:
-    class Dungeon(object):
+    class Dungeon(_object):
         def __init__(self, **kwargs):
             for k in kwargs:
                 if k != "r" and k != "map":
