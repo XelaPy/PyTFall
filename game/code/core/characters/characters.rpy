@@ -2449,6 +2449,8 @@ init -9 python:
                     self.fin.income_tax_debt = 0
                     self.fin.property_tax_debt = 0
 
+            return flag_red
+
         def next_day(self):
             img = 'profile'
             txt = []

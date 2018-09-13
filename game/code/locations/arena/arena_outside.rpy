@@ -106,7 +106,7 @@ label xeona_talking:
                 $ heard_about_arena = True
 
             "Buy the Arena Permit?" if not hero.arena_permit and heard_about_arena:
-                if hero.arena_rep >=5000:
+                if hero.arena_rep >= 5000:
                     ax "It looks like you've managed to gain enough reputation. Congratulations!"
                     menu:
                         ax "Would you like to buy an arena permit? It's priced at {color=[gold]}10 000 Gold{/color}."
