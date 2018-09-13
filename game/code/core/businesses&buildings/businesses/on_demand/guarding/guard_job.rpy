@@ -10,12 +10,12 @@ init -5 python:
             # Traits/Job-types associated with this job:
             self.occupations = ["Combatant"] # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = [traits["Warrior"], traits["Mage"],
-                                      traits["Knight"], traits["Shooter"]] # Corresponding traits...
+                                      traits["Knight"], traits["Shooter"], traits["Healer"]] # Corresponding traits...
             self.aeq_purpose = 'Fighting'
 
             # Relevant skills and stats:
             self.base_stats = {"attack": 20, "defence": 20,
-                               "agility": 60, "magic": 20}
+                               "agility": 20, "magic": 20}
             self.base_skills = {"security": 100}
 
             self.desc = "Don't let them take your shit!"

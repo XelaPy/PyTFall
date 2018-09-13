@@ -7,12 +7,12 @@ init -5 python:
 
             # Traits/Job-types associated with this job:
             self.occupations = ["Server"] # General Strings likes SIW, Combatant, Server...
-            self.occupation_traits = [traits["Maid"]] # Corresponding traits...
+            self.occupation_traits = [traits["Maid"], traits["Cleaner"]] # Corresponding traits...
             self.aeq_purpose = 'Service'
 
             # Relevant skills and stats:
-            self.base_skills = {"cleaning": 100}
-            self.base_stats = {"agility": 30, "constitution": 30}
+            self.base_skills = {"cleaning": 100, "service": 50}
+            self.base_stats = {"agility": 25, "constitution": 50}
 
         def traits_and_effects_effectiveness_mod(self, worker,
                                                  log=None):

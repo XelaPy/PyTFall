@@ -16,7 +16,7 @@ init -5 python:
             self.occupation_traits = [traits["Stripper"]] # Corresponding traits...
             self.aeq_purpose = 'Striptease'
 
-            self.base_skills = {"strip": 100, "dancing": 50}
+            self.base_skills = {"strip": 100, "dancing": 40, "sex": 5}
             self.base_stats = {"charisma": 70, "agility": 30}
 
             self.desc = "Strippers dance half-naked on the stage, keeping customers hard and ready to hire more whores."
