@@ -96,20 +96,41 @@ init -11 python:
         el_attacks = {}
         el_defence = {}
         el_keys = []
-        for trait in char.elements:
+        el_resist = []
+        el_absorbs = {}
+        for trait in char.traits:
             for element in trait.el_damage:
                 if element in el_attacks:
                     el_attacks[element] += int(trait.el_damage[element]*100)
                 else:
                     el_attacks[element] = int(trait.el_damage[element]*100)
+                    
+            for element in trait.el_absorbs:
+                if element in el_absorbs:
+                    el_absorbs[element] += int(trait.el_absorbs[element]*100)
+                else:
+                    el_absorbs[element] = int(trait.el_absorbs[element]*100)
+
+            for i in trait.resist:
+                if not i in el_resist:
+                    el_resist.append(i)
+                    
             for element in trait.el_defence:
                 if element in el_defence:
                     el_defence[element] += int(trait.el_defence[element]*100)
                 else:
                     el_defence[element] = int(trait.el_defence[element]*100)
+                    
+        for element in el_resist:
+            el_defence[element] = "RES"
+        for element in el_absorbs:
+            el_defence[element] = "A " + str(el_absorbs[element])
+                    
+        
         el_attacks = {x: y for x, y in el_attacks.items() if y != 0}
         el_defence = {x: y for x, y in el_defence.items() if y != 0}
         el_keys = el_attacks.keys() + list(set(el_defence.keys()) - set(el_attacks.keys()))
+            
         return el_attacks, el_defence, el_keys
 
     def kill_char(char):

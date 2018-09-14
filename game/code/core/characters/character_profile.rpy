@@ -794,7 +794,7 @@ screen race_and_elements(align=(.5, .99), char=None):
             button:
                 xysize 90, 90
                 align .5, .5 offset -1, -1
-                action Show("show_trait_info", trait=char, elemental_mode=True, place="race_trait")
+                action Show("show_trait_info", trait=char, elemental_mode=True, place="ele_trait")
                 background f
                 hover_background f_a
                 tooltip "Elements:\n   {}".format(ele)
@@ -809,10 +809,10 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
         $ al = (.86, .45)
     elif place == "main_trait":
         $ al = (.1, .2)
+    elif place == "ele_trait":
+        $ al = (.35, .9)
     elif place == "race_trait":
-        $ al = (.25, .9)
-    elif place == "hero_element":
-        $ al = (.2, .9)
+        $ al = (.2, 1.0)
     if not(elemental_mode):
         $ trait_info = traits[trait]
         fixed:
@@ -820,8 +820,10 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
             xysize 190, 450
             frame:
                 background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+                xminimum 190
                 padding 10, 5
-                has vbox style_prefix "proper_stats" spacing 1
+                has vbox style_prefix "proper_stats" spacing 1 
+                 
                 if any([trait_info.min, trait_info.max, trait_info.mod_stats, trait_info.effects,
                         trait_info.mod_skills, trait_info.mod_ap, hasattr(trait_info, "evasion_bonus")]):
                     if trait_info.max:
@@ -981,12 +983,16 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
                     vbox:
                         for element in traits[2]:
                             if element in traits[1].keys():
+                                if traits[1][element] != "RES":
+                                    $ temp = " %"
+                                else:
+                                    $ temp = ""
                                 frame:
                                     xysize 60, 20
                                     if traits[1][element] < 0:
-                                        label str(traits[1][element])+" %" text_size 15 text_color red align 1.0, .5 text_outlines [(1, "#000000", 0, 0)]
+                                        label str(traits[1][element])+ temp text_size 15 text_color red align 1.0, .5 text_outlines [(1, "#000000", 0, 0)]
                                     else:
-                                        label str(traits[1][element])+" %" text_size 15 text_color lime align 1.0, .5 text_outlines [(1, "#000000", 0, 0)]
+                                        label str(traits[1][element])+ temp text_size 15 text_color lime align 1.0, .5 text_outlines [(1, "#000000", 0, 0)]
                             else:
                                 frame:
                                     xysize 60, 20
