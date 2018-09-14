@@ -739,8 +739,8 @@ screen next_day():
             ypos 37
 
             # Day Total ===========================================>>>
-            $ fin_inc = hero.fin.game_main_income_log[day-1]
-            $ fin_exp = hero.fin.game_main_expense_log[day-1]
+            $ fin_inc = hero.fin.game_main_income_log.get(day-1, {})
+            $ fin_exp = hero.fin.game_main_expense_log.get(day-1,{})
 
             frame:
                 style_prefix "proper_stats"
