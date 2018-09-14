@@ -2233,9 +2233,6 @@ init -9 python:
 
             self.autoequip = False # Player can manage his own shit.
 
-            # Player only...
-            self.corpses = list() # Dead bodies go here until disposed off. Why the fuck here??? There gotta be a better place for dead chars than MC's class. We're not really using this atm anyway....
-
             self._buildings = list()
             self._chars = list()
 
