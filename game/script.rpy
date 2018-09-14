@@ -417,5 +417,15 @@ label after_load:
         for skill in store.battle_skills.values():
             skill.source = None
 
+    # Save-Load Compatibility TODO Delete when we're willing to break saves.
+    python hide:
+        for c in pytfall.sm.inhabitants.copy():
+            if c not in chars.itervalues():
+                remove_from_gameworld(c)
+        aps = locations["City Apartments"]
+        for c in aps.inhabitants.copy():
+            if c not in chars.itervalues():
+                remove_from_gameworld(c)
+
     stop music
     return
