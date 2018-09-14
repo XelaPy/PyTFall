@@ -999,7 +999,7 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
                                     label "0 %" text_size 15 text_color lime align 1.0, .5 text_outlines [(1, "#000000", 0, 0)]
 
                 if not(traits[0]) and not(traits[1]):
-                    label ("-elements overlapped each other-") text_size 14 text_color goldenrod text_bold True xalign .45
+                    label ("-elements neutralized each other-") text_size 14 text_color goldenrod text_bold True xalign .45
             imagebutton:
                 align .465, .01
                 xysize 22, 22
