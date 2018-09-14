@@ -720,7 +720,7 @@ screen char_profile():
                             draggable True
                             mousewheel True
                             has vbox spacing 1
-                            for entry in char.attack_skills:
+                            for entry in list(sorted(char.attack_skills, key=attrgetter("menu_pos"))):
                                 frame:
                                     xysize (147, 25)
                                     button:
@@ -741,7 +741,7 @@ screen char_profile():
                             draggable True
                             mousewheel True
                             has vbox spacing 1
-                            for entry in char.magic_skills:
+                            for entry in list(sorted(char.magic_skills, key=attrgetter("menu_pos"))):
                                 frame:
                                     xysize (147, 25)
                                     button:
@@ -822,8 +822,8 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
                 background Frame("content/gfx/frame/p_frame52.png", 10, 10)
                 xminimum 190
                 padding 10, 5
-                has vbox style_prefix "proper_stats" spacing 1 
-                 
+                has vbox style_prefix "proper_stats" spacing 1
+
                 if any([trait_info.min, trait_info.max, trait_info.mod_stats, trait_info.effects,
                         trait_info.mod_skills, trait_info.mod_ap, hasattr(trait_info, "evasion_bonus")]):
                     if trait_info.max:

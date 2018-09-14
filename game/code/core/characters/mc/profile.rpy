@@ -212,7 +212,7 @@ screen hero_profile():
             ypos 5
             action Show("char_rename", char=hero)
             tooltip "Click to rename yourself."
-            
+
         hbox:
             spacing 1
             if (hero.level) < 10:
@@ -423,7 +423,7 @@ screen hero_profile():
                     draggable True
                     mousewheel True
                     has vbox spacing 1
-                    for entry in hero.attack_skills:
+                    for entry in list(sorted(hero.attack_skills, key=attrgetter("menu_pos"))):
                         frame:
                             xysize (147, 25)
                             button:
@@ -445,7 +445,7 @@ screen hero_profile():
                     draggable True
                     mousewheel True
                     has vbox spacing 1
-                    for entry in hero.magic_skills:
+                    for entry in list(sorted(hero.magic_skills, key=attrgetter("menu_pos"))):
                         frame:
                             xysize (147, 25)
                             button:
