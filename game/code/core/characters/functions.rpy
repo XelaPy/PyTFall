@@ -818,6 +818,34 @@ init -11 python:
 
         return new
 
+    def remove_from_gameworld(char):
+        # Try to properly delete the char...
+        char.action = None
+        char.location = None
+        char.home = None
+        char.workplace = None
+
+        sm = pytfall.sm # SlaveMarket
+        if char in sm.chars_list:
+            sm.chars_list.remove(char)
+
+        global gm
+        gm.remove_girl(char) # gm is poorly named and can be overwritten...
+
+        if getattr(char, "dict_id", None):
+            id = char.dict_id
+        else:
+            id = char.id
+
+        global chars
+        if id in chars:
+            del (chars[id])
+
+        if char in hero.corpses:
+            hero.corpses.remove(char)
+
+        del(char)
+
     def set_char_to_work(char, building, job=False):
         """Attempts to find the best possible job to the char in given building.
 

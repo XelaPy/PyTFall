@@ -105,7 +105,6 @@ init -9 python:
             # Get all rcahrs in the game and sort by status.
             rc_free = []
             rc_slaves = []
-            sm = pytfall.sm
             for c in chars.values():
                 if c.__class__ != rChar:
                     continue
@@ -123,18 +122,13 @@ init -9 python:
                 if c.get_flag("days_in_game", 0) > 10:
                     id = getattr(c, "dict_id", "_".join([c.id, c.name, c.fullname.split(" ")[1]]))
                     rc_slaves.remove(c)
-                    if c in sm.chars_list:
-                        sm.chars_list.remove(c)
-                    if id in store.chars:
-                        del(store.chars[id])
+                    remove_from_gameworld(c)
 
             for c in rc_free[:]:
                 if c.get_flag("days_in_game", 0) > 20 and c.disposition <= 0:
                     id = getattr(c, "dict_id", "_".join([c.id, c.name, c.fullname.split(" ")[1]]))
                     rc_free.remove(c)
-                    store.gm.remove_girl(c) # gm is poorly named and can be overwritten...
-                    if id in store.chars:
-                        del(store.chars[id])
+                    remove_from_gameworld(c)
 
             self.populate_rchars(rc_free, "free", tier_offset=tier_offset)
             self.populate_rchars(rc_slaves, "slave", tier_offset=tier_offset)
