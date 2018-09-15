@@ -10,8 +10,8 @@ init python:
     "SIW": (["Prostitute", "Stripper"], ),
     "Prostitute": (["Prostitute"], ),
     "Stripper": (["Stripper"], ["Stripper", "Maid"]),
-    "Maid": (["Maid"], ["Barmaid"], ["Cleaner"], ["Maid", "Cleaner"], ["Maid", "Barmaid"], ["Barmaid", "Cleaner"]),
-    "Specialist": (["Manager", "Maid"], ["Manager", "Stripper"], ["Manager", "Healer"],
+    "Maid": (["Maid"], ["Barmaid"], ["Cleaner"], ["Barmaid", "Cleaner"]),
+    "Specialist": (["Manager", "Barmaid"], ["Manager", "Stripper"], ["Manager", "Healer"],
                    ["Manager", "Mage"]),
     "Manager": (["Manager"], )
     }

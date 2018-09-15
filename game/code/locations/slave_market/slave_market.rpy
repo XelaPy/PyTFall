@@ -224,180 +224,179 @@ screen slavemarket():
 
     use location_actions("slave_market")
 
-screen slave_shopping(store, tt_text, buy_button, buy_tt):
+screen slave_shopping(source, tt_text, buy_button, buy_tt):
     modal True
     zorder 1
 
-    if store.chars_list:
-        # Stats and Info (Left Frame):
+    if source.chars_list:
+        $ char = source.girl
+
+        # Data (Left Frame): =============================================================================>>>
         frame:
             background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=.98), 10, 10)
-            xysize(270, 678)
+            xysize 270, 678
             ypos 41
             style_group "content"
             has vbox
-            null height 15
+
+            # Name: =============================================================================>>>
+            frame:
+                xysize 250, 50
+                xalign .5
+                background Frame(Transform("content/gfx/frame/namebox5.png", alpha=.95), 250, 50)
+                label "[char.fullname]":
+                    text_color gold
+                    text_outlines [(2, "#424242", 0, 0)]
+                    align (.5, .5)
+                    if len(char.fullname) < 20:
+                        text_size 21
+
+            # Info: =============================================================================>>>
+            null height 5
+            label "Info:":
+                text_color ivory
+                text_size 20
+                text_bold True
+                xalign .5
+                text_outlines [(2, "#424242", 0, 0)]
             vbox:
-                # Name:
+                style_group "proper_stats"
+                spacing 5
                 frame:
-                    xanchor -0.01
-                    xysize (250, 50)
-                    background Frame(Transform("content/gfx/frame/namebox5.png", alpha=.95), 250, 50)
-                    label "{color=[gold]}[store.girl.fullname]":
-                        text_color ivory text_outlines [(2, "#424242", 0, 0)]
-                        align (.5, .5)
-                        if len(store.girl.fullname) < 20:
-                            text_size 21
-
-                null height 5
-
-                if False and traits['Prostitute'] in store.girl.occupations:
+                    background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
+                    xsize 258 xalign .5
+                    padding 6, 6
+                    has vbox spacing 1 xmaximum 246
                     frame:
-                        xanchor -0.01
-                        xysize(253, 47)
-                        background Frame("content/gfx/frame/rank_frame.png", 10, 10)
-                        text ('%s:'%store.girl.wranks['r%s'%store.girl.rank]['name'][0]) align (.1, .2) color ivory size 16
-                        text ('%s'%store.girl.wranks['r%s'%store.girl.rank]['name'][1]) align (.5, .96) color ivory size 16
-                else:
-                    null height -5
+                        xysize 244, 20
+                        text ("{color=#79CDCD}{size=-1}Class:") pos (1, -4)
+                        label "{size=-3}[char.traits.base_to_string]" align (1.0, .5) ypos 10
+                    frame:
+                        xysize 245, 20
+                        text "{color=#79CDCD}{size=-1}Level:" pos (1, -4)
+                        label (u"{size=-5}%s"%char.level) align (1.0, .5) ypos 10
+                    frame:
+                        xysize 244, 20
+                        text "{color=#79CDCD}{size=-1}Market Price:" pos (1, -4)
+                        label (u"{color=[gold]}{size=-5}%s"%char.fin.get_price()) align (1.0, .5) ypos 10
+                    frame:
+                        xysize 244, 20
+                        text "{color=#79CDCD}{size=-1}Upkeep:" pos (1, -4)
+                        label (u"{size=-5}%s"%char.fin.get_upkeep()) align (1.0, .5) ypos 10
 
-                label (u"{size=20}{color=[ivory]}{b}Info:") xalign(.5) text_outlines [(2, "#424242", 0, 0)]
+            # Stats: ==============================================================================>>>
+            null height 5
+            label (u"Stats:"):
+                text_color ivory
+                text_size 20
+                text_bold True
+                xalign .5
+                text_outlines [(2, "#424242", 0, 0)]
+            frame:
+                background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
+                xsize 258
+                xalign .5
+                padding 6, 6
+                style_group "proper_stats"
+                has vbox spacing 1 xmaximum 246
+                frame:
+                    xysize 245, 20
+                    text "{color=#79CDCD}{size=-1}Health:" pos (1, -4)
+                    label (u"{size=-5}%s/%s"%(char.health, char.get_max("health"))) align (1.0, .5) ypos 10
+                frame:
+                    xysize 245, 20
+                    text "{color=#79CDCD}{size=-1}Vitality:" pos (1, -4)
+                    label (u"{size=-5}%s/%s"%(char.vitality, char.get_max("vitality"))) align (1.0, .5) ypos 10
+                frame:
+                    xysize 245, 20
+                    text "{color=#79CDCD}Agility{size=-1}:" pos (1, -4)
+                    label (u"{size=-5}%s/%s"%(char.agility, char.get_max("agility"))) align (1.0, .5) ypos 10
+                frame:
+                    xysize 245, 20
+                    text "{color=#79CDCD}{size=-1}Charisma:" pos (1, -4)
+                    label (u"{size=-5}%s/%s"%(char.charisma, char.get_max("charisma"))) align (1.0, .5) ypos 10
+                frame:
+                    xysize 245, 20
+                    text "{color=#79CDCD}{size=-1}Character:" pos (1, -4)
+                    label (u"{size=-5}%s/%s"%(char.character, char.get_max("character"))) align (1.0, .5) ypos 10
+                frame:
+                    xysize 245, 20
+                    text "{color=#79CDCD}{size=-1}Constitution:" pos (1, -4)
+                    label (u"{size=-5}%s/%s"%(char.constitution, char.get_max("constitution"))) align (1.0, .5) ypos 10
+                frame:
+                    xysize 245, 20
+                    text "{color=#79CDCD}{size=-1}Intelligence:" pos (1, -4)
+                    label (u"{size=-5}%s/%s"%(char.intelligence, char.get_max("intelligence"))) align (1.0, .5) ypos 10
 
-                null height -10
-
+            # Skills: =============================================================================>>>
+            null height 5
+            label (u"Skills:"):
+                text_color ivory
+                text_size 20
+                text_bold True
+                xalign .5
+                text_outlines [(2, "#424242", 0, 0)]
+            $ base_ss = char.stats.get_base_ss()
+            frame:
+                style_prefix "proper_stats"
+                style_suffix "main_frame"
+                xalign .5
+                has viewport xysize (236, 236) mousewheel 1 draggable 1 # child_size (255, 1000)
                 vbox:
-                    style_group "stats"
-                    spacing 5
-                    pos(.015, 10)
-                    frame:
-                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
-                        #xysize (317, 10)
-                        xsize 258
-                        xanchor 5
-                        xpadding 6
-                        ypadding 6
-                        xmargin 1
-                        ymargin 1
-                        style_group "proper_stats"
-                        has vbox spacing 1
-                        vbox:
-                            spacing -1
-                            xmaximum 246
-                            frame:
-                                xysize 244, 20
-                                text ("{color=#79CDCD}{size=-1}Class:") pos (1, -4)
-                                label "{size=-3}[store.girl.traits.base_to_string]" align (1.0, .5) ypos 10
-                            frame:
-                                xysize 244, 20
-                                text "{color=#79CDCD}{size=-1}Market Price:" pos (1, -4)
-                                label (u"{color=[gold]}{size=-5}%s"%store.girlfin.get_price()) align (1.0, .5) ypos 10
-                            frame:
-                                xysize 244, 20
-                                text "{color=#79CDCD}{size=-1}Upkeep:" pos (1, -4)
-                                label (u"{size=-5}%s"%store.girlfin.get_upkeep()) align (1.0, .5) ypos 10
-
-                null height 8
-
-                label (u"{size=20}{color=[ivory]}{b}Stats:") xalign(.5) text_outlines [(2, "#424242", 0, 0)]
-
-                null height -12
-
+                    spacing 1
+                    xpos 5
+                    for skill in char.stats.skills:
+                        $ skill_val = int(char.get_skill(skill))
+                        $ skill_limit = int(char.get_max_skill(skill))
+                        # We don't care about the skill if it's less than 10% of limit:
+                        if skill in base_ss or skill_val/float(skill_limit) > .1:
+                            hbox:
+                                xsize 224
+                                text "{}:".format(skill.capitalize()):
+                                    style_suffix "value_text"
+                                    color gold
+                                    xalign .0
+                                    size 18
+                                hbox:
+                                    xalign 1.0
+                                    yoffset 8
+                                    $ step = skill_limit/10.0
+                                    for i in range(5):
+                                        if (2*step) <= skill_val:
+                                            add Transform("content/gfx/interface/icons/stars/star2.png", size=(18, 18))
+                                            $ skill_val -= 2*step
+                                        elif step <= skill_val:
+                                            add Transform("content/gfx/interface/icons/stars/star3.png", size=(18, 18))
+                                            $ skill_val -= step
+                                        else:
+                                            add Transform("content/gfx/interface/icons/stars/star1.png", size=(18, 18))
                 vbox:
-                    style_group "stats"
-                    pos(.015, 10)
-                    frame:
-                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
-                        #xysize (317, 10)
-                        xsize 258
-                        xanchor 5
-                        xpadding 6
-                        ypadding 6
-                        xmargin 1
-                        ymargin 1
-                        style_group "proper_stats"
-                        has vbox spacing 1
-                        vbox:
-                            spacing -1
-                            xmaximum 246
-                            frame:
-                                xysize 245, 20
-                                text "{color=#79CDCD}{size=-1}Health:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.health, store.girl.get_max("health"))) align (1.0, .5) ypos 10
-                            frame:
-                                xysize 245, 20
-                                text "{color=#79CDCD}{size=-1}Vitality:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.vitality, store.girl.get_max("vitality"))) align (1.0, .5) ypos 10
-                            frame:
-                                xysize 245, 20
-                                text "{color=#79CDCD}{size=-1}Charisma:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.charisma, store.girl.get_max("charisma"))) align (1.0, .5) ypos 10
-                            frame:
-                                xysize 245, 20
-                                text "{color=#79CDCD}{size=-1}Character:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.character, store.girl.get_max("character"))) align (1.0, .5) ypos 10
-                            frame:
-                                xysize 245, 20
-                                text "{color=#79CDCD}{size=-1}Constitution:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.constitution, store.girl.get_max("constitution"))) align (1.0, .5) ypos 10
-                            frame:
-                                xysize 245, 20
-                                text "{color=#79CDCD}{size=-1}Intelligence:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.intelligence, store.girl.get_max("intelligence"))) align (1.0, .5) ypos 10
-                            #text (u"| %d"%store.girl.goal)
-                    frame:
-                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
-                        #xysize (317, 10)
-                        xsize 258
-                        xanchor 5
-                        xpadding 6
-                        ypadding 6
-                        xmargin 1
-                        ymargin 1
-                        style_group "proper_stats"
-                        has vbox spacing 1
-                        vbox:
-                            spacing -1
-                            xmaximum 246
-                            frame:
-                                xysize 245, 20
-                                text "{color=#79CDCD}{size=-1}Level:" pos (1, -4)
-                                label (u"{size=-5}%s"%store.girl.level) align (1.0, .5) ypos 10
+                    spacing 1
+                    for skill in char.stats.skills:
+                        $ skill_val = int(char.get_skill(skill))
+                        $ skill_limit = int(char.get_max_skill(skill))
+                        # We don't care about the skill if it's less than 10% of limit:
+                        if skill in base_ss or skill_val/float(skill_limit) > .1:
+                            if skill in base_ss:
+                                fixed:
+                                    xysize 20, 26
+                                    button:
+                                        xysize 20, 20
+                                        background pscale("content/gfx/interface/icons/stars/legendary.png", 20, 20)
+                                        action NullAction()
+                                        tooltip "This is a Class Skill!"
+                            else:
+                                null height 26
 
-                null height 8
-
-                label (u"{size=20}{color=[ivory]}{b}Prof Stats:") xalign(.5) text_outlines [(2, "#424242", 0, 0)]
-
-                null height -12
-
-                vbox:
-                    style_group "stats"
-                    pos(.015, 10)
-                    frame:
-                        background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
-                        #xysize (317, 10)
-                        xsize 258
-                        xanchor 5
-                        xpadding 6
-                        ypadding 6
-                        xmargin 1
-                        ymargin 1
-                        style_group "proper_stats"
-                        has vbox spacing 1
-                        vbox:
-                            spacing -7
-                            xmaximum 246
-                            frame:
-                                xsize 245
-
-        # Picture:
+        # Image (Mid-Top): =============================================================================>>>
         frame:
-            pos(265, 41)
-            xysize (669, 423)
+            pos 265, 41
+            xysize 669, 423
             background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=1.0), 10, 10)
             frame:
-                align (.5, .5)
+                align .5, .5
                 background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                add (store.girl.show("nude","no clothes", resize=(560, 400), exclude=["rest", "outdoors", "onsen", "beach", "pool", "living"], type="first_default", label_cache=True)) align(.5, .5)
+                add char.show("nude", "no clothes", resize=(560, 400), exclude=["rest", "outdoors", "onsen", "beach", "pool", "living"], type="first_default", label_cache=True) align .5, .5
 
         # Traits:
         frame:
@@ -419,7 +418,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     xalign .5
                     style_group "proper_stats"
                     spacing 1
-                    for trait in list(t for t in store.girl.traits if any([t.market])):
+                    for trait in list(t for t in char.traits if any([t.market])):
                         if not trait.hidden:
                             frame:
                                 xysize (195, 25)
@@ -447,7 +446,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     align(.5, .5)
                     idle img
                     hover (im.MatrixColor(img, im.matrix.brightness(.15)))
-                    action (Function(store.previous_index))
+                    action (Function(source.previous_index))
                     tooltip "<== Previous Girl"
 
                 null width 10
@@ -458,16 +457,16 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     has vbox
 
                     # Decided to handle it on screen level since code required for this can get a bit messy when going through actions:
-                    if store == jail and store.girl.flag("sentence_type") == "SE_capture":
+                    if source == jail and char.flag("sentence_type") == "SE_capture":
                         textbutton "Retrieve":
                             xsize 150
                             action Show("se_captured_retrieval")
-                            tooltip "Retrieve %s for % gold." % (store.girl.name, store.get_fees4captured())
+                            tooltip "Retrieve %s for % gold." % (char.name, source.get_fees4captured())
                     else:
                         textbutton "[buy_button]":
                             xsize 150
                             action Return(["buy"])
-                            tooltip "" + buy_tt % store.girlfin.get_price()
+                            tooltip "" + buy_tt % char.fin.get_price()
                     textbutton "Back":
                         xsize 150
                         action Hide("slave_shopping", transition=Dissolve(1.0))
@@ -480,7 +479,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     align(.5, .5)
                     idle img
                     hover (im.MatrixColor(img, im.matrix.brightness(.15)))
-                    action (Function(store.next_index))
+                    action (Function(source.next_index))
                     tooltip "Next Girl ==>"
 
         # Girl choice:
@@ -496,14 +495,14 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     mousewheel True
                     edgescroll [100, 200]
                     has hbox spacing 5
-                    for c in store.chars_list:
+                    for c in source.chars_list:
                         $ img = c.show("vnsprite", resize=(180, 206), cache=True)
                         frame:
                             background Frame("content/gfx/frame/Mc_bg3.png", 10, 10)
                             imagebutton:
                                 idle img
                                 hover (im.MatrixColor(img, im.matrix.brightness(.15)))
-                                action Function(store.set_girl, c)
+                                action Function(source.set_girl, c)
                                 tooltip u"{=proper_stats_text}%s\n{size=-5}{=proper_stats_value_text}%s"%(c.name, c.desc)
                 bar value XScrollValue("sm_vp_glist")
 

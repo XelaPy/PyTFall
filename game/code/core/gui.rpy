@@ -58,31 +58,6 @@ init -1 python:
                     if c.__class__ == rChar:
                         randoms.append(c)
 
-            # # Do this thing proper in char gen! TODO
-            # if len(randoms) < 10:
-            #     for i in range(total-len(randoms)):
-            #         if dice(1): # Super char!
-            #             tier = hero.tier + uniform(3.0, 5.0)
-            #         elif dice(20): # Decent char.
-            #             tier = hero.tier + uniform(1.0, 2.5)
-            #         else: # Ok char...
-            #             tier = hero.tier + uniform(.2, 1.0)
-            #
-            #         bt_group = choice(["SIW", "Server"])
-            #
-            #         status = "slave"
-            #         give_civilian_items = True
-            #         give_bt_items = False
-            #
-            #         rc = build_rc(bt_group=bt_group,
-            #                      set_locations=True,
-            #                      set_status=status,
-            #                      tier=tier, tier_kwargs=None,
-            #                      give_civilian_items=give_civilian_items,
-            #                      give_bt_items=give_bt_items,
-            #                      spells_to_tier=False)
-            #         randoms.append(rc)
-
             # Prioritize unique chars:
             slaves = random.sample(uniques, min(len(uniques), 7))
             slaves.extend(random.sample(randoms, min(len(randoms), total-len(slaves))))

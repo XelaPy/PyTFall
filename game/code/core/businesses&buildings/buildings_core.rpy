@@ -1003,17 +1003,6 @@ init -10 python:
                         for w in self.all_workers:
                             w.joy += 1
 
-                # Clear threat and dirt for smaller buildings:
-                # Maybe require any kind of manager???
-                if self.capacity < 10 and not self.env.now % 100 and self.get_all_chars():
-                    temp = "The building is relatively small."
-                    temp += " Your employees took care of the it (Threat/Dirt cleared)!"
-                    self.log(temp)
-                    temp = "Don't expect this trend to continue as your business empire grows and expands!"
-                    self.log(temp)
-                    self.threat = 0
-                    self.dirt = 0
-
         def clients_dispatcher(self, end=100):
             """This method provides stream of clients to the building following it's own algorithm.
 

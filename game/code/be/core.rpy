@@ -956,16 +956,16 @@ init -1 python: # Core classes:
                         effects.append((type, result))
                         continue
 
-                    # We also check for absorbsion:
+                    # We also check for absorbtion:
                     absorb_ratio = self.check_absorbtion(t, type)
                     if absorb_ratio:
-                        result = -(absorb_ratio)*result
+                        result = absorb_ratio*result
                         # We also set defence to 0, no point in defending against absorption:
                         temp_def = 0
-                        absorbed=True
+                        absorbed = True
                     else:
                         temp_def = defense
-                        absorbed=False
+                        absorbed = False
 
                     # Get the damage:
                     result = self.damage_calculator(t, result, temp_def, multiplier, attacker_items, absorbed)
@@ -1013,7 +1013,8 @@ init -1 python: # Core classes:
                 if type in trait.el_absorbs:
                     ratio.append(trait.el_absorbs[type])
             if ratio:
-                return sum(ratio) / len(ratio)
+                rv = sum(ratio) / len(ratio)
+                return rv
             else:
                 return None
 
@@ -1142,11 +1143,9 @@ init -1 python: # Core classes:
                 defense = 1
 
             if not absorbed:
-
                 # damage = (self.effect + attack)*multiplier/defense + 1
                 # damage = (self.effect + attack)*multiplier * math.log10(damage)
                 damage = (self.effect+attack)*1.0*(75/(75 + defense * 1.0))
-
             else:
                 damage = -attack*1.0*(75/(75 + defense * 1.0))
 

@@ -393,8 +393,7 @@
         "basetrait": true,
         "base_skills": {
             "management": 80,
-            "refinement": 10,
-            "teaching": 10
+            "refinement": 10
         },
         "base_stats": {
             "character": 60,

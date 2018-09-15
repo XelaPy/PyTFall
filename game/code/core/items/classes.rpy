@@ -214,7 +214,7 @@ init -9 python:
                     self.filter_index = (self.filter_index - 1) % len(filters)
                 else:
                     try: # We try to get the correct filter, but it could be a fail...
-                        self.filter_index = filters
+                        self.filter_index = filters.index(self.slot_filter)
                     except:
                         # Explicitly silenced Exception. We set the index to "all" (0) which is always available!
                         self.filter_index = 0

@@ -1,3 +1,19 @@
+init python:
+    def change_char_in_profile(dir="next"):
+        global girls
+        global char
+        global index
+        index = girls.index(char)
+
+        if dir == "next":
+            index = (index + 1) % len(girls)
+            char = girls[index]
+        elif dir == "prev":
+            index = (index - 1) % len(girls)
+            char = girls[index]
+
+        return char
+
 label char_profile:
 
     if not hasattr(store, "girls") or girls is None or char not in girls:
@@ -128,14 +144,11 @@ label char_profile:
                             $ char.fullname = n
 
             if result[0] == 'control':
-                $ index = girls.index(char)
                 if result[1] == 'left':
-                    $ index = (index - 1) % len(girls)
-                    $ char = girls[index]
+                    $ change_char_in_profile("prev")
                     hide screen show_trait_info
                 elif result[1] == 'right':
-                    $ index = (index + 1) % len(girls)
-                    $ char = girls[index]
+                    $ change_char_in_profile("next")
                     hide screen show_trait_info
                 elif result[1] == 'return':
                     jump char_profile_end
@@ -1285,9 +1298,8 @@ screen finances(obj, mode="logical"):
     modal True
     zorder 1
 
-    key "mousedown_3" action Hide("finances")
-
     default fin_mode = mode
+    default focused = obj
 
     add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
     frame:
@@ -1298,7 +1310,7 @@ screen finances(obj, mode="logical"):
         padding 20, 20
         align .5, .5
 
-        $ days, all_income_data, all_expense_data = obj.fin.get_data_for_fin_screen(fin_mode)
+        $ days, all_income_data, all_expense_data = focused.fin.get_data_for_fin_screen(fin_mode)
 
         # Days:
         default fin_day = days[-1] if days else None
@@ -1313,7 +1325,7 @@ screen finances(obj, mode="logical"):
             $ fin_day = None
 
         if fin_day not in all_income_data:
-            text "There are no Finances to display for {}!".format(obj.name) align .5, .5
+            text "There are no Finances to display for {}!".format(focused.name) align .5, .5
         else:
             hbox:
                 style_prefix "basic"
@@ -1333,60 +1345,90 @@ screen finances(obj, mode="logical"):
                     xysize (398, 350)
                     draggable True
                     mousewheel True
+                    child_size 398, 1000
                     add Transform(Solid(grey), alpha=.3)
                     vbox:
                         ypos 2
-                        for reason, value in all_income_data[fin_day].iteritems():
+                        for reason, value in sorted(all_income_data[fin_day].items(), key=itemgetter(1), reverse=True):
                             frame:
                                 xoffset 4
                                 xysize (390, 27)
                                 xpadding 7
-                                text reason.capitalize() color "#79CDCD"
+                                text reason color "#79CDCD"
                                 text str(value) xalign 1.0 style_suffix "value_text" color goldenrod
 
+                        null height 10
                         frame:
                             xoffset 4
                             xysize (390, 27)
                             xpadding 7
                             text "Total" color "#79CDCD"
                             $ total_income = sum(all_income_data[fin_day].values())
-                            text str(total_income) xalign 1.0 style_suffix "value_text" color goldenrod
+                            text str(total_income) xalign 1.0 style_suffix "value_text" color lawngreen
 
             vbox:
                 ypos 40 xalign 1.0
                 text "Expenses:" size 40 color goldenrod
                 viewport:
                     xysize (398, 350)
+                    child_size 398, 1000
                     draggable True
                     mousewheel True
                     add Transform(Solid(grey), alpha=.3)
                     vbox:
                         ypos 2
-                        for reason, value in all_expense_data[fin_day].iteritems():
+                        for reason, value in sorted(all_expense_data[fin_day].items(), key=itemgetter(1), reverse=True):
                             frame:
                                 xoffset 4
                                 xysize (390, 27)
                                 xpadding 7
-                                text reason.capitalize() color "#79CDCD"
+                                text reason color "#79CDCD"
                                 text str(value) xalign 1.0 style_suffix "value_text" color goldenrod
 
+                        null height 10
                         frame:
                             xoffset 4
                             xysize (390, 27)
                             xpadding 7
                             text "Total" color "#79CDCD"
                             $ total_expenses = sum(all_expense_data[fin_day].values())
-                            text str(total_expenses) xalign 1.0 style_suffix "value_text" color goldenrod
+                            text str(total_expenses) xalign 1.0 style_suffix "value_text" color red
 
             frame:
                 align .5, .9
-                xysize (400, 50)
+                xysize 400, 50
                 xpadding 7
                 background Frame("content/gfx/frame/rank_frame.png", 3, 3)
                 text "Total" size 35 color goldenrod
                 $ total = total_income - total_expenses
                 $ temp = red if total < 0 else lawngreen
                 text str(total) xalign 1.0 style_suffix "value_text" color temp size 35
+
+        # Debt
+        if focused.fin.income_tax_debt or focused.fin.property_tax_debt:
+            $ total_debt = focused.fin.income_tax_debt + focused.fin.property_tax_debt
+            frame:
+                background Frame(Transform("content/gfx/frame/MC_bg2.png", alpha=.9), 10, 10)
+                style_prefix "proper_stats"
+                align 1.0, 1.0
+                padding 5, 10
+                has vbox
+                frame:
+                    xysize (200, 20)
+                    xpadding 7
+                    text "Income Tax Debt:" size 15
+                    text "[focused.fin.income_tax_debt]" style_suffix "value_text" xalign 1.0 color red yoffset -1
+                frame:
+                    xysize (200, 20)
+                    xpadding 7
+                    text "Property Tax Debt:" size 15
+                    text "[focused.fin.property_tax_debt]" style_suffix "value_text" xalign 1.0 color red yoffset -1
+                null height 3
+                frame:
+                    xysize (200, 20)
+                    xpadding 7
+                    text "Total:" size 15
+                    text "[total_debt]" style_suffix "value_text" xalign 1.0 color red yoffset -1
 
         hbox:
             style_prefix "basic"
@@ -1395,17 +1437,18 @@ screen finances(obj, mode="logical"):
                 minimum (100, 30)
                 action Hide('finances')
                 text "OK"
-            if isinstance(obj, Char):
+                keysym ("K_RETURN", "K_ESCAPE", "mouseup_3")
+            if isinstance(focused, Char):
                 button:
                     minimum (100, 30)
                     if fin_mode == "logical":
-                        sensitive obj.allowed_to_view_personal_finances()
+                        sensitive focused.allowed_to_view_personal_finances()
                         action SetScreenVariable('fin_mode', "main")
                         text "Personal"
                     elif fin_mode == "main":
                         action SetScreenVariable('fin_mode', "logical")
                         text "Performance"
 
-    key "K_RETURN" action Hide('finances')
-    key "K_ESCAPE" action Hide('finances')
-    key "mouseup_3" action Hide('finances')
+    if isinstance(focused, Char):
+        key "mousedown_4" action SetScreenVariableC("focused", Function(change_char_in_profile, dir="next"))
+        key "mousedown_5" action SetScreenVariableC("focused", Function(change_char_in_profile, dir="prev"))

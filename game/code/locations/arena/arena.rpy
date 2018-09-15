@@ -726,7 +726,7 @@ init -9 python:
 
                     tier = tiers[index]
                     tier_up_to(member, tier)
-                    auto_buy_for_bt(member, casual=None)
+                    auto_buy_for_bt(member, casual=False)
                     give_tiered_magic_skills(member)
                     member.arena_rep = randint(int(tier*9000), int(tier*11000))
 

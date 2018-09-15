@@ -818,6 +818,16 @@ init -10 python:
             else:
                 raise Exception("Income kind: {} is not valid!".format(kind))
 
+        def get_game_total(self):
+            # Total income over the game (Used in ND screen)...
+            # Used MAIN dicts
+            days, all_income_data, all_expense_data = self.get_data_for_fin_screen("main")
+            income = sum(all_income_data.get("All", {}).values())
+            expense = sum(all_expense_data.get("All", {}).values())
+
+            total = income - expense
+            return income, expense, total
+
         # Tax related:
         def get_income_tax(self, days=7, log_finances=False):
             # MC's Income Tax

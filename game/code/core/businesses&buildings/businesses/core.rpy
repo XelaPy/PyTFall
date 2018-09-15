@@ -369,9 +369,6 @@ init -12 python:
             return list(i for i in self.building.available_workers if
                                               self.all_occs & i.occupations)
 
-        def pre_nd(self):
-            self.res = simpy.Resource(self.env, self.capacity)
-
         def business_control(self):
             while 1:
                 yield self.env.timeout(self.time)
@@ -388,13 +385,14 @@ init -12 python:
             """Requests a room from Sim'Py, under the current code, this will not be called if there are no rooms available...
             """
             raise Exception("request_resource method/process must be implemented")
-            with self.res.request() as request:
-                yield request
 
         def run_job(self, client, char):
             """Waits for self.time delay and calls the job...
             """
             raise Exception("Run Job method/process must be implemented")
+
+        def pre_nd(self):
+            self.res = simpy.Resource(self.env, self.capacity)
 
         def post_nd_reset(self):
             self.res = None

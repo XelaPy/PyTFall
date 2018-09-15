@@ -9,7 +9,7 @@ init -9 python:
         '''
         RCD = {"SIW": 0, "Specialist": 0,
                "Combatant": 0, "Server": 0,
-               "Healer": 0} # All genereal occupations for rchar population
+               "Healer": 0} # All general occupations for rchar population
         def __init__(self):
             # Maps
             # self.maps = xml_to_dict(content_path('db/maps.xml'))

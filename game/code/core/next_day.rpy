@@ -821,6 +821,7 @@ screen next_day():
                 background Frame("content/gfx/frame/namebox5.png", 10, 10)
                 label (u"Game Total") text_size 23 text_color ivory align .5, .6
 
+            $ income, expense, total = hero.fin.get_game_total()
             null height 1
             frame:
                 align .5, .95
@@ -836,12 +837,12 @@ screen next_day():
                         xysize 240, 30
                         xalign .5
                         text ("Earnings") color green xoffset 2
-                        text ("[total_income]") color green style_suffix "value_text" xoffset -2
+                        text ("[income]") color green style_suffix "value_text" xoffset -2
                     frame:
                         xysize 240, 30
                         xalign .5
                         text ("Expenses") color red xoffset 2
-                        text ("[total_expenses]") color red style_suffix "value_text" xoffset -2
+                        text ("[expense]") color red style_suffix "value_text" xoffset -2
 
                 null height 2
                 $ cl = green if total > 0 else red

@@ -501,7 +501,7 @@ init -11 python:
             casual = True
         if container is None:
             container = []
-            limit_tier = char.tier + 1
+            limit_tier = round_int((char.tier + 1)*.5)
             for i in range(limit_tier):
                 container.extend(store.tiered_items.get(i, []))
 
