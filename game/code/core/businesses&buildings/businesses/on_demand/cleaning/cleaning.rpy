@@ -70,7 +70,7 @@ init -5 python:
                             temp = "{}: {} Workers have started to clean {}!".format(self.env.now,
                                                 set_font_color(wlen, "red"), building.name)
                             self.log(temp)
-                elif dirt >= 700:
+                elif dirt >= 500:
                     if not using_all_workers:
                         using_all_workers = True
                         all_workers = self.all_on_deck(workers, job, power_flag_name)
@@ -102,19 +102,30 @@ init -5 python:
 
                 # Actually handle dirt cleaning:
                 if make_nd_report_at and building.dirt > 0:
-                    for w in workers.copy():
-                        value = w.flag(power_flag_name)
-                        dirt_cleaned += value
-                        building.clean(value)
+                    # A special case to handle a small building:
+                    # Clear threat and dirt for smaller buildings:
+                    # Maybe require any kind of manager???
+                    if building.capacity < 10 and using_all_workers:
+                        temp = "The business is relatively small."
+                        temp += " Your employees cleaned it up with ease!"
+                        self.log(temp)
+                        temp = "Don't expect it to remain this easy as your business empire grows and expands!"
+                        self.log(temp)
+                        building.dirt = 0
+                    else:
+                        for w in workers.copy():
+                            value = w.flag(power_flag_name)
+                            dirt_cleaned += value
+                            building.clean(value)
 
-                        w.jobpoints -= 5
-                        w.up_counter("jobs_points_spent", 5)
-                        if w.jobpoints <= 0:
-                            temp = "{} is done cleaning for the day!".format(
-                                            w.nickname)
-                            temp = set_font_color(temp, "cadetblue")
-                            self.log(temp)
-                            workers.remove(w)
+                            w.jobpoints -= 5
+                            w.up_counter("jobs_points_spent", 5)
+                            if w.jobpoints <= 0:
+                                temp = "{} is done cleaning for the day!".format(
+                                                w.nickname)
+                                temp = set_font_color(temp, "cadetblue")
+                                self.log(temp)
+                                workers.remove(w)
 
                 # Create actual report:
                 c0 = make_nd_report_at and dirt_cleaned
