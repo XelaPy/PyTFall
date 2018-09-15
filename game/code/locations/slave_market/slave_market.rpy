@@ -224,11 +224,13 @@ screen slavemarket():
 
     use location_actions("slave_market")
 
-screen slave_shopping(store, tt_text, buy_button, buy_tt):
+screen slave_shopping(sourse, tt_text, buy_button, buy_tt):
     modal True
     zorder 1
 
-    if store.chars_list:
+
+
+    if sourse.chars_list:
         # Stats and Info (Left Frame):
         frame:
             background Frame(Transform("content/gfx/frame/p_frame53.png", alpha=.98), 10, 10)
@@ -243,21 +245,21 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     xanchor -0.01
                     xysize (250, 50)
                     background Frame(Transform("content/gfx/frame/namebox5.png", alpha=.95), 250, 50)
-                    label "{color=[gold]}[store.girl.fullname]":
+                    label "{color=[gold]}[sourse.girl.fullname]":
                         text_color ivory text_outlines [(2, "#424242", 0, 0)]
                         align (.5, .5)
-                        if len(store.girl.fullname) < 20:
+                        if len(sourse.girl.fullname) < 20:
                             text_size 21
 
                 null height 5
 
-                if False and traits['Prostitute'] in store.girl.occupations:
+                if False and traits['Prostitute'] in sourse.girl.occupations:
                     frame:
                         xanchor -0.01
                         xysize(253, 47)
                         background Frame("content/gfx/frame/rank_frame.png", 10, 10)
-                        text ('%s:'%store.girl.wranks['r%s'%store.girl.rank]['name'][0]) align (.1, .2) color ivory size 16
-                        text ('%s'%store.girl.wranks['r%s'%store.girl.rank]['name'][1]) align (.5, .96) color ivory size 16
+                        text ('%s:'%sourse.girl.wranks['r%s'%sourse.girl.rank]['name'][0]) align (.1, .2) color ivory size 16
+                        text ('%s'%sourse.girl.wranks['r%s'%sourse.girl.rank]['name'][1]) align (.5, .96) color ivory size 16
                 else:
                     null height -5
 
@@ -286,15 +288,15 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                             frame:
                                 xysize 244, 20
                                 text ("{color=#79CDCD}{size=-1}Class:") pos (1, -4)
-                                label "{size=-3}[store.girl.traits.base_to_string]" align (1.0, .5) ypos 10
+                                label "{size=-3}[sourse.girl.traits.base_to_string]" align (1.0, .5) ypos 10
                             frame:
                                 xysize 244, 20
                                 text "{color=#79CDCD}{size=-1}Market Price:" pos (1, -4)
-                                label (u"{color=[gold]}{size=-5}%s"%store.girlfin.get_price()) align (1.0, .5) ypos 10
+                                label (u"{color=[gold]}{size=-5}%s"%sourse.girlfin.get_price()) align (1.0, .5) ypos 10
                             frame:
                                 xysize 244, 20
                                 text "{color=#79CDCD}{size=-1}Upkeep:" pos (1, -4)
-                                label (u"{size=-5}%s"%store.girlfin.get_upkeep()) align (1.0, .5) ypos 10
+                                label (u"{size=-5}%s"%sourse.girlfin.get_upkeep()) align (1.0, .5) ypos 10
 
                 null height 8
 
@@ -322,28 +324,28 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                             frame:
                                 xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Health:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.health, store.girl.get_max("health"))) align (1.0, .5) ypos 10
+                                label (u"{size=-5}%s/%s"%(sourse.girl.health, sourse.girl.get_max("health"))) align (1.0, .5) ypos 10
                             frame:
                                 xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Vitality:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.vitality, store.girl.get_max("vitality"))) align (1.0, .5) ypos 10
+                                label (u"{size=-5}%s/%s"%(sourse.girl.vitality, sourse.girl.get_max("vitality"))) align (1.0, .5) ypos 10
                             frame:
                                 xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Charisma:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.charisma, store.girl.get_max("charisma"))) align (1.0, .5) ypos 10
+                                label (u"{size=-5}%s/%s"%(sourse.girl.charisma, sourse.girl.get_max("charisma"))) align (1.0, .5) ypos 10
                             frame:
                                 xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Character:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.character, store.girl.get_max("character"))) align (1.0, .5) ypos 10
+                                label (u"{size=-5}%s/%s"%(sourse.girl.character, sourse.girl.get_max("character"))) align (1.0, .5) ypos 10
                             frame:
                                 xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Constitution:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.constitution, store.girl.get_max("constitution"))) align (1.0, .5) ypos 10
+                                label (u"{size=-5}%s/%s"%(sourse.girl.constitution, sourse.girl.get_max("constitution"))) align (1.0, .5) ypos 10
                             frame:
                                 xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Intelligence:" pos (1, -4)
-                                label (u"{size=-5}%s/%s"%(store.girl.intelligence, store.girl.get_max("intelligence"))) align (1.0, .5) ypos 10
-                            #text (u"| %d"%store.girl.goal)
+                                label (u"{size=-5}%s/%s"%(sourse.girl.intelligence, sourse.girl.get_max("intelligence"))) align (1.0, .5) ypos 10
+                            #text (u"| %d"%sourse.girl.goal)
                     frame:
                         background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
                         #xysize (317, 10)
@@ -361,7 +363,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                             frame:
                                 xysize 245, 20
                                 text "{color=#79CDCD}{size=-1}Level:" pos (1, -4)
-                                label (u"{size=-5}%s"%store.girl.level) align (1.0, .5) ypos 10
+                                label (u"{size=-5}%s"%sourse.girl.level) align (1.0, .5) ypos 10
 
                 null height 8
 
@@ -397,7 +399,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
             frame:
                 align (.5, .5)
                 background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                add (store.girl.show("nude","no clothes", resize=(560, 400), exclude=["rest", "outdoors", "onsen", "beach", "pool", "living"], type="first_default", label_cache=True)) align(.5, .5)
+                add (sourse.girl.show("nude","no clothes", resize=(560, 400), exclude=["rest", "outdoors", "onsen", "beach", "pool", "living"], type="first_default", label_cache=True)) align(.5, .5)
 
         # Traits:
         frame:
@@ -419,7 +421,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     xalign .5
                     style_group "proper_stats"
                     spacing 1
-                    for trait in list(t for t in store.girl.traits if any([t.market])):
+                    for trait in list(t for t in sourse.girl.traits if any([t.market])):
                         if not trait.hidden:
                             frame:
                                 xysize (195, 25)
@@ -447,7 +449,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     align(.5, .5)
                     idle img
                     hover (im.MatrixColor(img, im.matrix.brightness(.15)))
-                    action (Function(store.previous_index))
+                    action (Function(sourse.previous_index))
                     tooltip "<== Previous Girl"
 
                 null width 10
@@ -458,16 +460,16 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     has vbox
 
                     # Decided to handle it on screen level since code required for this can get a bit messy when going through actions:
-                    if store == jail and store.girl.flag("sentence_type") == "SE_capture":
+                    if sourse == jail and sourse.girl.flag("sentence_type") == "SE_capture":
                         textbutton "Retrieve":
                             xsize 150
                             action Show("se_captured_retrieval")
-                            tooltip "Retrieve %s for % gold." % (store.girl.name, store.get_fees4captured())
+                            tooltip "Retrieve %s for % gold." % (sourse.girl.name, sourse.get_fees4captured())
                     else:
                         textbutton "[buy_button]":
                             xsize 150
                             action Return(["buy"])
-                            tooltip "" + buy_tt % store.girlfin.get_price()
+                            tooltip "" + buy_tt % sourse.girlfin.get_price()
                     textbutton "Back":
                         xsize 150
                         action Hide("slave_shopping", transition=Dissolve(1.0))
@@ -480,7 +482,7 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     align(.5, .5)
                     idle img
                     hover (im.MatrixColor(img, im.matrix.brightness(.15)))
-                    action (Function(store.next_index))
+                    action (Function(sourse.next_index))
                     tooltip "Next Girl ==>"
 
         # Girl choice:
@@ -496,14 +498,14 @@ screen slave_shopping(store, tt_text, buy_button, buy_tt):
                     mousewheel True
                     edgescroll [100, 200]
                     has hbox spacing 5
-                    for c in store.chars_list:
+                    for c in sourse.chars_list:
                         $ img = c.show("vnsprite", resize=(180, 206), cache=True)
                         frame:
                             background Frame("content/gfx/frame/Mc_bg3.png", 10, 10)
                             imagebutton:
                                 idle img
                                 hover (im.MatrixColor(img, im.matrix.brightness(.15)))
-                                action Function(store.set_girl, c)
+                                action Function(sourse.set_girl, c)
                                 tooltip u"{=proper_stats_text}%s\n{size=-5}{=proper_stats_value_text}%s"%(c.name, c.desc)
                 bar value XScrollValue("sm_vp_glist")
 
