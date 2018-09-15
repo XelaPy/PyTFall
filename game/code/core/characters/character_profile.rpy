@@ -1284,7 +1284,7 @@ screen confirm_girl_sale():
 screen finances(obj, mode="logical"):
     modal True
     zorder 1
-    
+
     default fin_mode = mode
 
     add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
@@ -1382,7 +1382,7 @@ screen finances(obj, mode="logical"):
 
             frame:
                 align .5, .9
-                xysize (400, 50)
+                xysize 400, 50
                 xpadding 7
                 background Frame("content/gfx/frame/rank_frame.png", 3, 3)
                 text "Total" size 35 color goldenrod
@@ -1390,6 +1390,7 @@ screen finances(obj, mode="logical"):
                 $ temp = red if total < 0 else lawngreen
                 text str(total) xalign 1.0 style_suffix "value_text" color temp size 35
 
+        # Debt
         if obj.fin.income_tax_debt or obj.fin.property_tax_debt:
             $ total_debt = obj.fin.income_tax_debt + obj.fin.property_tax_debt
             frame:
@@ -1414,7 +1415,6 @@ screen finances(obj, mode="logical"):
                     xpadding 7
                     text "Total:" size 15
                     text "[total_debt]" style_suffix "value_text" xalign 1.0 color red yoffset -1
-
 
         hbox:
             style_prefix "basic"
