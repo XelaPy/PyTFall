@@ -1284,9 +1284,7 @@ screen confirm_girl_sale():
 screen finances(obj, mode="logical"):
     modal True
     zorder 1
-
-    key "mousedown_3" action Hide("finances")
-
+    
     default fin_mode = mode
 
     add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
@@ -1425,6 +1423,7 @@ screen finances(obj, mode="logical"):
                 minimum (100, 30)
                 action Hide('finances')
                 text "OK"
+                keysym ("K_RETURN", "K_ESCAPE", "mouseup_3")
             if isinstance(obj, Char):
                 button:
                     minimum (100, 30)
@@ -1435,7 +1434,3 @@ screen finances(obj, mode="logical"):
                     elif fin_mode == "main":
                         action SetScreenVariable('fin_mode', "logical")
                         text "Performance"
-
-    key "K_RETURN" action Hide('finances')
-    key "K_ESCAPE" action Hide('finances')
-    key "mouseup_3" action Hide('finances')
