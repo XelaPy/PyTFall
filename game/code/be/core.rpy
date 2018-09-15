@@ -956,7 +956,7 @@ init -1 python: # Core classes:
                         effects.append((type, result))
                         continue
 
-                    # We also check for absorbsion:
+                    # We also check for absorbtion:
                     absorb_ratio = self.check_absorbtion(t, type)
                     if absorb_ratio:
                         result = absorb_ratio*result
