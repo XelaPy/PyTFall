@@ -1333,50 +1333,54 @@ screen finances(obj, mode="logical"):
                     xysize (398, 350)
                     draggable True
                     mousewheel True
+                    child_size 398, 1000
                     add Transform(Solid(grey), alpha=.3)
                     vbox:
                         ypos 2
-                        for reason, value in all_income_data[fin_day].iteritems():
+                        for reason, value in sorted(all_income_data[fin_day].items(), key=itemgetter(1), reverse=True):
                             frame:
                                 xoffset 4
                                 xysize (390, 27)
                                 xpadding 7
-                                text reason.capitalize() color "#79CDCD"
+                                text reason color "#79CDCD"
                                 text str(value) xalign 1.0 style_suffix "value_text" color goldenrod
 
+                        null height 10
                         frame:
                             xoffset 4
                             xysize (390, 27)
                             xpadding 7
                             text "Total" color "#79CDCD"
                             $ total_income = sum(all_income_data[fin_day].values())
-                            text str(total_income) xalign 1.0 style_suffix "value_text" color goldenrod
+                            text str(total_income) xalign 1.0 style_suffix "value_text" color lawngreen
 
             vbox:
                 ypos 40 xalign 1.0
                 text "Expenses:" size 40 color goldenrod
                 viewport:
                     xysize (398, 350)
+                    child_size 398, 1000
                     draggable True
                     mousewheel True
                     add Transform(Solid(grey), alpha=.3)
                     vbox:
                         ypos 2
-                        for reason, value in all_expense_data[fin_day].iteritems():
+                        for reason, value in sorted(all_expense_data[fin_day].items(), key=itemgetter(1), reverse=True):
                             frame:
                                 xoffset 4
                                 xysize (390, 27)
                                 xpadding 7
-                                text reason.capitalize() color "#79CDCD"
+                                text reason color "#79CDCD"
                                 text str(value) xalign 1.0 style_suffix "value_text" color goldenrod
 
+                        null height 10
                         frame:
                             xoffset 4
                             xysize (390, 27)
                             xpadding 7
                             text "Total" color "#79CDCD"
                             $ total_expenses = sum(all_expense_data[fin_day].values())
-                            text str(total_expenses) xalign 1.0 style_suffix "value_text" color goldenrod
+                            text str(total_expenses) xalign 1.0 style_suffix "value_text" color red
 
             frame:
                 align .5, .9
@@ -1387,6 +1391,32 @@ screen finances(obj, mode="logical"):
                 $ total = total_income - total_expenses
                 $ temp = red if total < 0 else lawngreen
                 text str(total) xalign 1.0 style_suffix "value_text" color temp size 35
+
+        if obj.fin.income_tax_debt or obj.fin.property_tax_debt:
+            $ total_debt = obj.fin.income_tax_debt + obj.fin.property_tax_debt
+            frame:
+                background Frame(Transform("content/gfx/frame/MC_bg2.png", alpha=.9), 10, 10)
+                style_prefix "proper_stats"
+                align 1.0, 1.0
+                padding 5, 10
+                has vbox
+                frame:
+                    xysize (200, 20)
+                    xpadding 7
+                    text "Income Tax Debt:" size 15
+                    text "[obj.fin.income_tax_debt]" style_suffix "value_text" xalign 1.0 color red yoffset -1
+                frame:
+                    xysize (200, 20)
+                    xpadding 7
+                    text "Property Tax Debt:" size 15
+                    text "[obj.fin.property_tax_debt]" style_suffix "value_text" xalign 1.0 color red yoffset -1
+                null height 3
+                frame:
+                    xysize (200, 20)
+                    xpadding 7
+                    text "Total:" size 15
+                    text "[total_debt]" style_suffix "value_text" xalign 1.0 color red yoffset -1
+
 
         hbox:
             style_prefix "basic"
