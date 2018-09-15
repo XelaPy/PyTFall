@@ -1450,5 +1450,5 @@ screen finances(obj, mode="logical"):
                         text "Performance"
 
     if isinstance(focused, Char):
-        key "mousedown_4" action SetScreenVariableC("focused", Function(change_char_in_profile, dir="next")) # action Return(["control", "right"]), SetScreenVariable("focused", char)
-        key "mousedown_5" action SetScreenVariableC("focused", Function(change_char_in_profile, dir="prev")) # action Return(["control", "left"]), SetScreenVariable("focused", char)
+        key "mousedown_4" action SetScreenVariableC("focused", Function(change_char_in_profile, dir="next"))
+        key "mousedown_5" action SetScreenVariableC("focused", Function(change_char_in_profile, dir="prev"))
