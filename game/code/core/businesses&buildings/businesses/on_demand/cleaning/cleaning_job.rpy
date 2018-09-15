@@ -73,7 +73,7 @@ init -5 python:
                     log.append("%s was happy to be useful regardless of the job." % worker.name)
                     effectiveness += 10
                 elif trait == "Abnormally Large Boobs":
-                    log.append("Her boobs get in the way so much that she may as well scrub down the walls with them instead..." % worker.name)
+                    log.append("Her boobs get in the way so much that she may as well scrub down the walls with them instead...")
                     effectiveness -= 50
 
             return effectiveness
