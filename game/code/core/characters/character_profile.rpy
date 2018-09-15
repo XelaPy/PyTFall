@@ -1,3 +1,19 @@
+init python:
+    def change_char_in_profile(dir="next"):
+        global girls
+        global char
+        global index
+        index = girls.index(char)
+
+        if dir == "next":
+            index = (index + 1) % len(girls)
+            char = girls[index]
+        elif dir == "prev":
+            index = (index - 1) % len(girls)
+            char = girls[index]
+
+        return char
+
 label char_profile:
 
     if not hasattr(store, "girls") or girls is None or char not in girls:
@@ -128,14 +144,11 @@ label char_profile:
                             $ char.fullname = n
 
             if result[0] == 'control':
-                $ index = girls.index(char)
                 if result[1] == 'left':
-                    $ index = (index - 1) % len(girls)
-                    $ char = girls[index]
+                    $ change_char_in_profile("prev")
                     hide screen show_trait_info
                 elif result[1] == 'right':
-                    $ index = (index + 1) % len(girls)
-                    $ char = girls[index]
+                    $ change_char_in_profile("next")
                     hide screen show_trait_info
                 elif result[1] == 'return':
                     jump char_profile_end
@@ -1286,6 +1299,7 @@ screen finances(obj, mode="logical"):
     zorder 1
 
     default fin_mode = mode
+    default focused = obj
 
     add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
     frame:
@@ -1296,7 +1310,7 @@ screen finances(obj, mode="logical"):
         padding 20, 20
         align .5, .5
 
-        $ days, all_income_data, all_expense_data = obj.fin.get_data_for_fin_screen(fin_mode)
+        $ days, all_income_data, all_expense_data = focused.fin.get_data_for_fin_screen(fin_mode)
 
         # Days:
         default fin_day = days[-1] if days else None
@@ -1311,7 +1325,7 @@ screen finances(obj, mode="logical"):
             $ fin_day = None
 
         if fin_day not in all_income_data:
-            text "There are no Finances to display for {}!".format(obj.name) align .5, .5
+            text "There are no Finances to display for {}!".format(focused.name) align .5, .5
         else:
             hbox:
                 style_prefix "basic"
@@ -1391,8 +1405,8 @@ screen finances(obj, mode="logical"):
                 text str(total) xalign 1.0 style_suffix "value_text" color temp size 35
 
         # Debt
-        if obj.fin.income_tax_debt or obj.fin.property_tax_debt:
-            $ total_debt = obj.fin.income_tax_debt + obj.fin.property_tax_debt
+        if focused.fin.income_tax_debt or focused.fin.property_tax_debt:
+            $ total_debt = focused.fin.income_tax_debt + focused.fin.property_tax_debt
             frame:
                 background Frame(Transform("content/gfx/frame/MC_bg2.png", alpha=.9), 10, 10)
                 style_prefix "proper_stats"
@@ -1403,12 +1417,12 @@ screen finances(obj, mode="logical"):
                     xysize (200, 20)
                     xpadding 7
                     text "Income Tax Debt:" size 15
-                    text "[obj.fin.income_tax_debt]" style_suffix "value_text" xalign 1.0 color red yoffset -1
+                    text "[focused.fin.income_tax_debt]" style_suffix "value_text" xalign 1.0 color red yoffset -1
                 frame:
                     xysize (200, 20)
                     xpadding 7
                     text "Property Tax Debt:" size 15
-                    text "[obj.fin.property_tax_debt]" style_suffix "value_text" xalign 1.0 color red yoffset -1
+                    text "[focused.fin.property_tax_debt]" style_suffix "value_text" xalign 1.0 color red yoffset -1
                 null height 3
                 frame:
                     xysize (200, 20)
@@ -1424,13 +1438,17 @@ screen finances(obj, mode="logical"):
                 action Hide('finances')
                 text "OK"
                 keysym ("K_RETURN", "K_ESCAPE", "mouseup_3")
-            if isinstance(obj, Char):
+            if isinstance(focused, Char):
                 button:
                     minimum (100, 30)
                     if fin_mode == "logical":
-                        sensitive obj.allowed_to_view_personal_finances()
+                        sensitive focused.allowed_to_view_personal_finances()
                         action SetScreenVariable('fin_mode', "main")
                         text "Personal"
                     elif fin_mode == "main":
                         action SetScreenVariable('fin_mode', "logical")
                         text "Performance"
+
+    if isinstance(focused, Char):
+        key "mousedown_4" action SetScreenVariableC("focused", Function(change_char_in_profile, dir="next")) # action Return(["control", "right"]), SetScreenVariable("focused", char)
+        key "mousedown_5" action SetScreenVariableC("focused", Function(change_char_in_profile, dir="prev")) # action Return(["control", "left"]), SetScreenVariable("focused", char)
