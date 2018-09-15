@@ -1344,7 +1344,7 @@ python: # Reviving:
 ##### Effects:
 python: # Poison:
     # effect should be from 0 to 1, ie part of max health the poison takes every turn
-    BasicPoisonSpell("Poison", menu_pos=-5, attributes=["status", "poison", "darkness"], tier=0,
+    BasicPoisonSpell("Poison", menu_pos=1, attributes=["status", "poison", "darkness"], tier=0,
                     effect=.05, multiplier=.5, mp_cost=10, vitality_cost=10, range=4, kind="damage_over_time", buff_group="poison",
                     event_duration=5,
                     desc="Sprays poison into the air around the target, decreasing health by 5% for 5 turns.",
@@ -1355,7 +1355,7 @@ python: # Poison:
                     target_sprite_damage_effect={"gfx": None},
                     target_damage_effect={"gfx": "battle_bounce", "initial_pause": .2},
                     target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5})
-    BasicPoisonSpell("Deadly Poison", menu_pos=-4, attributes=["status", "poison", "darkness"], tier=1,
+    BasicPoisonSpell("Deadly Poison", menu_pos=4, attributes=["status", "poison", "darkness"], tier=1,
                     effect=.1, multiplier=.5, mp_cost=15, vitality_cost=20, range=4, kind="damage_over_time", buff_group="poison",
                     event_duration=3,
                     desc="Sprays concentrated poison into the air around the target, decreasing health by 10% for 3 turns.",
@@ -1368,7 +1368,7 @@ python: # Poison:
                     target_death_effect={"gfx": "dissolve", "initial_pause": .3, "duration": .5})
 
 python: # Buffs:
-    DefenceBuffSpell("Aery Field", menu_pos=-1, attributes=["status", "air"], kind="buff",
+    DefenceBuffSpell("Aery Field", menu_pos=6, attributes=["status", "air"], kind="buff",
                      defence_multiplier={"ranged": 1.5}, buff_group="ranged shield",
                      buff_icon=ProportionalScale("content/gfx/be/buffs/ranged_def.webp", 30, 30),
                      mp_cost=.1, vitality_cost=.1, range=4, type="sa", defence_gfx="air_shield",
@@ -1380,7 +1380,7 @@ python: # Buffs:
             target_sprite_damage_effect={"gfx": None},
             target_damage_effect={"gfx": None},
             target_death_effect={"gfx": None})
-    DefenceBuffSpell("Aery Shield", menu_pos=-1, attributes=["status", "air"],
+    DefenceBuffSpell("Aery Shield", menu_pos=7, attributes=["status", "air"],
                      kind="buff", defence_multiplier={"ranged": 3.0}, buff_group="ranged shield",
                      buff_icon=ProportionalScale("content/gfx/be/buffs/big_ranged_def.webp", 30, 30),
                      mp_cost=.2, vitality_cost=.2, range=4, type="sa", defence_gfx="air_shield",
@@ -1392,31 +1392,31 @@ python: # Buffs:
                      target_sprite_damage_effect={"gfx": None},
                      target_damage_effect={"gfx": None},
                      target_death_effect={"gfx": None})
-    DefenceBuffSpell("Arcane Field", menu_pos=-1, attributes=["status", "darkness"], kind="buff", defence_multiplier={"magic": 1.5}, buff_group="spell shield", buff_icon=ProportionalScale("content/gfx/be/buffs/mag_def.webp", 30, 30), mp_cost=.1, vitality_cost=.1, range=4, type="sa",
+    DefenceBuffSpell("Arcane Field", menu_pos=6, attributes=["status", "darkness"], kind="buff", defence_multiplier={"magic": 1.5}, buff_group="spell shield", buff_icon=ProportionalScale("content/gfx/be/buffs/mag_def.webp", 30, 30), mp_cost=.1, vitality_cost=.1, range=4, type="sa",
             desc="Sets up a force field, partly shielding from magical damage.", tier=1,
             main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
             target_sprite_damage_effect={"gfx": None},
             target_damage_effect={"gfx": None},
             target_death_effect={"gfx": None})
-    DefenceBuffSpell("Arcane Shield", menu_pos=-1, attributes=["status", "darkness"], kind="buff", defence_multiplier={"magic": 3.0}, buff_group="spell shield", vitality_cost=.2, mp_cost=.2, buff_icon=ProportionalScale("content/gfx/be/buffs/big_mag_def.webp", 30, 30), range=4, type="sa",
+    DefenceBuffSpell("Arcane Shield", menu_pos=7, attributes=["status", "darkness"], kind="buff", defence_multiplier={"magic": 3.0}, buff_group="spell shield", vitality_cost=.2, mp_cost=.2, buff_icon=ProportionalScale("content/gfx/be/buffs/big_mag_def.webp", 30, 30), range=4, type="sa",
             desc="Sets up a powerful force field, shielding from magical damage.", tier=2,
             main_effect={"gfx": Transform("magic_shield_webm", zoom=1.1), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.27, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
             target_sprite_damage_effect={"gfx": None},
             target_damage_effect={"gfx": None},
             target_death_effect={"gfx": None})
-    DefenceBuffSpell("Solid Field", menu_pos=-1, attributes=["status", "earth"], kind="buff", defence_multiplier={"melee": 1.5}, buff_group="melee shield", buff_icon=ProportionalScale("content/gfx/be/buffs/melee_def.webp", 30, 30), mp_cost=.1, vitality_cost=.1, range=4, type="sa", defence_gfx="solid_shield",
+    DefenceBuffSpell("Solid Field", menu_pos=6, attributes=["status", "earth"], kind="buff", defence_multiplier={"melee": 1.5}, buff_group="melee shield", buff_icon=ProportionalScale("content/gfx/be/buffs/melee_def.webp", 30, 30), mp_cost=.1, vitality_cost=.1, range=4, type="sa", defence_gfx="solid_shield",
             desc="Sets up a force field, partly shielding from melee damage.", tier=1,
             main_effect={"gfx": Transform("shield_1", size=(400, 400)), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.0, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
             target_sprite_damage_effect={"gfx": None},
             target_damage_effect={"gfx": None},
             target_death_effect={"gfx": None})
-    DefenceBuffSpell("Solid Shield", menu_pos=-1, attributes=["status", "earth"], kind="buff", defence_multiplier={"melee": 3.0}, buff_group="melee shield", vitality_cost=.2, mp_cost=.2, buff_icon=ProportionalScale("content/gfx/be/buffs/big_melee_def.webp", 30, 30), range=4, type="sa", defence_gfx="solid_shield",
+    DefenceBuffSpell("Solid Shield", menu_pos=7, attributes=["status", "earth"], kind="buff", defence_multiplier={"melee": 3.0}, buff_group="melee shield", vitality_cost=.2, mp_cost=.2, buff_icon=ProportionalScale("content/gfx/be/buffs/big_melee_def.webp", 30, 30), range=4, type="sa", defence_gfx="solid_shield",
             desc="Sets up a powerful force field, shielding from melee damage.", tier=2,
             main_effect={"gfx": Transform("shield_1", size=(400, 400)), "sfx": "content/sfx/sound/be/m_shield.ogg", "duration": 1.0, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
             target_sprite_damage_effect={"gfx": None},
             target_damage_effect={"gfx": None},
             target_death_effect={"gfx": None})
-    DefenceBuffSpell("Gray Shield", menu_pos=-1, attributes=["status", "darkness", "light"], kind="buff",
+    DefenceBuffSpell("Gray Shield", menu_pos=8, attributes=["status", "darkness", "light"], kind="buff",
             defence_multiplier={"melee": 3.0, "magic": 3.0, "ranged": 3.0}, buff_group="melee shield",
             vitality_cost=.25, mp_cost=.25, buff_icon=ProportionalScale("content/gfx/be/buffs/gray.webp", 30, 30),
             range=4, type="sa", defence_gfx="gray_shield", item_only=True,
