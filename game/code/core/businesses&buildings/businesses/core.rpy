@@ -163,8 +163,11 @@ init -12 python:
             # And this doesn't work? workers are never populated???
             return list(i for i in self.building.available_workers if self.all_occs & i.occupations)
 
-        def action_priority_workers(self, job):
+        def strict_rule_workers(self, job):
             return list(i for i in self.building.available_workers if i.action == job)
+
+        def normal_rule_workers(self, job):
+            return list(i for i in self.building.available_workers if i.traits.basetraits.intersection(job.occupation_traits))
 
         def get_workers(self, job, amount=1, match_to_client=None,
                         priority=True, any=True, use_slaves=True):
@@ -173,7 +176,8 @@ init -12 python:
             priority: Tries to get a perfect match where action == job first.
             any: Tries to get any match trying to match any occupation at all.
 
-            @param: match_to_client: Will try to find the a good match to client, expects a client (or any PytC instance with .likes set) object.
+            @param: match_to_client: Will try to find the a good match to client,
+                    expects a client (or any PytC instance with .likes set) object.
             """
             workers = list()
 

@@ -1281,7 +1281,7 @@ init: # Screens:
                 if isinstance(building, UpgradableBuilding):
                     null height 5
                     python:
-                        desc0 = "  {} Rule".format(building.workers_rule.capitalize())
+                        desc0 = "==> {} Rule".format(building.workers_rule.capitalize())
                         desc1 = "Choose a rule your workers are managed by!"
                         desc2 = building.WORKER_RULES_DESC[building.workers_rule]
                         desc = "\n".join([desc0, desc1, desc2])
