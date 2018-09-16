@@ -417,7 +417,7 @@ label after_load:
         for skill in store.battle_skills.values():
             skill.source = None
 
-    # Save-Load Compatibility TODO Delete when we're willing to break saves.
+    # Save-Load Compatibility TODO Delete when we're willing to break saves (again :D).
     python hide:
         for c in pytfall.sm.inhabitants.copy():
             if c not in chars.itervalues():
@@ -426,6 +426,16 @@ label after_load:
         for c in aps.inhabitants.copy():
             if c not in chars.itervalues():
                 remove_from_gameworld(c)
+
+    python hide:
+        for b in hero.buildings:
+            if isinstance(b, UpgradableBuilding):
+                if not hasattr(b, "workers_rule"):
+                    setattr(b, "workers_rule", "normal")
+        for b in businesses.values():
+            if isinstance(b, UpgradableBuilding):
+                if not hasattr(b, "workers_rule"):
+                    setattr(b, "workers_rule", "normal")
 
     stop music
     return

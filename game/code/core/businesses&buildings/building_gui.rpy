@@ -339,10 +339,10 @@ init: # Screens:
                     text "Transfer Items"
                 button:
                     xysize (135, 40)
-                    action Show("building_maintenance")
+                    action Show("building_controls")
                     tooltip 'Perform maintenance of this building'
                     sensitive isinstance(building, BuildingStats) and building.workable
-                    text "Maintenance"
+                    text "Controls"
             vbox:
                 spacing 5
                 button:
@@ -1224,7 +1224,7 @@ init: # Screens:
                 #     action SetVariable("bm_mid_frame_mode", "building")
 
 
-    screen building_maintenance():
+    screen building_controls():
         modal True
         zorder 1
 
@@ -1236,7 +1236,12 @@ init: # Screens:
             yalign .95
             xysize(343, 675)
 
-            label (u"{size=20}{color=[ivory]}{b}Maintenance!") align(.5, .19) text_outlines [(2, "#424242", 0, 0)]
+            label (u"Controls!"):
+                 align .5, .05
+                 text_color ivory
+                 text_bold True
+                 text_size 20
+                 text_outlines [(2, "#424242", 0, 0)]
 
             # Controls themselves ---------------------------------->
             vbox:
@@ -1272,6 +1277,21 @@ init: # Screens:
                         else:
                             add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, .5)
 
+
+                if isinstance(building, UpgradableBuilding):
+                    null height 5
+                    python:
+                        desc0 = "  {} Rule".format(building.workers_rule.capitalize())
+                        desc1 = "Choose a rule your workers are managed by!"
+                        desc2 = building.WORKER_RULES_DESC[building.workers_rule]
+                        desc = "\n".join([desc0, desc1, desc2])
+                    button:
+                        xysize (200, 32)
+                        xalign .5
+                        action Function(building.toggle_workers_rule)
+                        tooltip "{}".format(desc)
+                        text "WR: {}".format(building.workers_rule.capitalize())
+
                 null height 30
                 button:
                     xysize (200, 32)
@@ -1282,11 +1302,11 @@ init: # Screens:
 
             button:
                 style_group "dropdown_gm"
-                action Hide("building_maintenance")
+                action Hide("building_controls")
                 minimum(50, 30)
                 align (.5, .97)
                 text  "OK"
-            key "mousedown_3" action Hide("building_maintenance")
+            key "mousedown_3" action Hide("building_controls")
 
     screen building_adverts():
         modal True

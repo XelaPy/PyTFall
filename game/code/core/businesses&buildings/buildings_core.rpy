@@ -462,6 +462,15 @@ init -10 python:
 
 
     class UpgradableBuilding(BaseBuilding):
+
+        WORKER_RULES = ["strict", "normal", "loose"]
+        WORKER_RULES_DESC = {
+        "strict": "Workers will only preform jobs that are the exact match to the action you're assigned them!",
+        "normal": "Workers may choose to do a job that directly matches to their class if they are not busy otherwise!",
+        "loose": "Workers may choose to do a job that is at least loosely matches to their class if they are not busy otherwise!"
+        }
+        WORKER_RULES_DESC["loose"] += " (for example a Stripper doing a Whore Job)"
+
         def __init__(self, *args, **kwargs):
             """
             @ Last review:
@@ -513,6 +522,7 @@ init -10 python:
             # Note: We also use .inhabitants set inherited from all the way over location.
             self.manager = None
             self.manager_effectiveness = 0 # Calculated once (performance)
+            self.workers_rule = "normal"
             # Bit of an issue could be that we're using all_workers in SimPy as well? :D
             # TODO (bb) Look into the above.
             self.all_workers = list() # All workers presently assigned to work in this building.
@@ -533,6 +543,13 @@ init -10 python:
             self.nd_events_report.append(item)
             if DSNBR:
                 devlog.info(item)
+
+        # gui/controls:
+        def toggle_workers_rule(self):
+            index = self.WORKER_RULES.index(self.workers_rule)
+            index = (index + 1) % len(self.WORKER_RULES)
+
+            self.workers_rule = self.WORKER_RULES[index]
 
         # Jobs Related:
         def add_job(self, job):
