@@ -956,65 +956,50 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
                 action Hide("show_trait_info")
 
     else:
-        $ traits = calculate_elementals(trait)
+        $ traits = elements_calculator(trait)
         fixed:
             align al
-            xysize 450, 190
+            xysize 250, 260
             frame:
                 background Frame("content/gfx/frame/p_frame52.png", 10, 10)
                 padding 10, 5
                 has vbox style_prefix "proper_stats" spacing 1
-                hbox:
-                    frame:
-                        xysize 80, 20
-                        text "element" size 15 color goldenrod align .0, .5
-                    frame:
-                        xysize 60, 20
-                        text "damage" size 15 color goldenrod align .5, .5
-                    frame:
-                        xysize 60, 20
-                        text "defense" size 15 color goldenrod align .5, .5
-                hbox:
-                    vbox:
-                        for element in traits[2]:
+                if not traits:
+                    label ("-elements neutralized each other-") text_size 14 text_color goldenrod text_bold True xalign .45
+                else:
+                    hbox:
+                        frame:
+                            xysize 80, 20
+                            text "element" size 15 color goldenrod align .0, .5 outlines [(1, "#000000", 0, 0)]
+                        frame:
+                            xysize 60, 20
+                            text "damage" size 15 color goldenrod align .5, .5 outlines [(1, "#000000", 0, 0)]
+                        frame:
+                            xysize 60, 20
+                            text "defense" size 15 color goldenrod align .5, .5 outlines [(1, "#000000", 0, 0)]
+                    for i in traits:
+                        hbox:
                             frame:
                                 xysize 80, 20
-                                text element size 15 color goldenrod align .0, .5
-                    vbox:
-                        for element in traits[2]:
-                            if element in traits[0].keys():
+                                text i size 15 color goldenrod align .0, .5 outlines [(1, "#000000", 0, 0)]
+                            frame:
+                                xysize 60, 20
+                                text traits[i]["attack"] size 15 color traits[i]["attack_color"] align 1.0, .5 outlines [(1, "#000000", 0, 0)]
+                            if "abs" in traits[i].keys():
                                 frame:
                                     xysize 60, 20
-                                    if traits[0][element] < 0:
-                                        label str(traits[0][element])+" %" text_size 15 text_color red align 1.0, .5 text_outlines [(1, "#000000", 0, 0)]
-                                    else:
-                                        label str(traits[0][element])+" %" text_size 15 text_color lime align 1.0, .5 text_outlines [(1, "#000000", 0, 0)]
+                                    text traits[i]["abs"] size 15 color lime align 1.0, .5 outlines [(1, "#000000", 0, 0)]
+                            elif "resist" in traits[i].keys():
+                                frame:
+                                    xysize 60, 20
+                                    text "RES" size 15 color lime align 1.0, .5
                             else:
                                 frame:
                                     xysize 60, 20
-                                    label "0 %" text_size 15 text_color lime align 1.0, .5 text_outlines [(1, "#000000", 0, 0)]
-                    vbox:
-                        for element in traits[2]:
-                            if element in traits[1].keys():
-                                if traits[1][element] != "RES":
-                                    $ temp = " %"
-                                else:
-                                    $ temp = ""
-                                frame:
-                                    xysize 60, 20
-                                    if traits[1][element] < 0:
-                                        label str(traits[1][element])+ temp text_size 15 text_color red align 1.0, .5 text_outlines [(1, "#000000", 0, 0)]
-                                    else:
-                                        label str(traits[1][element])+ temp text_size 15 text_color lime align 1.0, .5 text_outlines [(1, "#000000", 0, 0)]
-                            else:
-                                frame:
-                                    xysize 60, 20
-                                    label "0 %" text_size 15 text_color lime align 1.0, .5 text_outlines [(1, "#000000", 0, 0)]
+                                    text traits[i]["defence"] size 15 color traits[i]["defence_color"] align 1.0, .5 outlines [(1, "#000000", 0, 0)]
 
-                if not(traits[0]) and not(traits[1]):
-                    label ("-elements neutralized each other-") text_size 14 text_color goldenrod text_bold True xalign .45
             imagebutton:
-                align .465, .01
+                align .87, .005
                 xysize 22, 22
                 idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
                 hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)

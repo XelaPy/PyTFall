@@ -90,48 +90,73 @@ init -11 python:
             i = Transform(icon, crop=crop, subpixel=True, xpos=xpos)
             fixed.add(i)
         return fixed
-
-    def calculate_elementals(char):
-        # returns a dict of character elemental defenses and attacks, based on elemental traits
-        el_attacks = {}
-        el_defence = {}
-        el_keys = []
-        el_resist = []
-        el_absorbs = {}
+        
+    def elements_calculator(char, text=True): # returns text in proper format for gui if text is true, otherwise numbers
+        global red
+        global lime
+        elements = {}
+        
         for trait in char.traits:
             for element in trait.el_damage:
-                if element in el_attacks:
-                    el_attacks[element] += int(trait.el_damage[element]*100)
-                else:
-                    el_attacks[element] = int(trait.el_damage[element]*100)
+                if not element in elements.keys():
+                    elements[element] = {}
 
-            for element in trait.el_absorbs:
-                if element in el_absorbs:
-                    el_absorbs[element] += int(trait.el_absorbs[element]*100)
+                if "attack" in elements[element].keys():
+                    elements[element]["attack"] += int(trait.el_damage[element]*100)
                 else:
-                    el_absorbs[element] = int(trait.el_absorbs[element]*100)
-
-            for i in trait.resist:
-                if not i in el_resist:
-                    el_resist.append(i)
+                    elements[element]["attack"] = int(trait.el_damage[element]*100)
 
             for element in trait.el_defence:
-                if element in el_defence:
-                    el_defence[element] += int(trait.el_defence[element]*100)
+                if not element in elements.keys():
+                    elements[element] = {}
+            
+                if "defence" in elements[element].keys():
+                    elements[element]["defence"] += int(trait.el_defence[element]*100)
                 else:
-                    el_defence[element] = int(trait.el_defence[element]*100)
+                    elements[element]["defence"] = int(trait.el_defence[element]*100)
+            
+            for i in trait.resist:
+                if not i in elements.keys():
+                    elements[i] = {}
+            
+                elements[i]["resist"] = True
+                    
+            for element in trait.el_absorbs:
+                if not element in elements.keys():
+                    elements[element] = {}
+            
+                if "abs" in elements[element].keys():
+                    elements[element]["abs"] += int(trait.el_absorbs[element]*100)
+                else:
+                    elements[element]["abs"] = int(trait.el_absorbs[element]*100)
+                    
+        for i in elements:
+            if not "defence" in elements[i].keys():
+                elements[i]["defence"] = 0
+                
+            if not "attack" in elements[i].keys():
+                elements[i]["attack"] = 0
+                
+                    
+                    
+        if text:
+            for i in elements:
+                if elements[i]["attack"] >= 0:
+                    elements[i]["attack_color"] = lime
+                else:
+                    elements[i]["attack_color"] = red
+                elements[i]["attack"] = str(elements[i]["attack"]) + " %"
 
-        for element in el_resist:
-            el_defence[element] = "RES"
-        for element in el_absorbs:
-            el_defence[element] = "A " + str(el_absorbs[element])
-
-
-        el_attacks = {x: y for x, y in el_attacks.items() if y != 0}
-        el_defence = {x: y for x, y in el_defence.items() if y != 0}
-        el_keys = el_attacks.keys() + list(set(el_defence.keys()) - set(el_attacks.keys()))
-
-        return el_attacks, el_defence, el_keys
+                if elements[i]["defence"] >= 0:
+                    elements[i]["defence_color"] = lime
+                else:
+                    elements[i]["defence_color"] = red
+                elements[i]["defence"] = str(elements[i]["defence"]) + " %"
+                
+                if "abs" in elements[i].keys():
+                    elements[i]["abs"] = "A " + str(elements[i]["abs"]) + " %"
+                    
+        return elements
 
     def kill_char(char):
         # Attempts to remove a character from the game world.
