@@ -178,7 +178,7 @@ init -10 python:
         def get_workers(self):
             # I may want better handing for this...
             # Returns a list of all chars in heros service that have their workplaces set to this building.
-            return [c for c in hero.chars + [hero] if c.workplace==self and c.is_available]
+            return [c for c in hero.chars + [hero] if c.workplace == self and c.is_available]
 
         def get_all_chars(self):
             all_chars = set()
@@ -1167,8 +1167,6 @@ init -10 python:
                         c.del_flag(f)
 
         def convert_AP(self, worker):
-            # Do not convert AP when Char is in school. (can this really be called when they are?) TODO Find out
-            # if getattr(worker.location, "is_school", False):
-            #     return
+            # Do not convert AP when Char is in school.
             worker.jobpoints = worker.AP*100
             worker.AP = 0

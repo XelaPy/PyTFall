@@ -160,7 +160,7 @@ label mc_action_tavern_relax:
     hide drunkards with dissolve
     if len(hero.team) < 2:
         $ hero.set_flag("rest_in_tavern", value = day)
-        "You relax for awhile, but there isn't much to do here. Perhaps it would be more fun if you weren't along."
+        "You relax for awhile, but there isn't much to do here. Perhaps it would be more fun if you weren't alone."
         $ hero.vitality += 5
     else:
         if hero.take_money(randint(30, 50), reason="Tavern"):
