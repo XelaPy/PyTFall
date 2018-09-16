@@ -82,6 +82,15 @@ init -1 python: # Core classes:
 
             self.max_skill_lvl = max_skill_lvl
 
+            self.generate_type_to_color_map()
+
+        def generate_type_to_color_map(self):
+            type_to_color_map = {e.id.lower(): e.font_color for e in tgs.elemental}
+            type_to_color_map["poison"] = "green"
+            type_to_color_map["healing"] = "lightgreen"
+
+            self.type_to_color_map = type_to_color_map
+
         def log(self, report, delayed=False):
             be_debug(report)
             if delayed:
@@ -1214,17 +1223,24 @@ init -1 python: # Core classes:
             # Simpler now, no special colors:
             return " DMG: %d" % (t.beeffects[0])
 
-        def color_string_by_DAMAGE_type(self, s, type):
+        def color_string_by_DAMAGE_type(self, effect, return_for="log"):
             # Takes a string "s" and colors it based of damage "type".
             # If type is not an element, color will be red or some preset (in this method) default.
+            type, value = effect
 
-            type_to_color_map = {e.id.lower(): e.font_color for e in tgs.elemental}
-            type_to_color_map["poison"] = "green"
-            type_to_color_map["healing"] = "lightgreen"
+            if value < 0:
+                value = -value
+                color = battle.type_to_color_map["healing"]
+            else:
+                color = battle.type_to_color_map.get(type, "red")
 
-            color = type_to_color_map.get(type, "red")
-
-            return "{color=[%s]} %s {/color}" % (color, s)
+            if return_for == "log":
+                s = " %s:%s " % (self.DAMAGE.get(type, type), value)
+                return "{color=[%s]} %s {/color}" % (color, s)
+            elif return_for == "bb": # battle bounce
+                return value, color
+            else:
+                return "Unknown Return For DAMAGE type!"
 
         def effects_to_string(self, t, default_color="red"):
             """Adds information about target to the list and returns it to be written to the log later.
@@ -1237,11 +1253,12 @@ init -1 python: # Core classes:
             attributes = self.attributes
             damage_attrs = [i for i in effects if isinstance(i, tuple)]
             s = list()
+            value = t.beeffects[0]
 
             for effect in effects:
                 if isinstance(effect, tuple):
-                    temp = " %s:%s "%(self.DAMAGE[effect[0]], effect[1])
-                    s.append(self.color_string_by_DAMAGE_type(temp, effect[0]))
+                    temp = self.color_string_by_DAMAGE_type(effect)
+                    s.append(temp)
                 else: # it's a string...
                     if effect == "backrow_penalty":
                         # Damage halved due to the target being in the back row!
@@ -1767,12 +1784,23 @@ init -1 python: # Core classes:
                                 s = "▼ "+"%s" % value
                                 color = getattr(store, target.dmg_font)
                         else:
-                            if value < 0:
-                                s = "%s" % -value
-                                color = store.green
+                            for effect in target.beeffects:
+                                if isinstance(effect, tuple):
+                                    break
                             else:
+                                effect = None
+
+                            if effect:
+                                value, color = self.color_string_by_DAMAGE_type(effect, return_for="bb")
                                 s = "%s" % value
-                                color = getattr(store, target.dmg_font)
+                                color = getattr(store, color)
+                            else:
+                                if value < 0:
+                                    s = "%s" % -value
+                                    color = store.lightgreen
+                                else:
+                                    s = "%s" % value
+                                    color = getattr(store, target.dmg_font)
                         if "critical_hit" in target.beeffects:
                             s = "\n".join([s, "Critical hit!"])
                         txt = Text(s, style="TisaOTM", min_width=200,
