@@ -205,7 +205,7 @@ init -9 python:
             """
             filters = self.filters
 
-            if direction in EQUIP_SLOTS + self.SLOT_FILTERS.keys():
+            if direction in set(self.SLOT_FILTERS["all"]).union(self.SLOT_FILTERS.keys()):
                 self.slot_filter = direction
             else:
                 if direction == 'next':
