@@ -1242,20 +1242,6 @@ init -1 python: # Core classes:
                 if isinstance(effect, tuple):
                     temp = " %s:%s "%(self.DAMAGE[effect[0]], effect[1])
                     s.append(self.color_string_by_DAMAGE_type(temp, effect[0]))
-                    # if effect[0] == "damage_mod":
-                        # damage = round(float(effect[1]), 1)
-                        # if damage > 0:
-                            # s.append(" {color=[lawngreen]}⚔+ (%s){/color} "%damage)
-                        # elif damage < 0:
-                            # s.append(" {color=[red]}⚔- (%s){/color} "%-damage)
-
-                    # elif effect[0] == "defence_mod":
-                        # defence = round(float(effect[1]), 1)
-                        # if defence > 0:
-                            # s.append(" {color=[red]}☗+ (%s){/color} "%defence)
-                        # elif defence < 0:
-                            # s.append(" {color=[lawngreen]}☗- (%s){/color} "%-defence)
-
                 else: # it's a string...
                     if effect == "backrow_penalty":
                         # Damage halved due to the target being in the back row!
@@ -1268,11 +1254,6 @@ init -1 python: # Core classes:
                         gfx = self.dodge_effect.get("gfx", "dodge")
                         if gfx == "dodge":
                             s.append(" {color=[lawngreen]}Attack Missed {/color}")
-                        # else:
-                            # s.append(" {color=[lawngreen]}Spell Resisted (-⅓ damage) {/color}")
-                    # elif effect == "absorbed":
-                        # s.append(" {color=[lawngreen]}Absorbed DMG{/color}")
-                        # s.append(self.set_dmg_font_color(t, attributes, color="green"))
                     else:
                         if len(damage_attrs) > 1:
                             s.append(self.set_dmg_font_color(t, attributes, color=default_color))
@@ -1775,21 +1756,33 @@ init -1 python: # Core classes:
                 for index, target in enumerate(targets):
                     if target not in died or force:
                         tag = "bb" + str(index)
+                        value = target.beeffects[0]
+
                         if "missed_hit" in target.beeffects:
                             gfx = self.dodge_effect.get("gfx", "dodge")
                             if gfx == "dodge":
                                 s = "Missed"
                                 color = getattr(store, target.dmg_font)
                             else:
-                                s = "▼ "+"%s"%target.beeffects[0]
+                                s = "▼ "+"%s" % value
                                 color = getattr(store, target.dmg_font)
                         else:
-                            s = "%s"%target.beeffects[0]
-                            if "critical_hit" in target.beeffects:
-                                s = "\n".join([s, "Critical hit!"])
-                            color = getattr(store, target.dmg_font)
-                        txt = Text(s, style="TisaOTM", min_width=200, text_align=.5, color=color, size=18)
-                        renpy.show(tag, what=txt, at_list=[battle_bounce(battle.get_cp(target, type="tc", yo=-30))], zorder=target.besk["zorder"]+2)
+                            if value < 0:
+                                s = "%s" % -value
+                                color = store.green
+                            else:
+                                s = "%s" % value
+                                color = getattr(store, target.dmg_font)
+                        if "critical_hit" in target.beeffects:
+                            s = "\n".join([s, "Critical hit!"])
+                        txt = Text(s, style="TisaOTM", min_width=200,
+                                   text_align=.5, color=color, size=18)
+                        renpy.show(tag, what=txt,
+                                   at_list=[battle_bounce(battle.get_cp(target,
+                                                                        type="tc",
+                                                                        yo=-30))],
+                                   zorder=target.besk["zorder"]+2)
+
                         target.dmg_font = "red"
 
         def get_target_damage_effect_duration(self):
