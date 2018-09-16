@@ -1752,13 +1752,12 @@ init -1 python: # Core classes:
                                 s = "▼ "+"%s" % value
                                 color = getattr(store, target.dmg_font)
                         else:
+                            effects = []
                             for effect in target.beeffects:
                                 if isinstance(effect, tuple):
-                                    break
-                            else:
-                                effect = None
+                                    effects.append(effect)
 
-                            if effect:
+                            if len(effects) == 1:
                                 value, color = self.color_string_by_DAMAGE_type(effect, return_for="bb")
                                 s = "%s" % value
                                 color = getattr(store, color)
@@ -1769,6 +1768,7 @@ init -1 python: # Core classes:
                                 else:
                                     s = "%s" % value
                                     color = getattr(store, target.dmg_font)
+
                         if "critical_hit" in target.beeffects:
                             s = "\n".join([s, "Critical hit!"])
                         txt = Text(s, style="TisaOTM", min_width=200,
