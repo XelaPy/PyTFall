@@ -208,7 +208,7 @@ init -12 python:
                     if self.check_worker_capable(w) and self.check_worker_willing(w, job):
                         rv.append(w)
 
-                len(rv) => amount:
+                if len(rv) >= amount:
                     break
 
             return rv
