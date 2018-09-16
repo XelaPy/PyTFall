@@ -917,7 +917,7 @@ screen char_equip_right_frame():
                     selected_hover Transform(img_selected, alpha=1.15)
                     action [Function(inv_source.inventory.apply_filter, filter),
                             SelectedIf(filter == inv_source.inventory.slot_filter),
-                            SetVariable("last_inv_filter", filter), With(dissolve)]
+                            SetVariable("last_inv_filter", filter)]
                     focus_mask True
                     tooltip "{}".format(filter.capitalize())
 
