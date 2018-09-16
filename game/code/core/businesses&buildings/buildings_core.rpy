@@ -345,7 +345,14 @@ init -10 python:
         def __setattr__(self, key, value):
             stats = self.__dict__.get("stats", {})
             if key in stats:
+
                 max_val = self.__dict__["max_stats"][key]
+
+                # Ignore threat for small buildings!
+                cap = getattr(self, "capacity", 9)
+                if key == "threat" and cap < 10:
+                    value = 0
+
                 if value > max_val:
                     stats[key] = max_val
                 elif value < 0:
