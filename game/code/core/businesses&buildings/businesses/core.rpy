@@ -169,47 +169,49 @@ init -12 python:
         def normal_rule_workers(self, job):
             return list(i for i in self.building.available_workers if i.traits.basetraits.intersection(job.occupation_traits))
 
+        def loose_rule_workers(self, job):
+            return list(i for i in self.building.available_workers if i.occupations.intersection(job.occupations))
+
         def get_workers(self, job, amount=1, match_to_client=None,
-                        priority=True, any=True, use_slaves=True):
+                        rule="normal", use_slaves=True):
             """Tries to find workers for any given job.
 
-            priority: Tries to get a perfect match where action == job first.
-            any: Tries to get any match trying to match any occupation at all.
+            Will use given rule and check it vs building rule, using only
+                workers permitted.
 
             @param: match_to_client: Will try to find the a good match to client,
                     expects a client (or any PytC instance with .likes set) object.
             """
+            building = self.building
+            rv = list()
             workers = list()
 
-            if priority:
-                priorityw = self.action_priority_workers(job)
+            # Get the allowed rules:
+            rules = building.WORKER_RULES
+            local_index = rules.index(rule)
+            building_rule_index = rules.index(building.workers_rule)
+            slice_by = min(local_index, building_rule_index) + 1
+            rules = rules[:slice_by]
+
+            for r in rules:
+                func = getattr(self, r + "_rule_workers")
+                workers = list(i for i in func(job) if i not in workers)
                 if not use_slaves:
-                    priorityw = [w for w in priorityw if w.status != "slave"]
+                    workers = [w for w in workers if w.status != "slave"]
 
-                shuffle(priorityw)
-                while len(workers) < amount and priorityw:
+                shuffle(workers)
+                while len(rv) < amount and workers:
                     if match_to_client:
-                        w = self.find_best_match(match_to_client, priorityw) # This is not ideal as we may end up checking a worker who will soon be removed...
+                        w = self.find_best_match(match_to_client, workers) # This is not ideal as we may end up checking a worker who will soon be removed...
                     else:
-                        w = priorityw.pop()
+                        w = workers.pop()
                     if self.check_worker_capable(w) and self.check_worker_willing(w, job):
-                        workers.append(w)
+                        rv.append(w)
 
-            if any:
-                anyw = list(i for i in self.all_workers if i not in priorityw) if priority else self.all_workers[:]
-                if not use_slaves:
-                    anyw = [w for w in anyw if w.status != "slave"]
+                len(rv) >= amount:
+                    break
 
-                shuffle(anyw)
-                while len(workers) < amount and anyw:
-                    if match_to_client:
-                        w = self.find_best_match(match_to_client, anyw) # This is not ideal as we may end up checking a worker who will soon be removed...
-                    else:
-                        w = anyw.pop()
-                    if self.check_worker_capable(w) and self.check_worker_willing(w, job):
-                        workers.append(w)
-
-            return workers
+            return rv
 
         def find_best_match(self, client, workers):
             """Attempts to match a client to a worker.
@@ -703,7 +705,7 @@ init -12 python:
             self.workable = True
             self.active_workers = list()
             self.action = None # Action that is currently running! For example guard that are presently on patrol should still respond to act
-                                          # of violence by the customers, even thought it may appear that they're busy (in code).
+                               # of violence by the customers, even thought it may appear that they're busy (in code).
 
             # SimPy and etc follows:
             self.time = 1 # Same.
@@ -712,10 +714,10 @@ init -12 python:
             self.interrupt = None
             self.expands_capacity = False
 
-        def get_pure_workers(self, job, power_flag_name, use_slaves=True):
+        def get_strict_workers(self, job, power_flag_name, use_slaves=True):
             workers = set(self.get_workers(job, amount=float("inf"),
-                           match_to_client=None, priority=True,
-                           any=False, use_slaves=use_slaves))
+                           rule="strict",
+                           use_slaves=use_slaves))
 
             if workers:
                 # Do Disposition checks:
@@ -728,8 +730,7 @@ init -12 python:
         def all_on_deck(self, workers, job, power_flag_name, use_slaves=True):
             # calls everyone in the building to clean it
             new_workers = self.get_workers(job, amount=float("inf"),
-                            match_to_client=None, priority=True,
-                            any=True, use_slaves=use_slaves)
+                            rule="loose", use_slaves=use_slaves)
 
             if new_workers:
                 # Do Disposition checks:

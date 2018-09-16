@@ -35,9 +35,10 @@ init -5 python:
             power_flag_name = "ndd_cleaning_power"
             job = simple_jobs["Cleaning"]
 
+            # TODO This doesn't feel right, I don't like the fact that we copy the sets...
             # Pure cleaners, container is kept around for checking during all_on_deck scenarios
-            pure_workers = self.get_pure_workers(job, power_flag_name)
-            all_workers = pure_workers.copy() # Everyone that cleaned for the report.
+            strict_workers = self.get_strict_workers(job, power_flag_name)
+            all_workers = strict_workers.copy() # Everyone that cleaned for the report.
             workers = all_workers.copy() # cleaners on active duty
 
             while 1:
@@ -96,7 +97,7 @@ init -5 python:
                 if dirt <= 200 and using_all_workers:
                     using_all_workers = False
                     for worker in workers.copy():
-                        if worker not in pure_workers:
+                        if worker not in strict_workers:
                             workers.remove(worker)
                             building.available_workers.insert(0, worker)
 
@@ -136,7 +137,7 @@ init -5 python:
                         temp = "{}: DEBUG! WRITING CLEANING REPORT! c0: {}, c1: {}".format(self.env.now,
                                             c0, c1)
                         self.log(temp)
-                    self.write_nd_report(pure_workers, all_workers, -dirt_cleaned)
+                    self.write_nd_report(strict_workers, all_workers, -dirt_cleaned)
                     make_nd_report_at = 0
                     dirt_cleaned = 0
 
@@ -144,7 +145,7 @@ init -5 python:
                     if dirt < 700 and using_all_workers:
                         using_all_workers = False
                         for worker in workers.copy():
-                            if worker not in pure_workers:
+                            if worker not in strict_workers:
                                 workers.remove(worker)
                                 building.available_workers.insert(0, worker)
 
@@ -154,13 +155,13 @@ init -5 python:
                 simpy_debug("Exiting Cleaners.business_control iteration at {}".format(self.env.now))
                 yield self.env.timeout(1)
 
-        def write_nd_report(self, pure_workers, all_workers, dirt_cleaned):
+        def write_nd_report(self, strict_workers, all_workers, dirt_cleaned):
             simpy_debug("Entering Cleaners.write_nd_report at {}".format(self.env.now))
 
             job, loc = self.job, self.building
             log = NDEvent(job=job, loc=loc, team=all_workers, business=self)
 
-            extra_workers = all_workers - pure_workers
+            extra_workers = all_workers - strict_workers
 
             temp = "{} Cleaning Report!\n".format(loc.name)
             log.append(temp)
@@ -209,7 +210,7 @@ init -5 python:
             log.append(temp)
 
             # exp = dirt_cleaned/wlen
-            for w in pure_workers:
+            for w in strict_workers:
                 ap_used = w.get_flag("jobs_points_spent", 0)/100.0
                 log.logws("cleaning", randint(1, 3), char=w)
                 if dice(30):

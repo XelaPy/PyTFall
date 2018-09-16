@@ -39,9 +39,10 @@ init -5 python:
             # Brawl event:
             had_brawl_event = False
 
+            # TODO Same as for Cleaning Job, this does not feel right.
             # Pure workers, container is kept around for checking during all_on_deck scenarios
-            pure_workers = self.get_pure_workers(job, power_flag_name, use_slaves=False)
-            all_workers = pure_workers.copy() # Everyone that cleaned for the report
+            strict_workers = self.get_strict_workers(job, power_flag_name, use_slaves=False)
+            all_workers = strict_workers.copy() # Everyone that cleaned for the report
             workers = all_workers.copy() # workers on active duty
 
             while 1:
@@ -105,7 +106,7 @@ init -5 python:
                 if threat <= 200 and using_all_workers:
                     using_all_workers = False
                     for worker in workers.copy():
-                        if worker not in pure_workers:
+                        if worker not in strict_workers:
                             workers.remove(worker)
                             building.available_workers.insert(0, worker)
 
@@ -156,7 +157,7 @@ init -5 python:
                         use_SQ = True
                     else:
                         use_SQ = False
-                    self.write_nd_report(pure_workers, all_workers,
+                    self.write_nd_report(strict_workers, all_workers,
                                          -threat_cleared, use_SQ=use_SQ)
                     make_nd_report_at = 0
                     threat_cleared = 0
@@ -165,7 +166,7 @@ init -5 python:
                     if threat < 700 and using_all_workers:
                         using_all_workers = False
                         for worker in workers.copy():
-                            if worker not in pure_workers:
+                            if worker not in strict_workers:
                                 workers.remove(worker)
                                 building.available_workers.insert(0, worker)
 
@@ -180,12 +181,12 @@ init -5 python:
                 else:
                     yield self.env.timeout(1)
 
-        def write_nd_report(self, pure_workers, all_workers, threat_cleared, **kwargs):
+        def write_nd_report(self, strict_workers, all_workers, threat_cleared, **kwargs):
             simpy_debug("Entering WarriorQuarters.write_nd_report at {}".format(self.env.now))
             job, loc = self.job, self.building
             log = NDEvent(job=job, loc=loc, team=all_workers, business=self)
 
-            extra_workers = all_workers - pure_workers
+            extra_workers = all_workers - strict_workers
 
             temp = "{} Security Report!\n".format(loc.name)
             log.append(temp)
@@ -225,7 +226,7 @@ init -5 python:
 
             if kwargs.get("use_SQ", False):
                 log.append("Your guards managed to sneak in a friendly sparring match between their patrol duties!")
-                for w in pure_workers:
+                for w in strict_workers:
                     ap_used = w.get_flag("jobs_points_spent", 0)/100.0
                     if dice(25):
                         log.logws("security", 1, char=w)
@@ -245,7 +246,7 @@ init -5 python:
             if not len(all_workers):
                 raise Exception("Zero Modulo Division Detected #01")
             # exp = threat_cleared/len(all_workers)
-            for w in pure_workers:
+            for w in strict_workers:
                 ap_used = w.get_flag("jobs_points_spent", 0)/100.0
                 log.logws("security", randint(1, 3), char=w)
                 if dice(30):
