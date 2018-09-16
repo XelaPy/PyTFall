@@ -190,7 +190,10 @@ init -12 python:
             rules = building.WORKER_RULES
             local_index = rules.index(rule)
             building_rule_index = rules.index(building.workers_rule)
-            slice_by = min(local_index, building_rule_index) + 1
+            if local_index > building_rule_index:
+                slice_by = building_rule_index + 1
+            else:
+                slice_by = local_index + 1
             rules = rules[:slice_by]
 
             for r in rules:
