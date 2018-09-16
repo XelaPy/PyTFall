@@ -82,10 +82,6 @@ init -1 python: # Core classes:
 
             self.max_skill_lvl = max_skill_lvl
 
-            for team in self.teams:
-                for char in team:
-                    char.dmg_font = "red"
-
         def log(self, report, delayed=False):
             be_debug(report)
             if delayed:
@@ -316,6 +312,7 @@ init -1 python: # Core classes:
 
                 f.betag = None
                 f.besk = None
+                f.dmg_font = "red"
                 f.status_overlay = []
 
         def next_turn(self):
