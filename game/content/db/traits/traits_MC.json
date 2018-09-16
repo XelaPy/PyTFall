@@ -60,14 +60,14 @@
     {
     "id": "Stone Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are barely noticeable, but upon impact they become solid as stone, softening the blow.",
-    "el_defence": {"physical": 0.25, "earth": 0.9},
+    "el_defence": {"physical": 0.25, "earth": 0.8},
     "MC_only_trait": true,
     "permanent": true
     },
     {
     "id": "Fire Dragon Scales",
     "desc": "Your body is covered with tiny flakes. They are barely noticeable, but at higher temperatures they actively absorb and dissipate heat, making fire and, to some extent, electricity ineffective.",
-    "el_defence": {"fire": 0.9, "electricity": 0.5},
+    "el_defence": {"fire": 0.8, "electricity": 0.5},
     "MC_only_trait": true,
     "permanent": true
     },
@@ -157,7 +157,7 @@
     "id": "Poison Master",
     "desc": "You know a lot about poisons from your mother. Poison is much less effective against you, and your poison attacks much are stronger.",
     "el_defence": {"poison": 0.85},
-    "el_damage": {"poison": 0.85},
+    "el_damage": {"poison": 0.8},
     "MC_trait": true
     },
     {
