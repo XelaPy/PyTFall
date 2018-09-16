@@ -1193,7 +1193,7 @@ init -1 python: # Core classes:
 
             s = s + self.effects_to_string(t)
 
-            battle.log("".join(s), delayed=True)
+            battle.log(" ".join(s), delayed=True)
 
         def color_string_by_DAMAGE_type(self, effect, return_for="log"):
             # Takes a string "s" and colors it based of damage "type".
@@ -1207,8 +1207,8 @@ init -1 python: # Core classes:
                 color = battle.type_to_color_map.get(type, "red")
 
             if return_for == "log":
-                s = " %s:%s " % (self.DAMAGE.get(type, type), value)
-                return "{color=[%s]} %s {/color}" % (color, s)
+                s = "%s: %s" % (self.DAMAGE.get(type, type), value)
+                return "{color=[%s]}%s{/color}" % (color, s)
             elif return_for == "bb": # battle bounce
                 return value, color
             else:
@@ -1222,26 +1222,46 @@ init -1 python: # Core classes:
             # String for the log:
             effects = t.beeffects
             attributes = self.attributes
-            damage_attrs = [i for i in effects if isinstance(i, tuple)]
             s = list()
             value = t.beeffects[0]
 
+            str_effects = list()
+            type_effects = list()
+
             for effect in effects:
                 if isinstance(effect, tuple):
-                    temp = self.color_string_by_DAMAGE_type(effect)
-                    s.append(temp)
-                else: # it's a string...
-                    if effect == "backrow_penalty":
-                        # Damage halved due to the target being in the back row!
-                        s.append(" {color=[red]}1/2 DMG (Back-Row) {/color}")
-                    elif effect == "critical_hit":
-                        s.append(" {color=[lawngreen]}Critical Hit {/color}")
-                    elif effect == "magic_shield":
-                        s.append(" {color=[lawngreen]}☗+{/color} ")
-                    elif effect == "missed_hit":
-                        gfx = self.dodge_effect.get("gfx", "dodge")
-                        if gfx == "dodge":
-                            s.append(" {color=[lawngreen]}Attack Missed {/color}")
+                    type_effects.append(effect)
+                else:
+                    str_effects.append(effect)
+
+            # First add the str effects:
+            for effect in str_effects:
+                if effect == "backrow_penalty":
+                    # Damage halved due to the target being in the back row!
+                    s.append("{color=[red]}1/2 DMG (Back-Row){/color}")
+                elif effect == "critical_hit":
+                    s.append("{color=[lawngreen]}Critical Hit{/color}")
+                elif effect == "magic_shield":
+                    s.append("{color=[lawngreen]}☗+{/color}")
+                elif effect == "missed_hit":
+                    gfx = self.dodge_effect.get("gfx", "dodge")
+                    if gfx == "dodge":
+                        s.append("{color=[lawngreen]}Attack Missed{/color}")
+
+            # Next type effects:
+            for effect in type_effects:
+                temp = self.color_string_by_DAMAGE_type(effect)
+                s.append(temp)
+
+            # And finally, combined damage for multi-type attacks:
+            if len(type_effects) > 1:
+                if value < 0:
+                    value = -value
+                    color = battle.type_to_color_map["healing"]
+                else:
+                    color = "red"
+                temp = "{color=[%s]}DGM: %d{/color}" % (color, value)
+                s.append(temp)
 
             return s
 
