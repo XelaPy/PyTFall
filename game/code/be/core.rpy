@@ -1195,34 +1195,6 @@ init -1 python: # Core classes:
 
             battle.log("".join(s), delayed=True)
 
-        def set_dmg_font_color(self, t, attributes, to_string=True, color="red"):
-            """
-            Sets up the color for damage graphics and returns a correct string for the log if to_string is True
-            color: default to use if none found.
-            attributes: list of effects to go through
-            """
-            effects = t.beeffects
-
-            # Get the color for damage font based on elemental damage:
-            l = list(e for e in store.traits.itervalues() if e.id.lower() in attributes)
-            if l:
-                # Just need one (if by some future design there is more)
-                e = l[0]
-                if e.font_color:
-                    color = e.font_color
-            # We do not color battle bounce anymore:
-            # t.dmg_font = color # Set the font to pass it to show_damage_effect method, where it is reset back to red.
-
-            # We do not want to show damage in the log if the attack missed:
-            if to_string and "missed_hit" in effects:
-                gfx = self.dodge_effect.get("gfx", "dodge")
-                if gfx == "dodge":
-                    return ""
-
-            # return "{color=[%s]} DMG: %d {/color}" % (color, t.beeffects[0])
-            # Simpler now, no special colors:
-            return " DMG: %d" % (t.beeffects[0])
-
         def color_string_by_DAMAGE_type(self, effect, return_for="log"):
             # Takes a string "s" and colors it based of damage "type".
             # If type is not an element, color will be red or some preset (in this method) default.
@@ -1246,7 +1218,6 @@ init -1 python: # Core classes:
             """Adds information about target to the list and returns it to be written to the log later.
 
             - We assume that all tuples in effects are damages by type!
-            - At times also calls set_dmg_font_color.
             """
             # String for the log:
             effects = t.beeffects
@@ -1271,9 +1242,6 @@ init -1 python: # Core classes:
                         gfx = self.dodge_effect.get("gfx", "dodge")
                         if gfx == "dodge":
                             s.append(" {color=[lawngreen]}Attack Missed {/color}")
-                    else:
-                        if len(damage_attrs) > 1:
-                            s.append(self.set_dmg_font_color(t, attributes, color=default_color))
 
             return s
 
