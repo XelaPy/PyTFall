@@ -220,7 +220,7 @@ init python:
                 if self.target == target:
                     store.battle.queue.remove(self.target)
 
-            battle.log(self.msg)
+            battle.log(self.msg, delayed=True)
 
 
     class PoisonEvent(BE_Event):
