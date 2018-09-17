@@ -450,5 +450,4 @@ screen girl_interactions():
                     text_color ivory
                     keysym "mousedown_3"
 
-    key "mousedown_3" action Return(["control", "back"])
     use top_stripe(False)
