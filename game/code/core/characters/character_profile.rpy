@@ -1007,7 +1007,7 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
                                     text traits[i]["defence"] size 15 color traits[i]["defence_color"] align 1.0, .5 outlines [(1, "#000000", 0, 0)]
 
             imagebutton:
-                align .87, .005
+                align .99, .01
                 xysize 22, 22
                 idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
                 hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
