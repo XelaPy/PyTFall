@@ -13,5 +13,6 @@ init -5 python:
             self.occupations = ["Specialist"] # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = [traits["Manager"]] # Corresponding traits...
             self.aeq_purpose = 'Manager'
+            self.desc = "Manages your business, helping workers in various ways and improving their performance"
 
             self.allowed_status = ["free"]

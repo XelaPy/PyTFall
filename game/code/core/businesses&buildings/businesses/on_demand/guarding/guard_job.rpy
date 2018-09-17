@@ -18,7 +18,7 @@ init -5 python:
                                "agility": 20, "magic": 20}
             self.base_skills = {"security": 100}
 
-            self.desc = "Don't let them take your shit!"
+            self.desc = "Protects your business and girls from rivals and aggressive customers"
 
             self.allowed_status = ["free"]
 

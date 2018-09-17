@@ -5,7 +5,7 @@ init -5 python:
         MATERIALS = {"Wood": 50, "Bricks": 30, "Glass": 5}
         NAME = "Bar"
         IMG = "content/buildings/upgrades/bar.webp"
-        DESC = "Serve drinks and snacks to your customers!"
+        DESC = "Allows to serve drinks and snacks to your customers"
         COST = 500
         IN_SLOTS = 3
         def __init__(self, **kwargs):

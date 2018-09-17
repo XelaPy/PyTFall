@@ -6,7 +6,7 @@ init -5 python:
         COST = 300
         NAME = "Warrior Quarters"
         IMG = "content/buildings/upgrades/guard_qt.webp"
-        DESC = "Serve and Protect!"
+        DESC = "Allows to use guards in the building"
         def __init__(self, **kwargs):
             super(WarriorQuarters, self).__init__(**kwargs)
             self.jobs = set([simple_jobs["Guarding"]])
