@@ -1,120 +1,3 @@
-screen new_style_tooltip():
-    layer "tooltips"
-    $ tooltip = GetTooltip()
-
-    if renpy.get_screen("show_trait_info") and "Icon " not in str(tooltip):
-        pass
-    else:
-        use new_style_tooltip_content(tooltip)
-
-screen new_style_tooltip_content(tooltip):
-    # Get mouse coords:
-    python:
-        x, y = renpy.get_mouse_pos()
-        xval = 1.0 if x > config.screen_width/2 else .0
-        yval = 1.0 if y > config.screen_height/2 else .0
-
-    if persistent.tooltips and tooltip:
-        if isinstance(tooltip, basestring):
-            frame:
-                style_prefix "new_style_tooltip"
-                pos (x, y)
-                anchor (xval, yval)
-                text "[tooltip]"
-        elif isinstance(tooltip, list) and tooltip[0] == "be":
-            $ combat_skill = tooltip[1]
-            frame:
-                style_prefix "new_style_tooltip_be_skills"
-                pos (x, y)
-                anchor (xval, yval)
-                xmaximum 400
-                has vbox
-
-                $ temp = "".join([combat_skill.DAMAGE_20[t] for t in combat_skill.damage])
-                # if "melee" in combat_skill.attributes:
-                #     $ line = "{color=[red]}Melee skill{/color}"
-                # elif "ranged" in combat_skill.attributes:
-                #     $ line = "{color=[green]}Ranged skill{/color}"
-                # elif "magic" in combat_skill.attributes:
-                #     $ line = "{color=[green]}Magic skill{/color}"
-                # else:
-                #     $ line = "{color=[orange]}Status skill{/color}"
-
-                if "inevitable" in combat_skill.attributes:
-                    $ line = "Can't be dodged!"
-                else:
-                    $ line = None
-
-                if combat_skill.critpower != 0:
-                    if combat_skill.critpower > 0:
-                        $ critpower = "+[combat_skill.critpower]%"
-                    else:
-                        $ critpower = "[combat_skill.critpower]%"
-                else:
-                    $ critpower = None
-
-                if combat_skill.effect > 0:
-                    $ effect = "[combat_skill.effect]"
-                else:
-                    $ effect = None
-
-                # Elements:
-                text "[combat_skill.name]" size 20 color ivory outlines [(2, "#3a3a3a", 0, 0)]
-                text "[combat_skill.desc]" color ivory
-
-                null height 5
-
-                if line:
-                    hbox:
-                        xsize 170
-                        text "{}".format(line)
-                hbox:
-                    xsize 200
-                    text "Damage: "
-                    text "[temp]" xalign 1.0
-                if critpower:
-                    hbox:
-                        xsize 200
-                        text "Critical damage:"
-                        text "%s" % critpower xalign 1.0
-                if effect:
-                    hbox:
-                        xsize 200
-                        text "Relative power:"
-                        text "%s" % effect xalign 1.0
-
-                null height 5
-
-                hbox:
-                    spacing 10
-                    if combat_skill.health_cost > 0:
-                        if isinstance(combat_skill.health_cost, int):
-                            text "HP: [combat_skill.health_cost] " color red
-                        else:
-                            $ value = int(combat_skill.health_cost * 100)
-                            text "HP: [value] % " color red
-                    if combat_skill.mp_cost > 0:
-                        if isinstance(combat_skill.mp_cost, int):
-                            text "MP: [combat_skill.mp_cost] " color blue
-                        else:
-                            $ value = int(combat_skill.mp_cost * 100)
-                            text "MP: [value] % " color blue
-
-                    if combat_skill.vitality_cost > 0:
-                        if isinstance(combat_skill.vitality_cost, int):
-                            text "VP: [combat_skill.vitality_cost] " color green
-                        else:
-                            $ value = int(combat_skill.vitality_cost * 100)
-                            text "VP: [value] % " color green
-                    if (combat_skill.type=="all_enemies" and combat_skill.piercing) or combat_skill.type=="all_allies":
-                        text "Target: All" color gold
-                    elif combat_skill.type=="all_enemies":
-                        text "Target: First Row" color gold
-                    elif combat_skill.piercing:
-                        text "Target: Any" color gold
-                    else:
-                        text "Target: One" color gold
-
 screen set_action_dropdown(char, pos=()):
     # Trying to create a drop down screen with choices of actions:
     zorder 3
@@ -376,3 +259,406 @@ screen character_pick_screen(): # screen to select someone from the MC team
                 yalign .5
                 action Return(False)
                 text "Cancel" size 15 color goldenrod
+
+screen finances(obj, mode="logical"):
+    modal True
+    zorder 1
+
+    default fin_mode = mode
+    default focused = obj
+
+    add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
+    frame:
+        at slide(so1=(0, 700), t1=.7, so2=(0, 0), t2=.3, eo2=(0, -config.screen_height))
+        background Frame(Transform("content/gfx/frame/FrameGP.png", alpha=.9), 10, 10)
+        style_prefix "proper_stats"
+        xysize 1000, 600
+        padding 20, 20
+        align .5, .5
+
+        $ days, all_income_data, all_expense_data = focused.fin.get_data_for_fin_screen(fin_mode)
+
+        # Days:
+        default fin_day = days[-1] if days else None
+        # Special check, took some time to track down:
+        # Problem here is that we can CTD when switching from Private to Performance...
+        # Kind of a hack but it's difficult to do this differently without recoding the screen.
+        if fin_day in days:
+            pass
+        elif days:
+            $ fin_day = days[-1]
+        else:
+            $ fin_day = None
+
+        if fin_day not in all_income_data:
+            text "There are no Finances to display for {}!".format(focused.name) align .5, .5
+        else:
+            hbox:
+                style_prefix "basic"
+                for d in days:
+                    if d == store.day:
+                        $ temp = "Today"
+                    elif isinstance(d, int):
+                        $ temp = "Day " + str(d)
+                    else:
+                        $ temp = d # All variant...
+                    textbutton temp action SetScreenVariable("fin_day", d)
+
+            vbox:
+                ypos 40
+                text "Income:" size 40 color goldenrod
+                viewport:
+                    xysize (398, 350)
+                    draggable True
+                    mousewheel True
+                    child_size 398, 1000
+                    add Transform(Solid(grey), alpha=.3)
+                    vbox:
+                        ypos 2
+                        for reason, value in sorted(all_income_data[fin_day].items(), key=itemgetter(1), reverse=True):
+                            frame:
+                                xoffset 4
+                                xysize (390, 27)
+                                xpadding 7
+                                text reason color "#79CDCD"
+                                text str(value) xalign 1.0 style_suffix "value_text" color goldenrod
+
+                        null height 10
+                        frame:
+                            xoffset 4
+                            xysize (390, 27)
+                            xpadding 7
+                            text "Total" color "#79CDCD"
+                            $ total_income = sum(all_income_data[fin_day].values())
+                            text str(total_income) xalign 1.0 style_suffix "value_text" color lawngreen
+
+            vbox:
+                ypos 40 xalign 1.0
+                text "Expenses:" size 40 color goldenrod
+                viewport:
+                    xysize (398, 350)
+                    child_size 398, 1000
+                    draggable True
+                    mousewheel True
+                    add Transform(Solid(grey), alpha=.3)
+                    vbox:
+                        ypos 2
+                        for reason, value in sorted(all_expense_data[fin_day].items(), key=itemgetter(1), reverse=True):
+                            frame:
+                                xoffset 4
+                                xysize (390, 27)
+                                xpadding 7
+                                text reason color "#79CDCD"
+                                text str(value) xalign 1.0 style_suffix "value_text" color goldenrod
+
+                        null height 10
+                        frame:
+                            xoffset 4
+                            xysize (390, 27)
+                            xpadding 7
+                            text "Total" color "#79CDCD"
+                            $ total_expenses = sum(all_expense_data[fin_day].values())
+                            text str(total_expenses) xalign 1.0 style_suffix "value_text" color red
+
+            frame:
+                align .5, .9
+                xysize 400, 50
+                xpadding 7
+                background Frame("content/gfx/frame/rank_frame.png", 3, 3)
+                text "Total" size 35 color goldenrod
+                $ total = total_income - total_expenses
+                $ temp = red if total < 0 else lawngreen
+                text str(total) xalign 1.0 style_suffix "value_text" color temp size 35
+
+        # Debt
+        if focused.fin.income_tax_debt or focused.fin.property_tax_debt:
+            $ total_debt = focused.fin.income_tax_debt + focused.fin.property_tax_debt
+            frame:
+                background Frame(Transform("content/gfx/frame/MC_bg2.png", alpha=.9), 10, 10)
+                style_prefix "proper_stats"
+                align 1.0, 1.0
+                padding 5, 10
+                has vbox
+                frame:
+                    xysize (200, 20)
+                    xpadding 7
+                    text "Income Tax Debt:" size 15
+                    text "[focused.fin.income_tax_debt]" style_suffix "value_text" xalign 1.0 color red yoffset -1
+                frame:
+                    xysize (200, 20)
+                    xpadding 7
+                    text "Property Tax Debt:" size 15
+                    text "[focused.fin.property_tax_debt]" style_suffix "value_text" xalign 1.0 color red yoffset -1
+                null height 3
+                frame:
+                    xysize (200, 20)
+                    xpadding 7
+                    text "Total:" size 15
+                    text "[total_debt]" style_suffix "value_text" xalign 1.0 color red yoffset -1
+
+        hbox:
+            style_prefix "basic"
+            align .5, 1.0
+            button:
+                minimum (100, 30)
+                action Hide('finances')
+                text "OK"
+                keysym ("K_RETURN", "K_ESCAPE", "mouseup_3")
+            if isinstance(focused, Char):
+                button:
+                    minimum (100, 30)
+                    if fin_mode == "logical":
+                        sensitive focused.allowed_to_view_personal_finances()
+                        action SetScreenVariable('fin_mode', "main")
+                        text "Personal"
+                    elif fin_mode == "main":
+                        action SetScreenVariable('fin_mode', "logical")
+                        text "Performance"
+
+    if isinstance(focused, Char):
+        key "mousedown_4" action SetScreenVariableC("focused", Function(change_char_in_profile, dir="next"))
+        key "mousedown_5" action SetScreenVariableC("focused", Function(change_char_in_profile, dir="prev"))
+
+screen race_and_elements(align=(.5, .99), char=None):
+    hbox:
+        align align
+        spacing 20
+        # Race:
+        frame:
+            xysize (100, 100)
+            $ trait = char.race
+            background Frame(Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
+            $ img = ProportionalScale(trait.icon, 95, 95)
+            button:
+                align (.5, .5)
+                xysize (95, 95)
+                background img
+                action Show("show_trait_info", trait=trait.id, place="race_trait")
+                hover_background im.MatrixColor(img, im.matrix.brightness(.10))
+                tooltip "Race:\n   {}".format(char.full_race)
+
+        # Elements icon:
+        $ els = [Transform(e.icon, size=(90, 90)) for e in char.elements]
+        $ els_a = [Transform(im.MatrixColor(e.icon, im.matrix.brightness(.10)), size=(90, 90)) for e in char.elements]
+        frame:
+            xysize (100, 100)
+            background Frame(Transform("content/gfx/frame/frame_it1.png", alpha=.6, size=(100, 100)), 10, 10)
+            add ProportionalScale("content/gfx/interface/images/elements/hover.png", 98, 98) align (.5, .5)
+            $ x = 0
+            $ els = [Transform(i, crop=(90/len(els)*els.index(i), 0, 90/len(els), 90), subpixel=True, xpos=(x + 90/len(els)*els.index(i))) for i in els]
+            $ els_a = [Transform(i, crop=(90/len(els_a)*els_a.index(i), 0, 90/len(els_a), 90), subpixel=True, xpos=(x + 90/len(els_a)*els_a.index(i))) for i in els_a]
+            $ f = Fixed(*els, xysize=(90, 90))
+            $ f_a = Fixed(*els_a, xysize=(90, 90))
+            if len(char.elements) > 1:
+                $ ele = ""
+                for e in char.elements:
+                    $ ele += e.id + ", "
+                $ ele = ele[:-2]
+            else:
+                $ ele = char.elements[0].id
+            button:
+                xysize 90, 90
+                align .5, .5 offset -1, -1
+                action Show("show_trait_info", trait=char, elemental_mode=True, place="ele_trait")
+                background f
+                hover_background f_a
+                tooltip "Elements:\n   {}".format(ele)
+
+screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
+    default pos = renpy.get_mouse_pos()
+    python:
+        x, y = pos
+        if x > config.screen_width/2:
+            x -= 20
+            xval = 1.0
+        else:
+            x += 20
+            xval = .0
+        temp = config.screen_height/3
+        if y < temp:
+            yval = .0
+        elif y > config.screen_height-temp:
+            yval = 1.0
+        else:
+            yval = .5
+
+    if not elemental_mode:
+        $ trait_info = traits[trait]
+        fixed:
+            pos x, y
+            anchor xval, yval
+            fit_first True
+            frame:
+                background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+                padding 10, 10
+                has vbox style_prefix "proper_stats" spacing 1
+
+                if any([trait_info.min, trait_info.max, trait_info.mod_stats, trait_info.effects,
+                        trait_info.mod_skills, trait_info.mod_ap, hasattr(trait_info, "evasion_bonus")]):
+                    if trait_info.max:
+                        label (u"Max:") text_size 20 text_color goldenrod text_bold True xalign .45
+                        for stat, value in trait_info.max.iteritems():
+                            frame:
+                                xysize 170, 20
+                                if value < 0:
+                                    text stat.title() size 15 color red align .0, .5 outlines [(1, "#000000", 0, 0)]
+                                    label str(value) text_size 15 text_color red align 1.0, .5 text_outlines [(1, "#000000", 0, 0)]
+                                else:
+                                    text stat.title() size 15 color lime align .0, .5 outlines [(1, "#000000", 0, 0)]
+                                    label "+" + str(value) text_size 15 text_color lime align 1.0, .5 text_outlines [(1, "#000000", 0, 0)]
+                    if trait_info.min:
+                        label (u"Min:") text_size 20 text_color goldenrod text_bold True xalign .45
+                        for stat, value in trait_info.min.iteritems():
+                            frame:
+                                xysize 170, 20
+                                if value < 0:
+                                    text stat.title() size 15 color red align .0, .5 outlines [(1, "#000000", 0, 0)]
+                                    label str(value) text_size 15 text_color red align 1.0, .5 text_outlines [(1, "#000000", 0, 0)]
+                                else:
+                                    text stat.title() size 15 color lime align .0, .5 outlines [(1, "#000000", 0, 0)]
+                                    label "+" + str(value) text_size 15 text_color lime align 1.0, .5 text_outlines [(1, "#000000", 0, 0)]
+                    if trait_info.mod_stats:
+                        label (u"Bonus:") text_size 20 text_color goldenrod text_bold True xalign .45
+                        for i in trait_info.mod_stats:
+                            frame:
+                                xysize 170, 20
+                                if str(i) not in ["disposition", "upkeep"]:
+                                    if (trait_info.mod_stats[i])[0] < 0:
+                                        text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0]) + " every " + str((trait_info.mod_stats[i])[1]) + " lvl") align .5, .5 size 15 color red text_align .5 outlines [(1, "#000000", 0, 0)]
+                                    else:
+                                        text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0]) + " every " + str((trait_info.mod_stats[i])[1]) + " lvl") align .5, .5 size 15 color lime text_align .5 outlines [(1, "#000000", 0, 0)]
+                                else:
+                                    if str(i) == "disposition":
+                                        if (trait_info.mod_stats[i])[0] < 0:
+                                            text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color red text_align .5 outlines [(1, "#000000", 0, 0)]
+                                        else:
+                                            text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color lime text_align .5 outlines [(1, "#000000", 0, 0)]
+                                    else:
+                                        if (trait_info.mod_stats[i])[0] < 0:
+                                            text (str(i).title() + ": " + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color lime text_align .5 outlines [(1, "#000000", 0, 0)]
+                                        else:
+                                            text (str(i).title() + ": +" + str((trait_info.mod_stats[i])[0])) align .5, .5 size 15 color red text_align .5 outlines [(1, "#000000", 0, 0)]
+                    if trait_info.effects:
+                        label (u"Effects:") text_size 20 text_color goldenrod text_bold True xalign .45
+                        for i in trait_info.effects:
+                            frame:
+                                xysize 170, 20
+                                text (str(i).title()) size 15 color yellow align .5, .5 text_align .5 outlines [(1, "#000000", 0, 0)]
+
+                    if trait_info.mod_skills:
+                        label (u"Skills:") text_size 20 text_color goldenrod text_bold True xalign .45
+                        for skill, data in trait_info.mod_skills.iteritems():
+                            frame:
+                                xysize 170, 20
+                                text str(skill).title() size 15 color yellowgreen align .0, .5 outlines [(1, "#000000", 0, 0)]
+
+                                $ img_path = "content/gfx/interface/icons/skills_icons/"
+                                default PS = ProportionalScale
+                                button:
+                                    style "default"
+                                    xysize 20, 18
+                                    action NullAction()
+                                    align .99, .5
+                                    tooltip "Icon represents skills changes. Green means bonus, red means penalty. Left one is action counter, right one is training counter, top one is resulting value."
+                                    if data[0] > 0:
+                                        add PS(img_path + "left_green.png", 20, 20)
+                                    elif data[0] < 0:
+                                        add PS(img_path + "left_red.png", 20, 20)
+                                    if data[1] > 0:
+                                        add PS(img_path + "right_green.png", 20, 20)
+                                    elif data[1] < 0:
+                                        add PS(img_path + "right_red.png", 20, 20)
+                                    if data[2] > 0:
+                                        add PS(img_path + "top_green.png", 20, 20)
+                                    elif data[2] < 0:
+                                        add PS(img_path + "top_red.png", 20, 20)
+                    if trait_info.mod_ap or hasattr(trait_info, "evasion_bonus") or hasattr(trait_info, "delivery_multiplier"):
+                        label (u"Other:") text_size 20 text_color goldenrod text_bold True xalign .45
+                        if trait_info.mod_ap:
+                            frame:
+                                xysize 170, 20
+                                $ output = "AP"
+                                if trait_info.mod_ap > 0:
+                                    $ output += " +" + str(trait_info.mod_ap)
+                                else:
+                                    $ output += str(trait_info.mod_ap)
+                                text (output) align .5, .5 size 15 color yellowgreen text_align .5 outlines [(1, "#000000", 0, 0)]
+
+                        if hasattr(trait_info, "evasion_bonus"):
+                            frame:
+                                xysize 170, 20
+                                if trait_info.evasion_bonus[1] < 0:
+                                    text ("Evasion -") size 15 color yellowgreen align .5, .5 text_align .5 outlines [(1, "#000000", 0, 0)]
+                                elif trait_info.evasion_bonus[1] > 0:
+                                    text ("Evasion +") size 15 color yellowgreen align .5, .5 text_align .5 outlines [(1, "#000000", 0, 0)]
+                        if hasattr(trait_info, "delivery_multiplier"):
+                            for i in trait_info.delivery_multiplier:
+                                frame:
+                                    xysize 170, 20
+                                    $ output = str(i).title() + " damage "
+                                    if trait_info.delivery_multiplier.get(str(i)) > 0:
+                                        $ output += "+"
+                                    else:
+                                        $ output += "-"
+                                    text (output) align .5, .5 size 15 color yellowgreen text_align .5 outlines [(1, "#000000", 0, 0)]
+                else:
+                    label ("-no direct effects-") text_size 15 text_color goldenrod text_bold True xalign .45 text_outlines [(1, "#000000", 0, 0)]
+
+            imagebutton:
+                align .99, .01
+                xysize 22, 22
+                idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
+                hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
+                action Hide("show_trait_info")
+                keysym "mousedown_3"
+    else:
+        $ traits = elements_calculator(trait)
+        fixed:
+            pos x, y
+            anchor xval, yval
+            fit_first True
+            frame:
+                background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+                padding 10, 5
+                has vbox style_prefix "proper_stats" spacing 1
+                if not traits:
+                    label ("-elements neutralized each other-") text_size 14 text_color goldenrod text_bold True xalign .45
+                else:
+                    hbox:
+                        frame:
+                            xysize 80, 20
+                            text "element" size 15 color goldenrod align .0, .5 outlines [(1, "#000000", 0, 0)]
+                        frame:
+                            xysize 60, 20
+                            text "damage" size 15 color goldenrod align .5, .5 outlines [(1, "#000000", 0, 0)]
+                        frame:
+                            xysize 60, 20
+                            text "defense" size 15 color goldenrod align .5, .5 outlines [(1, "#000000", 0, 0)]
+                    for i in traits:
+                        hbox:
+                            frame:
+                                xysize 80, 20
+                                text i size 15 color goldenrod align .0, .5 outlines [(1, "#000000", 0, 0)]
+                            frame:
+                                xysize 60, 20
+                                text traits[i]["attack"] size 15 color traits[i]["attack_color"] align 1.0, .5 outlines [(1, "#000000", 0, 0)]
+                            if "abs" in traits[i].keys():
+                                frame:
+                                    xysize 60, 20
+                                    text traits[i]["abs"] size 15 color lime align 1.0, .5 outlines [(1, "#000000", 0, 0)]
+                            elif "resist" in traits[i].keys():
+                                frame:
+                                    xysize 60, 20
+                                    text "RES" size 15 color lime align 1.0, .5
+                            else:
+                                frame:
+                                    xysize 60, 20
+                                    text traits[i]["defence"] size 15 color traits[i]["defence_color"] align 1.0, .5 outlines [(1, "#000000", 0, 0)]
+
+            imagebutton:
+                align .99, .01
+                xysize 22, 22
+                idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
+                hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
+                action Hide("show_trait_info")
+                keysym "mousedown_3"

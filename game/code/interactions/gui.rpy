@@ -448,5 +448,7 @@ screen girl_interactions():
                     style "main_screen_3_button"
                     text_style "library_book_header_sub"
                     text_color ivory
+                    keysym "mousedown_3"
+
     key "mousedown_3" action Return(["control", "back"])
     use top_stripe(False)
