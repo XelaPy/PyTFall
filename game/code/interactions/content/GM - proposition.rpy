@@ -198,7 +198,7 @@ label interactions_girlfriend:
         $ l_ch += 80
     else:
         $ l_ch += 70
-        
+
     if char.status == "slave":
         $ l_ch += 200
 
@@ -294,28 +294,27 @@ label interactions_hire:
         jump girl_interactions
 
     python:
-        heroskillz = 0
-        girlskillz = 0
         mod_chance = 0
 
     python hide:
-        mtraits = []
-        for t in char.traits:
-            if t.basetrait:
-                mtraits.append(t)
+        heroskillz = 0
+        girlskillz = 0
 
-        for i in mtraits:
+        # First we get the difference between baseskills:
+        for i in char.traits.basetraits:
             for s in i.base_stats:
-                store.heroskillz += getattr(hero, s)
-                store.girlskillz += getattr(char, s)
+                heroskillz += getattr(hero, s)
+                girlskillz += getattr(char, s)
 
-        store.heroskillz += hero.charisma
+        heroskillz += hero.charisma
 
+        # Special Arena Mod for chars chars that might be willing to do that.
         if char.arena_willing and hero.arena_rep > char.arena_rep:
-            store.heroskillz += 100
+            heroskillz += 100
 
-        store.heroskillz *= (hero.tier+1)*.1 + 1
-        store.girlskillz *= (char.tier+1)*.1 + 1
+        # Also an extra bonus if they share an occupation:
+        if hero.occupations.intersection(char.occupations):
+            heroskills += 100
 
         # and finally get the difference and make sure overwhelming difference
         # will not allow a girl to join at -900 disposition :):
@@ -324,18 +323,18 @@ label interactions_hire:
         if store.mod_chance > 700:
             store.mod_chance = 700
 
-    if DEBUG:
-        $ notify("Hero|Char| Mod: {}|{}| {}".format(heroskillz, girlskillz, mod_chance))
+        if DEBUG:
+            devlog.info("Hero|Char| Mod: {}|{}| {}".format(heroskillz, girlskillz, store.mod_chance))
 
     python:
-       del girlskillz
-       del heroskillz
+       target_val = 150 + max(0, char.tier-hero.tier)*200
 
     # Solve chance
-    if char.disposition > 500 - mod_chance:
+    if char.disposition > target_val - mod_chance:
         call interactions_agrees_to_be_hired from _call_interactions_agrees_to_be_hired
 
         $ del mod_chance
+        $ del target_val
 
         menu:
             "Hire her? Her average wage will be [char.expected_wage]":
@@ -349,7 +348,6 @@ label interactions_hire:
 
             "Maybe later." :
                 jump girl_interactions
-
     else:
         $ del mod_chance
 
