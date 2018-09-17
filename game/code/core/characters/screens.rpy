@@ -559,7 +559,7 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
                                     xysize 20, 18
                                     action NullAction()
                                     align .99, .5
-                                    tooltip "Icon represents skills changes. Green means bonus, red means penalty. Left one is action counter, right one is training counter, top one is resulting value."
+                                    tooltip "***Icon represents skills changes. Green means bonus, red means penalty. Left one is action counter, right one is training counter, top one is resulting value."
                                     if data[0] > 0:
                                         add PS(img_path + "left_green.png", 20, 20)
                                     elif data[0] < 0:
@@ -646,20 +646,22 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
                                 frame:
                                     xysize 60, 20
                                     button:
-                                        xysize 60, 20
-                                        background None
-                                        text traits[i]["abs"] size 15 color lime align 1.0, .5 outlines [(1, "#000000", 0, 0)]
+                                        align 1.0, .5
+                                        margin 0, 0 padding 0, 0
+                                        background Null()
                                         action NullAction()
-                                        tooltip "The character heals by this part of damage when attacked by this element"  # FIXME :(
+                                        tooltip "***The character will absorb the damage from this type of attack!"
+                                        text traits[i]["abs"] size 13 color lime outlines [(1, "#000000", 0, 0)]
                             elif "resist" in traits[i].keys():
                                 frame:
                                     xysize 60, 20
                                     button:
-                                        background None
-                                        xysize 60, 20
-                                        text "RES" size 15 color lime align 1.0, .5
+                                        align 1.0, .5
+                                        margin 0, 0 padding 0, 0
+                                        background Null()
+                                        text "RES" size 13 color lime
                                         action NullAction()
-                                        tooltip "The character is completely immune to this element" # FIXME :(
+                                        tooltip "***The character is immune to this element!"
                             else:
                                 frame:
                                     xysize 60, 20
