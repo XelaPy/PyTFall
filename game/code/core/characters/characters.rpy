@@ -1573,7 +1573,7 @@ init -9 python:
                         choices.append(("warrior", 100))
                         # if we still didn't pick the items, if the character has Warrior occupation, she may ignore dresses
                         dress_weight = 60 if self.occupations.issuperset(("SIW", "Server", "Specialist")) else 25
-                    if "Caster" in self.occupations and auto_buy_items["scroll"]: # FIXME: remove 2nd part when we have scrolls.
+                    if "Caster" in self.occupations:
                         choices.append(("scroll", 25))
 
                 choices.append(("dress", dress_weight))
