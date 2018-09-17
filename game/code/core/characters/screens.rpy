@@ -645,11 +645,21 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
                             if "abs" in traits[i].keys():
                                 frame:
                                     xysize 60, 20
-                                    text traits[i]["abs"] size 15 color lime align 1.0, .5 outlines [(1, "#000000", 0, 0)]
+                                    button:
+                                        xysize 60, 20
+                                        background None
+                                        text traits[i]["abs"] size 15 color lime align 1.0, .5 outlines [(1, "#000000", 0, 0)]
+                                        action NullAction()
+                                        tooltip "The character heals by this part of damage when attacked by this element"  # FIXME :(
                             elif "resist" in traits[i].keys():
                                 frame:
                                     xysize 60, 20
-                                    text "RES" size 15 color lime align 1.0, .5
+                                    button:
+                                        background None
+                                        xysize 60, 20
+                                        text "RES" size 15 color lime align 1.0, .5
+                                        action NullAction()
+                                        tooltip "The character is completely immune to this element" # FIXME :(
                             else:
                                 frame:
                                     xysize 60, 20
