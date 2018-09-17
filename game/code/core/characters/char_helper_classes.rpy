@@ -1041,6 +1041,7 @@ init -10 python:
         Some of it's methods assume input from self.instance__setattr__ and do extra calculations!
         """
         FIXED_MAX = set(['joy', 'mood', 'disposition', 'vitality', 'luck', 'alignment'])
+        SEX_SKILLS = set(["vaginal", "anal", "oral", "sex", "group", "bdsm"])
         def __init__(self, *args, **kwargs):
             """
             instance = reference to Character object
