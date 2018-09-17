@@ -2056,6 +2056,9 @@ init -9 python:
             # AP restore:
             self.restore_ap()
 
+            # Always init the tiers:
+            self.recalculate_tier()
+
             # add Character:
             if not self.say:
                 self.update_sayer()

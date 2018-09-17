@@ -154,7 +154,7 @@ label slavel_market_controls:
 
 label mc_action_work_in_slavemarket:
     python:
-        wage = round_int(hero.expected_wage/float(hero.setAP)*use_ap) * 10 # Double the wage, MC is l33t compared to everyone else :D
+        wage = round_int(hero.expected_wage/float(hero.setAP)*use_ap) * 6
         if dice(hero.luck*.1):
             wage += hero.level*5*use_ap
 
