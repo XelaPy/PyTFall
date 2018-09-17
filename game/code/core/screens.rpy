@@ -177,7 +177,15 @@ init:
             $ tc_0 = any([renpy.current_screen().tag == "next_day", hero.AP == 0])
             $ tc_1 = renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "slave_shopping"]
             $ tc_2 = not show_team_status
-            if all([tc_0, tc_1, tc_2]):
+            $ gm_points = gm.gm_points
+
+            $ tt_string = "You have {} Action Points to interact with the world".format(hero.AP)
+            if gm_points:
+                $ tt_string += " and {} free points to interact with any of the characters!".format(gm_points)
+            else:
+                $ tt_string += "!"
+
+            if all([tc_0, tc_1, tc_2, not gm_points]):
                 button:
                     style_group "basic"
                     align (.5, .6)
@@ -194,13 +202,20 @@ init:
                     focus_mask True
                     background ProportionalScale("content/gfx/frame/frame_ap.png", 170, 50)
                     action NullAction()
-                    tooltip "You have {} Action Points to interact with the world!".format(hero.AP)
-                    label "[hero.AP]":
+                    tooltip tt_string
+                    hbox:
                         align .8, .1
-                        style "content_label"
-                        text_size 23
-                        text_color ivory
-                        text_bold True
+                        label "[hero.AP]":
+                            style "content_label"
+                            text_size 23
+                            text_color ivory
+                            text_bold True
+                        if gm_points:
+                            text "[gm_points]":
+                                color pink
+                                style "proper_stats_text"
+                                yoffset 7
+
 
             # Right HBox:
             hbox:
