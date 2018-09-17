@@ -830,8 +830,19 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
     default pos = renpy.get_mouse_pos()
     python:
         x, y = pos
-        xval = 1.0 if x > config.screen_width/2 else .0
-        yval = 1.0 if y > config.screen_height/2 else .0
+        if x > config.screen_width/2:
+            x -= 20
+            xval = 1.0
+        else:
+            x += 20
+            xval = .0
+        temp = config.screen_height/3
+        if y < temp:
+            yval = .0
+        elif y > config.screen_height-temp:
+            yval = 1.0
+        else:
+            yval = .5
 
     if not elemental_mode:
         $ trait_info = traits[trait]
