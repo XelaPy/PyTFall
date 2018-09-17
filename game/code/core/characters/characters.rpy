@@ -2053,6 +2053,9 @@ init -9 python:
             if not self.nickname:
                 self.nickname = self.name
 
+            # AP restore:
+            self.restore_ap()
+
             # add Character:
             if not self.say:
                 self.update_sayer()
@@ -2668,9 +2671,6 @@ init -9 python:
 
             # Calculate upkeep.
             self.fin.calc_upkeep()
-
-            # AP restore:
-            self.restore_ap()
 
             super(Char, self).init()
 

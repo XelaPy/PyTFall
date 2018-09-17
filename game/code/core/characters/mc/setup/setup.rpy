@@ -22,9 +22,6 @@ label mc_setup:
 
                     hero._path_to_imgfolder = af._path_to_imgfolder
                     hero.id = af.id
-                    hero.say = Character(hero.nickname, color=ivory, show_two_window=True, show_side_image=hero.show("portrait", resize=(120, 120)))
-                    hero.restore_ap()
-                    hero.log_stats()
 
                 jump mc_setup_end
 
@@ -110,6 +107,9 @@ label mc_setup_end:
     # Set the default battle skill:
     if not hero.attack_skills:
         $ hero.attack_skills.append(hero.default_attack_skill)
+
+    $ hero.init()
+    $ hero.log_stats()
 
     python:
         del temp
