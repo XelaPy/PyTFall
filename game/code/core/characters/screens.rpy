@@ -2,6 +2,12 @@ screen new_style_tooltip():
     layer "tooltips"
     $ tooltip = GetTooltip()
 
+    if renpy.get_screen("show_trait_info") and "Icon " not in str(tooltip):
+        pass
+    else:
+        use new_style_tooltip_content(tooltip)
+
+screen new_style_tooltip_content(tooltip):
     # Get mouse coords:
     python:
         x, y = renpy.get_mouse_pos()

@@ -813,28 +813,35 @@ screen race_and_elements(align=(.5, .99), char=None):
                 tooltip "Elements:\n   {}".format(ele)
 
 screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
-    if place == "girl_trait":
-        if trait != "Manly":
-            $ al = (.69, .4)
-        else:
-            $ al = (.69, .2)
-    elif place == "mc_trait":
-        $ al = (.86, .45)
-    elif place == "main_trait":
-        $ al = (.1, .2)
-    elif place == "ele_trait":
-        $ al = (.35, .9)
-    elif place == "race_trait":
-        $ al = (.2, 1.0)
-    if not(elemental_mode):
+    # if place == "girl_trait":
+    #     if trait != "Manly":
+    #         $ al = (.69, .4)
+    #     else:
+    #         $ al = (.69, .2)
+    # elif place == "mc_trait":
+    #     $ al = (.86, .45)
+    # elif place == "main_trait":
+    #     $ al = (.1, .2)
+    # elif place == "ele_trait":
+    #     $ al = (.35, .9)
+    # elif place == "race_trait":
+    #     $ al = (.2, 1.0)
+
+    default pos = renpy.get_mouse_pos()
+    python:
+        x, y = pos
+        xval = 1.0 if x > config.screen_width/2 else .0
+        yval = 1.0 if y > config.screen_height/2 else .0
+
+    if not elemental_mode:
         $ trait_info = traits[trait]
         fixed:
-            align al
-            xysize 190, 450
+            pos x, y
+            anchor xval, yval
+            fit_first True
             frame:
                 background Frame("content/gfx/frame/p_frame52.png", 10, 10)
-                xminimum 190
-                padding 10, 5
+                padding 10, 10
                 has vbox style_prefix "proper_stats" spacing 1
 
                 if any([trait_info.min, trait_info.max, trait_info.mod_stats, trait_info.effects,
@@ -954,12 +961,13 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
                 idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
                 hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
                 action Hide("show_trait_info")
-
+                keysym "mousedown_3"
     else:
         $ traits = elements_calculator(trait)
         fixed:
-            align al
-            xysize 250, 260
+            pos x, y
+            anchor xval, yval
+            fit_first True
             frame:
                 background Frame("content/gfx/frame/p_frame52.png", 10, 10)
                 padding 10, 5
@@ -1004,6 +1012,7 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
                 idle ProportionalScale("content/gfx/interface/buttons/close4.png", 22, 22)
                 hover ProportionalScale("content/gfx/interface/buttons/close4_h.png", 22, 22)
                 action Hide("show_trait_info")
+                keysym "mousedown_3"
 
 screen char_control():
     modal True
