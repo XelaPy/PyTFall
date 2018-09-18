@@ -27,6 +27,7 @@ init -9 python:
             self.usable = None
             self.transferable = None
             self.sellable = None
+            self.be = False # could be used in battle engine
 
             # mostly not used atm, decides if we should hide the item effects;
             # does hide effects for gifts which have not been used at least once, becoming False afterwards
