@@ -74,7 +74,9 @@ label test_be:
         enemy_team.reset_controller()
 
     python:
-        battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.webp"), music="random", start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve)
+        battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.webp"), music="random",
+                         start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve,
+                         use_items=True)
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)
         battle.start_battle()
@@ -157,7 +159,7 @@ screen battle_report():
         frame:
             background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
             style "dropdown_gm_frame"
-            
+
             has viewport:
                 xysize (540, 400)
                 scrollbars "vertical"

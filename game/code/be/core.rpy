@@ -28,7 +28,8 @@ init -1 python: # Core classes:
         """
         def __init__(self, bg=Null(), music=None, row_pos=None, start_sfx=None,
                      end_sfx=None, logical=False, quotes=False,
-                     max_skill_lvl=float("inf"), max_turns=1000, give_up=None):
+                     max_skill_lvl=float("inf"), max_turns=1000, give_up=None,
+                     use_items=False):
             """Creates an instance of BE scenario.
 
             logical: Just the calculations, without pause/gfx/sfx.
@@ -36,6 +37,7 @@ init -1 python: # Core classes:
             self.teams = list() # Each team represents a faction on the battlefield. 0 index for left team and 1 index for right team.
             self.queue = list() # List of events in BE..
             self.give_up = give_up # allows to avoid battle in one way or another
+            self.use_items = use_items # allows use of items during combat.
 
             self.max_turn = max_turns
 
@@ -154,7 +156,7 @@ init -1 python: # Core classes:
                                     _s = ConsumeItem("Use Item")
                                     _s.item = s
                                     s = _s
-                                    
+
                                 s.source = fighter
 
                                 # Call the targeting screen:

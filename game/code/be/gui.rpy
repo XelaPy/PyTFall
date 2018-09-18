@@ -102,7 +102,7 @@ screen pick_skill(char, give_up):
                 sensitive active_magic
             textbutton "Items":
                 action SetScreenVariable("menu_mode", "items")
-                sensitive bool(be_items)
+                sensitive battle.use_items and bool(be_items)
             textbutton "Skip":
                 xminimum 100
                 action Return(BE_Skip(char))
