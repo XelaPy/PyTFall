@@ -200,6 +200,7 @@ init python:
                 battle.combat_status = "escape"
                 return "break"
 
+
     class BESurrender(BEEscape):
         """Try to escape from the battle field"""
         def __init__(self, source=None):
@@ -214,6 +215,7 @@ init python:
                     gfx_overlay.notify("Surrendered...", tkwargs=tkwargs)
                     renpy.pause(1.0)
                 return "break"
+
 
     class RPG_Death(BE_Event):
         """
