@@ -818,6 +818,16 @@ init -9 python:
             else:
                 return []
 
+        def get_be_items(self):
+            if not hasattr(self, "inventory"): # Mobs and such
+                return {}
+                
+            be_items = OrderedDict()
+            for item, amount in self.inventory.items.iteritems():
+                if item.be:
+                    be_items[item] = amount
+            return be_items
+
         def get_owned_items_per_slot(self, slot):
             # figure out how many items actor owns:
             if self.eqslots.get(slot, None):

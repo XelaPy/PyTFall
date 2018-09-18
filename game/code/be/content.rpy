@@ -839,3 +839,38 @@ init python:
 
         def apply_effects(self, targets):
             self.settle_cost()
+
+
+    class ConsumeItem(BE_Action):
+        def __init__(self, *args, **kwargs):
+            super(ConsumeItem, self).__init__(*args, **kwargs)
+            self.item = None # item to use...
+
+            self.type = "sa"
+            self.attributes = ["item"]
+            self.kind = "item"
+            self.desc = "Use an item!"
+
+            self.target_damage_effect["gfx"] = None
+            self.target_sprite_damage_effect["gfx"] = "being_healed"
+            self.main_effect["gfx"] = None
+            self.main_effect["sfx"] = "content/sfx/sound/be/heal2.mp3"
+
+        def effects_resolver(self, targets):
+            if not isinstance(targets, (list, tuple, set)):
+                targets = [targets]
+            source = self.source
+            attributes = self.attributes
+            item = self.item
+
+            for t in targets:
+                battle.log("%s uses a %s!" % (source.nickname, item.id))
+
+        def apply_effects(self, targets):
+            if not isinstance(targets, (list, tuple, set)):
+                targets = [targets]
+            item = self.item
+
+            self.source.remove_item(item)
+            for t in targets:
+                t.equip(item)

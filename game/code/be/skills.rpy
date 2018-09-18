@@ -1297,7 +1297,10 @@ python: # Healing:
             desc="Heals superficial wounds and accelerates the healing of internal ones (+25%).", tier=1,
             attacker_action={"gfx": None},
             attacker_effects={"gfx": "runes_1", "sfx": "default"},
-            main_effect={"gfx": Transform("heal_2", zoom=2.4), "sfx": "content/sfx/sound/be/heal2.mp3", "duration": 2.5, "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
+            main_effect={"gfx": Transform("heal_2", zoom=2.4),
+                         "sfx": "content/sfx/sound/be/heal2.mp3",
+                         "duration": 2.5,
+                         "aim": {"point": "center", "anchor": (.5, .5), "yo": 0}},
             target_sprite_damage_effect={"gfx": "being_healed"},
             target_damage_effect={"gfx": "battle_bounce", "initial_pause": .7},
             target_death_effect={"gfx": "dissolve", "initial_pause": 1.5, "duration": 1.5})

@@ -147,11 +147,15 @@ init -1 python: # Core classes:
                                     break
 
                             if s not in ["surrender", "escape"]:
-                                s.source = fighter
-
                                 # Unique check for Skip Skill:
                                 if isinstance(s, BE_Skip):
                                     break
+                                elif isinstance(s, Item):
+                                    _s = ConsumeItem("Use Item")
+                                    _s.item = s
+                                    s = _s
+                                    
+                                s.source = fighter
 
                                 # Call the targeting screen:
                                 targets = s.get_targets()
@@ -606,7 +610,7 @@ init -1 python: # Core classes:
                            target_damage_effect={},
                            target_death_effect={},
                            bg_main_effect={},
-                           event_class = None, # If a class, instance of this even will be created and placed in the queue. This envokes special checks in the effects method.
+                           event_class = None, # If a class, instance of this even will be created and placed in the queue. This invokes special checks in the effects method.
                            **kwargs):
             """
             range: range of the spell, 1 is minimum.
