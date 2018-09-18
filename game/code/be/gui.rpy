@@ -43,7 +43,7 @@ screen target_practice(skill, source, targets):
 
         key "mouseup_3" action Return(False)
 
-screen pick_skill(char, give_up):
+screen pick_skill(char):
     zorder 2
 
     default menu_mode = "top"
@@ -106,14 +106,14 @@ screen pick_skill(char, give_up):
             textbutton "Skip":
                 xminimum 100
                 action Return(BESkip(char))
-            if give_up == "surrender":
+            if battle.give_up == "surrender":
                 textbutton "Surrender":
                     xminimum 100
-                    action Return("surrender")
-            elif give_up == "escape":
+                    action Return(BESurrender(char))
+            elif battle.give_up == "escape":
                 textbutton "Escape":
                     xminimum 100
-                    action Return("escape")
+                    action Return(BEEscape(char))
     elif menu_mode == "items":
         frame:
             style_prefix "dropdown_gm"

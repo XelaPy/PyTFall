@@ -180,6 +180,40 @@ init python:
                 msg = "{} stands still.".format(source.nickname)
                 battle.log(msg)
 
+            return "break"
+
+
+    class BEEscape(BESkip):
+        """Try to escape from the battle field"""
+        def __init__(self, source=None):
+            self.source = source
+
+        def __call__(self, *args, **kwargs):
+            if renpy.call_screen("yesno_prompt", message="Are you sure that you want to escape?", yes_action=Return(True), no_action=Return(False)):
+                if not battle.logical:
+                    renpy.show("escape_gates", what="portal_webm",  at_list=[Transform(align=(.5, .5))], zorder=100)
+                    renpy.sound.play("content/sfx/sound/be/escape_portal.ogg")
+                    tkwargs = {"color": gray,
+                               "outlines": [(1, black, 0, 0)]}
+                    gfx_overlay.notify("Escaped...", tkwargs=tkwargs)
+                    renpy.pause(1.0)
+                battle.combat_status = "escape"
+                return "break"
+
+    class BESurrender(BEEscape):
+        """Try to escape from the battle field"""
+        def __init__(self, source=None):
+            self.source = source
+
+        def __call__(self, *args, **kwargs):
+            if renpy.call_screen("yesno_prompt", message="Are you sure that you want to surrender?", yes_action=Return(True), no_action=Return(False)):
+                battle.combat_status = "surrender"
+                if not battle.logical:
+                    tkwargs = {"color": gray,
+                               "outlines": [(1, black, 0, 0)]}
+                    gfx_overlay.notify("Surrendered...", tkwargs=tkwargs)
+                    renpy.pause(1.0)
+                return "break"
 
     class RPG_Death(BE_Event):
         """

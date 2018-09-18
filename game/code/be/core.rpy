@@ -38,6 +38,7 @@ init -1 python: # Core classes:
             self.queue = list() # List of events in BE..
             self.give_up = give_up # allows to avoid battle in one way or another
             self.use_items = use_items # allows use of items during combat.
+            self.combat_status = None # general status of the battle, used to run away from BF atm.
 
             self.max_turn = max_turns
 
@@ -132,8 +133,8 @@ init -1 python: # Core classes:
                     else:
                         # Controller is the player:
                         # Call the skill choice screen:
-                        s = None
-                        t = None
+                        skill = None
+                        targets = None
 
                         # making known whose turn it is:
                         w, h = fighter.besprite_size
@@ -142,41 +143,31 @@ init -1 python: # Core classes:
                                                            anchor=(.5, 1.0))],
                                                            zorder=fighter.besk["zorder"]+1)
 
-                        while not (s and t) and s not in ["surrender", "escape"]:
-                            s = renpy.call_screen("pick_skill", fighter, self.give_up)
-                            if s == "surrender":
-                                if renpy.call_screen("yesno_prompt", message="Are you sure you wish to surrender?", yes_action=Return(True), no_action=Return(False)):
+                        while not (skill and targets):
+                            rv = renpy.call_screen("pick_skill", fighter)
+
+                            # Unique check for Skip/Escape Events:
+                            if isinstance(rv, BESkip):
+                                if rv() == "break":
                                     break
-                            elif s == "escape":
-                                if renpy.call_screen("yesno_prompt", message="Are you sure you wish to escape?", yes_action=Return(True), no_action=Return(False)):
-                                    break
-
-                            if s not in ["surrender", "escape"]:
-                                # Unique check for Skip Skill:
-                                if isinstance(s, BESkip):
-                                    break
-                                elif isinstance(s, Item):
-                                    _s = ConsumeItem("Use Item")
-                                    _s.item = s
-                                    s = _s
-
-                                s.source = fighter
-
-                                # Call the targeting screen:
-                                targets = s.get_targets()
-
-                                t = renpy.call_screen("target_practice", s, fighter, targets)
-                            else:
-                                s = None
-
-                        if s in ["surrender", "escape"]:
-                            break
+                            elif isinstance(rv, Item):
+                                skill = ConsumeItem("Use Item")
+                                skill.item = rv
+                            else: # Normal Skills:
+                                skill = rv
+                                skill.source = fighter
+                                targets = skill.get_targets()
+                                targets = renpy.call_screen("target_practice", skill, fighter, targets)
 
                         # We don't need to see status icons during skill executions!
                         if not self.logical:
                             renpy.hide_screen("be_status_overlay")
                             renpy.hide("its_my_turn")
-                        s(t=t) # This actually executes the skill!
+
+                        # This actually executes the skill!
+                        if skill:
+                            skill(t=targets)
+
                         if not self.logical:
                             renpy.show_screen("be_status_overlay")
 
@@ -210,13 +201,6 @@ init -1 python: # Core classes:
                 # We check the conditions for terminating the BE scenario, this should prolly be end turn event as well, but I've added this before I've added events :)
                 if self.check_break_conditions():
                     break
-
-            if s == "surrender":
-                self.win = False
-                self.winner = self.teams[1]
-            elif s == "escape":
-                self.win = None
-                self.winner = self.teams[1]
 
             self.end_battle()
 
@@ -299,19 +283,8 @@ init -1 python: # Core classes:
                     tkwargs = {"color": blue,
                                "outlines": [(1, cyan, 0, 0)]}
                     gfx_overlay.notify("You Lose!", tkwargs=tkwargs)
-                else:
-                    renpy.show("escape_gates", what="portal_webm",  at_list=[Transform(align=(.5, .5))], zorder=100)
-                    renpy.sound.play("content/sfx/sound/be/escape_portal.ogg")
 
-                    tkwargs = {"color": gray,
-                               "outlines": [(1, black, 0, 0)]}
-                    gfx_overlay.notify("Escaped...", tkwargs=tkwargs)
-
-                if self.win is None:
-                    renpy.pause(0.1, hard=True)
-                    renpy.pause(1.3)
-                else:
-                    renpy.pause(.6) # Small pause before terminating the engine.
+                renpy.pause(1.0) # Small pause before terminating the engine.
 
                 renpy.scene(layer='screens')
                 renpy.scene()
@@ -501,6 +474,10 @@ init -1 python: # Core classes:
             # Should prolly be turned into a function when this gets complicated, for now it's just fighting until one of the party are "corpses".
             # For now this assumes that team indexed 0 is player team.
             if self.terminate:
+                return True
+            elif self.combat_status in ("escape", "surrender"):
+                self.win = False
+                self.winner = self.teams[1]
                 return True
             elif self.logical and self.logical_counter >= self.max_turn:
                 self.winner = self.teams[1]
