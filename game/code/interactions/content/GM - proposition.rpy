@@ -297,20 +297,20 @@ label interactions_hire:
         mod_chance = 0
 
     python hide:
-        heroskillz = 0
-        girlskillz = 0
+        heroskills = 0
+        charskills = 0
 
         # First we get the difference between baseskills:
         for i in char.traits.basetraits:
             for s in i.base_stats:
-                heroskillz += getattr(hero, s)
-                girlskillz += getattr(char, s)
+                heroskills += getattr(hero, s)
+                charskills += getattr(char, s)
 
-        heroskillz += hero.charisma
+        heroskills += hero.charisma
 
         # Special Arena Mod for chars chars that might be willing to do that.
         if char.arena_willing and hero.arena_rep > char.arena_rep:
-            heroskillz += 100
+            heroskills += 100
 
         # Also an extra bonus if they share an occupation:
         if hero.occupations.intersection(char.occupations):
@@ -318,16 +318,19 @@ label interactions_hire:
 
         # and finally get the difference and make sure overwhelming difference
         # will not allow a girl to join at -900 disposition :):
-        store.mod_chance = heroskillz - girlskillz
+        store.mod_chance = heroskills - charskills
 
         if store.mod_chance > 700:
             store.mod_chance = 700
 
         if DEBUG:
-            devlog.info("Hero|Char| Mod: {}|{}| {}".format(heroskillz, girlskillz, store.mod_chance))
+            devlog.info("Hero|Char| Mod: {}|{}| {}".format(heroskills, charskills, store.mod_chance))
 
     python:
-       target_val = 150 + max(0, char.tier-hero.tier)*200
+        if hero.tier > char.tier:
+            target_val = 50
+        else:
+            target_val = 150 + max(0, char.tier-hero.tier)*200
 
     # Solve chance
     if char.disposition > target_val - mod_chance:

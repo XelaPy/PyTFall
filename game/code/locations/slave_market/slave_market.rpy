@@ -153,10 +153,18 @@ label slavel_market_controls:
     jump city
 
 label mc_action_work_in_slavemarket:
-    python:
-        wage = round_int(hero.expected_wage/float(hero.setAP)*use_ap) * 6
+    $ wage = 0
+    python hide:
+        total = 0
+        for skill in hero.stats.SEX_SKILLS:
+            total += hero.get_skill(skill)
+        total /= len(hero.stats.SEX_SKILLS)
+        total += hero.expected_wage*6
+
         if dice(hero.luck*.1):
-            wage += hero.level*5*use_ap
+            total += hero.level*5
+
+        store.wage = round_int(total/float(hero.setAP)*use_ap)
 
         if dice(.5 + hero.luck*.1):
             hero.charisma += 1*use_ap
@@ -176,11 +184,13 @@ label mc_action_work_in_slavemarket:
                                   "Pay might be crap, but it's still money.",
                                   "You've helped out in da Club!"]))
         else:
-            hero.say(choice(["What a shitty job...",
-                             "There's gotta be better way to make money..."]))
+            hero.say(choice(["What a boring job...",
+                             "There's gotta be faster way to make money..."]))
 
     $ global_flags.set_flag("came_from_sc")
-    $ del use_ap
+    python:
+        del wage
+        del use_ap
     jump slavel_market_controls
 
 label blue_menu:

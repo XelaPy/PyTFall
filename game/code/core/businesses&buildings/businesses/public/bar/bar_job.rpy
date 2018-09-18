@@ -16,7 +16,7 @@ init -5 python:
             self.base_skills = {"service": 50, "bartending": 100}
             self.base_stats = {"intelligence": 50, "character": 50}
 
-            self.desc = "Barmaids serve drinks from the bar and occasionally chat with customers."
+            self.desc = "Barmaids serve drinks from the bar and occasionally chat with customers"
 
         def traits_and_effects_effectiveness_mod(self, worker, log):
             effectiveness = 0

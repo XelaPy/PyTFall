@@ -17,8 +17,10 @@ screen new_style_tooltip():
     layer "tooltips"
     $ tooltip = GetTooltip()
 
-    if renpy.get_screen("show_trait_info") and "Icon " not in str(tooltip):
-        pass
+    if renpy.get_screen("show_trait_info"):
+        if "***" in str(tooltip):
+            $ tooltip = tooltip.replace("***", "")
+            use new_style_tooltip_content(tooltip)
     else:
         use new_style_tooltip_content(tooltip)
 

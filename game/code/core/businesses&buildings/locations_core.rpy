@@ -82,13 +82,14 @@ init -20 python:
         """Location where actors can live and modifier for health and items recovery.
         Other Habitable locations can be buildings which mimic this functionality or may inherit from it in the future.
         """
-        def __init__(self, id="Livable Location", daily_modifier=.1, rooms=1):
+        def __init__(self, id="Livable Location", daily_modifier=.1, rooms=1, desc=""):
             super(HabitableLocation, self).__init__(id=id)
 
             self._habitable = True
             self.rooms = rooms
             self.inhabitants = set()
             self._daily_modifier = daily_modifier
+            self.desc = desc
 
         @property
         def daily_modifier(self):
