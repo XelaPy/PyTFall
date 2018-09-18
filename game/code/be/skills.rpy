@@ -251,7 +251,7 @@ python: # Bow Attacks:
             main_effect={"gfx": Transform("green_hit_webm", zoom=1.1), "sfx": "content/sfx/sound/be/elf_arrow.ogg",
                          "duration": .56, "hflip": True},
             target_sprite_damage_effect={"gfx": "poisoned_with_shake", "initial_pause": .1, "duration": .46})
-    ArrowsSkill(u"Emerald Arrow", menu_pos=1.6, attributes=["ranged", "air", "earth"], critpower=.3, true_pierce=True, 
+    ArrowsSkill(u"Emerald Arrow", menu_pos=1.6, attributes=["ranged", "air", "earth"], critpower=.3, true_pierce=True,
             effect=55, multiplier=.95, vitality_cost=12, mp_cost=3, range=4, piercing=True,
             desc="Shot an arrow empowered with nature itself.", item_only=True,
             firing_effects={"gfx": "emerald_bow_webm", "sfx": "content/sfx/sound/be/elf_bow.ogg", "duration": .86}, # Maybe realign a bit closer to caster TODO (be-skill)
@@ -404,7 +404,7 @@ python: # Daggers Attacks:
                          "sfx": "content/sfx/sound/be/knife.mp3", "duration": .564, "hflip": True},
             target_sprite_damage_effect={"gfx": "poisoned_with_shake", "initial_pause": .064, "duration": .5},
             target_death_effect={"gfx": "dissolve", "initial_pause": .5, "duration": .5})
-    BasicPoisonSpell(u"Poisonous Rune", range=2, attributes=["status", "poison"], effect=55,
+    BasicPoisonSpell(u"Poisonous Rune", range=2, attributes=["status", "poison"], effect=.05,
             menuname = "P Rune", menu_pos=.7, multiplier=1.0, vitality_cost=20, mp_cost=.1,
             desc="Blade enchantment materializes a good deal of poison above the target.", item_only=True,
             main_effect={"gfx": Transform("poison_dagger_webm", zoom=1.1), "sfx": "content/sfx/sound/be/poison_cloud.mp3",
