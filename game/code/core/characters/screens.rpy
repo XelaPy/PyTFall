@@ -121,6 +121,7 @@ screen set_home_dropdown(char, pos=()):
             textbutton "[loc]":
                 selected char.home == loc
                 action SetField(char, "home", loc), Hide("set_home_dropdown")
+                tooltip loc.desc
         textbutton "Close":
             action Hide("set_home_dropdown")
 

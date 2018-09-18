@@ -59,16 +59,16 @@ label start:
 
     python hide: # Base locations:
         # Create locations:
-        loc = HabitableLocation(id="Streets", daily_modifier=-.1, rooms=float("inf"))
+        loc = HabitableLocation(id="Streets", daily_modifier=-.1, rooms=float("inf"), desc="Cold and unneighborly city alleys")
         locations[loc.id] = loc
 
-        loc = HabitableLocation(id="City Apartments", daily_modifier=.2, rooms=float("inf"))
+        loc = HabitableLocation(id="City Apartments", daily_modifier=.2, rooms=float("inf"), desc="Girls apartments somewhere in the city")
         locations[loc.id] = loc
 
         loc = Location(id="City")
         locations[loc.id] = loc
 
-        loc = HabitableLocation(id="After Life", daily_modifier=.0, rooms=float("inf"))
+        loc = HabitableLocation(id="After Life", daily_modifier=.0, rooms=float("inf"), desc="No one knows where is this place and what's going on there")
         locations[loc.id] = loc
 
     python: # Traits:

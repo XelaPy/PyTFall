@@ -5,7 +5,7 @@ init -5 python:
         MATERIALS = {"Wood": 70, "Bricks": 30, "Glass": 5}
         NAME = "Brothel"
         IMG = "content/buildings/upgrades/room.webp"
-        DESC = "A place to 'freck' in!"
+        DESC = "Allows to whore out your girls in the building"
 
         def __init__(self, **kwargs):
             super(BrothelBlock, self).__init__(**kwargs)

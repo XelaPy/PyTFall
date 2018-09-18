@@ -4,7 +4,7 @@ init -5 python:
         COMPATIBILITY = []
         MATERIALS = {"Wood": 2, "Bricks": 2}
         NAME = "Cleaning Block"
-        DESC = "Until it shines!"
+        DESC = "Allows to use cleaners in the building"
         IMG = "content/buildings/upgrades/cleaners.webp"
 
         def __init__(self, **kwargs):

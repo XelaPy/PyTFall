@@ -9,6 +9,7 @@ init -5 python:
             self.occupations = ["Server"] # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = [traits["Maid"], traits["Cleaner"]] # Corresponding traits...
             self.aeq_purpose = 'Service'
+            self.desc = "Keeps the building clean and neat"
 
             # Relevant skills and stats:
             self.base_skills = {"cleaning": 100, "service": 50}

@@ -12,7 +12,7 @@ init -5 python:
             self.id = "Rest"
             self.type = "Resting"
 
-            self.desc = "No one can work without taking a break sometimes. Rest restores health, vitality and mp and removes some negative effects."
+            self.desc = "No one can work without taking a break sometimes. Rest restores health, vitality and mp and removes some negative effects"
 
         def __call__(self, char):
             loc = char.home
@@ -178,7 +178,7 @@ init -5 python:
         def __init__(self):
             super(AutoRest, self).__init__()
             self.id = "AutoRest"
-            self.desc = "Autorest is a type of rest which automatically return character to previous job after resting is no longer needed."
+            self.desc = "Autorest is a type of rest which automatically return character to previous job after resting is no longer needed"
 
         def after_rest(self, worker, log):
             if self.is_rested(worker):

@@ -410,6 +410,9 @@ init: # Screens:
                         text "No manager" align (.5, .5) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
                 if building.manager:
                     text "Current manager" align (.5, .5) size 25 color goldenrod drop_shadow [(1, 2)] drop_shadow_color black antialias True style_prefix "proper_stats"
+            null height 20
+            if building.desc:
+                text building.desc xalign.5 style_prefix "proper_stats" text_align .5 color goldenrod outlines [(1, "#3a3a3a", 0, 0)]
 
     screen building_management_rightframe_businesses_mode:
         $ frgr = Fixed(xysize=(315, 680))
