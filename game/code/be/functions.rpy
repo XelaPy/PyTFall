@@ -1,4 +1,10 @@
 init -11 python:
+    def mod_to_tooltip(mod):
+        t = ""
+        for i in mod:
+            t += i + ": +" + str(mod[i]) + " "
+        return t
+
     # Simple Automatic conflict resolver for friendly and enemy parties:
     def s_conflict_resolver(fp, ep, new_results=False):
         """
