@@ -137,7 +137,10 @@ init -1 python: # Core classes:
 
                         # making known whose turn it is:
                         w, h = fighter.besprite_size
-                        renpy.show("its_my_turn", at_list=[Transform(additive=.6, alpha=.7, size=(int(w*1.5), h/3), pos=battle.get_cp(fighter, type="bc", yo=20), anchor=(.5, 1.0))], zorder=fighter.besk["zorder"]+1)
+                        renpy.show("its_my_turn", at_list=[Transform(additive=.6, alpha=.7, size=(int(w*1.5), h/3),
+                                                           pos=battle.get_cp(fighter, type="bc", yo=20),
+                                                           anchor=(.5, 1.0))],
+                                                           zorder=fighter.besk["zorder"]+1)
 
                         while not (s and t) and s not in ["surrender", "escape"]:
                             s = renpy.call_screen("pick_skill", fighter, self.give_up)
