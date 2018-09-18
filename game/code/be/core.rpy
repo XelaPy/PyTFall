@@ -153,7 +153,7 @@ init -1 python: # Core classes:
 
                             if s not in ["surrender", "escape"]:
                                 # Unique check for Skip Skill:
-                                if isinstance(s, BE_Skip):
+                                if isinstance(s, BESkip):
                                     break
                                 elif isinstance(s, Item):
                                     _s = ConsumeItem("Use Item")
@@ -1995,6 +1995,13 @@ init -1 python: # Core classes:
             self.source = source
 
         def __call__(self):
+            skip = BESkip(source=self.source)
+
+            # Slaves case:
+            if self.slave_behavior() == "skip":
+                skip()
+                return
+
             skills = self.get_availible_skills()
             if skills:
                 skill = choice(skills)
@@ -2005,11 +2012,15 @@ init -1 python: # Core classes:
 
                 skill(ai=True, t=targets)
             else:
-                BE_Skip(source=self.source)()
+                skip()
 
         def get_availible_skills(self):
             allskills = list(self.source.attack_skills) + list(self.source.magic_skills)
             return [s for s in allskills if s.check_conditions(self.source)]
+
+        def slave_behavior(self):
+            if self.source.status == "slave":
+                return "skip"
 
 
     class Complex_BE_AI(BE_AI):
@@ -2027,8 +2038,13 @@ init -1 python: # Core classes:
             super(Complex_BE_AI, self).__init__(source=source)
 
         def __call__(self):
+            skip = BESkip(source=self.source)
 
-            skip = BE_Skip(source=self.source)
+            # Slaves case:
+            if self.slave_behavior() == "skip":
+                skip()
+                return
+
             temp = self.get_availible_skills()
             if not temp:
                 skip()
@@ -2091,14 +2107,6 @@ init -1 python: # Core classes:
 
             # In case we did not pick any specific skill:
             skip()
-
-
-    class Slave_BE_AI(BE_AI): # for slaves involved in combat, skips every turn since they are not allowed to fight.
-        def __init__(self, source):
-            super(Slave_BE_AI, self).__init__(source=source)
-
-        def __call__(self):
-            Slave_BE_Skip(source=self.source)()
 
 
     def get_char_with_lowest_attr(chars, attr="hp"):

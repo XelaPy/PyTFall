@@ -43,7 +43,7 @@ label city_events_thugs_robbery:
                     for member in your_team:
                         if member <> hero:
                             if member.status == "slave":
-                                member.controller = Slave_BE_AI(member)
+                                member.controller = BE_AI(member)
                     enemy_team = Team(name="Enemy Team", max_size=3)
                     for i in xrange(3):
                         mob = build_mob("Thug", level=45)
@@ -101,7 +101,7 @@ label city_events_thugs_robbery_attack:
         for member in your_team:
             if member <> hero:
                 if member.status == "slave":
-                    member.controller = Slave_BE_AI(member)
+                    member.controller = BE_AI(member)
         enemy_team = Team(name="Enemy Team", max_size=3)
         if hero.level < 20:
             lvl = hero.level

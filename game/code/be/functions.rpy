@@ -117,7 +117,7 @@ init -11 python:
             your_team = Team(name="Your Team")
             for member in hero.team:
                 if member.status == "slave" and slaves:
-                    member.controller = Slave_BE_AI(member)
+                    member.controller = BE_AI(member)
                     your_team.add(member)
                 elif member.status == "free":
                     member.controller = "player"

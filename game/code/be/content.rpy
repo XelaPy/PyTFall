@@ -155,7 +155,7 @@ init python:
             interactions_prebattle_line(self.team)
 
 
-    class BE_Skip(BE_Event):
+    class BESkip(BE_Event):
         """
         Simplest possible class that just skips the turn for the player and logs that fact.
         This can/should be a function but heck :D
@@ -166,25 +166,19 @@ init python:
             self.source = source
 
         def __call__(self, *args, **kwargs):
-            msg = "{} skips a turn. ".format(self.source.nickname)
+            source = self.source
 
-            # Restoring Vitality:
-            temp = int(self.source.get_max("vitality") * uniform(.03, .06))
-            self.source.vitality += temp
-            msg = msg + "Restored: {color=[green]}%d vitality{/color} points!"%(temp)
-            battle.log(msg)
+            if source.status == "free":
+                msg = "{} skips a turn. ".format(source.nickname)
 
-
-    class Slave_BE_Skip(BE_Event):
-        """
-        Skipping for slaves. So far only with different message, but there might be more differences in the future.
-        """
-        def __init__(self, source=None):
-            self.source = source
-
-        def __call__(self, *args, **kwargs):
-            msg = "{} stands still.".format(self.source.nickname)
-            battle.log(msg)
+                # Restoring Vitality:
+                temp = int(source.get_max("vitality") * uniform(.03, .06))
+                source.vitality += temp
+                msg = msg + "Restored: {color=[green]}%d vitality{/color} points!"%(temp)
+                battle.log(msg)
+            else: # Slaves case...
+                msg = "{} stands still.".format(source.nickname)
+                battle.log(msg)
 
 
     class RPG_Death(BE_Event):

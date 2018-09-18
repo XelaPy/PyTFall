@@ -105,7 +105,7 @@ screen pick_skill(char, give_up):
                 sensitive battle.use_items and bool(be_items)
             textbutton "Skip":
                 xminimum 100
-                action Return(BE_Skip(char))
+                action Return(BESkip(char))
             if give_up == "surrender":
                 textbutton "Surrender":
                     xminimum 100
