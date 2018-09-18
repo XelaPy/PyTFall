@@ -121,7 +121,7 @@ screen pick_skill(char, give_up):
             margin 0, 0
             padding 5, 5
             at fade_in_out(t1=.6, t2=.3)
-            has vpgrid ysize 400 cols 1 draggable True mousewheel True
+            has vpgrid yminimum 200 ymaximum 400 cols 1 draggable True mousewheel True
             for i, amount in be_items.iteritems():
                 button:
                     padding 10, 2
