@@ -1217,6 +1217,8 @@ screen char_equip_item_info(item=None, char=None, size=(635, 380), style_group="
                     background Transform(Frame(im.MatrixColor("content/gfx/frame/p_frame5.png", im.matrix.brightness(-0.1)), 5, 5), alpha=.9)
                     has viewport draggable True mousewheel True
                     $ temp = "\n"
+                    if item.be:
+                        $ temp += '*Can be used in combat!\n'
                     if hasattr(item, "evasion_bonus"):
                         if item.evasion_bonus > 0:
                             $ temp += '*Increases evasion chance.\n'
