@@ -12,7 +12,8 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"mp": 50},
-    "locations": ["Witches Hut", "Fishing"]
+    "locations": ["Witches Hut", "Fishing"],
+    "be": true
     },
     {
     "id": "Mana Potion",
@@ -28,7 +29,8 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"mp": 100},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut"],
+    "be": true
     },
     {
     "id": "Great Mana Potion",
@@ -44,7 +46,8 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"mp": 200},
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Witches Hut", "Exploration"],
+    "be": true
     },
     {
     "id": "Ultimate Mana Potion",
@@ -79,7 +82,8 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"health": 50},
-    "locations": ["Witches Hut", "Fishing"]
+    "locations": ["Witches Hut", "Fishing"],
+    "be": true
     },
     {
     "id": "Healing Potion",
@@ -95,7 +99,8 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"health": 100},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut"],
+    "be": true
     },
     {
     "id": "Great Healing Potion",
@@ -111,7 +116,8 @@
     "slot": "consumable",
     "type": "restore",
     "mod": {"health": 200},
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Witches Hut", "Exploration"],
+    "be": true
     },
     {
     "id": "Ultimate Healing Potion",
@@ -148,7 +154,8 @@
     "type": "restore",
     "cblock": 1,
     "mod": {"vitality": 25},
-    "locations": ["Witches Hut", "Look around", "Fishing"]
+    "locations": ["Witches Hut", "Look around", "Fishing"],
+    "be": true
     },
     {
     "id": "Potion of Serenity",
@@ -165,7 +172,8 @@
     "type": "restore",
     "cblock": 1,
     "mod": {"vitality": 50, "mp": 10},
-    "locations": ["Witches Hut"]
+    "locations": ["Witches Hut"],
+    "be": true
     },
     {
     "id": "Great Potion of Serenity",
@@ -183,7 +191,8 @@
     "cblock": 1,
     "mod": {"vitality": 100, "mp": 20},
     "removeeffects": ["Exhausted"],
-    "locations": ["Witches Hut", "Exploration"]
+    "locations": ["Witches Hut", "Exploration"],
+    "be": true
     },
     {
     "id": "Sinspice",
