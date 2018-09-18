@@ -127,7 +127,7 @@ screen pick_skill(char, give_up):
                     padding 10, 2
                     xysize 250, 30
                     action Return(i)
-                    tooltip i.desc
+                    tooltip mod_to_tooltip(i.mod)
                     hbox:
                         yalign .5
                         add pscale(i.icon, 25, 25) yalign .5
