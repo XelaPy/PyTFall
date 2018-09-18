@@ -108,7 +108,7 @@ init -11 python:
     def run_default_be(enemy_team, slaves=False, your_team=None,
                        background="content/gfx/bg/be/battle_arena_1.webp",
                        track="random", prebattle=True, death=False,
-                       skill_lvl=float("inf"), give_up=None):
+                       skill_lvl=float("inf"), give_up=None, use_items=False):
         """
         Launches BE with MC team vs provided enemy team, returns True if MC won and vice versa
         - if slaves == True, slaves in MC team will be inside BE with passive AI, otherwise they won't be there
@@ -133,24 +133,26 @@ init -11 python:
         for member in enemy_team:
             member.controller = BE_AI(member)
 
+        global battle
         battle = BE_Core(Image(background), start_sfx=get_random_image_dissolve(1.5),
                     music=track, end_sfx=dissolve, quotes=prebattle,
-                    max_skill_lvl=skill_lvl, give_up=give_up)
-
-        store.battle = battle
+                    max_skill_lvl=skill_lvl, give_up=give_up,
+                    use_items=use_items)
         battle.teams.append(your_team)
         battle.teams.append(enemy_team)
         battle.start_battle()
 
         your_team.reset_controller()
         enemy_team.reset_controller()
-        for member in your_team:
-            if member in battle.corpses:
-                if death:
-                    member.health = 0
-                else:
-                    member.health = 1
-                    if member <> hero:
-                        member.joy -= randint(5, 15)
+
+        if battle.combat_status not in ("escape", "surrender"):
+            for member in your_team:
+                if member in battle.corpses:
+                    if death:
+                        member.health = 0
+                    else:
+                        member.health = 1
+                        if member <> hero:
+                            member.joy -= randint(5, 15)
 
         return battle.win

@@ -69,7 +69,10 @@ label special_items_slime_bottle:
                 $ new_slime.front_row = True
                 $ enemy_team = Team(name="Enemy Team", max_size=3)
                 $ enemy_team.add(new_slime)
-                $ result = run_default_be(enemy_team, slaves=True, background="content/gfx/bg/be/b_dungeon_1.webp", track="random", prebattle=True, death=False)
+                $ result = run_default_be(enemy_team, slaves=True,
+                                          background="content/gfx/bg/be/b_dungeon_1.webp",
+                                          track="random", prebattle=True, death=False,
+                                          use_items=True)
 
                 if not (result):
                     jump game_over

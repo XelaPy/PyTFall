@@ -150,11 +150,13 @@ init -1 python: # Core classes:
                             if isinstance(rv, BESkip):
                                 if rv() == "break":
                                     break
-                            elif isinstance(rv, Item):
-                                skill = ConsumeItem("Use Item")
-                                skill.item = rv
                             else: # Normal Skills:
-                                skill = rv
+                                if isinstance(rv, Item):
+                                    skill = ConsumeItem("Use Item")
+                                    skill.item = rv
+                                else:
+                                    skill = rv
+
                                 skill.source = fighter
                                 targets = skill.get_targets()
                                 targets = renpy.call_screen("target_practice", skill, fighter, targets)

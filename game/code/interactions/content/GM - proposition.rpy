@@ -73,7 +73,8 @@ label interactions_sparring: # sparring with MC, for Combatant occupations only
         your_team = Team(name="Your Team")
         your_team.add(hero)
         result = run_default_be(enemy_team, your_team=your_team,
-                                background=back, give_up="surrender")
+                                background=back, give_up="surrender",
+                                use_items=True)
 
     if result is True:
         $ hero.exp += exp_reward(hero, char, ap_used=.33)

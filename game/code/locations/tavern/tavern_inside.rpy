@@ -272,7 +272,8 @@ label city_tavern_thugs_fight: # fight with random thugs in the brawl mode
             mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
         back = interactions_pick_background_for_fight("tavern")
-        result = run_default_be(enemy_team, background=back, skill_lvl=3)
+        result = run_default_be(enemy_team, background=back,
+                                skill_lvl=3, use_items=True)
 
     scene bg tavern_inside
     with dissolve
