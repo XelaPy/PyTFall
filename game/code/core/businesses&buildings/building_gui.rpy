@@ -543,7 +543,7 @@ init: # Screens:
                         frame:
                             xalign .6
                             background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 5, 5)
-                            has fixed xysize 290, 80
+                            has fixed xysize 280, 80
                             frame:
                                 align .05, .1
                                 background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
