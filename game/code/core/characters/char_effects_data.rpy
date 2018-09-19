@@ -9,7 +9,7 @@ init python:
     effect_descs["Sibling"] = "If disposition is low enough, it gradually increases over time."
     effect_descs["Assertive"] = "If character stat is low enough, it increases over time."
     effect_descs["Diffident"] = "If character stat is high enough, it slowly decreases over time."
-    effect_descs["Food Poisoning"] = "Intemperance in eating or low quality food often lead to problems."
+    effect_descs["Food Poisoning"] = "Intemperance in eating or low quality food often lead to problems. Reduces health, vitality and joy every day."
     effect_descs["Down with Cold"] ="Causes weakness and aches, will be held in a week or two."
     effect_descs["Unstable"] = "From time to time mood chaotically changes."
     effect_descs["Optimist"] = "Joy increases over time, unless it's too low."
