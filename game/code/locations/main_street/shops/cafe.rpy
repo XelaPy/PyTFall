@@ -117,6 +117,8 @@ label mc_action_cafe_eat_alone:
                     $ result_v = randint(4, 10)
                 else:
                     $ result_v = 0
+                if "Effective Metabolism" in hero.traits:
+                    $ result_v *= 2
                 $ hero.mod_stat("vitality", result_v)
                 if hero.mp < hero.get_max("mp"):
                     $ result_m = randint(4, 10)
@@ -147,6 +149,8 @@ label mc_action_cafe_eat_alone:
                     $ result_v = randint(8, 15)
                 else:
                     $ result_v = 0
+                if "Effective Metabolism" in hero.traits:
+                    $ result_v *= 2
                 $ hero.mod_stat("vitality", result_v)
                 if hero.mp < hero.get_max("mp"):
                     $ result_m = randint(8, 15)
@@ -184,6 +188,8 @@ label mc_action_cafe_eat_alone:
                     $ result_v = randint(10, 20)
                 else:
                     $ result_v = 0
+                if "Effective Metabolism" in hero.traits:
+                    $ result_v *= 2
                 $ hero.mod_stat("vitality", result_v)
                 if hero.mp < hero.get_max("mp"):
                     $ result_m = randint(10, 20)
@@ -264,16 +270,18 @@ label mc_action_cafe_invitation: # we jump here when the group was invited by on
                     d = .5
                 else:
                     d = 1
-                stat = round(randint(5, 10)*d)
+                stat = int(randint(5, 10)*d)
+                if "Effective Metabolism" in member.traits:
+                    stat *= 2
                 member.mod_stat("vitality", stat)
-                stat = round(randint(5, 10)*d)
+                stat = int(randint(5, 10)*d)
                 member.mod_stat("health", stat)
-                stat = round(randint(5, 10)*d)
+                stat = int(randint(5, 10)*d)
                 member.mod_stat("mp", stat)
                 if member != hero:
-                    stat = round(randint(4, 8)*d)
+                    stat = int(randint(4, 8)*d)
                     member.mod_stat("joy", stat)
-                    stat = round(randint(10, 20)*d)
+                    stat = int(randint(10, 20)*d)
                     if len(hero.team)<3: # when there is only one char, disposition bonus is higher
                         stat += randint(5, 10)
                     member.mod_stat("disposition", stat)
