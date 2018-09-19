@@ -145,15 +145,14 @@ init -11 python:
         your_team.reset_controller()
         enemy_team.reset_controller()
 
-        if battle.combat_status not in ("escape", "surrender"):
-            for member in your_team:
-                if member in battle.corpses:
-                    if death:
-                        member.health = 0
-                    else:
-                        member.health = 1
-                        if member != hero:
-                            member.joy -= randint(5, 15)
+        for member in your_team:
+            if member in battle.corpses:
+                if death:
+                    member.health = 0
+                else:
+                    member.health = 1
+                    if member != hero:
+                        member.joy -= randint(5, 15)
 
         if battle.combat_status in ("escape", "surrender"):
             rv = battle.combat_status
