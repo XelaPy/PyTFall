@@ -123,7 +123,7 @@ init -999 python:
             if not value:
                 return
 
-            if stat not in BLOCKED_OVERLAY_STATS or \
+            if stat not in BLOCKED_OVERLAY_STATS or\
                stat in BLOCKED_OVERLAY_STATS and\
                last_label_pure.endswith(UNBLOCK_OVERLAY_STATS_LABELNAME_SUFFIX):
                 if isinstance(char, Char):
