@@ -908,6 +908,19 @@ screen s_menu(s_menu="Settings"):
                         background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 8
+                        textbutton _("Combat Targeting"):
+                            action ToggleField(persistent, "use_be_menu_targeting"), tt.action("")
+                            xsize 150
+                            xalign .5
+                            text_size 16
+                            if main_menu or not persistent.tooltips:
+                                hovered tt.Action("Use menu for targeting in battle engine.")
+                            else:
+                                tooltip "Use arrows to target skills in battle engine."
+                    frame:
+                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        xsize 194
+                        ypadding 8
                         textbutton _("AutoSaves"):
                             action ToggleField(persistent, "auto_saves"), tt.action("")
                             xsize 150

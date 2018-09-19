@@ -393,7 +393,8 @@ init -1 python: # Core classes:
             if pause:
                 renpy.pause(t)
 
-        def get_cp(self, char, type="pos", xo=0, yo=0, override=False):
+        def get_cp(self, char, type="pos", xo=0, yo=0, override=False,
+                   use_absolute=False):
             """I am not sure how this is supposed to work yet in the grand scheme of things.
 
             Old Comment: For now it will report initial position + types:
@@ -407,6 +408,8 @@ init -1 python: # Core classes:
 
             xo = offset for x
             yo = offset for y
+
+            absolute: convert to absolute for subpixel positioning.
             """
             if not override:
                 if not char.cpos or not char.besprite_size:
@@ -448,7 +451,10 @@ init -1 python: # Core classes:
             else:
                 xpos = xpos - xo # Is this a reasonable approach instead of providing correct (negative/positive) offsets? Something to consider during the code review...
 
-            return xpos, ypos
+            if use_absolute:
+                return absolute(xpos), absolute(ypos)
+            else:
+                return xpos, ypos
 
         def get_fighters(self, state="alive", rows=None):
             """
