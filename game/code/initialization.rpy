@@ -56,7 +56,7 @@ init -999 python:
         persistent.auto_saves = False
     if persistent.intro is None:
         persistent.intro = False
-    if persistent.use_be_menu_targeting is not None:
+    if persistent.use_be_menu_targeting is None:
         persistent.use_be_menu_targeting = False
 
     def content_path(path):
