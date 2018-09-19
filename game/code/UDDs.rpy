@@ -123,7 +123,7 @@ init -999 python:
             if not value:
                 return
 
-            if stat not in BLOCKED_OVERLAY_STAT:
+            if stat not in BLOCKED_OVERLAY_STATS:
                 if isinstance(char, Char):
                     if stat == "disposition":
                         self.disposition_mod(value)

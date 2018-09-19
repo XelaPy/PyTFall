@@ -453,7 +453,7 @@ init -1 python: # Constants:
     SLOTALIASES = {"smallweapon": "Left Hand", "weapon": "Right Hand",
                    "amulet": "Neck", "feet": "Legs", "quest": "Special"}
     AUTO_OVERLAY_STAT_LABELS = ("mc_action_", "interactions_", "girl_interactions_aboutjob")
-    BLOCKED_OVERLAY_STAT = ("health", "mp", "vitality",
+    BLOCKED_OVERLAY_STATS = ("health", "mp", "vitality",
                              'mood', 'alignment')
     ND_IMAGE_SIZE = (820, 705)
 

@@ -246,15 +246,15 @@ label mc_action_cafe_invitation: # we jump here when the group was invited by on
             if member != hero:
                 if member.status != "free":
                     if member.disposition < -50:
-                        money = randint (5, 10) # slaves with negative disposition will afraid to order too much, and also will have low bonuses
+                        money = randint(5, 10) # slaves with negative disposition will afraid to order too much, and also will have low bonuses
                     else:
-                        money = randint (20, 45)
+                        money = randint(20, 45)
                     if "Always Hungry" in member.traits:
-                        money += randint (5, 10)
+                        money += randint(5, 10)
                 else:
-                    money = randint (25, 50)
+                    money = randint(25, 50)
                     if "Always Hungry" in member.traits:
-                        money += randint (10, 20)
+                        money += randint(10, 20)
                 result += money
 
     if inviting_character.take_money(result, reason="Cafe"):
@@ -273,6 +273,7 @@ label mc_action_cafe_invitation: # we jump here when the group was invited by on
                 stat = int(randint(5, 10)*d)
                 if "Effective Metabolism" in member.traits:
                     stat *= 2
+                devlog.info(str(stat))
                 member.mod_stat("vitality", stat)
                 stat = int(randint(5, 10)*d)
                 member.mod_stat("health", stat)
