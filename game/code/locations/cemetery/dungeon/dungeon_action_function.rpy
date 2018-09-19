@@ -13,7 +13,9 @@ init python:
             enemy_team.add(mob)
 
         place = "content/gfx/bg/be/b_dungeon_1.webp"
-        result = run_default_be(enemy_team, background=place, slaves=False, prebattle=False, death=True) # TODO: maybe make escape working here too?
+        result = run_default_be(enemy_team, background=place,
+                                slaves=False, prebattle=False,
+                                death=True, use_items=True) # TODO: maybe make escape working here too?
 
         if result is True:
             if persistent.battle_results:

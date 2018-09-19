@@ -136,7 +136,7 @@ init python:
 
                 for s in self.data["primary"]:
                     if char.stats.is_stat(s):
-                        if getattr(char, s) < char.get_max(s):
+                        if char.stats.stats[s] < char.get_max(s):
                             primary_stats.append(s)
                     elif char.stats.is_skill(s):
                         primary_skills.append(s)
@@ -147,7 +147,7 @@ init python:
 
                 for s in self.data["secondary"]:
                     if char.stats.is_stat(s):
-                        if getattr(char, s) < char.get_max(s):
+                        if char.stats.stats[s] < char.get_max(s):
                             secondary_stats.append(s)
                     elif char.stats.is_skill(s):
                         secondary_skills.append(s)

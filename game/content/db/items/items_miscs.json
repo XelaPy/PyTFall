@@ -15,7 +15,7 @@
     "mtemp": 1,
     "mreusable": true,
     "mdestruct": false,
-    "mod": {"constitution": 2, "vitality": -20},
+    "mod": {"constitution": 2, "vitality": -10},
     "locations": ["Work Shop"],
     "badtraits": ["Athletic", "Artificial Body"],
     "goodtraits": ["Bokukko"]
@@ -36,7 +36,7 @@
     "mtemp": 1,
     "mreusable": true,
     "mdestruct": false,
-    "mod": {"attack": 1, "vitality": -20},
+    "mod": {"attack": 1, "vitality": -10},
     "locations": ["Ninja Shop", "Exploration"],
     "goodtraits": []
     },
@@ -56,7 +56,7 @@
     "mtemp": 1,
     "mreusable": true,
     "mdestruct": false,
-    "mod": {"vitality": -25, "agility": 1, "defence": 1},
+    "mod": {"vitality": -15, "agility": 1, "defence": 1},
     "locations": ["Exploration", "Arena"]
     },
     {
@@ -97,7 +97,7 @@
     "mtemp": 1,
     "mreusable": true,
     "mdestruct": false,
-    "mod": {"gold": -10, "joy": 2, "vitality": -10},
+    "mod": {"gold": -10, "joy": 2, "vitality": -5},
     "mod_skills": {"sex": [0, 0, 0, 5, 0]},
     "locations": ["Witches Hut", "Ninja Shop", "Exploration"],
     "goodtraits": ["Nymphomaniac"],
@@ -161,7 +161,7 @@
     "mreusable": true,
     "mdestruct": false,
     "mod_skills": {"security": [0, 0, 0, 5, 5]},
-    "mod": {"joy": 3, "character": 1, "gold": -25},
+    "mod": {"joy": 3, "character": 1, "gold": -15},
     "locations": ["General Store", "Ninja Shop"],
     "pref_class":["Warrior", "Mage", "Shooter", "Assassin"]
     },

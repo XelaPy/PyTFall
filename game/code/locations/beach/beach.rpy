@@ -222,7 +222,8 @@ label city_beach_monsters_fight:
             mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
         back = interactions_pick_background_for_fight("beach")
-        result = run_default_be(enemy_team, background=back, give_up="escape")
+        result = run_default_be(enemy_team, background=back, give_up="escape",
+                                use_items=True)
 
     scene bg city_beach
 

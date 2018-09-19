@@ -56,6 +56,8 @@ init -999 python:
         persistent.auto_saves = False
     if persistent.intro is None:
         persistent.intro = False
+    if persistent.use_be_menu_targeting is not None:
+        persistent.use_be_menu_targeting = False
 
     def content_path(path):
         '''Returns proper path for a file in the content directory *To be used with os module.'''
@@ -454,7 +456,7 @@ init -1 python: # Constants:
     BLOCKED_OVERLAY_STAT = ("health", "mp", "vitality",
                              'mood', 'alignment')
     ND_IMAGE_SIZE = (820, 705)
-    
+
     equipSlotsPositions = dict()
     equipSlotsPositions['head'] = [u'Head', .2, .1]
     equipSlotsPositions['body'] = [u'Body', .2, .3]

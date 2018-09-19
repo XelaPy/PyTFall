@@ -213,7 +213,10 @@ label city_dark_forest_hideout_fight:
             enemy_team.add(mob)
 
     $ place = interactions_pick_background_for_fight("forest")
-    $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=False, give_up="escape")
+    $ result = run_default_be(enemy_team, background=place,
+                              slaves=True, prebattle=False,
+                              death=False, give_up="escape",
+                              use_items=True)
     if result is True:
         scene expression forest_location
         if persistent.battle_results:
@@ -316,7 +319,10 @@ label city_dark_forest_fight:
                 enemy_team.add(mob)
 
     $ place = interactions_pick_background_for_fight("forest")
-    $ result = run_default_be(enemy_team, background=place, slaves=True, prebattle=False, death=False, give_up="escape")
+    $ result = run_default_be(enemy_team, background=place,
+                              slaves=True, prebattle=False,
+                              death=False, give_up="escape",
+                              use_items=True)
 
     if result is True:
         scene expression forest_location
@@ -330,13 +336,13 @@ label city_dark_forest_fight:
             call screen give_exp_after_battle(hero.team, enemy_team)
 
         jump forest_dark_continue
-    elif result is False:
-        jump game_over
-    else:
+    elif result == "escape":
         $ be_hero_escaped(hero.team)
         scene black
         pause 1.0
         jump forest_dark_continue
+    elif result is False:
+        jump game_over
 
 label dark_forest_girl_meet:
     $ hero.set_flag("dark_forest_met_girl", value=day)

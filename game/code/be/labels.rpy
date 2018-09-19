@@ -24,8 +24,6 @@ label test_be:
                 if skill not in n.magic_skills:
                     n.magic_skills.append(skill)
 
-
-
     python:
         # Prepare the teams:
         enemy_team = Team(name="Enemy Team", max_size=3)
@@ -76,7 +74,7 @@ label test_be:
     python:
         battle = BE_Core(Image("content/gfx/bg/be/b_forest_1.webp"), music="random",
                          start_sfx=get_random_image_dissolve(1.5), end_sfx=dissolve,
-                         use_items=True)
+                         use_items=True, give_up="escape")
         battle.teams.append(hero.team)
         battle.teams.append(enemy_team)
         battle.start_battle()

@@ -1,5 +1,37 @@
+transform crosshair_red():
+    subpixel True
+    anchor (.5, .5)
+    "content/gfx/interface/images/crosshair_red.webp"
+    parallel:
+        rotate 0
+        linear 3.0 rotate 360
+        repeat
+    parallel:
+        zoom 1.0
+        easein .5 zoom 1.2
+        easeout .5 zoom 1.0
+        easein .5 zoom .8
+        easeout .5 zoom 1.0
+        repeat
+
+init python:
+    def show_all_targeting_closshairs(targets):
+        for index, t in enumerate(targets):
+            temp = dict(what=crosshair_red,
+                        at_list=[Transform(pos=battle.get_cp(t, "center",
+                                           use_absolute=True),
+                        anchor=(.5, .5))], zorder=t.besk["zorder"]+1)
+            renpy.show("enemy__"+str(index), **temp)
+
+    def hide_all_targeting_closshairs(targets):
+        for index, t in enumerate(targets):
+            renpy.hide("enemy__"+str(index))
+
 screen target_practice(skill, source, targets):
     zorder 2
+
+    on "hide":
+        action Function(hide_all_targeting_closshairs, targets)
 
     style_group "dropdown_gm"
 
@@ -13,24 +45,63 @@ screen target_practice(skill, source, targets):
         idle_image = im.MatrixColor(img, im.matrix.opacity(.7))
         selected_img = im.MatrixColor(img, im.matrix.tint(1.0, .6, 1.0)*im.matrix.brightness(.15))
 
-    for t in targets:
-        $ pos = battle.get_cp(t, type="tc", yo=-40)
-        imagebutton:
-            pos pos
-            xanchor .5
-            if highlight_idle:
-                idle selected_img
+    if persistent.use_be_menu_targeting:
+        frame:
+            style_prefix "dropdown_gm"
+            align .5, .5
+            margin 0, 0
+            padding 5, 5
+            has vpgrid yminimum 30 ymaximum 300 cols 1 draggable True mousewheel True
+            if return_all and len(targets) > 1:
+                button:
+                    padding 10, 2
+                    ysize 30
+                    hovered Function(show_all_targeting_closshairs, targets)
+                    unhovered Function(hide_all_targeting_closshairs, targets)
+                    action Return(targets)
+                    text "Use on all targets!":
+                        align .5, .5
+                        size 15
+                        hover_color red
+                        style "dropdown_gm_button_text"
             else:
-                idle idle_image
-            hover selected_img
-            if return_all:
-                action Return(targets)
-            else:
-                action Return(t)
-            if return_all:
-                hovered SetScreenVariable("highlight_idle", True)
-                unhovered SetScreenVariable("highlight_idle", False)
+                for index, t in enumerate(targets):
+                    $ temp = dict(what=crosshair_red,
+                                  at_list=[Transform(pos=battle.get_cp(t, "center",
+                                                     use_absolute=True),
+                                  anchor=(.5, .5))], zorder=t.besk["zorder"]+1)
+                    $ hide_action = Function(renpy.hide, "enemy__"+str(index))
+                    button:
+                        padding 10, 2
+                        ysize 30
+                        hovered Function(renpy.show, "enemy__"+str(index), **temp)
+                        unhovered hide_action
+                        action Return(t)
+                        text "[t.name]":
+                            align .5, .5
+                            style "dropdown_gm_button_text"
+                            size 15
+                            hover_color red
+    else:
+        for t in targets:
+            $ pos = battle.get_cp(t, type="tc", yo=-40)
+            imagebutton:
+                pos pos
+                xanchor .5
+                if highlight_idle:
+                    idle selected_img
+                else:
+                    idle idle_image
+                hover selected_img
+                if return_all:
+                    action Return(targets)
+                else:
+                    action Return(t)
+                if return_all:
+                    hovered SetScreenVariable("highlight_idle", True)
+                    unhovered SetScreenVariable("highlight_idle", False)
 
+    for t in targets: # Show killed things for revival..
         if t in battle.corpses:
             add Transform(t.besprite, pos=t.cpos, alpha=.4)
 
@@ -40,10 +111,9 @@ screen target_practice(skill, source, targets):
             textbutton "Cancel":
                 style "basic_button"
                 action Return(False)
+                keysym "mouseup_3"
 
-        key "mouseup_3" action Return(False)
-
-screen pick_skill(char, give_up):
+screen pick_skill(char):
     zorder 2
 
     default menu_mode = "top"
@@ -106,14 +176,14 @@ screen pick_skill(char, give_up):
             textbutton "Skip":
                 xminimum 100
                 action Return(BESkip(char))
-            if give_up == "surrender":
+            if battle.give_up == "surrender":
                 textbutton "Surrender":
                     xminimum 100
-                    action Return("surrender")
-            elif give_up == "escape":
+                    action Return(BESurrender(char))
+            elif battle.give_up == "escape":
                 textbutton "Escape":
                     xminimum 100
-                    action Return("escape")
+                    action Return(BEEscape(char))
     elif menu_mode == "items":
         frame:
             style_prefix "dropdown_gm"
@@ -247,7 +317,7 @@ screen battle_overlay(be):
         background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
         style "dropdown_gm_frame"
         has viewport:
-            xysize (440, 50)
+            xysize (600, 50)
             scrollbars "vertical"
             has vbox
             for entry in reversed(battle.combat_log):

@@ -35,7 +35,7 @@ init -9 python:
             data = A list of WorldEvent instances.
             """
             self.events = deepcopy(data) # all events
-            self.events_cache = list() # events that should be acutally checked
+            self.events_cache = list() # events that should be actually checked
             self.garbage = list()
             self.label_cache = None
 

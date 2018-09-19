@@ -128,9 +128,12 @@ label storyi_bossroom:
         mob.mod_stat("mp", 100)
         mob.controller = Complex_BE_AI(mob)
         enemy_team.add(mob)
-        result = run_default_be(enemy_team, background="content/gfx/bg/story/p_b.webp", slaves=True, track="content/sfx/music/be/battle (5)b.ogg", prebattle=False, death=True)
+        result = run_default_be(enemy_team,
+                                background="content/gfx/bg/story/p_b.webp",
+                                slaves=True, track="content/sfx/music/be/battle (5)b.ogg",
+                                prebattle=False, death=True, use_items=True)
 
-    if result == True:
+    if result is True:
         show bg story p4 with sflash
         show sinister_star at Position(xpos = 704, xanchor=.5, ypos=375, yanchor=.5):
             anchor (0.5, 0.5)
@@ -178,7 +181,11 @@ label storyi_randomfight:  # initiates fight with random enemy team
             mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
 
-        result = run_default_be(enemy_team, background="content/gfx/bg/be/b_dungeon_1.webp", slaves=True, prebattle=False, death=False, skill_lvl=4, give_up="escape")
+        result = run_default_be(enemy_team,
+                                background="content/gfx/bg/be/b_dungeon_1.webp",
+                                slaves=True, prebattle=False,
+                                death=False, skill_lvl=4, give_up="escape",
+                                use_items=True)
 
     if result is True:
         call storyi_show_bg from _call_storyi_show_bg_3
@@ -198,13 +205,14 @@ label storyi_randomfight:  # initiates fight with random enemy team
 
         show screen prison_break_controls
         jump storyi_gui_loop
-    elif result is False:
-        jump game_over
-    else:
+    elif result == "escape":
         $ be_hero_escaped(hero.team)
         scene black
         pause 1.0
         jump forest_entrance
+    elif result is False:
+        jump game_over
+
 
 label storyi_treat_wounds:
     $ j = False

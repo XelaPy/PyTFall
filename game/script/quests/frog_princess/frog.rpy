@@ -238,7 +238,10 @@ label frog_deathfight:
             mob.controller = Complex_BE_AI(mob)
             enemy_team.add(mob)
 
-    $ result = run_default_be(enemy_team, background="content/gfx/bg/be/battle_arena_1.webp", slaves=True, prebattle=False, death=False)
+    $ result = run_default_be(enemy_team,
+                              background="content/gfx/bg/be/battle_arena_1.webp",
+                              slaves=True, prebattle=False, death=False,
+                              use_items=True)
 
     if result:
         python:
