@@ -1735,15 +1735,32 @@ init -10 python:
                 if char.health >= 30 and char.vitality >= 30 and char in hero.chars and char.is_available:
                     if char.status == "slave" or check_lovers(char, hero):
                         if "Small Boobs" in char.traits:
-                            hero.add_item("Bottle of Milk")
+                            if "Slime" in char.traits:
+                                hero.add_item("Slime's Milk")
+                            else:
+                                hero.add_item("Bottle of Milk")
                         elif "Average Boobs" in char.traits:
-                            hero.add_item("Bottle of Milk", randint(1, 2))
+                            if "Slime" in char.traits:
+                                hero.add_item("Slime's Milk", randint(1, 2))
+                            else:
+                                hero.add_item("Bottle of Milk", randint(1, 2))
                         elif "Big Boobs" in char.traits:
-                            hero.add_item("Bottle of Milk", randint(2, 3))
+                            if "Slime" in char.traits:
+                                hero.add_item("Slime's Milk", randint(2, 3))
+                            else:
+                                hero.add_item("Bottle of Milk", randint(2, 3))
                         else:
-                            hero.add_item("Bottle of Milk", randint(2, 5))
-                    elif not(has_items("Bottle of Milk", [char])): # in order to not stack bottles of milk into free chars inventories they get only one, and only if they had 0
-                        char.add_item("Bottle of Milk")
+                            if "Slime" in char.traits:
+                                hero.add_item("Slime's Milk", randint(2, 5))
+                            else:
+                                hero.add_item("Bottle of Milk", randint(2, 5))
+                    else:
+                        if "Slime" in char.traits:
+                            if not(has_items("Slime's Milk", [char])):
+                                char.add_item("Slime's Milk")
+                        else:
+                            if not(has_items("Bottle of Milk", [char])): # in order to not stack bottles of milk into free chars inventories they get only one, and only if they had 0
+                                char.add_item("Bottle of Milk")
             elif self.name == "Silly":
                 if char.intelligence >= 200:
                     char.intelligence -= 20
