@@ -130,12 +130,7 @@ init -1 python: # Core classes:
                     if fighter.controller != "player":
                         # This character is not controlled by the player so we call the (AI) controller:
                         fighter.controller()
-                    else:
-                        # Controller is the player:
-                        # Call the skill choice screen:
-                        skill = None
-                        targets = None
-
+                    else: # Controller is the player:
                         # making known whose turn it is:
                         w, h = fighter.besprite_size
                         renpy.show("its_my_turn", at_list=[Transform(additive=.6, alpha=.7, size=(int(w*1.5), h/3),
@@ -143,7 +138,10 @@ init -1 python: # Core classes:
                                                            anchor=(.5, 1.0))],
                                                            zorder=fighter.besk["zorder"]+1)
 
-                        while not (skill and targets):
+                        while 1:
+                            skill = None
+                            targets = None
+
                             rv = renpy.call_screen("pick_skill", fighter)
 
                             # Unique check for Skip/Escape Events:
@@ -160,6 +158,8 @@ init -1 python: # Core classes:
                                 skill.source = fighter
                                 targets = skill.get_targets()
                                 targets = renpy.call_screen("target_practice", skill, fighter, targets)
+                                if targets:
+                                    break
 
                         # We don't need to see status icons during skill executions!
                         if not self.logical:
@@ -167,7 +167,7 @@ init -1 python: # Core classes:
                             renpy.hide("its_my_turn")
 
                         # This actually executes the skill!
-                        if skill:
+                        if skill is not None:
                             skill(t=targets)
 
                         if not self.logical:
