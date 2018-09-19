@@ -92,7 +92,7 @@ screen cafe_eating():
 
         textbutton "Eat alone":
             sensitive hero.flag("ate_in_cafe") != day
-            action [Hide("cafe_eating"), Jump("mc_action_cafe_eat_alone")]
+            action [Hide("cafe_eating"), Jump("mc_action_cafe_eat_alone_cafe_invitation")]
 
         textbutton "Eat with group":
             sensitive len(hero.team)>1 and hero.flag("ate_in_cafe") != day
@@ -102,7 +102,7 @@ screen cafe_eating():
             action [Hide("cafe_eating"), Jump("main_street")]
             keysym "mousedown_3"
 
-label mc_action_cafe_eat_alone:
+label mc_action_cafe_eat_alone_cafe_invitation:
     menu:
         "What will it be?"
 
