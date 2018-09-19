@@ -205,13 +205,14 @@ label storyi_randomfight:  # initiates fight with random enemy team
 
         show screen prison_break_controls
         jump storyi_gui_loop
-    elif result is False:
-        jump game_over
-    else:
+    elif battle.combat_status == "escape":
         $ be_hero_escaped(hero.team)
         scene black
         pause 1.0
         jump forest_entrance
+    elif result is False:
+        jump game_over
+
 
 label storyi_treat_wounds:
     $ j = False

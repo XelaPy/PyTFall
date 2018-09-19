@@ -338,13 +338,13 @@ label city_dark_forest_fight:
             call screen give_exp_after_battle(hero.team, enemy_team)
 
         jump forest_dark_continue
-    elif result is False:
-        jump game_over
-    else:
+    elif battle.combat_status == "escape":
         $ be_hero_escaped(hero.team)
         scene black
         pause 1.0
         jump forest_dark_continue
+    elif result is False:
+        jump game_over
 
 label dark_forest_girl_meet:
     $ hero.set_flag("dark_forest_met_girl", value=day)
