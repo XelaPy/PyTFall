@@ -221,6 +221,8 @@ label city_dark_forest_hideout_fight:
         scene expression forest_location
         if persistent.battle_results:
             call screen give_exp_after_battle(hero.team, enemy_team)
+    elif battle.combat_status == "escape":
+        pass
     elif result is False:
         jump game_over
     return
