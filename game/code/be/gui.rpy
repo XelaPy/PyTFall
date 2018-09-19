@@ -13,6 +13,32 @@ screen target_practice(skill, source, targets):
         idle_image = im.MatrixColor(img, im.matrix.opacity(.7))
         selected_img = im.MatrixColor(img, im.matrix.tint(1.0, .6, 1.0)*im.matrix.brightness(.15))
 
+    frame:
+        style_prefix "dropdown_gm"
+        align .5, .5
+        margin 0, 0
+        padding 5, 5
+        has vpgrid yminimum 30 ymaximum 300 cols 1 draggable True mousewheel True
+        if return_all and len(targets) > 1:
+            button:
+                padding 10, 2
+                ysize 30
+                if return_all:
+                    action Return(targets)
+                else:
+                    action Return(t)
+                text "Use on all targets!" align .5, .5 style "dropdown_gm_button_text" size 15
+        else:
+            for t in targets:
+                button:
+                    padding 10, 2
+                    ysize 30
+                    if return_all:
+                        action Return(targets)
+                    else:
+                        action Return(t)
+                    text "[t.name]" align .5, .5 style "dropdown_gm_button_text" size 15
+
     for t in targets:
         $ pos = battle.get_cp(t, type="tc", yo=-40)
         imagebutton:
@@ -40,8 +66,7 @@ screen target_practice(skill, source, targets):
             textbutton "Cancel":
                 style "basic_button"
                 action Return(False)
-
-        key "mouseup_3" action Return(False)
+                keysym "mouseup_3"
 
 screen pick_skill(char):
     zorder 2
@@ -247,7 +272,7 @@ screen battle_overlay(be):
         background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
         style "dropdown_gm_frame"
         has viewport:
-            xysize (440, 50)
+            xysize (600, 50)
             scrollbars "vertical"
             has vbox
             for entry in reversed(battle.combat_log):
