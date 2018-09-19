@@ -152,7 +152,12 @@ init -11 python:
                         member.health = 0
                     else:
                         member.health = 1
-                        if member <> hero:
+                        if member != hero:
                             member.joy -= randint(5, 15)
 
-        return battle.win
+        if battle.combat_status in ("escape", "surrender"):
+            rv = battle.combat_status
+        else:
+            rv = battle.win
+
+        return rv

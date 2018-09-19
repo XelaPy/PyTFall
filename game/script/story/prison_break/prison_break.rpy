@@ -133,7 +133,7 @@ label storyi_bossroom:
                                 slaves=True, track="content/sfx/music/be/battle (5)b.ogg",
                                 prebattle=False, death=True, use_items=True)
 
-    if result == True:
+    if result is True:
         show bg story p4 with sflash
         show sinister_star at Position(xpos = 704, xanchor=.5, ypos=375, yanchor=.5):
             anchor (0.5, 0.5)
@@ -205,7 +205,7 @@ label storyi_randomfight:  # initiates fight with random enemy team
 
         show screen prison_break_controls
         jump storyi_gui_loop
-    elif battle.combat_status == "escape":
+    elif result == "escape":
         $ be_hero_escaped(hero.team)
         scene black
         pause 1.0
