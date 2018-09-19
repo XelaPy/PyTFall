@@ -455,6 +455,7 @@ init -1 python: # Constants:
     AUTO_OVERLAY_STAT_LABELS = ("mc_action_", "interactions_", "girl_interactions_aboutjob")
     BLOCKED_OVERLAY_STATS = ("health", "mp", "vitality",
                              'mood', 'alignment')
+    UNBLOCK_OVERLAY_STATS_LABELNAME_SUFFIX = ("cafe_invitation", )
     ND_IMAGE_SIZE = (820, 705)
 
     equipSlotsPositions = dict()
