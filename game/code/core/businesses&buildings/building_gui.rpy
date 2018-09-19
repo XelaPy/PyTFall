@@ -560,7 +560,7 @@ init: # Screens:
                                 textbutton "{size=15}{font=fonts/TisaOTM.otf}{color=[goldenrod]}Details":
                                     background Transform(Frame("content/gfx/interface/images/story12.png"), alpha=.8)
                                     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
-                                    tooltip "View details or expand {}.".format(u.name)
+                                    tooltip "View details or expand {}.\n{}".format(u.name, u.desc)
                                     xalign .5
                                     action SetVariable("bm_mid_frame_mode", u)
 
