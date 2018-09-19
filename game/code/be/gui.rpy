@@ -83,8 +83,13 @@ screen target_practice(skill, source, targets):
                             size 15
                             hover_color red
     else:
-        for t in targets:
+        for index, t in enumerate(targets):
             $ pos = battle.get_cp(t, type="tc", yo=-40)
+            $ temp = dict(what=crosshair_red,
+                          at_list=[Transform(pos=battle.get_cp(t, "center",
+                                             use_absolute=True),
+                          anchor=(.5, .5))], zorder=t.besk["zorder"]+1)
+            $ hide_action = Function(renpy.hide, "enemy__"+str(index))
             imagebutton:
                 pos pos
                 xanchor .5
@@ -94,12 +99,13 @@ screen target_practice(skill, source, targets):
                     idle idle_image
                 hover selected_img
                 if return_all:
+                    hovered Function(show_all_targeting_closshairs, targets), SetScreenVariable("highlight_idle", True)
+                    unhovered Function(hide_all_targeting_closshairs, targets), SetScreenVariable("highlight_idle", False)
                     action Return(targets)
                 else:
+                    hovered Function(renpy.show, "enemy__"+str(index), **temp)
+                    unhovered hide_action
                     action Return(t)
-                if return_all:
-                    hovered SetScreenVariable("highlight_idle", True)
-                    unhovered SetScreenVariable("highlight_idle", False)
 
     for t in targets: # Show killed things for revival..
         if t in battle.corpses:
