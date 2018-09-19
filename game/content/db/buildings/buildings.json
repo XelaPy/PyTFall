@@ -41,7 +41,7 @@
 		"price": 15000,
 
 		"in_slots_max": 20,
-		"ex_slots_max": 4,
+		"ex_slots_max": 5,
 
 		"fame": 0,
 		"maxfame": 150,
