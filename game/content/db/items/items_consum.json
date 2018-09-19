@@ -1216,6 +1216,25 @@
     "locations": ["Cafe", "Tavern"]
     },
     {
+    "id": "Slime's Milk",
+    "desc": "A rare substance produced by some female slimes. It can't be consumed like a normal milk, but it provides amazing lubrication during intimacy.",
+    "icon": "content/items/cons/ssm.png",
+    "price": 100,
+    "sex": "unisex",
+    "chance": 0,
+    "badness": 20,
+    "eqchance": 75,
+    "hidden": false,
+    "infinite": false,
+    "slot": "consumable",
+    "type": "upgrade",
+    "ctemp": 3,
+    "cblock": 3,
+    "mod_skills": {"vaginal": [0.2, 0.2, 0.2, 25, 0], "anal": [0.2, 0.2, 0.2, 25, 0], "oral": [0.2, 0.2, 0.2, 25, 0], "sex": [0.2, 0.2, 0.2, 25, 0]},
+    "goodtraits": ["Open Minded"],
+    "locations": ["Witches Hut"]
+    },
+    {
     "id": "Red Wine",
     "desc": "An aged wine made from the dark-colored grape.",
     "icon": "content/items/cons/rwine.png",
