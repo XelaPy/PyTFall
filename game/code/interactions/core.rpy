@@ -24,9 +24,9 @@ init -1 python:
 
             self.girls = list()
             choices = list()
-            possible_chars = list(c for c in chars.intervalues() if c not interactive_chars and
-                                                                 if c not in hero.chars and
-                                                                 if not c.arena_active)
+            possible_chars = list(c for c in chars.intervalues() if (c not in interactive_chars)
+                                                                 and (c not in hero.chars)
+                                                                 and (not c.arena_active))
             interactive_chars = gm.get_all_girls()
 
             # Get available girls and check stuff:
@@ -35,7 +35,7 @@ init -1 python:
                     continue
                 if str(c.location) not in ["City", "girl_meets_quest"]:
                     continue
-                if has_tags and not c.has_image(*has_tags, exclude=has_no_tags)):
+                if has_tags and not c.has_image(*has_tags, exclude=has_no_tags):
                     continue
 
                 choices.append(c)
