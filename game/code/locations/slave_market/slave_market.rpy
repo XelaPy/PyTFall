@@ -111,23 +111,25 @@ label slavel_market_controls:
 
         if result[0] == "buy":
             $ char = pytfall.sm.girl
-            if hero.take_ap(1):
-                if hero.take_money(char.fin.get_price(), reason="Slave Purchase"):
-                    play sound "content/sfx/sound/world/purchase_1.ogg"
-                    $ hero.add_char(char)
-                    $ char.action = char.workplace = None
-                    $ char.home = locations["Streets"]
-                    $ pytfall.sm.chars_list.remove(char)
+            if hero.AP > 0 and hero.take_money(char.fin.get_price(), reason="Slave Purchase"):
+                play sound "content/sfx/sound/world/purchase_1.ogg"
+                $ hero.AP -= 1
+                $ hero.add_char(char)
+                $ char.action = char.workplace = None
+                $ char.home = locations["Streets"]
+                $ pytfall.sm.chars_list.remove(char)
 
-                    if pytfall.sm.chars_list:
-                        $ pytfall.sm.girl = choice(pytfall.sm.chars_list)
-                        $ pytfall.sm.index = pytfall.sm.chars_list.index(pytfall.sm.girl)
-                    else:
-                        $ pytfall.sm.girl = None
+                if pytfall.sm.chars_list:
+                    $ pytfall.sm.girl = choice(pytfall.sm.chars_list)
+                    $ pytfall.sm.index = pytfall.sm.chars_list.index(pytfall.sm.girl)
                 else:
-                    call screen message_screen("You don't have enough money for this purchase!")
+                    $ pytfall.sm.girl = None
+
+                if not hero.AP:
+                    $ renpy.hide_screen("slave_shopping")
+                    $ Return(("control", "return"))()
             else:
-                call screen message_screen("You don't have enough AP left for this action!!")
+                call screen message_screen("You don't have enough money for this purchase!")
 
             if not pytfall.sm.chars_list:
                 hide screen slave_shopping

@@ -36,7 +36,6 @@ label realtor_agency:
         g "Please have a seat and take a look at some of our offers."
 
         $ global_flags.set_flag("visited_ra")
-
     else:
         "The room is still bright and filled with the same sweet scent."
         show expression npcs["Rose_estate"].get_vnsprite() at right as rose with dissolve
@@ -56,16 +55,20 @@ label realtor_agency:
         $ result = ui.interact()
 
         if result[0] == 'buy':
-            if hero.take_ap(1):
-                if hero.take_money(result[1].price, reason="Property"):
-                    $ renpy.play("content/sfx/sound/world/purchase_1.ogg")
-                    $ hero.add_building(result[1])
-                    $ market_buildings.remove(result[1])
-                    $ focus = None
-                else:
-                    $ renpy.call_screen('message_screen', "You don't have enough Gold!!")
+            if hero.AP > 0 and hero.take_money(result[1].price, reason="Property"):
+                $ hero.AP -= 1
+                $ renpy.play("content/sfx/sound/world/purchase_1.ogg")
+                $ hero.add_building(result[1])
+                $ market_buildings.remove(result[1])
+                $ focus = None
+
+                if hero.AP <= 0:
+                    $ Return(["control", "return"])()
             else:
-                $ renpy.call_screen('message_screen', "You don't have enough AP left for this action!!")
+                if hero.AP <= 0:
+                    $ renpy.call_screen('message_screen', "You don't have enough Action Points!")
+                else:
+                    $ renpy.call_screen('message_screen', "You don't have enough Gold!")
 
         if result[0] == 'control':
             if result[1] == 'return':

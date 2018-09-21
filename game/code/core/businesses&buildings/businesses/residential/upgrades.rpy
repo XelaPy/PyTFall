@@ -11,7 +11,7 @@ init 5 python:
         temp = []
         temp.append("Beautiful Garden!")
         temp.append("A large and beautiful garden to put your slaves at ease.")
-        temp.append("(+50% Overnight restoration for slaves in this building!)")
+        temp.append("(+25% Overnight restoration for slaves in this building!)")
         DESC = "\n".join(temp)
         del temp
         COST = 3000
@@ -25,4 +25,4 @@ init 5 python:
 
         def __init__(self, **kwargs):
             super(SQLandscape, self).__init__(**kwargs)
-            self.daily_rejuvenation_modifier = .05
+            self.daily_rejuvenation_modifier = .25
