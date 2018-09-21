@@ -496,11 +496,24 @@ init: # Screens:
             if isinstance(building, BuildingStats):
                 frame:
                     xysize (296, 27)
-                    text "Dirt:" xalign .02 color ivory
+                    button:
+                        background Null()
+                        xalign .02
+                        margin 0, 0 padding 0, 0
+                        tooltip "Dirt will never pile up in smaller buildings (10 capacity for any and 15 for buildings with a competent manager). Your workers will take care of it before it gets a chance!"
+                        action NullAction()
+                        text "Dirt:" color brown hover_color green
                     text "%s (%s %%)" % (building.get_dirt_percentage()[1], building.get_dirt_percentage()[0]) xalign .98 style_suffix "value_text" yoffset 4
                 frame:
                     xysize (296, 27)
                     text "Threat:" xalign .02 color ivory
+                    button:
+                        background Null()
+                        xalign .02
+                        margin 0, 0 padding 0, 0
+                        tooltip "Threat will never effect the smaller buildings (15 capacity for any and 20 for buildings with a competent manager). Your workers will never allow it to increase!"
+                        action NullAction()
+                        text "Threat:" color crimson hover_color green
                     text "%s %%" % (building.threat * 100 / building.max_stats["threat"]):
                         xalign .98
                         style_suffix "value_text"

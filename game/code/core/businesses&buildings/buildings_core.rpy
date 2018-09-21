@@ -347,7 +347,7 @@ init -10 python:
             if key in stats:
 
                 max_val = self.__dict__["max_stats"][key]
-                manager_effectiveness = self.__dict__["manager_effectiveness"]
+                manager_effectiveness = self.__dict__.get("manager_effectiveness", 0)
 
                 # Ignore threat for small buildings!
                 cap = getattr(self, "workable_capacity", 0)
