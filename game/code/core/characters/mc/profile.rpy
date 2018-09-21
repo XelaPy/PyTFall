@@ -69,7 +69,6 @@ label hero_profile:
             if result[1] == "set_name":
                 $ hero.team.name = renpy.call_screen("pyt_input", hero.team.name, "Enter Team Name", 20, (350, 200))
 
-
 # Screens:
 screen hero_profile():
     on "hide":

@@ -374,7 +374,9 @@ screen equip_for(pos=()):
                 action Hide("equip_for")
 
 screen char_equip():
-    # Useful keymappings (first time I try this in PyTFall): ====================================>
+    modal True
+
+    # Useful keymappings
     if focusitem:
         key "mousedown_2" action Return(["item", "equip/unequip"])
     else:
