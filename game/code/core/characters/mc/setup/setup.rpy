@@ -156,7 +156,7 @@ label set_mc_start_building:
         scary.rep = 0
 
         scary.auto_clean = False
-        scary.dirt = randint(50, 100)
+        scary.dirt = 0
         scary.threat = 0
 
         scary.allowed_businesses = [BrothelBlock, Cleaners, SlaveQuarters, WarriorQuarters]
