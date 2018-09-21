@@ -21,27 +21,27 @@ init -1 python:
             self.name = name
             self.curious_priority = curious_priority
             self.limited_location = limited_location
+
             self.girls = list()
-            # Get available girls and check occupation
-            if limited_location:
-                choices = list(i for i in chars.values() if
-                               i.location == name and
-                               i not in hero.chars and
-                               not i.arena_active and
-                               i not in gm.get_all_girls())
-            else:
-                if not(has_tags):
-                    choices = list(i for i in chars.values() if
-                                   i not in hero.chars and
-                                   not i.arena_active and
-                                   str(i.location) in ["City", "girl_meets_quest"]
-                                   and i not in gm.get_all_girls())
-                else:
-                    choices = list(i for i in chars.values() if
-                                   i not in hero.chars and not i.arena_active and
-                                   str(i.location) in ["City", "girl_meets_quest"] and
-                                   i not in gm.get_all_girls() and
-                                   i.has_image(*has_tags, exclude=has_no_tags))
+
+            choices = list()
+            interactive_chars = gm.get_all_girls()
+            
+            # Get available girls and check stuff:
+            for c in chars.intervalues():
+                if c in interactive_chars:
+                    continue
+                if c in hero.chars:
+                    continue
+                if c.arena_active:
+                    continue
+                if limited_location and c.location != name:
+                    continue
+                if str(c.location) not in ["City", "girl_meets_quest"]:
+                    continue
+                if has_tags and not c.has_image(*has_tags, exclude=has_no_tags)):
+                    continue
+
             # We remove all chars with badtraits:
             if badtraits:
                 choices = list(i for i in choices if not any(trait in badtraits for trait in i.traits))
@@ -51,6 +51,7 @@ init -1 python:
 
             if self.curious_priority:
                 goodtraits.add(traits["Curious"])
+
             gt = list(i for i in conditioned_choices if any(trait in goodtraits for trait in i.traits)) if goodtraits else list()
             occs = list(i for i in conditioned_choices if i.occupations.intersection(goodoccupations)) if goodoccupations else list()
             conditioned_choices = list(conditioned_choices.intersection(gt + occs)) if gt or occs else list(conditioned_choices)
@@ -174,7 +175,6 @@ init -1 python:
             """
             if self.label_cache in self.girlcells:
                 return self.girlcells[self.label_cache]
-
             else:
                 return list()
 
@@ -183,11 +183,9 @@ init -1 python:
             Returns a list of all girls currently in girl_meets.
             """
             l = list()
-
             for cell in self.girlcells.values():
                 for girl in cell:
                     l.append(girl)
-
             return l
 
         def remove_girl(self, char):
