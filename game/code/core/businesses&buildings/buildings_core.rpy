@@ -350,9 +350,17 @@ init -10 python:
                 manager_effectiveness = self.__dict__["manager_effectiveness"]
 
                 # Ignore threat for small buildings!
-                cap = getattr(self, "capacity", 9)
-                if key == "threat" and cap < 10:
-                    value = 0
+                cap = getattr(self, "workable_capacity", 0)
+                if key == "threat":
+                    if manager_effectiveness >= 100 and cap <= 20:
+                        value = 0
+                    elif cap <= 15:
+                        value = 0
+                elif key == "dirt":
+                    if manager_effectiveness >= 100 and cap <= 15:
+                        value = 0
+                    elif cap <= 10:
+                        value = 0
 
                 if value > max_val:
                     stats[key] = max_val
@@ -751,7 +759,7 @@ init -10 python:
             return rooms
 
         @property
-        def workable_capiacity(self):
+        def workable_capacity(self):
             capacity = 0
             workable = [i for i in self._businesses if i.workable]
             if workable:
@@ -769,7 +777,7 @@ init -10 python:
         @property
         def capacity(self):
             # Full capacity, habitable and workable:
-            return self.workable_capiacity + self.habitable_capacity
+            return self.workable_capacity + self.habitable_capacity
 
         # Clients related:
         def get_client_count(self, write_to_nd=False):
