@@ -347,7 +347,7 @@ init -10 python:
             if key in stats:
 
                 max_val = self.__dict__["max_stats"][key]
-                me = self.__dict__["manager_effectiveness"]
+                manager_effectiveness = self.__dict__["manager_effectiveness"]
 
                 # Ignore threat for small buildings!
                 cap = getattr(self, "capacity", 9)
@@ -745,11 +745,12 @@ init -10 python:
 
         @property
         def vacancies(self):
-            rooms = self.habitable_capicity - len(self.inhabitants)
+            rooms = self.habitable_capacity - len(self.inhabitants)
             if rooms < 0:
                 rooms = 0
             return rooms
 
+        @property
         def workable_capiacity(self):
             capacity = 0
             workable = [i for i in self._businesses if i.workable]
@@ -757,7 +758,8 @@ init -10 python:
                 capacity = sum([i.capacity for i in workable])
             return capacity
 
-        def habitable_capicity(self):
+        @property
+        def habitable_capacity(self):
             capacity = 0
             habitable = [i for i in self._businesses if i.habitable]
             if habitable:
@@ -767,7 +769,7 @@ init -10 python:
         @property
         def capacity(self):
             # Full capacity, habitable and workable:
-            return self.workable_capiacity + self.habitable_capicity
+            return self.workable_capiacity + self.habitable_capacity
 
         # Clients related:
         def get_client_count(self, write_to_nd=False):
