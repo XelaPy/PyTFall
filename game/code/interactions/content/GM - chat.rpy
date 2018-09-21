@@ -253,7 +253,7 @@ label interactions_abouther:
     $ m = interactions_flag_count_checker(char, "flag_interactions_abouther")
     if m > (2 + interactions_set_repeating_lines_limit(char)):
         call interactions_too_many_lines from _call_interactions_too_many_lines_4
-        $ char.disposition -= randint(2,m+1)
+        $ char.disposition -= randint(1, m+3)
         if char.joy > 40:
             $ char.joy -= randint(0,2)
         $ del m
