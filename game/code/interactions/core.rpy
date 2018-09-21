@@ -24,10 +24,10 @@ init -1 python:
 
             self.girls = list()
             choices = list()
-            possible_chars = list(c for c in chars.intervalues() if (c not in interactive_chars)
+            interactive_chars = gm.get_all_girls()
+            possible_chars = list(c for c in chars.itervalues() if (c not in interactive_chars)
                                                                  and (c not in hero.chars)
                                                                  and (not c.arena_active))
-            interactive_chars = gm.get_all_girls()
 
             # Get available girls and check stuff:
             for c in possible_chars:
@@ -64,7 +64,7 @@ init -1 python:
             local_chars = list()
             for c in possible_chars:
                 if c.location == name:
-                    if c in gm.get_all_girls():
+                    if c in interactive_chars:
                         gm.remove_girl(c)
                     local_chars.append(c)
             shuffle(local_chars)
