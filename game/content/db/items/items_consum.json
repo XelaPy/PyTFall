@@ -567,6 +567,7 @@
     "cblock": 5,
     "mod": {"health": 10000, "joy": -25, "vitality": -400},
     "removeeffects": ["Poisoned", "Down with Cold", "Injured", "Drunk", "Food Poisoning"],
+    "removetraits": ["Lactation"],
     "locations": ["Exploration", "Arena"]
     },
     {
