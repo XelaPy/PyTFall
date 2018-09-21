@@ -23,24 +23,22 @@ init -1 python:
             self.limited_location = limited_location
 
             self.girls = list()
-
             choices = list()
+            possible_chars = list(c for c in chars.intervalues() if c not interactive_chars and
+                                                                 if c not in hero.chars and
+                                                                 if not c.arena_active)
             interactive_chars = gm.get_all_girls()
-            
+
             # Get available girls and check stuff:
-            for c in chars.intervalues():
-                if c in interactive_chars:
-                    continue
-                if c in hero.chars:
-                    continue
-                if c.arena_active:
-                    continue
+            for c in possible_chars:
                 if limited_location and c.location != name:
                     continue
                 if str(c.location) not in ["City", "girl_meets_quest"]:
                     continue
                 if has_tags and not c.has_image(*has_tags, exclude=has_no_tags)):
                     continue
+
+                choices.append(c)
 
             # We remove all chars with badtraits:
             if badtraits:
@@ -64,7 +62,7 @@ init -1 python:
             # We add an absolute overwrite for any character that has the location string set as the name:
             # Make sure that we do not get the char in two locations on the same day:
             local_chars = list()
-            for c in chars.values():
+            for c in possible_chars:
                 if c.location == name:
                     if c in gm.get_all_girls():
                         gm.remove_girl(c)
