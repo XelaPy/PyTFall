@@ -5,7 +5,7 @@
 		"location": "Flee Bottom",
 		"price": 5000,
 
-		"in_slots_max": 12,
+		"in_slots_max": 10,
 		"ex_slots_max": 0,
 
 		"fame": 0,
@@ -26,12 +26,9 @@
 					"in_slots": 2,
 					"desc": "Small, private rooms that'll 'do the trick'!"
 				}
-			},
-			{
-				"class": "Cleaners"
 			}
 		],
-		"allowed_businesses": ["BrothelBlock", "Cleaners", "WarriorQuarters"]
+		"allowed_businesses": ["BrothelBlock", "Cleaners"]
 	},
 	{
 		"id": 2,
@@ -73,7 +70,7 @@
 	{
 		"id": 3,
 		"name": "House on Outskirts",
-		"desc": "A nice building away from the city. Setup your business as you see fit!",
+		"desc": "A nice building away from the city. Setup your businesses as you see fit!",
 		"location": "Flee Bottom",
 		"price": 25000,
 

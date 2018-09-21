@@ -347,6 +347,7 @@ init -10 python:
             if key in stats:
 
                 max_val = self.__dict__["max_stats"][key]
+                me = self.__dict__["manager_effectiveness"]
 
                 # Ignore threat for small buildings!
                 cap = getattr(self, "capacity", 9)
@@ -521,7 +522,7 @@ init -10 python:
             # Chars:
             # Note: We also use .inhabitants set inherited from all the way over location.
             self.manager = None
-            self.manager_effectiveness = 0 # Calculated once (performance)
+            self.manager_effectiveness = 0 # Calculated once at start of each working day (performance)
             self.workers_rule = "normal"
             # Bit of an issue could be that we're using all_workers in SimPy as well? :D
             # TODO (bb) Look into the above.
@@ -737,37 +738,36 @@ init -10 python:
             return any(i.habitable for i in self._businesses)
 
         @property
-        def vacancies(self):
-            # check if there is place to live in this building.
-            if not self.habitable:
-                return 0
-
-            habitable = [i for i in self._businesses if i.habitable]
-            capacity = sum([i.capacity for i in habitable])
-            rooms = capacity - len(self.inhabitants)
-            if rooms < 0:
-                rooms = 0
-            return rooms
-
-        @property
         def workable(self):
             """Returns True if this building has upgrades that are businesses.
             """
             return any(i.workable for i in self._businesses)
 
         @property
-        def capacity(self):
-            # Full capacity, habitable and workable:
-            capacity = 0
+        def vacancies(self):
+            rooms = self.habitable_capicity - len(self.inhabitants)
+            if rooms < 0:
+                rooms = 0
+            return rooms
 
+        def workable_capiacity(self):
+            capacity = 0
             workable = [i for i in self._businesses if i.workable]
             if workable:
                 capacity = sum([i.capacity for i in workable])
+            return capacity
 
+        def habitable_capicity(self):
+            capacity = 0
             habitable = [i for i in self._businesses if i.habitable]
             if habitable:
                 capacity = sum([i.capacity for i in habitable])
             return capacity
+
+        @property
+        def capacity(self):
+            # Full capacity, habitable and workable:
+            return self.workable_capiacity + self.habitable_capicity
 
         # Clients related:
         def get_client_count(self, write_to_nd=False):
