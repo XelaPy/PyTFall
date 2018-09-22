@@ -299,7 +299,7 @@ init -5 python:
             log.logws("dancing", dancemod)
             log.logws("strip", stripmod)
 
-            log.logws('vitality', len_clients*-2)
+            log.logws('vitality', round_int(len_clients*-.5))
 
             if stripmod + agilemod + dancemod + charismamod > 0:
                 log.append("\n%s feels like she learned something! \n"%worker.name)

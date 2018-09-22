@@ -260,7 +260,7 @@ init -5 python:
 
             log.logws('bartending', choice([1, 2]))
             log.logws('refinement', choice([0, 0, 0, 1]))
-            log.logws('vitality', len_clients*-2)
+            log.logws('vitality', round_int(len_clients*-.5))
             simpy_debug("MEOW: {} Clients Served in Bar by {}!".format(len_clients, worker.name))
 
             size = ND_IMAGE_SIZE
