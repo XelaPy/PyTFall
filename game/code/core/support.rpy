@@ -94,6 +94,15 @@ init -9 python:
                 char.del_flag("food_poison_counter")
                 char.del_flag("drunk_counter")
 
+                # Adding disposition/joy mods:
+                if char.disposition < 0:
+                    char.disposition += 1
+                elif char.disposition > 0:
+                    char.disposition -= 1
+
+                if char.joy < char.get_max("joy"):
+                    char.joy += 5
+
             # Same for Arena Fighters:
             for fighter in pytfall.arena.arena_fighters.values():
                 fighter.clear_img_cache()
