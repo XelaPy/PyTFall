@@ -262,6 +262,9 @@ init -11 python:
                                     tier_up_to(char, **tier)
                                 else:
                                     tier_up_to(char, tier)
+                            else:
+                                tier = uniform(.1, .4)
+                                tier_up_to(char, tier)
 
                             item_up = gd.get("item_up", "auto")
                             if item_up == "auto":
