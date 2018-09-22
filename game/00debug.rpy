@@ -1,14 +1,14 @@
-init -999 python:
+init -998 python:
     ## Should we enable the use of developer tools? This should be
     ## set to False before the game is released, so the user can't
     ## cheat using developer tools.
-    config.developer = False
+    config.developer = True
     # config.debug = False
 
-    DEBUG = False # General debugging.
-    DEBUG_LOG = False # Logging general. Crash if devlog is used and this is False.
+    DEBUG = True # General debugging.
+    DEBUG_LOG = True # Logging general. Crash if devlog is used and this is False.
 
-    DEBUG_PROFILING = False # Loading time of various game elements.
+    DEBUG_PROFILING = True # Loading time of various game elements.
     DEBUG_INTERACTIONS = False
 
     DEBUG_CHARS = False
@@ -25,7 +25,7 @@ init -999 python:
             func("|CHAR DEBUG| {}".format(msg))
 
     # SimPy:
-    DEBUG_SIMPY = False
+    DEBUG_SIMPY = True
     DEBUG_SIMPY_ND_BUILDING_REPORT = DSNBR = False
     def simpy_debug(msg):
         if DEBUG_SIMPY:
@@ -51,14 +51,3 @@ init -999 python:
 
     # Simulated exploration:
     DEBUG_SE = False
-
-label debug_callstack:
-    return
-
-label force_clear_console:
-    python in _console:
-         stdio_lines = []
-         stderr_lines = []
-         console.history = []
-
-    jump mainscreen
