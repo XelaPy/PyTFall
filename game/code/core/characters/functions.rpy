@@ -90,12 +90,12 @@ init -11 python:
             i = Transform(icon, crop=crop, subpixel=True, xpos=xpos)
             fixed.add(i)
         return fixed
-        
+
     def elements_calculator(char, text=True): # returns text in proper format for gui if text is true, otherwise numbers
         global red
         global lime
         elements = {}
-        
+
         for trait in char.traits:
             for element in trait.el_damage:
                 if not element in elements.keys():
@@ -109,36 +109,36 @@ init -11 python:
             for element in trait.el_defence:
                 if not element in elements.keys():
                     elements[element] = {}
-            
+
                 if "defence" in elements[element].keys():
                     elements[element]["defence"] += int(trait.el_defence[element]*100)
                 else:
                     elements[element]["defence"] = int(trait.el_defence[element]*100)
-            
+
             for i in trait.resist:
                 if not i in elements.keys():
                     elements[i] = {}
-            
+
                 elements[i]["resist"] = True
-                    
+
             for element in trait.el_absorbs:
                 if not element in elements.keys():
                     elements[element] = {}
-            
+
                 if "abs" in elements[element].keys():
                     elements[element]["abs"] += int(trait.el_absorbs[element]*100)
                 else:
                     elements[element]["abs"] = int(trait.el_absorbs[element]*100)
-                    
+
         for i in elements:
             if not "defence" in elements[i].keys():
                 elements[i]["defence"] = 0
-                
+
             if not "attack" in elements[i].keys():
                 elements[i]["attack"] = 0
-                
-                    
-                    
+
+
+
         if text:
             for i in elements:
                 if elements[i]["attack"] >= 0:
@@ -152,10 +152,10 @@ init -11 python:
                 else:
                     elements[i]["defence_color"] = red
                 elements[i]["defence"] = str(elements[i]["defence"]) + " %"
-                
+
                 if "abs" in elements[i].keys():
                     elements[i]["abs"] = "A " + str(elements[i]["abs"]) + " %"
-                    
+
         return elements
 
     def kill_char(char):
@@ -693,14 +693,18 @@ init -11 python:
         """
         This levels up the character, usually when it's first created.
         """
+        global CHARS_INIT_PHASE
+
         # exp = level*(level-1)*500
         # char.stats.level = 1
         # char.exp = 0
         # char.stats.goal = 1000
         # char.stats.goal_increase = 1000
 
+        CHARS_INIT_PHASE = True
         exp = level*1000
         char.exp += exp
+        CHARS_INIT_PHASE = False
 
         if max_out_stats:
             for stat in char.stats.stats:
@@ -935,6 +939,10 @@ init -11 python:
             level = round_int(level*level_bios())
             initial_levelup(char, level)
 
+        # devlog.info("")
+        # devlog.info("MEOW: Char/Tier: {}/{}".format(char.name, tier))
+        # devlog.info("Base: {}".format(char.traits.base_to_string))
+
         # Do the stats/skills:
         base_skills = set()
         base_stats = set()
@@ -943,25 +951,36 @@ init -11 python:
         for trait in char.traits.basetraits:
             skills = trait.base_skills
             total_weight_points = sum(skills.values())
+            total_skill_points = sum(char.get_max_skill(s, tier)*.6 for s in skills)
             for skill, weight in skills.items():
+                # devlog.info("SKILL/Pre-Value: {}/{}".format(skill, char.get_skill(skill)))
                 base_skills.add(skill)
                 weight_ratio = float(weight)/total_weight_points
-                sp = char.get_max_skill(skill, tier)
-                weight_sp = weight_ratio*sp
-                biosed_sp = round_int(weight_sp*skill_bios())
+                # devlog.info("Weight Ratio: {}".format(weight_ratio))
+                sp = total_skill_points*weight_ratio
+                # devlog.info("Skill Points: {}".format(sp))
+                # # weight_sp = weight_ratio*sp
+                # # devlog.info("Weighted Points: {}".format(weight_sp))
+                biosed_sp = round_int(sp*skill_bios())
+                # devlog.info("Biased Points: {}".format(biosed_sp))
 
-                char.mod_skill(skill, biosed_sp)
+                char.stats.mod_full_skill(skill, biosed_sp)
+
+                # devlog.info("Resulting Skill: {}".format(char.get_skill(skill)))
 
             stats = trait.base_stats
             total_weight_points = sum(stats.values())
+            total_stat_points = sum(char.get_relative_max_stat(s, tier) for s in stats)
             for stat, weight in stats.items():
                 base_stats.add(stat)
                 weight_ratio = float(weight)/total_weight_points
-                sp = char.get_max(stat)
-                weight_sp = weight_ratio*sp
-                biosed_sp = round_int(weight_sp*stat_bios())
+                sp = total_stat_points*weight_ratio
+                # weight_sp = weight_ratio*sp
+                biosed_sp = round_int(sp*stat_bios())
 
                 char.mod_stat(stat, biosed_sp)
+
+        # devlog.info("")
 
         # Now that we're done with baseskills, we can play with other stats/skills a little bit
         for stat in char.stats.stats:

@@ -493,7 +493,7 @@ init -10 python:
 
             # We cannot allow "Neutral" element to be applied if there is at least one element present already:
             if trait.elemental and trait.id == "Neutral":
-                if self.instance.elements:
+                if char.elements:
                     return
 
             # Blocked traits:
@@ -539,43 +539,43 @@ init -10 python:
 
             # If we got here... we can apply the effect? Maybe? Please? Just maybe? I am seriously pissed at this system right now... ===========>>>
 
-            stats = self.instance.stats
+            stats = char.stats
             # If the trait is a basetrait:
             if trait in self.basetraits:
                 multiplier = 2 if len(self.basetraits) == 1 else 1
                 for stat in trait.init_lvlmax: # Mod value setting
                     if stat in stats:
-                        stats.lvl_max[stat] += trait.init_lvlmax[stat] * multiplier
+                        stats.lvl_max[stat] += trait.init_lvlmax[stat]*multiplier
                     else:
                         msg = "'%s' trait tried to apply unknown init lvl max stat: %s!"
                         char_debug(str(msg % (trait.id, stat)), "warning")
 
                 for stat in trait.init_max: # Mod value setting
                     if stat in stats:
-                        stats.max[stat] += trait.init_max[stat] * multiplier
+                        stats.max[stat] += trait.init_max[stat]*multiplier
                     else:
                         msg = "'%s' trait tried to apply unknown init max stat: %s!"
                         char_debug(str(msg % (trait.id, stat)), "warning")
 
-                for stat in trait.init_mod: # Mod value setting
-                    if stat in stats:
-                        stats.stats[stat] += trait.init_mod[stat] * multiplier
-                    else:
-                        msg = "'%s' trait tried to apply unknown init max stat: %s!"
-                        char_debug(str(msg % (trait.id, stat)), "warning")
+                # for stat in trait.init_mod: # Mod value setting
+                #     if stat in stats:
+                #         stats.stats[stat] += trait.init_mod[stat] * multiplier
+                #     else:
+                #         msg = "'%s' trait tried to apply unknown init max stat: %s!"
+                #         char_debug(str(msg % (trait.id, stat)), "warning")
 
-                for skill in trait.init_skills: # Mod value setting
-                    if skill in stats.skills:
-                        stats.skills[skill][0] += trait.init_skills[skill][0] * multiplier
-                        stats.skills[skill][1] += trait.init_skills[skill][1] * multiplier
-                    else:
-                        msg = "'%s' trait tried to apply unknown init skillt: %s!"
-                        char_debug(str(msg % (trait.id, skill)), "warning")
+                # for skill in trait.init_skills: # Mod value setting
+                #     if skill in stats.skills:
+                #         stats.skills[skill][0] += trait.init_skills[skill][0] * multiplier
+                #         stats.skills[skill][1] += trait.init_skills[skill][1] * multiplier
+                #     else:
+                #         msg = "'%s' trait tried to apply unknown init skillt: %s!"
+                #         char_debug(str(msg % (trait.id, skill)), "warning")
 
             # Only for body traits:
             if trait.body:
                 if trait.mod_ap:
-                    self.instance.baseAP += trait.mod_ap
+                    char.baseAP += trait.mod_ap
 
             for key in trait.max:
                 if key in stats.max:
@@ -625,7 +625,7 @@ init -10 python:
 
             # Adding resisting elements and attacks:
             for i in trait.resist:
-                self.instance.resist.append(i)
+                char.resist.append(i)
 
             # NEVER ALLOW NEUTRAL ELEMENT WITH ANOTHER ELEMENT!
             if trait.elemental:
@@ -1239,18 +1239,22 @@ init -10 python:
 
         def _mod_exp(self, value):
             # Assumes input from setattr of self.instance:
-            if hasattr(self.instance, "effects"):
-                effects = self.instance.effects
-                if "Slow Learner" in effects:
-                    val = value - self.exp
-                    value = self.exp + int(round(val*.9))
-                if "Fast Learner" in effects:
-                    val = value - self.exp
-                    value = self.exp + int(round(val*1.1))
+            char = self.instance
+            global CHARS_INIT_PHASE
 
-            if value and last_label_pure.startswith(AUTO_OVERLAY_STAT_LABELS):
-                temp = value - self.exp
-                gfx_overlay.mod_stat("exp", temp, self.instance)
+            if not CHARS_INIT_PHASE:
+                if hasattr(char, "effects"):
+                    effects = char.effects
+                    if "Slow Learner" in effects:
+                        val = value - self.exp
+                        value = self.exp + int(round(val*.9))
+                    if "Fast Learner" in effects:
+                        val = value - self.exp
+                        value = self.exp + int(round(val*1.1))
+
+                if value and last_label_pure.startswith(AUTO_OVERLAY_STAT_LABELS):
+                    temp = value - self.exp
+                    gfx_overlay.mod_stat("exp", temp, char)
 
             self.exp = value
 
@@ -1260,7 +1264,7 @@ init -10 python:
                 self.level += 1
 
                 # Bonuses from traits:
-                for trait in self.instance.traits:
+                for trait in char.traits:
                     self.apply_trait_statsmod(trait)
 
                 # Normal Max stat Bonuses:
@@ -1278,8 +1282,8 @@ init -10 python:
                                 self.max[stat] +=1
 
                 # Super Bonuses from Base Traits:
-                if hasattr(self.instance, "traits"):
-                    traits = self.instance.traits.basetraits
+                if hasattr(char, "traits"):
+                    traits = char.traits.basetraits
                     multiplier = 2 if len(traits) == 1 else 1
                     for trait in traits:
                         # Super Stat Bonuses:
@@ -1289,18 +1293,26 @@ init -10 python:
                                 self.max[stat] += trait.leveling_stats[stat][1] * multiplier
                             else:
                                 msg = "'%s' stat applied on leveling up (max mods) to %s (%s)!"
-                                char_debug(str(msg % (stat, self.instance.__class__, trait.id)))
+                                char_debug(str(msg % (stat, char.__class__, trait.id)))
 
-                        # Super Skill Bonuses:
-                        for skill in trait.init_skills:
-                            if self.is_skill(skill):
-                                ac_val = round(trait.init_skills[skill][0] * .02) + self.level / 5
-                                tr_val = round(trait.init_skills[skill][1] * .08) + self.level / 2
-                                self.skills[skill][0] = self.skills[skill][0] + ac_val
-                                self.skills[skill][1] = self.skills[skill][1] + tr_val
-                            else:
-                                msg = "'{}' skill applied on leveling up to {} ({})!"
-                                char_debug(str(msg.format(stat, self.instance.__class__, trait.id)))
+                        if not CHARS_INIT_PHASE:
+                            # Super Skill Bonuses:
+                            for skill in trait.init_skills:
+                                if self.is_skill(skill):
+                                    self.mod_full_skill(skill, 20)
+                                else:
+                                    msg = "'{}' skill applied on leveling up to {} ({})!"
+                                    char_debug(str(msg.format(stat, char.__class__, trait.id)))
+
+                        # for skill in trait.init_skills:
+                        #     if self.is_skill(skill):
+                        #         ac_val = round(trait.init_skills[skill][0] * .02) + self.level / 5
+                        #         tr_val = round(trait.init_skills[skill][1] * .08) + self.level / 2
+                        #         self.skills[skill][0] += ac_val
+                        #         self.skills[skill][1] += tr_val
+                        #     else:
+                        #         msg = "'{}' skill applied on leveling up to {} ({})!"
+                        #         char_debug(str(msg.format(stat, self.instance.__class__, trait.id)))
 
                 self.stats["health"] = self.get_max("health")
                 self.stats["mp"] = self.get_max("mp")
