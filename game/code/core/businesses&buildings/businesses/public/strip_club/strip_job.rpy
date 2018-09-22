@@ -61,7 +61,7 @@ init -5 python:
                         effectiveness += 50
                     else:
                         log.append("Handling massive boobs on daily basis is a tiresome job, even more so when %s has to dance at the stage." % worker.name)
-                        worker.logws('vitality', -randint(10, 20))
+                        worker.logws('vitality', -randint(5, 10))
                 elif trait == "Small Boobs":
                     if not "Lolita" in worker.traits:
                         log.append("%s tries her best, but most customers are not very impressed by her modest forms." % worker.name)
