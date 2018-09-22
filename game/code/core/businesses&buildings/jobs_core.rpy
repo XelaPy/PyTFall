@@ -309,6 +309,36 @@
             """
             return True
 
+        def normalize_required_stat(self, worker, stat, effectiveness):
+            value = getattr(worker, stat)
+            max_value = worker.stats.lvl_max[stat]
+
+            if max_value == 0:
+                max_value = 1
+                simpy_debug("normalize_required_stat max_value: {}".format(max_value))
+
+            value_cutoff = max_value*1.25
+            if value > value_cutoff:
+                value = value_cutoff
+
+            return value/float(max_value)*effectiveness
+
+        def normalize_required_skill(self, worker, skill, effectiveness, difficulty):
+            value = worker.get_skill(skill)
+            if difficulty < .5:
+                difficulty = .5
+            max_value = worker.get_max_skill(skill, tier=difficulty)
+
+            if max_value == 0:
+                max_value = 1
+                simpy_debug("normalize_required_skill max_value: {}".format(max_value))
+
+            value_cutoff = max_value*1.25
+            if value > value_cutoff:
+                value = value_cutoff
+
+            return value/float(max_value)*effectiveness
+
         # We should also have a number of methods or properties to evaluate new dicts:
         def effectiveness(self, worker, difficulty, log=None, return_ratio=True,
                           manager_effectiveness=0):

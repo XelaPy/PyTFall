@@ -132,7 +132,7 @@ init -5 python:
                 if "Virgin" in worker.traits and "Dedicated" in worker.traits:
                     disposition += 2000 # not a typo; they never agree, even with Chastity effect
                     return disposition
-                    
+
                 if "Virgin" in worker.traits and not('Chastity' in worker.effects):
                     disposition += 300
                 else:
@@ -732,7 +732,7 @@ init -5 python:
                 log.img = worker.show("sex", **kwargs)
 
             # Charisma mods:
-            charisma = worker.charisma/float(worker.get_max("charisma"))*effectiveness
+            charisma = self.normalize_required_stat(worker, "charisma", effectiveness)
             if charisma >= 170:
                 log.append("Her supernal loveliness made the customer to shed tears of happiness, comparing %s to ancient goddess of love. Be wary of possible cults dedicated to her..." % worker.name)
                 log.logws("joy", 1)
@@ -762,7 +762,7 @@ init -5 python:
                 else:
                     log.append("The customer was unimpressed by %s looks, to say at least. Still, she preferred fucking her over a harpy. Hearing that from her however, was not encouraging for the poor girl at all..." % worker.name)
 
-            refinement = worker.get_skill("refinement")/float(worker.get_max_skill("refinement"))*effectiveness
+            refinement = self.normalize_required_skill(worker, "refinement", effectiveness, building.tier)
             if charisma >= 100 and refinement >= 100 and dice(75):
                 log.append("Her impeccable manners also made a very good impression.")
                 log.logloc("reputation", 1)

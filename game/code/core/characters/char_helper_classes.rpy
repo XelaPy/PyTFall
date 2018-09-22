@@ -22,7 +22,7 @@ init -10 python:
 
         def get_max_skill(self, skill, tier=None):
             if tier is None:
-                tier = self.tier or 1
+                tier = self.tier or .5
             return SKILLS_MAX[skill]*(tier*.1)
 
         def recalculate_tier(self):
