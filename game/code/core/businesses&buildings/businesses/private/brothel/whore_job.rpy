@@ -732,7 +732,7 @@ init -5 python:
                 log.img = worker.show("sex", **kwargs)
 
             # Charisma mods:
-            charisma = self.normalize_required_stat(worker, "charisma", effectiveness)
+            charisma = self.normalize_required_stat(worker, "charisma", effectiveness, building.tier)
             if charisma >= 170:
                 log.append("Her supernal loveliness made the customer to shed tears of happiness, comparing %s to ancient goddess of love. Be wary of possible cults dedicated to her..." % worker.name)
                 log.logws("joy", 1)

@@ -226,21 +226,21 @@ init -5 python:
             strip = self.normalize_required_skill(worker, "strip", effectiveness, building.tier)
             dancing = self.normalize_required_skill(worker, "dancing", effectiveness, building.tier)
             skill = (strip*1.3 + dancing)/2
-            charisma = self.normalize_required_stat(worker, "charisma", effectiveness)
+            charisma = self.normalize_required_stat(worker, "charisma", effectiveness, building.tier)
 
             if charisma >= 170:
                 log.append("%s supernal loveliness instantly captivated audiences. " % worker.name)
                 log.logws("joy", 2)
-            elif worker.charisma >= 150:
+            elif charisma >= 150:
                 log.append("The attention of customers was entirely focused on %s thanks to her prettiness. " % worker.name)
                 log.logws("joy", 1)
-            elif worker.charisma >= 120:
+            elif charisma >= 120:
                 log.append("%s enchanted customers with her stunning beauty. " % worker.name)
-            elif worker.charisma >= 100:
+            elif charisma >= 100:
                 log.append("Customers were delighted with %s beauty. " % worker.name)
-            elif worker.charisma >= 75:
+            elif charisma >= 75:
                 log.append("%s good looks was pleasing to audiences. " % worker.name)
-            elif worker.charisma >= 50:
+            elif charisma >= 50:
                 log.append("%s did her best to make customers like her, but her beauty could definitely be enhanced. " % worker.name)
             else:
                 log.logws("joy", -2)

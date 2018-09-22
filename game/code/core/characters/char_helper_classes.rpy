@@ -25,6 +25,18 @@ init -10 python:
                 tier = self.tier or .5
             return SKILLS_MAX[skill]*(tier*.1)
 
+        def get_relative_max_stat(self, stat, tier=None):
+            # used in a number of places to guess what the max stat for n tier might be.
+            if tier is None:
+                tier = self.tier or .5
+
+            if stat in self.stats.get_base_ss():
+                max_val = 1000
+            else:
+                max_val = 500
+
+            return max_val*(tier*.1)
+
         def recalculate_tier(self):
             """
             I think we should attempt to figure out the tier based on
@@ -76,8 +88,7 @@ init -10 python:
                         if stat in self.stats.FIXED_MAX:
                             sp_required = self.get_max(stat)
                         else:
-                            # 500 is my guess for a target stat of a maxed out character
-                            sp_required = 500*(target_tier*.1)
+                            sp_required = self.get_relative_max_stat(stat, target_tier)
 
                         stat_bonus += min(sp*max_p/sp_required, max_p*1.1)
 

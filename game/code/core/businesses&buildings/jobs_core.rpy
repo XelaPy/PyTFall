@@ -309,9 +309,11 @@
             """
             return True
 
-        def normalize_required_stat(self, worker, stat, effectiveness):
+        def normalize_required_stat(self, worker, stat, effectiveness, difficulty):
             value = getattr(worker, stat)
-            max_value = worker.stats.lvl_max[stat]
+            if difficulty < .5:
+                difficulty = .5
+            max_value = worker.get_relative_max_stat(stat, difficulty)
 
             if max_value == 0:
                 max_value = 1
@@ -414,7 +416,7 @@
                         sp_required = worker.get_max(stat)
                     else:
                         # 450 is my guess for a target stat of a maxed out character
-                        sp_required = 500*(difficulty*.1)
+                        sp_required = worker.get_relative_max_stat(stat, difficulty)
 
                     if not sp_required:
                         raise Exception("Zero Dev #6")
