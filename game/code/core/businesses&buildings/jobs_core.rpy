@@ -319,7 +319,7 @@
                 max_value = 1
                 simpy_debug("normalize_required_stat max_value: {}".format(max_value))
 
-            value_cutoff = max_value*1.25
+            value_cutoff = max_value*1.05
             if value > value_cutoff:
                 value = value_cutoff
 
@@ -335,7 +335,7 @@
                 max_value = 1
                 simpy_debug("normalize_required_skill max_value: {}".format(max_value))
 
-            value_cutoff = max_value*1.25
+            value_cutoff = max_value*1.05
             if value > value_cutoff:
                 value = value_cutoff
 
