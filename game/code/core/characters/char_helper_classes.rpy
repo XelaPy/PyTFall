@@ -1386,7 +1386,6 @@ init -10 python:
         def mod_full_skill(self, skill, value):
             """This spreads the skill bonus over both action and training.
             """
-            # raise Exception("MEOW")
             if last_label_pure.startswith(AUTO_OVERLAY_STAT_LABELS):
                 gfx_overlay.mod_stat(skill.capitalize(), value, self.instance)
 
