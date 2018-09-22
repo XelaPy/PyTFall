@@ -424,12 +424,15 @@
             traits_bonus = self.traits_and_effects_effectiveness_mod(worker, log)
 
             # manager effects:
-            if manager_effectiveness >= 175:
-                manager_bonus = 20
-            elif manager_effectiveness >= 130 and dice(manager_effectiveness-100):
-                manager_bonus = 10
+            if self.id == "Manager":
+                manager_bonus = 15
             else:
-                manager_bonus = 0
+                if manager_effectiveness >= 175:
+                    manager_bonus = 20
+                elif manager_effectiveness >= 130 and dice(manager_effectiveness-100):
+                    manager_bonus = 10
+                else:
+                    manager_bonus = 0
 
             total = round_int(sum([bt_bonus, tier_bonus, manager_bonus,
                                    traits_bonus, total_skills, total_stats]))
