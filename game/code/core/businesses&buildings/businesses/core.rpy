@@ -677,6 +677,7 @@ init -12 python:
                 self.log(temp, True)
 
             self.active_workers.remove(worker)
+            building.available_workers.append(worker) # Put the worker back in the pool.
             temp = "{} is done with the job in {} for the day!".format(
                                 worker.name,
                                 self.name)
