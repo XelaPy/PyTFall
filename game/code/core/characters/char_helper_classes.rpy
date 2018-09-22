@@ -73,7 +73,11 @@ init -10 python:
                         max_p = default_points*weight_ratio
 
                         sp = self.stats.stats[stat]
-                        sp_required = self.get_max(stat)
+                        if stat in self.stats.FIXED_MAX:
+                            sp_required = self.get_max(stat)
+                        else:
+                            # 500 is my guess for a target stat of a maxed out character
+                            sp_required = 500*(target_tier*.1)
 
                         stat_bonus += min(sp*max_p/sp_required, max_p*1.1)
 
