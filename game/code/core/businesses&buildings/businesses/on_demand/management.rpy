@@ -15,4 +15,7 @@ init -5 python:
             self.aeq_purpose = 'Manager'
             self.desc = "Manages your business, helping workers in various ways and improving their performance"
 
+            self.base_skills = {"management": 80, "refinement": 20}
+            self.base_stats = {"character": 40, "intelligence": 60}
+
             self.allowed_status = ["free"]

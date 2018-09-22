@@ -206,9 +206,10 @@ init -5 python:
         def work_bar(self, worker, clients, effectiveness, log):
 
             len_clients = len(clients)
+            building = log.loc
 
-            bartending = worker.get_skill("bartending")/float(worker.get_max_skill("bartending"))*effectiveness
-            charisma = worker.charisma/float(worker.get_max("charisma"))*effectiveness
+            bartending = self.normalize_required_skill(worker, "bartending", effectiveness, building.tier)
+            charisma = self.normalize_required_stat(worker, "charisma", effectiveness)
 
             if bartending > 150:
                 if dice(70):

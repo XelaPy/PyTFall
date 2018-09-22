@@ -221,11 +221,12 @@ init -5 python:
 
         def work_strip_club(self, worker, clients, effectiveness, log):
             len_clients = len(clients)
+            building = log.loc
 
-            strip = worker.get_skill("strip")/float(worker.get_max_skill("strip"))*effectiveness
-            dancing = worker.get_skill("dancing")/float(worker.get_max_skill("dancing"))*effectiveness
+            strip = self.normalize_required_skill(worker, "strip", effectiveness, building.tier)
+            dancing = self.normalize_required_skill(worker, "dancing", effectiveness, building.tier)
             skill = (strip*1.3 + dancing)/2
-            charisma = worker.charisma/float(worker.get_max("charisma"))*effectiveness
+            charisma = self.normalize_required_stat(worker, "charisma", effectiveness)
 
             if charisma >= 170:
                 log.append("%s supernal loveliness instantly captivated audiences. " % worker.name)

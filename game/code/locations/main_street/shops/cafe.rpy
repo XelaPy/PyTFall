@@ -273,7 +273,6 @@ label mc_action_cafe_invitation: # we jump here when the group was invited by on
                 stat = int(randint(5, 10)*d)
                 if "Effective Metabolism" in member.traits:
                     stat *= 2
-                devlog.info(str(stat))
                 member.mod_stat("vitality", stat)
                 stat = int(randint(5, 10)*d)
                 member.mod_stat("health", stat)

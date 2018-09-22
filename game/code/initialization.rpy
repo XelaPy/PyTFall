@@ -1,4 +1,4 @@
-init -999 python:
+init -950 python:
     ##################### Import Modules #####################
     import os
     import sys

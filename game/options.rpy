@@ -404,6 +404,7 @@ init python:
     build.classify('**devlog**', None)
     build.classify("game/cache/", None)
     build.classify("game/saves/", None)
+    build.classify('game/00debug.rpy', None)
     # build.classify("game/**.rpy", None)
     build.classify("game/**.rpy_", None)
 

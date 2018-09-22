@@ -309,6 +309,36 @@
             """
             return True
 
+        def normalize_required_stat(self, worker, stat, effectiveness):
+            value = getattr(worker, stat)
+            max_value = worker.stats.lvl_max[stat]
+
+            if max_value == 0:
+                max_value = 1
+                simpy_debug("normalize_required_stat max_value: {}".format(max_value))
+
+            value_cutoff = max_value*1.25
+            if value > value_cutoff:
+                value = value_cutoff
+
+            return value/float(max_value)*effectiveness
+
+        def normalize_required_skill(self, worker, skill, effectiveness, difficulty):
+            value = worker.get_skill(skill)
+            if difficulty < .5:
+                difficulty = .5
+            max_value = worker.get_max_skill(skill, tier=difficulty)
+
+            if max_value == 0:
+                max_value = 1
+                simpy_debug("normalize_required_skill max_value: {}".format(max_value))
+
+            value_cutoff = max_value*1.25
+            if value > value_cutoff:
+                value = value_cutoff
+
+            return value/float(max_value)*effectiveness
+
         # We should also have a number of methods or properties to evaluate new dicts:
         def effectiveness(self, worker, difficulty, log=None, return_ratio=True,
                           manager_effectiveness=0):
@@ -345,7 +375,7 @@
 
 
             if not difficulty:
-                difficulty = 1 # Risking ZeroDev error otherwise + Throws off further calculations...
+                difficulty = .5 # Risking ZeroDev error otherwise + Throws off further calculations...
 
             # Skills/Stats:
             default_points = 25
@@ -384,7 +414,7 @@
                         sp_required = worker.get_max(stat)
                     else:
                         # 450 is my guess for a target stat of a maxed out character
-                        sp_required = 450*(difficulty*.1)
+                        sp_required = 500*(difficulty*.1)
 
                     if not sp_required:
                         raise Exception("Zero Dev #6")
@@ -394,12 +424,15 @@
             traits_bonus = self.traits_and_effects_effectiveness_mod(worker, log)
 
             # manager effects:
-            if manager_effectiveness >= 175:
-                manager_bonus = 20
-            elif manager_effectiveness >= 130 and dice(manager_effectiveness-100):
-                manager_bonus = 10
+            if self.id == "Manager":
+                manager_bonus = 15
             else:
-                manager_bonus = 0
+                if manager_effectiveness >= 175:
+                    manager_bonus = 20
+                elif manager_effectiveness >= 130 and dice(manager_effectiveness-100):
+                    manager_bonus = 10
+                else:
+                    manager_bonus = 0
 
             total = round_int(sum([bt_bonus, tier_bonus, manager_bonus,
                                    traits_bonus, total_skills, total_stats]))
