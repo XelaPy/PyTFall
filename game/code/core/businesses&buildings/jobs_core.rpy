@@ -375,7 +375,7 @@
 
 
             if not difficulty:
-                difficulty = 1 # Risking ZeroDev error otherwise + Throws off further calculations...
+                difficulty = .5 # Risking ZeroDev error otherwise + Throws off further calculations...
 
             # Skills/Stats:
             default_points = 25
@@ -414,7 +414,7 @@
                         sp_required = worker.get_max(stat)
                     else:
                         # 450 is my guess for a target stat of a maxed out character
-                        sp_required = 450*(difficulty*.1)
+                        sp_required = 500*(difficulty*.1)
 
                     if not sp_required:
                         raise Exception("Zero Dev #6")
