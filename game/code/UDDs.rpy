@@ -1,4 +1,4 @@
-init -900 python:
+init -960 python:
     class GFXOverlay(renpy.Displayable):
         """Quick and reliable way to show overlay of displayable.
 
