@@ -436,6 +436,7 @@ label after_load:
             if isinstance(b, UpgradableBuilding):
                 if not hasattr(b, "workers_rule"):
                     setattr(b, "workers_rule", "normal")
+        hero.sort_buildings()
 
     stop music
     return

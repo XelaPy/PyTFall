@@ -821,7 +821,7 @@ init -9 python:
         def get_be_items(self):
             if not hasattr(self, "inventory"): # Mobs and such
                 return {}
-                
+
             be_items = OrderedDict()
             for item, amount in self.inventory.items.iteritems():
                 if item.be:
@@ -2302,11 +2302,35 @@ init -9 python:
             if building not in self._buildings:
                 self._buildings.append(building)
 
+            self.sort_buildings()
+
+        def sort_buildings(self):
+            workable = []
+            habitable = []
+            rest = []
+
+            for b in self._buildings:
+                if isinstance(b, UpgradableBuilding):
+                    if b.workable:
+                        workable.append(b)
+                    elif b.habitable and not b.workable:
+                        habitable.append(b)
+                    else:
+                        rest.append(b)
+                else:
+                    rest.append(b)
+
+            workable.sort(key=attrgetter("tier"), reverse=True)
+            habitable.sort(key=attrgetter("tier"), reverse=True)
+
+            self._buildings = workable + habitable + rest
+
+
         def remove_building(self, building):
             if building in self._buildings:
                 self._buildings.remove(building)
             else:
-                raise Exception, "This building does not belong to the player!!!"
+                raise Exception("{} building does not belong to the player!".format(str(building)))
 
         @property
         def chars(self):
