@@ -212,6 +212,7 @@ init -5 python:
             # exp = dirt_cleaned/wlen
             for w in strict_workers:
                 ap_used = w.get_flag("jobs_points_spent", 0)/100.0
+                log.logws("vitality", round_int(ap_used*-5), char=w)
                 log.logws("cleaning", randint(1, 3), char=w)
                 if dice(30):
                     log.logws("agility", 1, char=w)
@@ -221,6 +222,7 @@ init -5 python:
                 w.del_flag("jobs_points_spent")
             for w in extra_workers:
                 ap_used = w.get_flag("jobs_points_spent", 0)/100.0
+                log.logws("vitality", round_int(ap_used*-6), char=w)
                 log.logws("cleaning", 1, char=w)
                 if dice(10):
                     log.logws("agility", 1, char=w)

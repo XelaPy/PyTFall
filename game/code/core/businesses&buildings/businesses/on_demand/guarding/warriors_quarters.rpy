@@ -248,6 +248,7 @@ init -5 python:
             # exp = threat_cleared/len(all_workers)
             for w in strict_workers:
                 ap_used = w.get_flag("jobs_points_spent", 0)/100.0
+                log.logws("vitality", round_int(ap_used*-5), char=w)
                 log.logws("security", randint(1, 3), char=w)
                 if dice(30):
                     log.logws("attack", 1, char=w)
@@ -263,6 +264,7 @@ init -5 python:
                 w.del_flag("jobs_points_spent")
             for w in extra_workers:
                 ap_used = w.get_flag("jobs_points_spent", 0)/100.0
+                log.logws("vitality", round_int(ap_used*-6), char=w)
                 log.logws("security", 1, char=w)
                 if dice(10):
                     log.logws("attack", 1, char=w)
