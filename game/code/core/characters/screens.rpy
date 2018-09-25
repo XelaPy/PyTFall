@@ -634,7 +634,7 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
                             text "damage" size 15 color goldenrod align .5, .5 outlines [(1, "#000000", 0, 0)]
                         frame:
                             xysize 60, 20
-                            text "defense" size 15 color goldenrod align .5, .5 outlines [(1, "#000000", 0, 0)]
+                            text "defence" size 15 color goldenrod align .5, .5 outlines [(1, "#000000", 0, 0)]
                     for i in traits:
                         hbox:
                             frame:
