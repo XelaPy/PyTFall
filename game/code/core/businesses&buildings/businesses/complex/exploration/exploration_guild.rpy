@@ -82,7 +82,7 @@ init -6 python:
             self.occupations = ["Combatant"] # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = [traits["Warrior"], traits["Mage"]] # Corresponding traits...
 
-            self.base_skills = {"attack": 20, "defense": 20, "agility": 60, "magic": 20}
+            self.base_skills = {"attack": 20, "defence": 20, "agility": 60, "magic": 20}
             self.base_stats = {"exploration": 100}
 
             self.desc = "Explore the world, find new places, meet new people... and take their shit!"

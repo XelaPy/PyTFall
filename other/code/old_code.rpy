@@ -1538,7 +1538,7 @@ class ServiceJob(Job):
                         self.occupation_traits = [traits["Warrior"], traits["Mage"], traits["Knight"], traits["Shooter"]] # Corresponding traits...
 
                         # Relevant skills and stats:
-                        self.base_skills = {"attack": 20, "defense": 20, "agility": 60, "magic": 20}
+                        self.base_skills = {"attack": 20, "defence": 20, "agility": 60, "magic": 20}
                         self.base_stats = {"security": 100}
 
                         self.desc = "Don't let them take your shit!"

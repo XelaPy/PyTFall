@@ -651,9 +651,10 @@ screen notify:
         style_group "notify_bubble"
 
         frame:
-            text message
+            background Frame("content/gfx/frame/rank_frame.png", 5, 5)
+            text message style "TisaOTMol" color goldenrod outlines [(2, "#000000", 0, 0)]
 
-    timer 1.5 action Hide("notify")
+    timer 2.5 action Hide("notify")
 
 # Settings:
 screen s_menu(s_menu="Settings"):

@@ -175,11 +175,11 @@ label mc_action_city_beach_rest:
 
         # jump interactions_sex_scene_begins
 
-        show expression member.show("sex", "beach", exclude=["2c anal", "2c vaginal", "gay", "living", "group", "pool", "stage", "dungeon", "onsen"], type="reduce", resize=(600, 600)) at truecenter with dissolve
-        "Unfortunately [member.name] forgot her sunscreen today, so you had no choice but to provide another liquid as a replacement."
-        $ member.sex += 1
+        show expression char.show("sex", "beach", exclude=["2c anal", "2c vaginal", "gay", "living", "group", "pool", "stage", "dungeon", "onsen"], type="reduce", resize=(600, 600)) at truecenter with dissolve
+        "Unfortunately [char.name] forgot her sunscreen today, so you had no choice but to provide another liquid as a replacement."
+        $ char.sex += 1
         $ hero.sex += 1
-        $ member.disposition += 3
+        $ char.disposition += 3
 
     python:
         for member in hero.team:
