@@ -178,6 +178,9 @@ init -9 python:
             self.say = None # Speaker...
 
         def __getattr__(self, key):
+            if key == "defense":
+                key = "defence"
+
             stats = self.__dict__.get("stats", {})
             if key in self.STATS:
                 return stats._get_stat(key)
@@ -189,6 +192,9 @@ init -9 python:
                                           (self.__class__, key))
 
         def __setattr__(self, key, value):
+            if key == "defense":
+                key = "defence"
+                
             if key in self.STATS:
                 # Primary stat dict modifier...
                 value = value - self.stats._get_stat(key)
