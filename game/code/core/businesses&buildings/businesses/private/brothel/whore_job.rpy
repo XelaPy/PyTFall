@@ -492,7 +492,7 @@ init -5 python:
                         sexmod = 1 if dice(22) else 0
                         vaginalmod = 1 if dice(9) else 0
                     else:
-                        effectiveness -= 25
+                        effectiveness -= 25 # TODO Check if it is ok to mess with effectiveness this far into the calculations...
                         sexmod = 1 if dice(20) else 0
                         vaginalmod = 1 if dice(8) else 0
                     log.img = worker.show("gay", "2c vaginalfingering", **kwargs)
