@@ -1,32 +1,3 @@
-transform crosshair_red():
-    subpixel True
-    anchor (.5, .5)
-    "content/gfx/interface/images/crosshair_red.webp"
-    parallel:
-        rotate 0
-        linear 3.0 rotate 360
-        repeat
-    parallel:
-        zoom 1.0
-        easein .5 zoom 1.2
-        easeout .5 zoom 1.0
-        easein .5 zoom .8
-        easeout .5 zoom 1.0
-        repeat
-
-init python:
-    def show_all_targeting_closshairs(targets):
-        for index, t in enumerate(targets):
-            temp = dict(what=crosshair_red,
-                        at_list=[Transform(pos=battle.get_cp(t, "center",
-                                           use_absolute=True),
-                        anchor=(.5, .5))], zorder=t.besk["zorder"]+1)
-            renpy.show("enemy__"+str(index), **temp)
-
-    def hide_all_targeting_closshairs(targets):
-        for index, t in enumerate(targets):
-            renpy.hide("enemy__"+str(index))
-
 screen target_practice(skill, source, targets):
     zorder 2
 
