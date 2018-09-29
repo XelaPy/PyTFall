@@ -5,6 +5,18 @@ init -11 python:
             t += i + ": +" + str(mod[i]) + " "
         return t
 
+    def show_all_targeting_closshairs(targets):
+        for index, t in enumerate(targets):
+            temp = dict(what=crosshair_red,
+                        at_list=[Transform(pos=battle.get_cp(t, "center",
+                                           use_absolute=True),
+                        anchor=(.5, .5))], zorder=t.besk["zorder"]+1)
+            renpy.show("enemy__"+str(index), **temp)
+
+    def hide_all_targeting_closshairs(targets):
+        for index, t in enumerate(targets):
+            renpy.hide("enemy__"+str(index))
+
     # Simple Automatic conflict resolver for friendly and enemy parties:
     def s_conflict_resolver(fp, ep, new_results=False):
         """
