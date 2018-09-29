@@ -621,7 +621,7 @@ init -9 python:
             """
             if index in self._a: self._a.pop(index)
 
-        def slave_market(self, store, tt_text, button="Buy Slaves", null_button="No Slaves",
+        def slave_market(self, store, tt_text, button="Buy Slaves", null_button="N/A",
                          buy_button="Purchase",
                          buy_tt="You can buy this great girl for the sum of %s Gold!",
                          index="slave_market"):
@@ -641,7 +641,7 @@ init -9 python:
                                       source=store, tt_text=tt_text,
                                       buy_button=buy_button, buy_tt=buy_tt),
                                  null_button=null_button,
-                                 null_condition=Iff(S((store, "chars_list")), False)
+                                 null_condition="not pytfall.sm.chars_list or not hero.AP"
                                  ))
 
         def tree(self, tree):

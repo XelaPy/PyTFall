@@ -90,7 +90,8 @@ label slavel_market_controls:
         if pytfall.world_actions.location("slave_market"):
             pytfall.world_actions.add("blue", "Find Blue", Jump("blue_menu"), condition=Iff(global_flag_complex("visited_sm")))
             pytfall.world_actions.work(Iff(global_flag_complex("visited_sm")))
-            pytfall.world_actions.work(Iff(global_flag_complex("visited_sm")), index="work_all", name="Work all day", returned="mc_action_work_in_slavemarket_all_day")
+            pytfall.world_actions.work(Iff(global_flag_complex("visited_sm")),
+                                       index="work_all", name="Work all day", returned="mc_action_work_in_slavemarket_all_day")
             pytfall.world_actions.slave_market(pytfall.sm, "Get these girls while they're still Young and Hot!")
             pytfall.world_actions.look_around()
             pytfall.world_actions.finish()

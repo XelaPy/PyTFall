@@ -1,5 +1,22 @@
 # Assets of the BE:
 init -1: # Images and Animations
+    transform crosshair_red():
+        subpixel True
+        anchor (.5, .5)
+        zoom .5 alpha .9
+        "content/gfx/interface/images/crosshair_red.webp"
+        parallel:
+            rotate 0
+            linear 3.0 rotate 360
+            repeat
+        parallel:
+            zoom .5
+            easein .5 zoom .6
+            easeout .5 zoom .5
+            easein .5 zoom .4
+            easeout .5 zoom .5
+            repeat
+
     transform patreon_bounce():
         xoffset 0
         on hover:

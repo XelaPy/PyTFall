@@ -178,7 +178,7 @@ label start:
         pytfall.populate_world()
         tl.end("Loading: Populating World with RChars")
 
-    python: # Girlsmeets/Items Upgrades:
+    python: # Girlsmeets:
         tl.start("Loading: GirlsMeets")
         gm = GirlsMeets()
         tl.end("Loading: GirlsMeets")
