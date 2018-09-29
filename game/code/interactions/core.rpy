@@ -409,6 +409,7 @@ init -1 python:
             """
             gm.jump(self.label, free=self.free, allow_unique=self.allow_unique, **self.kwargs)
 
+
     def friends_list_gms(char): # handles GMs started from hero friends list
         global pytfall
         pytfall.hp.came_from = "chars_list"

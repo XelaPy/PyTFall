@@ -246,11 +246,9 @@ label interactions_control:
                 if result[1] == "GM":
                     # Include img as coming from int and tr prevents the "img from last location" from working
                     gm.start_gm(char, img=char.show("profile", resize=gm.img_size, exclude=["nude", "bikini", "swimsuit", "beach", "angry", "scared", "ecstatic"]))
-
                 # Interactions
                 elif result[1] == "GI":
                     gm.start_int(char)
-
                 # Training
                 elif result[1] == "GT":
                     gm.start_tr(char)
@@ -262,12 +260,10 @@ label interactions_control:
                 if result[1] is True:
                     gm.show_menu = False
                     gm.show_menu_givegift = True
-
                 # Hide menu:
                 elif result[1] is None:
                     gm.show_menu = True
                     gm.show_menu_givegift = False
-
                 # Give gift:
                 else:
                     # Prevent repetition of this action (any gift, we do this on per gift basis already):
@@ -381,7 +377,6 @@ screen girl_interactions():
 
 
     # Actions
-
     if gm.show_menu:
         use location_actions("girl_meets", gm.char, pos=(1180, 315), anchor=(1.0, .5), style="main_screen_3")
 
@@ -401,7 +396,7 @@ screen girl_interactions():
                     if item.slot == "gift":
                         python:
                             dismod = getattr(item, "dismod", 0)
-                            if item.type == "romantic" and not(check_lovers(char, hero)) and char.disposition < 700:  # cannot give romantic gifts to anyone
+                            if item.type == "romantic" and not(check_lovers(char, hero)) and char.disposition < 700: # cannot give romantic gifts to anyone
                                 dismod = -10
                             else:
                                 for t, v in getattr(item, "traits", {}).iteritems():
@@ -437,8 +432,8 @@ screen girl_interactions():
                                                 add im.Scale("content/gfx/interface/icons/gifts_2.png", 65, 35) align (.0, .9)
                                 null width 10
                                 text "[item.id]" yalign .5 style "library_book_header_sub" color ivory
-
-                            action If(hero.AP > 0, Return(["gift", item]))
+                            sensitive hero.AP > 0 or gm.gm_points > 0
+                            action Return(["gift", item])
 
                 null height 10
                 textbutton "Back":
