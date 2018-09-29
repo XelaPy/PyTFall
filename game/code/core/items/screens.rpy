@@ -127,7 +127,9 @@ screen shopping(left_ref=None, right_ref=None):
                     elif purchasing_dir == "sell":
                         text "Sell"
 
-    use exit_button
+    fixed:
+        xoffset -281
+        use exit_button
 
 screen itemstats(item=None, size=(635, 380), style_group="content", mc_mode=False):
     if item:
