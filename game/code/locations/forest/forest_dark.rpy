@@ -157,7 +157,7 @@ label city_dark_forest_hideout:
             jump forest_dark_continue
 
     call city_dark_forest_hideout_fight from _call_city_dark_forest_hideout_fight
-    if result is None:
+    if not (result is True):
         $ be_hero_escaped(hero.team)
         scene black
         pause 1.0
@@ -172,7 +172,7 @@ label city_dark_forest_hideout:
         "Another group is approaching you!"
 
         call city_dark_forest_hideout_fight from _call_city_dark_forest_hideout_fight_1
-        if result is None:
+        if not (result is True):
             $ be_hero_escaped(hero.team)
             scene black
             pause 1.0
