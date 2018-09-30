@@ -367,31 +367,29 @@ init: # Screens:
         if isinstance(building, UpgradableBuilding):
             frame:
                 xalign .5
-                style_group "wood"
-                xpadding 0
+                style_prefix "proper_stats"
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 5, 5)
-                has vbox xalign .5 spacing 2 xsize 315
-                hbox:
-                    xoffset 5
-                    xalign .5
-                    xsize 300
-                    spacing 3
-                    frame:
-                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.7), 5, 5)
-                        has vbox xysize (130, 40)
-                        text "Indoor Slots:" size 10 color yellow xalign .5
-                        text "%d/%d" % (building.in_slots, building.in_slots_max) color beige size 12 xalign .5 style_suffix "value_text"
-                    frame:
-                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.7), 5, 5)
-                        has vbox xysize (130, 40)
-                        text "Outdoor Slots:" size 10 color yellow xalign .5
-                        text "%d/%d" % (building.ex_slots, building.ex_slots_max) color beige size 12 xalign .5 style_suffix "value_text"
-                # frame:
-                #     xysize (145, 40)
-                #     xalign .5
-                #     # has vbox
-                #     text "Construction" size 10 color yellow align .5, .5
-                    # text "%d/%d" % (building.ex_slots, building.ex_slots_max) color beige size 12 xalign .5 style_suffix "value_text"
+                padding 10, 10
+                has vbox xalign .5 spacing 2
+
+                frame:
+                    xysize (296, 27)
+                    text "Indoor Slots:" xalign .02 color ivory
+                    text "%d/%d" % (building.in_slots, building.in_slots_max) xalign .98 style_suffix "value_text"
+                frame:
+                    xysize (296, 27)
+                    text "Outdoor Slots:" xalign .02 color ivory
+                    text "%d/%d" % (building.ex_slots, building.ex_slots_max) xalign .98 style_suffix "value_text"
+                frame:
+                    xysize (296, 27)
+                    text "Workable Capacity:" xalign .02 color ivory
+                    text "[building.workable_capacity]" xalign .98 style_suffix "value_text"
+                frame:
+                    xysize (296, 27)
+                    text "Habitable Capacity:" xalign .02 color ivory
+                    text "[building.habitable_capacity]" xalign .98 style_suffix "value_text"
+
+            null height 20
 
         # Manager?
         if isinstance(building, UpgradableBuilding):
@@ -475,7 +473,7 @@ init: # Screens:
     screen building_management_leftframe_building_mode:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
-            style_group "proper_stats"
+            style_prefix "proper_stats"
             xsize 316
             padding 10, 10
             has vbox spacing 1
@@ -854,23 +852,22 @@ init: # Screens:
             xysize (630, 685)
             xalign .5
             ypos 40
-            vbox:
-                xsize 630
-                null height 5
-                frame:
-                    xalign .5
-                    xysize (380, 50)
-                    background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                    label (u"__ [building.name] __") text_size 23 text_color ivory align (.5, .6)
-                null height 5
-                frame:
-                    xalign .5
-                    background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
-                    add ProportionalScale(building.img, 600, 444) align (.5, .5)
+
+            frame:
+                xalign .5
+                xysize (380, 50)
+                background Frame("content/gfx/frame/namebox5.png", 10, 10)
+                label (u"[building.name]") text_size 23 text_color ivory align (.5, .6)
+
+            frame:
+                align .5, .0
+                ypos 60
+                background Frame(Transform("content/gfx/frame/MC_bg3.png", alpha=.95), 10, 10)
+                add pscale(building.img, 600, 444)
 
             # Left/Right Controls + Expand button:
             vbox:
-                align .5, 1.0
+                align .5, .99
                 frame:
                     background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
                     has hbox xysize (600, 74)
@@ -883,8 +880,16 @@ init: # Screens:
                         text "Previous" style "wood_text" xalign .69
                     frame:
                         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-                        xysize (200, 50)
+                        xysize 200, 50
                         align (.5, .5)
+                        if isinstance(building, UpgradableBuilding):
+                            button:
+                                style_prefix "wood"
+                                align .5, .5
+                                xysize 135, 40
+                                action SetVariable("bm_mid_frame_mode", building)
+                                tooltip 'Open a new business or upgrade this building!'
+                                text "Expand"
                     button:
                         align .9, .5
                         xysize (140, 40)
@@ -893,42 +898,42 @@ init: # Screens:
                         tooltip "Next ==>"
                         text "Next" style "wood_text" xalign .39
 
-                if isinstance(building, UpgradableBuilding):
-                    frame:
-                        align .5, .95
-                        style_group "wood"
-                        background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 5, 5)
-                        xpadding 20
-                        ypadding 10
-                        button:
-                            align .5, .5
-                            xysize (135, 40)
-                            action SetVariable("bm_mid_frame_mode", building)
-                            tooltip 'Open a new business or upgrade this building!'
-                            text "Expand"
+                # if isinstance(building, UpgradableBuilding):
+                #     frame:
+                #         align .5, .95
+                #         style_group "wood"
+                #         background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 5, 5)
+                #         xpadding 20
+                #         ypadding 10
+                #         button:
+                #             align .5, .5
+                #             xysize (135, 40)
+                #             action SetVariable("bm_mid_frame_mode", building)
+                #             tooltip 'Open a new business or upgrade this building!'
+                #             text "Expand"
 
                 ## Security Bar:
-                if hasattr(building, "gui_security_bar") and building.gui_security_bar()[0]:
-                    frame:
-                        xalign .490
-                        ypos 561
-                        background Frame(Transform("content/gfx/frame/rank_frame.png", alpha=.4), 5, 5)
-                        xysize (240, 55)
-                        xpadding 10
-                        ypadding 10
-                        hbox:
-                            pos (34, 1)
-                            vbox:
-                                xsize 135
-                                text "Security Presence:" size 12
-                            vbox:
-                                text (u"%d/%d"%(building.security_presence, building.gui_security_bar()[1])) size 12
-                        null height 3
-                        bar:
-                            align (.45, .8)
-                            value FieldValue(building, 'security_presence', building.gui_security_bar()[1], max_is_zero=False, style='scrollbar', offset=0, step=1)
-                            xsize 170
-                            thumb 'content/gfx/interface/icons/move15.png'
+                # if hasattr(building, "gui_security_bar") and building.gui_security_bar()[0]:
+                #     frame:
+                #         xalign .490
+                #         ypos 561
+                #         background Frame(Transform("content/gfx/frame/rank_frame.png", alpha=.4), 5, 5)
+                #         xysize (240, 55)
+                #         xpadding 10
+                #         ypadding 10
+                #         hbox:
+                #             pos (34, 1)
+                #             vbox:
+                #                 xsize 135
+                #                 text "Security Presence:" size 12
+                #             vbox:
+                #                 text (u"%d/%d"%(building.security_presence, building.gui_security_bar()[1])) size 12
+                #         null height 3
+                #         bar:
+                #             align (.45, .8)
+                #             value FieldValue(building, 'security_presence', building.gui_security_bar()[1], max_is_zero=False, style='scrollbar', offset=0, step=1)
+                #             xsize 170
+                #             thumb 'content/gfx/interface/icons/move15.png'
 
     screen building_management_midframe_businesses_mode:
         frame:
@@ -1238,7 +1243,6 @@ init: # Screens:
                 #     hover_background Transform(Frame(im.MatrixColor("content/gfx/interface/images/story12.png", im.matrix.brightness(.15))), alpha=1)
                 #     align .5, .95
                 #     action SetVariable("bm_mid_frame_mode", "building")
-
 
     screen building_controls():
         modal True
