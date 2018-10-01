@@ -151,10 +151,10 @@ screen pick_skill(char):
                 if battle.use_items and bool(be_items):
                     action SetScreenVariable("menu_mode", "items")
                 elif bool(be_items):
-                    text_color red
+                    text_color dimgrey
                     action Function(notify, "You can't use items in this battle!")
                 else:
-                    text_color red
+                    text_color dimgrey
                     action Function(notify, "You don't have items usable in battle!")
             textbutton "Skip":
                 xminimum 100
