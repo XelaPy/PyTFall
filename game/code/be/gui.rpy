@@ -148,8 +148,14 @@ screen pick_skill(char):
                 action SetScreenVariable("menu_mode", "magic")
                 sensitive active_magic
             textbutton "Items":
-                action SetScreenVariable("menu_mode", "items")
-                sensitive battle.use_items and bool(be_items)
+                if battle.use_items and bool(be_items):
+                    action SetScreenVariable("menu_mode", "items")
+                elif bool(be_items):
+                    text_color red
+                    action Function(notify, "You can't use items in this battle!")
+                else:
+                    text_color red
+                    action Function(notify, "You don't have items usable in battle!")
             textbutton "Skip":
                 xminimum 100
                 action Return(BESkip(char))
