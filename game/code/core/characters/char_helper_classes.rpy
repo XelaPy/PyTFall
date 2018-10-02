@@ -862,19 +862,19 @@ init -10 python:
                 for delimiter, mod in ec.income_tax:
                     if income <= delimiter:
                         tax = round_int(income*mod)
-                    break
+                        break
 
             if log_finances and tax:
                 # We have no choice but to do the whole routine again :(
                 # Final value may be off but +/- 1 gold due to rounding
-                # in this simplefied code. I may perfect this one day...
+                # in this simplified code. I may perfect this one day...
                 for b in taxable_buildings:
                     fin_log = b.fin.game_logical_income_log
                     for _day in fin_log:
                         if _day > store.day - days:
-                            income += sum(fin_log[_day].values())
-                            tax = round_int(income*mod)
-                            b.fin.log_logical_expense(tax, "Income Tax")
+                            _income = sum(fin_log[_day].values())
+                            _tax = round_int(_income*mod)
+                            b.fin.log_logical_expense(_tax, "Income Tax")
             return income, tax
 
         def get_property_tax(self, log_finances=False):

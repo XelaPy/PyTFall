@@ -50,7 +50,6 @@ init -9 python:
                     self.remove_prisoner(self.worker)
                 else:
                     renpy.call_screen('message_screen', "You don't have enough money for this purchase!")
-
             else:
                 renpy.call_screen('message_screen', "You don't have enough AP left for this action!")
 
