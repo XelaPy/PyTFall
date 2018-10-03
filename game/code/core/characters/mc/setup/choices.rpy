@@ -484,25 +484,25 @@ init:
         kitsune["header"] = "Kitsune"
         kitsune["text"] = "Kitsunes are intelligent beings from a distant land. They possess potent magical abilities that increase as they grow older."
         kitsune["text"] +=" Your mother, however, was very young and inexperienced when her clan sent her to study arcane arts under the guidance of your father."
-        kitsune["text"] += set_font_color("\n+ Kitsune Blood Trait", "green")
+        kitsune["text"] += set_font_color("\n+ {a=Kitsune Blood}Kitsune Blood Trait{/a}", "green")
         kitsune["text"] += set_font_color("\n+ Fire Elemental Alignment", "orange")
         kitsune["text"] += set_font_color("\n+ One Fire Spell", "orange")
         kitsune["label"] = "mc_setup_mage_sorcerer_kitsune"
 
         kitsune["Fire Fox"] = temp = {}
         temp["text"] = "Fire spells heal you instead of hurting, but your Ice spells are almost ineffective."
-        temp["text"] += set_font_color("\n+ Master of Fire Trait", "orange")
+        temp["text"] += set_font_color("\n+ {a=Master of Fire}Master of Fire Trait{/a}", "orange")
         temp["text"] += set_font_color("\n+ Three Spell Scrolls", "orange")
         temp["label"] = "mc_setup_mage_sorcerer_kitsune_fire"
 
         kitsune["Mana Source"] = temp = {}
         temp["text"] = "Your magical origins allow you to restore the magical energy of your partners during intimate acts."
-        temp["text"] += set_font_color("\n+ Mana Source Trait", "green")
+        temp["text"] += set_font_color("\n+ {a=Mana Source}Mana Source Trait{/a}", "green")
         temp["label"] = "mc_setup_mage_sorcerer_kitsune_mana"
 
         kitsune["Magical Kin"] = temp = {}
         temp["text"] = "Consumables, especially alcoholic beverages, restore much more MP."
-        temp["text"] += set_font_color("\n+ Magical Kin Trait", "green")
+        temp["text"] += set_font_color("\n+ {a=Magical Kin}Magical Kin Trait{/a}", "green")
         temp["label"] = "mc_setup_mage_sorcerer_kitsune_flow"
 
         mc_stories["Mage"]["MC"]["Arcane Knight"]["choices"] = OrderedDict(l="Ghost",
@@ -528,7 +528,7 @@ init:
         ghost["text"] = "While exploring an abandoned temple in an ancient forest, your father found a friendly,"
         ghost["text"] += " lonely spirit of a young priestess. She gladly joined with him, and soon enough they became a family."
         ghost["text"] += set_font_color("\n+ Warrior Class", "green")
-        ghost["text"] += set_font_color("\n+ Ghostly Structure Trait", "green")
+        ghost["text"] += set_font_color("\n+ {a=Ghostly Structure}Ghostly Structure Trait{/a}", "green")
         ghost["text"] += set_font_color("\n+ Light Elemental Alignment", "ivory")
         ghost["text"] += set_font_color("\n+ Couple of Spells", "ivory")
         ghost["label"] = "mc_setup_mage_arc_ghost"
@@ -536,18 +536,18 @@ init:
 
         ghost["Intangible"] = temp = {}
         temp["text"] = "Just as your mother, you are do not entirely belong to the world of the living. All attacks and magic are less effective against you, but your attacks and magic are less efficient as well."
-        temp["text"] += set_font_color("\n+ Incorporeal Trait", "green")
+        temp["text"] += set_font_color("\n+ {a=Incorporeal}Incorporeal Trait{/a}", "green")
         temp["label"] = "mc_setup_mage_arc_ghost_intangible"
 
         ghost["Illusive"] = temp = {}
         temp["text"] = "You exist between the realm of light and darkness. Physical damage is almost ineffective against you, but being ghostly, you can't take girls virginity."
-        temp["text"] += set_font_color("\n+ Illusive Trait", "green")
+        temp["text"] += set_font_color("\n+ {a=Illusive}Illusive Trait{/a}", "green")
         temp["label"] = "mc_setup_mage_arc_ghost_illusive"
 
         ghost["Creature of Light"] = temp = {}
         temp["text"] = "Light spells heal you instead of dealing damage, but your Darkness spells are almost ineffective."
         temp["text"] += " You've were left some inheritance."
-        temp["text"] += set_font_color("\n+ Master of Light", "ivory")
+        temp["text"] += set_font_color("\n+ {a=Master of Light}Master of Light{/a}", "ivory")
         temp["text"] += set_font_color("\n+ Three Spell Scrolls", "ivory")
         temp["label"] = "mc_setup_mage_arc_ghost_light"
 
@@ -556,7 +556,7 @@ init:
         vampire["text"] = "For decades he hunted vampires, protecting citizens from these nocturnal predators."
         vampire["text"] += " One day, while clearing a nest, he captured a vampire queen, but her seductiveness kept her alive and even gave birth to you."
         vampire["text"] += set_font_color("\n+ Knight Class", "green")
-        vampire["text"] += set_font_color("\n+ Vampiric Blood Trait", "green")
+        vampire["text"] += set_font_color("\n+ {a=Vampiric Blood}Vampiric Blood Trait{/a}", "green")
         vampire["text"] += set_font_color("\n+ Darkness Elemental Alignment", "purple")
         vampire["text"] += set_font_color("\n+ Couple of Spells", "purple")
         vampire["label"] = "mc_setup_mage_arc_vampire"
@@ -564,16 +564,16 @@ init:
 
         vampire["Creature of Night"] = temp = {}
         temp["text"] = "Darkness spells heal you instead of dealing damage, but your Light spells are almost ineffective."
-        temp["text"] += set_font_color("\n+ Master of Darkness", "purple")
+        temp["text"] += set_font_color("\n+ {a=Master of Darkness}Master of Darkness{/a}", "purple")
         temp["text"] += set_font_color("\n+ Three Spell Scrolls", "purple")
         temp["label"] = "mc_setup_mage_arc_vampire_night"
 
         vampire["Blood Master"] = temp = {}
         temp["text"] = "Only true vampires have access to blood magic, but your heritage still gives a few perks. Girls who lose their virginity to you, become more obedient."
-        temp["text"] += set_font_color("\n+ Blood Master Trait", "green")
+        temp["text"] += set_font_color("\n+ {a=Blood Master}Blood Master Trait{/a}", "green")
         temp["label"] = "mc_setup_mage_arc_vampire_blood"
 
         vampire["Perfect Reflexes"] = temp = {}
         temp["text"] = "You inherited your mother's reflexes, which help to evade attacks. Sadly, mortal body is not suitable for vampire speed, affecting your health."
-        temp["text"] += set_font_color("\n+ Perfect Reflexes Trait", "green")
+        temp["text"] += set_font_color("\n+ {a=Perfect Reflexes}Perfect Reflexes Trait{/a}", "green")
         temp["label"] = "mc_setup_mage_arc_vampire_reflex"

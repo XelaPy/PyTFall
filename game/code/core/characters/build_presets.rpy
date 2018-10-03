@@ -30,6 +30,6 @@ init python:
         return link
 
     def hyperlink_hovered(link):
-        return None
+        return link
          
     style.default.hyperlink_functions = (hyperlink_styler, hyperlink_clicked, hyperlink_hovered)
