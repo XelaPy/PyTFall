@@ -281,8 +281,7 @@ screen main_menu():
             xpos 0.50
             xmaximum 300
             yalign 0.5
-            text ("Resources are missing, the game won't run without. See the instructions on the "+
-                "{a=http://www.pinkpetal.org/index.php?topic=3401.0}{size=15}forum{/size}{/a}. "+
+            text ("Resources are missing, the game won't run without."+
                 "At least one unique character with accompanied .json is required "+
                 "in the\n{i}game/content/chars/{/i} subdirectory of PyTFall as well as "+
                 "one random character .json in the\n"+
