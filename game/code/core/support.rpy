@@ -490,9 +490,9 @@ init -9 python:
             self.state = 1.0 # Modifier for default economy state
 
             # Taxes related:
-            self.income_tax = [(25000, .1), (50000, .2),
-                               (100000, .3), (200000, .4),
-                               (float("inf"), .45)]
+            self.income_tax = [(25000, .05), (50000, .1),
+                               (100000, .15), (200000, .25),
+                               (float("inf"), .35)]
             self.property_tax = {"slaves": .01,
                                  "real_estate": .015}
             self.confiscation_range = (.5, .7)

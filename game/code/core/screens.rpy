@@ -647,11 +647,14 @@ screen notify:
     zorder 500
 
     vbox:
+        pos 20, 20
         at fade_in_out(t1=.25, t2=.25)
         style_group "notify_bubble"
 
         frame:
             background Frame("content/gfx/frame/rank_frame.png", 5, 5)
+            padding 10, 5
+            xmaximum 600
             text message style "TisaOTMol" color goldenrod outlines [(2, "#000000", 0, 0)]
 
     timer 2.5 action Hide("notify")
