@@ -14,6 +14,8 @@ screen debug_tools():
             has vbox xsize 90
             hbox:
                 xalign 1.0
+                textbutton "H":
+                    action Hide("debug_tools")
                 textbutton "X":
                     action Quit(confirm=False)
                 textbutton "R":
