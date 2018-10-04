@@ -17,7 +17,7 @@
 		"mod": 1,
 
 		"adverts": ["Sign", "Flyers"],
-		"img": "content/buildings/oldshack.webp",
+		"img": "content/buildings/bad_0.webp",
 
 		"build_businesses": [{
 				"class": "BrothelBlock",
@@ -49,7 +49,7 @@
 		"tier": 1,
 
 		"adverts": ["Sign", "Flyers", "Magazine"],
-		"img": "content/buildings/smallhouse.webp",
+		"img": "content/buildings/small_1.webp",
 
 		"build_businesses": [{
 				"class": "BrothelBlock",
@@ -86,7 +86,42 @@
 		"mod": 1.4,
 
 		"adverts": ["Sign", "Flyers", "Magazine", "Billboard"],
-		"img": "content/buildings/house1.webp",
+		"img": "content/buildings/small_0.webp",
+
+		"build_businesses": [{
+				"class": "Cleaners"
+			},
+			{
+				"class": "WarriorQuarters"
+			}
+		],
+		"allowed_businesses": ["BrothelBlock", "BarBusiness", "Cleaners", "WarriorQuarters"],
+		"allowed_upgrades": ["Garden"],
+		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
+																	"BarBusiness": ["TapBeer"],
+																	"Cleaners": ["BroomCloset"],
+																	"WarriorQuarters": ["SparringQuarters"]}
+	},
+	{
+		"id": 3.01,
+		"name": "'Bottom's up' Building!",
+		"desc": "The best buildings in the Flee Bottom that money can buy!",
+		"location": "Flee Bottom",
+		"price": 32000,
+
+		"in_slots_max": 28,
+		"ex_slots_max": 6,
+
+		"fame": 0,
+		"maxfame": 200,
+		"rep": 0,
+		"maxrep": 200,
+
+		"tier": 3,
+		"mod": 1.4,
+
+		"adverts": ["Sign", "Flyers", "Magazine", "Billboard"],
+		"img": "content/buildings/medium_0.webp",
 
 		"build_businesses": [{
 				"class": "Cleaners"
@@ -200,8 +235,8 @@
 	},
 	{
 		"id": 6,
-		"name": "Palace on the Main Road",
-		"desc": "It is a freaking Palace!!!",
+		"name": "Old Master's Mansion",
+		"desc": "Rumor has it that one of the Master of the Old used to live here!",
 		"location": "Richford",
 		"price": 500000,
 
@@ -214,6 +249,43 @@
 		"maxrep": 500,
 
 		"tier": 6,
+		"mod": 3,
+
+		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
+		"img": "content/buildings/large_0.webp",
+
+		"build_businesses": [
+			{
+				"class": "Cleaners"
+			},
+			{
+				"class": "WarriorQuarters"
+			}
+		],
+		"allowed_businesses": ["BrothelBlock", "StripClub", "BarBusiness", "Cleaners", "WarriorQuarters"],
+		"allowed_upgrades": ["MainHall", "Garden"],
+		"allowed_business_upgrades": {"BrothelBlock": ["StatueOfSexGoddess"],
+																	"StripClub": ["Catwalk"],
+																	"BarBusiness": ["TapBeer"],
+																	"Cleaners": ["BroomCloset"],
+																	"WarriorQuarters": ["SparringQuarters", "EnforcedOrder"]}
+	},
+	{
+		"id": 6.01,
+		"name": "Palace on the Main Road",
+		"desc": "It is a freaking Palace!!!",
+		"location": "Richford",
+		"price": 700000,
+
+		"in_slots_max": 80,
+		"ex_slots_max": 30,
+
+		"fame": 100,
+		"maxfame": 500,
+		"rep": 0,
+		"maxrep": 500,
+
+		"tier": 7,
 		"mod": 3,
 
 		"adverts": ["Sign", "Flyers", "Magazine", "Billboard", "Girl", "Celebrity"],
