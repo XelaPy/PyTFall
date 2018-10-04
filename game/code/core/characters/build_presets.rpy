@@ -21,3 +21,15 @@ init python:
                           "Healer": ["Healer"],
                           "Server": ["Maid"],
                           "Specialist": ["Specialist", "Manager"]}
+
+init python:
+    def hyperlink_styler(link):
+        return style.hyperlink_text
+
+    def hyperlink_clicked(link):
+        return link
+
+    def hyperlink_hovered(link):
+        return link
+         
+    style.default.hyperlink_functions = (hyperlink_styler, hyperlink_clicked, hyperlink_hovered)

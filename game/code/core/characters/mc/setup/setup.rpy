@@ -13,8 +13,10 @@ label mc_setup:
 
     while 1:
         $ result = ui.interact()
-
-        if result[0] == "control":
+        if isinstance(result, basestring):
+            $ notify(traits[result].desc)
+        
+        elif result[0] == "control":
             if result[1] == "build_mc":
                 python:
                     af = result[2]

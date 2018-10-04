@@ -43,9 +43,8 @@
     },
     {
     "id": "Royal Blood",
-    "desc": "Noble blood gives you certain social perks.",
-    "mod_skills": {"dancing": [0.2, 0.2, 0.2], "refinement": [0.2, 0.2, 0.2]},
-    "max": {"charisma": 25, "intelligence": 25},
+    "desc": "Noble blood gives you excellent health and look. No wonder your ancestors managed to became nobles!",
+    "max": {"charisma": 25, "intelligence": 25, "health": 25, "vitality": 25},
     "mod_stats": {"charisma": [1, 1]},
     "MC_only_trait": true,
     "permanent": true
@@ -361,8 +360,8 @@
     },
     {
     "id": "Perfect Reflexes",
-    "desc": "You inherited your mother's reflexes, which helps to evade attacks. Sadly, mortal body is not suitable for vampire speed, which affected your health.",
-    "max": {"health": -50, "vitality": -25},
+    "desc": "You inherited your mother's reflexes, which helps to evade attacks. Sadly, mortal body is not suitable for vampire speed, which affected your health and vitality.",
+    "max": {"health": -25, "vitality": -25},
     "evasion_bonus": [20, 30, 50],
     "MC_only_trait": true,
     "permanent": true
