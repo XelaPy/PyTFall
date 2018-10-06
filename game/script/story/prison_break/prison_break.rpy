@@ -318,7 +318,7 @@ label storyi_show_bg: # shows bg depending on matrix location; due to use of BE 
     else:
         $ enemies = ["Slime", "Alkaline Slime", "Acid Slime"]
     if storyi_prison_location in storyi_treasures:
-        $ notify("It might be worth to search this room...")
+        $ renpy.notify("It might be worth to search this room...")
     return
 
 label storyi_search_items:

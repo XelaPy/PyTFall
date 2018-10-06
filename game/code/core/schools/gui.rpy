@@ -30,7 +30,7 @@ label school_training:
                     # Blocks bad matches between student and course:
                     # Slaves can't do combat:
                     if course_type == "combat" and s.status == "slave":
-                        notify("Slaves cannot take combat courses")
+                        renpy.notify("Slaves cannot take combat courses")
                         continue
 
                     # Free girls without naughty basetraits won't do xxx
@@ -38,7 +38,7 @@ label school_training:
                     c1 = s.status == "free"
                     c2 = "SIW" not in s.gen_occs
                     if all([c0, c1, c2]):
-                        notify("Free non whores won't take XXX courses")
+                        renpy.notify("Free non whores won't take XXX courses")
                         continue
 
                     s.workplace = school
