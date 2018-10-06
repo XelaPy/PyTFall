@@ -299,12 +299,11 @@ init -950 python:
 
     # "wrapper" around the notify
     def notify(message, style=False):
-        if config.developer:
-            if style:
-                msg = "{=%s}%s"%(style, str(message))
-                renpy.notify(u"%s"%msg)
-            else:
-                renpy.notify(u"{size=+10}%s"%str(message))
+        if style:
+            msg = "{=%s}%s"%(style, str(message))
+            renpy.notify(u"%s"%msg)
+        else:
+            renpy.notify(u"{size=+10}%s"%str(message))
 
     # Safe jump, if label doesn't exists, game will notify about it
     def jump(labelname):
