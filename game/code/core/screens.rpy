@@ -657,7 +657,7 @@ screen notify:
             xmaximum 600
             text message style "TisaOTMol" color goldenrod outlines [(2, "#000000", 0, 0)]
 
-    timer 2.5 action Hide("notify")
+    timer 3.2 action Hide("notify")
 
 # Settings:
 screen s_menu(s_menu="Settings"):
