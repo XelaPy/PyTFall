@@ -355,7 +355,7 @@ label next_day_effects_check:  # all traits and effects which require some unusu
     return
 
 label special_auto_save: # since built-in autosave works like shit, I use normal saves to save in auto slots
-    $ notify("Autosaving... You can disable it in game settings")
+    $ renpy.notify("Autosaving... You can disable it in game settings")
     if special_save_number > 6:
         $ special_save_number = 1
     python hide:
