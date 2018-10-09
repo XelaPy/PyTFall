@@ -1,6 +1,28 @@
 # Manager stuff goes here, will prolly be only one function but it doesn't fit anywhere else.
 # This process should be ran first!
+default MANAGER_LOG = None # Convert to attr when controls are enabled.
+
 init -5 python:
+    class ManagerData(object):
+        def __init__(self):
+            self.init_pep_talk = True
+            self.cheering_up = True
+            self.asks_clients_to_wait = True
+            self.help_ineffective_workers = True # Bad performance still may get a payout.
+            self.works_other_jobs = True
+
+        @property
+        def mjp(self):
+            if self.manager:
+                return self.manager.jobpoints
+            else:
+                return 0
+        @mjp.setter
+        def mjp(self, value):
+            if self.manager:
+                self.manager.jobpoints = value
+
+
     class Manager(Job):
         """This is the manager Job, so far it just creates the instance we can use to assign the job.
 
@@ -29,7 +51,7 @@ init -5 python:
         init_jp = manager.jobpoints
 
         job = simple_jobs["Manager"]
-        log = NDEvent(job=job, char=manager, loc=building)
+        store.MANAGER_LOG = log = NDEvent(job=job, char=manager, loc=building)
         temp = "{} is overseeing the building!".format(manager.name)
         log.append(temp)
         log.append("")
@@ -85,6 +107,8 @@ init -5 python:
         log.event_type = "jobreport"
         log.after_job()
         NextDayEvents.append(log)
+
+        store.MANAGER_LOG = None
 
     def mp_init_jp_bonus(manager, building, effectiveness, log):
         # Special bonus to JobPoints (aka pep talk) :D

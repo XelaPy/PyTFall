@@ -1144,13 +1144,22 @@ init -10 python:
                 else:
                     business = businesses.pop()
 
-                # Matron case:
+                # Manager active effect:
                 # Wait for the business to open in case of a favorite:
-                if self.manager and (business == fav_business) and (business.res.count >= business.capacity) and self.env.now < 85:
+                if self.manager and all([
+                        self.manager.jobpoints >= 1,
+                        (business == fav_business),
+                        (business.res.count >= business.capacity),
+                        self.env.now < 85]):
                     wait_till = min(self.env.now + 7, 85)
                     temp = "Your manager convinced {} to wait till {} for a slot in {} favorite {} to open up!".format(
                                     set_font_color(client.name, "beige"), wait_till, client.op, fav_business.name)
                     self.log(temp)
+
+                    global MANAGER_LOG
+                    MANAGER_LOG.append("\nAsked a client to wait for a spot in {} to open up!".format(fav_business.name))
+
+                    self.manager.jobpoints -= 1
                     while (wait_till < self.env.now) and (business.res.count < business.capacity):
                         yield self.env.timeout(1)
 

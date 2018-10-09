@@ -34,8 +34,14 @@ init -10 python:
             else:
                 temp = "Due to inadequate service provided by {} client refuses to pay the full price.".format(worker.name)
             log.append(temp)
-            if me >= 90:
+            if me >= 90 and building.manager.jobpoints >= 1:
                 temp = "You skilled manager {} intervened and straitened things out.".format(building.manager.name)
+
+                global MANAGER_LOG
+                MANAGER_LOG.append("\n{} helped to calm a client down after {}'s poor performance and salvaged part of the payment!".format(
+                                                    building.manager.name, worker.name))
+                building.manager.jobpoints -= 1
+
                 if me >= 150 and dice(85):
                     if plural:
                         temp += " Client were so pleased for the attention and ended up paying full price."
@@ -51,8 +57,8 @@ init -10 python:
                     log.append(temp)
                     earned *= .75
                 else:
-                    earned *= .5
-                    temp = " You will get half..."
+                    earned *= .6
+                    temp = " You will get 60%..."
                     log.append(temp)
             else:
                 earned *= .5
@@ -74,11 +80,14 @@ init -10 python:
 
         if me >= 120 and dice(50):
             if plural:
-                temp = "Your manager paid some extra attention to clients. +20% to payout!"
+                temp = "Manager paid some extra attention to clients. +20% to payout!"
             else:
-                temp = "Your manager paid some extra attention to the client. +20% to payout!"
+                temp = "Manager paid some extra attention to the client. +20% to payout!"
             log.append(temp)
             earned *= 1.2
+
+            global MANAGER_LOG
+            MANAGER_LOG.append("\n"+temp)
 
         earned = round_int(earned)
         if earned:
