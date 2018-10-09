@@ -627,8 +627,10 @@ screen hidden_area(items=()):
     on "hide":
         action SetField(config, "mouse", None)
 
-    # randomly places a "hidden" rectangular area(s) on the screen. Areas are actually plain buttons with super low alpha...
-    # Expects a list/tuple, like: (["hidden_cache_1", (100, 100), (.1, .5)], ["hidden_cache_2", (50, 50), (.54, .10)] If cache is found, screen (which should be called) will return: "hidden_cache_1" string. Tuple is the size in pixels.
+    # randomly places a "hidden" rectangular area(s) on the screen.
+    # Areas are actually plain buttons with super low alpha...
+    # Expects a list/tuple, like: (["hidden_cache_1", (100, 100), (.1, .5)], ["hidden_cache_2", (50, 50), (.54, .10)])
+    # If cache is found, screen (which should be called) will return: "hidden_cache_1" string. Tuple is the size in pixels.
     # Data is randomized outside of this screen!
     for item, size, align in items:
         button:
@@ -639,8 +641,6 @@ screen hidden_area(items=()):
             action Return(item)
             hovered SetField(config, "mouse", {"default": [("content/gfx/interface/icons/net.png", 0, 0)]})
             unhovered SetField(config, "mouse", None)
-
-            # $ raise Exception(args[1])
 
 ##############################################################################
 screen notify:

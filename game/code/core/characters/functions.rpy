@@ -39,6 +39,24 @@ init -11 python:
             if c.location == loc:
                 set_location(c, c.home)
 
+    def check_stat_perc(char, stat, value, dir="lower"):
+        """Checks if stat/skill is higher/lower (or eq) than given percentage of the max.
+
+        value should be a float to check against. (.1 = 10%, .34 = 34% and etc.)
+        """
+        if char.stats.is_stat(stat):
+            max_value = char.get_max(stat)
+            val = getattr(char, stat)
+            if dir == "lower":
+                if val <= max_value*value:
+                    return True
+            elif dir == "higher":
+                if val >= max_value*value:
+                    return True
+            return False
+        elif char.stats.is_skill(stat):
+            raise NotImplementedError("Skills are not yet implemented in this function.")
+
     def mod_by_max(char, stat, value, prevent_death=True):
         """Modifies a stat by a float multiplier (value) based of it's max value.
 
