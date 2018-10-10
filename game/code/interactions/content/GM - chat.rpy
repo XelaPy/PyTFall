@@ -540,7 +540,7 @@ label interactions_aboutoccupation:
                 $ rc("I'm looking over the bar.", "I'm serving tables.")
         if co("Manager"):
             $ rc("I know a thing or two about managing.", "I know how to manage people.")
-        if not(cgo("Server") or cgo("SIW") or cgo("Combatant") or cgo("Caster") or co("Manager")): #you never know
+        if not(cgo("Server") or cgo("SIW") or cgo("Combatant") or cgo("Caster") or co("Manager")): # you never know
             $ rc("I don't really have a profession...")
     else:
         $ char.disposition -= 5

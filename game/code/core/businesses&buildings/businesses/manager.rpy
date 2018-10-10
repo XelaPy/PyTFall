@@ -57,7 +57,7 @@ init -5 python:
         log.append("")
 
         # Special bonus to JobPoints (aka pep talk) :D
-        if effectiveness > 95:
+        if building.init_pep_talk and effectiveness > 95:
             mp_init_jp_bonus(manager, building, effectiveness, log)
 
         while 1:
