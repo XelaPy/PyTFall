@@ -1,7 +1,5 @@
 # Manager stuff goes here, will prolly be only one function but it doesn't fit anywhere else.
 # This process should be ran first!
-default MANAGER_LOG = None # Convert to attr when controls are enabled.
-
 init -50 python:
     class ManagerData(object):
         def __init__(self):
@@ -10,6 +8,9 @@ init -50 python:
             self.asks_clients_to_wait = True
             self.help_ineffective_workers = True # Bad performance still may get a payout.
             self.works_other_jobs = False
+
+            # TODO Before some major release that breaks saves, move manager and effectiveness fields here.
+            self.mlog = None # Manager job log
 
         @property
         def mjp(self):
@@ -51,7 +52,7 @@ init -5 python:
         init_jp = manager.jobpoints
 
         job = simple_jobs["Manager"]
-        store.MANAGER_LOG = log = NDEvent(job=job, char=manager, loc=building)
+        building.mlog = log = NDEvent(job=job, char=manager, loc=building)
         temp = "{} is overseeing the building!".format(manager.name)
         log.append(temp)
         log.append("")
@@ -110,7 +111,7 @@ init -5 python:
         log.after_job()
         NextDayEvents.append(log)
 
-        store.MANAGER_LOG = None
+        building.mlog = None
 
     def mp_init_jp_bonus(manager, building, effectiveness, log):
         # Special bonus to JobPoints (aka pep talk) :D

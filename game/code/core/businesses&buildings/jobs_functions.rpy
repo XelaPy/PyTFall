@@ -37,8 +37,7 @@ init -10 python:
             if me >= 90 and building.help_ineffective_workers and building.manager.jobpoints >= 1:
                 temp = "You skilled manager {} intervened and straitened things out.".format(building.manager.name)
 
-                global MANAGER_LOG
-                MANAGER_LOG.append("\n{} helped to calm a client down after {}'s poor performance and salvaged part of the payment!".format(
+                building.mlog.append("\n{} helped to calm a client down after {}'s poor performance and salvaged part of the payment!".format(
                                                     building.manager.name, worker.name))
                 building.manager.jobpoints -= 1
 
@@ -87,8 +86,7 @@ init -10 python:
             log.append(temp)
             earned *= 1.2
 
-            global MANAGER_LOG
-            MANAGER_LOG.append("\n"+temp)
+            building.mlog.append("\n"+temp)
 
         earned = round_int(earned)
         if earned:

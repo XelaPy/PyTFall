@@ -1159,8 +1159,7 @@ init -10 python:
                                     set_font_color(client.name, "beige"), wait_till, client.op, fav_business.name)
                     self.log(temp)
 
-                    global MANAGER_LOG
-                    MANAGER_LOG.append("\nAsked a client to wait for a spot in {} to open up!".format(fav_business.name))
+                    self.mlog.append("\nAsked a client to wait for a spot in {} to open up!".format(fav_business.name))
 
                     self.manager.jobpoints -= 1
                     while (wait_till < self.env.now) and (business.res.count < business.capacity):
