@@ -437,5 +437,10 @@ label after_load:
                 if not hasattr(b, "init_pep_talk"):
                     ManagerData.__init__(b)
 
+    python hide:
+        for obj in pytfall.__dict__.values():
+            if isinstance(obj, ItemShop) and not hasattr(obj, "total_items_price"):
+                obj.total_items_price = 0
+
     stop music
     return
