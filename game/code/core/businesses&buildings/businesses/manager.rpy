@@ -64,7 +64,9 @@ init -5 python:
             yield env.timeout(1)
 
             # Special direct bonus to tired/sad characters
-            if not env.now % 5 and manager.jobpoints > 10 and dice(effectiveness-50):
+            if building.cheering_up and not env.now % 5 and all([
+                    manager.jobpoints > 10,
+                    dice(effectiveness-50)]):
                 workers = [w for w in building.available_workers if
                                check_stat_perc(w, "joy", .5) or
                                check_stat_perc(w, "agility", .3)]
