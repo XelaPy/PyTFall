@@ -353,6 +353,7 @@ init -9 python:
             visible = If the shop is visible to the player (bool), false is not used at the moment
             sells = list of all the item types this shop should trade.
             """
+            self.total_items_price = 0 # 25% of items price sold to shop goes to shop's gold on next gold update
             self.name = name
             self.locations = set(locations)
             self.inventory = Inventory(inv_length)
@@ -390,6 +391,7 @@ init -9 python:
                     x = int(round(item.chance/10.0))
                     self.inventory.items[item] += x
 
+
         def next_day(self):
             '''Basic counter to be activated on next day
             '''
@@ -397,6 +399,9 @@ init -9 python:
                 self.gold += randint(int(self.normal_gold_amount / 10), int(self.normal_gold_amount / 7))
                 if self.gold > self.normal_gold_amount: self.gold = randint(int(self.normal_gold_amount * 1.3), int(self.normal_gold_amount * 1.6))
                 self.restock()
+                if self.total_items_price > 0:
+                    self.gold += int(self.total_items_price * .35)
+                self.total_items_price = 0
                 self.restockday += locked_random("randint", 3, 7)
 
 
