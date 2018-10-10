@@ -34,7 +34,7 @@ init -10 python:
             else:
                 temp = "Due to inadequate service provided by {} client refuses to pay the full price.".format(worker.name)
             log.append(temp)
-            if me >= 90 and building.manager.jobpoints >= 1:
+            if me >= 90 and building.help_ineffective_workers and building.manager.jobpoints >= 1:
                 temp = "You skilled manager {} intervened and straitened things out.".format(building.manager.name)
 
                 global MANAGER_LOG
@@ -78,6 +78,7 @@ init -10 python:
             log.append(temp)
             earned *= 1.2
 
+        # Passive manager effect:
         if me >= 120 and dice(50):
             if plural:
                 temp = "Manager paid some extra attention to clients. +20% to payout!"

@@ -1149,7 +1149,7 @@ init -10 python:
 
                 # Manager active effect:
                 # Wait for the business to open in case of a favorite:
-                if self.manager and all([
+                if self.manager and self.asks_clients_to_wait and all([
                         self.manager.jobpoints >= 1,
                         (business == fav_business),
                         (business.res.count >= business.capacity),
