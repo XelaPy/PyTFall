@@ -1244,6 +1244,7 @@ init: # Screens:
                 #     align .5, .95
                 #     action SetVariable("bm_mid_frame_mode", "building")
 
+
     screen building_controls():
         modal True
         zorder 1
@@ -1256,7 +1257,7 @@ init: # Screens:
             yalign .95
             xysize(343, 675)
 
-            label (u"Controls!"):
+            label (u"Building Controls:"):
                  align .5, .05
                  text_color ivory
                  text_bold True
@@ -1266,10 +1267,20 @@ init: # Screens:
             # Controls themselves ---------------------------------->
             vbox:
                 style_group "basic"
-                align(.55, .5)
+                xalign .5 ypos 70
+
+                button:
+                    xysize (200, 32)
+                    xalign .5
+                    action Return(['maintenance', "rename_building"])
+                    tooltip "Give new name to your Building!"
+                    text "Rename Building"
+
+                null height 5
                 if isinstance(building, BuildingStats):
                     button:
                         xysize(200, 32)
+                        xalign .5
                         action Return(['maintenance', "clean"])
                         tooltip "Hire cleaners to completely clean this building for %d Gold." % building.get_cleaning_price()
                         text "Clean: Building"
@@ -1282,13 +1293,14 @@ init: # Screens:
 
                     button:
                         xysize(200, 32)
+                        xalign .5
                         action Return(['maintenance', "clean_all", price])
                         tooltip "Hire cleaners to completely clean all buildings for %d Gold." % price
                         text "Clean: All Buildings"
 
                     button:
                         xysize (200, 32)
-                        yalign .5
+                        xalign .5
                         action ToggleField(building, "auto_clean")
                         tooltip "Enable automatic hiring of cleaners if the building gets too dirty!"
                         text "Auto-Cleaning:" align (.0, .5)
@@ -1297,8 +1309,37 @@ init: # Screens:
                         else:
                             add(im.Scale('content/gfx/interface/icons/checkbox_checked.png', 25, 25)) align (1.0, .5)
 
-
                 if isinstance(building, UpgradableBuilding):
+                    null height 20
+                    label u"Management Options:":
+                         xalign .5
+                         text_color ivory
+                         text_bold True
+                         text_size 20
+                         text_outlines [(2, "#424242", 0, 0)]
+                    null height 5
+
+                    default fields = [
+                        "init_pep_talk", "cheering_up", "asks_clients_to_wait",
+                                     "help_ineffective_workers", "works_other_jobs"]
+                    default human_readable = [
+                        "Pep Talk", "Cheer Up", "Meeting Clients",
+                        "Handle Clients", "Work Other Jobs"]
+                    default tts = [
+                        "Manager will talk to workers before the start of every workday to try and motivate them.",
+                        "Manager will try to cheer up girls who seem sad or tired.",
+                        "Manager will ask clients to wait if there is no spot available in their favorite business.",
+                        "Manager will try to talk down clients who received inadequate service and attempt to salvage payment for the service provided.",
+                        "Manager will work other Jobs than her own if there are no dedicated worker available."]
+
+                    for field, name, tt in zip(fields, human_readable, tts):
+                        button:
+                            xysize 200, 32
+                            xalign .5
+                            action ToggleField(building, field)
+                            tooltip tt
+                            text "[name]"
+
                     null height 5
                     python:
                         desc0 = "==> {} Rule".format(building.workers_rule.capitalize())
@@ -1312,21 +1353,13 @@ init: # Screens:
                         tooltip "{}".format(desc)
                         text "WR: {}".format(building.workers_rule.capitalize())
 
-                null height 30
-                button:
-                    xysize (200, 32)
-                    xalign .5
-                    action Return(['maintenance', "rename_building"])
-                    tooltip "Give new name to your Building!"
-                    text "Rename Building"
-
             button:
                 style_group "dropdown_gm"
                 action Hide("building_controls")
-                minimum(50, 30)
-                align (.5, .97)
-                text  "OK"
-            key "mousedown_3" action Hide("building_controls")
+                minimum 50, 30
+                align .5, .97
+                text "OK"
+                keysym "mousedown_3"
 
     screen building_adverts():
         modal True
