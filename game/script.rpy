@@ -418,25 +418,24 @@ label after_load:
             skill.source = None
 
     # Save-Load Compatibility TODO Delete when we're willing to break saves (again :D).
-    python hide:
-        for c in pytfall.sm.inhabitants.copy():
-            if c not in chars.itervalues():
-                remove_from_gameworld(c)
-        aps = locations["City Apartments"]
-        for c in aps.inhabitants.copy():
-            if c not in chars.itervalues():
-                remove_from_gameworld(c)
+    # python hide:
+    #     for c in pytfall.sm.inhabitants.copy():
+    #         if c not in chars.itervalues():
+    #             remove_from_gameworld(c)
+    #     aps = locations["City Apartments"]
+    #     for c in aps.inhabitants.copy():
+    #         if c not in chars.itervalues():
+    #             remove_from_gameworld(c)
 
     python hide:
         for b in hero.buildings:
             if isinstance(b, UpgradableBuilding):
-                if not hasattr(b, "workers_rule"):
-                    setattr(b, "workers_rule", "normal")
+                if not hasattr(b, "init_pep_talk"):
+                    ManagerData.__init__(b)
         for b in businesses.values():
             if isinstance(b, UpgradableBuilding):
-                if not hasattr(b, "workers_rule"):
-                    setattr(b, "workers_rule", "normal")
-        hero.sort_buildings()
+                if not hasattr(b, "init_pep_talk"):
+                    ManagerData.__init__(b)
 
     stop music
     return
