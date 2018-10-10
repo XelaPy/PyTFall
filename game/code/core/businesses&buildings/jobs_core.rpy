@@ -239,8 +239,9 @@
             self.occupation_traits = list() # Corresponding traits...
             self.aeq_purpose = 'Casual'
 
-            # Status we allow:
+            # Status we allow (workers):
             self.allowed_status = ["free", "slave"]
+            self.allowed_genders = ["male", "female"]
 
             self.event_type = "jobreport"
 
