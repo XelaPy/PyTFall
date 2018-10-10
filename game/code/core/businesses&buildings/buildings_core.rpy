@@ -345,7 +345,6 @@ init -10 python:
         def __setattr__(self, key, value):
             stats = self.__dict__.get("stats", {})
             if key in stats:
-
                 max_val = self.__dict__["max_stats"][key]
                 manager_effectiveness = self.__dict__.get("manager_effectiveness", 0)
 
@@ -470,7 +469,7 @@ init -10 python:
             return bool(self._adverts)
 
 
-    class UpgradableBuilding(BaseBuilding):
+    class UpgradableBuilding(BaseBuilding, ManagerData):
 
         WORKER_RULES = ["strict", "normal", "loose"]
         WORKER_RULES_DESC = {
@@ -485,7 +484,10 @@ init -10 python:
             @ Last review:
             Alex: I've moved everything except adverts and methods from Building class here.
             """
+
             super(UpgradableBuilding, self).__init__(*args, **kwargs)
+            ManagerData.__init__(self)
+
             self._upgrades = list()
             self.allowed_upgrades = []
             self._businesses = list()
@@ -898,6 +900,10 @@ init -10 python:
             # Setup and start the simulation
             self.flag_red = False
 
+            temp = "{} General Report:".format(self.name)
+            self.log("{}".format(set_font_color(temp, "lawngreen")))
+            self.log("")
+
             # Get businesses we wish SimPy to manage! business_manager method is expected here.
             self.nd_ups = list(up for up in self._businesses if up.workable)
 
@@ -939,9 +945,12 @@ init -10 python:
                 tl.end("Generating clients in {}".format(self.name))
 
             if self.nd_ups or self.expects_clients:
-                self.log(set_font_color("===================", "lawngreen"))
-                self.log("{}".format(set_font_color("Starting the simulation:", "lawngreen")))
-                self.log("--- {} ---".format(set_font_color(self.name, "lawngreen")))
+                # Building Stats:
+                self.log("")
+                self.log("Reputation: {}%".format(self.rep_percentage))
+                self.log("Fame: {}%".format(self.fame_percentage))
+                self.log("Dirt: {}%".format(self.get_dirt_percentage()[0]))
+                self.log("Threat: {}%".format(self.get_threat_percentage()))
 
                 self.log("")
                 if self.manager:
@@ -952,13 +961,7 @@ init -10 python:
                     self.log("This building has no manager assigned to it.")
                 self.log("")
 
-                # Building Stats:
-                self.log("Reputation: {}%".format(self.rep_percentage))
-                self.log("Fame: {}%".format(self.fame_percentage))
-                self.log("Dirt: {}%".format(self.get_dirt_percentage()[0]))
-                self.log("Threat: {}%".format(self.get_threat_percentage()))
-                self.log("")
-
+                self.log("{}".format(set_font_color("Starting the workday:", "lawngreen")))
                 # Create an environment and start the setup process:
                 self.env = simpy.Environment()
                 for up in self._businesses:
@@ -966,7 +969,7 @@ init -10 python:
 
                 self.env.process(self.building_manager(end=101))
                 self.env.run(until=110) # 101 will run events at 100 which it is more intuitive to manage.
-                self.log("{}".format(set_font_color("Ending the simulation.", "green")))
+                self.log("{}".format(set_font_color("Ending the workday.", "green")))
 
                 # Building Stats:
                 self.log("Reputation: {}%".format(self.rep_percentage))
@@ -993,22 +996,29 @@ init -10 python:
 
         def building_manager(self, end=100):
             """This is the main process that manages everything that is happening in the building!
-
-            We manage workable buildings here.
-            This does not benefit from being a SimPy process as it stands now.
             """
+            env = self.env
+
+            # Run the manager process:
+            if self.manager:
+                env.process(manager_process(env, self))
+            else:
+                self.log("")
+                self.log("This building has no manager assigned to it.")
+                self.log("")
+
             for u in self.nd_ups:
                 # Trigger all public businesses:
                 if not u.active: # business is not active:
-                    self.env.process(self.inactive_process())
+                    env.process(self.inactive_process())
                 else: # Business as usual:
-                    self.env.process(u.business_control())
+                    env.process(u.business_control())
 
                 if u.has_workers():
                     u.is_running = True
 
             if self.expects_clients and self.total_clients:
-                self.env.process(self.clients_dispatcher(end=end))
+                env.process(self.clients_dispatcher(end=end))
 
             for u in self._upgrades:
                 if isinstance(u, Garden):
@@ -1017,19 +1027,16 @@ init -10 python:
             else:
                 has_garden = False
 
-            if self.manager:
-                self.manager.managementskill += randint(1, 4)
-
             while 1:
-                temp = "\n{color=[green]}%d =========>>>{/color}" % (self.env.now)
+                temp = "\n{color=[green]}%d =========>>>{/color}" % (env.now)
                 self.log(temp)
-                yield self.env.timeout(1)
+                yield env.timeout(1)
 
                 # Delete the line if nothing happened on this turn:
                 if self.nd_events_report[-1] == temp:
                     del self.nd_events_report[-1]
 
-                if not self.env.now % 25:
+                if not env.now % 25:
                     self.dirt += 5 # 5 dirt each 25 turns even if nothing is happening.
                     self.threat += self.threat_mod
 
@@ -1140,13 +1147,21 @@ init -10 python:
                 else:
                     business = businesses.pop()
 
-                # Matron case:
+                # Manager active effect:
                 # Wait for the business to open in case of a favorite:
-                if self.manager and (business == fav_business) and (business.res.count >= business.capacity) and self.env.now < 85:
+                if self.manager and self.asks_clients_to_wait and all([
+                        self.manager.jobpoints >= 1,
+                        (business == fav_business),
+                        (business.res.count >= business.capacity),
+                        self.env.now < 85]):
                     wait_till = min(self.env.now + 7, 85)
                     temp = "Your manager convinced {} to wait till {} for a slot in {} favorite {} to open up!".format(
                                     set_font_color(client.name, "beige"), wait_till, client.op, fav_business.name)
                     self.log(temp)
+
+                    self.mlog.append("\nAsked a client to wait for a spot in {} to open up!".format(fav_business.name))
+
+                    self.manager.jobpoints -= 1
                     while (wait_till < self.env.now) and (business.res.count < business.capacity):
                         yield self.env.timeout(1)
 
@@ -1202,5 +1217,5 @@ init -10 python:
 
         def convert_AP(self, worker):
             # Do not convert AP when Char is in school.
-            worker.jobpoints = worker.AP*100
+            worker.jobpoints += worker.AP*100 # += is safer here.
             worker.AP = 0

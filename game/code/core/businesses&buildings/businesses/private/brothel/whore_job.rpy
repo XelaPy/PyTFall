@@ -18,6 +18,8 @@ init -5 python:
 
             self.desc = "Oldest profession known to men, exchanging sex services for money"
 
+            self.allowed_genders = ["female"]
+
         def traits_and_effects_effectiveness_mod(self, worker, log):
             """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
                Calculates only once per turn, in the very beginning.

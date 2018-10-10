@@ -21,6 +21,8 @@ init -5 python:
 
             self.desc = "Strippers dance half-naked on the stage, keeping customers hard and ready to hire more whores"
 
+            self.allowed_genders = ["female"]
+
         def traits_and_effects_effectiveness_mod(self, worker, log):
             """Affects worker's effectiveness during one turn. Should be added to effectiveness calculated by the function below.
                Calculates only once per turn, in the very beginning.

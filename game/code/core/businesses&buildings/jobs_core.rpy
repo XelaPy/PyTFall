@@ -239,8 +239,9 @@
             self.occupation_traits = list() # Corresponding traits...
             self.aeq_purpose = 'Casual'
 
-            # Status we allow:
+            # Status we allow (workers):
             self.allowed_status = ["free", "slave"]
+            self.allowed_genders = ["male", "female"]
 
             self.event_type = "jobreport"
 
@@ -425,7 +426,7 @@
             # Bonuses:
             traits_bonus = self.traits_and_effects_effectiveness_mod(worker, log)
 
-            # manager effects:
+            # manager passive effect:
             if self.id == "Manager":
                 manager_bonus = 15
             else:
@@ -471,7 +472,7 @@
             if cost is None:
                 cost = self.jp_cost
 
-            # Good manager, we only use 50% of the original cost.
+            # Good manager, we only use 50% of the original cost. (passive effect)
             if manager_effectiveness > 130 and dice(manager_effectiveness-100):
                 log.append("{} is very motivated by your manager! She feels less tired after doing her work-shift!".format(worker.name))
                 cost = round_int(cost*.5)

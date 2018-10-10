@@ -744,9 +744,10 @@ init -12 python:
             workers = workers.union(new_workers)
 
             # Throw in the manager:
-            manager = self.building.manager
-            if manager:
-                workers.add(manager)
+            if self.building.works_other_jobs:
+                manager = self.building.manager
+                if manager:
+                    workers.add(manager)
 
             return workers
 
