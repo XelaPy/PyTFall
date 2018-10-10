@@ -469,7 +469,7 @@ init -10 python:
             return bool(self._adverts)
 
 
-    class UpgradableBuilding(BaseBuilding, ManagerData):
+    class UpgradableBuilding(BaseBuilding, BuildingStats, ManagerData):
 
         WORKER_RULES = ["strict", "normal", "loose"]
         WORKER_RULES_DESC = {
@@ -487,6 +487,7 @@ init -10 python:
 
             super(UpgradableBuilding, self).__init__(*args, **kwargs)
             ManagerData.__init__(self)
+            BuildingStats.__init__(self)
 
             self._upgrades = list()
             self.allowed_upgrades = []
