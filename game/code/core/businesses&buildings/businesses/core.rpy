@@ -290,9 +290,6 @@ init -12 python:
                 self.log(temp)
                 return False
 
-        def convert_AP(self, worker):
-            self.building.convert_AP(worker)
-
         # Runs before ND calcs stats for this building.
         def pre_nd(self):
             # Runs at the very start of execution of SimPy loop during the next day.

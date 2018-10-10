@@ -130,6 +130,10 @@ init -5 python:
             per_worker = 10
             max_workers = round_int(max_job_points/per_worker)
 
+            # weird as it looks...
+            if max_workers < 1:
+                return
+
             if len(workers) > max_workers:
                 workers = random.sample(workers, max_workers)
 
