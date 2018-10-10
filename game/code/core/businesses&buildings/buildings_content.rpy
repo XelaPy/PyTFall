@@ -198,7 +198,7 @@ init -9 python:
                 renpy.hide_screen("slave_shopping")
 
 
-    class Building(UpgradableBuilding, AdvertableBuilding, FamousBuilding, BuildingStats):
+    class Building(UpgradableBuilding, AdvertableBuilding, FamousBuilding):
         """
         The building that represents Business Buildings.
         """
@@ -208,7 +208,6 @@ init -9 python:
             # maxrank = The maximum rank this brothel can achieve.
             """
             super(Building, self).__init__(*args, **kwargs)
-            BuildingStats.__init__(self)
 
             self.fin = Finances(self)
 
