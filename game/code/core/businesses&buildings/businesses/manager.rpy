@@ -58,7 +58,7 @@ init -5 python:
         log.append("")
 
         # Special bonus to JobPoints (aka pep talk) :D
-        if building.init_pep_talk and effectiveness > 95:
+        if building.init_pep_talk and effectiveness > 95 and manager.jobpoints >= 10:
             mp_init_jp_bonus(manager, building, effectiveness, log)
 
         while 1:
@@ -129,10 +129,6 @@ init -5 python:
             max_job_points = manager.jobpoints*.5
             per_worker = 10
             max_workers = round_int(max_job_points/per_worker)
-
-            # weird as it looks...
-            if max_workers < 1:
-                return
 
             if len(workers) > max_workers:
                 workers = random.sample(workers, max_workers)
