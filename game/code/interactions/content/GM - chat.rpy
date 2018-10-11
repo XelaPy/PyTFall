@@ -514,38 +514,64 @@ label interactions_aboutoccupation:
     $ hero.exp += exp_reward(hero, char, ap_used=.33)
 
     if char.disposition > -250 or char.status == "slave":
-        if cgo("Combatant") and not (cgo("Caster")):
-            $ rc("I was trained to fight.", "I have combat training.", "I know how to fight.", "I know how to behave on the battlefield.")
-            if co("Knight"):
-                $ rc("I'm more like a bodyguard.", "In battle I was taught to protect others.", "My job is to hold the enemy.")
-            if co("Shooter"):
-                $ rc("I prefer to keep the enemy at a distance.", "I prefer to use ranged weapons.", "I'm a pretty good marksman.")
-            if co("Assassin"):
-                $ rc("I was taught the art of stealthy assassination.", "I'm an assassin. They never see me coming.", "I have had training to kill at any cost. So my methods are... concealed.")
-        if cgo("Caster"):
-            $ rc("I'm a magician.", "I have arcane energies at my command.", "I have a magical talent. It's very useful in many cases.")
-            if co("Healer"):
-                $ rc("I know a lot about healing magic.", "My job is to heal wounds.", "I'm a healer, my magic helps other people.")
-        if cgo("SIW"):
-            $ rc("I'm a fancy girl.", "I'm a merchant. And my merchandise is my beautiful body ♪", "I provide personal services. I mean very personal.", "I sell my love to those who need it.")
-            if co("Stripper"):
-                $ rc("I specialize in erotic dances.", "I'm undressing on stage, if you know what I mean.")
-        if cgo("Server") and not(co("Stripper")):
-            $ rc("I specialize in service industry.")
-            if co("Maid"):
-                $ rc("I perform menial tasks around the household.", "I'm a professional maid.")
-            elif co("Cleaner"):
-                $ rc("I'm cleaning stuff.", "I'm a just a cleaner.")
-            elif co("Barmaid"):
-                $ rc("I'm looking over the bar.", "I'm serving tables.")
-        if co("Manager"):
-            $ rc("I know a thing or two about managing.", "I know how to manage people.")
-        if not(cgo("Server") or cgo("SIW") or cgo("Combatant") or cgo("Caster") or co("Manager")): # you never know
-            $ rc("I don't really have a profession...")
+        python:
+            options = OrderedDict()
+            options["Knight"] = ("I'm more like a bodyguard.", "In battle I was taught to protect others.", "My job is to hold the enemy.")
+            options["Shooter"] = ("I prefer to keep the enemy at a distance.", "I prefer to use ranged weapons.", "I'm a pretty good marksman.")
+            options["Assassin"] = ("I was taught the art of stealthy assassination.", "I'm an assassin. They never see me coming.", "I have had training to kill at any cost. So my methods are... concealed.")
+            options["Healer"] = ("I know a lot about healing magic.", "My job is to heal wounds.", "I'm a healer, my magic helps other people.")
+            options["Stripper"] = ("I specialize in erotic dances.", "I'm undressing on stage, if you know what I mean.")
+            options["Maid"] = ("I perform menial tasks around the household.", "I'm a professional maid.")
+            options["Cleaner"] = ("I'm good at cleaning stuff.", "I'm a just a cleaner.")
+            options["Barmaid"] = ("I'm a decent bartender.", "I'm decent at pouring drinks and chatting with people about their problems.")
+            options["Manager"] = ("I know a thing or two about managing.", "I know how to manage people.")
+            options["Prostitute"] = ("I'm a fancy girl.", "I'm a merchant. And my merchandise is my beautiful body ♪", "I provide personal services. I mean very personal.", "I sell my love to those who need it.")
+            options["Mage"] = ("I'm a magician.", "I have arcane energies at my command.", "I have a magical talent. It's very useful in many cases.")
+            options["Warrior"] = ("I was trained to fight.", "I have combat training.", "I know how to fight.", "I know how to behave on the battlefield.")
+
+            gen_occ_options = OrderedDict()
+            gen_occ_options["Combatant"] = ["I can fight pretty well!"]
+            gen_occ_options["Caster"] = ['I am very decent at spellcasting!']
+            gen_occ_options["Server"] = ["I specialize in service industry!"]
+            gen_occ_options["Specialist"] = ["I am Specialist!"]
+            gen_occ_options["SIW"] = ["I specialize in Adult Industry!"]
+
+        $ iterations = len(char.traits.basetraits)
+        $ ignore = []
+        jump interactions_aboutoccupation_logic
     else:
         $ char.disposition -= 5
         jump interactions_refused
-    jump girl_interactions
+
+label interactions_aboutoccupation_logic:
+    if iterations > 0:
+        python hide:
+            for base, values in options.iteritems():
+                if base not in ignore and co(base):
+                    store.iterations -= 1
+                    store.ignore.append(base)
+                    rc(*values)
+                    jump("interactions_aboutoccupation_logic")
+
+            for base, values in gen_occ_options.iteritems():
+                if base not in ignore and cgo(base):
+                    store.iterations -= 1
+                    store.ignore.append(base)
+                    rc(*values)
+                    jump("interactions_aboutoccupation_logic")
+
+        # Make sure we can never go into infinite loop:
+        $ rc("I don't really have a profession... (Please tell the Devs about that!)")
+        $ iterations -= 1
+        jump interactions_aboutoccupation_logic
+    else:
+        # Cleanup:
+        python:
+            del(options)
+            del(gen_occ_options)
+            del(iterations)
+            del(ignore)
+        jump girl_interactions
 
 label interactions_interests:
     $ interactions_check_for_bad_stuff(char)
