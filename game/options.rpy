@@ -392,7 +392,7 @@ init python:
     ##    Matches psd files anywhere in the project.
 
     ## Classify files as None to exclude them from the built distributions.
-
+    build.classify("game/**.rpyc", None)
     build.classify('**~', None)
     build.classify('**.bak', None)
     build.classify('**/.**', None)
