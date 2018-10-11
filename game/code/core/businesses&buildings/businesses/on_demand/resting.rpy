@@ -131,27 +131,46 @@ init -5 python:
             if not log.img:
                 log.img = worker.show("rest", resize=ND_IMAGE_SIZE)
 
-            # Resting effects (Must be calculated over AP so not to allow anything going to waste, however AP themselves cannot restore vitality):
+            # Work with JP in order to try and waste nothing.
+            # Any Char without impairments should recover health and vitality in 3 days fully.
+            # About 5 days for full mp recovery.
+            # TODO Maybe use home bonuses???
+            convert_ap_to_jp(worker)
+            jp = worker.jobpoints
+            init_jp = worker.setAP*100
+
+            ratio = float(jp)/(init_jp or 300)
+
+            # maximum restoration:
+            health = worker.get_max("health")*.33*ratio
+            vit = worker.get_max("vitality")*.33*ratio
+            mp = worker.get_max("mp")*.2*ratio
+
+            # Effects malus:
             if 'Drowsy' in worker.effects:
-                log.logws('vitality', worker.baseAP*2)
-            else:
-                log.logws('vitality', worker.baseAP*5)
+                vit *= .5
 
-            ap_range = worker.AP + round_int(worker.jobpoints/100.0)
-            for i in range(ap_range): # every left AP gives additional health, mp and joy
-                value = round_int(worker.get_max("health")*.1) or 1
+            # We do it in three steps to try and save some JP if possible:
+            jp_step = round_int(jp/3)
+            if jp_step < 5: # To little JP to matter:
+                return
+
+            for i in range(3):
+                worker.jobpoints -= jp_step
+                if worker.jobpoints < 0:
+                    worker.jobpoints = 0
+
+                value = round_int(health/3)
                 log.logws('health', value)
-                value = round_int(worker.get_max("mp")*.1) or 1
+
+                value = round_int(vit/3)
+                log.logws('vitality', value)
+
+                value = round_int(mp/3)
                 log.logws('mp', value)
-                log.logws('joy', randint(1, 2))
 
-                if 'Drowsy' in worker.effects:
-                    log.logws('vitality', 12)
-                else:
-                    log.logws('vitality', 8)
-
-                worker.AP -= 1
-                worker.jobpoints -= 100
+                if jp_step > 5:
+                    log.logws('joy', randrange(2))
 
                 if self.is_rested(worker):
                     break

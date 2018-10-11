@@ -556,7 +556,7 @@ init -10 python:
             if DSNBR:
                 devlog.info(item)
 
-        # gui/controls:
+        # Gui/Controls:
         def toggle_workers_rule(self):
             index = self.WORKER_RULES.index(self.workers_rule)
             index = (index + 1) % len(self.WORKER_RULES)
@@ -916,7 +916,7 @@ init -10 python:
                 self.available_workers = list(c for c in self.all_workers if
                                               c.action in self.jobs)
                 for w in self.all_workers:
-                    self.convert_AP(w)
+                    convert_ap_to_jp(w)
                     # And AEQ
                     if isinstance(w.action, Job):
                         w.action.auto_equip(w)
