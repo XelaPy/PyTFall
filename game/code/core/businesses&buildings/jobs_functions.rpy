@@ -1,4 +1,9 @@
 init -10 python:
+    def convert_ap_to_jp(char):
+        # Do not convert AP when Char is in school.
+        char.jobpoints += char.AP*100 # += is safer here.
+        char.AP = 0
+
     def payout(job, effectiveness, difficulty, building, business, worker, clients, log):
         """
         Calculates payout for jobs based of effectiveness and other modifications.

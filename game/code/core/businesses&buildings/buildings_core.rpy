@@ -1215,8 +1215,3 @@ init -10 python:
                 for f in c.flags.keys():
                     if f.startswith("jobs"):
                         c.del_flag(f)
-
-        def convert_AP(self, worker):
-            # Do not convert AP when Char is in school.
-            worker.jobpoints += worker.AP*100 # += is safer here.
-            worker.AP = 0

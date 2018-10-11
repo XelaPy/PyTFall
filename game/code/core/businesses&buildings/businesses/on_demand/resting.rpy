@@ -132,8 +132,7 @@ init -5 python:
                 log.img = worker.show("rest", resize=ND_IMAGE_SIZE)
 
             # Resting effects (Must be calculated over AP so not to allow anything going to waste, however AP themselves cannot restore vitality):
-
-            if 'Drowsy' in worker.effects: # TODO Looks like we have this twice?
+            if 'Drowsy' in worker.effects:
                 log.logws('vitality', worker.baseAP*2)
             else:
                 log.logws('vitality', worker.baseAP*5)
