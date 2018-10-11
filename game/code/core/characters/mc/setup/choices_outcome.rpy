@@ -62,7 +62,7 @@ label mc_setup_warrior_defender_guard:
 
 label mc_setup_warrior_assassin_princess:
     $ hero.apply_trait("Royal Blood")
-    $ hero.gold += 2000
+    hero.add_money(2000, "Inheritance")
     return
 
 label mc_setup_warrior_assassin_princess_knight:

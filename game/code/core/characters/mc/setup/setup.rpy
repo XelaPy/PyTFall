@@ -15,7 +15,7 @@ label mc_setup:
         $ result = ui.interact()
         if isinstance(result, basestring):
             $ renpy.notify(traits[result].desc)
-        
+
         elif result[0] == "control":
             if result[1] == "build_mc":
                 python:
@@ -57,7 +57,7 @@ label mc_setup_end:
         mc_story: Defender
         mc_substory: Sword
         """
-    $ hero.gold = randint(1950, 2050) # Barely enough to buy a slave and few items.
+    $ hero.add_money(randint(2250, 2300), "Inheritance") # Barely enough to buy a slave and few items.
 
     $ temp = mc_stories[main_story].get('label', '')
     if "label" in temp and renpy.has_label(temp["label"]):
