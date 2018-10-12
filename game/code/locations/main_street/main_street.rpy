@@ -27,7 +27,6 @@ label main_street:
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
 
-
     while 1:
 
         $ result = ui.interact()
@@ -55,39 +54,46 @@ screen main_street():
     if not gm.show_girls:
         $ img_tailor = ProportionalScale("content/gfx/interface/icons/tailor_shop.png", 50, 50)
         imagebutton:
-            pos(245, 374)
+            pos (245, 374)
             idle (img_tailor)
             hover (im.MatrixColor(img_tailor, im.matrix.brightness(.15)))
             action [Hide("main_street"), Jump("tailor_store")]
             tooltip "Tailor Shop"
         $ img_cafe = ProportionalScale("content/gfx/interface/icons/cafe_shop.png", 60, 60)
         imagebutton:
-            pos(31, 540)
+            pos (31, 540)
             idle (img_cafe)
             hover (im.MatrixColor(img_cafe, im.matrix.brightness(.15)))
             action [Hide("main_street"), Jump("cafe")]
             tooltip "Cafe"
         $ img_general = ProportionalScale("content/gfx/interface/icons/general_shop.png", 65, 65)
         imagebutton:
-            pos(640, 360)
+            pos (640, 360)
             idle (img_general)
             hover (im.MatrixColor(img_general, im.matrix.brightness(.15)))
             action [Hide("main_street"), Jump("general_store")]
             tooltip "General Store"
         $ img_workshop = ProportionalScale("content/gfx/interface/icons/work_shop.png", 50, 50)
         imagebutton:
-            pos(90, 390)
+            pos (90, 390)
             idle (img_workshop)
             hover (im.MatrixColor(img_workshop, im.matrix.brightness(.15)))
             action [Hide("main_street"), Jump("workshop")]
             tooltip "Workshop"
         $ img_realtor = ProportionalScale("content/gfx/interface/icons/realtor_shop.png", 50, 50)
         imagebutton:
-            pos(245, 203)
+            pos 245, 203
             idle (img_realtor)
             hover (im.MatrixColor(img_realtor, im.matrix.brightness(.15)))
             action [Hide("main_street"), Jump("realtor_agency")]
             tooltip "Real Estate Agency"
+        $ img = "content/gfx/interface/icons/employment_agency.png"
+        imagebutton:
+            pos 245, 256
+            idle (img)
+            hover (im.MatrixColor(img, im.matrix.brightness(.15)))
+            action NullAction()
+            tooltip "Employment Agency"
 
     # Girlsmeets screen
     if gm.show_girls:
