@@ -1,6 +1,13 @@
-label employment_agency:
-    jump main_street
+default employment_agency_chars = {
+        "SIW": [],
+        "Specialist": [],
+        "Combatant": [],
+        "Server": [],
+        "Healer": []}
 
+default employment_agency_reroll_day = 0
+
+label employment_agency:
     # Music related:
     if not "shops" in ilists.world_music:
         $ ilists.world_music["shops"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("shops")]
@@ -15,50 +22,53 @@ label employment_agency:
     $ pytfall.world_quests.run_quests("auto")
     $ pytfall.world_events.run_events("auto")
 
-    # $ g = npcs["Rose_estate"].say
+    show expression npcs["Charla_ea"].get_vnsprite() at Transform(align=(.9, 1.0)) as charla with dissolve
 
-    if not global_flags.has_flag("visited_employment_agency") and not config.developer:
-        $ global_flags.set_flag("visited_employment_agency")
-        # $ ea = Character(None, kind=nvl)
+    $ ea = npcs["Charla_ea"].say
 
-        # show expression npcs["Rose_estate"].get_vnsprite() at center as rose with dissolve:
-        #     yoffset 100
-        #
-        # g "Welcome to Rose Real Estates."
-        # extend " My name is Rose. I'm the owner and the realtor."
-        # g "Please have a seat and take a look at some of our offers."
-    else:
-        show expression npcs["Rose_estate"].get_vnsprite() at right as rose with dissolve
-            # yoffset -100
+    if not global_flags.flag("visited_employment_agency"):
+        $ global_flags.set_flag("visited_employment_agency", True)
+        ea "Welcome to my Employment Agency, my name is Charla."
+        ea "I am always on a lookout for perspective Employees and Employers."
+        ea "You certainly look like one of the Employers!"
+        ea "My fee for hooking you up with a capable worker is two month worth of their wages."
+        ea "Take a look at the files I got on hand!"
 
-    # Added the next three lines to disable this feature without crashing the game   --fenec250
+    # Populate when needed:
+    if day >= employment_agency_reroll_day:
+        $ employment_agency_reroll_day = day + randint(7, 14)
 
-    $ market_buildings = sorted(set(chain(businesses.values(), buildings.values())) - set(hero.buildings), key = lambda x: x.id)
-    $ focus = None
+        python hide:
+            for k, v in employment_agency_chars.items():
+                employment_agency_chars[k] = []
+                for i in range(randint(2, 4)):
+                    if dice(1): # Super char!
+                        tier = hero.tier + uniform(2.5, 4.0)
+                    elif dice(20): # Decent char.
+                        tier = hero.tier + uniform(1.0, 2.5)
+                    else: # Ok char...
+                        tier = hero.tier + uniform(.1, 1.0)
+                    char = build_rc(bt_group=k,
+                                    set_locations=True,
+                                    set_status="free",
+                                    tier=tier, tier_kwargs=None,
+                                    give_civilian_items=True,
+                                    give_bt_items=True,
+                                    spells_to_tier=False)
+                    employment_agency_chars[k].append(char)
 
-    # if not market_buildings:
-    #     npcs["Rose_estate"].say "I'm sorry, we don't have anything for sale at the moment."
-    # show screen realtor_agency
-
+    show screen employment_agency
     while 1:
-
         $ result = ui.interact()
 
-        # if result[0] == 'buy':
-        #     if hero.AP > 0 and hero.take_money(result[1].price, reason="Property"):
-        #         $ hero.AP -= 1
-        #         $ renpy.play("content/sfx/sound/world/purchase_1.ogg")
-        #         $ hero.add_building(result[1])
-        #         $ market_buildings.remove(result[1])
-        #         $ focus = None
-        #
-        #         if hero.AP <= 0:
-        #             $ Return(["control", "return"])()
-        #     else:
-        #         if hero.AP <= 0:
-        #             $ renpy.call_screen('message_screen', "You don't have enough Action Points!")
-        #         else:
-                    # $ renpy.call_screen('message_screen', "You don't have enough Gold!")
+        if result[0] == 'hire':
+            $ char = result[1]
+            $ cost = round_int(char.expected_wage*30*2) # Two month of wages to hire.
+            $ container = result[2]
+            if hero.gold >= cost:
+                jump employment_agency_hire
+            else:
+                ea "You look a bit light on the Gold [hero.name]..."
 
         if result[0] == 'control':
             if result[1] == 'return':
@@ -69,7 +79,57 @@ label employment_agency_exit:
     hide screen employment_agency
     jump main_street
 
+label employment_agency_hire:
+    menu:
+        ea "The fee to hire [char.name] is [cost]! What do you say?"
+        "Yes":
+            $ renpy.play("content/sfx/sound/world/purchase_1.ogg")
+            $ hero.take_money(cost, reason="Hiring Workers")
+            $ hero.chars.append(char)
+            $ container.remove(char)
+        "No":
+            "Would you like to pick someone else?"
+    jump employment_agency
+
 
 screen employment_agency():
     modal True
     zorder 1
+
+    vbox:
+        spacing 5
+        yalign .5
+        for k, v in sorted(employment_agency_chars.items(), key=itemgetter(0)):
+            if v:
+                hbox:
+                    spacing 5
+                    frame:
+                        background Frame("content/gfx/frame/frame_bg.png", 10, 10)
+                        xysize 200, 100
+                        yalign .5
+                        text k align .5, .5
+                    for entry in v:
+                        $ img = entry.show("portrait", cache=True, resize=(90, 90))
+                        vbox:
+                            frame:
+                                padding(2, 2)
+                                background Frame("content/gfx/frame/MC_bg3.png")
+                                imagebutton:
+                                    idle (img)
+                                    hover (im.MatrixColor(img, im.matrix.brightness(.15)))
+                                    action [SetVariable("char_profile_entry", "employment_agency"),
+                                            SetVariable("girls", v),
+                                            SetVariable("char", entry),
+                                            Hide("employment_agency"),
+                                            Jump("char_profile")]
+                                    tooltip "View {}'s Detailed Info.".format(entry.fullname)
+                            button:
+                                padding(2, 2)
+                                xsize 94
+                                background Frame("content/gfx/frame/gm_frame.png")
+                                hover_background Frame("content/gfx/frame/gm_frame.png")
+                                label "Tier [entry.tier]" xalign .5 text_color "#DAA520"
+                                action Return(['hire', entry, v])
+                                tooltip "Hire {}.".format(entry.fullname)
+
+    use exit_button()

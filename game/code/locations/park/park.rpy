@@ -42,13 +42,12 @@ screen city_park():
     # use r_lightbutton(img=im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=true), return_value =['control', 'jumpgates'], align=(.01, .5))
 
     if not gm.show_girls:
-        $img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
+        $ img = im.Flip(im.Scale("content/gfx/interface/buttons/blue_arrow.png", 80, 80), horizontal=True)
         imagebutton:
             align (.01, .5)
             idle (img)
             hover (im.MatrixColor(img, im.matrix.brightness(.15)))
             action [Hide("city_park"), Function(global_flags.set_flag, "keep_playing_music"), Jump("city_parkgates")]
-
 
     use location_actions("city_park")
 
@@ -56,19 +55,17 @@ screen city_park():
         key "mousedown_3" action ToggleField(gm, "show_girls")
         add "content/gfx/images/bg_gradient.png" yalign .45
         $ j = 0
-
         for entry in gm.display_girls():
             hbox:
                 align (coords[j])
                 $ j += 1
-
                 use rg_lightbutton(img=entry.show("girlmeets", "outdoors", "nature", "urban", exclude=["swimsuit", "wildness", "indoors", "stage", "beach", "pool", "onsen", "indoor"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
 
     if not gm.show_girls:
         if global_flags.has_flag("met_aine"):
-            $ img_aine_shop= ProportionalScale("content/gfx/interface/icons/aine.png", 75, 75)
+            $ img_aine_shop = ProportionalScale("content/gfx/interface/icons/aine.png", 75, 75)
             imagebutton:
-                pos(1090, 340)
+                pos (1090, 340)
                 idle (img_aine_shop)
                 hover (im.MatrixColor(img_aine_shop, im.matrix.brightness(.15)))
                 action [Hide("city_park"), Jump("aine_menu"), With(dissolve)]

@@ -92,7 +92,7 @@ screen main_street():
             pos 245, 256
             idle (img)
             hover (im.MatrixColor(img, im.matrix.brightness(.15)))
-            action NullAction()
+            action Jump("employment_agency")
             tooltip "Employment Agency"
 
     # Girlsmeets screen

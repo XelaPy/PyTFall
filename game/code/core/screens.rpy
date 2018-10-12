@@ -275,7 +275,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
         # Add to and remove from Team Button.
         hbox:
             align(.3, .5)
-            if renpy.get_screen("char_profile") and char.is_available:
+            if renpy.get_screen("char_profile") and controlled_char(char):
                 if char in hero.team:
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/RG.png" , 36, 40)
@@ -370,8 +370,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                     else:
                         action (Function(renpy.scene, layer="screens"), Function(global_flags.del_flag, "keep_playing_music"), Jump("mainscreen"))
 
-
-            if renpy.current_screen().tag in ["char_profile", "char_equip"] and char.is_available:
+            if renpy.current_screen().tag in ["char_profile", "char_equip"] and controlled_char(char):
                 imagebutton:
                     idle im.Scale("content/gfx/interface/buttons/IT2.png", 34, 37)
                     hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png", 34, 37), im.matrix.brightness(.25))

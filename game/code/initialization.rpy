@@ -491,6 +491,7 @@ init:
     define PytPix = renpy.display.transition.Pixellate
     default last_label_pure = ""
     default CHARS_INIT_PHASE = False # Special global we use to prevent (some) auto-leveling system from triggering when building chars.
+    default char_profile_entry = None # Label to access chars profile from weird locations.
 
     default special_save_number = 1
 

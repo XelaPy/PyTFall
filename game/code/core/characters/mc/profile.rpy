@@ -655,7 +655,12 @@ screen hero_team():
                             hover Transform("content/gfx/interface/buttons/Profile.png", alpha=1.0)
                             insensitive im.Sepia("content/gfx/interface/buttons/Profile.png")
                             sensitive member in hero.chars
-                            action If(member not in pytfall.ra, true=[Hide("hero_profile"), Hide("hero_team"), SetVariable("char", member), SetVariable("char_profile", "hero_profile"), Jump("char_profile")], false=NullAction())
+                            action If(member not in pytfall.ra, true=[Hide("hero_profile"),
+                                                                      Hide("hero_team"),
+                                                                      SetVariable("char", member),
+                                                                      SetVariable("char_profile_entry", "hero_profile"),
+                                                                      Jump("char_profile")],
+                                                                false=NullAction())
                             tooltip "See character profile"
 
                 # Name/Status:

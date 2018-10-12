@@ -37,10 +37,12 @@ label girl_interactions:
         # Hide menus till greeting
         gm.show_menu = False
         gm.show_menu_givegift = False
+
     if gm.mode == "girl_interactions":
         scene expression select_girl_room(char, gm.img)
     else:
         scene expression gm.bg_cache
+
     show screen girl_interactions
     with dissolve
 
@@ -253,7 +255,6 @@ label interactions_control:
                 # Training
                 elif result[1] == "GT":
                     gm.start_tr(char)
-
         # Gifts
         elif result[0] == "gift":
             python:
@@ -309,7 +310,6 @@ label interactions_control:
                         gm.jump("goodgift")
                     else:
                         gm.jump("perfectgift")
-
         # Controls
         elif result[0] == "control":
             # Return / Back

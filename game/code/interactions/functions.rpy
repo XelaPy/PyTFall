@@ -89,7 +89,6 @@ init -11 python:
                     return result
 
         # here we check Straights, since they are more important than combinations below
-
         checking_list = [2, 3, 4, 5, 6]
         result = result_1 = []
         for i in dice_1:
