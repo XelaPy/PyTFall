@@ -227,5 +227,10 @@
     "max": {"intelligence": 20},
     "effects": ["Intelligent"],
     "market": true
+    },
+   {
+    "id": "Temporal Clone",
+    "desc": "This girl is a living abnormally, and will disappear soon if her life won't be prolonged.",
+    "market": true
     }
 ]

@@ -208,7 +208,7 @@ screen quest_notifications(q, type, align=None, autohide=2.5):
         timer autohide action Hide("quest_notifications")
 
 screen top_stripe(show_return_button=True, return_button_action=None,
-                  show_lead_away_buttons=True, show_team_status=False):
+                  show_lead_away_buttons=True, show_team_status=False, allow_status_to_work=True):
 
     default return_action = Return(['control', 'return']) if return_button_action is None else return_button_action
 
@@ -433,7 +433,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                             background Frame("content/gfx/frame/MC_bg3.png", 10, 10)
                             idle (char_profile_img)
                             hover (im.MatrixColor(char_profile_img, im.matrix.brightness(.15)))
-                            action Return(l)
+                            action SensitiveIf(allow_status_to_work), Return(l)
                             align 0, .5
                             xysize (102, 102)
                         bar:
