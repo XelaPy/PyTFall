@@ -80,6 +80,8 @@ label slave_market:
 
 label slavel_market_controls:
     hide blue
+    hide stan
+    hide slave
     with dissolve
     show bg slave_market
 
@@ -94,6 +96,7 @@ label slavel_market_controls:
                                        index="work_all", name="Work all day", returned="mc_action_work_in_slavemarket_all_day")
             pytfall.world_actions.slave_market(pytfall.sm, "Get these girls while they're still Young and Hot!")
             pytfall.world_actions.look_around()
+            pytfall.world_actions.add("free_a_slave", "Free Slaves", Jump("sm_free_slaves"))
             pytfall.world_actions.finish()
 
     scene bg slave_market
@@ -154,7 +157,70 @@ label slavel_market_controls:
     $ renpy.music.stop(channel="world")
     hide screen slavemarket
     jump city
-
+    
+label sm_free_slaves:
+    hide screen slavemarket
+    $ s = npcs["Stan_slavemarket"].say
+    show expression npcs["Stan_slavemarket"].get_vnsprite() as stan at mid_left with dissolve
+    if not global_flags.has_flag("asked_about_freeing_slaves"):
+        $ global_flags.set_flag("asked_about_freeing_slaves")
+        s "Oh, you want to give freedom to one of your slaves? Sure, sure, we can arrange it... for a price!"
+        s "You see, every freed slave is a blow to the city's economy. We get a new worker, but not a new workplace."
+        s "So you need to pay for their freedom from your pockets. I hope those sluts are grateful at least."
+        "The higher her level and tier, the more you have to pay for girl's freedom."
+    $ chrs = list(i for i in hero.team if i.status == "slave")
+    if not chrs:
+        s "Are you kidding me? You don't have any slaves with you!"
+        s "Don't bother me without a good reason!!!"
+        "You need to bring slaves as a part of your team to free them!"
+        jump slavel_market_controls
+    else:
+        $ our_char = None
+        menu:
+            "[chrs[0].fullname]":
+                $ our_char = chrs[0]
+            "[chrs[1].fullname]" if len(chrs) > 1:
+                $ our_char = chrs[1]
+            "Nevermind":
+                $ del our_char
+                $ del chrs
+                jump slavel_market_controls
+        
+        show expression our_char.get_vnsprite() as slave at mid_right with dissolve
+        
+        if char.disposition > 0:
+            if our_char.disposition >= 700 or check_lovers(hero, our_char):
+                $ our_char.override_portrait("portrait", "shy")
+                $ our_char.say("I don't really mind being your slave, [hero.name]...  ")
+            elif "Dedicated" in our_char.traits or "Masochist" in our_char.traits:
+                $ our_char.override_portrait("portrait", "shy")
+                $ our_char.say("Are you sure, master? I like being your slave.")
+            else:
+                $ our_char.override_portrait("portrait", "happy")
+                $ our_char.say("You want to free me? Oh, thank you, master!")
+        
+        $ sum = our_char.level * 100 + our_char.tier * 100
+        s "Alright, that will be [sum] gold!"
+        if hero.gold < sum:
+            "Unfortunately, you don't have enough money."
+            s "Pff, beggars..."
+        else:
+            menu:
+                "Do you wish to pay [sum] gold to free your slave?"
+                "Yes":
+                    $ hero.take_money(sum, reason="Slave Freedom")
+                    s "Done and done! Congrats, I hope it was worth it."
+                    $ our_char.disposition += randint(400, 500)
+                    $ our_char.status = "free"
+                    "[our_char.name] is now a free citizen! She also likes you more."
+                "No":
+                    s "Pff, beggars..."
+            
+        $ our_char.restore_portrait()
+    $ del our_char
+    $ del chrs
+    jump slavel_market_controls
+    
 label mc_action_work_in_slavemarket:
     $ wage = 0
     python hide:
