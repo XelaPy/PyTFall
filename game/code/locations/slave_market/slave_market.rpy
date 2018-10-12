@@ -162,14 +162,19 @@ label slavel_market_controls:
 
 label sm_free_slaves:
     hide screen slavemarket
+
     $ s = npcs["Stan_slavemarket"].say
     show expression npcs["Stan_slavemarket"].get_vnsprite() as stan at mid_left with dissolve
+
     if not global_flags.has_flag("asked_about_freeing_slaves"):
         $ global_flags.set_flag("asked_about_freeing_slaves")
         s "Oh, you want to give freedom to one of your slaves? Sure, sure, we can arrange it... for a price!"
         s "You see, every freed slave is a blow to the city's economy. We get a new worker, but not a new workplace."
-        s "So you need to pay for their freedom from your pockets. I hope those sluts are grateful at least."
-        "The higher her level and tier, the more you have to pay for girl's freedom."
+        $ renpy.notify("Freeing a slave will cost you three month of their full wages!")
+        s "So you'll have to pay for their freedom, make sure they can support themselves for couple of month without being a burden."
+        s "And there is always also a flat 1000G government fee!"
+        s "I hope those sluts will be grateful at least!"
+
     $ chrs = list(i for i in hero.team if i.status == "slave")
     if not chrs:
         s "Are you kidding me? You don't have any slaves with you!"
@@ -201,20 +206,23 @@ label sm_free_slaves:
                 $ our_char.override_portrait("portrait", "happy")
                 $ our_char.say("You want to free me? Oh, thank you, master!")
 
-        $ sum = our_char.level * 100 + our_char.tier * 100
-        s "Alright, that will be [sum] gold!"
-        if hero.gold < sum:
+        $ cost = 1000 + round_int(our_char.expected_wage*30*3) # 3 Month wage to free the salve.
+
+        s "Alright, that will be [cost] gold!"
+        if hero.gold < cost:
             "Unfortunately, you don't have enough money."
             s "Pff, beggars..."
         else:
             menu:
-                "Do you wish to pay [sum] gold to free your slave?"
+                "Do you wish to pay [cost] gold to free your slave?"
                 "Yes":
-                    $ hero.take_money(sum, reason="Slave Freedom")
+                    $ hero.take_money(cost, reason="Slave Freedom")
                     s "Done and done! Congrats, I hope it was worth it."
                     $ our_char.disposition += randint(400, 500)
                     $ our_char.status = "free"
-                    "[our_char.name] is now a free citizen! She also likes you more."
+                    $ our_char.home = locations["City Apartments"]
+                    $ our_char.add_money(cost, "Freedom Fee") # Consistency.
+                    "[our_char.name] is now a free citizen! She is very grateful."
                 "No":
                     s "Pff, beggars..."
 
