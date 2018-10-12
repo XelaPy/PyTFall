@@ -1003,10 +1003,6 @@ init -10 python:
             # Run the manager process:
             if self.manager:
                 env.process(manager_process(env, self))
-            else:
-                self.log("")
-                self.log("This building has no manager assigned to it.")
-                self.log("")
 
             for u in self.nd_ups:
                 # Trigger all public businesses:

@@ -378,8 +378,9 @@ init -9 python:
             """
             self._l = None
             self._a = None
-            self.locations = dict()
             self._n = None
+
+            self.locations = dict()
             self.nest = []
 
         def __call__(self, index, girl=None):
@@ -405,11 +406,9 @@ init -9 python:
 
                     self._n = index
                     self.nest = [self.locations[index]]
-
                 else:
                     if DEBUG_LOG:
-                        devlog.warning("Tried to access WorldActions(\"%s\") before existence."%index)
-
+                        devlog.warning("Tried to access WorldActions(\"%s\") before existence." % index)
             else:
                 ls = self.nest[index]
                 if isinstance(ls, WorldActionMenu): return ls()
@@ -463,14 +462,16 @@ init -9 python:
             """
             Creates a new WorldAction for the current location.
             """
-            if isinstance(index, (list,tuple)):
+            if isinstance(index, (list, tuple)):
                 level = self.tree(index[:-1])
                 index = index[-1]
+            else:
+                level = self._a
 
-            else: level = self._a
-
-            if isinstance(args[0], WorldAction): level[index] = args[0]
-            else: level[index] = WorldAction(*args, **kwargs)
+            if isinstance(args[0], WorldAction):
+                level[index] = args[0]
+            else:
+                level[index] = WorldAction(*args, **kwargs)
 
         def build(self, store, is_action=False, is_menu=False):
             """
@@ -537,7 +538,9 @@ init -9 python:
             self._l = None
             self._a = None
 
-        def gm_choice(self, act, mode=None, condition=True, label=None, null_condition=None, index=None, **kwargs):
+        def gm_choice(self, act, mode=None, condition=True, label=None,
+                            null_condition=None, index=None, keysym=None,
+                            **kwargs):
             """
             Creates a new GirlsMeets choice.
             act = The name of the act, also used as the renpy label by removing spaces and converting to lower case.
@@ -563,14 +566,15 @@ init -9 python:
             if mode is not None:
                 if isinstance(condition, (list, tuple)):
                     condition.insert(0, mode)
-
                 elif condition is not None:
                     condition = (mode, condition)
-
                 else:
                     condition = mode
 
-            self.add(index or act, WorldAction(act, (GMJump(label, **kwargs), Function(pytfall.world_actions.clear)), condition=condition, null_button=act, null_condition=null_condition))
+            self.add(index or act, WorldAction(act, (GMJump(label, **kwargs),
+                     Function(pytfall.world_actions.clear)), condition=condition,
+                     null_button=act, null_condition=null_condition,
+                     keysym=keysym))
 
         def location(self, name):
             """
@@ -684,7 +688,9 @@ init -9 python:
 
         NO_EVENTS = "_events_not_found"
 
-        def __init__(self, button, action, label=None, cost=1, condition=True, null_button=None, null_condition=None):
+        def __init__(self, button, action, label=None, cost=1,
+                     condition=True, null_button=None, null_condition=None,
+                     keysym=None):
             """
             Creates a new WorldAction.
             button = The label for the button.
@@ -699,6 +705,7 @@ init -9 python:
             """
             self.button = button
             self.action = action
+            self.keysym = keysym
             self.label = label
             self.cost = cost
             self.condition = condition
@@ -775,7 +782,8 @@ init -9 python:
         The class that holds actions as a sub-menu.
         """
 
-        def __init__(self, button, condition=True, null_button=None, null_condition=None):
+        def __init__(self, button, condition=True, null_button=None,
+                     null_condition=None, keysym=None):
             """
             Creates a new WorldActionMenu.
             button = The label for the button.
@@ -786,6 +794,7 @@ init -9 python:
                              Uses the same syntax as condition.
             """
             self.button = button
+            self.keysym = keysym
             self.condition = condition
             self.null_button = null_button
             self.null_condition = null_condition
@@ -1079,31 +1088,36 @@ screen location_actions(actions, girl=None, pos=(.98, .98), anchor=(1.0, 1.0), a
                     frame:
                         style_group "main_screen_3"
                         has vbox
-
                         for a in pytfall.world_actions(i):
                             use action_button(a)
-
                 else:
                     frame:
                         style_group "dropdown_gm"
                         has vbox
-
                         for a in pytfall.world_actions(i):
                             use action_button(a)
 
 screen action_button(a):
     if a.available:
         if a.is_null:
-            textbutton a.null_button action NullAction(insensitive=True) xsize 200
-
+            textbutton a.null_button:
+                xsize 200
+                action NullAction(insensitive=True)
         elif isinstance(a, WorldAction) and a.is_event_trigger:
-            textbutton a.button action (CloseActionMenus(a), Function(pytfall.world_events.run_events, a.action, a.label, a.cost)) xsize 200
-
+            textbutton a.button:
+                xsize 200
+                action (CloseActionMenus(a), Function(pytfall.world_events.run_events, a.action, a.label, a.cost))
+                keysym a.keysym
         elif isinstance(a, WorldActionMenu):
-            textbutton "< " + a.button action a.action xsize 200
-
+            textbutton "< " + a.button:
+                xsize 200
+                action a.action
+                keysym a.keysym
         else:
-            textbutton a.button action (CloseActionMenus(a), a.action) xsize 200
+            textbutton a.button:
+                xsize 200
+                action (CloseActionMenus(a), a.action)
+                keysym a.keysym
 
 label _events_not_found:
     $ hero.say(choice(["Damn, I couldn't find anything...",

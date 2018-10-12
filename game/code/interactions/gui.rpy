@@ -209,12 +209,13 @@ label girl_interactions_after_greetings: # when character wants to say something
                     if "condition" in char.flag(f) and eval(char.flag(f)["condition"]):
                         pytfall.world_actions.gm_choice(char.flag(f)["button_name"], label=char.flag(f)["label"], index=(m, i))
                         i = i + 1
+
             # m = 9  --- for the time being we disable negative actions, since they require ST
             # pytfall.world_actions.menu(m, "Harassment", condition="not(char in hero.team) and char in hero.chars") # no fights between team members
             # pytfall.world_actions.gm_choice("Insult", index=(m, 0))
             # pytfall.world_actions.gm_choice("Escalation", index=(m, 1))
 
-            pytfall.world_actions.add("zzz", "Leave", Return(["control", "back"]))
+            pytfall.world_actions.add("zzz", "Leave", Return(["control", "back"]), keysym="mousedown_3")
 
             # Developer mode switches
             if DEBUG_INTERACTIONS:

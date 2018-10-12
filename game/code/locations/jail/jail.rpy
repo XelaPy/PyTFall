@@ -8,18 +8,18 @@ label city_jail:
         # Build the actions
         if pytfall.world_actions.location("city_jail"):
             pytfall.world_actions.menu("cells", "Cells")
-            pytfall.world_actions.slave_market(pytfall.ra, "Claim an escaped slave by paying off their fine.",
-                                               button="Browse Escapees", null_button="No Escapees",
-                                               buy_button="Retrieve", buy_tt="Claim this girl by paying her fine of %s Gold.",
-                                               index=("cells", "sm_ra"))
-            pytfall.world_actions.slave_market(jail, "Acquire the services of a prisoner buy paying their bail.",
-                                               button="Browse Prisoners", null_button="No Prisoners",
-                                               buy_button="Bail", buy_tt="Acquire this girl by paying her bail of %s Gold.",
-                                               index=("cells", "sm_cj"))
-            pytfall.world_actions.slave_market(jail, "Acquire the services of a prisoner buy paying their bail.",
-                                               button="Browse Prisoners", null_button="No Prisoners",
-                                               buy_button="Bail", buy_tt="Acquire this girl by paying her bail of %s Gold.",
-                                               index=("cells", "sm_cj"))
+            # pytfall.world_actions.slave_market(pytfall.ra, "Claim an escaped slave by paying off their fine.",
+            #                                    button="Browse Escapees", null_button="No Escapees",
+            #                                    buy_button="Retrieve", buy_tt="Claim this girl by paying her fine of %s Gold.",
+            #                                    index=("cells", "sm_ra"))
+            # pytfall.world_actions.slave_market(jail, "Acquire the services of a prisoner buy paying their bail.",
+            #                                    button="Browse Prisoners", null_button="No Prisoners",
+            #                                    buy_button="Bail", buy_tt="Acquire this girl by paying her bail of %s Gold.",
+            #                                    index=("cells", "sm_cj"))
+            # pytfall.world_actions.slave_market(jail, "Acquire the services of a prisoner buy paying their bail.",
+            #                                    button="Browse Prisoners", null_button="No Prisoners",
+            #                                    buy_button="Bail", buy_tt="Acquire this girl by paying her bail of %s Gold.",
+            #                                    index=("cells", "sm_cj"))
 
             pytfall.world_actions.add(("cells", "browse"), "Browse Cells", "browse_jail_cells", label="_no_jail_event")
             pytfall.world_actions.look_around()
