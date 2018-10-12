@@ -90,6 +90,31 @@ label time_temple:
                         $ del res
                         $ del temp_charcters
                         jump time_temple_menu
+                        
+        "Restore AP":
+            if not global_flags.has_flag("asked_miel_about_ap"):
+                $ global_flags.set_flag("asked_miel_about_ap")
+                t "I can return you the time you spent. But it's an expensive procedure."
+                "Miel can restore your action points, as long as you can pay for it."
+                "Only the hero can use this option, his teammates are not affected."
+            if hero.AP >= hero.baseAP:
+                "Your action points are maxed out already at the moment."
+                jump time_temple_menu
+            if hero.gold < 100000:
+                "Unfortunately, you don't have 100000 gold coins to pay."
+            else:
+                "Do you wish to pay 100000 gold to restore AP for [hero.name]?"
+                menu:
+                    "Yes":
+                        play sound "content/sfx/sound/events/clock.ogg"
+                        with Fade(.5, .2, .5, color=goldenrod)
+                        $ hero.take_money(100000, reason="Time Temple")
+                        $ hero.AP = hero.baseAP
+                        t "Your time has been returned to you. Come again if you need me."
+                    "No":
+                        $ pass
+            jump time_temple_menu
+                        
         "Ask about this place":
             t "This is the Temple of Time. Locals come here to to pray to almighty gods of time and space."
             t "We also provide additional services, for a fee."
