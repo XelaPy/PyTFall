@@ -399,14 +399,21 @@ label after_load:
 
     # All kinds of chars:
     python hide:
+        # uChars:
         updated_chars = load_characters("chars", Char)
         for id, char in updated_chars.items():
             if id not in store.chars:
                 store.chars[id] = char
 
-        load_characters("npc", NPC)
+        # NPCs:
+        updated_npcs = load_characters("npc", NPC)
+        for id, npc in updated_npcs.items():
+            if id not in store.npcs:
+                store.npcs[id] = npc
+
+        # rChars:
         store.rchars = load_random_characters()
-        load_special_arena_fighters()
+        # load_special_arena_fighters()
 
     python:
         if hasattr(store, "dummy"):
