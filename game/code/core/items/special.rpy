@@ -156,6 +156,11 @@ label special_items_full_extractor:
     jump char_equip
 
 label special_items_one_for_all:
+    if "Undead" in eqtarget.traits:
+        $ renpy.show_screen('message_screen', "This item can't be used on undead girls.")
+        $ inv_source.add_item("One For All")
+        jump char_equip
+        
     if eqtarget.status <> "slave":
         $ renpy.show_screen('message_screen', "It would be unwise to use it on a free girl, unless you'd like to spend the rest of your live in prison.")
         $ inv_source.add_item("One For All")
