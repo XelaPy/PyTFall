@@ -1,6 +1,6 @@
 label employment_agency:
     jump main_street
-    
+
     # Music related:
     if not "shops" in ilists.world_music:
         $ ilists.world_music["shops"] = [track for track in os.listdir(content_path("sfx/music/world")) if track.startswith("shops")]
@@ -58,7 +58,7 @@ label employment_agency:
         #         if hero.AP <= 0:
         #             $ renpy.call_screen('message_screen', "You don't have enough Action Points!")
         #         else:
-                    $ renpy.call_screen('message_screen', "You don't have enough Gold!")
+                    # $ renpy.call_screen('message_screen', "You don't have enough Gold!")
 
         if result[0] == 'control':
             if result[1] == 'return':
