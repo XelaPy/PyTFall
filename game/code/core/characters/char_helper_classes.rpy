@@ -807,7 +807,7 @@ init -10 python:
                 if all_income_data[d] or all_expense_data[d]:
                     days.append(d)
             days = days[-7:]
-            if days and len(days) > 1:
+            if days:
                 days.append("All")
                 all_income_data["All"] = add_dicts(all_income_data.values())
                 all_expense_data["All"] = add_dicts(all_expense_data.values())
