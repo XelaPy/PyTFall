@@ -7,6 +7,10 @@ init:
         def sorting_for_chars_list():
             return [c for c in hero.chars if c.is_available]
 
+        def clear_selected_filters():
+            global selected_filters
+            selected_filters = set()
+
 label chars_list:
     scene bg gallery
     # Check if we're the screen was loaded or not:
@@ -260,7 +264,7 @@ screen chars_list(source=None):
                 button:
                     style_group "basic"
                     xsize 100
-                    action source.clear, renpy.restart_interaction
+                    action source.clear, clear_selected_filters, renpy.restart_interaction
                     tooltip 'Reset all filters'
                     text "Reset"
 
