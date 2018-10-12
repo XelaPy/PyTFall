@@ -90,13 +90,15 @@ label slavel_market_controls:
     python:
         # Build the actions
         if pytfall.world_actions.location("slave_market"):
-            pytfall.world_actions.add("blue", "Find Blue", Jump("blue_menu"), condition=Iff(global_flag_complex("visited_sm")))
-            pytfall.world_actions.work(Iff(global_flag_complex("visited_sm")))
+            pytfall.world_actions.add(3, "Find Blue", Jump("blue_menu"), condition=Iff(global_flag_complex("visited_sm")))
+            pytfall.world_actions.work(Iff(global_flag_complex("visited_sm")), index=100)
             pytfall.world_actions.work(Iff(global_flag_complex("visited_sm")),
-                                       index="work_all", name="Work all day", returned="mc_action_work_in_slavemarket_all_day")
-            pytfall.world_actions.slave_market(pytfall.sm, "Get these girls while they're still Young and Hot!")
-            pytfall.world_actions.look_around()
-            pytfall.world_actions.add("free_a_slave", "Free Slaves", Jump("sm_free_slaves"))
+                                       index=101, name="Work all day", returned="mc_action_work_in_slavemarket_all_day")
+            pytfall.world_actions.slave_market(pytfall.sm, "Get these girls while they're still Young and Hot!",
+                                                index=0)
+
+            pytfall.world_actions.add(1, "Free Slaves", Jump("sm_free_slaves"))
+            pytfall.world_actions.look_around(index=1000)
             pytfall.world_actions.finish()
 
     scene bg slave_market
@@ -157,7 +159,7 @@ label slavel_market_controls:
     $ renpy.music.stop(channel="world")
     hide screen slavemarket
     jump city
-    
+
 label sm_free_slaves:
     hide screen slavemarket
     $ s = npcs["Stan_slavemarket"].say
@@ -185,9 +187,9 @@ label sm_free_slaves:
                 $ del our_char
                 $ del chrs
                 jump slavel_market_controls
-        
+
         show expression our_char.get_vnsprite() as slave at mid_right with dissolve
-        
+
         if char.disposition > 0:
             if our_char.disposition >= 700 or check_lovers(hero, our_char):
                 $ our_char.override_portrait("portrait", "shy")
@@ -198,7 +200,7 @@ label sm_free_slaves:
             else:
                 $ our_char.override_portrait("portrait", "happy")
                 $ our_char.say("You want to free me? Oh, thank you, master!")
-        
+
         $ sum = our_char.level * 100 + our_char.tier * 100
         s "Alright, that will be [sum] gold!"
         if hero.gold < sum:
@@ -215,12 +217,12 @@ label sm_free_slaves:
                     "[our_char.name] is now a free citizen! She also likes you more."
                 "No":
                     s "Pff, beggars..."
-            
+
         $ our_char.restore_portrait()
     $ del our_char
     $ del chrs
     jump slavel_market_controls
-    
+
 label mc_action_work_in_slavemarket:
     $ wage = 0
     python hide:
