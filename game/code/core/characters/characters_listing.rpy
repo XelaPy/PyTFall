@@ -235,147 +235,142 @@ screen chars_list(source=None):
         xysize (270, 468)
         vbox:
             spacing 3
-            viewport:
-                scrollbars "vertical"
-                xsize 250
-                draggable True
-                mousewheel True
-                has vbox xsize 253
-                null height 5
-                label "Filters:":
-                    xalign .5
-                    text_size 35
-                    text_color goldenrod
-                    text_outlines [(1, "#000000", 0, 0)]
-                hbox:
-                    box_wrap True
-                    for f, c, t in [('Home', saddlebrown, 'Toggle home filters'),
-                                    ('Work', brown, 'Toggle workplace filters'),
-                                    ("Status", green, 'Toggle status filters'),
-                                    ("Action", darkblue, 'Toggle action filters'),
-                                    ('Class', purple, 'Toggle class filters')]:
-                        button:
-                            xalign .5
-                            style_group "basic"
-                            action ToggleSetMembership(selected_filters, f)
-                            text f color c size 18 outlines [(1, "#3a3a3a", 0, 0)]
-                            xpadding 6
-                            tooltip t
+            label "Filters:":
+                xalign .5
+                text_size 35
+                text_color goldenrod
+                text_outlines [(1, "#000000", 0, 0)]
+
+            hbox:
+                xalign .5
+                box_wrap True
+                for f, c, t in [('Home', saddlebrown, 'Toggle home filters'),
+                                ('Work', brown, 'Toggle workplace filters'),
+                                ("Status", green, 'Toggle status filters'),
+                                ("Action", darkblue, 'Toggle action filters'),
+                                ('Class', purple, 'Toggle class filters')]:
                     button:
-                        xalign .5
-                        yalign 1.0
-                        style_group "basic"
-                        action source.clear, renpy.restart_interaction
-                        text "Reset"
-                        tooltip 'Reset all filters'
+                        style_prefix "basic"
+                        xpadding 6
+                        xsize 100
+                        action ToggleSetMembership(selected_filters, f)
+                        tooltip t
+                        text f color c size 18 outlines [(1, "#3a3a3a", 0, 0)]
 
-                null height 20
-
-                hbox:
-                    box_wrap True
+                button:
                     style_group "basic"
-                    if "Status" in selected_filters:
-                        for f in status_filters:
-                            button:
-                                xsize 125
-                                action ModFilterSet(source, "status_filters", f)
-                                text f.capitalize() color green
-                                tooltip 'Toggle the filter'
-                    if "Home" in selected_filters:
-                        for f in home_filters:
-                            button:
-                                xsize 125
-                                action ModFilterSet(source, "home_filters", f)
-                                text "[f]" color saddlebrown:
-                                    if len(str(f)) > 12:
-                                        size 12
-                                tooltip 'Toggle the filter'
-                    if "Work" in selected_filters:
-                        for f in work_filters:
-                            button:
-                                xsize 125
-                                action ModFilterSet(source, "work_filters", f)
-                                text "[f]" color brown:
-                                    if len(str(f)) > 12:
-                                        size 10
-                                tooltip 'Toggle the filter'
-                    if "Action" in selected_filters:
-                        for f in action_filters:
-                            button:
-                                xsize 125
-                                action ModFilterSet(source, "action_filters", f)
-                                $ t = str(f)
-                                if t.lower().endswith(" job"):
-                                    $ t = t[:-4]
-                                text "[t]" color darkblue
-                                tooltip 'Toggle the filter'
-                    if "Class" in selected_filters:
-                        for f in class_filters:
-                            button:
-                                xsize 125
-                                action ModFilterSet(source, "class_filters", f)
-                                text "[f]" color purple
-                                tooltip 'Toggle the filter'
-            # Mass (de)selection Buttons ====================================>
+                    xsize 100
+                    action source.clear, renpy.restart_interaction
+                    tooltip 'Reset all filters'
+                    text "Reset"
+
             null height 3
+
+            vpgrid:
+                style_prefix "basic"
+                xysize 256, 289
+                cols 2
+                draggable True edgescroll (30, 100)
+                if "Status" in selected_filters:
+                    for f in status_filters:
+                        button:
+                            xysize 125, 32
+                            action ModFilterSet(source, "status_filters", f)
+                            text f.capitalize() color green
+                            tooltip 'Toggle the filter'
+                if "Home" in selected_filters:
+                    for f in home_filters:
+                        button:
+                            xysize 125, 32
+                            action ModFilterSet(source, "home_filters", f)
+                            text "[f]" color saddlebrown:
+                                if len(str(f)) > 12:
+                                    size 10
+                            tooltip 'Toggle the filter'
+                if "Work" in selected_filters:
+                    for f in work_filters:
+                        button:
+                            xysize 125, 32
+                            action ModFilterSet(source, "work_filters", f)
+                            text "[f]" color brown:
+                                if len(str(f)) > 12:
+                                    size 10
+                            tooltip 'Toggle the filter'
+                if "Action" in selected_filters:
+                    for f in action_filters:
+                        button:
+                            xysize 125, 32
+                            action ModFilterSet(source, "action_filters", f)
+                            $ t = str(f)
+                            if t.lower().endswith(" job"):
+                                $ t = t[:-4]
+                            text "[t]" color darkblue
+                            tooltip 'Toggle the filter'
+                if "Class" in selected_filters:
+                    for f in class_filters:
+                        button:
+                            xysize 125, 32
+                            action ModFilterSet(source, "class_filters", f)
+                            text "[f]" color purple
+                            tooltip 'Toggle the filter'
+
+        # Mass (de)selection Buttons ====================================>
+        vbox:
+            xalign .5 ypos 460
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
-                align .5, .5
                 xysize (250, 50)
-                has hbox style_group "basic" align .5, .5 spacing 5
-                hbox:
-                    spacing 3
-                    $ chars_on_page = set(charz_list) if hero.chars else set()
-                    button: # select all on current listing, deselects them if all are selected
-                        xysize (66, 40)
-                        if the_chosen.issuperset(chars_on_page):
-                            action SetVariable("the_chosen", the_chosen.difference(chars_on_page))
-                        else:
-                            action SetVariable("the_chosen", the_chosen.union(chars_on_page))
-                        sensitive listed_chars
-                        text "These"
-                        tooltip 'Select all currently visible characters'
-                    button: # every of currently filtered, also in next tabs
-                        xysize (66, 40)
-                        action If(set(source.sorted).difference(the_chosen), [SetVariable("the_chosen", set(source.sorted))])
-                        sensitive listed_chars
-                        text "All"
-                        tooltip 'Select all characters'
-                    button: # deselect all
-                        xysize (66, 40)
-                        action SetVariable("the_chosen", set())
-                        sensitive the_chosen
-                        text "None"
-                        tooltip "Clear Selection"
+                style_prefix "basic"
+                has hbox spacing 5 align .5, .5
+                $ chars_on_page = set(charz_list) if hero.chars else set()
+                button: # select all on current listing, deselects them if all are selected
+                    xysize (66, 40)
+                    if the_chosen.issuperset(chars_on_page):
+                        action SetVariable("the_chosen", the_chosen.difference(chars_on_page))
+                    else:
+                        action SetVariable("the_chosen", the_chosen.union(chars_on_page))
+                    sensitive listed_chars
+                    text "These"
+                    tooltip 'Select all currently visible characters'
+                button: # every of currently filtered, also in next tabs
+                    xysize (66, 40)
+                    action If(set(source.sorted).difference(the_chosen), [SetVariable("the_chosen", set(source.sorted))])
+                    sensitive listed_chars
+                    text "All"
+                    tooltip 'Select all characters'
+                button: # deselect all
+                    xysize (66, 40)
+                    action SetVariable("the_chosen", set())
+                    sensitive the_chosen
+                    text "None"
+                    tooltip "Clear Selection"
 
             # Mass action Buttons ====================================>
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
-                xalign .5
-                yalign .5
+                align .5, .5
+                style_prefix "basic"
                 xysize (250, 145)
-                has vbox style_group "basic" align .5, .5 spacing 3
-                vbox:
-                    spacing 3
-                    button:
-                        xysize (150, 40)
-                        action If(len(the_chosen), [SetVariable("char", PytGroup(the_chosen)), Show("char_control")])
-                        text "Girl Control"
-                        selected False
-                        tooltip 'Set desired behavior for group'
-                    button:
-                        xysize (150, 40)
-                        action If(len(the_chosen), [Hide("chars_list"), With(dissolve), SetVariable("eqtarget", None), Jump('char_equip')])
-                        text "Equipment"
-                        selected False
-                        tooltip "Manage Group's Equipment"
-                    button:
-                        xysize (150, 40)
-                        action If(len(the_chosen), [Hide("chars_list"), With(dissolve),
-                                  Jump('school_training')])
-                        text "Training"
-                        selected False
-                        tooltip "Send the entire group to School!"
+                has vbox align .5, .5 spacing 3
+                button:
+                    xysize (150, 40)
+                    action If(len(the_chosen), [SetVariable("char", PytGroup(the_chosen)), Show("char_control")])
+                    text "Girl Control"
+                    selected False
+                    tooltip 'Set desired behavior for group'
+                button:
+                    xysize (150, 40)
+                    action If(len(the_chosen), [Hide("chars_list"), With(dissolve), SetVariable("eqtarget", None), Jump('char_equip')])
+                    text "Equipment"
+                    selected False
+                    tooltip "Manage Group's Equipment"
+                button:
+                    xysize (150, 40)
+                    action If(len(the_chosen), [Hide("chars_list"), With(dissolve),
+                              Jump('school_training')])
+                    text "Training"
+                    selected False
+                    tooltip "Send the entire group to School!"
 
     use top_stripe(True)
 
