@@ -1,0 +1,29 @@
+[
+    {
+        "id": "time_miel",
+        "name": "Miel",
+        "fullname": "Miel",
+        "desc": "A mysterious creature connected to the time itself.",
+        "origin": "???",
+        
+        "base_race": "Human",
+        "gender": "female",
+        "race": "Human",
+        "location": "city",
+        "status": "free",
+        "gold": 10000,
+        
+        "color": "orange",
+        "what_color": "goldenrod",
+        
+        "basetraits": ["Mage"],
+        
+        "traits": [
+            "Light",
+            "Darkness",
+            "Big Boobs",
+            "Deredere",
+            "Slim"
+        ]
+    }
+]

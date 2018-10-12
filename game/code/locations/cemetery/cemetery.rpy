@@ -141,6 +141,13 @@ screen graveyard_town():
     if not gm.show_girls:
         $ img_cemetery = ProportionalScale("content/gfx/interface/icons/cemetery.png", 80, 80)
         $ img_mausoleum = ProportionalScale("content/gfx/interface/icons/mausoleum.png", 80, 80)
+        $ img_time = ProportionalScale("content/gfx/interface/icons/clock.png", 100, 100)
+        imagebutton:
+            pos(93, 306)
+            idle (img_time)
+            hover (im.MatrixColor(img_time, im.matrix.brightness(.15)))
+            action [Hide("graveyard_town"), Function(global_flags.set_flag, "keep_playing_music"), Jump("time_temple")]
+            tooltip "Temple"
         imagebutton:
             pos(580, 220)
             idle (img_cemetery)
