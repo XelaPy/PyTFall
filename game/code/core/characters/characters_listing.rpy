@@ -229,11 +229,11 @@ screen chars_list(source=None):
         background Frame(Transform("content/gfx/frame/p_frame2.png", alpha=.55), 10 ,10)
         style_prefix "content"
         xmargin 0
-        left_padding 10
-        ypadding 10
+        padding 5, 5
         pos (1005, 47)
         xysize (270, 468)
         vbox:
+            xalign .5
             spacing 3
             label "Filters:":
                 xalign .5
@@ -269,6 +269,7 @@ screen chars_list(source=None):
             vpgrid:
                 style_prefix "basic"
                 xysize 256, 289
+                xalign .5
                 cols 2
                 draggable True edgescroll (30, 100)
                 if "Status" in selected_filters:
@@ -314,63 +315,63 @@ screen chars_list(source=None):
                             text "[f]" color purple
                             tooltip 'Toggle the filter'
 
-        # Mass (de)selection Buttons ====================================>
-        vbox:
-            xalign .5 ypos 460
-            frame:
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
-                xysize (250, 50)
-                style_prefix "basic"
-                has hbox spacing 5 align .5, .5
-                $ chars_on_page = set(charz_list) if hero.chars else set()
-                button: # select all on current listing, deselects them if all are selected
-                    xysize (66, 40)
-                    if the_chosen.issuperset(chars_on_page):
-                        action SetVariable("the_chosen", the_chosen.difference(chars_on_page))
-                    else:
-                        action SetVariable("the_chosen", the_chosen.union(chars_on_page))
-                    sensitive listed_chars
-                    text "These"
-                    tooltip 'Select all currently visible characters'
-                button: # every of currently filtered, also in next tabs
-                    xysize (66, 40)
-                    action If(set(source.sorted).difference(the_chosen), [SetVariable("the_chosen", set(source.sorted))])
-                    sensitive listed_chars
-                    text "All"
-                    tooltip 'Select all characters'
-                button: # deselect all
-                    xysize (66, 40)
-                    action SetVariable("the_chosen", set())
-                    sensitive the_chosen
-                    text "None"
-                    tooltip "Clear Selection"
+    # Mass (de)selection Buttons ====================================>
+    vbox:
+        pos 1015, 518
+        frame:
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
+            xysize (250, 50)
+            style_prefix "basic"
+            has hbox spacing 5 align .5, .5
+            $ chars_on_page = set(charz_list) if hero.chars else set()
+            button: # select all on current listing, deselects them if all are selected
+                xysize (66, 40)
+                if the_chosen.issuperset(chars_on_page):
+                    action SetVariable("the_chosen", the_chosen.difference(chars_on_page))
+                else:
+                    action SetVariable("the_chosen", the_chosen.union(chars_on_page))
+                sensitive listed_chars
+                text "These"
+                tooltip 'Select all currently visible characters'
+            button: # every of currently filtered, also in next tabs
+                xysize (66, 40)
+                action If(set(source.sorted).difference(the_chosen), [SetVariable("the_chosen", set(source.sorted))])
+                sensitive listed_chars
+                text "All"
+                tooltip 'Select all characters'
+            button: # deselect all
+                xysize (66, 40)
+                action SetVariable("the_chosen", set())
+                sensitive the_chosen
+                text "None"
+                tooltip "Clear Selection"
 
-            # Mass action Buttons ====================================>
-            frame:
-                background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
-                align .5, .5
-                style_prefix "basic"
-                xysize (250, 145)
-                has vbox align .5, .5 spacing 3
-                button:
-                    xysize (150, 40)
-                    action If(len(the_chosen), [SetVariable("char", PytGroup(the_chosen)), Show("char_control")])
-                    text "Girl Control"
-                    selected False
-                    tooltip 'Set desired behavior for group'
-                button:
-                    xysize (150, 40)
-                    action If(len(the_chosen), [Hide("chars_list"), With(dissolve), SetVariable("eqtarget", None), Jump('char_equip')])
-                    text "Equipment"
-                    selected False
-                    tooltip "Manage Group's Equipment"
-                button:
-                    xysize (150, 40)
-                    action If(len(the_chosen), [Hide("chars_list"), With(dissolve),
-                              Jump('school_training')])
-                    text "Training"
-                    selected False
-                    tooltip "Send the entire group to School!"
+        # Mass action Buttons ====================================>
+        frame:
+            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
+            align .5, .5
+            style_prefix "basic"
+            xysize (250, 145)
+            has vbox align .5, .5 spacing 3
+            button:
+                xysize (150, 40)
+                action If(len(the_chosen), [SetVariable("char", PytGroup(the_chosen)), Show("char_control")])
+                text "Girl Control"
+                selected False
+                tooltip 'Set desired behavior for group'
+            button:
+                xysize (150, 40)
+                action If(len(the_chosen), [Hide("chars_list"), With(dissolve), SetVariable("eqtarget", None), Jump('char_equip')])
+                text "Equipment"
+                selected False
+                tooltip "Manage Group's Equipment"
+            button:
+                xysize (150, 40)
+                action If(len(the_chosen), [Hide("chars_list"), With(dissolve),
+                          Jump('school_training')])
+                text "Training"
+                selected False
+                tooltip "Send the entire group to School!"
 
     use top_stripe(True)
 
