@@ -425,7 +425,6 @@ label after_load:
     #     for c in aps.inhabitants.copy():
     #         if c not in chars.itervalues():
     #             remove_from_gameworld(c)
-
     python hide:
         for b in hero.buildings:
             if isinstance(b, UpgradableBuilding):
@@ -440,6 +439,17 @@ label after_load:
         for obj in pytfall.__dict__.values():
             if isinstance(obj, ItemShop) and not hasattr(obj, "total_items_price"):
                 obj.total_items_price = 0
+
+    python hide:
+        for d in pytfall.world_actions.nest:
+            for obj in d.values():
+                if not hasattr(obj, "keysym"):
+                    obj.keysym = None
+
+        for d in pytfall.world_actions.locations.values():
+            for obj in d.values():
+                if not hasattr(obj, "keysym"):
+                    obj.keysym = None
 
     stop music
     return
