@@ -7,6 +7,10 @@ default employment_agency_chars = {
 
 default employment_agency_reroll_day = 0
 
+init python:
+    def calc_hire_price_for_ea(char):
+        return round_int(char.expected_wage*30*2)
+
 label employment_agency:
     # Music related:
     if not "shops" in ilists.world_music:
@@ -63,7 +67,7 @@ label employment_agency:
 
         if result[0] == 'hire':
             $ char = result[1]
-            $ cost = round_int(char.expected_wage*30*2) # Two month of wages to hire.
+            $ cost = calc_hire_price_for_ea(char) # Two month of wages to hire.
             $ container = result[2]
             if hero.gold >= cost:
                 jump employment_agency_hire
@@ -122,7 +126,7 @@ screen employment_agency():
                                             SetVariable("char", entry),
                                             Hide("employment_agency"),
                                             Jump("char_profile")]
-                                    tooltip "View {}'s Detailed Info.".format(entry.fullname)
+                                    tooltip "View {}'s Detailed Info.\nClasses: {}".format(entry.fullname, entry.traits.base_to_string)
                             button:
                                 padding(2, 2)
                                 xsize 94
@@ -130,6 +134,6 @@ screen employment_agency():
                                 hover_background Frame("content/gfx/frame/gm_frame.png")
                                 label "Tier [entry.tier]" xalign .5 text_color "#DAA520"
                                 action Return(['hire', entry, v])
-                                tooltip "Hire {}.".format(entry.fullname)
+                                tooltip "Hire {}.\nFee: {}G".format(entry.fullname, calc_hire_price_for_ea(entry))
 
     use exit_button()
