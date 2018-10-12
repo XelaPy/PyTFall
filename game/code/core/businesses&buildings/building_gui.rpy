@@ -1250,7 +1250,7 @@ init: # Screens:
         zorder 1
 
         frame:
-            style_group "content"
+            style_prefix "content"
             background Frame("content/gfx/frame/p_frame52.png", 10, 10)
             at slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7)
             xpos 936
@@ -1312,6 +1312,7 @@ init: # Screens:
                 if isinstance(building, UpgradableBuilding):
                     null height 20
                     label u"Management Options:":
+                         style "content_label"
                          xalign .5
                          text_color ivory
                          text_bold True
