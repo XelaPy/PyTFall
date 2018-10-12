@@ -320,9 +320,7 @@ screen chars_list(source=None):
             null height 3
             frame:
                 background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.9), 10, 10)
-                xalign .5
-                yalign .5
-                # ypos 5
+                align .5, .5
                 xysize (250, 50)
                 has hbox style_group "basic" align .5, .5 spacing 5
                 hbox:
@@ -334,16 +332,19 @@ screen chars_list(source=None):
                             action SetVariable("the_chosen", the_chosen.difference(chars_on_page))
                         else:
                             action SetVariable("the_chosen", the_chosen.union(chars_on_page))
+                        sensitive listed_chars
                         text "These"
                         tooltip 'Select all currently visible characters'
                     button: # every of currently filtered, also in next tabs
                         xysize (66, 40)
                         action If(set(source.sorted).difference(the_chosen), [SetVariable("the_chosen", set(source.sorted))])
+                        sensitive listed_chars
                         text "All"
                         tooltip 'Select all characters'
                     button: # deselect all
                         xysize (66, 40)
-                        action If(len(the_chosen), [SetVariable("the_chosen", set())])
+                        action SetVariable("the_chosen", set())
+                        sensitive the_chosen
                         text "None"
                         tooltip "Clear Selection"
 
