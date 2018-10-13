@@ -293,6 +293,7 @@ init -9 python:
             self.arena = []
             self.shops = []
             self.other = []
+            self.stories = []
             self.global_events = []
             self.city_events = []
             self.obituaries = []

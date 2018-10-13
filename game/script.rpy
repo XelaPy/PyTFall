@@ -414,7 +414,9 @@ label after_load:
 
         # rChars:
         store.rchars = load_random_characters()
-        # load_special_arena_fighters()
+
+        # Arena Chars (We need this for databases it would seem...):
+        load_special_arena_fighters()
 
     python:
         if hasattr(store, "dummy"):

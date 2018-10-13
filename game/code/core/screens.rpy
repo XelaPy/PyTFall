@@ -1018,21 +1018,19 @@ screen s_menu(s_menu="Settings"):
 
                         $ file_name = FileSlotName(i, columns*rows)
                         $ file_time = FileTime(i, empty=_("Empty Slot"))
-                        $ json_info = FileJson(i, empty=_(""))
+                        $ json_info = FileJson(i, empty={})
                         $ save_name = FileSaveName(i)
 
                         hbox:
                             align (.5, .5)
-                            if "portrait" in json_info:
-                                frame:
-                                    background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                                    align (.5, .5)
-                                    add ProportionalScale(json_info["portrait"], 90, 90) align (.5, .5)
-                            else:
-                                frame:
-                                    background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                                    align (.5, .5)
-                                    xysize (102, 102)
+                            frame:
+                                background Frame("content/gfx/frame/MC_bg.png", 10, 10)
+                                align (.5, .5)
+                                $ portrait = json_info.get("portrait", "")
+                                if not portrait.endswith(IMAGE_EXTENSIONS) or not renpy.loadable(portrait):
+                                    $ portrait = Null(width=90, height=90)
+                                if portrait is not None:
+                                    add pscale(portrait, 90, 90) align (.5, .5)
                             button:
                                 style "smenu2_button"
                                 align (.5, .5)
