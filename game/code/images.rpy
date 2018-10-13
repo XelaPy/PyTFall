@@ -1,9 +1,29 @@
-# ANIMATION
 init:
     image button_circle_green:
         "content/gfx/interface/icons/move15.png"
         yoffset 6
 
+    image green_dot = "content/gfx/interface/icons/green_dot.webp"
+    image red_dot = "content/gfx/interface/icons/red_dot.webp"
+
+    image green_dot_gm:
+        size (10, 10)
+        alpha .5
+        "green_dot"
+        block:
+            linear 1.0 alpha .1
+            linear 1.0 alpha .5
+            repeat
+
+    image red_dot_gm:
+        size (10, 10)
+        alpha .5
+        "red_dot"
+        block:
+            linear 1.0 alpha .1
+            linear 1.0 alpha .5
+            repeat
+            
     image no_image = "content/gfx/interface/images/no_image.png"
 
     image bg_main = "content/gfx/bg/main.webp"

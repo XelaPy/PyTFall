@@ -159,11 +159,28 @@ screen rg_lightbutton:
         frame:
             padding(2, 2)
             background Frame("content/gfx/frame/MC_bg3.png")
+            has fixed fit_first True
             imagebutton:
                 align align
                 idle (p_img)
                 hover (im.MatrixColor(p_img, im.matrix.brightness(.15)))
                 action Return(return_value)
+            hbox:
+                align 1.0, 1.0
+                if entry.disposition > 0:
+                    add "green_dot_gm"
+                if entry.disposition > 100:
+                    add "green_dot_gm"
+                if entry.disposition > 250:
+                    add "green_dot_gm"
+
+                if entry.disposition < 0:
+                    add "red_dot_gm"
+                if entry.disposition < -100:
+                    add "red_dot_gm"
+                if entry.disposition < -250:
+                    add "red_dot_gm"
+
         frame:
             padding(2, 2)
             xsize 94
