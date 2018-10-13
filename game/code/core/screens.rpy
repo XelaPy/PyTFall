@@ -364,8 +364,8 @@ screen top_stripe(show_return_button=True, return_button_action=None,
 
             if day > 1 and renpy.get_screen("mainscreen"):
                 imagebutton:
-                    idle "journal"
-                    hover im.MatrixColor(renpyd("journal"), im.matrix.brightness(.15))
+                    idle ImageReference("journal")
+                    hover im.MatrixColor(ImageReference("journal"), im.matrix.brightness(.15))
                     tooltip "PyTFall's GAZETTE"
                     action ToggleField(gazette, "show")
 
