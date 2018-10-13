@@ -11,6 +11,35 @@ init python:
     def calc_hire_price_for_ea(char):
         return round_int(char.expected_wage*30)
 
+    def populate_ea():
+        global employment_agency_reroll_day
+        global employment_agency_chars
+
+        if day >= employment_agency_reroll_day:
+            employment_agency_reroll_day = day + randint(7, 14)
+            for k, v in employment_agency_chars.items():
+                employment_agency_chars[k] = []
+                for i in range(randint(2, 4)):
+                    if dice(1): # Super char!
+                        tier = hero.tier + uniform(2.5, 4.0)
+                    elif dice(20): # Decent char.
+                        tier = hero.tier + uniform(1.0, 2.5)
+                    else: # Ok char...
+                        tier = hero.tier + uniform(.1, 1.0)
+                    char = build_rc(bt_group=k,
+                                    set_locations=True,
+                                    set_status="free",
+                                    tier=tier, tier_kwargs=None,
+                                    give_civilian_items=True,
+                                    give_bt_items=True,
+                                    spells_to_tier=False)
+                    employment_agency_chars[k].append(char)
+
+            # Gazette:
+            c = npcs["Charla_ea"]
+            temp = "{} informs all Business People of PyTFall that new workers are available for hire!".format(c.fullname)
+            gazette.other.append(temp)
+
 label employment_agency:
     # Music related:
     if not "shops" in ilists.world_music:
@@ -39,27 +68,7 @@ label employment_agency:
         ea "Take a look at the files I got on hand!"
 
     # Populate when needed:
-    if day >= employment_agency_reroll_day:
-        $ employment_agency_reroll_day = day + randint(7, 14)
-
-        python hide:
-            for k, v in employment_agency_chars.items():
-                employment_agency_chars[k] = []
-                for i in range(randint(2, 4)):
-                    if dice(1): # Super char!
-                        tier = hero.tier + uniform(2.5, 4.0)
-                    elif dice(20): # Decent char.
-                        tier = hero.tier + uniform(1.0, 2.5)
-                    else: # Ok char...
-                        tier = hero.tier + uniform(.1, 1.0)
-                    char = build_rc(bt_group=k,
-                                    set_locations=True,
-                                    set_status="free",
-                                    tier=tier, tier_kwargs=None,
-                                    give_civilian_items=True,
-                                    give_bt_items=True,
-                                    spells_to_tier=False)
-                    employment_agency_chars[k].append(char)
+    $ populate_ea()
 
     show screen employment_agency
     while 1:

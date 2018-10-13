@@ -8,6 +8,7 @@ init 100 python:
     tl.end("Loading: Mobs")
 
 default defeated_mobs = {}
+default gazette = Gazette()
 
 label start:
     $ renpy.block_rollback()

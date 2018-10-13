@@ -157,18 +157,34 @@ screen mainscreen():
             textbutton "Clear Console":
                 action Jump("force_clear_console")
 
-    showif pytfall.ms_text and pytfall.todays_first_view:
-        fixed:
-            xysize (500, 300)
-            pos (500, 60)
-            add Frame("content/gfx/frame/settings1.png", 10, 10)
+    showif day > 1 and (gazette.first_view or gazette.show):
+        default gazette_map = (
+        ("arena", "Today at the Arena!"),
+        ("shops", "Shopkeepers in PyTFall reporting:"),
+        ("other", "Also:")
+        )
+
+        frame:
+            background Frame("content/gfx/frame/settings1.png", 10, 10)
+            style_prefix "proper_stats"
+            xysize 500, 600
+            padding 10, 10
+            pos 500, 60
+            has vbox spacing 10
+            label "PyTFall's GAZETTE" xalign .5
             viewport:
-                xysize (470, 280)
+                xysize 480, 550
                 xalign .5
-                yoffset 5
                 scrollbars "vertical"
                 mousewheel True
-                text "%s"%pytfall.ms_text align (.5, .1) style "content_text" color goldenrod size 19
-            timer 10 action ToggleField(pytfall, "todays_first_view")
+                has vbox
+                for attr, t in gazette_map:
+                    $ content = getattr(gazette, attr)
+                    if content:
+                        label "[t]" text_size 17
+                        text "\n".join(content)
+                        null height 10
+            if gazette.first_view:
+                timer 10 action ToggleField(gazette, "first_view")
 
     use top_stripe(False)

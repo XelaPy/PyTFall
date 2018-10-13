@@ -495,6 +495,8 @@ init:
 
     default special_save_number = 1
 
+    $ renpyd = renpy.displayable
+
 init 999 python:
     # ensure that all initialization debug messages have been written to disk
     if DEBUG_LOG:

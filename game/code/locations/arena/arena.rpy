@@ -47,7 +47,7 @@ init -9 python:
             self.dogfights_3v3 = list()
             self.dogfight_day = 1
 
-            self.daily_report = ""
+            self.daily_report = []
 
             self.setup = None # Setup in focus
             self.result = None
@@ -1348,7 +1348,7 @@ init -9 python:
 
         def next_day(self):
             # For the daily report:
-            txt = ""
+            txt = []
 
             # Normalizing amount of teams available for the Arena.
             if not day % 5:
@@ -1358,8 +1358,7 @@ init -9 python:
 
             # Warning the player of a scheduled arena match:
             if day+1 in hero.fighting_days:
-                txt = "{color=[red]}You have a scheduled Arena match today! Don't you dare chickening out :) \n\n{/color}"
-                # txt = "You have a scheduled Arena match today! Don't you dare chickening out :) \n\n"
+                txt.append("{color=[orange]}You have a scheduled Arena match today! Don't you dare chickening out :){/color}")
 
             tl.start("Arena: Matches")
             # Running the matches:
@@ -1368,8 +1367,13 @@ init -9 python:
                 if setup[2] == day and setup[0] != hero.team:
                     if setup[0] and setup[1]:
                         match_result = self.auto_resolve_combat(setup[0], setup[1], "match")
-                        txt = "".join([txt, "%s has defeated %s in a one on one fight. "%(match_result[0][0].name, match_result[1][0].name)])
-                        txt = "".join([txt, choice(["It was quite a show! \n", "\n", "Amazing performance! \n", "Crowd never stopped cheering! \n", "\n"])])
+                        temp = "{} has defeated {} in a one on one fight. ".format(
+                                        match_result[0][0].name, match_result[1][0].name)
+                        temp += choice(["It was quite a show!",
+                                        "Amazing performance!",
+                                        "Crowd never stopped cheering!"])
+                        txt.append(temp)
+
                     setup[0] = Team(max_size=1)
                     setup[1] = Team(max_size=1)
 
@@ -1377,8 +1381,12 @@ init -9 python:
                 if setup[2] == day and setup[0] != hero.team:
                     if setup[0] and setup[1]:
                         match_result = self.auto_resolve_combat(setup[0], setup[1], "match")
-                        txt = "".join([txt, "%s team has defeated %s in an official match. "%(match_result[0].name, match_result[1].name)])
-                        txt = "".join([txt, choice(["It was quite a show! \n", "\n", "Amazing performance! \n", "Crowd never stopped cheering! \n", "\n", "Team's leader %s got most of the credit! \n"%match_result[0].leader.name])])
+                        temp = "%s team has defeated %s in an official match. " % (match_result[0].name, match_result[1].name)
+                        temp += choice(["It was quite a show!",
+                                        "Amazing performance!",
+                                        "Crowd never stopped cheering!",
+                                        "Team's leader %s got most of the credit!" % match_result[0].leader.name])
+                        txt.append(temp)
                     setup[0] = Team(max_size=2)
                     setup[1] = Team(max_size=2)
 
@@ -1386,8 +1394,12 @@ init -9 python:
                 if setup[2] == day and setup[0] != hero.team:
                     if setup[0] and setup[1]:
                         match_result = self.auto_resolve_combat(setup[0], setup[1], "match")
-                        txt = "".join([txt, "%s team has defeated %s in an official match. "%(match_result[0].name, match_result[1].name)])
-                        txt = "".join([txt, choice(["It was quite a show! \n", "\n", "Amazing performance! \n", "Crowd never stopped cheering! \n", "\n", "Team's leader %s got most of the credit! \n"%match_result[0].leader.name])])
+                        temp = "%s team has defeated %s in an official match. " % (match_result[0].name, match_result[1].name)
+                        temp += choice(["It was quite a show!",
+                                        "Amazing performance!",
+                                        "Crowd never stopped cheering!",
+                                        "Team's leader %s got most of the credit!" % match_result[0].leader.name])
+                        txt.append(temp)
                     setup[0] = Team(max_size=3)
                     setup[1] = Team(max_size=3)
 
@@ -1411,10 +1423,18 @@ init -9 python:
                 hero.arena_rep -= rep_penalty
 
                 if len(penalty_setup[1]) == 1:
-                    txt = "".join([txt, "\n {color=[red]}You've missed a 1v1 fight vs %s, whatever the reason, you Arena Reputation took a hit of %d. Don't forget or chicken out next time :){/color}"%(penalty_setup[1].leader.name, rep_penalty)])
+                    opfor = penalty_setup[1].leader
+                    temp = "{} missed a 1v1 fight vs {}, who entrained the public "
+                    temp += "by boasting of {} prowess and making funny jabs at {}'s cowardliness!"
+                    temp.format(hero.name, opfor.name, opfor.pp, hero.name)
+                    temp = set_font_color(temp, "red")
                 else:
-                    txt = "".join([txt, "\n {color=[red]}You've missed a team fight vs %s, whatever the reason, you Arena Reputation took a hit of %d. Don't forget or chicken out next time :){/color}"%(penalty_setup[1].name, rep_penalty)])
+                    temp = "{} didn't show up for a team combat vs {}!".format(hero.team.named,
+                                                                               penalty_setup[1].name)
+                    temp += " The spectators were very displeased!"
+                    temp = set_font_color(temp, "red")
 
+                txt.append(temp)
 
             self.update_matches()
             tl.end("Arena: Matches")
@@ -1479,9 +1499,9 @@ init -9 python:
             self.update_dogfights()
             tl.end("Arena: Dogfights")
 
-            txt = "".join([txt, "\n %d unofficial dogfights took place yesterday!"%df_count])
+            txt.append("%d unofficial dogfights took place yesterday!" % df_count)
 
             # Update top 100 ladder:
             self.update_ladder()
 
-            self.daily_report = txt
+            self.daily_report = gazette.arena = txt

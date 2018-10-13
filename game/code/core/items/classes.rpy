@@ -391,6 +391,15 @@ init -9 python:
                     x = int(round(item.chance/10.0))
                     self.inventory.items[item] += x
 
+            # Gazette:
+            if self in pytfall.__dict__.values():
+                msg = [
+                "{} Restocked!".format(self.name),
+                "New merchandise arrived at {}.".format(self.name),
+                "Check out the new arrivals at {}.".format(self.name)
+                ]
+                gazette.shops.append(choice(msg))
+
 
         def next_day(self):
             '''Basic counter to be activated on next day
