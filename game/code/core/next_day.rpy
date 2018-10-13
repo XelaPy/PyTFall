@@ -1256,37 +1256,36 @@ screen next_day():
                                             label (u"{size=-5}%d"%event.locmod[key]) align .98, .5
 
         # Text Frame + Stats Reports Mousearea:
-        frame background Frame("content/gfx/frame/p_frame5.png", 15, 15):
-            xysize (449, 609)
-            pos (834, -2)
-            vbox:
-                frame:
-                    ypos 10
-                    style_group "content"
-                    xalign .5
-                    xysize (330, 60)
-                    background Frame("content/gfx/frame/namebox5.png", 10, 10)
-                    label (u"Description:") text_size 23 text_color ivory align(.5, .6)
-                frame:
-                    background Frame(Transform("content/gfx/frame/mc_bg.png", alpha=.5), 5, 5)
-                    xysize (435, 520)
-                    ypos 15
-                    side "c l":
-                        ypos 5
-                        xalign .5
-                        viewport id "nextdaytxt_vp":
-                            xysize (400, 500)
-                            draggable True
-                            mousewheel True
-                            child_size 400, 10000
-                            has vbox xsize 400 xfill True
-                            null height 10
-                            if isinstance(event.txt, basestring):
-                                text u"{}".format(event.txt) style "TisaOTMolxm" size 18
-                            else:
-                                for i in event.txt:
-                                    text str(i) style "TisaOTMolxm" xalign .0
-                        vbar value YScrollValue("nextdaytxt_vp")
+        # frame:
+        #     background Frame("content/gfx/frame/p_frame5.png", 10, 10)
+        #     xysize (449, 609)
+        #     pos (834, -2)
+        #     vbox:
+                # frame:
+                #     background Frame("content/gfx/frame/namebox5.png", 10, 10)
+                #     xalign .5
+                #     style_prefix "content"
+                #     xysize (200, 40)
+                #     label (u"Description:") text_size 18 text_color ivory align(.5, .6)
+        frame:
+            background Frame("content/gfx/frame/mes12.jpg")
+            xysize 442, 606
+            xalign 1.0
+            side "c l":
+                ypos 5
+                xalign .5
+                viewport id "nextdaytxt_vp":
+                    xysize 420, 580
+                    draggable True mousewheel True
+                    child_size 400, 10000
+                    has vbox xsize 420 xfill True
+                    null height 5
+                    if isinstance(event.txt, basestring):
+                        text u"{}".format(event.txt) style "TisaOTMolxm" size 18
+                    else:
+                        for i in event.txt:
+                            text str(i) style "TisaOTMolxm" xalign .0 size 12
+                vbar value YScrollValue("nextdaytxt_vp")
 
         mousearea:
             area (834, -2, 449, 609)
@@ -1294,11 +1293,11 @@ screen next_day():
             unhovered SetScreenVariable("report_stats", False)
         # Bottom Buttons:
         frame:
-            background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.98), 10, 10)
-            pos (834, 603)
-            xysize (449, 120)
+            background Frame("content/gfx/frame/mes12.jpg")
+            align 1.0, 1.0
+            xysize 442, 115
             vbox:
-                align (.5, .5)
+                align .5, .5
                 spacing 8
                 hbox:
                     align (.5, .5)
@@ -1345,7 +1344,7 @@ screen next_day():
                         action SetScreenVariable("show_summary", True)
                         text_size 16
                         ypadding 5
-                        xysize (150, 40)
+                        xysize 150, 40
                         keysym "mousedown_3"
 
 screen next_day_calculations():
