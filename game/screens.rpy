@@ -12,6 +12,7 @@ screen say(who, what, side_image=None, two_window=False):
     # add Transform(Text("PyTFaLL", style="earthkid", color=azure, size=70), alpha=.5) align (0.1, 0.95)
     # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=.6) align (0.8, 0.98)
     # add Transform(Text("PyTFaLL", style="earthkid", color=black, size=50), alpha=.6) align (0.9, 0.9
+
     if block_say:
         button:
             background Null()

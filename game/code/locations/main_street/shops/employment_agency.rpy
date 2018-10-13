@@ -9,7 +9,7 @@ default employment_agency_reroll_day = 0
 
 init python:
     def calc_hire_price_for_ea(char):
-        return round_int(char.expected_wage*30*2)
+        return round_int(char.expected_wage*30)
 
 label employment_agency:
     # Music related:
@@ -35,7 +35,7 @@ label employment_agency:
         ea "Welcome to my Employment Agency, my name is Charla."
         ea "I am always on a lookout for perspective Employees and Employers."
         ea "You certainly look like one of the Employers!"
-        ea "My fee for hooking you up with a capable worker is two month worth of their wages."
+        ea "My fee for hooking you up with a capable worker is one month worth of their wages."
         ea "Take a look at the files I got on hand!"
 
     # Populate when needed:
@@ -72,7 +72,9 @@ label employment_agency:
             if hero.gold >= cost:
                 jump employment_agency_hire
             else:
+                $ block_say = True
                 ea "You look a bit light on the Gold [hero.name]..."
+                $ block_say = False
 
         if result[0] == 'control':
             if result[1] == 'return':
@@ -84,6 +86,7 @@ label employment_agency_exit:
     jump main_street
 
 label employment_agency_hire:
+    $ block_say = True
     menu:
         ea "The fee to hire [char.name] is [cost]! What do you say?"
         "Yes":
@@ -93,6 +96,7 @@ label employment_agency_hire:
             $ container.remove(char)
         "No":
             "Would you like to pick someone else?"
+    $ block_say = False
     jump employment_agency
 
 
