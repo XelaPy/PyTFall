@@ -1010,10 +1010,9 @@ screen s_menu(s_menu="Settings"):
                     spacing -10
                     for i in range(1, columns * rows + 1):
 
-                        $ file_name = FileSlotName(i, columns * rows)
+                        $ file_name = FileSlotName(i, columns*rows)
                         $ file_time = FileTime(i, empty=_("Empty Slot"))
-                        # $ file_time = "0"
-                        $ json_info = FileJson(i, empty= _(""))
+                        $ json_info = FileJson(i, empty=_(""))
                         $ save_name = FileSaveName(i)
 
                         hbox:
@@ -1056,7 +1055,6 @@ screen s_menu(s_menu="Settings"):
                                     text " - [file_name] -" align (1.0, 0) style "TisaOTMol" size 14 outlines [(3, "#3a3a3a", 0, 0), (2, "#458B00", 0, 0), (1, "#3a3a3a", 0, 0)]
                                     text "[file_time!t]\n[save_name!t]" style "TisaOTMol" size 12 align (1.05, 1.25)
                                 elif s_menu == "Load":
-                                    # action NullAction()
                                     action FileLoad(i)
                                     text " - [file_name] -" align (1.0, 0) style "TisaOTMol" size 14 outlines [(3, "#3a3a3a", 0, 0),(2, "#009ACD", 0, 0), (1, "#3a3a3a", 0, 0)]
                                     text "[file_time!t]\n[save_name!t]" style "TisaOTMol" size 12 align (1.05, 1.25)
