@@ -185,6 +185,6 @@ screen mainscreen():
                         text "\n".join(content)
                         null height 10
             if gazette.first_view:
-                timer 10 action ToggleField(gazette, "first_view")
+                timer 6 action ToggleField(gazette, "first_view")
 
     use top_stripe(False)
