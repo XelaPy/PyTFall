@@ -194,7 +194,7 @@ init -9 python:
         def __setattr__(self, key, value):
             if key == "defense":
                 key = "defence"
-                
+
             if key in self.STATS:
                 # Primary stat dict modifier...
                 value = value - self.stats._get_stat(key)
@@ -781,7 +781,7 @@ init -9 python:
                 self.intelligence += randint(1, 2)
                 mod_by_max(self, "mp", .5)
                 if dice(50):
-                    self.character += randint(1, 2)
+                    self.agility += randint(1, 2)
 
             if kind == "train_with_aine":
                 self.charisma += randint(1, 3)

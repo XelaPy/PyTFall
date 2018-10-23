@@ -107,7 +107,7 @@ init -10 python:
             #                                                                                             round(stats_skills_points)))
 
             if total_points >= 100 or self.level == target_level:
-                self.tier += 1 # we tier up and return True!
+                self.tier = min(10, self.tier+1)
                 return True
             else:
                 return False

@@ -9,11 +9,11 @@ label time_temple:
         play world choice(ilists.world_music["cemetery"]) fadein .5
 
     $ global_flags.del_flag("keep_playing_music")
-            
+
     scene bg time_temple
     with dissolve
     show screen time_temple
-    
+
     if not global_flags.has_flag("visited_time_temple"):
         $ global_flags.set_flag("visited_time_temple")
         "You enter a massive dimly lit building. Strange voiceless figures in the hoods sweep the floor and replace burned-out candles."
@@ -34,11 +34,13 @@ label time_temple:
             if global_flags.flag("time_healing_day") >= day:
                 t "I'm sorry, it's impossible to perform the procedure twice per day."
                 jump time_temple_menu
+
             if not global_flags.has_flag("asked_miel_about_healing"):
                 $ global_flags.set_flag("asked_miel_about_healing")
                 t "Indeed, like any other temple we can heal your body and soul."
                 t "Or rather, reverse the time and restore them to former condition."
                 t "But we do it only once per day. Such is the natural limitation of time flow."
+
             python:
                 temp_charcters = {}
                 for i in hero.team:
@@ -50,21 +52,24 @@ label time_temple:
                             temp_charcters[i] += i.get_max("mp") - i.mp
                         if i.vitality < i.get_max("vitality"):
                             temp_charcters[i] += i.get_max("vitality") - i.vitality
+
             if not temp_charcters:
                 t "I don't see the need in healing right now."
                 "Miel can only restore characters in your team, including the main hero."
                 jump time_temple_menu
             else:
-                python: 
+                python:
                     res = 0
                     for i in temp_charcters:
                         res += temp_charcters[i]
+
                 t "I see your team could use our services. It will be [res] gold."
                 if hero.gold < res:
                     "Unfortunately, you don't have enough money."
                     $ del res
                     $ del temp_charcters
                     jump time_temple_menu
+
                 menu:
                     "Pay":
                         $ global_flags.set_flag("time_healing_day", day)
@@ -85,8 +90,31 @@ label time_temple:
                         $ del res
                         $ del temp_charcters
                         jump time_temple_menu
-                    
-                
+                        
+        "Restore AP":
+            if not global_flags.has_flag("asked_miel_about_ap"):
+                $ global_flags.set_flag("asked_miel_about_ap")
+                t "I can return you the time you spent. But it's an expensive procedure."
+                "Miel can restore your action points, as long as you can pay for it."
+                "Only the hero can use this option, his teammates are not affected."
+            if hero.AP >= hero.baseAP:
+                "Your action points are maxed out already at the moment."
+                jump time_temple_menu
+            if hero.gold < 100000:
+                "Unfortunately, you don't have 100000 gold coins to pay."
+            else:
+                "Do you wish to pay 100000 gold to restore AP for [hero.name]?"
+                menu:
+                    "Yes":
+                        play sound "content/sfx/sound/events/clock.ogg"
+                        with Fade(.5, .2, .5, color=goldenrod)
+                        $ hero.take_money(100000, reason="Time Temple")
+                        $ hero.AP = hero.baseAP
+                        t "Your time has been returned to you. Come again if you need me."
+                    "No":
+                        $ pass
+            jump time_temple_menu
+                        
         "Ask about this place":
             t "This is the Temple of Time. Locals come here to to pray to almighty gods of time and space."
             t "We also provide additional services, for a fee."
@@ -99,14 +127,14 @@ label time_temple:
             jump time_temple_menu
         "Leave":
             t "See you soon."
-    
+
     hide npc
     with dissolve
     hide screen time_temple
     $ global_flags.set_flag("keep_playing_music")
     stop sound
     jump graveyard_town
-                
+
 
 screen time_temple():
 

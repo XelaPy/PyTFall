@@ -62,6 +62,13 @@ init -1 python:
             slaves = random.sample(uniques, min(len(uniques), 7))
             slaves.extend(random.sample(randoms, min(len(randoms), total-len(slaves))))
             shuffle(slaves)
+
+            # Gazette:
+            temp = "Stan of the PyTFall's Slave Market was seen by our reporters "
+            temp += "complaining about the poor quality of the new slave lot. We however didn't find any prove of such a claim!"
+            temp1 = "Blue of the Slave Market sent out a bulletin about new slave arrivals!"
+            gazette.other.append(choice([temp, temp1]))
+
             return slaves
 
         @property
@@ -90,7 +97,7 @@ init -1 python:
                 if self.blue_girls[g] == 30:
                     hero.add_char(g)
                     del self.blue_girls[g]
-                    pytfall.temp_text.append("Blue has finished training %s! The girl has been delivered to you!" % chars[g].name)
+                    # pytfall.temp_text.append("Blue has finished training %s! The girl has been delivered to you!" % chars[g].name)
 
         def next_index(self):
             """

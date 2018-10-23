@@ -1,8 +1,25 @@
-# ANIMATION
 init:
     image button_circle_green:
         "content/gfx/interface/icons/move15.png"
         yoffset 6
+
+    image green_dot_gm:
+        size (10, 10)
+        alpha .5
+        "green_dot"
+        block:
+            linear 1.0 alpha .1
+            linear 1.0 alpha .5
+            repeat
+
+    image red_dot_gm:
+        size (10, 10)
+        alpha .5
+        "red_dot"
+        block:
+            linear 1.0 alpha .1
+            linear 1.0 alpha .5
+            repeat
 
     image no_image = "content/gfx/interface/images/no_image.png"
 

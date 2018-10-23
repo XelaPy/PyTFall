@@ -214,40 +214,40 @@ init -5 python:
             if bartending > 150:
                 if dice(70):
                     log.logloc('reputation', 1)
-                log.append("She was an excellent bartender, customers kept spending their money just for the pleasure of her company. \n")
+                log.append("She was an excellent bartender, customers kept spending their money just for the pleasure of her company.")
             elif bartending >= 100:
                 if dice(50):
                     log.logloc('reputation', 1)
-                log.append("Customers were pleased with her company and kept asking for more booze. \n")
+                log.append("Customers were pleased with her company and kept asking for more booze.")
             elif bartending >= 75:
                 if dice(10):
                     log.logloc('reputation', 1)
-                log.append("She was skillful enough not to mess anything up during her job. \n")
+                log.append("She was skillful enough not to mess anything up during her job.")
             elif bartending >= 50:
                 if dice(70):
                     log.logloc('reputation', -1)
-                log.append("Her performance was rather poor and it most definitely has cost you income. \n")
+                log.append("Her performance was rather poor and it most definitely has cost you income.")
             else:
                 log.logloc('reputation', -2)
-                log.append("She is a very unskilled bartender, this girl definitely needs training \n")
+                log.append("She is a very unskilled bartender, this girl definitely needs training.")
 
             if charisma > 150:
                 if dice(70):
                     log.logloc('fame', 1)
-                log.append("Your girl was stunningly pretty, customers couldn't keep their eyes off her. \n")
+                log.append("Your girl was stunningly pretty, customers couldn't keep their eyes off her.")
             elif charisma > 100:
                 if dice(50):
                     log.logloc('fame', 1)
-                log.append("Your girl looked beautiful, this will not go unnoticed. \n")
+                log.append("Your girl looked beautiful, this will not go unnoticed.")
             elif charisma > 75:
                 if dice(20):
                     log.logloc('fame', 1)
-                log.append("Your girl was easy on the eyes, not bad for a bartender. \n")
+                log.append("Your girl was easy on the eyes, not bad for a bartender.")
             elif charisma > 50:
-                log.append("Your may consider buying some items for your worker. She's not exactly pleasant to look at. \n")
+                log.append("Your may consider buying some items for your worker. She's not exactly pleasant to look at.")
             else:
                 log.logloc('fame', -2)
-                log.append("Customers did not appreciate a hag serving them. Consider sending this girl to a beauty school. \n")
+                log.append("Customers did not appreciate a hag serving them. Consider sending this girl to a beauty school.")
 
             log.append("\n")
 

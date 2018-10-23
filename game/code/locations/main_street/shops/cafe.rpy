@@ -14,9 +14,9 @@ label cafe:
     # show npc cafe_assistant
 
     if global_flags.flag("waitress_chosen_today") != day:
-
         $ cafe_waitress_who = npcs[(choice(["Mel_cafe", "Monica_cafe", "Chloe_cafe"]))]
         $ global_flags.set_flag("waitress_chosen_today", value=day)
+
     $ w = cafe_waitress_who.say
 
     # $ renpy.show(cafe_waitress_who, at_list=[left])
@@ -30,7 +30,9 @@ label cafe:
         $ hero.set_flag("health_bonus_from_eating_in_cafe", value=0)
         w "Welcome to the Cafe!"
         "Here you can find delicious food and tasty beverages!"
+
     $ inviting_character = hero
+
     if dice(50) and len(hero.team)>1 and hero.flag("ate_in_cafe") != day: # the chance for a member of MC team to invite team
         python:
             members = [] # all chars willing to invite will be in this list
@@ -41,10 +43,10 @@ label cafe:
             if members:
                 inviting_character = random.choice(members)
                 interactions_eating_propose(inviting_character)
+
     if inviting_character != hero:
         menu:
             "Do you want to accept her invitation (free of charge)?"
-
             "Yes":
                 $ del members
                 jump mc_action_cafe_invitation
@@ -59,7 +61,6 @@ label cafe_menu: # after she said her lines but before we show menu controls, to
         $ result = ui.interact()
 
 label cafe_shopping:
-
     python:
         focus = None
         item_price = 0
@@ -83,7 +84,9 @@ label cafe_shopping:
 
 screen cafe_eating():
     use top_stripe(False)
+
     style_prefix "dropdown_gm"
+    
     frame:
         pos (.98, .98) anchor (1.0, 1.0)
         has vbox

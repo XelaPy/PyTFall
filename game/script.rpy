@@ -8,6 +8,7 @@ init 100 python:
     tl.end("Loading: Mobs")
 
 default defeated_mobs = {}
+default gazette = Gazette()
 
 label start:
     $ renpy.block_rollback()
@@ -24,7 +25,6 @@ label start:
         char = None # Character global
         came_to_equip_from = None # Girl equipment screen came from label holder
         eqtarget = None # Equipment screen
-        char_profile = None # Girl profile screen came from label holder
         gallery = None
 
     python: # Day/Calendar/Names/Menu Extensions and some other defaults.
@@ -400,13 +400,22 @@ label after_load:
 
     # All kinds of chars:
     python hide:
+        # uChars:
         updated_chars = load_characters("chars", Char)
         for id, char in updated_chars.items():
             if id not in store.chars:
                 store.chars[id] = char
 
-        load_characters("npc", NPC)
+        # NPCs:
+        updated_npcs = load_characters("npc", NPC)
+        for id, npc in updated_npcs.items():
+            if id not in store.npcs:
+                store.npcs[id] = npc
+
+        # rChars:
         store.rchars = load_random_characters()
+
+        # Arena Chars (We need this for databases it would seem...):
         load_special_arena_fighters()
 
     python:
@@ -426,7 +435,6 @@ label after_load:
     #     for c in aps.inhabitants.copy():
     #         if c not in chars.itervalues():
     #             remove_from_gameworld(c)
-
     python hide:
         for b in hero.buildings:
             if isinstance(b, UpgradableBuilding):
@@ -441,6 +449,17 @@ label after_load:
         for obj in pytfall.__dict__.values():
             if isinstance(obj, ItemShop) and not hasattr(obj, "total_items_price"):
                 obj.total_items_price = 0
+
+    python hide:
+        for d in pytfall.world_actions.nest:
+            for obj in d.values():
+                if not hasattr(obj, "keysym"):
+                    obj.keysym = None
+
+        for d in pytfall.world_actions.locations.values():
+            for obj in d.values():
+                if not hasattr(obj, "keysym"):
+                    obj.keysym = None
 
     stop music
     return

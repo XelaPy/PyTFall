@@ -44,12 +44,7 @@ init -9 python:
             # Runaways:
             self.ra = RunawayManager()
 
-            # We use this for the message in the main screen:
-            self.temp_text = list() # We add reports from the game here, that don't fit in the next day reports.
-            self.ms_text = ""
-            self.show_text = False
-            self.todays_first_view = True
-
+            # Random Chars distribution:
             self.rc_free_pop_distr = {"SIW": 30, "Specialist": 10,
                                       "Combatant": 30, "Server": 15,
                                       "Healer": 5}
@@ -216,10 +211,11 @@ init -9 python:
                              spells_to_tier=False) # Do we want this for mages?
 
         # ----------------------------------------->
-        def next_day(self): # TODO for review: why restocking can't be automatic for all existing shops?
+        def next_day(self):
             '''Next day logic for our PyTFall World
             '''
-            self.ms_text = ""
+            global gazette
+            gazette.clear()
 
             # Shops and SlaveMarket:
             self.general_store.next_day()
@@ -234,8 +230,11 @@ init -9 python:
             self.aine_shop.next_day()
             self.angelica_shop.next_day()
             self.sm.next_day()
+            populate_ea()
             self.ra.next_day()
             store.jail.next_day()
+
+
 
             # Girlsmeets:
             # Termination:
@@ -278,12 +277,26 @@ init -9 python:
             if not day % 14:
                 self.populate_world(tier_offset=.0)
 
-            # Last we construct the main screen report:
-            self.ms_text = "\n".join(self.temp_text)
-            self.temp_text = list()
-            self.ms_text = self.ms_text + "\n\n"
-            self.ms_text = self.ms_text + self.arena.daily_report # Arena*
-            self.todays_first_view = True
+            # Gazette:
+            gazette.first_view = True
+            gazette.show = False
+
+
+    class Gazette(_object):
+        def __init__(self):
+            self.show = False
+            self.first_view = True
+
+            self.clear()
+
+        def clear(self):
+            self.arena = []
+            self.shops = []
+            self.other = []
+            self.stories = []
+            self.global_events = []
+            self.city_events = []
+            self.obituaries = []
 
 
     class Difficulties(_object):

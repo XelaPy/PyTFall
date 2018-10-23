@@ -979,51 +979,6 @@ init -10 python:
             return not self.ins
 
 
-    class SetField(Action, FieldEquality):
-        """
-        Overrides the SetField action to allow for property creation in certain useage cases.
-        Meant for setting properties in the stage, not within other objects.
-        """
-
-        # Used for FieldEquality, ignore
-        identity_fields = [ "container", "value" ]
-        equality_fields = [ "value" ]
-
-        def __init__(self, container, name, value, create=False):
-            """
-            Creates a new SetField instance.
-            container = The container of the property to set.
-            name = The name of the property.
-            value = The value to set to.
-            create = Whether to create the property if it doesn't already exist.
-            """
-            self.container = container
-            self.name = name
-            self.value = value
-            self.create = create
-
-        def __call__(self):
-            """
-            Functions the action.
-            """
-            if hasattr(self.container, self.name):
-                setattr(self.container, self.name, self.value)
-
-            elif self.create:
-                setattr(self.container, self.name, self.value)
-
-            else:
-                raise AttributeError("Property \"%s\" does not exist in container \"%s\"."%(self.name, self.container))
-
-            renpy.restart_interaction()
-
-        def get_selected(self):
-            """
-            Whether the property in container equals the value.
-            """
-            return getattr(self.container, self.name, None) == self.value
-
-
     @renpy.pure
     class SetScreenVariableC(Action, FieldEquality):
         """

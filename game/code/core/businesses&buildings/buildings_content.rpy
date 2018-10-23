@@ -158,11 +158,11 @@ init -9 python:
                         # Auto-selloff through flag set in SE module
                         # TODO se: Implement the button in SE!
                         self.sell_captured(auto=True)
-                        pytfall.temp_text.append("Jail keepers sold off: {color=[red]}%s{/color}!" % i.name)
+                        # pytfall.temp_text.append("Jail keepers sold off: {color=[red]}%s{/color}!" % i.name)
                     if i.flag("days_in_jail") > 20:
                         # Auto-Selloff in case of 20+ days:
                         self.sell_captured(auto=True)
-                        pytfall.temp_text.append("Jail keepers sold off: {color=[red]}%s{/color}!" % i.name)
+                        # pytfall.temp_text.append("Jail keepers sold off: {color=[red]}%s{/color}!" % i.name)
 
         def get_fees4captured(self, girl=None):
             # 200 for registration with city hall + 30 per day for "rent"

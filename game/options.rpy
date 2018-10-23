@@ -11,7 +11,7 @@ python early:
     # These control the name and version of the game, that are reported
     # with tracebacks and other debugging logs.
     config.name = "PyTFall"
-    config.version = "0.56 Step by Step..."
+    config.version = "0.59 Official Beta..."
     #########################################
     ## This is the name of the directory where the game's data is
     ## stored. (It needs to be set early, before any other init code
@@ -405,7 +405,7 @@ init python:
     build.classify("game/cache/", None)
     build.classify("game/saves/", None)
     build.classify('**/00debug.rpy', None)
-    build.classify('**/00debug.rpyc', None)
+    # build.classify('**/00debug.rpyc', None)
     # build.classify("game/**.rpy", None)
     build.classify("game/**.rpy_", None)
 

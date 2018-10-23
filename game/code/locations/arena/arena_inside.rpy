@@ -1081,7 +1081,7 @@ init: # Main Screens:
                 if not len(pytfall.arena.daily_report):
                     text "Nothing interesting happened yesterday..." color goldenrod align .5, .5
                 else:
-                    text "{size=-4}%s" % pytfall.arena.daily_report color goldenrod
+                    text "{size=-4}%s" % "\n".join(pytfall.arena.daily_report) color goldenrod
 
             button:
                 style_group "basic"

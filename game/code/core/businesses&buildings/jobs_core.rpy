@@ -426,7 +426,7 @@
             # Bonuses:
             traits_bonus = self.traits_and_effects_effectiveness_mod(worker, log)
 
-            # manager passive effect:
+            # Manager passive effect:
             if self.id == "Manager":
                 manager_bonus = 15
             else:
@@ -437,8 +437,13 @@
                 else:
                     manager_bonus = 0
 
-            total = round_int(sum([bt_bonus, tier_bonus, manager_bonus,
-                                   traits_bonus, total_skills, total_stats]))
+            total = sum([bt_bonus, tier_bonus, manager_bonus,
+                         traits_bonus, total_skills, total_stats])
+
+            # Disposition Bonus (Percentage bonus):
+            disposition_multiplier = worker.disposition*.0001 + 1.0
+            total = round_int(total*disposition_multiplier)
+
             # Normalize:
             if total < 0:
                 total = 0
@@ -451,8 +456,8 @@
                     temp[stat] = getattr(worker, stat)
                 devlog.info("Calculating Jobs Relative Ability, Char/Job: {}/{}:".format(worker.name, self.id))
                 devlog.info("Stats: {}:".format(temp))
-                args = (bt_bonus, tier_bonus, traits_bonus, total_skills, total_stats, total)
-                devlog.info("Gen Occ/BT: {}, Tier: {}, Traits: {}, Skills: {}, Stats: {} ==>> {}".format(*args))
+                args = (bt_bonus, tier_bonus, traits_bonus, total_skills, total_stats, disposition_multiplier, total)
+                devlog.info("Gen Occ/BT: {}, Tier: {}, Traits: {}, Skills: {}, Stats: {}, Disposition Multiplier {} ==>> {}".format(*args))
 
             if return_ratio:
                 total /= 100.0

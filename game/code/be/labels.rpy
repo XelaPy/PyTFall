@@ -6,7 +6,7 @@ label test_be:
         h.front_row = True
         h.status = "free"
 
-        n = chars["Nami"]
+        n = chars["Sakura"]
         if n.level < 40:
             initial_levelup(n, 50, True)
         n.front_row = True
@@ -113,7 +113,7 @@ label test_be_logical:
         h.controller = BE_AI(h)
         initial_levelup(h, 50, True)
         h.front_row = True
-        n = chars["Nami"]
+        n = chars["Sakura"]
         n.status = "free"
         n.controller = BE_AI(n)
         n.apply_trait("Air")

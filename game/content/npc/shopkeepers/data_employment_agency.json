@@ -1,0 +1,21 @@
+[
+    {
+        "id": "Charla_ea",
+        "name": "Charla",
+        "fullname": "Charla Salvadore",
+        "desc": "A local buisness woman. She runs the Employment Agency and is always on a hunt for heads (but in a good way).",
+        "origin": "PyTFall",
+
+        "base_race": "Human",
+        "gender": "female",
+        "race": "Human",
+        "location": "city",
+        "status": "free",
+        "gold": 4000,
+
+        "color": "ivory",
+        "what_color": "ivory",
+
+        "basetraits": ["Manager"]
+    }
+]

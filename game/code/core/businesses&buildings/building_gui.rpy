@@ -2109,7 +2109,12 @@ init: # Screens:
             has vbox
 
             textbutton "Profile":
-                action [SetVariable("char_profile", last_label), SetVariable("char", char), SetVariable("girls", [char]), Hide("fg_char_dropdown"), Hide("pyt_fg_management"), Jump("char_profile")]
+                action [SetVariable("char_profile_entry", last_label),
+                        SetVariable("char", char),
+                        SetVariable("girls", [char]),
+                        Hide("fg_char_dropdown"),
+                        Hide("pyt_fg_management"),
+                        Jump("char_profile")]
             textbutton "Equipment":
                 action [SetVariable("came_to_equip_from", "building_management"), SetVariable("eqtarget", char), SetVariable("char", char), Hide("fg_char_dropdown"), Hide("pyt_fg_management"), Jump("char_equip")]
             if remove: # and team[0] != girl:

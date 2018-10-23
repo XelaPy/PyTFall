@@ -15,7 +15,6 @@ init python:
         return char
 
 label char_profile:
-
     if not hasattr(store, "girls") or girls is None or char not in girls:
         $ girls = list(girl for girl in hero.chars if girl.action != "Exploring")
         # TODO !!! Find a solid way to handle this.
@@ -158,8 +157,8 @@ label char_profile_end:
 
     $ girls = None
 
-    if char_profile:
-        $ last_label, char_profile = char_profile, None
+    if char_profile_entry:
+        $ last_label, char_profile_entry = char_profile_entry, None
         jump expression last_label
     else:
         jump chars_list
@@ -229,6 +228,7 @@ screen char_profile():
                                 With(dissolve),
                                 Function(gm.start_int, char, img=gm_img)],
                           false=NullAction())
+                sensitive controlled_char(char)
                 tooltip tt_str
                 add img
 
@@ -244,6 +244,7 @@ screen char_profile():
                 yalign .5
                 style "left_wood_button"
                 action Hide("show_trait_info"), Return(['control', 'left'])
+                sensitive len(girls) > 1
                 text "Previous Girl" style "wood_text" xalign(.69)
                 tooltip "<== Previous Girl"
             fixed:
@@ -258,6 +259,7 @@ screen char_profile():
                 yalign .5
                 style "right_wood_button"
                 action Hide("show_trait_info"), Return(['control', 'right'])
+                sensitive len(girls) > 1
                 text "Next Girl" style "wood_text" xalign .19
                 tooltip "Next Girl ==>"
 
@@ -323,6 +325,7 @@ screen char_profile():
                     else:
                         text_size 18
                     action Show("char_rename", char=char)
+                    sensitive controlled_char(char)
                     tooltip "Click to rename {} (renaming is limited for free girls).".format(char.fullname)
 
                 label "Tier:  [char.tier]":
@@ -357,17 +360,20 @@ screen char_profile():
                         else: # Can't set home for free chars, they decide it on their own.
                             action NullAction()
                             tooltip "%s is a free citizen and decides on where to live at!" % char.nickname
+                        sensitive controlled_char(char)
                         text "{image=button_circle_green}Home: [char.home]":
                             size 18
                     button:
                         style_group "ddlist"
                         action Return(["dropdown", "workplace", char])
+                        sensitive controlled_char(char)
                         tooltip "Choose a place for %s to work at!" % char.nickname
                         text "{image=button_circle_green}Work: [char.workplace]":
                             size 18
                     button:
                         style_group "ddlist"
                         action Return(["dropdown", "action", char])
+                        sensitive controlled_char(char)
                         tooltip "Choose a task for %s to do!" % char.nickname
                         text "{image=button_circle_green}Action: [char.action]":
                             size 18
@@ -626,16 +632,19 @@ screen char_profile():
                     button:
                         xysize (150, 40)
                         action Hide("show_trait_info"), If(not_escaped, true=Show("char_control"))
+                        sensitive controlled_char(char)
                         tooltip "Set desired behavior for {}!".format(char.nickname)
                         text "Girl Control"
                     button:
                         xysize (150, 40)
                         action If(not_escaped, true=[Hide("char_profile"), With(dissolve), SetVariable("eqtarget", char), Jump('char_equip')])
+                        sensitive controlled_char(char)
                         tooltip "Manage this girl's inventory and equipment!"
                         text "Equipment"
                     button:
                         xysize (150, 40)
                         action [Hide("char_profile"), With(dissolve), Return(["girl", "gallery"])]
+                        sensitive controlled_char(char)
                         tooltip "View this girl's gallery!\n(building a gallery may take some time for large packs)"
                         text "Gallery"
 
@@ -644,16 +653,19 @@ screen char_profile():
                     button:
                         xysize (150, 40)
                         action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Jump('school_training')])
+                        sensitive controlled_char(char)
                         tooltip "Send her to School!"
                         text "Training"
                     button:
                         xysize (150, 40)
                         action Hide("show_trait_info"), If(not_escaped, true=Show("finances", None, char, mode="logical"))
+                        sensitive controlled_char(char)
                         tooltip "Review Finances!"
                         text "Finances"
                     button:
                         xysize (150, 40)
                         action If(not_escaped, true=Return(["girl", "get_rid"]))
+                        sensitive controlled_char(char)
                         tooltip "Get rid of her!"
                         if char.status == "slave":
                             text "Sell"

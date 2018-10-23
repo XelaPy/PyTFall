@@ -179,6 +179,9 @@ init -11 python:
     def kill_char(char):
         # Attempts to remove a character from the game world.
         # This happens automatically if char.health goes 0 or below.
+        if "Undead" in char.traits:
+            char.health = 1
+            return
         atfer_life = locations["After Life"]
         char.home = atfer_life
         set_location(char, atfer_life)
@@ -202,6 +205,17 @@ init -11 python:
                 return False
         for i in hero.team:
             i.AP -= value
+        return True
+
+    # GUI helpers:
+    def controlled_char(char):
+        # used in chars profile, most user interface options disabled if this returns False.
+        global char_profile_entry
+        if char_profile_entry == "employment_agency":
+            return False
+        elif not char.is_available:
+            return False
+
         return True
 
     # Characters related:

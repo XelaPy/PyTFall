@@ -159,11 +159,28 @@ screen rg_lightbutton:
         frame:
             padding(2, 2)
             background Frame("content/gfx/frame/MC_bg3.png")
+            has fixed fit_first True
             imagebutton:
                 align align
                 idle (p_img)
                 hover (im.MatrixColor(p_img, im.matrix.brightness(.15)))
                 action Return(return_value)
+            hbox:
+                align 1.0, 1.0
+                if entry.disposition > 0:
+                    add "green_dot_gm"
+                if entry.disposition > 100:
+                    add "green_dot_gm"
+                if entry.disposition > 250:
+                    add "green_dot_gm"
+
+                if entry.disposition < 0:
+                    add "red_dot_gm"
+                if entry.disposition < -100:
+                    add "red_dot_gm"
+                if entry.disposition < -250:
+                    add "red_dot_gm"
+
         frame:
             padding(2, 2)
             xsize 94
@@ -275,7 +292,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
         # Add to and remove from Team Button.
         hbox:
             align(.3, .5)
-            if renpy.get_screen("char_profile") and char.is_available:
+            if renpy.get_screen("char_profile") and controlled_char(char):
                 if char in hero.team:
                     imagebutton:
                         idle im.Scale("content/gfx/interface/buttons/RG.png" , 36, 40)
@@ -332,7 +349,6 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                             style "proper_stats_text"
                             yoffset 7
 
-
         # Right HBox:
         hbox:
             align (.8, .5)
@@ -346,42 +362,48 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                     action Jump("fonts")
                     tooltip "View available Fonts"
 
+            if day > 1 and renpy.get_screen("mainscreen"):
+                imagebutton:
+                    idle ImageReference("journal")
+                    hover im.MatrixColor(ImageReference("journal"), im.matrix.brightness(.15))
+                    tooltip "PyTFall's GAZETTE"
+                    action ToggleField(gazette, "show")
+
             if renpy.current_screen().tag not in ["quest_log"]:
                 imagebutton:
                     idle im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40)
-                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40), im.matrix.brightness(.25))
+                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/journal1.png", 36, 40), im.matrix.brightness(.15))
                     tooltip "Quest Journal"
                     action ShowMenu("quest_log")
 
             if renpy.current_screen().tag not in ["girl_interactions", "quest_log"]:
                 imagebutton:
                     idle im.Scale("content/gfx/interface/buttons/preference.png", 39, 40)
-                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/preference.png", 39, 40), im.matrix.brightness(.25))
+                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/preference.png", 39, 40), im.matrix.brightness(.15))
                     action Show("s_menu", transition=dissolve)
                     tooltip "Game Preferences"
 
             if renpy.current_screen().tag not in ["mainscreen", "girl_interactions", "quest_log", "dungeon"] and show_lead_away_buttons:
                 imagebutton:
                     idle im.Scale("content/gfx/interface/buttons/MS.png", 38, 37)
-                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png", 38, 37), im.matrix.brightness(.25))
+                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/MS.png", 38, 37), im.matrix.brightness(.15))
                     tooltip "Return to Main Screen"
                     if 'next_day' in last_label:
                         action return_action
                     else:
                         action (Function(renpy.scene, layer="screens"), Function(global_flags.del_flag, "keep_playing_music"), Jump("mainscreen"))
 
-
-            if renpy.current_screen().tag in ["char_profile", "char_equip"] and char.is_available:
+            if renpy.current_screen().tag in ["char_profile", "char_equip"] and controlled_char(char):
                 imagebutton:
                     idle im.Scale("content/gfx/interface/buttons/IT2.png", 34, 37)
-                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png", 34, 37), im.matrix.brightness(.25))
+                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/IT2.png", 34, 37), im.matrix.brightness(.15))
                     action Return(["jump", "item_transfer"])
                     tooltip "Transfer items between {} and {}".format(hero.name, char.nickname)
 
             if renpy.current_screen().tag not in ["hero_profile", "girl_interactions", "quest_log"] and show_lead_away_buttons:
                 imagebutton:
                     idle im.Scale("content/gfx/interface/buttons/profile.png", 35, 40)
-                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/profile.png", 35, 40), im.matrix.brightness(.25))
+                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/profile.png", 35, 40), im.matrix.brightness(.15))
                     action [SetField(pytfall.hp, "came_from", last_label), Hide(renpy.current_screen().tag), Jump("hero_profile")]
                     tooltip "View Hero Profile"
 
@@ -389,13 +411,13 @@ screen top_stripe(show_return_button=True, return_button_action=None,
 
             imagebutton:
                     idle im.Scale("content/gfx/interface/buttons/save.png", 40, 40)
-                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/save.png" , 40, 40), im.matrix.brightness(.25))
+                    hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/save.png" , 40, 40), im.matrix.brightness(.15))
                     tooltip "QuickSave"
                     action QuickSave()
 
             imagebutton:
                 idle im.Scale("content/gfx/interface/buttons/load.png", 38, 40)
-                hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/load.png" , 38, 40), im.matrix.brightness(.25))
+                hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/load.png" , 38, 40), im.matrix.brightness(.15))
                 tooltip "QuickLoad"
                 action QuickLoad()
 
@@ -994,24 +1016,21 @@ screen s_menu(s_menu="Settings"):
                     spacing -10
                     for i in range(1, columns * rows + 1):
 
-                        $ file_name = FileSlotName(i, columns * rows)
+                        $ file_name = FileSlotName(i, columns*rows)
                         $ file_time = FileTime(i, empty=_("Empty Slot"))
-                        # $ file_time = "0"
-                        $ json_info = FileJson(i, empty= _(""))
+                        $ json_info = FileJson(i, empty={})
                         $ save_name = FileSaveName(i)
 
                         hbox:
                             align (.5, .5)
-                            if "portrait" in json_info:
-                                frame:
-                                    background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                                    align (.5, .5)
-                                    add ProportionalScale(json_info["portrait"], 90, 90) align (.5, .5)
-                            else:
-                                frame:
-                                    background Frame("content/gfx/frame/MC_bg.png", 10, 10)
-                                    align (.5, .5)
-                                    xysize (102, 102)
+                            frame:
+                                background Frame("content/gfx/frame/MC_bg.png", 10, 10)
+                                align (.5, .5)
+                                $ portrait = json_info.get("portrait", "")
+                                if not portrait.endswith(IMAGE_EXTENSIONS) or not renpy.loadable(portrait):
+                                    $ portrait = Null(width=90, height=90)
+                                if portrait is not None:
+                                    add pscale(portrait, 90, 90) align (.5, .5)
                             button:
                                 style "smenu2_button"
                                 align (.5, .5)
@@ -1040,7 +1059,6 @@ screen s_menu(s_menu="Settings"):
                                     text " - [file_name] -" align (1.0, 0) style "TisaOTMol" size 14 outlines [(3, "#3a3a3a", 0, 0), (2, "#458B00", 0, 0), (1, "#3a3a3a", 0, 0)]
                                     text "[file_time!t]\n[save_name!t]" style "TisaOTMol" size 12 align (1.05, 1.25)
                                 elif s_menu == "Load":
-                                    # action NullAction()
                                     action FileLoad(i)
                                     text " - [file_name] -" align (1.0, 0) style "TisaOTMol" size 14 outlines [(3, "#3a3a3a", 0, 0),(2, "#009ACD", 0, 0), (1, "#3a3a3a", 0, 0)]
                                     text "[file_time!t]\n[save_name!t]" style "TisaOTMol" size 12 align (1.05, 1.25)
@@ -1203,7 +1221,7 @@ screen tutorial(level=1):
             xysize (1280, 720)
             action Hide("tutorial")
 
-screen digital_keyboard(line= ""):
+screen digital_keyboard(line=""):
     default current_number = "0"
     modal True
 
