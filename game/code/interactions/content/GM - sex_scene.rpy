@@ -529,6 +529,8 @@ init python:
         if location not in ["beach", "park", "forest", "room"]:
             location = "room"
         excluded = ["sex", "sleeping", "angry", "in pain", "sad", "scared", "bathing"]
+        if location in ["beach", "park", "forest"]:
+            excluded.append("indoor")
         if location == "beach":
             excluded.extend(["indoors"])
             tags = (["beach", "swimsuit"], ["simple bg", "swimsuit"], ["no bg", "swimsuit"])
