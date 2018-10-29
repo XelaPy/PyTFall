@@ -17,6 +17,7 @@ label chars_list:
     if not renpy.get_screen("chars_list"):
         python:
             char_lists_filters = CharsSortingForGui(sorting_for_chars_list)
+            char_lists_filters.sorting_order = "level"
             char_lists_filters.filter()
 
             status_filters = set([c.status for c in hero.chars])
@@ -74,7 +75,7 @@ screen chars_list(source=None):
     default page = chars_list_last_page_viewed
 
     $ max_page = len(source.sorted)/page_size-1
-    if len(source.sorted)%page_size:
+    if len(source.sorted) % page_size:
         $ max_page += 1
     if page > max_page:
         $ page = max_page

@@ -75,7 +75,7 @@ init python:
             if self.sorting_order == "alphabetical":
                 filtered.sort(key=attrgetter("name"))
             elif self.sorting_order == "level":
-                filtered.sort(key=attrgetter("level"))
+                filtered.sort(key=attrgetter("level"), reverse=True)
 
             self.update(filtered)
 
