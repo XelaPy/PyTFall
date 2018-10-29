@@ -1028,6 +1028,7 @@ init -10 python:
                 temp = "\n{color=[green]}%d =========>>>{/color}" % (env.now)
                 self.log(temp)
                 yield env.timeout(1)
+                simpy_debug("{} DU Executing =====================>>>".format(env.now))
 
                 # Delete the line if nothing happened on this turn:
                 if self.nd_events_report[-1] == temp:
@@ -1181,7 +1182,6 @@ init -10 python:
                         client.set_flag("jobs_busy")
                         while client.flag("jobs_busy"):
                             yield self.env.timeout(1)
-
                 # Jobs like the Club:
                 elif business.type == "public_service" and business.res.count < business.capacity:
                     self.env.process(business.client_control(client))

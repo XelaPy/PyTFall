@@ -65,7 +65,10 @@ init -5 python:
             yield env.timeout(1)
 
             # Special direct bonus to tired/sad characters
-            if building.cheering_up and not env.now % 5 and all([
+            c0 = building.cheering_up
+            c1 = env.now <= 100
+            c2 = not env.now % 5
+            if c0 and c1 and c2 and all([
                     manager.jobpoints > 10,
                     dice(effectiveness-50)]):
                 workers = [w for w in building.available_workers if
@@ -90,7 +93,7 @@ init -5 python:
                     mod_by_max(worker, "vitality", .15)
                     manager.jobpoints -= 10
 
-            if env.now == 102:
+            if env.now == 110:
                 break
 
         points_used = init_jp-manager.jobpoints

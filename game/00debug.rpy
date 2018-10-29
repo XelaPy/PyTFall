@@ -17,7 +17,7 @@ init -998 python:
             func = getattr(devlog, mode)
             func("|CHAR DEBUG| {}".format(msg))
 
-    # Qeust/Events
+    # Quests/Events
     DEBUG_QE = False # Debug Quests and Events
     def qe_debug(msg, mode="info"):
         if DEBUG_QE:
