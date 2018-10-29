@@ -379,7 +379,7 @@ screen char_profile():
 
             hbox:
                 style_group "basic"
-                xalign .5 ypos 196
+                xalign .5 ypos 200
                 button:
                     yalign .5
                     action SetScreenVariable("stats_display", "main"), With(dissolve)
