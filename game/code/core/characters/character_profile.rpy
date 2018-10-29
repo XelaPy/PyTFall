@@ -2,15 +2,54 @@ init python:
     def change_char_in_profile(dir="next"):
         global girls
         global char
+        global hero
         global index
-        index = girls.index(char)
+        global img
+        global tt_str
+        global gm_img
+        global bg, hbg
+
+        try:
+            index = girls.index(char)
+        except:
+            index = 0 # Char was sold
 
         if dir == "next":
             index = (index + 1) % len(girls)
-            char = girls[index]
         elif dir == "prev":
             index = (index - 1) % len(girls)
-            char = girls[index]
+        char = girls[index]
+
+        if check_lovers(char, hero) or "Exhibitionist" in char.traits:
+            img = char.show('profile', resize=(590, 600), label_cache=True)
+        elif check_friends(hero, char):
+            img = char.show('profile', resize=(590, 600), exclude=["nude"], label_cache=True)
+        else:
+            img = char.show('profile', resize=(590, 600),
+                            exclude=["nude", "revealing", "lingerie", "swimsuit"], label_cache=True)
+
+        image_tags = img.get_image_tags()
+        tt_str = "\n".join(["Click to interact with {}!".format(char.nickname),
+                            "{}".format(char.desc)])
+
+        if "Exhibitionist" in char.traits:
+            gm_img = char.show("girlmeets", resize=gm.img_size)
+        elif check_friends(hero, char) or check_lovers(char, hero):
+            gm_img = char.show("girlmeets", exclude=["nude"], resize=gm.img_size)
+        else:
+            gm_img = char.show("girlmeets",
+                               exclude=["nude",
+                                        "revealing",
+                                        "lingerie",
+                                        "swimsuit"],
+                               resize=gm.img_size)
+
+        if "no bg" in image_tags:
+            frame_image = "content/gfx/frame/MC_bg3_white.png"
+        else:
+            frame_image = "content/gfx/frame/MC_bg3.png"
+        bg = Frame(frame_image, 10, 10)
+        hbg = Frame(im.MatrixColor(frame_image, im.matrix.brightness(.1)), 10, 10)
 
         return char
 
@@ -18,6 +57,8 @@ label char_profile:
     if not hasattr(store, "girls") or girls is None or char not in girls:
         $ girls = list(girl for girl in hero.chars if girl.action != "Exploring")
         # TODO !!! Find a solid way to handle this.
+
+    $ change_char_in_profile("init")
 
     scene bg scroll
     $ renpy.retain_after_load()
@@ -56,8 +97,7 @@ label char_profile:
                                     set_location(char, store.locations["City"])
 
                             if girls:
-                                $ index = (index+1) % len(girls)
-                                $ char = girls[index]
+                                $ change_char_in_profile("next")
                             else:
                                 jump char_profile_end
                     else:
@@ -117,15 +157,15 @@ label char_profile:
                                     char.action = None
                                     char.workplace = None
                                     set_location(char, locations["City"])
+
                             python:
                                 hero.remove_char(char)
-                                index = girls.index(char) # Index is not set otherwise???
                                 girls.remove(char)
-                            if char in hero.team:
-                                $ hero.team.remove(char)
+                                if char in hero.team:
+                                    hero.team.remove(char)
+
                             if girls:
-                                $ index = (index + 1) % len(girls)
-                                $ char = girls[index]
+                                $ change_char_in_profile("next")
                             else:
                                 jump char_profile_end
                 elif result[0] == "rename":
@@ -183,53 +223,19 @@ screen char_profile():
             background Frame("content/gfx/frame/p_frame6.png", 10, 10)
             align .5, .5
             xysize 620, 700
-            # in these cases we are less strict with NSFW pictures:
-            python:
-                if check_lovers(char, hero) or "Exhibitionist" in char.traits:
-                    img = char.show('profile', resize=(590, 600), label_cache=True)
-                elif check_friends(hero, char):
-                    img = char.show('profile', resize=(590, 600), exclude=["nude"], label_cache=True)
-                else:
-                    img = char.show('profile', resize=(590, 600),
-                                    exclude=["nude", "revealing", "lingerie", "swimsuit"], label_cache=True)
-
-            python:
-                image_tags = img.get_image_tags()
-                tt_str = "\n".join(["Click to interact with {}!".format(char.nickname),
-                                    "{}".format(char.desc)])
-
-                if "Exhibitionist" in char.traits:
-                    gm_img = char.show("girlmeets", resize=gm.img_size)
-                elif check_friends(hero, char) or check_lovers(char, hero):
-                    gm_img = char.show("girlmeets", exclude=["nude"], resize=gm.img_size)
-                else:
-                    gm_img = char.show("girlmeets",
-                                       exclude=["nude",
-                                                "revealing",
-                                                "lingerie",
-                                                "swimsuit"],
-                                       resize=gm.img_size)
-
-            if "no bg" in image_tags:
-                $ frame_image = "content/gfx/frame/MC_bg3_white.png"
-            else:
-                $ frame_image = "content/gfx/frame/MC_bg3.png"
-            $ bg = Frame(frame_image, 10, 10)
-            $ hbg = Frame(im.MatrixColor(frame_image, im.matrix.brightness(.1)), 10, 10)
-
             button:
                 align .5, .38
                 padding 4, 4
-                background bg
-                hover_background hbg
+                background store.bg
+                hover_background store.hbg
                 action If(not_escaped,
                           true=[Hide("char_profile"),
                                 With(dissolve),
                                 Function(gm.start_int, char, img=gm_img)],
                           false=NullAction())
                 sensitive controlled_char(char)
-                tooltip tt_str
-                add img
+                tooltip store.tt_str
+                add store.img
 
         # Mid-Bottom Frame: Level, experience ====================================>
         frame:

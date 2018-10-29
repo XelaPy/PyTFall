@@ -452,14 +452,22 @@ label after_load:
 
     python hide:
         for d in pytfall.world_actions.nest:
-            for obj in d.values():
-                if not hasattr(obj, "keysym"):
-                    obj.keysym = None
+            if hasattr(d, "values"):
+                for obj in d.values():
+                    if not hasattr(obj, "keysym"):
+                        obj.keysym = None
+            else:
+                if not hasattr(d, "keysym"):
+                    d.keysym = None
 
         for d in pytfall.world_actions.locations.values():
-            for obj in d.values():
-                if not hasattr(obj, "keysym"):
-                    obj.keysym = None
+            if hasattr(d, "values"):
+                for obj in d.values():
+                    if not hasattr(obj, "keysym"):
+                        obj.keysym = None
+            else:
+                if not hasattr(d, "keysym"):
+                    d.keysym = None
 
     stop music
     return
