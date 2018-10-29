@@ -184,26 +184,25 @@ screen char_profile():
             align .5, .5
             xysize 620, 700
             # in these cases we are less strict with NSFW pictures:
-            if check_lovers(char, hero) or "Exhibitionist" in char.traits:
-                $ img = char.show('profile', resize=(590, 600), cache=True)
-            elif check_friends(hero, char):
-                $ img = char.show('profile', resize=(590, 600), exclude=["nude"], cache=True)
-            else:
-                python:
+            python:
+                if check_lovers(char, hero) or "Exhibitionist" in char.traits:
+                    img = char.show('profile', resize=(590, 600), label_cache=True)
+                elif check_friends(hero, char):
+                    img = char.show('profile', resize=(590, 600), exclude=["nude"], label_cache=True)
+                else:
                     img = char.show('profile', resize=(590, 600),
-                                    exclude=["nude", "revealing", "lingerie", "swimsuit"], cache=True)
+                                    exclude=["nude", "revealing", "lingerie", "swimsuit"], label_cache=True)
 
             python:
                 image_tags = img.get_image_tags()
                 tt_str = "\n".join(["Click to interact with {}!".format(char.nickname),
                                     "{}".format(char.desc)])
 
-            if "Exhibitionist" in char.traits:
-                $ gm_img = char.show("girlmeets", resize=gm.img_size)
-            elif check_friends(hero, char) or check_lovers(char, hero):
-                $ gm_img = char.show("girlmeets", exclude=["nude"], resize=gm.img_size)
-            else:
-                python:
+                if "Exhibitionist" in char.traits:
+                    gm_img = char.show("girlmeets", resize=gm.img_size)
+                elif check_friends(hero, char) or check_lovers(char, hero):
+                    gm_img = char.show("girlmeets", exclude=["nude"], resize=gm.img_size)
+                else:
                     gm_img = char.show("girlmeets",
                                        exclude=["nude",
                                                 "revealing",
