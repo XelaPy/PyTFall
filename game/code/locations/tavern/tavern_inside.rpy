@@ -84,21 +84,21 @@ label city_tavern_menu: # "lively" status is limited by drunk effect; every acti
         $ result = ui.interact()
 
 label city_tavern_choose_label:
-    "Here you can set how much to bet to avoid doing it before every game in the tavern. The more your level, the higher bets are available."
+    "Here you can set how much to bet to avoid doing it before every game in the tavern. The more your tier, the higher bets are available."
     "The current bet is [city_tavern_dice_bet] G."
     menu:
         "How much do you wish to bet?"
-        "5 G":
-            $ city_tavern_dice_bet = 5
         "10 G":
             $ city_tavern_dice_bet = 10
-        "50 G" if hero.level >= 20:
+        "25 G" if hero.tier >= 1:
+            $ city_tavern_dice_bet = 25
+        "50 G" if hero.tier >= 2:
             $ city_tavern_dice_bet = 50
-        "100 G" if hero.level >= 50:
-            $ city_tavern_dice_bet = 50
-        "200 G" if hero.level >= 100:
+        "100 G" if hero.tier >= 3:
+            $ city_tavern_dice_bet = 100
+        "200 G" if hero.tier >= 4:
             $ city_tavern_dice_bet = 200
-        "500 G" if hero.level >= 200:
+        "500 G" if hero.tier >= 5:
             $ city_tavern_dice_bet = 500
     jump city_tavern_menu
 

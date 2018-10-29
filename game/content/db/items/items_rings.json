@@ -287,7 +287,7 @@
     {
     "id": "Ring of Physique",
     "desc": "This ring slightly improves the endurance of the owner.",
-    "icon": "content/items/ring/mrop.png",
+    "icon": "content/items/ring/rop.png",
     "price": 750,
     "sex": "unisex",
     "chance": 10,

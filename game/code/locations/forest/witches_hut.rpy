@@ -87,9 +87,10 @@ label witches_hut_shopping_spells:
 
 label witch_training:
     if not global_flags.has_flag("witches_training_explained"):
-        w "I will train magic, intelligence and restore some MP."
-        w "I can also guarantee you agility will go up if you pay attention in class!"
-        extend " That, however, is rare."
+        w "I train magic and intelligence."
+        w "I can also guarantee that your agility will go up if you pay attention in class!"
+        extend " That, however, doesn't happen very often."
+        w "And to make me even more awesome, half of your MP will be restored each time you train here!"
         w "Yeap! I am That good!"
         "The training will cost you 250 gold per tier of the trained character every day."
         $ global_flags.set_flag("witches_training_explained")

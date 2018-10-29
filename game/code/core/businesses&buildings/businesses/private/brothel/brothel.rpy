@@ -19,7 +19,10 @@ init -5 python:
 
             with self.res.request() as request:
                 yield request
-                simpy_debug("Entering BrothelBlock.request_resource after-yield at {}".format(self.env.now))
+                simpy_debug("Entering BrothelBlock.request_resource after-yield at {} (W:{}/C:{})".format(
+                            self.env.now,
+                            worker.name,
+                            client.name))
 
                 # All is well and the client enters:
                 temp0 = "{} and {} enter the room.".format(
@@ -32,6 +35,7 @@ init -5 python:
 
                 # This line will make sure code halts here until run_job ran it's course...
                 yield self.env.timeout(self.time)
+
                 result = self.run_job(client, worker)
 
                 if result >= 150:
@@ -52,12 +56,18 @@ init -5 python:
                 # client.flag("jobs_busy").interrupt()
             client.del_flag("jobs_busy")
 
-            simpy_debug("Exiting BrothelBlock.request_resource after-yield at {}".format(self.env.now))
+            simpy_debug("Exiting BrothelBlock.request_resource after-yield at {} (W:{}/C:{})".format(
+                        self.env.now,
+                        worker.name,
+                        client.name))
 
         def run_job(self, client, worker):
             """Handles the job and job report.
             """
-            simpy_debug("Entering BrothelBlock.run_job after-yield at {}".format(self.env.now))
+            simpy_debug("Entering BrothelBlock.run_job after-yield at {} (W:{}/C:{})".format(
+                        self.env.now,
+                        worker.name,
+                        client.name))
 
             # Execute the job/log results/handle finances and etc.:
             job, building = self.job, self.building
@@ -96,6 +106,9 @@ init -5 python:
             # We return the char to the nd list:
             building.available_workers.insert(0, worker)
 
-            simpy_debug("Exiting BrothelBlock.run_job after-yield at {}".format(self.env.now))
+            simpy_debug("Exiting BrothelBlock.run_job after-yield at {} (W:{}/C:{})".format(
+                        self.env.now,
+                        worker.name,
+                        client.name))
 
             return effectiveness
