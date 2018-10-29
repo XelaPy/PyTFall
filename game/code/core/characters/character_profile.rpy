@@ -215,8 +215,6 @@ screen char_profile():
 
     default stats_display = "main"
 
-    $ not_escaped = char not in pytfall.ra
-
     if girls:
         # Picture and left/right buttons ====================================>
         frame:
@@ -228,11 +226,7 @@ screen char_profile():
                 padding 4, 4
                 background store.bg
                 hover_background store.hbg
-                action If(not_escaped,
-                          true=[Hide("char_profile"),
-                                With(dissolve),
-                                Function(gm.start_int, char, img=gm_img)],
-                          false=NullAction())
+                action Hide("char_profile"), With(dissolve), Function(gm.start_int, char, img=gm_img)
                 sensitive controlled_char(char)
                 tooltip store.tt_str
                 add store.img
@@ -636,13 +630,13 @@ screen char_profile():
                     spacing 5
                     button:
                         xysize (150, 40)
-                        action Hide("show_trait_info"), If(not_escaped, true=Show("char_control"))
+                        action Hide("show_trait_info"), Show("char_control")
                         sensitive controlled_char(char)
                         tooltip "Set desired behavior for {}!".format(char.nickname)
                         text "Girl Control"
                     button:
                         xysize (150, 40)
-                        action If(not_escaped, true=[Hide("char_profile"), With(dissolve), SetVariable("eqtarget", char), Jump('char_equip')])
+                        action Hide("char_profile"), With(dissolve), SetVariable("eqtarget", char), Jump('char_equip')
                         sensitive controlled_char(char)
                         tooltip "Manage this girl's inventory and equipment!"
                         text "Equipment"
@@ -657,19 +651,19 @@ screen char_profile():
                     spacing 5
                     button:
                         xysize (150, 40)
-                        action If(not_escaped, true=[Hide("char_profile"), With(dissolve), Jump('school_training')])
+                        action Hide("char_profile"), With(dissolve), Jump('school_training')
                         sensitive controlled_char(char)
                         tooltip "Send her to School!"
                         text "Training"
                     button:
                         xysize (150, 40)
-                        action Hide("show_trait_info"), If(not_escaped, true=Show("finances", None, char, mode="logical"))
+                        action Hide("show_trait_info"), Show("finances", None, char, mode="logical")
                         sensitive controlled_char(char)
                         tooltip "Review Finances!"
                         text "Finances"
                     button:
                         xysize (150, 40)
-                        action If(not_escaped, true=Return(["girl", "get_rid"]))
+                        action Return(["girl", "get_rid"])
                         sensitive controlled_char(char)
                         tooltip "Get rid of her!"
                         if char.status == "slave":
