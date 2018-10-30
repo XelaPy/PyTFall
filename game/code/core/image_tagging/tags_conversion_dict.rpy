@@ -153,6 +153,7 @@ init -999 python:
     'ns': 'normalsex',
     'p2': 'straight',
     'p3': 'partnerhidden',
+    'p4': 'sexwithmc',
     'p1': 'gay', # Former "les"
 
     # poses:
