@@ -214,7 +214,7 @@ init python:
                     elif location == "room":
                         included.extend(["living"])
                     if hidden_partner:
-                        included.extend(["partnerhidden"])
+                        included.extend(["partnerhidden", "sexwithmc"])
                     gm.set_img(act_tag, *included, exclude=excluded, type="reduce")
                 elif char.has_image(act_tag, *included, exclude=excluded_1):
                     if location == "forest":
@@ -224,7 +224,7 @@ init python:
                     elif location == "room":
                         included.extend(["living"])
                     if hidden_partner:
-                        included.extend(["partnerhidden"])
+                        included.extend(["partnerhidden", "sexwithmc"])
                     gm.set_img(act_tag, *included, exclude=excluded_1, type="reduce")
                 elif char.has_image("after sex", *included, exclude=excluded):
                     if location == "forest":
@@ -247,14 +247,14 @@ init python:
                     result = get_simple_act(char, tags, excluded)
                     if result:
                         if hidden_partner:
-                            result.extend(["partnerhidden"])
+                            result.extend(["partnerhidden", "sexwithmc"])
                         gm.set_img(*result, exclude=excluded, type="reduce")
                     else:
                         tags = (["after sex", "simple bg"], ["no bg", "after sex"])
                         result = get_simple_act(char, tags, excluded)
                         if result:
                             if hidden_partner:
-                                result.extend(["partnerhidden"])
+                                result.extend(["partnerhidden", "sexwithmc"])
                             gm.set_img(*result, exclude=excluded, type="reduce")
                         else:
                             excluded.extend(["sex"])
@@ -265,13 +265,13 @@ init python:
                 result = get_simple_act(char, tags, excluded)
                 if result:
                     if hidden_partner:
-                        result.extend(["partnerhidden"])
+                        result.extend(["partnerhidden", "sexwithmc"])
                     gm.set_img(*result, exclude=excluded, type="reduce")
                 else:
                     result = get_simple_act(char, tags, excluded_1)
                     if result:
                         if hidden_partner:
-                            result.extend(["partnerhidden"])
+                            result.extend(["partnerhidden", "sexwithmc"])
                         gm.set_img(*result, exclude=excluded, type="reduce")
                     else:
                         excluded.extend(["sex"])
@@ -460,7 +460,7 @@ init python:
                     elif location == "room":
                         included.extend(["living"])
                     if hidden_partner:
-                        included.extend(["partnerhidden"])
+                        included.extend(["partnerhidden", "sexwithmc"])
                     picture = char.show(act_tag, *included, exclude=excluded, type="reduce", resize=(800, 600))
                 elif char.has_image(act_tag, *included, exclude=excluded_1):
                     if location == "forest":
@@ -470,7 +470,7 @@ init python:
                     elif location == "room":
                         included.extend(["living"])
                     if hidden_partner:
-                        included.extend(["partnerhidden"])
+                        included.extend(["partnerhidden", "sexwithmc"])
                     picture = char.show(act_tag, *included, exclude=excluded_1, type="reduce", resize=(800, 600))
                 elif char.has_image("after sex", *included, exclude=excluded):
                     if location == "forest":
@@ -493,14 +493,14 @@ init python:
                     result = get_simple_act(char, tags, excluded)
                     if result:
                         if hidden_partner:
-                            result.extend(["partnerhidden"])
+                            result.extend(["partnerhidden", "sexwithmc"])
                         picture = char.show(*result, exclude=excluded, type="reduce", resize=(800, 600))
                     else:
                         tags = (["after sex", "simple bg"], ["no bg", "after sex"])
                         result = get_simple_act(char, tags, excluded)
                         if result:
                             if hidden_partner:
-                                result.extend(["partnerhidden"])
+                                result.extend(["partnerhidden", "sexwithmc"])
                             picture = char.show(*result, exclude=excluded, type="reduce", resize=(800, 600))
                         else:
                             excluded.extend(["sex"])
@@ -511,13 +511,13 @@ init python:
                 result = get_simple_act(char, tags, excluded)
                 if result:
                     if hidden_partner:
-                        result.extend(["partnerhidden"])
+                        result.extend(["partnerhidden", "sexwithmc"])
                     picture = char.show(*result, exclude=excluded, type="reduce", resize=(800, 600))
                 else:
                     result = get_simple_act(char, tags, excluded_1)
                     if result:
                         if hidden_partner:
-                            result.extend(["partnerhidden"])
+                            result.extend(["partnerhidden", "sexwithmc"])
                         picture = char.show(*result, exclude=excluded, type="reduce", resize=(800, 600))
                     else:
                         excluded.extend(["sex"])
