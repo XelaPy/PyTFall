@@ -208,11 +208,13 @@ init -5 python:
             # log.append(worker.flag("jobs_whoreintro"))
             log.append("\n")
 
+            always_exclude = ["sexwithmc", "angry", "in pain", "dungeon", "sad", "rape"]
+
             size = ND_IMAGE_SIZE
             # Acts, Images, Tags and things Related:
             # Straight Sex Act
             if client.act == 'sex':
-                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"], resize=size, type="reduce", add_mood=False)
+                kwargs = dict(exclude=["gay", "restrained"]+always_exclude, resize=size, type="reduce", add_mood=False)
                 log.append(choice(["%s hired her for some good old straight sex. " % client.name,
                                    "%s is willing to pay for her pussy. " % client.name]))
                 if "Lesbian" in worker.traits: # lesbians will have only a part of skill level compared to others during normal sex
@@ -227,17 +229,17 @@ init -5 python:
                 if worker.has_image("2c vaginal", **kwargs):
                     log.img = worker.show("2c vaginal", **kwargs)
                 else:
-                    kwargs["exclude"] = ["angry", "in pain", "dungeon", "sad"]
+                    kwargs["exclude"] = always_exclude
                     log.img = worker.show("after sex", **kwargs)
                 image_tags = log.img.get_image_tags()
                 if "ontop" in image_tags:
                     log.append("He invited her to 'sit' on his lap as he unsheathed his cock. They've continued along the same lines in 'girl-on-top' position. \n")
                 elif "doggy" in image_tags:
-                    log.append("He ordered %s to bend over and took her from behind. \n"%worker.nickname)
+                    log.append("He ordered %s to bend over and took her from behind. \n" % worker.nickname)
                 elif "missionary" in image_tags:
-                    log.append("He pushed %s on her back, shoved his cock in, screaming: 'Oh, Your pussy is wrapping around me so tight!' \n"%worker.nickname)
+                    log.append("He pushed %s on her back, shoved his cock in, screaming: 'Oh, Your pussy is wrapping around me so tight!' \n" % worker.nickname)
                 elif "onside" in image_tags:
-                    log.append("%s lay on her side inviting the customer to fuck her. He was more than happy to oblige.\n"%worker.nickname)
+                    log.append("%s lay on her side inviting the customer to fuck her. He was more than happy to oblige.\n" % worker.nickname)
                 elif "standing" in image_tags:
                     log.append("Not even bothering getting into a position, he took her standing up. \n")
                 elif "spooning" in image_tags:
@@ -250,7 +252,7 @@ init -5 python:
                 self.take_virginity(worker, log.loc, log)
             # Anal Sex Act
             elif client.act == 'anal':
-                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"], resize=size, type="reduce", add_mood=False)
+                kwargs = dict(exclude=["gay", "restrained"]+always_exclude, resize=size, type="reduce", add_mood=False)
                 log.append(choice(["%s hired her for some anal fun. " % client.name, "%s is willing to pay her for backdoor action. " % client.name]))
                 if "Lesbian" in worker.traits:
                     effectiveness -= 25
@@ -266,7 +268,7 @@ init -5 python:
                 if worker.has_image("2c anal", **kwargs):
                     log.img = worker.show("2c anal", **kwargs)
                 else:
-                    kwargs["exclude"] = ["angry", "in pain", "dungeon", "sad"]
+                    kwargs["exclude"] = always_exclude
                     log.img = worker.show("after sex", **kwargs)
 
                 image_tags = log.img.get_image_tags()
@@ -288,10 +290,15 @@ init -5 python:
                                        'And so he took her in her butt. \n']))
             # Various job acts
             elif client.act == 'blowjob':
-                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "gay", "restrained"], resize=size, type="reduce", add_mood=False)
+                kwargs = dict(exclude=["gay", "restrained"]+always_exclude, resize=size, type="reduce", add_mood=False)
                 log.append(choice(["%s hired her for some side job on his thing. " % client.name, "%s is paying her today for naughty service. " % client.name]))
                 # here we will have to choose skills depending on selected act
-                tags = ({"tags": ["bc deepthroat"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["bc handjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["bc footjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["bc titsjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["bc blowjob"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]}, {"tags": ["after sex"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"], "dice":20})
+                tags = ({"tags": ["bc deepthroat"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["bc handjob"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["bc footjob"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["bc titsjob"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["bc blowjob"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["after sex"], "exclude": ["restrained"]+always_exclude, "dice":20})
                 act = self.get_act(worker, tags)
                 if act == tags[0]:
                     log.append(choice(["He shoved his cock all the way into her throat! \n",
@@ -383,36 +390,36 @@ init -5 python:
             elif client.act == 'lesbian':
                 log.append("%s hired her for some hot girl on girl action. " % client.name)
                 skill = worker.get_skill("vaginal")
-                kwargs = dict(exclude=["rape", "angry", "in pain", "dungeon", "sad", "restrained"],
+                kwargs = dict(exclude=["restrained"]+always_exclude,
                                 resize=size, type="reduce", add_mood=False)
 
 
-                tags = ({"tags": ["gay", "2c lickpussy"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "bc lickpussy"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "2c lickanus"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "bc lickanus"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "2c vaginalfingering"], "exclude": ["rape", "angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "bc vagnalhandjob"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "2c analfingering"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "bc analhandjob"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "2c caresstits"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "bc caresstits"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "bc hug", "2c hug"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "2c vaginal"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "bc vaginal"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "2c anal"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "bc anal"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "2c vaginaltoy"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "bc toypussy"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "2c analtoy"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "bc toyanal"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]},
-                        {"tags": ["gay", "scissors"], "exclude": ["angry", "in pain", "dungeon", "sad", "restrained"]})
+                tags = ({"tags": ["gay", "2c lickpussy"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "bc lickpussy"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "2c lickanus"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "bc lickanus"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "2c vaginalfingering"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "bc vagnalhandjob"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "2c analfingering"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "bc analhandjob"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "2c caresstits"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "bc caresstits"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "bc hug", "2c hug"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "2c vaginal"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "bc vaginal"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "2c anal"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "bc anal"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "2c vaginaltoy"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "bc toypussy"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "2c analtoy"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "bc toyanal"], "exclude": ["restrained"]+always_exclude},
+                        {"tags": ["gay", "scissors"], "exclude": ["restrained"]+always_exclude})
                 act = self.get_act(worker, tags)
 
                 # We'll be adding "les" here as Many lesbian pics do not fall in any of the categories and will never be called...
                 if act == tags[0]:
-                    log.append(choice(["Clearly in the mood for some cunt, she licked %ss pussy clean.\n"%worker.nickname,
-                                       "Hungry for a cunt, she told %s to be still and started licking her soft pussy with her hot tong. \n"%worker.nickname]))
+                    log.append(choice(["Clearly in the mood for some cunt, she licked %ss pussy clean.\n" % worker.nickname,
+                                       "Hungry for a cunt, she told %s to be still and started licking her soft pussy with her hot tong. \n" % worker.nickname]))
                     if "Lesbian" in worker.traits: # bisexuals will have normal value during lesbian action, lesbians will get +15 effectiveness, and straight ones -25
                         effectiveness += 15
                         sexmod = 1 if dice(25) else 0
