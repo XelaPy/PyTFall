@@ -1212,11 +1212,11 @@ init -9 python:
                             break
 
                     while 1:
-                        # Check if this is a shit item? :D
+                        # We got to run this calculation every time as the situation
+                        # will change with every item consumed or every ring equipped
+                        # it also conciders effects (Drunk, overeating)
                         result = self.equip_chance(item)
-                        if result is None:
-                            break
-                        elif sum(result) <= 0:
+                        if result is None or sum(result) <= 0:
                             break
 
                         # If we don't have any more of the item, let's move on.
@@ -1225,7 +1225,9 @@ init -9 python:
 
                         useful = False
                         for stat in target_stats:
-                            # Consider adding max at some point? ?? ???
+                            if stat in item.max and item.max[stat] > 0:
+                                useful = True
+                                break
                             if stat in item.mod:
                                 bonus = item.get_stat_eq_bonus(self.stats, stat)
                                 needed = self.get_max(stat) - getattr(self, stat)
