@@ -1216,8 +1216,8 @@ init -9 python:
                         result = self.equip_chance(item)
                         if result is None:
                             break
-                        # elif sum(result) <= 0:
-                        #         break
+                        elif sum(result) <= 0:
+                            break
 
                         # If we don't have any more of the item, let's move on.
                         if item not in inv:
@@ -1229,7 +1229,7 @@ init -9 python:
                             if stat in item.mod:
                                 bonus = item.get_stat_eq_bonus(self.stats, stat)
                                 needed = self.get_max(stat) - getattr(self, stat)
-                                if needed*1.4 <= bonus: # We basically allow 40% waste
+                                if needed*1.4 >= bonus: # We basically allow 40% waste
                                     useful = True
                                     break
 
@@ -1294,6 +1294,7 @@ init -9 python:
 
             occs = self.gen_occs
             bt = self.traits.basetraits
+            purpose = None # Needs to be defaulted to something.
 
             if hint in store.AEQ_PURPOSES:
                 purpose = hint
