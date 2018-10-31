@@ -84,7 +84,7 @@ screen forest_entrance():
                 use rg_lightbutton(img=entry.show("girlmeets", "nature", "wildness",
                             exclude=["urban", "winter", "night", "beach", "onsen",
                                      "dungeon", "stage", "swimsuit", "indoor", "formal"],
-                            type="reduce", label_cache=True, resize=(300, 400)),
+                            type="reduce", label_cache=True, resize=(300, 400), gm_mode=True),
                             return_value=['jump', entry])
 
     if not gm.show_girls:

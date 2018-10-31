@@ -106,4 +106,4 @@ screen main_street():
             hbox:
                 align (coords[j])
                 $ j += 1
-                use rg_lightbutton(img=entry.show("girlmeets", "outdoors", "urban", exclude=["swimsuit", "indoor", "wildness", "suburb", "beach", "pool", "onsen", "nature"], label_cache=True, resize=(300, 400), type="reduce"), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets", "outdoors", "urban", exclude=["swimsuit", "indoor", "wildness", "suburb", "beach", "pool", "onsen", "nature"], label_cache=True, resize=(300, 400), type="reduce", gm_mode=True), return_value=['jump', entry])

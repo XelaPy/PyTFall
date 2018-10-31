@@ -59,7 +59,7 @@ screen city_park():
             hbox:
                 align (coords[j])
                 $ j += 1
-                use rg_lightbutton(img=entry.show("girlmeets", "outdoors", "nature", "urban", exclude=["swimsuit", "wildness", "indoors", "stage", "beach", "pool", "onsen", "indoor"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets", "outdoors", "nature", "urban", exclude=["swimsuit", "wildness", "indoors", "stage", "beach", "pool", "onsen", "indoor"], type="reduce", label_cache=True, resize=(300, 400), gm_mode=True), return_value=['jump', entry])
 
     if not gm.show_girls:
         if global_flags.has_flag("met_aine"):

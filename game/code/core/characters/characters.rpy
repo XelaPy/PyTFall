@@ -570,6 +570,7 @@ init -9 python:
                      - first_default = will use first tag as a default instead of a profile and only than switch to profile
                      - reduce = try all tags first, if that fails, pop the last tag and try without it. Repeat until no tags remain and fall back to profile or default.
                 add_mood = Automatically adds proper mood tag. This will not work if a mood tag was specified on request OR this is set to False
+                gm_mode = overwrite to add nude/not nude logic for GMs pictures no matter how and where we get them
             '''
             maxw, maxh = kwargs.get("resize", (None, None))
             cache = kwargs.get("cache", False)
@@ -577,6 +578,22 @@ init -9 python:
             exclude = kwargs.get("exclude", None)
             type = kwargs.get("type", "normal")
             default = kwargs.get("default", None)
+            gm_mode = kwargs.get("gm_mode", False)
+            
+            if gm_mode and not "Slime" in self.traits:
+                if check_lovers(self, hero) or "Exhibitionist" in self.traits:
+                    if dice(40):
+                        if not "nude" in tags:
+                            tags += ("nude",)
+                        if not "revealing" in tags:
+                            tags += ("revealing",)
+                else:
+                    if not "nude" in exclude:
+                        if not exclude:
+                            exclude = ["nude"]
+                        else:
+                            exclude.append("nude")
+                
 
             if not all([maxw, maxh]):
                 t0 = "Width or Height were not provided to an Image when calling .show method!\n"

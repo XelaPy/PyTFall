@@ -66,4 +66,4 @@ screen city_beach_cafe_main:
             hbox:
                 align (coords[j])
                 $ j += 1
-                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach", exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor"], type="reduce", label_cache=True, resize=(300, 400), gm_mode=True), return_value=['jump', entry])

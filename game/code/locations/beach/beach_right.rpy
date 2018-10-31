@@ -74,4 +74,4 @@ screen city_beach_right():
                 
                     $ entry.set_flag("beach_right_tags", (day, choice(beach_right_tags_list)))
             
-                use rg_lightbutton(img=entry.show(*entry.flag("beach_right_tags")[1], exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="first_default", label_cache=True, resize=(300, 400)), return_value=['jump', entry])             
+                use rg_lightbutton(img=entry.show(*entry.flag("beach_right_tags")[1], exclude=["urban", "wildness", "suburb", "nature", "winter", "night", "formal", "indoor", "indoors"], type="first_default", label_cache=True, resize=(300, 400), gm_mode=True), return_value=['jump', entry])             

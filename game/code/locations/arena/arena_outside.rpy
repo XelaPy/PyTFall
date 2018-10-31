@@ -238,7 +238,7 @@ screen arena_outside:
             hbox:
                 align (coords[j])
                 $ j += 1
-                use rg_lightbutton(img=entry.show("girlmeets", "armor", exclude=["swimsuit", "beach", "pool", "onsen", "bunny", "indoor", "formal", "wildness"], label_cache=True, resize=(300, 400), type="reduce"), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets", "armor", exclude=["swimsuit", "beach", "pool", "onsen", "bunny", "indoor", "formal", "wildness"], label_cache=True, gm_mode=True, resize=(300, 400), type="reduce"), return_value=['jump', entry])
 
 screen xeona_screen():
     style_prefix "dropdown_gm"

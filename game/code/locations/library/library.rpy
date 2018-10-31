@@ -254,7 +254,7 @@ screen academy_town():
             hbox:
                 align (coords[j])
                 $ j += 1
-                use rg_lightbutton(img=entry.show("girlmeets", "indoors", "schoolgirl", exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage", "onsen", "indoor"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets", "indoors", "schoolgirl", exclude=["swimsuit", "wildness", "beach", "pool", "urban", "stage", "onsen", "indoor"], type="reduce", label_cache=True, resize=(300, 400), gm_mode=True), return_value=['jump', entry])
 
 label library_read_matrix:
     hide screen academy_town
