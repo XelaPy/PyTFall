@@ -1,14 +1,11 @@
+# DEFAULT positioning blueprint that can be used with any screen pyp info in the future.
 screen pyp_default():
-    zorder 999
+    zorder 1001
 
-    frame:
-        background Frame("content/gfx/frame/mes11.webp", 2, 2)
-        pos 300, 40
-        padding 2, 2
-        has viewport scrollbars "vertical" mousewheel 1 draggable 1
-        add Solid("F00")
+    fixed:
+        pos 302, 49
+        xysize config.screen_width-309, config.screen_height-56
+        style_prefix "proper_stats"
 
-
-
-screen pyp_general():
-    add Null()
+    # ForeGround frame (should be a part of every screen with Info):
+    add "content/gfx/frame/h3.png"

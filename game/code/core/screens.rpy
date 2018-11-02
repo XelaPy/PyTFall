@@ -278,6 +278,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
             null width 15
             text u'Day [day]' size 20 color ivory yalign .5
             null width 15
+
         button:
             style "sound_button"
             pos 240, 3
@@ -295,13 +296,13 @@ screen top_stripe(show_return_button=True, return_button_action=None,
             if renpy.get_screen("char_profile") and controlled_char(char):
                 if char in hero.team:
                     imagebutton:
-                        idle im.Scale("content/gfx/interface/buttons/RG.png" , 36, 40)
+                        idle im.Scale("content/gfx/interface/buttons/RG.png", 36, 40)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/RG.png", 36, 40), im.matrix.brightness(.15))
                         action Function(hero.team.remove, char)
                         tooltip "Remove {} from player team".format(char.nickname)
                 else:
                     imagebutton:
-                        idle im.Scale("content/gfx/interface/buttons/AG.png" , 36, 40)
+                        idle im.Scale("content/gfx/interface/buttons/AG.png", 36, 40)
                         hover im.MatrixColor(im.Scale("content/gfx/interface/buttons/AG.png", 36, 40), im.matrix.brightness(.15))
                         action If(len(hero.team) < 3, true=Function(hero.team.add, char), false=Show("message_screen", msg="Team cannot have more than three members"))
                         tooltip "Add {} to player team".format(char.nickname)
@@ -361,6 +362,13 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                     yalign .5
                     action Jump("fonts")
                     tooltip "View available Fonts"
+
+            $ img = ProportionalScale("content/gfx/interface/icons/win_icon.png", 40, 38)
+            imagebutton:
+                idle img
+                hover im.MatrixColor(img, im.matrix.brightness(.15))
+                action Show("pytfallopedia")
+                tooltip "Open PyTFallopedia"
 
             if day > 1 and renpy.get_screen("mainscreen"):
                 imagebutton:

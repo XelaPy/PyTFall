@@ -19,4 +19,11 @@ init python:
             if main not in self.main:
                 return
 
-            self.sub.setdefault(main, []).append((name, screen))
+            if (name, screen) not in self.sub.get(main, []):
+                self.sub.setdefault(main, []).append((name, screen))
+
+
+init python:
+    pyp = PyTFallopedia()
+
+    pyp.add_main("Characters": "pyp_characters")

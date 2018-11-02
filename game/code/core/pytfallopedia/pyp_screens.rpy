@@ -14,12 +14,12 @@ screen pytfallopedia():
             hover im.MatrixColor(img, im.matrix.brightness(.15))
             insensitive_background img
             action Hide("pytfallopedia")
-            tooltip "Close PyTFollopedia"
+            tooltip "Close PyTFallopedia"
             keysym "mousedown_3"
 
         $ img = im.Scale("content/gfx/interface/buttons/arrow_button_metal_gold_left.png", 35, 35)
         imagebutton:
-            align .03, .5
+            align .035, .5
             idle img
             hover im.MatrixColor(img, im.matrix.brightness(.15))
             insensitive_background img
@@ -29,15 +29,19 @@ screen pytfallopedia():
 
     # Right frame with info (Will prolly be a bunch of separate screens in the future)
     frame:
-        background Frame("content/gfx/frame/mes11.webp", 2, 10)
-        pos 286, 42
-        padding 14, 2
-        has viewport xsize config.screen_width-296 scrollbars "vertical" mousewheel 1 draggable 1
-        add Solid("F00")
-        vbox:
-            xsize config.screen_width-290
-            text "MOWN11112121221212122121212212121221221212121221211212121211212121212121212121212121212212121212122133333333333333333333333666666666666666666666666666666666"
+        background Frame("content/gfx/frame/mes11.webp", 2, 2)
+        pos 289, 42
+        xysize config.screen_width-287, config.screen_height-41
+        style_prefix "proper_stats"
 
+        if not pyp.main_focused and not pyp.sub_focused:
+            add "content/gfx/interface/logos/logo9.png" align .5, .05
+
+            vbox:
+                align .5, .5
+                label "Welcome to PyTFallopea" xalign .5 text_size 40
+                null height 100
+                text "An ingame encyclopedia that introduces the player to the core game world and game play concepts!" xalign .5
 
     # Left frame with buttons:
     frame:
@@ -48,18 +52,24 @@ screen pytfallopedia():
         vpgrid:
             id "vp"
             style_prefix "basic"
-            xysize 279, config.screen_height-51
+            xysize 279, config.screen_height-53
             mousewheel 1
             draggable 1
             cols 1
-            for i in range(100):
-                button:
-                    xsize 270
-                    text "Meow #" + str(i)
-                    action NullAction()
+            # if pyp.sub_focused:
+            #     for name, screen in pyp.sub[pyp.main_focused]:
+            #         button:
+            #             xsize 270
+            #             text name
+            #             action Show(screen)
+            # if pyp.sub_focused:
+            #     for name, screen in pyp.sub[pyp.main_focused]:
+            #         button:
+            #             xsize 270
+            #             text name
+            #             action Show(screen)
 
         vbar value YScrollValue("vp")
 
-
-
-    add "content/gfx/frame/h3.png"
+    if not pyp.main_focused and not pyp.sub_focused:
+        add "content/gfx/frame/h3.png"
