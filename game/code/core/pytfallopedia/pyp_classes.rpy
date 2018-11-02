@@ -9,11 +9,22 @@ init python:
             self.sub = OrderedDict()
             # main: (sub, sub_screen)
 
+        @property
+        def main_screen(self):
+            return self.main.get(self.main_focused, None)
+
+        @property
+        def sub_screen(self):
+            try:
+                return self.sub_focused[1]
+            except:
+                return None
+
         def add_main(self, name, screen):
             if name in self.main:
                 return
 
-            self.content[name] = screen
+            self.main[name] = screen
 
         def add_sub(self, name, screen, main):
             if main not in self.main:
@@ -25,5 +36,4 @@ init python:
 
 init python:
     pyp = PyTFallopedia()
-
-    pyp.add_main("Characters": "pyp_characters")
+    pyp.add_main("Characters", "pyp_characters")
