@@ -83,7 +83,7 @@ screen pyp_stats():
                         text "High joy gives additional bonuses, while low brings penalties and may force the character to leave you. If you don't pay enough to your workers or harass them too much, it will decrease. Positive interactions and gifts increase it."
                     vbox:
                         label "Charisma"
-                        text "Useful for jobs where appearance is the most important thing, such as stripper."
+                        text "Useful for jobs where appearance is the most important thing, such as stripper. For the Main Character, useful during interactions with girls."
                     vbox:
                         label "Intelligence"
                         text "Useful for jobs where intelligence is important, such as manager. Affects magical attack and defense, protects against status attacks."
