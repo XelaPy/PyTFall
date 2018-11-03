@@ -67,7 +67,7 @@ screen swimming_pool():
             spacing 70
 
             for entry in gm.display_girls():
-                use rg_lightbutton(img=entry.show("sfw", "swimsuit", "pool", exclude=["beach"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("sfw", "swimsuit", "pool", exclude=["beach"], type="reduce", label_cache=True, resize=(300, 400), gm_mode=True), return_value=['jump', entry])
 
 screen swimmong_pool_swim():
     style_prefix "dropdown_gm"

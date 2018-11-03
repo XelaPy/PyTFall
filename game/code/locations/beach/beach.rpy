@@ -91,10 +91,8 @@ screen city_beach():
                 use rg_lightbutton(img=entry.show("girlmeets", "swimsuit", "beach",
                             exclude=["urban", "wildness", "suburb", "nature", "winter",
                                      "night", "formal", "indoor", "indoors"],
-                            type="reduce", label_cache=True, resize=(300, 400)),
+                            type="reduce", label_cache=True, resize=(300, 400), gm_mode=True),
                             return_value=['jump', entry])
-                # use rg_lightbutton(p_img=entry.show("portrait", label_cache=True, resize=(200, 200)), return_value=['jump', entry])
-
 
 screen city_beach_swim():
     style_prefix "dropdown_gm"

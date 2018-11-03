@@ -452,7 +452,7 @@
     {
         "name": "Link Wolf",
         "desc": "A rare intelligent subspecies of a wolf with basic healing abilities.",
-        "front_row": 0,
+        "front_row": 1,
         "battle_sprite": "content/npc/mobs/bh.webp",
         "portrait": "content/npc/mobs/bh1.webp",
         "race": "Animal",

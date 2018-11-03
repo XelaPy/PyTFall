@@ -62,7 +62,7 @@ screen hiddenvillage_entrance:
             hbox:
                 align (coords[j])
                 $ j += 1
-                use rg_lightbutton(img=entry.show("girlmeets", exclude=["beach", "winter", "night", "formal", "indoors", "swimsuit"], type="reduce", label_cache=True, resize=(300, 400)), return_value=['jump', entry])
+                use rg_lightbutton(img=entry.show("girlmeets", exclude=["beach", "winter", "night", "formal", "indoors", "swimsuit"], type="reduce", label_cache=True, resize=(300, 400), gm_mode=True), return_value=['jump', entry])
 
 label hidden_village_shop: # ninja shop logic
     if not "shops" in ilists.world_music:
