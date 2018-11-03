@@ -55,35 +55,42 @@ screen pyp_stats():
             spacing 8
             ypos 190
             label "Stats:" text_size 25
-            viewport:
-                draggable 1
-                mousewheel 1
-                scrollbars "vertical"
-                ysize 420
-                has vbox spacing 8
-                vbox:
-                    label "Disposition"
-                    text "Decided how much a character likes the player. Range is fixed with a minimum of -1000 and a maximum of 1000."
-                vbox:
-                    label "Character"
-                    text "Reversed Obedience. Higher Character means that greater penalties for forcing any undesirable action and a character will generally not accept any task they are not expected to perform."
-                vbox:
-                    label "Vitality"
-                    text "Fixed ranged that depends on traits. When vitality runs low, a character will need a couple days rest to do any meaningful actions."
-                vbox:
-                    label "Constitution"
-                    text "Very important stat that among other things has a direct effect on a number of actions a character is allowed to preform each day."
-                vbox:
-                    label "Luck"
-                    text "Important stat that influences events and rewards. Used along with other modifiers to roll Critical Damage in Battle Engine. Range is fixed between -50 and 50."
-                vbox:
-                    label "Battle Stats"
-                    text "Health, Attack, Magic, Defense, Agility and MP. While very useful in combat, they are also used in a number of other places in the game. None of these stats has a fixed maximum."
-                vbox:
-                    label "Other"
-                    text "There is a number of other stats (charisma, joy, intelligence and etc.) which are self-explanatory."
+            hbox:
+                spacing 2
+                viewport:
+                    draggable 1
+                    mousewheel 1
+                    scrollbars "vertical"
+                    xysize 674, 420
+                    has vbox spacing 8
+                    vbox:
+                        label "Disposition"
+                        text "Decided how much a character likes the player. Range is fixed with a minimum of -1000 and a maximum of 1000."
+                    vbox:
+                        label "Character"
+                        text "Reversed Obedience. Higher Character means that greater penalties for forcing any undesirable action and a character will generally not accept any task they are not expected to perform."
+                    vbox:
+                        label "Vitality"
+                        text "Fixed ranged that depends on traits. When vitality runs low, a character will need a couple days rest to do any meaningful actions."
+                    vbox:
+                        label "Constitution"
+                        text "Very important stat that among other things has a direct effect on a number of actions a character is allowed to preform each day."
+                    vbox:
+                        label "Luck"
+                        text "Important stat that influences events and rewards. Used along with other modifiers to roll Critical Damage in Battle Engine. Range is fixed between -50 and 50."
+                    vbox:
+                        label "Battle Stats"
+                        text "Health, Attack, Magic, Defense, Agility and MP. While very useful in combat, they are also used in a number of other places in the game. None of these stats has a fixed maximum."
+                    vbox:
+                        label "Other"
+                        text "There is a number of other stats (charisma, joy, intelligence and etc.) which are self-explanatory."
 
-    # ForeGround frame (should be a part of every screen with Info):
+                frame:
+                    yalign .5
+                    background Frame("content/gfx/frame/mes11.webp", 10, 10)
+                    padding 6, 6
+                    add "content/gfx/interface/pyp/stats.webp"
+
     add "content/gfx/frame/h3.png"
 
 screen pyp_skills():
@@ -109,18 +116,26 @@ screen pyp_skills():
             spacing 8
             ypos 220
             label "Skills:" text_size 25
-            viewport:
-                draggable 1
-                mousewheel 1
-                scrollbars "vertical"
-                ysize 400
-                has vbox spacing 8
-                vbox:
-                    label "MC Skills"
-                    text "Some skills such as 'fishing' or 'swimming' are only useful to the Player as they are used for actions in the City. They are governed by the same rules as any other skill."
-                vbox:
-                    label "Other"
-                    text "The rest of the skills are very straight forward and player can usually tell what they are used for and will know if the skill level fits the tier by the number of Stars."
+            hbox:
+                spacing 2
+                viewport:
+                    draggable 1
+                    mousewheel 1
+                    scrollbars "vertical"
+                    xysize 682, 396
+                    has vbox spacing 8
+                    vbox:
+                        label "MC Skills"
+                        text "Some skills such as 'fishing' or 'swimming' are only useful to the Player as they are used for actions in the City. They are governed by the same rules as any other skill."
+                    vbox:
+                        label "Other"
+                        text "The rest of the skills are very straight forward and player can usually tell what they are used for and will know if the skill level fits the tier by the number of Stars."
+
+                frame:
+                    yalign .5
+                    background Frame("content/gfx/frame/mes11.webp", 10, 10)
+                    padding 6, 6
+                    add "content/gfx/interface/pyp/skills.webp"
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.png"
