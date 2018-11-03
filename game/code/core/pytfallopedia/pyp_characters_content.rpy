@@ -15,10 +15,10 @@ screen pyp_characters():
             label "Character types:" text_size 25
             vbox:
                 label "Unique Characters"
-                text "Only one is allowed in the game, atm they are all female. Full range of interactions is available with them."
+                text "Only one is allowed in the game, at he moment they are all female. Full range of interactions is available with them."
             vbox:
                 label "Random Characters"
-                text "Used to populate the city, any number of the same character type is permitted. Full range of interactions is available with them. All Female atm."
+                text "Used to populate the city, any number of the same character type is permitted. Full range of interactions is available with them. All Female at the moment."
             vbox:
                 label "Non-Playable Characters"
                 text "They are the shop owners and other personalities that you will find in the city. They cannot be hired. Male and Female."
@@ -65,25 +65,46 @@ screen pyp_stats():
                     has vbox spacing 8
                     vbox:
                         label "Disposition"
-                        text "Decided how much a character likes the player. Range is fixed with a minimum of -1000 and a maximum of 1000."
+                        text "Decided how much a character likes the player. Range is fixed with a minimum of -1000 and a maximum of 1000. Characters with low disposition may leave you. Positive interactions and gifts increase it."
                     vbox:
                         label "Character"
-                        text "Reversed Obedience. Higher Character means that greater penalties for forcing any undesirable action and a character will generally not accept any task they are not expected to perform."
+                        text "Reversed Obedience. Higher Character means that greater penalties for forcing any undesirable action and a character will generally not accept any task they are not expected to perform. Useful for jobs like Barmaid."
                     vbox:
                         label "Vitality"
-                        text "Fixed ranged that depends on traits. When vitality runs low, a character will need a couple days rest to do any meaningful actions."
+                        text "Fixed ranged that depends on traits. Most actions and jobs decrease it, and rest increases. When vitality runs low, a character will need a couple days rest to do any meaningful actions."
                     vbox:
                         label "Constitution"
-                        text "Very important stat that among other things has a direct effect on a number of actions a character is allowed to preform each day."
+                        text "Very important stat that among other things has a direct effect on a number of actions a character is allowed to preform each day. In combat protects against melee and status attacks. Useful for hobs requiring endurance, such as Cleaner."
                     vbox:
                         label "Luck"
                         text "Important stat that influences events and rewards. Used along with other modifiers to roll Critical Damage in Battle Engine. Range is fixed between -50 and 50."
                     vbox:
-                        label "Battle Stats"
-                        text "Health, Attack, Magic, Defense, Agility and MP. While very useful in combat, they are also used in a number of other places in the game. None of these stats has a fixed maximum."
+                        label "Joy"
+                        text "High joy gives additional bonuses, while low brings penalties and may force the character to leave you. If you don't pay enough to your workers or harass them too much, it will decrease. Positive interactions and gives increase it."
                     vbox:
-                        label "Other"
-                        text "There is a number of other stats (charisma, joy, intelligence and etc.) which are self-explanatory."
+                        label "Charisma"
+                        text "Useful for jobs where appearance is the most important thing, such as stripper."
+                    vbox:
+                        label "Intelligence"
+                        text "Useful for jobs where intelligence is important, such as manager. Affects magical attack and defense, protects against status attacks."
+                    vbox:
+                        label "Agility"
+                        text "Affects evasion chance and damage from melee and status attacks in combat. Protects against ranged attacks. Useful for jobs that require some promptness, like waitress."
+                    vbox:
+                        label "Health"
+                        text "Low health prevents most actions. Some events may decrease it. In combat situation zero health leads to K.O., and in some cases to death."
+                    vbox:
+                        label "MP"
+                        text "Also known as magic points. Required for casting most spells and using some of the weapons skills."
+                    vbox:
+                        label "Attack"
+                        text "Affects damage for melee and ranged attacks. Useful for jobs like Guard."
+                    vbox:
+                        label "Defence"
+                        text "Protects from all types of damage, to some point. Useful for jobs like Guard."
+                    vbox:
+                        label "Upkeep"
+                        text "How much gold the character requires per day for her basic needs."
 
                 frame:
                     yalign .5
