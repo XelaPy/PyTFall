@@ -11,13 +11,19 @@ screen pytfallopedia():
         xysize config.screen_width, 40
         add "content/gfx/frame/top_stripe.png"
         # Buttons:
+        python:
+            actions = [Hide("pytfallopedia")]
+            if pyp.main_screen:
+                actions.append(Hide(pyp.main_screen))
+            if pyp.sub_screen:
+                actions.append(Hide(pyp.sub_screen))
         $ img = im.Scale("content/gfx/interface/buttons/close.png", 35, 35)
         imagebutton:
             align .996, .5
             idle img
             hover im.MatrixColor(img, im.matrix.brightness(.15))
             insensitive_background img
-            action Hide("pytfallopedia")
+            action actions
             tooltip "Close PyTFallopedia"
             keysym "mousedown_3"
 

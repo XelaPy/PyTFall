@@ -53,7 +53,7 @@ screen pyp_stats():
 
         vbox:
             spacing 8
-            ypos 180
+            ypos 190
             label "Stats:" text_size 25
             viewport:
                 draggable 1
@@ -107,13 +107,13 @@ screen pyp_skills():
 
         vbox:
             spacing 8
-            ypos 200
+            ypos 220
             label "Skills:" text_size 25
             viewport:
                 draggable 1
                 mousewheel 1
                 scrollbars "vertical"
-                ysize 420
+                ysize 400
                 has vbox spacing 8
                 vbox:
                     label "MC Skills"
