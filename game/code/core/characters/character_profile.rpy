@@ -36,7 +36,7 @@ init python:
         image_tags = img.get_image_tags()
         tt_str = "\n".join(["Click to interact with {}!".format(char.nickname),
                             "{}".format(char.desc)])
-        
+
         if "Slime" in char.traits:
             gm_img = char.show("girlmeets", resize=gm.img_size)
         elif "Exhibitionist" in char.traits:
@@ -519,7 +519,7 @@ screen char_profile():
                     xsize 300
                     ypos 230 xalign .5
                     has vbox spacing 1
-                    $ stats = ["charisma", "character", "reputation", "constitution", "intelligence"]
+                    $ stats = ["charisma", "character", "constitution", "intelligence"]
                     for stat in stats:
                         frame:
                             xoffset 4
