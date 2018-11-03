@@ -2,6 +2,10 @@ screen pytfallopedia():
     zorder 1000
     modal True
 
+    default show_sub = True
+    # variable is responsible for correctly toggling between main and sub cats buttons.
+    # without this, returning to main will take an extra click.
+
     # Top Stripe Frame:
     fixed:
         xysize config.screen_width, 40
@@ -25,7 +29,7 @@ screen pytfallopedia():
             insensitive im.Sepia(img)
             insensitive_background img
             if pyp.sub_focused:
-                action Hide(pyp.sub_screen), Show(pyp.main_screen), SetField(pyp, "sub_focused", None)
+                action Hide(pyp.sub_screen), Show(pyp.main_screen), SetField(pyp, "sub_focused", None), SetScreenVariable("show_sub", False)
             elif pyp.main_focused:
                 action Hide(pyp.main_screen), SetField(pyp, "main_focused", None)
             sensitive pyp.sub_focused or pyp.main_focused
@@ -61,21 +65,21 @@ screen pytfallopedia():
             mousewheel 1
             draggable 1
             cols 1
-            if pyp.main_focused in pyp.sub:
+            if pyp.main_focused in pyp.sub and show_sub:
                 for name, screen in pyp.sub[pyp.main_focused]:
                     button:
                         xsize 270
                         text name
                         if pyp.sub_focused:
-                            action Hide(pyp.sub_screen), setField(pyp, "sub_focused", (name, screen)), Show(screen)
+                            action Hide(pyp.sub_screen), SetField(pyp, "sub_focused", (name, screen)), Show(screen)
                         else:
-                            action setField(pyp, "sub_focused", (name, screen)), Hide(pyp.main_screen), Show(screen)
+                            action SetField(pyp, "sub_focused", (name, screen)), Hide(pyp.main_screen), Show(screen)
             else:
                 for name, screen in pyp.main.items():
                     button:
                         xsize 270
                         text name
-                        action SetField(pyp, "main_focused", name), Show(screen)
+                        action SetField(pyp, "main_focused", name), Show(screen), SetScreenVariable("show_sub", True)
 
         vbar value YScrollValue("vp")
 

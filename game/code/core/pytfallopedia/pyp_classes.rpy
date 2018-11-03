@@ -37,3 +37,5 @@ init python:
 init python:
     pyp = PyTFallopedia()
     pyp.add_main("Characters", "pyp_characters")
+    pyp.add_sub("Stats", "pyp_stats", "Characters")
+    pyp.add_sub("Skills", "pyp_skills", "Characters")
