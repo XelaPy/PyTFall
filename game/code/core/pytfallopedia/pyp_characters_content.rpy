@@ -71,16 +71,16 @@ screen pyp_stats():
                         text "Reversed Obedience. Higher Character means that greater penalties for forcing any undesirable action and a character will generally not accept any task they are not expected to perform. Useful for jobs like Barmaid."
                     vbox:
                         label "Vitality"
-                        text "Fixed ranged that depends on traits. Most actions and jobs decrease it, and rest increases. When vitality runs low, a character will need a couple days rest to do any meaningful actions."
+                        text "Fixed ranged that depends on traits. Most actions and jobs decrease it, and resting increases. When vitality runs low, a character will need a couple days rest to do any meaningful actions."
                     vbox:
                         label "Constitution"
-                        text "Very important stat that among other things has a direct effect on a number of actions a character is allowed to preform each day. In combat protects against melee and status attacks. Useful for hobs requiring endurance, such as Cleaner."
+                        text "Affects the number of actions a character is allowed to preform each day. In combat protects against melee and status attacks. Useful for jobs requiring endurance, such as Cleaner."
                     vbox:
                         label "Luck"
-                        text "Important stat that influences events and rewards. Used along with other modifiers to roll Critical Damage in Battle Engine. Range is fixed between -50 and 50."
+                        text "Important stat that influences events and rewards. Used along with other modifiers to roll Critical Damage in combat. Range is fixed between -50 and 50."
                     vbox:
                         label "Joy"
-                        text "High joy gives additional bonuses, while low brings penalties and may force the character to leave you. If you don't pay enough to your workers or harass them too much, it will decrease. Positive interactions and gives increase it."
+                        text "High joy gives additional bonuses, while low brings penalties and may force the character to leave you. If you don't pay enough to your workers or harass them too much, it will decrease. Positive interactions and gifts increase it."
                     vbox:
                         label "Charisma"
                         text "Useful for jobs where appearance is the most important thing, such as stripper."
