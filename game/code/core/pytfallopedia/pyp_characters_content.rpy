@@ -95,7 +95,32 @@ screen pyp_skills():
         xysize config.screen_width-309, config.screen_height-56
         style_prefix "proper_stats"
 
-        text "Skills Info" align .5, .5
+        vbox:
+            ypos 20
+            label "Skills Info" text_size 30 xalign .5
+            text ("Skills are used mostly in Jobs, but also in some Actions and Events. Their levels are depicted as Stars and "+
+                  " not shown if their value is too low to be of significant. The maximum value is 5 starts but that maximum value is "+
+                  "recalculated every time a character's Tier is increased (so stars might be lost in such a case as value remains the same)."+
+                  " Skills are also governed by a completely different mechanics than stats, they are made of two parts: Action and Knowledge. The best ratio between"+
+                  " action and knowledge is 3:1, exact information of this ratio however is obfuscated from player. If one of the parts lags, skill will rise slower but it will be compensated if "+
+                  "the character works on increasing the other at later time.")
+
+        vbox:
+            spacing 8
+            ypos 200
+            label "Skills:" text_size 25
+            viewport:
+                draggable 1
+                mousewheel 1
+                scrollbars "vertical"
+                ysize 420
+                has vbox spacing 8
+                vbox:
+                    label "MC Skills"
+                    text "Some skills such as 'fishing' or 'swimming' are only useful to the Player as they are used for actions in the City. They are governed by the same rules as any other skill."
+                vbox:
+                    label "Other"
+                    text "The rest of the skills are very straight forward and player can usually tell what they are used for and will know if the skill level fits the tier by the number of Stars."
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.png"
