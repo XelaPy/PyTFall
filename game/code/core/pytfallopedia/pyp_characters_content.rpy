@@ -150,7 +150,7 @@ screen pyp_skills():
                         text "Some skills such as 'fishing' or 'swimming' are only useful to the Player as they are used for actions in the City. They are governed by the same rules as any other skill."
                     vbox:
                         label "Girls Skills"
-                        text "The girls skills serve as a measure of their capabilities to do the job, foe example cleaning skill for cleaners. You can usually tell what they are used for and will know if the skill level fits the tier by the number of Stars."
+                        text "The girls skills serve as a measure of their capabilities to do the job, for example cleaning skill for cleaners. You can usually tell what they are used for and will know if the skill level fits the tier by the number of Stars."
 
                 frame:
                     yalign .5
