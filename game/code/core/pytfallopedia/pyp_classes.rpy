@@ -37,5 +37,18 @@ init python:
 init python:
     pyp = PyTFallopedia()
     pyp.add_main("Characters", "pyp_characters")
+    pyp.add_sub("Tiers/Level", "pyp_tiers", "Characters")
     pyp.add_sub("Stats", "pyp_stats", "Characters")
     pyp.add_sub("Skills", "pyp_skills", "Characters")
+    pyp.add_sub("Controls", "pyp_controls", "Characters")
+    pyp.add_sub("Status", "pyp_status", "Characters")
+    pyp.add_sub("Actions", "pyp_actions", "Characters")
+
+    pyp.add_main("Traits", "pyp_traits")
+    pyp.add_sub("Classes", "pyp_classes", "Traits")
+    pyp.add_sub("Fixed Traits", "pyp_fixed_traits", "Traits")
+    pyp.add_sub("Elements", "pyp_elements", "Traits")
+    pyp.add_sub("Effects", "pyp_effects", "Traits")
+
+
+    # pyp.add_sub("Skills", "pyp_skills", "Traits")

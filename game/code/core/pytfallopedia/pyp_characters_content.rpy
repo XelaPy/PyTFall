@@ -35,6 +35,20 @@ screen pyp_characters():
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.png"
 
+screen pyp_tiers():
+    # main chars screen.
+    zorder 1001
+
+    fixed:
+        pos 302, 49
+        xysize config.screen_width-309, config.screen_height-56
+        style_prefix "proper_stats"
+
+        label "Tiers Info" align .5, .025 text_size 30
+
+    # ForeGround frame (should be a part of every screen with Info):
+    add "content/gfx/frame/h3.png"
+
 screen pyp_stats():
     # main chars screen.
     zorder 1001
@@ -157,6 +171,48 @@ screen pyp_skills():
                     background Frame("content/gfx/frame/mes11.webp", 10, 10)
                     padding 6, 6
                     add "content/gfx/interface/pyp/skills.webp"
+
+    # ForeGround frame (should be a part of every screen with Info):
+    add "content/gfx/frame/h3.png"
+
+screen pyp_controls():
+    # main chars screen.
+    zorder 1001
+
+    fixed:
+        pos 302, 49
+        xysize config.screen_width-309, config.screen_height-56
+        style_prefix "proper_stats"
+
+        label "Controls Info" align .5, .025 text_size 30
+
+    # ForeGround frame (should be a part of every screen with Info):
+    add "content/gfx/frame/h3.png"
+
+screen pyp_status():
+    # main chars screen.
+    zorder 1001
+
+    fixed:
+        pos 302, 49
+        xysize config.screen_width-309, config.screen_height-56
+        style_prefix "proper_stats"
+
+        label "Status Info" align .5, .025 text_size 30
+
+    # ForeGround frame (should be a part of every screen with Info):
+    add "content/gfx/frame/h3.png"
+
+screen pyp_actions():
+    # main chars screen.
+    zorder 1001
+
+    fixed:
+        pos 302, 49
+        xysize config.screen_width-309, config.screen_height-56
+        style_prefix "proper_stats"
+
+        label "Actions Info (AP/JP/IP)" align .5, .025 text_size 30
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.png"
