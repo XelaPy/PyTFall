@@ -68,7 +68,7 @@ init python:
     pyp.add_main("Combat", "pyp_battle_engine")
     pyp.add_sub("Attacks", "pyp_attacks", "Combat")
     pyp.add_sub("Magic", "pyp_magic", "Combat")
-    pyp.add_sub("Items", "pyp_items", "Combat")
+    pyp.add_sub("Items", "pyp_be_items", "Combat")
     pyp.add_sub("Escape", "pyp_escape", "Combat")
 
     pyp.add_main("Items", "pyp_items")
