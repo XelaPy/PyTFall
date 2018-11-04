@@ -90,6 +90,7 @@ screen pytfallopedia():
                         xsize 270
                         text name
                         action actions
+                        selected pyp.main_screen is not None and screen == pyp.main[pyp.main_focused]
 
         vbar value YScrollValue("vp")
 
