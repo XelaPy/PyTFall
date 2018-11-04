@@ -82,10 +82,14 @@ screen pytfallopedia():
                             action SetField(pyp, "sub_focused", (name, screen)), Hide(pyp.main_screen), Show(screen)
             else:
                 for name, screen in pyp.main.items():
+                    python:
+                        actions = [SetField(pyp, "main_focused", name), Show(screen), SetScreenVariable("show_sub", True)]
+                        if pyp.main_screen:
+                            actions.insert(0, Hide(pyp.main_screen))
                     button:
                         xsize 270
                         text name
-                        action SetField(pyp, "main_focused", name), Show(screen), SetScreenVariable("show_sub", True)
+                        action actions
 
         vbar value YScrollValue("vp")
 
