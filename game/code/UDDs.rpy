@@ -762,25 +762,21 @@ init -960 python:
             return [img[0] for img in self.images]
 
 
-    class ProportionalScale(im.ImageBase):
+    class ProportionalScale(im.Scale):
         '''Resizes a renpy image to fit into the specified width and height.
         The aspect ratio of the image will be conserved.'''
         def __init__(self, im, maxwidth, maxheight, bilinear=True, **properties):
-
-            im = store.im.image(im)
-            super(ProportionalScale, self).__init__(im, maxwidth, maxheight, bilinear, **properties)
-
-            self.image = im
+            super(ProportionalScale, self).__init__(im, 100, 100, bilinear, **properties)
             self.maxwidth = int(maxwidth)
             self.maxheight = int(maxheight)
-            self.bilinear = bilinear
-
-        def get_hash(self):
-            return self.image.get_hash()
 
         def load(self):
             surf = im.cache.get(self.image)
-            width, height = self.true_size()
+            width, height = surf.get_size()
+
+            ratio = min(self.maxwidth/float(width), self.maxheight/float(height))
+            width = int(round(ratio*width))
+            height = int(round(ratio*height))
 
             if self.bilinear:
                 try:
@@ -791,7 +787,7 @@ init -960 python:
             else:
                 try:
                     renpy.display.render.blit_lock.acquire()
-                    rv = renpy.display.pgrender.transform_scale(surf, (newwidth, newheight))
+                    rv = renpy.display.pgrender.transform_scale(surf, (width, height))
                 finally:
                     renpy.display.render.blit_lock.release()
 
@@ -821,9 +817,6 @@ init -960 python:
             image_name_base = image_name.split(".")[0]
             obfuscated_tags = image_name_base.split("-")[1:]
             return [tags_dict[tag] for tag in obfuscated_tags]
-
-        def predict_files(self):
-            return self.image.predict_files()
 
 
     class Mirage(renpy.Displayable):
