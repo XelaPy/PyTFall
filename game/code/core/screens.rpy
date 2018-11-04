@@ -354,7 +354,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
         hbox:
             align (.8, .5)
             spacing 5
-            if config.developer:
+            if False:
                 textbutton "F":
                     style "basic_button"
                     text_color ivory
