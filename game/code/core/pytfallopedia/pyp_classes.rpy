@@ -74,7 +74,7 @@ init python:
     pyp.add_main("Items", "pyp_items")
     pyp.add_sub("Consumable", "pyp_consumables", "Items")
     pyp.add_sub("Weapons", "pyp_weapons", "Items")
-    pyp.add_sub("Materials", "pyp_materials", "Items")
+    pyp.add_sub("Unequipable", "pyp_materials", "Items")
     pyp.add_sub("Equippable", "pyp_equippables", "Items")
     pyp.add_sub("MISC", "pyp_misc", "Items")
     pyp.add_sub("Stats/Skills", "pyp_stats_bonuses", "Items")
