@@ -9,7 +9,7 @@ screen debug_tools():
         align .0, 1.0
         id "meow____"
         frame:
-            background Frame("content/gfx/frame/FrameGP2.png", 2, 2)
+            background Frame("content/gfx/frame/frame_gp2.webp", 2, 2)
             # xsize 90
             has vbox xsize 90
             hbox:

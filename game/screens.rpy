@@ -277,7 +277,7 @@ screen main_menu():
         #action Show("credits", transition=ImageDissolve("content/gfx/masks/m02.webp", 3))
     if not prereqs:
         frame:
-            background Frame("content/gfx/frame/FrameGP.png", 40, 40)
+            background Frame("content/gfx/frame/frame_gp.webp", 40, 40)
             xanchor 0
             xpos 0.50
             xmaximum 300

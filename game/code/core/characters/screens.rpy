@@ -271,7 +271,7 @@ screen finances(obj, mode="logical"):
     add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
     frame:
         at slide(so1=(0, 700), t1=.7, so2=(0, 0), t2=.3, eo2=(0, -config.screen_height))
-        background Frame(Transform("content/gfx/frame/FrameGP.png", alpha=.9), 10, 10)
+        background Frame(Transform("content/gfx/frame/frame_gp.webp", alpha=.9), 10, 10)
         style_prefix "proper_stats"
         xysize 1000, 600
         padding 20, 20

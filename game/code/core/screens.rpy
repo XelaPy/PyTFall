@@ -704,7 +704,7 @@ screen s_menu(s_menu="Settings"):
     frame:
         # at fade_in_out(sv1=.0, ev1=1.0, t1=.7,
                                 # sv2=1.0, ev2=.0, t2=.5)
-        background Frame(Transform("content/gfx/frame/framegp2.png", alpha=.8), 10, 10)
+        background Frame(Transform("content/gfx/frame/frame_gp2.webp", alpha=.8), 10, 10)
         align (.315, .5)
         xysize (690, 414)
         style_group "smenu"
