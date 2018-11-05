@@ -772,7 +772,7 @@ init -960 python:
             surf = im.cache.get(self.image)
             width, height = surf.get_size()
 
-            ratio = min(self.width/float(width), self.height/float(height))
+            ratio = min(int(self.width)/float(width), int(self.height)/float(height))
             width = int(round(ratio*width))
             height = int(round(ratio*height))
 
@@ -796,7 +796,7 @@ init -960 python:
             I use this for the BE. Will do the calculations but not render anything.
             """
             width, height = get_size(self.image)
-            ratio = min(self.width/float(width), self.height/float(height))
+            ratio = min(int(self.width)/float(width), int(self.height)/float(height))
             width = int(round(ratio*width))
             height = int(round(ratio*height))
             return width, height
