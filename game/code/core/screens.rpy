@@ -699,7 +699,7 @@ screen s_menu(s_menu="Settings"):
 
     # default s_menu = "Settings"
 
-    add Transform("content/gfx/images/bg_gradient2.png", alpha=.8)
+    add Transform("content/gfx/images/bg_gradient2.webp", alpha=.8)
 
     frame:
         # at fade_in_out(sv1=.0, ev1=1.0, t1=.7,

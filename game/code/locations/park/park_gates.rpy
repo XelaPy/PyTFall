@@ -60,7 +60,7 @@ screen city_parkgates():
     if gm.show_girls:
         key "mousedown_3" action ToggleField(gm, "show_girls")
 
-        add "content/gfx/images/bg_gradient.png" yalign .45
+        add "content/gfx/images/bg_gradient.webp" yalign .45
 
         $ j = 0
 

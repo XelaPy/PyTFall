@@ -391,7 +391,7 @@ screen next_day():
                     xysize (330, 50)
                     background Frame("content/gfx/frame/namebox5.png", 10, 10)
                     label (u"Buildings") text_size 23 text_color ivory align .5, .6
-                    add ProportionalScale("content/gfx/images/birds1.png", 548, 115) pos (-100, 5)
+                    add ProportionalScale("content/gfx/images/birds1.webp", 548, 115) pos (-100, 5)
 
                 null height 80
                 # ALL Buildings/Workers SUMMARY:

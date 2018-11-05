@@ -19,7 +19,7 @@ label city:
         play world choice(ilists.world_music["pytfall"])
     $ global_flags.del_flag("keep_playing_music")
 
-    scene bg humans
+    scene bg pytfall
     show screen city_screen
     with dissolve
 

@@ -268,7 +268,7 @@ screen finances(obj, mode="logical"):
     default fin_mode = mode
     default focused = obj
 
-    add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
+    add Transform("content/gfx/images/bg_gradient2.webp", alpha=.3)
     frame:
         at slide(so1=(0, 700), t1=.7, so2=(0, 0), t2=.3, eo2=(0, -config.screen_height))
         background Frame(Transform("content/gfx/frame/frame_gp.webp", alpha=.9), 10, 10)

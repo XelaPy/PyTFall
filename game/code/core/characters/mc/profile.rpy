@@ -594,7 +594,7 @@ screen hero_team():
 
     key "mousedown_3" action Hide("hero_team"), With(dissolve)
 
-    add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
+    add Transform("content/gfx/images/bg_gradient2.webp", alpha=.3)
 
     # Hero team ====================================>
     frame:
@@ -737,7 +737,7 @@ screen hero_finances():
 
     key "mousedown_3" action Hide("hero_finances"), With(dissolve)
 
-    add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
+    add Transform("content/gfx/images/bg_gradient2.webp", alpha=.3)
     frame:
         background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.65), 10, 10)
         style_group "content"

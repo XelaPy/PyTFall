@@ -72,7 +72,7 @@ label mainscreen:
             $ global_flags.set_flag("keep_playing_music")
             $ renpy.hide_screen("mainscreen")
             $ pytfall.arena.seen_report = True
-            scene bg humans
+            scene bg pytfall
             # with irisin
             $ jump(result[0])
         elif result[0] == "hero_eq":

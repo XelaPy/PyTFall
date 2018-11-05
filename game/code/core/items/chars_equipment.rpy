@@ -13,7 +13,7 @@ init:
         zorder 10
         modal True
 
-        add Transform("content/gfx/images/bg_gradient2.png", alpha=.3)
+        add Transform("content/gfx/images/bg_gradient2.webp", alpha=.3)
         frame:
             background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.75), 10, 10)
             style_group "dropdown_gm2"

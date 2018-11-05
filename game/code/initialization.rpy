@@ -350,23 +350,10 @@ init -950 python:
     ########################## Images ##########################
     # Colors are defined in colors.rpy to global namespace, prolly was not the best way but file was ready to be used.
 
-    # Setting default town path to persistent:
-    # if not persistent.town_path:
-        # persistent.town_path = "content/gfx/bg/locations/map_buttons/dark/"
-    # renpy.image("bg humans", "".join([persistent.town_path, "humans.jpg"]))
-    renpy.image("bg humans", "content/gfx/bg/locations/map_buttons/gismo/humans.webp")
-
     ##################### Autoassociation #####################
     # Backrounds are automatically registered in the game and set to width/height of the default screen
     # displayed by "show bg <filename>" or similar commands
     # file name without the extention
-    # for fname in os.listdir(gamedir + '/content/gfx/be/webm'):
-        # if fname.endswith(".webm") and not "mask" in fname:
-            # tag = fname[:-5]
-            # image = 'content/gfx/bg/' + fname
-            # renpy.image(tag, im.Scale(image, config.screen_width,
-                        # config.screen_height))
-
     for fname in os.listdir(gamedir + '/content/gfx/bg'):
         if check_image_extension(fname):
             tag = 'bg ' + fname.rsplit(".", 1)[0]

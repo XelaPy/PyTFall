@@ -1,4 +1,6 @@
 init:
+    image bg pytfall = "content/gfx/bg/locations/map_buttons/gismo/humans.webp"
+
     image button_circle_green:
         "content/gfx/interface/icons/move15.png"
         yoffset 6
