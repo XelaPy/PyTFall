@@ -765,16 +765,14 @@ init -960 python:
     class ProportionalScale(im.Scale):
         '''Resizes a renpy image to fit into the specified width and height.
         The aspect ratio of the image will be conserved.'''
-        def __init__(self, im, maxwidth, maxheight, bilinear=True, **properties):
-            super(ProportionalScale, self).__init__(im, 100, 100, bilinear, **properties)
-            self.maxwidth = int(maxwidth)
-            self.maxheight = int(maxheight)
+        def __init__(self, im, width, height, bilinear=True, **properties):
+            super(ProportionalScale, self).__init__(im, width, height, bilinear, **properties)
 
         def load(self):
             surf = im.cache.get(self.image)
             width, height = surf.get_size()
 
-            ratio = min(self.maxwidth/float(width), self.maxheight/float(height))
+            ratio = min(self.width/float(width), self.height/float(height))
             width = int(round(ratio*width))
             height = int(round(ratio*height))
 
@@ -798,7 +796,7 @@ init -960 python:
             I use this for the BE. Will do the calculations but not render anything.
             """
             width, height = get_size(self.image)
-            ratio = min(self.maxwidth/float(width), self.maxheight/float(height))
+            ratio = min(self.width/float(width), self.height/float(height))
             width = int(round(ratio*width))
             height = int(round(ratio*height))
             return width, height
