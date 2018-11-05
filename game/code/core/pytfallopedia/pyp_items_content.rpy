@@ -10,12 +10,12 @@ screen pyp_items():
             align .5, .5
             add "content/gfx/interface/pyp/items_1.webp" align .5, .05
             label "Items"
-            text "There are many hundreds items in the game. Some of them can be bought, some found or won as a prize in arena fights."
+            text "There are many hundreds of items in the game. They can be bought, found or won as a prize in arena fights."
             null height 5
-            text "Some items can be equipped of characters to give them certain bonuses. Equipping items does not change characters appearance. Other items can be consumed. Finally, there are items that can't used directly, but only sold or used as materials to build something."
+            text "Some items can be equipped to characters to give them certain bonuses. Equipping items does not change characters appearance. Other items can be consumed. Finally, some items that can't be used directly, but only sold or used as materials to build something."
             null height 5
-            text "You can easily add your own items to the game by providing an icon and editing one of the items json files located in content/db/items."
-            
+            text "You can easily add your own items to the game by providing an icon and editing one of the items JSON files located in content/db/items."
+
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.png"
 
@@ -35,13 +35,13 @@ screen pyp_consumables():
                 padding 6, 6
                 add "content/gfx/interface/pyp/items_2.webp"
             label "Consumables"
-            text "Consumable items can be used by characters directly. Most of them disappear from inventory after using, but there are a few rare exceptions."
+            text "Consumable items can be used by characters directly. Most of them disappear from inventory after applying, but there are a few rare exceptions."
             null height 5
             text "Most consumables give permanent or temporally effects, such as changing stats or skills, or adding or removing traits."
             null height 5
-            text "There are a few special subtypes: scrolls teach character a new spell, food and alcohol are cheap but cannot be consumed infinitely without negative effects, and some consumables have unique hardcoded effects."
+            text "There are a few special subtypes: scrolls teach the character a new spell, food and alcohol are cheap but cannot be consumed infinitely without adverse effects, and some consumables have unique hardcoded effects."
             null height 5
-            text "A number of potions can be used in combat (see combat section for more info)."
+            text "Some potions can be used in combat (see combat section for more info)."
             null height 5
             text "Some consumables have a cooldown timer. It means you only can use them once per several days."
     # ForeGround frame (should be a part of every screen with Info):
@@ -63,9 +63,9 @@ screen pyp_weapons():
                 padding 6, 6
                 add "content/gfx/interface/pyp/items_3.webp"
             label "Weapons"
-            text "Items for right and left hands slots are considered weapons. Both slots have their own items, ie items for the left hand cannot be used in the right hand."
+            text "Items for right and left hands slots are considered weapons. Both slots have their own items, i.e. items for the left hand cannot be used in the right hand."
             null height 5
-            text "Usually they provide bonuses to combat stats and unlock unique attacks usable in combat. Slaves cannot equip weapons, but there are items for hands slots that are not considered true weapons, and can be equipped by anyone."
+            text "Usually they provide bonuses to combat stats and unlock unique attacks usable in combat. Slaves cannot equip weapons, but there are items for hands slots that are not considered to be real weapons and can be equipped by anyone."
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.png"
@@ -93,9 +93,9 @@ screen pyp_materials():
             text "Loot items can't be used in any way, but you can sell them in a shop for good money."
             null height 5
             label "Quest Items"
-            text "Some items obtainable from quests can't be discarded, sold, transfered or used."
+            text "Some items obtainable from quests can't be discarded, sold, transferred or used."
             null height 5
-            
+
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.png"
 
@@ -116,7 +116,7 @@ screen pyp_equippables():
                 add "content/gfx/interface/pyp/items_5.webp"
             text "Not every character can equip or use any item. Some items can only be used/equipped by male or female characters."
             null height 5
-            text "Additionally, slaves cannot equip any weapons and armor. Of course they still can wear normal clothes."
+            text "Additionally, slaves cannot equip any weapons or armor. Of course, they still can wear regular clothes."
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.png"
@@ -135,13 +135,13 @@ screen pyp_misc():
             label "MISC items"
             text "Misc items have a different mechanics behind them."
             null height 5
-            text "Instead of providing effects immediatly after consuming/equipping, they need some time to work."
+            text "Instead of providing effects immediately after consuming/equipping, they need some time to work."
             null height 5
-            text "Some of them work every day, others need a few days to affect the character. A number of them cannot be used by the same character more than once."
+            text "Some of them work every day, others require a few days to affect the character. A number of them cannot be used by the same character more than once."
             null height 5
-            text "Finally, some of them disappear after providing bonuses, but many can be reused infinitely." 
+            text "Finally, some of them disappear after providing bonuses, but many can be reused infinitely."
             null height 5
-            text "All related info you can find on the equipment screen, in the Frequency section." 
+            text "All related info you can find on the equipment screen, in the Frequency section."
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.png"
 
@@ -175,7 +175,7 @@ screen pyp_stats_bonuses():
             label "Items Effects"
             text "When you equip or unequip an item, the equipment screen shows you how stats, traits, effects, etc. will change after that."
             null height 5
-            text "In order to see how item affects character skills you should switch to Items SKills mode (see screenshots)."
+            text "To see how an item affects character skills you should switch to Items SKills mode (see screenshots)."
             null height 5
             text "However, some items have special hidden bonuses (like protection against ranged attacks) that are only reflected in the item description."
     # ForeGround frame (should be a part of every screen with Info):
@@ -205,13 +205,13 @@ screen pyp_inventory():
                     padding 6, 6
                     add "content/gfx/interface/pyp/items_15.webp"
             label "Inventory"
-            text "The inventory screen is a part of equipment screen."
+            text "The inventory screen is a part of the equipment screen."
             null height 5
-            text "It allows to filter items by slot, or order them by name/price/etc."
+            text "It allows to filter items by slot or order them by name/price/etc."
             null height 5
             text "When you inspect inventory of a girl, you can switch between her and your inventory anytime to equip or use items from either one."
             null height 5
-            text "Additionally you can discard unneeded items by clicking special button. Some items can't be discarded."
+            text "Additionally, you can discard unneeded items by clicking a discard button. Some items can't be dropped in the same way."
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.png"
 
@@ -227,9 +227,9 @@ screen pyp_shopping():
             align .5, .5
             add "content/gfx/interface/pyp/items_11.webp" align .5, .05
             label "Shopping"
-            text "The game has plenty of shops in different locations. You can buy and sell items there, however not every shop agrees to buy any item from you. They also have different prices for different types of items."
+            text "The game has plenty of shops in different locations. You can buy and sell items there, however not every shop agrees to purchase any item from you. They also have different prices for different types of items."
             null height 5
-            text "Shopkeepers have limited stock and gold, however they get new items and more gold every few days. Every item you sold to them also increases the gold they get during the next restock."
+            text "Shopkeepers have limited stock and gold. However, they get new items and more gold every few days. Every item you sold to them also increases the gold they get during the next restock."
             null height 5
             text "Some shops focus on weapons and armor, others on potions and so on. Make sure to check them all when you are looking for something!"
             null height 5
@@ -253,9 +253,9 @@ screen pyp_auto_equip():
                 padding 6, 6
                 add "content/gfx/interface/pyp/items_12.webp"
             label "Auto Equipment"
-            text "Usually free characters decide what to equip by themselves. You cannot control it until you become lovers. However you can always control equipment for slaves."
+            text "Usually, free characters decide what to equip by themselves. You cannot control it until you become lovers. However, you can always control equipment for slaves."
             null height 5
-            text "But additionally you can use the auto equipment system that orders a character to equip a certain type of items depending on her Class. You can access in on the equipment screen."
+            text "But additionally, you can use the auto equipment system that orders a character to equip a specific type of items depending on her Class. You can access in on the equipment screen."
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.png"
 
@@ -271,14 +271,14 @@ screen pyp_transfer():
             align .5, .5
             add "content/gfx/interface/pyp/items_13.webp" align .5, .05
             label "Items Exchange"
-            text "You can exchange items between the main character and a girl via equipment screen. But often it's more convenient to use the transfer screen."
+            text "You can exchange items between the main character and a girl via the equipment screen. But often it's more convenient to use the transfer screen."
             null height 5
             text "You can access it from buildings menu. There you can quickly exchange items directly between girls, even if they are in different buildings."
             null height 5
-            text "Note that free characters often do not want to give away their own items, unless you are lovers. However slaves have no choice."
+            text "Note that free characters often do not want to give away their own items, unless you are lovers. However, don't get a say in the matter."
             null height 5
-            text "Some special items cannot be given to other chartacter no matter what."
-            
+            text "Some unique items cannot be given to other characters."
+
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.png"
 
@@ -294,9 +294,9 @@ screen pyp_storage():
             align .5, .5
             add "content/gfx/interface/pyp/items_14.webp" align .5, .05
             label "Personal Storage"
-            text "If the main character owns a living building, he can store his items there. Storage is available from his personal screen."
+            text "If the main character owns a habitable building, he can store his items there. Storage is available from his personal screen."
             null height 5
-            text "Each living building has its own storage. You can switch between them by putting the main character into a different building."
+            text "Each habitable building has its own storage. You can switch between them by putting the main character in different buildings."
             null height 5
             text "Note that inventory of any character is unlimited, so it's just an optional thing to get rid of unneeded items without selling them."
 
