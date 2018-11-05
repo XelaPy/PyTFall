@@ -603,7 +603,7 @@ init: # Ren'Py Styles (Or replacements):
     ## FRAMEWORK FOR DIALOGUE
     ## Main (Say) window
     style window is default:
-        background Frame("content/gfx/frame/frameD.png", 50, 50)
+        background Frame("content/gfx/frame/say_window_frame.webp", 50, 50)
         xpos 640
         xfill True
         xmargin 0
