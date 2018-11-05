@@ -184,11 +184,11 @@ init -2: # Base Styles like Texts and Buttons just with the basic properties.
         ypadding 3
 
     # Parent of the Gismo's Blue Marble button that was used in Main Menu Screen for a while.
-    style marbleG_button:
+    style marble_button:
         is button
-        idle_background Frame("content/gfx/interface/buttons/marbleG_button.png", 5, 5)
-        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/marbleG_button.png", im.matrix.brightness(.15)), 5, 5)
-        insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/marbleG_button.png"), 5, 5)
+        idle_background Frame("content/gfx/interface/buttons/marble_button.webp", 5, 5)
+        hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/marble_button.webp", im.matrix.brightness(.15)), 5, 5)
+        insensitive_background Frame(im.Sepia("content/gfx/interface/buttons/marble_button.webp"), 5, 5)
 
     # Cool Blue button we use in a number of places (Main Screen that leads to Buildings/GL for example)
     style blue1:

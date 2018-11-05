@@ -185,13 +185,13 @@ init: # Main Screens:
                     spacing 5
                     style_group "basic"
                     textbutton "{size=20}{color=[black]}1v1":
-                        action Show("arena_matches", container=pytfall.arena.matches_1v1, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.png", 100, 100))
+                        action Show("arena_matches", container=pytfall.arena.matches_1v1, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.webp", 100, 100))
                         tooltip "Ranked 1v1 fights"
                     textbutton "{size=20}{color=[black]}2v2":
-                        action Show("arena_matches", container=pytfall.arena.matches_2v2, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.png", 100, 100))
+                        action Show("arena_matches", container=pytfall.arena.matches_2v2, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_3.webp", 100, 100))
                         tooltip "Ranked team 2v2 fights"
                     textbutton "{size=20}{color=[black]}3v3":
-                        action Show("arena_matches", container=pytfall.arena.matches_3v3, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_2.png", 100, 100))
+                        action Show("arena_matches", container=pytfall.arena.matches_3v3, transition=dissolve, vs_img=ProportionalScale("content/gfx/interface/images/vs_4.webp", 100, 100))
                         tooltip "Ranked team fights 3v3 fights"
 
 
@@ -626,7 +626,7 @@ init: # Main Screens:
                                     text "Challenge!" size 40 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf" outlines [(2, "#3a3a3a", 0, 0)]
                                     text "Enemy level: [level]" size 30 color red + "85" hover_color red align .5, .5 font "fonts/badaboom.ttf" outlines [(1, "#3a3a3a", 0, 0)]
 
-                            add ProportionalScale("content/gfx/interface/images/vs_1.png", 130, 130) yalign .5
+                            add ProportionalScale("content/gfx/interface/images/vs_1.webp", 130, 130) yalign .5
 
                             frame:
                                 style "arena_channenge_frame"

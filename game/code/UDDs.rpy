@@ -259,7 +259,7 @@ init -960 python:
                               40, 40, align=(.5, .5))
             elif mode == 'work':
                 item = round_int(item)
-                main_icon = pscale("content/gfx/interface/images/work.png",
+                main_icon = pscale("content/gfx/interface/images/work.webp",
                               80, 80, align=(.5, .5))
                 main_text = Text(str(item), font="fonts/rubius.ttf", color=gold,
                                          size=40, align=(.5, 1.0))
