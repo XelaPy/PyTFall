@@ -93,7 +93,7 @@ screen mainscreen():
 
     frame:
         align (.995, .88)
-        background Frame("content/gfx/frame/window_frame2.png", 30, 30)
+        background Frame("content/gfx/frame/window_frame2.webp", 30, 30)
         xysize (255, 670)
         xfill True
         yfill True
