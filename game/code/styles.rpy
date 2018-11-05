@@ -418,6 +418,20 @@ init 2: # Advanced style that can carry a lot of properties to be used in screen
         yoffset 4
         xalign 1.0
 
+    style pyp_frame:
+        is frame
+        yalign .5
+        background Frame("content/gfx/frame/mes11.webp", 10, 10)
+        padding (6, 6)
+    style pyp_vbox:
+        is proper_stats_vbox
+    style pyp_text:
+        is proper_stats_text
+    style pyp_label_text:
+        is proper_stats_label_text
+
+
+
     # Style for profile buttons "pb"
     # Pretty and advanced style used in Heros Profile:
     style pb_button:

@@ -93,7 +93,7 @@ screen pyp_next_day():
                   " At the end of such a cycle, you will be able to review detailed reports of everything that has happened "+
                   " as those actions and events were performed.")
             null height 10
-            add "content/gfx/interface/pyp/next_day_screen.webp" align .5, .05
+            add "content/gfx/interface/pyp/next_day_screen.webp"
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.png"

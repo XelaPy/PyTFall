@@ -105,7 +105,7 @@ screen pyp_default():
     fixed:
         pos 302, 49
         xysize config.screen_width-309, config.screen_height-56
-        style_prefix "proper_stats"
+        style_prefix "pyp"
 
         # Screen Content goes here!
 
