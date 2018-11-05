@@ -11,7 +11,7 @@ python early:
     # These control the name and version of the game, that are reported
     # with tracebacks and other debugging logs.
     config.name = "PyTFall"
-    config.version = "0.59 Official Beta..."
+    config.version = "0.70 Official Beta Release"
     #########################################
     ## This is the name of the directory where the game's data is
     ## stored. (It needs to be set early, before any other init code

@@ -9,7 +9,7 @@ screen pyp_quests_and_events():
         # Screen Content goes here!
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_quests():
     zorder 1001
@@ -22,7 +22,7 @@ screen pyp_quests():
         # Screen Content goes here!
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_events():
     zorder 1001
@@ -35,4 +35,4 @@ screen pyp_events():
         # Screen Content goes here!
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"

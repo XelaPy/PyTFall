@@ -84,7 +84,7 @@ screen hero_profile():
     add Transform(hero.show("profile", resize=(550, 550)), alpha=.97) align .65, .9
 
     # BASE FRAME 2 "bottom layer" and portrait ====================================>
-    add "content/gfx/frame/h_profile.png"
+    add "content/gfx/frame/h_profile.webp"
     add hero.show("everyday", resize=(100, 100)) pos (64, 8) # portrait should be between "Base Frame 2" and "Base Frame 1" :Gismo
 
     # BATTLE STATS ====================================>
@@ -504,7 +504,7 @@ screen hero_profile():
                             hover_background Frame(im.MatrixColor("content/gfx/interface/buttons/choice_buttons2h.png", im.matrix.brightness(.10)), 5, 5)
 
     # BASE FRAME 1 "top layer" ====================================>
-    add "content/gfx/frame/h_profile2.png"
+    add "content/gfx/frame/h_profile2.webp"
 
     # BUTTONS and UI elements on the "top layer" ====================================>
     hbox:
@@ -539,7 +539,7 @@ screen hero_profile():
 
     # Storage button:
     frame:
-        background Frame("content/gfx/frame/settings1.png", 10, 10)
+        background Frame("content/gfx/frame/settings1.webp", 10, 10)
         pos 300, 5
         style_prefix "pb"
         xysize 100, 40
@@ -581,7 +581,7 @@ screen hero_profile():
     # AP ====================================>
     frame:
         align .5, .95
-        background ProportionalScale("content/gfx/frame/frame_ap2.png", 190, 80)
+        background ProportionalScale("content/gfx/frame/frame_ap2.webp", 190, 80)
         label "[hero.AP]":
             pos (130, -2)
             style "content_label"
@@ -930,7 +930,7 @@ screen mc_friends_list:
         at slide(so1=(-2000, 0), t1=.7, so2=(0, 0), t2=.3, eo2=(-2000, 0))
         xysize (930, 450)
         pos(210, 115)
-        background Frame("content/gfx/frame/p_frame7.png", 5, 5)
+        background Frame("content/gfx/frame/p_frame7.webp", 5, 5)
         $ temp = sorted(list(hero.friends | hero.lovers), key=attrgetter("name"))
         $ temp = list(i for i in temp if (i not in hero.chars) and i.is_available)
         if temp:

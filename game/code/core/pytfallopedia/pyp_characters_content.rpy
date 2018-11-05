@@ -33,7 +33,7 @@ screen pyp_characters():
                 text "People and Monsters you fights against."
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_tiers():
     # main chars screen.
@@ -47,7 +47,7 @@ screen pyp_tiers():
         label "Tiers Info" align .5, .025 text_size 30
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_stats():
     # main chars screen.
@@ -126,7 +126,7 @@ screen pyp_stats():
                     padding 6, 6
                     add "content/gfx/interface/pyp/stats.webp"
 
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_skills():
     # main chars screen.
@@ -173,7 +173,7 @@ screen pyp_skills():
                     add "content/gfx/interface/pyp/skills.webp"
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_controls():
     # main chars screen.
@@ -187,7 +187,7 @@ screen pyp_controls():
         label "Controls Info" align .5, .025 text_size 30
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_status():
     # main chars screen.
@@ -201,7 +201,7 @@ screen pyp_status():
         label "Status Info" align .5, .025 text_size 30
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_actions():
     # main chars screen.
@@ -215,4 +215,4 @@ screen pyp_actions():
         label "Actions Info (AP/JP/IP)" align .5, .025 text_size 30
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"

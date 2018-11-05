@@ -17,7 +17,7 @@ screen pyp_battle_engine():
             text "All attacks and spells have one or more elements. The enemy may be valuable to certain elements and resistant to others. Some enemies health is restored as they are capable of absorbing elemental bonus!"
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_attacks():
     zorder 1001
@@ -37,7 +37,7 @@ screen pyp_attacks():
             null height 5
             text "Each skill has its cost. It can be Health, MP, Vitality and their combinations. Powerful abilities use relative values, like 20% of max MP. Naturally, you can't use a skill if you can't cover its cost."
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_magic():
     zorder 1001
@@ -58,7 +58,7 @@ screen pyp_magic():
             text "Unlike attacks, not all spells are offensive. There are healing spells, resurrection spell and a few buffing spells. However, for now, they can be used only in battle."
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_be_items():
     zorder 1001
@@ -79,7 +79,7 @@ screen pyp_be_items():
             text "During some fights, you won't be able to use items, for example, arena rules forbid it."
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_escape():
     zorder 1001
@@ -112,4 +112,4 @@ screen pyp_escape():
             text "In most cases losing in battle doesn't lead to  the game over, but there are a few exceptions when characters killed in action die for real. Losing such battles leads to Game Over. In other cases, characters remain alive with 1 Health left."
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"

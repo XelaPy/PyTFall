@@ -9,7 +9,7 @@ screen pyp_city():
         # Screen Content goes here!
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_interactions():
     zorder 1001
@@ -22,7 +22,7 @@ screen pyp_interactions():
         # Screen Content goes here!
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_mc_jobs():
     zorder 1001
@@ -35,7 +35,7 @@ screen pyp_mc_jobs():
         # Screen Content goes here!
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_mc_actions():
     zorder 1001
@@ -48,7 +48,7 @@ screen pyp_mc_actions():
         # Screen Content goes here!
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_slave_market():
     zorder 1001
@@ -61,7 +61,7 @@ screen pyp_slave_market():
         # Screen Content goes here!
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_npcs():
     zorder 1001
@@ -74,7 +74,7 @@ screen pyp_npcs():
         # Screen Content goes here!
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 # screen pyp_look_around():
 #     zorder 1001
@@ -87,7 +87,7 @@ screen pyp_npcs():
 #         # Screen Content goes here!
 #
 #     # ForeGround frame (should be a part of every screen with Info):
-#     add "content/gfx/frame/h3.png"
+#     add "content/gfx/frame/h3.webp"
 
 screen pyp_arena():
     zorder 1001
@@ -100,7 +100,7 @@ screen pyp_arena():
         # Screen Content goes here!
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_main_street():
     zorder 1001
@@ -113,4 +113,4 @@ screen pyp_main_street():
         # Mention Realtor and EA
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"

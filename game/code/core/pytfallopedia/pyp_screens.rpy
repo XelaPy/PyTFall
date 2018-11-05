@@ -96,7 +96,7 @@ screen pytfallopedia():
         vbar value YScrollValue("vp")
 
     if not pyp.main_focused and not pyp.sub_focused:
-        add "content/gfx/frame/h3.png"
+        add "content/gfx/frame/h3.webp"
 
 # DEFAULT positioning blueprint that can be used with any screen pyp info in the future.
 screen pyp_default():
@@ -110,4 +110,4 @@ screen pyp_default():
         # Screen Content goes here!
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"

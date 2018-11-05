@@ -15,7 +15,7 @@ screen pyp_traits():
         # Screen Content goes here!
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_classes():
     zorder 1001
@@ -80,7 +80,7 @@ screen pyp_classes():
                     add "content/gfx/interface/pyp/core_traits.webp"
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_fixed_traits():
     zorder 1001
@@ -133,7 +133,7 @@ screen pyp_fixed_traits():
                         add "content/gfx/interface/pyp/pers_traits.webp"
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_elements():
     zorder 1001
@@ -188,7 +188,7 @@ screen pyp_elements():
 
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_effects():
     zorder 1001
@@ -309,4 +309,4 @@ screen pyp_effects():
                     label "Fluffy Companion"
                     text "Main Hero only. Helps to increase disposition during interactions. Can be obtained by equipping a unique item obtained in a quest."
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"

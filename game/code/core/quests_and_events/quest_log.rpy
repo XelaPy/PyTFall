@@ -130,7 +130,7 @@ screen quest_log():
 
             frame:
                 style_group "content"
-                background Frame("content/gfx/frame/p_frame7.png", 10, 10)
+                background Frame("content/gfx/frame/p_frame7.webp", 10, 10)
                 xysize (954, 623)
                 ypos 2
                 viewport:

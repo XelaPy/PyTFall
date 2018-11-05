@@ -19,14 +19,14 @@ screen gallery():
         style_group "content"
         # Tags:
         frame:
-            background Frame("content/gfx/frame/p_frame7.png", 10, 10)
+            background Frame("content/gfx/frame/p_frame7.webp", 10, 10)
             align (.5, .5)
             xysize (980, 40)
             text "Tags: [gallery.tags]" align(.5, .5) color ivory
         # Img:
         frame:
             xysize (980, 680)
-            background Frame("content/gfx/frame/p_frame7.png", 10, 10)
+            background Frame("content/gfx/frame/p_frame7.webp", 10, 10)
             xpadding 0
             ypadding 0
             xmargin 0

@@ -490,7 +490,7 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
             anchor xval, yval
             fit_first True
             frame:
-                background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+                background Frame("content/gfx/frame/p_frame52.webp", 10, 10)
                 padding 10, 10
                 has vbox style_prefix "proper_stats" spacing 1
 
@@ -619,7 +619,7 @@ screen show_trait_info(trait=None, place="girl_trait", elemental_mode=False):
             anchor xval, yval
             fit_first True
             frame:
-                background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+                background Frame("content/gfx/frame/p_frame52.webp", 10, 10)
                 padding 10, 5
                 has vbox style_prefix "proper_stats" spacing 1
                 if not traits:

@@ -55,7 +55,7 @@ screen city_screen():
                         "graveyard_town", "city_beach", "forest_entrance", "hiddenvillage_entrance"]
     default selected = None
 
-    add "content/gfx/images/m_1.png" align (1.0, .0)
+    add "content/gfx/images/m_1.webp" align (1.0, .0)
 
     for key in pytfall.maps("pytfall"):
         if not key.get("hidden", False):
@@ -86,7 +86,7 @@ screen city_screen():
                     tooltip key["name"]
                 action Return(['location', key["id"]])
 
-    add "content/gfx/frame/h2.png"
+    add "content/gfx/frame/h2.webp"
 
     fixed:
         xysize (164, 78)
@@ -137,7 +137,7 @@ screen city_screen():
         true=[Preference("sound mute", "disable"), Preference("music mute", "disable")],
         false=[Preference("sound mute", "enable"), Preference("music mute", "enable")])]
 
-    add ProportionalScale("content/gfx/frame/frame_ap.png", 155, 50) pos (1040, 90)
+    add ProportionalScale("content/gfx/frame/frame_ap.webp", 155, 50) pos (1040, 90)
     text "[hero.AP]" style "TisaOTM" color "#f1f1e1" size 24 outlines [(1, "#3a3a3a", 0, 0)] pos (1143, 85)
     fixed:
         pos (1202, 99)
@@ -145,7 +145,7 @@ screen city_screen():
         text "Day [day]" style "TisaOTMolxm" color "#f1f1e1" size 18
     add "content/gfx/interface/buttons/compass.png" pos (1187, 15)
 
-    add "content/gfx/images/m_2.png"
+    add "content/gfx/images/m_2.webp"
 
     ### ----> Lower buttons (Locations) <---- ###
     side "c r":

@@ -139,7 +139,7 @@ screen itemstats(item=None, size=(635, 380), style_group="content", mc_mode=Fals
             frame:
                 xalign .5
                 xysize (440, 40)
-                background Frame("content/gfx/frame/p_frame7.png", 10, 10)
+                background Frame("content/gfx/frame/p_frame7.webp", 10, 10)
                 label '[item.id]' text_color gold xalign .5 text_size 20 text_outlines [(1, "#000000", 0, 0)] text_style "interactions_text"
 
             vbox:
@@ -197,7 +197,7 @@ screen itemstats(item=None, size=(635, 380), style_group="content", mc_mode=Fals
                     frame:
                         xalign 1.0
                         xysize (165, 130)
-                        background Frame("content/gfx/frame/p_frame7.png", 5, 5)
+                        background Frame("content/gfx/frame/p_frame7.webp", 5, 5)
                         has viewport mousewheel True draggable True style_group "proper_stats" xysize (165, 122) child_size 160, 500
                         vbox:
                             spacing 1
@@ -307,7 +307,7 @@ screen itemstats(item=None, size=(635, 380), style_group="content", mc_mode=Fals
                 label ('{color=#ecc88a}----------------------------------------') xalign .5
                 frame:
                     xalign .5
-                    background Frame("content/gfx/frame/p_frame7.png", 10, 10)
+                    background Frame("content/gfx/frame/p_frame7.webp", 10, 10)
                     has viewport mousewheel True xysize (460, 100)
                     text '[item.desc]' style "TisaOTM" size 16 color gold
 

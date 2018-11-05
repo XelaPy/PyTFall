@@ -251,7 +251,7 @@ label mc_action_tavern_look_around: # various bonuses to theoretical skills for 
             $ hero.SEX += randint(1, 3)
             hide sign with dissolve
         else:
-            show expression "content/gfx/images/tavern/exp.webp" as sign at truecenter with dissolve
+            show expression "content/gfx/interface/icons/exp.webp" as sign at truecenter with dissolve
             "You are sharing fresh rumors with patrons over a beer."
             $ hero.exp += exp_reward(hero, hero)
             hide sign with dissolve

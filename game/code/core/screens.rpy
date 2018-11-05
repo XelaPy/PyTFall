@@ -258,9 +258,9 @@ screen top_stripe(show_return_button=True, return_button_action=None,
 
     # Screen frame, always visible:
     if show_return_button:
-        add "content/gfx/frame/h3.png"
+        add "content/gfx/frame/h3.webp"
     else:
-        add "content/gfx/frame/h2.png"
+        add "content/gfx/frame/h2.webp"
 
     # All buttons:
     fixed:
@@ -334,7 +334,7 @@ screen top_stripe(show_return_button=True, return_button_action=None,
                 xalign .5 ypos 3
                 xysize 170, 50
                 focus_mask True
-                background ProportionalScale("content/gfx/frame/frame_ap.png", 170, 50)
+                background ProportionalScale("content/gfx/frame/frame_ap.webp", 170, 50)
                 action NullAction()
                 tooltip tt_string
                 hbox:
@@ -722,14 +722,14 @@ screen s_menu(s_menu="Settings"):
                     ypadding 10
                     has vbox spacing 5
                     # frame:
-                        # background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        # background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         # xsize 194
                         # ypadding 8
                         # style_group "dropdown_gm2"
                         # has vbox align (.5, .5)
 
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 8
                         style_group "dropdown_gm2"
@@ -743,7 +743,7 @@ screen s_menu(s_menu="Settings"):
                         textbutton _("Fullscreen") action Preference("display", "fullscreen") xsize 150 xalign .5 text_size 16
 
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 8
                         style_group "dropdown_gm2"
@@ -757,7 +757,7 @@ screen s_menu(s_menu="Settings"):
                         textbutton _("None") action Preference("transitions", "none") xsize 150 xalign .5 text_size 16
 
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 10
                         style_group "dropdown_gm2"
@@ -771,7 +771,7 @@ screen s_menu(s_menu="Settings"):
                         bar value Preference("text speed") align (.5, .5)
 
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 8
                         style_group "dropdown_gm2"
@@ -787,7 +787,7 @@ screen s_menu(s_menu="Settings"):
                     ypadding 10
                     has vbox spacing 5
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 8
                         style_group "dropdown_gm2"
@@ -801,7 +801,7 @@ screen s_menu(s_menu="Settings"):
                         textbutton _("All Messages") action Preference("skip", "all") xsize 150 xalign .5 text_size 16
 
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 8
                         style_group "dropdown_gm2"
@@ -815,7 +815,7 @@ screen s_menu(s_menu="Settings"):
                         textbutton _("Keep Skipping") action Preference("after choices", "skip") xsize 150 xalign .5 text_size 16
 
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 10
                         style_group "dropdown_gm2"
@@ -831,7 +831,7 @@ screen s_menu(s_menu="Settings"):
                             textbutton _("Wait for Voice") action Preference("wait for voice", "toggle") xsize 150 xalign .5 text_size 16
 
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 8
                         style_group "dropdown_gm2"
@@ -847,7 +847,7 @@ screen s_menu(s_menu="Settings"):
                     has vbox spacing 5
 
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
 
                         ypadding 8
@@ -863,7 +863,7 @@ screen s_menu(s_menu="Settings"):
                         textbutton "Sound" action Preference("sound mute", "toggle") xsize 150 xalign .5 text_size 16
 
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 10
                         style_group "dropdown_gm2"
@@ -877,7 +877,7 @@ screen s_menu(s_menu="Settings"):
                         bar value Preference("music volume") align (.5, .5)
 
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 10
                         style_group "dropdown_gm2"
@@ -913,7 +913,7 @@ screen s_menu(s_menu="Settings"):
                     ypadding 10
                     has vbox spacing 5
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 8
                         textbutton _("Panic Screen"):
@@ -926,7 +926,7 @@ screen s_menu(s_menu="Settings"):
                             else:
                                 tooltip "{}\nPanic screen transforms your game window into a system-log. If enabled, press Q whenever you need it.".format("Active" if persistent.unsafe_mode else "Inactive")
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 8
                         textbutton _("Battle Results"):
@@ -939,7 +939,7 @@ screen s_menu(s_menu="Settings"):
                             else:
                                 tooltip "{}\nShows experience screen after combat.".format("Active" if persistent.battle_results else "Inactive")
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 8
                         textbutton _("Combat Targeting"):
@@ -952,7 +952,7 @@ screen s_menu(s_menu="Settings"):
                             else:
                                 tooltip "Use arrows to target skills in battle engine."
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 8
                         textbutton _("AutoSaves"):
@@ -965,7 +965,7 @@ screen s_menu(s_menu="Settings"):
                             else:
                                 tooltip "{}\nSaves your game progress every day. This can be slow, disable if it bothers you.".format("Active" if persistent.auto_saves else "Inactive")
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 8
                         textbutton _("Quest Pop-Up"):
@@ -979,7 +979,7 @@ screen s_menu(s_menu="Settings"):
                                 tooltip "{}\nDisplay notifications as you make progress in Quests.".format("Active" if persistent.use_quest_popups else "Inactive")
 
                     frame:
-                        background Frame(Transform("content/gfx/frame/settings1.png", alpha=.9), 10, 10)
+                        background Frame(Transform("content/gfx/frame/settings1.webp", alpha=.9), 10, 10)
                         xsize 194
                         ypadding 8
                         textbutton _("Tooltips"):

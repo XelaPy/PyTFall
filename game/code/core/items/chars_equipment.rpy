@@ -930,7 +930,7 @@ screen char_equip_right_frame():
         use items_inv(char=inv_source, main_size=(333, 333), frame_size=(80, 80), return_value=['item', 'equip'])
 
     # BASE FRAME 1 "top layer" ====================================>
-    add "content/gfx/frame/h1.png"
+    add "content/gfx/frame/h1.webp"
 
     imagebutton:
         pos (178, 70)

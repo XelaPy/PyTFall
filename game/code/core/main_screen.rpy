@@ -30,10 +30,10 @@ label mainscreen:
                                "city_parkgates", "academy_town", "mages_tower",
                                "graveyard_town", "city_beach", "forest_entrance", "hiddenvillage_entrance"])
         main_img_predict.append("bg gallery")
-        main_img_predict.append("content/gfx/images/m_1.png")
-        main_img_predict.append("content/gfx/frame/h2.png")
+        main_img_predict.append("content/gfx/images/m_1.webp")
+        main_img_predict.append("content/gfx/frame/h2.webp")
         main_img_predict.append("content/gfx/interface/buttons/compass.png")
-        main_img_predict.append("content/gfx/images/m_2.png")
+        main_img_predict.append("content/gfx/images/m_2.webp")
         main_img_predict.append("content/gfx/frame/p_frame.png")
         main_img_predict.append("content/gfx/interface/buttons/sl_idle.png")
         main_img_predict.append("content/gfx/frame/rank_frame.png")
@@ -41,6 +41,9 @@ label mainscreen:
         main_img_predict.append("content/gfx/interface/images/work.png")
         main_img_predict.append("content/gfx/images/fishy.png")
         main_img_predict.append("content/gfx/interface/buttons/IT2.png")
+        main_img_predict.append("content/gfx/interface/icons/exp.webp")
+        # for i in store.items.values():
+        #     main_img_predict.append(i.icon)
         renpy.start_predict(*main_img_predict)
 
         main_scr_predict = ["city_screen", "chars_list"]
@@ -165,7 +168,7 @@ screen mainscreen():
         )
 
         frame:
-            background Frame("content/gfx/frame/settings1.png", 10, 10)
+            background Frame("content/gfx/frame/settings1.webp", 10, 10)
             style_prefix "proper_stats"
             xysize 500, 600
             padding 10, 10

@@ -1004,7 +1004,7 @@ init: # Screens:
                 if bm_exploration_view_mode == "team":
                     # Backgrounds:
                     frame:
-                        background Frame(gfxframes + "p_frame52.png", 10, 10)
+                        background Frame(gfxframes + "p_frame52.webp", 10, 10)
                         xysize 622, 330
                         yoffset -1
                         xalign .5
@@ -1251,7 +1251,7 @@ init: # Screens:
 
         frame:
             style_prefix "content"
-            background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+            background Frame("content/gfx/frame/p_frame52.webp", 10, 10)
             at slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7)
             xpos 936
             yalign .95
@@ -1369,7 +1369,7 @@ init: # Screens:
         frame:
             style_group "content"
             at slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7)
-            background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+            background Frame("content/gfx/frame/p_frame52.webp", 10, 10)
             xpos 936
             yalign .95
             xysize(343, 675)

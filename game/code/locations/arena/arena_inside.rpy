@@ -337,7 +337,7 @@ init: # Main Screens:
         zorder 1
 
         frame:
-            background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+            background Frame("content/gfx/frame/p_frame52.webp", 10, 10)
             xysize (721, 565)
             at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
             pos (280, 154)
@@ -361,7 +361,7 @@ init: # Main Screens:
                                 xysize (690, 150)
                                 margin 0, 0
                                 padding 3, 3
-                                background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
+                                background Frame(Transform("content/gfx/frame/p_frame7.webp", alpha=1.0), 10, 10)
                                 has hbox # xysize (690, 150)
 
                                 # Day of the fight:
@@ -458,7 +458,7 @@ init: # Main Screens:
         zorder 1
 
         frame:
-            background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+            background Frame("content/gfx/frame/p_frame52.webp", 10, 10)
             at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
             style_group "content"
             pos (280, 154)
@@ -478,7 +478,7 @@ init: # Main Screens:
                         frame:
                             xalign .5
                             xysize (695, 60)
-                            background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
+                            background Frame(Transform("content/gfx/frame/p_frame7.webp", alpha=1.0), 10, 10)
                             padding 1, 1
                             has hbox spacing 5
                             fixed:
@@ -531,7 +531,7 @@ init: # Main Screens:
         zorder 1
 
         frame:
-            background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+            background Frame("content/gfx/frame/p_frame52.webp", 10, 10)
             xysize (721, 565)
             at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
             pos (280, 154)
@@ -550,7 +550,7 @@ init: # Main Screens:
                             style_group "content"
                             xalign .5
                             xysize (690, 60)
-                            background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
+                            background Frame(Transform("content/gfx/frame/p_frame7.webp", alpha=1.0), 10, 10)
                             has hbox spacing 20
                             textbutton "{color=[red]}[index]":
                                 ypadding 5
@@ -595,7 +595,7 @@ init: # Main Screens:
 
         frame:
             style_group "content"
-            background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+            background Frame("content/gfx/frame/p_frame52.webp", 10, 10)
             xysize (721, 565)
             at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
             pos (280, 154)
@@ -615,7 +615,7 @@ init: # Main Screens:
                             padding 5, 3
                             xalign .5
                             xysize (695, 150)
-                            background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
+                            background Frame(Transform("content/gfx/frame/p_frame7.webp", alpha=1.0), 10, 10)
                             has hbox xalign .5
                             button:
                                 style "arena_channenge_button"
@@ -1063,7 +1063,7 @@ init: # Main Screens:
                 add loser.show("battle_sprite", resize=(200, 200), cache=True)
                 align (.8, .2)
 
-        add "content/gfx/frame/h1.png"
+        add "content/gfx/frame/h1.webp"
 
     screen arena_report():
         modal True
@@ -1096,7 +1096,7 @@ init: # ChainFights vs Mobs:
         modal True
         if not pytfall.arena.cf_mob:
             frame:
-                background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+                background Frame("content/gfx/frame/p_frame52.webp", 10, 10)
                 at slide(so1=(0, 1200), t1=.7, eo2=(0, 1200), t2=.7)
                 style_group "content"
                 pos (280, 154)
@@ -1114,7 +1114,7 @@ init: # ChainFights vs Mobs:
                         $ i+= 1
                         frame:
                             xysize (695, 55)
-                            background Frame(Transform("content/gfx/frame/p_frame7.png", alpha=1.0), 10, 10)
+                            background Frame(Transform("content/gfx/frame/p_frame7.webp", alpha=1.0), 10, 10)
                             padding 1, 1
                             # has hbox spacing 5
                             hbox:

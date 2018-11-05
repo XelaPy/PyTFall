@@ -18,7 +18,7 @@ screen pyp_buildings_and_businesses():
                   "Better apartments, just as better or upgraded housing provide greater overnight bonuses.")
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_buildings():
     zorder 1001
@@ -40,7 +40,7 @@ screen pyp_buildings():
                   "the buildings to work there, although lack of such may be compensated by upgrades and excellent management.")
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_businesses():
     zorder 1001
@@ -62,7 +62,7 @@ screen pyp_businesses():
             text ("Capacity enables your workers to serve more customers at any given time and usually just cost Gold.")
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_clients():
     zorder 1001
@@ -82,7 +82,7 @@ screen pyp_clients():
             text ("Higher Fame Building stats attract a higher number, and higher Reputation attracts a better class of Customer.")
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_building_stats():
     zorder 1001
@@ -138,7 +138,7 @@ screen pyp_building_stats():
                         text "Buildings have internal and external space which can be consumed to build businesses or upgrades. Capacity is the number of clients and slaves this building can host."
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_advertising():
     zorder 1001
@@ -156,7 +156,7 @@ screen pyp_advertising():
             text ("Advertising can be used to attract more and better clients through increasing Fame and Reputation of the building...")
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_manager():
     zorder 1001
@@ -181,7 +181,7 @@ screen pyp_manager():
                   " do other jobs (especially if (s)he have more than one class) is permitted by Building Controls.")
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_buildings_controls():
     zorder 1001
@@ -200,7 +200,7 @@ screen pyp_buildings_controls():
                   "control some other concerns (such as auto-cleaning). These will be expanded as the development moves forward.")
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_workers():
     zorder 1001
@@ -219,7 +219,7 @@ screen pyp_workers():
                   "Slaves can be purchased in the Slave Market or through items and events. Free workers can be hired through interaction in the City or in the Employment Agency.")
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_jobs():
     zorder 1001
@@ -247,7 +247,7 @@ screen pyp_jobs():
                   "by adding more businesses. To perform a task, open workable capacity is often required. Once the work is done, the working capacity is released and can be occupied by another client.")
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_simulation():
     zorder 1001
@@ -268,4 +268,4 @@ screen pyp_simulation():
                 add "content/gfx/interface/pyp/simulation.webp"
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"

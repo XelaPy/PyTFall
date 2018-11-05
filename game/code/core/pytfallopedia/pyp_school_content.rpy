@@ -9,7 +9,7 @@ screen pyp_school():
         label "PyTFall Educators" align .5, .5
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 # screen pyp_courses():
 #     zorder 1001
@@ -22,7 +22,7 @@ screen pyp_school():
 #         # Screen Content goes here!
 #
 #     # ForeGround frame (should be a part of every screen with Info):
-#     add "content/gfx/frame/h3.png"
+#     add "content/gfx/frame/h3.webp"
 #
 # screen pyp_courses():
 #     zorder 1001
@@ -35,4 +35,4 @@ screen pyp_school():
 #         # Screen Content goes here!
 #
 #     # ForeGround frame (should be a part of every screen with Info):
-#     add "content/gfx/frame/h3.png"
+#     add "content/gfx/frame/h3.webp"

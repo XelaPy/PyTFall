@@ -307,7 +307,7 @@ screen char_profile():
                     action Show("show_trait_info", trait=trait.id, place="main_trait")
                     tooltip "{}".format("\n".join([trait.id, trait.desc]))
 
-                add Transform("content/gfx/frame/base_frame.png", alpha=.9, size=(330, 126)):
+                add Transform("content/gfx/frame/base_frame.webp", alpha=.9, size=(330, 126)):
                     xoffset -5
 
                 label "[classes]":
@@ -685,7 +685,7 @@ screen char_profile():
             frame:
                 xalign .5 ypos 160
                 xysize 300, 90
-                background ProportionalScale("content/gfx/frame/frame_ap.png", 300, 100)
+                background ProportionalScale("content/gfx/frame/frame_ap.webp", 300, 100)
                 label ("[char.AP]"):
                     pos (200, 0)
                     style "content_label"
@@ -799,7 +799,7 @@ screen char_control():
     frame:
         style_group "content"
         at slide(so1=(600, 0), t1=.7, eo2=(1300, 0), t2=.7)
-        background Frame("content/gfx/frame/p_frame52.png", 10, 10)
+        background Frame("content/gfx/frame/p_frame52.webp", 10, 10)
         xpos 936
         yalign .95
         xysize(343, 675)

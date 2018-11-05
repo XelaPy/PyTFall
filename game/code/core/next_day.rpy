@@ -1123,7 +1123,7 @@ screen next_day():
         frame:
             pos 0, 0
             xysize 839, 720
-            background Frame("content/gfx/frame/p_frame7.png", 10, 10)
+            background Frame("content/gfx/frame/p_frame7.webp", 10, 10)
             padding 0, 0
             margin 0, 0
             frame:

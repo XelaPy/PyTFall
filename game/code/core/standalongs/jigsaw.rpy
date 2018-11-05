@@ -228,7 +228,7 @@ screen control_scr(preview):
         xpadding 20
         ypadding 20
         style_group "content"
-        background Frame("content/gfx/frame/arena_d.png", 5, 5)
+        background Frame("content/gfx/frame/blue_wood.webp", 5, 5)
         label "[number_of_pieces] pieces!" text_size 35 text_color ivory align (.5, .5)
 
     button:
@@ -250,7 +250,7 @@ screen jigsaw():
     key "rollback" action NullAction()
     key "rollforward" action NullAction()
 
-    add im.Scale("content/gfx/frame/_puzzle_field.png", img_width, img_height) pos (puzzle_field_offset, puzzle_field_offset)
+    add im.Scale("content/gfx/frame/_puzzle_field.webp", img_width, img_height) pos (puzzle_field_offset, puzzle_field_offset)
 
     draggroup:
         for i in xrange(0, grid_width):
@@ -260,7 +260,7 @@ screen jigsaw():
                 $ my_y = j*int(active_area_size*y_scale_index)+puzzle_field_offset
                 drag:
                     drag_name name
-                    child im.Scale("content/gfx/frame/_blank_space.png", int(active_area_size*x_scale_index), int(active_area_size*y_scale_index) )
+                    child im.Scale("content/gfx/frame/_blank_space.webp", int(active_area_size*x_scale_index), int(active_area_size*y_scale_index) )
                     draggable False
                     xpos my_x ypos my_y
 

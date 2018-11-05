@@ -152,13 +152,16 @@ init -960 python:
 
             fixed = Fixed(xysize=(160, 36))
             fixed.add(fi)
+            if stat == "exp":
+                t = Transform("content/gfx/interface/icons/exp.webp")
+                fixed.add(t)
+            else:
+                frame = "content/gfx/interface/buttons/sl_idle.png"
+                fixed.add(Transform(frame, size=(160, 36)))
 
-            frame = "content/gfx/interface/buttons/sl_idle.png"
-            fixed.add(Transform(frame, size=(160, 36)))
-
-            fixed.add(Text(stat.capitalize(), size=25,
-                           style="proper_stats_text", color="#79CDCD",
-                           align=(.5, .5)))
+                fixed.add(Text(stat.capitalize(), size=25,
+                               style="proper_stats_text", color="#79CDCD",
+                               align=(.5, .5)))
             if value < 0:
                 sign = "-"
                 color = red
@@ -191,17 +194,23 @@ init -960 python:
             kwargs = dict()
 
             fixed = Fixed(xysize=(160, 36))
-            fixed.add(Transform("content/gfx/frame/rank_frame.png", size=(160, 36)))
-            fixed.add(Text(stat.capitalize(), size=25,
-                           style="proper_stats_text", color="#79CDCD",
-                           align=(.5, .5)))
+            if stat == "exp":
+                t = Transform("content/gfx/interface/icons/exp.webp", align=(.5, .5))
+                fixed.add(t)
+            else:
+                fixed.add(Transform("content/gfx/frame/rank_frame.png", size=(160, 36)))
+                fixed.add(Text(stat.capitalize(), size=25,
+                               style="proper_stats_text",
+                               color="#79CDCD",
+                               align=(.5, .5)))
             if value < 0:
                 sign = "-"
                 color = red
             else:
                 sign = "+"
                 color = green
-            fixed.add(Text(sign+str(value), style="proper_stats_value_text", color=color,
+            fixed.add(Text(sign+str(value),
+                           style="proper_stats_value_text", color=color,
                            size=40, align=(.9, .5), yoffset=25))
 
             time_offset = self.get_time_offset()

@@ -28,7 +28,7 @@ screen pyp_general():
                   " being able to part-take in combat, prostitution banned and etc.), Economy, Religions, World Events, and much more.")
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_time_flow():
     zorder 1001
@@ -49,7 +49,7 @@ screen pyp_time_flow():
                   " around with at this development stage.")
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_action_points():
     zorder 1001
@@ -71,7 +71,7 @@ screen pyp_action_points():
                   " that can be affected by Upgrades and Manager effects. For Interactions, AP is converted into Interaction Points (1AP:3IP)")
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_next_day():
     zorder 1001
@@ -96,7 +96,7 @@ screen pyp_next_day():
             add "content/gfx/interface/pyp/next_day_screen.webp"
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_gazette():
     zorder 1001
@@ -118,4 +118,4 @@ screen pyp_gazette():
                   " the Employment agency!")
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"

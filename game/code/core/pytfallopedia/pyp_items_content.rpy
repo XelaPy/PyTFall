@@ -17,7 +17,7 @@ screen pyp_items():
             text "You can easily add your own items to the game by providing an icon and editing one of the items JSON files located in content/db/items."
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_consumables():
     zorder 1001
@@ -45,7 +45,7 @@ screen pyp_consumables():
             null height 5
             text "Some consumables have a cooldown timer. It means you only can use them once per several days."
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_weapons():
     zorder 1001
@@ -68,7 +68,7 @@ screen pyp_weapons():
             text "Usually they provide bonuses to combat stats and unlock unique attacks usable in combat. Slaves cannot equip weapons, but there are items for hands slots that are not considered to be real weapons and can be equipped by anyone."
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_materials():
     zorder 1001
@@ -97,7 +97,7 @@ screen pyp_materials():
             null height 5
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_equippables():
     zorder 1001
@@ -119,7 +119,7 @@ screen pyp_equippables():
             text "Additionally, slaves cannot equip any weapons or armor. Of course, they still can wear regular clothes."
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_misc():
     zorder 1001
@@ -143,7 +143,7 @@ screen pyp_misc():
             null height 5
             text "All related info you can find on the equipment screen, in the Frequency section."
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_stats_bonuses():
     zorder 1001
@@ -179,7 +179,7 @@ screen pyp_stats_bonuses():
             null height 5
             text "However, some items have special hidden bonuses (like protection against ranged attacks) that are only reflected in the item description."
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_inventory():
     zorder 1001
@@ -213,7 +213,7 @@ screen pyp_inventory():
             null height 5
             text "Additionally, you can discard unneeded items by clicking a discard button. Some items can't be dropped in the same way."
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_shopping():
     zorder 1001
@@ -235,7 +235,7 @@ screen pyp_shopping():
             null height 5
             text "Note that some items can't be sold in any shop."
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_auto_equip():
     zorder 1001
@@ -257,7 +257,7 @@ screen pyp_auto_equip():
             null height 5
             text "But additionally, you can use the auto equipment system that orders a character to equip a specific type of items depending on her Class. You can access in on the equipment screen."
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_transfer():
     zorder 1001
@@ -280,7 +280,7 @@ screen pyp_transfer():
             text "Some unique items cannot be given to other characters."
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
 
 screen pyp_storage():
     zorder 1001
@@ -301,4 +301,4 @@ screen pyp_storage():
             text "Note that inventory of any character is unlimited, so it's just an optional thing to get rid of unneeded items without selling them."
 
     # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.png"
+    add "content/gfx/frame/h3.webp"
