@@ -215,7 +215,7 @@ screen pyp_workers():
 
         vbox:
             ypos 400
-            text ("The player can hire or buy workers and set their workplace and action to take within that workplace. More businesses will allow a larger range of activities. "+
+            text ("The player can hire or buy workers and set their workplace and action to take within that workplace. More businesses will allow a broader range of activities. "+
                   "Slaves can be purchased in the Slave Market or through items and events. Free workers can be hired through interaction in the City or in the Employment Agency.")
 
     # ForeGround frame (should be a part of every screen with Info):
