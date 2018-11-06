@@ -225,7 +225,7 @@ label mc_setup_mage_sorcerer_kitsune_fire:
     python hide:
         temp = []
         for i in items.values():
-            if i.type == "scroll" and "Peevish Shop" in i.locations and i.tier < 3:
+            if i.type == "scroll" and "Witch Spells Shop" in i.locations and i.tier < 3:
                 temp.append(i)
         if len(temp) >= 3: # Should always be a case unless we chance the concept.
             temp = random.sample(temp, 3)
