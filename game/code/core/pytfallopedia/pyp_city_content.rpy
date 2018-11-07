@@ -18,9 +18,38 @@ screen pyp_interactions():
         pos 302, 49
         xysize config.screen_width-309, config.screen_height-56
         style_prefix "proper_stats"
+        vbox:
+            add "content/gfx/interface/pyp/interactions.webp" align .5, .05
 
-        # Screen Content goes here!
+            viewport:
+                draggable 1
+                mousewheel 1
+                scrollbars "vertical"
+                has vbox spacing 8
 
+                label "Interactions"
+                text "In order to run a business or fight in a team you need workers. You can buy slaves at the slave market (see its section), but in order to get free characters you need to find them and hire."
+                null height 5
+                text "In most locations you will see a button in the bottom right corner called «Meet Girls». It allows to search the area for possible candidates. Then you can pick one of them and start interaction."
+                null height 5
+                text "During interactions you can speak to characters about different things, give gifts or money, hire or even romance them. Your goal is to increase disposition, as it makes all actions more successful. You can see the disposition bar all the time during interactions. Be careful though, some actions may decrease disposition. If you upset a character, she will refuse to talk to you for a few days."
+                null height 5
+                label "Gifts"
+                text "Some items can be used as gifts. The effect of the gift is based on character personality, and remains the same. However some time should pass before you can use the same gift again."
+                text "A character may dislike a particular gift. As you try new gifts, hints for them become available in the gifts menu, showing their effect for the current character."
+                null height 5
+                label "Hiring"
+                text "You can't hire a character whose tier is much higher than the tier of the Main Character. But you still can romance them if you wish to."
+                text "You can interact with the characters you hired from their profiles, but some options will be different for them."
+                null height 5
+                label "Friends List"
+                frame:
+                    align .5, .5
+                    background Frame("content/gfx/frame/mes11.webp", 10, 10)
+                    padding 6, 6
+                    add "content/gfx/interface/pyp/interactions_1.webp"
+                text "In hero profile screen you can find a list of all not hired characters you know closely. From there you can start interactions with them any time."
+            
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
 

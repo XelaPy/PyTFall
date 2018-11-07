@@ -184,7 +184,7 @@ screen pyp_controls():
         xysize config.screen_width-309, config.screen_height-56
         style_prefix "proper_stats"
 
-        label "Controls Info" align .5, .025 text_size 30
+        label "Controls Info" align .5, .025 text_size 30 # TODO: aside from other things, we should mention here how to put them in MC ream
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
