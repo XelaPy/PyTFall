@@ -306,7 +306,7 @@ label mc_setup_mage_researcher_slime_water:
     python hide:
         temp = []
         for i in items.values():
-            if i.id in ["Water Scroll", "Watera Scroll", "Waterga Scroll", "Waterja Scroll", "Last Drop Scroll", "Geyser Scroll", ]:
+            if i.id in ["Water Scroll", "Watera Scroll", "Waterga Scroll", "Waterja Scroll", "Last Drop Scroll", "Geyser Scroll"]:
                 temp.append(i)
         if len(temp) >= 3: # Should always be a case unless we chance the concept.
             temp = random.sample(temp, 3)
