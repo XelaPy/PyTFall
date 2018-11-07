@@ -179,7 +179,7 @@ label mc_setup_mage_arc_ghost_light:
     python hide:
         temp = []
         for i in items.values():
-            if i.type == "scroll" and "Angelica Shop" in i.locations and i.tier < 3:
+            if i.id in ["Holy Scroll", "Holyra Scroll", "Holyda Scroll", "Holyja Scroll", "Star Light Scroll", "Photon Blade Scroll", "Restoration Scroll", "Revive Scroll"]:
                 temp.append(i)
         if len(temp) >= 3: # Should always be a case unless we chance the concept.
             temp = random.sample(temp, 3)
@@ -198,7 +198,7 @@ label mc_setup_mage_arc_vampire_night:
     python hide:
         temp = []
         for i in items.values():
-            if i.type == "scroll" and "Angelica Shop" in i.locations and i.tier < 3:
+            if i.id in ["Dark Scroll", "Darkra Scroll", "Darkga Scroll", "Darkja Scroll", "Eternal Gluttony Scroll", "Black Hole Scroll", "Poison Scroll"]:
                 temp.append(i)
         if len(temp) >= 3: # Should always be a case unless we chance the concept.
             temp = random.sample(temp, 3)
@@ -225,7 +225,7 @@ label mc_setup_mage_sorcerer_kitsune_fire:
     python hide:
         temp = []
         for i in items.values():
-            if i.type == "scroll" and "Witch Spells Shop" in i.locations and i.tier < 3:
+            if i.id in ["Fire Scroll", "Fira Scroll", "Firaga Scroll", "Firaja Scroll", "Fireball Scroll", "Solar Flash Scroll"]:
                 temp.append(i)
         if len(temp) >= 3: # Should always be a case unless we chance the concept.
             temp = random.sample(temp, 3)
@@ -252,7 +252,7 @@ label mc_setup_mage_sorcerer_winter_ice:
     python hide:
         temp = []
         for i in items.values():
-            if i.type == "scroll" and "Aine Shop" in i.locations and i.tier < 3:
+            if i.id in ["Blizzard Scroll", "Blizzara Scroll", "Blizzarga Scroll", "Blizzarja Scroll", "Ice Blast Scroll", "Zero Prism Scroll"]:
                 temp.append(i)
         if len(temp) >= 3: # Should always be a case unless we chance the concept.
             temp = random.sample(temp, 3)
@@ -279,7 +279,7 @@ label mc_setup_mage_researcher_android_ele:
     python hide:
         temp = []
         for i in items.values():
-            if i.type == "scroll" and "Aine Shop" in i.locations and i.tier < 3:
+            if i.id in ["Thunder Scroll", "Thundara Scroll", "Thundaga Scroll", "Thundaja Scroll", "Ion Blast Scroll", "Electromagnetism Scroll"]:
                 temp.append(i)
         if len(temp) >= 3: # Should always be a case unless we chance the concept.
             temp = random.sample(temp, 3)
@@ -306,7 +306,7 @@ label mc_setup_mage_researcher_slime_water:
     python hide:
         temp = []
         for i in items.values():
-            if i.type == "scroll" and "Peevish Shop" in i.locations and i.tier < 3:
+            if i.id in ["Water Scroll", "Watera Scroll", "Waterga Scroll", "Waterja Scroll", "Last Drop Scroll", "Geyser Scroll", ]:
                 temp.append(i)
         if len(temp) >= 3: # Should always be a case unless we chance the concept.
             temp = random.sample(temp, 3)
