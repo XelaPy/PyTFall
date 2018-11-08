@@ -35,18 +35,32 @@ screen pyp_time_flow():
 
     fixed:
         pos 302, 49
-        xysize config.screen_width-309, config.screen_height-56
-        style_prefix "proper_stats"
+        xysize 971, 664
+        style_prefix "pyp"
+        fixed:
+            xysize 600, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "Time Flow" size 30
 
-        vbox:
-            align .5, .5
-            text ("One turn of the game corresponds to one day, in which the Player"+
-                  " can take actions, perform tasks, jobs and date-sim to his/her heart's content.")
-            null height 10
-            text ("There is presently no concept of daytimes (Morning/Day/Evening/Night)"+
-                  " in PyTFall, although we develop with a presence of those in mind. A large amount of"+
-                  " extra content (mostly backgrounds) that would be required is scary and not reasonable to mess"+
-                  " around with at this development stage.")
+            vbox:
+                ypos 80
+                text ("One turn of the game corresponds to one day, in which the Player"+
+                      " can take actions, perform tasks, jobs and date-sim to his/her heart's content.")
+                null height 10
+                text ("There is presently no concept of daytimes (Morning/Day/Evening/Night)"+
+                      " in PyTFall, although we develop with a presence of those in mind. A large amount of"+
+                      " extra content (mostly backgrounds) that would be required is scary and not reasonable to mess"+
+                      " around with at this development stage.")
+
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            add pscale("content/gfx/interface/icons/clock.png", 250, 250):
+                xalign .5 ypos 50
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
@@ -56,19 +70,32 @@ screen pyp_action_points():
 
     fixed:
         pos 302, 49
-        xysize config.screen_width-309, config.screen_height-56
-        style_prefix "proper_stats"
+        xysize 971, 664
+        style_prefix "pyp"
+        fixed:
+            xysize 600, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "Action Points" size 30
 
-        add "content/gfx/interface/pyp/ap.webp" align .5, .05
-
-        vbox:
-            align .5, .5
-            label "Action Points"
             text ("Actions Points decide how many actions "+
                   "the Player and other Characters can take per one game turn (Day). "+
                   " The amount of AP depends on stats (constitution) and Traits."+
-                  " When performing Jobs during the Next Day, 'AP' is converted to Job Points (1AP=100JP)"+
-                  " that can be affected by Upgrades and Manager effects. For Interactions, AP is converted into Interaction Points (1AP:3IP)")
+                  " When performing Jobs during the Next Day, 'AP' is converted to Job Points (1 AP = 100 JP)"+
+                  " that can be affected by Upgrades and Manager effects. For Interactions,"+
+                  " AP is converted into Interaction Points (1 AP = 3 IP)"):
+                      ypos 80
+
+
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            frame:
+                xalign .5 ypos 105
+                add pscale("content/gfx/interface/pyp/ap.webp", 250, 100)
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
@@ -78,22 +105,39 @@ screen pyp_next_day():
 
     fixed:
         pos 302, 49
-        xysize config.screen_width-309, config.screen_height-56
-        style_prefix "proper_stats"
+        xysize 971, 664
+        style_prefix "pyp"
+        fixed:
+            xysize 600, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "Next Day" size 30
 
-        add "content/gfx/interface/pyp/next_day_button.webp" align .5, .05
+            vbox:
+                ypos 80
+                text ("Next Day starts execution of businesses, training and some events"+
+                      " pushing the game to the next day.")
+                null height 10
+                text ("For any Character (including the Player itself), Next Day will execute whatever 'Action'"+
+                      " they are set to perform and spend the remaining amount of Action Points performing it. "+
+                      " At the end of such a cycle, you will be able to review detailed reports of everything that has happened "+
+                      " as those actions and events were performed.")
 
-        vbox:
-            ypos 200
-            text ("Next Day starts execution of businesses, training and some events"+
-                  " pushing the game to the next day.")
-            null height 10
-            text ("For any Character (including the Player itself), Next Day will execute whatever 'Action'"+
-                  " they are set to perform and spend the remaining amount of Action Points performing it. "+
-                  " At the end of such a cycle, you will be able to review detailed reports of everything that has happened "+
-                  " as those actions and events were performed.")
-            null height 10
-            add "content/gfx/interface/pyp/next_day_screen.webp"
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            vbox:
+                xalign .5 ypos 80
+                spacing 20
+                frame:
+                    xalign .5
+                    add pscale("content/gfx/interface/pyp/next_day_button.webp", 350, 1000)
+                frame:
+                    xalign .5
+                    add pscale("content/gfx/interface/pyp/next_day_screen.webp", 350, 1000)
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
@@ -103,19 +147,32 @@ screen pyp_gazette():
 
     fixed:
         pos 302, 49
-        xysize config.screen_width-309, config.screen_height-56
-        style_prefix "proper_stats"
+        xysize 971, 664
+        style_prefix "pyp"
+        fixed:
+            xysize 600, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "PyTFall GAZETTE" size 30
 
-        add "content/gfx/interface/pyp/gazette.webp" align .5, .05
+            vbox:
+                ypos 80
+                text ("Gazzete reports major events in the city!")
+                null height 10
+                text ("It will be significantly expanded once we have World Events, "+
+                      "Politics, and Economy. For now, you will know about the events at the Arena, "+
+                      " shop and slave market restocks and new workers submitting their applications to"+
+                      " the Employment agency!")
 
-        vbox:
-            ypos 400
-            text ("PyTFall's Gazzete reports major events in the city!")
-            null height 10
-            text ("It will be significantly expanded once we have World Events, "+
-                  "Politics, and Economy. For now, you will know about the events at the Arena, "+
-                  " shop and slave market restocks and new workers submitting their applications to"+
-                  " the Employment agency!")
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            frame:
+                xalign .5 ypos 90
+                add "content/gfx/interface/pyp/gazette.webp" align .5, .05
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
