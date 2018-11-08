@@ -3,10 +3,21 @@ screen pyp_city():
 
     fixed:
         pos 302, 49
-        xysize config.screen_width-309, config.screen_height-56
-        style_prefix "proper_stats"
+        xysize 971, 664
+        style_prefix "pyp"
+        fixed:
+            xysize 600, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "City" size 30
 
-        # Screen Content goes here!
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            # Images and maybe details:
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
@@ -16,17 +27,22 @@ screen pyp_interactions():
 
     fixed:
         pos 302, 49
-        xysize config.screen_width-309, config.screen_height-56
-        style_prefix "proper_stats"
-        vbox:
-            add "content/gfx/interface/pyp/interactions.webp" align .5, .05
+        xysize 971, 664
+        style_prefix "pyp"
+        fixed:
+            xysize 600, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "Interactions" size 30
 
             viewport:
                 draggable 1
                 mousewheel 1
                 scrollbars "vertical"
+                ypos 80 ysize 580
                 has vbox spacing 8
-
                 label "Interactions"
                 text "In order to run a business or fight in a team you need workers. You can buy slaves at the slave market (see its section), but in order to get free characters you need to find them and hire."
                 null height 5
@@ -45,23 +61,16 @@ screen pyp_interactions():
                 label "Friends List"
                 frame:
                     align .5, .5
-                    background Frame("content/gfx/frame/mes11.webp", 10, 10)
-                    padding 6, 6
                     add "content/gfx/interface/pyp/interactions_1.webp"
                 text "In hero profile screen you can find a list of all not hired characters you know closely. From there you can start interactions with them any time."
-            
-    # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.webp"
 
-screen pyp_mc_jobs():
-    zorder 1001
-
-    fixed:
-        pos 302, 49
-        xysize config.screen_width-309, config.screen_height-56
-        style_prefix "proper_stats"
-
-        # Screen Content goes here!
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            frame:
+                align .5, .4
+                add pscale("content/gfx/interface/pyp/interactions.webp", 350, 1000)
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
@@ -71,30 +80,53 @@ screen pyp_mc_actions():
 
     fixed:
         pos 302, 49
-        xysize config.screen_width-309, config.screen_height-56
-        style_prefix "proper_stats"
+        xysize 971, 664
+        style_prefix "pyp"
+        fixed:
+            xysize 600, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "Actions" size 30
 
-        vbox:
-            align .5, .5
-            label "Actions in the City"
-            text "In the City you can spend your Action Points on various minigames and other activities, getting various rewards for it. All minigames have their own tutorials once you discover them."
-            null height 15
-            label "Fishing"
-            text "On the beach you can try to catch some fish. Sometimes you get something more valuable."
-            null height 5
-            label "Diving"
-            text "You can inspect the ocean floor to discover long sunken treasures."
-            null height 5
-            label "Wood Cutting"
-            text "With an axe you can cut some trees in the forest and the sell them or use for upgrades."
-            null height 5
-            label "Exploring"
-            text "You can explore cemetery ruins or the forest around the City to find enemies and treasures."
-            null height 5
-            label "Gambling"
-            text "In the tavern you can play dices if you are feeling lucky."
-            null height 15
-            text "And there are many other things you can do, try to find them all!"
+            viewport:
+                draggable 1
+                mousewheel 1
+                scrollbars "vertical"
+                ypos 80 ysize 580
+                has vbox spacing 8
+                label "Actions in the City"
+                text ("In the City you can spend your Action Points on various minigames and "+
+                      "other activities, getting various rewards for it. All minigames have their own tutorials once you discover them.")
+                null height 15
+                label "Fishing"
+                text "On the beach you can try to catch some fish. Sometimes you get something more valuable."
+                null height 5
+                label "Diving"
+                text "You can inspect the ocean floor to discover long sunken treasures."
+                null height 5
+                label "Wood Cutting"
+                text "With an axe you can cut some trees in the forest and the sell them or use for upgrades."
+                null height 5
+                label "Exploring"
+                text "You can explore cemetery ruins or the forest around the City to find enemies and treasures."
+                null height 5
+                label "Gambling"
+                text "In the tavern you can play dices if you are feeling lucky."
+                null height 5
+                label "Work"
+                text ("You can work at the Slave Market and make a quick buck. Either"+
+                      " all Action Point or One Action point can be used at the time.")
+                null height 15
+                text "And there are many other things you can do, try to find them all!"
+
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            # Images and maybe details:
+
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
 
@@ -103,10 +135,21 @@ screen pyp_slave_market():
 
     fixed:
         pos 302, 49
-        xysize config.screen_width-309, config.screen_height-56
-        style_prefix "proper_stats"
+        xysize 971, 664
+        style_prefix "pyp"
+        fixed:
+            xysize 600, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "Slave Market" size 30
 
-        # Screen Content goes here!
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            # Images and maybe details:
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
@@ -116,44 +159,55 @@ screen pyp_npcs():
 
     fixed:
         pos 302, 49
-        xysize config.screen_width-309, config.screen_height-56
-        style_prefix "proper_stats"
+        xysize 971, 664
+        style_prefix "pyp"
+        fixed:
+            xysize 600, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "Non Playable Characters" size 30
 
-        vbox:
-            align .5, .5
-            add "content/gfx/interface/pyp/npc.webp" align .5, .05
-            label "Non Playable Characters"
-            text "Many locations have key NPCs providing different services. Some of them are hidden, and should be discovered first."
-            null height 5
-            text "Try to look around in different locations. Note that some NPCs require high enough level or stats before you can find them."
-            null height 5
-            text "The NPCs can train you or other characters for a price, or sell you items you won't find anywhere else."
+            vbox:
+                ypos 80
+                text "Many locations have key NPCs providing different services. Some of them are hidden, and should be discovered first."
+                null height 5
+                text "Try to look around in different locations. Note that some NPCs require high enough level or stats before you can find them."
+                null height 5
+                text "The NPCs can train you or other characters for a price, or sell you items you won't find anywhere else."
+
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            frame:
+                align .5, .4
+                add pscale("content/gfx/interface/pyp/npc.webp", 350, 1000)
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
-
-# screen pyp_look_around():
-#     zorder 1001
-#
-#     fixed:
-#         pos 302, 49
-#         xysize config.screen_width-309, config.screen_height-56
-#         style_prefix "proper_stats"
-#
-#         # Screen Content goes here!
-#
-#     # ForeGround frame (should be a part of every screen with Info):
-#     add "content/gfx/frame/h3.webp"
 
 screen pyp_arena():
     zorder 1001
 
     fixed:
         pos 302, 49
-        xysize config.screen_width-309, config.screen_height-56
-        style_prefix "proper_stats"
+        xysize 971, 664
+        style_prefix "pyp"
+        fixed:
+            xysize 600, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "Arena" size 30
 
-        # Screen Content goes here!
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            # Images and maybe details:
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
@@ -163,10 +217,21 @@ screen pyp_main_street():
 
     fixed:
         pos 302, 49
-        xysize config.screen_width-309, config.screen_height-56
-        style_prefix "proper_stats"
+        xysize 971, 664
+        style_prefix "pyp"
+        fixed:
+            xysize 600, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "Main Street" size 30
 
-        # Mention Realtor and EA
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            # Images and maybe details:
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"

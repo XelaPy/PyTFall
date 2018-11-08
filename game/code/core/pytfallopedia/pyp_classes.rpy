@@ -58,7 +58,6 @@ init python:
 
     pyp.add_main("City", "pyp_city")
     pyp.add_sub("Interactions", "pyp_interactions", "City")
-    pyp.add_sub("MC Jobs", "pyp_mc_jobs", "City")
     pyp.add_sub("MC Actions", "pyp_mc_actions", "City")
     pyp.add_sub("Slave Market", "pyp_slave_market", "City")
     pyp.add_sub("NPCs", "pyp_npcs", "City")
