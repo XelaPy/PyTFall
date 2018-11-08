@@ -5,27 +5,47 @@ screen pyp_general():
         pos 302, 49
         xysize 971, 664
         style_prefix "pyp"
+        fixed:
+            xysize 600, 664
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "PyTFall" size 30
 
-        add "content/gfx/interface/logos/logo9.png" xalign .5 ypos 30
+            vbox:
+                ypos 80
+                label "Open World H/Sim Game"
+                null height 20
+                text ("PyTFall is an open source, turn-based Sim game with a Hentai twist"+
+                      " developed to serve as a next-generation of WM and SimBro focusing on "+
+                      "gathering a team of workers, managing businesses, leveling up "+
+                      "the MC and other characters and Date-Sim Elements, "+
+                      "RPG Style Combat and Exploration, Interactions and etc.")
+                null height 10
+                text ("Events of PyTFall take place in the same universe as those of WM"+
+                      " (Whore Master). The world itself poses barely any rules or"+
+                      " guidelines to it. The WM's original City (CrossGate) still "+
+                      "exists in the time frame of PyTFall and is described as "+
+                      "'the slave capital of the World'.")
+                null height 10
+                text ("In the future, we're hoping to expand it with many more cities, businesses, gang-fighting, "+
+                      "Politics that have a direct effect on game world rules (such as slavery being forbidden, slaves not"+
+                      " being able to part-take in combat, prostitution banned and etc.), Economy, Religions, World Events, and much more.")
 
-        vbox:
-            align .5, .5
-            label "Open World H/Sim Game"
-            text ("PyTFall is an open source, turn-based Sim game with a Hentai twist"+
-                  " developed to serve as a next-generation of WM and SimBro focusing on "+
-                  "gathering a team of workers, managing businesses, leveling up "+
-                  "the MC and other characters and Date-Sim Elements, "+
-                  "RPG Style Combat and Exploration, Interactions and etc.")
-            null height 10
-            text ("Events of PyTFall take place in the same universe as those of WM"+
-                  " (Whore Master). The world itself poses barely any rules or"+
-                  " guidelines to it. The WM's original City (CrossGate) still "+
-                  "exists in the time frame of PyTFall and is described as "+
-                  "'the slave capital of the World'.")
-            null height 10
-            text ("In the future, we're hoping to expand it with many more cities, businesses, gang-fighting, "+
-                  "Politics that have a direct effect on game world rules (such as slavery being forbidden, slaves not"+
-                  " being able to part-take in combat, prostitution banned and etc.), Economy, Religions, World Events, and much more.")
+
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            vbox:
+                align .5, .5
+                spacing 7
+                add pscale("content/gfx/interface/logos/logo9.png", 250, 250):
+                    xalign .5
+                frame:
+                    add pscale("content/gfx/interface/pyp/pf.webp", 350, 1000)
+                add pscale("content/gfx/interface/logos/logo9.png", 250, 250):
+                    xalign .5
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
@@ -43,7 +63,7 @@ screen pyp_time_flow():
             frame:
                 style_suffix "title_frame"
                 xalign .5 ypos 10
-                text "Time Flow" size 30
+                text "Time Progression" size 30
 
             vbox:
                 ypos 80
