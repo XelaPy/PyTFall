@@ -185,8 +185,6 @@ screen pyp_elements():
                         padding 6, 6
                         add "content/gfx/interface/pyp/multi_el.webp"
 
-
-
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
 
@@ -210,7 +208,6 @@ screen pyp_effects():
                 scrollbars "vertical"
                 xysize 974, 420
                 has vbox spacing 8
-
 
                 vbox:
                     label "Poisoned"
