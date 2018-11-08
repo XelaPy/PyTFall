@@ -29,9 +29,11 @@ init python:
         def add_sub(self, name, screen, main):
             if main not in self.main:
                 return
+            elif not len(self.sub.get(main, [])):
+                self.sub[main] = [(main, self.main[main])]
 
-            if (name, screen) not in self.sub.get(main, []):
-                self.sub.setdefault(main, []).append((name, screen))
+            if (name, screen) not in self.sub[main]:
+                self.sub[main].append((name, screen))
 
 
 init python:

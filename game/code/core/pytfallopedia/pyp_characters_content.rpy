@@ -40,6 +40,8 @@ screen pyp_characters():
             style_prefix "pyp"
             # Images and maybe details:
 
+    add "content/gfx/frame/h3.webp"
+
 screen pyp_tiers():
     zorder 1001
 
