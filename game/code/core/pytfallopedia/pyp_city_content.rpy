@@ -69,7 +69,7 @@ screen pyp_interactions():
             xysize 370, 664
             style_prefix "pyp"
             frame:
-                align .5, .4
+                xalign .5 ypos 80
                 add pscale("content/gfx/interface/pyp/interactions.webp", 350, 1000)
 
     # ForeGround frame (should be a part of every screen with Info):
@@ -182,7 +182,7 @@ screen pyp_npcs():
             xysize 370, 664
             style_prefix "pyp"
             frame:
-                align .5, .4
+                xalign .5 ypos 80
                 add pscale("content/gfx/interface/pyp/npc.webp", 350, 1000)
 
     # ForeGround frame (should be a part of every screen with Info):

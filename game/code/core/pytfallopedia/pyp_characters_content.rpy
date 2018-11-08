@@ -148,7 +148,7 @@ screen pyp_stats():
             xysize 370, 664
             style_prefix "pyp"
             frame:
-                align .1, .8
+                xalign .5 ypos 80
                 add "content/gfx/interface/pyp/stats.webp"
 
     # ForeGround frame (should be a part of every screen with Info):
@@ -205,7 +205,7 @@ screen pyp_skills():
             xysize 370, 664
             style_prefix "pyp"
             frame:
-                align .1, .8
+                xalign .5 ypos 80
                 add "content/gfx/interface/pyp/skills.webp"
 
     # ForeGround frame (should be a part of every screen with Info):

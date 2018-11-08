@@ -259,7 +259,7 @@ screen pyp_stats_bonuses():
             xysize 370, 664
             style_prefix "pyp"
             vbox:
-                xalign .5
+                xalign .5 ypos 80
                 spacing 10
                 hbox:
                     spacing 2
@@ -305,7 +305,7 @@ screen pyp_inventory():
             xysize 370, 664
             style_prefix "pyp"
             vbox:
-                xalign .5
+                xalign .5 ypos 80
                 spacing 10
                 frame:
                     add pscale("content/gfx/interface/pyp/items_10.webp", 200, 1000)

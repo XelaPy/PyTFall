@@ -114,7 +114,7 @@ screen pyp_action_points():
             xysize 370, 664
             style_prefix "pyp"
             frame:
-                xalign .5 ypos 105
+                xalign .5 ypos 80
                 add pscale("content/gfx/interface/pyp/ap.webp", 250, 100)
 
     # ForeGround frame (should be a part of every screen with Info):
@@ -191,7 +191,7 @@ screen pyp_gazette():
             xysize 370, 664
             style_prefix "pyp"
             frame:
-                xalign .5 ypos 90
+                xalign .5 ypos 80
                 add "content/gfx/interface/pyp/gazette.webp" align .5, .05
 
     # ForeGround frame (should be a part of every screen with Info):
