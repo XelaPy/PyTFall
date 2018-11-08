@@ -420,8 +420,8 @@ init 2: # Advanced style that can carry a lot of properties to be used in screen
 
     style pyp_frame:
         is frame
-        yalign .5
         background Frame("content/gfx/frame/mes11.webp", 10, 10)
+        margin (0, 0)
         padding (6, 6)
     style pyp_vbox:
         is proper_stats_vbox
