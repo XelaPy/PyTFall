@@ -27,10 +27,9 @@ screen pyp_characters():
                     text "They are the shop owners and other personalities that you will find in the city. They cannot be hired. Male and Female."
                 vbox:
                     label "Arena Fighters"
-                    text "Male and Female characters that populate the Arena. MC's avatar is drawn from one of the males, which is later excluded. They normally have a very limited picture database."
-                vbox:
-                    label "Arena Fighter"
-                    text "Male and Female characters that populate the Arena. MC's avatar is drawn from one of the males, which is later excluded."
+                    text ("Male and Female characters that populate the Arena. "+
+                          "MC's avatar is drawn from one of the males, which is "+
+                          "later excluded. They normally have a very limited picture database.")
                 vbox:
                     label "Mobs"
                     text "People and Monsters you fights against."

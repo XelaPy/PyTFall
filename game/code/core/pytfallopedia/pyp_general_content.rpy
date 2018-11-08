@@ -159,7 +159,7 @@ screen pyp_gazette():
 
             vbox:
                 ypos 80
-                text ("Gazzete reports major events in the city!")
+                text ("Gazzete reports on major events in the city!")
                 null height 10
                 text ("It will be significantly expanded once we have World Events, "+
                       "Politics, and Economy. For now, you will know about the events at the Arena, "+
