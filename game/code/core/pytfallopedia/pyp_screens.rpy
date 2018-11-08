@@ -60,9 +60,9 @@ screen pytfallopedia():
 
             vbox:
                 align .5, .5
-                label "Welcome to PyTFallopea" xalign .5 text_size 40
+                label "Welcome to PyTFallopedia" xalign .5 text_size 40
                 null height 100
-                text "An ingame encyclopedia that introduces the player to the core game world and game play concepts!" xalign .5
+                text "An in-game encyclopedia that introduces the player to the core game-world and game-play concepts!" xalign .5
 
     # Left frame with buttons:
     frame:
