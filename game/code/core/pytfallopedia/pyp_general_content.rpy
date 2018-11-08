@@ -3,10 +3,10 @@ screen pyp_general():
 
     fixed:
         pos 302, 49
-        xysize config.screen_width-309, config.screen_height-56
-        style_prefix "proper_stats"
+        xysize 971, 664
+        style_prefix "pyp"
 
-        add "content/gfx/interface/logos/logo9.png" align .5, .05
+        add "content/gfx/interface/logos/logo9.png" xalign .5 ypos 30
 
         vbox:
             align .5, .5

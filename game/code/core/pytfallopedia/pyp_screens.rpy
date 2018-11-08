@@ -50,8 +50,13 @@ screen pytfallopedia():
         xysize config.screen_width-287, config.screen_height-41
         style_prefix "proper_stats"
 
-        if not pyp.main_focused and not pyp.sub_focused:
-            add "content/gfx/interface/logos/logo9.png" align .5, .05
+    if not pyp.main_focused and not pyp.sub_focused:
+        fixed:
+            pos 302, 49
+            xysize 971, 664
+            style_prefix "pyp"
+
+            add "content/gfx/interface/logos/logo9.png" xalign .5 ypos 30
 
             vbox:
                 align .5, .5
@@ -113,7 +118,7 @@ screen pyp_default():
                 style_suffix "title_frame"
                 xalign .5 ypos 10
                 text "**Title**" size 30
-                
+
         fixed:
             xpos 601
             xysize 370, 664
