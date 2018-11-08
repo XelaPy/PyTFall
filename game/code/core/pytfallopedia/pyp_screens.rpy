@@ -104,10 +104,21 @@ screen pyp_default():
 
     fixed:
         pos 302, 49
-        xysize config.screen_width-309, config.screen_height-56
+        xysize 971, 664
         style_prefix "pyp"
-
-        # Screen Content goes here!
+        fixed:
+            xysize 600, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "**Title**" size 30
+                
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            # Images and maybe details:
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
