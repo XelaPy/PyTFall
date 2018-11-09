@@ -92,9 +92,7 @@ screen pyp_classes():
             xysize 370, 664
             style_prefix "pyp"
             frame:
-                align .1, .6
-                background Frame("content/gfx/frame/mes11.webp", 10, 10)
-                padding 6, 6
+                align .0, .6
                 add "content/gfx/interface/pyp/core_traits.webp"
 
     add "content/gfx/frame/h3.webp"
@@ -154,17 +152,11 @@ screen pyp_fixed_traits():
             xysize 370, 664
             style_prefix "pyp"
             vbox:
-                align .5, .75
+                align .0, .75
                 frame:
-                    yalign .5
-                    background Frame("content/gfx/frame/mes11.webp", 10, 10)
-                    padding 6, 6
                     add "content/gfx/interface/pyp/fixed_traits.webp"
                 null height 10
                 frame:
-                    yalign .5
-                    background Frame("content/gfx/frame/mes11.webp", 10, 10)
-                    padding 6, 6
                     add "content/gfx/interface/pyp/pers_traits.webp"
 
     # ForeGround frame (should be a part of every screen with Info):

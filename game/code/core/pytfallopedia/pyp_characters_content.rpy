@@ -142,13 +142,12 @@ screen pyp_stats():
                             label "Upkeep"
                             text "How much gold the character requires per day for her basic needs."
 
-
         fixed:
             xpos 601
             xysize 370, 664
             style_prefix "pyp"
             frame:
-                xalign .5 ypos 80
+                xalign .5 ypos 300
                 add "content/gfx/interface/pyp/stats.webp"
 
     # ForeGround frame (should be a part of every screen with Info):
@@ -205,7 +204,7 @@ screen pyp_skills():
             xysize 370, 664
             style_prefix "pyp"
             frame:
-                xalign .5 ypos 80
+                xalign .5 ypos 300
                 add "content/gfx/interface/pyp/skills.webp"
 
     # ForeGround frame (should be a part of every screen with Info):
