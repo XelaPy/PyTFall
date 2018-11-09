@@ -55,13 +55,33 @@ screen pyp_tiers():
             frame:
                 style_suffix "title_frame"
                 xalign .5 ypos 10
-                text "Tiers Info" size 30
+                text "Tiers/Levels" size 30
+
+            text ("Each level-up requires 1000 Experience points. Each tier, in turn,"+
+                 " is about 20 levels but tiering up can occur earlier or later than"+
+                 " that depending on class relevant stats and skills values relevant to the process.\n\n"+
+                 "Tiers are of utmost importance to Jobs, Management, and Actions"+
+                 " that Characters can take in the game world.\n\n"+
+                 "Every time the Character levels up, his/her class stats and skill are pushed "+
+                 "higher and recalculated. Don't be surprised if items that offer max-stat bonuses"+
+                 " provided greater bonuses after a level up or if an amount of skill stars drops"+
+                 " after a tier up, your skill didn't decrease, it's the level of"+
+                 " expected skill from the next tier that is more demanding!"):
+                     ypos 80
 
         fixed:
             xpos 601
             xysize 370, 664
             style_prefix "pyp"
-            # Images and maybe details:
+            vbox:
+                xalign .5 ypos 80
+                spacing 10
+                frame:
+                    add pscale("content/gfx/interface/pyp/char_base_info.webp", 350, 1000)
+                frame:
+                    add pscale("content/gfx/interface/pyp/level_mc.webp", 350, 1000)
+                frame:
+                    add pscale("content/gfx/interface/pyp/level_char.webp", 350, 1000)
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
