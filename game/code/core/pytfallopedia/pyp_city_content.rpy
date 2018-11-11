@@ -284,11 +284,24 @@ screen pyp_main_street():
                 xalign .5 ypos 10
                 text "Main Street" size 30
 
+            vbox:
+                ypos 80
+                text ("Main Steet is where you'll find the most shops in the game, "+
+                      "but more importantly, Real Estate Agency where you can buy "+
+                      "buildings (fixed at this stage of development) and the "+
+                      "Employment Agency where you can hire free workers.")
+
+                text ("Some shops have unique actions available. You can take your"+
+                      " friends out for lunch at the Café and improve on some items at the Tailors.")
+
+
         fixed:
             xpos 601
             xysize 370, 664
             style_prefix "pyp"
-            # Images and maybe details:
+            frame:
+                ypos 80 xalign .5
+                add pscale("content/gfx/interface/pyp/main_street.webp", 350, 1000)
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
