@@ -361,7 +361,7 @@ screen chars_list(source=None):
             button:
                 xysize (150, 40)
                 action If(len(the_chosen), [SetVariable("char", PytGroup(the_chosen)), Show("char_control")])
-                text "Girl Control"
+                text "Controls"
                 selected False
                 tooltip 'Set desired behavior for group'
             button:

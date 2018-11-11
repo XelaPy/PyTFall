@@ -643,7 +643,7 @@ screen char_profile():
                         action Hide("show_trait_info"), Show("char_control")
                         sensitive controlled_char(char)
                         tooltip "Set desired behavior for {}!".format(char.nickname)
-                        text "Girl Control"
+                        text "Controls"
                     button:
                         xysize (150, 40)
                         action Hide("char_profile"), With(dissolve), SetVariable("eqtarget", char), Jump('char_equip')

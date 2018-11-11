@@ -245,11 +245,23 @@ screen pyp_char_controls():
                 xalign .5 ypos 10
                 text "Controls Info" size 30
 
+            text ("Controls allow you to change certain settings of the characters such as wages,"+
+                  " tips, battle row and etc. Some options will be blocked depending on"+
+                  " status and/or disposition.\n\nPaying more or allowing a character to"+
+                  " keep tips will have a very positive effect on Joy and Disposition."):
+                      ypos 80
+
         fixed:
             xpos 601
             xysize 370, 664
             style_prefix "pyp"
-            # Images and maybe details:
+            vbox:
+                xalign .5 ypos 10
+                spacing 10
+                frame:
+                    add pscale("content/gfx/interface/pyp/char_controls_0.webp", 350, 1000)
+                frame:
+                    add pscale("content/gfx/interface/pyp/char_controls_1.webp", 350, 1000)
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
