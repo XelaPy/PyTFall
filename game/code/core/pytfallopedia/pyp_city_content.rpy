@@ -13,11 +13,27 @@ screen pyp_city():
                 xalign .5 ypos 10
                 text "City" size 30
 
+            vbox:
+                ypos 80
+                spacing 20
+                text ("The City has three Quarters, Richford, Midtown and Flee Bottom. There are"+
+                      "many locations available with different events, quests, and possible actions.")
+
+                text ("You will find many characters hanging around in most locations, as the game progresses,"+
+                      " new characters will appear. The city is home for many NPCs who can help you with the game,"+
+                      " and here you can also find friends and workers for your businesses or teammates to do"+
+                      " battle in the Arena or to explore the Dark Forest.")
+
+                text ("Many shops sell all kinds of items. You can buy spell scrolls or "+
+                      "receive unique types of training from NPCs (some of which must be found first).")
+
         fixed:
             xpos 601
             xysize 370, 664
             style_prefix "pyp"
-            # Images and maybe details:
+            frame:
+                ypos 80
+                add "content/gfx/interface/pyp/city.webp"
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
