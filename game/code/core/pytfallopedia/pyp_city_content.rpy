@@ -161,11 +161,27 @@ screen pyp_slave_market():
                 xalign .5 ypos 10
                 text "Slave Market" size 30
 
+            vbox:
+                ypos 80
+                spacing 20
+                text ("In the Slave Market, you can buy slaves, work for a bit of cash and some stats"+
+                      " and skills bonuses. Here you can also free a slave for a hefty fee if you so wish.")
+
+                text ("New slave lots will arrive at the slave market as the game progresses."+
+                      " The quality of such depends on Players tier, but there is always a chance"+
+                      " of getting a high-quality option (if you can afford the price of course).")
+
         fixed:
             xpos 601
             xysize 370, 664
             style_prefix "pyp"
-            # Images and maybe details:
+            vbox:
+                xalign .5 ypos 80
+                spacing 10
+                frame:
+                    add pscale("content/gfx/interface/pyp/slave_market_0.webp", 350, 1000)
+                frame:
+                    add pscale("content/gfx/interface/pyp/slave_market_1.webp", 350, 1000)
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
@@ -187,11 +203,14 @@ screen pyp_npcs():
 
             vbox:
                 ypos 80
-                text "Many locations have key NPCs providing different services. Some of them are hidden, and should be discovered first."
+                text ("Many locations have key NPCs providing different services. "+
+                      "Some of them are hidden, and should be discovered first.")
                 null height 5
-                text "Try to look around in different locations. Note that some NPCs require high enough level or stats before you can find them."
+                text ("Try to look around in different locations. Note that some NPCs"+
+                      " require high enough level or stats before you can find them.")
                 null height 5
-                text "The NPCs can train you or other characters for a price, or sell you items you won't find anywhere else."
+                text ("The NPCs can train you or other characters for a price, "+
+                      "or sell you items you won't find anywhere else.")
 
         fixed:
             xpos 601
@@ -219,11 +238,33 @@ screen pyp_arena():
                 xalign .5 ypos 10
                 text "Arena" size 30
 
+            vbox:
+                ypos 80
+                spacing 20
+                text ("Arena is a great place to do battle in a controlled environment. "+
+                      "Unless it's a very specific match, stage-wide magical spells will prevent deadly blows.")
+
+                text ("You can fight weird creatures in the Survival mode, where you are expected"+
+                      " to get six wins in a row and challenge the Leader of the pack at turn seven.")
+
+                text ("In Dogfights you can challenge other Arena Fighters to a friendly"+
+                      " sparring match. In actual Matches, you can fight one on one or "+
+                      "team vs. team for a place in the Arena Ladders, which is the most"+
+                      " prestigious ranking available. Arena Fighters are also ranked by"+
+                      " Arena Reputation, but that matters less as far as the spectators"+
+                      " are concerned.")
+
+                text ("You may get items (also unique items), arena reputation and Gold "+
+                      "when winning at the Arena. It can be a decent source of income"+
+                      " if running a business is not your cup of tea.")
+
         fixed:
             xpos 601
             xysize 370, 664
             style_prefix "pyp"
-            # Images and maybe details:
+            frame:
+                ypos 80 xalign .5
+                add pscale("content/gfx/interface/pyp/arena.webp", 350, 1000)
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
