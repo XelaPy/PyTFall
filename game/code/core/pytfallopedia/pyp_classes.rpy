@@ -42,13 +42,14 @@ init python:
     pyp.add_sub("Flow of Time", "pyp_time_flow", "General")
     pyp.add_sub("Action Points", "pyp_action_points", "General")
     pyp.add_sub("Next Day", "pyp_next_day", "General")
+    pyp.add_sub("Controls", "pyp_controls", "General")
     pyp.add_sub("Gazette", "pyp_gazette", "General")
 
     pyp.add_main("Characters", "pyp_characters")
     pyp.add_sub("Tiers/Level", "pyp_tiers", "Characters")
     pyp.add_sub("Stats", "pyp_stats", "Characters")
     pyp.add_sub("Skills", "pyp_skills", "Characters")
-    pyp.add_sub("Controls", "pyp_controls", "Characters")
+    pyp.add_sub("Controls", "pyp_char_controls", "Characters")
     pyp.add_sub("Status", "pyp_status", "Characters")
     pyp.add_sub("Actions", "pyp_actions", "Characters")
 

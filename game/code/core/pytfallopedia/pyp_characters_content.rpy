@@ -230,7 +230,7 @@ screen pyp_skills():
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
 
-screen pyp_controls():
+screen pyp_char_controls():
     zorder 1001
 
     fixed:

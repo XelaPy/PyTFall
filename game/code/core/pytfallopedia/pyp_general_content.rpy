@@ -162,6 +162,48 @@ screen pyp_next_day():
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
 
+screen pyp_controls():
+    zorder 1001
+
+    fixed:
+        pos 302, 49
+        xysize 971, 664
+        style_prefix "pyp"
+        fixed:
+            xysize 600, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "Controls Info" size 30
+
+            text ("Most actions in PyTFall are performed with LMB (Left Mouse Button). RMB "+
+                  "(Right Mouse Button), is also of great use as it will attempt to 'return' "+
+                  "you to the previous screen or close the current one. Mousewheel is used in "+
+                  "viewports and for paging.\n\nIn rare cases, RMB will trigger an alternative action,"+
+                  " tooltips are used to hint at where. There are also a number of shortkeys ('a' for Arena,"+
+                  " 'f' for Forest Entrance, 'm' for Slave Market, 'p' for Main Street, 'i' for MC's Equipment Screen),"+
+                  " most of them lead to specific locations and will be activated after the player visits"+
+                  " the corresponding location at least once. Such shortkeys are available from main-screen."+
+                  " 'q' will work everywhere and will call up a so-called 'panic screen',"+
+                  " 's' will take a screenshot of the game and place it in the root folder of the game.\n\n"+
+                  "A number of controls and behavior can be adjusted under 'Game' options in preferences."):
+                      ypos 80
+
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            vbox:
+                xalign .5 ypos 80
+                spacing 10
+                frame:
+                    add pscale("content/gfx/interface/pyp/actions_0.webp", 350, 1000)
+                frame:
+                    add pscale("content/gfx/interface/pyp/actions_1.webp", 350, 1000)
+                frame:
+                    add pscale("content/gfx/interface/pyp/actions_2.webp", 350, 1000)
+
 screen pyp_gazette():
     zorder 1001
 
