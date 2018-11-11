@@ -105,7 +105,7 @@ screen pyp_action_points():
                   " The amount of AP depends on stats (constitution) and Traits."+
                   " When performing Jobs during the Next Day, 'AP' is converted to Job Points (1 AP = 100 JP)"+
                   " that can be affected by Upgrades and Manager effects. For Interactions,"+
-                  " AP is converted into Interaction Points (1 AP = 3 IP)"):
+                  " AP is converted into Interaction Points (1 AP = 3 IP)."):
                       ypos 80
 
 

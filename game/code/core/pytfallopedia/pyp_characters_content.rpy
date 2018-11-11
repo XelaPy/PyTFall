@@ -312,27 +312,3 @@ screen pyp_status():
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
-
-screen pyp_actions():
-    zorder 1001
-
-    fixed:
-        pos 302, 49
-        xysize 971, 664
-        style_prefix "pyp"
-        fixed:
-            xysize 600, 664
-            # Title and text bits:
-            frame:
-                style_suffix "title_frame"
-                xalign .5 ypos 10
-                text "Actions Info (AP/JP/IP)" size 30
-
-        fixed:
-            xpos 601
-            xysize 370, 664
-            style_prefix "pyp"
-            # Images and maybe details:
-
-    # ForeGround frame (should be a part of every screen with Info):
-    add "content/gfx/frame/h3.webp"

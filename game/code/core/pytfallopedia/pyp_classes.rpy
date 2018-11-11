@@ -51,7 +51,7 @@ init python:
     pyp.add_sub("Skills", "pyp_skills", "Characters")
     pyp.add_sub("Controls", "pyp_char_controls", "Characters")
     pyp.add_sub("Status", "pyp_status", "Characters")
-    pyp.add_sub("Actions", "pyp_actions", "Characters")
+    pyp.add_sub("Actions", "pyp_action_points", "Characters")
 
     pyp.add_main("Traits", "pyp_traits")
     pyp.add_sub("Classes", "pyp_classes", "Traits")
