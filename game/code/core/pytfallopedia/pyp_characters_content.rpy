@@ -281,11 +281,34 @@ screen pyp_status():
                 xalign .5 ypos 10
                 text "Status Info" size 30
 
+            vbox:
+                ypos 80
+                spacing 20
+                text "There are two options for status at this stage: slave and free."
+
+                text ("Slaves are not allowed to partake in Combat or equip heavy weapons"+
+                      " due to the slave revolts and all the damage it did to the city. Slaves"+
+                      " characters require housing but do not expect to keep tips or to be paid"+
+                      " any wages. There are no restrictions on inventory access. "+
+                      "A slave can be freed for a fee, talk to Stan at the Slave Market.")
+
+                text ("Free characters will take care of their housing situation. Inventory"+
+                      " access will be restricted, but extra options will become available"+
+                      " at high disposition or with friend/lover statuses. Free characters"+
+                      " also have a monopoly on management and guard positions. "+
+                      "Free workers expect wages to be paid to them.")
+
         fixed:
             xpos 601
             xysize 370, 664
             style_prefix "pyp"
-            # Images and maybe details:
+            vbox:
+                xalign .5 ypos 80
+                spacing 10
+                frame:
+                    add pscale("content/gfx/interface/pyp/status_0.webp", 350, 1000)
+                frame:
+                    add pscale("content/gfx/interface/pyp/status_1.webp", 350, 1000)
 
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
