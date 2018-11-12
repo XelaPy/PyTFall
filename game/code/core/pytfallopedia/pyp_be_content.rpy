@@ -35,6 +35,50 @@ screen pyp_battle_engine():
     # ForeGround frame (should be a part of every screen with Info):
     add "content/gfx/frame/h3.webp"
 
+screen pyp_teams():
+    zorder 1001
+
+    fixed:
+        pos 302, 49
+        xysize 971, 664
+        style_prefix "pyp"
+        fixed:
+            xysize 600, 664
+            # Title and text bits:
+            frame:
+                style_suffix "title_frame"
+                xalign .5 ypos 10
+                text "Teams" size 30
+
+            vbox:
+                ypos 80
+                text "You can add characters to hero team by pressing a button in their profiles. The same button removes them from the team."
+                null height 5
+                text "The team cannot have more than 3 members, meaning the Hero and two girls."
+                null height 5
+                text "In the Hero profile you can use the team screen to rename your team, exclude girls from it or quickly access their profiles."
+
+
+        fixed:
+            xpos 601
+            xysize 370, 664
+            style_prefix "pyp"
+            frame:
+                xalign .5 ypos 80
+                add pscale("content/gfx/interface/pyp/team1.webp", 350, 1000)
+
+        fixed:
+            xpos 601
+            ypos 250
+            xysize 370, 664
+            style_prefix "pyp"
+            frame:
+                xalign .5 ypos 80
+                add pscale("content/gfx/interface/pyp/team2.webp", 350, 1000)
+
+    # ForeGround frame (should be a part of every screen with Info):
+    add "content/gfx/frame/h3.webp"
+    
 screen pyp_attacks():
     zorder 1001
 

@@ -68,6 +68,7 @@ init python:
     pyp.add_sub("Main Street", "pyp_main_street", "City")
 
     pyp.add_main("Combat", "pyp_battle_engine")
+    pyp.add_sub("Teams", "pyp_teams", "Combat")
     pyp.add_sub("Attacks", "pyp_attacks", "Combat")
     pyp.add_sub("Magic", "pyp_magic", "Combat")
     pyp.add_sub("Items", "pyp_be_items", "Combat")
