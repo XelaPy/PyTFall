@@ -1219,15 +1219,14 @@ screen give_exp_after_battle(group, enemy_team, ap_used=1, money=0):
     #     key "K_RETURN" action Return()
 
 screen tutorial(level=1):
-    if not DEBUG:
-        modal True
-        zorder 600
-        add "content/gfx/tutorials/t" + str(level) + ".webp"
+    modal True
+    zorder 600
+    add "content/gfx/tutorials/t" + str(level) + ".webp"
 
-        button:
-            background None
-            xysize (1280, 720)
-            action Hide("tutorial")
+    button:
+        background None
+        xysize (1280, 720)
+        action Hide("tutorial")
 
 screen digital_keyboard(line=""):
     default current_number = "0"

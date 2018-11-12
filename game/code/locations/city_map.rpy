@@ -23,10 +23,6 @@ label city:
     show screen city_screen
     with dissolve
 
-    if not global_flags.has_flag("2_tutorial"):
-        $ global_flags.set_flag("2_tutorial")
-        show screen tutorial(2)
-
     while 1:
 
         $ result = ui.interact()
