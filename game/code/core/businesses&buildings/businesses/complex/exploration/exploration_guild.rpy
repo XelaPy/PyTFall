@@ -601,12 +601,10 @@ init -6 python:
             # Effectiveness (Ability):
             abilities = list()
             difficulty = 2 # MUST BE INTERPOLATED FROM RISK, JSON DATA AND Maybe some other factors.
-            se_debug("Meow -1", mode="warning")
             for char in team:
                 # Set their exploration capabilities as temp flag
                 a = tracker.effectiveness(char, difficulty, log=None, return_ratio=False)
                 abilities.append(a)
-            se_debug("Meow 0", mode="warning")
             self.ability = get_mean(abilities)
 
             # Day 1 Risk 1 = .213, D 15 R 1 = .287, D 1 R 50 = .623, D 15 R 50 = .938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
@@ -624,8 +622,6 @@ init -6 python:
                             # value, because we calculated effects on daily base in the past...
                             var = max(1, round_int(value*.05))
                             char.mod_stat(stat, -var) # TODO: Change to log + direct application.
-
-                se_debug("Meow 2", mode="warning")
 
                 # This code and comment are both odd...
                 # We may have area items draw two times. Investigate later:
