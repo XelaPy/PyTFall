@@ -360,6 +360,10 @@ init -6 python:
             # Convert AP to exploration points:
             self.convert_AP(tracker)
 
+            if DEBUG_SE:
+                msg = "Entered exploration controller for {}.".format(team.name)
+                se_debug(msg, mode="info")
+
             # Log the day:
             temp = "{color=[green]}Day: %d{/color} | {color=[green]}%s{/color} is exploring %s!\n" % (tracker.day, tracker.team.name, tracker.area.name)
             if tracker.day != 1:
@@ -398,6 +402,12 @@ init -6 python:
 
         def travel_to(self, tracker):
             # Env func that handles the travel to routine.
+            team = tracker.team
+            area = tracker.area
+
+            if DEBUG_SE:
+                msg = "{} is traveling to {}.".format(team.name, area.id)
+                se_debug(msg, mode="info")
 
             # Figure out how far we can travel in steps of 5 DU:
             # Understanding here is that any team can travel 25 KM per day on average. This can be offset by traits and stats in the future.
@@ -416,7 +426,11 @@ init -6 python:
 
                 # Team arrived:
                 if tracker.traveled <= tracker.distance:
-                    temp = "{} arrived to {}!".format(tracker.team.name, tracker.area.id)
+                    if DEBUG_SE:
+                        msg = "{} arrived at {}.".format(team.name, area.id)
+                        se_debug(msg, mode="info")
+
+                    temp = "{} arrived at {}!".format(team.name, area.id)
                     if tracker.day > 0:
                         temp = temp + " It took {} {} to get there.".format(tracker.day, plural("day", tracker.day))
                     tracker.log(temp, name="Arrival")
@@ -425,12 +439,18 @@ init -6 python:
                     self.env.exit("arrived")
 
                 if self.env.now >= 99: # We couldn't make it there before the days end...
-                    temp = "{} spent the entire day on route to {}! ".format(tracker.team.name, tracker.area.id)
+                    temp = "{} spent the entire day on route to {}! ".format(team.name, area.id)
                     tracker.log(temp)
+                    if DEBUG_SE:
+                        se_debug(temp, mode="info")
                     self.env.exit("not_arrived")
 
         def travel_back(self, tracker):
             # Env func that handles the travel to routine.
+            team = tracker.team
+            if DEBUG_SE:
+                msg = "{} is traveling back.".format(team.name)
+                se_debug(msg, mode="info")
 
             # Figure out how far we can travel in 5 du:
             # Understanding here is that any team can travel 25 KM per day on average. This can be offset by traits and stats in the future.
@@ -466,6 +486,10 @@ init -6 python:
             team = tracker.team
             area = tracker.area
             auto_equip_counter = 0 # We don't want to run over autoequip on every iteration, two times is enough.
+
+            if DEBUG_SE:
+                msg = "{} is Camping. State: {}".format(team.name, tracker.state)
+                se_debug(msg, mode="info")
 
             if not tracker.days_in_camp:
                 temp = "{} setup a camp to get some rest and recover!".format(team.name)
@@ -516,8 +540,11 @@ init -6 python:
 
                 if self.env.now >= 99:
                     tracker.days_in_camp += 1
-                    # if DEBUG_SE:
-                        # tracker.log("Debug: Still Camping!")
+
+                    if DEBUG_SE:
+                        msg = "{} finished Camping. (Day Ended)".format(team.name)
+                        se_debug(msg, mode="info")
+
                     self.env.exit("still camping")
 
                 # if not stop:
@@ -526,11 +553,19 @@ init -6 python:
                             # temp = "{color=[blue]}Your party falls back to base due to risk factors!{/color}"
                             # tracker.log(temp)
 
+            if DEBUG_SE:
+                msg = "{} finished Camping.".format(team.name)
+                se_debug(msg, mode="info")
+
         def overnight(self, tracker):
             # overnight: More effective heal. Spend the night resting.
             # Do we run this? This prolly doesn't need to be a simpy process... or maybe schedual this to run at 99.
 
             team = tracker.team
+
+            if DEBUG_SE:
+                msg = "{} is overnighting. State: {}".format(team.name, tracker.state)
+                se_debug(msg, mode="info")
 
             if tracker.state == "exploring":
                 temp = "{} are done with exploring for the day and will now rest and recover! ".format(tracker.team.name)
@@ -557,6 +592,10 @@ init -6 python:
             encountered_opfor = 0
             cash = 0
 
+            if DEBUG_SE:
+                msg = "{} is stating an exploration scenario.".format(team.name)
+                se_debug(msg, mode="info")
+
             # Effectiveness (Ability):
             abilities = list()
             difficulty = 2 # MUST BE INTERPOLATED FROM RISK, JSON DATA AND Maybe some other factors.
@@ -566,7 +605,7 @@ init -6 python:
                 abilities.append(a)
             self.ability = get_mean(abilities)
 
-            #Day 1 Risk 1 = .213, D 15 R 1 = .287, D 1 R 50 = .623, D 15 R 50 = .938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
+            # Day 1 Risk 1 = .213, D 15 R 1 = .287, D 1 R 50 = .623, D 15 R 50 = .938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
             risk_a_day_multiplicator = 50 # int(round(((.2 + (area.risk*.008))*(1 + tracker.day*(.025*(1+area.risk/100))))*.05)) # For now, I'll just devide the damn thing by 20 (*.05)...
 
             while 1:
@@ -596,6 +635,12 @@ init -6 python:
                         temp = "{color=[lawngreen]}Found an item %s!{/color}"%i
                         tracker.log(temp, "Item", ui_log=True, item=store.items[i])
                         items.append(i)
+
+                        if DEBUG_SE:
+                            msg = "{} has finished an exploration scenario. (Found an item)".format(team.name)
+                            se_debug(msg, mode="info")
+
+                        # Why not env.end here????????
                         break
 
                 if dice(area.risk*.05 + tracker.day*2*.05):
@@ -617,6 +662,9 @@ init -6 python:
                         # Randoms!
                         elif c in rchars and dice(area.girls[c] + tracker.day*.1 + 100): # We ensure capture for testing purposes.
                             tracker.captured_char = build_rc()
+                            if DEBUG_SE:
+                                msg = "{} has finished an exploration scenario. (Captured a char)".format(team.name)
+                                se_debug(msg, mode="info")
                             self.env.exit("captured rchar")
 
                 if not fought_mobs:
@@ -638,6 +686,9 @@ init -6 python:
                         result = self.combat_mobs(tracker, mob, enemies, log)
                         if result == "defeat":
                             tracker.state = "camping"
+                            if DEBUG_SE:
+                                msg = "{} has finished an exploration scenario. (Lost a fight)".format(team.name)
+                                se_debug(msg, mode="info")
                             self.env.exit()
 
 
@@ -659,6 +710,10 @@ init -6 python:
 
                     if not items and not cash:
                         tracker.log("Your team has not found anything of interest...")
+
+                    if DEBUG_SE:
+                        msg = "{} has finished an exploration scenario. (Day Ended)".format(team.name)
+                        se_debug(msg, mode="info")
                     self.env.exit()
 
                 # self.stats["agility"] += randrange(2)
@@ -686,6 +741,9 @@ init -6 python:
         def combat_mobs(self, tracker, mob, opfor_team_size, log):
             # log is the ExplorationLog object we add be reports to!
             # Do we really need to pass team size to this method instead of figuring everything out here?
+            if DEBUG_SE:
+                msg = "{} is stating a battle scenario.".format(team.name)
+                se_debug(msg, mode="info")
 
             team = tracker.team
             # area = tracker.area
@@ -733,8 +791,12 @@ init -6 python:
 
                 temp = "{color=[lawngreen]}Your team won!!{/color}\n"
                 log.add(temp)
-                return "victory"
 
+                if DEBUG_SE:
+                    msg = "{} finished a battle scenario. Result: victory".format(team.name)
+                    se_debug(msg, mode="info")
+
+                return "victory"
             else: # Defeat here...
                 # self.stats["attack"] += randrange(2)
                 # self.stats["defence"] += randrange(2)
@@ -744,6 +806,11 @@ init -6 python:
                 log.suffix = "{color=[red]}Defeat{/color}"
                 temp = "{color=[red]}Your team got their asses kicked!!{/color}\n"
                 log.add(temp)
+
+                if DEBUG_SE:
+                    msg = "{} finished a battle scenario. Result: defeat".format(team.name)
+                    se_debug(msg, mode="info")
+
                 return "defeat"
 
         def setup_basecamp(self, tracker):
@@ -751,13 +818,16 @@ init -6 python:
             area = tracker.obj_area
             team = tracker.team
             teams = [t.team for t in area.trackers if t.state == "setting_up_basecamp"]
-
             # Since we only have one basecamp, we want all teams sent to this location to cooperate setting it up.
             # Code presently is a bit clumsy but it should get the job done.
             # if area.building_camp: # Process has started and this team just waits for it's process to idlely pass by:
             #     while 1:
             #         yield self.env.timeout(5)
             # area.building_camp = True
+
+            if DEBUG_SE:
+                msg = "Team {} is setting up basecamp.".format(team.name)
+                se_debug(msg, mode="info")
 
             # TODO: Make sure this is adapted to building skill(s) once we have it!
             build_power = max(.5, sum(i.get_skill("exploration")/100.0 for i in team)) # We should have building skill in the future which could be used here instead.
@@ -785,6 +855,10 @@ init -6 python:
 
                 if self.env.now >= 99:
                     self.env.exit()
+
+            if DEBUG_SE:
+                msg = "Team {} finished setting up basecamp.".format(team.name)
+                se_debug(msg, mode="info")
 
         # AP:
         def convert_AP(self, tracker):
