@@ -31,6 +31,7 @@ init -999 python:
         if DEBUG_SIMPY:
             devlog.info("|SIMPY DEBUG| {}".format(msg))
 
+    # Next Day:
     DEBUG_ND = False
     def nd_debug(msg, mode="info"):
         if DEBUG_ND:
@@ -51,6 +52,10 @@ init -999 python:
 
     # Simulated exploration:
     DEBUG_SE = False
+    def char_debug(msg, mode="warning"):
+        if DEBUG_SE:
+            func = getattr(devlog, mode)
+            func("|SE DEBUG| {}".format(msg))
 
 label debug_callstack:
     return

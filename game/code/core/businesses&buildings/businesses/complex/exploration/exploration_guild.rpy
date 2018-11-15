@@ -789,7 +789,8 @@ init -6 python:
         # AP:
         def convert_AP(self, tracker):
             # Convert teams AP to Job points:
-            # The idea here is that teammates will help each other to carry out any task and act as a unit, so we don't bother tracking individual AP.
+            # The idea here is that teammates will help each other to carry out
+            # any task and act as a unit, so we don't bother tracking individual AP.
             team = tracker.team
             AP = 0
             for m in team:

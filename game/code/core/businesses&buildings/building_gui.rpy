@@ -768,7 +768,7 @@ init: # Screens:
                             xsize 200
                             action Function(fg_filters.clear)
                         textbutton "Warriors":
-                            xsize 100
+                            xsize 200
                             action ModFilterSet(fg_filters, "occ_filters", "Combatant")
                         textbutton "Free":
                             xsize 200
