@@ -58,6 +58,8 @@ init -950 python:
         persistent.intro = False
     if persistent.use_be_menu_targeting is None:
         persistent.use_be_menu_targeting = False
+    if persistent.showed_pyp_hint is None:
+        persistent.showed_pyp_hint = False
 
     def content_path(path):
         '''Returns proper path for a file in the content directory *To be used with os module.'''

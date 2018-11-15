@@ -16,8 +16,8 @@ label mainscreen:
     scene black
     show screen mainscreen
 
-    if not global_flags.has_flag("1_tutorial"):
-        $ global_flags.set_flag("1_tutorial")
+    if not persistent.showed_pyp_hint:
+        $ persistent.showed_pyp_hint = True
         show screen tutorial
 
     # Prediction Helpers:
