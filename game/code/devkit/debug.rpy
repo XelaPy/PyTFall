@@ -52,7 +52,7 @@ init -999 python:
 
     # Simulated exploration:
     DEBUG_SE = False
-    def char_debug(msg, mode="warning"):
+    def se_debug(msg, mode="warning"):
         if DEBUG_SE:
             func = getattr(devlog, mode)
             func("|SE DEBUG| {}".format(msg))

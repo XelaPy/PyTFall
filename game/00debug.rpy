@@ -50,8 +50,8 @@ init -998 python:
             devlog.info("|BE DEBUG| {}".format(msg))
 
     # Simulated exploration:
-    DEBUG_SE = False
-    def char_debug(msg, mode="warning"):
+    DEBUG_SE = True
+    def se_debug(msg, mode="warning"):
         if DEBUG_SE:
             func = getattr(devlog, mode)
             func("|SE DEBUG| {}".format(msg))
