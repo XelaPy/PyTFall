@@ -166,7 +166,9 @@ init -6 python:
 
         def log(self, txt, name="", nd_log=True, ui_log=False, **kwargs):
             if DEBUG_SE:
-                devlog.info("Logging SE: {}: {} at {}\n    {}".format(self.area.name, self.team.name, self.guild.env.now, txt))
+                msg = "Logging SE: {}: {} at {}\n    {}".format(self.area.name,
+                                        self.team.name, self.guild.env.now, txt)
+                se_debug(msg, mode="info")
 
             obj = ExplorationLog(name, txt, nd_log, ui_log, **kwargs)
             self.logs.append(obj)
