@@ -155,14 +155,14 @@ init -6 python:
 
             self.logs = list() # List of all log object we create for this exploration run.
 
-            # And we got to make copies of chars stat dicts so we can show changes in ND after the exploration run is complete!
+            # And we got to make copies of chars stat dicts so we can show
+            # changes in ND after the exploration run is complete!
             self.init_stats = dict()
             for i in self.team:
                 self.init_stats[i] = i.stats.stats.copy()
 
-            # fg.exploring.append(self) # TODO: Add to the proper list! Maybe not here but in fg gui.
-            renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
-            # jump("fg_management")
+            if not DEBUG:
+                renpy.show_screen("message_screen", "Team %s was sent out on %d days exploration run!" % (team.name, area.days))
 
         def log(self, txt, name="", nd_log=True, ui_log=False, **kwargs):
             if DEBUG_SE:
@@ -605,6 +605,7 @@ init -6 python:
                 # Set their exploration capabilities as temp flag
                 a = tracker.effectiveness(char, difficulty, log=None, return_ratio=False)
                 abilities.append(a)
+
             self.ability = get_mean(abilities)
 
             # Day 1 Risk 1 = .213, D 15 R 1 = .287, D 1 R 50 = .623, D 15 R 50 = .938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
