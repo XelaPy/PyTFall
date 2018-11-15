@@ -1114,7 +1114,7 @@ init: # Screens:
                                         xysize 20, 20
                                         sensitive t
                                         action Return(["fg_team", "clear", t])
-                                        tooltip "Rename all explorers from Team %s!" % t.name
+                                        tooltip "Remove all explorers from Team %s!" % t.name
 
                         for w, pos in workers:
                             drag:
