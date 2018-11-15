@@ -181,10 +181,6 @@ screen pyp_building_stats():
                             "As long as the working capacity remains insignificant, Dirt will be removed automatically by the workers in the Building and will NEVER accumulate.")
                             text "In more significant buildings, it will pay off to have dedicated cleaners and maybe even upgrades to facilitate them."
                         vbox:
-                            label "Character"
-                            text ("Reversed Obedience. Higher Character means that greater penalties for forcing any undesirable"+
-                                  " action and a character will generally not accept any task they are not expected to perform. Useful for jobs like Barmaid.")
-                        vbox:
                             label "Threat"
                             text ("Same as for Dirt, a threat is only essential in larger Buildings. Clients will leave the buildings"+
                                   " that have a very high threat level. Very unfavorable events may happen in such cases as well (customers starting a brawl for example).")
