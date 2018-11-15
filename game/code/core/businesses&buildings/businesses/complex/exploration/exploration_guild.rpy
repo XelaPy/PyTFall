@@ -609,7 +609,7 @@ init -6 python:
 
             # Day 1 Risk 1 = .213, D 15 R 1 = .287, D 1 R 50 = .623, D 15 R 50 = .938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
             risk_a_day_multiplicator = 50 # int(round(((.2 + (area.risk*.008))*(1 + tracker.day*(.025*(1+area.risk/100))))*.05)) # For now, I'll just devide the damn thing by 20 (*.05)...
-            se_debug("Meow 1", mode="warning")
+
             while 1:
                 yield self.env.timeout(5) # We'll go with 5 du per one iteration of "exploration loop".
 
@@ -632,18 +632,19 @@ init -6 python:
                     items.append(item)
 
                 # Second round of items for those specifically specified for this area:
-                for i in area.items:
-                    if dice((area.items[i]*risk_a_day_multiplicator)): # TODO: Needs to be adjusted to SimPy (lower the probability!)
-                        temp = "{color=[lawngreen]}Found an item %s!{/color}"%i
-                        tracker.log(temp, "Item", ui_log=True, item=store.items[i])
-                        items.append(i)
+                if len(items) <= 5: # TODO 5 items max for debug or in all cases?
+                    for i in area.items:
+                        if dice((area.items[i]*risk_a_day_multiplicator)): # TODO: Needs to be adjusted to SimPy (lower the probability!)
+                            temp = "{color=[lawngreen]}Found an item %s!{/color}"%i
+                            tracker.log(temp, "Item", ui_log=True, item=store.items[i])
+                            items.append(i)
 
-                        if DEBUG_SE:
-                            msg = "{} has finished an exploration scenario. (Found an item)".format(team.name)
-                            se_debug(msg, mode="info")
+                            if DEBUG_SE:
+                                msg = "{} has finished an exploration scenario. (Found an item)".format(team.name)
+                                se_debug(msg, mode="info")
 
-                        # Why not env.end here????????
-                        break
+                            # Why not env.end here????????
+                            break
 
                 if dice(area.risk*.05 + tracker.day*2*.05):
                     if not tracker.day:
