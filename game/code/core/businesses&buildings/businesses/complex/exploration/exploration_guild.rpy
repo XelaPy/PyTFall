@@ -82,8 +82,8 @@ init -6 python:
             self.occupations = ["Combatant"] # General Strings likes SIW, Combatant, Server...
             self.occupation_traits = [traits["Warrior"], traits["Mage"]] # Corresponding traits...
 
-            self.base_skills = {"attack": 20, "defence": 20, "agility": 60, "magic": 20}
-            self.base_stats = {"exploration": 100}
+            self.base_stats = {"attack": 20, "defence": 20, "agility": 60, "magic": 20}
+            self.base_skills = {"exploration": 100}
 
             self.desc = "Explore the world, find new places, meet new people... and take their shit!"
 
@@ -450,6 +450,7 @@ init -6 python:
         def travel_back(self, tracker):
             # Env func that handles the travel to routine.
             team = tracker.team
+
             if DEBUG_SE:
                 msg = "{} is traveling back.".format(team.name)
                 se_debug(msg, mode="info")
@@ -562,7 +563,6 @@ init -6 python:
         def overnight(self, tracker):
             # overnight: More effective heal. Spend the night resting.
             # Do we run this? This prolly doesn't need to be a simpy process... or maybe schedual this to run at 99.
-
             team = tracker.team
 
             if DEBUG_SE:
@@ -601,16 +601,17 @@ init -6 python:
             # Effectiveness (Ability):
             abilities = list()
             difficulty = 2 # MUST BE INTERPOLATED FROM RISK, JSON DATA AND Maybe some other factors.
+            se_debug("Meow -1", mode="warning")
             for char in team:
                 # Set their exploration capabilities as temp flag
                 a = tracker.effectiveness(char, difficulty, log=None, return_ratio=False)
                 abilities.append(a)
-
+            se_debug("Meow 0", mode="warning")
             self.ability = get_mean(abilities)
 
             # Day 1 Risk 1 = .213, D 15 R 1 = .287, D 1 R 50 = .623, D 15 R 50 = .938, D 1 R 100 = 1.05, D 15 R 100 = 1.75
             risk_a_day_multiplicator = 50 # int(round(((.2 + (area.risk*.008))*(1 + tracker.day*(.025*(1+area.risk/100))))*.05)) # For now, I'll just devide the damn thing by 20 (*.05)...
-
+            se_debug("Meow 1", mode="warning")
             while 1:
                 yield self.env.timeout(5) # We'll go with 5 du per one iteration of "exploration loop".
 
@@ -623,6 +624,8 @@ init -6 python:
                             # value, because we calculated effects on daily base in the past...
                             var = max(1, round_int(value*.05))
                             char.mod_stat(stat, -var) # TODO: Change to log + direct application.
+
+                se_debug("Meow 2", mode="warning")
 
                 # This code and comment are both odd...
                 # We may have area items draw two times. Investigate later:
@@ -744,13 +747,13 @@ init -6 python:
         def combat_mobs(self, tracker, mob, opfor_team_size, log):
             # log is the ExplorationLog object we add be reports to!
             # Do we really need to pass team size to this method instead of figuring everything out here?
-            if DEBUG_SE:
-                msg = "{} is stating a battle scenario.".format(team.name)
-                se_debug(msg, mode="info")
-
             team = tracker.team
             # area = tracker.area
             opfor = Team(name="Enemy Team", max_size=opfor_team_size)
+
+            if DEBUG_SE:
+                msg = "{} is stating a battle scenario.".format(team.name)
+                se_debug(msg, mode="info")
 
             # Get a level we'll set the mobs to:
             level = tracker.mobs[mob][0]
