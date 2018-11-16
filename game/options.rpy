@@ -400,6 +400,7 @@ init python:
     build.classify('**/thumbs.db', None)
     build.classify('**/chars/**', None)
     build.classify('**/rchars/**', None)
+    build.classify('**/other/**', None)
     build.classify('**/_old/**', None)
     build.classify('**devlog**', None)
     build.classify("game/cache/", None)
