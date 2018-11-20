@@ -5,7 +5,7 @@ init -9 python:
     class FG_Area(_object):
         """Dummy class for areas (for now).
 
-        Tracks the progess in SE areas as well as storing their data.
+        Tracks the progress in SE areas as well as storing their data.
         """
         def __init__(self):
             self.stage = 0 # For Sorting.
@@ -39,7 +39,6 @@ init -9 python:
             self.capture_chars = False
             self.chars = dict()
 
-
         @property
         def camp_build_status(self):
             return "%d%%" % (100.0*self.camp_build_points_current/self.camp_build_points_required)
@@ -59,6 +58,7 @@ init -9 python:
                 self._explored = 100
             else:
                 self._explored = value
+
 
 init -6 python:
     # ======================= (Simulated) Exploration code =====================>>>
@@ -321,7 +321,8 @@ init -6 python:
 
             # Setup Explorers:
             for char in team:
-                char.action = "Exploring" # We effectively remove char from the game so this is prolly ok.
+                # We effectively remove char from the game so this is prolly ok.
+                char.action = "Exploring"
                 char.set_flag("loc_backup", char.location)
                 if char in hero.team:
                     hero.team.remove(char)

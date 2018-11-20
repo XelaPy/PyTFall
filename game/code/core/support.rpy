@@ -520,6 +520,71 @@ init -9 python:
             return payout
 
 
+    class CharsSortingForGui(_object):
+        """Class we use to sort and filter character for the GUI.
+
+        - Reset is done by a separate function we bind to this class.
+        """
+        def __init__(self, reset_callable, container=None):
+            """
+            reset_callable: a funcion to be called without arguments that would return a full, unfiltered list of items to be used as a default.
+            container: If not None, we set this contained to self.sorted every time we update. We expect a list with an object and a field to be used with setattr.
+            """
+            self.reset_callable = reset_callable
+            self.target_container = container
+            self.sorted = list()
+            self.status_filters = set()
+            self.action_filters = set()
+            self.class_filters = set()
+            self.occ_filters = set()
+            self.location_filters = set()
+            self.home_filters = set()
+            self.work_filters = set()
+
+            self.sorting_order = None
+
+        def clear(self):
+            self.update(self.reset_callable())
+            self.status_filters = set()
+            self.action_filters = set()
+            self.class_filters = set()
+            self.location_filters = set()
+            self.home_filters = set()
+            self.work_filters = set()
+
+        def update(self, container):
+            self.sorted = container
+            if self.target_container:
+                setattr(self.target_container[0], self.target_container[1], container)
+
+        def filter(self):
+            filtered = self.reset_callable()
+
+            # Filters:
+            if self.status_filters:
+                filtered = [c for c in filtered if c.status in self.status_filters]
+            if self.action_filters:
+                filtered = [c for c in filtered if c.action in self.action_filters]
+            if self.class_filters:
+                filtered = [c for c in filtered if c.traits.basetraits.intersection(self.class_filters)]
+            if self.occ_filters:
+                filtered = [c for c in filtered if self.occ_filters.intersection(c.gen_occs)]
+            if self.location_filters:
+                filtered = [c for c in filtered if c.location in self.location_filters]
+            if self.home_filters:
+                filtered = [c for c in filtered if c.home in self.home_filters]
+            if self.work_filters:
+                filtered = [c for c in filtered if c.workplace in self.work_filters]
+
+            # Sorting:
+            if self.sorting_order == "alphabetical":
+                filtered.sort(key=attrgetter("name"))
+            elif self.sorting_order == "level":
+                filtered.sort(key=attrgetter("level"), reverse=True)
+
+            self.update(filtered)
+
+
     # Menu extensions:
     class MenuExtension(_dict):
         """Smarter Dictionary...
