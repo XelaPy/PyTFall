@@ -579,7 +579,7 @@ init -9 python:
             type = kwargs.get("type", "normal")
             default = kwargs.get("default", None)
             gm_mode = kwargs.get("gm_mode", False)
-            
+
             if gm_mode and not "Slime" in self.traits:
                 if check_lovers(self, hero) or "Exhibitionist" in self.traits:
                     if dice(40):
@@ -593,7 +593,7 @@ init -9 python:
                             exclude = ["nude"]
                         else:
                             exclude.append("nude")
-                
+
 
             if not all([maxw, maxh]):
                 t0 = "Width or Height were not provided to an Image when calling .show method!\n"
@@ -2557,14 +2557,14 @@ init -9 python:
             # Finances related ---->
             self.fin.next_day()
 
-            # ------------
-            self.nd_log_report(txt, img, flag_red, type='mcndreport')
-
-            # -------------
+            # ------------->
             self.item_counter()
             self.restore_ap()
             self.reservedAP = 0
             self.log_stats()
+
+            # ------------>
+            self.nd_log_report(txt, img, flag_red, type='mcndreport')
 
             self.arena_stats = dict()
 
@@ -2954,8 +2954,6 @@ init -9 python:
 
             txt.append("{color=[green]}\n\n%s{/color}" % "\n".join(self.txt))
 
-            self.nd_log_report(txt, img, flag_red, type='girlndreport')
-
             # Finances related:
             self.fin.next_day()
 
@@ -2963,13 +2961,13 @@ init -9 python:
             self.restore_ap()
             self.reservedAP = 0
             self.item_counter()
-            self.txt = list()
-            self.set_flag("day_since_shopping", self.flag("day_since_shopping") + 1)
 
-            # And Finally, we run the parent next_day() method that should hold things that are native to all of it's children!
+            self.up_counter("day_since_shopping")
+
+            self.nd_log_report(txt, img, flag_red, type='girlndreport')
+
+            self.txt = list()
             super(Char, self).next_day()
-            # else:
-            #     super(Char, self).next_day()
 
         def nd_autoshop(self, txt):
             if all([self.autobuy, self.flag("day_since_shopping") > 5,
