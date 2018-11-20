@@ -1944,3 +1944,4 @@ init: # Screens:
 
             textbutton "Close":
                 action Hide("fg_char_dropdown")
+                keysym "mouseup_3"

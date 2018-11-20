@@ -620,3 +620,4 @@ screen se_captured_retrieval(pos=(900, 300)):
                     action Function(jail.retrieve_captured, direction="Blue"), Hide("se_captured_retrieval")
             textbutton "Close":
                 action Hide("se_captured_retrieval")
+                keysym "mouseup_3"

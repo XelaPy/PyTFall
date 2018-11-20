@@ -730,6 +730,7 @@ screen hero_team():
             action Hide("hero_team"), With(dissolve)
             text "Close" style "pb_button_text"
             tooltip "Close team screen"
+            keysym "mouseup_3"
 
 screen hero_finances():
     modal True

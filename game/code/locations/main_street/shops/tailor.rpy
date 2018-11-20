@@ -63,7 +63,7 @@ label tailor_store_shopping:
 
 screen shopkeeper_items_upgrades(upgrades_list):
     modal True
-    key "mouseup_3" action Return(-1)
+    
     frame:
         align (.5, .5)
         background Frame("content/gfx/frame/frame_dec_1.png", 75, 75)
@@ -78,15 +78,16 @@ screen shopkeeper_items_upgrades(upgrades_list):
             xalign .3
             yoffset -40
             action Return(-1)
+            keysym "mouseup_3"
         hbox:
             xalign .7
             add "content/gfx/animations/coin_top 0.13 1/1.webp" yalign .6
             null width 15
             yoffset -40
             text "%d" % hero.gold style "proper_stats_value_text" outlines [(1, "#181818", 0, 0)] color "#DAA520" size 30
-        
+
         viewport:
-            ypos 25 
+            ypos 25
             mousewheel True
             scrollbars "vertical"
             draggable True

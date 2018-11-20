@@ -451,6 +451,7 @@ init: # Main Screens:
                 minimum(50, 30)
                 align (.5, .9995)
                 text  "Close"
+                keysym "mouseup_3"
         key "mousedown_3" action Hide("arena_matches")
 
     screen arena_lineups(container): # Ladders
@@ -524,7 +525,7 @@ init: # Main Screens:
                 minimum(50, 30)
                 align (.5, .9995)
                 text  "Close"
-        key "mousedown_3" action Hide("arena_lineups")
+                keysym "mouseup_3"
 
     screen arena_rep_ladder():
         modal True
@@ -587,7 +588,7 @@ init: # Main Screens:
                 minimum(50, 30)
                 align (.5, .9995)
                 text  "Close"
-        key "mousedown_3" action Hide("arena_rep_ladder")
+                keysym "mouseup_3"
 
     screen arena_dogfights(container):
         modal True
@@ -658,7 +659,7 @@ init: # Main Screens:
                 minimum(50, 30)
                 align (.5, .9995)
                 text  "Close"
-        key "mousedown_3" action Hide("arena_dogfights")
+                keysym "mouseup_3"
 
     python:
         def set_bestiary_mob(data):
@@ -1089,7 +1090,7 @@ init: # Main Screens:
                 minimum (50, 30)
                 align (.5, .9)
                 text  "Close"
-        key "mousedown_3" action Hide("arena_report")
+                keysym "mouseup_3"
 
 init: # ChainFights vs Mobs:
     screen chain_fight():
@@ -1151,9 +1152,9 @@ init: # ChainFights vs Mobs:
                     minimum(50, 30)
                     align (.5, .9995)
                     text  "Close"
+                    keysym "mouseup_3"
         else:
             timer .5 action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
-        key "mousedown_3" action [SetField(pytfall.arena, "result", "break"), Return("Bupkis")]
 
     screen arena_minigame(data, length):
         zorder 2

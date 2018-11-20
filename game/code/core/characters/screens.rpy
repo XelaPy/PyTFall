@@ -46,6 +46,7 @@ screen set_action_dropdown(char, pos=()):
 
         textbutton "Close":
             action [Hide("set_action_dropdown")]
+            keysym "mouseup_3"
 
     key "K_ESCAPE" action [Hide("set_action_dropdown")]
 
@@ -92,6 +93,7 @@ screen set_workplace_dropdown(char, pos=()):
                     Hide("set_workplace_dropdown")]
         textbutton "Close":
             action Hide("set_workplace_dropdown")
+            keysym "mouseup_3"
 
     key "K_ESCAPE" action Hide("set_workplace_dropdown")
 
@@ -124,6 +126,7 @@ screen set_home_dropdown(char, pos=()):
                 tooltip loc.desc
         textbutton "Close":
             action Hide("set_home_dropdown")
+            keysym "mouseup_3"
 
     key "K_ESCAPE" action Hide("set_home_dropdown")
 
