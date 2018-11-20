@@ -220,6 +220,7 @@ label sm_free_slaves:
                     s "Done and done! Congrats, I hope it was worth it."
                     $ our_char.disposition += randint(400, 500)
                     $ our_char.status = "free"
+                    $ our_char.autobuy = True
                     $ our_char.home = locations["City Apartments"]
                     $ our_char.add_money(cost, "Freedom Fee") # Consistency.
                     "[our_char.name] is now a free citizen! She is very grateful."
