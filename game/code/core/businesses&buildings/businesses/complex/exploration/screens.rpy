@@ -74,13 +74,11 @@ screen building_management_leftframe_exploration_guild_mode:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             style_group "proper_stats"
-            xsize 300
             xalign .5
             padding 12, 12
             margin 0, 0
             has vbox spacing 1
             label "Filters:" xalign .5
-
             vbox:
                 style_prefix "basic"
                 xalign .5
@@ -101,13 +99,11 @@ screen building_management_leftframe_exploration_guild_mode:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
             style_group "proper_stats"
-            xsize 300
             xalign .5
             padding 12, 12
             margin 0, 0
             has vbox spacing 1
             label "Sort:" xalign .5
-
             vbox:
                 style_prefix "basic"
                 xalign .5

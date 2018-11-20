@@ -26,6 +26,7 @@ label building_management:
                             size=(80, 80), xspacing=10, yspacing=10, init_pos=(56, 15))
             fg_filters = CharsSortingForGui(all_chars_for_se)
             fg_filters.status_filters.add("free")
+            fg_filters.occ_filters.add("Combatant")
             fg_filters.target_container = [workers, "content"]
             fg_filters.filter()
 
