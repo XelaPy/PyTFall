@@ -31,7 +31,9 @@ label building_management:
 
             try:
                 temp = building.get_business("fg")
-                guild_teams = CoordsForPaging(temp.idle_teams(), columns=2, rows=3, size=(310, 83), xspacing=3, yspacing=3, init_pos=(-2, 420))
+                guild_teams = CoordsForPaging(temp.idle_teams(), columns=2, rows=3,
+                                              size=(310, 83), xspacing=3, yspacing=3,
+                                              init_pos=(4, 390))
             except:
                 pass
 

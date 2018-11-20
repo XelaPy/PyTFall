@@ -265,10 +265,16 @@ screen building_management_midframe_exploration_guild_mode:
                         action Function(workers.last_page)
                         sensitive temp
 
+        # Downframe (for the teams and team paging)
+        frame:
+            background Frame(gfxframes + "p_frame52.webp", 10, 10)
+            xysize 700, 349
+            ypos 321 xalign .5
+
         # Paging guild teams!
         hbox:
             style_prefix "paging_green"
-            align .5, .55
+            xalign .5 ypos 328
             hbox:
                 spacing 1
                 $ temp = guild_teams.page - 1 >= 0
@@ -282,7 +288,7 @@ screen building_management_midframe_exploration_guild_mode:
                     tooltip "<== Previous Page"
                     action guild_teams.prev_page
                     sensitive temp
-            null width 40
+            null width 60
             hbox:
                 spacing 1
                 $ temp = guild_teams.page + 1 < guild_teams.max_page
