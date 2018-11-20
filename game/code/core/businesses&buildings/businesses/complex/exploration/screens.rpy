@@ -277,15 +277,17 @@ screen building_management_midframe_exploration_guild_mode:
             null width 40
             hbox:
                 spacing 1
+                $ temp = guild_teams.page + 1 < guild_teams.max_page
                 button:
                     style_suffix "button_right"
                     tooltip "Next Page ==>"
-                    action guild_teams.next_page, SensitiveIf(guild_teams.page + 1 < guild_teams.max_page)
+                    action guild_teams.next_page
+                    sensitive temp
                 button:
                     style_suffix "button_right2x"
                     tooltip "Last Page ==>"
-                    action guild_teams.last_page, SensitiveIf(guild_teams.page != guild_teams.max_page)
-
+                    action guild_teams.last_page
+                    selected temp
 
         # We'll prolly have to do two layers, one for backgrounds and other for drags...
         draggroup:
