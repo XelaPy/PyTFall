@@ -266,14 +266,17 @@ screen building_management_midframe_exploration_guild_mode:
             align .5, .55
             hbox:
                 spacing 1
+                $ temp = guild_teams.page - 1 >= 0
                 button:
                     style_suffix "button_left2x"
                     tooltip "<== First Page"
-                    action guild_teams.first_page, SensitiveIf(guild_teams.page != 0)
+                    action guild_teams.first_page
+                    sensitive temp
                 button:
                     style_suffix "button_left"
                     tooltip "<== Previous Page"
-                    action guild_teams.prev_page, SensitiveIf(guild_teams.page - 1 >= 0)
+                    action guild_teams.prev_page
+                    sensitive temp
             null width 40
             hbox:
                 spacing 1
