@@ -287,7 +287,7 @@ screen building_management_midframe_exploration_guild_mode:
                     style_suffix "button_right2x"
                     tooltip "Last Page ==>"
                     action guild_teams.last_page
-                    selected temp
+                    sensitive temp
 
         # We'll prolly have to do two layers, one for backgrounds and other for drags...
         draggroup:
