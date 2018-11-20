@@ -181,7 +181,7 @@ screen pyp_skills():
         xysize 971, 664
         style_prefix "pyp"
         text ("Skills are used mostly in Jobs, but also in some Actions and Events. Their levels are depicted as Stars and "+
-              " not shown if their value is too low to be of significant. The maximum value is 5 starts but that maximum value is "+
+              " not shown if their value is too low to be of significant. The maximum value is 5 stars but that maximum value is "+
               "recalculated every time a character's Tier is increased (so stars might be lost in such a case as value remains the same)."+
               " Skills are also governed by a completely different mechanics than stats, they are made of two parts: Action and Knowledge. The best ratio between"+
               " action and knowledge is 3:1, exact information of this ratio however is obfuscated from player. If one of the parts lags, skill will rise slower but it will be compensated if "+
