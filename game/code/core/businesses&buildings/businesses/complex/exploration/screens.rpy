@@ -68,8 +68,7 @@ screen building_management_leftframe_exploration_guild_mode:
                 label (u"Total") text_size 23 text_color ivory align (.5, .8)
 
             text "No Data Yet!" xalign .5
-
-    if bm_exploration_view_mode == "team":
+    elif bm_exploration_view_mode == "team":
         # Filters:
         frame:
             background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
@@ -113,8 +112,7 @@ screen building_management_leftframe_exploration_guild_mode:
                 textbutton "Level":
                     xsize 200
                     action SetFilter(fg_filters, "level")
-
-    if bm_exploration_view_mode == "explore":
+    elif bm_exploration_view_mode == "explore":
         fixed: # making sure we can align stuff...
             xysize(320, 665)
             frame:
@@ -151,12 +149,6 @@ screen building_management_leftframe_exploration_guild_mode:
                                 background Frame(Transform("content/gfx/frame/ink_box.png", alpha=.5), 5, 5)
                                 text area.name color gold style "interactions_text" size 18 outlines [(1, "#3a3a3a", 0, 0)] align .5, .5
 
-            # hbox:
-                # xalign .5
-                # spacing 20
-                # add ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_up.png", 50, 50)
-                # add ProportionalScale("content/gfx/interface/buttons/arrow_button_metal_gold_down.png", 50, 50)
-
 screen building_management_midframe_exploration_guild_mode:
     if bm_exploration_view_mode == "log":
         vbox:
@@ -166,8 +158,7 @@ screen building_management_midframe_exploration_guild_mode:
                 padding 5, 5
                 background Frame("content/gfx/frame/MC_bg3.png", 10 ,10)
                 add im.Scale("content/gfx/bg/buildings/log.webp", 600, 390)
-
-    if bm_exploration_view_mode == "explore":
+    elif bm_exploration_view_mode == "explore":
         vbox:
             xsize 630
             frame: # Image
@@ -212,8 +203,7 @@ screen building_management_midframe_exploration_guild_mode:
                                         # temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
                                 # for i in temp:
                                     # add i
-
-    if bm_exploration_view_mode == "team":
+    elif bm_exploration_view_mode == "team":
         # Backgrounds:
         frame:
             background Frame(gfxframes + "p_frame52.webp", 10, 10)
@@ -358,16 +348,6 @@ screen building_management_midframe_exploration_guild_mode:
                     clicked Show("fg_char_dropdown", dissolve, w, team=None, remove=False)
                     add w.show("portrait", resize=(70, 70), cache=1)
 
-                    # fixed:
-                        # xysize (172, 65)
-                        # hbox:
-                            # yalign .3
-                            # xpos 10
-                            # spacing 20
-                            # for i in hero.team:
-                                # add i.show("portrait", resize=(38, 38), cache=1)
-                        # add gfxframes + "small_port_empty.png"
-
 screen building_management_rightframe_exploration_guild_mode:
     if False:
         button:
@@ -509,15 +489,13 @@ screen fg_area(area):
     frame:
         background Frame("content/gfx/frame/p_frame6.png", 10, 10)
         style_prefix "basic"
-        xysize (325, 674)
-        xalign .0 ypos 41
-        has vbox spacing 4
-
+        xysize 325, 674
+        ypos 41 xoffset -5
+        has vbox spacing 2
         # The idea is to add special icons for as many features as possible in the future to make Areas cool:
         # Simple buttons are temp for dev versions/beta.
         button:
-            xalign .5
-            xysize 300, 25
+            xysize 320, 25
             if not area.camp:
                 action ToggleField(area, "building_camp")
             else:
@@ -532,11 +510,9 @@ screen fg_area(area):
             text "Camp status: [status]" align .01, .5
 
         button:
-            xalign .5
-            xysize 300, 25
+            xysize 320, 25
             action ToggleField(area, "capture_chars")
             text "Capture Chars: [area.capture_chars]" align .01, .5
-
 
     # Mid-Frame:
     frame:
@@ -554,39 +530,6 @@ screen fg_area(area):
             ypadding 1
             $ temp = area.name
             text temp color gold style "interactions_text" size 35 outlines [(1, "#3a3a3a", 0, 0)] align (.5, .3)
-            hbox:
-                align (.5, .9)
-                # Get the correct stars:
-                # python:
-                    # temp = []
-                    # for i in range(area.explored//20):
-                        # temp.append(ProportionalScale("content/gfx/bg/example/star2.png", 18, 18))
-                    # if len(temp) != 5:
-                        # if area.explored%20 >= 10:
-                            # temp.append(ProportionalScale("content/gfx/bg/example/star3.png", 18, 18))
-                    # while len(temp) != 5:
-                        # temp.append(ProportionalScale("content/gfx/bg/example/star1.png", 18, 18))
-                # for i in temp:
-                    # add i
-                # button:
-                    # align (.5, .95)
-                    # action NullAction()
-                    # text "Stage 1" size 14
-            # vbox:
-                # xfill True
-                # spacing 7
-                # frame:
-                    # style_group "content"
-                    # align (.5, .015)
-                    # xysize (210, 30)
-                    # background Frame(Transform("content/gfx/frame/Namebox.png", alpha=.9), 10, 10)
-                    # label (u"Team name") text_size 20 text_color ivory align(.5, .5)
-                # hbox:
-                    # xfill True
-                    # spacing 2
-                    # add "content/gfx/bg/example/1.png" align (.5, .5)
-                    # add "content/gfx/bg/example/2.png" align (.5, .5)
-                    # add "content/gfx/bg/example/3.png" align (.5, .5)
 
         hbox:
             align .5, .5
@@ -675,165 +618,10 @@ screen fg_area(area):
                                 xysize 60, 60
                                 align .99, .5
                                 add ProportionalScale(i.icon, 57, 57) align .5, .5
-                # frame:
-                    # background Frame(Transform("content/gfx/frame/p_frame4.png", alpha=.6), 10, 10)
-                    # xysize (390, 380)
-                    # yalign 1.0
-                    # frame:
-                        # style_group "content"
-                        # align (.5, .015)
-                        # xysize (200, 40)
-                        # background Frame(Transform("content/gfx/frame/p_frame5.png", alpha=.6), 10, 10)
-                        # label (u"Loot") text_size 23 text_color ivory align(.5, .5)
-                    # vbox:    ### Need Side-scrolling ###
-                        # style_group "stats"
-                        # vbox:
-                            # xalign .5
-                            # ypos 53
-                            # vbox:
-                                # spacing 2
-                                # xanchor 0
-                                # xmaximum 210
-                                # xfill True
-                                # hbox:
-                                    # xfill True
-                                    # spacing -3
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 210
-                                        # text("\"Lorekeeper\" Staff")
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 140
-                                        # text("Weapon") xalign .5
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 20
-                                        # add ProportionalScale("content/gfx/bg/example/legendary.png", 25, 25)
-                            # vbox:
-                                # spacing 2
-                                # xanchor 0
-                                # xmaximum 210
-                                # xfill True
-                                # hbox:
-                                    # xfill True
-                                    # spacing -3
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 210
-                                        # text("Ashwood Flatbow")
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 140
-                                        # text("Weapon") xalign .5
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 20
-                                        # add ProportionalScale("content/gfx/bg/example/uncommon.png", 25, 25)
-                            # vbox:
-                                # spacing 2
-                                # xanchor 0
-                                # xmaximum 220
-                                # xfill True
-                                # hbox:
-                                    # xfill True
-                                    # spacing -3
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 210
-                                        # text("???????")
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 140
-                                        # text("???????") xalign .5
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 20
-                                        # add ProportionalScale("content/gfx/bg/example/unknown2.png", 25, 25)
-                            # vbox:
-                                # spacing 2
-                                # xanchor 0
-                                # xmaximum 220
-                                # xfill True
-                                # hbox:
-                                    # xfill True
-                                    # spacing -3
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 210
-                                        # text("Honey")
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 140
-                                        # text("Consumable") xalign .5
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 20
-                                        # add ProportionalScale("content/gfx/bg/example/common.png", 25, 25)
-                            # vbox:
-                                # spacing 2
-                                # xanchor 0
-                                # xmaximum 220
-                                # xfill True
-                                # hbox:
-                                    # xfill True
-                                    # spacing -3
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 210
-                                        # text("???????")
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 140
-                                        # text("???????") xalign .5
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 20
-                                        # add ProportionalScale("content/gfx/bg/example/unknown2.png", 25, 25)
-                            # vbox:
-                                # spacing 2
-                                # xanchor 0
-                                # xmaximum 220
-                                # xfill True
-                                # hbox:
-                                    # xfill True
-                                    # spacing -3
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 210
-                                        # text("???????")
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 140
-                                        # text("???????") xalign .5
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 20
-                                        # add ProportionalScale("content/gfx/bg/example/unknown2.png", 25, 25)
-                            # vbox:
-                                # spacing 2
-                                # xanchor 0
-                                # xmaximum 220
-                                # xfill True
-                                # hbox:
-                                    # xfill True
-                                    # spacing -3
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 210
-                                        # text("???????")
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 140
-                                        # text("???????") xalign .5
-                                    # frame:
-                                        # yalign .5
-                                        # xsize 20
-                                        # add ProportionalScale("content/gfx/bg/example/unknown2.png", 25, 25)
 
         hbox:
-            align .5, .9
-
+            spacing 20
+            xalign .5 ypos 550
             python:
                 temp = building.get_business("fg")
                 teams = temp.teams_to_launch() if temp else []
@@ -843,42 +631,35 @@ screen fg_area(area):
                             temp.focus_team = teams[temp.team_to_launch_index]
                         except:
                             temp.focus_team = teams[0]
-                # if teams:
-                    # if temp.focus_team in teams:
-                        # temp.team_to_launch_index = teams.index(temp.focus_team)
-                    # else:
-                        # temp.team_to_launch_index = 0
-                        # temp.focus_team = teams[index]
 
-
-            # Implement team paging...
-            # Failed to make this work in a screen, will have to move this paging to the class where there is more control... something is off with scopes I think.
             if teams:
-                textbutton "<==":
+                button:
+                    style "paging_green_button_left2x"
                     yalign .5
                     action temp.prev_team_to_launch, renpy.restart_interaction
-                textbutton "Launch \n[temp.focus_team.name]":
-                    xsize 300
+                    tooltip "Previous Team"
+                button:
+                    style "marble_button"
+                    padding 10, 10
                     action Function(temp.launch_team, area), Jump("building_management")
-                textbutton "==>":
+                    has vbox xminimum 150 spacing -30
+                    text "Launch" style "basic_button_text" xalign .5
+                    text "\n[temp.focus_team.name]" style "basic_button_text" xalign .5
+                button:
+                    style "paging_green_button_right2x"
                     yalign .5
                     action temp.next_team_to_launch, renpy.restart_interaction
+                    tooltip "Next Team"
             else:
-                text "No teams avalible!"
+                text "No teams avalible!" style "basic_button_text"
 
         hbox:
-            align (.5, .98)
+            align .5, .98
             button:
                 style_group "basic"
                 action Hide("fg_area")
                 minimum (50, 30)
-                text  "Back"
-            # button:
-                    # style_group "basic"
-                    # action NullAction()
-                    # minimum(50, 30)
-                    # align (.5, .98)
-                    # text  "Launch!!! Days 1" # Gismo: AutoCalculate. 1 day per stage (1-5), 2 days per stage (6-10).
+                text "Back"
 
 screen fg_char_dropdown(char, team=None, remove=False):
     # Trying to create a drop down screen with choices of actions:
