@@ -235,7 +235,7 @@ init -5 python:
             # Stat mods
             log.logloc('dirt', dirt_cleaned)
 
-            log.event_type = "jobreport" # Come up with a new type for team reports?
+            log.type = "jobreport" # Come up with a new type for team reports?
 
             simpy_debug("Cleaners.write_nd_report marker 4")
 
