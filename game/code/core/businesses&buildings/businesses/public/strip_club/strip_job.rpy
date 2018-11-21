@@ -54,7 +54,11 @@ init -5 python:
 
             if locked_dice(65): # traits don't always work, even with high amount of traits there are normal days when performance is not affected
                 # This cannot work comparing strings to trait objects:
-                traits = list(i.id for i in worker.traits if i.id in ["Abnormally Large Boobs", "Small Boobs", "Scars", "Not Human", "Flat Ass", "Exhibitionist", "Sexy Air", "Clumsy", "Flexible", "Psychic", "Manly", "Artificial Body", "Lesbian", "Shy", "Aggressive", "Big Boobs", "Great Arse", "Long Legs", "Strange Eyes", "Natural Follower"])
+                traits = list(i.id for i in worker.traits if i.id in ["Abnormally Large Boobs",
+                        "Small Boobs", "Scars", "Not Human", "Flat Ass", "Exhibitionist",
+                        "Sexy Air", "Clumsy", "Flexible", "Psychic", "Manly", "Artificial Body",
+                        "Lesbian", "Shy", "Aggressive", "Big Boobs", "Great Arse", "Long Legs",
+                        "Strange Eyes", "Natural Follower"])
                 if traits:
                     trait = choice(traits)
                 else:
