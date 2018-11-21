@@ -74,7 +74,7 @@ init -5 python:
                 workers = [w for w in building.available_workers if
                            w != manager and
                            (check_stat_perc(w, "joy", .5) or
-                           check_stat_perc(w, "agility", .3))]
+                           check_stat_perc(w, "vitality", .3))]
 
                 if workers:
                     worker = choice(workers)
@@ -86,15 +86,15 @@ init -5 python:
                                                     worker.nickname, handle)
 
                     give_joy = check_stat_perc(worker, "joy", .5)
-                    give_agi = check_stat_perc(worker, "agility", .3)
-                    if give_joy and give_agi:
+                    give_vit = check_stat_perc(worker, "vitality", .3)
+                    if give_joy and give_vit:
                         bonus_str = "(+10% Joy, +15% Vitality)"
                         mod_by_max(worker, "joy", .1)
                         mod_by_max(worker, "vitality", .15)
                     elif give_joy:
                         bonus_str = "(+20% Joy)"
                         mod_by_max(worker, "joy", .2)
-                    elif give_agi:
+                    elif give_vit:
                         bonus_str = "(+30% Vitality)"
                         mod_by_max(worker, "vitality", .3)
 
