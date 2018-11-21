@@ -84,14 +84,26 @@ init -5 python:
                         handle = "sad"
                     temp0 = "\n{} noticed that {} looks a bit {}.".format(manager.nickname,
                                                     worker.nickname, handle)
+
+                    give_joy = check_stat_perc(worker, "joy", .5)
+                    give_agi = check_stat_perc(worker, "agility", .3)
+                    if give_joy and give_agi:
+                        bonus_str = "(+10% Joy, +15% Vitality)"
+                        mod_by_max(worker, "joy", .1)
+                        mod_by_max(worker, "vitality", .15)
+                    elif give_joy:
+                        bonus_str = "(+20% Joy)"
+                        mod_by_max(worker, "joy", .2)
+                    elif give_agi:
+                        bonus_str = "(+30% Vitality)"
+                        mod_by_max(worker, "vitality", .3)
+
                     temp1 = " Your manager cheered her up. {}".format(
-                        set_font_color("(+10% Joy, +15% Vitality)", "lawngreen"))
+                        set_font_color("{}".format(bonus_str), "lawngreen"))
                     log.append(temp0+temp1)
 
                     building.log("Your manager cheered up {}.".format(worker.name))
 
-                    mod_by_max(worker, "joy", .1)
-                    mod_by_max(worker, "vitality", .15)
                     manager.jobpoints -= 10
 
             if env.now == 110:
